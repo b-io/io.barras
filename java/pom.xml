@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.barras</groupId>
+		<artifactId>io.barras</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>io.barras.java</groupId>
+	<artifactId>io.barras.java</artifactId>
+	<packaging>pom</packaging>
+
+	<name>Java</name>
+	<description>Libraries written in Java</description>
+	<url>https://github.com/b-io/io.barras/tree/master/java</url>
+
+	<modules>
+		<module>jupiter</module>
+	</modules>
+
+	<properties>
+		<!-- Project -->
+		<project.build.source>1.5</project.build.source>
+		<project.build.target>1.5</project.build.target>
+		<!-- Maven -->
+		<maven.compiler.source>${project.build.source}</maven.compiler.source>
+		<maven.compiler.target>${project.build.target}</maven.compiler.target>
+		<maven.compiler.version>2.5.1</maven.compiler.version>
+		<maven.source.version>2.4</maven.source.version>
+		<maven.javadoc.version>2.10.4</maven.javadoc.version>
+		<!-- JUnit -->
+		<junit.verison>4.12</junit.verison>
+	</properties>
+
+	<dependencies>
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.verison}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Compile -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<source>${project.build.source}</source>
+					<target>${project.build.target}</target>
+					<compilerArgs>
+						<!--<arg>-Xlint:deprecation</arg>-->
+					</compilerArgs>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- Attach the source files  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven.source.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Generate the Javadoc  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven.javadoc.version}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

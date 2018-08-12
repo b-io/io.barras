@@ -1,0 +1,148 @@
+#!/bin/sh
+################################################################################
+#NAME
+#    <NAME> - contain the global constants of URANUS
+#
+#SYNOPSIS
+#    <NAME>
+#
+#AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+#COPYRIGHT
+#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+################################################################################
+
+
+################################################################################
+# BEGIN
+################################################################################
+
+if [ -z "${URA_PROFILE:-}" ]
+then
+	URA_PROFILE="$0"
+
+
+################################################################################
+# GENERAL
+################################################################################
+
+# The boolean values
+FALSE=0; export FALSE
+TRUE=1; export TRUE
+
+# The AWK command to be used
+SOLARIS=$FALSE
+WINDOWS=$FALSE
+case "`uname`" in
+	SunOS)	SOLARIS=$TRUE
+			AWK='nawk'
+			;;
+	CYGWIN*|\
+	MINGW*|\
+	MSYS*)	WINDOWS=$TRUE
+			AWK='awk -F '\''\n'\'
+			;;
+	*)		AWK='awk -F '\''\n'\'
+			;;
+esac
+export SOLARIS
+export WINDOWS
+export AWK
+
+################################################################################
+
+# The default line length
+LINE_LENGTH=80; export LINE_LENGTH
+
+# The default file system permissions
+FILE_SYSTEM_PERMISSIONS=755; export FILE_SYSTEM_PERMISSIONS
+
+################################################################################
+
+# The null path
+NULL_PATH='/dev/null'; export NULL_PATH
+
+# The bin, include, lib and profile directories
+BIN_DIR='/usr/bin'; export BIN_DIR
+INCLUDE_DIR='/usr/include'; export INCLUDE_DIR
+LIB_DIR='/usr/lib'; export LIB_DIR
+PROFILE_PATH='/etc/profile'; export PROFILE_PATH
+PROFILE_DIR="$PROFILE_PATH"'.d'; export PROFILE_DIR
+
+# The log directory
+LOG_DIR='/etc/log'; export LOG_DIR
+
+# The temporary directory
+TMP_DIR='/tmp'; export TMP_DIR
+
+# The audit log path
+AUDIT_LOG_PATH='/var/log/audit/audit.log'; export AUDIT_LOG_PATH
+
+
+################################################################################
+# URANUS
+################################################################################
+
+# The name
+URA_NAME='uranus'; export URA_NAME
+
+# The settings
+URA_AUTHOR='Florian Barras (florian@barras.io)'; export URA_AUTHOR
+URA_CATEGORY='application'; export URA_CATEGORY
+URA_DEPENDENCIES='/bin/sh'; export URA_DEPENDENCIES
+URA_GROUP='Development/Libraries'; export URA_GROUP
+URA_LICENSE='The MIT License (MIT) <https://opensource.org/licenses/MIT>'; export URA_LICENSE
+URA_RELEASE='a'; export URA_RELEASE
+URA_SUMMARY='POSIX shell utility library'; export URA_SUMMARY
+URA_URL='https://github.com/barrasio/uranus'; export URA_URL
+URA_VENDOR='Florian Barras <https://barras.io> (florian@barras.io)'; export URA_VENDOR
+URA_VERSION='1.0.0'; export URA_VERSION
+
+# The bin, include, lib and profile directories
+URA_BIN_DIR="$BIN_DIR"; export URA_BIN_DIR
+URA_INCLUDE_DIR="$INCLUDE_DIR/$URA_NAME"; export URA_INCLUDE_DIR
+URA_LIB_DIR="$LIB_DIR/$URA_NAME"; export URA_LIB_DIR
+URA_PROFILE_DIR="$PROFILE_DIR"; export URA_PROFILE_DIR
+
+# The log directory
+URA_LOG_DIR="$LOG_DIR/$URA_NAME"; export URA_LOG_DIR
+
+# The temporary directory
+URA_TMP_DIR="$TMP_DIR/$URA_NAME"; export URA_TMP_DIR
+
+# The profile name
+URA_PROFILE_NAME='profile'; export URA_PROFILE_NAME
+
+# The error codes
+URA_ERROR_INVALID=1; export URA_ERROR_INVALID
+URA_ERROR_ARGUMENTS=2; export URA_ERROR_ARGUMENTS
+URA_ERROR_EXISTENCE=3; export URA_ERROR_EXISTENCE
+URA_ERROR_PERMISSIONS=4; export URA_ERROR_PERMISSIONS
+
+# The path to the template for version information (-i)
+URA_VERSION_PATH="$URA_INCLUDE_DIR"/'version.info'; export URA_VERSION_PATH
+
+
+################################################################################
+# IMPORTS
+################################################################################
+
+if [ -n "${URA_DIR:-}" ]
+then
+	URA_ALL_PATH="$URA_DIR"/'uranus-all.sh'; export URA_ALL_PATH
+	URA_PATH="$URA_DIR"/'ura.sh'; export URA_PATH
+	URA_YUM_PATH="$URA_DIR"/'ura-yum.sh'; export URA_YUM_PATH
+else
+	URA_ALL_PATH="$URA_LIB_DIR"/'uranus-all.sh'; export URA_ALL_PATH
+	URA_PATH="$URA_LIB_DIR"/'ura.sh'; export URA_PATH
+	URA_YUM_PATH="$URA_LIB_DIR"/'ura-yum.sh'; export URA_YUM_PATH
+fi
+
+
+################################################################################
+# END
+################################################################################
+
+fi

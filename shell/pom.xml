@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.barras</groupId>
+		<artifactId>io.barras</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>io.barras.shell</groupId>
+	<artifactId>io.barras.shell</artifactId>
+	<packaging>pom</packaging>
+
+	<name>Shell</name>
+	<description>Libraries written in POSIX Shell</description>
+	<url>https://github.com/b-io/io.barras/tree/master/shell</url>
+
+	<modules>
+		<module>uranus</module>
+	</modules>
+
+	<properties>
+		<!-- Maven -->
+		<maven.exec.version>1.6.0</maven.exec.version>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Maven -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>${maven.exec.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

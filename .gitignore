@@ -1,0 +1,58 @@
+# Binary files #####################################################################################
+bin
+build
+dist
+obj
+
+# Java
+target
+*.class
+
+# C++
+Debug
+Release
+Win32
+X64
+*.dll
+
+# Configuration files ##############################################################################
+# Eclipse
+.classpath
+.project
+*.prefs
+
+# Netbeans
+nb-configuration.xml
+nbproject
+
+# Visual Studio
+.vs
+*.opensdf
+*.sdf
+*.suo
+*.vcxproj.user
+
+
+# Log files ########################################################################################
+logs
+*.log
+*err.log
+*out.log
+
+# Java virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+
+# Package files ####################################################################################
+*.ear
+*.jar
+*.rar
+*.tar.gz
+*.war
+*.zip
+
+
+# Personal files ###################################################################################
+$*
+*.new
+*.old

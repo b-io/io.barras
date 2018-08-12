@@ -1,0 +1,102 @@
+#!/bin/sh
+################################################################################
+#NAME
+#    <NAME> - contain the global constants of the URANUS Package Management
+#             System (PMS)
+#
+#SYNOPSIS
+#    <NAME>
+#
+#AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+#COPYRIGHT
+#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+################################################################################
+
+
+################################################################################
+# BEGIN
+################################################################################
+
+if [ -z "${URA_PMS_PROFILE:-}" ]
+then
+	URA_PMS_PROFILE="$0"
+
+
+################################################################################
+# URANUS PACKAGE MANAGEMENT SYSTEM (PMS)
+################################################################################
+
+# The name
+URA_PMS_NAME='pms'; export URA_PMS_NAME
+
+# The include directory
+URA_PMS_INCLUDE_DIR="$URA_INCLUDE_DIR/$URA_PMS_NAME"; export URA_PMS_INCLUDE_DIR
+
+# The log directory
+URA_PMS_LOG_DIR="$URA_LOG_DIR/$URA_PMS_NAME"; export URA_PMS_LOG_DIR
+
+# The temporary directory
+URA_PMS_TMP_DIR="$URA_TMP_DIR/$URA_PMS_NAME"; export URA_PMS_TMP_DIR
+
+
+################################################################################
+# URANUS PKG
+################################################################################
+
+# The name
+URA_PKG_NAME='pkg'; export URA_PKG_NAME
+
+# The include directory
+URA_PKG_INCLUDE_DIR="$URA_PMS_INCLUDE_DIR/$URA_PKG_NAME"; export URA_PKG_INCLUDE_DIR
+
+# The log directory
+URA_PKG_LOG_DIR="$URA_PMS_LOG_DIR/$URA_PKG_NAME"; export URA_PKG_LOG_DIR
+
+# The temporary directory
+URA_PKG_TMP_DIR="$URA_PMS_TMP_DIR/$URA_PKG_NAME"; export URA_PKG_TMP_DIR
+
+
+################################################################################
+# URANUS RPM
+################################################################################
+
+# The name
+URA_RPM_NAME='rpm'; export URA_RPM_NAME
+
+# The include directory
+URA_RPM_INCLUDE_DIR="$URA_PMS_INCLUDE_DIR/$URA_RPM_NAME"; export URA_RPM_INCLUDE_DIR
+
+# The log directory
+URA_RPM_LOG_DIR="$URA_PMS_LOG_DIR/$URA_RPM_NAME"; export URA_RPM_LOG_DIR
+
+# The temporary directory
+URA_RPM_TMP_DIR="$URA_PMS_TMP_DIR/$URA_RPM_NAME"; export URA_RPM_TMP_DIR
+
+# The path to the SPEC template
+URA_RPM_SPEC_PATH="$URA_RPM_INCLUDE_DIR"/'template.spec'; export URA_RPM_SPEC_PATH
+
+
+################################################################################
+# IMPORTS
+################################################################################
+
+if [ -n "${URA_DIR:-}" ]
+then
+	URA_PMS_PATH="$URA_DIR/$URA_PMS_NAME"/'ura-pms.sh'; export URA_PMS_PATH
+	URA_PKG_PATH="$URA_DIR/$URA_PMS_NAME/$URA_PKG_NAME"/'ura-pkg.sh'; export URA_PKG_PATH
+	URA_RPM_PATH="$URA_DIR/$URA_PMS_NAME/$URA_RPM_NAME"/'ura-rpm.sh'; export URA_RPM_PATH
+else
+	URA_PMS_PATH="$URA_LIB_DIR"/'ura-pms.sh'; export URA_PMS_PATH
+	URA_PKG_PATH="$URA_LIB_DIR"/'ura-pkg.sh'; export URA_PKG_PATH
+	URA_RPM_PATH="$URA_LIB_DIR"/'ura-rpm.sh'; export URA_RPM_PATH
+fi
+
+
+################################################################################
+# END
+################################################################################
+
+fi

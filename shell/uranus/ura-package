@@ -1,0 +1,125 @@
+#!/bin/sh
+################################################################################
+#NAME
+#    <NAME> - package a directory
+#
+#SYNOPSIS
+#    <NAME> [OPTION]... SOURCE
+#
+#OPTIONS
+#    Create a package (RPM or PKG) of the SOURCE directory.
+#
+#    -h
+#        display this help and exit
+#
+#    -i
+#        output version information and exit
+#
+#    -l=LEVEL
+#        set the hierarchy level (-1 by default)
+#
+#    -v
+#        explain what is being done
+#
+#AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+#COPYRIGHT
+#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+################################################################################
+
+
+################################################################################
+# PROFILES
+################################################################################
+
+# Load the required URANUS profiles
+: "${URA_PROFILE_DIR:=/etc/profile.d}" &&
+if [ -z "${URA_PROFILE:-}" ]
+then
+	. "$URA_PROFILE_DIR"/'uranus.sh'
+fi &&
+if [ -z "${URA_PMS_PROFILE:-}" ]
+then
+	. "$URA_PROFILE_DIR"/'uranus-pms.sh'
+fi &&
+
+
+################################################################################
+# IMPORTS
+################################################################################
+
+# Set the URANUS settings for version information (-i)
+AUTHOR="$URA_AUTHOR" &&
+LICENSE="$URA_LICENSE" &&
+URL="$URA_URL" &&
+VENDOR="$URA_VENDOR" &&
+VERSION="$URA_VERSION" &&
+
+# Import URANUS
+. "$URA_PATH" &&
+
+################################################################################
+
+# Set the URANUS PMS settings for package information
+: "${PMS_CATEGORY:=$URA_CATEGORY}" &&
+: "${PMS_DEPENDENCIES:=$URA_DEPENDENCIES}" &&
+: "${PMS_GROUP:=$URA_GROUP}" &&
+: "${PMS_LICENSE:=$URA_LICENSE}" &&
+: "${PMS_NAME:=$URA_NAME}" &&
+: "${PMS_PACKAGER:=$URA_AUTHOR}" &&
+: "${PMS_RELEASE:=$URA_RELEASE}" &&
+: "${PMS_SUMMARY:=$URA_SUMMARY}" &&
+: "${PMS_URL:=$URA_URL}" &&
+: "${PMS_VENDOR:=$URA_VENDOR}" &&
+: "${PMS_VERSION:=$URA_VERSION}" &&
+
+# Set the URANUS PMS settings for package names
+: "${PMS_LIB_NAMES:=`createArray '*.sh'`}" &&
+: "${PMS_PROFILE_NAMES:=`createArray "$URA_PROFILE_NAME"`}" &&
+
+# Import URANUS PMS
+. "$URA_PMS_PATH" &&
+
+
+################################################################################
+# ARGUMENTS
+################################################################################
+
+# Load the arguments
+loadArguments $# "${@:-}" &&
+checkArguments 1 &&
+
+# Get the SOURCE directory
+SOURCE_DIR="`getElementAt "$ARGS" 0`" &&
+checkDir "$SOURCE_DIR" &&
+
+
+################################################################################
+# PROCESS
+################################################################################
+
+########################################
+startList 'List' &&
+########################################
+
+	listPackage "$SOURCE_DIR" &&
+
+endList &&
+
+########################################
+startList 'Create' &&
+########################################
+
+	createPackage &&
+
+endList &&
+
+########################################
+startList 'Install' &&
+########################################
+
+	installPackage &&
+
+endList

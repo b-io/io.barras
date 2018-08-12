@@ -1,0 +1,78 @@
+#!/bin/sh
+################################################################################
+#NAME
+#    <NAME> - contain the global constants of the URANUS Security Management
+#             System (SMS)
+#
+#SYNOPSIS
+#    <NAME>
+#
+#AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+#COPYRIGHT
+#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+################################################################################
+
+
+################################################################################
+# BEGIN
+################################################################################
+
+if [ -z "${URA_SMS_PROFILE:-}" ]
+then
+	URA_SMS_PROFILE="$0"
+
+
+################################################################################
+# URANUS SECURITY MANAGEMENT SYSTEM (SMS)
+################################################################################
+
+# The name
+URA_SMS_NAME='sms'; export URA_SMS_NAME
+
+# The include directory
+URA_SMS_INCLUDE_DIR="$URA_INCLUDE_DIR/$URA_SMS_NAME"; export URA_SMS_INCLUDE_DIR
+
+# The log directory
+URA_SMS_LOG_DIR="$URA_LOG_DIR/$URA_SMS_NAME"; export URA_SMS_LOG_DIR
+
+# The temporary directory
+URA_SMS_TMP_DIR="$URA_TMP_DIR/$URA_SMS_NAME"; export URA_SMS_TMP_DIR
+
+
+################################################################################
+# URANUS GPG
+################################################################################
+
+# The name
+URA_GPG_NAME='gpg'; export URA_GPG_NAME
+
+# The include directory
+URA_GPG_INCLUDE_DIR="$URA_SMS_INCLUDE_DIR/$URA_GPG_NAME"; export URA_GPG_INCLUDE_DIR
+
+# The log directory
+URA_GPG_LOG_DIR="$URA_SMS_LOG_DIR/$URA_GPG_NAME"; export URA_GPG_LOG_DIR
+
+# The temporary directory
+URA_GPG_TMP_DIR="$URA_SMS_TMP_DIR/$URA_GPG_NAME"; export URA_GPG_TMP_DIR
+
+
+################################################################################
+# IMPORTS
+################################################################################
+
+if [ -n "${URA_DIR:-}" ]
+then
+	URA_GPG_PATH="$URA_DIR/$URA_SMS_NAME/$URA_GPG_NAME"/'ura-gpg.sh'; export URA_GPG_PATH
+else
+	URA_GPG_PATH="$URA_LIB_DIR"/'ura-gpg.sh'; export URA_GPG_PATH
+fi
+
+
+################################################################################
+# END
+################################################################################
+
+fi

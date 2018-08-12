@@ -1,0 +1,78 @@
+#!/bin/sh
+################################################################################
+#NAME
+#    <NAME> - contain the global constants of the URANUS Virtualization
+#             Management System (VMS)
+#
+#SYNOPSIS
+#    <NAME>
+#
+#AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+#COPYRIGHT
+#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+################################################################################
+
+
+################################################################################
+# BEGIN
+################################################################################
+
+if [ -z "${URA_VMS_PROFILE:-}" ]
+then
+	URA_VMS_PROFILE="$0"
+
+
+################################################################################
+# URANUS VIRTUALIZATION MANAGEMENT SYSTEM (VMS)
+################################################################################
+
+# The name
+URA_VMS_NAME='vms'; export URA_VMS_NAME
+
+# The include directory
+URA_VMS_INCLUDE_DIR="$URA_INCLUDE_DIR/$URA_VMS_NAME"; export URA_VMS_INCLUDE_DIR
+
+# The log directory
+URA_VMS_LOG_DIR="$URA_LOG_DIR/$URA_VMS_NAME"; export URA_VMS_LOG_DIR
+
+# The temporary directory
+URA_VMS_TMP_DIR="$URA_TMP_DIR/$URA_VMS_NAME"; export URA_VMS_TMP_DIR
+
+
+################################################################################
+# URANUS LXC
+################################################################################
+
+# The name
+URA_LXC_NAME='lxc'; export URA_LXC_NAME
+
+# The include directory
+URA_LXC_INCLUDE_DIR="$URA_VMS_INCLUDE_DIR/$URA_LXC_NAME"; export URA_LXC_INCLUDE_DIR
+
+# The log directory
+URA_LXC_LOG_DIR="$URA_VMS_LOG_DIR/$URA_LXC_NAME"; export URA_LXC_LOG_DIR
+
+# The temporary directory
+URA_LXC_TMP_DIR="$URA_VMS_TMP_DIR/$URA_LXC_NAME"; export URA_LXC_TMP_DIR
+
+
+################################################################################
+# IMPORTS
+################################################################################
+
+if [ -n "${URA_DIR:-}" ]
+then
+	URA_LXC_PATH="$URA_DIR/$URA_VMS_NAME/$URA_LXC_NAME"/'ura-lxc.sh'; export URA_LXC_PATH
+else
+	URA_LXC_PATH="$URA_LIB_DIR"/'ura-lxc.sh'; export URA_LXC_PATH
+fi
+
+
+################################################################################
+# END
+################################################################################
+
+fi

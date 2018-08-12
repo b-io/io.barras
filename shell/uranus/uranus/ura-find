@@ -1,0 +1,166 @@
+#!/bin/sh
+################################################################################
+#NAME
+#    <NAME> - search for files in a directory hierarchy
+#
+#SYNOPSIS
+#    <NAME> [OPTION]... [FILE]...
+#
+#OPTIONS
+#    Search for the FILEs (* by default).
+#    Note that the meta-characters (*, ? and []) are allowed.
+#
+#    -0
+#        print the full filename on the standard output, followed by a null
+#        character (instead of the newline character)
+#
+#    -d
+#        search for directories
+#
+#    -f
+#        search for files
+#
+#    -h
+#        display this help and exit
+#
+#    -i
+#        output version information and exit
+#
+#    -l=LEVEL
+#        set the hierarchy level (-1 by default)
+#
+#    -n
+#        search for all files except the FILEs
+#
+#    -p=PATH
+#        set the path (the current directory by default)
+#
+#    -r
+#        let the paths be relative
+#
+#    -v
+#        explain what is being done
+#
+#    -w=PATTERN
+#        search for all files with the PATTERN
+#
+#AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+#COPYRIGHT
+#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+################################################################################
+
+
+################################################################################
+# PROFILES
+################################################################################
+
+# Load the required URANUS profiles
+: "${URA_PROFILE_DIR:=/etc/profile.d}" &&
+if [ -z "${URA_PROFILE:-}" ]
+then
+	. "$URA_PROFILE_DIR"/'uranus.sh'
+fi &&
+
+
+################################################################################
+# IMPORTS
+################################################################################
+
+# Set the URANUS settings for version information (-i)
+AUTHOR="$URA_AUTHOR" &&
+LICENSE="$URA_LICENSE" &&
+URL="$URA_URL" &&
+VENDOR="$URA_VENDOR" &&
+VERSION="$URA_VERSION" &&
+
+# Set the URANUS settings for optional arguments
+OPTIONS='0dfnp:rw:' &&
+
+# Import URANUS
+. "$URA_PATH" &&
+
+
+################################################################################
+# ARGUMENTS
+################################################################################
+
+# Load the arguments
+loadArguments $# "${@:-}" &&
+
+# Set the default FILE (search string)
+if [ $ARGS_NUMBER -eq 0 ]
+then
+	ARGS="`createArray '*'`"
+fi &&
+
+# Parse the additional options
+delimiter='\n' &&
+not='' &&
+path='.' &&
+relative=$FALSE &&
+type='' &&
+with='*' &&
+for option in `printArray "$OPTS"`
+do
+	case "$option" in
+		0)	delimiter='\0'
+			;;
+		d)	type='-type d'
+			;;
+		f)	type='-type f'
+			;;
+		n)	not='!'
+			;;
+		r)	relative=$TRUE
+			;;
+		p*)	path="`getOptionValue "$option"`"
+			;;
+		w*)	with="`getOptionValue "$option"`"
+			;;
+	esac
+done &&
+
+
+################################################################################
+# CHECKS
+################################################################################
+
+checkDir "$path" &&
+
+
+################################################################################
+# PROCESS
+################################################################################
+
+# o Construct the command
+
+	# - Change to the parent directory of the path (if relative)
+	if [ $relative -eq $TRUE ]
+	then
+		cd "`getDir "$path"`" &&
+		path="`getBase "$path"`"
+	fi &&
+
+	# - Add the FILEs to be searched
+	c='find '"'$path'"' '"$type"' -name '"$with"' '"$not"' \( -name '"'`getElementAt "$ARGS" 0`'" &&
+	for i in `iterate 1 $ARGS_NUMBER`
+	do
+		c="$c"' -o -name '"'`getElementAt "$ARGS" $i`'"
+	done &&
+	c="$c"' \) -exec printf "%s'"$delimiter"'" '\''{}'\' &&
+
+	# - Use the optimization (if available)
+	if find "$NULL_PATH" -exec true '{}' \+ > "$NULL_PATH" 2>&1
+	then
+		c="$c"' \+'
+	else
+		c="$c"' \;'
+	fi &&
+
+# o Evaluate the command
+
+	verb "$c" &&
+	eval "$c"

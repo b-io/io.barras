@@ -1,0 +1,508 @@
+/*
+ * The MIT License
+ *
+ * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package jupiter.math.linear.entity;
+
+
+import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.math.ComparableNumber;
+import jupiter.common.math.Maths;
+import jupiter.common.util.Doubles;
+import jupiter.common.util.Floats;
+import jupiter.common.util.Formats;
+import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
+import jupiter.math.analysis.function.Function;
+
+public class Scalar
+		extends ComparableNumber
+		implements Entity {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 6529640797800491360L;
+
+	public static final Scalar ZERO = new Scalar(0.);
+	public static final Scalar ONE = new Scalar(1.);
+	public static final Scalar TEN = new Scalar(10.);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// The value
+	protected double value;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Scalar() {
+		value = 0.;
+	}
+
+	public Scalar(final byte value) {
+		this.value = value;
+	}
+
+	public Scalar(final short value) {
+		this.value = value;
+	}
+
+	public Scalar(final int value) {
+		this.value = value;
+	}
+
+	public Scalar(final long value) {
+		this.value = value;
+	}
+
+	public Scalar(final float value) {
+		this.value = value;
+	}
+
+	public Scalar(final double value) {
+		this.value = value;
+	}
+
+	public Scalar(final Number value) {
+		this.value = value.doubleValue();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS & SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the name.
+	 * <p>
+	 * @return the name
+	 */
+	public String getName() {
+		return getSimpleName();
+	}
+
+	/**
+	 * Returns the name of a {@link Scalar}.
+	 * <p>
+	 * @return the name of a {@link Scalar}
+	 */
+	public static String getSimpleName() {
+		return Scalar.class.getSimpleName();
+	}
+
+	/**
+	 * Returns the value.
+	 * <p>
+	 * @return the value
+	 */
+	public double get() {
+		return value;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the value.
+	 * <p>
+	 * @param value a {@code double} value
+	 */
+	public void set(final double value) {
+		this.value = value;
+	}
+
+	/**
+	 * Sets the value.
+	 * <p>
+	 * @param value an {@link Object}
+	 */
+	public void set(final Object value) {
+		this.value = Doubles.convert(value);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Converts {@code this} to a {@link Scalar}.
+	 * <p>
+	 * @return a {@link Scalar}
+	 */
+	@Override
+	public Scalar toScalar() {
+		return this;
+	}
+
+	/**
+	 * Converts {@code this} to a {@link Vector}.
+	 * <p>
+	 * @return a {@link Vector}
+	 */
+	@Override
+	public Vector toVector() {
+		return new Vector(new double[][] {
+			new double[] {
+				value
+			}
+		});
+	}
+
+	/**
+	 * Converts {@code this} to a {@link Matrix}.
+	 * <p>
+	 * @return a {@link Matrix}
+	 */
+	@Override
+	public Matrix toMatrix() {
+		return new Matrix(new double[][] {
+			new double[] {
+				value
+			}
+		});
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the mean of {@code this}.
+	 * <p>
+	 * @return {@code mean(this)}
+	 */
+	@Override
+	public Scalar mean() {
+		return clone();
+	}
+
+	/**
+	 * Returns the size of {@code this}.
+	 * <p>
+	 * @return {@code size(this)}
+	 */
+	@Override
+	public Scalar size() {
+		return new Scalar(1);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the identity of {@code size(this)}.
+	 * <p>
+	 * @return {@code eye(size(this))}
+	 */
+	public Scalar identity() {
+		return new Scalar(1.);
+	}
+
+	/**
+	 * Returns the randomization of {@code size(this)}.
+	 * <p>
+	 * @return {@code rand(size(this))}
+	 */
+	public Scalar random() {
+		return new Scalar(Doubles.random());
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Fills {@code this} with the specified value.
+	 * <p>
+	 * @param value the value to fill with
+	 */
+	@Override
+	public void fill(final double value) {
+		this.value = value;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// UNARY OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Applies the specified function to {@code this}.
+	 * <p>
+	 * @param f the function to apply
+	 * <p>
+	 * @return {@code f(this)}
+	 */
+	@Override
+	public Scalar apply(final Function f) {
+		return new Scalar(f.apply(value));
+	}
+
+	/**
+	 * Returns the negation of {@code this}.
+	 * <p>
+	 * @return {@code -this}
+	 */
+	public Scalar minus() {
+		return new Scalar(-value);
+	}
+
+	/**
+	 * Returns the transpose of {@code this}.
+	 * <p>
+	 * @return {@code this'}
+	 */
+	public Scalar transpose() {
+		return this;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// BINARY OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the addition of the specified {@link Entity} to {@code this}.
+	 * <p>
+	 * @param entity the entity
+	 * <p>
+	 * @return {@code this + entity}
+	 */
+	public Entity plus(final Entity entity) {
+		if (entity instanceof Matrix) {
+			final Matrix matrix = (Matrix) entity;
+			return matrix.plus(this);
+		} else if (entity instanceof Scalar) {
+			final Scalar scalar = (Scalar) entity;
+			return new Scalar(value + scalar.get());
+		}
+		throw new IllegalOperationException(
+				"Cannot add a " + entity.getName() + " to a " + Scalar.getSimpleName());
+	}
+
+	/**
+	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
+	 * <p>
+	 * @param entity the entity
+	 * <p>
+	 * @return {@code this - entity}
+	 */
+	public Entity minus(final Entity entity) {
+		if (entity instanceof Matrix) {
+			final Matrix matrix = (Matrix) entity;
+			return matrix.minus().plus(this);
+		} else if (entity instanceof Scalar) {
+			final Scalar scalar = (Scalar) entity;
+			return new Scalar(value - scalar.get());
+		}
+		throw new IllegalOperationException("Cannot subtract a " + entity.getName() + " from a " +
+				Scalar.class.getSimpleName());
+	}
+
+	/**
+	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
+	 * <p>
+	 * @param entity the entity
+	 * <p>
+	 * @return {@code this * entity}
+	 */
+	public Entity times(final Entity entity) {
+		if (entity instanceof Matrix) {
+			final Matrix matrix = (Matrix) entity;
+			return matrix.times(value);
+		} else if (entity instanceof Scalar) {
+			final Scalar scalar = (Scalar) entity;
+			return new Scalar(value * scalar.get());
+		}
+		throw new IllegalOperationException(
+				"Cannot multiply a " + getName() + " by a " + entity.getName());
+	}
+
+	/**
+	 * Returns the division of {@code this} by the specified {@link Entity}.
+	 * <p>
+	 * @param entity the entity
+	 * <p>
+	 * @return {@code this / entity}
+	 */
+	public Entity division(final Entity entity) {
+		if (entity instanceof Matrix) {
+			final Matrix matrix = (Matrix) entity;
+			return matrix.division(value);
+		} else if (entity instanceof Scalar) {
+			return new Scalar(value / ((Scalar) entity).get());
+		}
+		throw new IllegalOperationException(
+				"Cannot divide a " + getName() + " by a " + entity.getName());
+	}
+
+	/**
+	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}.
+	 * <p>
+	 * @param entity the entity
+	 * <p>
+	 * @return {@code this ^ entity}
+	 */
+	public Entity power(final Entity entity) {
+		if (entity instanceof Matrix) {
+			final Matrix matrix = (Matrix) entity;
+			return matrix.times(value);
+		} else if (entity instanceof Scalar) {
+			return new Scalar(Math.pow(value, ((Scalar) entity).get()));
+		}
+		throw new IllegalOperationException(
+				"Cannot raise a " + getName() + " to the power of " + entity.getName());
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SOLVER
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the solution X of {@code this * X = entity}.
+	 * <p>
+	 * @param entity the entity
+	 * <p>
+	 * @return the solution X of {@code this * X = entity}
+	 */
+	public Scalar solve(final Entity entity) {
+		if (entity instanceof Scalar) {
+			final Scalar scalar = (Scalar) entity;
+			if (!equals(0.)) {
+				return new Scalar(scalar.get() / value);
+			}
+			if (!scalar.equals(0.)) {
+				throw new ArithmeticException(
+						"Cannot find a solution if A is equal to zero and B is not equal to zero");
+			}
+			throw new ArithmeticException(
+					"Cannot find a unique solution if A and B are equal to zero");
+		}
+		throw new IllegalOperationException("Cannot find a solution if A is a " + getName() +
+				" and B is a " + entity.getName());
+	}
+
+	/**
+	 * Returns the inverse of {@code this}.
+	 * <p>
+	 * @return {@code inv(this)}
+	 */
+	public Scalar inverse() {
+		return new Scalar(1. / value);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// NUMBER
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public byte byteValue() {
+		return (byte) value;
+	}
+
+	@Override
+	public short shortValue() {
+		return (short) value;
+	}
+
+	@Override
+	public int intValue() {
+		return Integers.convert(value);
+	}
+
+	@Override
+	public long longValue() {
+		return Longs.convert(value);
+	}
+
+	@Override
+	public float floatValue() {
+		return Floats.convert(value);
+	}
+
+	@Override
+	public double doubleValue() {
+		return value;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Scalar clone() {
+		return new Scalar(value);
+	}
+
+	@Override
+	public boolean equals(final Object other) {
+		return equals(other, Maths.DEFAULT_TOLERANCE);
+	}
+
+	@Override
+	public boolean equals(final Object other, final double tolerance) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof Scalar)) {
+			return false;
+		}
+		return Doubles.equals(value, ((Scalar) other).get(), tolerance);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, value);
+	}
+
+	@Override
+	public String toString() {
+		return toString(Formats.MIN_NUMBER_LENGTH);
+	}
+
+	public String toString(final int width) {
+		final StringBuilder builder = Strings.createBuilder(Formats.NUMBER_SIZE);
+		final String formattedValue = Formats.format(value);
+		final int padding = Math.max(0, width - formattedValue.length());
+		for (int k = 0; k < padding; ++k) {
+			builder.append(' ');
+		}
+		builder.append(formattedValue);
+		return builder.toString();
+	}
+}

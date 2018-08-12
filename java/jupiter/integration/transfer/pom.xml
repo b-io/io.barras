@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.barras.jupiter</groupId>
+		<artifactId>integration</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>transfer</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Transfer</name>
+	<description>Transfer interface</description>
+	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/integration/transfer</url>
+
+	<properties>
+		<!-- Apache Commons -->
+		<apache.io.version>2.6</apache.io.version>
+		<apache.net.version>3.6</apache.net.version>
+		<!-- JCraft -->
+		<jcraft.jsch.version>0.1.54</jcraft.jsch.version>
+	</properties>
+
+	<dependencies>
+		<!-- Apache Commons -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${apache.io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>${apache.net.version}</version>
+		</dependency>
+
+		<!-- JCraft -->
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>${jcraft.jsch.version}</version>
+		</dependency>
+
+		<!-- Jupiter -->
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>console</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

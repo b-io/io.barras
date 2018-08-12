@@ -1,0 +1,86 @@
+#!/bin/sh
+################################################################################
+#NAME
+#    <NAME> - start Linux Container (LXC)
+#
+#SYNOPSIS
+#    <NAME> [OPTION]... NAME
+#
+#OPTIONS
+#    Start the Linux Container with the NAME.
+#
+#    -h
+#        display this help and exit
+#
+#    -i
+#        output version information and exit
+#
+#    -l=LEVEL
+#        set the hierarchy level (-1 by default)
+#
+#    -v
+#        explain what is being done
+#
+#AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+#COPYRIGHT
+#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+################################################################################
+
+
+################################################################################
+# PROFILES
+################################################################################
+
+# Load the required URANUS profiles
+: "${URA_PROFILE_DIR:=/etc/profile.d}" &&
+if [ -z "${URA_PROFILE:-}" ]
+then
+	. "$URA_PROFILE_DIR"/'uranus.sh'
+fi &&
+if [ -z "${URA_VMS_PROFILE:-}" ]
+then
+	. "$URA_PROFILE_DIR"/'uranus-vms.sh'
+fi &&
+
+
+################################################################################
+# IMPORTS
+################################################################################
+
+# Set the URANUS settings for version information (-i)
+AUTHOR="$URA_AUTHOR" &&
+LICENSE="$URA_LICENSE" &&
+URL="$URA_URL" &&
+VENDOR="$URA_VENDOR" &&
+VERSION="$URA_VERSION" &&
+
+# Import URANUS
+. "$URA_PATH" &&
+
+################################################################################
+
+# Import URANUS LXC
+. "$URA_LXC_PATH" &&
+
+
+################################################################################
+# ARGUMENTS
+################################################################################
+
+# Load the arguments
+loadArguments $# "${@:-}" &&
+checkArguments 1 &&
+
+# Get the container NAME
+NAME="`getElementAt "$ARGS" 0`" &&
+checkNonEmpty "$NAME" &&
+
+
+################################################################################
+# PROCESS
+################################################################################
+
+startContainer "$NAME"

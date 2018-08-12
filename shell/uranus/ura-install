@@ -1,0 +1,163 @@
+#!/bin/sh
+################################################################################
+#NAME
+#    <NAME> - install URANUS
+#
+#SYNOPSIS
+#    <NAME> [OPTION]...
+#
+#OPTIONS
+#    Install URANUS.
+#
+#    -h
+#        display this help and exit
+#
+#    -i
+#        output version information and exit
+#
+#    -l=LEVEL
+#        set the hierarchy level (-1 by default)
+#
+#    -v
+#        explain what is being done
+#
+#AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+#COPYRIGHT
+#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+################################################################################
+
+
+################################################################################
+# IMPORTS
+################################################################################
+
+# Set the URANUS directory
+: "${URA_DIR:=`pwd`/uranus}" &&
+
+# Set the URANUS profile name
+: "${URA_PROFILE_NAME:=profile}" &&
+
+################################################################################
+
+# Import the URANUS profile
+. "$URA_DIR/$URA_PROFILE_NAME" &&
+
+# Set the URANUS settings for version information (-i)
+AUTHOR="$URA_AUTHOR" &&
+LICENSE="$URA_LICENSE" &&
+URL="$URA_URL" &&
+VENDOR="$URA_VENDOR" &&
+VERSION="$URA_VERSION" &&
+
+# Import URANUS
+. "$URA_PATH" &&
+
+################################################################################
+
+# Import the URANUS PMS profile
+. "$URA_DIR"/'pms'/"$URA_PROFILE_NAME" &&
+
+# Set the URANUS PMS settings for package information
+PMS_CATEGORY="$URA_CATEGORY" &&
+PMS_DEPENDENCIES="$URA_DEPENDENCIES" &&
+PMS_GROUP="$URA_GROUP" &&
+PMS_LICENSE="$URA_LICENSE" &&
+PMS_NAME="$URA_NAME" &&
+PMS_PACKAGER="$URA_AUTHOR" &&
+PMS_RELEASE="$URA_RELEASE" &&
+PMS_SUMMARY="$URA_SUMMARY" &&
+PMS_URL="$URA_URL" &&
+PMS_VENDOR="$URA_VENDOR" &&
+PMS_VERSION="$URA_VERSION" &&
+
+# Set the URANUS PMS settings for package names
+PMS_LIB_NAMES="`createArray '*.sh'`" &&
+PMS_PROFILE_NAMES="`createArray "$URA_PROFILE_NAME"`" &&
+
+# Set the URANUS PMS settings for target directories
+PMS_BIN_DIR="$URA_BIN_DIR" &&
+PMS_INCLUDE_DIR="$URA_INCLUDE_DIR" &&
+PMS_LIB_DIR="$URA_LIB_DIR" &&
+PMS_PROFILE_DIR="$URA_PROFILE_DIR" &&
+
+# Import URANUS PMS
+. "$URA_PMS_PATH" &&
+
+
+################################################################################
+# INSTALL
+################################################################################
+
+if [ $WINDOWS -eq $FALSE ]
+then
+	# Check if the user is root (exit otherwise)
+	checkRoot &&
+
+	# Create the log
+	createLog
+fi &&
+
+# Load the arguments
+loadArguments $# "${@:-}" &&
+
+# Get the SOURCE directory
+if [ $ARGS_NUMBER -gt 0 ]
+then
+	SOURCE_DIR="`getElementAt "$ARGS" 0`" &&
+	checkDir "$SOURCE_DIR"
+else
+	SOURCE_DIR="$URA_DIR"
+fi &&
+
+########################################
+startList 'Prepare URANUS' &&
+########################################
+
+	verb 'Set the file permissions' &&
+	setPathPermissions "$SOURCE_DIR" &&
+
+	startList 'Install the core' &&
+		createDir "$PMS_PROFILE_DIR" &&
+		copyPath "$SOURCE_DIR/$URA_PROFILE_NAME" "$PMS_PROFILE_DIR/$PMS_NAME"'.sh' $TRUE &&
+
+		createDir "$PMS_LIB_DIR" &&
+		addToPath "$PMS_LIB_DIR" &&
+		copyPath "$URA_PATH" "$PMS_LIB_DIR"/ $TRUE &&
+		copyPath "$URA_YUM_PATH" "$PMS_LIB_DIR"/ $TRUE &&
+
+		createDir "$PMS_BIN_DIR" &&
+		addToPath "$PMS_BIN_DIR" &&
+		copyPath "$SOURCE_DIR"/'ura-find' "$PMS_BIN_DIR"/ $TRUE &&
+	endList &&
+
+endList &&
+
+########################################
+startList 'Deploy URANUS' &&
+########################################
+
+	deployPackage "$SOURCE_DIR" &&
+
+endList &&
+
+if [ $WINDOWS -eq $FALSE ]
+then
+	########################################
+	startList 'Package URANUS' &&
+	########################################
+
+		createPackage "$SOURCE_DIR" &&
+
+	endList &&
+
+	########################################
+	startList 'Install URANUS' &&
+	########################################
+
+		installPackage &&
+
+	endList
+fi

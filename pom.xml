@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.barras</groupId>
+	<artifactId>io.barras</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<name>io.barras</name>
+	<description>Libraries written in C/C++, Java/Scala and POSIX Shell</description>
+	<url>https://github.com/b-io/io.barras</url>
+	<inceptionYear>2013</inceptionYear>
+
+	<developers>
+		<developer>
+			<id>b-io</id>
+			<name>Florian Barras</name>
+			<email>florian@barras.io</email>
+			<url>https://barras.io</url>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://github.com/b-io/io.barras/tree/master/LICENSE</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+	<modules>
+		<module>c</module>
+		<module>cpp</module>
+		<module>java</module>
+		<module>scala</module>
+		<module>shell</module>
+	</modules>
+
+	<properties>
+		<!-- Project -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- Maven -->
+		<maven.version>2.2.1</maven.version>
+		<maven.release.version>2.5.3</maven.release.version>
+		<!-- Build -->
+		<build.sourceFolder>source</build.sourceFolder>
+		<build.scriptFolder>scripts</build.scriptFolder>
+		<build.resourceFolder>resources</build.resourceFolder>
+		<build.testFolder>test</build.testFolder>
+		<build.targetFolder>target</build.targetFolder>
+		<build.targetFilename>${project.artifactId}-${project.version}</build.targetFilename>
+		<!-- SCM -->
+		<scm.url>https://github.com/b-io/io.barras</scm.url>
+	</properties>
+
+	<dependencies>
+		<!-- Maven -->
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-artifact</artifactId>
+			<version>${maven.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-project</artifactId>
+			<version>${maven.version}</version>
+		</dependency>
+	</dependencies>
+
+	<scm>
+		<url>${scm.url}</url>
+		<connection>scm:git:${scm.url}</connection>
+		<developerConnection>scm:git:${scm.url}</developerConnection>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>${scm.url}/issues</url>
+	</issueManagement>
+
+	<build>
+		<!-- Source -->
+		<sourceDirectory>${build.sourceFolder}</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>${build.resourceFolder}</directory>
+			</resource>
+		</resources>
+		<scriptSourceDirectory>${build.scriptFolder}</scriptSourceDirectory>
+
+		<!-- Test -->
+		<testSourceDirectory>${build.testFolder}/${build.sourceFolder}</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>${build.testFolder}/${build.resourceFolder}</directory>
+			</testResource>
+		</testResources>
+
+		<!-- Target -->
+		<finalName>${build.targetFilename}</finalName>
+		<directory>${build.targetFolder}</directory>
+		<outputDirectory>${build.targetFolder}/classes</outputDirectory>
+		<testOutputDirectory>${build.targetFolder}/${build.testFolder}/classes</testOutputDirectory>
+
+		<!-- Process -->
+		<defaultGoal>install</defaultGoal>
+	</build>
+</project>

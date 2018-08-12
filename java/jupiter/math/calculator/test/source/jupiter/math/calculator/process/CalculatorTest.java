@@ -1,0 +1,111 @@
+/*
+ * The MIT License
+ *
+ * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package jupiter.math.calculator.process;
+
+import static jupiter.common.io.IO.IO;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import junit.framework.TestCase;
+import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.test.Tests;
+import jupiter.common.thread.Report;
+import jupiter.common.time.Chronometer;
+import jupiter.common.util.Strings;
+import jupiter.math.calculator.model.Element;
+import jupiter.math.linear.entity.Entity;
+import jupiter.math.linear.entity.Matrix;
+
+public class CalculatorTest
+		extends TestCase {
+
+	public CalculatorTest() {
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Test of process method, of class Calculator.
+	 */
+	public void testProcess() {
+		IO.test("process");
+		IO.setSeverityLevel(SeverityLevel.TEST);
+
+		final int nTests = 20;
+		final int matrixSize = 200;
+		final double[] elementTimes = new double[2 * nTests];
+		final double[] entityTimes = new double[2 * nTests];
+
+		final Chronometer chrono = new Chronometer();
+		Calculator.start();
+		for (int i = 0; i < nTests; ++i) {
+			final Map<String, Element> context = new HashMap<String, Element>();
+			final Matrix matrix = Matrix.random(matrixSize);
+			final String matrixString = Strings.toString(matrix);
+			final String e1 = "(" + matrixString + " * " + "@(" + matrixString + ")) + " + "(" +
+					matrixString + " * " + "@(" + matrixString + "))";
+			final String e2 = "(" + matrixString + " / " + matrixString + ") + " + "(" +
+					matrixString + " / " + matrixString + ")";
+
+			// Test the parsing and the evaluation of the element and entity 1
+			chrono.start();
+			final Report<Element> tree1 = ExpressionHandler.parseExpression(e1, context);
+			final Element element1 = tree1.getOutput();
+			chrono.stop();
+			IO.debug("Element1: ", tree1);
+			IO.test("Element1: ", chrono.getMilliseconds(), " [ms]");
+			elementTimes[2 * i] = chrono.getMilliseconds();
+			chrono.start();
+			final Report<Entity> entityResult1 = Calculator.evaluateTree(element1, context);
+			final Entity entity1 = entityResult1.getOutput();
+			chrono.stop();
+			IO.debug("Entity1: ", entityResult1);
+			IO.test("Entity1: ", chrono.getMilliseconds(), " [ms]");
+			entityTimes[2 * i] = chrono.getMilliseconds();
+
+			// Test the parsing and the evaluation of the element and entity 2
+			chrono.start();
+			final Report<Element> tree2 = ExpressionHandler.parseExpression(e2, context);
+			final Element element2 = tree2.getOutput();
+			chrono.stop();
+			IO.debug("Element2: ", element2);
+			IO.test("Element2: ", chrono.getMilliseconds(), " [ms]");
+			elementTimes[2 * i + 1] = chrono.getMilliseconds();
+			chrono.start();
+			final Report<Entity> entityResult2 = Calculator.evaluateTree(element2, context);
+			final Entity entity2 = entityResult2.getOutput();
+			chrono.stop();
+			IO.debug("Entity2: ", entity2);
+			IO.test("Entity2: ", chrono.getMilliseconds(), " [ms]");
+			entityTimes[2 * i + 1] = chrono.getMilliseconds();
+
+			assertEquals(entity1, entity2);
+		}
+		Calculator.stop();
+
+		Tests.printTimes(elementTimes);
+		Tests.printTimes(entityTimes);
+	}
+}
