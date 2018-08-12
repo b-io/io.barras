@@ -11,38 +11,40 @@
 #    Note that the meta-characters (*, ? and []) are allowed.
 #
 #    -0
-#        print the full filename on the standard output, followed by a null
-#        character (instead of the newline character)
+#        Print the full filename on the standard output, followed by a null
+#        character (instead of the newline character).
 #
 #    -d
-#        search for directories
+#        Search for directories.
 #
 #    -f
-#        search for files
+#        Search for files.
 #
 #    -h
-#        display this help and exit
+#        Display this help and exit.
 #
 #    -i
-#        output version information and exit
+#        Output version information and exit.
 #
 #    -l=LEVEL
-#        set the hierarchy level (-1 by default)
+#        Set the hierarchy level (-1 by default).
 #
 #    -n
-#        search for all files except the FILEs
+#        Search for all files except the FILEs.
 #
 #    -p=PATH
-#        set the path (the current directory by default)
+#        Set the path (the current directory by default).
 #
 #    -r
-#        let the paths be relative
+#        Let the paths be relative.
 #
 #    -v
-#        explain what is being done
+#        Explain what is being done.
 #
-#    -w=PATTERN
-#        search for all files with the PATTERN
+#    -w=PATTERN|...
+#        Search for all files with the PATTERN. Note that the meta-character |
+#        is allowed to delimit several PATTERNs. This is especially useful with
+#        the -n option.
 #
 #AUTHOR
 #    Written by Florian Barras (florian@barras.io).
@@ -100,9 +102,9 @@ fi &&
 delimiter='\n' &&
 not='' &&
 path='.' &&
+patterns="`createArray '*'`" &&
 relative=$FALSE &&
 type='' &&
-with='*' &&
 for option in `printArray "$OPTS"`
 do
 	case "$option" in
@@ -118,7 +120,7 @@ do
 			;;
 		p*)	path="`getOptionValue "$option"`"
 			;;
-		w*)	with="`getOptionValue "$option"`"
+		w*)	patterns="`getOptionValue "$option" | toSplit '|' | toCreateArray`"
 			;;
 	esac
 done &&
@@ -137,15 +139,27 @@ checkDir "$path" &&
 
 # o Construct the command
 
-	# - Change to the parent directory of the path (if relative)
+	# - Change to the parent directory of the path (-r option)
 	if [ $relative -eq $TRUE ]
 	then
 		cd "`getDir "$path"`" &&
 		path="`getBase "$path"`"
 	fi &&
 
-	# - Add the FILEs to be searched
-	c='find '"'$path'"' '"$type"' -name '"$with"' '"$not"' \( -name '"'`getElementAt "$ARGS" 0`'" &&
+	# - Add the type of FILEs to be searched (-d or -f option)
+	c='find '"'$path'"' '"$type" &&
+
+	# - Add the PATTERNs to be searched (-w option)
+	c="$c"' \( -name '"'`getElementAt "$patterns" 0`'" &&
+	size=`getArraySize "$patterns"` &&
+	for i in `iterate 1 $size`
+	do
+		c="$c"' -o -name '"'`getElementAt "$patterns" $i`'"
+	done &&
+	c="$c"' \)' &&
+
+	# - Add the FILEs to be searched or to be avoided (-n option)
+	c="$c"' '"$not"' \( -name '"'`getElementAt "$ARGS" 0`'" &&
 	for i in `iterate 1 $ARGS_NUMBER`
 	do
 		c="$c"' -o -name '"'`getElementAt "$ARGS" $i`'"

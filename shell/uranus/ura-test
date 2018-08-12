@@ -8,16 +8,16 @@
 #
 #OPTIONS
 #    -h
-#        display this help and exit
+#        Display this help and exit.
 #
 #    -i
-#        output version information and exit
+#        Output version information and exit.
 #
 #    -l=LEVEL
-#        set the hierarchy level (-1 by default)
+#        Set the hierarchy level (-1 by default).
 #
 #    -v
-#        explain what is being done
+#        Explain what is being done.
 #
 #AUTHOR
 #    Written by Florian Barras (florian@barras.io).
@@ -40,6 +40,7 @@ URA_DIR="`pwd`"/'uranus' &&
 . "$URA_DIR"/'ura.sh' &&
 
 # Import URANUS GPG
+. "$URA_DIR"/'sms/profile' &&
 . "$URA_DIR"/'sms/gpg/ura-gpg.sh' &&
 
 
@@ -220,6 +221,10 @@ startList 'STRINGS'
 	repeat '#' 5 | toAssert '#####'
 	printn '#' | toRepeat 5 | toAssert '#####'
 
+	verb 'Split'
+	split 'Hello world !' ' '
+	printn 'Hello world !'  | toSplit ' '
+
 	verb 'Trim'
 	printn '	   trim	 	 ' | toTrim | toQuote | toAssert $QUOTE'trim'$QUOTE
 
@@ -391,9 +396,12 @@ endList
 startList 'USERS'
 ########################################
 
-	verb 'Check if the user is root'
-	checkRoot
-	getUserId | toAssert 0
+	if [ $WINDOWS -eq $FALSE ]
+	then
+		verb 'Check if the user is root'
+		checkRoot
+		getUserId | toAssert 0
+	fi
 
 endList
 
@@ -406,7 +414,7 @@ startList 'FIND'
 	printn
 
 	verb 'Find'
-	ura-find `getFlags` -f -p="`pwd`" -r -w='*' -n '*.*' |
+	ura-find `getFlags` -f -p="`pwd`" -r -w="*.sh|*.rpm" -n "*.rpm" |
 		xargs -I '{}' sh -c 'printf "%s\n" "{}"'
 
 endList

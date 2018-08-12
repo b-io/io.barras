@@ -620,7 +620,7 @@ createSequence()
 	checkInteger "$1" &&
 	checkInteger "$2" &&
 
-	$AWK 'BEGIN {for(i='$1'; i<='$2'; ++i) print i}'
+	$AWK 'BEGIN {for (i = '$1'; i <= '$2'; ++i) print i}'
 }
 #> FROM... | toCreateSequence TO
 toCreateSequence()
@@ -628,7 +628,7 @@ toCreateSequence()
 	checkArguments $# 1 &&
 	checkInteger "$1" &&
 
-	$AWK '{for(i=$0; i<='$1'; ++i) print i}'
+	$AWK '{for (i = $0; i <= '$1'; ++i) print i}'
 }
 
 # Create a sequence of indices [FROM, TO).
@@ -639,7 +639,7 @@ iterate()
 	checkIndex "$1" &&
 	checkIndex "$2" &&
 
-	$AWK 'BEGIN {for(i='$1'; i<'$2'; ++i) print i}'
+	$AWK 'BEGIN {for (i = '$1'; i < '$2'; ++i) print i}'
 }
 #> FROM... | toIterate TO
 toIterate()
@@ -647,7 +647,7 @@ toIterate()
 	checkArguments $# 1 &&
 	checkIndex "$1" &&
 
-	$AWK '{for(i=$0; i<'$1'; ++i) print i}'
+	$AWK '{for (i = $0; i < '$1'; ++i) print i}'
 }
 
 ########################################
@@ -781,11 +781,11 @@ extractFrom()
 
 	$AWK 'BEGIN {
 			if (length("'"$2"'") > 0) {
-				from = index("'"$1"'", "'"$2"'");
-				if (from > 0) print substr("'"$1"'", from + 1);
-				else print "'"$1"'";
+				from = index("'"$1"'", "'"$2"'")
+				if (from > 0) print substr("'"$1"'", from + 1)
+				else print "'"$1"'"
 			} else {
-				print "'"$1"'";
+				print "'"$1"'"
 			}
 		}'
 }
@@ -796,11 +796,11 @@ toExtractFrom()
 
 	$AWK '{
 			if (length("'"$1"'") > 0) {
-				from = index($0, "'"$1"'");
-				if (from > 0) print substr($0, from + 1);
-				else print $0;
+				from = index($0, "'"$1"'")
+				if (from > 0) print substr($0, from + 1)
+				else print $0
 			} else {
-				print $0;
+				print $0
 			}
 		}'
 }
@@ -813,11 +813,11 @@ extractTo()
 
 	$AWK 'BEGIN {
 			if (length("'"$2"'") > 0) {
-				to = index("'"$1"'", "'"$2"'");
-				if (to > 0) print substr("'"$1"'", 1, to - 1);
-				else print "'"$1"'";
+				to = index("'"$1"'", "'"$2"'")
+				if (to > 0) print substr("'"$1"'", 1, to - 1)
+				else print "'"$1"'"
 			} else {
-				print "'"$1"'";
+				print "'"$1"'"
 			}
 		}'
 }
@@ -828,11 +828,11 @@ toExtractTo()
 
 	$AWK '{
 			if (length("'"$1"'") > 0) {
-				to = index($0, "'"$1"'");
-				if (to > 0) print substr($0, 1, to - 1);
-				else print $0;
+				to = index($0, "'"$1"'")
+				if (to > 0) print substr($0, 1, to - 1)
+				else print $0
 			} else {
-				print $0;
+				print $0
 			}
 		}'
 }
@@ -860,6 +860,7 @@ toExtract()
 getIndex()
 {
 	checkArguments $# 2 &&
+	checkNonEmpty "$2" &&
 
 	$AWK 'BEGIN {print index("'"$1"'", "'"$2"'")}'
 }
@@ -867,6 +868,7 @@ getIndex()
 toGetIndex()
 {
 	checkArguments $# 1 &&
+	checkNonEmpty "$1" &&
 
 	$AWK '{print index($0, "'"$1"'")}'
 }
@@ -923,7 +925,7 @@ repeat()
 	checkArguments $# 2 &&
 	checkIndex "$2" &&
 
-	$AWK 'BEGIN {for(i=0; i<'$2'; ++i) printf "%s", "'"$1"'"}'
+	$AWK 'BEGIN {for (i = 0; i < '$2'; ++i) printf "%s", "'"$1"'"}'
 }
 #> STRING... | toRepeat NUMBER
 toRepeat()
@@ -931,7 +933,40 @@ toRepeat()
 	checkArguments $# 1 &&
 	checkIndex "$1" &&
 
-	$AWK '{for(i=0; i<'$1'; ++i) printf "%s", $0}'
+	$AWK '{for (i = 0; i < '$1'; ++i) printf "%s", $0}'
+}
+
+#> split STRING DELIMITERS
+split()
+{
+	checkArguments $# 2 &&
+
+	$AWK 'BEGIN {
+			s = "'"$1"'"
+			i = index(s, "'"$2"'")
+			while (i > 0) {
+				print substr(s, 1, i - 1)
+				s = substr(s, i + 1)
+				i = index(s, "'"$2"'")
+			}
+			print s
+		}'
+}
+#> STRING... | toSplit DELIMITERS
+toSplit()
+{
+	checkArguments $# 1 &&
+
+	$AWK '{
+			s = $0
+			i = index(s, "'"$1"'")
+			while (i > 0) {
+				print substr(s, 1, i - 1)
+				s = substr(s, i + 1)
+				i = index(s, "'"$1"'")
+			}
+			print s
+		}'
 }
 
 #> trim STRING
@@ -940,18 +975,18 @@ trim()
 	checkArguments $# 1 &&
 
 	$AWK 'BEGIN {
-			sub(/^[ \t\v\f]+/, "", "'"$1"'");
-			sub(/[ \t\v\f]+$/, "", "'"$1"'");
-			print;
+			sub(/^[ \t\v\f]+/, "", "'"$1"'")
+			sub(/[ \t\v\f]+$/, "", "'"$1"'")
+			print
 		}'
 }
 #> STRING... | toTrim
 toTrim()
 {
 	$AWK '{
-			sub(/^[ \t\v\f]+/, "", $0);
-			sub(/[ \t\v\f]+$/, "", $0);
-			print;
+			sub(/^[ \t\v\f]+/, "", $0)
+			sub(/[ \t\v\f]+$/, "", $0)
+			print
 		}'
 }
 
@@ -1451,9 +1486,9 @@ getPath()
 		path="$0"
 	fi &&
 
-	(testCommand 'readlink' && readlink -f "$path") ||
-		(cd "`getDir "$path"`" && printn "`pwd`/`getBase "$path"`") ||
-		which "$path"
+	(which "$path" > "$NULL_PATH" 2>&1 && which "$path") ||
+		(testCommand 'readlink' && readlink -f "$path") ||
+		(cd "`getDir "$path"`" && printn "`pwd`/`getBase "$path"`")
 }
 #> PATH... | toGetPath
 toGetPath()
@@ -1547,7 +1582,7 @@ getFileHeader()
 	fi &&
 
 	$AWK 'BEGIN {i = 0}
-		/'"$delimiter"'/ {if(i == 1) exit; else ++i; next} i == 1'\
+		/'"$delimiter"'/ {if (i == 1) exit; else ++i; next} i == 1'\
 		"$file"
 }
 
@@ -1938,7 +1973,7 @@ printUsage()
 	info 'Usage: '"`printManual |
 		$AWK 'BEGIN {i = 0}
 			/SYNOPSIS/ {i = 1; next}
-			/^$/ {if(i == 1) exit} i' |
+			/^$/ {if (i == 1) exit} i' |
 		toTrim`"
 }
 

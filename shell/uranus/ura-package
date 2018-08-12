@@ -10,16 +10,16 @@
 #    Create a package (RPM or PKG) of the SOURCE directory.
 #
 #    -h
-#        display this help and exit
+#        Display this help and exit.
 #
 #    -i
-#        output version information and exit
+#        Output version information and exit.
 #
 #    -l=LEVEL
-#        set the hierarchy level (-1 by default)
+#        Set the hierarchy level (-1 by default).
 #
 #    -v
-#        explain what is being done
+#        Explain what is being done.
 #
 #AUTHOR
 #    Written by Florian Barras (florian@barras.io).
