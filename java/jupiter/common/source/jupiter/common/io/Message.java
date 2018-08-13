@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,10 @@ public class Message
 	 * The default stack index.
 	 */
 	public static final int DEFAULT_STACK_INDEX = 3;
+	/**
+	 * The stack index offset.
+	 */
+	protected static final int STACK_INDEX_OFFSET = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,15 +66,16 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Message(final Object content) {
-		this(IO.Type.OUTPUT, IO.SeverityLevel.INFO, content, DEFAULT_STACK_INDEX + 1);
+		this(IO.Type.OUTPUT, IO.SeverityLevel.INFO, content,
+				DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final Object content, final int stackIndex) {
-		this(IO.Type.OUTPUT, IO.SeverityLevel.INFO, content, stackIndex + 1);
+		this(IO.Type.OUTPUT, IO.SeverityLevel.INFO, content, stackIndex + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final IO.Type type, final IO.SeverityLevel level, final Object content) {
-		this(type, level, content, DEFAULT_STACK_INDEX + 1);
+		this(type, level, content, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final IO.Type type, final IO.SeverityLevel level, final Object content,
@@ -85,15 +90,15 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Message(final Exception exception) {
-		this(IO.SeverityLevel.ERROR, exception, DEFAULT_STACK_INDEX + 1);
+		this(IO.SeverityLevel.ERROR, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final Exception exception, final int stackIndex) {
-		this(IO.SeverityLevel.ERROR, exception, stackIndex + 1);
+		this(IO.SeverityLevel.ERROR, exception, stackIndex + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final IO.SeverityLevel level, final Exception exception) {
-		this(level, exception, DEFAULT_STACK_INDEX + 1);
+		this(level, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final IO.SeverityLevel level, final Exception exception, final int stackIndex) {

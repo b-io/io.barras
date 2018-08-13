@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,30 +34,52 @@ public class Formats {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The current version
+	/**
+	 * The current version.
+	 */
 	public static final String VERSION = "1.5.0";
 
-	// The default encoding
+	/**
+	 * The default encoding.
+	 */
 	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 	public static final Charset DEFAULT_CHARSET = UTF8_CHARSET;
 	public static final String DEFAULT_CHARSET_NAME = DEFAULT_CHARSET.name();
 
-	// The default locale
+	/**
+	 * The default locale.
+	 */
 	public static final Locale DEFAULT_LOCALE = Locale.getDefault();
 
-	// The default length of a line (useful for IO)
+	/**
+	 * The default length of a line (useful for IO).
+	 */
 	public static final int DEFAULT_LINE_LENGTH = 72;
 
-	// The default date time format
+	/**
+	 * The default date format.
+	 */
 	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+	/**
+	 * The default date and time format.
+	 */
 	public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-	// The default decimal formats
-	// - Pattern
+	/**
+	 * The default decimal pattern.
+	 */
 	public static final String DEFAULT_PATTERN = "0.####";
+	/**
+	 * The default decimal format.
+	 */
 	public static volatile DecimalFormat DECIMAL_FORMAT = getDecimalFormat(DEFAULT_PATTERN);
-	// - Scientific pattern
+	/**
+	 * The default scientific pattern.
+	 */
 	public static final String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN + "E0";
+	/**
+	 * The default scientific format.
+	 */
 	public static volatile DecimalFormat SCIENTIFIC_DECIMAL_FORMAT = getDecimalFormat(
 			DEFAULT_SCIENTIFIC_PATTERN);
 

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,16 +39,24 @@ public abstract class BinaryClassifier {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The default learning rate α
+	/**
+	 * The default learning rate α.
+	 */
 	protected static final double DEFAULT_LEARNING_RATE = 1E-1;
 
-	// The default tolerance level (or termination criterion) ε
+	/**
+	 * The default tolerance level (or termination criterion) ε.
+	 */
 	protected static final double DEFAULT_TOLERANCE = 1E-6;
 
-	// The default maximum number of iterations
+	/**
+	 * The default maximum number of iterations.
+	 */
 	protected static final int DEFAULT_MAX_ITERATIONS = Integers.convert(1E6);
 
-	// The minimum convergence test frequency
+	/**
+	 * The minimum convergence test frequency.
+	 */
 	public static volatile int MIN_CONVERGENCE_TEST_FREQUENCY = 10;
 
 

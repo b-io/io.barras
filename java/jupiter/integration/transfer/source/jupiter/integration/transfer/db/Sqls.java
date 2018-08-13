@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,6 +48,9 @@ public class Sqls {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static Object convert(final Class<?> type, final String string) {
+		if (isNull(string)) {
+			return null;
+		}
 		if (Boolean.class.isAssignableFrom(type)) {
 			return Integer.valueOf(string) == 1;
 		} else if (Numbers.isNumber(type)) {
@@ -86,5 +89,18 @@ public class Sqls {
 			rows.add(new DbRow(header, values));
 		}
 		return rows;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static boolean isNull(final Object object) {
+		return object == null || object.toString().equals("NULL");
+	}
+
+	public static boolean isNull(final String string) {
+		return string == null || string.equals("NULL");
 	}
 }

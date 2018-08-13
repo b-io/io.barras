@@ -18,12 +18,12 @@
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/integration/android</url>
 
 	<properties>
-		<!-- Google -->
+		<!-- Google Android -->
 		<google.android.version>2.2.1</google.android.version>
 	</properties>
 
 	<dependencies>
-		<!-- Google -->
+		<!-- Google Android -->
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>

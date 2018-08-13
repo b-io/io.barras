@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,16 @@ public class IOAppender
 		extends AppenderSkeleton {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The stack index offset.
+	 */
+	protected static final int STACK_INDEX_OFFSET = 7;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,20 +61,22 @@ public class IOAppender
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public IOAppender() {
-		io = new IO(Message.DEFAULT_STACK_INDEX + 1);
+		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public IOAppender(final IO.SeverityLevel severityLevel) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + 1, severityLevel);
+		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
 	public IOAppender(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + 1, severityLevel, consoleHandler);
+		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
+				consoleHandler);
 	}
 
 	public IOAppender(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + 1, severityLevel, consoleHandler, logHandler);
+		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
+				logHandler);
 	}
 
 

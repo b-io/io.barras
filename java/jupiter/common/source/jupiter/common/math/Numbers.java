@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,30 +61,33 @@ public class Numbers {
 	 * Returns a {@link Number} of the specified {@code Class} converted from the specified
 	 * {@link String}.
 	 * <p>
-	 * @param c a {@link Class}
-	 * @param s a {@link String}
+	 * @param c      a {@link Class}
+	 * @param string a {@link String}
 	 * <p>
 	 * @return a {@link Number} of the specified {@code Class} converted from the specified
 	 *         {@link String}
 	 */
-	public static Number toNumber(final Class<?> c, final String s) {
+	public static Number toNumber(final Class<?> c, final String string) {
+		if (string == null) {
+			return null;
+		}
 		if (c.isAssignableFrom(Byte.class)) {
-			return Byte.valueOf(s);
+			return Byte.valueOf(string);
 		} else if (c.isAssignableFrom(Short.class)) {
-			return Short.valueOf(s);
+			return Short.valueOf(string);
 		} else if (c.isAssignableFrom(Integer.class)) {
-			return Integer.valueOf(s);
+			return Integer.valueOf(string);
 		} else if (c.isAssignableFrom(Long.class)) {
-			return Long.valueOf(s);
+			return Long.valueOf(string);
 		} else if (c.isAssignableFrom(Float.class)) {
-			return Float.valueOf(s);
+			return Float.valueOf(string);
 		} else if (c.isAssignableFrom(Double.class)) {
-			return Double.valueOf(s);
+			return Double.valueOf(string);
 		} else if (c.isAssignableFrom(BigDecimal.class)) {
-			return new BigDecimal(s);
+			return new BigDecimal(string);
 		}
 		throw new IllegalOperationException(
-				"Cannot convert " + Strings.quote(c) + " from " + Strings.quote(s));
+				"Cannot convert " + Strings.quote(c) + " from " + Strings.quote(string));
 	}
 
 

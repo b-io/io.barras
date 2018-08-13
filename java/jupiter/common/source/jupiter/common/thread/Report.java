@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,16 @@ import jupiter.common.io.Message;
 import jupiter.common.util.Strings;
 
 public class Report<O> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The stack index offset.
+	 */
+	protected static final int STACK_INDEX_OFFSET = 1;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -57,7 +67,7 @@ public class Report<O> {
 
 	public Report(final Exception exception) {
 		this.output = null;
-		this.message = new Message(exception, Message.DEFAULT_STACK_INDEX + 1);
+		this.message = new Message(exception, Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 

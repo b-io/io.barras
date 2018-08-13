@@ -1,5 +1,5 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
  * Copyright © 2013-2018 Florian Barras <https://barras.AIO>
  *
@@ -42,6 +42,11 @@ public class AIO {
 	 */
 	public static final AIO AIO = new AIO();
 
+	/**
+	 * The stack index offset.
+	 */
+	protected static final int STACK_INDEX_OFFSET = 1;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -55,20 +60,22 @@ public class AIO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public AIO() {
-		io = new IO(Message.DEFAULT_STACK_INDEX + 1);
+		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public AIO(final IO.SeverityLevel severityLevel) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + 1, severityLevel);
+		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
 	public AIO(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + 1, severityLevel, consoleHandler);
+		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
+				consoleHandler);
 	}
 
 	public AIO(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + 1, severityLevel, consoleHandler, logHandler);
+		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
+				logHandler);
 	}
 
 

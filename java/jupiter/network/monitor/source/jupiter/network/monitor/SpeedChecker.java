@@ -1,5 +1,5 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
  * Copyright © 2013-2015 Florian Barras <https://barras.io>
  *
@@ -54,19 +54,29 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final List<String> URLS = new ExtendedList<String>(Arrays.<String>asList(
-			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test"));
 	protected static final int N_RUNS = 1000;
 	protected static final int TIME_INTERVAL = 30000; // [ms]
-	protected static final int TIME_OUT = 10000;
+	protected static final int TIME_OUT = 10000; // [ms]
 	protected static final String TEMP_DIR = "C:/Temp";
-	// The file handlers of the data files storing the downloading times
+	protected static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+
+	/**
+	 * The list of URLs to download.
+	 */
+	protected static final List<String> URLS = new ExtendedList<String>(Arrays.<String>asList(
+			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test"));
+
+	/**
+	 * The file handlers of the data files storing the downloading times.
+	 */
 	protected static final Map<String, FileHandler> DATA_FILES = new HashMap<String, FileHandler>(
 			URLS.size());
-	// The thread pool
+
+	/**
+	 * The thread pool.
+	 */
 	protected static final WorkQueue<String, Report<Double>> THREAD_POOL = new WorkQueue<String, Report<Double>>(
 			new Checker());
-	protected static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

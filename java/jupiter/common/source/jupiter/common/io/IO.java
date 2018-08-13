@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -73,6 +73,11 @@ public class IO {
 	 * The default IO.
 	 */
 	public static final IO IO = new IO();
+
+	/**
+	 * The stack index offset.
+	 */
+	protected static final int STACK_INDEX_OFFSET = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -210,7 +215,7 @@ public class IO {
 	 */
 	public String input() {
 		final Message message = new Message(Type.INPUT, SeverityLevel.RESULT,
-				consoleHandler.input(), stackIndex + 1);
+				consoleHandler.input(), stackIndex + STACK_INDEX_OFFSET);
 		for (final IOHandler handler : handlers) {
 			if (handler != consoleHandler) {
 				handler.println(message);
@@ -255,9 +260,8 @@ public class IO {
 	 * Prints the indication of an input line in the console.
 	 */
 	public void printInput() {
-		consoleHandler.print(
-				new Message(Type.INPUT, SeverityLevel.RESULT, Strings.EMPTY, stackIndex + 1),
-				false);
+		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT, Strings.EMPTY,
+				stackIndex + STACK_INDEX_OFFSET), false);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -339,7 +343,7 @@ public class IO {
 	public Message trace(final Object... content) {
 		if (SeverityLevel.TRACE.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.TRACE,
-					Strings.join(content), stackIndex + 1);
+					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -357,7 +361,7 @@ public class IO {
 	public Message debug(final Object... content) {
 		if (SeverityLevel.DEBUG.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.DEBUG,
-					Strings.join(content), stackIndex + 1);
+					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -375,7 +379,7 @@ public class IO {
 	public Message test(final Object... content) {
 		if (SeverityLevel.TEST.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.TEST,
-					Strings.join(content), stackIndex + 1);
+					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -393,7 +397,7 @@ public class IO {
 	public Message info(final Object... content) {
 		if (SeverityLevel.INFO.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.INFO,
-					Strings.join(content), stackIndex + 1);
+					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -411,7 +415,7 @@ public class IO {
 	public Message result(final Object... content) {
 		if (SeverityLevel.RESULT.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.RESULT,
-					Strings.join(content), stackIndex + 1);
+					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -429,7 +433,7 @@ public class IO {
 	public Message warn(final Object... content) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING,
-					Strings.join(content), stackIndex + 1);
+					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -447,7 +451,7 @@ public class IO {
 	public Message warn(final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, exception,
-					stackIndex + 1);
+					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -467,7 +471,7 @@ public class IO {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.toString(content) + appendException(exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, text,
-					stackIndex + 1);
+					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -485,7 +489,7 @@ public class IO {
 	public Message error(final Object... content) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR,
-					Strings.join(content), stackIndex + 1);
+					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -503,7 +507,7 @@ public class IO {
 	public Message error(final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, exception,
-					stackIndex + 1);
+					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -523,7 +527,7 @@ public class IO {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.toString(content) + appendException(exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, text,
-					stackIndex + 1);
+					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -541,7 +545,7 @@ public class IO {
 	public Message fail(final Object... content) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE,
-					Strings.join(content), stackIndex + 1);
+					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -560,7 +564,7 @@ public class IO {
 	public Message fail(final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, exception,
-					stackIndex + 1);
+					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}
@@ -581,7 +585,7 @@ public class IO {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.toString(content) + appendException(exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, text,
-					stackIndex + 1);
+					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
 			return message;
 		}

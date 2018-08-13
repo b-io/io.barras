@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,10 +48,14 @@ public class SVM {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The default cache size
+	/**
+	 * The default cache size.
+	 */
 	protected static final double DEFAULT_CACHE_SIZE = 100;
 
-	// The default tolerance level (or termination criterion) ε
+	/**
+	 * The default tolerance level (or termination criterion) ε.
+	 */
 	protected static final double DEFAULT_TOLERANCE = 1E-6;
 
 

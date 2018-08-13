@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,7 +56,9 @@ public class Calculator {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The option specifying whether to use threads
+	/**
+	 * The option specifying whether to use threads.
+	 */
 	protected static final boolean USE_THREADS = true;
 
 

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,12 +35,22 @@ public class ProgressBar {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The wrapping symbols
+	/**
+	 * The start symbol.
+	 */
 	public static volatile char START_SYMBOL = Characters.LEFT_BRACKET;
+	/**
+	 * The end symbol.
+	 */
 	public static volatile char END_SYMBOL = Characters.RIGHT_BRACKET;
-	// The symbol filling the progress bar
+
+	/**
+	 * The symbol filling the progress bar.
+	 */
 	public static volatile String SYMBOL = "#";
-	// The space filling the progress bar
+	/**
+	 * The space filling the progress bar.
+	 */
 	public static volatile String SPACE = "-";
 
 
