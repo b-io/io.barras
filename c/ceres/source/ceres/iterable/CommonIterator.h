@@ -1,5 +1,5 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
  * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
  *

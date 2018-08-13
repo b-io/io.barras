@@ -15,24 +15,25 @@ URANUS is fully compliant with POSIX and does not require any other library.
 
 Launch the following commands in a shell:
 ~~~bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/
+git clone https://github.com/b-io/uranus.git
+cd uranus/
 mvn clean install
 ~~~
 
-or
+OR
 
-1. Change to the directory containing **ura-install**.
-2. Launch the following command:
+Launch the following commands in a shell:
 ~~~bash
-sh ura-install -v
+git clone https://github.com/b-io/io.barras.git
+cd io.barras/
+mvn clean install
 ~~~
 
 
 ## License
 
 Feel free to download, try and share your suggestions about the libraries,
-while respecting [this MIT License][license].
+while respecting [this MIT License (MIT)][license].
 
 [license]: <LICENSE>
 

@@ -17,21 +17,10 @@ X64
 
 # Configuration files ##############################################################################
 # Eclipse
-.buildpath
 .classpath
 .project
+.settings
 *.prefs
-
-# EditorConfig
-.editorconfig
-
-# Gradle
-.gradle
-gradle*
-
-# IntelliJ IDEA
-.idea
-*.iml
 
 # Netbeans
 nb-configuration.xml
@@ -58,9 +47,7 @@ hs_err_pid*
 # Package files ####################################################################################
 *.ear
 *.jar
-*.pkg
 *.rar
-*.rpm
 *.tar.gz
 *.war
 *.zip

@@ -25,7 +25,7 @@
 
 	<licenses>
 		<license>
-			<name>MIT License</name>
+			<name>The MIT License (MIT)</name>
 			<url>https://github.com/b-io/io.barras/tree/master/LICENSE</url>
 			<distribution>repo</distribution>
 			<comments>A business-friendly OSS license</comments>
@@ -33,11 +33,7 @@
 	</licenses>
 
 	<modules>
-		<module>c</module>
-		<module>cpp</module>
 		<module>java</module>
-		<module>scala</module>
-		<module>shell</module>
 	</modules>
 
 	<properties>

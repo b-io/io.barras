@@ -29,7 +29,7 @@ mvn clean install
 ## License
 
 Feel free to download, try and share your suggestions about the libraries,
-while respecting [this MIT License][license].
+while respecting [this MIT License (MIT)][license].
 
 [license]: <LICENSE>
 
