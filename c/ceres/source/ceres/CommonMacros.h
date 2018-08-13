@@ -30,16 +30,16 @@ extern "C"
 #define _COMMON_MACROS_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CHECK
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * The {@code if} control statement of the checks.
@@ -142,9 +142,9 @@ extern "C"
 #define _CHARS_CHECK(STRING, SIZE)			_ARRAY_CHECK(STRING, SIZE, _CHARACTERS_NAME)
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * DYNAMIC MEMORY ALLOCATION
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #ifdef _TEST_MODE
 #define _PRINT_NEW							printn(_S("<new />"))
@@ -202,9 +202,9 @@ extern "C"
 #define _PRINT_ERROR_ARRAY_REALLOCATION(T)	{ string _message; string_format(_message, _S("Memory reallocation for the array of type '%t' failed"), (T)); _PRINT_ERROR(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMMON
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the wide or normal characters.
@@ -287,9 +287,9 @@ extern "C"
 #define _PRINT_WARNING_NO_FUNCTION(NAME, T)	{ string _message; string_format(_message, _S("There is no function %s for the specified type '%t'"), (NAME), (T)); _PRINT_WARNING(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * I/O
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Writes formatted data to string.
@@ -316,25 +316,35 @@ extern "C"
 #define _PRINT_CARRIAGE_RETURN(FILE)		char_to_stream(_CARRIAGE_RETURN, FILE)
 
 	/**
-	 * Prints the specified result/info/test message to stdout.
+	 * Prints the specified trace/debug/test/info/result message to stdout.
 	 */
-#define _PRINT_RESULT(CONTENT)				print_result(CONTENT)
-#define _PRINT_INFO(CONTENT)				print_info(_S(__FILE__), _STRING_EMPTY, CONTENT)
+#ifdef _TRACE_MODE
+#define _PRINT_TRACE(CONTENT)				print_trace(_S(__FILE__), _STRING_EMPTY, __LINE__, CONTENT)
+#else
+#define _PRINT_TRACE(CONTENT)
+#endif
+#ifdef _DEBUG_MODE
+#define _PRINT_DEBUG(CONTENT)				print_debug(_S(__FILE__), _STRING_EMPTY, CONTENT)
+#else
+#define _PRINT_DEBUG(CONTENT)
+#endif
 #ifdef _TEST_MODE
-#define _PRINT_TEST(CONTENT)				print_test(_S(__FILE__), _STRING_EMPTY, __LINE__, CONTENT)
+#define _PRINT_TEST(CONTENT)				print_test(_S(__FILE__), CONTENT)
 #else
 #define _PRINT_TEST(CONTENT)
 #endif
+#define _PRINT_INFO(CONTENT)				print_info(CONTENT)
+#define _PRINT_RESULT(CONTENT)				print_result(CONTENT)
 
 	/**
 	 * Prints the specified warning/error/failure message to stderr.
 	 */
 #ifdef _WARN_MODE
-#define _PRINT_WARNING(CONTENT)				print_warning(CONTENT)
+#define _PRINT_WARNING(CONTENT)				print_warning(_S(__FILE__), CONTENT)
 #else
 #define _PRINT_WARNING(CONTENT)
 #endif
-#define _PRINT_ERROR(CONTENT)				print_error(_S(__FILE__), __LINE__, CONTENT)
+#define _PRINT_ERROR(CONTENT)				print_error(_S(__FILE__), _STRING_EMPTY, CONTENT)
 #define _PRINT_FAILURE(CONTENT)				print_failure(_S(__FILE__), _STRING_EMPTY, __LINE__, CONTENT)
 
 	/**
@@ -343,9 +353,9 @@ extern "C"
 #define _PRINT_ERROR_FORMAT(SPECIFIER)		{ string _message; string_format(_message, _S("Unknown format specifier '%c'"), (SPECIFIER)); _PRINT_ERROR(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ITERABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns the next element of the Iterator.
@@ -466,9 +476,9 @@ extern "C"
 #define _PRINT_WARNING_TRUNCATION(NAME)		{ string _message; string_format(_message, _S("The target %s is truncated"), (NAME)); _PRINT_WARNING(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * MATH
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Gets the minimum number.
@@ -498,9 +508,9 @@ extern "C"
 #define _PRINT_ERROR_GREATER_THAN(NAME, UPPER_BOUND)	{ string _message; string_format(_message, _S("The %s is greater than %i"), (NAME), (UPPER_BOUND)); _PRINT_ERROR(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * TIME
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Sets the Coordinated Universal Time.
@@ -525,9 +535,9 @@ extern "C"
 #endif
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * TYPE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the comparison for equality between the real numbers.

@@ -155,13 +155,13 @@ public class AIO {
 
 	/**
 	 * Shows the specified message on the screen indicating the severity level
-	 * {@link SeverityLevel#WARN}.
+	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param context the {@link Context} of Android
 	 * @param message the {@link Object} to be showed
 	 */
 	public void warn(final Context context, final Object message) {
-		if (SeverityLevel.WARN.toInt() >= io.getSeverityLevel().toInt()) {
+		if (SeverityLevel.WARNING.toInt() >= io.getSeverityLevel().toInt()) {
 			show(context, io.warn(message));
 		}
 	}
@@ -181,14 +181,14 @@ public class AIO {
 
 	/**
 	 * Shows the specified message on the screen indicating the severity level
-	 * {@link SeverityLevel#FATAL}.
+	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param context the {@link Context} of Android
 	 * @param message the {@link Object} to be showed
 	 */
-	public void fatal(final Context context, final Object message) {
-		if (SeverityLevel.FATAL.toInt() >= io.getSeverityLevel().toInt()) {
-			show(context, io.fatal(message));
+	public void fail(final Context context, final Object message) {
+		if (SeverityLevel.FAILURE.toInt() >= io.getSeverityLevel().toInt()) {
+			show(context, io.fail(message));
 		}
 	}
 }

@@ -89,7 +89,7 @@ public class IOAppender
 			} else if (level == Level.ERROR) {
 				io.error(message);
 			} else if (level == Level.FATAL) {
-				io.fatal(message);
+				io.fail(message);
 			} else {
 				io.result(message);
 			}

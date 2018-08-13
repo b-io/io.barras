@@ -30,9 +30,9 @@ extern "C"
 #define _COMMON_IO_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -54,17 +54,17 @@ extern "C"
 #include <stdio.h>
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * WRITE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	void char_to_stream(const character source, FILE* target);
 	void string_to_stream(const string source, FILE* target);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * PRINT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Prints the C string pointed by {@code format} to {@code stdout}. If
@@ -106,7 +106,7 @@ extern "C"
 	 */
 	void file_print(FILE* file, const string format, va_list* args);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Prints the C string pointed by {@code format} to {@code stdout} and
@@ -151,7 +151,7 @@ extern "C"
 	 */
 	void file_printn(FILE* file, const string format, va_list* args);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Prints the specified I/O Message to {@code stdout} and terminates the
@@ -161,7 +161,57 @@ extern "C"
 	 */
 	void IOMessage_print(const IOMessage message);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
+
+	/**
+	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
+	 * it in the console and in the log file (indicating the Severity Level
+	 * {@code _TRACE}).
+	 * <p>
+	 * @param filePath     the file path
+	 * @param functionName the function name
+	 * @param lineNumber   the line number
+	 * @param content      the content of the message to be printed
+	 * <p>
+	 * @return an {@code IOMessage} containing the specified parameter(s)
+	 */
+	IOMessage print_trace(const string filePath, const string functionName, const natural lineNumber, const string content);
+
+	/**
+	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
+	 * it in the console and in the log file (indicating the Severity Level
+	 * {@code _DEBUG}).
+	 * <p>
+	 * @param filePath     the file path
+	 * @param functionName the function name
+	 * @param content      the content of the message to be printed
+	 * <p>
+	 * @return an {@code IOMessage} containing the specified parameter(s)
+	 */
+	IOMessage print_debug(const string filePath, const string functionName, const string content);
+
+	/**
+	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
+	 * it in the console and in the log file (indicating the Severity Level
+	 * {@code _TEST}).
+	 * <p>
+	 * @param filePath the file path
+	 * @param content  the content of the message to be printed
+	 * <p>
+	 * @return an {@code IOMessage} containing the specified parameter(s)
+	 */
+	IOMessage print_test(const string filePath, const string content);
+
+	/**
+	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
+	 * it in the console and in the log file (indicating the Severity Level
+	 * {@code _INFO}).
+	 * <p>
+	 * @param content the content of the message to be printed
+	 * <p>
+	 * @return an {@code IOMessage} containing the specified parameter(s)
+	 */
+	IOMessage print_info(const string content);
 
 	/**
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
@@ -174,58 +224,32 @@ extern "C"
 	 */
 	IOMessage print_result(const string content);
 
-	/**
-	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
-	 * it in the console and in the log file (indicating the Severity Level
-	 * {@code _INFO}).
-	 * <p>
-	 * @param filePath     the file path
-	 * @param functionName the function name
-	 * @param content      the content of the message to be printed
-	 * <p>
-	 * @return an {@code IOMessage} containing the specified parameter(s)
-	 */
-	IOMessage print_info(const string filePath, const string functionName, const string content);
-
-	/**
-	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
-	 * it in the console and in the log file (indicating the Severity Level
-	 * {@code _TEST}).
-	 * <p>
-	 * @param filePath     the file path
-	 * @param functionName the function name
-	 * @param lineNumber   the line number
-	 * @param content      the content of the message to be printed
-	 * <p>
-	 * @return an {@code IOMessage} containing the specified parameter(s)
-	 */
-	IOMessage print_test(const string filePath, const string functionName, const natural lineNumber, const string content);
-
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _WARNING}).
 	 * <p>
-	 * @param content the content of the message to be printed
+	 * @param filePath the file path
+	 * @param content  the content of the message to be printed
 	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
-	IOMessage print_warning(const string content);
+	IOMessage print_warning(const string filePath, const string content);
 
 	/**
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _ERROR}).
 	 * <p>
-	 * @param filePath   the file path
-	 * @param lineNumber the line number
-	 * @param content    the content of the message to be printed
+	 * @param filePath     the file path
+	 * @param functionName the function name
+	 * @param content      the content of the message to be printed
 	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
-	IOMessage print_error(const string filePath, const natural lineNumber, const string content);
+	IOMessage print_error(const string filePath, const string functionName, const string content);
 
 	/**
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints

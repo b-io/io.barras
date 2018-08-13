@@ -23,23 +23,23 @@
  */
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/io/CommonIOMessage.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTANTS
- ******************************************************************************/
+ **************************************************************************************************/
 
 const natural IO_MESSAGE_SIZE = sizeof (IOMessage);
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 IOMessage IOMessage_create(const IOType type, const SeverityLevel level, const string filePath, const string functionName, const natural lineNumber, const string content)
 {
@@ -71,9 +71,9 @@ IOMessage* IOMessage_new(const IOType type, const SeverityLevel level, const str
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void IOMessage_reset(void* message)
 {
@@ -104,9 +104,9 @@ void IOMessage_reset(void* message)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * I/O MESSAGE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void IOMessage_set(IOMessage* message, const IOType type, const SeverityLevel level, const string filePath, const string functionName, const natural lineNumber, const string content)
 {
@@ -120,9 +120,9 @@ void IOMessage_set(IOMessage* message, const IOType type, const SeverityLevel le
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * PREFIX
- ******************************************************************************/
+ **************************************************************************************************/
 
 void prefix_create(const SeverityLevel level, const string filePath, const string functionName, const natural lineNumber, string output)
 {
@@ -154,9 +154,9 @@ void prefix_create(const SeverityLevel level, const string filePath, const strin
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * FILE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void file_name(const string filePath, string output)
 {
@@ -187,9 +187,9 @@ void file_name(const string filePath, string output)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void IOMessage_release(void* structure)
 {
@@ -212,11 +212,10 @@ void IOMessage_release(void* structure)
 	_PRINT_TEST(_S("</releaseIOMessage>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean IOMessage_equals(const void* structure, const type type, const void* value)
 {
-
 	_IF(_CHECKS(_IO_MESSAGE_TYPE, structure, type, value)
 		&& type == _IO_MESSAGE_TYPE)
 	{
@@ -242,11 +241,10 @@ boolean IOMessage_equals(const void* structure, const type type, const void* val
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* IOMessage_clone(const void* structure)
 {
-
 	_IF(_CHECK(structure, _IO_MESSAGE_NAME))
 	{
 		/* Get the I/O Message */
@@ -260,7 +258,7 @@ void* IOMessage_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer IOMessage_hash(const void* structure)
 {
@@ -279,11 +277,10 @@ integer IOMessage_hash(const void* structure)
 	return integer_random();
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean IOMessage_to_string(const void* source, string target)
 {
-
 	_IF(_SOURCE_TARGET_CHECK(source, target))
 	{
 		/* Get the I/O Message */
@@ -298,7 +295,6 @@ boolean IOMessage_to_string(const void* source, string target)
 
 boolean IOtype_to_string(const void* source, string target)
 {
-
 	_IF(_SOURCE_TARGET_CHECK(source, target))
 	{
 		/* Get the I/O type */
@@ -319,7 +315,6 @@ boolean IOtype_to_string(const void* source, string target)
 
 boolean SeverityLevel_to_string(const void* source, string target)
 {
-
 	_IF(_SOURCE_TARGET_CHECK(source, target))
 	{
 		/* Get the Severity Level */
@@ -327,18 +322,22 @@ boolean SeverityLevel_to_string(const void* source, string target)
 
 		switch (*sl)
 		{
-			case _RESULT:
-				return string_to_string(_S("RESULT"), target);
-			case _INFO:
-				return string_to_string(_S("INFO"), target);
+			case _TRACE:
+				return string_to_string(_S("TRAC"), target);
+			case _DEBUG:
+				return string_to_string(_S("DEBU"), target);
 			case _TEST:
 				return string_to_string(_S("TEST"), target);
+			case _INFO:
+				return string_to_string(_S("INFO"), target);
+			case _RESULT:
+				return string_to_string(_STRING_EMPTY, target);
 			case _WARNING:
-				return string_to_string(_S("WARNING"), target);
+				return string_to_string(_S("WARN"), target);
 			case _ERROR:
-				return string_to_string(_S("ERROR"), target);
+				return string_to_string(_S("ERRO"), target);
 			case _FAILURE:
-				return string_to_string(_S("FAILURE"), target);
+				return string_to_string(_S("FAIL"), target);
 			default:
 				_UNKNOWN_TO_STRING(target);
 		}
@@ -348,7 +347,6 @@ boolean SeverityLevel_to_string(const void* source, string target)
 
 boolean label_append_to_string(const void* source, string target)
 {
-
 	_IF(_SOURCE_TARGET_CHECK(source, target))
 	{
 		/* Get the label */

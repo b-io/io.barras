@@ -420,15 +420,15 @@ public class IO {
 
 	/**
 	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#WARN}.
+	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing the specified content
 	 */
 	public Message warn(final Object... content) {
-		if (SeverityLevel.WARN.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARN,
+		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING,
 					Strings.join(content), stackIndex + 1);
 			println(message);
 			return message;
@@ -438,15 +438,15 @@ public class IO {
 
 	/**
 	 * Prints the specified exception with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#WARN}.
+	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing the specified exception
 	 */
 	public Message warn(final Exception exception) {
-		if (SeverityLevel.WARN.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARN, exception,
+		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, exception,
 					stackIndex + 1);
 			println(message);
 			return message;
@@ -456,7 +456,7 @@ public class IO {
 
 	/**
 	 * Prints the specified content and exception with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#WARN}.
+	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param content   the {@link Object} to print
 	 * @param exception the {@link Exception} to print
@@ -464,9 +464,9 @@ public class IO {
 	 * @return a {@link Message} containing the specified content and exception
 	 */
 	public Message warn(final Object content, final Exception exception) {
-		if (SeverityLevel.WARN.toInt() >= severityLevel.toInt()) {
+		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.toString(content) + appendException(exception);
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARN, text,
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, text,
 					stackIndex + 1);
 			println(message);
 			return message;
@@ -532,15 +532,15 @@ public class IO {
 
 	/**
 	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#FATAL}.
+	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing the specified content
 	 */
-	public Message fatal(final Object... content) {
-		if (SeverityLevel.FATAL.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.FATAL,
+	public Message fail(final Object... content) {
+		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE,
 					Strings.join(content), stackIndex + 1);
 			println(message);
 			return message;
@@ -551,15 +551,15 @@ public class IO {
 
 	/**
 	 * Prints the specified exception with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#FATAL}.
+	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing the specified exception
 	 */
-	public Message fatal(final Exception exception) {
-		if (SeverityLevel.FATAL.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.FATAL, exception,
+	public Message fail(final Exception exception) {
+		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, exception,
 					stackIndex + 1);
 			println(message);
 			return message;
@@ -570,17 +570,17 @@ public class IO {
 
 	/**
 	 * Prints the specified content and exception with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#FATAL}.
+	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param content   the {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing the specified content and exception
 	 */
-	public Message fatal(final Object content, final Exception exception) {
-		if (SeverityLevel.FATAL.toInt() >= severityLevel.toInt()) {
+	public Message fail(final Object content, final Exception exception) {
+		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.toString(content) + appendException(exception);
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.FATAL, text,
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, text,
 					stackIndex + 1);
 			println(message);
 			return message;
@@ -625,9 +625,9 @@ public class IO {
 		TEST(2),
 		INFO(3),
 		RESULT(4),
-		WARN(5),
+		WARNING(5),
 		ERROR(6),
-		FATAL(7);
+		FAILURE(7);
 
 		public final int value;
 
@@ -640,7 +640,7 @@ public class IO {
 		}
 
 		public boolean isError() {
-			return value >= WARN.toInt();
+			return value >= WARNING.toInt();
 		}
 
 		public int toInt() {
@@ -661,11 +661,11 @@ public class IO {
 				case 4:
 					return "RESULT";
 				case 5:
-					return "WARN";
+					return "WARNING";
 				case 6:
 					return "ERROR";
 				case 7:
-					return "FATAL";
+					return "FAILURE";
 			}
 			return Strings.EMPTY;
 		}

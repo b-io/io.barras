@@ -23,16 +23,16 @@
  */
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/type/CommonString.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 character* chars_new(const natural size)
 {
@@ -56,13 +56,12 @@ character* string_new(void)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void chars_reset(character* string, const natural size)
 {
-
 	_IF(_CHARS_CHECK(string, size))
 	{
 		/* End the string */
@@ -75,11 +74,10 @@ void string_reset(string string)
 	chars_reset(string, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void chars_reset_all(character* string, const natural size)
 {
-
 	_IF(_CHARS_CHECK(string, size))
 	{
 		memset(string, _STRING_END, size);
@@ -92,13 +90,12 @@ void string_reset_all(string string)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMMON
- ******************************************************************************/
+ **************************************************************************************************/
 
 natural chars_length(const character* string, const natural size)
 {
-
 	_IF(_CHARS_CHECK(string, size))
 	{
 		/* Declare the iteration variable(s) */
@@ -118,7 +115,7 @@ natural string_length(const string string)
 	return chars_length(string, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean chars_is_empty(const character* string, const natural size)
 {
@@ -134,11 +131,10 @@ boolean string_is_empty(const string string)
 	return chars_is_empty(string, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void chars_fill(character* string, const natural size, const character c)
 {
-
 	_IF(_CHARS_CHECK(string, size))
 	{
 		/* Declare the iteration variable(s) */
@@ -161,7 +157,7 @@ void string_fill(string string, const character c)
 	chars_fill(string, _STRING_SIZE, c);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void chars_clear(character* string, const natural size)
 {
@@ -174,13 +170,12 @@ void string_clear(string string)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COPY
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean chars_copy(const character* source, const natural sourceSize, const natural length, character* target, const natural targetSize)
 {
-
 	_IF(_SOURCE_TARGET_ARRAYS_CHECK(source, sourceSize, target, targetSize))
 	{
 		/* Declare the iteration variable(s) */
@@ -228,7 +223,7 @@ boolean chars_copy_to_string(const character* source, const natural sourceSize, 
 	return chars_copy(source, sourceSize, length, target, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean string_copy(const character* source, const natural length, character* target)
 {
@@ -240,7 +235,7 @@ boolean string_copy_to_chars(const character* source, const natural length, char
 	return chars_copy(source, _STRING_SIZE, length, target, targetSize);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void chars_from(const character* source, const natural sourceSize, const natural startIndex, character* target, const natural targetSize)
 {
@@ -252,11 +247,10 @@ void string_from(const string source, const natural startIndex, string target)
 	chars_from(source, _STRING_SIZE, startIndex, target, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void chars_sub(const character* source, const natural sourceSize, const natural startIndex, const natural endIndex, character* target, const natural targetSize)
 {
-
 	_IF(_SOURCE_TARGET_ARRAYS_CHECK(source, sourceSize, target, targetSize))
 	{
 		if (startIndex < sourceSize - 1)
@@ -285,13 +279,12 @@ void string_sub(const string source, const natural startIndex, const natural end
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * FIND
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean chars_contain(const character* source, const natural size, const character c)
 {
-
 	_IF(_CHARS_CHECK(source, size))
 	{
 		/* Declare the iteration variable(s) */
@@ -314,11 +307,10 @@ boolean string_contain(const string source, const character c)
 	return chars_contain(source, _STRING_SIZE, c);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 character* chars_find(character* source, const natural size, const string set)
 {
-
 	_IF(_CHARS_CHECK(source, size)
 		&& _CHECK(set, _S("set of characters")))
 	{
@@ -353,7 +345,7 @@ character* string_find(string source, const string set)
 	return chars_find(source, _STRING_SIZE, set);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 natural chars_find_index(character* source, const natural size, const string set)
 {
@@ -365,11 +357,10 @@ natural string_find_index(string source, const string set)
 	return chars_find_index(source, _STRING_SIZE, set);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 character* chars_find_last(character* source, const natural size, const string set)
 {
-
 	_IF(_CHARS_CHECK(source, size)
 		&& _CHECK(set, _S("set of characters")))
 	{
@@ -402,7 +393,7 @@ character* string_find_last(string source, const string set)
 	return chars_find_last(source, _STRING_SIZE, set);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 natural chars_find_last_index(character* source, const natural size, const string set)
 {
@@ -414,7 +405,7 @@ natural string_find_last_index(string source, const string set)
 	return chars_find_last_index(source, _STRING_SIZE, set);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 Array* chars_find_all(character* source, const natural size, const string set)
 {
@@ -440,11 +431,10 @@ Array* string_find_all(string source, const string set)
 	return chars_find_all(source, _STRING_SIZE, set);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 character* chars_find_chars(character* source, const natural sourceSize, const character* text, const natural textSize)
 {
-
 	_IF(_CHARS_CHECK(source, sourceSize) && _CHARS_CHECK(text, textSize))
 	{
 		const natural length = chars_length(text, textSize);
@@ -484,11 +474,10 @@ character* string_find_string(string source, const string text)
 	return chars_find_chars(source, _STRING_SIZE, text, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean chars_replace(character* source, const natural sourceSize, const character* oldText, const natural oldTextSize, const character* newText, const natural newTextSize)
 {
-
 	_IF(_CHARS_CHECK(source, sourceSize)
 		&& _CHARS_CHECK(oldText, oldTextSize)
 		&& _CHARS_CHECK(newText, newTextSize))
@@ -593,11 +582,10 @@ boolean string_replace(string source, const string oldText, const string newText
 	return chars_replace(source, _STRING_SIZE, oldText, _STRING_SIZE, newText, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean chars_replace_all(character* source, const natural sourceSize, const character* oldText, const natural oldTextSize, const character* newText, const natural newTextSize)
 {
-
 	_IF(_CHARS_CHECK(source, sourceSize)
 		&& _CHARS_CHECK(oldText, oldTextSize)
 		&& _CHARS_CHECK(newText, newTextSize))
@@ -702,9 +690,9 @@ boolean string_replace_all(string source, const string oldText, const string new
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * SPLIT
- ******************************************************************************/
+ **************************************************************************************************/
 
 Array* chars_split(character* source, const natural size, const string delimiters)
 {
@@ -759,13 +747,12 @@ Array* string_split(string source, const string delimiters)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONCATENATE
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean chars_cat(const character* source, const natural sourceSize, const natural length, character* target, const natural targetSize)
 {
-
 	_IF(_SOURCE_TARGET_ARRAYS_CHECK(source, sourceSize, target, targetSize))
 	{
 		const natural targetLength = chars_length(target, targetSize);
@@ -789,9 +776,9 @@ boolean chars_cat(const character* source, const natural sourceSize, const natur
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * FORMAT
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean chars_format(character* target, const natural targetSize, const character* format, ...)
 {
@@ -831,13 +818,12 @@ character* string_format_new(const character* format, ...)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* string_Iterator_next(Iterator* iterator)
 {
-
 	_IF(_CHECK(iterator, _ITERATOR_NAME))
 	{
 		if (iterator->node != NULL && iterator->index < iterator->length)
@@ -852,13 +838,12 @@ void* string_Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 integer chars_compare_to(const character* first, const natural firstSize, const character* second, const natural secondSize)
 {
-
 	_IF(_CHECKS(_CHARACTERS_TYPE, first, _CHARACTERS_TYPE, second))
 	{
 		if (first == second && firstSize == secondSize)
@@ -917,9 +902,9 @@ integer string_compare_to(const void* structure, const type type, const void* va
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void chars_release(character* string)
 {
@@ -931,7 +916,7 @@ void string_release(string string)
 	chars_release(string);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean chars_equals(const character* first, const natural firstSize, const character* second, const natural secondSize)
 {
@@ -947,7 +932,7 @@ boolean string_equals(const void* structure, const type type, const void* value)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer chars_hash(const character* structure, const natural size)
 {
@@ -988,7 +973,7 @@ integer string_hash(const void* structure)
 	return chars_hash(structure, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean chars_to_chars(const character* source, const natural sourceSize, character* target, const natural targetSize)
 {
@@ -1000,7 +985,7 @@ boolean chars_append_to_chars(const character* source, const natural sourceSize,
 	return chars_cat(source, sourceSize, sourceSize - 1, target, targetSize);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean chars_to_string(const character* source, const natural sourceSize, string target)
 {
@@ -1012,7 +997,7 @@ boolean chars_append_to_string(const character* source, const natural sourceSize
 	return chars_append_to_chars(source, sourceSize, target, _STRING_SIZE);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean string_to_chars(const string source, string target, const natural targetSize)
 {
@@ -1024,7 +1009,7 @@ boolean string_append_to_chars(const string source, string target, const natural
 	return chars_append_to_chars(source, _STRING_SIZE, target, targetSize);
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean string_to_string(const void* source, string target)
 {

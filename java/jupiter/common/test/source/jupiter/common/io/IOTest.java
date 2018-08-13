@@ -201,23 +201,23 @@ public class IOTest
 	}
 
 	/**
-	 * Test of fatal method, of class IO.
+	 * Test of fail method, of class IO.
 	 */
-	public void testFatal_Object() {
-		IO.test("fatal_Object");
+	public void testFail_Object() {
+		IO.test("fail_Object");
 
 		final String content = "This is a test message";
-		final Message result = IO.fatal(content);
+		final Message result = IO.fail(content);
 		assertEquals(content, result.getContent());
 	}
 
 	/**
-	 * Test of fatal method, of class IO.
+	 * Test of fail method, of class IO.
 	 */
-	public void testFatal_Exception() {
-		IO.test("fatal_Exception");
+	public void testFail_Exception() {
+		IO.test("fail_Exception");
 
-		IO.fatal(new Exception("Test error"));
+		IO.fail(new Exception("Test error"));
 	}
 
 	/**

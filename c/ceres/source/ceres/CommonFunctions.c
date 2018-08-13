@@ -23,23 +23,21 @@
  */
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/CommonFunctions.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * FORMAT
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean format_specifier_to_string(const character* source, va_list* args, string target)
 {
-
 	_IF(_SOURCE_TARGET_CHECK(source, target))
 	{
-
 		_IF(_CHECK(args, _S("list of variable arguments")))
 		{
 			switch (*source)
@@ -189,7 +187,6 @@ boolean format_specifier_to_string(const character* source, va_list* args, strin
 
 boolean format_to_chars(const character* source, va_list* args, character* target, const natural targetSize)
 {
-
 	_IF(_SOURCE_TARGET_ARRAY_CHECK(source, target, targetSize))
 	{
 		/* Declare the iteration variable(s) */
@@ -256,7 +253,6 @@ boolean format_to_chars(const character* source, va_list* args, character* targe
 
 boolean format_to_file(const character* source, va_list* args, FILE* target, const natural targetSize)
 {
-
 	_IF(_SOURCE_TARGET_ARRAY_CHECK(source, target, targetSize))
 	{
 		/* Declare the iteration variable(s) */
@@ -316,13 +312,12 @@ boolean format_to_file(const character* source, va_list* args, FILE* target, con
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * POINTER
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean pointer_to_string(const void* source, string target)
 {
-
 	_IF(_CHECK(target, _STRING_NAME))
 	{
 		if (source == NULL)
@@ -339,15 +334,15 @@ boolean pointer_to_string(const void* source, string target)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * TYPE
- ******************************************************************************/
+ **************************************************************************************************/
 
 natural type_get_size(const type type)
 {
 	switch (type)
 	{
-			/* Primitive types */
+		/* Primitive types */
 		case _BOOLEAN_TYPE:
 			return BOOLEAN_SIZE;
 		case _CHARACTER_TYPE:
@@ -362,10 +357,10 @@ natural type_get_size(const type type)
 			return REAL_SIZE;
 		case _TIME_TYPE:
 			return TIME_SIZE;
-			/* Structure type */
+		/* Structure type */
 		case _STRUCTURE_TYPE:
 			return STRUCTURE_SIZE;
-			/* Basic types */
+		/* Basic types */
 		case _NUMBER_TYPE:
 			return NUMBER_SIZE;
 		case _OBJECT_TYPE:
@@ -374,20 +369,20 @@ natural type_get_size(const type type)
 			return ITERATOR_SIZE;
 		case _ARRAY_TYPE:
 			return ARRAY_SIZE;
-			/* Array types */
+		/* Array types */
 		case _STRING_TYPE:
 			return STRING_SIZE;
 	}
 	return 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean type_is_dynamic(const type type)
 {
 	switch (type)
 	{
-			/* Array types (except string) */
+		/* Array types (except string) */
 		case _BOOLEANS_TYPE:
 		case _CHARACTERS_TYPE:
 		case _DIGITS_TYPE:
@@ -408,7 +403,7 @@ boolean type_is_array(const type type)
 {
 	switch (type)
 	{
-			/* Array types */
+		/* Array types */
 		case _BOOLEANS_TYPE:
 		case _CHARACTERS_TYPE:
 		case _DIGITS_TYPE:
@@ -430,7 +425,7 @@ boolean type_is_numeric(const type type)
 {
 	switch (type)
 	{
-			/* Numeric types */
+		/* Numeric types */
 		case _DIGIT_TYPE:
 		case _INTEGER_TYPE:
 		case _NATURAL_TYPE:
@@ -445,7 +440,7 @@ boolean type_is_Basic(const type type)
 {
 	switch (type)
 	{
-			/* Basic types */
+		/* Basic types */
 		case _BASIC_TYPE:
 		case _COMPARABLE_TYPE:
 		case _NUMBER_TYPE:
@@ -464,7 +459,7 @@ boolean type_is_Comparable(const type type)
 {
 	switch (type)
 	{
-			/* Comparable types */
+		/* Comparable types */
 		case _COMPARABLE_TYPE:
 		case _NUMBER_TYPE:
 		case _OBJECT_TYPE:
@@ -482,7 +477,7 @@ boolean type_is_Iterable(const type type)
 {
 	switch (type)
 	{
-			/* Iterable types */
+		/* Iterable types */
 		case _ITERABLE_TYPE:
 		case _COLLECTION_TYPE:
 		case _LIST_TYPE:
@@ -492,11 +487,10 @@ boolean type_is_Iterable(const type type)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean type_to_string(const void* source, string target)
 {
-
 	_IF(_SOURCE_TARGET_CHECK(source, target))
 	{
 		/* Get the type */
@@ -504,7 +498,7 @@ boolean type_to_string(const void* source, string target)
 
 		switch (*t)
 		{
-				/* Primitive types */
+			/* Primitive types */
 			case _BOOLEAN_TYPE:
 				return string_to_string(_BOOLEAN_NAME, target);
 			case _CHARACTER_TYPE:
@@ -519,10 +513,10 @@ boolean type_to_string(const void* source, string target)
 				return string_to_string(_REAL_NAME, target);
 			case _TIME_TYPE:
 				return string_to_string(_TIME_NAME, target);
-				/* Structure type */
+			/* Structure type */
 			case _STRUCTURE_TYPE:
 				return string_to_string(_STRUCTURE_NAME, target);
-				/* Basic types */
+			/* Basic types */
 			case _BASIC_TYPE:
 				return string_to_string(_BASIC_NAME, target);
 			case _COMPARABLE_TYPE:
@@ -541,7 +535,7 @@ boolean type_to_string(const void* source, string target)
 				return string_to_string(_LIST_NAME, target);
 			case _ARRAY_TYPE:
 				return string_to_string(_ARRAY_NAME, target);
-				/* Array types */
+			/* Array types */
 			case _BOOLEANS_TYPE:
 				return string_to_string(_BOOLEANS_NAME, target);
 			case _CHARACTERS_TYPE:
@@ -566,7 +560,7 @@ boolean type_to_string(const void* source, string target)
 				return string_to_string(_OBJECTS_NAME, target);
 			case _ARRAYS_TYPE:
 				return string_to_string(_ARRAYS_NAME, target);
-				/* Unknown type */
+			/* Unknown type */
 			default:
 				_UNKNOWN_TO_STRING(target);
 		}
@@ -583,9 +577,9 @@ boolean type_append_to_string(const void* source, string target)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * STRUCTURE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Structure Structure_create(const type type, void* value)
 {
@@ -599,9 +593,9 @@ Structure Structure_create(const type type, void* value)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable Comparable_create(function_release functionRelease, function_clone functionClone, function_equals functionEquals, function_hash functionHash, function_to_string functionToString, function_compare_to functionCompareTo)
 {
@@ -619,7 +613,6 @@ Comparable Comparable_create(function_release functionRelease, function_clone fu
 
 integer compare_to(const type firstType, const void* firstValue, const type secondType, const void* secondValue)
 {
-
 	_IF(_CHECKS(firstType, firstValue, secondType, secondValue))
 	{
 		if (firstValue == secondValue)
@@ -630,7 +623,7 @@ integer compare_to(const type firstType, const void* firstValue, const type seco
 		{
 			switch (firstType)
 			{
-					/* Primitive types */
+				/* Primitive types */
 				case _BOOLEAN_TYPE:
 					return boolean_compare_to(firstValue, secondType, secondValue);
 				case _CHARACTER_TYPE:
@@ -645,10 +638,10 @@ integer compare_to(const type firstType, const void* firstValue, const type seco
 					return real_compare_to(firstValue, secondType, secondValue);
 				case _TIME_TYPE:
 					return Time_compare_to(firstValue, secondType, secondValue);
-					/* Structure type */
+				/* Structure type */
 				case _STRUCTURE_TYPE:
 					return Structure_compare_to(firstValue, secondType, secondValue);
-					/* Comparable types */
+				/* Comparable types */
 				case _COMPARABLE_TYPE:
 				case _NUMBER_TYPE:
 				case _OBJECT_TYPE:
@@ -657,10 +650,10 @@ integer compare_to(const type firstType, const void* firstValue, const type seco
 				case _LIST_TYPE:
 				case _ARRAY_TYPE:
 					return Comparable_compare_to(firstValue, secondType, secondValue);
-					/* Array types */
+				/* Array types */
 				case _STRING_TYPE:
 					return string_compare_to(firstValue, secondType, secondValue);
-					/* Unknown type */
+				/* Unknown type */
 				default:
 					_PRINT_WARNING_NO_FUNCTION(_S("compare_to"), firstType);
 			}
@@ -671,7 +664,6 @@ integer compare_to(const type firstType, const void* firstValue, const type seco
 
 integer Structure_compare_to(const void* structure, const type type, const void* value)
 {
-
 	_IF(_CHECKS(_STRUCTURE_TYPE, structure, type, value))
 	{
 		if (structure == value)
@@ -691,7 +683,6 @@ integer Structure_compare_to(const void* structure, const type type, const void*
 
 integer Comparable_compare_to(const void* structure, const type type, const void* value)
 {
-
 	_IF(_CHECKS(_COMPARABLE_TYPE, structure, type, value))
 	{
 		if (structure == value)
@@ -716,7 +707,7 @@ function_compare_to get_function_compare_to(const type type)
 {
 	switch (type)
 	{
-			/* Primitive types */
+		/* Primitive types */
 		case _BOOLEAN_TYPE:
 			return (function_compare_to) boolean_compare_to;
 		case _CHARACTER_TYPE:
@@ -731,10 +722,10 @@ function_compare_to get_function_compare_to(const type type)
 			return (function_compare_to) real_compare_to;
 		case _TIME_TYPE:
 			return (function_compare_to) Time_compare_to;
-			/* Structure type */
+		/* Structure type */
 		case _STRUCTURE_TYPE:
 			return (function_compare_to) Structure_compare_to;
-			/* Comparable types */
+		/* Comparable types */
 		case _COMPARABLE_TYPE:
 		case _NUMBER_TYPE:
 		case _OBJECT_TYPE:
@@ -743,10 +734,10 @@ function_compare_to get_function_compare_to(const type type)
 		case _LIST_TYPE:
 		case _ARRAY_TYPE:
 			return (function_compare_to) Comparable_compare_to;
-			/* Array types */
+		/* Array types */
 		case _STRING_TYPE:
 			return (function_compare_to) string_compare_to;
-			/* Unknown type */
+		/* Unknown type */
 		default:
 			_PRINT_WARNING_NO_FUNCTION(_S("compare_to"), type);
 	}
@@ -765,7 +756,7 @@ integer Structures_compare_to(const Structure* first, const Structure* second)
 		{
 			switch (first->type)
 			{
-					/* Primitive types */
+				/* Primitive types */
 				case _BOOLEAN_TYPE:
 					return boolean_compare_to(first->value, second->type, second->value);
 				case _CHARACTER_TYPE:
@@ -780,10 +771,10 @@ integer Structures_compare_to(const Structure* first, const Structure* second)
 					return real_compare_to(first->value, second->type, second->value);
 				case _TIME_TYPE:
 					return Time_compare_to(first->value, second->type, second->value);
-					/* Structure type */
+				/* Structure type */
 				case _STRUCTURE_TYPE:
 					return Structure_compare_to(first->value, second->type, second->value);
-					/* Comparable types */
+				/* Comparable types */
 				case _COMPARABLE_TYPE:
 				case _NUMBER_TYPE:
 				case _OBJECT_TYPE:
@@ -792,10 +783,10 @@ integer Structures_compare_to(const Structure* first, const Structure* second)
 				case _LIST_TYPE:
 				case _ARRAY_TYPE:
 					return Comparable_compare_to(first->value, second->type, second->value);
-					/* Array types */
+				/* Array types */
 				case _STRING_TYPE:
 					return string_compare_to(first->value, second->type, second->value);
-					/* Structure types */
+				/* Structure types */
 				default:
 				{
 					if (first->type == second->type)
@@ -826,9 +817,9 @@ integer Structures_compare_to(const Structure* first, const Structure* second)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 Basic Basic_create(function_release functionRelease, function_clone functionClone, function_equals functionEquals, function_hash functionHash, function_to_string functionToString)
 {
@@ -843,7 +834,7 @@ Basic Basic_create(function_release functionRelease, function_clone functionClon
 	return b;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void release(Structure* structure)
 {
@@ -857,11 +848,10 @@ void release(Structure* structure)
 	}
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean equals(const type firstType, const void* firstValue, const type secondType, const void* secondValue)
 {
-
 	_IF(_CHECKS(firstType, firstValue, secondType, secondValue))
 	{
 		if (firstValue == secondValue)
@@ -872,7 +862,7 @@ boolean equals(const type firstType, const void* firstValue, const type secondTy
 		{
 			switch (firstType)
 			{
-					/* Primitive types */
+				/* Primitive types */
 				case _BOOLEAN_TYPE:
 					return boolean_equals(firstValue, secondType, secondValue);
 				case _CHARACTER_TYPE:
@@ -887,10 +877,10 @@ boolean equals(const type firstType, const void* firstValue, const type secondTy
 					return real_equals(firstValue, secondType, secondValue);
 				case _TIME_TYPE:
 					return Time_equals(firstValue, secondType, secondValue);
-					/* Structure type */
+				/* Structure type */
 				case _STRUCTURE_TYPE:
 					return Structure_equals(firstValue, secondType, secondValue);
-					/* Basic types */
+				/* Basic types */
 				case _BASIC_TYPE:
 				case _COMPARABLE_TYPE:
 				case _NUMBER_TYPE:
@@ -901,10 +891,10 @@ boolean equals(const type firstType, const void* firstValue, const type secondTy
 				case _LIST_TYPE:
 				case _ARRAY_TYPE:
 					return Basic_equals(firstValue, secondType, secondValue);
-					/* Array types */
+				/* Array types */
 				case _STRING_TYPE:
 					return string_equals(firstValue, secondType, secondValue);
-					/* Unknown type */
+				/* Unknown type */
 				default:
 					_PRINT_WARNING_NO_FUNCTION(_S("equals"), firstType);
 			}
@@ -915,7 +905,6 @@ boolean equals(const type firstType, const void* firstValue, const type secondTy
 
 boolean Structure_equals(const void* structure, const type type, const void* value)
 {
-
 	_IF(_CHECKS(_STRUCTURE_TYPE, structure, type, value))
 	{
 		if (structure == value)
@@ -935,7 +924,6 @@ boolean Structure_equals(const void* structure, const type type, const void* val
 
 boolean Basic_equals(const void* structure, const type type, const void* value)
 {
-
 	_IF(_CHECKS(_BASIC_TYPE, structure, type, value))
 	{
 		if (structure == value)
@@ -960,7 +948,7 @@ function_equals get_function_equals(const type type)
 {
 	switch (type)
 	{
-			/* Primitive types */
+		/* Primitive types */
 		case _BOOLEAN_TYPE:
 			return (function_equals) boolean_equals;
 		case _CHARACTER_TYPE:
@@ -975,10 +963,10 @@ function_equals get_function_equals(const type type)
 			return (function_equals) real_equals;
 		case _TIME_TYPE:
 			return (function_equals) Time_equals;
-			/* Structure type */
+		/* Structure type */
 		case _STRUCTURE_TYPE:
 			return (function_equals) Structure_equals;
-			/* Basic types */
+		/* Basic types */
 		case _BASIC_TYPE:
 		case _COMPARABLE_TYPE:
 		case _NUMBER_TYPE:
@@ -989,10 +977,10 @@ function_equals get_function_equals(const type type)
 		case _LIST_TYPE:
 		case _ARRAY_TYPE:
 			return (function_equals) Basic_equals;
-			/* Array types */
+		/* Array types */
 		case _STRING_TYPE:
 			return (function_equals) string_equals;
-			/* Unknown type */
+		/* Unknown type */
 		default:
 			_PRINT_WARNING_NO_FUNCTION(_S("equals"), type);
 	}
@@ -1011,7 +999,7 @@ boolean Structures_equals(const Structure* first, const Structure* second)
 		{
 			switch (first->type)
 			{
-					/* Primitive types */
+				/* Primitive types */
 				case _BOOLEAN_TYPE:
 					return boolean_equals(first->value, second->type, second->value);
 				case _CHARACTER_TYPE:
@@ -1026,10 +1014,10 @@ boolean Structures_equals(const Structure* first, const Structure* second)
 					return real_equals(first->value, second->type, second->value);
 				case _TIME_TYPE:
 					return Time_equals(first->value, second->type, second->value);
-					/* Structure type */
+				/* Structure type */
 				case _STRUCTURE_TYPE:
 					return Structure_equals(first->value, second->type, second->value);
-					/* Basic types */
+				/* Basic types */
 				case _BASIC_TYPE:
 				case _COMPARABLE_TYPE:
 				case _NUMBER_TYPE:
@@ -1040,10 +1028,10 @@ boolean Structures_equals(const Structure* first, const Structure* second)
 				case _LIST_TYPE:
 				case _ARRAY_TYPE:
 					return Basic_equals(first->value, second->type, second->value);
-					/* Array types */
+				/* Array types */
 				case _STRING_TYPE:
 					return string_equals(first->value, second->type, second->value);
-					/* Structure types */
+				/* Structure types */
 				default:
 				{
 					if (first->type == second->type)
@@ -1064,7 +1052,7 @@ boolean Structures_equals(const Structure* first, const Structure* second)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer hash(const Structure* structure)
 {
@@ -1072,7 +1060,7 @@ integer hash(const Structure* structure)
 	{
 		switch (structure->type)
 		{
-				/* Primitive types */
+			/* Primitive types */
 			case _BOOLEAN_TYPE:
 				return boolean_hash(structure->value);
 			case _CHARACTER_TYPE:
@@ -1087,10 +1075,10 @@ integer hash(const Structure* structure)
 				return real_hash(structure->value);
 			case _TIME_TYPE:
 				return Time_hash(structure->value);
-				/* Structure type */
+			/* Structure type */
 			case _STRUCTURE_TYPE:
 				return Structure_hash(structure->value);
-				/* Basic types */
+			/* Basic types */
 			case _BASIC_TYPE:
 			case _COMPARABLE_TYPE:
 			case _NUMBER_TYPE:
@@ -1101,7 +1089,7 @@ integer hash(const Structure* structure)
 			case _LIST_TYPE:
 			case _ARRAY_TYPE:
 				return Basic_hash(structure->value);
-				/* Array types */
+			/* Array types */
 			case _STRING_TYPE:
 				return string_hash(structure->value);
 			default:
@@ -1113,7 +1101,6 @@ integer hash(const Structure* structure)
 
 integer Structure_hash(const void* structure)
 {
-
 	_IF(_CHECK(structure, _STRUCTURE_NAME))
 	{
 		/* Get the Structure */
@@ -1132,7 +1119,6 @@ integer Structure_hash(const void* structure)
 
 integer Basic_hash(const void* structure)
 {
-
 	_IF(_CHECK(structure, _BASIC_NAME))
 	{
 		/* Get the Hashable structure */
@@ -1150,7 +1136,7 @@ function_hash get_function_hash(const type type)
 {
 	switch (type)
 	{
-			/* Primitive types */
+		/* Primitive types */
 		case _BOOLEAN_TYPE:
 			return boolean_hash;
 		case _CHARACTER_TYPE:
@@ -1165,10 +1151,10 @@ function_hash get_function_hash(const type type)
 			return real_hash;
 		case _TIME_TYPE:
 			return Time_hash;
-			/* Structure type */
+		/* Structure type */
 		case _STRUCTURE_TYPE:
 			return Structure_hash;
-			/* Basic types */
+		/* Basic types */
 		case _BASIC_TYPE:
 		case _COMPARABLE_TYPE:
 		case _NUMBER_TYPE:
@@ -1179,21 +1165,20 @@ function_hash get_function_hash(const type type)
 		case _LIST_TYPE:
 		case _ARRAY_TYPE:
 			return Basic_hash;
-			/* Array types */
+		/* Array types */
 		case _STRING_TYPE:
 			return string_hash;
-			/* Unknown type */
+		/* Unknown type */
 		default:
 			_PRINT_WARNING_NO_FUNCTION(_S("hash"), type);
 	}
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean to_string(const void* source, const type type, string target)
 {
-
 	_IF(_CHECK(target, _STRING_NAME))
 	{
 		if (source == NULL)
@@ -1204,7 +1189,7 @@ boolean to_string(const void* source, const type type, string target)
 		{
 			switch (type)
 			{
-					/* Primitive types */
+				/* Primitive types */
 				case _BOOLEAN_TYPE:
 					return boolean_to_string(source, target);
 				case _CHARACTER_TYPE:
@@ -1219,10 +1204,10 @@ boolean to_string(const void* source, const type type, string target)
 					return real_to_string(source, target);
 				case _TIME_TYPE:
 					return Time_to_string(source, target);
-					/* Structure type */
+				/* Structure type */
 				case _STRUCTURE_TYPE:
 					return Structure_to_string(source, target);
-					/* Basic types */
+				/* Basic types */
 				case _BASIC_TYPE:
 				case _COMPARABLE_TYPE:
 				case _NUMBER_TYPE:
@@ -1233,7 +1218,7 @@ boolean to_string(const void* source, const type type, string target)
 				case _LIST_TYPE:
 				case _ARRAY_TYPE:
 					return Basic_to_string(source, target);
-					/* Array types */
+				/* Array types */
 				case _STRING_TYPE:
 					return string_to_string(source, target);
 				default:
@@ -1246,7 +1231,6 @@ boolean to_string(const void* source, const type type, string target)
 
 boolean Structure_to_string(const void* source, string target)
 {
-
 	_IF(_SOURCE_TARGET_CHECK(source, target))
 	{
 		/* Get the Structure */
@@ -1265,7 +1249,6 @@ boolean Structure_to_string(const void* source, string target)
 
 boolean Basic_to_string(const void* source, string target)
 {
-
 	_IF(_SOURCE_TARGET_CHECK(source, target))
 	{
 		/* Get the Stringable structure */
@@ -1283,7 +1266,7 @@ function_to_string get_function_to_string(const type type)
 {
 	switch (type)
 	{
-			/* Primitive types */
+		/* Primitive types */
 		case _BOOLEAN_TYPE:
 			return boolean_to_string;
 		case _CHARACTER_TYPE:
@@ -1298,10 +1281,10 @@ function_to_string get_function_to_string(const type type)
 			return real_to_string;
 		case _TIME_TYPE:
 			return Time_to_string;
-			/* Structure type */
+		/* Structure type */
 		case _STRUCTURE_TYPE:
 			return Structure_to_string;
-			/* Basic types */
+		/* Basic types */
 		case _BASIC_TYPE:
 		case _COMPARABLE_TYPE:
 		case _NUMBER_TYPE:
@@ -1312,10 +1295,10 @@ function_to_string get_function_to_string(const type type)
 		case _LIST_TYPE:
 		case _ARRAY_TYPE:
 			return Basic_to_string;
-			/* Array types */
+		/* Array types */
 		case _STRING_TYPE:
 			return string_to_string;
-			/* Unknown type */
+		/* Unknown type */
 		default:
 			_PRINT_WARNING_NO_FUNCTION(_S("to_string"), type);
 	}
@@ -1350,7 +1333,7 @@ function_append_to_string get_function_append_to_string(const type type)
 {
 	switch (type)
 	{
-			/* Primitive types */
+		/* Primitive types */
 		case _BOOLEAN_TYPE:
 			return boolean_append_to_string;
 		case _CHARACTER_TYPE:
@@ -1365,10 +1348,10 @@ function_append_to_string get_function_append_to_string(const type type)
 			return real_append_to_string;
 		case _TIME_TYPE:
 			return Time_append_to_string;
-			/* Structure type */
+		/* Structure type */
 		case _STRUCTURE_TYPE:
 			return Structure_append_to_string;
-			/* Basic types */
+		/* Basic types */
 		case _BASIC_TYPE:
 		case _COMPARABLE_TYPE:
 		case _NUMBER_TYPE:
@@ -1379,10 +1362,10 @@ function_append_to_string get_function_append_to_string(const type type)
 		case _LIST_TYPE:
 		case _ARRAY_TYPE:
 			return Basic_append_to_string;
-			/* Array types */
+		/* Array types */
 		case _STRING_TYPE:
 			return string_append_to_string;
-			/* Unknown type */
+		/* Unknown type */
 		default:
 			_PRINT_WARNING_NO_FUNCTION(_S("append_to_string"), type);
 	}
@@ -1390,9 +1373,9 @@ function_append_to_string get_function_append_to_string(const type type)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CORE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Core Core_create(const boolean isDynamic, const boolean isElement, const boolean isBasic, const boolean isComparable)
 {

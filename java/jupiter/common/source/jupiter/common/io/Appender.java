@@ -48,14 +48,14 @@ public abstract class Appender
 			case RESULT:
 				result(message.getContent());
 				break;
-			case WARN:
+			case WARNING:
 				warn(message.getContent());
 				break;
 			case ERROR:
 				error(message.getContent());
 				break;
-			case FATAL:
-				fatal(message.getContent());
+			case FAILURE:
+				fail(message.getContent());
 				break;
 		}
 	}
@@ -102,7 +102,7 @@ public abstract class Appender
 
 	/**
 	 * Writes the specified object in the log indicating the severity level
-	 * {@link IO.SeverityLevel#WARN}.
+	 * {@link IO.SeverityLevel#WARNING}.
 	 * <p>
 	 * @param content the {@link Object} to print
 	 */
@@ -126,17 +126,17 @@ public abstract class Appender
 
 	/**
 	 * Prints the message of the specified exception in the console and writes it in the error log
-	 * indicating the severity level {@link IO.SeverityLevel#FATAL}.
+	 * indicating the severity level {@link IO.SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param exception the {@link Exception} to print
 	 */
-	public abstract void fatal(final Exception exception);
+	public abstract void fail(final Exception exception);
 
 	/**
 	 * Prints the specified object in the console and writes it in the error log indicating the
-	 * severity level {@link IO.SeverityLevel#FATAL}.
+	 * severity level {@link IO.SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param content the {@link Object} to print
 	 */
-	public abstract void fatal(final Object content);
+	public abstract void fail(final Object content);
 }

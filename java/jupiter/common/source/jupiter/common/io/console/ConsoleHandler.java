@@ -144,11 +144,11 @@ public class ConsoleHandler
 				case RESULT:
 					color = Strings.toString(Color.BLACK);
 					break;
-				case WARN:
+				case WARNING:
 					color = Strings.toString(Color.YELLOW);
 					break;
 				case ERROR:
-				case FATAL:
+				case FAILURE:
 				default:
 					color = Strings.toString(Color.RED);
 			}

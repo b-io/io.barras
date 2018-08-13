@@ -99,7 +99,7 @@ public class WorkQueue<I, O>
 				nCreatedWorkers += createWorker();
 			}
 		} catch (final Exception ex) {
-			IO.fatal(ex);
+			IO.fail(ex);
 		}
 		return nCreatedWorkers;
 	}

@@ -79,14 +79,14 @@ public class Messages
 			case INFO:
 				return createOutputPrefix(level);
 			case TEST:
-			case WARN:
+			case WARNING:
 				return createOutputPrefix(level, simpleClassName);
 			case DEBUG:
 			case ERROR:
 				return createOutputPrefix(level, simpleClassName,
 						stackTraceElement.getMethodName());
 			case TRACE:
-			case FATAL:
+			case FAILURE:
 				return createOutputPrefix(level, simpleClassName, stackTraceElement.getMethodName(),
 						stackTraceElement.getLineNumber());
 			default:

@@ -77,7 +77,7 @@ public class GraphicalConsole {
 		} catch (final InstantiationException ignored) {
 		} catch (final UnsupportedLookAndFeelException ignored) {
 		} catch (final UnsupportedEncodingException ex) {
-			IO.fatal(ex);
+			IO.fail(ex);
 		}
 	}
 
