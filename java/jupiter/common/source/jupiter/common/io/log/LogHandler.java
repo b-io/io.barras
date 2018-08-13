@@ -57,15 +57,29 @@ public class LogHandler
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The log directory
+	/**
+	 * The log directory.
+	 */
 	protected volatile String logDir;
-	// The output log
-	protected final Lock outputLogLock = new ReentrantLock();
+
+	/**
+	 * The output log path.
+	 */
 	protected volatile String outputLogPath;
+	/**
+	 * The internal lock of the output log.
+	 */
+	protected final Lock outputLogLock = new ReentrantLock();
 	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
-	// The error log
-	protected final Lock errorLogLock = new ReentrantLock();
+
+	/**
+	 * The error log path.
+	 */
 	protected volatile String errorLogPath;
+	/**
+	 * The internal lock of the error log.
+	 */
+	protected final Lock errorLogLock = new ReentrantLock();
 	protected final StringBuilder errorLineBuilder = Strings.createBuilder();
 
 

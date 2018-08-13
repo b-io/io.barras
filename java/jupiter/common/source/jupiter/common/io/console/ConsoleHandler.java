@@ -45,7 +45,9 @@ public class ConsoleHandler
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The console to handle
+	/**
+	 * The console to handle.
+	 */
 	protected IConsole console = new SystemConsole();
 
 

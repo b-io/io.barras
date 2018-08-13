@@ -52,21 +52,47 @@ public class LockedWorkQueue<I, O>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Threads
+	/**
+	 * The running flag.
+	 */
 	protected volatile boolean isRunning = true;
-	// Workers
+
+	/**
+	 * The worker model.
+	 */
 	protected final Worker<I, O> model;
+	/**
+	 * The workers.
+	 */
 	protected final Stack<Worker<I, O>> workers = new Stack<Worker<I, O>>();
+	/**
+	 * The internal lock of the workers.
+	 */
 	protected final Lock workersLock = new ReentrantLock();
 	protected volatile int nWorkers = 0;
 	protected volatile int nReservedWorkers = 0;
-	// Tasks
+
+	/**
+	 * The tasks.
+	 */
 	protected final LinkedList<Pair<Long, I>> tasks = new LinkedList<Pair<Long, I>>();
+	/**
+	 * The internal lock of the tasks.
+	 */
 	protected final Lock tasksLock = new ReentrantLock();
 	protected final Condition tasksLockCondition = tasksLock.newCondition();
-	protected volatile long currentId = 0L;
-	// Results
+	/**
+	 * The current task identifier.
+	 */
+	protected volatile long currentTaskId = 0L;
+
+	/**
+	 * The results.
+	 */
 	protected final Map<Long, O> results = new HashMap<Long, O>(Arrays.DEFAULT_CAPACITY);
+	/**
+	 * The internal lock of the results.
+	 */
 	protected final Lock resultsLock = new ReentrantLock();
 	protected final Condition resultsLockCondition = resultsLock.newCondition();
 
@@ -186,11 +212,11 @@ public class LockedWorkQueue<I, O>
 	public long submit(final I input) {
 		tasksLock.lock();
 		try {
-			++currentId;
-			IO.debug("Add the task ", currentId);
-			tasks.add(new Pair<Long, I>(currentId, input));
+			++currentTaskId;
+			IO.debug("Add the task ", currentTaskId);
+			tasks.add(new Pair<Long, I>(currentTaskId, input));
 			tasksLockCondition.signal();
-			return currentId;
+			return currentTaskId;
 		} finally {
 			tasksLock.unlock();
 		}

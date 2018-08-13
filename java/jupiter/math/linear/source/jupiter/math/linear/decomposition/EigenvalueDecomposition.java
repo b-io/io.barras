@@ -71,9 +71,13 @@ public class EigenvalueDecomposition
 	protected final double[][] V;
 	// The non-symmetric Hessenberg form
 	protected double[][] H;
-	// The internal storage of the non-symmetric algorithm
+	/**
+	 * The internal storage of the non-symmetric algorithm.
+	 */
 	protected double[] ort;
-	// The complex scalar division
+	/**
+	 * The complex scalar division.
+	 */
 	protected double cdivr, cdivi;
 
 

@@ -53,6 +53,9 @@ public class IOAppender
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected final IO io;
+	/**
+	 * The internal lock of the IO.
+	 */
 	protected final Lock ioLock = new ReentrantLock();
 
 

@@ -58,12 +58,18 @@ public class ProgressBar {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The maximum number of symbols in the progress bar (excluding the wrapping symbols)
+	/**
+	 * The maximum number of symbols in the progress bar (excluding the wrapping symbols).
+	 */
 	protected final int length;
-	// The option specifying whether to print in the standard error or in the standard output
+	/**
+	 * The option specifying whether to print in the standard error or in the standard output.
+	 */
 	protected final boolean isError;
 
-	// The current number of symbols in the progress bar (excluding the wrapping symbols)
+	/**
+	 * The current number of symbols in the progress bar (excluding the wrapping symbols).
+	 */
 	protected volatile int progress = 0;
 
 

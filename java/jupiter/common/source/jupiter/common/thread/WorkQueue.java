@@ -49,17 +49,34 @@ public class WorkQueue<I, O>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Threads
+	/**
+	 * The running flag.
+	 */
 	protected volatile boolean isRunning = true;
-	// Workers
+
+	/**
+	 * The worker model.
+	 */
 	protected final Worker<I, O> model;
+	/**
+	 * The workers.
+	 */
 	protected final Stack<Worker<I, O>> workers = new Stack<Worker<I, O>>();
 	protected volatile int nWorkers = 0;
 	protected volatile int nReservedWorkers = 0;
-	// Tasks
+
+	/**
+	 * The tasks.
+	 */
 	protected final LinkedList<Pair<Long, I>> tasks = new LinkedList<Pair<Long, I>>();
-	protected volatile long currentId = 0L;
-	// Results
+	/**
+	 * The current task identifier.
+	 */
+	protected volatile long currentTaskId = 0L;
+
+	/**
+	 * The results.
+	 */
 	protected final Map<Long, O> results = new HashMap<Long, O>(Arrays.DEFAULT_CAPACITY);
 
 
@@ -172,11 +189,11 @@ public class WorkQueue<I, O>
 	 */
 	public long submit(final I input) {
 		synchronized (tasks) {
-			++currentId;
-			IO.debug("Add the task ", currentId);
-			tasks.addLast(new Pair<Long, I>(currentId, input));
+			++currentTaskId;
+			IO.debug("Add the task ", currentTaskId);
+			tasks.addLast(new Pair<Long, I>(currentTaskId, input));
 			tasks.notifyAll();
-			return currentId;
+			return currentTaskId;
 		}
 	}
 

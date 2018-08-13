@@ -41,9 +41,14 @@ public class ReservedThreadPoolExecutor
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The maximum thread pool size
+	/**
+	 * The maximum thread pool size.
+	 */
 	protected final int maxPoolSize;
-	// The internal lock for submission
+
+	/**
+	 * The internal lock for submission.
+	 */
 	protected final ReentrantLock submitLock = new ReentrantLock();
 
 
