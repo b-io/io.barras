@@ -60,13 +60,25 @@ public class LUDecomposition
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The row and column dimensions
-	protected final int m, n;
-	// The decomposition
+	/**
+	 * The row dimension.
+	 */
+	protected final int m;
+	/**
+	 * The column dimension.
+	 */
+	protected final int n;
+	/**
+	 * The decomposition.
+	 */
 	protected final double[][] LU;
-	// The pivot vector
+	/**
+	 * The pivot vector.
+	 */
 	protected final int[] pivot;
-	// The pivot sign
+	/**
+	 * The pivot sign.
+	 */
 	protected int pivotSign;
 
 

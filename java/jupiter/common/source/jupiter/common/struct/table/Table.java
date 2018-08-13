@@ -76,9 +76,13 @@ public class Table<T>
 	 */
 	protected final Class<T> c;
 	/**
-	 * The row and column numbers.
+	 * The number of rows.
 	 */
-	protected int m, n;
+	protected int m;
+	/**
+	 * The number of columns.
+	 */
+	protected int n;
 	/**
 	 * The header.
 	 */

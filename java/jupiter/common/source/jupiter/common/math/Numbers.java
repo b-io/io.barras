@@ -210,14 +210,14 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code type} is assignable to a number, {@code false} otherwise.
+	 * Returns {@code true} if {@code c} is assignable to a number, {@code false} otherwise.
 	 * <p>
-	 * @param type a {@link Class}
+	 * @param c a {@link Class}
 	 * <p>
-	 * @return {@code true} if {@code type} is assignable to a number, {@code false} otherwise
+	 * @return {@code true} if {@code c} is assignable to a number, {@code false} otherwise
 	 */
-	public static boolean isNumber(final Class<?> type) {
-		return Number.class.isAssignableFrom(type);
+	public static boolean isNumber(final Class<?> c) {
+		return Number.class.isAssignableFrom(c);
 	}
 
 	/**

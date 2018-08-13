@@ -38,7 +38,7 @@ public class Hasher<I>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Hasher(final Class<Integer> type) {
+	public Hasher(final Class<Integer> c) {
 		super(Integer.class);
 	}
 

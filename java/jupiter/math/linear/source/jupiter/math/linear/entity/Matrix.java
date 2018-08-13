@@ -114,9 +114,17 @@ public class Matrix
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The row and column dimensions
-	protected final int m, n;
-	// The elements
+	/**
+	 * The row dimension.
+	 */
+	protected final int m;
+	/**
+	 * The column dimension.
+	 */
+	protected final int n;
+	/**
+	 * The elements.
+	 */
 	protected final double[][] elements;
 
 

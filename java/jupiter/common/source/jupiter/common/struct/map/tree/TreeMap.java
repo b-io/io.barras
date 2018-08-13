@@ -49,9 +49,13 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The root
+	/**
+	 * The root.
+	 */
 	protected N root = null;
-	// The number of nodes (key-value mappings)
+	/**
+	 * The number of nodes (key-value mappings).
+	 */
 	protected int size = 0;
 
 

@@ -61,11 +61,21 @@ public class SingularValueDecomposition
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The row and column dimensions
-	protected final int m, n;
-	// The decomposition
+	/**
+	 * The row dimension.
+	 */
+	protected final int m;
+	/**
+	 * The column dimension.
+	 */
+	protected final int n;
+	/**
+	 * The decomposition.
+	 */
 	protected final double[][] U, V;
-	// The singular values
+	/**
+	 * The singular values.
+	 */
 	protected final double[] s;
 
 

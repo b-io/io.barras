@@ -61,22 +61,32 @@ public class EigenvalueDecomposition
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The row and column dimension (square matrix)
-	protected final int n;
-	// The symmetric flag
+	/**
+	 * The row and column dimension (square matrix).
+	 */
+	protected final int dimension;
+	/**
+	 * The symmetric flag.
+	 */
 	protected boolean isSymmetric;
-	// The eigenvalues
+	/**
+	 * The eigenvalues.
+	 */
 	protected final double[] d, e;
-	// The eigenvectors
+	/**
+	 * The eigenvectors.
+	 */
 	protected final double[][] V;
-	// The non-symmetric Hessenberg form
+	/**
+	 * The non-symmetric Hessenberg form.
+	 */
 	protected double[][] H;
 	/**
 	 * The internal storage of the non-symmetric algorithm.
 	 */
 	protected double[] ort;
 	/**
-	 * The complex scalar division.
+	 * The internal storage of the complex scalar division.
 	 */
 	protected double cdivr, cdivi;
 
@@ -94,31 +104,31 @@ public class EigenvalueDecomposition
 	public EigenvalueDecomposition(final Matrix A) {
 		// Initialize
 		final double[][] elements = A.getElements();
-		n = A.getColumnDimension();
+		dimension = A.getColumnDimension();
 		isSymmetric = true;
-		for (int j = 0; j < n & isSymmetric; ++j) {
-			for (int i = 0; i < n & isSymmetric; ++i) {
+		for (int j = 0; j < dimension & isSymmetric; ++j) {
+			for (int i = 0; i < dimension & isSymmetric; ++i) {
 				isSymmetric = elements[i][j] == elements[j][i];
 			}
 		}
-		d = new double[n];
-		e = new double[n];
-		V = new double[n][n];
+		d = new double[dimension];
+		e = new double[dimension];
+		V = new double[dimension][dimension];
 
 		// Decompose
 		if (isSymmetric) {
-			for (int i = 0; i < n; ++i) {
-				System.arraycopy(elements[i], 0, V[i], 0, n);
+			for (int i = 0; i < dimension; ++i) {
+				System.arraycopy(elements[i], 0, V[i], 0, dimension);
 			}
 			// Tridiagonalize
 			tred2();
 			// Diagonalize
 			tql2();
 		} else {
-			H = new double[n][n];
-			ort = new double[n];
-			for (int j = 0; j < n; ++j) {
-				for (int i = 0; i < n; ++i) {
+			H = new double[dimension][dimension];
+			ort = new double[dimension];
+			for (int j = 0; j < dimension; ++j) {
+				for (int i = 0; i < dimension; ++i) {
 					H[i][j] = elements[i][j];
 				}
 			}
@@ -140,7 +150,7 @@ public class EigenvalueDecomposition
 	 * @return the eigenvector matrix {@code V}
 	 */
 	public Matrix getV() {
-		return new Matrix(n, n, V);
+		return new Matrix(dimension, dimension, V);
 	}
 
 	/**
@@ -167,10 +177,10 @@ public class EigenvalueDecomposition
 	 * @return the block diagonal eigenvalue matrix {@code D}
 	 */
 	public Matrix getD() {
-		final Matrix X = new Matrix(n, n);
+		final Matrix X = new Matrix(dimension, dimension);
 		final double[][] D = X.getElements();
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < n; ++j) {
+		for (int i = 0; i < dimension; ++i) {
+			for (int j = 0; j < dimension; ++j) {
 				D[i][j] = 0.;
 			}
 			D[i][i] = d[i];
@@ -196,10 +206,10 @@ public class EigenvalueDecomposition
 	 */
 	protected void tred2() {
 		// Initialize
-		System.arraycopy(V[n - 1], 0, d, 0, n);
+		System.arraycopy(V[dimension - 1], 0, d, 0, dimension);
 
 		// Iterate over the row and column index
-		for (int i = n - 1; i > 0; --i) {
+		for (int i = dimension - 1; i > 0; --i) {
 			// Scale to avoid under / overflow
 			double scale = 0.;
 			double h = 0.;
@@ -264,8 +274,8 @@ public class EigenvalueDecomposition
 		}
 
 		// Accumulate the transformations
-		for (int i = 0; i < n - 1; ++i) {
-			V[n - 1][i] = V[i][i];
+		for (int i = 0; i < dimension - 1; ++i) {
+			V[dimension - 1][i] = V[i][i];
 			V[i][i] = 1.;
 			final double h = d[i + 1];
 			if (h != 0.) {
@@ -286,11 +296,11 @@ public class EigenvalueDecomposition
 				V[k][i + 1] = 0.;
 			}
 		}
-		for (int j = 0; j < n; ++j) {
-			d[j] = V[n - 1][j];
-			V[n - 1][j] = 0.;
+		for (int j = 0; j < dimension; ++j) {
+			d[j] = V[dimension - 1][j];
+			V[dimension - 1][j] = 0.;
 		}
-		V[n - 1][n - 1] = 1.;
+		V[dimension - 1][dimension - 1] = 1.;
 		e[0] = 0.;
 	}
 
@@ -302,20 +312,20 @@ public class EigenvalueDecomposition
 	 */
 	protected void tql2() {
 		// Initialize
-		for (int i = 1; i < n; ++i) {
+		for (int i = 1; i < dimension; ++i) {
 			e[i - 1] = e[i];
 		}
-		e[n - 1] = 0.;
+		e[dimension - 1] = 0.;
 		double f = 0.;
 		double tst1 = 0.;
 		final double eps = Maths.DEFAULT_TOLERANCE;
 
 		// Iterate over the row and column index
-		for (int l = 0; l < n; ++l) {
+		for (int l = 0; l < dimension; ++l) {
 			// Find a small subdiagonal element
 			tst1 = Math.max(tst1, Math.abs(d[l]) + Math.abs(e[l]));
 			int m = l;
-			while (m < n && Math.abs(e[m]) > eps * tst1) {
+			while (m < dimension && Math.abs(e[m]) > eps * tst1) {
 				++m;
 			}
 			// If m == l, d[l] is an eigenvalue, iterate otherwise
@@ -334,7 +344,7 @@ public class EigenvalueDecomposition
 					d[l + 1] = e[l] * (p + r);
 					final double dl1 = d[l + 1];
 					double h = g - d[l];
-					for (int i = l + 2; i < n; ++i) {
+					for (int i = l + 2; i < dimension; ++i) {
 						d[i] -= h;
 					}
 					f += h;
@@ -359,7 +369,7 @@ public class EigenvalueDecomposition
 						p = c * d[i] - s * g;
 						d[i + 1] = h + s * (c * g + s * d[i]);
 						// Accumulate the transformations
-						for (int k = 0; k < n; ++k) {
+						for (int k = 0; k < dimension; ++k) {
 							h = V[k][i + 1];
 							V[k][i + 1] = s * V[k][i] + c * h;
 							V[k][i] = c * V[k][i] - s * h;
@@ -375,10 +385,10 @@ public class EigenvalueDecomposition
 		}
 
 		// Sort the eigenvalues and the corresponding vectors
-		for (int i = 0; i < n - 1; ++i) {
+		for (int i = 0; i < dimension - 1; ++i) {
 			int k = i;
 			double p = d[i];
-			for (int j = i + 1; j < n; ++j) {
+			for (int j = i + 1; j < dimension; ++j) {
 				if (d[j] < p) {
 					k = j;
 					p = d[j];
@@ -387,7 +397,7 @@ public class EigenvalueDecomposition
 			if (k != i) {
 				d[k] = d[i];
 				d[i] = p;
-				for (int j = 0; j < n; ++j) {
+				for (int j = 0; j < dimension; ++j) {
 					p = V[j][i];
 					V[j][i] = V[j][k];
 					V[j][k] = p;
@@ -405,7 +415,7 @@ public class EigenvalueDecomposition
 	protected void orthes() {
 		// Initialize
 		final int low = 0;
-		final int high = n - 1;
+		final int high = dimension - 1;
 
 		// Iterate over the row and column index
 		for (int m = low + 1; m <= high - 1; ++m) {
@@ -429,7 +439,7 @@ public class EigenvalueDecomposition
 				ort[m] -= g;
 				// Apply the Householder similarity transformation
 				// H := (I - u * u' / h) * H * (I - u * u' * / h)
-				for (int j = m; j < n; ++j) {
+				for (int j = m; j < dimension; ++j) {
 					double f = 0.;
 					for (int i = high; i >= m; --i) {
 						f += ort[i] * H[i][j];
@@ -455,8 +465,8 @@ public class EigenvalueDecomposition
 		}
 
 		// Accumulate the transformations (Algol's ortran)
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < n; ++j) {
+		for (int i = 0; i < dimension; ++i) {
+			for (int j = 0; j < dimension; ++j) {
 				V[i][j] = i == j ? 1. : 0.;
 			}
 		}
@@ -511,7 +521,7 @@ public class EigenvalueDecomposition
 	 */
 	protected void hqr2() {
 		// Initialize
-		final int nn = n;
+		final int nn = dimension;
 		int n = nn - 1;
 		final int low = 0;
 		final int high = nn - 1;
@@ -680,7 +690,7 @@ public class EigenvalueDecomposition
 						H[i][i - 3] = 0.;
 					}
 				}
-				// Perform the double QR step involving the rows l:n and the columns m:n
+				// Perform the double QR step involving the rows l:dimension and the columns m:dimension
 				for (int k = m; k <= n - 1; ++k) {
 					final boolean isNotLast = k != n - 1;
 					if (k != m) {
@@ -744,7 +754,7 @@ public class EigenvalueDecomposition
 					} // (s != 0.)
 				} // k loop
 			} // test the convergence
-		} // while (n >= low)
+		} // while (dimension >= low)
 
 		// Backsubstitute to find the vectors of the upper triangular form
 		if (norm == 0.) {

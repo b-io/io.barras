@@ -47,20 +47,20 @@ public class Sqls {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Object convert(final Class<?> type, final String string) {
+	public static Object convert(final Class<?> c, final String string) {
 		if (isNull(string)) {
 			return null;
 		}
-		if (Boolean.class.isAssignableFrom(type)) {
+		if (Boolean.class.isAssignableFrom(c)) {
 			return Integer.valueOf(string) == 1;
-		} else if (Numbers.isNumber(type)) {
-			return Numbers.toNumber(type, string);
-		} else if (String.class.isAssignableFrom(type)) {
+		} else if (Numbers.isNumber(c)) {
+			return Numbers.toNumber(c, string);
+		} else if (String.class.isAssignableFrom(c)) {
 			return string;
-		} else if (Timestamp.class.isAssignableFrom(type)) {
+		} else if (Timestamp.class.isAssignableFrom(c)) {
 			return Timestamp.valueOf(string);
 		}
-		throw new IllegalArgumentException("Unknown type: " + type);
+		throw new IllegalArgumentException("Unknown class: " + c);
 	}
 
 

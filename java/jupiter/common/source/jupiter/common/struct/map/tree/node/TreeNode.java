@@ -47,7 +47,13 @@ public class TreeNode<K extends Comparable<K>, V>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The key.
+	 */
 	public K key;
+	/**
+	 * The value.
+	 */
 	public V value;
 
 
