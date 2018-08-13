@@ -23,8 +23,9 @@ X64
 *.prefs
 
 # Netbeans
-nb-configuration.xml
 nbproject
+nb-configuration.xml
+nbactions.xml
 
 # Visual Studio
 .vs
