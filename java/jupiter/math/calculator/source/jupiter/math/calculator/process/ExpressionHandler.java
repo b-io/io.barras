@@ -58,20 +58,27 @@ public class ExpressionHandler {
 	 */
 	protected static final boolean USE_THREADS = true;
 
+	/**
+	 * The list of binary operators.
+	 */
+	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.toList(
+			Arrays.toList('+', '-'), Arrays.toList('*', '/'), Arrays.<Character>toList('^'),
+			Arrays.toList('~'));
+	/**
+	 * The list of unary operators.
+	 */
+	protected static final List<List<Character>> UNARY_OPERATORS = Arrays
+			.toList(Arrays.toList('!', '\''), Arrays.toList('@'));
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The thread pool
+	/**
+	 * The thread pool.
+	 */
 	protected static LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>> THREAD_POOL = null;
-	// The list of binary operators
-	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.toList(
-			Arrays.toList('+', '-'), Arrays.toList('*', '/'), Arrays.<Character>toList('^'),
-			Arrays.toList('~'));
-	// The list of unary operators
-	protected static final List<List<Character>> UNARY_OPERATORS = Arrays
-			.toList(Arrays.toList('!', '\''), Arrays.toList('@'));
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

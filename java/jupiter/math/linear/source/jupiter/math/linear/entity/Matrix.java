@@ -2193,9 +2193,9 @@ public class Matrix
 	public String toString(final int columnWidth, final boolean multiLines) {
 		final StringBuilder builder;
 		if (multiLines) {
-			builder = Strings.createBuilder(m + m * n * (Formats.NUMBER_SIZE + 1));
+			builder = Strings.createBuilder(m + m * n * (Formats.DEFAULT_NUMBER_LENGTH + 1));
 		} else {
-			builder = Strings.createBuilder(2 + m + m * n * (Formats.NUMBER_SIZE + 1));
+			builder = Strings.createBuilder(2 + m + m * n * (Formats.DEFAULT_NUMBER_LENGTH + 1));
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {

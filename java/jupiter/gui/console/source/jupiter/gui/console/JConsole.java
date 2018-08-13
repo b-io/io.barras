@@ -528,7 +528,11 @@ public class JConsole
 	// ACTION LISTENER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Handle cut, copy and paste
+	/**
+	 * Handles cut, copy and paste.
+	 * <p>
+	 * @param event an {@link ActionEvent}
+	 */
 	public void actionPerformed(final ActionEvent event) {
 		final String cmd = event.getActionCommand();
 		if (cmd.equals(CUT)) {

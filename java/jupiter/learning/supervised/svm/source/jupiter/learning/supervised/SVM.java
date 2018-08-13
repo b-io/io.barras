@@ -63,23 +63,33 @@ public class SVM {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The number n of features
+	/**
+	 * The number of features n.
+	 */
 	protected final int nFeatures;
-
-	// The number m of training examples
+	/**
+	 * The number of training examples m.
+	 */
 	protected int mTrainingExamples;
 
-	// The probability estimates
-	protected final HashMap<Integer, Double> probabilityEstimates;
-
-	// The problem
+	/**
+	 * The problem.
+	 */
 	protected final svm_problem problem;
-
-	// The parameters
+	/**
+	 * The parameters.
+	 */
 	protected final svm_parameter parameters;
 
-	// The model
+	/**
+	 * The model.
+	 */
 	protected svm_model model;
+
+	/**
+	 * The probability estimates (per class).
+	 */
+	protected final HashMap<Integer, Double> probabilityEstimates;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,10 +104,10 @@ public class SVM {
 	public SVM(final int nFeatures) {
 		this.nFeatures = nFeatures;
 		mTrainingExamples = 0;
-		probabilityEstimates = new HashMap<Integer, Double>(Arrays.DEFAULT_CAPACITY);
 		problem = new svm_problem();
 		parameters = new svm_parameter();
 		setDefaultParameters();
+		probabilityEstimates = new HashMap<Integer, Double>(Arrays.DEFAULT_CAPACITY);
 	}
 
 
@@ -449,11 +459,11 @@ public class SVM {
 		final int totalClasses = model.nr_class;
 		final int[] labels = new int[totalClasses];
 		svm.svm_get_labels(model, labels);
-		final double[] probabilityEstimates = new double[totalClasses];
-		final int prediction = Maths
-				.roundToInt(svm.svm_predict_probability(model, nodes, probabilityEstimates));
+		final double[] probabilityEstimatesPerClass = new double[totalClasses];
+		final int prediction = Maths.roundToInt(
+				svm.svm_predict_probability(model, nodes, probabilityEstimatesPerClass));
 		for (int i = 0; i < totalClasses; ++i) {
-			this.probabilityEstimates.put(labels[i], probabilityEstimates[i]);
+			probabilityEstimates.put(labels[i], probabilityEstimatesPerClass[i]);
 		}
 		return prediction;
 	}

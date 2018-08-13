@@ -42,7 +42,6 @@ public class Chronometer {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Information of the chronometer
 	protected final long[] time = new long[N_TIME_UNITS];
 	protected final double[] timeByUnit = new double[N_TIME_UNITS];
 	protected long begin = 0L, end = 0L;

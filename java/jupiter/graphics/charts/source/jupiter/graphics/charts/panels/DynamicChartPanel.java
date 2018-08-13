@@ -75,22 +75,49 @@ public class DynamicChartPanel
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The formats of the x and y coordinates
-	protected final Format xFormat, yFormat;
+	/**
+	 * The format of the x coordinate.
+	 */
+	protected final Format xFormat;
+	/**
+	 * The format of the y coordinate.
+	 */
+	protected final Format yFormat;
 
-	// The mouse position
+	/**
+	 * The mouse position.
+	 */
 	protected int xMousePosition, yMousePosition;
+	/**
+	 * The x coordinate of the mouse position.
+	 */
+	protected double xMouseCoordinate;
+	/**
+	 * The y coordinate of the mouse position.
+	 */
+	protected double yMouseCoordinate;
 
-	// The coordinates of the mouse position
-	protected double xMouseCoordinate, yMouseCoordinate;
+	/**
+	 * The vertical line of the crosshair.
+	 */
+	protected Line2D xCrosshair;
+	/**
+	 * The horizontal line of the crosshair.
+	 */
+	protected Line2D yCrosshair;
 
-	// The crosshair lines (one for each axis)
-	protected Line2D xCrosshair, yCrosshair;
-
-	// The selected item in the chart
-	protected double xSelectionCoordinate = Double.NaN;
-	protected double ySelectionCoordinate = Double.NaN;
+	/**
+	 * The selection.
+	 */
 	protected Ellipse2D selection;
+	/**
+	 * The x coordinate of the selection.
+	 */
+	protected double xSelectionCoordinate = Double.NaN;
+	/**
+	 * The y coordinate of the selection.
+	 */
+	protected double ySelectionCoordinate = Double.NaN;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

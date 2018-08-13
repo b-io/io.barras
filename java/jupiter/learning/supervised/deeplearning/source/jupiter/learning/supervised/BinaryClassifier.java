@@ -64,16 +64,24 @@ public abstract class BinaryClassifier {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The number n of features
+	/**
+	 * The number of features n.
+	 */
 	protected final int nFeatures;
 
-	// The number m of training examples
+	/**
+	 * The number of training examples m.
+	 */
 	protected int mTrainingExamples;
 
-	// The matrix of feature vectors X
+	/**
+	 * The matrix of feature vectors X.
+	 */
 	protected Matrix X; // (n x m)
 
-	// The vector of classes Y
+	/**
+	 * The vector of classes Y.
+	 */
 	protected Vector Y, YT; // (1 x m), (m x 1)
 
 

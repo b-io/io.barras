@@ -35,11 +35,17 @@ public class BayesianInference
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The number of hypotheses
+	/**
+	 * The number of hypotheses.
+	 */
 	protected final int nHypotheses;
-	// The array of probabilities P(E | H) for all hypothesis H (the likelihood)
+	/**
+	 * The array of probabilities P(E | H) for all hypothesis H (the likelihood).
+	 */
 	protected final double[] likelihoods;
-	// The array of probabilities P(H | E) for all hypothesis H (the posterior probability)
+	/**
+	 * The array of probabilities P(H | E) for all hypothesis H (the posterior probability).
+	 */
 	protected final double[] hypothesesProbabilities;
 
 

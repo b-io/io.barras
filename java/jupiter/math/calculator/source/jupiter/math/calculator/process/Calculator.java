@@ -66,9 +66,14 @@ public class Calculator {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The pool of threads
+	/**
+	 * The thread pool.
+	 */
 	protected static LockedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> THREAD_POOL = null;
-	// The context containing the values of the variables
+
+	/**
+	 * The context containing the values of the variables.
+	 */
 	protected volatile Map<String, Element> context;
 
 

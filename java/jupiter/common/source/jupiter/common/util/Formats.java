@@ -37,12 +37,15 @@ public class Formats {
 	/**
 	 * The current version.
 	 */
-	public static final String VERSION = "1.5.0";
+	public static final String VERSION = "1.0.0";
 
+	/**
+	 * The UTF-8 encoding.
+	 */
+	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 	/**
 	 * The default encoding.
 	 */
-	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 	public static final Charset DEFAULT_CHARSET = UTF8_CHARSET;
 	public static final String DEFAULT_CHARSET_NAME = DEFAULT_CHARSET.name();
 
@@ -56,6 +59,8 @@ public class Formats {
 	 */
 	public static final int DEFAULT_LINE_LENGTH = 72;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The default date format.
 	 */
@@ -64,6 +69,8 @@ public class Formats {
 	 * The default date and time format.
 	 */
 	public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The default decimal pattern.
@@ -83,15 +90,33 @@ public class Formats {
 	public static volatile DecimalFormat SCIENTIFIC_DECIMAL_FORMAT = getDecimalFormat(
 			DEFAULT_SCIENTIFIC_PATTERN);
 
-	// The default number formats
+	/**
+	 * The default number length.
+	 */
+	public static final int DEFAULT_NUMBER_LENGTH = DEFAULT_PATTERN.length();
+	/**
+	 * The minimum number length.
+	 */
 	public static volatile int MIN_NUMBER_LENGTH = 1;
-	public static final int NUMBER_SIZE = DEFAULT_PATTERN.length();
-	// - Integer digits
+	/**
+	 * The default minimum number of digits for integer.
+	 */
 	public static final int DEFAULT_MIN_INTEGER_DIGITS = 1;
-	// - Fraction digits
+	/**
+	 * The default minimum number of fraction digits.
+	 */
 	public static final int DEFAULT_MIN_FRACTION_DIGITS = 0;
-	public static final int DEFAULT_MAX_FRACTION_DIGITS = NUMBER_SIZE - 2;
+	/**
+	 * The default maximum number of fraction digits.
+	 */
+	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_NUMBER_LENGTH - 2;
+	/**
+	 * The minimum number of fraction digits.
+	 */
 	public static volatile int MIN_FRACTION_DIGITS = DEFAULT_MIN_FRACTION_DIGITS;
+	/**
+	 * The maximum number of fraction digits.
+	 */
 	public static volatile int MAX_FRACTION_DIGITS = DEFAULT_MAX_FRACTION_DIGITS;
 
 

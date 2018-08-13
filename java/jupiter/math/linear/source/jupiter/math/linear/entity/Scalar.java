@@ -498,7 +498,7 @@ public class Scalar
 	}
 
 	public String toString(final int width) {
-		final StringBuilder builder = Strings.createBuilder(Formats.NUMBER_SIZE);
+		final StringBuilder builder = Strings.createBuilder(Formats.DEFAULT_NUMBER_LENGTH);
 		final String formattedValue = Formats.format(value);
 		final int padding = Math.max(0, width - formattedValue.length());
 		for (int k = 0; k < padding; ++k) {

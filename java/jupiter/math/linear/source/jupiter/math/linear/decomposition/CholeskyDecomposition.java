@@ -58,11 +58,17 @@ public class CholeskyDecomposition
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The row and column dimension (square matrix)
-	protected final int n;
-	// The symmetric and positive definite flag
+	/**
+	 * The row and column dimension (square matrix).
+	 */
+	protected final int dimension;
+	/**
+	 * The symmetric and positive definite flag.
+	 */
 	protected boolean isSymmetricPositiveDefinite;
-	// The decomposition
+	/**
+	 * The decomposition.
+	 */
 	protected final double[][] L;
 
 
@@ -79,12 +85,12 @@ public class CholeskyDecomposition
 	public CholeskyDecomposition(final Matrix A) {
 		// Initialize
 		final double[][] elements = A.getElements();
-		n = A.getRowDimension();
-		isSymmetricPositiveDefinite = A.getColumnDimension() == n;
-		L = new double[n][n];
+		dimension = A.getRowDimension();
+		isSymmetricPositiveDefinite = A.getColumnDimension() == dimension;
+		L = new double[dimension][dimension];
 
 		// Decompose
-		for (int j = 0; j < n; ++j) {
+		for (int j = 0; j < dimension; ++j) {
 			final double[] Lrowj = L[j];
 			double d = 0.;
 			for (int k = 0; k < j; ++k) {
@@ -100,7 +106,7 @@ public class CholeskyDecomposition
 			d = elements[j][j] - d;
 			isSymmetricPositiveDefinite &= d > 0.;
 			L[j][j] = Math.sqrt(Math.max(0., d));
-			for (int k = j + 1; k < n; ++k) {
+			for (int k = j + 1; k < dimension; ++k) {
 				L[j][k] = 0.;
 			}
 		}
@@ -126,7 +132,7 @@ public class CholeskyDecomposition
 	 * @return the triangular factor {@code L}
 	 */
 	public Matrix getL() {
-		return new Matrix(n, n, L);
+		return new Matrix(dimension, dimension, L);
 	}
 
 
@@ -146,7 +152,7 @@ public class CholeskyDecomposition
 	 */
 	public Matrix solve(final Matrix B) {
 		// Check the arguments
-		MatrixArguments.requireInnerDimension(B.getRowDimension(), n);
+		MatrixArguments.requireInnerDimension(B.getRowDimension(), dimension);
 
 		// Verify the feasibility
 		if (!isSymmetricPositiveDefinite) {
@@ -158,7 +164,7 @@ public class CholeskyDecomposition
 		final double[][] xElements = B.getAll();
 
 		// Solve L * Y = B
-		for (int k = 0; k < n; ++k) {
+		for (int k = 0; k < dimension; ++k) {
 			for (int j = 0; j < nx; ++j) {
 				for (int i = 0; i < k; ++i) {
 					xElements[k][j] -= xElements[i][j] * L[k][i];
@@ -168,15 +174,15 @@ public class CholeskyDecomposition
 		}
 
 		// Solve L' * X = Y
-		for (int k = n - 1; k >= 0; --k) {
+		for (int k = dimension - 1; k >= 0; --k) {
 			for (int j = 0; j < nx; ++j) {
-				for (int i = k + 1; i < n; ++i) {
+				for (int i = k + 1; i < dimension; ++i) {
 					xElements[k][j] -= xElements[i][j] * L[i][k];
 				}
 				xElements[k][j] /= L[k][k];
 			}
 		}
 
-		return new Matrix(n, nx, xElements);
+		return new Matrix(dimension, nx, xElements);
 	}
 }

@@ -48,16 +48,24 @@ public class NeuralNetwork
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The array of weight matrices W
+	/**
+	 * The array of weight matrices W.
+	 */
 	protected Matrix[] W; // n -> nh... -> 1: (nh x n) -> (nh x nh)... -> (1 x nh)
 
-	// The array of bias vectors b
+	/**
+	 * The array of bias vectors b.
+	 */
 	protected Vector[] b; // n -> nh... -> 1: (nh x 1) -> (nh x 1)... -> (1 x 1)
 
-	// The array of matrices of feature and hidden vectors A (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l]))
+	/**
+	 * The array of matrices of feature and hidden vectors A (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])).
+	 */
 	protected Entity[] A; // n -> nh... -> 1: (n x m) -> (nh x m)... -> (1 x m)
 
-	// The activation function g
+	/**
+	 * The activation function g.
+	 */
 	protected ActivationFunction activationFunction;
 
 

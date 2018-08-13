@@ -45,13 +45,19 @@ public class LogisticRegression
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The weight vector W
+	/**
+	 * The weight vector W.
+	 */
 	protected Vector W; // (1 x n)
 
-	// The bias b
+	/**
+	 * The bias b.
+	 */
 	protected Scalar b;
 
-	// The hidden vector A
+	/**
+	 * The hidden vector A.
+	 */
 	protected Entity A;
 
 
