@@ -33,7 +33,11 @@
 	</licenses>
 
 	<modules>
+		<module>c</module>
+		<module>cpp</module>
 		<module>java</module>
+		<module>scala</module>
+		<module>shell</module>
 	</modules>
 
 	<properties>
