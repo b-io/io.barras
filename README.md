@@ -1,4 +1,4 @@
-# 🜨 IO.BARRAS
+# ⊕ IO.BARRAS
 
 **IO.BARRAS** is a collection of **C/C++, Java/Scala and POSIX Shell libraries** intended to
 facilitate software development and particularly scientific computing.
