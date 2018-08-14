@@ -15,6 +15,7 @@ Win32
 X64
 *.dll
 
+
 # Configuration files ##############################################################################
 # Eclipse
 .classpath
@@ -58,3 +59,4 @@ hs_err_pid*
 $*
 *.new
 *.old
+*.tmp

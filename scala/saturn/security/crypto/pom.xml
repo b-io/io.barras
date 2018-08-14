@@ -20,7 +20,7 @@
 	<dependencies>
 		<!-- Saturn -->
 		<dependency>
-			<groupId>saturn</groupId>
+			<groupId>io.barras.saturn</groupId>
 			<artifactId>common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
