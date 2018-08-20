@@ -153,14 +153,15 @@ public class SpeedChecker {
 	public static class Checker
 			extends Worker<String, Report<Double>> {
 
-		protected final Chronometer chrono = new Chronometer();
-
 		public Checker() {
 		}
 
 		@Override
 		public Report<Double> call(final String input) {
 			IO.debug("Process URL ", Strings.quote(input));
+
+			// Initialize
+			final Chronometer chrono = new Chronometer();
 
 			// Check if the URL is well-formed
 			try {

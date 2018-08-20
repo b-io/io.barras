@@ -28,6 +28,9 @@ import static jupiter.common.io.IO.IO;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.test.Tests;
+import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
@@ -98,15 +101,30 @@ public class NeuralNetworkTest
 	public void testClassify_File() {
 		IO.test("classify_File");
 
+		// Set up
+		IO.setSeverityLevel(SeverityLevel.TEST);
+		final int nTests = 2;
+		final Chronometer chrono = new Chronometer();
+		final double[] times = new double[nTests];
+
 		try {
 			// Initialize
-			final NeuralNetwork model = new NeuralNetwork("test/resources/X.csv",
-					"test/resources/Y.csv");
+			NeuralNetwork model = null;
 			final int nLayers = 2;
+			int nIterations = -1;
 
-			// Train
-			final int nIterations = model.train(BinaryClassifier.DEFAULT_LEARNING_RATE,
-					BinaryClassifier.DEFAULT_TOLERANCE, 10000, nLayers - 1, 4);
+			// Process
+			for (int i = 0; i < nTests; ++i) {
+				// Construct
+				model = new NeuralNetwork("test/resources/X.csv", "test/resources/Y.csv");
+
+				// Train
+				chrono.start();
+				nIterations = model.train(BinaryClassifier.DEFAULT_LEARNING_RATE,
+						BinaryClassifier.DEFAULT_TOLERANCE, 10000, nLayers - 1, 4);
+				times[i] = chrono.stop();
+			}
+			Tests.printTimes(times);
 
 			// Test
 			// - The accuracy

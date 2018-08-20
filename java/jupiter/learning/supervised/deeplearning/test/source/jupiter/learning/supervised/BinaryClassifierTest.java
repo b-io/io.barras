@@ -38,14 +38,17 @@ public class BinaryClassifierTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test the constructor.
+	 * Tests the constructor.
 	 */
 	public void test()
 			throws IOException {
 		IO.test("BinaryClassifier");
 
+		// Construct
 		final BinaryClassifier model = new LogisticRegression("test/resources/X.csv",
 				"test/resources/Y.csv");
+
+		// Test the construction
 		assertEquals(2, model.getFeatureVectors().getRowDimension());
 		assertEquals(400, model.getFeatureVectors().getColumnDimension());
 		assertEquals(1, model.getClasses().getRowDimension());

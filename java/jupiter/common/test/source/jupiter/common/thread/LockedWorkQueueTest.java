@@ -48,7 +48,11 @@ public class LockedWorkQueueTest
 	 */
 	public void testAddTask() {
 		IO.test("addTask");
+
+		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
+		final int nTasks = 1000000;
+		final Chronometer chrono = new Chronometer();
 
 		// Create a thread pool
 		final IWorkQueue<Integer, Integer> queue = new LockedWorkQueue<Integer, Integer>(
@@ -57,9 +61,7 @@ public class LockedWorkQueueTest
 		IO.test("There are ", LockedWorkQueue.MAX_THREADS, " threads");
 
 		// Process the tasks
-		final Chronometer chrono = new Chronometer();
 		chrono.start();
-		final int nTasks = 1000000;
 		final List<Long> ids = new ExtendedList<Long>(nTasks);
 		for (int i = 0; i < nTasks; ++i) {
 			ids.add(queue.submit(i));

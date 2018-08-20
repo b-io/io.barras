@@ -51,16 +51,18 @@ public class ReservedThreadPoolExecutorTest
 	 */
 	public void testSubmit() {
 		IO.test("submit");
+
+		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
+		final int nTasks = 1000000;
+		final Chronometer chrono = new Chronometer();
 
 		// Create a thread pool
 		final ReservedThreadPoolExecutor queue = new ReservedThreadPoolExecutor();
 		IO.test("There are ", queue.getMaxPoolSize(), " threads");
 
 		// Process the tasks
-		final Chronometer chrono = new Chronometer();
 		chrono.start();
-		final int nTasks = 1000000;
 		final List<Future<Integer>> futures = new ExtendedList<Future<Integer>>();
 		for (int i = 0; i < nTasks; ++i) {
 			Future<Integer> future;
