@@ -45,8 +45,8 @@ public class BinaryClassifierTest
 		IO.test("BinaryClassifier");
 
 		// Construct
-		final BinaryClassifier model = new LogisticRegression("test/resources/X.csv",
-				"test/resources/Y.csv");
+		final BinaryClassifier model = new LogisticRegression("test/resources/A/X.csv",
+				"test/resources/A/Y.csv");
 
 		// Test the construction
 		assertEquals(2, model.getFeatureVectors().getRowDimension());

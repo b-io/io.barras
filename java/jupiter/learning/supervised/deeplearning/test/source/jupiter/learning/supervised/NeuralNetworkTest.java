@@ -104,38 +104,51 @@ public class NeuralNetworkTest
 		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
 		final int nTests = 2;
-		final Chronometer chrono = new Chronometer();
 		final double[] times = new double[nTests];
 
+		// Test
 		try {
-			// Initialize
-			NeuralNetwork model = null;
-			final int nLayers = 2;
-			int nIterations = -1;
-
-			// Process
+			// - Test the example A
 			for (int i = 0; i < nTests; ++i) {
-				// Construct
-				model = new NeuralNetwork("test/resources/X.csv", "test/resources/Y.csv");
-
-				// Train
-				chrono.start();
-				nIterations = model.train(BinaryClassifier.DEFAULT_LEARNING_RATE,
-						BinaryClassifier.DEFAULT_TOLERANCE, 10000, nLayers - 1, 4);
-				times[i] = chrono.stop();
+				times[i] = testExample("A", 1, 4, 0.9, 0.285);
 			}
 			Tests.printTimes(times);
 
-			// Test
-			// - The accuracy
-			final double accuracy = model.computeAccuracy();
-			IO.test(Doubles.toPercentage(accuracy), " accuracy in ", nIterations, " iterations");
-			assertEquals(0.9, accuracy, 0.05);
-			// - The cost
-			final double cost = model.computeCost();
-			assertEquals(0.285, cost, 0.05);
+			// - Test the example B
+			for (int i = 0; i < nTests; ++i) {
+				times[i] = testExample("B", 1, 4, 0.9, 0.285);
+			}
+			Tests.printTimes(times);
 		} catch (final IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	protected static long testExample(final String example, final int nHiddenLayers,
+			final int hiddenLayerSize, final double expectedAccuracy, final double expectedCost)
+			throws IOException {
+		// Initialize
+		final Chronometer chrono = new Chronometer();
+
+		// Construct
+		final NeuralNetwork model = new NeuralNetwork("test/resources/" + example + "/X.csv",
+				"test/resources/" + example + "/Y.csv");
+
+		// Train
+		chrono.start();
+		final int nIterations = model.train(BinaryClassifier.DEFAULT_LEARNING_RATE,
+				BinaryClassifier.DEFAULT_TOLERANCE, 10000, nHiddenLayers, hiddenLayerSize);
+		final long time = chrono.stop();
+
+		// Test
+		// - The accuracy
+		final double accuracy = model.computeAccuracy();
+		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", nIterations, " iterations");
+		assertEquals(expectedAccuracy, accuracy, 0.05);
+		// - The cost
+		final double cost = model.computeCost();
+		assertEquals(expectedCost, cost, 0.05);
+
+		return time;
 	}
 }

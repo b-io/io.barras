@@ -46,8 +46,8 @@ public class LogisticRegressionTest
 
 		try {
 			// Initialize
-			final LogisticRegression model = new LogisticRegression("test/resources/X.csv",
-					"test/resources/Y.csv");
+			final LogisticRegression model = new LogisticRegression("test/resources/A/X.csv",
+					"test/resources/A/Y.csv");
 
 			// Train
 			final int nIterations = model.train();

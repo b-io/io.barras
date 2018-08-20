@@ -762,7 +762,7 @@ public class Table<T>
 	}
 
 	/**
-	 * Resizes the rows and the columns.
+	 * Resizes the rows and columns.
 	 */
 	public void resize() {
 		resizeRows();
@@ -797,7 +797,7 @@ public class Table<T>
 	}
 
 	/**
-	 * Resizes the rows and the columns to the specified lengths.
+	 * Resizes the rows and columns to the specified lengths.
 	 * <p>
 	 * @param rowCount    the number of rows to resize to
 	 * @param columnCount the number of columns to resize to
@@ -809,10 +809,19 @@ public class Table<T>
 
 		// Test whether the row or column length is different
 		if (m != rowCount || n != columnCount) {
-			// Resize
-			final T[][] resizedTable = createArray2D(rowCount, columnCount);
+			// Initialize
 			final int minRowCount = Math.min(rowCount, m);
 			final int minColumnCount = Math.min(columnCount, n);
+
+			// Resize the header
+			if (n != columnCount) {
+				final String[] resizedHeader = new String[columnCount];
+				System.arraycopy(header, 0, resizedHeader, 0, minColumnCount);
+				header = resizedHeader;
+			}
+
+			// Resize the table
+			final T[][] resizedTable = createArray2D(rowCount, columnCount);
 			for (int i = 0; i < minRowCount; ++i) {
 				System.arraycopy(elements[i], 0, resizedTable[i], 0, minColumnCount);
 			}
@@ -823,55 +832,67 @@ public class Table<T>
 	}
 
 	/**
-	 * Shifts down the rows by the specified offset.
+	 * Shifts the rows by the specified offset.
 	 * <p>
-	 * @param offset the offset to shift down by
+	 * @param offset the offset to shift the rows by
 	 */
 	public void shiftRows(final int offset) {
-		// Check the arguments
-		IntegerArguments.requireNonNegative(offset);
-
-		// Shift the rows
 		shift(offset, 0);
 	}
 
 	/**
-	 * Shifts right the columns by the specified offset.
+	 * Shifts the columns by the specified offset.
 	 * <p>
-	 * @param offset the offset to shift right by
+	 * @param offset the offset to shift the columns by
 	 */
 	public void shiftColumns(final int offset) {
-		// Check the arguments
-		IntegerArguments.requireNonNegative(offset);
-
-		// Shift the columns
 		shift(0, offset);
 	}
 
 	/**
-	 * Shifts down and right by the specified offsets.
+	 * Shifts the rows and columns by the specified offsets.
 	 * <p>
-	 * @param rowOffset    the offset to shift down by
-	 * @param columnOffset the offset to shift right by
+	 * @param rowOffset    the offset to shift the rows by
+	 * @param columnOffset the offset to shift the columns by
 	 */
 	public void shift(final int rowOffset, final int columnOffset) {
-		// Check the arguments
-		IntegerArguments.requireNonNegative(rowOffset);
-		IntegerArguments.requireNonNegative(columnOffset);
-
-		// Test whether the row or column offset is positive
-		if (rowOffset > 0 || columnOffset > 0) {
-			// Resize
+		// Test whether the row or column offset is non-zero
+		if (rowOffset != 0 || columnOffset != 0) {
+			// Initialize
 			final int rowCount = rowOffset + m;
 			final int columnCount = columnOffset + n;
-			final T[][] shiftedTable = createArray2D(rowCount, columnCount);
+			if (rowCount <= 0 || columnCount <= 0) {
+				throw new IllegalOperationException("The table cannot be empty");
+			}
 
-			// Shift the rows and columns
-			for (int i = 0; i < rowCount; --i) {
+			// Shift the header
+			if (n != columnCount) {
+				final String[] shiftedHeader = new String[columnCount];
+				if (columnOffset < 0) {
+					System.arraycopy(header, -columnOffset, shiftedHeader, 0, columnCount);
+				} else {
+					System.arraycopy(header, 0, shiftedHeader, columnOffset, n);
+				}
+				header = shiftedHeader;
+			}
+
+			// Shift the table
+			final T[][] shiftedTable = createArray2D(rowCount, columnCount);
+			for (int i = 0; i < rowCount; ++i) {
 				if (i < rowOffset) {
 					Arrays.<T>fill(elements[i], null);
 				} else {
-					System.arraycopy(elements[i], 0, shiftedTable[i], columnOffset, n);
+					final T[] source;
+					if (rowOffset < 0) {
+						source = elements[i - rowOffset];
+					} else {
+						source = elements[i];
+					}
+					if (columnOffset < 0) {
+						System.arraycopy(source, -columnOffset, shiftedTable[i], 0, columnCount);
+					} else {
+						System.arraycopy(source, 0, shiftedTable[i], columnOffset, n);
+					}
 				}
 			}
 			elements = shiftedTable;
