@@ -96,7 +96,7 @@ public class QRDecomposition
 
 		// Decompose
 		for (int k = 0; k < n; ++k) {
-			// Compute the 2-norm of the k-th column without under / overflow
+			// Compute the 2-norm of the k-th column without under/overflow
 			double nrm = 0;
 			for (int i = k; i < m; ++i) {
 				nrm = Norms.getEuclideanNorm(nrm, QR[i][k]);

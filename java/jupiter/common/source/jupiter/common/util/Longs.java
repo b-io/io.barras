@@ -65,7 +65,7 @@ public class Longs {
 	 */
 	public static long convert(final float value) {
 		if (value < Long.MIN_VALUE || value > Long.MAX_VALUE) {
-			throw new ArithmeticException("Long under / overflow");
+			throw new ArithmeticException("Long under/overflow");
 		}
 		return (long) value;
 	}
@@ -79,7 +79,7 @@ public class Longs {
 	 */
 	public static long convert(final double value) {
 		if (value < Long.MIN_VALUE || value > Long.MAX_VALUE) {
-			throw new ArithmeticException("Long under / overflow");
+			throw new ArithmeticException("Long under/overflow");
 		}
 		return (long) value;
 	}

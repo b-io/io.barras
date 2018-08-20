@@ -38,7 +38,7 @@ public class Norms {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the Euclidean norm of {@code a} and {@code b} without under / overflow.
+	 * Returns the Euclidean norm of {@code a} and {@code b} without under/overflow.
 	 * <p>
 	 * @param a a {@code double} value
 	 * @param b another {@code double} value

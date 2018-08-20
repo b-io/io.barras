@@ -71,7 +71,7 @@ import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
 /**
- * A JFC / Swing based console for the BeanShell desktop.
+ * A JFC/Swing based console for the BeanShell desktop.
  * <p>
  * @author Patrick Niemeyer, http://www.pat.net
  */

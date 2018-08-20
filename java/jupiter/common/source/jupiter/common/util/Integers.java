@@ -65,7 +65,7 @@ public class Integers {
 	 */
 	public static int convert(final long value) {
 		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
-			throw new ArithmeticException("Integer under / overflow");
+			throw new ArithmeticException("Integer under/overflow");
 		}
 		return (int) value;
 	}
@@ -79,7 +79,7 @@ public class Integers {
 	 */
 	public static int convert(final float value) {
 		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
-			throw new ArithmeticException("Integer under / overflow");
+			throw new ArithmeticException("Integer under/overflow");
 		}
 		return (int) value;
 	}
@@ -93,7 +93,7 @@ public class Integers {
 	 */
 	public static int convert(final double value) {
 		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
-			throw new ArithmeticException("Integer under / overflow");
+			throw new ArithmeticException("Integer under/overflow");
 		}
 		return (int) value;
 	}

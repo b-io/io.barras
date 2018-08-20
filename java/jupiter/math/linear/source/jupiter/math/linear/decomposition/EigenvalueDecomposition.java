@@ -210,7 +210,7 @@ public class EigenvalueDecomposition
 
 		// Iterate over the row and column index
 		for (int i = dimension - 1; i > 0; --i) {
-			// Scale to avoid under / overflow
+			// Scale to avoid under/overflow
 			double scale = 0.;
 			double h = 0.;
 			for (int k = 0; k < i; ++k) {
@@ -798,7 +798,7 @@ public class EigenvalueDecomposition
 								H[i + 1][n] = (-s - y * t) / z;
 							}
 						}
-						// Control under / overflow
+						// Control under/overflow
 						t = Math.abs(H[i][n]);
 						if (eps * t * t > 1) {
 							for (int j = i; j <= n; ++j) {
@@ -862,7 +862,7 @@ public class EigenvalueDecomposition
 								H[i + 1][n] = cdivi;
 							}
 						}
-						// Control under / overflow
+						// Control under/overflow
 						t = Math.max(Math.abs(H[i][n - 1]), Math.abs(H[i][n]));
 						if (eps * t * t > 1) {
 							for (int j = i; j <= n; ++j) {

@@ -105,7 +105,7 @@ public class NeuralNetworkTest
 		// Set up
 		Doubles.RANDOM = new Random(1L);
 		IO.setSeverityLevel(SeverityLevel.TEST);
-		final int nTests = 10;
+		final int nTests = 2;
 		final double[] times = new double[nTests];
 
 		// Test

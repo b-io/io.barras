@@ -3,7 +3,7 @@
 **JUPITER** is a **Java library** intended to facilitate software development and particularly
 scientific computing. The library contains utility functions; among them:
 
-  * useful operators (like map / reduce),
+  * useful operators (like map/reduce),
   * simple and complex statistical functions (like Normal distribution or Bayesian inference),
   * a multithreaded matrix calculator (supporting broadcasting) and
   * several machine learning models (like logistic regression or deep neural networks).

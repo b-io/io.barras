@@ -76,7 +76,7 @@ public class Floats {
 	 */
 	public static float convert(final double value) {
 		if (value < Float.MIN_VALUE || value > Float.MAX_VALUE) {
-			throw new ArithmeticException("Float under / overflow");
+			throw new ArithmeticException("Float under/overflow");
 		}
 		return (float) value;
 	}

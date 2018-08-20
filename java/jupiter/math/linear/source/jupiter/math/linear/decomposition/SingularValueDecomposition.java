@@ -116,7 +116,7 @@ public class SingularValueDecomposition
 		for (int k = 0; k < Math.max(nct, nrt); ++k) {
 			if (k < nct) {
 				// Apply the transformation for the k-th column and place the k-th diagonal in s[k]
-				// Compute the 2-norm of the k-th column without under / overflow
+				// Compute the 2-norm of the k-th column without under/overflow
 				s[k] = 0;
 				for (int i = k; i < m; ++i) {
 					s[k] = Norms.getEuclideanNorm(s[k], elements[i][k]);
@@ -156,7 +156,7 @@ public class SingularValueDecomposition
 			}
 			if (k < nrt) {
 				// Apply the k-th row transformation and place the k-th super-diagonal in e[k]
-				// Compute the 2-norm without under / overflow
+				// Compute the 2-norm without under/overflow
 				e[k] = 0;
 				for (int i = k + 1; i < n; ++i) {
 					e[k] = Norms.getEuclideanNorm(e[k], e[i]);
