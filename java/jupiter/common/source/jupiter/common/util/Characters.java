@@ -42,7 +42,7 @@ public class Characters {
 
 	protected static final CharacterParser PARSER = Parsers.CHARACTER_PARSER;
 
-	protected static final Random RANDOM = new Random();
+	public static volatile Random RANDOM = new Random();
 
 	public static final char SINGLE_QUOTE = '\'';
 	public static final char DOUBLE_QUOTE = '"';

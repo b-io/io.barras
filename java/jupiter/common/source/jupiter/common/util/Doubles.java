@@ -42,7 +42,7 @@ public class Doubles {
 
 	protected static final DoubleParser PARSER = new DoubleParser();
 
-	protected static final Random RANDOM = new Random();
+	public static volatile Random RANDOM = new Random();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -29,7 +29,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
@@ -70,10 +69,6 @@ public class Strings {
 			Characters.RIGHT_PARENTHESIS);
 	public static final StringWrapper BRACKETER = new StringWrapper(Characters.LEFT_BRACKET,
 			Characters.RIGHT_BRACKET);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected static final Random RANDOM = new Random();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,6 +313,23 @@ public class Strings {
 			while (iterator.hasNext()) {
 				builder.append(delimiter).append(toString(iterator.next()));
 			}
+		}
+		return builder.toString();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length.
+	 * <p>
+	 * @param length the length of the {@link String} to create
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
+	 */
+	public static String random(final int length) {
+		final StringBuilder builder = createBuilder(length);
+		for (int i = 0; i < length; ++i) {
+			builder.append(Characters.random());
 		}
 		return builder.toString();
 	}

@@ -529,13 +529,13 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	public String toString() {
 		final StringBuilder lineBuilder = Strings.createBuilder();
 		lineBuilder.append("<").append(toString(root)).append(">");
-		return Strings.toString(lineBuilder);
+		return lineBuilder.toString();
 	}
 
 	public String toString(final N node) {
 		final StringBuilder lineBuilder = Strings.createBuilder();
 		lineBuilder.append("<").append(node.parent).append("|").append(node).append("|")
 				.append(node.left).append("|").append(node.right).append(">");
-		return Strings.toString(lineBuilder);
+		return lineBuilder.toString();
 	}
 }

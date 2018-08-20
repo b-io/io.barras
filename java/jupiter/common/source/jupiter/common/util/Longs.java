@@ -41,7 +41,7 @@ public class Longs {
 
 	protected static final LongParser PARSER = new LongParser();
 
-	protected static final Random RANDOM = new Random();
+	public static volatile Random RANDOM = new Random();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

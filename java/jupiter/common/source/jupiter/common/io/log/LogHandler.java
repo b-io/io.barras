@@ -247,7 +247,7 @@ public class LogHandler
 	}
 
 	protected String getLogLine(final boolean isError) {
-		return isError ? Strings.toString(errorLineBuilder) : Strings.toString(outputLineBuilder);
+		return isError ? errorLineBuilder.toString() : outputLineBuilder.toString();
 	}
 
 	protected void clearLogLine(final boolean isError) {

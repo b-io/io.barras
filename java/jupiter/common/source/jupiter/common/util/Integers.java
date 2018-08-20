@@ -41,7 +41,7 @@ public class Integers {
 
 	protected static final IntegerParser PARSER = new IntegerParser();
 
-	protected static final Random RANDOM = new Random();
+	public static volatile Random RANDOM = new Random();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

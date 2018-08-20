@@ -43,7 +43,7 @@ public class Floats {
 
 	protected static final FloatParser PARSER = Parsers.FLOAT_PARSER;
 
-	protected static final Random RANDOM = new Random();
+	public static volatile Random RANDOM = new Random();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
