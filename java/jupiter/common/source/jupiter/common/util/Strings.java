@@ -1476,7 +1476,7 @@ public class Strings {
 	 * {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
-	 * @param defaultString the {@link String} to return if {@code object} is {@code null}
+	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
 	 * @return a {@code String} representation of the specified {@link Object} if not {@code null},
 	 *         {@code defaultString} otherwise

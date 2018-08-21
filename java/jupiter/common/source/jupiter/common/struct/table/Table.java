@@ -62,9 +62,9 @@ public class Table<T>
 	private static final long serialVersionUID = 1555648344572603585L;
 
 	/**
-	 * The delimiters.
+	 * The column delimiters.
 	 */
-	public static final char[] DELIMITERS = Characters.toPrimitiveArray('\t', ',', ';');
+	public static final char[] COLUMN_DELIMITERS = Characters.toPrimitiveArray('\t', ',', ';');
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -996,7 +996,7 @@ public class Table<T>
 		if ((line = reader.readLine()) != null) {
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			String delimiter = null;
-			for (final char d : DELIMITERS) {
+			for (final char d : COLUMN_DELIMITERS) {
 				final int nOccurrences = Strings.getAllIndexes(line, d).size();
 				if (nOccurrences > 0) {
 					if (n == 0) {
@@ -1049,8 +1049,14 @@ public class Table<T>
 	public boolean export(final String pathname) {
 		final FileHandler fileHandler = new FileHandler(pathname);
 		fileHandler.delete();
+		// Export the header
+		if (!fileHandler.appendLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
+			fileHandler.closeWriter();
+			return false;
+		}
+		// Export the elements
 		for (int i = 0; i < m; ++i) {
-			if (!fileHandler.appendLine(Strings.joinWith(getRow(i), DELIMITERS[0]))) {
+			if (!fileHandler.appendLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
 				fileHandler.closeWriter();
 				return false;
 			}
@@ -1173,7 +1179,7 @@ public class Table<T>
 	public String toString() {
 		final StringBuilder builder = Strings.createBuilder(10 * m * n);
 		for (int i = 0; i < m; ++i) {
-			builder.append(Strings.joinWith(getRow(i), DELIMITERS[0])).append("\n");
+			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append("\n");
 		}
 		return builder.toString();
 	}

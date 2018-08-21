@@ -552,7 +552,9 @@ public class Files {
 				IO.warn("The file ", Strings.quote(file), " is write protected");
 			}
 		} else {
-			IO.warn("The file ", Strings.quote(file), " does not exist");
+			if (!isForce) {
+				IO.warn("The file ", Strings.quote(file), " does not exist");
+			}
 		}
 		return isDeleted;
 	}

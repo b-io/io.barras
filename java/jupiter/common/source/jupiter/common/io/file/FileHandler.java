@@ -245,8 +245,16 @@ public class FileHandler {
 	 * Closes the writer.
 	 */
 	public void closeWriter() {
-		Files.close(writer,
-				"The writer of " + Strings.quote(pathname) + " has already been closed");
+		closeWriter("The writer of " + Strings.quote(pathname) + " has already been closed");
+	}
+
+	/**
+	 * Closes the writer.
+	 * <p>
+	 * @param message the warning message to print if closed
+	 */
+	public void closeWriter(final String message) {
+		Files.close(writer, message);
 		writer = null;
 	}
 
@@ -261,8 +269,7 @@ public class FileHandler {
 	 * @return {@code true} if the file (or directory) is deleted, {@code false} otherwise
 	 */
 	public boolean delete() {
-		closeWriter();
-		return Files.delete(pathname, false);
+		return delete(true);
 	}
 
 	/**
@@ -273,7 +280,7 @@ public class FileHandler {
 	 * @return {@code true} if the file (or directory) is deleted, {@code false} otherwise
 	 */
 	public boolean delete(final boolean isForce) {
-		closeWriter();
+		closeWriter(null);
 		return Files.delete(new File(pathname), isForce);
 	}
 

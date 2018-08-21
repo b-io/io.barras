@@ -2044,19 +2044,19 @@ public class Matrix
 			}
 			++n;
 			// Create the matrix
-			final Matrix result;
+			final Matrix matrix;
 			if (transpose) {
-				result = new Matrix(n, m);
+				matrix = new Matrix(n, m);
 			} else {
-				result = new Matrix(m, n);
+				matrix = new Matrix(m, n);
 			}
 			// Scan the file line by line
 			int i = 0;
 			String[] values = line.split(delimiter);
 			if (transpose) {
-				result.setColumn(i, Doubles.toPrimitiveArray(values));
+				matrix.setColumn(i, Doubles.toPrimitiveArray(values));
 			} else {
-				result.setRow(i, Doubles.toPrimitiveArray(values));
+				matrix.setRow(i, Doubles.toPrimitiveArray(values));
 			}
 			++i;
 			while ((line = reader.readLine()) != null) {
@@ -2074,14 +2074,14 @@ public class Matrix
 								Arguments.expectedButFound(values.length, n));
 					}
 					if (transpose) {
-						result.setColumn(i, Doubles.toPrimitiveArray(values));
+						matrix.setColumn(i, Doubles.toPrimitiveArray(values));
 					} else {
-						result.setRow(i, Doubles.toPrimitiveArray(values));
+						matrix.setRow(i, Doubles.toPrimitiveArray(values));
 					}
 					++i;
 				}
 			}
-			return result;
+			return matrix;
 		}
 		return null;
 	}
