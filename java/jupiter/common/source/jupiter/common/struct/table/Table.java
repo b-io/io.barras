@@ -755,6 +755,51 @@ public class Table<T>
 	}
 
 	/**
+	 * Merges with the specified {@link Table} of type {@code T}.
+	 * <p>
+	 * @param table the {@link Table} of type {@code T} to merge with
+	 */
+	public void merge(final Table<T> table) {
+		merge(table, true);
+	}
+
+	/**
+	 * Merges with the specified {@link Table} of type {@code T}.
+	 * <p>
+	 * @param table     the {@link Table} of type {@code T} to merge with
+	 * @param mergeRows the option specifying whether to merge the rows or the columns
+	 */
+	public void merge(final Table<T> table, final boolean mergeRows) {
+		if (mergeRows) {
+			// Initialize
+			final int rowOffset = m;
+
+			// Resize the table
+			resize(rowOffset + table.getRowCount(), n);
+
+			// Merge the rows
+			for (int i = 0; i < table.getRowCount(); ++i) {
+				setRow(rowOffset + i, table.getRow(i));
+			}
+		} else {
+			// Initialize
+			final int columnOffset = n;
+
+			// Resize the table
+			resize(m, columnOffset + table.getColumnCount());
+
+			// Merge the header
+			System.arraycopy(table.getHeader(), 0, header, columnOffset, table.getColumnCount());
+
+			// Merge the columns
+			resize(m, columnOffset + table.getColumnCount());
+			for (int j = 0; j < table.getColumnCount(); ++j) {
+				setColumn(columnOffset + j, table.getColumn(j));
+			}
+		}
+	}
+
+	/**
 	 * Resets {@code this}.
 	 */
 	public void reset() {
