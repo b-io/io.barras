@@ -292,7 +292,7 @@ extern "C"
 	 **********************************************************************************************/
 
 	/**
-	 * Writes formatted data to string.
+	 * Writes the specified value to the specified string in the specified format.
 	 */
 #ifdef _WIDE_STRING
 #define _SPRINTF(STRING, SIZE, FORMAT, VALUE)	swprintf(STRING, SIZE, FORMAT, VALUE)
@@ -348,7 +348,7 @@ extern "C"
 #define _PRINT_FAILURE(CONTENT)				print_failure(_S(__FILE__), _STRING_EMPTY, __LINE__, CONTENT)
 
 	/**
-	 * Prints the error for unknown format specifier.
+	 * Prints an error for the specified unknown format specifier.
 	 */
 #define _PRINT_ERROR_FORMAT(SPECIFIER)		{ string _message; string_format(_message, _S("Unknown format specifier '%c'"), (SPECIFIER)); _PRINT_ERROR(_message); }
 

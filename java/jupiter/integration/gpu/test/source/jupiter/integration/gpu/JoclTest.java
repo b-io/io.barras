@@ -62,7 +62,7 @@ public class JoclTest
 		// Initialize
 		final Jocl jocl = new Jocl();
 
-		// Create input and output data
+		// Create the input and output data
 		final int n = 10;
 		final float sourceArrayA[] = new float[n];
 		final float sourceArrayB[] = new float[n];

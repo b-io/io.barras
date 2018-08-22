@@ -780,7 +780,7 @@ public class JConsole
 			if (isClosed) {
 				throw new IOException("No console input stream");
 			}
-			// While no data
+			// While there is no data
 			while (!isClosed && super.in < 0) {
 				// Notify any writers to wake up
 				notifyAll();

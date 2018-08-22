@@ -32,9 +32,9 @@ public class Filter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected Filter() {
-		limit = 0;
-		a = 0;
-		b = 1;
+		limit = 0.;
+		a = 0.;
+		b = 1.;
 	}
 
 	public Filter(final double limit, final double a, final double b) {
@@ -54,6 +54,6 @@ public class Filter
 	 */
 	@Override
 	public double apply(final double x) {
-		return x < limit ? a : b;
+		return x <= limit ? a : b;
 	}
 }

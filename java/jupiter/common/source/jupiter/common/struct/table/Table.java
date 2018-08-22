@@ -950,6 +950,7 @@ public class Table<T>
 	 * Transposes {@code this}.
 	 */
 	public void transpose() {
+		createHeader(m);
 		elements = Arrays.<T>transpose(c, elements);
 		n = m;
 		m = elements.length;

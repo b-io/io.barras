@@ -59,7 +59,7 @@ public class NeuralNetwork
 	protected Vector[] b; // n -> nh... -> 1: (nh x 1) -> (nh x 1)... -> (1 x 1)
 
 	/**
-	 * The array of matrices of feature and hidden vectors A (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])).
+	 * The array of feature and hidden vectors A (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])).
 	 */
 	protected Entity[] A; // n -> nh... -> 1: (n x m) -> (nh x m)... -> (1 x m)
 
@@ -200,11 +200,12 @@ public class NeuralNetwork
 		// - The weight matrices
 		if (W == null) {
 			W = new Matrix[nLayers];
-			W[0] = Matrix.random(hiddenLayerSize, nFeatures); // (nh x n)
+			W[0] = Matrix.random(hiddenLayerSize, nFeatures).subtract(0.5).rightDivide(50.); // (nh x n)
 			for (int i = 1; i < nLayers - 1; ++i) {
-				W[i] = Matrix.random(hiddenLayerSize, hiddenLayerSize); // (nh x nh)
+				W[i] = Matrix.random(hiddenLayerSize, hiddenLayerSize).subtract(0.5)
+						.rightDivide(50.); // (nh x nh)
 			}
-			W[nLayers - 1] = Matrix.random(1, hiddenLayerSize); // (1 x nh)
+			W[nLayers - 1] = Matrix.random(1, hiddenLayerSize).subtract(0.5).rightDivide(50.); // (1 x nh)
 		}
 		// - The bias vectors
 		if (b == null) {
@@ -214,7 +215,7 @@ public class NeuralNetwork
 			}
 			b[nLayers - 1] = new Vector(1); // (1 x 1)
 		}
-		// - The matrices of feature and hidden vectors
+		// - The feature and hidden vectors
 		A = new Matrix[nLayers + 1];
 		A[0] = X; // (n x m)
 		// - The activation function
@@ -245,7 +246,9 @@ public class NeuralNetwork
 			if (i % convergenceTestFrequency == 0) {
 				// - Compute the cost
 				final double cost = computeCost();
+				IO.debug(i, ") Cost: ", cost);
 				final double delta = Maths.delta(j, cost);
+				IO.debug(i, ") Delta: ", delta);
 				j = cost;
 
 				// - Test whether the tolerance level is reached

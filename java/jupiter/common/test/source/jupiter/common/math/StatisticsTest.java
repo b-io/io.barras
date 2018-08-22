@@ -52,7 +52,7 @@ public class StatisticsTest
 		IO.test("getNormalCdfInverse");
 
 		final double normalCdfInverse = Statistics.getNormalCdfInverse(Maths.DEFAULT_CONFIDENCE);
-		IO.test("Accuracy: " + Maths.delta(normalCdfInverse, Maths.DEFAULT_Z));
+		IO.test("Accuracy: ", Maths.delta(normalCdfInverse, Maths.DEFAULT_Z));
 		assertEquals(Maths.DEFAULT_Z, normalCdfInverse, Maths.DEFAULT_TOLERANCE);
 	}
 }

@@ -33,6 +33,8 @@ import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.test.Tests;
 import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
+import jupiter.learning.supervised.function.ActivationFunction;
+import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
 
@@ -112,13 +114,13 @@ public class NeuralNetworkTest
 		try {
 			// - Test the example A
 			for (int i = 0; i < nTests; ++i) {
-				times[i] = testExample("A", 1, 4, 0.9, 0.285);
+				times[i] = testExample("A", 10000, 0.1, 1, 4, ActivationFunctions.TANH, 0.9, 0.285);
 			}
 			Tests.printTimes(times);
 
 			// - Test the example B
 			for (int i = 0; i < nTests; ++i) {
-				times[i] = testExample("B", 1, 4, 0.9, 0.285);
+				times[i] = testExample("B", 100, 0.0075, 1, 7, ActivationFunctions.RELU, 0.7, 0.65);
 			}
 			Tests.printTimes(times);
 		} catch (final IOException ex) {
@@ -126,8 +128,10 @@ public class NeuralNetworkTest
 		}
 	}
 
-	protected static long testExample(final String example, final int nHiddenLayers,
-			final int hiddenLayerSize, final double expectedAccuracy, final double expectedCost)
+	protected static long testExample(final String example, final int maxIterations,
+			final double learningRate, final int nHiddenLayers, final int hiddenLayerSize,
+			final ActivationFunction activationFunction, final double expectedAccuracy,
+			final double expectedCost)
 			throws IOException {
 		// Initialize
 		final Chronometer chrono = new Chronometer();
@@ -135,11 +139,21 @@ public class NeuralNetworkTest
 		// Construct
 		final NeuralNetwork model = new NeuralNetwork("test/resources/" + example + "/X.csv",
 				"test/resources/" + example + "/Y.csv");
+		model.setActivationFunction(activationFunction);
+		try {
+			final Matrix W1 = Matrix.load("test/resources/" + example + "/W1.csv");
+			final Matrix W2 = Matrix.load("test/resources/" + example + "/W2.csv");
+			final Matrix[] weights = new Matrix[] {
+				W1, W2
+			};
+			model.setWeights(weights);
+		} catch (final Exception ignored) {
+		}
 
 		// Train
 		chrono.start();
-		final int nIterations = model.train(BinaryClassifier.DEFAULT_LEARNING_RATE,
-				BinaryClassifier.DEFAULT_TOLERANCE, 10000, nHiddenLayers, hiddenLayerSize);
+		final int nIterations = model.train(learningRate, BinaryClassifier.DEFAULT_TOLERANCE,
+				maxIterations, nHiddenLayers, hiddenLayerSize);
 		final long time = chrono.stop();
 
 		// Test
