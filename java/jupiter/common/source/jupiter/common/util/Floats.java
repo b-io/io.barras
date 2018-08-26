@@ -31,6 +31,7 @@ import java.util.Set;
 import jupiter.common.map.parser.FloatParser;
 import jupiter.common.map.parser.Parsers;
 import jupiter.common.math.Maths;
+import jupiter.common.struct.list.ExtendedList;
 
 public class Floats {
 
@@ -229,6 +230,19 @@ public class Floats {
 	}
 
 	/**
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
+	 * values.
+	 * <p>
+	 * @param array an array of {@code float} values
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
+	 *         values
+	 */
+	public static ExtendedList<Float> toExtendedList(final float... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
 	 * Returns a {@link List} of {@link Float} from the specified array of type {@code T}.
 	 * <p>
 	 * @param <T>   the type of the array to convert
@@ -237,6 +251,18 @@ public class Floats {
 	 * @return a {@link List} of {@link Float} from the specified array of type {@code T}
 	 */
 	public static <T> List<Float> toList(final T... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the type of the array to convert
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Float} from the specified array of type {@code T}
+	 */
+	public static <T> ExtendedList<Float> toExtendedList(final T... array) {
 		return PARSER.callToList(array);
 	}
 
@@ -251,6 +277,20 @@ public class Floats {
 	 *         {@code T}
 	 */
 	public static <T> List<Float> collectionToList(final Collection<T> collection) {
+		return PARSER.callCollectionToList(collection);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
+	 * type {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
+	 *         type {@code T}
+	 */
+	public static <T> ExtendedList<Float> collectionToExtendedList(final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 

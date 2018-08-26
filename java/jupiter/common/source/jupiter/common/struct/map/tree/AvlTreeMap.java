@@ -23,8 +23,6 @@
  */
 package jupiter.common.struct.map.tree;
 
-
-import java.util.List;
 import java.util.Map;
 
 import jupiter.common.struct.list.ExtendedList;
@@ -42,6 +40,11 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * The generated serial version ID.
 	 */
 	private static final long serialVersionUID = -3501331197847125490L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The option specifying whether to update the nodes.
@@ -88,12 +91,13 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 		return node == null ? 0L : node.height;
 	}
 
-	public List<Long> getBalances() {
+	public ExtendedList<Long> getBalances() {
 		updateAll();
 		return getBalances(root, new ExtendedList<Long>(size));
 	}
 
-	protected List<Long> getBalances(final AvlTreeNode<K, V> node, final List<Long> list) {
+	protected ExtendedList<Long> getBalances(final AvlTreeNode<K, V> node,
+			final ExtendedList<Long> list) {
 		if (node != null) {
 			list.add(node.balance);
 			getBalances(node.left, list);

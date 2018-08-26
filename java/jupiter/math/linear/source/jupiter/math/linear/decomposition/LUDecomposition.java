@@ -94,7 +94,7 @@ public class LUDecomposition
 	 */
 	public LUDecomposition(final Matrix A) {
 		// Initialize
-		LU = A.getAll();
+		LU = A.toPrimitiveArray2D();
 		m = A.getRowDimension();
 		n = A.getColumnDimension();
 		pivotSign = 1;

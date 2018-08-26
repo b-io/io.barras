@@ -30,6 +30,7 @@ import java.util.Set;
 
 import jupiter.common.map.parser.DoubleParser;
 import jupiter.common.math.Maths;
+import jupiter.common.struct.list.ExtendedList;
 
 public class Doubles {
 
@@ -214,6 +215,19 @@ public class Doubles {
 	}
 
 	/**
+	 * Returns an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
+	 * values.
+	 * <p>
+	 * @param array an array of {@code double} values
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
+	 *         values
+	 */
+	public static ExtendedList<Double> toExtendedList(final double... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
 	 * Returns a {@link List} of {@link Double} from the specified array of type {@code T}.
 	 * <p>
 	 * @param <T>   the type of the array to convert
@@ -222,6 +236,18 @@ public class Doubles {
 	 * @return a {@link List} of {@link Double} from the specified array of type {@code T}
 	 */
 	public static <T> List<Double> toList(final T... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Double} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the type of the array to convert
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Double} from the specified array of type {@code T}
+	 */
+	public static <T> ExtendedList<Double> toExtendedList(final T... array) {
 		return PARSER.callToList(array);
 	}
 
@@ -236,6 +262,21 @@ public class Doubles {
 	 *         {@code T}
 	 */
 	public static <T> List<Double> collectionToList(final Collection<T> collection) {
+		return PARSER.callCollectionToList(collection);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@link Collection} of
+	 * type {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Double} from the specified {@link Collection} of
+	 *         type {@code T}
+	 */
+	public static <T> ExtendedList<Double> collectionToExtendedList(
+			final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 

@@ -70,7 +70,11 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> List<T> toList(final T... values) {
-		final List<T> result = new ExtendedList<T>(values.length);
+		return toExtendedList(values);
+	}
+
+	public static <T> ExtendedList<T> toExtendedList(final T... values) {
+		final ExtendedList<T> result = new ExtendedList<T>(values.length);
 		for (final T value : values) {
 			result.add(value);
 		}
@@ -196,44 +200,46 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> List<T> take(final T[] array, final int from, final int length) {
+	public static <T> ExtendedList<T> take(final T[] array, final int from, final int length) {
 		final int maxLength = Math.min(length, array.length);
-		final List<T> result = new ExtendedList<T>(maxLength);
+		final ExtendedList<T> result = new ExtendedList<T>(maxLength);
 		for (int i = from; i < maxLength; ++i) {
 			result.add(array[i]);
 		}
 		return result;
 	}
 
-	public static <T> List<T> take(final T[][] array2D, final int fromRow, final int rowCount) {
+	public static <T> ExtendedList<T> take(final T[][] array2D, final int fromRow,
+			final int rowCount) {
 		return take(array2D, fromRow, rowCount, 0, array2D[0].length);
 	}
 
-	public static <T> List<T> take(final T[][] array2D, final int fromRow, final int rowCount,
-			final int fromColumn, final int columnCount) {
+	public static <T> ExtendedList<T> take(final T[][] array2D, final int fromRow,
+			final int rowCount, final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length);
-		final List<T> result = new ExtendedList<T>(maxRowCount * columnCount);
+		final ExtendedList<T> result = new ExtendedList<T>(maxRowCount * columnCount);
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			result.addAll(take(array2D[i], fromColumn, columnCount));
 		}
 		return result;
 	}
 
-	public static <T> List<T> take(final T[][][] array3D, final int fromRow, final int rowCount) {
+	public static <T> ExtendedList<T> take(final T[][][] array3D, final int fromRow,
+			final int rowCount) {
 		return take(array3D, fromRow, rowCount, 0, array3D[0].length, 0, array3D[0][0].length);
 	}
 
-	public static <T> List<T> take(final T[][][] array3D, final int fromRow, final int rowCount,
-			final int fromColumn, final int columnCount) {
+	public static <T> ExtendedList<T> take(final T[][][] array3D, final int fromRow,
+			final int rowCount, final int fromColumn, final int columnCount) {
 		return take(array3D, fromRow, rowCount, fromColumn, columnCount, 0, array3D[0][0].length);
 	}
 
-	public static <T> List<T> take(final T[][][] array3D, final int fromRow, final int rowCount,
-			final int fromColumn, final int columnCount, final int fromDepth,
+	public static <T> ExtendedList<T> take(final T[][][] array3D, final int fromRow,
+			final int rowCount, final int fromColumn, final int columnCount, final int fromDepth,
 			final int depthCount) {
 		final int maxRowCount = Math.min(rowCount, array3D.length);
 		final int length = columnCount * depthCount;
-		final List<T> result = new ExtendedList<T>(maxRowCount * length);
+		final ExtendedList<T> result = new ExtendedList<T>(maxRowCount * length);
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			result.addAll(take(array3D[i], fromColumn, columnCount, fromDepth, depthCount));
 		}

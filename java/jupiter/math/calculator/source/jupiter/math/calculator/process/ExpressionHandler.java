@@ -25,6 +25,7 @@ package jupiter.math.calculator.process;
 
 import static jupiter.common.io.IO.IO;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +34,9 @@ import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
-import jupiter.common.thread.LockedWorkQueue;
+import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
@@ -59,13 +61,13 @@ public class ExpressionHandler {
 	protected static final boolean USE_THREADS = true;
 
 	/**
-	 * The list of binary operators.
+	 * The {@link List} of binary operators.
 	 */
 	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.toList(
 			Arrays.toList('+', '-'), Arrays.toList('*', '/'), Arrays.<Character>toList('^'),
 			Arrays.toList('~'));
 	/**
-	 * The list of unary operators.
+	 * The {@link List} of unary operators.
 	 */
 	protected static final List<List<Character>> UNARY_OPERATORS = Arrays
 			.toList(Arrays.toList('!', '\''), Arrays.toList('@'));
@@ -78,7 +80,7 @@ public class ExpressionHandler {
 	/**
 	 * The thread pool.
 	 */
-	protected static LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>> THREAD_POOL = null;
+	protected static IWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>> THREAD_POOL = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +102,7 @@ public class ExpressionHandler {
 		IO.debug("");
 		stop();
 		if (USE_THREADS) {
-			THREAD_POOL = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
+			THREAD_POOL = new WorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
 					new Parser());
 		}
 	}
@@ -422,7 +424,7 @@ public class ExpressionHandler {
 	 * @return the delimiters in {@code expression}
 	 */
 	protected static IntervalList<Integer> getDelimiters(final String expression) {
-		final List<Interval<Integer>> delimiters = new ExtendedList<Interval<Integer>>();
+		final List<Interval<Integer>> delimiters = new LinkedList<Interval<Integer>>();
 		final int length = expression.length();
 		int counter = 0;
 		int lowerBound, upperBound = -1;

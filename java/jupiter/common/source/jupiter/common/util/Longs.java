@@ -29,6 +29,7 @@ import java.util.Random;
 import java.util.Set;
 
 import jupiter.common.map.parser.LongParser;
+import jupiter.common.struct.list.ExtendedList;
 
 public class Longs {
 
@@ -232,6 +233,19 @@ public class Longs {
 	}
 
 	/**
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
+	 * values.
+	 * <p>
+	 * @param array an array of {@code long} values
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
+	 *         values
+	 */
+	public static ExtendedList<Long> toExtendedList(final long... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
 	 * Returns a {@link List} of {@link Long} from the specified array of type {@code T}.
 	 * <p>
 	 * @param <T>   the type of the array to convert
@@ -240,6 +254,18 @@ public class Longs {
 	 * @return a {@link List} of {@link Long} from the specified array of type {@code T}
 	 */
 	public static <T> List<Long> toList(final T... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the type of the array to convert
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Long} from the specified array of type {@code T}
+	 */
+	public static <T> ExtendedList<Long> toExtendedList(final T... array) {
 		return PARSER.callToList(array);
 	}
 
@@ -254,6 +280,20 @@ public class Longs {
 	 *         {@code T}
 	 */
 	public static <T> List<Long> collectionToList(final Collection<T> collection) {
+		return PARSER.callCollectionToList(collection);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@link Collection} of type
+	 * {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@link Collection} of type
+	 *         {@code T}
+	 */
+	public static <T> ExtendedList<Long> collectionToExtendedList(final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 

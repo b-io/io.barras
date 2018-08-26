@@ -23,12 +23,12 @@
  */
 package jupiter.common.io;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.log.LogHandler;
-import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Strings;
 
 public class IO {
@@ -54,7 +54,7 @@ public class IO {
 	/**
 	 * The default IO handlers.
 	 */
-	public static final List<IOHandler> DEFAULT_HANDLERS = new ExtendedList<IOHandler>(2);
+	public static final List<IOHandler> DEFAULT_HANDLERS = new LinkedList<IOHandler>();
 	/**
 	 * The default console handler.
 	 */
@@ -96,7 +96,7 @@ public class IO {
 	/**
 	 * The IO handlers.
 	 */
-	protected final List<IOHandler> handlers;
+	protected final List<IOHandler> handlers = new LinkedList<IOHandler>();
 	/**
 	 * The console handler.
 	 */
@@ -134,7 +134,6 @@ public class IO {
 		this.stackIndex = stackIndex;
 		this.severityLevel = severityLevel;
 		// Set the IO handlers
-		handlers = new ExtendedList<IOHandler>(2);
 		this.consoleHandler = consoleHandler;
 		handlers.add(consoleHandler);
 		this.logHandler = logHandler;

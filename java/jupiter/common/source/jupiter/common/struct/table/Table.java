@@ -227,13 +227,11 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the column with the specified name, or {@code -1} if there is no such
-	 * occurrence.
+	 * Returns the index of the specified column, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param name the column name
 	 * <p>
-	 * @return the index of the column with the specified name, or {@code -1} if there is no such
-	 *         occurrence
+	 * @return the index of the specified column, or {@code -1} if there is no such occurrence
 	 */
 	public int getColumnIndex(final String name) {
 		if (header == null) {
@@ -1086,7 +1084,9 @@ public class Table<T>
 	protected class TableIterator
 			implements Iterator<T[]> {
 
-		// The index of the next row
+		/**
+		 * The index of the next row.
+		 */
 		protected int cursor = 0;
 
 		public boolean hasNext() {

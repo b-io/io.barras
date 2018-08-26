@@ -473,21 +473,6 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns all the elements in a 2D array.
-	 * <p>
-	 * @return all the elements in a 2D array
-	 */
-	public double[][] getAll() {
-		final double[][] values = new double[m][n];
-		for (int i = 0; i < m; ++i) {
-			System.arraycopy(elements[i], 0, values[i], 0, n);
-		}
-		return values;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns the submatrix {@code this(rowStart:rowEnd, columnStart:columnEnd)}.
 	 * <p>
 	 * @param rowStart    the initial row index (inclusive)
@@ -892,6 +877,19 @@ public class Matrix
 	}
 
 	/**
+	 * Converts {@code this} to a 2D array of {@code double} values.
+	 * <p>
+	 * @return a 2D array of {@code double} values
+	 */
+	public double[][] toPrimitiveArray2D() {
+		final double[][] values = new double[m][n];
+		for (int i = 0; i < m; ++i) {
+			System.arraycopy(elements[i], 0, values[i], 0, n);
+		}
+		return values;
+	}
+
+	/**
 	 * Converts {@code this} to a {@link Scalar}.
 	 * <p>
 	 * @return a {@link Scalar}
@@ -1080,11 +1078,11 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the pivot rows with the specified row indexes.
+	 * Returns the pivot rows at the specified row indexes.
 	 * <p>
 	 * @param rowIndexes an array of row indexes
 	 * <p>
-	 * @return the pivot rows with the specified row indexes
+	 * @return the pivot rows at the specified row indexes
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the specified row indexes are out of bounds
 	 */
@@ -1093,11 +1091,11 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the unpivot rows with the specified row indexes.
+	 * Returns the unpivot rows at the specified row indexes.
 	 * <p>
 	 * @param rowIndexes an array of row indexes
 	 * <p>
-	 * @return the unpivot rows with the specified row indexes
+	 * @return the unpivot rows at the specified row indexes
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the specified row indexes are out of bounds
 	 */
@@ -1279,9 +1277,14 @@ public class Matrix
 	 * @return {@code this + matrix}
 	 */
 	public Matrix plus(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Initialize
 		final Matrix result = new Matrix(m, n);
 		final double[][] resultElements = result.getElements();
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				resultElements[i][j] = elements[i][j] + matrix.elements[i][j];
@@ -1316,7 +1319,10 @@ public class Matrix
 	 * @return {@code this += matrix}
 	 */
 	public Matrix add(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] += matrix.elements[i][j];
@@ -1373,9 +1379,14 @@ public class Matrix
 	 * @return {@code this - matrix}
 	 */
 	public Matrix minus(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Initialize
 		final Matrix result = new Matrix(m, n);
 		final double[][] resultElements = result.getElements();
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				resultElements[i][j] = elements[i][j] - matrix.elements[i][j];
@@ -1410,7 +1421,10 @@ public class Matrix
 	 * @return {@code this -= matrix}
 	 */
 	public Matrix subtract(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] -= matrix.elements[i][j];
@@ -1468,9 +1482,14 @@ public class Matrix
 	 * @return {@code this .* matrix}
 	 */
 	public Matrix arrayTimes(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Initialize
 		final Matrix result = new Matrix(m, n);
 		final double[][] resultElements = result.getElements();
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				resultElements[i][j] = elements[i][j] * matrix.elements[i][j];
@@ -1505,7 +1524,10 @@ public class Matrix
 	 * @return {@code this .*= matrix}
 	 */
 	public Matrix arrayMultiply(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] *= matrix.elements[i][j];
@@ -1526,8 +1548,12 @@ public class Matrix
 	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
 	public Entity dot(final Matrix matrix) {
+		// Check the arguments
 		requireInnerDimension(matrix);
+
+		// Initialize
 		final double[][] matrixElements = matrix.getElements();
+
 		// Test whether the result is a scalar or a matrix
 		if (m == 1 && matrix.n == 1) {
 			// - Scalar
@@ -1601,10 +1627,15 @@ public class Matrix
 	 * <p>
 	 * @return {@code this ./ matrix}
 	 */
-	public Matrix arrayRightDivision(final Matrix matrix) {
+	public Matrix arrayDivision(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Initialize
 		final Matrix result = new Matrix(m, n);
 		final double[][] resultElements = result.getElements();
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				resultElements[i][j] = elements[i][j] / matrix.elements[i][j];
@@ -1621,9 +1652,14 @@ public class Matrix
 	 * @return {@code matrix ./ this}
 	 */
 	public Matrix arrayLeftDivision(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Initialize
 		final Matrix result = new Matrix(m, n);
 		final double[][] resultElements = result.getElements();
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				resultElements[i][j] = matrix.elements[i][j] / elements[i][j];
@@ -1641,7 +1677,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this /= scalar}
 	 */
-	public Matrix rightDivide(final double scalar) {
+	public Matrix divide(final double scalar) {
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] /= scalar;
@@ -1673,8 +1709,11 @@ public class Matrix
 	 * <p>
 	 * @return {@code this ./= matrix}
 	 */
-	public Matrix arrayRightDivide(final Matrix matrix) {
+	public Matrix arrayDivide(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] /= matrix.elements[i][j];
@@ -1691,7 +1730,10 @@ public class Matrix
 	 * @return {@code this = matrix ./ this}
 	 */
 	public Matrix arrayLeftDivide(final Matrix matrix) {
+		// Check the arguments
 		requireDimensions(matrix);
+
+		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] = matrix.elements[i][j] / elements[i][j];

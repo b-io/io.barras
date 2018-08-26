@@ -54,6 +54,25 @@ public class SystemFiles {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static IOFileFilter createFilter(final String pattern) {
+		return new IOFileFilter() {
+			@Override
+			public boolean accept(final File file) {
+				return file.getName().matches(pattern);
+			}
+
+			@Override
+			public boolean accept(final File file, final String string) {
+				return accept(file);
+			}
+		};
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,20 +101,6 @@ public class SystemFiles {
 		return FileUtils.listFiles(dir, createFilter(fileFilter), createFilter(dirFilter));
 	}
 
-	public static IOFileFilter createFilter(final String pattern) {
-		return new IOFileFilter() {
-			@Override
-			public boolean accept(final File file) {
-				return file.getName().matches(pattern);
-			}
-
-			@Override
-			public boolean accept(final File file, final String string) {
-				return accept(file);
-			}
-		};
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static Collection<File> find(final String dirname, final String[] fileFilters) {
@@ -113,11 +118,11 @@ public class SystemFiles {
 
 	public static Collection<File> find(final File dir, final String[] fileFilters,
 			final String dirFilter) {
-		final Collection<File> result = new LinkedList<File>();
+		final Collection<File> files = new LinkedList<File>();
 		for (final String fileFilter : fileFilters) {
-			result.addAll(find(dir, fileFilter, dirFilter));
+			files.addAll(find(dir, fileFilter, dirFilter));
 		}
-		return result;
+		return files;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -23,22 +23,14 @@
  */
 package jupiter.common.io;
 
-import java.io.Serializable;
-
 import jupiter.common.time.Dates;
 import jupiter.common.util.Strings;
 
-public class Messages
-		implements Serializable {
+public class Messages {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = -5914102983089720724L;
 
 	protected Messages() {
 	}

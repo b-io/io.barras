@@ -26,12 +26,12 @@ package jupiter.common.thread;
 import static jupiter.common.io.IO.IO;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
 import jupiter.common.io.IO.SeverityLevel;
-import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.time.Chronometer;
 
 public class LockedWorkQueueTest
@@ -62,7 +62,7 @@ public class LockedWorkQueueTest
 
 		// Process the tasks
 		chrono.start();
-		final List<Long> ids = new ExtendedList<Long>(nTasks);
+		final List<Long> ids = new LinkedList<Long>();
 		for (int i = 0; i < nTasks; ++i) {
 			ids.add(queue.submit(i));
 		}

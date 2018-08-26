@@ -35,8 +35,9 @@ import jupiter.common.io.Message;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.struct.tuple.Pair;
-import jupiter.common.thread.LockedWorkQueue;
+import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.BinaryOperation;
@@ -69,12 +70,12 @@ public class Calculator {
 	/**
 	 * The thread pool.
 	 */
-	protected static LockedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> THREAD_POOL = null;
+	protected static IWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> THREAD_POOL = null;
 
 	/**
 	 * The context containing the values of the variables.
 	 */
-	protected volatile Map<String, Element> context;
+	protected volatile Map<String, Element> context = new RedBlackTreeMap<String, Element>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +83,6 @@ public class Calculator {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Calculator() {
-		context = new RedBlackTreeMap<String, Element>();
 	}
 
 
@@ -91,13 +91,13 @@ public class Calculator {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Initializes the working threads.
+	 * Starts the thread pool.
 	 */
 	public static void start() {
 		IO.debug("");
 		stop();
 		if (USE_THREADS) {
-			THREAD_POOL = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
+			THREAD_POOL = new WorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
 					new Evaluator());
 		}
 		ExpressionHandler.start();

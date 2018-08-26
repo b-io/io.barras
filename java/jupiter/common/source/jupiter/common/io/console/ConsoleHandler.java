@@ -48,7 +48,7 @@ public class ConsoleHandler
 	/**
 	 * The console to handle.
 	 */
-	protected IConsole console = new SystemConsole();
+	protected IConsole console;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

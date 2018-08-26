@@ -60,11 +60,11 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the colors.
+	 * Returns the colors in an {@link ExtendedList}.
 	 * <p>
-	 * @return the colors
+	 * @return the colors in an {@link ExtendedList}
 	 */
-	public static List<Color> getColors() {
+	public static ExtendedList<Color> getColors() {
 		return new ExtendedList<Color>(
 				Arrays.<Color>asList(Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE));
 	}

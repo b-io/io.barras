@@ -38,10 +38,16 @@ import jupiter.common.util.Formats;
 public class GraphicalConsole {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static final String TITLE = "Jupiter v" + Formats.VERSION;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final String title = "Console v" + Formats.VERSION;
 	protected final JFrame frame;
 	protected final JConsole console;
 	protected PrintStream ps;
@@ -53,7 +59,7 @@ public class GraphicalConsole {
 
 	public GraphicalConsole() {
 		// Define a frame
-		frame = new JFrame(title);
+		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		frame.setSize(600, 400);

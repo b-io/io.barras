@@ -120,7 +120,7 @@ public abstract class Worker<I, O>
 				break;
 			}
 		}
-		IO.debug("The working thread ", id, " is finished");
+		finalize();
 	}
 
 
@@ -130,6 +130,11 @@ public abstract class Worker<I, O>
 
 	@Override
 	public abstract Worker<I, O> clone();
+
+	@Override
+	public void finalize() {
+		IO.debug(getClass().getSimpleName(), " ", id, " is finalized");
+	}
 
 	@Override
 	public String toString() {

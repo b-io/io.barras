@@ -30,6 +30,7 @@ import java.util.Set;
 
 import jupiter.common.map.parser.CharacterParser;
 import jupiter.common.map.parser.Parsers;
+import jupiter.common.struct.list.ExtendedList;
 
 public class Characters {
 
@@ -216,6 +217,19 @@ public class Characters {
 	}
 
 	/**
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified array of {@code char}
+	 * values.
+	 * <p>
+	 * @param array an array of {@code char} values
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Character} from the specified array of {@code char}
+	 *         values
+	 */
+	public static ExtendedList<Character> toExtendedList(final char... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
 	 * Returns a {@link List} of {@link Character} from the specified array of type {@code T}.
 	 * <p>
 	 * @param <T>   the type of the array to convert
@@ -224,6 +238,20 @@ public class Characters {
 	 * @return a {@link List} of {@link Character} from the specified array of type {@code T}
 	 */
 	public static <T> List<Character> toList(final T... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified array of type
+	 * {@code T}.
+	 * <p>
+	 * @param <T>   the type of the array to convert
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Character} from the specified array of type
+	 *         {@code T}
+	 */
+	public static <T> ExtendedList<Character> toExtendedList(final T... array) {
 		return PARSER.callToList(array);
 	}
 
@@ -238,6 +266,21 @@ public class Characters {
 	 *         {@code T}
 	 */
 	public static <T> List<Character> collectionToList(final Collection<T> collection) {
+		return PARSER.callCollectionToList(collection);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
+	 * type {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
+	 *         type {@code T}
+	 */
+	public static <T> ExtendedList<Character> collectionToExtendedList(
+			final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 

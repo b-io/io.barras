@@ -92,7 +92,7 @@ public class SingularValueDecomposition
 	 */
 	public SingularValueDecomposition(final Matrix A) {
 		// Initialize
-		final double[][] elements = A.getAll();
+		final double[][] elements = A.toPrimitiveArray2D();
 		m = A.getRowDimension();
 		n = A.getColumnDimension();
 		/*

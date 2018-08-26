@@ -89,7 +89,7 @@ public class QRDecomposition
 	 */
 	public QRDecomposition(final Matrix A) {
 		// Initialize
-		QR = A.getAll();
+		QR = A.toPrimitiveArray2D();
 		m = A.getRowDimension();
 		n = A.getColumnDimension();
 		Rdiag = new double[n];
@@ -242,7 +242,7 @@ public class QRDecomposition
 
 		// Initialize
 		final int nx = B.getColumnDimension();
-		final double[][] xElements = B.getAll();
+		final double[][] xElements = B.toPrimitiveArray2D();
 
 		// Compute Y = Q' * B
 		for (int k = 0; k < n; ++k) {

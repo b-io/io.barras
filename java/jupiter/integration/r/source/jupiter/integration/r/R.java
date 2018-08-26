@@ -62,8 +62,8 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean installPackage(final String name) {
-		return exec("if (!'" + name + "' %in% installed.packages())" + "install.packages('" + name +
-				"', repos='" + REPO + "')");
+		return execute("if (!'" + name + "' %in% installed.packages())" + "install.packages('" +
+				name + "', repos='" + REPO + "')");
 	}
 
 	public static boolean installPackages(final String[] names) {
@@ -87,7 +87,7 @@ public class R {
 		}
 
 		// Launch Rserve
-		if (!(installPackage("Rserve") && exec("library(Rserve); Rserve(" +
+		if (!(installPackage("Rserve") && execute("library(Rserve); Rserve(" +
 				(debug ? "TRUE" : "FALSE") + ", args='" + ARGS + "')"))) {
 			return false;
 		}
@@ -148,21 +148,21 @@ public class R {
 	 * <p>
 	 * @return {@code true} if the R engine processed the specified script, {@code false} otherwise
 	 */
-	public static boolean exec(final String script) {
-		return exec(script, ARGS);
+	public static boolean execute(final String script) {
+		return execute(script, ARGS);
 	}
 
-	public static boolean exec(final String script, final String args) {
+	public static boolean execute(final String script, final String args) {
 		try {
 			IO.debug(">> Run ", Strings.quote(script));
 			final Process process;
 			if (Systems.isWindows()) {
 				// Windows
-				process = Systems.exec(Strings.doubleQuote(PATH) + " -e " +
+				process = Systems.execute(Strings.doubleQuote(PATH) + " -e " +
 						Strings.doubleQuote(script) + " " + args);
 			} else {
 				// Unix
-				process = Systems.exec(
+				process = Systems.execute(
 						Arrays.toArray("/bin/sh", "-c", "echo " + Strings.doubleQuote(script) +
 								" | " + Strings.doubleQuote(PATH) + " " + args));
 			}

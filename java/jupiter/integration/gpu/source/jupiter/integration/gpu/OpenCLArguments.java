@@ -21,47 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.r;
+package jupiter.integration.gpu;
 
-import static jupiter.common.io.IO.IO;
+import jupiter.common.test.Arguments;
 
-import jupiter.common.util.Arrays;
-import jupiter.common.util.Strings;
-import jupiter.gui.console.GraphicalConsole;
-
-public class RConsole {
+public class OpenCLArguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void main(final String[] args) {
-		final GraphicalConsole console = new GraphicalConsole();
-		R.start();
-		R.installPackages(Arrays.toArray("bsts", "dplyr", "forecast", "Jmisc", "highcharter",
-				"imputeTS", "lars", "lubridate", "mgcv", "quantmod", "Rblpapi", "RODBC", "shiny"));
-		interactions();
-		R.stop();
-		console.exit();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Interacts with the user.
-	 */
-	protected static void interactions() {
-		boolean isRunning = true;
-
-		do {
-			// Process the input expression
-			final String inputExpression = IO.input().trim();
-			if (Strings.toLowerCase(inputExpression).contains("exit")) {
-				IO.info("Good bye!");
-				isRunning = false;
-			} else {
-				R.execute(inputExpression);
-			}
-		} while (isRunning);
+	public static void requireSameInnerDimension(final int aColumnDimension,
+			final int bRowDimension) {
+		if (aColumnDimension != bRowDimension) {
+			throw new IllegalArgumentException(
+					"The specified arrays do not have the same (inner) row dimensions " +
+							Arguments.isNotEqualTo(aColumnDimension, bRowDimension));
+		}
 	}
 }

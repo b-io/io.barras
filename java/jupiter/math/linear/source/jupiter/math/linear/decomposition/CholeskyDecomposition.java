@@ -161,7 +161,7 @@ public class CholeskyDecomposition
 
 		// Initialize
 		final int nx = B.getColumnDimension();
-		final double[][] xElements = B.getAll();
+		final double[][] xElements = B.toPrimitiveArray2D();
 
 		// Solve L * Y = B
 		for (int k = 0; k < dimension; ++k) {

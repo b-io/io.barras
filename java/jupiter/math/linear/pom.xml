@@ -29,5 +29,10 @@
 			<artifactId>analysis</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>gpu</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

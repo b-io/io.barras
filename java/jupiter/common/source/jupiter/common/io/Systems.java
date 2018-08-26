@@ -74,12 +74,12 @@ public class Systems {
 		return OS == jupiter.common.io.Systems.OS.WINDOWS;
 	}
 
-	public static Process exec(final String command)
+	public static Process execute(final String command)
 			throws IOException {
 		return Runtime.getRuntime().exec(command);
 	}
 
-	public static Process exec(final String[] commands)
+	public static Process execute(final String[] commands)
 			throws IOException {
 		return Runtime.getRuntime().exec(commands);
 	}

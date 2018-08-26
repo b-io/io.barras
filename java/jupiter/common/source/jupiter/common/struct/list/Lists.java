@@ -39,31 +39,33 @@ public class Lists {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// LISTS
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T extends Number> List<T> getMinElements(final List<T> a, final List<T> b) {
+	public static <T extends Number> ExtendedList<T> getMinElements(final List<T> a,
+			final List<T> b) {
 		// Check the arguments
 		CollectionArguments.<List<T>>requireSameSize(a, b);
 
 		// Get the size
 		final int size = a.size();
 		// For each index, get the minimum number
-		final List<T> minElements = new ExtendedList<T>(size);
+		final ExtendedList<T> minElements = new ExtendedList<T>(size);
 		for (int i = 0; i < size; ++i) {
 			minElements.add(Numbers.<T>getMin(a.get(i), b.get(i)));
 		}
 		return minElements;
 	}
 
-	public static <T extends Number> List<T> getMaxElements(final List<T> a, final List<T> b) {
+	public static <T extends Number> ExtendedList<T> getMaxElements(final List<T> a,
+			final List<T> b) {
 		// Check the arguments
 		CollectionArguments.<List<T>>requireSameSize(a, b);
 
 		// Get the size
 		final int size = a.size();
 		// For each index, get the maximum number
-		final List<T> maxElements = new ExtendedList<T>(size);
+		final ExtendedList<T> maxElements = new ExtendedList<T>(size);
 		for (int i = 0; i < size; ++i) {
 			maxElements.add(Numbers.<T>getMax(a.get(i), b.get(i)));
 		}

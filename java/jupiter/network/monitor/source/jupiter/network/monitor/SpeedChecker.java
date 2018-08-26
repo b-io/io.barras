@@ -36,11 +36,12 @@ import java.nio.channels.ReadableByteChannel;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import jupiter.common.io.file.FileHandler;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
@@ -61,9 +62,9 @@ public class SpeedChecker {
 	protected static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
 	/**
-	 * The list of URLs to download.
+	 * The {@link List} of URLs to download.
 	 */
-	protected static final List<String> URLS = new ExtendedList<String>(Arrays.<String>asList(
+	protected static final List<String> URLS = new LinkedList<String>(Arrays.<String>asList(
 			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test"));
 
 	/**
@@ -75,7 +76,7 @@ public class SpeedChecker {
 	/**
 	 * The thread pool.
 	 */
-	protected static final WorkQueue<String, Report<Double>> THREAD_POOL = new WorkQueue<String, Report<Double>>(
+	protected static final IWorkQueue<String, Report<Double>> THREAD_POOL = new WorkQueue<String, Report<Double>>(
 			new Checker());
 
 

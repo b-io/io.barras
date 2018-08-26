@@ -169,10 +169,11 @@ public class DynamicChartPanel
 	 * @param xCoordinate a {@code double} value
 	 * @param yCoordinate a {@code double} value
 	 * <p>
-	 * @return the formatted x and y coordinates
+	 * @return the formatted x and y coordinates in an {@link ExtendedList}
 	 */
-	public List<Pair<String, String>> formatXY(final double xCoordinate, final double yCoordinate) {
-		final List<Pair<String, String>> info = new ExtendedList<Pair<String, String>>(2);
+	public ExtendedList<Pair<String, String>> formatXY(final double xCoordinate,
+			final double yCoordinate) {
+		final ExtendedList<Pair<String, String>> info = new ExtendedList<Pair<String, String>>(2);
 		info.add(new Pair<String, String>("X:", formatX(xCoordinate)));
 		info.add(new Pair<String, String>("Y:", formatY(yCoordinate)));
 		return info;

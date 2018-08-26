@@ -25,7 +25,6 @@ package jupiter.common.map;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import jupiter.common.struct.list.ExtendedList;
@@ -64,8 +63,8 @@ public abstract class ObjectMapper<O>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <I> List<O> callCollectionToList(final Collection<I> collection) {
-		final List<O> result = new ExtendedList<O>(collection.size());
+	public <I> ExtendedList<O> callCollectionToList(final Collection<I> collection) {
+		final ExtendedList<O> result = new ExtendedList<O>(collection.size());
 		for (final I element : collection) {
 			result.add(call(element));
 		}

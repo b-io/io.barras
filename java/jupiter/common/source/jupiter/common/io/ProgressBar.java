@@ -103,7 +103,6 @@ public class ProgressBar {
 	public ProgressBar(final int length, final boolean isError) {
 		this.length = length;
 		this.isError = isError;
-		progress = 0;
 	}
 
 

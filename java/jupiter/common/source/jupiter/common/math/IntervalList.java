@@ -23,6 +23,7 @@
  */
 package jupiter.common.math;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import jupiter.common.util.Strings;
@@ -45,6 +46,7 @@ public class IntervalList<T extends Comparable<T>>
 	 * Constructs an {@link IntervalList}.
 	 */
 	public IntervalList() {
+		intervals = new LinkedList<Interval<T>>();
 	}
 
 	/**

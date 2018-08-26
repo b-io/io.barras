@@ -68,22 +68,23 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Performs the in-order traversal and returns the keys of the visited nodes in a list.
+	 * Performs the in-order traversal and returns the keys of the visited nodes in an
+	 * {@link ExtendedList}.
 	 * <p>
-	 * @return the keys of the visited nodes in a list
+	 * @return the keys of the visited nodes in an {@link ExtendedList}
 	 */
-	public List<K> getKeys() {
-		final List<K> keys = new ExtendedList<K>(size);
+	public ExtendedList<K> getKeys() {
+		final ExtendedList<K> keys = new ExtendedList<K>(size);
 		getKeys(root, keys);
 		return keys;
 	}
 
 	/**
 	 * Performs the in-order traversal of the specified tree and returns the keys of the visited
-	 * nodes in the specified list.
+	 * nodes in the specified {@link List}.
 	 * <p>
 	 * @param tree the tree to get the keys from
-	 * @param keys the list to store the keys in
+	 * @param keys the {@link List} to store the keys in
 	 */
 	protected void getKeys(final N tree, final List<K> keys) {
 		if (tree != null) {
@@ -94,22 +95,23 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Performs the in-order traversal and returns the values of the visited nodes in a list.
+	 * Performs the in-order traversal and returns the values of the visited nodes in an
+	 * {@link ExtendedList}.
 	 * <p>
-	 * @return the values of the visited nodes in a list
+	 * @return the values of the visited nodes in an {@link ExtendedList}
 	 */
-	public List<V> getValues() {
-		final List<V> values = new ExtendedList<V>(size);
+	public ExtendedList<V> getValues() {
+		final ExtendedList<V> values = new ExtendedList<V>(size);
 		getValues(root, values);
 		return values;
 	}
 
 	/**
 	 * Performs the in-order traversal of the specified tree and returns the values of the visited
-	 * nodes in the specified list.
+	 * nodes in the specified {@link List}.
 	 * <p>
 	 * @param tree   the tree to get the values from
-	 * @param values the list to store the values in
+	 * @param values the {@link List} to store the values in
 	 */
 	protected void getValues(final N tree, final List<V> values) {
 		if (tree != null) {

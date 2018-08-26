@@ -34,7 +34,7 @@ public class Interval<T extends Comparable<T>>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected T lowerBound = null, upperBound = null;
+	protected T lowerBound, upperBound;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +45,8 @@ public class Interval<T extends Comparable<T>>
 	 * Constructs an {@link Interval}.
 	 */
 	public Interval() {
+		lowerBound = null;
+		upperBound = null;
 	}
 
 	/**

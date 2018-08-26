@@ -200,14 +200,14 @@ public class Dates {
 	}
 
 	/**
-	 * Returns the {@link List} of Swiss public holidays.
+	 * Returns the Swiss public holidays in an {@link ExtendedList}.
 	 * <p>
 	 * @param year the year to consider
 	 * <p>
-	 * @return the {@link List} of Swiss public holidays
+	 * @return the Swiss public holidays in an {@link ExtendedList}
 	 */
-	public static List<Date> getSwissPublicHolidays(final int year) {
-		final List<Date> publicHolidays = new ExtendedList<Date>();
+	public static ExtendedList<Date> getSwissPublicHolidays(final int year) {
+		final ExtendedList<Date> publicHolidays = new ExtendedList<Date>();
 		// Add New Year's Day
 		publicHolidays.add(createDate(1, 1, year));
 		// Add Good Friday

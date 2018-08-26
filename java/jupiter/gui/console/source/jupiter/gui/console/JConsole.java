@@ -66,7 +66,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import jupiter.common.io.console.IConsole;
-import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
@@ -100,7 +99,7 @@ public class JConsole
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final List<String> history = new ExtendedList<String>();
+	protected final List<String> history = new LinkedList<String>();
 	protected final LinkedList<String> inputLines = new LinkedList<String>();
 	protected volatile OutputStream outPipe;
 	protected volatile InputStream inPipe;
@@ -119,8 +118,7 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public JConsole() {
-		super();
-		init(null, null);
+		this(null, null);
 	}
 
 	public JConsole(final InputStream cin, final OutputStream cout) {
@@ -791,14 +789,14 @@ public class JConsole
 				}
 			}
 			// This is what the superclass does
-			final int result = buffer[super.out++] & 0xFF;
+			final int nextByte = buffer[super.out++] & 0xFF;
 			if (super.out >= buffer.length) {
 				super.out = 0;
 			}
 			if (super.in == super.out) {
 				super.in = -1;
 			}
-			return result;
+			return nextByte;
 		}
 
 		@Override
