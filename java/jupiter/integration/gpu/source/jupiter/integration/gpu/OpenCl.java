@@ -64,7 +64,7 @@ import org.jocl.cl_program;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.test.Arguments;
-import jupiter.common.test.DoubleArguments;
+import jupiter.common.test.FloatArguments;
 import jupiter.common.test.StringArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
@@ -79,34 +79,34 @@ public class OpenCL {
 	protected static final String KERNEL_PREFIX = "__kernel void";
 
 	protected static final String PROGRAM = "" +
-			"__kernel void plus(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void plus(__global const float* A, __global const float* B, __global float* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] + B[index];" +
 			"}" +
-			"__kernel void minus(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void minus(__global const float* A, __global const float* B, __global float* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] - B[index];" +
 			"}" +
-			"__kernel void times(__global const double* A, __global const double* B, __global double* C," +
+			"__kernel void times(__global const float* A, __global const float* B, __global float* C," +
 			"		const int aColumnDimension, const int bColumnDimension) {" +
 			"	const int index = get_global_id(0);" +
 			"	const int rowOffset = index / bColumnDimension;" +
 			"	const int columnOffset = index % bColumnDimension;" +
-			"	double sum = 0.0;" +
+			"	float sum = 0.0;" +
 			"	for (int i = 0; i < aColumnDimension; ++i) {" +
 			"		sum += A[rowOffset * aColumnDimension + i] * B[i * bColumnDimension + columnOffset];" +
 			"	}" +
 			"	C[index] = sum;" +
 			"}" +
-			"__kernel void arrayTimes(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void arrayTimes(__global const float* A, __global const float* B, __global float* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] * B[index];" +
 			"}" +
-			"__kernel void arrayDivision(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void arrayDivision(__global const float* A, __global const float* B, __global float* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] / B[index];" +
 			"}" +
-			"__kernel void arrayLeftDivision(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void arrayLeftDivision(__global const float* A, __global const float* B, __global float* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = B[index] / A[index];" +
 			"}";
@@ -233,13 +233,13 @@ public class OpenCL {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public cl_mem createReadBuffer(final double[] array) {
+	public cl_mem createReadBuffer(final float[] array) {
 		return clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-				array.length * Sizeof.cl_double, Pointer.to(array), null);
+				array.length * Sizeof.cl_float, Pointer.to(array), null);
 	}
 
-	public cl_mem createWriteBuffer(final double[] array) {
-		return clCreateBuffer(context, CL_MEM_READ_WRITE, array.length * Sizeof.cl_double, null,
+	public cl_mem createWriteBuffer(final float[] array) {
+		return clCreateBuffer(context, CL_MEM_READ_WRITE, array.length * Sizeof.cl_float, null,
 				null);
 	}
 
@@ -260,9 +260,9 @@ public class OpenCL {
 		}, 0, null, null);
 	}
 
-	public int read(final cl_mem buffer, final double[] array) {
+	public int read(final cl_mem buffer, final float[] array) {
 		return clEnqueueReadBuffer(commandQueue, buffer, CL_TRUE, 0,
-				array.length * Sizeof.cl_double, Pointer.to(array), 0, null, null);
+				array.length * Sizeof.cl_float, Pointer.to(array), 0, null, null);
 	}
 
 	public void release(final cl_mem[] buffers) {
@@ -273,15 +273,15 @@ public class OpenCL {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public double[] plus(final double[] A, final double[] B) {
+	public float[] plus(final float[] A, final float[] B) {
 		return arrayOperation("plus", A, B);
 	}
 
-	public double[] minus(final double[] A, final double[] B) {
+	public float[] minus(final float[] A, final float[] B) {
 		return arrayOperation("minus", A, B);
 	}
 
-	public double[] times(final double[] A, final double[] B, final int aColumnDimension,
+	public float[] times(final float[] A, final float[] B, final int aColumnDimension,
 			final int bColumnDimension) {
 		// Check the arguments
 		OpenCLArguments.requireSameInnerDimension(aColumnDimension,
@@ -289,7 +289,7 @@ public class OpenCL {
 
 		// Initialize
 		final int aRowDimension = A.length / aColumnDimension;
-		final double[] result = new double[aRowDimension * bColumnDimension];
+		final float[] result = new float[aRowDimension * bColumnDimension];
 		final cl_mem[] buffers = new cl_mem[3];
 		buffers[0] = CL.createReadBuffer(A);
 		buffers[1] = CL.createReadBuffer(B);
@@ -316,24 +316,24 @@ public class OpenCL {
 		return result;
 	}
 
-	public double[] arrayTimes(final double[] A, final double[] B) {
+	public float[] arrayTimes(final float[] A, final float[] B) {
 		return arrayOperation("arrayTimes", A, B);
 	}
 
-	public double[] arrayDivision(final double[] A, final double[] B) {
+	public float[] arrayDivision(final float[] A, final float[] B) {
 		return arrayOperation("arrayDivision", A, B);
 	}
 
-	public double[] arrayLeftDivision(final double[] A, final double[] B) {
+	public float[] arrayLeftDivision(final float[] A, final float[] B) {
 		return arrayOperation("arrayLeftDivision", A, B);
 	}
 
-	protected double[] arrayOperation(final String name, final double[] A, final double B[]) {
+	protected float[] arrayOperation(final String name, final float[] A, final float B[]) {
 		// Check the arguments
-		DoubleArguments.requireSameLength(A, B);
+		FloatArguments.requireSameLength(A, B);
 
 		// Initialize
-		final double[] result = new double[A.length];
+		final float[] result = new float[A.length];
 		final cl_mem[] buffers = new cl_mem[3];
 		buffers[0] = CL.createReadBuffer(A);
 		buffers[1] = CL.createReadBuffer(B);

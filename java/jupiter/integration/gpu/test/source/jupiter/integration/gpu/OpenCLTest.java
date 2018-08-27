@@ -29,7 +29,7 @@ import static jupiter.integration.gpu.OpenCL.CL;
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import jupiter.common.util.Doubles;
+import jupiter.common.util.Floats;
 
 public class OpenCLTest
 		extends TestCase {
@@ -46,23 +46,23 @@ public class OpenCLTest
 
 		// Create the input and output data
 		final int n = 10;
-		final double[] A = new double[n];
-		final double[] B = new double[n];
+		final float[] A = new float[n];
+		final float[] B = new float[n];
 		for (int i = 0; i < n; i++) {
 			A[i] = i;
 			B[i] = i;
 		}
 
 		// Execute the operation
-		final double[] result = CL.arrayTimes(A, B);
+		final float[] result = CL.arrayTimes(A, B);
 
 		// Verify the result
-		IO.test("Result: ", Doubles.toString(result));
+		IO.test("Result: ", Floats.toString(result));
 		boolean isPassed = true;
 		for (int i = 0; i < n; i++) {
-			final double x = result[i];
-			final double y = A[i] * B[i];
-			if (!Doubles.equals(x, y)) {
+			final float x = result[i];
+			final float y = A[i] * B[i];
+			if (!Floats.equals(x, y)) {
 				isPassed = false;
 				break;
 			}
@@ -81,8 +81,8 @@ public class OpenCLTest
 		// Create the input and output data
 		final int aRowDimension = 2, aColumnDimension = 3;
 		final int bRowDimension = 3, bColumnDimension = 4;
-		final double[] A = new double[aRowDimension * aColumnDimension];
-		final double[] B = new double[bRowDimension * bColumnDimension];
+		final float[] A = new float[aRowDimension * aColumnDimension];
+		final float[] B = new float[bRowDimension * bColumnDimension];
 		for (int i = 0; i < A.length; ++i) {
 			A[i] = i;
 		}
@@ -91,22 +91,22 @@ public class OpenCLTest
 		}
 
 		// Execute the operation
-		final double[] result = CL.times(A, B, aColumnDimension, bColumnDimension);
+		final float[] result = CL.times(A, B, aColumnDimension, bColumnDimension);
 
 		// Verify the result
-		IO.test("Result: ", Doubles.toString(result));
+		IO.test("Result: ", Floats.toString(result));
 		boolean isPassed = true;
 		for (int e = 0; e < result.length; ++e) {
-			final double x = result[e];
+			final float x = result[e];
 
-			double y = 0.0;
+			float y = 0f;
 			final int rowOffset = e / bColumnDimension;
 			final int columnOffset = e % bColumnDimension;
 			for (int i = 0; i < aColumnDimension; ++i) {
 				y += A[rowOffset * aColumnDimension + i] * B[i * bColumnDimension + columnOffset];
 			}
 
-			if (!Doubles.equals(x, y)) {
+			if (!Floats.equals(x, y)) {
 				isPassed = false;
 			}
 		}
