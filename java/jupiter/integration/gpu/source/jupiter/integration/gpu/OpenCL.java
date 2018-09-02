@@ -64,7 +64,7 @@ import org.jocl.cl_program;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.test.Arguments;
-import jupiter.common.test.FloatArguments;
+import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.StringArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
@@ -79,34 +79,34 @@ public class OpenCL {
 	protected static final String KERNEL_PREFIX = "__kernel void";
 
 	protected static final String PROGRAM = "" +
-			"__kernel void plus(__global const float* A, __global const float* B, __global float* C) {" +
+			"__kernel void plus(__global const double* A, __global const double* B, __global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] + B[index];" +
 			"}" +
-			"__kernel void minus(__global const float* A, __global const float* B, __global float* C) {" +
+			"__kernel void minus(__global const double* A, __global const double* B, __global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] - B[index];" +
 			"}" +
-			"__kernel void times(__global const float* A, __global const float* B, __global float* C," +
+			"__kernel void times(__global const double* A, __global const double* B, __global double* C," +
 			"		const int aColumnDimension, const int bColumnDimension) {" +
 			"	const int index = get_global_id(0);" +
 			"	const int rowOffset = index / bColumnDimension;" +
 			"	const int columnOffset = index % bColumnDimension;" +
-			"	float sum = 0.0;" +
+			"	double sum = 0.;" +
 			"	for (int i = 0; i < aColumnDimension; ++i) {" +
 			"		sum += A[rowOffset * aColumnDimension + i] * B[i * bColumnDimension + columnOffset];" +
 			"	}" +
 			"	C[index] = sum;" +
 			"}" +
-			"__kernel void arrayTimes(__global const float* A, __global const float* B, __global float* C) {" +
+			"__kernel void arrayTimes(__global const double* A, __global const double* B, __global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] * B[index];" +
 			"}" +
-			"__kernel void arrayDivision(__global const float* A, __global const float* B, __global float* C) {" +
+			"__kernel void arrayDivision(__global const double* A, __global const double* B, __global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] / B[index];" +
 			"}" +
-			"__kernel void arrayLeftDivision(__global const float* A, __global const float* B, __global float* C) {" +
+			"__kernel void arrayLeftDivision(__global const double* A, __global const double* B, __global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = B[index] / A[index];" +
 			"}";
@@ -118,10 +118,10 @@ public class OpenCL {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final cl_context context;
-	protected final cl_command_queue commandQueue;
+	protected cl_context context;
+	protected cl_command_queue commandQueue;
 
-	protected final cl_program program;
+	protected cl_program program;
 	protected final Map<String, cl_kernel> kernels = new RedBlackTreeMap<String, cl_kernel>();
 
 
@@ -146,12 +146,12 @@ public class OpenCL {
 		setExceptionsEnabled(true);
 
 		// Obtain the number of platforms
-		final int[] nPlatformsArray = new int[1];
-		clGetPlatformIDs(0, null, nPlatformsArray);
-		final int nPlatforms = nPlatformsArray[0];
+		final int[] platformCountArray = new int[1];
+		clGetPlatformIDs(0, null, platformCountArray);
+		final int platformCount = platformCountArray[0];
 
 		// Obtain a platform identifier
-		final cl_platform_id[] platforms = new cl_platform_id[nPlatforms];
+		final cl_platform_id[] platforms = new cl_platform_id[platformCount];
 		clGetPlatformIDs(platforms.length, platforms, null);
 		final cl_platform_id platform = platforms[platformIndex];
 
@@ -160,13 +160,13 @@ public class OpenCL {
 		contextProperties.addProperty(CL_CONTEXT_PLATFORM, platform);
 
 		// Obtain the number of devices for the platform
-		final int[] nDevicesArray = new int[1];
-		clGetDeviceIDs(platform, deviceType, 0, null, nDevicesArray);
-		final int nDevices = nDevicesArray[0];
+		final int[] deviceCountArray = new int[1];
+		clGetDeviceIDs(platform, deviceType, 0, null, deviceCountArray);
+		final int deviceCount = deviceCountArray[0];
 
 		// Obtain a device identifier
-		final cl_device_id[] devices = new cl_device_id[nDevices];
-		clGetDeviceIDs(platform, deviceType, nDevices, devices, null);
+		final cl_device_id[] devices = new cl_device_id[deviceCount];
+		clGetDeviceIDs(platform, deviceType, deviceCount, devices, null);
 		final cl_device_id device = devices[deviceIndex];
 
 		// Create a context for the selected device
@@ -233,13 +233,13 @@ public class OpenCL {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public cl_mem createReadBuffer(final float[] array) {
+	public cl_mem createReadBuffer(final double[] array) {
 		return clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-				array.length * Sizeof.cl_float, Pointer.to(array), null);
+				array.length * Sizeof.cl_double, Pointer.to(array), null);
 	}
 
-	public cl_mem createWriteBuffer(final float[] array) {
-		return clCreateBuffer(context, CL_MEM_READ_WRITE, array.length * Sizeof.cl_float, null,
+	public cl_mem createWriteBuffer(final double[] array) {
+		return clCreateBuffer(context, CL_MEM_READ_WRITE, array.length * Sizeof.cl_double, null,
 				null);
 	}
 
@@ -260,28 +260,55 @@ public class OpenCL {
 		}, 0, null, null);
 	}
 
-	public int read(final cl_mem buffer, final float[] array) {
-		return clEnqueueReadBuffer(commandQueue, buffer, CL_TRUE, 0,
-				array.length * Sizeof.cl_float, Pointer.to(array), 0, null, null);
+	public int read(final cl_mem buffer, final double[] array) {
+		return clEnqueueReadBuffer(commandQueue, buffer, CL_TRUE, 0, array.length * Sizeof.cl_double,
+				Pointer.to(array), 0, null, null);
 	}
 
+	/**
+	 * Releases the specified memory buffers.
+	 * <p>
+	 * @param buffers the array of {@link cl_mem} to release
+	 */
 	public void release(final cl_mem[] buffers) {
 		for (final cl_mem buffer : buffers) {
 			clReleaseMemObject(buffer);
 		}
 	}
 
+	/**
+	 * Releases the memory.
+	 */
+	public void release() {
+		for (final cl_kernel kernel : kernels.values()) {
+			clReleaseKernel(kernel);
+		}
+		kernels.clear();
+		if (program != null) {
+			clReleaseProgram(program);
+			program = null;
+		}
+		if (commandQueue != null) {
+			clReleaseCommandQueue(commandQueue);
+			commandQueue = null;
+		}
+		if (context != null) {
+			clReleaseContext(context);
+			context = null;
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public float[] plus(final float[] A, final float[] B) {
+	public double[] plus(final double[] A, final double[] B) {
 		return arrayOperation("plus", A, B);
 	}
 
-	public float[] minus(final float[] A, final float[] B) {
+	public double[] minus(final double[] A, final double[] B) {
 		return arrayOperation("minus", A, B);
 	}
 
-	public float[] times(final float[] A, final float[] B, final int aColumnDimension,
+	public double[] times(final double[] A, final double[] B, final int aColumnDimension,
 			final int bColumnDimension) {
 		// Check the arguments
 		OpenCLArguments.requireSameInnerDimension(aColumnDimension,
@@ -289,7 +316,7 @@ public class OpenCL {
 
 		// Initialize
 		final int aRowDimension = A.length / aColumnDimension;
-		final float[] result = new float[aRowDimension * bColumnDimension];
+		final double[] result = new double[aRowDimension * bColumnDimension];
 		final cl_mem[] buffers = new cl_mem[3];
 		buffers[0] = CL.createReadBuffer(A);
 		buffers[1] = CL.createReadBuffer(B);
@@ -316,24 +343,24 @@ public class OpenCL {
 		return result;
 	}
 
-	public float[] arrayTimes(final float[] A, final float[] B) {
+	public double[] arrayTimes(final double[] A, final double[] B) {
 		return arrayOperation("arrayTimes", A, B);
 	}
 
-	public float[] arrayDivision(final float[] A, final float[] B) {
+	public double[] arrayDivision(final double[] A, final double[] B) {
 		return arrayOperation("arrayDivision", A, B);
 	}
 
-	public float[] arrayLeftDivision(final float[] A, final float[] B) {
+	public double[] arrayLeftDivision(final double[] A, final double[] B) {
 		return arrayOperation("arrayLeftDivision", A, B);
 	}
 
-	protected float[] arrayOperation(final String name, final float[] A, final float B[]) {
+	protected double[] arrayOperation(final String name, final double[] A, final double B[]) {
 		// Check the arguments
-		FloatArguments.requireSameLength(A, B);
+		DoubleArguments.requireSameLength(A, B);
 
 		// Initialize
-		final float[] result = new float[A.length];
+		final double[] result = new double[A.length];
 		final cl_mem[] buffers = new cl_mem[3];
 		buffers[0] = CL.createReadBuffer(A);
 		buffers[1] = CL.createReadBuffer(B);
@@ -360,13 +387,15 @@ public class OpenCL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public void finalize() {
+	protected void finalize() {
 		IO.debug(getClass().getSimpleName(), " is finalized");
-		for (final cl_kernel kernel : kernels.values()) {
-			clReleaseKernel(kernel);
+		try {
+			release();
+		} finally {
+			try {
+				super.finalize();
+			} catch (final Throwable ignored) {
+			}
 		}
-		clReleaseProgram(program);
-		clReleaseCommandQueue(commandQueue);
-		clReleaseContext(context);
 	}
 }

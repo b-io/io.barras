@@ -41,7 +41,7 @@ import jupiter.math.linear.entity.Matrix;
  * The singular value decomposition always exists, so the constructor never fails. The matrix
  * condition number and the effective numerical rank can be computed from this decomposition.
  * <p>
- * @author JAMA, http://math.nist.gov/javanumerics/jama
+ * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
 public class SingularValueDecomposition
@@ -97,8 +97,8 @@ public class SingularValueDecomposition
 		n = A.getColumnDimension();
 		/*
 		 * @todo apparently the failing cases are only a proper subset of m < n, so let us not throw
-		 * an exception. The fix may come later.
-		 * if (m < n) { throw new UnsupportedOperationException("Work only for m >= n"); }
+		 * an exception. The fix may come later. if (m < n) { throw new
+		 * UnsupportedOperationException("Work only for m >= n"); }
 		 */
 		final int nu = Math.min(m, n);
 		s = new double[Math.min(m + 1, n)];
@@ -135,7 +135,7 @@ public class SingularValueDecomposition
 			for (int j = k + 1; j < n; ++j) {
 				if (k < nct & s[k] != 0.) {
 					// Apply the transformation
-					double t = 0;
+					double t = 0.;
 					for (int i = k; i < m; ++i) {
 						t += elements[i][k] * elements[i][j];
 					}
@@ -221,7 +221,7 @@ public class SingularValueDecomposition
 			for (int k = nct - 1; k >= 0; --k) {
 				if (s[k] != 0.) {
 					for (int j = k + 1; j < nu; ++j) {
-						double t = 0;
+						double t = 0.;
 						for (int i = k; i < m; ++i) {
 							t += U[i][k] * U[i][j];
 						}
@@ -251,7 +251,7 @@ public class SingularValueDecomposition
 			for (int k = n - 1; k >= 0; --k) {
 				if (k < nrt & e[k] != 0.) {
 					for (int j = k + 1; j < nu; ++j) {
-						double t = 0;
+						double t = 0.;
 						for (int i = k + 1; i < n; ++i) {
 							t += V[i][k] * V[i][j];
 						}

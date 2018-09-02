@@ -119,9 +119,18 @@ public class GraphicalConsole {
 	 * Exits the console.
 	 */
 	public void exit() {
+		exit(IO.EXIT_SUCCESS);
+	}
+
+	/**
+	 * Exits the console with the specified status code.
+	 * <p>
+	 * @param status the exit status code
+	 */
+	public void exit(final int status) {
 		frame.setVisible(false);
 		frame.dispose();
 		ps.close();
-		System.exit(0);
+		System.exit(status);
 	}
 }

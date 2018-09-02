@@ -35,7 +35,7 @@ public abstract class ObjectToCharacterMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectToCharacterMapper() {
+	protected ObjectToCharacterMapper() {
 		super(Character.class);
 	}
 

@@ -147,9 +147,9 @@ public class Triple<T1, T2, T3>
 			return false;
 		}
 		final Triple<?, ?, ?> otherTriple = (Triple) other;
-		return Objects.equals(first, otherTriple.getFirst()) &&
-				Objects.equals(second, otherTriple.getSecond()) &&
-				Objects.equals(third, otherTriple.getThird());
+		return Objects.equals(first, otherTriple.first) &&
+				Objects.equals(second, otherTriple.second) &&
+				Objects.equals(third, otherTriple.third);
 	}
 
 	@Override

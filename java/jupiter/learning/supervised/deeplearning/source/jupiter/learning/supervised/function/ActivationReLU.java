@@ -44,6 +44,7 @@ public class ActivationReLU
 	 * Constructs a ReLU function.
 	 */
 	protected ActivationReLU() {
+		super();
 		max = Functions.MAX;
 		filter = Functions.FILTER;
 	}
@@ -54,6 +55,8 @@ public class ActivationReLU
 	 * @param gradient a {@code double} value
 	 */
 	public ActivationReLU(final double gradient) {
+		super();
+
 		// Check the arguments
 		DoubleArguments.requirePositive(gradient);
 

@@ -35,7 +35,8 @@ import jupiter.common.util.Strings;
 public class IOTest
 		extends TestCase {
 
-	public IOTest() {
+	public IOTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

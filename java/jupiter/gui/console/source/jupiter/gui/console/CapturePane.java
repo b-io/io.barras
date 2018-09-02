@@ -53,7 +53,7 @@ public class CapturePane
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public CapturePane() {
-		setLayout(new BorderLayout());
+		super(new BorderLayout());
 		output = new JConsole();
 		add(output);
 	}

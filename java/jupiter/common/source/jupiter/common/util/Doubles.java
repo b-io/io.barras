@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Formats.DECIMAL_FORMAT;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -325,11 +327,11 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code double} value between {@code 0.0} and
-	 * {@code 1.0}.
+	 * Returns a pseudorandom, uniformly distributed {@code double} value between {@code 0.} and
+	 * {@code 1.}.
 	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code double} value between {@code 0.0} and
-	 *         {@code 1.0}
+	 * @return a pseudorandom, uniformly distributed {@code double} value between {@code 0.} and
+	 *         {@code 1.}
 	 */
 	public static double random() {
 		return RANDOM.nextDouble();
@@ -447,7 +449,7 @@ public class Doubles {
 	 * @return a {@link String} percentage representation of the specified value
 	 */
 	public static String toPercentage(final double value) {
-		return value * 100. + "%";
+		return DECIMAL_FORMAT.format(value * 100.) + "%";
 	}
 
 

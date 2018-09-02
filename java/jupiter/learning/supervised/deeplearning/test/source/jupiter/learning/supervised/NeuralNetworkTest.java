@@ -41,7 +41,8 @@ import jupiter.math.linear.entity.Vector;
 public class NeuralNetworkTest
 		extends TestCase {
 
-	public NeuralNetworkTest() {
+	public NeuralNetworkTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ public class NeuralNetworkTest
 
 		// Initialize
 		final NeuralNetwork model = new NeuralNetwork(2);
-		final int nLayers = 2;
+		final int layerCount = 2;
 		// - X
 		model.setFeatureVectors(new Matrix(new double[][] {
 			new double[] {
@@ -66,7 +67,7 @@ public class NeuralNetworkTest
 		// - Y
 		model.setClasses(new Vector(1, 0, 1).transpose()); // (1 x m)
 		// - W
-		final Matrix[] weights = new Matrix[nLayers];
+		final Matrix[] weights = new Matrix[layerCount];
 		weights[0] = new Matrix(new double[][] {
 			new double[] {
 				-0.00416758, -0.00056267
@@ -86,16 +87,18 @@ public class NeuralNetworkTest
 		model.setWeights(weights);
 
 		// Train
-		final int nIterations = model.train(1.2, 1E-8, 10000, nLayers - 1, 4);
+		final int iterationCount = model.train(1.2, 1E-8, 10000, layerCount - 1, 4);
 
 		// Test
 		// - The accuracy
 		final double accuracy = model.computeAccuracy();
-		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", nIterations, " iterations");
 		assertEquals(1., accuracy, BinaryClassifier.DEFAULT_TOLERANCE);
 		// - The cost
 		final double cost = model.computeCost();
 		assertEquals(2.11368793E-5, cost, BinaryClassifier.DEFAULT_TOLERANCE);
+
+		// Report
+		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
 	}
 
 	/**
@@ -105,38 +108,43 @@ public class NeuralNetworkTest
 		IO.test("classify_File");
 
 		// Set up
-		Doubles.RANDOM = new Random(1L);
 		IO.setSeverityLevel(SeverityLevel.TEST);
-		final int nTests = 2;
-		final double[] times = new double[nTests];
+		Doubles.RANDOM = new Random(1L);
+		final int testCount = 2;
+		final double[] times = new double[testCount];
 
 		// Test
+		Matrix.start();
+		Matrix.USE_GPUS = true;
+		Matrix.PARALLELIZE = true;
 		try {
 			// - Test the example A
-			for (int i = 0; i < nTests; ++i) {
-				times[i] = testExample("A", 10000, 0.1, 1, 4, ActivationFunctions.TANH, 0.9, 0.285);
+			for (int i = 0; i < testCount; ++i) {
+				times[i] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH, 0.9, 0.285,
+						0.5);
 			}
 			Tests.printTimes(times);
 
 			// - Test the example B
-			for (int i = 0; i < nTests; ++i) {
-				times[i] = testExample("B", 100, 0.0075, 1, 7, ActivationFunctions.RELU, 0.7, 0.65);
+			for (int i = 0; i < testCount; ++i) {
+				times[i] = testExample("B", 100, 0.0075, 1, 7, ActivationFunctions.RELU, 0.7, 0.65,
+						0.05);
 			}
 			Tests.printTimes(times);
 		} catch (final IOException ex) {
-			ex.printStackTrace();
+			IO.error(ex);
+		} finally {
+			Matrix.stop();
 		}
 	}
 
 	protected static long testExample(final String example, final int maxIterations,
-			final double learningRate, final int nHiddenLayers, final int hiddenLayerSize,
+			final double learningRate, final int hiddenLayerCount, final int hiddenLayerSize,
 			final ActivationFunction activationFunction, final double expectedAccuracy,
-			final double expectedCost)
+			final double expectedCost, final double tolerance)
 			throws IOException {
 		// Initialize
 		final Chronometer chrono = new Chronometer();
-
-		// Construct
 		final NeuralNetwork model = new NeuralNetwork("test/resources/" + example + "/X.csv",
 				"test/resources/" + example + "/Y.csv");
 		model.setActivationFunction(activationFunction);
@@ -152,19 +160,21 @@ public class NeuralNetworkTest
 
 		// Train
 		chrono.start();
-		final int nIterations = model.train(learningRate, BinaryClassifier.DEFAULT_TOLERANCE,
-				maxIterations, nHiddenLayers, hiddenLayerSize);
+		final int iterationCount = model.train(learningRate, BinaryClassifier.DEFAULT_TOLERANCE,
+				maxIterations, hiddenLayerCount, hiddenLayerSize);
 		final long time = chrono.stop();
 
 		// Test
 		// - The accuracy
 		final double accuracy = model.computeAccuracy();
-		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", nIterations, " iterations");
-		assertEquals(expectedAccuracy, accuracy, 0.05);
+		assertEquals(expectedAccuracy, accuracy, tolerance);
 		// - The cost
 		final double cost = model.computeCost();
-		assertEquals(expectedCost, cost, 0.05);
+		assertEquals(expectedCost, cost, tolerance);
 
+		// Report
+		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations",
+				" in ", time, " [ms]");
 		return time;
 	}
 }

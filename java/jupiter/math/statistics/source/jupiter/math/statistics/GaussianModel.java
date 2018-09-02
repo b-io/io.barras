@@ -41,6 +41,7 @@ public class GaussianModel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public GaussianModel(final double mean, final double standardDeviation) {
+		super();
 		this.mean = mean;
 		this.standardDeviation = standardDeviation;
 	}

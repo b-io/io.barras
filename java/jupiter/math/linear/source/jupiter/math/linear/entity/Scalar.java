@@ -69,34 +69,42 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Scalar() {
+		super();
 		value = 0.;
 	}
 
 	public Scalar(final byte value) {
+		super();
 		this.value = value;
 	}
 
 	public Scalar(final short value) {
+		super();
 		this.value = value;
 	}
 
 	public Scalar(final int value) {
+		super();
 		this.value = value;
 	}
 
 	public Scalar(final long value) {
+		super();
 		this.value = value;
 	}
 
 	public Scalar(final float value) {
+		super();
 		this.value = value;
 	}
 
 	public Scalar(final double value) {
+		super();
 		this.value = value;
 	}
 
 	public Scalar(final Number value) {
+		super();
 		this.value = value.doubleValue();
 	}
 
@@ -111,16 +119,7 @@ public class Scalar
 	 * @return the name
 	 */
 	public String getName() {
-		return getSimpleName();
-	}
-
-	/**
-	 * Returns the name of a {@link Scalar}.
-	 * <p>
-	 * @return the name of a {@link Scalar}
-	 */
-	public static String getSimpleName() {
-		return Scalar.class.getSimpleName();
+		return getClass().getSimpleName();
 	}
 
 	/**
@@ -162,7 +161,6 @@ public class Scalar
 	 * <p>
 	 * @return a {@link Scalar}
 	 */
-	@Override
 	public Scalar toScalar() {
 		return this;
 	}
@@ -172,7 +170,6 @@ public class Scalar
 	 * <p>
 	 * @return a {@link Vector}
 	 */
-	@Override
 	public Vector toVector() {
 		return new Vector(new double[][] {
 			new double[] {
@@ -186,7 +183,6 @@ public class Scalar
 	 * <p>
 	 * @return a {@link Matrix}
 	 */
-	@Override
 	public Matrix toMatrix() {
 		return new Matrix(new double[][] {
 			new double[] {
@@ -205,7 +201,6 @@ public class Scalar
 	 * <p>
 	 * @return {@code mean(this)}
 	 */
-	@Override
 	public Scalar mean() {
 		return clone();
 	}
@@ -215,7 +210,6 @@ public class Scalar
 	 * <p>
 	 * @return {@code size(this)}
 	 */
-	@Override
 	public Scalar size() {
 		return new Scalar(1);
 	}
@@ -250,7 +244,6 @@ public class Scalar
 	 * <p>
 	 * @param value the value to fill with
 	 */
-	@Override
 	public void fill(final double value) {
 		this.value = value;
 	}
@@ -263,11 +256,10 @@ public class Scalar
 	/**
 	 * Applies the specified function to {@code this}.
 	 * <p>
-	 * @param f the function to apply
+	 * @param f the {@link Function} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
-	@Override
 	public Scalar apply(final Function f) {
 		return new Scalar(f.apply(value));
 	}
@@ -308,10 +300,10 @@ public class Scalar
 			return matrix.plus(this);
 		} else if (entity instanceof Scalar) {
 			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value + scalar.get());
+			return new Scalar(value + scalar.value);
 		}
 		throw new IllegalOperationException(
-				"Cannot add a " + entity.getName() + " to a " + Scalar.getSimpleName());
+				"Cannot add a " + entity.getName() + " to a " + getName());
 	}
 
 	/**
@@ -327,10 +319,10 @@ public class Scalar
 			return matrix.minus().plus(this);
 		} else if (entity instanceof Scalar) {
 			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value - scalar.get());
+			return new Scalar(value - scalar.value);
 		}
-		throw new IllegalOperationException("Cannot subtract a " + entity.getName() + " from a " +
-				Scalar.class.getSimpleName());
+		throw new IllegalOperationException(
+				"Cannot subtract a " + entity.getName() + " from a " + getName());
 	}
 
 	/**
@@ -346,7 +338,7 @@ public class Scalar
 			return matrix.times(value);
 		} else if (entity instanceof Scalar) {
 			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value * scalar.get());
+			return new Scalar(value * scalar.value);
 		}
 		throw new IllegalOperationException(
 				"Cannot multiply a " + getName() + " by a " + entity.getName());
@@ -364,7 +356,7 @@ public class Scalar
 			final Matrix matrix = (Matrix) entity;
 			return matrix.division(value);
 		} else if (entity instanceof Scalar) {
-			return new Scalar(value / ((Scalar) entity).get());
+			return new Scalar(value / ((Scalar) entity).value);
 		}
 		throw new IllegalOperationException(
 				"Cannot divide a " + getName() + " by a " + entity.getName());
@@ -382,7 +374,7 @@ public class Scalar
 			final Matrix matrix = (Matrix) entity;
 			return matrix.times(value);
 		} else if (entity instanceof Scalar) {
-			return new Scalar(Math.pow(value, ((Scalar) entity).get()));
+			return new Scalar(Math.pow(value, ((Scalar) entity).value));
 		}
 		throw new IllegalOperationException(
 				"Cannot raise a " + getName() + " to the power of " + entity.getName());
@@ -404,7 +396,7 @@ public class Scalar
 		if (entity instanceof Scalar) {
 			final Scalar scalar = (Scalar) entity;
 			if (!equals(0.)) {
-				return new Scalar(scalar.get() / value);
+				return new Scalar(scalar.value / value);
 			}
 			if (!scalar.equals(0.)) {
 				throw new ArithmeticException(
@@ -476,7 +468,6 @@ public class Scalar
 		return equals(other, Maths.DEFAULT_TOLERANCE);
 	}
 
-	@Override
 	public boolean equals(final Object other, final double tolerance) {
 		if (this == other) {
 			return true;
@@ -484,7 +475,7 @@ public class Scalar
 		if (other == null || !(other instanceof Scalar)) {
 			return false;
 		}
-		return Doubles.equals(value, ((Scalar) other).get(), tolerance);
+		return Doubles.equals(value, ((Scalar) other).value, tolerance);
 	}
 
 	@Override

@@ -149,19 +149,18 @@ public class NumberTable<T extends Number>
 			return false;
 		}
 		final NumberTable<?> otherNumberTable = (NumberTable<?>) other;
-		if (!Objects.equals(c, otherNumberTable.getElementClass()) ||
-				m != otherNumberTable.getRowCount() || n != otherNumberTable.getColumnCount()) {
+		if (!Objects.equals(c, otherNumberTable.c) || m != otherNumberTable.m ||
+				n != otherNumberTable.n) {
 			return false;
 		}
-		final String[] otherHeader = otherNumberTable.getHeader();
 		for (int j = 0; j < n; ++j) {
-			if (!Objects.equals(header[j], otherHeader[j])) {
+			if (!Objects.equals(header[j], otherNumberTable.header[j])) {
 				return false;
 			}
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				if (!Numbers.equals(elements[i][j], otherNumberTable.get(i, j), tolerance)) {
+				if (!Numbers.equals(elements[i][j], otherNumberTable.elements[i][j], tolerance)) {
 					return false;
 				}
 			}

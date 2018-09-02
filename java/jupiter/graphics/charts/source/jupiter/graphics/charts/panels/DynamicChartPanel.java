@@ -65,10 +65,10 @@ public class DynamicChartPanel
 	 */
 	private static final long serialVersionUID = 3517827097288658994L;
 
-	private static volatile boolean DRAW_X_CROSSHAIR = true;
-	private static volatile boolean DRAW_Y_CROSSHAIR = false;
+	protected static volatile boolean DRAW_X_CROSSHAIR = true;
+	protected static volatile boolean DRAW_Y_CROSSHAIR = false;
 
-	private static volatile boolean DRAW_SELECTION = true;
+	protected static volatile boolean DRAW_SELECTION = true;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -319,13 +319,13 @@ public class DynamicChartPanel
 		// Select the closest item
 		final XYPlot plot = getXYPlot();
 		final XYDataset dataset = plot.getDataset();
-		final int nSeries = dataset.getSeriesCount();
+		final int seriesCount = dataset.getSeriesCount();
 		double minDistance = Double.POSITIVE_INFINITY;
-		for (int s = 0; s < nSeries; ++s) {
-			final int nItems = dataset.getItemCount(s);
-			if (nItems > 0) {
+		for (int s = 0; s < seriesCount; ++s) {
+			final int itemCount = dataset.getItemCount(s);
+			if (itemCount > 0) {
 				int i = 0;
-				while (i < nItems - 1 && dataset.getXValue(s, i) < xMouseCoordinate) {
+				while (i < itemCount - 1 && dataset.getXValue(s, i) < xMouseCoordinate) {
 					++i;
 				}
 				final double distance = Maths.delta(dataset.getYValue(s, i), yMouseCoordinate);
@@ -368,21 +368,21 @@ public class DynamicChartPanel
 		// Format the selection coordinates
 		final List<Pair<String, String>> coordinates = formatXY(xSelectionCoordinate,
 				ySelectionCoordinate);
-		final int nCoordinates = coordinates.size();
+		final int coordinateCount = coordinates.size();
 
 		// Draw the selection coordinates
 		final Graphics2D g = (Graphics2D) getGraphics();
 		final FontMetrics fontMetrics = g.getFontMetrics();
 		final int fontHeight = fontMetrics.getHeight();
-		final double nSteps = 8.;
-		final double step = Math.floor(maxX / nSteps);
-		final double fromStepNumber = 0.75 * nSteps;
+		final double stepCount = 8.;
+		final double step = Math.floor(maxX / stepCount);
+		final double fromStepNumber = 0.75 * stepCount;
 		final double fromStep = fromStepNumber * step;
 		g.setColor(Color.WHITE);
 		g.fillRect(Integers.convert(fromStep), 0, Integers.convert(maxX - fromStep),
 				Integers.convert(1.5 * fontHeight));
 		g.setColor(Color.BLACK);
-		for (int i = 0; i < nCoordinates; ++i) {
+		for (int i = 0; i < coordinateCount; ++i) {
 			final Pair<String, String> coordinate = coordinates.get(i);
 			final int location = Integers.convert((fromStepNumber + i) * step);
 			g.drawString(coordinate.getFirst() + " " + coordinate.getSecond(), location,

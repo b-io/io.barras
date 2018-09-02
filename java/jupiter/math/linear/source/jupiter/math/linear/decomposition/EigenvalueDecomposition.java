@@ -41,7 +41,7 @@ import jupiter.math.linear.entity.Matrix;
  * A.times(V) equals V.times(D). The matrix V may be badly conditioned or even singular, so the
  * validity of the equation A = V D inv(V) depends upon V.cond().
  * <p>
- * @author JAMA, http://math.nist.gov/javanumerics/jama
+ * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
 public class EigenvalueDecomposition

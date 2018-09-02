@@ -87,7 +87,7 @@ public class Numbers {
 			return new BigDecimal(string);
 		}
 		throw new IllegalOperationException(
-				"Cannot convert " + Strings.quote(c) + " from " + Strings.quote(string));
+				"Cannot convert " + Strings.quote(string) + " to a " + c.getSimpleName());
 	}
 
 

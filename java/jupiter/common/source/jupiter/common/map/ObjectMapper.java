@@ -42,7 +42,7 @@ public abstract class ObjectMapper<O>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectMapper(final Class<O> c) {
+	protected ObjectMapper(final Class<O> c) {
 		super(c);
 	}
 

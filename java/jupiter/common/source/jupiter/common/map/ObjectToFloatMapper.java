@@ -35,7 +35,7 @@ public abstract class ObjectToFloatMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectToFloatMapper() {
+	protected ObjectToFloatMapper() {
 		super(Float.class);
 	}
 

@@ -138,7 +138,7 @@ public class FileHandler {
 	 * <p>
 	 * @return a buffered reader
 	 * <p>
-	 * @throws FileNotFoundException {@inheritDoc}
+	 * @throws FileNotFoundException if there is a problem with opening the file
 	 */
 	public BufferedReader getReader()
 			throws FileNotFoundException {
@@ -186,7 +186,7 @@ public class FileHandler {
 	 * <p>
 	 * @param isAppend the option specifying whether to append
 	 * <p>
-	 * @throws FileNotFoundException {@inheritDoc}
+	 * @throws FileNotFoundException if there is a problem with opening the file
 	 */
 	public void initWriter(final boolean isAppend)
 			throws FileNotFoundException {
@@ -227,10 +227,12 @@ public class FileHandler {
 	 */
 	public boolean writeLine(final String string, final boolean isAppend) {
 		try {
-			// Initialize the writer
+			// Initialize
 			initWriter(isAppend);
+
 			// Append the string
 			writer.write(string + "\n");
+			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(pathname),
@@ -294,7 +296,7 @@ public class FileHandler {
 	 * <p>
 	 * @return {@code true} if and only if the file (or directory) exists, {@code false} otherwise
 	 * <p>
-	 * @throws SecurityException If a security manager exists and its
+	 * @throws SecurityException if a security manager exists and its
 	 *                           {@link java.lang.SecurityManager#checkRead(java.lang.String)}
 	 *                           method denies read access to the file (or directory)
 	 */

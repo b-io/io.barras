@@ -64,20 +64,24 @@ public class IOAppender
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public IOAppender() {
+		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public IOAppender(final IO.SeverityLevel severityLevel) {
+		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
 	public IOAppender(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
+		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
 				consoleHandler);
 	}
 
 	public IOAppender(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
+		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
 				logHandler);
 	}
@@ -114,11 +118,9 @@ public class IOAppender
 		}
 	}
 
-	@Override
 	public void close() {
 	}
 
-	@Override
 	public boolean requiresLayout() {
 		return false;
 	}

@@ -35,7 +35,7 @@ public abstract class ObjectToLongMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectToLongMapper() {
+	protected ObjectToLongMapper() {
 		super(Long.class);
 	}
 

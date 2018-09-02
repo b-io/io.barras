@@ -24,20 +24,27 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.integration.gpu.OpenCL.CL;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.Table;
+import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
+import jupiter.common.thread.IWorkQueue;
+import jupiter.common.thread.WorkQueue;
+import jupiter.common.thread.Worker;
 import jupiter.common.util.Characters;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Formats;
@@ -85,7 +92,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * </DD>
  * </DL>
  * <p>
- * @author JAMA, http://math.nist.gov/javanumerics/jama
+ * @author Florian Barras and JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
 public class Matrix
@@ -108,6 +115,19 @@ public class Matrix
 	 * The row delimiter.
 	 */
 	public static final char ROW_DELIMITER = ';';
+
+	/**
+	 * The option specifying whether to use GPUs.
+	 */
+	public static volatile boolean USE_GPUS = false;
+	/**
+	 * The option specifying whether to parallelize using a work queue.
+	 */
+	public static volatile boolean PARALLELIZE = false;
+	/**
+	 * The work queue for computing the dot product.
+	 */
+	protected static volatile IWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Matrix> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -302,18 +322,8 @@ public class Matrix
 	 * <p>
 	 * @return the name
 	 */
-	@Override
 	public String getName() {
-		return getSimpleName() + " of dimensions " + getDimensions();
-	}
-
-	/**
-	 * Returns the name of a {@link Matrix}.
-	 * <p>
-	 * @return the name of a {@link Matrix}
-	 */
-	public static String getSimpleName() {
-		return Matrix.class.getSimpleName();
+		return getClass().getSimpleName() + " of dimensions " + getDimensions();
 	}
 
 	/**
@@ -362,7 +372,7 @@ public class Matrix
 	 * <p>
 	 * @return the element at the specified row and column indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public double get(final int i, final int j) {
 		return elements[i][j];
@@ -377,7 +387,7 @@ public class Matrix
 	 * <p>
 	 * @return the elements of the specified row
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public double[] getRow(final int i) {
 		return getRow(i, 0, n);
@@ -393,7 +403,7 @@ public class Matrix
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public double[] getRow(final int i, final int from) {
 		return getRow(i, from, n - from);
@@ -410,7 +420,7 @@ public class Matrix
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public double[] getRow(final int i, final int from, final int length) {
 		final double[] row = new double[Math.min(length, n - from)];
@@ -427,7 +437,7 @@ public class Matrix
 	 * <p>
 	 * @return the elements of the specified column
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public double[] getColumn(final int j) {
 		return getColumn(j, 0, m);
@@ -443,7 +453,7 @@ public class Matrix
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public double[] getColumn(final int j, final int from) {
 		return getColumn(j, from, m - from);
@@ -460,7 +470,7 @@ public class Matrix
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public double[] getColumn(final int j, final int from, final int length) {
 		final double[] column = new double[Math.min(length, m - from)];
@@ -486,12 +496,12 @@ public class Matrix
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
 			final int columnEnd) {
-		final int nRows = rowEnd - rowStart;
-		final int nColumns = columnEnd - columnStart;
+		final int rowCount = rowEnd - rowStart;
+		final int columnCount = columnEnd - columnStart;
 		// Create the submatrix
-		final Matrix submatrix = new Matrix(nRows, nColumns);
+		final Matrix submatrix = new Matrix(rowCount, columnCount);
 		try {
-			for (int i = 0; i < nRows; ++i) {
+			for (int i = 0; i < rowCount; ++i) {
 				submatrix.setRow(i, elements[rowStart + i], columnStart);
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -513,12 +523,12 @@ public class Matrix
 	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
 	 */
 	public Matrix getSubmatrix(final int[] rowIndexes, final int columnStart, final int columnEnd) {
-		final int nRows = rowIndexes.length;
-		final int nColumns = columnEnd - columnStart;
+		final int rowCount = rowIndexes.length;
+		final int columnCount = columnEnd - columnStart;
 		// Create the submatrix
-		final Matrix submatrix = new Matrix(nRows, nColumns);
+		final Matrix submatrix = new Matrix(rowCount, columnCount);
 		try {
-			for (int i = 0; i < nRows; ++i) {
+			for (int i = 0; i < rowCount; ++i) {
 				submatrix.setRow(i, elements[rowIndexes[i]], columnStart);
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -540,15 +550,14 @@ public class Matrix
 	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndexes) {
-		final int nRows = rowEnd - rowStart;
-		final int nColumns = columnIndexes.length;
+		final int rowCount = rowEnd - rowStart;
+		final int columnCount = columnIndexes.length;
 		// Create the submatrix
-		final Matrix submatrix = new Matrix(nRows, nColumns);
-		final double[][] submatrixElements = submatrix.getElements();
+		final Matrix submatrix = new Matrix(rowCount, columnCount);
 		try {
-			for (int i = 0; i < nRows; ++i) {
-				for (int j = 0; j < nColumns; ++j) {
-					submatrixElements[i][j] = elements[rowStart + i][columnIndexes[j]];
+			for (int i = 0; i < rowCount; ++i) {
+				for (int j = 0; j < columnCount; ++j) {
+					submatrix.elements[i][j] = elements[rowStart + i][columnIndexes[j]];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -569,15 +578,14 @@ public class Matrix
 	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
 	 */
 	public Matrix getSubmatrix(final int[] rowIndexes, final int[] columnIndexes) {
-		final int nRows = rowIndexes.length;
-		final int nColumns = columnIndexes.length;
+		final int rowCount = rowIndexes.length;
+		final int columnCount = columnIndexes.length;
 		// Create the submatrix
-		final Matrix submatrix = new Matrix(nRows, nColumns);
-		final double[][] submatrixElements = submatrix.getElements();
+		final Matrix submatrix = new Matrix(rowCount, columnCount);
 		try {
-			for (int i = 0; i < nRows; ++i) {
-				for (int j = 0; j < nColumns; ++j) {
-					submatrixElements[i][j] = elements[rowIndexes[i]][columnIndexes[j]];
+			for (int i = 0; i < rowCount; ++i) {
+				for (int j = 0; j < columnCount; ++j) {
+					submatrix.elements[i][j] = elements[rowIndexes[i]][columnIndexes[j]];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -599,7 +607,7 @@ public class Matrix
 	 * @param j     the column index
 	 * @param value a {@code double} value
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void set(final int i, final int j, final double value) {
 		elements[i][j] = value;
@@ -612,7 +620,7 @@ public class Matrix
 	 * @param j     the column index
 	 * @param value an {@link Object}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void set(final int i, final int j, final Object value) {
 		elements[i][j] = Doubles.convert(value);
@@ -626,7 +634,7 @@ public class Matrix
 	 * @param i      the row index
 	 * @param values an array of {@code double} values
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void setRow(final int i, final double[] values) {
 		setRow(i, values, 0, values.length);
@@ -639,7 +647,7 @@ public class Matrix
 	 * @param values an array of {@code double} values
 	 * @param from   the initial column index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int from) {
 		setRow(i, values, from, values.length);
@@ -654,7 +662,7 @@ public class Matrix
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int from, final int length) {
 		System.arraycopy(values, 0, elements[i], from, Math.min(length, n));
@@ -666,7 +674,7 @@ public class Matrix
 	 * @param i      the row index
 	 * @param values a {@link Collection} of {@link Double}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void setRow(final int i, final Collection<Double> values) {
 		setRow(i, Doubles.collectionToPrimitiveArray(values));
@@ -680,7 +688,7 @@ public class Matrix
 	 * @param j      the column index
 	 * @param values an array of {@code double} values
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values) {
 		setColumn(j, values, 0, values.length);
@@ -693,7 +701,7 @@ public class Matrix
 	 * @param values an array of {@code double} values
 	 * @param from   the initial row index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int from) {
 		setColumn(j, values, 0, values.length);
@@ -708,7 +716,7 @@ public class Matrix
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int from, final int length) {
 		for (int i = 0; i < Math.min(length, m); ++i) {
@@ -722,7 +730,7 @@ public class Matrix
 	 * @param j      the column index
 	 * @param values a {@link Collection} of {@link Double}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void setColumn(final int j, final Collection<Double> values) {
 		setColumn(j, Doubles.collectionToPrimitiveArray(values));
@@ -735,7 +743,7 @@ public class Matrix
 	 * <p>
 	 * @param values an array of {@code double} values
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
 	public void setAll(final double... values) {
 		for (int i = 0; i < m; ++i) {
@@ -748,7 +756,7 @@ public class Matrix
 	 * <p>
 	 * @param values a 2D array of {@code double} values
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
 	public void setAll(final double[]... values) {
 		for (int i = 0; i < m; ++i) {
@@ -771,11 +779,11 @@ public class Matrix
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
 			final int columnEnd, final Matrix submatrix) {
-		final int nRows = rowEnd - rowStart;
-		final int nColumns = columnEnd - columnStart;
+		final int rowCount = rowEnd - rowStart;
+		final int columnCount = columnEnd - columnStart;
 		try {
-			for (int i = 0; i < nRows; ++i) {
-				setRow(i, submatrix.getRow(rowStart + i), columnStart, nColumns);
+			for (int i = 0; i < rowCount; ++i) {
+				setRow(rowStart + i, submatrix.elements[i], columnStart, columnCount);
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
@@ -795,11 +803,11 @@ public class Matrix
 	 */
 	public void setSubmatrix(final int[] rowIndexes, final int columnStart, final int columnEnd,
 			final Matrix submatrix) {
-		final int nRows = rowIndexes.length;
-		final int nColumns = columnEnd - columnStart;
+		final int rowCount = rowIndexes.length;
+		final int columnCount = columnEnd - columnStart;
 		try {
-			for (int i = 0; i < nRows; ++i) {
-				setRow(i, elements[rowIndexes[i]], columnStart, nColumns);
+			for (int i = 0; i < rowCount; ++i) {
+				setRow(rowIndexes[i], submatrix.elements[i], columnStart, columnCount);
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
@@ -819,12 +827,12 @@ public class Matrix
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndexes,
 			final Matrix submatrix) {
-		final int nRows = rowEnd - rowStart;
-		final int nColumns = columnIndexes.length;
+		final int rowCount = rowEnd - rowStart;
+		final int columnCount = columnIndexes.length;
 		try {
-			for (int i = 0; i < nRows; ++i) {
-				for (int j = 0; j < nColumns; ++j) {
-					elements[i][j] = submatrix.get(rowStart + i, columnIndexes[j]);
+			for (int i = 0; i < rowCount; ++i) {
+				for (int j = 0; j < columnCount; ++j) {
+					elements[rowStart + i][columnIndexes[j]] = submatrix.elements[i][j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -844,12 +852,12 @@ public class Matrix
 	 */
 	public void setSubmatrix(final int[] rowIndexes, final int[] columnIndexes,
 			final Matrix submatrix) {
-		final int nRows = rowIndexes.length;
-		final int nColumns = columnIndexes.length;
+		final int rowCount = rowIndexes.length;
+		final int columnCount = columnIndexes.length;
 		try {
-			for (int i = 0; i < nRows; ++i) {
-				for (int j = 0; j < nColumns; ++j) {
-					elements[i][j] = submatrix.get(rowIndexes[i], columnIndexes[j]);
+			for (int i = 0; i < rowCount; ++i) {
+				for (int j = 0; j < columnCount; ++j) {
+					elements[rowIndexes[i]][columnIndexes[j]] = submatrix.elements[i][j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -894,13 +902,12 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Scalar}
 	 */
-	@Override
 	public Scalar toScalar() {
 		if (m == 1 && n == 1) {
 			return new Scalar(elements[0][0]);
 		}
 		throw new IllegalOperationException(
-				"Cannot convert " + getName() + " to a " + Scalar.getSimpleName());
+				"Cannot convert a " + getName() + " to a " + Scalar.class.getSimpleName());
 	}
 
 	/**
@@ -908,13 +915,12 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Vector}
 	 */
-	@Override
 	public Vector toVector() {
 		if (m == 1 || n == 1) {
 			return new Vector(toPrimitiveArray(), n != 1);
 		}
 		throw new IllegalOperationException(
-				"Cannot convert " + getName() + " to a " + Vector.getSimpleName());
+				"Cannot convert a " + getName() + " to a " + Vector.class.getSimpleName());
 	}
 
 	/**
@@ -922,7 +928,6 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Matrix}
 	 */
-	@Override
 	public Matrix toMatrix() {
 		return this;
 	}
@@ -946,7 +951,6 @@ public class Matrix
 	 * <p>
 	 * @return {@code mean(this)}
 	 */
-	@Override
 	public Vector mean() {
 		return mean(false);
 	}
@@ -963,7 +967,7 @@ public class Matrix
 		if (transpose) {
 			mean = new double[m];
 			for (int i = 0; i < m; ++i) {
-				mean[i] = Statistics.getMean(getRow(i));
+				mean[i] = Statistics.getMean(elements[i]);
 			}
 		} else {
 			mean = new double[n];
@@ -979,7 +983,6 @@ public class Matrix
 	 * <p>
 	 * @return {@code size(this)}
 	 */
-	@Override
 	public Vector size() {
 		return new Vector(new double[] {
 			m, n
@@ -993,7 +996,6 @@ public class Matrix
 	 * <p>
 	 * @return {@code eye(size(this))}
 	 */
-	@Override
 	public Matrix identity() {
 		return identity(m, n);
 	}
@@ -1007,10 +1009,9 @@ public class Matrix
 	 */
 	public static Matrix identity(final int size) {
 		final Matrix identity = new Matrix(size, size);
-		final double[][] resultElements = identity.getElements();
 		for (int i = 0; i < size; ++i) {
 			for (int j = 0; j < size; ++j) {
-				resultElements[i][j] = i == j ? 1. : 0.;
+				identity.elements[i][j] = i == j ? 1. : 0.;
 			}
 		}
 		return identity;
@@ -1026,10 +1027,9 @@ public class Matrix
 	 */
 	public static Matrix identity(final int m, final int n) {
 		final Matrix identity = new Matrix(m, n);
-		final double[][] resultElements = identity.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = i == j ? 1. : 0.;
+				identity.elements[i][j] = i == j ? 1. : 0.;
 			}
 		}
 		return identity;
@@ -1040,7 +1040,6 @@ public class Matrix
 	 * <p>
 	 * @return {@code rand(size(this))}
 	 */
-	@Override
 	public Matrix random() {
 		return random(m, n);
 	}
@@ -1066,10 +1065,9 @@ public class Matrix
 	 */
 	public static Matrix random(final int m, final int n) {
 		final Matrix random = new Matrix(m, n);
-		final double[][] resultElements = random.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = Doubles.random();
+				random.elements[i][j] = Doubles.random();
 			}
 		}
 		return random;
@@ -1114,9 +1112,9 @@ public class Matrix
 	 * @return the maximum absolute column sum
 	 */
 	public double norm1() {
-		double f = 0;
+		double f = 0.;
 		for (int j = 0; j < n; ++j) {
-			double s = 0;
+			double s = 0.;
 			for (int i = 0; i < m; ++i) {
 				s += Math.abs(elements[i][j]);
 			}
@@ -1140,9 +1138,9 @@ public class Matrix
 	 * @return the maximum absolute row sum
 	 */
 	public double normInf() {
-		double f = 0;
+		double f = 0.;
 		for (int i = 0; i < m; ++i) {
-			double s = 0;
+			double s = 0.;
 			for (int j = 0; j < n; ++j) {
 				s += Math.abs(elements[i][j]);
 			}
@@ -1158,7 +1156,7 @@ public class Matrix
 	 * @return the square root of the sum of the squares of all the values of the elements
 	 */
 	public double normF() {
-		double f = 0;
+		double f = 0.;
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				f = Norms.getEuclideanNorm(f, elements[i][j]);
@@ -1173,11 +1171,40 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Starts {@code this}.
+	 */
+	public static void start() {
+		IO.debug("");
+		stop();
+
+		// Initialize
+		WORK_QUEUE = new WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Matrix>(
+				new DotProduct());
+		PARALLELIZE = true;
+		USE_GPUS = true;
+	}
+
+	/**
+	 * Stops {@code this}.
+	 */
+	public static void stop() {
+		IO.debug("");
+
+		// Shutdown
+		USE_GPUS = false;
+		if (WORK_QUEUE != null) {
+			PARALLELIZE = false;
+			WORK_QUEUE.shutdown();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Fills {@code this} with the specified value.
 	 * <p>
 	 * @param value the value to fill with
 	 */
-	@Override
 	public void fill(final double value) {
 		Doubles.fill(elements, value);
 	}
@@ -1190,11 +1217,10 @@ public class Matrix
 	/**
 	 * Applies the specified function to {@code this}.
 	 * <p>
-	 * @param f the function to apply
+	 * @param f the {@link Function} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
-	@Override
 	public Matrix apply(final Function f) {
 		return new Matrix(f.applyToPrimitiveArray2D(elements));
 	}
@@ -1204,13 +1230,11 @@ public class Matrix
 	 * <p>
 	 * @return {@code -this}
 	 */
-	@Override
 	public Matrix minus() {
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = -elements[i][j];
+				result.elements[i][j] = -elements[i][j];
 			}
 		}
 		return result;
@@ -1221,7 +1245,6 @@ public class Matrix
 	 * <p>
 	 * @return {@code this'}
 	 */
-	@Override
 	public Matrix transpose() {
 		return new Matrix(Doubles.transpose(elements));
 	}
@@ -1238,10 +1261,9 @@ public class Matrix
 	 * <p>
 	 * @return {@code this + entity}
 	 */
-	@Override
 	public Matrix plus(final Entity entity) {
 		if (entity instanceof Scalar) {
-			return plus(((Scalar) entity).get());
+			return plus(((Scalar) entity).value);
 		} else if (entity instanceof Vector) {
 			return plus(((Vector) entity).toMatrix(m, n));
 		} else if (entity instanceof Matrix) {
@@ -1260,10 +1282,9 @@ public class Matrix
 	 */
 	public Matrix plus(final double scalar) {
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = elements[i][j] + scalar;
+				result.elements[i][j] = elements[i][j] + scalar;
 			}
 		}
 		return result;
@@ -1280,14 +1301,11 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Initialize
+		// Compute
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
-
-		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = elements[i][j] + matrix.elements[i][j];
+				result.elements[i][j] = elements[i][j] + matrix.elements[i][j];
 			}
 		}
 		return result;
@@ -1322,7 +1340,7 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Process
+		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] += matrix.elements[i][j];
@@ -1340,10 +1358,9 @@ public class Matrix
 	 * <p>
 	 * @return {@code this - entity}
 	 */
-	@Override
 	public Matrix minus(final Entity entity) {
 		if (entity instanceof Scalar) {
-			return minus(((Scalar) entity).get());
+			return minus(((Scalar) entity).value);
 		} else if (entity instanceof Vector) {
 			return minus(((Vector) entity).toMatrix(m, n));
 		} else if (entity instanceof Matrix) {
@@ -1362,10 +1379,9 @@ public class Matrix
 	 */
 	public Matrix minus(final double scalar) {
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = elements[i][j] - scalar;
+				result.elements[i][j] = elements[i][j] - scalar;
 			}
 		}
 		return result;
@@ -1382,14 +1398,11 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Initialize
+		// Compute
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
-
-		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = elements[i][j] - matrix.elements[i][j];
+				result.elements[i][j] = elements[i][j] - matrix.elements[i][j];
 			}
 		}
 		return result;
@@ -1424,7 +1437,7 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Process
+		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] -= matrix.elements[i][j];
@@ -1442,10 +1455,9 @@ public class Matrix
 	 * <p>
 	 * @return {@code this * entity}
 	 */
-	@Override
 	public Entity times(final Entity entity) {
 		if (entity instanceof Scalar) {
-			return times(((Scalar) entity).get());
+			return times(((Scalar) entity).value);
 		} else if (entity instanceof Vector) {
 			return dot(((Vector) entity).toMatrix(n));
 		} else if (entity instanceof Matrix) {
@@ -1464,10 +1476,9 @@ public class Matrix
 	 */
 	public Matrix times(final double scalar) {
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = elements[i][j] * scalar;
+				result.elements[i][j] = elements[i][j] * scalar;
 			}
 		}
 		return result;
@@ -1485,14 +1496,11 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Initialize
+		// Compute
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
-
-		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = elements[i][j] * matrix.elements[i][j];
+				result.elements[i][j] = elements[i][j] * matrix.elements[i][j];
 			}
 		}
 		return result;
@@ -1527,7 +1535,7 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Process
+		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] *= matrix.elements[i][j];
@@ -1551,30 +1559,63 @@ public class Matrix
 		// Check the arguments
 		requireInnerDimension(matrix);
 
-		// Initialize
-		final double[][] matrixElements = matrix.getElements();
-
 		// Test whether the result is a scalar or a matrix
 		if (m == 1 && matrix.n == 1) {
 			// - Scalar
 			final double[] row = elements[0];
 			double sum = 0.;
 			for (int k = 0; k < n; ++k) {
-				sum += row[k] * matrixElements[k][0];
+				sum += row[k] * matrix.elements[k][0];
 			}
 			return new Scalar(sum);
 		}
 		// - Matrix
-		final Matrix result = new Matrix(m, matrix.n);
-		final double[][] resultElements = result.getElements();
-		for (int i = 0; i < m; ++i) {
-			final double[] row = elements[i];
-			for (int j = 0; j < matrix.n; ++j) {
-				double sum = 0;
-				for (int k = 0; k < n; ++k) {
-					sum += row[k] * matrixElements[k][j];
+		final Matrix result;
+		final int test = m * n + m * matrix.n + matrix.m * matrix.n;
+		if (USE_GPUS && test > 1E7) {
+			result = new Matrix(m,
+					CL.times(toPrimitiveArray(), matrix.toPrimitiveArray(), n, matrix.n));
+		} else if (PARALLELIZE && test > 1E4) {
+			// Initialize
+			result = new Matrix(m, matrix.n);
+			final int intervalCount = Math.min(m, WORK_QUEUE.getWorkerCount());
+			final int rowCountPerInterval = m / intervalCount;
+			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
+			final List<Long> ids = new ArrayList<Long>(intervalCount);
+
+			// Distribute the tasks
+			for (int i = 0; i < intervalCount; ++i) {
+				final Interval<Integer> interval = new Interval<Integer>(i * rowCountPerInterval,
+						(i + 1) * rowCountPerInterval);
+				ids.add(WORK_QUEUE.submit(
+						new Triple<Matrix, Matrix, Interval<Integer>>(this, matrix, interval)));
+			}
+			if (remainingRowCount > 0) {
+				final Interval<Integer> interval = new Interval<Integer>(
+						intervalCount * rowCountPerInterval, m);
+				ids.add(WORK_QUEUE.submit(
+						new Triple<Matrix, Matrix, Interval<Integer>>(this, matrix, interval)));
+			}
+
+			// Collect the results
+			int i = 0;
+			for (final long id : ids) {
+				final Matrix submatrix = WORK_QUEUE.get(id);
+				final int rowOffset = i * rowCountPerInterval;
+				result.setSubmatrix(rowOffset, rowOffset + submatrix.m, 0, submatrix.n, submatrix);
+				++i;
+			}
+		} else {
+			result = new Matrix(m, matrix.n);
+			for (int i = 0; i < m; ++i) {
+				final double[] row = elements[i];
+				for (int j = 0; j < matrix.n; ++j) {
+					double sum = 0.;
+					for (int k = 0; k < n; ++k) {
+						sum += row[k] * matrix.elements[k][j];
+					}
+					result.elements[i][j] = sum;
 				}
-				resultElements[i][j] = sum;
 			}
 		}
 		return result;
@@ -1589,10 +1630,9 @@ public class Matrix
 	 * <p>
 	 * @return {@code this / entity}
 	 */
-	@Override
 	public Matrix division(final Entity entity) {
 		if (entity instanceof Scalar) {
-			return division(((Scalar) entity).get());
+			return division(((Scalar) entity).value);
 		} else if (entity instanceof Vector) {
 			return (Matrix) dot(((Vector) entity).toMatrix(n, true).inverse());
 		} else if (entity instanceof Matrix) {
@@ -1611,10 +1651,9 @@ public class Matrix
 	 */
 	public Matrix division(final double scalar) {
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = elements[i][j] / scalar;
+				result.elements[i][j] = elements[i][j] / scalar;
 			}
 		}
 		return result;
@@ -1631,14 +1670,11 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Initialize
+		// Compute
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
-
-		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = elements[i][j] / matrix.elements[i][j];
+				result.elements[i][j] = elements[i][j] / matrix.elements[i][j];
 			}
 		}
 		return result;
@@ -1655,14 +1691,11 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Initialize
+		// Compute
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
-
-		// Process
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = matrix.elements[i][j] / elements[i][j];
+				result.elements[i][j] = matrix.elements[i][j] / elements[i][j];
 			}
 		}
 		return result;
@@ -1713,7 +1746,7 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Process
+		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] /= matrix.elements[i][j];
@@ -1733,7 +1766,7 @@ public class Matrix
 		// Check the arguments
 		requireDimensions(matrix);
 
-		// Process
+		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i][j] = matrix.elements[i][j] / elements[i][j];
@@ -1751,10 +1784,9 @@ public class Matrix
 	 * <p>
 	 * @return {@code this ^ entity}
 	 */
-	@Override
 	public Matrix power(final Entity entity) {
 		if (entity instanceof Scalar) {
-			return times(((Scalar) entity).get());
+			return times(((Scalar) entity).value);
 		}
 		throw new IllegalOperationException(
 				"Cannot raise " + getName() + " to the power of " + entity.getName());
@@ -1769,10 +1801,9 @@ public class Matrix
 	 */
 	public Matrix power(final double scalar) {
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = Math.pow(elements[i][j], scalar);
+				result.elements[i][j] = Math.pow(elements[i][j], scalar);
 			}
 		}
 		return result;
@@ -1789,10 +1820,9 @@ public class Matrix
 	 */
 	public Matrix raise(final double scalar) {
 		final Matrix result = new Matrix(m, n);
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = Math.pow(elements[i][j], scalar);
+				result.elements[i][j] = Math.pow(elements[i][j], scalar);
 			}
 		}
 		return result;
@@ -1870,7 +1900,6 @@ public class Matrix
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
 	 */
-	@Override
 	public Matrix solve(final Entity entity) {
 		if (entity instanceof Matrix) {
 			return solve((Matrix) entity);
@@ -1925,7 +1954,6 @@ public class Matrix
 	 * <p>
 	 * @return {@code inv(this)}
 	 */
-	@Override
 	public Matrix inverse() {
 		return solve(identity(m, m));
 	}
@@ -1945,7 +1973,7 @@ public class Matrix
 	 * @return {@code trace(this)}
 	 */
 	public double trace() {
-		double t = 0;
+		double t = 0.;
 		for (int i = 0; i < Math.min(m, n); ++i) {
 			t += elements[i][i];
 		}
@@ -2072,11 +2100,11 @@ public class Matrix
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			String delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
-				final int nOccurrences = Strings.getAllIndexes(line, d).size();
-				if (nOccurrences > 0) {
+				final int occurrenceCount = Strings.getAllIndexes(line, d).size();
+				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = Strings.toString(d);
-						n = nOccurrences;
+						n = occurrenceCount;
 					} else {
 						IO.warn("The file contains different delimiters; ",
 								Strings.quote(delimiter), " is selected");
@@ -2194,7 +2222,6 @@ public class Matrix
 		return equals(other, Maths.DEFAULT_TOLERANCE);
 	}
 
-	@Override
 	public boolean equals(final Object other, final double tolerance) {
 		if (this == other) {
 			return true;
@@ -2203,12 +2230,12 @@ public class Matrix
 			return false;
 		}
 		final Matrix otherMatrix = (Matrix) other;
-		if (otherMatrix.getRowDimension() != m || otherMatrix.getColumnDimension() != n) {
+		if (otherMatrix.m != m || otherMatrix.n != n) {
 			return false;
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				if (!Doubles.equals(elements[i][j], otherMatrix.get(i, j), tolerance)) {
+				if (!Doubles.equals(elements[i][j], otherMatrix.elements[i][j], tolerance)) {
 					return false;
 				}
 			}
@@ -2260,5 +2287,52 @@ public class Matrix
 			return builder.toString();
 		}
 		return Strings.bracketize(builder.toString());
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLASSES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static class DotProduct
+			extends Worker<Triple<Matrix, Matrix, Interval<Integer>>, Matrix> {
+
+		protected DotProduct() {
+			super();
+		}
+
+		@Override
+		public Matrix call(final Triple<Matrix, Matrix, Interval<Integer>> input) {
+			// Initialize
+			// - The left matrix
+			final Matrix left = input.getFirst();
+			// - The right matrix
+			final Matrix right = input.getSecond();
+			// - The interval
+			final Interval<Integer> interval = input.getThird();
+			// - The result
+			final int m = interval.getUpperBound() - interval.getLowerBound();
+			final int innerDimension = left.n; // or right.m
+			final int n = right.n;
+			final Matrix result = new Matrix(m, n);
+
+			// Compute
+			for (int i = 0; i < m; ++i) {
+				final double[] leftRow = left.elements[interval.getLowerBound() + i];
+				for (int j = 0; j < n; ++j) {
+					double sum = 0.;
+					for (int k = 0; k < innerDimension; ++k) {
+						sum += leftRow[k] * right.elements[k][j];
+					}
+					result.elements[i][j] = sum;
+				}
+			}
+			return result;
+		}
+
+		@Override
+		public DotProduct clone() {
+			return new DotProduct();
+		}
 	}
 }

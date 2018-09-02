@@ -83,7 +83,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * Returns the height of the specified node, or {@code 0L} if the specified node is
 	 * {@code null}.
 	 * <p>
-	 * @param node the node to get the height from
+	 * @param node the {@link AvlTreeNode} of type {@code K} and {@code V} to get the height from
 	 * <p>
 	 * @return the height of the specified node, or {@code 0L} if the specified node is {@code null}
 	 */
@@ -144,8 +144,8 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * <p>
 	 * @return the previous associated value, or {@code null} if not present
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
 	public synchronized V put(final K key, final V value) {
@@ -196,7 +196,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Removes the specified node.
 	 * <p>
-	 * @param node the node to remove
+	 * @param node the {@link AvlTreeNode} of type {@code K} and {@code V} to remove
 	 */
 	@Override
 	protected void removeNode(final AvlTreeNode<K, V> node) {
@@ -304,7 +304,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Rotates the specified tree to the left. Corrects a RR imbalance.
 	 * <p>
-	 * @param tree the tree to rotate
+	 * @param tree the {@link AvlTreeNode} of type {@code K} and {@code V} to rotate
 	 * <p>
 	 * @return the rotated tree
 	 */
@@ -321,7 +321,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Rotates the specified tree to the right. Corrects a LL imbalance.
 	 * <p>
-	 * @param tree the tree to rotate
+	 * @param tree the {@link AvlTreeNode} of type {@code K} and {@code V} to rotate
 	 * <p>
 	 * @return the rotated tree
 	 */

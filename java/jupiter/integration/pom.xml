@@ -19,9 +19,9 @@
 
 	<modules>
 		<module>android</module>
-		<module>gpu</module>
+		<module>gpu</module><!-- @since 1.6 -->
 		<module>log</module>
 		<module>r</module>
-		<module>transfer</module>
+		<module>transfer</module><!-- @since 1.6 -->
 	</modules>
 </project>

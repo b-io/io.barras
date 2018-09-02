@@ -34,7 +34,8 @@ import jupiter.math.analysis.interpolation.SplineInterpolator;
 public class SplineInterpolatorTest
 		extends TestCase {
 
-	public SplineInterpolatorTest() {
+	public SplineInterpolatorTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +52,7 @@ public class SplineInterpolatorTest
 		final SplineInterpolator instance = SplineInterpolator.createMonotoneCubicSpline(x, y);
 		for (int i = 0; i < x.length - 1; ++i) {
 			final double result = instance.interpolate(x[i] + 0.5);
-			IO.test(result, " == ", f.apply(x[i] + 0.5), " ?");
+			IO.test(result, " ~ ", f.apply(x[i] + 0.5), " ?");
 			assertEquals(f.apply(x[i] + 0.5), result, 0.05);
 		}
 	}

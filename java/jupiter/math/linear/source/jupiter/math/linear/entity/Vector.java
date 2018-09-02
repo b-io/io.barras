@@ -135,7 +135,7 @@ public class Vector
 			isTransposed = false;
 		} else {
 			throw new IllegalArgumentException("The specified 2D array of dimensions " +
-					Formats.getDimensions(elements.length, +elements[0].length) +
+					Formats.getDimensions(elements.length, elements[0].length) +
 					" is not one-dimensional");
 		}
 	}
@@ -144,25 +144,6 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the name.
-	 * <p>
-	 * @return the name
-	 */
-	@Override
-	public String getName() {
-		return getSimpleName() + " of dimensions " + getDimensions();
-	}
-
-	/**
-	 * Returns the name of a {@link Vector}.
-	 * <p>
-	 * @return the name of a {@link Vector}
-	 */
-	public static String getSimpleName() {
-		return Vector.class.getSimpleName();
-	}
 
 	/**
 	 * Returns the dimension.
@@ -182,7 +163,7 @@ public class Vector
 	 * <p>
 	 * @return the element at the specified row index
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public double get(final int i) {
 		return get(i, 0);
@@ -199,7 +180,7 @@ public class Vector
 	 * @param i     the row index
 	 * @param value a {@code double} value
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void set(final int i, final double value) {
 		elements[i][0] = value;
@@ -211,7 +192,7 @@ public class Vector
 	 * @param i     the row index
 	 * @param value an {@link Object}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void set(final int i, final Object value) {
 		elements[i][0] = Doubles.convert(value);
@@ -301,9 +282,8 @@ public class Vector
 	 */
 	public static Vector random(final int m) {
 		final Vector random = new Vector(m);
-		final double[][] resultElements = random.getElements();
 		for (int i = 0; i < m; ++i) {
-			resultElements[i][0] = Doubles.random();
+			random.elements[i][0] = Doubles.random();
 		}
 		return random;
 	}
@@ -331,7 +311,7 @@ public class Vector
 	/**
 	 * Applies the specified function to {@code this}.
 	 * <p>
-	 * @param f the function to apply
+	 * @param f the {@link Function} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
@@ -348,10 +328,9 @@ public class Vector
 	@Override
 	public Vector minus() {
 		final Vector result = new Vector(getDimension());
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = -elements[i][j];
+				result.elements[i][j] = -elements[i][j];
 			}
 		}
 		return result;

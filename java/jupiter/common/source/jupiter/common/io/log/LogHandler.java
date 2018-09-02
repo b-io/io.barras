@@ -96,6 +96,7 @@ public class LogHandler
 	}
 
 	public LogHandler(final String logDir, final String outputLogName, final String errorLogName) {
+		super();
 		this.logDir = logDir;
 		outputLogPath = getPath(outputLogName);
 		errorLogPath = getPath(errorLogName);

@@ -102,7 +102,7 @@ public class StringTable
 	 * @param i      the row index
 	 * @param values an array of {@link String}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	@Override
 	public void setRow(final int i, final String[] values) {
@@ -125,7 +125,7 @@ public class StringTable
 	 * @param j      the column index
 	 * @param values an array of {@link String}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	@Override
 	public void setColumn(final int j, final String[] values) {

@@ -111,7 +111,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Loads the x and y coordinates from the specified table.
 	 * <p>
-	 * @param coordinates  the table of the x and y coordinates
+	 * @param coordinates  the {@link Table} of the x and y coordinates
 	 * @param xColumnIndex the index of the column containing the x coordinates in the table
 	 * @param yColumnIndex the index of the column containing the y coordinates in the table
 	 */

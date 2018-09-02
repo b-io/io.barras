@@ -748,12 +748,12 @@ public class JConsole
 
 	@Override
 	public String toString() {
-		return JConsole.class.getSimpleName();
+		return getClass().getSimpleName();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKER
+	// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -761,12 +761,12 @@ public class JConsole
 	 * new writers and data. This is used by the JConsole internal read thread to allow writers in
 	 * different (and in particular ephemeral) threads to write to the pipe.
 	 */
-	public static class BlockingPipedInputStream
+	protected static class BlockingPipedInputStream
 			extends PipedInputStream {
 
 		protected volatile boolean isClosed;
 
-		public BlockingPipedInputStream(final PipedOutputStream pipedOutputStream)
+		protected BlockingPipedInputStream(final PipedOutputStream pipedOutputStream)
 				throws IOException {
 			super(pipedOutputStream);
 			isClosed = false;

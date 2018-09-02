@@ -98,11 +98,8 @@ public class WholeNumbers {
 	 * @param b another {@code long} value
 	 * <p>
 	 * @return the greatest common divisor (GCD) of {@code a} and {@code b}
-	 * <p>
-	 * @throws InterruptedException {@inheritDoc}
 	 */
-	public static long gcd(final long a, final long b)
-			throws InterruptedException {
+	public static long gcd(final long a, final long b) {
 		long va = a, vb = b;
 		long temp;
 		while (va > 0 && vb > 0) {
@@ -120,11 +117,8 @@ public class WholeNumbers {
 	 * @param b another {@code long} value
 	 * <p>
 	 * @return the least common multiple (LCM) of {@code a} and {@code b}
-	 * <p>
-	 * @throws InterruptedException {@inheritDoc}
 	 */
-	public static long lcm(final long a, final long b)
-			throws InterruptedException {
+	public static long lcm(final long a, final long b) {
 		final long gcd = gcd(a, b);
 		return gcd > 0L ? Math.abs(a * b) / gcd : 0L;
 	}

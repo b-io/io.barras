@@ -70,7 +70,7 @@ public abstract class ChartGraphic
 	 * @param xLabel the label of the x-axis
 	 * @param yLabel the label of the y-axis
 	 */
-	public ChartGraphic(final String title, final String xLabel, final String yLabel) {
+	protected ChartGraphic(final String title, final String xLabel, final String yLabel) {
 		super(title);
 		this.xLabel = xLabel;
 		this.yLabel = yLabel;
@@ -82,7 +82,7 @@ public abstract class ChartGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Gets the item renderer.
+	 * Returns the item renderer.
 	 * <p>
 	 * @return the item renderer
 	 */

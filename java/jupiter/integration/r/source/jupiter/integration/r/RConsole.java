@@ -36,13 +36,20 @@ public class RConsole {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void main(final String[] args) {
+		int status = IO.EXIT_SUCCESS;
 		final GraphicalConsole console = new GraphicalConsole();
 		R.start();
-		R.installPackages(Arrays.toArray("bsts", "dplyr", "forecast", "Jmisc", "highcharter",
-				"imputeTS", "lars", "lubridate", "mgcv", "quantmod", "Rblpapi", "RODBC", "shiny"));
-		interactions();
-		R.stop();
-		console.exit();
+		try {
+			R.installPackages(
+					Arrays.toArray("bsts", "dplyr", "forecast", "Jmisc", "highcharter", "imputeTS",
+							"lars", "lubridate", "mgcv", "quantmod", "Rblpapi", "RODBC", "shiny"));
+			interactions();
+		} catch (final Exception ignored) {
+			status = IO.EXIT_FAILURE;
+		} finally {
+			R.stop();
+			console.exit(status);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

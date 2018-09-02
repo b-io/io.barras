@@ -194,11 +194,11 @@ public class Quintuple<T1, T2, T3, T4, T5>
 			return false;
 		}
 		final Quintuple<?, ?, ?, ?, ?> otherQuintuple = (Quintuple) other;
-		return Objects.equals(first, otherQuintuple.getFirst()) &&
-				Objects.equals(second, otherQuintuple.getSecond()) &&
-				Objects.equals(third, otherQuintuple.getThird()) &&
-				Objects.equals(fourth, otherQuintuple.getFourth()) &&
-				Objects.equals(fifth, otherQuintuple.getFifth());
+		return Objects.equals(first, otherQuintuple.first) &&
+				Objects.equals(second, otherQuintuple.second) &&
+				Objects.equals(third, otherQuintuple.third) &&
+				Objects.equals(fourth, otherQuintuple.fourth) &&
+				Objects.equals(fifth, otherQuintuple.fifth);
 	}
 
 	@Override

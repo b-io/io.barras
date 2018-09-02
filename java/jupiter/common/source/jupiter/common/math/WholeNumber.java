@@ -103,11 +103,8 @@ public class WholeNumber
 	 * @param number a {@link Number}
 	 * <p>
 	 * @return the greatest common divisor (GCD) of {@code this} and the specified {@link Number}
-	 * <p>
-	 * @throws InterruptedException {@inheritDoc}
 	 */
-	public long gcd(final Number number)
-			throws InterruptedException {
+	public long gcd(final Number number) {
 		return WholeNumbers.gcd(value, number.longValue());
 	}
 
@@ -117,11 +114,8 @@ public class WholeNumber
 	 * @param number a {@link Number}
 	 * <p>
 	 * @return the least common multiple (LCM) of {@code this} and the specified {@link Number}
-	 * <p>
-	 * @throws InterruptedException {@inheritDoc}
 	 */
-	public long lcm(final Number number)
-			throws InterruptedException {
+	public long lcm(final Number number) {
 		return WholeNumbers.lcm(value, number.longValue());
 	}
 

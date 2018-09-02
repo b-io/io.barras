@@ -23,17 +23,18 @@
  */
 package jupiter.common.thread;
 
-public class JobTest
+public class SimpleWorker
 		extends Worker<Integer, Integer> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public JobTest() {
+	public SimpleWorker() {
+		super();
 	}
 
-	public JobTest(final Integer input) {
+	public SimpleWorker(final Integer input) {
 		super(input);
 	}
 
@@ -53,7 +54,7 @@ public class JobTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public JobTest clone() {
-		return new JobTest();
+	public SimpleWorker clone() {
+		return new SimpleWorker();
 	}
 }

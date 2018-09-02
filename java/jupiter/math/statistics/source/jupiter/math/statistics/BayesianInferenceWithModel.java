@@ -40,9 +40,9 @@ public class BayesianInferenceWithModel
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public BayesianInferenceWithModel(final int nModels) {
-		super(nModels);
-		models = new StatisticalModel[nModels];
+	public BayesianInferenceWithModel(final int modelCount) {
+		super(modelCount);
+		models = new StatisticalModel[modelCount];
 	}
 
 
@@ -68,7 +68,7 @@ public class BayesianInferenceWithModel
 	public void setStatisticalModel(final int i, final StatisticalModel model) {
 		// Check the arguments
 		IntegerArguments.requireNonNegative(i);
-		IntegerArguments.requireLessThan(i, nHypotheses);
+		IntegerArguments.requireLessThan(i, hypothesisCount);
 		Arguments.requireNonNull(model);
 
 		// Set the statistical model

@@ -25,7 +25,9 @@ package jupiter.math.linear.entity;
 
 import java.io.Serializable;
 
+import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
 
 public interface Entity
@@ -123,7 +125,7 @@ public interface Entity
 	/**
 	 * Applies the specified function to {@code this}.
 	 * <p>
-	 * @param f the function to apply
+	 * @param f the {@link Function} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
@@ -220,14 +222,48 @@ public interface Entity
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public Entity clone();
 
-	@Override
 	public boolean equals(final Object other);
 
 	public boolean equals(final Object other, final double tolerance);
 
-	@Override
 	public String toString();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ENUMS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public enum BinaryOperation {
+		ADDITION("ADDITION"),
+		SUBTRACTION("SUBTRACTION"),
+		MULTIPLICATION("MULTIPLICATION"),
+		DIVISION("DIVISION");
+
+		public final String value;
+
+		private BinaryOperation(final String value) {
+			this.value = value;
+		}
+
+		public static BinaryOperation get(final String name) {
+			final String value = Strings.toUpperCase(name);
+			if (ADDITION.value.equals(value)) {
+				return ADDITION;
+			} else if (SUBTRACTION.value.equals(value)) {
+				return SUBTRACTION;
+			} else if (MULTIPLICATION.value.equals(value)) {
+				return MULTIPLICATION;
+			} else if (DIVISION.value.equals(value)) {
+				return DIVISION;
+			}
+			throw new IllegalTypeException(name);
+		}
+
+		@Override
+		public String toString() {
+			return value;
+		}
+	}
 }

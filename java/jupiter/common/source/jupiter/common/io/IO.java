@@ -594,7 +594,7 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String appendException(final Exception ex) {
-		return ":\n" + Strings.toString(ex);
+		return ": " + Strings.toString(ex);
 	}
 
 
@@ -634,8 +634,8 @@ public class IO {
 
 		public final int value;
 
-		private SeverityLevel(final int level) {
-			value = level;
+		private SeverityLevel(final int value) {
+			this.value = value;
 		}
 
 		public boolean isDebug() {

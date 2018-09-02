@@ -64,9 +64,11 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected TreeMap() {
+		super();
 	}
 
 	protected TreeMap(final Map<? extends K, ? extends V> map) {
+		super();
 		putAll(map);
 	}
 
@@ -82,8 +84,8 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * <p>
 	 * @return the value associated with the specified key, or {@code null} if not present
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
 	public V get(final Object key) {
@@ -96,9 +98,9 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the root {@link Entry}.
+	 * Returns the root {@link Map.Entry}.
 	 * <p>
-	 * @return the root {@link Entry}
+	 * @return the root {@link Map.Entry}
 	 */
 	public Entry<K, V> getRootEntry() {
 		return root;
@@ -111,8 +113,8 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * <p>
 	 * @return the node of the specified key, or {@code null} if not present
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@SuppressWarnings("unchecked")
 	protected N getNode(final Object key) {
@@ -130,8 +132,8 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * <p>
 	 * @return the node of the specified key, or {@code null} if not present
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	protected abstract N getNode(final Comparable<? super K> key);
 
@@ -146,10 +148,10 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * <p>
 	 * @param map a {@link Map}
 	 * <p>
-	 * @throws ClassCastException   if the class of a key or value in the specified map prevents it
-	 *                              from being stored in {@code this}
-	 * @throws NullPointerException if the specified map is {@code null} or the specified map
-	 *                              contains a null key
+	 * @throws ClassCastException   if the class of a key or value in {@code map} prevents it from
+	 *                              being stored in {@code this}
+	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a null
+	 *                              key
 	 */
 	@Override
 	public void putAll(final Map<? extends K, ? extends V> map) {

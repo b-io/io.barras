@@ -37,8 +37,11 @@ public class Console {
 	public static void main(final String[] args) {
 		IO.clear();
 		Calculator.start();
-		interactions();
-		Calculator.stop();
+		try {
+			interactions();
+		} finally {
+			Calculator.stop();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

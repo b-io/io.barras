@@ -143,7 +143,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * <p>
 	 * @return the node associated to the specified key, or {@code null} if not present
 	 * <p>
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
 	protected N getNode(final Comparable<? super K> key) {
@@ -275,8 +275,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * <p>
 	 * @return the previous associated value, or {@code null} if not present
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
 	public synchronized V remove(final Object key) {
@@ -444,8 +444,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * <p>
 	 * @return {@code true} if a mapping for the specified key exists, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
 	public boolean containsKey(final Object key) {
@@ -475,11 +475,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns a {@link Set} view of the key-value mappings. The iterator of the set returns the
-	 * entries in ascending key order. The set is backed by {@code this}, so changes to {@code this}
-	 * are reflected in the set and vice-versa. If {@code this} is modified while an iteration over
-	 * the set is in progress (except through the operations {@code remove} or {@code setValue} of
-	 * the iterator), the results of the iteration are undefined. The set supports element removal,
+	 * Returns a set view of the key-value mappings. The iterator of the set returns the entries in
+	 * ascending key order. The set is backed by {@code this}, so changes to {@code this} are
+	 * reflected in the set and vice-versa. If {@code this} is modified while an iteration over the
+	 * set is in progress (except through the operations {@code remove} or {@code setValue} of the
+	 * iterator), the results of the iteration are undefined. The set supports element removal,
 	 * which removes the corresponding mapping from {@code this}, via the
 	 * {@link Iterator#remove}, {@link Set#remove}, {@code removeAll}, {@code retainAll} and
 	 * {@code clear} operations. It does not support the {@code add} or {@code addAll} operations.
@@ -492,15 +492,15 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified tree and returns the key-value mappings of
-	 * the visited nodes in the specified set.
+	 * Returns a set view of the key-value mappings. Performs the in-order traversal of the
+	 * specified tree and returns the key-value mappings of the visited nodes in the specified set.
 	 * <p>
 	 * @param tree the tree to get the key-value mappings from
-	 * @param set  the set to fill with the key-value mappings
+	 * @param set  the {@link Set} to fill with the key-value mappings
 	 * <p>
-	 * @return the set of the key-value mappings contained in the specified tree
+	 * @return a {@link Set} view of the key-value mappings
 	 */
-	public Set<Entry<K, V>> getEntries(final N tree, final Set<Entry<K, V>> set) {
+	protected Set<Entry<K, V>> getEntries(final N tree, final Set<Entry<K, V>> set) {
 		if (tree != null) {
 			getEntries(tree.left, set);
 			set.add(tree);

@@ -140,8 +140,8 @@ public class Chronometer {
 
 		public final int value;
 
-		private TimeUnit(final int index) {
-			value = index;
+		private TimeUnit(final int value) {
+			this.value = value;
 		}
 	}
 }

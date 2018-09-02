@@ -54,7 +54,7 @@ public abstract class Graphic
 	 * <p>
 	 * @param title the title
 	 */
-	public Graphic(final String title) {
+	protected Graphic(final String title) {
 		super(title);
 		this.title = title;
 	}

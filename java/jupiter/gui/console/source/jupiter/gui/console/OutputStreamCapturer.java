@@ -46,6 +46,7 @@ public class OutputStreamCapturer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public OutputStreamCapturer(final JConsole consumer, final PrintStream previousOutputStream) {
+		super();
 		this.consumer = consumer;
 		this.previousOutputStream = previousOutputStream;
 		builder = Strings.createBuilder();

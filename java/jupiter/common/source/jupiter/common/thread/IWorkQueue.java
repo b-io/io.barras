@@ -32,6 +32,13 @@ public interface IWorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of working threads.
+	 * <p>
+	 * @return the number of working threads
+	 */
+	public int getWorkerCount();
+
+	/**
 	 * Initializes the working threads.
 	 */
 	public void initWorkers();

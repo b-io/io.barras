@@ -120,9 +120,9 @@ public class ProgressBar {
 		if (i == 0) {
 			start();
 		}
-		final int nSymbols = countSymbols(i, n) - progress;
-		if (nSymbols > 0) {
-			printSymbols(nSymbols);
+		final int symbolCount = countSymbols(i, n) - progress;
+		if (symbolCount > 0) {
+			printSymbols(symbolCount);
 			if (progress == length) {
 				end();
 			}

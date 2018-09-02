@@ -37,7 +37,7 @@ public class Console {
 	/**
 	 * Starts the console.
 	 * <p>
-	 * @param args the command line arguments
+	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
 		IO.clear();

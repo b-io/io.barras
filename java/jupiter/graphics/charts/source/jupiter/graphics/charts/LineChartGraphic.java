@@ -73,17 +73,18 @@ public class LineChartGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a dataset from the specified {@link Function2D}.
+	 * Creates a {@link XYDataset} from the specified {@link Function2D}.
 	 * <p>
-	 * @param f          a {@link Function2D} {@code f: R -{@literal >} R}
-	 * @param lowerBound the lowerbound of the domain
-	 * @param upperBound the upperbound of the domain
-	 * @param samples    the number of samples
-	 * @param seriesKey  the identifier of the dataset to create
+	 * @param f           a {@link Function2D} {@code f: R -{@literal >} R}
+	 * @param lowerBound  the lowerbound of the domain
+	 * @param upperBound  the upperbound of the domain
+	 * @param sampleCount the number of samples
+	 * @param seriesKey   the identifier of the {@link XYDataset} to create
 	 */
 	public void createDataset(final Function2D f, final double lowerBound, final double upperBound,
-			final int samples, final Comparable<?> seriesKey) {
-		dataset = DatasetUtilities.sampleFunction2D(f, lowerBound, upperBound, samples, seriesKey);
+			final int sampleCount, final Comparable<?> seriesKey) {
+		dataset = DatasetUtilities.sampleFunction2D(f, lowerBound, upperBound, sampleCount,
+				seriesKey);
 	}
 
 

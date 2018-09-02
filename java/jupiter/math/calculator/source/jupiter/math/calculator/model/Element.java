@@ -41,12 +41,12 @@ public abstract class Element {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Element(final Element parent, final String expression) {
+	protected Element(final Element parent, final String expression) {
 		this.parent = parent;
 		this.expression = expression;
 	}
 
-	public Element(final Element parent, final String expression, final Entity entity) {
+	protected Element(final Element parent, final String expression, final Entity entity) {
 		this.parent = parent;
 		this.expression = expression;
 		this.entity = entity;

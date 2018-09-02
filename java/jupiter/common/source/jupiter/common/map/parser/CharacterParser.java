@@ -71,22 +71,18 @@ public class CharacterParser
 	// PARSER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public Character parse(final Object input) {
 		return call(input);
 	}
 
-	@Override
 	public Character[] parseToArray(final Object... input) {
 		return callToArray(input);
 	}
 
-	@Override
 	public Character[][] parseToArray2D(final Object[]... input) {
 		return callToArray2D(input);
 	}
 
-	@Override
 	public Character[][][] parseToArray3D(final Object[][]... input) {
 		return callToArray3D(input);
 	}

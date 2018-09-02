@@ -84,12 +84,12 @@ public class Display {
 		graph.setVisible(true);
 	}
 
-	protected void createSeries(final int nSeries, final int nValues) {
-		for (int s = 0; s < nSeries; ++s) {
+	protected void createSeries(final int seriesCount, final int valueCount) {
+		for (int s = 0; s < seriesCount; ++s) {
 			final int series = graph.addSeries("Test " + s);
 			final Calendar calendar = Calendar.getInstance();
 
-			for (int v = 0; v < nValues; ++v) {
+			for (int v = 0; v < valueCount; ++v) {
 				graph.addValue(series, calendar.getTime(), Integers.random(0, 10));
 				calendar.add(Calendar.SECOND, 60);
 			}

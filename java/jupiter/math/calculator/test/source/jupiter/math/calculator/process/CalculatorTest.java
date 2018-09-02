@@ -41,7 +41,8 @@ import jupiter.math.linear.entity.Matrix;
 public class CalculatorTest
 		extends TestCase {
 
-	public CalculatorTest() {
+	public CalculatorTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,61 +55,64 @@ public class CalculatorTest
 
 		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
-		final int nTests = 20;
+		final int testCount = 20;
 		final int matrixSize = 200;
 		final Chronometer chrono = new Chronometer();
-		final double[] elementTimes = new double[2 * nTests];
-		final double[] entityTimes = new double[2 * nTests];
+		final double[] elementTimes = new double[2 * testCount];
+		final double[] entityTimes = new double[2 * testCount];
 
 		// Process
 		Calculator.start();
-		for (int i = 0; i < nTests; ++i) {
-			// Initialize
-			final Map<String, Element> context = new HashMap<String, Element>();
-			final Matrix matrix = Matrix.random(matrixSize);
-			final String matrixString = Strings.toString(matrix);
-			final String e1 = "(" + matrixString + " * " + "@(" + matrixString + ")) + " + "(" +
-					matrixString + " * " + "@(" + matrixString + "))";
-			final String e2 = "(" + matrixString + " / " + matrixString + ") + " + "(" +
-					matrixString + " / " + matrixString + ")";
+		try {
+			for (int i = 0; i < testCount; ++i) {
+				// Initialize
+				final Map<String, Element> context = new HashMap<String, Element>();
+				final Matrix matrix = Matrix.random(matrixSize);
+				final String matrixString = Strings.toString(matrix);
+				final String e1 = "(" + matrixString + " * " + "@(" + matrixString + ")) + " + "(" +
+						matrixString + " * " + "@(" + matrixString + "))";
+				final String e2 = "(" + matrixString + " / " + matrixString + ") + " + "(" +
+						matrixString + " / " + matrixString + ")";
 
-			// Test the parsing and the evaluation of the element and entity 1
-			chrono.start();
-			final Report<Element> tree1 = ExpressionHandler.parseExpression(e1, context);
-			final Element element1 = tree1.getOutput();
-			chrono.stop();
-			IO.debug("Element1: ", tree1);
-			IO.debug("Element1: ", chrono.getMilliseconds(), " [ms]");
-			elementTimes[2 * i] = chrono.getMilliseconds();
-			chrono.start();
-			final Report<Entity> entityResult1 = Calculator.evaluateTree(element1, context);
-			final Entity entity1 = entityResult1.getOutput();
-			chrono.stop();
-			IO.debug("Entity1: ", entityResult1);
-			IO.debug("Entity1: ", chrono.getMilliseconds(), " [ms]");
-			entityTimes[2 * i] = chrono.getMilliseconds();
+				// Test the parsing and the evaluation of the element and entity 1
+				chrono.start();
+				final Report<Element> tree1 = ExpressionHandler.parseExpression(e1, context);
+				final Element element1 = tree1.getOutput();
+				chrono.stop();
+				IO.debug("Element1: ", tree1);
+				IO.debug("Element1: ", chrono.getMilliseconds(), " [ms]");
+				elementTimes[2 * i] = chrono.getMilliseconds();
+				chrono.start();
+				final Report<Entity> entityResult1 = Calculator.evaluateTree(element1, context);
+				final Entity entity1 = entityResult1.getOutput();
+				chrono.stop();
+				IO.debug("Entity1: ", entityResult1);
+				IO.debug("Entity1: ", chrono.getMilliseconds(), " [ms]");
+				entityTimes[2 * i] = chrono.getMilliseconds();
 
-			// Test the parsing and the evaluation of the element and entity 2
-			chrono.start();
-			final Report<Element> tree2 = ExpressionHandler.parseExpression(e2, context);
-			final Element element2 = tree2.getOutput();
-			chrono.stop();
-			IO.debug("Element2: ", element2);
-			IO.debug("Element2: ", chrono.getMilliseconds(), " [ms]");
-			elementTimes[2 * i + 1] = chrono.getMilliseconds();
-			chrono.start();
-			final Report<Entity> entityResult2 = Calculator.evaluateTree(element2, context);
-			final Entity entity2 = entityResult2.getOutput();
-			chrono.stop();
-			IO.debug("Entity2: ", entity2);
-			IO.debug("Entity2: ", chrono.getMilliseconds(), " [ms]");
-			entityTimes[2 * i + 1] = chrono.getMilliseconds();
+				// Test the parsing and the evaluation of the element and entity 2
+				chrono.start();
+				final Report<Element> tree2 = ExpressionHandler.parseExpression(e2, context);
+				final Element element2 = tree2.getOutput();
+				chrono.stop();
+				IO.debug("Element2: ", element2);
+				IO.debug("Element2: ", chrono.getMilliseconds(), " [ms]");
+				elementTimes[2 * i + 1] = chrono.getMilliseconds();
+				chrono.start();
+				final Report<Entity> entityResult2 = Calculator.evaluateTree(element2, context);
+				final Entity entity2 = entityResult2.getOutput();
+				chrono.stop();
+				IO.debug("Entity2: ", entity2);
+				IO.debug("Entity2: ", chrono.getMilliseconds(), " [ms]");
+				entityTimes[2 * i + 1] = chrono.getMilliseconds();
 
-			// Test the results
-			assertEquals(entity1, entity2);
+				// Test the results
+				assertEquals(entity1, entity2);
+			}
+			Tests.printTimes(elementTimes);
+			Tests.printTimes(entityTimes);
+		} finally {
+			Calculator.stop();
 		}
-		Calculator.stop();
-		Tests.printTimes(elementTimes);
-		Tests.printTimes(entityTimes);
 	}
 }

@@ -42,7 +42,6 @@ import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.BinaryOperation;
 import jupiter.math.calculator.model.Element;
-import jupiter.math.calculator.model.Element.Type;
 import jupiter.math.calculator.model.MatrixElement;
 import jupiter.math.calculator.model.Result;
 import jupiter.math.calculator.model.ScalarElement;
@@ -58,19 +57,18 @@ public class Calculator {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The option specifying whether to use threads.
+	 * The option specifying whether to parallelize using a work queue.
 	 */
-	protected static final boolean USE_THREADS = true;
+	protected static volatile boolean PARALLELIZE = true;
+	/**
+	 * The work queue for evaluating the elements.
+	 */
+	protected static volatile IWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The thread pool.
-	 */
-	protected static IWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> THREAD_POOL = null;
 
 	/**
 	 * The context containing the values of the variables.
@@ -87,43 +85,50 @@ public class Calculator {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALCULATOR
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts the thread pool.
+	 * Starts {@code this}.
 	 */
 	public static void start() {
 		IO.debug("");
 		stop();
-		if (USE_THREADS) {
-			THREAD_POOL = new WorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
+
+		// Initialize
+		// - The expression handler
+		ExpressionHandler.start();
+		// - The work queue
+		if (PARALLELIZE) {
+			WORK_QUEUE = new WorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
 					new Evaluator());
 		}
-		ExpressionHandler.start();
 	}
 
 	/**
-	 * Stops the thread pool.
+	 * Stops {@code this}.
 	 */
 	public static void stop() {
 		IO.debug("");
-		ExpressionHandler.stop();
-		if (USE_THREADS) {
-			if (THREAD_POOL != null) {
-				THREAD_POOL.shutdown();
-			}
+
+		// Shutdown
+		// - The work queue
+		if (WORK_QUEUE != null) {
+			WORK_QUEUE.shutdown();
 		}
+		// - The expression handler
+		ExpressionHandler.stop();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Processes the specified expression (assignment or simple evaluation).
+	 * Parses and evaluates the specified expression (assignment or simple evaluation) and returns
+	 * the result.
 	 * <p>
-	 * @param expression the {@link String} to parse
+	 * @param expression the {@link String} to parse and evaluate
 	 * <p>
-	 * @return the evaluation of {@code expression}
+	 * @return the {@link Result} evaluated from the specified expression
 	 */
 	public Result process(final String expression) {
 		try {
@@ -139,8 +144,8 @@ public class Calculator {
 				trimmedExpression = expressions.get(size - 1).trim();
 			}
 
-			// Evaluate the (right-hand side) expression
-			final Report<Entity> result = evaluate(trimmedExpression, context);
+			// Parse and evaluate the (right-hand side) expression
+			final Report<Entity> result = process(trimmedExpression, context);
 			final Entity entity = result.getOutput();
 			if (entity == null) {
 				return new Result(null, result.getMessage());
@@ -156,6 +161,7 @@ public class Calculator {
 				return new Result(null, new Message(new IllegalClassException(entity.getClass())));
 			}
 
+			// Test whether the epression is an assignment
 			if (size > 1) {
 				// - Assignment
 				// Set the corresponding variables
@@ -174,12 +180,12 @@ public class Calculator {
 	/**
 	 * Parses the specified expression to a tree of operations and numbers and evaluates it.
 	 * <p>
-	 * @param expression the {@link String} to parse
+	 * @param expression the {@link String} to parse and evaluate
 	 * @param context    the context containing the values of the variables
 	 * <p>
-	 * @return the evaluation of {@code expression}
+	 * @return the {@link Entity} evaluated from the specified expression
 	 */
-	protected Report<Entity> evaluate(final String expression, final Map<String, Element> context) {
+	protected Report<Entity> process(final String expression, final Map<String, Element> context) {
 		final Report<Element> result = ExpressionHandler.parseExpression(expression, context);
 		final Element element = result.getOutput();
 		if (element == null) {
@@ -191,10 +197,10 @@ public class Calculator {
 	/**
 	 * Evaluates the specified tree of operations and numbers.
 	 * <p>
-	 * @param tree    the {@link Element} to evaluate
+	 * @param tree    the root {@link Element} of the tree to evaluate
 	 * @param context the context containing the values of the variables
 	 * <p>
-	 * @return the evaluation of {@code tree}
+	 * @return the {@link Entity} evaluated from the specified tree of operations and numbers
 	 */
 	public static Report<Entity> evaluateTree(final Element tree,
 			final Map<String, Element> context) {
@@ -216,22 +222,22 @@ public class Calculator {
 	 * @param binaryOperation the {@link BinaryOperation} to evaluate
 	 * @param context         the context containing the values of the variables
 	 * <p>
-	 * @return the evaluation of {@code binaryOperation}
+	 * @return the {@link Entity} evaluated from the specified {@link BinaryOperation}
 	 */
 	protected static Report<Entity> evaluateBinaryOperation(final BinaryOperation binaryOperation,
 			final Map<String, Element> context) {
 		// Evaluate the left and right expressions
 		Report<Entity> leftEntityResult, rightEntityResult;
-		if (USE_THREADS && THREAD_POOL.reserveWorkers(2)) {
+		if (PARALLELIZE && WORK_QUEUE.reserveWorkers(2)) {
 			// Submit the tasks
-			final long leftId = THREAD_POOL.submit(
+			final long leftId = WORK_QUEUE.submit(
 					new Pair<Element, Map<String, Element>>(binaryOperation.getLeft(), context));
-			final long rightId = THREAD_POOL.submit(
+			final long rightId = WORK_QUEUE.submit(
 					new Pair<Element, Map<String, Element>>(binaryOperation.getRight(), context));
 
 			// Get the results
-			leftEntityResult = THREAD_POOL.get(leftId);
-			rightEntityResult = THREAD_POOL.get(rightId);
+			leftEntityResult = WORK_QUEUE.get(leftId);
+			rightEntityResult = WORK_QUEUE.get(rightId);
 		} else {
 			// Get the results
 			leftEntityResult = evaluateTree(binaryOperation.getLeft(), context);
@@ -250,7 +256,7 @@ public class Calculator {
 		}
 
 		// Get the type of the binary operation
-		final Type type = binaryOperation.getType();
+		final Element.Type type = binaryOperation.getType();
 		IO.debug(leftEntity, " ", type, " ", rightEntity);
 
 		// Evaluate the binary operation
@@ -287,7 +293,7 @@ public class Calculator {
 	 * @param unaryOperation the {@link UnaryOperation} to evaluate
 	 * @param context        the context containing the values of the variables
 	 * <p>
-	 * @return the evaluation of {@code unaryOperation}
+	 * @return the {@link Entity} evaluated from the specified {@link UnaryOperation}
 	 */
 	protected static Report<Entity> evaluateUnaryOperation(final UnaryOperation unaryOperation,
 			final Map<String, Element> context) {
@@ -299,7 +305,7 @@ public class Calculator {
 		}
 
 		// Get the type of the unary operation
-		final Type type = unaryOperation.getType();
+		final Element.Type type = unaryOperation.getType();
 		IO.debug(type, " ", entity);
 
 		// Evaluate the unary operation
@@ -325,11 +331,15 @@ public class Calculator {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKER
+	// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class Evaluator
 			extends Worker<Pair<Element, Map<String, Element>>, Report<Entity>> {
+
+		protected Evaluator() {
+			super();
+		}
 
 		@Override
 		public Report<Entity> call(final Pair<Element, Map<String, Element>> input) {

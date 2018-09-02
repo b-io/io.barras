@@ -32,12 +32,11 @@ public class Filter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected Filter() {
-		limit = 0.;
-		a = 0.;
-		b = 1.;
+		this(0., 0., 1.);
 	}
 
 	public Filter(final double limit, final double a, final double b) {
+		super();
 		this.limit = limit;
 		this.a = a;
 		this.b = b;

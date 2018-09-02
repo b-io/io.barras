@@ -119,7 +119,6 @@ public class TreeNode<K extends Comparable<K>, V>
 	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public int compareTo(final Entry<K, V> entry) {
 		return key.compareTo(entry.getKey());
 	}

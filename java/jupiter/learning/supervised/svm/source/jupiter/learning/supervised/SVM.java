@@ -66,11 +66,11 @@ public class SVM {
 	/**
 	 * The number of features n.
 	 */
-	protected final int nFeatures;
+	protected final int featureCount;
 	/**
 	 * The number of training examples m.
 	 */
-	protected int mTrainingExamples;
+	protected int trainingExampleCount;
 
 	/**
 	 * The problem.
@@ -99,11 +99,11 @@ public class SVM {
 	/**
 	 * Constructs a support vector machine.
 	 * <p>
-	 * @param nFeatures the number of features
+	 * @param featureCount the number of features
 	 */
-	public SVM(final int nFeatures) {
-		this.nFeatures = nFeatures;
-		mTrainingExamples = 0;
+	public SVM(final int featureCount) {
+		this.featureCount = featureCount;
+		trainingExampleCount = 0;
 		problem = new svm_problem();
 		parameters = new svm_parameter();
 		setDefaultParameters();
@@ -282,7 +282,7 @@ public class SVM {
 	 */
 	public void setWeights(final double[] weights) {
 		// Check the arguments
-		DoubleArguments.requireMaxLength(weights, mTrainingExamples);
+		DoubleArguments.requireMaxLength(weights, trainingExampleCount);
 
 		// Set the parameters
 		parameters.weight = weights;
@@ -298,8 +298,8 @@ public class SVM {
 	/**
 	 * Loads the training examples from the specified arrays.
 	 * <p>
-	 * @param featureVectors the feature vectors of the training examples of size (m x n)
-	 * @param classes        the SVM of the training examples of size m
+	 * @param featureVectors the 2D array of feature vectors of size (m x n)
+	 * @param classes        the array of classes of size m
 	 */
 	public void loadTrainingExamples(final double[][] featureVectors, final int[] classes) {
 		// Check the arguments
@@ -308,13 +308,13 @@ public class SVM {
 
 		// Load the training examples
 		if (featureVectors.length > 0) {
-			mTrainingExamples = featureVectors.length;
+			trainingExampleCount = featureVectors.length;
 			updateProblem();
-			for (int i = 0; i < mTrainingExamples; ++i) {
+			for (int i = 0; i < trainingExampleCount; ++i) {
 				final int n = featureVectors[i].length;
-				if (n < nFeatures) {
+				if (n < featureCount) {
 					throw new IllegalArgumentException("The feature vector size is wrong at row " +
-							i + " " + Arguments.atLeastExpectedButFound(n, nFeatures));
+							i + " " + Arguments.atLeastExpectedButFound(n, featureCount));
 				}
 				updateClassification(i, classes[i]);
 				updateFeatureVector(i, featureVectors[i]);
@@ -335,19 +335,19 @@ public class SVM {
 			final int m = trainingExamples.getRowCount();
 			if (m > 0) {
 				final int n = trainingExamples.getColumnCount();
-				if (n <= nFeatures) {
+				if (n <= featureCount) {
 					throw new IllegalArgumentException("There are not enough columns " +
-							Arguments.atLeastExpectedButFound(n, nFeatures + 1));
+							Arguments.atLeastExpectedButFound(n, featureCount + 1));
 				}
 				if (classesIndex < n - 1) {
 					throw new IllegalArgumentException("The classes index is out of bound " +
 							Arguments.atLeastExpectedButFound(classesIndex, n - 1));
 				}
-				mTrainingExamples = m;
+				trainingExampleCount = m;
 				updateProblem();
-				for (int i = 0; i < mTrainingExamples; ++i) {
+				for (int i = 0; i < trainingExampleCount; ++i) {
 					updateClassification(i, Integer.valueOf(trainingExamples.get(i, classesIndex)));
-					for (int j = 0; j < nFeatures; ++j) {
+					for (int j = 0; j < featureCount; ++j) {
 						updateValue(i, j, Double.valueOf(trainingExamples.get(i, j)));
 					}
 				}
@@ -361,9 +361,9 @@ public class SVM {
 	 * Updates the problem.
 	 */
 	protected void updateProblem() {
-		problem.l = mTrainingExamples;
-		problem.x = new svm_node[mTrainingExamples][nFeatures];
-		problem.y = new double[mTrainingExamples];
+		problem.l = trainingExampleCount;
+		problem.x = new svm_node[trainingExampleCount][featureCount];
+		problem.y = new double[trainingExampleCount];
 	}
 
 	/**
@@ -385,7 +385,7 @@ public class SVM {
 	 */
 	protected void updateFeatureVector(final int trainingExampleIndex,
 			final double[] featureVector) {
-		for (int featureIndex = 0; featureIndex < nFeatures; ++featureIndex) {
+		for (int featureIndex = 0; featureIndex < featureCount; ++featureIndex) {
 			updateValue(trainingExampleIndex, featureIndex, featureVector[featureIndex]);
 		}
 	}
@@ -407,7 +407,7 @@ public class SVM {
 		node.value = value;
 		problem.x[trainingExampleIndex][featureIndex] = node;
 		IO.debug(node.value, " ");
-		if (featureIndex == nFeatures - 1) {
+		if (featureIndex == featureCount - 1) {
 			IO.debug(Characters.RIGHT_PARENTHESIS);
 		}
 	}
@@ -423,7 +423,7 @@ public class SVM {
 	 * @return the trained model
 	 */
 	public svm_model train() {
-		if (mTrainingExamples == 0) {
+		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return null;
 		}
@@ -449,8 +449,8 @@ public class SVM {
 			return null;
 		}
 
-		final svm_node[] nodes = new svm_node[nFeatures];
-		for (int i = 0; i < nFeatures; ++i) {
+		final svm_node[] nodes = new svm_node[featureCount];
+		for (int i = 0; i < featureCount; ++i) {
 			final svm_node node = new svm_node();
 			node.index = i;
 			node.value = example[i];

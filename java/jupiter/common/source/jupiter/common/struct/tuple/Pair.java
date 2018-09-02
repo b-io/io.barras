@@ -124,8 +124,7 @@ public class Pair<T1, T2>
 			return false;
 		}
 		final Pair<?, ?> otherPair = (Pair) other;
-		return Objects.equals(first, otherPair.getFirst()) &&
-				Objects.equals(second, otherPair.getSecond());
+		return Objects.equals(first, otherPair.first) && Objects.equals(second, otherPair.second);
 	}
 
 	@Override

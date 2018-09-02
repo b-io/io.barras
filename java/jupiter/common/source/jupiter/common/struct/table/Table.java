@@ -252,7 +252,7 @@ public class Table<T>
 	 * <p>
 	 * @return the element at the specified row and column indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public T get(final int i, final String name) {
 		return get(i, getColumnIndex(name));
@@ -266,7 +266,7 @@ public class Table<T>
 	 * <p>
 	 * @return the element at the specified row and column indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public T get(final int i, final int j) {
 		// Check the arguments
@@ -290,7 +290,7 @@ public class Table<T>
 	 * <p>
 	 * @return the elements of the specified row
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public T[] getRow(final int i) {
 		return getRow(i, 0, n);
@@ -306,7 +306,7 @@ public class Table<T>
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public T[] getRow(final int i, final int from) {
 		return getRow(i, from, n - from);
@@ -323,7 +323,7 @@ public class Table<T>
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public T[] getRow(final int i, final int from, final int length) {
 		// Check the arguments
@@ -351,8 +351,6 @@ public class Table<T>
 	 * @param name the column name
 	 * <p>
 	 * @return the elements of the specified column
-	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
 	 */
 	public T[] getColumn(final String name) {
 		return getColumn(name, 0, m);
@@ -365,7 +363,7 @@ public class Table<T>
 	 * <p>
 	 * @return the elements of the specified column
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public T[] getColumn(final int j) {
 		return getColumn(j, 0, m);
@@ -381,7 +379,7 @@ public class Table<T>
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public T[] getColumn(final String name, final int from) {
 		return getColumn(name, from, m - from);
@@ -397,7 +395,7 @@ public class Table<T>
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public T[] getColumn(final int j, final int from) {
 		return getColumn(j, from, m - from);
@@ -414,7 +412,7 @@ public class Table<T>
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public T[] getColumn(final String name, final int from, final int length) {
 		return getColumn(getColumnIndex(name), from, m - from);
@@ -431,7 +429,7 @@ public class Table<T>
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public T[] getColumn(final int j, final int from, final int length) {
 		// Check the arguments
@@ -495,7 +493,7 @@ public class Table<T>
 	 * @param j     the column index
 	 * @param value a {@code T} object
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void set(final int i, final int j, final T value) {
 		// Check the arguments
@@ -518,7 +516,7 @@ public class Table<T>
 	 * @param i      the row index
 	 * @param values an array of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void setRow(final int i, final T[] values) {
 		setRow(i, values, 0, values.length);
@@ -531,7 +529,7 @@ public class Table<T>
 	 * @param values an array of type {@code T}
 	 * @param from   the initial column index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setRow(final int i, final T[] values, final int from) {
 		setRow(i, values, from, values.length);
@@ -546,7 +544,7 @@ public class Table<T>
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setRow(final int i, final T[] values, final int from, final int length) {
 		// Check the arguments
@@ -573,7 +571,7 @@ public class Table<T>
 	 * @param i      the row index
 	 * @param values a {@link Collection} of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void setRow(final int i, final Collection<T> values) {
 		setRow(i, values.toArray(createArray(n)));
@@ -587,7 +585,7 @@ public class Table<T>
 	 * @param j      the column index
 	 * @param values an array of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void setColumn(final int j, final T[] values) {
 		setColumn(j, values, 0, values.length);
@@ -600,7 +598,7 @@ public class Table<T>
 	 * @param values an array of type {@code T}
 	 * @param from   the initial row index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setColumn(final int j, final T[] values, final int from) {
 		setColumn(j, values, from, values.length);
@@ -615,7 +613,7 @@ public class Table<T>
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setColumn(final int j, final T[] values, final int from, final int length) {
 		// Check the arguments
@@ -644,7 +642,7 @@ public class Table<T>
 	 * @param j      the column index
 	 * @param values a {@link Collection} of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void setColumn(final int j, final Collection<T> values) {
 		setColumn(j, values.toArray(createArray(m)));
@@ -657,7 +655,7 @@ public class Table<T>
 	 * <p>
 	 * @param values an array of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
 	public void setAll(final T... values) {
 		for (int i = 0; i < m; ++i) {
@@ -670,7 +668,7 @@ public class Table<T>
 	 * <p>
 	 * @param values a 2D array of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
 	public void setAll(final T[]... values) {
 		for (int i = 0; i < m; ++i) {
@@ -773,10 +771,10 @@ public class Table<T>
 			final int rowOffset = m;
 
 			// Resize the table
-			resize(rowOffset + table.getRowCount(), n);
+			resize(rowOffset + table.m, n);
 
 			// Merge the rows
-			for (int i = 0; i < table.getRowCount(); ++i) {
+			for (int i = 0; i < table.m; ++i) {
 				setRow(rowOffset + i, table.getRow(i));
 			}
 		} else {
@@ -784,14 +782,14 @@ public class Table<T>
 			final int columnOffset = n;
 
 			// Resize the table
-			resize(m, columnOffset + table.getColumnCount());
+			resize(m, columnOffset + table.n);
 
 			// Merge the header
-			System.arraycopy(table.getHeader(), 0, header, columnOffset, table.getColumnCount());
+			System.arraycopy(table.header, 0, header, columnOffset, table.n);
 
 			// Merge the columns
-			resize(m, columnOffset + table.getColumnCount());
-			for (int j = 0; j < table.getColumnCount(); ++j) {
+			resize(m, columnOffset + table.n);
+			for (int j = 0; j < table.n; ++j) {
 				setColumn(columnOffset + j, table.getColumn(j));
 			}
 		}
@@ -996,11 +994,11 @@ public class Table<T>
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			String delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
-				final int nOccurrences = Strings.getAllIndexes(line, d).size();
-				if (nOccurrences > 0) {
+				final int occurrenceCount = Strings.getAllIndexes(line, d).size();
+				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = Strings.toString(d);
-						n = nOccurrences;
+						n = occurrenceCount;
 					} else {
 						IO.warn("The file contains different delimiters; ",
 								Strings.quote(delimiter), " is selected");
@@ -1102,7 +1100,6 @@ public class Table<T>
 			return elements[i];
 		}
 
-		@Override
 		public void remove() {
 			if (cursor > 0) {
 				// Verify the feasibility
@@ -1151,19 +1148,17 @@ public class Table<T>
 			return false;
 		}
 		final Table<?> otherTable = (Table<?>) other;
-		if (!Objects.equals(c, otherTable.getElementClass()) || m != otherTable.getRowCount() ||
-				n != otherTable.getColumnCount()) {
+		if (!Objects.equals(c, otherTable.c) || m != otherTable.m || n != otherTable.n) {
 			return false;
 		}
-		final String[] otherHeader = otherTable.getHeader();
 		for (int j = 0; j < n; ++j) {
-			if (!Objects.equals(header[j], otherHeader[j])) {
+			if (!Objects.equals(header[j], otherTable.header[j])) {
 				return false;
 			}
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				if (!Objects.equals(elements[i][j], otherTable.get(i, j))) {
+				if (!Objects.equals(elements[i][j], otherTable.elements[i][j])) {
 					return false;
 				}
 			}

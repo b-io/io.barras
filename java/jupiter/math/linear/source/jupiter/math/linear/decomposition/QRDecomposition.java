@@ -39,7 +39,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * constructor never fails. The primary use of the QR decomposition is in the least squares solution
  * of non-square systems of simultaneous linear equations. This fails if isFullRank() returns false.
  * <p>
- * @author JAMA, http://math.nist.gov/javanumerics/jama
+ * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
 public class QRDecomposition
@@ -97,17 +97,17 @@ public class QRDecomposition
 		// Decompose
 		for (int k = 0; k < n; ++k) {
 			// Compute the 2-norm of the k-th column without under/overflow
-			double nrm = 0;
+			double norm = 0.;
 			for (int i = k; i < m; ++i) {
-				nrm = Norms.getEuclideanNorm(nrm, QR[i][k]);
+				norm = Norms.getEuclideanNorm(norm, QR[i][k]);
 			}
-			if (nrm != 0.) {
+			if (norm != 0.) {
 				// Form the k-th Householder vector
 				if (QR[k][k] < 0) {
-					nrm = -nrm;
+					norm = -norm;
 				}
 				for (int i = k; i < m; ++i) {
-					QR[i][k] /= nrm;
+					QR[i][k] /= norm;
 				}
 				QR[k][k] += 1.;
 				// Apply the transformation to the remaining columns
@@ -122,7 +122,7 @@ public class QRDecomposition
 					}
 				}
 			}
-			Rdiag[k] = -nrm;
+			Rdiag[k] = -norm;
 		}
 	}
 

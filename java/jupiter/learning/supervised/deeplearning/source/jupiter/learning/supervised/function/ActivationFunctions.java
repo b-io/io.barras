@@ -23,10 +23,7 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Function;
-
-public abstract class ActivationFunctions
-		extends Function {
+public abstract class ActivationFunctions {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -35,4 +32,12 @@ public abstract class ActivationFunctions
 	public static final ActivationHyperbolicTangent TANH = new ActivationHyperbolicTangent();
 	public static final ActivationReLU RELU = new ActivationReLU();
 	public static final ActivationSigmoid SIGMOID = new ActivationSigmoid();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected ActivationFunctions() {
+	}
 }

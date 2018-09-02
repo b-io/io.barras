@@ -31,6 +31,7 @@ public class ActivationHyperbolicTangent
 		extends ActivationFunction {
 
 	protected ActivationHyperbolicTangent() {
+		super();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -35,7 +35,7 @@ public abstract class ObjectToDoubleMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectToDoubleMapper() {
+	protected ObjectToDoubleMapper() {
 		super(Double.class);
 	}
 

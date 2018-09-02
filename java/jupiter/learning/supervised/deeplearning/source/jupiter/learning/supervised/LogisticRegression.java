@@ -68,10 +68,10 @@ public class LogisticRegression
 	/**
 	 * Constructs a logistic regression model.
 	 * <p>
-	 * @param nFeatures the number of features
+	 * @param featureCount the number of features
 	 */
-	public LogisticRegression(final int nFeatures) {
-		super(nFeatures);
+	public LogisticRegression(final int featureCount) {
+		super(featureCount);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class LogisticRegression
 
 	public synchronized void setWeights(final Vector weights) {
 		// Check the arguments
-		Arguments.require(weights.getColumnDimension(), nFeatures);
+		Arguments.require(weights.getColumnDimension(), featureCount);
 
 		// Set the weights
 		W = weights;
@@ -146,16 +146,16 @@ public class LogisticRegression
 	/**
 	 * Trains the model with the specified parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate  the learning rate
-	 * @param tolerance     the tolerance level
-	 * @param maxIterations the maximum number of iterations
+	 * @param learningRate      the learning rate
+	 * @param tolerance         the tolerance level
+	 * @param maxIterationCount the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */
 	@Override
 	public synchronized int train(final double learningRate, final double tolerance,
-			final int maxIterations) {
-		if (mTrainingExamples == 0) {
+			final int maxIterationCount) {
+		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return 0;
 		}
@@ -164,7 +164,7 @@ public class LogisticRegression
 		final Scalar alpha = new Scalar(learningRate);
 		// - The weight vector
 		if (W == null) {
-			W = new Vector(nFeatures, true); // (1 x n)
+			W = new Vector(featureCount, true); // (1 x n)
 		}
 		// - The bias
 		if (b == null) {
@@ -177,7 +177,7 @@ public class LogisticRegression
 		double j = Double.POSITIVE_INFINITY;
 
 		// Train
-		for (int i = 0; i < maxIterations; ++i) {
+		for (int i = 0; i < maxIterationCount; ++i) {
 			// Compute A = sigmoid(Z) = sigmoid(W X + b)
 			A = estimate(X); // (1 x m)
 
@@ -196,7 +196,7 @@ public class LogisticRegression
 
 			// Compute the derivatives
 			final Entity dZT = A.minus(Y).transpose(); // (m x 1)
-			final Entity dW = X.times(dZT).division(new Scalar(mTrainingExamples)).transpose(); // (1 x n)
+			final Entity dW = X.times(dZT).division(new Scalar(trainingExampleCount)).transpose(); // (1 x n)
 			final Scalar db = dZT.mean().toScalar();
 
 			// Update the weights and the bias
@@ -204,7 +204,7 @@ public class LogisticRegression
 			b = b.minus(alpha.times(db)).toScalar();
 		}
 
-		return maxIterations;
+		return maxIterationCount;
 	}
 
 	/**

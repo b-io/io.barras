@@ -33,7 +33,8 @@ import jupiter.common.util.Doubles;
 public class LogisticRegressionTest
 		extends TestCase {
 
-	public LogisticRegressionTest() {
+	public LogisticRegressionTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,12 +51,12 @@ public class LogisticRegressionTest
 					"test/resources/A/Y.csv");
 
 			// Train
-			final int nIterations = model.train();
+			final int iterationCount = model.train();
 
 			// Test
 			// - The accuracy
 			final double accuracy = model.computeAccuracy();
-			IO.test(Doubles.toPercentage(accuracy), " accuracy in ", nIterations, " iterations");
+			IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
 			assertEquals(0.48, accuracy, 0.05);
 			// - The cost
 			final double cost = model.computeCost();

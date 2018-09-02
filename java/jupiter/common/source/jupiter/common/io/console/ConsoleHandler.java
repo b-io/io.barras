@@ -56,10 +56,12 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public ConsoleHandler() {
+		super();
 		console = new SystemConsole();
 	}
 
 	public ConsoleHandler(final IConsole console) {
+		super();
 		this.console = console;
 	}
 

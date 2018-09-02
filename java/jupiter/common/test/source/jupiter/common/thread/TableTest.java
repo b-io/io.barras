@@ -34,8 +34,8 @@ import jupiter.common.struct.table.Table;
 public class TableTest
 		extends TestCase {
 
-	public TableTest(final String testName) {
-		super(testName);
+	public TableTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

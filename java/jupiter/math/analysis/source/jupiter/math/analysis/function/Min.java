@@ -31,10 +31,11 @@ public class Min
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected Min() {
-		value = 0.;
+		this(0.);
 	}
 
 	public Min(final double value) {
+		super();
 		this.value = value;
 	}
 
@@ -49,6 +50,6 @@ public class Min
 	 */
 	@Override
 	public double apply(final double x) {
-		return Double.min(x, value);
+		return Math.min(x, value);
 	}
 }

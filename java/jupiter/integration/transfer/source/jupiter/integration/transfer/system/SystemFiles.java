@@ -59,12 +59,10 @@ public class SystemFiles {
 
 	public static IOFileFilter createFilter(final String pattern) {
 		return new IOFileFilter() {
-			@Override
 			public boolean accept(final File file) {
 				return file.getName().matches(pattern);
 			}
 
-			@Override
 			public boolean accept(final File file, final String string) {
 				return accept(file);
 			}
@@ -158,21 +156,21 @@ public class SystemFiles {
 		if (filenames.length > 0) {
 			if (Strings.isNotEmpty(filenames[0])) {
 				// Unzip the files
-				int nUnzippedFiles = 0;
+				int unzippedFileCount = 0;
 				for (final String filename : filenames) {
 					final Collection<File> files = SystemFiles.find(localDir, filename, "zip");
 					for (final File file : files) {
 						if (file.isFile() && filename.matches(filter)) {
-							nUnzippedFiles += unzip(file.getAbsolutePath(), localDir);
+							unzippedFileCount += unzip(file.getAbsolutePath(), localDir);
 						}
 					}
 				}
-				if (nUnzippedFiles > 0) {
-					IO.info(nUnzippedFiles, " files unzipped");
+				if (unzippedFileCount > 0) {
+					IO.info(unzippedFileCount, " files unzipped");
 				} else {
 					IO.warn("No files unzipped");
 				}
-				return nUnzippedFiles;
+				return unzippedFileCount;
 			}
 			IO.error("Empty filename");
 			return 0;

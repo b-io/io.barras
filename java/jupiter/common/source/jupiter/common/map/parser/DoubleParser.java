@@ -65,22 +65,18 @@ public class DoubleParser
 	// PARSER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public Double parse(final Object input) {
 		return call(input);
 	}
 
-	@Override
 	public Double[] parseToArray(final Object... input) {
 		return callToArray(input);
 	}
 
-	@Override
 	public Double[][] parseToArray2D(final Object[]... input) {
 		return callToArray2D(input);
 	}
 
-	@Override
 	public Double[][][] parseToArray3D(final Object[][]... input) {
 		return callToArray3D(input);
 	}

@@ -30,7 +30,8 @@ import junit.framework.TestCase;
 public class ObjectsTest
 		extends TestCase {
 
-	public ObjectsTest() {
+	public ObjectsTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

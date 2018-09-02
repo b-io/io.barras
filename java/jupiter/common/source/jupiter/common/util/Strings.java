@@ -1421,7 +1421,7 @@ public class Strings {
 	 * Returns {@code true} if {@code string} matches any {@code expressions}.
 	 * <p>
 	 * @param string      a {@link String}
-	 * @param expressions the regular expressions to test for presence
+	 * @param expressions the array of regular expressions to test for presence
 	 * <p>
 	 * @return {@code true} if {@code string} matches any {@code expressions}
 	 */
@@ -1502,17 +1502,17 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified {@link Exception} with the specified
 	 * number of {@link StackTraceElement} if not {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param exception           an {@link Exception}
-	 * @param nStackTraceElements the number of {@link StackTraceElement} to add
+	 * @param exception              an {@link Exception}
+	 * @param stackTraceElementCount the number of {@link StackTraceElement} to add
 	 * <p>
 	 * @return a {@link String} representation of the specified {@link Exception} with the specified
 	 *         number of {@link StackTraceElement} if not {@code null}, {@code "null"} otherwise
 	 */
-	public static String toString(final Exception exception, final int nStackTraceElements) {
+	public static String toString(final Exception exception, final int stackTraceElementCount) {
 		if (exception != null) {
-			if (nStackTraceElements > 0) {
+			if (stackTraceElementCount > 0) {
 				final List<StackTraceElement> stackTraces = Arrays.take(exception.getStackTrace(),
-						0, nStackTraceElements);
+						0, stackTraceElementCount);
 				return exception.getMessage() + ":\n" + joinWith(stackTraces, "\n");
 			}
 			return exception.getMessage();

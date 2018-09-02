@@ -339,11 +339,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0.0} and
-	 * {@code 1.0}.
+	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0.} and
+	 * {@code 1.}.
 	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code float} value between {@code 0.0} and
-	 *         {@code 1.0}
+	 * @return a pseudorandom, uniformly distributed {@code float} value between {@code 0.} and
+	 *         {@code 1.}
 	 */
 	public static float random() {
 		return RANDOM.nextFloat();

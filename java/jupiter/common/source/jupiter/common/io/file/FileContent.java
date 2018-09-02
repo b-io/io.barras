@@ -30,16 +30,16 @@ public class FileContent {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected final String content;
-	protected final int nLines;
+	protected final int lineCount;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public FileContent(final String content, final int nLines) {
+	public FileContent(final String content, final int lineCount) {
 		this.content = content;
-		this.nLines = nLines;
+		this.lineCount = lineCount;
 	}
 
 
@@ -62,7 +62,7 @@ public class FileContent {
 	 * @return the number of lines
 	 */
 	public int getLineCount() {
-		return nLines;
+		return lineCount;
 	}
 
 

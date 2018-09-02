@@ -81,31 +81,31 @@ public class Ftps {
 		if (filenames.length > 0) {
 			if (Strings.isNotEmpty(filenames[0])) {
 				// Download the files
-				final int nDownloadedFiles;
+				final int downloadedFileCount;
 				switch (protocol) {
 					case FTP:
 						filter = filter.replace("*", ".*");
-						nDownloadedFiles = downloadFtp(hostname, port, username, password,
+						downloadedFileCount = downloadFtp(hostname, port, username, password,
 								remoteDir, localDir, filter, filenames);
 						break;
 					case FTPS:
 						filter = filter.replace("*", ".*");
-						nDownloadedFiles = downloadFtps(hostname, port, username, password,
+						downloadedFileCount = downloadFtps(hostname, port, username, password,
 								remoteDir, localDir, filter, filenames);
 						break;
 					case SFTP:
-						nDownloadedFiles = downloadSftp(hostname, port, username, password,
+						downloadedFileCount = downloadSftp(hostname, port, username, password,
 								remoteDir, localDir, filter, filenames);
 						break;
 					default:
-						nDownloadedFiles = 0;
+						downloadedFileCount = 0;
 				}
-				if (nDownloadedFiles > 0) {
-					IO.info(nDownloadedFiles, " files downloaded");
+				if (downloadedFileCount > 0) {
+					IO.info(downloadedFileCount, " files downloaded");
 				} else {
 					IO.warn("No files downloaded");
 				}
-				return nDownloadedFiles;
+				return downloadedFileCount;
 			}
 			IO.error("Empty filename");
 			return 0;
@@ -132,7 +132,7 @@ public class Ftps {
 	protected static int downloadFtp(final String hostname, final int port, final String username,
 			final String password, final String remoteDir, final String localDir,
 			final String filter, final String[] filenames) {
-		int nDownloadedFiles = 0;
+		int downloadedFileCount = 0;
 		final FTPClient ftp = new FTPClient();
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
@@ -163,7 +163,7 @@ public class Ftps {
 								out = new BufferedOutputStream(new FileOutputStream(localPath));
 								final boolean isSuccess = ftp.retrieveFile(remotePath, out);
 								if (isSuccess) {
-									++nDownloadedFiles;
+									++downloadedFileCount;
 								} else {
 									IO.error("Unable to download the file ",
 											Strings.quote(remotePath), " to ",
@@ -195,7 +195,7 @@ public class Ftps {
 			} catch (final IOException ignored) {
 			}
 		}
-		return nDownloadedFiles;
+		return downloadedFileCount;
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class Ftps {
 	protected static int downloadFtps(final String hostname, final int port, final String username,
 			final String password, final String remoteDir, final String localDir,
 			final String filter, final String[] filenames) {
-		int nDownloadedFiles = 0;
+		int downloadedFileCount = 0;
 		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
@@ -249,7 +249,7 @@ public class Ftps {
 								out = new BufferedOutputStream(new FileOutputStream(localPath));
 								final boolean isSuccess = ftps.retrieveFile(remotePath, out);
 								if (isSuccess) {
-									++nDownloadedFiles;
+									++downloadedFileCount;
 								} else {
 									IO.error("Unable to download the file ",
 											Strings.quote(remotePath), " to ",
@@ -281,7 +281,7 @@ public class Ftps {
 			} catch (final IOException ignored) {
 			}
 		}
-		return nDownloadedFiles;
+		return downloadedFileCount;
 	}
 
 	/**
@@ -302,7 +302,7 @@ public class Ftps {
 	protected static int downloadSftp(final String hostname, final int port, final String username,
 			final String password, final String remoteDir, final String localDir,
 			final String filter, final String[] filenames) {
-		int nDownloadedFiles = 0;
+		int downloadedFileCount = 0;
 		final JSch jsch = new JSch();
 		Session session;
 		try {
@@ -327,18 +327,18 @@ public class Ftps {
 
 					IO.info("Download the file ", filename, " to ", localPath);
 					sftp.get(filename, localPath);
-					++nDownloadedFiles;
+					++downloadedFileCount;
 				}
 			}
 			sftp.exit();
 			session.disconnect();
-			return nDownloadedFiles;
+			return downloadedFileCount;
 		} catch (final JSchException ex) {
 			IO.error(ex);
 		} catch (final SftpException ex) {
 			IO.error(ex);
 		}
-		return nDownloadedFiles;
+		return downloadedFileCount;
 	}
 
 	public enum Protocol {

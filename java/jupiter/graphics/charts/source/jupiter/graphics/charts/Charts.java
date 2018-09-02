@@ -80,7 +80,7 @@ public class Charts {
 	 * @param title   the title of the chart to create
 	 * @param xLabel  the label of the x-axis of the chart to create
 	 * @param yLabel  the label of the y-axis of the chart to create
-	 * @param dataset the dataset of the chart to create
+	 * @param dataset the {@link XYDataset} of the chart to create
 	 * <p>
 	 * @return a line chart with the specified title, xy-axes labels and dataset
 	 */
@@ -110,7 +110,7 @@ public class Charts {
 	 * @param title   the title of the chart to create
 	 * @param xLabel  the label of the x-axis of the chart to create
 	 * @param yLabel  the label of the y-axis of the chart to create
-	 * @param dataset the dataset of the chart to create
+	 * @param dataset the {@link XYDataset} of the chart to create
 	 * <p>
 	 * @return a scatter chart with the specified title, xy-axes labels and dataset
 	 */
@@ -139,7 +139,7 @@ public class Charts {
 	 * @param title   the title of the chart to create
 	 * @param xLabel  the label of the x-axis of the chart to create
 	 * @param yLabel  the label of the y-axis of the chart to create
-	 * @param dataset the dataset of the chart to create
+	 * @param dataset the {@link XYDataset} of the chart to create
 	 * <p>
 	 * @return a time series chart with the specified title, xy-axes labels and dataset
 	 */
@@ -155,7 +155,7 @@ public class Charts {
 	 * @param title      the title of the chart to create
 	 * @param xLabel     the label of the x-axis of the chart to create
 	 * @param yLabel     the label of the y-axis of the chart to create
-	 * @param dataset    the dataset of the chart to create
+	 * @param dataset    the {@link XYDataset} of the chart to create
 	 * @param dateFormat the date format of the x-axis of the chart to create
 	 * <p>
 	 * @return a time series chart with the specified title, xy-axes labels, dataset and date format
@@ -198,7 +198,7 @@ public class Charts {
 	 * @param title    the title of the chart to create
 	 * @param xLabel   the label of the x-axis of the chart to create
 	 * @param yLabels  the labels of the y-axis of the chart to create
-	 * @param datasets the datasets of the chart to create
+	 * @param datasets the {@link List} of {@link XYDataset} of the chart to create
 	 * <p>
 	 * @return a combined chart
 	 */
@@ -213,7 +213,7 @@ public class Charts {
 	 * @param title    the title of the chart to create
 	 * @param xAxis    the x-axis of the chart to create
 	 * @param yLabels  the labels of the y-axis of the chart to create
-	 * @param datasets the datasets of the chart to create
+	 * @param datasets the {@link List} of {@link XYDataset} of the chart to create
 	 * <p>
 	 * @return a combined chart
 	 */
@@ -221,8 +221,8 @@ public class Charts {
 			final List<String> yLabels, final List<XYDataset> datasets) {
 		final CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
 		setUpPlot(plot);
-		final int nDatasets = datasets.size();
-		for (int i = 0; i < nDatasets; ++i) {
+		final int datasetCount = datasets.size();
+		for (int i = 0; i < datasetCount; ++i) {
 			plot.add(new XYPlot(datasets.get(i), null, new NumberAxis(yLabels.get(i)),
 					new StandardXYItemRenderer()));
 		}

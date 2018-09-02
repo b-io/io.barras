@@ -65,22 +65,18 @@ public class LongParser
 	// PARSER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public Long parse(final Object input) {
 		return call(input);
 	}
 
-	@Override
 	public Long[] parseToArray(final Object... input) {
 		return callToArray(input);
 	}
 
-	@Override
 	public Long[][] parseToArray2D(final Object[]... input) {
 		return callToArray2D(input);
 	}
 
-	@Override
 	public Long[][][] parseToArray3D(final Object[][]... input) {
 		return callToArray3D(input);
 	}

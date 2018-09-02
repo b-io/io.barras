@@ -170,10 +170,10 @@ public class Quadruple<T1, T2, T3, T4>
 			return false;
 		}
 		final Quadruple<?, ?, ?, ?> otherQuadruple = (Quadruple) other;
-		return Objects.equals(first, otherQuadruple.getFirst()) &&
-				Objects.equals(second, otherQuadruple.getSecond()) &&
-				Objects.equals(third, otherQuadruple.getThird()) &&
-				Objects.equals(fourth, otherQuadruple.getFourth());
+		return Objects.equals(first, otherQuadruple.first) &&
+				Objects.equals(second, otherQuadruple.second) &&
+				Objects.equals(third, otherQuadruple.third) &&
+				Objects.equals(fourth, otherQuadruple.fourth);
 	}
 
 	@Override

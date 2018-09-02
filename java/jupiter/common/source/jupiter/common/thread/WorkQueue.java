@@ -41,8 +41,8 @@ public class WorkQueue<I, O>
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile int MIN_THREADS = 2;
-	public static volatile int MAX_THREADS = Runtime.getRuntime().availableProcessors();
+	public static volatile int MIN_THREADS = Runtime.getRuntime().availableProcessors();
+	public static volatile int MAX_THREADS = 2 * Runtime.getRuntime().availableProcessors();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,8 +62,8 @@ public class WorkQueue<I, O>
 	 * The workers.
 	 */
 	protected final Stack<Worker<I, O>> workers = new Stack<Worker<I, O>>();
-	protected volatile int nWorkers = 0;
-	protected volatile int nReservedWorkers = 0;
+	protected volatile int workerCount = 0;
+	protected volatile int reservedWorkerCount = 0;
 
 	/**
 	 * The tasks.
@@ -95,55 +95,19 @@ public class WorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of working threads.
+	 * <p>
+	 * @return the number of working threads
+	 */
+	public int getWorkerCount() {
+		return workerCount;
+	}
+
+	/**
 	 * Initializes the working threads.
 	 */
 	public void initWorkers() {
 		createWorkers(MIN_THREADS);
-	}
-
-	/**
-	 * Instantiates n working threads according to the model.
-	 * <p>
-	 * @param n the number of working threads to create
-	 * <p>
-	 * @return the number of created working threads
-	 */
-	protected int createWorkers(final int n) {
-		int nCreatedWorkers = 0;
-		try {
-			for (int i = 0; i < n; ++i) {
-				nCreatedWorkers += createWorker();
-			}
-		} catch (final Exception ex) {
-			IO.fail(ex);
-		}
-		return nCreatedWorkers;
-	}
-
-	/**
-	 * Instantiates a working thread according to the model.
-	 * <p>
-	 * @return the number of created working threads
-	 * <p>
-	 * @throws Exception if the maximum number of working threads has been reached
-	 */
-	protected int createWorker()
-			throws Exception {
-		int nCreatedWorkers = 0;
-		synchronized (workers) {
-			IO.debug("Create the thread ", nWorkers + 1);
-			if (nWorkers >= MAX_THREADS) {
-				throw new IllegalOperationException(
-						"The maximum number of threads (" + MAX_THREADS + ") has been reached");
-			}
-			final Worker<I, O> worker = model.clone();
-			worker.setWorkQueue(this);
-			workers.push(worker);
-			++nWorkers;
-			++nCreatedWorkers;
-			worker.start();
-		}
-		return nCreatedWorkers;
 	}
 
 	/**
@@ -155,24 +119,69 @@ public class WorkQueue<I, O>
 	 */
 	public boolean reserveWorkers(final int n) {
 		synchronized (workers) {
-			IO.debug("Try to reserve ", n, " threads");
-			if (MAX_THREADS - nReservedWorkers >= n) {
-				nReservedWorkers += n;
+			IO.debug("Try to reserve ", n, " working threads");
+			if (MAX_THREADS - reservedWorkerCount >= n) {
+				reservedWorkerCount += n;
 				// Create more workers if required
-				final int nWorkersToCreate = nReservedWorkers - nWorkers;
-				if (nWorkersToCreate > 0) {
-					IO.debug("OK, create ", nWorkersToCreate, " more workers (total reserved: ",
-							nReservedWorkers, ")");
-					return createWorkers(nWorkersToCreate) == nWorkersToCreate;
+				final int workerToCreateCount = reservedWorkerCount - workerCount;
+				if (workerToCreateCount > 0) {
+					IO.debug("OK, create ", workerToCreateCount, " more workers (total reserved: ",
+							reservedWorkerCount, ")");
+					return createWorkers(workerToCreateCount) == workerToCreateCount;
 				}
-				IO.debug("OK, the workers are already created (total reserved: ", nReservedWorkers,
-						")");
+				IO.debug("OK, the workers are already created (total reserved: ",
+						reservedWorkerCount, ")");
 				return true;
 			} else {
-				IO.debug("No workers available (total reserved: ", nReservedWorkers, ")");
+				IO.debug("No workers available (total reserved: ", reservedWorkerCount, ")");
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Instantiates n working threads according to the model.
+	 * <p>
+	 * @param n the number of working threads to create
+	 * <p>
+	 * @return the number of created working threads
+	 */
+	protected int createWorkers(final int n) {
+		int createdWorkerCount = 0;
+		try {
+			for (int i = 0; i < n; ++i) {
+				createdWorkerCount += createWorker();
+			}
+		} catch (final Exception ex) {
+			IO.fail(ex);
+		}
+		return createdWorkerCount;
+	}
+
+	/**
+	 * Instantiates a working thread according to the model.
+	 * <p>
+	 * @return the number of created working threads
+	 * <p>
+	 * @throws Exception if the maximum number of working threads has been reached
+	 */
+	protected int createWorker()
+			throws Exception {
+		int createdWorkerCount = 0;
+		synchronized (workers) {
+			IO.debug("Create the working thread ", workerCount + 1);
+			if (workerCount >= MAX_THREADS) {
+				throw new IllegalOperationException("The maximum number of working threads (" +
+						MAX_THREADS + ") has been reached");
+			}
+			final Worker<I, O> worker = model.clone();
+			worker.setWorkQueue(this);
+			workers.push(worker);
+			++workerCount;
+			++createdWorkerCount;
+			worker.start();
+		}
+		return createdWorkerCount;
 	}
 
 
@@ -236,7 +245,7 @@ public class WorkQueue<I, O>
 			results.notifyAll();
 		}
 		synchronized (workers) {
-			--nReservedWorkers;
+			--reservedWorkerCount;
 		}
 	}
 
@@ -279,7 +288,7 @@ public class WorkQueue<I, O>
 	 */
 	public void shutdown() {
 		synchronized (tasks) {
-			IO.debug("Shutdown the thread pool");
+			IO.debug("Shutdown the ", getClass().getSimpleName());
 			isRunning = false;
 			tasks.notifyAll();
 		}

@@ -154,7 +154,7 @@ public class Files {
 	 * <p>
 	 * @return a buffered reader of the specified file
 	 * <p>
-	 * @throws FileNotFoundException {@inheritDoc}
+	 * @throws FileNotFoundException if there is a problem with opening {@code pathname}
 	 */
 	public static BufferedReader createReader(final String pathname)
 			throws FileNotFoundException {
@@ -169,7 +169,7 @@ public class Files {
 	 * <p>
 	 * @return a buffered reader of the specified file with the specified {@link Charset}
 	 * <p>
-	 * @throws FileNotFoundException {@inheritDoc}
+	 * @throws FileNotFoundException if there is a problem with opening {@code pathname}
 	 */
 	public static BufferedReader createReader(final String pathname, final Charset charset)
 			throws FileNotFoundException {
@@ -199,7 +199,7 @@ public class Files {
 	 */
 	public static FileContent read(final String pathname, final Charset charset) {
 		final StringBuilder builder = Strings.createBuilder();
-		int nLines = 0;
+		int lineCount = 0;
 		// File reader
 		BufferedReader reader = null;
 		try {
@@ -209,7 +209,7 @@ public class Files {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				builder.append(line).append("\n");
-				++nLines;
+				++lineCount;
 			}
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(pathname),
@@ -220,7 +220,7 @@ public class Files {
 			// Close the file reader
 			close(reader);
 		}
-		return new FileContent(builder.toString(), nLines);
+		return new FileContent(builder.toString(), lineCount);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -229,7 +229,7 @@ public class Files {
 	 * Returns the number of lines of the specified file.
 	 * <p>
 	 * @param pathname the pathname of the file to read
-	 * @param charset  the character set of the file to read
+	 * @param charset  the {@link Charset} of the file to read
 	 * <p>
 	 * @return the number of lines of the specified file
 	 */
@@ -242,7 +242,7 @@ public class Files {
 	 * file.
 	 * <p>
 	 * @param pathname       the pathname of the file to read
-	 * @param charset        the character set of the file to read
+	 * @param charset        the {@link Charset} of the file to read
 	 * @param skipEmptyLines the option specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
@@ -250,7 +250,7 @@ public class Files {
 	 */
 	public static int countLines(final String pathname, final Charset charset,
 			final boolean skipEmptyLines) {
-		int nLines = 0;
+		int lineCount = 0;
 		// Lines counter
 		BufferedReader reader = null;
 		try {
@@ -260,7 +260,7 @@ public class Files {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				if (Strings.isNotEmpty(line)) {
-					++nLines;
+					++lineCount;
 				}
 			}
 		} catch (final FileNotFoundException ex) {
@@ -272,7 +272,7 @@ public class Files {
 			// Close the file reader
 			close(reader);
 		}
-		return nLines;
+		return lineCount;
 	}
 
 
@@ -288,7 +288,7 @@ public class Files {
 	 * <p>
 	 * @return a buffered writer
 	 * <p>
-	 * @throws FileNotFoundException {@inheritDoc}
+	 * @throws FileNotFoundException if there is a problem with opening {@code pathname}
 	 */
 	public static BufferedWriter createWriter(final String pathname, final boolean isAppend)
 			throws FileNotFoundException {
@@ -329,7 +329,7 @@ public class Files {
 	 * @param content  the {@link String} to write
 	 * @param pathname the pathname of the file to write
 	 * @param isAppend the option specifying whether to append
-	 * @param charset  the character set of the file to write
+	 * @param charset  the {@link Charset} of the file to write
 	 * <p>
 	 * @return {@code true} if {@code string} is written in the specified file, {@code false}
 	 *         otherwise
@@ -375,10 +375,8 @@ public class Files {
 			} catch (final IOException ex) {
 				IO.error(ex);
 			}
-		} else {
-			if (message != null) {
-				IO.warn(message);
-			}
+		} else if (message != null) {
+			IO.warn(message);
 		}
 		return false;
 	}
@@ -404,17 +402,17 @@ public class Files {
 				output = new FileOutputStream(target).getChannel();
 				final long size = input.size();
 				long position = 0;
-				long nBytes;
+				long byteCount;
 				while (position < size) {
 					final long remain = size - position;
-					nBytes = output.transferFrom(input, position,
+					byteCount = output.transferFrom(input, position,
 							remain > BUFFER_SIZE ? BUFFER_SIZE : remain);
 					// Exit if there are no more bytes to transfer
 					// (e.g. if the file is truncated after caching the size)
-					if (nBytes == 0) {
+					if (byteCount == 0) {
 						break;
 					}
-					position += nBytes;
+					position += byteCount;
 				}
 				if (source.length() != target.length()) {
 					throw new CopyFileException("Failed to copy the full contents from " +
@@ -493,7 +491,7 @@ public class Files {
 	/**
 	 * Deletes the specified file (or directory).
 	 * <p>
-	 * @param file the file (or directory) to delete
+	 * @param file the {@link File} to delete
 	 * <p>
 	 * @return {@code true} if the file (or directory) is deleted, {@code false} otherwise
 	 */
@@ -516,7 +514,7 @@ public class Files {
 	/**
 	 * Deletes the specified file (or directory).
 	 * <p>
-	 * @param file    the file (or directory) to delete
+	 * @param file    the {@link File} to delete
 	 * @param isForce the option specifying whether to force deleting
 	 * <p>
 	 * @return {@code true} if the specified file (or directory) is deleted, {@code false} otherwise
@@ -551,10 +549,8 @@ public class Files {
 			} else {
 				IO.warn("The file ", Strings.quote(file), " is write protected");
 			}
-		} else {
-			if (!isForce) {
-				IO.warn("The file ", Strings.quote(file), " does not exist");
-			}
+		} else if (!isForce) {
+			IO.warn("The file ", Strings.quote(file), " does not exist");
 		}
 		return isDeleted;
 	}
@@ -584,7 +580,7 @@ public class Files {
 	/**
 	 * Tests whether the specified file (or directory) exists.
 	 * <p>
-	 * @param file the file (or directory) to test
+	 * @param file the {@link File} to test
 	 * <p>
 	 * @return {@code true} if and only if the specified file (or directory) exists, {@code false}
 	 *         otherwise

@@ -50,12 +50,12 @@ public abstract class Worker<I, O>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Worker() {
-		this.id = currentId;
-		++currentId;
+	protected Worker() {
+		this(null);
 	}
 
-	public Worker(final I input) {
+	protected Worker(final I input) {
+		super();
 		this.id = currentId;
 		this.input = input;
 		++currentId;
@@ -89,7 +89,6 @@ public abstract class Worker<I, O>
 	// CALLABLE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public O call() {
 		return call(input);
 	}
@@ -132,8 +131,12 @@ public abstract class Worker<I, O>
 	public abstract Worker<I, O> clone();
 
 	@Override
-	public void finalize() {
+	protected void finalize() {
 		IO.debug(getClass().getSimpleName(), " ", id, " is finalized");
+		try {
+			super.finalize();
+		} catch (final Throwable ignored) {
+		}
 	}
 
 	@Override

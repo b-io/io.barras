@@ -44,8 +44,8 @@ public class LockedWorkQueue<I, O>
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile int MIN_THREADS = 2;
-	public static volatile int MAX_THREADS = Runtime.getRuntime().availableProcessors();
+	public static volatile int MIN_THREADS = Runtime.getRuntime().availableProcessors();
+	public static volatile int MAX_THREADS = 2 * Runtime.getRuntime().availableProcessors();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,8 +69,8 @@ public class LockedWorkQueue<I, O>
 	 * The internal lock of the workers.
 	 */
 	protected final Lock workersLock = new ReentrantLock();
-	protected volatile int nWorkers = 0;
-	protected volatile int nReservedWorkers = 0;
+	protected volatile int workerCount = 0;
+	protected volatile int reservedWorkerCount = 0;
 
 	/**
 	 * The tasks.
@@ -112,6 +112,15 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of working threads.
+	 * <p>
+	 * @return the number of working threads
+	 */
+	public int getWorkerCount() {
+		return workerCount;
+	}
+
+	/**
 	 * Initializes the working threads.
 	 */
 	public void initWorkers() {
@@ -126,15 +135,15 @@ public class LockedWorkQueue<I, O>
 	 * @return the number of created working threads
 	 */
 	protected int createWorkers(final int n) {
-		int nCreatedWorkers = 0;
+		int createdWorkerCount = 0;
 		try {
 			for (int i = 0; i < n; ++i) {
-				nCreatedWorkers += createWorker();
+				createdWorkerCount += createWorker();
 			}
 		} catch (final Exception ex) {
 			IO.error(ex);
 		}
-		return nCreatedWorkers;
+		return createdWorkerCount;
 	}
 
 	/**
@@ -146,24 +155,24 @@ public class LockedWorkQueue<I, O>
 	 */
 	protected int createWorker()
 			throws Exception {
-		int nCreatedWorkers = 0;
+		int createdWorkerCount = 0;
 		workersLock.lock();
 		try {
-			IO.debug("Create the thread ", nWorkers + 1);
-			if (nWorkers >= MAX_THREADS) {
-				throw new IllegalOperationException(
-						"The maximum number of threads (" + MAX_THREADS + ") has been reached");
+			IO.debug("Create the working thread ", workerCount + 1);
+			if (workerCount >= MAX_THREADS) {
+				throw new IllegalOperationException("The maximum number of working threads (" +
+						MAX_THREADS + ") has been reached");
 			}
 			final Worker<I, O> worker = model.clone();
 			worker.setWorkQueue(this);
 			workers.push(worker);
-			++nWorkers;
-			++nCreatedWorkers;
+			++workerCount;
+			++createdWorkerCount;
 			worker.start();
 		} finally {
 			workersLock.unlock();
 		}
-		return nCreatedWorkers;
+		return createdWorkerCount;
 	}
 
 	/**
@@ -176,21 +185,21 @@ public class LockedWorkQueue<I, O>
 	public boolean reserveWorkers(final int n) {
 		workersLock.lock();
 		try {
-			IO.debug("Try to reserve ", n, " threads");
-			if (MAX_THREADS - nReservedWorkers >= n) {
-				nReservedWorkers += n;
+			IO.debug("Try to reserve ", n, " working threads");
+			if (MAX_THREADS - reservedWorkerCount >= n) {
+				reservedWorkerCount += n;
 				// Create more workers if required
-				final int nWorkersToCreate = nReservedWorkers - nWorkers;
-				if (nWorkersToCreate > 0) {
-					IO.debug("OK, create ", nWorkersToCreate, " more workers (total reserved: ",
-							nReservedWorkers, ")");
-					return createWorkers(nWorkersToCreate) == nWorkersToCreate;
+				final int workerToCreateCount = reservedWorkerCount - workerCount;
+				if (workerToCreateCount > 0) {
+					IO.debug("OK, create ", workerToCreateCount, " more workers (total reserved: ",
+							reservedWorkerCount, ")");
+					return createWorkers(workerToCreateCount) == workerToCreateCount;
 				}
-				IO.debug("OK, the workers are already created (total reserved: ", nReservedWorkers,
-						")");
+				IO.debug("OK, the workers are already created (total reserved: ",
+						reservedWorkerCount, ")");
 				return true;
 			}
-			IO.debug("No workers available (total reserved: ", nReservedWorkers, ")");
+			IO.debug("No workers available (total reserved: ", reservedWorkerCount, ")");
 		} finally {
 			workersLock.unlock();
 		}
@@ -266,7 +275,7 @@ public class LockedWorkQueue<I, O>
 		}
 		workersLock.lock();
 		try {
-			--nReservedWorkers;
+			--reservedWorkerCount;
 		} finally {
 			workersLock.unlock();
 		}
@@ -315,7 +324,7 @@ public class LockedWorkQueue<I, O>
 	public void shutdown() {
 		tasksLock.lock();
 		try {
-			IO.debug("Shutdown the thread pool");
+			IO.debug("Shutdown the ", getClass().getSimpleName());
 			isRunning = false;
 			tasksLockCondition.signalAll();
 		} finally {

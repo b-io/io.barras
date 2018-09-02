@@ -30,7 +30,8 @@ import junit.framework.TestCase;
 public class BitsTest
 		extends TestCase {
 
-	public BitsTest() {
+	public BitsTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,9 +42,7 @@ public class BitsTest
 	public void testRotateLeft_long() {
 		IO.test("rotateLeft");
 
-		final long bits = 0L;
-		final long expResult = 0L;
-		final long result = Bits.rotateLeft(bits);
+		assertEquals(0, Bits.rotateLeft(0L));
 	}
 
 	/**
@@ -52,10 +51,7 @@ public class BitsTest
 	public void testRotateLeft_long_long() {
 		IO.test("rotateLeft");
 
-		final long bits = 0L;
-		final long k = 0L;
-		final long expResult = 0L;
-		final long result = Bits.rotateLeft(bits, k);
+		assertEquals(0, Bits.rotateLeft(0L, 0L));
 	}
 
 	/**
@@ -64,9 +60,7 @@ public class BitsTest
 	public void testRotateLeft_int() {
 		IO.test("rotateLeft");
 
-		final int bits = 0;
-		final int expResult = 0;
-		final int result = Bits.rotateLeft(bits);
+		assertEquals(0, Bits.rotateLeft(0));
 	}
 
 	/**
@@ -75,10 +69,7 @@ public class BitsTest
 	public void testRotateLeft_int_int() {
 		IO.test("rotateLeft");
 
-		final int bits = 0;
-		final int k = 0;
-		final int expResult = 0;
-		final int result = Bits.rotateLeft(bits, k);
+		assertEquals(0, Bits.rotateLeft(0, 0));
 	}
 
 	/**
@@ -87,9 +78,7 @@ public class BitsTest
 	public void testRotateRight_long() {
 		IO.test("rotateRight");
 
-		final long bits = 0L;
-		final long expResult = 0L;
-		final long result = Bits.rotateRight(bits);
+		assertEquals(0, Bits.rotateRight(0L));
 	}
 
 	/**
@@ -98,10 +87,7 @@ public class BitsTest
 	public void testRotateRight_long_long() {
 		IO.test("rotateRight");
 
-		final long bits = 0L;
-		final long k = 0L;
-		final long expResult = 0L;
-		final long result = Bits.rotateRight(bits, k);
+		assertEquals(0, Bits.rotateRight(0L, 0L));
 	}
 
 	/**
@@ -110,9 +96,7 @@ public class BitsTest
 	public void testRotateRight_int() {
 		IO.test("rotateRight");
 
-		final int bits = 0;
-		final int expResult = 0;
-		final int result = Bits.rotateRight(bits);
+		assertEquals(0, Bits.rotateRight(0));
 	}
 
 	/**
@@ -121,9 +105,6 @@ public class BitsTest
 	public void testRotateRight_int_int() {
 		IO.test("rotateRight");
 
-		final int bits = 0;
-		final int k = 0;
-		final int expResult = 0;
-		final int result = Bits.rotateRight(bits, k);
+		assertEquals(0, Bits.rotateRight(0, 0));
 	}
 }

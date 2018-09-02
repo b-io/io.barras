@@ -33,7 +33,7 @@ public abstract class ObjectToStringMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectToStringMapper() {
+	protected ObjectToStringMapper() {
 		super(String.class);
 	}
 }

@@ -77,27 +77,14 @@ public class Formats {
 	 */
 	public static final String DEFAULT_PATTERN = "0.####";
 	/**
-	 * The default decimal format.
-	 */
-	public static volatile DecimalFormat DECIMAL_FORMAT = getDecimalFormat(DEFAULT_PATTERN);
-	/**
 	 * The default scientific pattern.
 	 */
 	public static final String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN + "E0";
-	/**
-	 * The default scientific format.
-	 */
-	public static volatile DecimalFormat SCIENTIFIC_DECIMAL_FORMAT = getDecimalFormat(
-			DEFAULT_SCIENTIFIC_PATTERN);
 
 	/**
 	 * The default number length.
 	 */
 	public static final int DEFAULT_NUMBER_LENGTH = DEFAULT_PATTERN.length();
-	/**
-	 * The minimum number length.
-	 */
-	public static volatile int MIN_NUMBER_LENGTH = 1;
 	/**
 	 * The default minimum number of digits for integer.
 	 */
@@ -110,6 +97,11 @@ public class Formats {
 	 * The default maximum number of fraction digits.
 	 */
 	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_NUMBER_LENGTH - 2;
+
+	/**
+	 * The minimum number length.
+	 */
+	public static volatile int MIN_NUMBER_LENGTH = 1;
 	/**
 	 * The minimum number of fraction digits.
 	 */
@@ -118,6 +110,16 @@ public class Formats {
 	 * The maximum number of fraction digits.
 	 */
 	public static volatile int MAX_FRACTION_DIGITS = DEFAULT_MAX_FRACTION_DIGITS;
+
+	/**
+	 * The default decimal format.
+	 */
+	public static volatile DecimalFormat DECIMAL_FORMAT = getDecimalFormat(DEFAULT_PATTERN);
+	/**
+	 * The default scientific format.
+	 */
+	public static volatile DecimalFormat SCIENTIFIC_DECIMAL_FORMAT = getDecimalFormat(
+			DEFAULT_SCIENTIFIC_PATTERN);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,15 +137,15 @@ public class Formats {
 	public static String format(final Number number) {
 		final String formattedNumber;
 		final String numberString = Strings.toString(number);
-		int nDigits = numberString.length();
+		int digitCount = numberString.length();
 		if (numberString.contains("-")) {
-			--nDigits;
+			--digitCount;
 		}
 		if (numberString.contains(".")) {
-			--nDigits;
+			--digitCount;
 		}
-		if (nDigits > MAX_FRACTION_DIGITS + 2) {
-			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number);
+		if (digitCount > MAX_FRACTION_DIGITS + 2) {
+			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", "");
 		} else {
 			formattedNumber = DECIMAL_FORMAT.format(number);
 		}
@@ -158,7 +160,7 @@ public class Formats {
 		final DecimalFormat format = Strings.isNotEmpty(pattern) ? new DecimalFormat(pattern) :
 				new DecimalFormat();
 		format.setDecimalFormatSymbols(new DecimalFormatSymbols(locale));
-		format.setGroupingUsed(false);
+		format.setGroupingUsed(false); // whether to use grouping separators
 		format.setMinimumFractionDigits(MIN_FRACTION_DIGITS);
 		format.setMaximumFractionDigits(MAX_FRACTION_DIGITS);
 		format.setMinimumIntegerDigits(DEFAULT_MIN_INTEGER_DIGITS);

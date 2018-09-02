@@ -35,7 +35,7 @@ public abstract class ObjectToIntegerMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectToIntegerMapper() {
+	protected ObjectToIntegerMapper() {
 		super(Integer.class);
 	}
 

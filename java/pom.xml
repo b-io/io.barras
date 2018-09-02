@@ -31,7 +31,7 @@
 		<maven.compiler.target>${project.build.target}</maven.compiler.target>
 		<maven.compiler.version>2.5.1</maven.compiler.version>
 		<maven.source.version>2.4</maven.source.version>
-		<maven.javadoc.version>2.10.4</maven.javadoc.version>
+		<maven.javadoc.version>2.9.1</maven.javadoc.version>
 		<!-- JUnit -->
 		<junit.verison>4.12</junit.verison>
 	</properties>
@@ -78,7 +78,7 @@
 				</executions>
 			</plugin>
 
-			<!-- Generate the Javadoc  -->
+			<!-- Generate the Javadoc -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>

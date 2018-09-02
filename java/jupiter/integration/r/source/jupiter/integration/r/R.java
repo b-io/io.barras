@@ -35,6 +35,7 @@ import org.rosuda.REngine.Rserve.RserveException;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.Systems;
+import jupiter.common.thread.Threads;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
@@ -97,11 +98,7 @@ public class R {
 		int attempts = 5;
 		do {
 			// Sleep in case the start up is delayed or asynchronous
-			try {
-				Thread.sleep(2000);
-			} catch (final InterruptedException ignored) {
-			}
-			;
+			Threads.sleep();
 			--attempts;
 		} while (attempts > 0 && !isRunning());
 		return false;
@@ -111,8 +108,7 @@ public class R {
 
 	public static boolean stop() {
 		try {
-			final RConnection c = new RConnection();
-			c.shutdown();
+			new RConnection().shutdown();
 		} catch (final RserveException ex) {
 			IO.warn("Fail to stop Rserve", ex);
 		}
@@ -156,12 +152,13 @@ public class R {
 		try {
 			IO.debug(">> Run ", Strings.quote(script));
 			final Process process;
+			// Test whether the OS is Windows or Unix
 			if (Systems.isWindows()) {
-				// Windows
+				// - Windows
 				process = Systems.execute(Strings.doubleQuote(PATH) + " -e " +
 						Strings.doubleQuote(script) + " " + args);
 			} else {
-				// Unix
+				// - Unix
 				process = Systems.execute(
 						Arrays.toArray("/bin/sh", "-c", "echo " + Strings.doubleQuote(script) +
 								" | " + Strings.doubleQuote(PATH) + " " + args));
@@ -183,7 +180,7 @@ public class R {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKER
+	// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class RStream
@@ -191,7 +188,8 @@ public class R {
 
 		protected final InputStream input;
 
-		RStream(final InputStream input) {
+		protected RStream(final InputStream input) {
+			super();
 			this.input = input;
 			start();
 		}

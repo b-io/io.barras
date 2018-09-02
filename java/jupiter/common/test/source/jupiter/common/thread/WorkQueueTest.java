@@ -25,8 +25,8 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,8 +37,8 @@ import jupiter.common.time.Chronometer;
 public class WorkQueueTest
 		extends TestCase {
 
-	public WorkQueueTest(final String testName) {
-		super(testName);
+	public WorkQueueTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,29 +51,30 @@ public class WorkQueueTest
 
 		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
-		final int nTasks = 1000000;
+		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
 
-		// Create a thread pool
-		final IWorkQueue<Integer, Integer> queue = new WorkQueue<Integer, Integer>(new JobTest());
-		queue.reserveWorkers(WorkQueue.MAX_THREADS);
-		IO.test("There are ", WorkQueue.MAX_THREADS, " threads");
+		// Create a work queue
+		final IWorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(
+				new SimpleWorker());
+		workQueue.reserveWorkers(WorkQueue.MAX_THREADS);
+		IO.test("There are ", WorkQueue.MAX_THREADS, " working threads");
 
 		// Process the tasks
 		chrono.start();
-		final List<Long> ids = new LinkedList<Long>();
-		for (int i = 0; i < nTasks; ++i) {
-			ids.add(queue.submit(i));
+		final List<Long> ids = new ArrayList<Long>(taskCount);
+		for (int i = 0; i < taskCount; ++i) {
+			ids.add(workQueue.submit(i));
 		}
 		final Set<Integer> results = new HashSet<Integer>(ids.size());
 		for (final long id : ids) {
-			results.add(queue.get(id));
+			results.add(workQueue.get(id));
 		}
 		chrono.stop();
 		IO.test(chrono.getMilliseconds(), " [ms]");
 
 		// Test
-		for (int i = 0; i < nTasks; ++i) {
+		for (int i = 0; i < taskCount; ++i) {
 			assertTrue(results.contains(i));
 		}
 	}

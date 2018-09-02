@@ -67,12 +67,12 @@ public abstract class BinaryClassifier {
 	/**
 	 * The number of features n.
 	 */
-	protected final int nFeatures;
+	protected final int featureCount;
 
 	/**
 	 * The number of training examples m.
 	 */
-	protected int mTrainingExamples;
+	protected int trainingExampleCount;
 
 	/**
 	 * The matrix of feature vectors X.
@@ -92,11 +92,11 @@ public abstract class BinaryClassifier {
 	/**
 	 * Constructs a binary classifier.
 	 * <p>
-	 * @param nFeatures the number of features
+	 * @param featureCount the number of features
 	 */
-	public BinaryClassifier(final int nFeatures) {
-		this.nFeatures = nFeatures;
-		mTrainingExamples = 0;
+	protected BinaryClassifier(final int featureCount) {
+		this.featureCount = featureCount;
+		trainingExampleCount = 0;
 	}
 
 	/**
@@ -109,13 +109,13 @@ public abstract class BinaryClassifier {
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files
 	 */
-	public BinaryClassifier(final String featureVectorsPathname, final String classesPathname)
+	protected BinaryClassifier(final String featureVectorsPathname, final String classesPathname)
 			throws IOException {
 		X = Matrix.load(featureVectorsPathname);
-		nFeatures = X.getRowDimension();
-		mTrainingExamples = X.getColumnDimension();
+		featureCount = X.getRowDimension();
+		trainingExampleCount = X.getColumnDimension();
 		Y = Matrix.load(classesPathname).toVector();
-		Arguments.requireEquals(Y.getColumnDimension(), mTrainingExamples);
+		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
 		YT = Y.transpose();
 	}
 
@@ -131,14 +131,14 @@ public abstract class BinaryClassifier {
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files
 	 */
-	public BinaryClassifier(final String featureVectorsPathname, final String classesPathname,
+	protected BinaryClassifier(final String featureVectorsPathname, final String classesPathname,
 			final boolean transpose)
 			throws IOException {
 		X = Matrix.load(featureVectorsPathname, transpose);
-		nFeatures = X.getRowDimension();
-		mTrainingExamples = X.getColumnDimension();
+		featureCount = X.getRowDimension();
+		trainingExampleCount = X.getColumnDimension();
 		Y = Matrix.load(classesPathname, transpose).toVector();
-		Arguments.requireEquals(Y.getColumnDimension(), mTrainingExamples);
+		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
 		YT = Y.transpose();
 	}
 
@@ -159,16 +159,16 @@ public abstract class BinaryClassifier {
 
 	public synchronized void setFeatureVectors(final Matrix featureVectors) {
 		// Check the arguments
-		Arguments.require(featureVectors.getRowDimension(), nFeatures);
+		Arguments.require(featureVectors.getRowDimension(), featureCount);
 
 		// Set the feature vectors
 		X = featureVectors;
-		mTrainingExamples = featureVectors.getColumnDimension();
+		trainingExampleCount = featureVectors.getColumnDimension();
 	}
 
 	public synchronized void setClasses(final Vector classes) {
 		// Check the arguments
-		Arguments.require(classes.getColumnDimension(), mTrainingExamples);
+		Arguments.require(classes.getColumnDimension(), trainingExampleCount);
 
 		// Set the classes
 		Y = classes;
@@ -192,14 +192,14 @@ public abstract class BinaryClassifier {
 	/**
 	 * Trains the model with the specified parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate  the learning rate
-	 * @param tolerance     the tolerance level
-	 * @param maxIterations the maximum number of iterations
+	 * @param learningRate      the learning rate
+	 * @param tolerance         the tolerance level
+	 * @param maxIterationCount the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */
 	public abstract int train(final double learningRate, final double tolerance,
-			final int maxIterations);
+			final int maxIterationCount);
 
 	/**
 	 * Computes the cost.
@@ -219,7 +219,7 @@ public abstract class BinaryClassifier {
 		// Compute -(log(A) Y' + log(1 - A) (1 - Y')) / m
 		return -A.apply(Functions.LOG).times(YT)
 				.plus(Scalar.ONE.minus(A).apply(Functions.LOG).times(Scalar.ONE.minus(YT)))
-				.toScalar().doubleValue() / mTrainingExamples;
+				.toScalar().doubleValue() / trainingExampleCount;
 	}
 
 
@@ -257,6 +257,6 @@ public abstract class BinaryClassifier {
 		final Entity A = classify(X); // (1 x m)
 		// Compute (A Y' + (1 - A) (1 - Y')) / m
 		return A.times(YT).plus(Scalar.ONE.minus(A).times(Scalar.ONE.minus(YT))).toScalar()
-				.doubleValue() / mTrainingExamples;
+				.doubleValue() / trainingExampleCount;
 	}
 }

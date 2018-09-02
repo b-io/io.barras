@@ -42,7 +42,7 @@ public class ReservedThreadPoolExecutor
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The maximum thread pool size.
+	 * The maximum pool size.
 	 */
 	protected final int maxPoolSize;
 
@@ -117,8 +117,8 @@ public class ReservedThreadPoolExecutor
 	 * @return a {@link Future} representing the pending results if the task is submitted,
 	 *         {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException {@inheritDoc}
-	 * @throws NullPointerException       {@inheritDoc}
+	 * @throws RejectedExecutionException if {@code task} is rejected
+	 * @throws NullPointerException       if {@code task} is {@code null}
 	 */
 	@Override
 	public Future<?> submit(final Runnable task) {
@@ -144,8 +144,8 @@ public class ReservedThreadPoolExecutor
 	 * @return a {@link Future} representing the pending results if the task is submitted,
 	 *         {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException {@inheritDoc}
-	 * @throws NullPointerException       {@inheritDoc}
+	 * @throws RejectedExecutionException if {@code task} is rejected
+	 * @throws NullPointerException       if {@code task} is {@code null}
 	 */
 	@Override
 	public <T> Future<T> submit(final Runnable task, final T result) {
@@ -170,8 +170,8 @@ public class ReservedThreadPoolExecutor
 	 * @return a {@link Future} representing the pending results if the task is submitted,
 	 *         {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException {@inheritDoc}
-	 * @throws NullPointerException       {@inheritDoc}
+	 * @throws RejectedExecutionException if {@code task} is rejected
+	 * @throws NullPointerException       if {@code task} is {@code null}
 	 */
 	@Override
 	public <T> Future<T> submit(final Callable<T> task) {

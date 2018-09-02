@@ -65,22 +65,18 @@ public class FloatParser
 	// PARSER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public Float parse(final Object input) {
 		return call(input);
 	}
 
-	@Override
 	public Float[] parseToArray(final Object... input) {
 		return callToArray(input);
 	}
 
-	@Override
 	public Float[][] parseToArray2D(final Object[]... input) {
 		return callToArray2D(input);
 	}
 
-	@Override
 	public Float[][][] parseToArray3D(final Object[][]... input) {
 		return callToArray3D(input);
 	}

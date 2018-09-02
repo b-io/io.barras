@@ -31,10 +31,11 @@ public class Max
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected Max() {
-		value = 0.;
+		this(0.);
 	}
 
 	public Max(final double value) {
+		super();
 		this.value = value;
 	}
 
@@ -49,6 +50,6 @@ public class Max
 	 */
 	@Override
 	public double apply(final double x) {
-		return Double.max(value, x);
+		return Math.max(value, x);
 	}
 }

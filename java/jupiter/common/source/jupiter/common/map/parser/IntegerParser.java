@@ -65,22 +65,18 @@ public class IntegerParser
 	// PARSER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public Integer parse(final Object input) {
 		return call(input);
 	}
 
-	@Override
 	public Integer[] parseToArray(final Object... input) {
 		return callToArray(input);
 	}
 
-	@Override
 	public Integer[][] parseToArray2D(final Object[]... input) {
 		return callToArray2D(input);
 	}
 
-	@Override
 	public Integer[][][] parseToArray3D(final Object[][]... input) {
 		return callToArray3D(input);
 	}

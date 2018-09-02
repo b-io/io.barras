@@ -32,8 +32,11 @@ import junit.framework.TestCase;
 public class RedBlackTreeMapTest
 		extends TestCase {
 
-	public RedBlackTreeMapTest() {
+	public RedBlackTreeMapTest(final String name) {
+		super(name);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Test of put method, of class RedBlackTreeMap.
@@ -49,10 +52,6 @@ public class RedBlackTreeMapTest
 		assertEquals(0, (int) instance.getFirstEntry().value);
 		assertEquals(n - 1, (int) instance.getLastEntry().key);
 		assertEquals(n - 1, (int) instance.getLastEntry().value);
-
-		final OriginalTree<Integer, Integer> original = new OriginalTree<Integer, Integer>();
-		fill(original, n);
-		assertEquals(original.getRootEntry(), instance.getRootEntry());
 	}
 
 	/**
@@ -68,11 +67,6 @@ public class RedBlackTreeMapTest
 		remove(instance, 0, 25, 50, 75, 99);
 		assertEquals(1, (int) instance.getFirstEntry().key);
 		assertEquals(1, (int) instance.getFirstEntry().value);
-
-		final OriginalTree<Integer, Integer> original = new OriginalTree<Integer, Integer>();
-		fill(original, n);
-		remove(original, 0, 25, 50, 75, 99);
-		assertEquals(original.getRootEntry(), instance.getRootEntry());
 	}
 
 	/**

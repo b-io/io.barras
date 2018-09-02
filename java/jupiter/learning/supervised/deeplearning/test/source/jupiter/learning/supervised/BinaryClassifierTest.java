@@ -32,7 +32,8 @@ import junit.framework.TestCase;
 public class BinaryClassifierTest
 		extends TestCase {
 
-	public BinaryClassifierTest() {
+	public BinaryClassifierTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,7 @@ public class BinaryClassifierTest
 			throws IOException {
 		IO.test("BinaryClassifier");
 
-		// Construct
+		// Initialize
 		final BinaryClassifier model = new LogisticRegression("test/resources/A/X.csv",
 				"test/resources/A/Y.csv");
 

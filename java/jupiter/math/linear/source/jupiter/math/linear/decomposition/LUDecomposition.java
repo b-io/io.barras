@@ -40,7 +40,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * constructor never fails. The primary use of the LU decomposition is in the solution of square
  * systems of simultaneous linear equations. This fails if isNonsingular() returns false.
  * <p>
- * @author JAMA, http://math.nist.gov/javanumerics/jama
+ * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
 public class LUDecomposition

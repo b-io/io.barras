@@ -32,8 +32,11 @@ import junit.framework.TestCase;
 public class AvlTreeMapTest
 		extends TestCase {
 
-	public AvlTreeMapTest() {
+	public AvlTreeMapTest(final String name) {
+		super(name);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Test of getHeight method, of class AvlTreeMap.

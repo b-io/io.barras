@@ -32,7 +32,7 @@ public class UnaryOperation
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected Type type;
+	protected Element.Type type;
 	protected Element element;
 
 
@@ -40,7 +40,7 @@ public class UnaryOperation
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public UnaryOperation(final Element parent, final String expression, final Type type,
+	public UnaryOperation(final Element parent, final String expression, final Element.Type type,
 			final Element element) {
 		super(parent, expression);
 		this.type = type;
@@ -57,7 +57,7 @@ public class UnaryOperation
 	 * <p>
 	 * @return the type
 	 */
-	public Type getType() {
+	public Element.Type getType() {
 		return type;
 	}
 
@@ -75,9 +75,9 @@ public class UnaryOperation
 	/**
 	 * Sets the type.
 	 * <p>
-	 * @param type a {@link Type}
+	 * @param type an {@link Element.Type}
 	 */
-	public void setType(final Type type) {
+	public void setType(final Element.Type type) {
 		this.type = type;
 	}
 

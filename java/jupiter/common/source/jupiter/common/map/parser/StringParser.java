@@ -62,22 +62,18 @@ public class StringParser
 	// PARSER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
 	public String parse(final Object input) {
 		return call(input);
 	}
 
-	@Override
 	public String[] parseToArray(final Object... input) {
 		return callToArray(input);
 	}
 
-	@Override
 	public String[][] parseToArray2D(final Object[]... input) {
 		return callToArray2D(input);
 	}
 
-	@Override
 	public String[][][] parseToArray3D(final Object[][]... input) {
 		return callToArray3D(input);
 	}

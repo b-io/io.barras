@@ -38,7 +38,7 @@ public class BayesianInference
 	/**
 	 * The number of hypotheses.
 	 */
-	protected final int nHypotheses;
+	protected final int hypothesisCount;
 	/**
 	 * The array of probabilities P(E | H) for all hypothesis H (the likelihood).
 	 */
@@ -53,10 +53,10 @@ public class BayesianInference
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public BayesianInference(final int nHypotheses) {
-		this.nHypotheses = nHypotheses;
-		likelihoods = new double[nHypotheses];
-		hypothesesProbabilities = new double[nHypotheses];
+	public BayesianInference(final int hypothesisCount) {
+		this.hypothesisCount = hypothesisCount;
+		likelihoods = new double[hypothesisCount];
+		hypothesesProbabilities = new double[hypothesisCount];
 		reset();
 	}
 
@@ -66,18 +66,18 @@ public class BayesianInference
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void reset() {
-		Doubles.fill(hypothesesProbabilities, 1. / nHypotheses);
+		Doubles.fill(hypothesesProbabilities, 1. / hypothesisCount);
 	}
 
 	public void updateHypothesesProbabilities(final double value) {
 		// Get the marginal likelihood P(E)
 		double marginalLikelihood = 0.;
-		for (int i = 0; i < nHypotheses; ++i) {
+		for (int i = 0; i < hypothesisCount; ++i) {
 			// Compute P(E) = SUM[P(H) * P(E | H), H] (chain rule)
 			marginalLikelihood += hypothesesProbabilities[i] * likelihoods[i];
 		}
 		// Update the probabilities of the hypotheses
-		for (int i = 0; i < nHypotheses; ++i) {
+		for (int i = 0; i < hypothesisCount; ++i) {
 			// Using the previous posterior probability P(H | E) as the current prior P(H),
 			// compute P(H | E) = P(H) * P(E | H) / P(E) (Bayes' rule)
 			hypothesesProbabilities[i] *= likelihoods[i] / marginalLikelihood;
@@ -103,7 +103,7 @@ public class BayesianInference
 	public void setLikelihood(final int i, final double likelihood) {
 		// Check the arguments
 		IntegerArguments.requireNonNegative(i);
-		DoubleArguments.requireLessThan(i, nHypotheses);
+		DoubleArguments.requireLessThan(i, hypothesisCount);
 
 		// Set the likelihood
 		likelihoods[i] = likelihood;

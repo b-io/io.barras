@@ -25,8 +25,8 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -40,8 +40,8 @@ import jupiter.common.time.Chronometer;
 public class ReservedThreadPoolExecutorTest
 		extends TestCase {
 
-	public ReservedThreadPoolExecutorTest(final String testName) {
-		super(testName);
+	public ReservedThreadPoolExecutorTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,31 +54,31 @@ public class ReservedThreadPoolExecutorTest
 
 		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
-		final int nTasks = 1000000;
+		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
 
-		// Create a thread pool
+		// Create a work queue
 		final ReservedThreadPoolExecutor queue = new ReservedThreadPoolExecutor();
-		IO.test("There are ", queue.getMaxPoolSize(), " threads");
+		IO.test("There are ", queue.getMaxPoolSize(), " working threads");
 
 		// Process the tasks
 		chrono.start();
-		final List<Future<Integer>> futures = new LinkedList<Future<Integer>>();
-		for (int i = 0; i < nTasks; ++i) {
+		final List<Future<Integer>> futures = new ArrayList<Future<Integer>>(taskCount);
+		for (int i = 0; i < taskCount; ++i) {
 			Future<Integer> future;
 			//do {
-			future = queue.submit((Callable<Integer>) new JobTest(i));
+			future = queue.submit((Callable<Integer>) new SimpleWorker(i));
 			//} while (future == null);
 			futures.add(future);
 		}
 		final Set<Integer> results = new HashSet<Integer>(futures.size());
-		int nSkippedTasks = 0;
+		int skippedTaskCount = 0;
 		for (final Future<Integer> future : futures) {
 			try {
 				if (future != null) {
 					results.add(future.get());
 				} else {
-					++nSkippedTasks;
+					++skippedTaskCount;
 				}
 			} catch (final ExecutionException ex) {
 				IO.error(ex);
@@ -88,15 +88,15 @@ public class ReservedThreadPoolExecutorTest
 		}
 		chrono.stop();
 		IO.test(chrono.getMilliseconds(), " [ms]");
-		IO.test(nSkippedTasks, " skipped tasks");
+		IO.test(skippedTaskCount, " skipped tasks");
 
 		// Test
-		int nCompletedTasks = 0;
-		for (int i = 0; i < nTasks; ++i) {
+		int completedTaskCount = 0;
+		for (int i = 0; i < taskCount; ++i) {
 			if (results.contains(i)) {
-				++nCompletedTasks;
+				++completedTaskCount;
 			}
 		}
-		IO.test(nCompletedTasks, "/", nTasks, " completed");
+		IO.test(completedTaskCount, "/", taskCount, " completed");
 	}
 }
