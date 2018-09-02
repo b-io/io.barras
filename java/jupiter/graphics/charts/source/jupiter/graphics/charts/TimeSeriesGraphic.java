@@ -31,7 +31,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.XYDataset;
 
-import jupiter.common.struct.table.Table;
+import jupiter.common.struct.table.StringTable;
 import jupiter.graphics.charts.structure.TimeSeriesList;
 
 public class TimeSeriesGraphic
@@ -111,11 +111,11 @@ public class TimeSeriesGraphic
 	/**
 	 * Loads the x and y coordinates from the specified table.
 	 * <p>
-	 * @param coordinates  the {@link Table} of the x and y coordinates
+	 * @param coordinates  the {@link StringTable} of the x and y coordinates
 	 * @param xColumnIndex the index of the column containing the x coordinates in the table
 	 * @param yColumnIndex the index of the column containing the y coordinates in the table
 	 */
-	public void loadXY(final Table<String> coordinates, final int xColumnIndex,
+	public void loadXY(final StringTable coordinates, final int xColumnIndex,
 			final int yColumnIndex) {
 		if (coordinates != null) {
 			final int m = coordinates.getRowCount();

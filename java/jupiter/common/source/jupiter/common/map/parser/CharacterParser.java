@@ -79,12 +79,12 @@ public class CharacterParser
 		return callToArray(input);
 	}
 
-	public Character[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
+	public Character[][] parseToArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
 	}
 
-	public Character[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
+	public Character[][][] parseToArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
 	}
 
 

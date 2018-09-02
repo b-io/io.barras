@@ -480,15 +480,42 @@ public class Integers {
 	}
 
 	public static void fill(final int[][] array2D, final int value) {
-		for (final int[] element : array2D) {
-			fill(element, value);
+		for (final int[] array : array2D) {
+			fill(array, value);
 		}
 	}
 
 	public static void fill(final int[][][] array3D, final int value) {
-		for (final int[][] element : array3D) {
-			fill(element, value);
+		for (final int[][] array2D : array3D) {
+			fill(array2D, value);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the middle of the specified {@code int} value.
+	 * <p>
+	 * @param value an {@code int} value
+	 *
+	 * @return the middle of the specified {@code int} value
+	 */
+	public static int middle(final int value) {
+		return middle(0, value);
+	}
+
+	/**
+	 * Returns the middle of the specified lower and upper bounds rounded to the lower {@code int}
+	 * value.
+	 * <p>
+	 * @param lowerBound an {@code int} value
+	 * @param upperBound another {@code int} value
+	 * <p>
+	 * @return the middle of the specified lower and upper bounds rounded to the lower {@code int}
+	 *         value
+	 */
+	public static int middle(final int lowerBound, final int upperBound) {
+		return lowerBound + Integers.convert((upperBound - lowerBound) / 2.);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

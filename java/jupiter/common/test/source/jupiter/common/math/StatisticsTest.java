@@ -37,22 +37,22 @@ public class StatisticsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getNormalCdf method, of class Statistics.
+	 * Test of normalCdf method, of class Statistics.
 	 */
-	public void testGetNormalCdf() {
-		IO.test("getNormalCdf");
+	public void testNormalCdf() {
+		IO.test("normalCdf");
 
-		final double normalCdf = Statistics.getNormalCdf(0.);
+		final double normalCdf = Statistics.normalCdf(0.);
 		assertEquals(0.5, normalCdf, Maths.DEFAULT_TOLERANCE);
 	}
 
 	/**
-	 * Test of getNormalCdfInverse method, of class Statistics.
+	 * Test of normalCdfInverse method, of class Statistics.
 	 */
-	public void testGetNormalCdfInverse() {
-		IO.test("getNormalCdfInverse");
+	public void testNormalCdfInverse() {
+		IO.test("normalCdfInverse");
 
-		final double normalCdfInverse = Statistics.getNormalCdfInverse(Maths.DEFAULT_CONFIDENCE);
+		final double normalCdfInverse = Statistics.normalCdfInverse(Maths.DEFAULT_CONFIDENCE);
 		IO.test("Accuracy: ", Maths.delta(normalCdfInverse, Maths.DEFAULT_Z));
 		assertEquals(Maths.DEFAULT_Z, normalCdfInverse, Maths.DEFAULT_TOLERANCE);
 	}

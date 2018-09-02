@@ -26,6 +26,12 @@ package jupiter.common.math;
 import java.math.BigInteger;
 import java.util.Collection;
 
+import jupiter.common.test.ArrayArguments;
+import jupiter.common.test.CollectionArguments;
+import jupiter.common.test.DoubleArguments;
+import jupiter.common.test.FloatArguments;
+import jupiter.common.test.IntegerArguments;
+import jupiter.common.test.LongArguments;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 
@@ -121,6 +127,14 @@ public class Maths {
 		return a * b;
 	}
 
+	/**
+	 * Returns the greatest common divisor (GCD) of {@code a} and {@code b}.
+	 * <p>
+	 * @param a a {@code long} value
+	 * @param b another {@code long} value
+	 * <p>
+	 * @return the greatest common divisor (GCD) of {@code a} and {@code b}
+	 */
 	public static long gcd(final long a, final long b) {
 		long i = a, j = b, t;
 		while (j > 0) {
@@ -131,12 +145,168 @@ public class Maths {
 		return i;
 	}
 
+	/**
+	 * Returns the least common multiple (LCM) of {@code a} and {@code b}.
+	 * <p>
+	 * @param a a {@code long} value
+	 * @param b another {@code long} value
+	 * <p>
+	 * @return the least common multiple (LCM) of {@code a} and {@code b}
+	 */
 	public static long lcm(final long a, final long b) {
 		return a * b / gcd(a, b);
 	}
 
 	public static double square(final double x) {
 		return x * x;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int max(final int... values) {
+		// Check the arguments
+		IntegerArguments.requireNonEmpty(values);
+
+		// Get the maximum
+		int max = Integer.MIN_VALUE;
+		for (final int value : values) {
+			max = Math.max(max, value);
+		}
+		return max;
+	}
+
+	public static long max(final long... values) {
+		// Check the arguments
+		LongArguments.requireNonEmpty(values);
+
+		// Get the maximum
+		long max = Long.MIN_VALUE;
+		for (final long value : values) {
+			max = Math.max(max, value);
+		}
+		return max;
+	}
+
+	public static float max(final float... values) {
+		// Check the arguments
+		FloatArguments.requireNonEmpty(values);
+
+		// Get the maximum
+		float max = Float.MIN_VALUE;
+		for (final float value : values) {
+			max = Math.max(max, value);
+		}
+		return max;
+	}
+
+	public static double max(final double... values) {
+		// Check the arguments
+		DoubleArguments.requireNonEmpty(values);
+
+		// Get the maximum
+		double max = Double.MIN_VALUE;
+		for (final double value : values) {
+			max = Math.max(max, value);
+		}
+		return max;
+	}
+
+	public static <T extends Number> double getMax(final T... numbers) {
+		// Check the arguments
+		ArrayArguments.requireNonEmpty(numbers);
+
+		// Get the maximum
+		double max = Double.MIN_VALUE;
+		for (final T number : numbers) {
+			max = Math.max(max, number.doubleValue());
+		}
+		return max;
+	}
+
+	public static <T extends Number> double getMax(final Collection<T> numbers) {
+		// Check the arguments
+		CollectionArguments.requireNonEmpty(numbers);
+
+		// Get the maximum
+		double max = Double.MIN_VALUE;
+		for (final T number : numbers) {
+			max = Math.max(max, number.doubleValue());
+		}
+		return max;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int min(final int... values) {
+		// Check the arguments
+		IntegerArguments.requireNonEmpty(values);
+
+		// Get the minimum
+		int min = Integer.MAX_VALUE;
+		for (final int value : values) {
+			min = Math.min(value, min);
+		}
+		return min;
+	}
+
+	public static long min(final long... values) {
+		// Check the arguments
+		LongArguments.requireNonEmpty(values);
+
+		// Get the minimum
+		long min = Long.MAX_VALUE;
+		for (final long value : values) {
+			min = Math.min(value, min);
+		}
+		return min;
+	}
+
+	public static float min(final float... values) {
+		// Check the arguments
+		FloatArguments.requireNonEmpty(values);
+
+		// Get the minimum
+		float min = Float.MAX_VALUE;
+		for (final float value : values) {
+			min = Math.min(value, min);
+		}
+		return min;
+	}
+
+	public static double min(final double... values) {
+		// Check the arguments
+		DoubleArguments.requireNonEmpty(values);
+
+		// Get the minimum
+		double min = Double.MAX_VALUE;
+		for (final double value : values) {
+			min = Math.min(value, min);
+		}
+		return min;
+	}
+
+	public static <T extends Number> double getMin(final T... numbers) {
+		// Check the arguments
+		ArrayArguments.requireNonEmpty(numbers);
+
+		// Get the minimum
+		double min = Double.MAX_VALUE;
+		for (final T number : numbers) {
+			min = Math.min(number.doubleValue(), min);
+		}
+		return min;
+	}
+
+	public static <T extends Number> double getMin(final Collection<T> numbers) {
+		// Check the arguments
+		CollectionArguments.requireNonEmpty(numbers);
+
+		// Get the minimum
+		double min = Double.MAX_VALUE;
+		for (final T number : numbers) {
+			min = Math.min(number.doubleValue(), min);
+		}
+		return min;
 	}
 
 
@@ -197,29 +367,29 @@ public class Maths {
 	// SUM
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double sum(final double... array) {
+	public static double sum(final double... values) {
 		double sum = 0.;
-		for (final double element : array) {
-			sum += element;
+		for (final double value : values) {
+			sum += value;
 		}
 		return sum;
 	}
 
-	public static <T extends Number> double sum(final T... array) {
+	public static <T extends Number> double sum(final T... numbers) {
 		double sum = 0.;
-		for (final T element : array) {
-			if (element != null) {
-				sum += element.doubleValue();
+		for (final T number : numbers) {
+			if (number != null) {
+				sum += number.doubleValue();
 			}
 		}
 		return sum;
 	}
 
-	public static <T extends Number> double sum(final Collection<T> collection) {
+	public static <T extends Number> double sum(final Collection<T> numbers) {
 		double sum = 0.;
-		for (final T element : collection) {
-			if (element != null) {
-				sum += element.doubleValue();
+		for (final T number : numbers) {
+			if (number != null) {
+				sum += number.doubleValue();
 			}
 		}
 		return sum;
@@ -227,21 +397,21 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double sumWithoutNaN(final double... array) {
+	public static double sumWithoutNaN(final double... values) {
 		double sum = 0.;
-		for (final double element : array) {
-			if (!Double.isNaN(element)) {
-				sum += element;
+		for (final double value : values) {
+			if (!Double.isNaN(value)) {
+				sum += value;
 			}
 		}
 		return sum;
 	}
 
-	public static <T extends Number> double sumWithoutNaN(final T... array) {
+	public static <T extends Number> double sumWithoutNaN(final T... numbers) {
 		double sum = 0.;
-		for (final T element : array) {
-			if (element != null) {
-				final double elementValue = element.doubleValue();
+		for (final T number : numbers) {
+			if (number != null) {
+				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
 					sum += elementValue;
 				}
@@ -250,11 +420,11 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumWithoutNaN(final Collection<T> collection) {
+	public static <T extends Number> double sumWithoutNaN(final Collection<T> numbers) {
 		double sum = 0.;
-		for (final T element : collection) {
-			if (element != null) {
-				final double elementValue = element.doubleValue();
+		for (final T number : numbers) {
+			if (number != null) {
+				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
 					sum += elementValue;
 				}
@@ -265,30 +435,30 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double sumOfSquares(final double[] array, final double mean) {
+	public static double sumOfSquares(final double[] values, final double mean) {
 		double sum = 0.;
-		for (final double element : array) {
-			sum += square(element - mean);
+		for (final double value : values) {
+			sum += square(value - mean);
 		}
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquares(final T[] array, final double mean) {
+	public static <T extends Number> double sumOfSquares(final T[] values, final double mean) {
 		double sum = 0.;
-		for (final T element : array) {
-			if (element != null) {
-				sum += square(element.doubleValue() - mean);
+		for (final T value : values) {
+			if (value != null) {
+				sum += square(value.doubleValue() - mean);
 			}
 		}
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquares(final Collection<T> collection,
+	public static <T extends Number> double sumOfSquares(final Collection<T> numbers,
 			final double mean) {
 		double sum = 0.;
-		for (final T element : collection) {
-			if (element != null) {
-				sum += square(element.doubleValue() - mean);
+		for (final T number : numbers) {
+			if (number != null) {
+				sum += square(number.doubleValue() - mean);
 			}
 		}
 		return sum;
@@ -296,22 +466,22 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double sumOfSquaresWithoutNaN(final double[] array, final double mean) {
+	public static double sumOfSquaresWithoutNaN(final double[] values, final double mean) {
 		double sum = 0.;
-		for (final double element : array) {
-			if (!Double.isNaN(element)) {
-				sum += square(element - mean);
+		for (final double value : values) {
+			if (!Double.isNaN(value)) {
+				sum += square(value - mean);
 			}
 		}
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquaresWithoutNaN(final T[] array,
+	public static <T extends Number> double sumOfSquaresWithoutNaN(final T[] numbers,
 			final double mean) {
 		double sum = 0.;
-		for (final T element : array) {
-			if (element != null) {
-				final double elementValue = element.doubleValue();
+		for (final T number : numbers) {
+			if (number != null) {
+				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
 					sum += square(elementValue - mean);
 				}
@@ -320,12 +490,12 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquaresWithoutNaN(final Collection<T> collection,
+	public static <T extends Number> double sumOfSquaresWithoutNaN(final Collection<T> numbers,
 			final double mean) {
 		double sum = 0.;
-		for (final T element : collection) {
-			if (element != null) {
-				final double elementValue = element.doubleValue();
+		for (final T number : numbers) {
+			if (number != null) {
+				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
 					sum += square(elementValue - mean);
 				}

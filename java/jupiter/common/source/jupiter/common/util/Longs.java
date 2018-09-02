@@ -375,7 +375,7 @@ public class Longs {
 	 *         numbers starting with zero and spaced by one
 	 */
 	public static long[] createSequence(final int length) {
-		return createSequence(length, 0, 1);
+		return createSequence(length, 0L, 1L);
 	}
 
 	/**
@@ -389,7 +389,7 @@ public class Longs {
 	 *         numbers starting with {@code from} and spaced by one
 	 */
 	public static long[] createSequence(final int length, final long from) {
-		return createSequence(length, from, 1);
+		return createSequence(length, from, 1L);
 	}
 
 	/**
@@ -463,15 +463,42 @@ public class Longs {
 	}
 
 	public static void fill(final long[][] array2D, final long value) {
-		for (final long[] element : array2D) {
-			fill(element, value);
+		for (final long[] array : array2D) {
+			fill(array, value);
 		}
 	}
 
 	public static void fill(final long[][][] array3D, final long value) {
-		for (final long[][] element : array3D) {
-			fill(element, value);
+		for (final long[][] array2D : array3D) {
+			fill(array2D, value);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the middle of the specified {@code long} value.
+	 * <p>
+	 * @param value a {@code long} value
+	 *
+	 * @return the middle of the specified {@code long} value
+	 */
+	public static long middle(final long value) {
+		return middle(0L, value);
+	}
+
+	/**
+	 * Returns the middle of the specified lower and upper bounds rounded to the lower {@code long}
+	 * value.
+	 * <p>
+	 * @param lowerBound a {@code long} value
+	 * @param upperBound another {@code long} value
+	 * <p>
+	 * @return the middle of the specified lower and upper bounds rounded to the lower {@code long}
+	 *         value
+	 */
+	public static long middle(final long lowerBound, final long upperBound) {
+		return lowerBound + (upperBound - lowerBound) / 2L;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

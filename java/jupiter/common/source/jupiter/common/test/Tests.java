@@ -50,30 +50,30 @@ public class Tests {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void printTimes(final double... times) {
-		final double mean = Statistics.getMean(times);
-		final double stddev = Statistics.getSampleStandardDeviationWith(times, mean);
-		final Interval<Double> confidenceInterval = Statistics.getConfidenceInterval(times.length,
+		final double mean = Statistics.mean(times);
+		final double stddev = Statistics.sampleStandardDeviationWith(times, mean);
+		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.length,
 				mean, stddev);
 		printAverageTime(mean, confidenceInterval);
-		printMinMaxInterval(Statistics.getMin(times), Statistics.getMax(times));
+		printMinMaxInterval(Maths.min(times), Maths.max(times));
 	}
 
 	public static <T extends Number> void printTimes(final T... times) {
 		final double mean = Statistics.getMean(times);
 		final double stddev = Statistics.getSampleStandardDeviationWith(times, mean);
-		final Interval<Double> confidenceInterval = Statistics.getConfidenceInterval(times.length,
+		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.length,
 				mean, stddev);
 		printAverageTime(mean, confidenceInterval);
-		printMinMaxInterval(Statistics.getMin(times), Statistics.getMax(times));
+		printMinMaxInterval(Maths.getMin(times), Maths.getMax(times));
 	}
 
 	public static void printTimes(final Collection<Long> times) {
 		final double mean = Statistics.getMean(times);
 		final double stddev = Statistics.getSampleStandardDeviationWith(times, mean);
-		final Interval<Double> confidenceInterval = Statistics.getConfidenceInterval(times.size(),
+		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.size(),
 				mean, stddev);
 		printAverageTime(mean, confidenceInterval);
-		printMinMaxInterval(Statistics.getMin(times), Statistics.getMax(times));
+		printMinMaxInterval(Maths.getMin(times), Maths.getMax(times));
 	}
 
 	protected static void printAverageTime(final double mean,

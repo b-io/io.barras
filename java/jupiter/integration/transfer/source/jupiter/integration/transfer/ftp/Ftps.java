@@ -319,8 +319,8 @@ public class Ftps {
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
 			sftp.cd(remoteDir);
-			final Vector<ChannelSftp.LsEntry> list = sftp.ls(filter);
-			for (final ChannelSftp.LsEntry entry : list) {
+			final Vector<ChannelSftp.LsEntry> entries = sftp.ls(filter);
+			for (final ChannelSftp.LsEntry entry : entries) {
 				final String filename = entry.getFilename();
 				if (Strings.matches(filename, filenames)) {
 					final String localPath = localDir + File.separator + filename;

@@ -73,12 +73,12 @@ public class DoubleParser
 		return callToArray(input);
 	}
 
-	public Double[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
+	public Double[][] parseToArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
 	}
 
-	public Double[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
+	public Double[][][] parseToArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
 	}
 
 

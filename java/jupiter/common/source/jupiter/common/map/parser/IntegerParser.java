@@ -73,12 +73,12 @@ public class IntegerParser
 		return callToArray(input);
 	}
 
-	public Integer[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
+	public Integer[][] parseToArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
 	}
 
-	public Integer[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
+	public Integer[][][] parseToArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
 	}
 
 

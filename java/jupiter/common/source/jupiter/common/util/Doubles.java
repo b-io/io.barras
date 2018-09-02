@@ -363,7 +363,7 @@ public class Doubles {
 	 *         numbers starting with zero and spaced by one
 	 */
 	public static double[] createSequence(final int length) {
-		return createSequence(length, 0, 1);
+		return createSequence(length, 0., 1.);
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class Doubles {
 	 *         numbers starting with {@code from} and spaced by one
 	 */
 	public static double[] createSequence(final int length, final double from) {
-		return createSequence(length, from, 1);
+		return createSequence(length, from, 1.);
 	}
 
 	/**
@@ -464,15 +464,42 @@ public class Doubles {
 	}
 
 	public static void fill(final double[][] array2D, final double value) {
-		for (final double[] element : array2D) {
-			fill(element, value);
+		for (final double[] array : array2D) {
+			fill(array, value);
 		}
 	}
 
 	public static void fill(final double[][][] array3D, final double value) {
-		for (final double[][] element : array3D) {
-			fill(element, value);
+		for (final double[][] array2D : array3D) {
+			fill(array2D, value);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the middle of the specified {@code double} value.
+	 * <p>
+	 * @param value a {@code double} value
+	 *
+	 * @return the middle of the specified {@code double} value
+	 */
+	public static double middle(final double value) {
+		return middle(0., value);
+	}
+
+	/**
+	 * Returns the middle of the specified lower and upper bounds rounded to the lower
+	 * {@code double} value.
+	 * <p>
+	 * @param lowerBound a {@code double} value
+	 * @param upperBound another {@code double} value
+	 * <p>
+	 * @return the middle of the specified lower and upper bounds rounded to the lower
+	 *         {@code double} value
+	 */
+	public static double middle(final double lowerBound, final double upperBound) {
+		return lowerBound + (upperBound - lowerBound) / 2.;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

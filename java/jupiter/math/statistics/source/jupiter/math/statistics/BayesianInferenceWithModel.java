@@ -51,7 +51,7 @@ public class BayesianInferenceWithModel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void updateLikelihood(final int i, final double value) {
-		likelihoods[i] = models[i].getLikelihood(value);
+		likelihoods[i] = models[i].likelihood(value);
 	}
 
 

@@ -339,11 +339,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0.} and
-	 * {@code 1.}.
+	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
+	 * {@code 1f}.
 	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code float} value between {@code 0.} and
-	 *         {@code 1.}
+	 * @return a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
+	 *         {@code 1f}
 	 */
 	public static float random() {
 		return RANDOM.nextFloat();
@@ -375,7 +375,7 @@ public class Floats {
 	 *         numbers starting with zero and spaced by one
 	 */
 	public static float[] createSequence(final int length) {
-		return createSequence(length, 0, 1);
+		return createSequence(length, 0f, 1f);
 	}
 
 	/**
@@ -389,7 +389,7 @@ public class Floats {
 	 *         numbers starting with {@code from} and spaced by one
 	 */
 	public static float[] createSequence(final int length, final float from) {
-		return createSequence(length, from, 1);
+		return createSequence(length, from, 1f);
 	}
 
 	/**
@@ -461,7 +461,7 @@ public class Floats {
 	 * @return a {@link String} percentage representation of the specified value
 	 */
 	public static String toPercentage(final float value) {
-		return value * 100. + "%";
+		return value * 100f + "%";
 	}
 
 
@@ -476,15 +476,42 @@ public class Floats {
 	}
 
 	public static void fill(final float[][] array2D, final float value) {
-		for (final float[] element : array2D) {
-			fill(element, value);
+		for (final float[] array : array2D) {
+			fill(array, value);
 		}
 	}
 
 	public static void fill(final float[][][] array3D, final float value) {
-		for (final float[][] element : array3D) {
-			fill(element, value);
+		for (final float[][] array2D : array3D) {
+			fill(array2D, value);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the middle of the specified {@code float} value.
+	 * <p>
+	 * @param value a {@code float} value
+	 *
+	 * @return the middle of the specified {@code float} value
+	 */
+	public static float middle(final float value) {
+		return middle(0f, value);
+	}
+
+	/**
+	 * Returns the middle of the specified lower and upper bounds rounded to the lower {@code float}
+	 * value.
+	 * <p>
+	 * @param lowerBound a {@code float} value
+	 * @param upperBound another {@code float} value
+	 * <p>
+	 * @return the middle of the specified lower and upper bounds rounded to the lower {@code float}
+	 *         value
+	 */
+	public static float middle(final float lowerBound, final float upperBound) {
+		return lowerBound + (upperBound - lowerBound) / 2f;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -592,8 +619,8 @@ public class Floats {
 		final int aBits = Float.floatToIntBits(a);
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
-				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-						1; // (0., -0.) or (NaN, !NaN)
+				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
+						1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 

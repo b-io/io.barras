@@ -59,6 +59,17 @@ public class CharacterTable
 	}
 
 	/**
+	 * Constructs a {@link CharacterTable} of the specified header and numbers of rows and columns.
+	 * <p>
+	 * @param header an array of {@link String}
+	 * @param m      the number of rows
+	 * @param n      the number of columns
+	 */
+	public CharacterTable(final String[] header, final int m, final int n) {
+		super(Character.class, header, m, n);
+	}
+
+	/**
 	 * Constructs a {@link CharacterTable} from the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code char} values
@@ -116,5 +127,15 @@ public class CharacterTable
 
 	public char[][] toPrimitiveArray2D() {
 		return Characters.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public CharacterTable clone() {
+		return new CharacterTable(header, elements);
 	}
 }

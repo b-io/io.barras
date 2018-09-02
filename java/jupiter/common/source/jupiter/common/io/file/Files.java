@@ -80,22 +80,22 @@ public class Files {
 	}
 
 	/**
-	 * Returns the filename from the specified pathname.
+	 * Returns the filename of the specified pathname.
 	 * <p>
 	 * @param pathname a {@link String}
 	 * <p>
-	 * @return the filename from the specified pathname
+	 * @return the filename of the specified pathname
 	 */
 	public static String getFilename(final String pathname) {
 		return pathname.substring(pathname.lastIndexOf('\\') + 1);
 	}
 
 	/**
-	 * Returns the extension from the specified filename {@link String}.
+	 * Returns the extension of the specified filename.
 	 * <p>
 	 * @param filename a {@link String}
 	 * <p>
-	 * @return the extension from the specified filename {@link String}
+	 * @return the extension of the specified filename
 	 */
 	public static String getExtension(final String filename) {
 		return filename.substring(filename.lastIndexOf('.') + 1);
@@ -148,11 +148,11 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a buffered reader of the specified file.
+	 * Creates a {@link BufferedReader} of the specified file.
 	 * <p>
 	 * @param pathname the pathname of the file to read
 	 * <p>
-	 * @return a buffered reader of the specified file
+	 * @return a {@link BufferedReader} of the specified file
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening {@code pathname}
 	 */
@@ -162,12 +162,12 @@ public class Files {
 	}
 
 	/**
-	 * Creates a buffered reader of the specified file with the specified {@link Charset}.
+	 * Creates a {@link BufferedReader} of the specified file with the specified {@link Charset}.
 	 * <p>
 	 * @param pathname the pathname of the file to read
 	 * @param charset  the {@link Charset} of the file to read
 	 * <p>
-	 * @return a buffered reader of the specified file with the specified {@link Charset}
+	 * @return a {@link BufferedReader} of the specified file with the specified {@link Charset}
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening {@code pathname}
 	 */
@@ -179,11 +179,11 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the content of the specified file.
+	 * Returns the {@link FileContent} of the specified file.
 	 * <p>
 	 * @param pathname the pathname of the file to read
 	 * <p>
-	 * @return the content of the specified file
+	 * @return the {@link FileContent} of the specified file
 	 */
 	public static FileContent read(final String pathname) {
 		return read(pathname, Formats.DEFAULT_CHARSET);
@@ -298,12 +298,12 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Appends the specified string in the specified file.
+	 * Appends the specified string to the specified file.
 	 * <p>
 	 * @param content  the {@link String} to write
 	 * @param pathname the pathname of the file to write
 	 * <p>
-	 * @return {@code true} if {@code string} is written in the specified file, {@code false}
+	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
 	 *         otherwise
 	 */
 	public static boolean appendLine(final String content, final String pathname) {
@@ -311,12 +311,12 @@ public class Files {
 	}
 
 	/**
-	 * Writes the specified string in the specified file.
+	 * Writes the specified string to the specified file.
 	 * <p>
 	 * @param content  the {@link String} to write
 	 * @param pathname the pathname of the file to write
 	 * <p>
-	 * @return {@code true} if {@code string} is written in the specified file, {@code false}
+	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
 	 *         otherwise
 	 */
 	public static boolean writeLine(final String content, final String pathname) {
@@ -324,14 +324,14 @@ public class Files {
 	}
 
 	/**
-	 * Writes the specified string in the specified file.
+	 * Writes the specified string to the specified file.
 	 * <p>
 	 * @param content  the {@link String} to write
 	 * @param pathname the pathname of the file to write
 	 * @param isAppend the option specifying whether to append
 	 * @param charset  the {@link Charset} of the file to write
 	 * <p>
-	 * @return {@code true} if {@code string} is written in the specified file, {@code false}
+	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
 	 *         otherwise
 	 */
 	public static boolean writeLine(final String content, final String pathname,

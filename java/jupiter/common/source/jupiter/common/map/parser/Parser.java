@@ -34,9 +34,9 @@ public interface Parser<O> {
 
 	public O[] parseToArray(final Object... input);
 
-	public O[][] parseToArray2D(final Object[]... input);
+	public O[][] parseToArray2D(final Object[]... input2D);
 
-	public O[][][] parseToArray3D(final Object[][]... input);
+	public O[][][] parseToArray3D(final Object[][]... input3D);
 
 	public Class<O> getOutputClass();
 }

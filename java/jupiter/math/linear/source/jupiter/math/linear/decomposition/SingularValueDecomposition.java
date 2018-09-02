@@ -556,8 +556,8 @@ public class SingularValueDecomposition
 		final double eps = Maths.DEFAULT_TOLERANCE;
 		final double tolerance = Math.max(m, n) * s[0] * eps;
 		int r = 0;
-		for (final double element : s) {
-			if (element > tolerance) {
+		for (final double value : s) {
+			if (value > tolerance) {
 				++r;
 			}
 		}

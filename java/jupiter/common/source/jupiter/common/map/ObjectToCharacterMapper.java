@@ -64,18 +64,18 @@ public abstract class ObjectToCharacterMapper
 		return result;
 	}
 
-	public <I> char[][][] callToPrimitiveArray3D(final I[][]... array3D) {
-		final char[][][] result = new char[array3D.length][][];
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = callToPrimitiveArray2D(array3D[i]);
+	public <I> char[][][] callToPrimitiveArray3D(final I[][]... input3D) {
+		final char[][][] result = new char[input3D.length][][];
+		for (int i = 0; i < input3D.length; ++i) {
+			result[i] = callToPrimitiveArray2D(input3D[i]);
 		}
 		return result;
 	}
 
-	public <I> char[] callCollectionToPrimitiveArray(final Collection<I> collection) {
-		final char[] result = new char[collection.size()];
+	public <I> char[] callCollectionToPrimitiveArray(final Collection<I> input) {
+		final char[] result = new char[input.size()];
 		int i = 0;
-		for (final I element : collection) {
+		for (final I element : input) {
 			result[i] = call(element);
 			++i;
 		}

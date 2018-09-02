@@ -337,7 +337,7 @@ public class IO {
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content
+	 * @return a {@link Message} containing {@code content}
 	 */
 	public Message trace(final Object... content) {
 		if (SeverityLevel.TRACE.toInt() >= severityLevel.toInt()) {
@@ -355,7 +355,7 @@ public class IO {
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content
+	 * @return a {@link Message} containing {@code content}
 	 */
 	public Message debug(final Object... content) {
 		if (SeverityLevel.DEBUG.toInt() >= severityLevel.toInt()) {
@@ -373,7 +373,7 @@ public class IO {
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content
+	 * @return a {@link Message} containing {@code content}
 	 */
 	public Message test(final Object... content) {
 		if (SeverityLevel.TEST.toInt() >= severityLevel.toInt()) {
@@ -391,7 +391,7 @@ public class IO {
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content
+	 * @return a {@link Message} containing {@code content}
 	 */
 	public Message info(final Object... content) {
 		if (SeverityLevel.INFO.toInt() >= severityLevel.toInt()) {
@@ -409,7 +409,7 @@ public class IO {
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content
+	 * @return a {@link Message} containing {@code content}
 	 */
 	public Message result(final Object... content) {
 		if (SeverityLevel.RESULT.toInt() >= severityLevel.toInt()) {
@@ -427,7 +427,7 @@ public class IO {
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content
+	 * @return a {@link Message} containing {@code content}
 	 */
 	public Message warn(final Object... content) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
@@ -445,7 +445,7 @@ public class IO {
 	 * <p>
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified exception
+	 * @return a {@link Message} containing {@code exception}
 	 */
 	public Message warn(final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
@@ -464,7 +464,7 @@ public class IO {
 	 * @param content   the {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content and exception
+	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */
 	public Message warn(final Object content, final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
@@ -483,7 +483,7 @@ public class IO {
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content
+	 * @return a {@link Message} containing {@code content}
 	 */
 	public Message error(final Object... content) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
@@ -501,7 +501,7 @@ public class IO {
 	 * <p>
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified exception
+	 * @return a {@link Message} containing {@code exception}
 	 */
 	public Message error(final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
@@ -520,7 +520,7 @@ public class IO {
 	 * @param content   the {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content and exception
+	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */
 	public Message error(final Object content, final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
@@ -539,7 +539,7 @@ public class IO {
 	 * <p>
 	 * @param content the array of {@link Object} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content
+	 * @return a {@link Message} containing {@code content}
 	 */
 	public Message fail(final Object... content) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
@@ -558,7 +558,7 @@ public class IO {
 	 * <p>
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified exception
+	 * @return a {@link Message} containing {@code exception}
 	 */
 	public Message fail(final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
@@ -578,7 +578,7 @@ public class IO {
 	 * @param content   the {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content and exception
+	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */
 	public Message fail(final Object content, final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {

@@ -52,7 +52,7 @@ public class GaussianModel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public double getLikelihood(final double value) {
-		return Statistics.getNormalPdf(value, mean, standardDeviation);
+	public double likelihood(final double value) {
+		return Statistics.normalPdf(value, mean, standardDeviation);
 	}
 }

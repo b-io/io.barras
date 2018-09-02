@@ -69,35 +69,35 @@ public abstract class Mapper<I, O>
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public O[] callToArray(final I... array) {
-		final O[] result = Arrays.<O>create(c, array.length);
-		for (int i = 0; i < array.length; ++i) {
-			result[i] = call(array[i]);
+	public O[] callToArray(final I... input) {
+		final O[] result = Arrays.<O>create(c, input.length);
+		for (int i = 0; i < input.length; ++i) {
+			result[i] = call(input[i]);
 		}
 		return result;
 	}
 
-	public O[][] callToArray2D(final I[]... array2D) {
-		final O[][] result = Arrays.<O>create(c, array2D.length, 0);
-		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = callToArray(array2D[i]);
+	public O[][] callToArray2D(final I[]... input2D) {
+		final O[][] result = Arrays.<O>create(c, input2D.length, 0);
+		for (int i = 0; i < input2D.length; ++i) {
+			result[i] = callToArray(input2D[i]);
 		}
 		return result;
 	}
 
-	public O[][][] callToArray3D(final I[][]... array3D) {
-		final O[][][] result = Arrays.<O>create(c, array3D.length, 0, 0);
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = callToArray2D(array3D[i]);
+	public O[][][] callToArray3D(final I[][]... input3D) {
+		final O[][][] result = Arrays.<O>create(c, input3D.length, 0, 0);
+		for (int i = 0; i < input3D.length; ++i) {
+			result[i] = callToArray2D(input3D[i]);
 		}
 		return result;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ExtendedList<O> callToList(final I... array) {
+	public ExtendedList<O> callToList(final I... input) {
 		final ExtendedList<O> result = new ExtendedList<O>();
-		for (final I element : array) {
+		for (final I element : input) {
 			result.add(call(element));
 		}
 		return result;
@@ -105,9 +105,9 @@ public abstract class Mapper<I, O>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Set<O> callToSet(final I... array) {
-		final Set<O> result = new HashSet<O>(array.length);
-		for (final I element : array) {
+	public Set<O> callToSet(final I... input) {
+		final Set<O> result = new HashSet<O>(input.length);
+		for (final I element : input) {
 			result.add(call(element));
 		}
 		return result;

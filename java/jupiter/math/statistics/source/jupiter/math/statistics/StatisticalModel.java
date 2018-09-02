@@ -39,12 +39,12 @@ public abstract class StatisticalModel {
 	// STATISTICAL MODEL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public abstract double getLikelihood(final double value);
+	public abstract double likelihood(final double value);
 
 	public double getLikelihood(final Collection<Double> values) {
 		double likelihood = 1.;
 		for (final double value : values) {
-			likelihood *= getLikelihood(value);
+			likelihood *= likelihood(value);
 		}
 		return likelihood;
 	}

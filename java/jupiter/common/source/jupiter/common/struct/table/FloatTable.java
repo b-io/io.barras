@@ -59,6 +59,17 @@ public class FloatTable
 	}
 
 	/**
+	 * Constructs a {@link FloatTable} of the specified header and numbers of rows and columns.
+	 * <p>
+	 * @param header an array of {@link String}
+	 * @param m      the number of rows
+	 * @param n      the number of columns
+	 */
+	public FloatTable(final String[] header, final int m, final int n) {
+		super(Float.class, header, m, n);
+	}
+
+	/**
 	 * Constructs a {@link FloatTable} from the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code float} values
@@ -116,5 +127,15 @@ public class FloatTable
 
 	public float[][] toPrimitiveArray2D() {
 		return Floats.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public FloatTable clone() {
+		return new FloatTable(header, elements);
 	}
 }

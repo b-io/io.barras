@@ -27,11 +27,11 @@ package jupiter.common.struct.list;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import jupiter.common.math.WholeNumbers;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
+import jupiter.common.util.Integers;
 
 public class ExtendedList<T>
 		extends ArrayList<T>
@@ -92,7 +92,7 @@ public class ExtendedList<T>
 		CollectionArguments.requireNonEmpty(this);
 
 		// Get the middle
-		return get(WholeNumbers.middle(size()));
+		return get(Integers.middle(size()));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

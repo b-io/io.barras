@@ -59,6 +59,17 @@ public class LongTable
 	}
 
 	/**
+	 * Constructs a {@link LongTable} of the specified header and numbers of rows and columns.
+	 * <p>
+	 * @param header an array of {@link String}
+	 * @param m      the number of rows
+	 * @param n      the number of columns
+	 */
+	public LongTable(final String[] header, final int m, final int n) {
+		super(Long.class, header, m, n);
+	}
+
+	/**
 	 * Constructs a {@link LongTable} from the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code long} values
@@ -116,5 +127,15 @@ public class LongTable
 
 	public long[][] toPrimitiveArray2D() {
 		return Longs.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public LongTable clone() {
+		return new LongTable(header, elements);
 	}
 }

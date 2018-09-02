@@ -97,7 +97,7 @@ public class NeuralNetworkTest
 		final double cost = model.computeCost();
 		assertEquals(2.11368793E-5, cost, BinaryClassifier.DEFAULT_TOLERANCE);
 
-		// Report
+		// Report the statistics
 		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
 	}
 
@@ -119,15 +119,15 @@ public class NeuralNetworkTest
 		Matrix.PARALLELIZE = true;
 		try {
 			// - Test the example A
-			for (int i = 0; i < testCount; ++i) {
-				times[i] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH, 0.9, 0.285,
+			for (int t = 0; t < testCount; ++t) {
+				times[t] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH, 0.9, 0.285,
 						0.5);
 			}
 			Tests.printTimes(times);
 
 			// - Test the example B
-			for (int i = 0; i < testCount; ++i) {
-				times[i] = testExample("B", 100, 0.0075, 1, 7, ActivationFunctions.RELU, 0.7, 0.65,
+			for (int t = 0; t < testCount; ++t) {
+				times[t] = testExample("B", 100, 0.0075, 1, 7, ActivationFunctions.RELU, 0.7, 0.65,
 						0.05);
 			}
 			Tests.printTimes(times);
@@ -172,7 +172,7 @@ public class NeuralNetworkTest
 		final double cost = model.computeCost();
 		assertEquals(expectedCost, cost, tolerance);
 
-		// Report
+		// Report the statistics
 		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations",
 				" in ", time, " [ms]");
 		return time;

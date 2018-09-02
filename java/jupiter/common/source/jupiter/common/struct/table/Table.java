@@ -118,6 +118,28 @@ public class Table<T>
 	}
 
 	/**
+	 * Constructs a {@link Table} of type {@code T} of the specified header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param c      the {@link Class} of type {@code T}
+	 * @param header an array of {@link String}
+	 * @param m      the number of rows
+	 * @param n      the number of columns
+	 */
+	public Table(final Class<T> c, final String[] header, final int m, final int n) {
+		// Check the arguments
+		IntegerArguments.requirePositive(m);
+		IntegerArguments.requirePositive(n);
+
+		// Set the attributes
+		this.c = c;
+		this.m = m;
+		this.n = n;
+		this.header = header;
+		elements = createArray2D(m, n);
+	}
+
+	/**
 	 * Constructs a {@link Table} of type {@code T} from the specified elements.
 	 * <p>
 	 * @param c        the {@link Class} of type {@code T}
@@ -1135,7 +1157,7 @@ public class Table<T>
 
 	@Override
 	public Table<T> clone() {
-		return new Table<T>(c, elements);
+		return new Table<T>(c, header, elements);
 	}
 
 	@Override

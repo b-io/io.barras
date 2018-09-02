@@ -55,38 +55,38 @@ public class Arrays {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> T[] toArray(final T... values) {
-		return values;
+	public static <T> T[] toArray(final T... array) {
+		return array;
 	}
 
-	public static <T> T[][] toArray2D(final T[]... values) {
-		return values;
+	public static <T> T[][] toArray2D(final T[]... array2D) {
+		return array2D;
 	}
 
-	public static <T> T[][][] toArray3D(final T[][]... values) {
-		return values;
+	public static <T> T[][][] toArray3D(final T[][]... array3D) {
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> List<T> toList(final T... values) {
-		return toExtendedList(values);
+	public static <T> List<T> toList(final T... array) {
+		return toExtendedList(array);
 	}
 
-	public static <T> ExtendedList<T> toExtendedList(final T... values) {
-		final ExtendedList<T> result = new ExtendedList<T>(values.length);
-		for (final T value : values) {
-			result.add(value);
+	public static <T> ExtendedList<T> toExtendedList(final T... array) {
+		final ExtendedList<T> result = new ExtendedList<T>(array.length);
+		for (final T element : array) {
+			result.add(element);
 		}
 		return result;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> Set<T> toSet(final T... values) {
-		final Set<T> result = new HashSet<T>(values.length);
-		for (final T value : values) {
-			result.add(value);
+	public static <T> Set<T> toSet(final T... array) {
+		final Set<T> result = new HashSet<T>(array.length);
+		for (final T element : array) {
+			result.add(element);
 		}
 		return result;
 	}
@@ -154,14 +154,14 @@ public class Arrays {
 	}
 
 	public static <T> void fill(final T[][] array2D, final T value) {
-		for (final T[] element : array2D) {
-			fill(element, value);
+		for (final T[] array : array2D) {
+			fill(array, value);
 		}
 	}
 
 	public static <T> void fill(final T[][][] array3D, final T value) {
-		for (final T[][] element : array3D) {
-			fill(element, value);
+		for (final T[][] array2D : array3D) {
+			fill(array2D, value);
 		}
 	}
 

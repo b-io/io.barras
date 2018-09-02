@@ -64,18 +64,18 @@ public abstract class ObjectToDoubleMapper
 		return result;
 	}
 
-	public <I> double[][][] callToPrimitiveArray3D(final I[][]... array3D) {
-		final double[][][] result = new double[array3D.length][][];
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = callToPrimitiveArray2D(array3D[i]);
+	public <I> double[][][] callToPrimitiveArray3D(final I[][]... input3D) {
+		final double[][][] result = new double[input3D.length][][];
+		for (int i = 0; i < input3D.length; ++i) {
+			result[i] = callToPrimitiveArray2D(input3D[i]);
 		}
 		return result;
 	}
 
-	public <I> double[] callCollectionToPrimitiveArray(final Collection<I> collection) {
-		final double[] result = new double[collection.size()];
+	public <I> double[] callCollectionToPrimitiveArray(final Collection<I> input) {
+		final double[] result = new double[input.size()];
 		int i = 0;
-		for (final I element : collection) {
+		for (final I element : input) {
 			result[i] = call(element);
 			++i;
 		}

@@ -59,6 +59,17 @@ public class IntegerTable
 	}
 
 	/**
+	 * Constructs a {@link IntegerTable} of the specified header and numbers of rows and columns.
+	 * <p>
+	 * @param header an array of {@link String}
+	 * @param m      the number of rows
+	 * @param n      the number of columns
+	 */
+	public IntegerTable(final String[] header, final int m, final int n) {
+		super(Integer.class, header, m, n);
+	}
+
+	/**
 	 * Constructs an {@link IntegerTable} from the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code int} values
@@ -116,5 +127,15 @@ public class IntegerTable
 
 	public int[][] toPrimitiveArray2D() {
 		return Integers.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public IntegerTable clone() {
+		return new IntegerTable(header, elements);
 	}
 }

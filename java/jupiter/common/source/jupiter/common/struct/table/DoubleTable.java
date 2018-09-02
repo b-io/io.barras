@@ -59,6 +59,17 @@ public class DoubleTable
 	}
 
 	/**
+	 * Constructs a {@link DoubleTable} of the specified header and numbers of rows and columns.
+	 * <p>
+	 * @param header an array of {@link String}
+	 * @param m      the number of rows
+	 * @param n      the number of columns
+	 */
+	public DoubleTable(final String[] header, final int m, final int n) {
+		super(Double.class, header, m, n);
+	}
+
+	/**
 	 * Constructs a {@link DoubleTable} from the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code double} values
@@ -116,5 +127,15 @@ public class DoubleTable
 
 	public double[][] toPrimitiveArray2D() {
 		return Doubles.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public DoubleTable clone() {
+		return new DoubleTable(header, elements);
 	}
 }

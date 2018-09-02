@@ -59,18 +59,18 @@ public class Reducer<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public O[] callToArray(final I[]... array2D) {
-		final O[] result = Arrays.<O>create(c, array2D.length);
-		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = call(array2D[i]);
+	public O[] callToArray(final I[]... input2D) {
+		final O[] result = Arrays.<O>create(c, input2D.length);
+		for (int i = 0; i < input2D.length; ++i) {
+			result[i] = call(input2D[i]);
 		}
 		return result;
 	}
 
-	public O[][] callToArray2D(final I[][]... array3D) {
-		final O[][] result = Arrays.<O>create(c, array3D.length, 0);
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = callToArray(array3D[i]);
+	public O[][] callToArray2D(final I[][]... input3D) {
+		final O[][] result = Arrays.<O>create(c, input3D.length, 0);
+		for (int i = 0; i < input3D.length; ++i) {
+			result[i] = callToArray(input3D[i]);
 		}
 		return result;
 	}

@@ -28,7 +28,7 @@ import static jupiter.common.io.IO.IO;
 import java.util.HashMap;
 
 import jupiter.common.math.Maths;
-import jupiter.common.struct.table.Table;
+import jupiter.common.struct.table.StringTable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.DoubleArguments;
@@ -327,10 +327,11 @@ public class SVM {
 	/**
 	 * Loads the training examples from the specified table.
 	 * <p>
-	 * @param trainingExamples the table containing the training examples of size (m x n + 1)
+	 * @param trainingExamples the {@link StringTable} containing the training examples of size (m x
+	 *                         n + 1)
 	 * @param classesIndex     the index of the column containing the classes in the table
 	 */
-	public void loadTrainingExamples(final Table<String> trainingExamples, final int classesIndex) {
+	public void loadTrainingExamples(final StringTable trainingExamples, final int classesIndex) {
 		if (trainingExamples != null) {
 			final int m = trainingExamples.getRowCount();
 			if (m > 0) {

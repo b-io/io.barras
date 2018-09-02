@@ -64,18 +64,18 @@ public abstract class ObjectToFloatMapper
 		return result;
 	}
 
-	public <I> float[][][] callToPrimitiveArray3D(final I[][]... array3D) {
-		final float[][][] result = new float[array3D.length][][];
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = callToPrimitiveArray2D(array3D[i]);
+	public <I> float[][][] callToPrimitiveArray3D(final I[][]... input3D) {
+		final float[][][] result = new float[input3D.length][][];
+		for (int i = 0; i < input3D.length; ++i) {
+			result[i] = callToPrimitiveArray2D(input3D[i]);
 		}
 		return result;
 	}
 
-	public <I> float[] callCollectionToPrimitiveArray(final Collection<I> collection) {
-		final float[] result = new float[collection.size()];
+	public <I> float[] callCollectionToPrimitiveArray(final Collection<I> input) {
+		final float[] result = new float[input.size()];
 		int i = 0;
-		for (final I element : collection) {
+		for (final I element : input) {
 			result[i] = call(element);
 			++i;
 		}

@@ -967,12 +967,12 @@ public class Matrix
 		if (transpose) {
 			mean = new double[m];
 			for (int i = 0; i < m; ++i) {
-				mean[i] = Statistics.getMean(elements[i]);
+				mean[i] = Statistics.mean(elements[i]);
 			}
 		} else {
 			mean = new double[n];
 			for (int j = 0; j < n; ++j) {
-				mean[j] = Statistics.getMean(getColumn(j));
+				mean[j] = Statistics.mean(getColumn(j));
 			}
 		}
 		return new Vector(mean);
@@ -1571,11 +1571,11 @@ public class Matrix
 		}
 		// - Matrix
 		final Matrix result;
-		final int test = m * n + m * matrix.n + matrix.m * matrix.n;
-		if (USE_GPUS && test > 1E7) {
+		final int test = Maths.max(m * n, m * matrix.n, matrix.m * matrix.n);
+		if (USE_GPUS && test > 5E4) {
 			result = new Matrix(m,
 					CL.times(toPrimitiveArray(), matrix.toPrimitiveArray(), n, matrix.n));
-		} else if (PARALLELIZE && test > 1E4) {
+		} else if (PARALLELIZE && test > 2E3) {
 			// Initialize
 			result = new Matrix(m, matrix.n);
 			final int intervalCount = Math.min(m, WORK_QUEUE.getWorkerCount());

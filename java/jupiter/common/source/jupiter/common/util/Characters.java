@@ -451,14 +451,14 @@ public class Characters {
 	}
 
 	public static void fill(final char[][] array2D, final char value) {
-		for (final char[] element : array2D) {
-			fill(element, value);
+		for (final char[] array : array2D) {
+			fill(array, value);
 		}
 	}
 
 	public static void fill(final char[][][] array3D, final char value) {
-		for (final char[][] element : array3D) {
-			fill(element, value);
+		for (final char[][] array2D : array3D) {
+			fill(array2D, value);
 		}
 	}
 

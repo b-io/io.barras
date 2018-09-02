@@ -92,7 +92,7 @@ public class WholeNumber
 	 * @return the middle of the {@code long} value rounded to the lower {@code long} value
 	 */
 	public long middle() {
-		return WholeNumbers.middle(value);
+		return Longs.middle(value);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +105,7 @@ public class WholeNumber
 	 * @return the greatest common divisor (GCD) of {@code this} and the specified {@link Number}
 	 */
 	public long gcd(final Number number) {
-		return WholeNumbers.gcd(value, number.longValue());
+		return Maths.gcd(value, number.longValue());
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class WholeNumber
 	 * @return the least common multiple (LCM) of {@code this} and the specified {@link Number}
 	 */
 	public long lcm(final Number number) {
-		return WholeNumbers.lcm(value, number.longValue());
+		return Maths.lcm(value, number.longValue());
 	}
 
 

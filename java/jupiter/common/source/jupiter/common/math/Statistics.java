@@ -28,6 +28,7 @@ import java.util.Collection;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.test.DoubleArguments;
+import jupiter.common.util.Doubles;
 
 public class Statistics {
 
@@ -40,234 +41,148 @@ public class Statistics {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double getMin(final double... array) {
+	public static double mean(final double... values) {
 		// Check the arguments
-		DoubleArguments.requireNonEmpty(array);
-
-		// Get the minimum
-		double min = Double.POSITIVE_INFINITY;
-		for (final double element : array) {
-			if (element < min) {
-				min = element;
-			}
-		}
-		return min;
-	}
-
-	public static <T extends Number> double getMin(final T... array) {
-		// Check the arguments
-		ArrayArguments.requireNonEmpty(array);
-
-		// Get the minimum
-		double min = Double.POSITIVE_INFINITY;
-		for (final T element : array) {
-			if (element != null && element.doubleValue() < min) {
-				min = element.doubleValue();
-			}
-		}
-		return min;
-	}
-
-	public static <T extends Number> double getMin(final Collection<T> collection) {
-		// Check the arguments
-		CollectionArguments.requireNonEmpty(collection);
-
-		// Get the minimum
-		double min = Double.POSITIVE_INFINITY;
-		for (final T element : collection) {
-			if (element != null && element.doubleValue() < min) {
-				min = element.doubleValue();
-			}
-		}
-		return min;
-	}
-
-	public static double getMax(final double... array) {
-		// Check the arguments
-		DoubleArguments.requireNonEmpty(array);
-
-		// Get the maximum
-		double max = Double.NEGATIVE_INFINITY;
-		for (final double element : array) {
-			if (element > max) {
-				max = element;
-			}
-		}
-		return max;
-	}
-
-	public static <T extends Number> double getMax(final T... array) {
-		// Check the arguments
-		ArrayArguments.requireNonEmpty(array);
-
-		// Get the maximum
-		double max = Double.NEGATIVE_INFINITY;
-		for (final T element : array) {
-			if (element != null && element.doubleValue() > max) {
-				max = element.doubleValue();
-			}
-		}
-		return max;
-	}
-
-	public static <T extends Number> double getMax(final Collection<T> collection) {
-		// Check the arguments
-		CollectionArguments.requireNonEmpty(collection);
-
-		// Get the maximum
-		double max = Double.NEGATIVE_INFINITY;
-		for (final T element : collection) {
-			if (element != null && element.doubleValue() > max) {
-				max = element.doubleValue();
-			}
-		}
-		return max;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static double getMean(final double... array) {
-		// Check the arguments
-		DoubleArguments.requireNonEmpty(array);
+		DoubleArguments.requireNonEmpty(values);
 
 		// Get the mean
-		return Maths.sumWithoutNaN(array) / array.length;
+		return Maths.sumWithoutNaN(values) / values.length;
 	}
 
-	public static <T extends Number> double getMean(final T... array) {
+	public static <T extends Number> double getMean(final T... numbers) {
 		// Check the arguments
-		ArrayArguments.requireNonEmpty(array);
+		ArrayArguments.requireNonEmpty(numbers);
 
 		// Get the mean
-		return Maths.sumWithoutNaN(array) / array.length;
+		return Maths.sumWithoutNaN(numbers) / numbers.length;
 	}
 
-	public static <T extends Number> double getMean(final Collection<T> collection) {
+	public static <T extends Number> double getMean(final Collection<T> numbers) {
 		// Check the arguments
-		CollectionArguments.requireNonEmpty(collection);
+		CollectionArguments.requireNonEmpty(numbers);
 
 		// Get the mean
-		return Maths.sumWithoutNaN(collection) / collection.size();
+		return Maths.sumWithoutNaN(numbers) / numbers.size();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double getVariance(final double... array) {
-		return getVarianceWith(array, getMean(array));
+	public static double variance(final double... values) {
+		return varianceWith(values, mean(values));
 	}
 
-	public static <T extends Number> double getVariance(final T... array) {
-		return getVarianceWith(array, getMean(array));
+	public static <T extends Number> double getVariance(final T... numbers) {
+		return Statistics.getVarianceWith(numbers, Statistics.getMean(numbers));
 	}
 
-	public static <T extends Number> double getVariance(final Collection<T> collection) {
-		return getVarianceWith(collection, getMean(collection));
+	public static <T extends Number> double getVariance(final Collection<T> numbers) {
+		return getVarianceWith(numbers, getMean(numbers));
 	}
 
-	public static double getVarianceWith(final double[] array, final double mean) {
+	public static double varianceWith(final double[] values, final double mean) {
 		// Check the arguments
-		DoubleArguments.requireNonEmpty(array);
+		DoubleArguments.requireNonEmpty(values);
 
 		// Get the variance
-		return Maths.sumOfSquaresWithoutNaN(array, mean) / array.length;
+		return Maths.sumOfSquaresWithoutNaN(values, mean) / values.length;
 	}
 
-	public static <T extends Number> double getVarianceWith(final T[] array, final double mean) {
+	public static <T extends Number> double getVarianceWith(final T[] numbers, final double mean) {
 		// Check the arguments
-		ArrayArguments.requireNonEmpty(array);
+		ArrayArguments.requireNonEmpty(numbers);
 
 		// Get the variance
-		return Maths.sumOfSquaresWithoutNaN(array, mean) / array.length;
+		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.length;
 	}
 
-	public static <T extends Number> double getVarianceWith(final Collection<T> collection,
+	public static <T extends Number> double getVarianceWith(final Collection<T> numbers,
 			final double mean) {
 		// Check the arguments
-		CollectionArguments.requireNonEmpty(collection);
+		CollectionArguments.requireNonEmpty(numbers);
 
 		// Get the variance
-		return Maths.sumOfSquaresWithoutNaN(collection, mean) / collection.size();
+		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.size();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double getSampleVariance(final double... array) {
-		return getSampleVarianceWith(array, getMean(array));
+	public static double sampleVariance(final double... values) {
+		return sampleVarianceWith(values, mean(values));
 	}
 
-	public static <T extends Number> double getSampleVariance(final T... array) {
-		return getSampleVarianceWith(array, getMean(array));
+	public static <T extends Number> double getSampleVariance(final T... numbers) {
+		return Statistics.getSampleVarianceWith(numbers, Statistics.getMean(numbers));
 	}
 
-	public static <T extends Number> double getSampleVariance(final Collection<T> collection) {
-		return getSampleVarianceWith(collection, getMean(collection));
+	public static <T extends Number> double getSampleVariance(final Collection<T> numbers) {
+		return getSampleVarianceWith(numbers, getMean(numbers));
 	}
 
-	public static double getSampleVarianceWith(final double[] array, final double mean) {
+	public static double sampleVarianceWith(final double[] values, final double mean) {
 		// Check the arguments
-		DoubleArguments.requireMinLength(array, 2);
+		DoubleArguments.requireMinLength(values, 2);
 
 		// Get the sample variance
-		return Maths.sumOfSquaresWithoutNaN(array, mean) / (array.length - 1);
+		return Maths.sumOfSquaresWithoutNaN(values, mean) / (values.length - 1);
 	}
 
-	public static <T extends Number> double getSampleVarianceWith(final T[] array,
+	public static <T extends Number> double getSampleVarianceWith(final T[] numbers,
 			final double mean) {
 		// Check the arguments
-		ArrayArguments.requireMinLength(array, 2);
+		ArrayArguments.requireMinLength(numbers, 2);
 
 		// Get the sample variance
-		return Maths.sumOfSquaresWithoutNaN(array, mean) / (array.length - 1);
+		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / (numbers.length - 1);
 	}
 
-	public static <T extends Number> double getSampleVarianceWith(final Collection<T> collection,
+	public static <T extends Number> double getSampleVarianceWith(final Collection<T> numbers,
 			final double mean) {
 		// Check the arguments
-		CollectionArguments.requireMinSize(collection, 2);
+		CollectionArguments.requireMinSize(numbers, 2);
 
 		// Get the sample variance
-		return Maths.sumOfSquaresWithoutNaN(collection, mean) / (collection.size() - 1);
+		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / (numbers.size() - 1);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double getStandardDeviation(final double... array) {
-		return Math.sqrt(getVariance(array));
+	public static double standardDeviation(final double... values) {
+		return Math.sqrt(variance(values));
 	}
 
-	public static <T extends Number> double getStandardDeviation(final T... array) {
-		return Math.sqrt(getVariance(array));
+	public static <T extends Number> double getStandardDeviation(final T... numbers) {
+		return Math.sqrt(Statistics.getVariance(numbers));
 	}
 
-	public static <T extends Number> double getStandardDeviation(final Collection<T> collection) {
-		return Math.sqrt(getVariance(collection));
+	public static <T extends Number> double getStandardDeviation(final Collection<T> numbers) {
+		return Math.sqrt(getVariance(numbers));
 	}
 
-	public static double getStandardDeviationWith(final double[] array, final double mean) {
-		return Math.sqrt(getVarianceWith(array, mean));
+	public static double standardDeviationWith(final double[] values, final double mean) {
+		return Math.sqrt(varianceWith(values, mean));
 	}
 
-	public static <T extends Number> double getStandardDeviationWith(final T[] array,
+	public static <T extends Number> double getStandardDeviationWith(final T[] numbers,
 			final double mean) {
-		return Math.sqrt(getVarianceWith(array, mean));
+		return Math.sqrt(Statistics.getVarianceWith(numbers, mean));
 	}
 
-	public static <T extends Number> double getStandardDeviationWith(final Collection<T> collection,
+	public static <T extends Number> double getStandardDeviationWith(final Collection<T> numbers,
 			final double mean) {
-		return Math.sqrt(getVarianceWith(collection, mean));
+		return Math.sqrt(getVarianceWith(numbers, mean));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double getSampleStandardDeviation(final double... array) {
-		return Math.sqrt(getSampleVariance(array));
+	public static double sampleStandardDeviation(final double... values) {
+		return Math.sqrt(sampleVariance(values));
 	}
 
-	public static <T extends Number> double getSampleStandardDeviation(final T... array) {
-		return Math.sqrt(getSampleVariance(array));
+	public static <T extends Number> double getSampleStandardDeviation(final T... numbers) {
+		return Math.sqrt(Statistics.getSampleVariance(numbers));
 	}
 
 	public static <T extends Number> double getSampleStandardDeviation(
@@ -275,42 +190,42 @@ public class Statistics {
 		return Math.sqrt(getSampleVariance(collection));
 	}
 
-	public static double getSampleStandardDeviationWith(final double[] array, final double mean) {
-		return Math.sqrt(getSampleVarianceWith(array, mean));
+	public static double sampleStandardDeviationWith(final double[] values, final double mean) {
+		return Math.sqrt(sampleVarianceWith(values, mean));
 	}
 
-	public static <T extends Number> double getSampleStandardDeviationWith(final T[] array,
+	public static <T extends Number> double getSampleStandardDeviationWith(final T[] numbers,
 			final double mean) {
-		return Math.sqrt(getSampleVarianceWith(array, mean));
+		return Math.sqrt(Statistics.getSampleVarianceWith(numbers, mean));
 	}
 
 	public static <T extends Number> double getSampleStandardDeviationWith(
-			final Collection<T> collection, final double mean) {
-		return Math.sqrt(getSampleVarianceWith(collection, mean));
+			final Collection<T> numbers, final double mean) {
+		return Math.sqrt(getSampleVarianceWith(numbers, mean));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double getVariation(final long sampleSize, final double standardDeviation) {
+	public static double variation(final long sampleSize, final double standardDeviation) {
 		return Maths.DEFAULT_Z * standardDeviation / Math.sqrt(sampleSize);
 	}
 
-	public static double getVariation(final long sampleSize, final double standardDeviation,
+	public static double variation(final long sampleSize, final double standardDeviation,
 			final double confidence) {
-		return getNormalCdfInverse(confidence) * standardDeviation / Math.sqrt(sampleSize);
+		return normalCdfInverse(confidence) * standardDeviation / Math.sqrt(sampleSize);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Interval<Double> getConfidenceInterval(final long sampleSize, final double mean,
+	public static Interval<Double> confidenceInterval(final long sampleSize, final double mean,
 			final double standardDeviation) {
-		final double variation = getVariation(sampleSize, standardDeviation);
+		final double variation = variation(sampleSize, standardDeviation);
 		return new Interval<Double>(mean - variation, mean + variation);
 	}
 
-	public static Interval<Double> getConfidenceInterval(final long sampleSize, final double mean,
+	public static Interval<Double> confidenceInterval(final long sampleSize, final double mean,
 			final double standardDeviation, final double alpha) {
-		final double variation = getVariation(sampleSize, standardDeviation, alpha);
+		final double variation = variation(sampleSize, standardDeviation, alpha);
 		return new Interval<Double>(mean - variation, mean + variation);
 	}
 
@@ -323,7 +238,7 @@ public class Statistics {
 	 * <p>
 	 * @return phi(x) = standard Gaussian PDF
 	 */
-	public static double getNormalPdf(final double x) {
+	public static double normalPdf(final double x) {
 		return Math.exp(-Maths.square(x) / 2.) / Maths.SQUARE_ROOT_OF_TWO_PI;
 	}
 
@@ -338,8 +253,8 @@ public class Statistics {
 	 * @return phi(x, mu, signma) = Gaussian PDF with mean {@code mu} and standard deviation
 	 *         {@code sigma}
 	 */
-	public static double getNormalPdf(final double x, final double mu, final double sigma) {
-		return getNormalPdf((x - mu) / sigma) / sigma;
+	public static double normalPdf(final double x, final double mu, final double sigma) {
+		return normalPdf((x - mu) / sigma) / sigma;
 	}
 
 	/**
@@ -349,8 +264,8 @@ public class Statistics {
 	 * <p>
 	 * @return Phi(z) = standard Gaussian CDF using Taylor approximation
 	 */
-	public static double getNormalCdf(final double z) {
-		return getNormalCdf(z, Maths.DEFAULT_TOLERANCE);
+	public static double normalCdf(final double z) {
+		return normalCdf(z, Maths.DEFAULT_TOLERANCE);
 	}
 
 	/**
@@ -363,7 +278,7 @@ public class Statistics {
 	 * @return Phi(z) = standard Gaussian CDF using Taylor approximation within the specified
 	 *         tolerance level
 	 */
-	public static double getNormalCdf(final double z, final double tolerance) {
+	public static double normalCdf(final double z, final double tolerance) {
 		if (z < -10.) {
 			return 0.;
 		}
@@ -378,7 +293,7 @@ public class Statistics {
 			sum += term;
 			term *= Maths.square(z) / i;
 		}
-		return 0.5 + sum * getNormalPdf(z);
+		return 0.5 + sum * normalPdf(z);
 	}
 
 	/**
@@ -392,8 +307,8 @@ public class Statistics {
 	 * @return Phi(z, mu, sigma) = Gaussian CDF with mean {@code mu} and standard deviation
 	 *         {@code sigma}
 	 */
-	public static double getNormalCdf(final double z, final double mu, final double sigma) {
-		return getNormalCdf((z - mu) / sigma);
+	public static double normalCdf(final double z, final double mu, final double sigma) {
+		return normalCdf((z - mu) / sigma);
 	}
 
 	/**
@@ -403,8 +318,8 @@ public class Statistics {
 	 * <p>
 	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search
 	 */
-	public static double getNormalCdfInverse(final double alpha) {
-		return getNormalCdfInverse(alpha, Maths.DEFAULT_TOLERANCE, -10., 10.);
+	public static double normalCdfInverse(final double alpha) {
+		return normalCdfInverse(alpha, Maths.DEFAULT_TOLERANCE, -10., 10.);
 	}
 
 	/**
@@ -417,16 +332,16 @@ public class Statistics {
 	 * <p>
 	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search
 	 */
-	protected static double getNormalCdfInverse(final double alpha, final double tolerance,
+	protected static double normalCdfInverse(final double alpha, final double tolerance,
 			final double lowerBound, final double upperBound) {
-		final double middle = lowerBound + (upperBound - lowerBound) / 2.;
+		final double middle = Doubles.middle(lowerBound, upperBound);
 		// Test the convergence
 		if (upperBound - lowerBound <= tolerance) {
 			return middle;
 		}
-		if (getNormalCdf(middle) > alpha) {
-			return getNormalCdfInverse(alpha, tolerance, lowerBound, middle);
+		if (normalCdf(middle) > alpha) {
+			return normalCdfInverse(alpha, tolerance, lowerBound, middle);
 		}
-		return getNormalCdfInverse(alpha, tolerance, middle, upperBound);
+		return normalCdfInverse(alpha, tolerance, middle, upperBound);
 	}
 }

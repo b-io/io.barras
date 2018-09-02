@@ -60,6 +60,17 @@ public class StringTable
 	}
 
 	/**
+	 * Constructs a {@link StringTable} of the specified header and numbers of rows and columns.
+	 * <p>
+	 * @param header an array of {@link String}
+	 * @param m      the number of rows
+	 * @param n      the number of columns
+	 */
+	public StringTable(final String[] header, final int m, final int n) {
+		super(String.class, header, m, n);
+	}
+
+	/**
 	 * Constructs a {@link StringTable} from the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link String}
@@ -140,5 +151,15 @@ public class StringTable
 		for (int i = 0; i < m; ++i) {
 			elements[i][j] = values[i];
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public StringTable clone() {
+		return new StringTable(header, elements);
 	}
 }

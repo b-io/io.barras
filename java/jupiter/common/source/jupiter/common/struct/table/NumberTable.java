@@ -66,6 +66,19 @@ public class NumberTable<T extends Number>
 	}
 
 	/**
+	 * Constructs a {@link NumberTable} of type {@code T} of the specified header and numbers of
+	 * rows and columns.
+	 * <p>
+	 * @param c      the {@link Class} of type {@code T}
+	 * @param header an array of {@link String}
+	 * @param m      the number of rows
+	 * @param n      the number of columns
+	 */
+	public NumberTable(final Class<T> c, final String[] header, final int m, final int n) {
+		super(c, header, m, n);
+	}
+
+	/**
 	 * Constructs a {@link NumberTable} of type {@code T} from the specified elements.
 	 * <p>
 	 * @param c        the {@link Class} of type {@code T}
@@ -135,6 +148,11 @@ public class NumberTable<T extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public NumberTable clone() {
+		return new NumberTable(c, header, elements);
+	}
 
 	@Override
 	public boolean equals(final Object other) {

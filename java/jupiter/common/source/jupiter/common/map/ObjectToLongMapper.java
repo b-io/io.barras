@@ -64,18 +64,18 @@ public abstract class ObjectToLongMapper
 		return result;
 	}
 
-	public <I> long[][][] callToPrimitiveArray3D(final I[][]... array3D) {
-		final long[][][] result = new long[array3D.length][][];
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = callToPrimitiveArray2D(array3D[i]);
+	public <I> long[][][] callToPrimitiveArray3D(final I[][]... input3D) {
+		final long[][][] result = new long[input3D.length][][];
+		for (int i = 0; i < input3D.length; ++i) {
+			result[i] = callToPrimitiveArray2D(input3D[i]);
 		}
 		return result;
 	}
 
-	public <I> long[] callCollectionToPrimitiveArray(final Collection<I> collection) {
-		final long[] result = new long[collection.size()];
+	public <I> long[] callCollectionToPrimitiveArray(final Collection<I> input) {
+		final long[] result = new long[input.size()];
 		int i = 0;
-		for (final I element : collection) {
+		for (final I element : input) {
 			result[i] = call(element);
 			++i;
 		}

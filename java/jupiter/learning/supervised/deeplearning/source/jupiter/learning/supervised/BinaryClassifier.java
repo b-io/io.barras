@@ -209,11 +209,11 @@ public abstract class BinaryClassifier {
 	public abstract double computeCost();
 
 	/**
-	 * Computes the cost of the specified {@link Entity}.
+	 * Computes the cost of {@code A}.
 	 * <p>
 	 * @param A an {@link Entity}
 	 * <p>
-	 * @return the cost of the specified {@link Entity}
+	 * @return the cost of {@code A}
 	 */
 	public synchronized double computeCost(final Entity A) {
 		// Compute -(log(A) Y' + log(1 - A) (1 - Y')) / m

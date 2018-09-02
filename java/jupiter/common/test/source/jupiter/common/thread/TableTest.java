@@ -28,8 +28,8 @@ import static jupiter.common.io.IO.IO;
 import java.io.IOException;
 
 import junit.framework.TestCase;
+import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.StringTable;
-import jupiter.common.struct.table.Table;
 
 public class TableTest
 		extends TestCase {
@@ -59,9 +59,9 @@ public class TableTest
 	public void testTranspose() {
 		IO.test("transpose");
 
-		final Table<Double> table1 = new Table<Double>(Double.class, 1, 2);
+		final DoubleTable table1 = new DoubleTable(1, 2);
 		table1.fill(5.);
-		final Table<Double> table2 = table1.clone();
+		final DoubleTable table2 = table1.clone();
 		assertEquals(table1, table2);
 		table2.transpose();
 		assertNotSame(table1, table2);
@@ -75,9 +75,9 @@ public class TableTest
 	public void testEquals() {
 		IO.test("equals");
 
-		final Table<Double> table1 = new Table<Double>(Double.class, 1, 2);
+		final DoubleTable table1 = new DoubleTable(1, 2);
 		table1.fill(5.);
-		final Table<Double> table2 = table1.clone();
+		final DoubleTable table2 = table1.clone();
 		assertEquals(table1, table2);
 	}
 
@@ -87,9 +87,9 @@ public class TableTest
 	public void testHashCode() {
 		IO.test("hashCode");
 
-		final Table<Double> table1 = new Table<Double>(Double.class, 1, 2);
+		final DoubleTable table1 = new DoubleTable(1, 2);
 		table1.fill(5.);
-		final Table<Double> table2 = table1.clone();
+		final DoubleTable table2 = table1.clone();
 		assertEquals(table1.hashCode(), table2.hashCode());
 	}
 }

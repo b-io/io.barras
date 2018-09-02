@@ -109,37 +109,37 @@ public class Strings {
 	/**
 	 * Returns an array of {@code String} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>         the type of the array to convert
-	 * @param objectArray an array of type {@code T}
+	 * @param <T>   the type of the array to convert
+	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code String} values from the specified array of type {@code T}
 	 */
-	public static <T> String[] toArray(final T... objectArray) {
-		return PARSER.callToArray(objectArray);
+	public static <T> String[] toArray(final T... array) {
+		return PARSER.callToArray(array);
 	}
 
 	/**
 	 * Returns a 2D array of {@code String} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>           the type of the array to convert
-	 * @param objectArray2D a 2D array of type {@code T}
+	 * @param <T>     the type of the array to convert
+	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code String} values from the specified 2D array of type {@code T}
 	 */
-	public static <T> String[][] toArray2D(final T[]... objectArray2D) {
-		return PARSER.callToArray2D(objectArray2D);
+	public static <T> String[][] toArray2D(final T[]... array2D) {
+		return PARSER.callToArray2D(array2D);
 	}
 
 	/**
 	 * Returns a 3D array of {@code String} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>           the type of the array to convert
-	 * @param objectArray3D a 3D array of type {@code T}
+	 * @param <T>     the type of the array to convert
+	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code String} values from the specified 3D array of type {@code T}
 	 */
-	public static <T> String[][][] toArray3D(final T[][]... objectArray3D) {
-		return PARSER.callToArray3D(objectArray3D);
+	public static <T> String[][][] toArray3D(final T[][]... array3D) {
+		return PARSER.callToArray3D(array3D);
 	}
 
 	/**
@@ -1135,11 +1135,11 @@ public class Strings {
 		int lastIndex = 0;
 
 		// Get the tokens
-		for (final int index : delimitingIndexes) {
-			if (lastIndex < index) {
-				tokens.add(string.substring(lastIndex, index));
+		for (final int delimitingIndex : delimitingIndexes) {
+			if (lastIndex < delimitingIndex) {
+				tokens.add(string.substring(lastIndex, delimitingIndex));
 			}
-			lastIndex = index + 1;
+			lastIndex = delimitingIndex + 1;
 		}
 		tokens.add(string.substring(lastIndex));
 		return tokens;
@@ -1166,11 +1166,11 @@ public class Strings {
 		int lastIndex = 0;
 
 		// Get the tokens
-		for (final int index : delimitingIndexes) {
-			if (lastIndex < index) {
-				tokens.add(string.substring(lastIndex, index));
+		for (final int delimitingIndex : delimitingIndexes) {
+			if (lastIndex < delimitingIndex) {
+				tokens.add(string.substring(lastIndex, delimitingIndex));
 			}
-			lastIndex = index + 1;
+			lastIndex = delimitingIndex + 1;
 		}
 		tokens.add(string.substring(lastIndex));
 		return tokens;
