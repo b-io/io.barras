@@ -41,7 +41,7 @@ public class IntegerTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 915310277026342967L;
+	private static final long serialVersionUID = -5265465158988560987L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

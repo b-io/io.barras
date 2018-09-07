@@ -57,7 +57,11 @@ public class FloatParser
 		if (input instanceof Number) {
 			return ((Number) input).floatValue();
 		}
-		return Float.valueOf(Strings.toString(input));
+		final String value = Strings.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		return Float.valueOf(value);
 	}
 
 

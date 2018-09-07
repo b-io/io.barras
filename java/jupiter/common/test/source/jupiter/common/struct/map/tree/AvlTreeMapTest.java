@@ -85,7 +85,7 @@ public class AvlTreeMapTest
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
 		fill(instance);
-		final AvlTreeMap clone = instance.clone();
+		final AvlTreeMap<Integer, Integer> clone = instance.clone();
 		assertEquals(instance, clone);
 	}
 

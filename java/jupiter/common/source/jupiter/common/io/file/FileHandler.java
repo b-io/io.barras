@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import jupiter.common.io.Resources;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
@@ -134,9 +135,9 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a buffered reader.
+	 * Returns a {@link BufferedReader}.
 	 * <p>
-	 * @return a buffered reader
+	 * @return a {@link BufferedReader}
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening the file
 	 */
@@ -256,7 +257,7 @@ public class FileHandler {
 	 * @param message the warning message to print if closed
 	 */
 	public void closeWriter(final String message) {
-		Files.close(writer, message);
+		Resources.close(writer, message);
 		writer = null;
 	}
 

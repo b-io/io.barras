@@ -40,6 +40,7 @@ import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.Table;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
 import jupiter.common.thread.IWorkQueue;
@@ -51,6 +52,7 @@ import jupiter.common.util.Formats;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
+import jupiter.integration.gpu.OpenCL;
 import jupiter.math.analysis.function.Function;
 import jupiter.math.linear.decomposition.CholeskyDecomposition;
 import jupiter.math.linear.decomposition.EigenvalueDecomposition;
@@ -105,7 +107,7 @@ public class Matrix
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -2258786593768862603L;
+	private static final long serialVersionUID = 2562031458053913335L;
 
 	/**
 	 * The column delimiters.
@@ -117,17 +119,13 @@ public class Matrix
 	public static final char ROW_DELIMITER = ';';
 
 	/**
-	 * The option specifying whether to use GPUs.
-	 */
-	public static volatile boolean USE_GPUS = false;
-	/**
 	 * The option specifying whether to parallelize using a work queue.
 	 */
 	public static volatile boolean PARALLELIZE = false;
 	/**
 	 * The work queue for computing the dot product.
 	 */
-	protected static volatile IWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Matrix> WORK_QUEUE = null;
+	protected static volatile IWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1178,10 +1176,9 @@ public class Matrix
 		stop();
 
 		// Initialize
-		WORK_QUEUE = new WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Matrix>(
+		WORK_QUEUE = new WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
 				new DotProduct());
 		PARALLELIZE = true;
-		USE_GPUS = true;
 	}
 
 	/**
@@ -1191,7 +1188,6 @@ public class Matrix
 		IO.debug("");
 
 		// Shutdown
-		USE_GPUS = false;
 		if (WORK_QUEUE != null) {
 			PARALLELIZE = false;
 			WORK_QUEUE.shutdown();
@@ -1257,7 +1253,7 @@ public class Matrix
 	/**
 	 * Returns the addition of the specified {@link Entity} to {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this + entity}
 	 */
@@ -1354,7 +1350,7 @@ public class Matrix
 	/**
 	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this - entity}
 	 */
@@ -1451,7 +1447,7 @@ public class Matrix
 	/**
 	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this * entity}
 	 */
@@ -1570,14 +1566,9 @@ public class Matrix
 			return new Scalar(sum);
 		}
 		// - Matrix
-		final Matrix result;
-		final int test = Maths.max(m * n, m * matrix.n, matrix.m * matrix.n);
-		if (USE_GPUS && test > 5E4) {
-			result = new Matrix(m,
-					CL.times(toPrimitiveArray(), matrix.toPrimitiveArray(), n, matrix.n));
-		} else if (PARALLELIZE && test > 2E3) {
+		final Matrix result = new Matrix(m, matrix.n);
+		if (PARALLELIZE) {
 			// Initialize
-			result = new Matrix(m, matrix.n);
 			final int intervalCount = Math.min(m, WORK_QUEUE.getWorkerCount());
 			final int rowCountPerInterval = m / intervalCount;
 			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
@@ -1593,20 +1584,19 @@ public class Matrix
 			if (remainingRowCount > 0) {
 				final Interval<Integer> interval = new Interval<Integer>(
 						intervalCount * rowCountPerInterval, m);
-				ids.add(WORK_QUEUE.submit(
-						new Triple<Matrix, Matrix, Interval<Integer>>(this, matrix, interval)));
+				final Matrix submatrix = DotProduct.apply(this, matrix, interval);
+				result.setSubmatrix(interval.getLowerBound(), result.m, 0, submatrix.n, submatrix);
 			}
 
 			// Collect the results
-			int i = 0;
 			for (final long id : ids) {
-				final Matrix submatrix = WORK_QUEUE.get(id);
-				final int rowOffset = i * rowCountPerInterval;
-				result.setSubmatrix(rowOffset, rowOffset + submatrix.m, 0, submatrix.n, submatrix);
-				++i;
+				final Pair<Matrix, Interval<Integer>> pair = WORK_QUEUE.get(id);
+				final Matrix submatrix = pair.getFirst();
+				final Interval<Integer> interval = pair.getSecond();
+				result.setSubmatrix(interval.getLowerBound(),
+						interval.getLowerBound() + submatrix.m, 0, submatrix.n, submatrix);
 			}
 		} else {
-			result = new Matrix(m, matrix.n);
 			for (int i = 0; i < m; ++i) {
 				final double[] row = elements[i];
 				for (int j = 0; j < matrix.n; ++j) {
@@ -1626,7 +1616,7 @@ public class Matrix
 	/**
 	 * Returns the division of {@code this} by the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this / entity}
 	 */
@@ -1780,7 +1770,7 @@ public class Matrix
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this ^ entity}
 	 */
@@ -1826,6 +1816,29 @@ public class Matrix
 			}
 		}
 		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the multiplication of {@code this} by {@code A} followed by the addition of
+	 * {@code B}.
+	 * <p>
+	 * @param A the {@link Entity} to multiply
+	 * @param B the {@link Entity} to add
+	 * <p>
+	 * @return {@code this * A + B}
+	 */
+	public Entity forward(final Entity A, final Entity B) {
+		if (OpenCL.USE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
+			final Matrix a = A.toMatrix();
+			final Matrix b = B.toMatrix();
+			if (CL.test(n, a.getColumnDimension(), b.getColumnDimension())) {
+				return new Matrix(m, CL.forward(toPrimitiveArray(), a.toPrimitiveArray(),
+						b.toPrimitiveArray(), n, a.getColumnDimension(), b.getColumnDimension()));
+			}
+		}
+		return times(A).plus(B);
 	}
 
 
@@ -1896,7 +1909,7 @@ public class Matrix
 	/**
 	 * Returns the solution X of {@code this * X = entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
 	 */
@@ -2295,22 +2308,16 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class DotProduct
-			extends Worker<Triple<Matrix, Matrix, Interval<Integer>>, Matrix> {
+			extends
+			Worker<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> {
 
 		protected DotProduct() {
 			super();
 		}
 
-		@Override
-		public Matrix call(final Triple<Matrix, Matrix, Interval<Integer>> input) {
+		public static Matrix apply(final Matrix left, final Matrix right,
+				final Interval<Integer> interval) {
 			// Initialize
-			// - The left matrix
-			final Matrix left = input.getFirst();
-			// - The right matrix
-			final Matrix right = input.getSecond();
-			// - The interval
-			final Interval<Integer> interval = input.getThird();
-			// - The result
 			final int m = interval.getUpperBound() - interval.getLowerBound();
 			final int innerDimension = left.n; // or right.m
 			final int n = right.n;
@@ -2328,6 +2335,13 @@ public class Matrix
 				}
 			}
 			return result;
+		}
+
+		@Override
+		public Pair<Matrix, Interval<Integer>> call(
+				final Triple<Matrix, Matrix, Interval<Integer>> input) {
+			return new Pair<Matrix, Interval<Integer>>(
+					apply(input.getFirst(), input.getSecond(), input.getThird()), input.getThird());
 		}
 
 		@Override

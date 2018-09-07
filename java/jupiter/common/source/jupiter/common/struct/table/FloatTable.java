@@ -41,7 +41,7 @@ public class FloatTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -7235373426251739423L;
+	private static final long serialVersionUID = -3588360028341343406L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

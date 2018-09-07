@@ -44,7 +44,7 @@ public class TimeSeriesGraphic
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 897811620954639678L;
+	private static final long serialVersionUID = 5812015887596159277L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

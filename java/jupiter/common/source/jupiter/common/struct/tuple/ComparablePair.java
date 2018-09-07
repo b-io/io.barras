@@ -21,111 +21,106 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.time;
+package jupiter.common.struct.tuple;
 
-import jupiter.common.math.Maths;
-import jupiter.common.util.Longs;
-import jupiter.common.util.Strings;
+import java.io.Serializable;
 
-public class Chronometer {
+import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
+
+public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
+		implements Comparable<ComparablePair<T1, T2>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The number of time units.
+	 * The generated serial version ID.
 	 */
-	public static final int N_TIME_UNITS = TimeUnit.values().length;
+	private static final long serialVersionUID = -3899643258386029273L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final long[] time = new long[N_TIME_UNITS];
-	protected final double[] timeByUnit = new double[N_TIME_UNITS];
-	protected long begin = 0L, end = 0L;
-	protected long difference = 0L;
-	protected String representation = Strings.EMPTY;
+	/**
+	 * The first component.
+	 */
+	protected T1 first;
+	/**
+	 * The second component.
+	 */
+	protected T2 second;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Chronometer() {
+	public ComparablePair() {
+	}
+
+	public ComparablePair(final T1 first, final T2 second) {
+		this.first = first;
+		this.second = second;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// PAIR
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public double getNanoseconds() {
-		return timeByUnit[TimeUnit.NANOSECOND.value];
+	/**
+	 * Returns the first component.
+	 * <p>
+	 * @return the first component
+	 */
+	public T1 getFirst() {
+		return first;
 	}
 
-	public double getMicroseconds() {
-		return timeByUnit[TimeUnit.MICROSECOND.value];
-	}
-
-	public double getMilliseconds() {
-		return timeByUnit[TimeUnit.MILLISECOND.value];
-	}
-
-	public double getSeconds() {
-		return timeByUnit[TimeUnit.SECOND.value];
-	}
-
-	public double getMinutes() {
-		return timeByUnit[TimeUnit.MINUTE.value];
-	}
-
-	public double getHours() {
-		return timeByUnit[TimeUnit.HOUR.value];
+	/**
+	 * Returns the second component.
+	 * <p>
+	 * @return the second component
+	 */
+	public T2 getSecond() {
+		return second;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the value.
+	 * Sets the first component.
 	 * <p>
-	 * @param value a {@code long} value
+	 * @param first a {@code T1} object
 	 */
-	public void setValue(final long value) {
-		begin = 0;
-		end = value;
-		compute();
+	public void setFirst(final T1 first) {
+		this.first = first;
+	}
+
+	/**
+	 * Sets the second component.
+	 * <p>
+	 * @param second a {@code T2} object
+	 */
+	public void setSecond(final T2 second) {
+		this.second = second;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// COMPARABLE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void start() {
-		begin = System.nanoTime();
-	}
-
-	public long stop() {
-		end = System.nanoTime();
-		compute();
-		return difference;
-	}
-
-	protected void compute() {
-		difference = end - begin;
-		for (int i = 0; i < 3; ++i) {
-			timeByUnit[i] = difference / Math.pow(1E3, i);
-			time[i] = Maths.roundToLong(timeByUnit[i]) % 1000L;
+	public int compareTo(final ComparablePair<T1, T2> pair) {
+		final int comparison = first.compareTo(pair.getFirst());
+		if (comparison != 0) {
+			return comparison;
 		}
-		for (int i = 3; i < N_TIME_UNITS; ++i) {
-			timeByUnit[i] = difference / (1E9 * Math.pow(60., i - 3));
-			time[i] = Longs.convert(timeByUnit[i]) % 60L;
-		}
-		representation = time[TimeUnit.HOUR.value] + ":" + time[TimeUnit.MINUTE.value] + ":" +
-				time[TimeUnit.SECOND.value] + "." + time[TimeUnit.MILLISECOND.value];
+		return second.compareTo(pair.getSecond());
 	}
 
 
@@ -134,27 +129,25 @@ public class Chronometer {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public String toString() {
-		return representation;
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof ComparablePair)) {
+			return false;
+		}
+		final ComparablePair<?, ?> otherComparablePair = (ComparablePair) other;
+		return Objects.equals(first, otherComparablePair.first) &&
+				Objects.equals(second, otherComparablePair.second);
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, first, second);
+	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ENUMS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public enum TimeUnit {
-		NANOSECOND(0),
-		MICROSECOND(1),
-		MILLISECOND(2),
-		SECOND(3),
-		MINUTE(4),
-		HOUR(5);
-
-		public final int value;
-
-		private TimeUnit(final int value) {
-			this.value = value;
-		}
+	@Override
+	public String toString() {
+		return Arrays.toString(first, second);
 	}
 }

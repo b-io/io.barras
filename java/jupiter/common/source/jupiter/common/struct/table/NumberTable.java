@@ -46,7 +46,7 @@ public class NumberTable<T extends Number>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -1593077617163232511L;
+	private static final long serialVersionUID = -5384829682819443700L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,8 +150,8 @@ public class NumberTable<T extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public NumberTable clone() {
-		return new NumberTable(c, header, elements);
+	public NumberTable<T> clone() {
+		return new NumberTable<T>(c, header, elements);
 	}
 
 	@Override

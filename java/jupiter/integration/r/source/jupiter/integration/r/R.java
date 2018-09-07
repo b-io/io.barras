@@ -124,9 +124,9 @@ public class R {
 	 */
 	public static boolean isRunning() {
 		try {
-			final RConnection c = new RConnection();
+			final RConnection connection = new RConnection();
 			IO.info("Rserve is running");
-			c.close();
+			connection.close();
 			return true;
 		} catch (final RserveException ex) {
 			IO.warn("Rserve is not running", ex);

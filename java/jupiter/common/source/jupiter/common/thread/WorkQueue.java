@@ -269,6 +269,19 @@ public class WorkQueue<I, O>
 		}
 	}
 
+	/**
+	 * Returns {@code true} if the result of the task with the specified identifier is ready,
+	 * {@code false} otherwise.
+	 * <p>
+	 * @param id the identifier of the task
+	 * <p>
+	 * @return {@code true} if the result of the task with the specified identifier is ready,
+	 *         {@code false} otherwise
+	 */
+	public boolean isReady(final long id) {
+		return results.containsKey(id);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// POOL

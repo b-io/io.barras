@@ -27,7 +27,6 @@ import static jupiter.common.io.IO.IO;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,6 +41,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 
 import jupiter.common.exception.CopyFileException;
+import jupiter.common.io.Resources;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
@@ -154,7 +154,7 @@ public class Files {
 	 * <p>
 	 * @return a {@link BufferedReader} of the specified file
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code pathname}
+	 * @throws FileNotFoundException if there is a problem with opening the specified file
 	 */
 	public static BufferedReader createReader(final String pathname)
 			throws FileNotFoundException {
@@ -169,7 +169,7 @@ public class Files {
 	 * <p>
 	 * @return a {@link BufferedReader} of the specified file with the specified {@link Charset}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code pathname}
+	 * @throws FileNotFoundException if there is a problem with opening the specified file
 	 */
 	public static BufferedReader createReader(final String pathname, final Charset charset)
 			throws FileNotFoundException {
@@ -218,7 +218,7 @@ public class Files {
 			IO.error(ex);
 		} finally {
 			// Close the file reader
-			close(reader);
+			Resources.close(reader);
 		}
 		return new FileContent(builder.toString(), lineCount);
 	}
@@ -270,7 +270,7 @@ public class Files {
 			IO.error(ex);
 		} finally {
 			// Close the file reader
-			close(reader);
+			Resources.close(reader);
 		}
 		return lineCount;
 	}
@@ -281,14 +281,14 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a buffered writer.
+	 * Creates a {@link BufferedWriter} of the specified file.
 	 * <p>
 	 * @param pathname the pathname of the file to write
 	 * @param isAppend the option specifying whether to append
 	 * <p>
-	 * @return a buffered writer
+	 * @return a {@link BufferedWriter} of the specified file
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code pathname}
+	 * @throws FileNotFoundException if there is a problem with opening the specified file
 	 */
 	public static BufferedWriter createWriter(final String pathname, final boolean isAppend)
 			throws FileNotFoundException {
@@ -353,7 +353,7 @@ public class Files {
 			IO.error(ex);
 		} finally {
 			// Close the file writer
-			close(writer);
+			Resources.close(writer);
 		}
 		return isWritten;
 	}
@@ -361,26 +361,6 @@ public class Files {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static boolean close(final Closeable closable) {
-		return close(closable, null);
-	}
-
-	public static boolean close(final Closeable closable, final String message) {
-		if (closable != null) {
-			try {
-				closable.close();
-				return true;
-			} catch (final IOException ex) {
-				IO.error(ex);
-			}
-		} else if (message != null) {
-			IO.warn(message);
-		}
-		return false;
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean copy(final File source, final File target, final boolean isForce)
@@ -424,8 +404,8 @@ public class Files {
 			} catch (final IOException ex) {
 				IO.error(ex);
 			} finally {
-				close(input);
-				close(output);
+				Resources.close(input);
+				Resources.close(output);
 			}
 		} else {
 			createDirectories(target);
@@ -466,8 +446,8 @@ public class Files {
 			} catch (final IOException ex) {
 				IO.error(ex);
 			} finally {
-				close(reader);
-				close(writer);
+				Resources.close(reader);
+				Resources.close(writer);
 			}
 		} else {
 			createDirectories(target);

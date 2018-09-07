@@ -58,7 +58,10 @@ public class CharacterParser
 		if (input instanceof CharSequence) {
 			inputCharSequence = (CharSequence) input;
 		} else {
-			inputCharSequence = Strings.toString(input);
+			inputCharSequence = Strings.toStringWithNull(input);
+			if (inputCharSequence == null) {
+				return null;
+			}
 		}
 		if (inputCharSequence.length() > 0) {
 			return inputCharSequence.charAt(0);

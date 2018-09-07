@@ -26,6 +26,7 @@ package jupiter.integration.gpu;
 import static jupiter.common.io.IO.IO;
 import static org.jocl.CL.CL_CONTEXT_PLATFORM;
 import static org.jocl.CL.CL_DEVICE_TYPE_ALL;
+import static org.jocl.CL.CL_MEM_ALLOC_HOST_PTR;
 import static org.jocl.CL.CL_MEM_COPY_HOST_PTR;
 import static org.jocl.CL.CL_MEM_READ_ONLY;
 import static org.jocl.CL.CL_MEM_READ_WRITE;
@@ -62,6 +63,7 @@ import org.jocl.cl_platform_id;
 import org.jocl.cl_program;
 
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.math.Maths;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
@@ -76,47 +78,79 @@ public class OpenCL {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final String KERNEL_PREFIX = "__kernel void";
+	/**
+	 * The option specifying whether to use OpenCL.
+	 */
+	public static volatile boolean USE = false;
 
-	protected static final String PROGRAM = "" +
-			"__kernel void plus(__global const double* A, __global const double* B, __global double* C) {" +
+	protected static final String KERNEL_PREFIX = "__kernel void";
+	protected static final String PROGRAM = "#pragma OPENCL EXTENSION cl_khr_fp64: enable\n" +
+			"__kernel void plus(__global const double* A, __global const double* B," +
+			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] + B[index];" +
 			"}" +
-			"__kernel void minus(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void minus(__global const double* A, __global const double* B," +
+			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] - B[index];" +
 			"}" +
-			"__kernel void times(__global const double* A, __global const double* B, __global double* C," +
-			"		const int aColumnDimension, const int bColumnDimension) {" +
+			"__kernel void times(__global const double* A, __global const double* B," +
+			"		__global double* C, const int aColumnDimension, const int bColumnDimension) {" +
 			"	const int index = get_global_id(0);" +
 			"	const int rowOffset = index / bColumnDimension;" +
 			"	const int columnOffset = index % bColumnDimension;" +
 			"	double sum = 0.;" +
 			"	for (int i = 0; i < aColumnDimension; ++i) {" +
-			"		sum += A[rowOffset * aColumnDimension + i] * B[i * bColumnDimension + columnOffset];" +
+			"		sum += A[rowOffset * aColumnDimension + i] * " +
+			"				B[i * bColumnDimension + columnOffset];" +
 			"	}" +
 			"	C[index] = sum;" +
 			"}" +
-			"__kernel void arrayTimes(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void arrayTimes(__global const double* A, __global const double* B," +
+			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] * B[index];" +
 			"}" +
-			"__kernel void arrayDivision(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void arrayDivision(__global const double* A, __global const double* B," +
+			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] / B[index];" +
 			"}" +
-			"__kernel void arrayLeftDivision(__global const double* A, __global const double* B, __global double* C) {" +
+			"__kernel void arrayLeftDivision(__global const double* A, __global const double* B," +
+			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = B[index] / A[index];" +
+			"}" +
+			"__kernel void forward(__global const double* A, __global const double* B," +
+			"		__global double* C, __global double* D, const int aColumnDimension," +
+			"		const int bColumnDimension, const int cColumnDimension) {" +
+			"	const int index = get_global_id(0);" +
+			"	const int rowOffset = index / bColumnDimension;" +
+			"	const int columnOffset = index % bColumnDimension;" +
+			"	double sum = 0.;" +
+			"	for (int i = 0; i < aColumnDimension; ++i) {" +
+			"		sum += A[rowOffset * aColumnDimension + i] *" +
+			"				B[i * bColumnDimension + columnOffset];" +
+			"	}" +
+			"	D[index] = sum + C[index % cColumnDimension];" +
 			"}";
+	public static volatile OpenCL CL = null;
 
-	public static final OpenCL CL = new OpenCL(PROGRAM);
+	static {
+		try {
+			CL = new OpenCL(PROGRAM);
+		} catch (final IllegalStateException ex) {
+			IO.error(ex);
+		}
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public volatile boolean use;
 
 	protected cl_context context;
 	protected cl_command_queue commandQueue;
@@ -149,6 +183,11 @@ public class OpenCL {
 		final int[] platformCountArray = new int[1];
 		clGetPlatformIDs(0, null, platformCountArray);
 		final int platformCount = platformCountArray[0];
+		IO.debug("#Platforms: ", platformCount);
+		if (platformCount == 0) {
+			use = false;
+			throw new IllegalStateException("There is no compatible OpenCL platform");
+		}
 
 		// Obtain a platform identifier
 		final cl_platform_id[] platforms = new cl_platform_id[platformCount];
@@ -163,34 +202,47 @@ public class OpenCL {
 		final int[] deviceCountArray = new int[1];
 		clGetDeviceIDs(platform, deviceType, 0, null, deviceCountArray);
 		final int deviceCount = deviceCountArray[0];
+		IO.debug("#Devices: ", deviceCount);
+		if (platformCount == 0) {
+			use = false;
+			throw new IllegalStateException("There is no compatible OpenCL device");
+		}
 
 		// Obtain a device identifier
 		final cl_device_id[] devices = new cl_device_id[deviceCount];
 		clGetDeviceIDs(platform, deviceType, deviceCount, devices, null);
 		final cl_device_id device = devices[deviceIndex];
 
-		// Create a context for the selected device
-		context = clCreateContext(contextProperties, 1, new cl_device_id[] {
-			device
-		}, null, null, null);
+		try {
+			// Create a context for the selected device
+			context = clCreateContext(contextProperties, 1, new cl_device_id[] {
+				device
+			}, null, null, null);
 
-		// Create a command-queue for the selected device
-		commandQueue = clCreateCommandQueue(context, device, 0, null);
+			// Create a command-queue for the selected device
+			commandQueue = clCreateCommandQueue(context, device, 0, null);
 
-		// Create the program from the source code
-		program = clCreateProgramWithSource(context, 1, Arrays.toArray(sourceCode), null, null);
+			// Create the program from the source code
+			program = clCreateProgramWithSource(context, 1, Arrays.toArray(sourceCode), null, null);
 
-		// Build the program
-		clBuildProgram(program, 0, null, null, null, null);
+			// Build the program
+			clBuildProgram(program, 0, null, null, null, null);
 
-		// Build the kernels
-		int index = -1;
-		while ((index = sourceCode.indexOf(KERNEL_PREFIX, index + 1)) != -1) {
-			final int fromIndex = index + KERNEL_PREFIX.length() + 1;
-			final int toIndex = sourceCode.indexOf(Characters.LEFT_PARENTHESIS, index);
-			final String name = sourceCode.substring(fromIndex, toIndex).trim();
-			IO.debug("Build the kernel ", Strings.quote(name));
-			kernels.put(name, build(name));
+			// Build the kernels
+			int index = -1;
+			while ((index = sourceCode.indexOf(KERNEL_PREFIX, index + 1)) != -1) {
+				final int fromIndex = index + KERNEL_PREFIX.length() + 1;
+				final int toIndex = sourceCode.indexOf(Characters.LEFT_PARENTHESIS, index);
+				final String name = sourceCode.substring(fromIndex, toIndex).trim();
+				IO.debug("Build the kernel ", Strings.quote(name));
+				kernels.put(name, build(name));
+			}
+			use = USE;
+		} catch (final Exception ex) {
+			use = false;
+			release();
+			throw new IllegalStateException(
+					"There is a problem with the program: " + ex.getMessage());
 		}
 	}
 
@@ -239,8 +291,8 @@ public class OpenCL {
 	}
 
 	public cl_mem createWriteBuffer(final double[] array) {
-		return clCreateBuffer(context, CL_MEM_READ_WRITE, array.length * Sizeof.cl_double, null,
-				null);
+		return clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR,
+				array.length * Sizeof.cl_double, Pointer.to(array), null);
 	}
 
 
@@ -261,8 +313,8 @@ public class OpenCL {
 	}
 
 	public int read(final cl_mem buffer, final double[] array) {
-		return clEnqueueReadBuffer(commandQueue, buffer, CL_TRUE, 0, array.length * Sizeof.cl_double,
-				Pointer.to(array), 0, null, null);
+		return clEnqueueReadBuffer(commandQueue, buffer, CL_TRUE, 0,
+				array.length * Sizeof.cl_double, Pointer.to(array), 0, null, null);
 	}
 
 	/**
@@ -301,11 +353,11 @@ public class OpenCL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public double[] plus(final double[] A, final double[] B) {
-		return arrayOperation("plus", A, B);
+		return compute("plus", A, B);
 	}
 
 	public double[] minus(final double[] A, final double[] B) {
-		return arrayOperation("minus", A, B);
+		return compute("minus", A, B);
 	}
 
 	public double[] times(final double[] A, final double[] B, final int aColumnDimension,
@@ -318,12 +370,12 @@ public class OpenCL {
 		final int aRowDimension = A.length / aColumnDimension;
 		final double[] result = new double[aRowDimension * bColumnDimension];
 		final cl_mem[] buffers = new cl_mem[3];
-		buffers[0] = CL.createReadBuffer(A);
-		buffers[1] = CL.createReadBuffer(B);
-		buffers[2] = CL.createWriteBuffer(result);
+		buffers[0] = createReadBuffer(A);
+		buffers[1] = createReadBuffer(B);
+		buffers[2] = createWriteBuffer(result);
 
 		// Get the kernel
-		final cl_kernel kernel = CL.getKernel("times");
+		final cl_kernel kernel = getKernel("times");
 		// Set the kernel arguments
 		clSetKernelArg(kernel, 0, Sizeof.cl_mem, Pointer.to(buffers[0]));
 		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
@@ -335,50 +387,113 @@ public class OpenCL {
 			bColumnDimension
 		}));
 		// Execute the kernel
-		CL.execute(kernel, result.length, 1);
+		execute(kernel, result.length, 1);
 		// Read the result
-		CL.read(buffers[2], result);
+		read(buffers[2], result);
 		// Release the memory
-		CL.release(buffers);
+		release(buffers);
 		return result;
 	}
 
 	public double[] arrayTimes(final double[] A, final double[] B) {
-		return arrayOperation("arrayTimes", A, B);
+		return compute("arrayTimes", A, B);
 	}
 
 	public double[] arrayDivision(final double[] A, final double[] B) {
-		return arrayOperation("arrayDivision", A, B);
+		return compute("arrayDivision", A, B);
 	}
 
 	public double[] arrayLeftDivision(final double[] A, final double[] B) {
-		return arrayOperation("arrayLeftDivision", A, B);
+		return compute("arrayLeftDivision", A, B);
 	}
 
-	protected double[] arrayOperation(final String name, final double[] A, final double B[]) {
+	protected double[] compute(final String name, final double[] A, final double B[]) {
 		// Check the arguments
 		DoubleArguments.requireSameLength(A, B);
 
 		// Initialize
 		final double[] result = new double[A.length];
 		final cl_mem[] buffers = new cl_mem[3];
-		buffers[0] = CL.createReadBuffer(A);
-		buffers[1] = CL.createReadBuffer(B);
-		buffers[2] = CL.createWriteBuffer(result);
+		buffers[0] = createReadBuffer(A);
+		buffers[1] = createReadBuffer(B);
+		buffers[2] = createWriteBuffer(result);
 
 		// Get the kernel
-		final cl_kernel kernel = CL.getKernel(name);
+		final cl_kernel kernel = getKernel(name);
 		// Set the kernel arguments
 		clSetKernelArg(kernel, 0, Sizeof.cl_mem, Pointer.to(buffers[0]));
 		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
 		clSetKernelArg(kernel, 2, Sizeof.cl_mem, Pointer.to(buffers[2]));
 		// Execute the kernel
-		CL.execute(kernel, result.length, 1);
+		execute(kernel, result.length, 1);
 		// Read the result
-		CL.read(buffers[2], result);
+		read(buffers[2], result);
 		// Release the memory
-		CL.release(buffers);
+		release(buffers);
 		return result;
+	}
+
+	/**
+	 * Returns the multiplication of {@code A} by {@code B} followed by the addition of {@code C}.
+	 * <p>
+	 * @param A                the array of {@code double} values to multiply
+	 * @param B                the array of {@code double} values to multiply
+	 * @param C                the array of {@code double} values to add
+	 * @param aColumnDimension the column dimension of {@code A}
+	 * @param bColumnDimension the column dimension of {@code B}
+	 * @param cColumnDimension the column dimension of {@code C}
+	 * <p>
+	 * @return {@code A * B + C}
+	 */
+	public double[] forward(final double[] A, final double[] B, final double[] C,
+			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension) {
+		// Check the arguments
+		OpenCLArguments.requireSameInnerDimension(aColumnDimension,
+				Arguments.requireNonNull(B).length / bColumnDimension);
+
+		// Initialize
+		final int aRowDimension = A.length / aColumnDimension;
+		final double[] result = new double[aRowDimension * bColumnDimension];
+		final cl_mem[] buffers = new cl_mem[4];
+		buffers[0] = createReadBuffer(A);
+		buffers[1] = createReadBuffer(B);
+		buffers[2] = createReadBuffer(C);
+		buffers[3] = createWriteBuffer(result);
+
+		// Get the kernel
+		final cl_kernel kernel = getKernel("forward");
+		// Set the kernel arguments
+		clSetKernelArg(kernel, 0, Sizeof.cl_mem, Pointer.to(buffers[0]));
+		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
+		clSetKernelArg(kernel, 2, Sizeof.cl_mem, Pointer.to(buffers[2]));
+		clSetKernelArg(kernel, 3, Sizeof.cl_mem, Pointer.to(buffers[3]));
+		clSetKernelArg(kernel, 4, Sizeof.cl_int, Pointer.to(new int[] {
+			aColumnDimension
+		}));
+		clSetKernelArg(kernel, 5, Sizeof.cl_int, Pointer.to(new int[] {
+			bColumnDimension
+		}));
+		clSetKernelArg(kernel, 6, Sizeof.cl_int, Pointer.to(new int[] {
+			cColumnDimension
+		}));
+		// Execute the kernel
+		execute(kernel, result.length, 1);
+		// Read the result
+		read(buffers[3], result);
+		// Release the memory
+		release(buffers);
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean test(final int rowDimension, final int innerDimension,
+			final int columnDimension) {
+		return use && Maths.max(rowDimension * innerDimension, rowDimension * columnDimension,
+				innerDimension * columnDimension) > 1E5;
 	}
 
 

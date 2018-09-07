@@ -41,7 +41,7 @@ public class CharacterTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 6300218397547054958L;
+	private static final long serialVersionUID = 468045277549864344L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

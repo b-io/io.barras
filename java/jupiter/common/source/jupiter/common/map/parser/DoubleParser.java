@@ -57,7 +57,11 @@ public class DoubleParser
 		if (input instanceof Number) {
 			return ((Number) input).doubleValue();
 		}
-		return Double.valueOf(Strings.toString(input));
+		final String value = Strings.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		return Double.valueOf(value);
 	}
 
 

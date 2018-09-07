@@ -40,20 +40,21 @@ public class ComparableObjects {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code c.compare(a, b)}
+	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 * otherwise.
 	 * <p>
-	 * @param <T> the type of the objects to compare
-	 * @param a   a {@code T} object
-	 * @param b   another {@code T} object to compare with {@code a} for order
-	 * @param c   the {@link Comparator} to use
+	 * @param <T>        the type of the objects to compare
+	 * @param a          a {@code T} object
+	 * @param b          another {@code T} object to compare with {@code a} for order
+	 * @param comparator the {@link Comparator} to use
 	 * <p>
-	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code c.compare(a, b)} otherwise
+	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
+	 *         otherwise
 	 * <p>
 	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
-	public static <T> int compare(final T a, final T b, final Comparator<? super T> c) {
-		return a == b ? 0 : c.compare(a, b);
+	public static <T> int compare(final T a, final T b, final Comparator<? super T> comparator) {
+		return a == b ? 0 : comparator.compare(a, b);
 	}
 
 	/**

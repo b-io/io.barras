@@ -1,7 +1,7 @@
 /*
- * The MIT License (MIT)
+ * The MIT License
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2018 Florian Barras <https://barras.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,41 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.graphics.charts;
+package jupiter.common.io;
 
-import org.jfree.ui.ApplicationFrame;
+import static jupiter.common.io.IO.IO;
 
-public abstract class Graphic
-		extends ApplicationFrame {
+import java.io.Closeable;
+import java.io.IOException;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1802614073383590035L;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected final String title;
-
+public class Resources {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Constructs a {@link Graphic} with the specified title.
-	 * <p>
-	 * @param title the title
-	 */
-	protected Graphic(final String title) {
-		super(title);
-		this.title = title;
+	protected Resources() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static boolean close(final Closeable closeable) {
+		return close(closeable, null);
+	}
+
+	public static boolean close(final Closeable closable, final String message) {
+		if (closable != null) {
+			try {
+				closable.close();
+				return true;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			}
+		} else if (message != null) {
+			IO.warn(message);
+		}
+		return false;
 	}
 }

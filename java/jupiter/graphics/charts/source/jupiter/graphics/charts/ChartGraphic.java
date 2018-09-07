@@ -47,7 +47,7 @@ public abstract class ChartGraphic
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 2441859485445850295L;
+	private static final long serialVersionUID = 5324409752219484407L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

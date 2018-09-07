@@ -115,8 +115,6 @@ public class NeuralNetworkTest
 
 		// Test
 		Matrix.start();
-		Matrix.USE_GPUS = true;
-		Matrix.PARALLELIZE = true;
 		try {
 			// - Test the example A
 			for (int t = 0; t < testCount; ++t) {
@@ -138,7 +136,7 @@ public class NeuralNetworkTest
 		}
 	}
 
-	protected static long testExample(final String example, final int maxIterations,
+	protected static double testExample(final String example, final int maxIterations,
 			final double learningRate, final int hiddenLayerCount, final int hiddenLayerSize,
 			final ActivationFunction activationFunction, final double expectedAccuracy,
 			final double expectedCost, final double tolerance)
@@ -162,7 +160,7 @@ public class NeuralNetworkTest
 		chrono.start();
 		final int iterationCount = model.train(learningRate, BinaryClassifier.DEFAULT_TOLERANCE,
 				maxIterations, hiddenLayerCount, hiddenLayerSize);
-		final long time = chrono.stop();
+		chrono.stop();
 
 		// Test
 		// - The accuracy
@@ -174,7 +172,7 @@ public class NeuralNetworkTest
 
 		// Report the statistics
 		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations",
-				" in ", time, " [ms]");
-		return time;
+				" in ", chrono.getMilliseconds(), " [ms]");
+		return chrono.getMilliseconds();
 	}
 }

@@ -802,9 +802,12 @@ public class JConsole
 		@Override
 		public synchronized void close()
 				throws IOException {
-			super.close();
-			isClosed = true;
-			notifyAll();
+			try {
+				isClosed = true;
+				notifyAll();
+			} finally {
+				super.close();
+			}
 		}
 	}
 }

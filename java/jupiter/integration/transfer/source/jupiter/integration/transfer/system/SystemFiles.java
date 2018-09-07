@@ -39,6 +39,7 @@ import java.util.zip.ZipInputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 
+import jupiter.common.io.Resources;
 import jupiter.common.io.file.Files;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
@@ -220,9 +221,7 @@ public class SystemFiles {
 					} catch (final IOException ex) {
 						IO.error(ex);
 					} finally {
-						if (fos != null) {
-							fos.close();
-						}
+						Resources.close(fos);
 					}
 				}
 			} finally {

@@ -21,41 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.graphics.charts;
+package jupiter.common.time;
 
-import org.jfree.ui.ApplicationFrame;
+import static jupiter.common.io.IO.IO;
 
-public abstract class Graphic
-		extends ApplicationFrame {
+import junit.framework.TestCase;
+import jupiter.common.thread.Threads;
+import jupiter.common.util.Longs;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
+public class ChronometerTest
+		extends TestCase {
+
+	public ChronometerTest(final String name) {
+		super(name);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The generated serial version ID.
+	 * Test of compute method, of class Chronometer.
 	 */
-	private static final long serialVersionUID = 1802614073383590035L;
+	public void testClear() {
+		IO.test("compute");
 
+		final Chronometer chrono = new Chronometer();
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
+		chrono.start();
+		Threads.sleep(600L);
+		chrono.stop();
 
-	protected final String title;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Constructs a {@link Graphic} with the specified title.
-	 * <p>
-	 * @param title the title
-	 */
-	protected Graphic(final String title) {
-		super(title);
-		this.title = title;
+		assertEquals(600L, Longs.convert(chrono.getMilliseconds()), 1L);
 	}
 }

@@ -45,6 +45,8 @@ public class Strings {
 	public static final String EMPTY = "";
 	public static final String[] EMPTY_ARRAY = new String[] {};
 
+	public static final String NULL = "null";
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static final char DEFAULT_BAR_CHARACTER = '-';
@@ -1472,6 +1474,23 @@ public class Strings {
 	}
 
 	/**
+	 * Returns a {@code String} representation of the specified {@link Object} if not {@code null}
+	 * or {@code "null"}, {@code null} otherwise.
+	 * <p>
+	 * @param content an {@link Object}
+	 * <p>
+	 * @return a {@code String} representation of the specified {@link Object} if not {@code null}
+	 *         or {@code "null"}, {@code null} otherwise
+	 */
+	public static String toStringWithNull(final Object content) {
+		final String value = String.valueOf(content);
+		if (NULL.equals(value)) {
+			return null;
+		}
+		return value;
+	}
+
+	/**
 	 * Returns a {@code String} representation of the specified {@link Object} if not {@code null},
 	 * {@code defaultString} otherwise.
 	 * <p>
@@ -1483,6 +1502,24 @@ public class Strings {
 	 */
 	public static String toString(final Object content, final String defaultString) {
 		return content != null ? String.valueOf(content) : defaultString;
+	}
+
+	/**
+	 * Returns a {@code String} representation of the specified {@link Object} if not {@code null}
+	 * or {@code "null"}, {@code defaultString} otherwise.
+	 * <p>
+	 * @param content       an {@link Object}
+	 * @param defaultString the {@link String} to return if {@code null}
+	 * <p>
+	 * @return a {@code String} representation of the specified {@link Object} if not {@code null}
+	 *         or {@code "null"}, {@code defaultString} otherwise
+	 */
+	public static String toStringWithNull(final Object content, final String defaultString) {
+		final String value = String.valueOf(content);
+		if (NULL.equals(value)) {
+			return defaultString;
+		}
+		return value;
 	}
 
 	/**

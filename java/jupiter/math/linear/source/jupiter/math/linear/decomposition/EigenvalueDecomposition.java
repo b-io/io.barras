@@ -54,7 +54,7 @@ public class EigenvalueDecomposition
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -7083900282034199558L;
+	private static final long serialVersionUID = -5766123633823171989L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

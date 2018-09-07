@@ -193,10 +193,10 @@ public class Dates {
 	 * @return {@code true} if {@code date} is a week day, {@code false} otherwise
 	 */
 	public static Boolean isWeekDay(final Date date) {
-		final Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		return !(c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
-				c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return !(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
 	}
 
 	/**
@@ -237,10 +237,10 @@ public class Dates {
 	 * @return the date of Good Friday for the specified year
 	 */
 	public static Date getGoodFriday(final int year) {
-		final Calendar c = Calendar.getInstance();
-		c.setTime(getEasterDate(year));
-		c.add(Calendar.DATE, -2);
-		return c.getTime();
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getEasterDate(year));
+		calendar.add(Calendar.DATE, -2);
+		return calendar.getTime();
 	}
 
 	/**
@@ -283,10 +283,10 @@ public class Dates {
 	 * @return the date of Easter Monday in the specified year
 	 */
 	public static Date getEasterMonday(final int year) {
-		final Calendar c = Calendar.getInstance();
-		c.setTime(getEasterDate(year));
-		c.add(Calendar.DATE, 1);
-		return c.getTime();
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getEasterDate(year));
+		calendar.add(Calendar.DATE, 1);
+		return calendar.getTime();
 	}
 
 	/**
@@ -297,10 +297,10 @@ public class Dates {
 	 * @return the date of Ascension Day in the specified year
 	 */
 	public static Date getAscensionDay(final int year) {
-		final Calendar c = Calendar.getInstance();
-		c.setTime(getEasterDate(year));
-		c.add(Calendar.DATE, 39);
-		return c.getTime();
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getEasterDate(year));
+		calendar.add(Calendar.DATE, 39);
+		return calendar.getTime();
 	}
 
 	/**
@@ -311,9 +311,9 @@ public class Dates {
 	 * @return the date of Pentecost Day in the specified year
 	 */
 	public static Date getPentecostDay(final int year) {
-		final Calendar c = Calendar.getInstance();
-		c.setTime(getEasterDate(year));
-		c.add(Calendar.DATE, 50);
-		return c.getTime();
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getEasterDate(year));
+		calendar.add(Calendar.DATE, 50);
+		return calendar.getTime();
 	}
 }

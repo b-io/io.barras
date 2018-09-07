@@ -33,6 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import jupiter.common.io.Resources;
 import jupiter.common.util.Formats;
 
 public class GraphicalConsole {
@@ -50,7 +51,7 @@ public class GraphicalConsole {
 
 	protected final JFrame frame;
 	protected final JConsole console;
-	protected PrintStream ps;
+	protected PrintStream printStream;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,10 +71,10 @@ public class GraphicalConsole {
 		IO.setConsole(console);
 		try {
 			// Redirect the system output to the console
-			ps = new PrintStream(new OutputStreamCapturer(console, System.out), true,
+			printStream = new PrintStream(new OutputStreamCapturer(console, System.out), true,
 					Formats.DEFAULT_CHARSET_NAME);
-			System.setOut(ps);
-			System.setErr(ps);
+			System.setOut(printStream);
+			System.setErr(printStream);
 			// Display the frame
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
@@ -130,7 +131,7 @@ public class GraphicalConsole {
 	public void exit(final int status) {
 		frame.setVisible(false);
 		frame.dispose();
-		ps.close();
+		Resources.close(printStream);
 		System.exit(status);
 	}
 }

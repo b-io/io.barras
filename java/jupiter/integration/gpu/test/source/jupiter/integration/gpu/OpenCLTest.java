@@ -41,11 +41,11 @@ public class OpenCLTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of class OpenCL (array times).
+	 * Test of arrayTimes method, of class OpenCL.
 	 */
 	public void testArrayTimes()
 			throws IOException {
-		IO.test("OpenCL (array times)");
+		IO.test("arrayTimes");
 
 		// Create the input and output data
 		final int n = 10;
@@ -75,11 +75,11 @@ public class OpenCLTest
 	}
 
 	/**
-	 * Test of class OpenCL (times / dot product).
+	 * Test of times method, of class OpenCL.
 	 */
 	public void testTimes()
 			throws IOException {
-		IO.test("OpenCL (times / dot product)");
+		IO.test("times");
 
 		// Create the input and output data
 		final int aRowDimension = 2, aColumnDimension = 3;
@@ -108,6 +108,56 @@ public class OpenCLTest
 			for (int i = 0; i < aColumnDimension; ++i) {
 				y += A[rowOffset * aColumnDimension + i] * B[i * bColumnDimension + columnOffset];
 			}
+
+			if (!Doubles.equals(x, y)) {
+				isPassed = false;
+			}
+		}
+		IO.test(isPassed ? "PASSED" : "FAILED");
+		assertEquals(true, isPassed);
+	}
+
+	/**
+	 * Test of forward method, of class OpenCL.
+	 */
+	public void testForward()
+			throws IOException {
+		IO.test("forward");
+
+		// Create the input and output data
+		final int aRowDimension = 2, aColumnDimension = 3;
+		final int bRowDimension = 3, bColumnDimension = 4;
+		final int cColumnDimension = bColumnDimension;
+		final double[] A = new double[aRowDimension * aColumnDimension];
+		final double[] B = new double[bRowDimension * bColumnDimension];
+		final double[] C = new double[cColumnDimension];
+		for (int i = 0; i < A.length; ++i) {
+			A[i] = i;
+		}
+		for (int i = 0; i < B.length; ++i) {
+			B[i] = i;
+		}
+		for (int i = 0; i < C.length; ++i) {
+			C[i] = i;
+		}
+
+		// Execute the operation
+		final double[] result = CL.forward(A, B, C, aColumnDimension, bColumnDimension,
+				cColumnDimension);
+
+		// Verify the result
+		IO.test("Result: ", Doubles.toString(result));
+		boolean isPassed = true;
+		for (int e = 0; e < result.length; ++e) {
+			final double x = result[e];
+
+			double y = 0f;
+			final int rowOffset = e / bColumnDimension;
+			final int columnOffset = e % bColumnDimension;
+			for (int i = 0; i < aColumnDimension; ++i) {
+				y += A[rowOffset * aColumnDimension + i] * B[i * bColumnDimension + columnOffset];
+			}
+			y += C[e % cColumnDimension];
 
 			if (!Doubles.equals(x, y)) {
 				isPassed = false;

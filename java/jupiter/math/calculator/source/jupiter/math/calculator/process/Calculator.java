@@ -73,7 +73,7 @@ public class Calculator {
 	/**
 	 * The context containing the values of the variables.
 	 */
-	protected volatile Map<String, Element> context = new RedBlackTreeMap<String, Element>();
+	protected final Map<String, Element> context = new RedBlackTreeMap<String, Element>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

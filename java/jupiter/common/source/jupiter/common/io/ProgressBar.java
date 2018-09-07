@@ -150,14 +150,26 @@ public class ProgressBar {
 	 */
 	public void start() {
 		progress = 0;
-		IO.print(START_SYMBOL, false);
+		IO.print(START_SYMBOL, isError);
+	}
+
+	/**
+	 * Prints {@code n} symbols.
+	 * <p>
+	 * @param n the number of symbols to print
+	 */
+	public void printSymbols(final int n) {
+		if (n > 0) {
+			IO.print(SYMBOL, n, isError);
+			progress += n;
+		}
 	}
 
 	/**
 	 * Prints the end of the progress bar.
 	 */
 	public void end() {
-		IO.println(END_SYMBOL, false);
+		IO.println(END_SYMBOL, isError);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -179,18 +191,6 @@ public class ProgressBar {
 	 */
 	protected void printSymbols() {
 		printSymbols(progress);
-	}
-
-	/**
-	 * Prints {@code n} symbols.
-	 * <p>
-	 * @param n the number of symbols to print
-	 */
-	protected void printSymbols(final int n) {
-		if (n > 0) {
-			IO.print(SYMBOL, n, false);
-			progress += n;
-		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -49,6 +49,7 @@ import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
 import jupiter.common.exception.IllegalTypeException;
+import jupiter.common.io.Resources;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
@@ -158,10 +159,10 @@ public class Ftps {
 							final String localPath = localDir + "/" + filename;
 
 							IO.info("Download the file ", remotePath, " to ", localPath);
-							OutputStream out = null;
+							OutputStream output = null;
 							try {
-								out = new BufferedOutputStream(new FileOutputStream(localPath));
-								final boolean isSuccess = ftp.retrieveFile(remotePath, out);
+								output = new BufferedOutputStream(new FileOutputStream(localPath));
+								final boolean isSuccess = ftp.retrieveFile(remotePath, output);
 								if (isSuccess) {
 									++downloadedFileCount;
 								} else {
@@ -170,9 +171,7 @@ public class Ftps {
 											Strings.quote(localPath));
 								}
 							} finally {
-								if (out != null) {
-									out.close();
-								}
+								Resources.close(output);
 							}
 						}
 					}
@@ -244,10 +243,10 @@ public class Ftps {
 							final String localPath = localDir + "/" + filename;
 
 							IO.info("Download the file ", remotePath, " to ", localPath);
-							OutputStream out = null;
+							OutputStream output = null;
 							try {
-								out = new BufferedOutputStream(new FileOutputStream(localPath));
-								final boolean isSuccess = ftps.retrieveFile(remotePath, out);
+								output = new BufferedOutputStream(new FileOutputStream(localPath));
+								final boolean isSuccess = ftps.retrieveFile(remotePath, output);
 								if (isSuccess) {
 									++downloadedFileCount;
 								} else {
@@ -256,9 +255,7 @@ public class Ftps {
 											Strings.quote(localPath));
 								}
 							} finally {
-								if (out != null) {
-									out.close();
-								}
+								Resources.close(output);
 							}
 						}
 					}

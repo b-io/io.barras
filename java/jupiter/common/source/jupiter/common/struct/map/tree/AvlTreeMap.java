@@ -39,7 +39,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -3501331197847125490L;
+	private static final long serialVersionUID = -342952904189434308L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

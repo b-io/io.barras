@@ -34,7 +34,6 @@ import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
-import jupiter.math.linear.entity.Scalar;
 import jupiter.math.linear.entity.Vector;
 
 /**
@@ -195,7 +194,6 @@ public class NeuralNetwork
 		}
 
 		// Initialize
-		final Scalar alpha = new Scalar(learningRate);
 		final int layerCount = hiddenLayerCount + 1; // L
 		// - The weight matrices
 		if (W == null) {
@@ -252,6 +250,7 @@ public class NeuralNetwork
 
 				// - Test whether the tolerance level is reached
 				if (delta <= tolerance || j <= tolerance) {
+					IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
 					return i;
 				}
 			}
@@ -262,22 +261,22 @@ public class NeuralNetwork
 				if (l == layerCount - 1) {
 					dZ = A[l + 1].minus(Y); // (1 x m)
 				} else {
-					dZ = dA.arrayTimes(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
+					dZ = dA.arrayMultiply(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
 				}
-				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 				dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
 
 				// - Compute the derivatives with respect to W and b
-				final Entity dW = A[l].times(dZT).division(new Scalar(trainingExampleCount))
-						.transpose(); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				final Entity db = dZT.mean();
+				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
+				final Matrix dW = A[l].times(dZT).transpose().toMatrix()
+						.divide(trainingExampleCount); // (nh x n) <- (nh x nh)... <- (1 x nh)
+				final Vector db = dZT.mean().toVector();
 
 				// - Update the weights and the bias
-				W[l] = W[l].minus(alpha.times(dW)); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				b[l] = b[l].minus(alpha.times(db)).toVector(); // (nh x 1) <- (nh x 1)... <- (1 x 1)
+				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)
+				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (1 x 1)
 			}
 		}
-
+		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", j, " cost");
 		return maxIterationCount;
 	}
 
@@ -303,7 +302,7 @@ public class NeuralNetwork
 	 *         {@link Entity}
 	 */
 	protected Entity computeForward(final int layer, final Entity A) {
-		return W[layer].times(A).plus(b[layer]); // n -> nh... -> 1: (nh x n) (n x m) + (nh x 1) ->
+		return W[layer].forward(A, b[layer]); // n -> nh... -> 1: (nh x n) (n x m) + (nh x 1) ->
 		// (nh x nh) (nh x m) + (nh x 1)... -> (1 x nh) (nh x m) + (1 x 1)
 	}
 

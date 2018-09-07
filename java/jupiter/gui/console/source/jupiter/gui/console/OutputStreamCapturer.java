@@ -60,13 +60,13 @@ public class OutputStreamCapturer
 	@Override
 	public void write(final int b)
 			throws IOException {
-		final char c = (char) b;
-		final String value = Character.toString(c);
+		final char character = (char) b;
+		final String value = Character.toString(character);
 		builder.append(value);
 		if (value.equals("\n")) {
 			consumer.append(builder.toString());
 			builder.delete(0, builder.length());
 		}
-		previousOutputStream.print(c);
+		previousOutputStream.print(character);
 	}
 }

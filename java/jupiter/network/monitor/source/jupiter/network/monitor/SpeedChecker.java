@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
@@ -204,16 +205,16 @@ public class SpeedChecker {
 				final String filename = url.getFile().replace("/", Strings.EMPTY);
 				final File targetFilePath = new File("C:/Temp/" + filename);
 				IO.debug("Download the file ", filename);
-				ReadableByteChannel rbc = null;
+				ReadableByteChannel channel = null;
 				FileOutputStream tempFile = null;
 				try {
-					rbc = Channels.newChannel(url.openStream());
+					channel = Channels.newChannel(url.openStream());
 					tempFile = new FileOutputStream(targetFilePath);
 					chrono.start();
-					tempFile.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+					tempFile.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
 					chrono.stop();
 					final double length = targetFilePath.length() / 1048576. * 8.;
-					final double time = chrono.getMilliseconds() / 1000.;
+					final double time = chrono.getSeconds();
 					final double speed = length / time;
 					return new Report<Double>(speed,
 							IO.info("Downloaded ", DECIMAL_FORMAT.format(length), " [Mbits] in ",
@@ -224,12 +225,8 @@ public class SpeedChecker {
 							IO.error("Unable to transfer the file ", Strings.quote(urlName), " to ",
 									targetFilePath.getCanonicalPath(), IO.appendException(ex)));
 				} finally {
-					if (rbc != null) {
-						rbc.close();
-					}
-					if (tempFile != null) {
-						tempFile.close();
-					}
+					Resources.close(channel);
+					Resources.close(tempFile);
 				}
 			} catch (final IOException ex) {
 				IO.error("The URL ", Strings.quote(urlName), " is not reachable",

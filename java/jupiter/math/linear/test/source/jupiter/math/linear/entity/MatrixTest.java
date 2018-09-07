@@ -24,6 +24,7 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.integration.gpu.OpenCL.CL;
 
 import org.junit.Test;
 
@@ -55,12 +56,13 @@ public class MatrixTest
 
 		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
+		final boolean testOpenCL = CL.use;
 		final int testCount = 10;
 		final int[] rowCounts = {
-			10, 50, 100, 500
+			10, 50, 100, 200
 		};
 		final int[] columnCounts = {
-			10, 50, 100, 500
+			10, 50, 100, 200
 		};
 		final String[] header = Strings.toArray(Integers.toArray(columnCounts));
 		final DoubleTable normalStats = new DoubleTable(header, rowCounts.length,
@@ -78,7 +80,8 @@ public class MatrixTest
 			for (final int n : columnCounts) {
 				IO.test(m, " rows and ", n, " columns");
 
-				final Matrix instance = new Matrix(m, Doubles.createSequence(m * n));
+				final Matrix A = new Matrix(m, Doubles.createSequence(m * n));
+				final Matrix B = A.transpose();
 				final Chronometer chrono = new Chronometer();
 				final double[] times = new double[testCount];
 
@@ -87,8 +90,9 @@ public class MatrixTest
 				Matrix expected = null;
 				for (int t = 0; t < testCount; ++t) {
 					chrono.start();
-					expected = instance.dot(instance.transpose()).toMatrix();
-					times[t] = chrono.stop();
+					expected = A.dot(B).toMatrix();
+					chrono.stop();
+					times[t] = chrono.getMilliseconds();
 				}
 				Tests.printTimes(times);
 				normalStats.set(i, j, Statistics.mean(times));
@@ -97,13 +101,14 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.start();
-				Matrix.USE_GPUS = false;
+				CL.use = false;
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
 						chrono.start();
-						found = instance.dot(instance.transpose()).toMatrix();
-						times[t] = chrono.stop();
+						found = A.dot(B).toMatrix();
+						chrono.stop();
+						times[t] = chrono.getMilliseconds();
 					}
 					Tests.printTimes(times);
 					parallelStats.set(i, j, Statistics.mean(times));
@@ -114,21 +119,24 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
-				IO.test("- GPU:");
-				Matrix.USE_GPUS = true;
-				try {
-					Matrix found = null;
-					for (int t = 0; t < testCount; ++t) {
-						chrono.start();
-						found = instance.dot(instance.transpose()).toMatrix();
-						times[t] = chrono.stop();
+				if (testOpenCL) {
+					IO.test("- GPU:");
+					CL.use = true;
+					try {
+						Matrix found = null;
+						for (int t = 0; t < testCount; ++t) {
+							chrono.start();
+							found = A.dot(B).toMatrix();
+							chrono.stop();
+							times[t] = chrono.getMilliseconds();
+						}
+						Tests.printTimes(times);
+						//found.toTable().export("gpu.values.csv");
+						gpuStats.set(i, j, Statistics.mean(times));
+						assertEquals(expected, found);
+					} finally {
+						CL.use = false;
 					}
-					Tests.printTimes(times);
-					//found.toTable().export("gpu.values.csv");
-					gpuStats.set(i, j, Statistics.mean(times));
-					assertEquals(expected, found);
-				} finally {
-					Matrix.USE_GPUS = false;
 				}
 
 				// Test the hybrid version
@@ -138,8 +146,136 @@ public class MatrixTest
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
 						chrono.start();
-						found = instance.dot(instance.transpose()).toMatrix();
-						times[t] = chrono.stop();
+						found = A.dot(B).toMatrix();
+						chrono.stop();
+						times[t] = chrono.getMilliseconds();
+					}
+					Tests.printTimes(times);
+					hybridStats.set(i, j, Statistics.mean(times));
+					//found.toTable().export("hybrid.values.csv");
+					assertEquals(expected, found);
+				} finally {
+					Matrix.stop();
+				}
+
+				++j;
+			}
+			++i;
+		}
+
+		// Export the statistics
+		final boolean export = false;
+		if (export) {
+			normalStats.export("normal.stats.csv");
+			parallelStats.export("parallel.stats.csv");
+			gpuStats.export("gpu.stats.csv");
+			hybridStats.export("hybrid.stats.csv");
+		}
+	}
+
+	/**
+	 * Test of forward method, of class Matrix.
+	 */
+	@Test
+	public void testForward() {
+		IO.test("forward");
+
+		// Set up
+		IO.setSeverityLevel(SeverityLevel.TEST);
+		final boolean testOpenCL = CL.use;
+		final int testCount = 10;
+		final int[] rowCounts = {
+			10, 50, 100, 200
+		};
+		final int[] columnCounts = {
+			10, 50, 100, 200
+		};
+		final String[] header = Strings.toArray(Integers.toArray(columnCounts));
+		final DoubleTable normalStats = new DoubleTable(header, rowCounts.length,
+				columnCounts.length);
+		final DoubleTable parallelStats = new DoubleTable(header, rowCounts.length,
+				columnCounts.length);
+		final DoubleTable gpuStats = new DoubleTable(header, rowCounts.length, columnCounts.length);
+		final DoubleTable hybridStats = new DoubleTable(header, rowCounts.length,
+				columnCounts.length);
+
+		// Test
+		int i = 0;
+		for (final int m : rowCounts) {
+			int j = 0;
+			for (final int n : columnCounts) {
+				IO.test(m, " rows and ", n, " columns");
+
+				final Matrix A = new Matrix(m, Doubles.createSequence(m * n));
+				final Matrix B = A.transpose();
+				final Matrix C = new Vector(Doubles.createSequence(m));
+				final Chronometer chrono = new Chronometer();
+				final double[] times = new double[testCount];
+
+				// Test the normal version
+				IO.test("- Normal:");
+				Matrix expected = null;
+				for (int t = 0; t < testCount; ++t) {
+					chrono.start();
+					expected = A.forward(B, C).toMatrix();
+					chrono.stop();
+					times[t] = chrono.getMilliseconds();
+				}
+				Tests.printTimes(times);
+				normalStats.set(i, j, Statistics.mean(times));
+				//expected.toTable().export("normal.values.csv");
+
+				// Test the parallel version
+				IO.test("- Parallel:");
+				Matrix.start();
+				CL.use = false;
+				try {
+					Matrix found = null;
+					for (int t = 0; t < testCount; ++t) {
+						chrono.start();
+						found = A.forward(B, C).toMatrix();
+						chrono.stop();
+						times[t] = chrono.getMilliseconds();
+					}
+					Tests.printTimes(times);
+					parallelStats.set(i, j, Statistics.mean(times));
+					//found.toTable().export("parallel.values.csv");
+					assertEquals(expected, found);
+				} finally {
+					Matrix.stop();
+				}
+
+				// Test the GPU version
+				if (testOpenCL) {
+					IO.test("- GPU:");
+					CL.use = true;
+					try {
+						Matrix found = null;
+						for (int t = 0; t < testCount; ++t) {
+							chrono.start();
+							found = A.forward(B, C).toMatrix();
+							chrono.stop();
+							times[t] = chrono.getMilliseconds();
+						}
+						Tests.printTimes(times);
+						//found.toTable().export("gpu.values.csv");
+						gpuStats.set(i, j, Statistics.mean(times));
+						assertEquals(expected, found);
+					} finally {
+						CL.use = false;
+					}
+				}
+
+				// Test the hybrid version
+				IO.test("- Hybrid:");
+				Matrix.start();
+				try {
+					Matrix found = null;
+					for (int t = 0; t < testCount; ++t) {
+						chrono.start();
+						found = A.forward(B, C).toMatrix();
+						chrono.stop();
+						times[t] = chrono.getMilliseconds();
 					}
 					Tests.printTimes(times);
 					hybridStats.set(i, j, Statistics.mean(times));

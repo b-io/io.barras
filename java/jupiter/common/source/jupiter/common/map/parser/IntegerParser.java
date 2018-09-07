@@ -57,7 +57,11 @@ public class IntegerParser
 		if (input instanceof Number) {
 			return ((Number) input).intValue();
 		}
-		return Integer.valueOf(Strings.toString(input));
+		final String value = Strings.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		return Integer.valueOf(value);
 	}
 
 

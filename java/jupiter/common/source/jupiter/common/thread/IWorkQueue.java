@@ -95,6 +95,17 @@ public interface IWorkQueue<I, O> {
 	 */
 	public O get(final long id);
 
+	/**
+	 * Returns {@code true} if the result of the task with the specified identifier is ready,
+	 * {@code false} otherwise.
+	 * <p>
+	 * @param id the identifier of the task
+	 * <p>
+	 * @return {@code true} if the result of the task with the specified identifier is ready,
+	 *         {@code false} otherwise
+	 */
+	public boolean isReady(final long id);
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// POOL

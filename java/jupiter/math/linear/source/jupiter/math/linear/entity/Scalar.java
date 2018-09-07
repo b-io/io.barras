@@ -47,7 +47,7 @@ public class Scalar
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 6529640797800491360L;
+	private static final long serialVersionUID = 4598899924191933856L;
 
 	public static final Scalar ZERO = new Scalar(0.);
 	public static final Scalar ONE = new Scalar(1.);
@@ -191,6 +191,17 @@ public class Scalar
 		});
 	}
 
+	/**
+	 * Converts {@code this} to an array of {@code double} values.
+	 * <p>
+	 * @return an array of {@code double} values
+	 */
+	public double[] toPrimitiveArray() {
+		return new double[] {
+			value
+		};
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
@@ -290,7 +301,7 @@ public class Scalar
 	/**
 	 * Returns the addition of the specified {@link Entity} to {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this + entity}
 	 */
@@ -309,7 +320,7 @@ public class Scalar
 	/**
 	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this - entity}
 	 */
@@ -328,7 +339,7 @@ public class Scalar
 	/**
 	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this * entity}
 	 */
@@ -347,7 +358,7 @@ public class Scalar
 	/**
 	 * Returns the division of {@code this} by the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this / entity}
 	 */
@@ -365,7 +376,7 @@ public class Scalar
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this ^ entity}
 	 */
@@ -388,7 +399,7 @@ public class Scalar
 	/**
 	 * Returns the solution X of {@code this * X = entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
 	 */

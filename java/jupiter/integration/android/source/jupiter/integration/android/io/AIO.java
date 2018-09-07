@@ -23,12 +23,12 @@
  */
 package jupiter.integration.android.io;
 
-import android.content.Context;
+import java.util.logging.ConsoleHandler;
+
 import android.widget.Toast;
 import jupiter.common.io.IO;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.Message;
-import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.log.LogHandler;
 
 public class AIO {

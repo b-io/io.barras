@@ -70,6 +70,13 @@ public interface Entity
 	 */
 	public Matrix toMatrix();
 
+	/**
+	 * Converts {@code this} to an array of {@code double} values.
+	 * <p>
+	 * @return an array of {@code double} values
+	 */
+	public double[] toPrimitiveArray();
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
@@ -153,7 +160,7 @@ public interface Entity
 	/**
 	 * Returns the addition of the specified {@link Entity} to {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this + entity}
 	 */
@@ -163,7 +170,7 @@ public interface Entity
 	/**
 	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this - entity}
 	 */
@@ -172,7 +179,7 @@ public interface Entity
 	/**
 	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this * entity}
 	 */
@@ -181,7 +188,7 @@ public interface Entity
 	/**
 	 * Returns the division of {@code this} by the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this / entity}
 	 */
@@ -190,7 +197,7 @@ public interface Entity
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this ^ entity}
 	 */
@@ -204,7 +211,7 @@ public interface Entity
 	/**
 	 * Returns the solution X of {@code this * X = entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
 	 */
