@@ -638,7 +638,7 @@ public class Integers {
 	 * <p>
 	 * @param array          an array of {@code int} values
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code int} values joined
 	 *         by {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
@@ -665,7 +665,7 @@ public class Integers {
 	 * <p>
 	 * @param array          an array of {@link Integer}
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Integer} joined by
 	 *         {@code delimiter} (and wrapped with parentheses if {@code useParentheses})

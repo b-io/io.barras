@@ -79,7 +79,7 @@ public class OpenCL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The option specifying whether to use OpenCL.
+	 * The flag specifying whether to use OpenCL.
 	 */
 	public static volatile boolean USE = false;
 

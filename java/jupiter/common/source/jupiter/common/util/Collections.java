@@ -84,7 +84,7 @@ public class Collections {
 	 * @param <T>            the type of the {@link Collection} to convert
 	 * @param collection     a {@link Collection} of type {@code T}
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
 	 *         joined by {@code delimiter} (and wrapped with parentheses if {@code useParentheses})

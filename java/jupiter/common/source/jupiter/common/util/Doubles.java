@@ -617,7 +617,7 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise.
+	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
 	 * @param a a {@code double} value
 	 * @param b another {@code double} value to compare with {@code a} for equality
@@ -629,8 +629,7 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns {@code true} if {@code a} is equal to {@code b} within the specified tolerance level,
-	 * {@code false} otherwise.
+	 * Tests whether {@code a} is equal to {@code b} within the specified tolerance level.
 	 * <p>
 	 * @param a         a {@code double} value
 	 * @param b         another {@code double} value to compare with {@code a} for equality
@@ -662,7 +661,7 @@ public class Doubles {
 	 * <p>
 	 * @param array          an array of {@code double} values
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code double} values
 	 *         joined by {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
@@ -689,7 +688,7 @@ public class Doubles {
 	 * <p>
 	 * @param array          an array of {@link Double}
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Double} joined by
 	 *         {@code delimiter} (and wrapped with parentheses if {@code useParentheses})

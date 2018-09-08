@@ -57,7 +57,7 @@ public class Calculator {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The option specifying whether to parallelize using a work queue.
+	 * The flag specifying whether to parallelize using a work queue.
 	 */
 	protected static volatile boolean PARALLELIZE = true;
 	/**

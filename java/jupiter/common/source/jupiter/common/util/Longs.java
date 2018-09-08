@@ -634,7 +634,7 @@ public class Longs {
 	 * <p>
 	 * @param array          an array of {@code long} values
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code long} values joined
 	 *         by {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
@@ -661,7 +661,7 @@ public class Longs {
 	 * <p>
 	 * @param array          an array of {@link Long}
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Long} joined by
 	 *         {@code delimiter} (and wrapped with parentheses if {@code useParentheses})

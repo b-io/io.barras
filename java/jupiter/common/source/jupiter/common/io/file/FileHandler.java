@@ -169,7 +169,7 @@ public class FileHandler {
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}).
 	 * <p>
-	 * @param skipEmptyLines the option specifying whether to skip empty lines
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines})
 	 */
@@ -185,14 +185,14 @@ public class FileHandler {
 	/**
 	 * Initializes the writer.
 	 * <p>
-	 * @param isAppend the option specifying whether to append
+	 * @param append the flag specifying whether to append
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening the file
 	 */
-	public void initWriter(final boolean isAppend)
+	public void initWriter(final boolean append)
 			throws FileNotFoundException {
 		if (writer == null) {
-			writer = Files.createWriter(pathname, isAppend);
+			writer = Files.createWriter(pathname, append);
 		}
 	}
 
@@ -221,15 +221,15 @@ public class FileHandler {
 	/**
 	 * Writes the specified string.
 	 * <p>
-	 * @param string   the {@link String} to write
-	 * @param isAppend the option specifying whether to append
+	 * @param string the {@link String} to write
+	 * @param append the flag specifying whether to append
 	 * <p>
 	 * @return {@code true} if {@code string} is written, {@code false} otherwise
 	 */
-	public boolean writeLine(final String string, final boolean isAppend) {
+	public boolean writeLine(final String string, final boolean append) {
 		try {
 			// Initialize
-			initWriter(isAppend);
+			initWriter(append);
 
 			// Append the string
 			writer.write(string + "\n");
@@ -278,13 +278,13 @@ public class FileHandler {
 	/**
 	 * Deletes the file (or directory).
 	 * <p>
-	 * @param isForce the option specifying whether to force deleting
+	 * @param force the flag specifying whether to force deleting
 	 * <p>
 	 * @return {@code true} if the file (or directory) is deleted, {@code false} otherwise
 	 */
-	public boolean delete(final boolean isForce) {
+	public boolean delete(final boolean force) {
 		closeWriter(null);
-		return Files.delete(new File(pathname), isForce);
+		return Files.delete(new File(pathname), force);
 	}
 
 

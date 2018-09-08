@@ -191,7 +191,7 @@ public class LogHandler
 	 * buffer is written to the log when either {@code println} or {@code flush} is called.
 	 * <p>
 	 * @param content the {@link Object} to write
-	 * @param isError the option specifying whether to print in the error log or in the output log
+	 * @param isError the flag specifying whether to print in the error log or in the output log
 	 */
 	@Override
 	public void print(final Object content, final boolean isError) {
@@ -206,7 +206,7 @@ public class LogHandler
 	 * Writes the specified object to the log with the specified type.
 	 * <p>
 	 * @param content the {@link Object} to write
-	 * @param isError the option specifying whether to print in the error log or in the output log
+	 * @param isError the flag specifying whether to print in the error log or in the output log
 	 */
 	@Override
 	public void println(final Object content, final boolean isError) {

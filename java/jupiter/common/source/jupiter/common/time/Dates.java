@@ -186,7 +186,7 @@ public class Dates {
 	}
 
 	/**
-	 * Returns {@code true} if {@code date} is a week day, {@code false} otherwise.
+	 * Tests whether {@code date} is a week day.
 	 * <p>
 	 * @param date the date to consider
 	 * <p>

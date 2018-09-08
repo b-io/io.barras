@@ -184,7 +184,7 @@ public class Table<T>
 	 * <p>
 	 * @param parser    a {@link Parser} of type {@code T}
 	 * @param pathname  the pathname of the file to import
-	 * @param hasHeader the option specifying whether the file has a header
+	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
@@ -785,7 +785,7 @@ public class Table<T>
 	 * Merges with the specified {@link Table} of type {@code T}.
 	 * <p>
 	 * @param table     the {@link Table} of type {@code T} to merge with
-	 * @param mergeRows the option specifying whether to merge the rows or the columns
+	 * @param mergeRows the flag specifying whether to merge the rows or the columns
 	 */
 	public void merge(final Table<T> table, final boolean mergeRows) {
 		if (mergeRows) {
@@ -984,7 +984,7 @@ public class Table<T>
 	 * <p>
 	 * @param parser    a {@link Parser} of type {@code T}
 	 * @param pathname  the pathname of the file to load
-	 * @param hasHeader the option specifying whether the file has a header
+	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
@@ -1001,7 +1001,7 @@ public class Table<T>
 	 * @param parser    a {@link Parser} of type {@code T}
 	 * @param reader    a {@link BufferedReader}
 	 * @param rowCount  the number of lines to load
-	 * @param hasHeader the option specifying whether the reader has a header
+	 * @param hasHeader the flag specifying whether the reader has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */

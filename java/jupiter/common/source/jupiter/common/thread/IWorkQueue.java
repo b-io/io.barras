@@ -96,8 +96,7 @@ public interface IWorkQueue<I, O> {
 	public O get(final long id);
 
 	/**
-	 * Returns {@code true} if the result of the task with the specified identifier is ready,
-	 * {@code false} otherwise.
+	 * Tests whether the result of the task with the specified identifier is ready.
 	 * <p>
 	 * @param id the identifier of the task
 	 * <p>
@@ -112,7 +111,7 @@ public interface IWorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is running, {@code false} otherwise.
+	 * Tests whether {@code this} is running.
 	 * <p>
 	 * @return {@code true} if {@code this} is running, {@code false} otherwise
 	 */

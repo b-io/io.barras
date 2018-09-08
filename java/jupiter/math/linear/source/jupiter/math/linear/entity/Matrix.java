@@ -119,7 +119,7 @@ public class Matrix
 	public static final char ROW_DELIMITER = ';';
 
 	/**
-	 * The option specifying whether to parallelize using a work queue.
+	 * The flag specifying whether to parallelize using a work queue.
 	 */
 	public static volatile boolean PARALLELIZE = false;
 	/**
@@ -213,7 +213,7 @@ public class Matrix
 	 * <p>
 	 * @param dimension the number of rows (or columns if {@code transpose})
 	 * @param values    an array of {@code double} values
-	 * @param transpose the option specifying whether to transpose
+	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @throws IllegalArgumentException if the length of {@code values} is not a multiple of
 	 *                                  {@code dimension}
@@ -956,7 +956,7 @@ public class Matrix
 	/**
 	 * Returns the mean of {@code this}.
 	 * <p>
-	 * @param transpose the option specifying whether to transpose
+	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @return {@code mean(this)}
 	 */
@@ -2079,7 +2079,7 @@ public class Matrix
 	 * Returns a {@link Matrix} loaded from the specified file.
 	 * <p>
 	 * @param pathname  the pathname of the file to load
-	 * @param transpose the option specifying whether to transpose
+	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
@@ -2096,7 +2096,7 @@ public class Matrix
 	 * <p>
 	 * @param reader    a {@link BufferedReader}
 	 * @param length    the number of lines to load
-	 * @param transpose the option specifying whether to transpose
+	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified reader
 	 * <p>
@@ -2198,22 +2198,20 @@ public class Matrix
 	}
 
 	/**
-	 * Returns {@code true} if the specified input {@link String} contains the definition of a
-	 * {@link Matrix}, {@code false} otherwise.
+	 * Tests whether {@code string} is a parsable {@link Matrix}.
 	 * <p>
-	 * @param input a {@link String}
+	 * @param string a {@link String}
 	 * <p>
-	 * @return {@code true} if the specified input {@link String} contains the definition of a
-	 *         {@link Matrix}, {@code false} otherwise
+	 * @return {@code true} if {@code string} is a parsable {@link Matrix}, {@code false} otherwise
 	 */
-	public static boolean isMatrix(final String input) {
+	public static boolean isMatrix(final String string) {
 		final char[] delimiters = Characters.toPrimitiveArray('[', ']');
-		final List<Integer> indexes = Strings.getAllIndexes(input.trim(), delimiters);
+		final List<Integer> indexes = Strings.getAllIndexes(string.trim(), delimiters);
 		if (indexes.size() == 2) {
 			final int from = indexes.get(0);
 			final int to = indexes.get(1);
-			if (from < to && input.charAt(from) == delimiters[0] &&
-					input.charAt(to) == delimiters[1]) {
+			if (from < to && string.charAt(from) == delimiters[0] &&
+					string.charAt(to) == delimiters[1]) {
 				return true;
 			}
 		}

@@ -629,7 +629,7 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise.
+	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
 	 * @param a a {@code float} value
 	 * @param b another {@code float} value to compare with {@code a} for equality
@@ -641,8 +641,7 @@ public class Floats {
 	}
 
 	/**
-	 * Returns {@code true} if {@code a} is equal to {@code b} within the specified tolerance level,
-	 * {@code false} otherwise.
+	 * Tests whether {@code a} is equal to {@code b} within the specified tolerance level.
 	 * <p>
 	 * @param a         a {@code float} value
 	 * @param b         another {@code float} value to compare with {@code a} for equality
@@ -674,7 +673,7 @@ public class Floats {
 	 * <p>
 	 * @param array          an array of {@code float} values
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code float} values joined
 	 *         by {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
@@ -701,7 +700,7 @@ public class Floats {
 	 * <p>
 	 * @param array          an array of {@link Float}
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Float} joined by
 	 *         {@code delimiter} (and wrapped with parentheses if {@code useParentheses})

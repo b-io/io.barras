@@ -132,9 +132,9 @@ public class QRDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code A} is full rank.
+	 * Tests whether {@code R} (and hence {@code A}) is full rank.
 	 * <p>
-	 * @return {@code true} if {@code R} (and hence {@code A}) is full rank
+	 * @return {@code true} if {@code R} (and hence {@code A}) is full rank, {@code false} otherwise
 	 */
 	public boolean isFullRank() {
 		for (int j = 0; j < n; ++j) {

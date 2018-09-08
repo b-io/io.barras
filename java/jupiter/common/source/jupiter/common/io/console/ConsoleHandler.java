@@ -36,7 +36,7 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The option specifying whether to use colors.
+	 * The flag specifying whether to use colors.
 	 */
 	public static volatile boolean USE_COLORS = true;
 
@@ -93,6 +93,13 @@ public class ConsoleHandler
 	// PRINTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prints the specified object in the console.
+	 * <p>
+	 * @param content the {@link Object} to print
+	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
+	 *                {@code console.getOut()}
+	 */
 	@Override
 	public void print(final Object content, final boolean isError) {
 		// Check the arguments
@@ -110,7 +117,7 @@ public class ConsoleHandler
 	 * Prints the specified object in the console and then terminates the line.
 	 * <p>
 	 * @param content the {@link Object} to print
-	 * @param isError the option specifying whether to print in {@code console.getErr()} or in
+	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
 	 */
 	@Override

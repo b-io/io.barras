@@ -63,7 +63,7 @@ public class ProgressBar {
 	 */
 	protected final int length;
 	/**
-	 * The option specifying whether to print in the standard error or in the standard output.
+	 * The flag specifying whether to print in the standard error or in the standard output.
 	 */
 	protected final boolean isError;
 
@@ -97,8 +97,8 @@ public class ProgressBar {
 	 * Constructs a {@link ProgressBar} of the specified length.
 	 * <p>
 	 * @param length  the maximum number of symbols (excluding the wrapping symbols)
-	 * @param isError the option specifying whether to print in the standard error or in the
-	 *                standard output
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
 	public ProgressBar(final int length, final boolean isError) {
 		this.length = length;

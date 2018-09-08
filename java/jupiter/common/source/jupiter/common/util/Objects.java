@@ -37,7 +37,7 @@ public class Objects {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if the arguments are equal to each other, {@code false} otherwise.
+	 * Tests whether the arguments are equal to each other.
 	 * <p>
 	 * @param a an {@link Object}
 	 * @param b another {@link Object} to compare with {@code a} for equality

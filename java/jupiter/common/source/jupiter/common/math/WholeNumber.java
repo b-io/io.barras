@@ -175,7 +175,7 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise.
+	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
 	 * @param other the {@link Object} to compare with for equality
 	 * <p>

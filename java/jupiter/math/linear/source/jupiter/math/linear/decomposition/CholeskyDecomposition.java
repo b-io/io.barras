@@ -63,7 +63,7 @@ public class CholeskyDecomposition
 	 */
 	protected final int dimension;
 	/**
-	 * The symmetric and positive definite flag.
+	 * The flag specifying whether {@code A} is symmetric and positive definite.
 	 */
 	protected boolean isSymmetricPositiveDefinite;
 	/**
@@ -118,7 +118,7 @@ public class CholeskyDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Is {@code A} symmetric and positive definite?
+	 * Tests whether {@code A} is symmetric and positive definite.
 	 * <p>
 	 * @return {@code true} if {@code A} is symmetric and positive definite, {@code false} otherwise
 	 */

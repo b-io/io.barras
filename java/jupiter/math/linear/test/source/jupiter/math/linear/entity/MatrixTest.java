@@ -37,6 +37,7 @@ import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
+import jupiter.integration.gpu.OpenCL;
 
 public class MatrixTest
 		extends TestCase {
@@ -56,7 +57,6 @@ public class MatrixTest
 
 		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
-		final boolean testOpenCL = CL.use;
 		final int testCount = 10;
 		final int[] rowCounts = {
 			10, 50, 100, 200
@@ -119,7 +119,7 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
-				if (testOpenCL) {
+				if (OpenCL.USE) {
 					IO.test("- GPU:");
 					CL.use = true;
 					try {
@@ -182,7 +182,6 @@ public class MatrixTest
 
 		// Set up
 		IO.setSeverityLevel(SeverityLevel.TEST);
-		final boolean testOpenCL = CL.use;
 		final int testCount = 10;
 		final int[] rowCounts = {
 			10, 50, 100, 200
@@ -246,7 +245,7 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
-				if (testOpenCL) {
+				if (OpenCL.USE) {
 					IO.test("- GPU:");
 					CL.use = true;
 					try {

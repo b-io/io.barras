@@ -96,7 +96,7 @@ public class LogisticRegression
 	 * @param featureVectorsPathname the pathname of the file containing the feature vectors of size
 	 *                               (n x m) (or (m x n) if {@code transpose})
 	 * @param classesPathname        the pathname of the file containing the classes of size m
-	 * @param transpose              the option specifying whether to transpose the feature vectors
+	 * @param transpose              the flag specifying whether to transpose the feature vectors
 	 *                               and the classes
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files

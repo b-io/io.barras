@@ -47,7 +47,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The option specifying whether to update the nodes.
+	 * The flag specifying whether to update the nodes.
 	 */
 	protected boolean update;
 
@@ -107,9 +107,9 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Returns the option specifying whether to update the nodes.
+	 * Tests whether to update the nodes.
 	 * <p>
-	 * @return the option specifying whether to update the nodes
+	 * @return the flag specifying whether to update the nodes
 	 */
 	public boolean isUpdate() {
 		return update;

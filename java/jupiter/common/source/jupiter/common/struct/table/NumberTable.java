@@ -104,7 +104,7 @@ public class NumberTable<T extends Number>
 	 * <p>
 	 * @param parser    a {@link Parser} of type {@code T}
 	 * @param pathname  the pathname of the file to import
-	 * @param hasHeader the option specifying whether the file has a header
+	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */

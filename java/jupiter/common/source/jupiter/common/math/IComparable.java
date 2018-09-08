@@ -46,13 +46,11 @@ public interface IComparable<T extends Comparable<T>>
 	public int compareTo(final T comparable);
 
 	/**
-	 * Returns {@code true} if {@code this} is less than {@code comparable}.
+	 * Tests whether {@code this} is less than {@code comparable}.
 	 * <p>
 	 * @param comparable the {@code T} object to compare with
 	 * <p>
-	 * @return {@code true} if {@code this} is less than {@code comparable}
-	 * <p>
-	 * {@code comparable}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is less than {@code comparable}, {@code false} otherwise
 	 * <p>
 	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
@@ -61,13 +59,12 @@ public interface IComparable<T extends Comparable<T>>
 	public boolean isLessThan(final T comparable);
 
 	/**
-	 * Returns {@code true} if {@code this} is less or equal to {@code comparable}.
+	 * Tests whether {@code this} is less or equal to {@code comparable}.
 	 * <p>
 	 * @param comparable the {@code T} object to compare with
 	 * <p>
-	 * @return {@code true} if {@code this} is less or equal to {@code comparable}
-	 * <p>
-	 * {@code comparable}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is less or equal to {@code comparable}, {@code false}
+	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
@@ -76,13 +73,12 @@ public interface IComparable<T extends Comparable<T>>
 	public boolean isLessOrEqualTo(final T comparable);
 
 	/**
-	 * Returns {@code true} if {@code this} is greater than {@code comparable}.
+	 * Tests whether {@code this} is greater than {@code comparable}.
 	 * <p>
 	 * @param comparable the {@code T} object to compare with
 	 * <p>
-	 * @return {@code true} if {@code this} is greater than {@code comparable}
-	 * <p>
-	 * {@code comparable}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is greater than {@code comparable}, {@code false}
+	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
@@ -95,9 +91,8 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @param comparable the {@code T} object to compare with
 	 * <p>
-	 * @return {@code true} if {@code this} is greater or equal to {@code comparable}
-	 * <p>
-	 * {@code comparable}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is greater or equal to {@code comparable}, {@code false}
+	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
@@ -140,7 +135,7 @@ public interface IComparable<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code comparable}, {@code false} otherwise.
+	 * Tests whether {@code this} is equal to {@code comparable}.
 	 * <p>
 	 * @param comparable the {@code T} object to compare with for equality
 	 * <p>

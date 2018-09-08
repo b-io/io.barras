@@ -118,9 +118,10 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether Rserve is currently running (on local machine and default port).
-	 *
-	 * @return {@code true} if local Rserve instance is running, {@code false} otherwise
+	 * Tests whether the local Rserve instance is running on the default port.
+	 * <p>
+	 * @return {@code true} if the local Rserve instance is running on the default port,
+	 *         {@code false} otherwise
 	 */
 	public static boolean isRunning() {
 		try {

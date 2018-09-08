@@ -155,7 +155,7 @@ public class LUDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code A} is nonsingular.
+	 * Tests whether U (and hence {@code A}) is nonsingular.
 	 * <p>
 	 * @return {@code true} if U (and hence {@code A}) is nonsingular, {@code false} otherwise
 	 */

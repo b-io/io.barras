@@ -58,13 +58,13 @@ public class Numbers {
 	}
 
 	/**
-	 * Returns a {@link Number} of the specified {@code Class} converted from the specified
+	 * Returns a {@link Number} of the specified {@link Class} converted from the specified
 	 * {@link String}.
 	 * <p>
 	 * @param c      a {@link Class}
 	 * @param string a {@link String}
 	 * <p>
-	 * @return a {@link Number} of the specified {@code Class} converted from the specified
+	 * @return a {@link Number} of the specified {@link Class} converted from the specified
 	 *         {@link String}
 	 */
 	public static Number toNumber(final Class<?> c, final String string) {
@@ -115,7 +115,7 @@ public class Numbers {
 	}
 
 	/**
-	 * Returns {@code true} if {@code a} is less than {@code b}, {@code false} otherwise.
+	 * Tests whether {@code a} is less than {@code b}.
 	 * <p>
 	 * @param a a {@link Number}
 	 * @param b another {@link Number} to compare with
@@ -129,7 +129,7 @@ public class Numbers {
 	}
 
 	/**
-	 * Returns {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise.
+	 * Tests whether {@code a} is less or equal to {@code b}.
 	 * <p>
 	 * @param a a {@link Number}
 	 * @param b another {@link Number} to compare with
@@ -143,7 +143,7 @@ public class Numbers {
 	}
 
 	/**
-	 * Returns {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise.
+	 * Tests whether {@code a} is greater than {@code b}.
 	 * <p>
 	 * @param a a {@link Number}
 	 * @param b another {@link Number} to compare with
@@ -157,7 +157,7 @@ public class Numbers {
 	}
 
 	/**
-	 * Returns {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise.
+	 * Tests whether {@code a} is greater or equal to {@code b}.
 	 * <p>
 	 * @param a a {@link Number}
 	 * @param b another {@link Number} to compare with
@@ -210,22 +210,23 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code c} is assignable to a number, {@code false} otherwise.
+	 * Tests whether the specified {@link Class} is assignable to a {@link Number}.
 	 * <p>
-	 * @param c a {@link Class}
+	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if {@code c} is assignable to a number, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Number},
+	 *         {@code false} otherwise
 	 */
 	public static boolean isNumber(final Class<?> c) {
 		return Number.class.isAssignableFrom(c);
 	}
 
 	/**
-	 * Returns {@code true} if {@code string} is a parsable number, {@code false} otherwise.
+	 * Tests whether {@code string} is a parsable {@link Number}.
 	 * <p>
-	 * @param string a {@link String}
+	 * @param string the {@link String} to test
 	 * <p>
-	 * @return {@code true} if {@code string} is a parsable number, {@code false} otherwise
+	 * @return {@code true} if {@code string} is a parsable {@link Number}, {@code false} otherwise
 	 */
 	public static boolean isNumber(final String string) {
 		try {
@@ -242,7 +243,7 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise.
+	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
 	 * @param a a {@link Number}
 	 * @param b another {@link Number} to compare with for equality
@@ -262,8 +263,7 @@ public class Numbers {
 	}
 
 	/**
-	 * Returns {@code true} if {@code a} is equal to {@code b} within {@code tolerance},
-	 * {@code false} otherwise.
+	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
 	 * <p>
 	 * @param a         a {@link Number}
 	 * @param b         another {@link Number} to compare with for equality

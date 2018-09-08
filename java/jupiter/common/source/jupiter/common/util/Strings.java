@@ -1331,8 +1331,7 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code string} is not {@code null} and empty, {@code false}
-	 * otherwise.
+	 * Tests whether {@code string} is not {@code null} and empty.
 	 * <p>
 	 * @param string the {@link String} to test
 	 * <p>
@@ -1343,8 +1342,7 @@ public class Strings {
 	}
 
 	/**
-	 * Returns {@code true} if {@code string} is not {@code null} and not empty, {@code false}
-	 * otherwise.
+	 * Tests whether {@code string} is not {@code null} and not empty.
 	 * <p>
 	 * @param string the {@link String} to test
 	 * <p>
@@ -1356,7 +1354,7 @@ public class Strings {
 	}
 
 	/**
-	 * Returns {@code true} if {@code string} is numeric, {@code false} otherwise.
+	 * Tests whether {@code string} is numeric.
 	 * <p>
 	 * @param string the {@link String} to test
 	 * <p>
@@ -1375,12 +1373,12 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code string} contains {@code character}.
+	 * Tests whether {@code string} contains {@code character}.
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param character the {@code char} value to test for presence
 	 * <p>
-	 * @return {@code true} if {@code string} contains {@code character}
+	 * @return {@code true} if {@code string} contains {@code character}, {@code false} otherwise
 	 */
 	public static boolean contains(final String string, final char character) {
 		if (string == null) {
@@ -1390,12 +1388,12 @@ public class Strings {
 	}
 
 	/**
-	 * Returns {@code true} if {@code string} contains {@code word}.
+	 * Tests whether {@code string} contains {@code word}.
 	 * <p>
 	 * @param string a {@link String}
 	 * @param word   the {@link String} to test for presence
 	 * <p>
-	 * @return {@code true} if {@code string} contains {@code word}
+	 * @return {@code true} if {@code string} contains {@code word}, {@code false} otherwise
 	 */
 	public static boolean contains(final String string, final String word) {
 		if (string == null) {
@@ -1405,12 +1403,12 @@ public class Strings {
 	}
 
 	/**
-	 * Returns {@code true} if {@code string} matches {@code expression}.
+	 * Tests whether {@code string} matches {@code expression}.
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param expression the regular expression to test for presence
 	 * <p>
-	 * @return {@code true} if {@code string} matches {@code expression}
+	 * @return {@code true} if {@code string} matches {@code expression}, {@code false} otherwise
 	 */
 	public static boolean matches(final String string, final String expression) {
 		if (string == null) {
@@ -1420,12 +1418,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns {@code true} if {@code string} matches any {@code expressions}.
+	 * Tests whether {@code string} matches any {@code expressions}.
 	 * <p>
 	 * @param string      a {@link String}
 	 * @param expressions the array of regular expressions to test for presence
 	 * <p>
-	 * @return {@code true} if {@code string} matches any {@code expressions}
+	 * @return {@code true} if {@code string} matches any {@code expressions}, {@code false}
+	 *         otherwise
 	 */
 	public static boolean matches(final String string, final String[] expressions) {
 		if (string == null) {
@@ -1445,8 +1444,7 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if the {@link String} representations of the arguments are equal to each
-	 * other, {@code false} otherwise.
+	 * Tests whether the {@link String} representations of the arguments are equal to each other.
 	 * <p>
 	 * @param a an {@link Object}
 	 * @param b another {@link Object} to compare with {@code a} for equality
@@ -1461,25 +1459,25 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code String} representation of the specified {@link Object} if not {@code null},
-	 * {@code "null"} otherwise.
+	 * Returns the {@code String} representation of the specified {@link Object} if not
+	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param content an {@link Object}
 	 * <p>
-	 * @return a {@code String} representation of the specified {@link Object} if not {@code null},
-	 *         {@code "null"} otherwise
+	 * @return the {@code String} representation of the specified {@link Object} if not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Object content) {
 		return String.valueOf(content);
 	}
 
 	/**
-	 * Returns a {@code String} representation of the specified {@link Object} if not {@code null}
+	 * Returns the {@code String} representation of the specified {@link Object} if not {@code null}
 	 * or {@code "null"}, {@code null} otherwise.
 	 * <p>
 	 * @param content an {@link Object}
 	 * <p>
-	 * @return a {@code String} representation of the specified {@link Object} if not {@code null}
+	 * @return the {@code String} representation of the specified {@link Object} if not {@code null}
 	 *         or {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object content) {
@@ -1491,27 +1489,27 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@code String} representation of the specified {@link Object} if not {@code null},
-	 * {@code defaultString} otherwise.
+	 * Returns the {@code String} representation of the specified {@link Object} if not
+	 * {@code null}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return a {@code String} representation of the specified {@link Object} if not {@code null},
-	 *         {@code defaultString} otherwise
+	 * @return the {@code String} representation of the specified {@link Object} if not
+	 *         {@code null}, {@code defaultString} otherwise
 	 */
 	public static String toString(final Object content, final String defaultString) {
 		return content != null ? String.valueOf(content) : defaultString;
 	}
 
 	/**
-	 * Returns a {@code String} representation of the specified {@link Object} if not {@code null}
+	 * Returns the {@code String} representation of the specified {@link Object} if not {@code null}
 	 * or {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return a {@code String} representation of the specified {@link Object} if not {@code null}
+	 * @return the {@code String} representation of the specified {@link Object} if not {@code null}
 	 *         or {@code "null"}, {@code defaultString} otherwise
 	 */
 	public static String toStringWithNull(final Object content, final String defaultString) {

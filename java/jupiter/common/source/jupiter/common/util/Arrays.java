@@ -265,6 +265,15 @@ public class Arrays {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether the specified array of type {@code T} is empty.
+	 * <p>
+	 * @param <T>   the type of the array to test
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return {@code true} if the specified array of type {@code T} is empty, {@code false}
+	 *         otherwise
+	 */
 	public static <T> boolean isEmpty(final T... array) {
 		for (final T element : array) {
 			if (element != null) {
@@ -274,6 +283,15 @@ public class Arrays {
 		return true;
 	}
 
+	/**
+	 * Tests whether the specified 2D array of type {@code T} is empty.
+	 * <p>
+	 * @param <T>     the type of the 2D array to test
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return {@code true} if the specified 2D array of type {@code T} is empty, {@code false}
+	 *         otherwise
+	 */
 	public static <T> boolean isEmpty(final T[]... array2D) {
 		for (final T[] array : array2D) {
 			if (!isEmpty(array)) {
@@ -283,6 +301,15 @@ public class Arrays {
 		return true;
 	}
 
+	/**
+	 * Tests whether the specified 3D array of type {@code T} is empty.
+	 * <p>
+	 * @param <T>     the type of the 3D array to test
+	 * @param array3D an 3D array of type {@code T}
+	 * <p>
+	 * @return {@code true} if the specified 3D array of type {@code T} is empty, {@code false}
+	 *         otherwise
+	 */
 	public static <T> boolean isEmpty(final T[][]... array3D) {
 		for (final T[][] array2D : array3D) {
 			if (!isEmpty(array2D)) {
@@ -316,7 +343,7 @@ public class Arrays {
 	 * @param <T>            the type of the array to convert
 	 * @param array          an array of type {@code T}
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T} joined by
 	 *         {@code delimiter} (and wrapped with parentheses if {@code useParentheses})

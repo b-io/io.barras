@@ -71,8 +71,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is less than {@code comparableNumber}, {@code false}
-	 * otherwise.
+	 * Tests whether {@code this} is less than {@code comparableNumber}.
 	 * <p>
 	 * @param comparableNumber the {@link ComparableNumber} to compare with
 	 * <p>
@@ -86,8 +85,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is less or equal to {@code comparableNumber},
-	 * {@code false} otherwise.
+	 * Tests whether {@code this} is less or equal to {@code comparableNumber}.
 	 * <p>
 	 * @param comparableNumber the {@link ComparableNumber} to compare with
 	 * <p>
@@ -101,8 +99,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is greater than {@code comparableNumber}, {@code false}
-	 * otherwise.
+	 * Tests whether {@code this} is greater than {@code comparableNumber}.
 	 * <p>
 	 * @param comparableNumber the {@link ComparableNumber} to compare with
 	 * <p>
@@ -116,8 +113,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is greater or equal to {@code comparableNumber},
-	 * {@code false} otherwise.
+	 * Tests whether {@code this} is greater or equal to {@code comparableNumber}.
 	 * <p>
 	 * @param comparableNumber the {@link ComparableNumber} to compare with
 	 * <p>
@@ -183,7 +179,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is less than {@code number}, {@code false} otherwise.
+	 * Tests whether {@code this} is less than {@code number}.
 	 * <p>
 	 * @param number the {@link Number} to compare with
 	 * <p>
@@ -196,8 +192,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is less or equal to {@code number}, {@code false}
-	 * otherwise.
+	 * Tests whether {@code this} is less or equal to {@code number}.
 	 * <p>
 	 * @param number the {@link Number} to compare with
 	 * <p>
@@ -211,7 +206,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is greater than {@code number}, {@code false} otherwise.
+	 * Tests whether {@code this} is greater than {@code number}.
 	 * <p>
 	 * @param number the {@link Number} to compare with
 	 * <p>
@@ -224,8 +219,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is greater or equal to {@code number}, {@code false}
-	 * otherwise.
+	 * Tests whether {@code this} is greater or equal to {@code number}.
 	 * <p>
 	 * @param number the {@link Number} to compare with
 	 * <p>
@@ -272,7 +266,7 @@ public abstract class ComparableNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise.
+	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
 	 * @param other the {@link Object} to compare with for equality
 	 * <p>
@@ -294,7 +288,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code number}, {@code false} otherwise.
+	 * Tests whether {@code this} is equal to {@code number}.
 	 * <p>
 	 * @param number the {@link Number} to compare with for equality
 	 * <p>
@@ -307,8 +301,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code number} within {@code tolerance},
-	 * {@code false} otherwise.
+	 * Tests whether {@code this} is equal to {@code number} within {@code tolerance}.
 	 * <p>
 	 * @param number    the {@link Number} to compare with for equality
 	 * @param tolerance the tolerance level
@@ -323,8 +316,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code comparableNumber}, {@code false}
-	 * otherwise.
+	 * Tests whether {@code this} is equal to {@code comparableNumber}.
 	 * <p>
 	 * @param comparableNumber the {@link ComparableNumber} to compare with for equality
 	 * <p>
@@ -338,8 +330,7 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code comparableNumber} within
-	 * {@code tolerance}, {@code false} otherwise.
+	 * Tests whether {@code this} is equal to {@code comparableNumber} within {@code tolerance}.
 	 * <p>
 	 * @param comparableNumber the {@link ComparableNumber} to compare with for equality
 	 * @param tolerance        the tolerance level

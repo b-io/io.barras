@@ -67,7 +67,7 @@ public class ExpressionHandler {
 			.toList(Arrays.toList('!', '\''), Arrays.toList('@'));
 
 	/**
-	 * The option specifying whether to parallelize using a work queue.
+	 * The flag specifying whether to parallelize using a work queue.
 	 */
 	protected static volatile boolean PARALLELIZE = true;
 	/**

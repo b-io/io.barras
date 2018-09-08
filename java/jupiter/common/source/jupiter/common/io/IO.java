@@ -38,11 +38,11 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The exit flag for success.
+	 * The flag specifying whether to exit with success.
 	 */
 	public static final int EXIT_SUCCESS = 0;
 	/**
-	 * The exit flag for failure.
+	 * The flag specifying whether to exit with failure.
 	 */
 	public static final int EXIT_FAILURE = 1;
 
@@ -232,8 +232,8 @@ public class IO {
 	 * Prints the specified content with the IO handlers.
 	 * <p>
 	 * @param content the {@link Object} to print
-	 * @param isError the option specifying whether to print in the standard error or in the
-	 *                standard output
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
 	public void print(final Object content, final boolean isError) {
 		for (final IOHandler handler : handlers) {
@@ -246,8 +246,8 @@ public class IO {
 	 * <p>
 	 * @param content the {@link Object} to print
 	 * @param n       the number of times to print the content
-	 * @param isError the option specifying whether to print in the standard error or in the
-	 *                standard output
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
 	public void print(final Object content, final int n, final boolean isError) {
 		if (n > 0) {
@@ -276,8 +276,8 @@ public class IO {
 	 * Prints the specified content and terminates the line with the IO handlers.
 	 * <p>
 	 * @param content the {@link Object} to print
-	 * @param isError the option specifying whether to print in the standard error or in the
-	 *                standard output
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
 	public void println(final Object content, final boolean isError) {
 		for (final IOHandler handler : handlers) {
@@ -290,8 +290,8 @@ public class IO {
 	 * <p>
 	 * @param content the {@link Object} to print
 	 * @param n       the number of times to print the content
-	 * @param isError the option specifying whether to print in the standard error or in the
-	 *                standard output
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
 	public void println(final Object content, final int n, final boolean isError) {
 		for (int i = 0; i < n; ++i) {

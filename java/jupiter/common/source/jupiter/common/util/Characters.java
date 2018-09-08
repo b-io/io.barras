@@ -546,16 +546,13 @@ public class Characters {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static boolean isCharacter(final Object object) {
-		return Strings.toString(object).length() == 1;
-	}
-
 	/**
-	 * Returns {@code true} if {@code string} is a parenthesis, {@code false} otherwise.
+	 * Tests whether the specified {@code char} value is a parenthesis.
 	 * <p>
 	 * @param character the {@code char} value to test
 	 * <p>
-	 * @return {@code true} if {@code string} is a parenthesis, {@code false} otherwise
+	 * @return {@code true} if the specified {@code char} value is a parenthesis, {@code false}
+	 *         otherwise
 	 */
 	public static boolean isParenthesis(final char character) {
 		return character == Characters.LEFT_PARENTHESIS ||
@@ -563,11 +560,12 @@ public class Characters {
 	}
 
 	/**
-	 * Returns {@code true} if {@code string} is a bracket, {@code false} otherwise.
+	 * Tests whether the specified {@code char} value is a bracket.
 	 * <p>
 	 * @param character the {@code char} value to test
 	 * <p>
-	 * @return {@code true} if {@code string} is a bracket, {@code false} otherwise
+	 * @return {@code true} if the specified {@code char} value is a bracket, {@code false}
+	 *         otherwise
 	 */
 	public static boolean isBracket(final char character) {
 		return character == Characters.LEFT_BRACKET || character == Characters.RIGHT_BRACKET;
@@ -576,12 +574,13 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code characters} contains {@code character}.
+	 * Tests whether {@code characters} contains {@code character}.
 	 * <p>
 	 * @param characters an array of {@code char} values
 	 * @param character  the {@code char} value to test for presence
 	 * <p>
-	 * @return {@code true} if {@code characters} contains {@code character}
+	 * @return {@code true} if {@code characters} contains {@code character}, {@code false}
+	 *         otherwise
 	 */
 	public static boolean contains(final char[] characters, final char character) {
 		if (characters == null) {
@@ -636,7 +635,7 @@ public class Characters {
 	 * <p>
 	 * @param array          an array of {@code char} values
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code char} values joined
 	 *         by {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
@@ -663,7 +662,7 @@ public class Characters {
 	 * <p>
 	 * @param array          an array of {@link Character}
 	 * @param delimiter      a {@link String}
-	 * @param useParentheses the option specifying whether to use parentheses
+	 * @param useParentheses the flag specifying whether to use parentheses
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Character} joined by
 	 *         {@code delimiter} (and wrapped with parentheses if {@code useParentheses})

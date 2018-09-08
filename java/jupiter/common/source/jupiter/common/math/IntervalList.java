@@ -89,7 +89,7 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is empty, {@code false} otherwise.
+	 * Tests whether {@code this} is empty.
 	 * <p>
 	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
 	 */
@@ -98,7 +98,7 @@ public class IntervalList<T extends Comparable<T>>
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} contains the value, {@code false} otherwise.
+	 * Tests whether {@code this} contains the value.
 	 * <p>
 	 * @param value the value to test for presence
 	 * <p>
@@ -114,7 +114,7 @@ public class IntervalList<T extends Comparable<T>>
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is valid, {@code false} otherwise.
+	 * Tests whether {@code this} is valid.
 	 * <p>
 	 * @return {@code true} if {@code this} is valid, {@code false} otherwise
 	 */

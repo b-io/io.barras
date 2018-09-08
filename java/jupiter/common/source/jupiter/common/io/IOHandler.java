@@ -41,8 +41,8 @@ public abstract class IOHandler {
 	 * Prints the specified object.
 	 * <p>
 	 * @param content the {@link Object} to print
-	 * @param isError the option specifying whether to print in the standard error or in the
-	 *                standard output
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
 	public abstract void print(final Object content, final boolean isError);
 
@@ -50,8 +50,8 @@ public abstract class IOHandler {
 	 * Prints the specified object and then terminates the line.
 	 * <p>
 	 * @param content the {@link Object} to print
-	 * @param isError the option specifying whether to print in the standard error or in the
-	 *                standard output
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
 	public abstract void println(final Object content, final boolean isError);
 

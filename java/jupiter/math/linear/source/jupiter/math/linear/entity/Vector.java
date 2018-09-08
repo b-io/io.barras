@@ -47,7 +47,7 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The transposed flag.
+	 * The flag specifying whether {@code this} is transposed.
 	 */
 	protected volatile boolean isTransposed;
 
@@ -69,7 +69,7 @@ public class Vector
 	 * Constructs a zero {@link Vector} of the specified number of elements.
 	 * <p>
 	 * @param dimension the number of elements
-	 * @param transpose the option specifying whether to transpose
+	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final int dimension, final boolean transpose) {
 		super(transpose ? 1 : dimension, transpose ? dimension : 1);
@@ -93,7 +93,7 @@ public class Vector
 	 * <p>
 	 * @param dimension the number of elements
 	 * @param value     a {@code double} value
-	 * @param transpose the option specifying whether to transpose
+	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final int dimension, final double value, final boolean transpose) {
 		super(transpose ? 1 : dimension, transpose ? dimension : 1, value);
@@ -113,7 +113,7 @@ public class Vector
 	 * Constructs a {@link Vector} from the specified values.
 	 * <p>
 	 * @param values    an array of {@code double} values
-	 * @param transpose the option specifying whether to transpose
+	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final double[] values, final boolean transpose) {
 		super(values.length, values, transpose);

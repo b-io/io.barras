@@ -111,7 +111,7 @@ public class DoubleTable
 	 * Constructs a {@link DoubleTable} imported from the specified file.
 	 * <p>
 	 * @param pathname  the pathname of the file to import
-	 * @param hasHeader the option specifying whether the file has a header
+	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */

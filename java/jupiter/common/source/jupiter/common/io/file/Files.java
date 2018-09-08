@@ -243,7 +243,7 @@ public class Files {
 	 * <p>
 	 * @param pathname       the pathname of the file to read
 	 * @param charset        the {@link Charset} of the file to read
-	 * @param skipEmptyLines the option specifying whether to skip empty lines
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         file
@@ -284,15 +284,15 @@ public class Files {
 	 * Creates a {@link BufferedWriter} of the specified file.
 	 * <p>
 	 * @param pathname the pathname of the file to write
-	 * @param isAppend the option specifying whether to append
+	 * @param append   the flag specifying whether to append
 	 * <p>
 	 * @return a {@link BufferedWriter} of the specified file
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening the specified file
 	 */
-	public static BufferedWriter createWriter(final String pathname, final boolean isAppend)
+	public static BufferedWriter createWriter(final String pathname, final boolean append)
 			throws FileNotFoundException {
-		return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pathname, isAppend)));
+		return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pathname, append)));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -328,21 +328,21 @@ public class Files {
 	 * <p>
 	 * @param content  the {@link String} to write
 	 * @param pathname the pathname of the file to write
-	 * @param isAppend the option specifying whether to append
+	 * @param append   the flag specifying whether to append
 	 * @param charset  the {@link Charset} of the file to write
 	 * <p>
 	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
 	 *         otherwise
 	 */
 	public static boolean writeLine(final String content, final String pathname,
-			final boolean isAppend, final Charset charset) {
+			final boolean append, final Charset charset) {
 		boolean isWritten = false;
 		// File writer
 		BufferedWriter writer = null;
 		try {
 			// Create a new file writer
 			writer = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(pathname, isAppend), charset));
+					new OutputStreamWriter(new FileOutputStream(pathname, append), charset));
 			// Append the string to the file
 			writer.write(content + "\n");
 			isWritten = true;
@@ -363,10 +363,10 @@ public class Files {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static boolean copy(final File source, final File target, final boolean isForce)
+	public static boolean copy(final File source, final File target, final boolean force)
 			throws CopyFileException {
 		if (exists(target)) {
-			if (isForce) {
+			if (force) {
 				delete(target);
 			} else {
 				throw new CopyFileException(
@@ -413,14 +413,14 @@ public class Files {
 		return false;
 	}
 
-	public static boolean copy(final File source, final File target, final boolean isForce,
+	public static boolean copy(final File source, final File target, final boolean force,
 			final int from)
 			throws CopyFileException {
 		if (from == 0) {
-			return copy(source, target, isForce);
+			return copy(source, target, force);
 		}
 		if (exists(target)) {
-			if (isForce) {
+			if (force) {
 				delete(target);
 			} else {
 				throw new CopyFileException(
@@ -483,23 +483,23 @@ public class Files {
 	 * Deletes the specified file (or directory).
 	 * <p>
 	 * @param pathname the pathname of the file (or directory) to delete
-	 * @param isForce  the option specifying whether to force deleting
+	 * @param force    the flag specifying whether to force deleting
 	 * <p>
 	 * @return {@code true} if the specified file (or directory) is deleted, {@code false} otherwise
 	 */
-	public static boolean delete(final String pathname, final boolean isForce) {
-		return delete(new File(pathname), isForce);
+	public static boolean delete(final String pathname, final boolean force) {
+		return delete(new File(pathname), force);
 	}
 
 	/**
 	 * Deletes the specified file (or directory).
 	 * <p>
-	 * @param file    the {@link File} to delete
-	 * @param isForce the option specifying whether to force deleting
+	 * @param file  the {@link File} to delete
+	 * @param force the flag specifying whether to force deleting
 	 * <p>
 	 * @return {@code true} if the specified file (or directory) is deleted, {@code false} otherwise
 	 */
-	public static boolean delete(final File file, final boolean isForce) {
+	public static boolean delete(final File file, final boolean force) {
 		boolean isDeleted = false;
 		// Test whether the file (or directory) exists
 		if (file.exists()) {
@@ -512,9 +512,9 @@ public class Files {
 					// Test whether the directory contains files
 					if (files.length > 0) {
 						// If force, delete the files of the directory recursively
-						if (isForce) {
+						if (force) {
 							for (final File f : files) {
-								delete(f, isForce);
+								delete(f, force);
 							}
 						} else {
 							IO.warn("The directory ", Strings.quote(file), " is not empty");
@@ -529,7 +529,7 @@ public class Files {
 			} else {
 				IO.warn("The file ", Strings.quote(file), " is write protected");
 			}
-		} else if (!isForce) {
+		} else if (!force) {
 			IO.warn("The file ", Strings.quote(file), " does not exist");
 		}
 		return isDeleted;

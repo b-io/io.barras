@@ -162,8 +162,8 @@ public class DynamicSample
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if the dynamic sample size is greater or equal to the lower bound and
-	 * the precision is decreasing, {@code false} otherwise.
+	 * Tests whether the dynamic sample size is greater or equal to the lower bound and the
+	 * precision is decreasing.
 	 * <p>
 	 * @return {@code true} if the dynamic sample size is greater or equal to the lower bound and
 	 *         the precision is decreasing, {@code false} otherwise
@@ -176,8 +176,8 @@ public class DynamicSample
 	}
 
 	/**
-	 * Returns {@code true} if the size of the sample is greater than {@code maxSampleSize} or the
-	 * precision is decreasing, {@code false} otherwise.
+	 * Tests whether the size of the sample is greater than {@code maxSampleSize} or the precision
+	 * is decreasing.
 	 * <p>
 	 * @return {@code true} if the size of the sample is greater than {@code maxSampleSize} or the
 	 *         precision is decreasing, {@code false} otherwise

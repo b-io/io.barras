@@ -66,7 +66,7 @@ public class EigenvalueDecomposition
 	 */
 	protected final int dimension;
 	/**
-	 * The symmetric flag.
+	 * The flag specifying whether {@code A} is symmetric.
 	 */
 	protected boolean isSymmetric;
 	/**

@@ -53,7 +53,7 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The running flag.
+	 * The flag specifying whether {@code this} is running.
 	 */
 	protected volatile boolean isRunning = true;
 
@@ -305,8 +305,7 @@ public class LockedWorkQueue<I, O>
 	}
 
 	/**
-	 * Returns {@code true} if the result of the task with the specified identifier is ready,
-	 * {@code false} otherwise.
+	 * Tests whether the result of the task with the specified identifier is ready.
 	 * <p>
 	 * @param id the identifier of the task
 	 * <p>
@@ -323,9 +322,9 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is isRunning, {@code false} otherwise.
+	 * Tests whether {@code this} is running.
 	 * <p>
-	 * @return {@code true} if {@code this} is isRunning, {@code false} otherwise
+	 * @return {@code true} if {@code this} is running, {@code false} otherwise
 	 */
 	public boolean isRunning() {
 		return isRunning;

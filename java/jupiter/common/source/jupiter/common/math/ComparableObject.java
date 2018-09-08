@@ -55,8 +55,7 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	public abstract int compareTo(final T comparableObject);
 
 	/**
-	 * Returns {@code true} if {@code this} is less than {@code comparableObject}, {@code false}
-	 * otherwise.
+	 * Tests whether {@code this} is less than {@code comparableObject}.
 	 * <p>
 	 * @param comparableObject the {@code T} object to compare with
 	 * <p>
@@ -72,8 +71,7 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is less or equal to {@code comparableObject},
-	 * {@code false} otherwise.
+	 * Tests whether {@code this} is less or equal to {@code comparableObject}.
 	 * <p>
 	 * @param comparableObject the {@code T} object to compare with
 	 * <p>
@@ -89,8 +87,7 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is greater than {@code comparableObject}, {@code false}
-	 * otherwise.
+	 * Tests whether {@code this} is greater than {@code comparableObject}.
 	 * <p>
 	 * @param comparableObject the {@code T} object to compare with
 	 * <p>
@@ -106,8 +103,7 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is greater or equal to {@code comparableObject},
-	 * {@code false} otherwise.
+	 * Tests whether {@code this} is greater or equal to {@code comparableObject}.
 	 * <p>
 	 * @param comparableObject the {@code T} object to compare with
 	 * <p>
@@ -164,7 +160,7 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise.
+	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
 	 * @param other the {@link Object} to compare with for equality
 	 * <p>

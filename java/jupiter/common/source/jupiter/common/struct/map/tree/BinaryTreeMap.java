@@ -438,7 +438,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns {@code true} if a mapping for the specified key exists, {@code false} otherwise.
+	 * Tests whether a mapping for the specified key exists.
 	 * <p>
 	 * @param key the key of the key-value mapping to test for presence
 	 * <p>
@@ -457,7 +457,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns {@code true} if a mapping for the specified value exists, {@code false} otherwise.
+	 * Tests whether a mapping for the specified value exists.
 	 * <p>
 	 * @param value the value of the key-value mapping to test for presence
 	 * <p>

@@ -188,7 +188,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is a leaf, {@code false} otherwise.
+	 * Tests whether {@code this} is a leaf.
 	 * <p>
 	 * @return {@code true} if {@code this} is a leaf, {@code false} otherwise
 	 */
