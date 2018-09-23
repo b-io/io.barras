@@ -92,6 +92,7 @@
 			<plugin>
 				<groupId>org.scala-tools</groupId>
 				<artifactId>maven-scala-plugin</artifactId>
+
 				<configuration>
 					<source>${project.build.source}</source>
 					<target>${project.build.target}</target>
@@ -100,6 +101,7 @@
 					</compilerArgs>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
+
 				<executions>
 					<execution>
 						<goals>
@@ -114,6 +116,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -128,6 +131,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>

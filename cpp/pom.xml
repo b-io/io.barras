@@ -55,6 +55,7 @@
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
 				<extensions>true</extensions>
+
 				<configuration>
 					<cpp>
 						<name>g++</name>

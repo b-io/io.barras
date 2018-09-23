@@ -24,8 +24,8 @@
 
 	<properties>
 		<!-- Project -->
-		<project.build.source>1.5</project.build.source>
-		<project.build.target>1.5</project.build.target>
+		<project.build.source>1.6</project.build.source>
+		<project.build.target>1.6</project.build.target>
 		<!-- Maven -->
 		<maven.compiler.source>${project.build.source}</maven.compiler.source>
 		<maven.compiler.target>${project.build.target}</maven.compiler.target>
@@ -53,6 +53,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven.compiler.version}</version>
+
 				<configuration>
 					<source>${project.build.source}</source>
 					<target>${project.build.target}</target>
@@ -68,6 +69,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>${maven.source.version}</version>
+
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -83,6 +85,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${maven.javadoc.version}</version>
+
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>

@@ -24,6 +24,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
+
 				<executions>
 					<execution>
 						<phase>install</phase>
@@ -32,6 +33,7 @@
 						</goals>
 					</execution>
 				</executions>
+
 				<configuration>
 					<executable>sh</executable>
 					<!-- Optional -->

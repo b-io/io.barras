@@ -24,7 +24,7 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
-//import static jupiter.integration.gpu.OpenCL.CL;
+import static jupiter.integration.gpu.OpenCL.CL;
 
 import jupiter.common.math.Statistics;
 import jupiter.common.struct.table.DoubleTable;
@@ -34,7 +34,7 @@ import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
-//import jupiter.integration.gpu.OpenCL;
+import jupiter.integration.gpu.OpenCL;
 
 public class MatrixTest
 		extends Test {
@@ -116,7 +116,6 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
-				/*
 				if (OpenCL.USE) {
 					IO.test("- GPU:");
 					CL.use = true;
@@ -136,7 +135,6 @@ public class MatrixTest
 						CL.use = false;
 					}
 				}
-				*/
 
 				// Test the hybrid version
 				IO.test("- Hybrid:");
@@ -177,7 +175,6 @@ public class MatrixTest
 	 * <p>
 	 * @since 1.6
 	 */
-	/*
 	public void testForward() {
 		IO.test("forward");
 
@@ -298,5 +295,4 @@ public class MatrixTest
 			hybridStats.export("hybrid.stats.csv");
 		}
 	}
-	*/
 }
