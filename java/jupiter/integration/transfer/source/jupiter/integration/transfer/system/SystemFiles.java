@@ -182,11 +182,13 @@ public class SystemFiles {
 
 	/**
 	 * Unzip the specified file and returns the number of unzipped files.
-	 *
+	 * <p>
 	 * @param pathname  the pathname of the file to unzip
 	 * @param targetDir the output directory
-	 *
+	 * <p>
 	 * @return the number of unzipped files
+	 * <p>
+	 * @since 1.6
 	 */
 	protected static int unzip(final String pathname, final String targetDir) {
 		int n = 0;

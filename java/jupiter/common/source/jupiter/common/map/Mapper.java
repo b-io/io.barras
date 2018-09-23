@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.test.Arguments;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
@@ -52,6 +53,11 @@ public abstract class Mapper<I, O>
 
 	protected Mapper(final Class<O> c) {
 		super();
+
+		// Check the arguments
+		Arguments.requireNonNull(c);
+
+		// Set the attributes
 		this.c = c;
 	}
 

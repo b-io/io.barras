@@ -493,7 +493,7 @@ public class Floats {
 	 * Returns the middle of the specified {@code float} value.
 	 * <p>
 	 * @param value a {@code float} value
-	 *
+	 * <p>
 	 * @return the middle of the specified {@code float} value
 	 */
 	public static float middle(final float value) {

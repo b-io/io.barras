@@ -480,7 +480,7 @@ public class Longs {
 	 * Returns the middle of the specified {@code long} value.
 	 * <p>
 	 * @param value a {@code long} value
-	 *
+	 * <p>
 	 * @return the middle of the specified {@code long} value
 	 */
 	public static long middle(final long value) {

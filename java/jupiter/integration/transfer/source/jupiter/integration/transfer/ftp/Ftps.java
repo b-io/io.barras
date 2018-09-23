@@ -118,7 +118,7 @@ public class Ftps {
 	/**
 	 * Download the specified files from the specified FTP with the specified parameters and returns
 	 * the number of downloaded files.
-	 *
+	 * <p>
 	 * @param hostname  the host name
 	 * @param port      the port
 	 * @param username  the username
@@ -127,8 +127,10 @@ public class Ftps {
 	 * @param localDir  the local directory where to store the files
 	 * @param filter    a file filter (can be a regular expression)
 	 * @param filenames the array of files to download (can be regular expressions)
-	 *
+	 * <p>
 	 * @return the number of downloaded files
+	 * <p>
+	 * @since 1.6
 	 */
 	protected static int downloadFtp(final String hostname, final int port, final String username,
 			final String password, final String remoteDir, final String localDir,
@@ -200,7 +202,7 @@ public class Ftps {
 	/**
 	 * Download the specified files from the specified FTPS with the specified parameters and
 	 * returns the number of downloaded files.
-	 *
+	 * <p>
 	 * @param hostname  the host name
 	 * @param port      the port
 	 * @param username  the username
@@ -209,8 +211,10 @@ public class Ftps {
 	 * @param localDir  the local directory where to store the files
 	 * @param filter    a file filter (can be a regular expression)
 	 * @param filenames the array of files to download (can be regular expressions)
-	 *
+	 * <p>
 	 * @return the number of downloaded files
+	 * <p>
+	 * @since 1.6
 	 */
 	protected static int downloadFtps(final String hostname, final int port, final String username,
 			final String password, final String remoteDir, final String localDir,
@@ -284,7 +288,7 @@ public class Ftps {
 	/**
 	 * Download the specified files from the specified SFTP with the specified parameters and
 	 * returns the number of downloaded files.
-	 *
+	 * <p>
 	 * @param hostname  the host name
 	 * @param port      the port
 	 * @param username  the username
@@ -293,8 +297,10 @@ public class Ftps {
 	 * @param localDir  the local directory where to store the files
 	 * @param filter    a file filter (can be a regular expression)
 	 * @param filenames the array of files to download (can be regular expressions)
-	 *
+	 * <p>
 	 * @return the number of downloaded files
+	 * <p>
+	 * @since 1.6
 	 */
 	protected static int downloadSftp(final String hostname, final int port, final String username,
 			final String password, final String remoteDir, final String localDir,

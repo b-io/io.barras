@@ -63,6 +63,8 @@ import jupiter.common.time.Chronometer;
 
 /**
  * A test for the bandwidth of of the data transfer from the host to the device.
+ * <p>
+ * @since 1.6
  */
 public class MemoryTest
 		extends Test {
@@ -107,6 +109,8 @@ public class MemoryTest
 
 	/**
 	 * The entry point of the memory transfer test.
+	 * <p>
+	 * @since 1.6
 	 */
 	public static void test() {
 		if (OpenCL.USE) {
@@ -122,9 +126,11 @@ public class MemoryTest
 
 	/**
 	 * Runs a bandwidth test with the specified memory and access modes.
-	 *
+	 * <p>
 	 * @param memoryMode The memory mode
 	 * @param accessMode The access mode
+	 * <p>
+	 * @since 1.6
 	 */
 	protected static void runTest(final MemoryMode memoryMode, final AccessMode accessMode) {
 		final int minExponent = 10;
@@ -154,12 +160,14 @@ public class MemoryTest
 	/**
 	 * Computes the bandwidth for copying a chunk of memory of the specified size from the host to
 	 * the device with the specified memory and access modes.
-	 *
+	 * <p>
 	 * @param memorySize The memory size, in bytes
 	 * @param memoryMode The memory mode
 	 * @param accessMode The access mode
-	 *
+	 * <p>
 	 * @return the bandwidth
+	 * <p>
+	 * @since 1.6
 	 */
 	protected static double computeBandwidth(final int memorySize, final MemoryMode memoryMode,
 			final AccessMode accessMode) {
@@ -259,6 +267,8 @@ public class MemoryTest
 
 	/**
 	 * Performs a default initialization by creating a context and a command queue.
+	 * <p>
+	 * @since 1.6
 	 */
 	protected static void initialize() {
 		// Enable exceptions and subsequently omit error checks in this sample
@@ -299,6 +309,8 @@ public class MemoryTest
 
 	/**
 	 * Releases the memory.
+	 * <p>
+	 * @since 1.6
 	 */
 	protected static void release() {
 		if (commandQueue != null) {

@@ -497,7 +497,7 @@ public class Integers {
 	 * Returns the middle of the specified {@code int} value.
 	 * <p>
 	 * @param value an {@code int} value
-	 *
+	 * <p>
 	 * @return the middle of the specified {@code int} value
 	 */
 	public static int middle(final int value) {

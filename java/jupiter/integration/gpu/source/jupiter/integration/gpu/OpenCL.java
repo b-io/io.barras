@@ -24,55 +24,15 @@
 package jupiter.integration.gpu;
 
 import static jupiter.common.io.IO.IO;
-import static org.jocl.CL.CL_CONTEXT_PLATFORM;
-import static org.jocl.CL.CL_DEVICE_TYPE_ALL;
-import static org.jocl.CL.CL_MEM_ALLOC_HOST_PTR;
-import static org.jocl.CL.CL_MEM_COPY_HOST_PTR;
-import static org.jocl.CL.CL_MEM_READ_ONLY;
-import static org.jocl.CL.CL_MEM_READ_WRITE;
-import static org.jocl.CL.CL_TRUE;
-import static org.jocl.CL.clBuildProgram;
-import static org.jocl.CL.clCreateBuffer;
-import static org.jocl.CL.clCreateCommandQueue;
-import static org.jocl.CL.clCreateContext;
-import static org.jocl.CL.clCreateKernel;
-import static org.jocl.CL.clCreateProgramWithSource;
-import static org.jocl.CL.clEnqueueNDRangeKernel;
-import static org.jocl.CL.clEnqueueReadBuffer;
-import static org.jocl.CL.clGetDeviceIDs;
-import static org.jocl.CL.clGetPlatformIDs;
-import static org.jocl.CL.clReleaseCommandQueue;
-import static org.jocl.CL.clReleaseContext;
-import static org.jocl.CL.clReleaseKernel;
-import static org.jocl.CL.clReleaseMemObject;
-import static org.jocl.CL.clReleaseProgram;
-import static org.jocl.CL.clSetKernelArg;
-import static org.jocl.CL.setExceptionsEnabled;
 
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
-import org.jocl.Pointer;
-import org.jocl.Sizeof;
-import org.jocl.cl_command_queue;
-import org.jocl.cl_context;
-import org.jocl.cl_context_properties;
-import org.jocl.cl_device_id;
-import org.jocl.cl_kernel;
-import org.jocl.cl_mem;
-import org.jocl.cl_platform_id;
-import org.jocl.cl_program;
-
-import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Maths;
-import jupiter.common.struct.map.tree.RedBlackTreeMap;
-import jupiter.common.test.Arguments;
-import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.StringArguments;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
-import jupiter.common.util.Strings;
 
-public class OpenCL {
+public abstract class OpenCL {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -137,9 +97,10 @@ public class OpenCL {
 
 	static {
 		try {
-			CL = new OpenCL(PROGRAM);
+			CL = new JOCL(PROGRAM);
 		} catch (final IllegalStateException ex) {
 			IO.error(ex);
+			USE = false;
 		}
 	}
 
@@ -150,97 +111,25 @@ public class OpenCL {
 
 	public volatile boolean use;
 
-	protected cl_context context;
-	protected cl_command_queue commandQueue;
-
-	protected cl_program program;
-	protected final Map<String, cl_kernel> kernels = new RedBlackTreeMap<String, cl_kernel>();
+	protected final String sourceCode;
+	protected final List<String> kernelNames = new LinkedList();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public OpenCL(final FileHandler fileHandler) {
-		this(fileHandler.read().getContent());
-	}
-
-	public OpenCL(final String sourceCode) {
+	protected OpenCL(final String sourceCode) {
 		// Check the arguments
 		StringArguments.requireNonEmpty(sourceCode);
 
-		// Set the platform, the device type and the device number
-		final int platformIndex = 0;
-		final long deviceType = CL_DEVICE_TYPE_ALL;
-		final int deviceIndex = 0;
-
-		// Enable the exceptions (and subsequently omit the error checks)
-		setExceptionsEnabled(true);
-
-		// Obtain the number of platforms
-		final int[] platformCountArray = new int[1];
-		clGetPlatformIDs(0, null, platformCountArray);
-		final int platformCount = platformCountArray[0];
-		IO.debug("#Platforms: ", platformCount);
-		if (platformCount == 0) {
-			use = false;
-			throw new IllegalStateException("There is no compatible OpenCL platform");
-		}
-
-		// Obtain a platform identifier
-		final cl_platform_id[] platforms = new cl_platform_id[platformCount];
-		clGetPlatformIDs(platforms.length, platforms, null);
-		final cl_platform_id platform = platforms[platformIndex];
-
-		// Initialize the context properties
-		final cl_context_properties contextProperties = new cl_context_properties();
-		contextProperties.addProperty(CL_CONTEXT_PLATFORM, platform);
-
-		// Obtain the number of devices for the platform
-		final int[] deviceCountArray = new int[1];
-		clGetDeviceIDs(platform, deviceType, 0, null, deviceCountArray);
-		final int deviceCount = deviceCountArray[0];
-		IO.debug("#Devices: ", deviceCount);
-		if (platformCount == 0) {
-			use = false;
-			throw new IllegalStateException("There is no compatible OpenCL device");
-		}
-
-		// Obtain a device identifier
-		final cl_device_id[] devices = new cl_device_id[deviceCount];
-		clGetDeviceIDs(platform, deviceType, deviceCount, devices, null);
-		final cl_device_id device = devices[deviceIndex];
-
-		try {
-			// Create a context for the selected device
-			context = clCreateContext(contextProperties, 1, new cl_device_id[] {
-				device
-			}, null, null, null);
-
-			// Create a command-queue for the selected device
-			commandQueue = clCreateCommandQueue(context, device, 0, null);
-
-			// Create the program from the source code
-			program = clCreateProgramWithSource(context, 1, Arrays.toArray(sourceCode), null, null);
-
-			// Build the program
-			clBuildProgram(program, 0, null, null, null, null);
-
-			// Build the kernels
-			int index = -1;
-			while ((index = sourceCode.indexOf(KERNEL_PREFIX, index + 1)) != -1) {
-				final int fromIndex = index + KERNEL_PREFIX.length() + 1;
-				final int toIndex = sourceCode.indexOf(Characters.LEFT_PARENTHESIS, index);
-				final String name = sourceCode.substring(fromIndex, toIndex).trim();
-				IO.debug("Build the kernel ", Strings.quote(name));
-				kernels.put(name, build(name));
-			}
-			use = USE;
-		} catch (final Exception ex) {
-			use = false;
-			release();
-			throw new IllegalStateException(
-					"There is a problem with the program: " + ex.getMessage());
+		// Set the attributes
+		this.sourceCode = sourceCode;
+		int index = -1;
+		while ((index = sourceCode.indexOf(KERNEL_PREFIX, index + 1)) != -1) {
+			final int fromIndex = index + KERNEL_PREFIX.length() + 1;
+			final int toIndex = sourceCode.indexOf(Characters.LEFT_PARENTHESIS, index);
+			kernelNames.add(sourceCode.substring(fromIndex, toIndex).trim());
 		}
 	}
 
@@ -249,106 +138,36 @@ public class OpenCL {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Returns the context.
-	 * <p>
-	 * @return the context
-	 */
-	public cl_context getContext() {
-		return context;
+	public String getSourceCode() {
+		return sourceCode;
 	}
 
-	/**
-	 * Returns the command-queue.
-	 * <p>
-	 * @return the command-queue
-	 */
-	public cl_command_queue getCommandQueue() {
-		return commandQueue;
+	public List<String> getKernels() {
+		return kernelNames;
 	}
-
-	/**
-	 * Returns the specified kernel.
-	 * <p>
-	 * @param name the kernel name
-	 * <p>
-	 * @return the specified kernel
-	 */
-	public cl_kernel getKernel(final String name) {
-		return kernels.get(name);
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public cl_mem createReadBuffer(final double[] array) {
-		return clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-				array.length * Sizeof.cl_double, Pointer.to(array), null);
-	}
+	public abstract String getDeviceName();
 
-	public cl_mem createWriteBuffer(final double[] array) {
-		return clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR,
-				array.length * Sizeof.cl_double, Pointer.to(array), null);
-	}
+	public abstract int getMaxComputeUnits();
+
+	public abstract long getMaxWorkItemDimensions();
+
+	public abstract long getMaxWorkGroupSize();
+
+	public abstract long getGlobalMemorySize();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public cl_kernel build(final String name) {
-		return clCreateKernel(program, name, null);
-	}
-
-	public int execute(final cl_kernel kernel, final int globalWorkSize, final int localWorkSize) {
-		return clEnqueueNDRangeKernel(commandQueue, kernel, 1, null, new long[] {
-			globalWorkSize
-		}, new long[] {
-			localWorkSize
-		}, 0, null, null);
-	}
-
-	public int read(final cl_mem buffer, final double[] array) {
-		return clEnqueueReadBuffer(commandQueue, buffer, CL_TRUE, 0,
-				array.length * Sizeof.cl_double, Pointer.to(array), 0, null, null);
-	}
-
-	/**
-	 * Releases the specified memory buffers.
-	 * <p>
-	 * @param buffers the array of {@link cl_mem} to release
-	 */
-	public void release(final cl_mem[] buffers) {
-		for (final cl_mem buffer : buffers) {
-			clReleaseMemObject(buffer);
-		}
-	}
-
-	/**
-	 * Releases the memory.
-	 */
-	public void release() {
-		for (final cl_kernel kernel : kernels.values()) {
-			clReleaseKernel(kernel);
-		}
-		kernels.clear();
-		if (program != null) {
-			clReleaseProgram(program);
-			program = null;
-		}
-		if (commandQueue != null) {
-			clReleaseCommandQueue(commandQueue);
-			commandQueue = null;
-		}
-		if (context != null) {
-			clReleaseContext(context);
-			context = null;
-		}
-	}
+	public abstract void release();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected abstract double[] compute(final String name, final double[] A, final double B[]);
 
 	public double[] plus(final double[] A, final double[] B) {
 		return compute("plus", A, B);
@@ -358,40 +177,8 @@ public class OpenCL {
 		return compute("minus", A, B);
 	}
 
-	public double[] times(final double[] A, final double[] B, final int aColumnDimension,
-			final int bColumnDimension) {
-		// Check the arguments
-		OpenCLArguments.requireSameInnerDimension(aColumnDimension,
-				Arguments.requireNonNull(B).length / bColumnDimension);
-
-		// Initialize
-		final int aRowDimension = A.length / aColumnDimension;
-		final double[] result = new double[aRowDimension * bColumnDimension];
-		final cl_mem[] buffers = new cl_mem[3];
-		buffers[0] = createReadBuffer(A);
-		buffers[1] = createReadBuffer(B);
-		buffers[2] = createWriteBuffer(result);
-
-		// Get the kernel
-		final cl_kernel kernel = getKernel("times");
-		// Set the kernel arguments
-		clSetKernelArg(kernel, 0, Sizeof.cl_mem, Pointer.to(buffers[0]));
-		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
-		clSetKernelArg(kernel, 2, Sizeof.cl_mem, Pointer.to(buffers[2]));
-		clSetKernelArg(kernel, 3, Sizeof.cl_int, Pointer.to(new int[] {
-			aColumnDimension
-		}));
-		clSetKernelArg(kernel, 4, Sizeof.cl_int, Pointer.to(new int[] {
-			bColumnDimension
-		}));
-		// Execute the kernel
-		execute(kernel, result.length, 1);
-		// Read the result
-		read(buffers[2], result);
-		// Release the memory
-		release(buffers);
-		return result;
-	}
+	public abstract double[] times(final double[] A, final double[] B, final int aColumnDimension,
+			final int bColumnDimension);
 
 	public double[] arrayTimes(final double[] A, final double[] B) {
 		return compute("arrayTimes", A, B);
@@ -405,32 +192,6 @@ public class OpenCL {
 		return compute("arrayLeftDivision", A, B);
 	}
 
-	protected double[] compute(final String name, final double[] A, final double B[]) {
-		// Check the arguments
-		DoubleArguments.requireSameLength(A, B);
-
-		// Initialize
-		final double[] result = new double[A.length];
-		final cl_mem[] buffers = new cl_mem[3];
-		buffers[0] = createReadBuffer(A);
-		buffers[1] = createReadBuffer(B);
-		buffers[2] = createWriteBuffer(result);
-
-		// Get the kernel
-		final cl_kernel kernel = getKernel(name);
-		// Set the kernel arguments
-		clSetKernelArg(kernel, 0, Sizeof.cl_mem, Pointer.to(buffers[0]));
-		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
-		clSetKernelArg(kernel, 2, Sizeof.cl_mem, Pointer.to(buffers[2]));
-		// Execute the kernel
-		execute(kernel, result.length, 1);
-		// Read the result
-		read(buffers[2], result);
-		// Release the memory
-		release(buffers);
-		return result;
-	}
-
 	/**
 	 * Returns the multiplication of {@code A} by {@code B} followed by the addition of {@code C}.
 	 * <p>
@@ -441,47 +202,12 @@ public class OpenCL {
 	 * @param bColumnDimension the column dimension of {@code B}
 	 * @param cColumnDimension the column dimension of {@code C}
 	 * <p>
-	 * @return {@code A * B + C}
+	 * @return {@code A . B + C}
+	 * <p>
+	 * @since 1.6
 	 */
-	public double[] forward(final double[] A, final double[] B, final double[] C,
-			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension) {
-		// Check the arguments
-		OpenCLArguments.requireSameInnerDimension(aColumnDimension,
-				Arguments.requireNonNull(B).length / bColumnDimension);
-
-		// Initialize
-		final int aRowDimension = A.length / aColumnDimension;
-		final double[] result = new double[aRowDimension * bColumnDimension];
-		final cl_mem[] buffers = new cl_mem[4];
-		buffers[0] = createReadBuffer(A);
-		buffers[1] = createReadBuffer(B);
-		buffers[2] = createReadBuffer(C);
-		buffers[3] = createWriteBuffer(result);
-
-		// Get the kernel
-		final cl_kernel kernel = getKernel("forward");
-		// Set the kernel arguments
-		clSetKernelArg(kernel, 0, Sizeof.cl_mem, Pointer.to(buffers[0]));
-		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
-		clSetKernelArg(kernel, 2, Sizeof.cl_mem, Pointer.to(buffers[2]));
-		clSetKernelArg(kernel, 3, Sizeof.cl_mem, Pointer.to(buffers[3]));
-		clSetKernelArg(kernel, 4, Sizeof.cl_int, Pointer.to(new int[] {
-			aColumnDimension
-		}));
-		clSetKernelArg(kernel, 5, Sizeof.cl_int, Pointer.to(new int[] {
-			bColumnDimension
-		}));
-		clSetKernelArg(kernel, 6, Sizeof.cl_int, Pointer.to(new int[] {
-			cColumnDimension
-		}));
-		// Execute the kernel
-		execute(kernel, result.length, 1);
-		// Read the result
-		read(buffers[3], result);
-		// Release the memory
-		release(buffers);
-		return result;
-	}
+	public abstract double[] forward(final double[] A, final double[] B, final double[] C,
+			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

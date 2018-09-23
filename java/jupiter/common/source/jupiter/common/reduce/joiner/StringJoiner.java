@@ -24,6 +24,7 @@
 package jupiter.common.reduce.joiner;
 
 import jupiter.common.reduce.ObjectReducer;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Strings;
 
 /**
@@ -45,6 +46,11 @@ public abstract class StringJoiner
 
 	protected StringJoiner(final String delimiter) {
 		super(String.class);
+
+		// Check the arguments
+		Arguments.requireNonNull(delimiter);
+
+		// Set the attributes
 		this.delimiter = delimiter;
 	}
 

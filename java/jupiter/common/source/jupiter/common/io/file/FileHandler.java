@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import jupiter.common.io.Resources;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
@@ -53,32 +54,17 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public FileHandler(final String pathname) {
-		this.pathname = pathname;
-		filename = Files.getFilename(pathname);
-		charset = Formats.DEFAULT_CHARSET;
-		writer = null;
+		this(pathname, Formats.DEFAULT_CHARSET);
 	}
-
 
 	public FileHandler(final String pathname, final Charset charset) {
+		// Check the arguments
+		Arguments.requireNonNull(pathname);
+		Arguments.requireNonNull(charset);
+
+		// Set the attributes
 		this.pathname = pathname;
 		filename = Files.getFilename(pathname);
-		this.charset = charset;
-		writer = null;
-	}
-
-	public FileHandler(final File file)
-			throws IOException {
-		pathname = file.getAbsolutePath();
-		filename = file.getName();
-		charset = Formats.DEFAULT_CHARSET;
-		writer = null;
-	}
-
-	public FileHandler(final File file, final Charset charset)
-			throws IOException {
-		pathname = file.getAbsolutePath();
-		filename = file.getName();
 		this.charset = charset;
 		writer = null;
 	}

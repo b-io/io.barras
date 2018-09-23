@@ -277,9 +277,9 @@ public class Dates {
 
 	/**
 	 * Returns the date of Easter Monday in the specified year.
-	 *
+	 * <p>
 	 * @param year the year to consider
-	 *
+	 * <p>
 	 * @return the date of Easter Monday in the specified year
 	 */
 	public static Date getEasterMonday(final int year) {
@@ -291,9 +291,9 @@ public class Dates {
 
 	/**
 	 * Returns the date of Ascension Day in the specified year.
-	 *
+	 * <p>
 	 * @param year the year to consider
-	 *
+	 * <p>
 	 * @return the date of Ascension Day in the specified year
 	 */
 	public static Date getAscensionDay(final int year) {
@@ -305,9 +305,9 @@ public class Dates {
 
 	/**
 	 * Returns the date of Pentecost Day in the specified year.
-	 *
+	 * <p>
 	 * @param year the year to consider
-	 *
+	 * <p>
 	 * @return the date of Pentecost Day in the specified year
 	 */
 	public static Date getPentecostDay(final int year) {

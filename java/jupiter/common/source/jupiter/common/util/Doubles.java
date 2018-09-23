@@ -481,7 +481,7 @@ public class Doubles {
 	 * Returns the middle of the specified {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
-	 *
+	 * <p>
 	 * @return the middle of the specified {@code double} value
 	 */
 	public static double middle(final double value) {

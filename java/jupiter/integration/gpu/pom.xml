@@ -21,13 +21,15 @@
 		<!-- Project -->
 		<project.build.source>1.6</project.build.source>
 		<project.build.target>1.6</project.build.target>
-		<!-- JOCL -->
+		<!-- JOCL @since 1.6 -->
 		<jocl.version>2.0.1</jocl.version>
 		<jocl.blast.version>1.3.0</jocl.blast.version>
+		<!-- JogAmp @since 1.6 -->
+		<jogamp.version>2.3.2</jogamp.version>
 	</properties>
 
 	<dependencies>
-		<!-- JOCL -->
+		<!-- JOCL @since 1.6 -->
 		<dependency>
 			<groupId>org.jocl</groupId>
 			<artifactId>jocl</artifactId>
@@ -37,6 +39,23 @@
 			<groupId>org.jocl</groupId>
 			<artifactId>jocl-blast</artifactId>
 			<version>${jocl.blast.version}</version>
+		</dependency>
+
+		<!-- JogAmp @since 1.6 -->
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt-main</artifactId>
+			<version>${jogamp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jocl</groupId>
+			<artifactId>jocl</artifactId>
+			<version>${jogamp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jocl</groupId>
+			<artifactId>jocl-main</artifactId>
+			<version>${jogamp.version}</version>
 		</dependency>
 
 		<!-- Jupiter -->
