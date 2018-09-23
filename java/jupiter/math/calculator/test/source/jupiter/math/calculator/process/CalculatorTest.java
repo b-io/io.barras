@@ -28,8 +28,7 @@ import static jupiter.common.io.IO.IO;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
 import jupiter.common.thread.Report;
 import jupiter.common.time.Chronometer;
@@ -39,7 +38,7 @@ import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
 public class CalculatorTest
-		extends TestCase {
+		extends Test {
 
 	public CalculatorTest(final String name) {
 		super(name);
@@ -53,8 +52,7 @@ public class CalculatorTest
 	public void testProcess() {
 		IO.test("process");
 
-		// Set up
-		IO.setSeverityLevel(SeverityLevel.TEST);
+		// Initialize
 		final int testCount = 20;
 		final int matrixSize = 200;
 		final Chronometer chrono = new Chronometer();

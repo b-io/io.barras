@@ -21,20 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.gpu;
+package jupiter.integration.jni;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.integration.gpu.OpenCL.CL;
 
 import java.io.IOException;
 
 import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 
-public class OpenCLTest
+public class JNITest
 		extends Test {
 
-	public OpenCLTest(final String name) {
+	public JNITest(final String name) {
 		super(name);
 	}
 
@@ -57,7 +56,7 @@ public class OpenCLTest
 		}
 
 		// Execute the operation
-		final double[] result = CL.arrayTimes(A, B);
+		final double[] result = JNI.arrayTimes(A, B);
 
 		// Verify the result
 		IO.test("Result: ", Doubles.toString(result));
@@ -94,7 +93,7 @@ public class OpenCLTest
 		}
 
 		// Execute the operation
-		final double[] result = CL.times(A, B, aColumnDimension, bColumnDimension);
+		final double[] result = JNI.times(A, B, aColumnDimension, bColumnDimension);
 
 		// Verify the result
 		IO.test("Result: ", Doubles.toString(result));
@@ -142,7 +141,7 @@ public class OpenCLTest
 		}
 
 		// Execute the operation
-		final double[] result = CL.forward(A, B, C, aColumnDimension, bColumnDimension,
+		final double[] result = JNI.forward(A, B, C, aColumnDimension, bColumnDimension,
 				cColumnDimension);
 
 		// Verify the result

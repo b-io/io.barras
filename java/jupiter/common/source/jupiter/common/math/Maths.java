@@ -157,13 +157,45 @@ public class Maths {
 		return a * b / gcd(a, b);
 	}
 
+	/**
+	 * Returns {@code number} rounded up to the nearest multiple of {@code unit}.
+	 * <p>
+	 * @param number the {@code int} value to round up
+	 * @param unit   an {@code int} value
+	 * <p>
+	 * @return {@code number} rounded up to the nearest multiple of {@code unit}
+	 */
+	public static int roundUp(final int number, final int unit) {
+		final int remainder = number % unit;
+		if (remainder == 0) {
+			return number;
+		}
+		return number + unit - remainder;
+	}
+
+	/**
+	 * Returns {@code number} rounded up to the nearest multiple of {@code unit}.
+	 * <p>
+	 * @param number the {@code long} value to round up
+	 * @param unit   an {@code long} value
+	 * <p>
+	 * @return {@code number} rounded up to the nearest multiple of {@code unit}
+	 */
+	public static long roundUp(final long number, final long unit) {
+		final long remainder = number % unit;
+		if (remainder == 0) {
+			return number;
+		}
+		return number + unit - remainder;
+	}
+
 	public static double square(final double x) {
 		return x * x;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int max(final int... values) {
+	public static int maxToInt(final int... values) {
 		// Check the arguments
 		IntegerArguments.requireNonEmpty(values);
 
@@ -175,7 +207,7 @@ public class Maths {
 		return max;
 	}
 
-	public static long max(final long... values) {
+	public static long maxToLong(final long... values) {
 		// Check the arguments
 		LongArguments.requireNonEmpty(values);
 
@@ -187,7 +219,7 @@ public class Maths {
 		return max;
 	}
 
-	public static float max(final float... values) {
+	public static float maxToFloat(final float... values) {
 		// Check the arguments
 		FloatArguments.requireNonEmpty(values);
 
@@ -199,7 +231,7 @@ public class Maths {
 		return max;
 	}
 
-	public static double max(final double... values) {
+	public static double maxToDouble(final double... values) {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
@@ -237,7 +269,7 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int min(final int... values) {
+	public static int minToInt(final int... values) {
 		// Check the arguments
 		IntegerArguments.requireNonEmpty(values);
 
@@ -249,7 +281,7 @@ public class Maths {
 		return min;
 	}
 
-	public static long min(final long... values) {
+	public static long minToLong(final long... values) {
 		// Check the arguments
 		LongArguments.requireNonEmpty(values);
 
@@ -261,7 +293,7 @@ public class Maths {
 		return min;
 	}
 
-	public static float min(final float... values) {
+	public static float minToFloat(final float... values) {
 		// Check the arguments
 		FloatArguments.requireNonEmpty(values);
 
@@ -273,7 +305,7 @@ public class Maths {
 		return min;
 	}
 
-	public static double min(final double... values) {
+	public static double minToDouble(final double... values) {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 

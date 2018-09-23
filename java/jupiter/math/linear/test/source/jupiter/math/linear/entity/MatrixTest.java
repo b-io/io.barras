@@ -24,23 +24,20 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.integration.gpu.OpenCL.CL;
+//import static jupiter.integration.gpu.OpenCL.CL;
 
-import org.junit.Test;
-
-import junit.framework.TestCase;
-import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.math.Statistics;
 import jupiter.common.struct.table.DoubleTable;
+import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
 import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
-import jupiter.integration.gpu.OpenCL;
+//import jupiter.integration.gpu.OpenCL;
 
 public class MatrixTest
-		extends TestCase {
+		extends Test {
 
 	public MatrixTest(final String name) {
 		super(name);
@@ -50,13 +47,13 @@ public class MatrixTest
 
 	/**
 	 * Test of dot method, of class Matrix.
+	 * <p>
+	 * @since 1.6
 	 */
-	@Test
 	public void testDot() {
 		IO.test("dot");
 
-		// Set up
-		IO.setSeverityLevel(SeverityLevel.TEST);
+		// Initialize
 		final int testCount = 10;
 		final int[] rowCounts = {
 			10, 50, 100, 200
@@ -101,7 +98,7 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.start();
-				CL.use = false;
+				//CL.use = false;
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
@@ -119,6 +116,7 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
+				/*
 				if (OpenCL.USE) {
 					IO.test("- GPU:");
 					CL.use = true;
@@ -138,6 +136,7 @@ public class MatrixTest
 						CL.use = false;
 					}
 				}
+				*/
 
 				// Test the hybrid version
 				IO.test("- Hybrid:");
@@ -175,13 +174,14 @@ public class MatrixTest
 
 	/**
 	 * Test of forward method, of class Matrix.
+	 * <p>
+	 * @since 1.6
 	 */
-	@Test
+	/*
 	public void testForward() {
 		IO.test("forward");
 
-		// Set up
-		IO.setSeverityLevel(SeverityLevel.TEST);
+		// Initialize
 		final int testCount = 10;
 		final int[] rowCounts = {
 			10, 50, 100, 200
@@ -298,4 +298,5 @@ public class MatrixTest
 			hybridStats.export("hybrid.stats.csv");
 		}
 	}
+	*/
 }

@@ -119,7 +119,7 @@ _RELEASE(a);
 const clocks t = chrono_start();
 
 /* Construct a Number */
-const natural number = real_to_natural(10E18);
+const natural number = real_to_natural(1E18);
 const natural base = 10;
 Number n = Number_create(number, base);
 
@@ -141,7 +141,7 @@ chrono_end(t); /* #Ticks: ... | Elapsed time: ... [ms] */
 ~~~c
 
 /* Fill the Array with integers (full copy) */
-const natural size = real_to_natural(10E6);
+const natural size = real_to_natural(1E6);
 Array* a = Array_new(_INTEGER_TYPE, INTEGER_SIZE, size);
 integer i;
 for (i = n; i > 0; --i)

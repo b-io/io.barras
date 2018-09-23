@@ -87,7 +87,6 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	@Override
 	public V get(final Object key) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "The specified key is null");
@@ -153,7 +152,6 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a null
 	 *                              key
 	 */
-	@Override
 	public void putAll(final Map<? extends K, ? extends V> map) {
 		super.putAll(map);
 	}

@@ -34,24 +34,32 @@ extern "C"
 	 * INCLUDES
 	 **********************************************************************************************/
 
-#include <stdint.h>
 #include <stdbool.h>
-#include <jni.h>
+#include <stdint.h>
+#include <stdio.h>
+
 #include <immintrin.h>
+
+#include <jni.h>
 
 
 	/***********************************************************************************************
-	 * TYPES
+	 * FUNCTIONS
 	 **********************************************************************************************/
 
+	JNIEXPORT void JNICALL dot(JNIEnv* jEnv, jobject jObject) {
+		printf("Hello World!\n");
+	}
+
+	/*
 	JNIEXPORT void JNICALL dot(JNIEnv* jEnv, jobject jObject, jdoubleArray jA, jdoubleArray jB,
 		jdoubleArray jC, jint jARowDimension, jint jInnerDimension, jint jBColumnDimension)
 	{
 		// Initialize
 		jboolean isCopy;
-		double* A = (double*) (*env)->GetPrimitiveArrayCritical(env, jA, &isCopy);
-		double* B = (double*) (*env)->GetPrimitiveArrayCritical(env, jB, &isCopy);
-		double* C = (double*) (*env)->GetPrimitiveArrayCritical(env, jC, &isCopy);
+		double* A = (double*) (*jEnv)->GetPrimitiveArrayCritical(jEnv, jA, &isCopy);
+		double* B = (double*) (*jEnv)->GetPrimitiveArrayCritical(jEnv, jB, &isCopy);
+		double* C = (double*) (*jEnv)->GetPrimitiveArrayCritical(jEnv, jC, &isCopy);
 		const int aRowDimension = (int) jARowDimension;
 		const int innerDimension = (int) jInnerDimension;
 		const int bColumnDimension = (int) jBColumnDimension;
@@ -69,10 +77,11 @@ extern "C"
 		}
 
 		// Release
-		(*env)->ReleasePrimitiveArrayCritical(env, jA, (jbyte *) A, 0);
-		(*env)->ReleasePrimitiveArrayCritical(env, jB, (jbyte *) B, 0);
-		(*env)->ReleasePrimitiveArrayCritical(env, jC, (jbyte *) C, 0);
+		(*jEnv)->ReleasePrimitiveArrayCritical(jEnv, jA, (jbyte *) A, 0);
+		(*jEnv)->ReleasePrimitiveArrayCritical(jEnv, jB, (jbyte *) B, 0);
+		(*jEnv)->ReleasePrimitiveArrayCritical(jEnv, jC, (jbyte *) C, 0);
 	}
+	*/
 
 
 #endif /* _MATRIX_H */

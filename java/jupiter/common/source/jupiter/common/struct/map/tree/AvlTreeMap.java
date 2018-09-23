@@ -147,7 +147,6 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	@Override
 	public synchronized V put(final K key, final V value) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "The specified key is null");

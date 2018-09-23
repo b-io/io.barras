@@ -33,12 +33,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import junit.framework.TestCase;
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
 public class ReservedThreadPoolExecutorTest
-		extends TestCase {
+		extends Test {
 
 	public ReservedThreadPoolExecutorTest(final String name) {
 		super(name);
@@ -52,8 +51,7 @@ public class ReservedThreadPoolExecutorTest
 	public void testSubmit() {
 		IO.test("submit");
 
-		// Set up
-		IO.setSeverityLevel(SeverityLevel.TEST);
+		// Initialize
 		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
 

@@ -30,12 +30,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.TestCase;
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
 public class LockedWorkQueueTest
-		extends TestCase {
+		extends Test {
 
 	public LockedWorkQueueTest(final String name) {
 		super(name);
@@ -49,8 +48,7 @@ public class LockedWorkQueueTest
 	public void testAddTask() {
 		IO.test("addTask");
 
-		// Set up
-		IO.setSeverityLevel(SeverityLevel.TEST);
+		// Initialize
 		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
 

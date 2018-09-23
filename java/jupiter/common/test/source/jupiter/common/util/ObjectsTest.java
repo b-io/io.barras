@@ -25,10 +25,10 @@ package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 
 public class ObjectsTest
-		extends TestCase {
+		extends Test {
 
 	public ObjectsTest(final String name) {
 		super(name);

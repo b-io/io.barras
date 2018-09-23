@@ -35,6 +35,7 @@ public class FloatArguments
 	protected FloatArguments() {
 	}
 
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +88,7 @@ public class FloatArguments
 	}
 
 	public static float requireNegative(final float found) {
-		if (CHECK_ARGS && found >= 0.) {
+		if (CHECK_ARGS && found >= 0f) {
 			throw new IllegalArgumentException(
 					"The specified float number " + found + " is zero or positive");
 		}
@@ -95,7 +96,7 @@ public class FloatArguments
 	}
 
 	public static float requireNonNegative(final float found) {
-		if (CHECK_ARGS && found < 0.) {
+		if (CHECK_ARGS && found < 0f) {
 			throw new IllegalArgumentException(
 					"The specified float number " + found + " is negative");
 		}
@@ -103,14 +104,14 @@ public class FloatArguments
 	}
 
 	public static float requireNonZero(final float found) {
-		if (CHECK_ARGS && found == 0.) {
+		if (CHECK_ARGS && found == 0f) {
 			throw new IllegalArgumentException("The specified float number " + found + " is zero");
 		}
 		return found;
 	}
 
 	public static float requirePositive(final float found) {
-		if (CHECK_ARGS && found <= 0.) {
+		if (CHECK_ARGS && found <= 0f) {
 			throw new IllegalArgumentException(
 					"The specified float number " + found + " is zero or negative");
 		}
@@ -118,7 +119,7 @@ public class FloatArguments
 	}
 
 	public static float requireNonPositive(final float found) {
-		if (CHECK_ARGS && found > 0.) {
+		if (CHECK_ARGS && found > 0f) {
 			throw new IllegalArgumentException(
 					"The specified float number " + found + " is positive");
 		}

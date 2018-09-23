@@ -27,12 +27,12 @@ import static jupiter.common.io.IO.IO;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.StringTable;
+import jupiter.common.test.Test;
 
 public class TableTest
-		extends TestCase {
+		extends Test {
 
 	public TableTest(final String name) {
 		super(name);

@@ -278,7 +278,6 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	@Override
 	public synchronized V remove(final Object key) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "The specified key is null");
@@ -431,7 +430,6 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	/**
 	 * Removes all the key-value mappings.
 	 */
-	@Override
 	public synchronized void clear() {
 		root = null;
 		size = 0;
@@ -447,7 +445,6 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	@Override
 	public boolean containsKey(final Object key) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "The specified key is null");
@@ -463,7 +460,6 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * <p>
 	 * @return {@code true} if a mapping for the specified value exists, {@code false} otherwise
 	 */
-	@Override
 	public boolean containsValue(final Object value) {
 		// Test the presence of the value
 		for (N node = getFirstEntry(); node != null; node = getSuccessor(node)) {
@@ -486,7 +482,6 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * <p>
 	 * @return a {@link Set} view of the key-value mappings
 	 */
-	@Override
 	public Set<Entry<K, V>> entrySet() {
 		return getEntries(root, new TreeSet<Entry<K, V>>());
 	}
@@ -514,7 +509,6 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * <p>
 	 * @return the number of key-value mappings
 	 */
-	@Override
 	public int size() {
 		return size;
 	}

@@ -33,6 +33,7 @@ public class IntegerArguments
 	protected IntegerArguments() {
 	}
 
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +86,7 @@ public class IntegerArguments
 	}
 
 	public static int requireNegative(final int found) {
-		if (CHECK_ARGS && found >= 0.) {
+		if (CHECK_ARGS && found >= 0) {
 			throw new IllegalArgumentException(
 					"The specified int number " + found + " is zero or positive");
 		}
@@ -93,7 +94,7 @@ public class IntegerArguments
 	}
 
 	public static int requireNonNegative(final int found) {
-		if (CHECK_ARGS && found < 0.) {
+		if (CHECK_ARGS && found < 0) {
 			throw new IllegalArgumentException(
 					"The specified int number " + found + " is negative");
 		}
@@ -101,14 +102,14 @@ public class IntegerArguments
 	}
 
 	public static int requireNonZero(final int found) {
-		if (CHECK_ARGS && found == 0.) {
+		if (CHECK_ARGS && found == 0) {
 			throw new IllegalArgumentException("The specified int number " + found + " is zero");
 		}
 		return found;
 	}
 
 	public static int requirePositive(final int found) {
-		if (CHECK_ARGS && found <= 0.) {
+		if (CHECK_ARGS && found <= 0) {
 			throw new IllegalArgumentException(
 					"The specified int number " + found + " is zero or negative");
 		}
@@ -116,7 +117,7 @@ public class IntegerArguments
 	}
 
 	public static int requireNonPositive(final int found) {
-		if (CHECK_ARGS && found > 0.) {
+		if (CHECK_ARGS && found > 0) {
 			throw new IllegalArgumentException(
 					"The specified int number " + found + " is positive");
 		}

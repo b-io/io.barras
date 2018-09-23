@@ -24,7 +24,7 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.integration.gpu.OpenCL.CL;
+//import static jupiter.integration.gpu.OpenCL.CL;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,7 +52,7 @@ import jupiter.common.util.Formats;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
-import jupiter.integration.gpu.OpenCL;
+//import jupiter.integration.gpu.OpenCL;
 import jupiter.math.analysis.function.Function;
 import jupiter.math.linear.decomposition.CholeskyDecomposition;
 import jupiter.math.linear.decomposition.EigenvalueDecomposition;
@@ -1828,8 +1828,11 @@ public class Matrix
 	 * @param B the {@link Entity} to add
 	 * <p>
 	 * @return {@code this * A + B}
+	 * <p>
+	 * @since 1.6
 	 */
 	public Entity forward(final Entity A, final Entity B) {
+		/*
 		if (OpenCL.USE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
 			final Matrix a = A.toMatrix();
 			final Matrix b = B.toMatrix();
@@ -1838,6 +1841,7 @@ public class Matrix
 						b.toPrimitiveArray(), n, a.getColumnDimension(), b.getColumnDimension()));
 			}
 		}
+		*/
 		return times(A).plus(B);
 	}
 

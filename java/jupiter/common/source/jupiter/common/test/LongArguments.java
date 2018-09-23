@@ -33,6 +33,7 @@ public class LongArguments
 	protected LongArguments() {
 	}
 
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +86,7 @@ public class LongArguments
 	}
 
 	public static long requireNegative(final long found) {
-		if (CHECK_ARGS && found >= 0.) {
+		if (CHECK_ARGS && found >= 0L) {
 			throw new IllegalArgumentException(
 					"The specified long number " + found + " is zero or positive");
 		}
@@ -93,7 +94,7 @@ public class LongArguments
 	}
 
 	public static long requireNonNegative(final long found) {
-		if (CHECK_ARGS && found < 0.) {
+		if (CHECK_ARGS && found < 0L) {
 			throw new IllegalArgumentException(
 					"The specified long number " + found + " is negative");
 		}
@@ -101,14 +102,14 @@ public class LongArguments
 	}
 
 	public static long requireNonZero(final long found) {
-		if (CHECK_ARGS && found == 0.) {
+		if (CHECK_ARGS && found == 0L) {
 			throw new IllegalArgumentException("The specified long number " + found + " is zero");
 		}
 		return found;
 	}
 
 	public static long requirePositive(final long found) {
-		if (CHECK_ARGS && found <= 0.) {
+		if (CHECK_ARGS && found <= 0L) {
 			throw new IllegalArgumentException(
 					"The specified long number " + found + " is zero or negative");
 		}
@@ -116,7 +117,7 @@ public class LongArguments
 	}
 
 	public static long requireNonPositive(final long found) {
-		if (CHECK_ARGS && found > 0.) {
+		if (CHECK_ARGS && found > 0L) {
 			throw new IllegalArgumentException(
 					"The specified long number " + found + " is positive");
 		}

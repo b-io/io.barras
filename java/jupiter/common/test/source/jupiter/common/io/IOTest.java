@@ -25,15 +25,15 @@ package jupiter.common.io;
 
 import static jupiter.common.io.IO.IO;
 
-import junit.framework.TestCase;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.console.SystemConsole;
+import jupiter.common.test.Test;
 import jupiter.common.util.Strings;
 
 public class IOTest
-		extends TestCase {
+		extends Test {
 
 	public IOTest(final String name) {
 		super(name);
@@ -104,6 +104,8 @@ public class IOTest
 		final Message result = IO.trace(content);
 		assertEquals(content, result.getContent());
 		assertEquals(new Message(Type.OUTPUT, SeverityLevel.TRACE, content), IO.trace(content));
+
+		IO.setSeverityLevel(SeverityLevel.TEST);
 	}
 
 	/**
@@ -111,10 +113,13 @@ public class IOTest
 	 */
 	public void testDebug() {
 		IO.test("debug");
+		IO.setSeverityLevel(SeverityLevel.DEBUG);
 
 		final String content = "This is a test message";
 		final Message result = IO.debug(content);
 		assertEquals(content, result.getContent());
+
+		IO.setSeverityLevel(SeverityLevel.TEST);
 	}
 
 	/**

@@ -25,6 +25,8 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
+import jupiter.common.test.LongArguments;
+
 public class Threads {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +52,20 @@ public class Threads {
 		sleep(DEFAULT_WAITING_TIME);
 	}
 
+	/**
+	 * Causes the currently executing thread to sleep (temporarily cease execution) for the
+	 * specified number of milliseconds, subject to the precision and accuracy of system timers and
+	 * schedulers. The thread does not lose ownership of any monitors.
+	 *
+	 * @param time the length of time to sleep in milliseconds
+	 *
+	 * @throws IllegalArgumentException if {@code time} is negative
+	 */
 	public static void sleep(final long time) {
+		// Check the arguments
+		LongArguments.requireNonNegative(time);
+
+		// Sleep
 		try {
 			Thread.sleep(time);
 		} catch (final InterruptedException ex) {

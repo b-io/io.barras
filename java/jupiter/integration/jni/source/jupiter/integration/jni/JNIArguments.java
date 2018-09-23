@@ -21,59 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.thread;
+package jupiter.integration.jni;
 
-import static jupiter.common.io.IO.IO;
+import jupiter.common.test.Arguments;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import jupiter.common.test.Test;
-import jupiter.common.time.Chronometer;
-
-public class WorkQueueTest
-		extends Test {
-
-	public WorkQueueTest(final String name) {
-		super(name);
-	}
+public class JNIArguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Test of addTask method, of class WorkQueue.
-	 */
-	public void testAddTask() {
-		IO.test("addTask");
-
-		// Initialize
-		final int taskCount = 100000;
-		final Chronometer chrono = new Chronometer();
-
-		// Create a work queue
-		final IWorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(
-				new SimpleWorker());
-		workQueue.reserveWorkers(WorkQueue.MAX_THREADS);
-		IO.test("There are ", WorkQueue.MAX_THREADS, " working threads");
-
-		// Process the tasks
-		chrono.start();
-		final List<Long> ids = new ArrayList<Long>(taskCount);
-		for (int i = 0; i < taskCount; ++i) {
-			ids.add(workQueue.submit(i));
-		}
-		final Set<Integer> results = new HashSet<Integer>(ids.size());
-		for (final long id : ids) {
-			results.add(workQueue.get(id));
-		}
-		chrono.stop();
-		IO.test(chrono.getMilliseconds(), " [ms]");
-
-		// Test
-		for (int i = 0; i < taskCount; ++i) {
-			assertTrue(results.contains(i));
+	public static void requireSameInnerDimension(final int aColumnDimension,
+			final int bRowDimension) {
+		if (aColumnDimension != bRowDimension) {
+			throw new IllegalArgumentException(
+					"The specified arrays do not have the same (inner) row dimensions " +
+							Arguments.isNotEqualTo(aColumnDimension, bRowDimension));
 		}
 	}
 }

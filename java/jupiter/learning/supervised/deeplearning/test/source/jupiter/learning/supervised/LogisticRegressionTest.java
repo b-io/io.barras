@@ -27,11 +27,11 @@ import static jupiter.common.io.IO.IO;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 
 public class LogisticRegressionTest
-		extends TestCase {
+		extends Test {
 
 	public LogisticRegressionTest(final String name) {
 		super(name);

@@ -25,12 +25,13 @@ package jupiter.common.time;
 
 import static jupiter.common.io.IO.IO;
 
-import junit.framework.TestCase;
+import jupiter.common.math.Maths;
+import jupiter.common.test.Test;
 import jupiter.common.thread.Threads;
 import jupiter.common.util.Longs;
 
 public class ChronometerTest
-		extends TestCase {
+		extends Test {
 
 	public ChronometerTest(final String name) {
 		super(name);
@@ -39,17 +40,71 @@ public class ChronometerTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of compute method, of class Chronometer.
+	 * Test of getMilliseconds method, of class Chronometer.
 	 */
-	public void testClear() {
-		IO.test("compute");
+	public void testGetMilliseconds() {
+		IO.test("getMilliseconds");
 
+		// Initialize
+		final long sleepingTime = 600L; // [ms]
+		final long unit = 1L;
+		final long tolerance = 10L * unit;
 		final Chronometer chrono = new Chronometer();
 
+		// Process
 		chrono.start();
-		Threads.sleep(600L);
+		Threads.sleep(sleepingTime);
 		chrono.stop();
 
-		assertEquals(600L, Longs.convert(chrono.getMilliseconds()), 1L);
+		// Test
+		final long time = Longs.convert(chrono.getMilliseconds());
+		IO.test(time, " [ms]");
+		assertEquals(sleepingTime * unit, Longs.convert(chrono.getMilliseconds()), tolerance);
+	}
+
+	/**
+	 * Test of getMicroseconds method, of class Chronometer.
+	 */
+	public void testGetMicroseconds() {
+		IO.test("getMicroseconds");
+
+		// Initialize
+		final long sleepingTime = 600L; // [ms]
+		final long unit = Longs.convert(1E3);
+		final long tolerance = 10L * unit;
+		final Chronometer chrono = new Chronometer();
+
+		// Process
+		chrono.start();
+		Threads.sleep(sleepingTime);
+		chrono.stop();
+
+		// Test
+		final long time = Longs.convert(chrono.getMicroseconds());
+		IO.test(time, " [µs] => ", Maths.roundToLong((double) time / unit), " [ms]");
+		assertEquals(sleepingTime * unit, Longs.convert(chrono.getMicroseconds()), tolerance);
+	}
+
+	/**
+	 * Test of getNanoseconds method, of class Chronometer.
+	 */
+	public void testGetNanoseconds() {
+		IO.test("getNanoseconds");
+
+		// Initialize
+		final long sleepingTime = 600L; // [ms]
+		final long unit = Longs.convert(1E6);
+		final long tolerance = 10L * unit;
+		final Chronometer chrono = new Chronometer();
+
+		// Process
+		chrono.start();
+		Threads.sleep(sleepingTime);
+		chrono.stop();
+
+		// Test
+		final long time = Longs.convert(chrono.getNanoseconds());
+		IO.test(time, " [ns] => ", Maths.roundToLong((double) time / unit), " [ms]");
+		assertEquals(sleepingTime * unit, Longs.convert(chrono.getNanoseconds()), tolerance);
 	}
 }

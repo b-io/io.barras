@@ -28,8 +28,7 @@ import static jupiter.common.io.IO.IO;
 import java.io.IOException;
 import java.util.Random;
 
-import junit.framework.TestCase;
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
 import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
@@ -39,7 +38,7 @@ import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
 
 public class NeuralNetworkTest
-		extends TestCase {
+		extends Test {
 
 	public NeuralNetworkTest(final String name) {
 		super(name);
@@ -107,8 +106,7 @@ public class NeuralNetworkTest
 	public void testClassify_File() {
 		IO.test("classify_File");
 
-		// Set up
-		IO.setSeverityLevel(SeverityLevel.TEST);
+		// Initialize
 		Doubles.RANDOM = new Random(1L);
 		final int testCount = 2;
 		final double[] times = new double[testCount];
@@ -142,7 +140,6 @@ public class NeuralNetworkTest
 			final double expectedCost, final double tolerance)
 			throws IOException {
 		// Initialize
-		final Chronometer chrono = new Chronometer();
 		final NeuralNetwork model = new NeuralNetwork("test/resources/" + example + "/X.csv",
 				"test/resources/" + example + "/Y.csv");
 		model.setActivationFunction(activationFunction);
@@ -155,6 +152,7 @@ public class NeuralNetworkTest
 			model.setWeights(weights);
 		} catch (final Exception ignored) {
 		}
+		final Chronometer chrono = new Chronometer();
 
 		// Train
 		chrono.start();

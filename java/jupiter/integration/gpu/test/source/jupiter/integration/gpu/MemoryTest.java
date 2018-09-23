@@ -57,73 +57,67 @@ import org.jocl.cl_device_id;
 import org.jocl.cl_mem;
 import org.jocl.cl_platform_id;
 
-import junit.framework.TestCase;
 import jupiter.common.io.ProgressBar;
+import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
 /**
  * A test for the bandwidth of of the data transfer from the host to the device.
  */
 public class MemoryTest
-		extends TestCase {
-
-	/**
-	 * The index of the OpenCL platform to use.
-	 */
-	private static final int platformIndex = 0;
-
-	/**
-	 * The OpenCL device type to use.
-	 */
-	private static final long deviceType = CL_DEVICE_TYPE_ALL;
-
-	/**
-	 * The index of the OpenCL device to use.
-	 */
-	private static final int deviceIndex = 0;
-
-	/**
-	 * The OpenCL context.
-	 */
-	private static cl_context context;
-
-	/**
-	 * The OpenCL command queue.
-	 */
-	private static cl_command_queue commandQueue;
-
-	/**
-	 * The host memory modes to test.
-	 */
-	enum MemoryMode {
-		PAGEABLE,
-		PINNED
-	}
-
-	/**
-	 * The memory access modes to test.
-	 */
-	enum AccessMode {
-		MAPPED,
-		DIRECT
-	}
+		extends Test {
 
 	/**
 	 * The number of memcopy operations to perform for each size.
 	 */
-	private static final long MEMCOPY_ITERATIONS = 100;
+	protected static final long MEMCOPY_ITERATIONS = 10L;
+
+	/**
+	 * The index of the OpenCL platform to use.
+	 */
+	protected static final int platformIndex = 0;
+
+	/**
+	 * The OpenCL device type to use.
+	 */
+	protected static final long deviceType = CL_DEVICE_TYPE_ALL;
+
+	/**
+	 * The index of the OpenCL device to use.
+	 */
+	protected static final int deviceIndex = 0;
+
+	/**
+	 * The OpenCL context.
+	 */
+	protected static cl_context context;
+
+	/**
+	 * The OpenCL command queue.
+	 */
+	protected static cl_command_queue commandQueue;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public MemoryTest(final String name) {
+		super(name);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The entry point of the memory transfer test.
 	 */
 	public static void test() {
-		initialize();
-		for (final MemoryMode memoryMode : MemoryMode.values()) {
-			for (final AccessMode accessMode : AccessMode.values()) {
-				//runTest(memoryMode, accessMode);
+		if (OpenCL.USE) {
+			initialize();
+			for (final MemoryMode memoryMode : MemoryMode.values()) {
+				for (final AccessMode accessMode : AccessMode.values()) {
+					runTest(memoryMode, accessMode);
+				}
 			}
+			release();
 		}
-		release();
 	}
 
 	/**
@@ -132,16 +126,16 @@ public class MemoryTest
 	 * @param memoryMode The memory mode
 	 * @param accessMode The access mode
 	 */
-	private static void runTest(final MemoryMode memoryMode, final AccessMode accessMode) {
+	protected static void runTest(final MemoryMode memoryMode, final AccessMode accessMode) {
 		final int minExponent = 10;
 		final int maxExponent = 26;
-		final int count = maxExponent - minExponent;
-		final int memorySizes[] = new int[count];
-		final double bandwidths[] = new double[memorySizes.length];
+		final int memorySizeCount = maxExponent - minExponent;
+		final int memorySizes[] = new int[memorySizeCount];
+		final double bandwidths[] = new double[memorySizeCount];
 
-		final ProgressBar bar = new ProgressBar(5 * count);
+		final ProgressBar bar = new ProgressBar(5 * memorySizeCount);
 		bar.start();
-		for (int i = 0; i < count; ++i) {
+		for (int i = 0; i < memorySizeCount; ++i) {
 			bar.printSymbols(5);
 			memorySizes[i] = 1 << minExponent + i;
 			final double bandwidth = computeBandwidth(memorySizes[i], memoryMode, accessMode);
@@ -150,7 +144,7 @@ public class MemoryTest
 		bar.end();
 
 		IO.test("Bandwidths for ", memoryMode, " and ", accessMode);
-		for (int i = 0; i < memorySizes.length; ++i) {
+		for (int i = 0; i < memorySizeCount; ++i) {
 			final String s = String.format("%10d", memorySizes[i]);
 			final String b = String.format(Locale.ENGLISH, "%5.3f", bandwidths[i]);
 			IO.test(s, " bytes : ", b, " [MB/s]");
@@ -167,7 +161,7 @@ public class MemoryTest
 	 *
 	 * @return the bandwidth
 	 */
-	static double computeBandwidth(final int memorySize, final MemoryMode memoryMode,
+	protected static double computeBandwidth(final int memorySize, final MemoryMode memoryMode,
 			final AccessMode accessMode) {
 		ByteBuffer hostBuffer = null;
 		cl_mem pinnedHostBuffer = null;
@@ -266,7 +260,7 @@ public class MemoryTest
 	/**
 	 * Performs a default initialization by creating a context and a command queue.
 	 */
-	private static void initialize() {
+	protected static void initialize() {
 		// Enable exceptions and subsequently omit error checks in this sample
 		CL.setExceptionsEnabled(true);
 
@@ -306,7 +300,7 @@ public class MemoryTest
 	/**
 	 * Releases the memory.
 	 */
-	private static void release() {
+	protected static void release() {
 		if (commandQueue != null) {
 			clReleaseCommandQueue(commandQueue);
 			commandQueue = null;
@@ -315,5 +309,23 @@ public class MemoryTest
 			clReleaseContext(context);
 			context = null;
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The memory access modes to test.
+	 */
+	public enum AccessMode {
+		MAPPED,
+		DIRECT
+	}
+
+	/**
+	 * The host memory modes to test.
+	 */
+	public enum MemoryMode {
+		PAGEABLE,
+		PINNED
 	}
 }

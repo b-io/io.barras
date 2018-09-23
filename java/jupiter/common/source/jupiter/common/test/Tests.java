@@ -55,7 +55,7 @@ public class Tests {
 		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.length,
 				mean, stddev);
 		printAverageTime(mean, confidenceInterval);
-		printMinMaxInterval(Maths.min(times), Maths.max(times));
+		printMinMaxInterval(Maths.minToDouble(times), Maths.maxToDouble(times));
 	}
 
 	public static <T extends Number> void printTimes(final T... times) {

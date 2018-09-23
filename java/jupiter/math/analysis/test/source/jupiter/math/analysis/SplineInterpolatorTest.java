@@ -25,14 +25,14 @@ package jupiter.math.analysis;
 
 import static jupiter.common.io.IO.IO;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 import jupiter.math.analysis.function.Function;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.analysis.interpolation.SplineInterpolator;
 
 public class SplineInterpolatorTest
-		extends TestCase {
+		extends Test {
 
 	public SplineInterpolatorTest(final String name) {
 		super(name);

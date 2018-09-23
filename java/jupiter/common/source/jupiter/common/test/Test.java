@@ -1,7 +1,7 @@
 /*
- * The MIT License (MIT)
+ * The MIT License
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2018 Florian Barras <https://barras.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,39 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.math;
+package jupiter.common.test;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.test.Test;
+import junit.framework.TestCase;
+import jupiter.common.io.IO.SeverityLevel;
 
-public class StatisticsTest
-		extends Test {
+public class Test
+		extends TestCase {
 
-	public StatisticsTest(final String name) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Test(final String name) {
 		super(name);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// TEST CASE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Test of normalCdf method, of class Statistics.
-	 */
-	public void testNormalCdf() {
-		IO.test("normalCdf");
-
-		final double normalCdf = Statistics.normalCdf(0.);
-		assertEquals(0.5, normalCdf, Maths.DEFAULT_TOLERANCE);
-	}
-
-	/**
-	 * Test of normalCdfInverse method, of class Statistics.
-	 */
-	public void testNormalCdfInverse() {
-		IO.test("normalCdfInverse");
-
-		final double normalCdfInverse = Statistics.normalCdfInverse(Maths.DEFAULT_CONFIDENCE);
-		IO.test("Accuracy: ", Maths.delta(normalCdfInverse, Maths.DEFAULT_Z));
-		assertEquals(Maths.DEFAULT_Z, normalCdfInverse, Maths.DEFAULT_TOLERANCE);
+	@Override
+	protected void setUp() {
+		IO.setSeverityLevel(SeverityLevel.TEST);
 	}
 }

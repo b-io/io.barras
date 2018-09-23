@@ -27,10 +27,10 @@ import static jupiter.common.io.IO.IO;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 
 public class RedBlackTreeMapTest
-		extends TestCase {
+		extends Test {
 
 	public RedBlackTreeMapTest(final String name) {
 		super(name);

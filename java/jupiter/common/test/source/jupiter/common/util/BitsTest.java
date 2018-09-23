@@ -25,10 +25,10 @@ package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 
 public class BitsTest
-		extends TestCase {
+		extends Test {
 
 	public BitsTest(final String name) {
 		super(name);
