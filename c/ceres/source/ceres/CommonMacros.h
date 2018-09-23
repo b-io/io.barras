@@ -146,7 +146,7 @@ extern "C"
 	 * DYNAMIC MEMORY ALLOCATION
 	 **********************************************************************************************/
 
-#ifdef _TEST_MODE
+#ifdef _TRACE_MODE
 #define _PRINT_NEW							printn(_S("<new />"))
 #define _PRINT_RESIZE						printn(_S("<resize />"))
 #define _PRINT_FREE							printn(_S("<free />"))
