@@ -55,7 +55,7 @@ class ConsoleHandler : public IOHandler
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-private:
+protected:
 
 	ConsoleHandler();
 	virtual ~ConsoleHandler();
@@ -181,7 +181,7 @@ public:
 	// BAR
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-private:
+protected:
 
 	static const int MAX_BAR_POINTS = Formats::DEFAULT_LINE_LENGTH - 2;
 	static int nBarPoints;
