@@ -20,6 +20,7 @@
 
 	<modules>
 		<module>ceres</module>
+		<module>jni</module>
 	</modules>
 
 	<properties>

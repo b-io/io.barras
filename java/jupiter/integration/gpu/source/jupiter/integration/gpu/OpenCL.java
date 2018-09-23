@@ -98,12 +98,11 @@ public class OpenCL {
 			"__kernel void times(__global const double* A, __global const double* B," +
 			"		__global double* C, const int aColumnDimension, const int bColumnDimension) {" +
 			"	const int index = get_global_id(0);" +
-			"	const int rowOffset = index / bColumnDimension;" +
-			"	const int columnOffset = index % bColumnDimension;" +
+			"	const int aRowOffset = (index / bColumnDimension) * aColumnDimension;" +
+			"	const int bColumnOffset = index % bColumnDimension;" +
 			"	double sum = 0.;" +
-			"	for (int i = 0; i < aColumnDimension; ++i) {" +
-			"		sum += A[rowOffset * aColumnDimension + i] * " +
-			"				B[i * bColumnDimension + columnOffset];" +
+			"	for (int k = 0; k < aColumnDimension; ++k) {" +
+			"		sum += A[aRowOffset + k] * B[k * bColumnDimension + bColumnOffset];" +
 			"	}" +
 			"	C[index] = sum;" +
 			"}" +
@@ -126,12 +125,11 @@ public class OpenCL {
 			"		__global double* C, __global double* D, const int aColumnDimension," +
 			"		const int bColumnDimension, const int cColumnDimension) {" +
 			"	const int index = get_global_id(0);" +
-			"	const int rowOffset = index / bColumnDimension;" +
-			"	const int columnOffset = index % bColumnDimension;" +
+			"	const int aRowOffset = (index / bColumnDimension) * aColumnDimension;" +
+			"	const int bColumnOffset = index % bColumnDimension;" +
 			"	double sum = 0.;" +
-			"	for (int i = 0; i < aColumnDimension; ++i) {" +
-			"		sum += A[rowOffset * aColumnDimension + i] *" +
-			"				B[i * bColumnDimension + columnOffset];" +
+			"	for (int k = 0; k < aColumnDimension; ++k) {" +
+			"		sum += A[aRowOffset + k] * B[k * bColumnDimension + bColumnOffset];" +
 			"	}" +
 			"	D[index] = sum + C[index % cColumnDimension];" +
 			"}";
