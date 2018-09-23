@@ -71,7 +71,7 @@ public class ChronometerTest
 		// Initialize
 		final long sleepingTime = 600L; // [ms]
 		final long unit = Longs.convert(1E3);
-		final long tolerance = 10L * unit;
+		final long tolerance = 100L * unit;
 		final Chronometer chrono = new Chronometer();
 
 		// Process
