@@ -101,7 +101,7 @@ extern "C"
 	/**
 	 * Enables test information.
 	 */
-/* #define _TEST_MODE */
+#define _TEST_MODE
 
 	/**
 	 * Enables warning information.
