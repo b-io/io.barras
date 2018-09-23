@@ -38,7 +38,7 @@ Set* Set_new(const type elementType, const natural elementSize, const natural in
 {
 	Set* s = _NEW(Set);
 
-	_PRINT_TEST(_S("<newSet>"));
+	_PRINT_DEBUG(_S("<newSet>"));
 	if (s != NULL)
 	{
 		s->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -54,7 +54,7 @@ Set* Set_new(const type elementType, const natural elementSize, const natural in
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_SET_NAME);
 	}
-	_PRINT_TEST(_S("</newSet>"));
+	_PRINT_DEBUG(_S("</newSet>"));
 	return s;
 }
 
@@ -65,7 +65,7 @@ Set* Set_new(const type elementType, const natural elementSize, const natural in
 
 void Set_reset(void* set, const type elementType, const natural elementSize, const natural initialSize, const Comparable comparator)
 {
-	_PRINT_TEST(_S("<resetSet>"));
+	_PRINT_DEBUG(_S("<resetSet>"));
 	_IF (_CHECK(set, _SET_NAME))
 	{
 		/* Get the Set */
@@ -111,7 +111,7 @@ void Set_reset(void* set, const type elementType, const natural elementSize, con
 		}
 		s->comparator = comparator;
 	}
-	_PRINT_TEST(_S("</resetSet>"));
+	_PRINT_DEBUG(_S("</resetSet>"));
 }
 
 
@@ -263,7 +263,7 @@ integer Set_compare_to(const void* structure, const type type, const void* value
 
 void Set_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseSet>"));
+	_PRINT_DEBUG(_S("<releaseSet>"));
 	if (structure != NULL)
 	{
 		/* Get the Set */
@@ -283,7 +283,7 @@ void Set_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_SET_NAME);
 	}
-	_PRINT_TEST(_S("</releaseSet>"));
+	_PRINT_DEBUG(_S("</releaseSet>"));
 }
 
 /**************************************************************************************************/

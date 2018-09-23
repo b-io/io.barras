@@ -54,7 +54,7 @@ FormattedTime* FormattedTime_new(const timestamp* stamp, const string format)
 {
 	FormattedTime* ft = _NEW(FormattedTime);
 
-	_PRINT_TEST(_S("<newFormattedTime>"));
+	_PRINT_DEBUG(_S("<newFormattedTime>"));
 	if (ft != NULL)
 	{
 		ft->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -64,7 +64,7 @@ FormattedTime* FormattedTime_new(const timestamp* stamp, const string format)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_FORMATTED_TIME_NAME);
 	}
-	_PRINT_TEST(_S("</newFormattedTime>"));
+	_PRINT_DEBUG(_S("</newFormattedTime>"));
 	return ft;
 }
 
@@ -75,7 +75,7 @@ FormattedTime* FormattedTime_new(const timestamp* stamp, const string format)
 
 void FormattedTime_reset(void* formattedTime, const timestamp* stamp, const string format)
 {
-	_PRINT_TEST(_S("<resetFormattedTime>"));
+	_PRINT_DEBUG(_S("<resetFormattedTime>"));
 	_IF (_CHECK(formattedTime, _FORMATTED_TIME_NAME))
 	{
 		/* Get the Formatted Time */
@@ -98,7 +98,7 @@ void FormattedTime_reset(void* formattedTime, const timestamp* stamp, const stri
 		ft->local = Time_local(&ft->time);
 		string_to_string((format == NULL) ? _TIME_FORMAT : format, ft->format);
 	}
-	_PRINT_TEST(_S("</resetFormattedTime>"));
+	_PRINT_DEBUG(_S("</resetFormattedTime>"));
 }
 
 
@@ -159,7 +159,7 @@ integer FormattedTime_compare_to(const void* structure, const type type, const v
 
 void FormattedTime_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseFormattedTime>"));
+	_PRINT_DEBUG(_S("<releaseFormattedTime>"));
 	if (structure != NULL)
 	{
 		/* Get the Formatted Time */
@@ -175,7 +175,7 @@ void FormattedTime_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_FORMATTED_TIME_NAME);
 	}
-	_PRINT_TEST(_S("</releaseFormattedTime>"));
+	_PRINT_DEBUG(_S("</releaseFormattedTime>"));
 }
 
 /**************************************************************************************************/

@@ -36,7 +36,7 @@
 
 void List_reset(void* list, const natural length, const type elementType, const natural elementSize, const natural initialSize)
 {
-	_PRINT_TEST(_S("<resetList>"));
+	_PRINT_DEBUG(_S("<resetList>"));
 	_IF (_CHECK(list, _LIST_NAME))
 	{
 		/* Get the List */
@@ -50,7 +50,7 @@ void List_reset(void* list, const natural length, const type elementType, const 
 		l->get = List_get;
 		l->removeAt = NULL;
 	}
-	_PRINT_TEST(_S("</resetList>"));
+	_PRINT_DEBUG(_S("</resetList>"));
 }
 
 

@@ -36,7 +36,7 @@
 
 void Iterable_reset(void* iterable, const natural length, const type elementType, const natural elementSize)
 {
-	_PRINT_TEST(_S("<resetIterable>"));
+	_PRINT_DEBUG(_S("<resetIterable>"));
 	_IF (_CHECK(iterable, _ITERABLE_NAME))
 	{
 		/* Get the Iterable structure */
@@ -63,7 +63,7 @@ void Iterable_reset(void* iterable, const natural length, const type elementType
 		set->element.size = elementSize;
 		set->element.value = NULL;
 	}
-	_PRINT_TEST(_S("</resetIterable>"));
+	_PRINT_DEBUG(_S("</resetIterable>"));
 }
 
 

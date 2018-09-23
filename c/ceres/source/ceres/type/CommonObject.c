@@ -54,7 +54,7 @@ Object* Object_new(const Structure* structure)
 {
 	Object* o = _NEW(Object);
 
-	_PRINT_TEST(_S("<newObject>"));
+	_PRINT_DEBUG(_S("<newObject>"));
 	if (o != NULL)
 	{
 		o->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -64,7 +64,7 @@ Object* Object_new(const Structure* structure)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_OBJECT_NAME);
 	}
-	_PRINT_TEST(_S("</newObject>"));
+	_PRINT_DEBUG(_S("</newObject>"));
 	return o;
 }
 
@@ -75,7 +75,7 @@ Object* Object_new(const Structure* structure)
 
 void Object_reset(void* object, const Structure* structure)
 {
-	_PRINT_TEST(_S("<resetObject>"));
+	_PRINT_DEBUG(_S("<resetObject>"));
 	_IF (_CHECK(object, _OBJECT_NAME)
 		&& _STRUCTURE_CHECK(structure))
 	{
@@ -118,7 +118,7 @@ void Object_reset(void* object, const Structure* structure)
 			o->structure = *structure;
 		}
 	}
-	_PRINT_TEST(_S("</resetObject>"));
+	_PRINT_DEBUG(_S("</resetObject>"));
 }
 
 Object* Object_leaf(const void* object)
@@ -203,7 +203,7 @@ integer Object_compare_to(const void* structure, const type type, const void* va
 
 void Object_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseObject>"));
+	_PRINT_DEBUG(_S("<releaseObject>"));
 	if (structure != NULL)
 	{
 		/* Get the Object */
@@ -221,7 +221,7 @@ void Object_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_OBJECT_NAME);
 	}
-	_PRINT_TEST(_S("</releaseObject>"));
+	_PRINT_DEBUG(_S("</releaseObject>"));
 }
 
 /**************************************************************************************************/

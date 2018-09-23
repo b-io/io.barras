@@ -38,7 +38,7 @@ SortedSet* SortedSet_new(const type elementType, const natural elementSize, cons
 {
 	SortedSet* ss = _NEW(SortedSet);
 
-	_PRINT_TEST(_S("<newSortedSet>"));
+	_PRINT_DEBUG(_S("<newSortedSet>"));
 	if (ss != NULL)
 	{
 		ss->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -54,7 +54,7 @@ SortedSet* SortedSet_new(const type elementType, const natural elementSize, cons
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_SORTED_SET_NAME);
 	}
-	_PRINT_TEST(_S("</newSortedSet>"));
+	_PRINT_DEBUG(_S("</newSortedSet>"));
 	return ss;
 }
 
@@ -65,7 +65,7 @@ SortedSet* SortedSet_new(const type elementType, const natural elementSize, cons
 
 void SortedSet_reset(void* sortedSet, const type elementType, const natural elementSize, const natural initialSize, const Comparable comparator)
 {
-	_PRINT_TEST(_S("<resetSortedSet>"));
+	_PRINT_DEBUG(_S("<resetSortedSet>"));
 	_IF (_CHECK(sortedSet, _SORTED_SET_NAME))
 	{
 		/* Get the Sorted Set */
@@ -82,7 +82,7 @@ void SortedSet_reset(void* sortedSet, const type elementType, const natural elem
 		/* - Basic */
 		ss->clone = SortedSet_clone;
 	}
-	_PRINT_TEST(_S("</resetSortedSet>"));
+	_PRINT_DEBUG(_S("</resetSortedSet>"));
 }
 
 

@@ -70,14 +70,14 @@ extern "C"
 	 * Defines the architecture to be considered.
 	 */
 #define _32_BITS
-	/* #define _64_BITS */
+/* #define _64_BITS */
 
 	/**********************************************************************************************/
 
 	/**
 	 * Uses the wide characters.
 	 */
-	/* #define _WIDE_STRING */
+/* #define _WIDE_STRING */
 
 	/**********************************************************************************************/
 
@@ -89,14 +89,24 @@ extern "C"
 	/**********************************************************************************************/
 
 	/**
+	 * Enables trace information.
+	 */
+/* #define _TRACE_MODE */
+
+	/**
 	 * Enables debug information.
 	 */
-	/* #define _TEST_MODE */
+/* #define _DEBUG_MODE */
+
+	/**
+	 * Enables test information.
+	 */
+/* #define _TEST_MODE */
 
 	/**
 	 * Enables warning information.
 	 */
-#define _WARN_MODE
+#define _WARNING_MODE
 
 
 	/***********************************************************************************************

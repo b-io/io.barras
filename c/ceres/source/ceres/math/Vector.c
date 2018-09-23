@@ -82,7 +82,7 @@ Vector* Vector_new(const natural dimension)
 {
 	Vector* v = _NEW(Vector);
 
-	_PRINT_TEST(_S("<newVector"));
+	_PRINT_DEBUG(_S("<newVector"));
 	if (v != NULL)
 	{
 		v->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -93,7 +93,7 @@ Vector* Vector_new(const natural dimension)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_VECTOR_NAME);
 	}
-	_PRINT_TEST(_S("</newVector"));
+	_PRINT_DEBUG(_S("</newVector"));
 	return v;
 }
 
@@ -125,7 +125,7 @@ Vector* Vector_from_to_new(const Vector* startingPoint, const Vector* endingPoin
 
 void Vector_reset(void* vector, const natural dimension)
 {
-	_PRINT_TEST(_S("<resetVector>"));
+	_PRINT_DEBUG(_S("<resetVector>"));
 	_IF (_CHECK(vector, _VECTOR_NAME))
 	{
 		/* Get the Vector*/
@@ -169,7 +169,7 @@ void Vector_reset(void* vector, const natural dimension)
 			_PRINT_ERROR_ARRAY_ALLOCATION(_REAL_TYPE);
 		}
 	}
-	_PRINT_TEST(_S("</resetVector>"));
+	_PRINT_DEBUG(_S("</resetVector>"));
 }
 
 
@@ -550,7 +550,7 @@ integer Vector_compare_to(const void* structure, const type type, const void* va
 
 void Vector_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseVector>"));
+	_PRINT_DEBUG(_S("<releaseVector>"));
 	if (structure != NULL)
 	{
 		/* Get the Vector*/
@@ -569,7 +569,7 @@ void Vector_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_VECTOR_NAME);
 	}
-	_PRINT_TEST(_S("</releaseVector>"));
+	_PRINT_DEBUG(_S("</releaseVector>"));
 }
 
 /**************************************************************************************************/

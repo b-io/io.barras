@@ -324,7 +324,7 @@ extern "C"
 #define _PRINT_TRACE(CONTENT)
 #endif
 #ifdef _DEBUG_MODE
-#define _PRINT_DEBUG(CONTENT)				print_debug(_S(__FILE__), _STRING_EMPTY, CONTENT)
+#define _PRINT_DEBUG(CONTENT)				print_debug(_S(__FILE__), __LINE__, CONTENT)
 #else
 #define _PRINT_DEBUG(CONTENT)
 #endif
@@ -339,12 +339,12 @@ extern "C"
 	/**
 	 * Prints the specified warning/error/failure message to stderr.
 	 */
-#ifdef _WARN_MODE
+#ifdef _WARNING_MODE
 #define _PRINT_WARNING(CONTENT)				print_warning(_S(__FILE__), CONTENT)
 #else
 #define _PRINT_WARNING(CONTENT)
 #endif
-#define _PRINT_ERROR(CONTENT)				print_error(_S(__FILE__), _STRING_EMPTY, CONTENT)
+#define _PRINT_ERROR(CONTENT)				print_error(_S(__FILE__), __LINE__, CONTENT)
 #define _PRINT_FAILURE(CONTENT)				print_failure(_S(__FILE__), _STRING_EMPTY, __LINE__, CONTENT)
 
 	/**

@@ -182,13 +182,13 @@ extern "C"
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _DEBUG}).
 	 * <p>
-	 * @param filePath     the file path
-	 * @param functionName the function name
-	 * @param content      the content of the message to be printed
+	 * @param filePath   the file path
+	 * @param lineNumber the line number
+	 * @param content    the content of the message to be printed
 	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
-	IOMessage print_debug(const string filePath, const string functionName, const string content);
+	IOMessage print_debug(const string filePath, const natural lineNumber, const string content);
 
 	/**
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
@@ -243,13 +243,13 @@ extern "C"
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _ERROR}).
 	 * <p>
-	 * @param filePath     the file path
-	 * @param functionName the function name
-	 * @param content      the content of the message to be printed
+	 * @param filePath   the file path
+	 * @param lineNumber the line number
+	 * @param content    the content of the message to be printed
 	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
-	IOMessage print_error(const string filePath, const string functionName, const string content);
+	IOMessage print_error(const string filePath, const natural lineNumber, const string content);
 
 	/**
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints

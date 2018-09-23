@@ -38,7 +38,7 @@ LinkedList* LinkedList_new(void)
 {
 	LinkedList* ll = _NEW(LinkedList);
 
-	_PRINT_TEST(_S("<newLinkedList"));
+	_PRINT_DEBUG(_S("<newLinkedList"));
 	if (ll != NULL)
 	{
 		ll->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -52,7 +52,7 @@ LinkedList* LinkedList_new(void)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_LINKED_LIST_NAME);
 	}
-	_PRINT_TEST(_S("</newLinkedList"));
+	_PRINT_DEBUG(_S("</newLinkedList"));
 	return ll;
 }
 
@@ -101,7 +101,7 @@ LinkedNode* LinkedNode_new_from_Object(const Object* value)
 
 void LinkedList_reset(void* linkedList)
 {
-	_PRINT_TEST(_S("<resetLinkedList>"));
+	_PRINT_DEBUG(_S("<resetLinkedList>"));
 	_IF (_CHECK(linkedList, _LINKED_LIST_NAME))
 	{
 		/* Get the Linked List */
@@ -141,14 +141,14 @@ void LinkedList_reset(void* linkedList)
 		/* Release the Linked Nodes */
 		ll->clear(ll);
 	}
-	_PRINT_TEST(_S("</resetLinkedList>"));
+	_PRINT_DEBUG(_S("</resetLinkedList>"));
 }
 
 /**************************************************************************************************/
 
 void LinkedNode_reset(void* linkedNode, const Structure* structure)
 {
-	_PRINT_TEST(_S("<resetLinkedNode>"));
+	_PRINT_DEBUG(_S("<resetLinkedNode>"));
 	_IF (_CHECK(linkedNode, _LINKED_NODE_NAME))
 	{
 		/* Get the Linked Node */
@@ -162,7 +162,7 @@ void LinkedNode_reset(void* linkedNode, const Structure* structure)
 		node->previous = NULL;
 		node->next = NULL;
 	}
-	_PRINT_TEST(_S("</resetLinkedNode>"));
+	_PRINT_DEBUG(_S("</resetLinkedNode>"));
 }
 
 
@@ -402,7 +402,7 @@ boolean LinkedList_add_Structure(void* collection, const Structure* structure)
 
 void LinkedList_clear(void* collection)
 {
-	_PRINT_TEST(_S("<clearLinkedList>"));
+	_PRINT_DEBUG(_S("<clearLinkedList>"));
 	_IF (_CHECK(collection, _LINKED_LIST_NAME))
 	{
 		/* Get the Linked List */
@@ -422,7 +422,7 @@ void LinkedList_clear(void* collection)
 		ll->first = NULL;
 		ll->last = NULL;
 	}
-	_PRINT_TEST(_S("</clearLinkedList>"));
+	_PRINT_DEBUG(_S("</clearLinkedList>"));
 }
 
 /**************************************************************************************************/
@@ -600,7 +600,7 @@ boolean LinkedList_remove_all(void* collection, const void* values)
 
 boolean LinkedList_resize(void* collection, const natural size)
 {
-	_PRINT_TEST(_S("<resizeLinkedList>"));
+	_PRINT_DEBUG(_S("<resizeLinkedList>"));
 	_IF (_CHECK(collection, _LINKED_LIST_NAME))
 	{
 		/* Get the Linked List */
@@ -641,10 +641,10 @@ boolean LinkedList_resize(void* collection, const natural size)
 				ll->size = size;
 			}
 		}
-		_PRINT_TEST(_S("</resizeLinkedList>"));
+		_PRINT_DEBUG(_S("</resizeLinkedList>"));
 		return _TRUE;
 	}
-	_PRINT_TEST(_S("</resizeLinkedList>"));
+	_PRINT_DEBUG(_S("</resizeLinkedList>"));
 	return _FALSE;
 }
 
@@ -755,7 +755,7 @@ integer LinkedList_compare_to(const void* structure, const type type, const void
 
 void LinkedList_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseLinkedList>"));
+	_PRINT_DEBUG(_S("<releaseLinkedList>"));
 	if (structure != NULL)
 	{
 		/* Get the Linked List */
@@ -773,12 +773,12 @@ void LinkedList_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_LINKED_LIST_NAME);
 	}
-	_PRINT_TEST(_S("</releaseLinkedList>"));
+	_PRINT_DEBUG(_S("</releaseLinkedList>"));
 }
 
 void LinkedNode_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseLinkedNode>"));
+	_PRINT_DEBUG(_S("<releaseLinkedNode>"));
 	if (structure != NULL)
 	{
 		/* Get the Linked Node */
@@ -791,7 +791,7 @@ void LinkedNode_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_LINKED_NODE_NAME);
 	}
-	_PRINT_TEST(_S("</releaseLinkedNode>"));
+	_PRINT_DEBUG(_S("</releaseLinkedNode>"));
 }
 
 /**************************************************************************************************/

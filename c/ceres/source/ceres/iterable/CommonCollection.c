@@ -36,7 +36,7 @@
 
 void Collection_reset(void* collection, const natural length, const type elementType, const natural elementSize, const natural initialSize)
 {
-	_PRINT_TEST(_S("<resetCollection>"));
+	_PRINT_DEBUG(_S("<resetCollection>"));
 	_IF (_CHECK(collection, _COLLECTION_NAME))
 	{
 		/* Get the Collection */
@@ -76,7 +76,7 @@ void Collection_reset(void* collection, const natural length, const type element
 		/* - Collection */
 		c->size = initialSize;
 	}
-	_PRINT_TEST(_S("</resetCollection>"));
+	_PRINT_DEBUG(_S("</resetCollection>"));
 }
 
 

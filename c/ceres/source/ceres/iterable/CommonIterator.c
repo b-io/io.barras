@@ -54,7 +54,7 @@ Iterator* Iterator_new(const natural length, const type elementType, const natur
 {
 	Iterator* it = _NEW(Iterator);
 
-	_PRINT_TEST(_S("<newIterator>"));
+	_PRINT_DEBUG(_S("<newIterator>"));
 	if (it != NULL)
 	{
 		it->core = Core_create(_TRUE, _FALSE, _TRUE, _FALSE);
@@ -64,7 +64,7 @@ Iterator* Iterator_new(const natural length, const type elementType, const natur
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_ITERATOR_NAME);
 	}
-	_PRINT_TEST(_S("</newIterator>"));
+	_PRINT_DEBUG(_S("</newIterator>"));
 	return it;
 }
 
@@ -75,7 +75,7 @@ Iterator* Iterator_new(const natural length, const type elementType, const natur
 
 void Iterator_reset(void* iterator, const natural length, const type elementType, const natural elementSize, void* node, void* (*next)(struct Iterator* iterator))
 {
-	_PRINT_TEST(_S("<resetIterator>"));
+	_PRINT_DEBUG(_S("<resetIterator>"));
 	_IF (_CHECK(iterator, _ITERATOR_NAME))
 	{
 		/* Get the Iterator */
@@ -108,7 +108,7 @@ void Iterator_reset(void* iterator, const natural length, const type elementType
 		it->index = 0;
 		it->node = node;
 	}
-	_PRINT_TEST(_S("</resetIterator>"));
+	_PRINT_DEBUG(_S("</resetIterator>"));
 }
 
 
@@ -138,7 +138,7 @@ void* Iterator_next(Iterator* iterator)
 
 void Iterator_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseIterator>"));
+	_PRINT_DEBUG(_S("<releaseIterator>"));
 	if (structure != NULL)
 	{
 		/* Get the Iterator */
@@ -154,7 +154,7 @@ void Iterator_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_ITERATOR_NAME);
 	}
-	_PRINT_TEST(_S("</releaseIterator>"));
+	_PRINT_DEBUG(_S("</releaseIterator>"));
 }
 
 /**************************************************************************************************/

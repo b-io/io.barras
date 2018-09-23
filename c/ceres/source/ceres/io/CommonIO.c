@@ -160,9 +160,9 @@ IOMessage print_trace(const string filePath, const string functionName, const na
 	return message;
 }
 
-IOMessage print_debug(const string filePath, const string functionName, const string content)
+IOMessage print_debug(const string filePath, const natural lineNumber, const string content)
 {
-	const IOMessage message = IOMessage_create(_OUT, _DEBUG, filePath, functionName, 0, content);
+	const IOMessage message = IOMessage_create(_OUT, _DEBUG, filePath, _STRING_EMPTY, lineNumber, content);
 
 	IOMessage_print(message);
 	return message;
@@ -202,9 +202,9 @@ IOMessage print_warning(const string filePath, const string content)
 	return message;
 }
 
-IOMessage print_error(const string filePath, const string functionName, const string content)
+IOMessage print_error(const string filePath, const natural lineNumber, const string content)
 {
-	const IOMessage message = IOMessage_create(_OUT, _ERROR, filePath, functionName, 0, content);
+	const IOMessage message = IOMessage_create(_OUT, _ERROR, filePath, _STRING_EMPTY, lineNumber, content);
 
 	IOMessage_print(message);
 	return message;

@@ -97,7 +97,7 @@ Number* Number_new(const natural n, const natural base)
 {
 	Number* number = _NEW(Number);
 
-	_PRINT_TEST(_S("<newNumber>"));
+	_PRINT_DEBUG(_S("<newNumber>"));
 	if (number != NULL)
 	{
 		number->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -107,7 +107,7 @@ Number* Number_new(const natural n, const natural base)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_NUMBER_NAME);
 	}
-	_PRINT_TEST(_S("</newNumber>"));
+	_PRINT_DEBUG(_S("</newNumber>"));
 	return number;
 }
 
@@ -118,7 +118,7 @@ Number* Number_new(const natural n, const natural base)
 
 void Number_reset(void* structure, const natural n, const natural base)
 {
-	_PRINT_TEST(_S("<resetNumber>"));
+	_PRINT_DEBUG(_S("<resetNumber>"));
 	_IF (_CHECK(structure, _NUMBER_NAME))
 	{
 		/* Get the Number */
@@ -146,7 +146,7 @@ void Number_reset(void* structure, const natural n, const natural base)
 			number->toZero(number);
 		}
 	}
-	_PRINT_TEST(_S("</resetNumber>"));
+	_PRINT_DEBUG(_S("</resetNumber>"));
 }
 
 
@@ -409,7 +409,7 @@ integer Number_compare_to(const void* structure, const type type, const void* va
 
 void Number_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseNumber>"));
+	_PRINT_DEBUG(_S("<releaseNumber>"));
 	if (structure != NULL)
 	{
 		/* Get the Number */
@@ -425,7 +425,7 @@ void Number_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_NUMBER_NAME);
 	}
-	_PRINT_TEST(_S("<releaseNumber>"));
+	_PRINT_DEBUG(_S("<releaseNumber>"));
 }
 
 /**************************************************************************************************/

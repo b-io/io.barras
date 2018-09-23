@@ -55,7 +55,7 @@ IOMessage* IOMessage_new(const IOType type, const SeverityLevel level, const str
 {
 	IOMessage* message = _NEW(IOMessage);
 
-	_PRINT_TEST(_S("<newIOMessage>"));
+	_PRINT_DEBUG(_S("<newIOMessage>"));
 	if (message != NULL)
 	{
 		message->core = Core_create(_TRUE, _FALSE, _TRUE, _FALSE);
@@ -66,7 +66,7 @@ IOMessage* IOMessage_new(const IOType type, const SeverityLevel level, const str
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_IO_MESSAGE_NAME);
 	}
-	_PRINT_TEST(_S("</newIOMessage>"));
+	_PRINT_DEBUG(_S("</newIOMessage>"));
 	return message;
 }
 
@@ -77,7 +77,7 @@ IOMessage* IOMessage_new(const IOType type, const SeverityLevel level, const str
 
 void IOMessage_reset(void* message)
 {
-	_PRINT_TEST(_S("<resetIOMessage>"));
+	_PRINT_DEBUG(_S("<resetIOMessage>"));
 	if (message != NULL)
 	{
 		/* Get the I/O Message */
@@ -100,7 +100,7 @@ void IOMessage_reset(void* message)
 		string_reset(m->prefix);
 		string_reset(m->content);
 	}
-	_PRINT_TEST(_S("</resetIOMessage>"));
+	_PRINT_DEBUG(_S("</resetIOMessage>"));
 }
 
 
@@ -193,7 +193,7 @@ void file_name(const string filePath, string output)
 
 void IOMessage_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseIOMessage>"));
+	_PRINT_DEBUG(_S("<releaseIOMessage>"));
 	if (structure != NULL)
 	{
 		/* Get the I/O Message */
@@ -209,7 +209,7 @@ void IOMessage_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_IO_MESSAGE_NAME);
 	}
-	_PRINT_TEST(_S("</releaseIOMessage>"));
+	_PRINT_DEBUG(_S("</releaseIOMessage>"));
 }
 
 /**************************************************************************************************/

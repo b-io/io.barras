@@ -38,7 +38,7 @@ ArrayList* ArrayList_new(const natural initialSize)
 {
 	ArrayList* al = _NEW(ArrayList);
 
-	_PRINT_TEST(_S("<newArrayList>"));
+	_PRINT_DEBUG(_S("<newArrayList>"));
 	if (al != NULL)
 	{
 		al->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -52,7 +52,7 @@ ArrayList* ArrayList_new(const natural initialSize)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_ARRAY_LIST_NAME);
 	}
-	_PRINT_TEST(_S("</newArrayList>"));
+	_PRINT_DEBUG(_S("</newArrayList>"));
 	return al;
 }
 
@@ -63,7 +63,7 @@ ArrayList* ArrayList_new(const natural initialSize)
 
 void ArrayList_reset(void* arrayList, const natural initialSize)
 {
-	_PRINT_TEST(_S("<resetArrayList>"));
+	_PRINT_DEBUG(_S("<resetArrayList>"));
 	_IF (_CHECK(arrayList, _ARRAY_LIST_NAME))
 	{
 		/* Get the Array List */
@@ -114,7 +114,7 @@ void ArrayList_reset(void* arrayList, const natural initialSize)
 			_PRINT_ERROR_ARRAY_ALLOCATION(_OBJECT_TYPE);
 		}
 	}
-	_PRINT_TEST(_S("</resetArrayList>"));
+	_PRINT_DEBUG(_S("</resetArrayList>"));
 }
 
 
@@ -236,7 +236,7 @@ boolean ArrayList_add_Structure(void* collection, const Structure* structure)
 
 void ArrayList_clear(void* collection)
 {
-	_PRINT_TEST(_S("<clearArrayList>"));
+	_PRINT_DEBUG(_S("<clearArrayList>"));
 	_IF (_CHECK(collection, _ARRAY_LIST_NAME))
 	{
 		/* Get the Array List */
@@ -253,7 +253,7 @@ void ArrayList_clear(void* collection)
 		al->length = 0;
 		al->next = al->elements;
 	}
-	_PRINT_TEST(_S("</clearArrayList>"));
+	_PRINT_DEBUG(_S("</clearArrayList>"));
 }
 
 /**************************************************************************************************/
@@ -447,7 +447,7 @@ boolean ArrayList_remove_all(void* collection, const void* values)
 
 boolean ArrayList_resize(void* collection, const natural size)
 {
-	_PRINT_TEST(_S("<resizeArrayList>"));
+	_PRINT_DEBUG(_S("<resizeArrayList>"));
 	_IF (_CHECK(collection, _ARRAY_LIST_NAME))
 	{
 		/* Get the Array List */
@@ -476,7 +476,7 @@ boolean ArrayList_resize(void* collection, const natural size)
 			al->size = size;
 			al->elements = es;
 			al->next = &es[al->length];
-			_PRINT_TEST(_S("</resizeArrayList>"));
+			_PRINT_DEBUG(_S("</resizeArrayList>"));
 			return _TRUE;
 		}
 		else if (size == 0)
@@ -484,7 +484,7 @@ boolean ArrayList_resize(void* collection, const natural size)
 			al->size = size;
 			al->elements = es;
 			al->next = es;
-			_PRINT_TEST(_S("</resizeArrayList>"));
+			_PRINT_DEBUG(_S("</resizeArrayList>"));
 			return _TRUE;
 		}
 		else
@@ -492,7 +492,7 @@ boolean ArrayList_resize(void* collection, const natural size)
 			_PRINT_ERROR_ARRAY_REALLOCATION(al->element.type);
 		}
 	}
-	_PRINT_TEST(_S("</resizeArrayList>"));
+	_PRINT_DEBUG(_S("</resizeArrayList>"));
 	return _FALSE;
 }
 
@@ -585,7 +585,7 @@ integer ArrayList_compare_to(const void* structure, const type type, const void*
 
 void ArrayList_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseArrayList>"));
+	_PRINT_DEBUG(_S("<releaseArrayList>"));
 	if (structure != NULL)
 	{
 		/* Get the Array List */
@@ -605,7 +605,7 @@ void ArrayList_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_ARRAY_LIST_NAME);
 	}
-	_PRINT_TEST(_S("</releaseArrayList>"));
+	_PRINT_DEBUG(_S("</releaseArrayList>"));
 }
 
 /**************************************************************************************************/

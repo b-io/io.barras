@@ -38,7 +38,7 @@ HashMap* HashMap_new(const type elementType, const natural elementSize, const na
 {
 	HashMap* hm = _NEW(HashMap);
 
-	_PRINT_TEST(_S("<newHashMap>"));
+	_PRINT_DEBUG(_S("<newHashMap>"));
 	if (hm != NULL)
 	{
 		hm->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -53,7 +53,7 @@ HashMap* HashMap_new(const type elementType, const natural elementSize, const na
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_HASH_MAP_NAME);
 	}
-	_PRINT_TEST(_S("</newHashMap>"));
+	_PRINT_DEBUG(_S("</newHashMap>"));
 	return hm;
 }
 
@@ -64,7 +64,7 @@ HashMap* HashMap_new(const type elementType, const natural elementSize, const na
 
 void HashMap_reset(void* set, const type elementType, const natural elementSize, const natural initialSize)
 {
-	_PRINT_TEST(_S("<resetHashMap>"));
+	_PRINT_DEBUG(_S("<resetHashMap>"));
 	_IF (_CHECK(set, _HASH_MAP_NAME))
 	{
 		/* Get the Hash Map */
@@ -111,7 +111,7 @@ void HashMap_reset(void* set, const type elementType, const natural elementSize,
 			_PRINT_ERROR_ARRAY_ALLOCATION(elementType);
 		}
 	}
-	_PRINT_TEST(_S("</resetHashMap>"));
+	_PRINT_DEBUG(_S("</resetHashMap>"));
 }
 
 
@@ -150,7 +150,7 @@ boolean HashMap_add(void* collection, const type type, void* value)
 
 void HashMap_clear(void* collection)
 {
-	_PRINT_TEST(_S("<clearHashMap>"));
+	_PRINT_DEBUG(_S("<clearHashMap>"));
 	_IF (_CHECK(collection, _HASH_MAP_NAME))
 	{
 		/* Get the Hash Map */
@@ -166,7 +166,7 @@ void HashMap_clear(void* collection)
 		}
 		hm->length = 0;
 	}
-	_PRINT_TEST(_S("</clearHashMap>"));
+	_PRINT_DEBUG(_S("</clearHashMap>"));
 }
 
 /**************************************************************************************************/
@@ -246,7 +246,7 @@ boolean HashMap_remove_all(void* collection, const void* values)
 
 boolean HashMap_resize(void* collection, const natural size)
 {
-	_PRINT_TEST(_S("<resizeHashMap>"));
+	_PRINT_DEBUG(_S("<resizeHashMap>"));
 	_IF (_CHECK(collection, _HASH_MAP_NAME))
 	{
 		/* Get the Hash Map */
@@ -274,7 +274,7 @@ boolean HashMap_resize(void* collection, const natural size)
 		}
 		/* TODO */
 	}
-	_PRINT_TEST(_S("</resizeHashMap>"));
+	_PRINT_DEBUG(_S("</resizeHashMap>"));
 	return _FALSE;
 }
 
@@ -347,7 +347,7 @@ integer HashMap_compare_to(const void* structure, const type type, const void* v
 
 void HashMap_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseHashMap>"));
+	_PRINT_DEBUG(_S("<releaseHashMap>"));
 	if (structure != NULL)
 	{
 		/* Get the Hash Map */
@@ -367,7 +367,7 @@ void HashMap_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_HASH_MAP_NAME);
 	}
-	_PRINT_TEST(_S("</releaseHashMap>"));
+	_PRINT_DEBUG(_S("</releaseHashMap>"));
 }
 
 /**************************************************************************************************/
