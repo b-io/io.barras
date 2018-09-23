@@ -20,7 +20,7 @@
 	<modules>
 		<module>android</module>
 		<!--<module>gpu</module>--><!-- @since 1.6 -->
-		<module>jni</module>
+		<!--<module>jni</module>-->
 		<module>log</module>
 		<module>r</module>
 		<!--<module>transfer</module>--><!-- @since 1.6 -->
