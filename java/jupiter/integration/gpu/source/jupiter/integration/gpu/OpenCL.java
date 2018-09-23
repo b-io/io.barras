@@ -490,7 +490,7 @@ public class OpenCL {
 
 	public boolean test(final int rowDimension, final int innerDimension,
 			final int columnDimension) {
-		return use && Maths.max(rowDimension * innerDimension, rowDimension * columnDimension,
+		return use && Maths.maxToInt(rowDimension * innerDimension, rowDimension * columnDimension,
 				innerDimension * columnDimension) > 1E5;
 	}
 
