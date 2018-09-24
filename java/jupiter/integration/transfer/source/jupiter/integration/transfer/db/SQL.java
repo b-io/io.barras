@@ -32,13 +32,13 @@ import java.sql.Timestamp;
 import jupiter.common.math.Numbers;
 import jupiter.common.struct.list.ExtendedList;
 
-public class Sqls {
+public class SQL {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected Sqls() {
+	protected SQL() {
 	}
 
 
@@ -67,7 +67,7 @@ public class Sqls {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedList<DbRow> getRows(final CallableStatement statement)
+	public static ExtendedList<DBRow> getRows(final CallableStatement statement)
 			throws SQLException {
 		// Get the result of the query
 		final ResultSet resultSet = statement.executeQuery();
@@ -79,13 +79,13 @@ public class Sqls {
 			header[i - 1] = metaData.getColumnName(i);
 		}
 		// Store and return the rows
-		final ExtendedList<DbRow> rows = new ExtendedList<DbRow>();
+		final ExtendedList<DBRow> rows = new ExtendedList<DBRow>();
 		while (resultSet.next()) {
 			final Object[] values = new Object[n];
 			for (int i = 0; i < n; ++i) {
 				values[i] = resultSet.getObject(header[i]);
 			}
-			rows.add(new DbRow(header, values));
+			rows.add(new DBRow(header, values));
 		}
 		return rows;
 	}

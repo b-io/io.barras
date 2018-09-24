@@ -120,6 +120,7 @@ public class ReservedThreadPoolExecutor
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 * @throws NullPointerException       if {@code task} is {@code null}
 	 */
+	@Override
 	public Future<?> submit(final Runnable task) {
 		submitLock.lock();
 		try {
@@ -146,6 +147,7 @@ public class ReservedThreadPoolExecutor
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 * @throws NullPointerException       if {@code task} is {@code null}
 	 */
+	@Override
 	public <T> Future<T> submit(final Runnable task, final T result) {
 		submitLock.lock();
 		try {
@@ -171,6 +173,7 @@ public class ReservedThreadPoolExecutor
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 * @throws NullPointerException       if {@code task} is {@code null}
 	 */
+	@Override
 	public <T> Future<T> submit(final Callable<T> task) {
 		submitLock.lock();
 		try {

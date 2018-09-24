@@ -53,13 +53,43 @@ import jupiter.common.io.Resources;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
-public class Ftps {
+public class FTPHandler {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected Protocol protocol;
+	protected String hostname;
+	protected int port;
+	protected String username;
+	protected String password;
+	protected String remoteDir;
+	protected String localDir;
+	protected String filter;
+	protected String[] filenames;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected Ftps() {
+	public FTPHandler(final Protocol protocol, final String hostname, final int port,
+			final String username, final String password, final String remoteDir,
+			final String localDir, final String filter, final String[] filenames) {
+		this.protocol = protocol;
+		this.hostname = hostname;
+		this.port = port;
+		this.username = username;
+		this.password = password;
+		this.remoteDir = remoteDir;
+		this.localDir = localDir;
+		this.filter = filter;
+		this.filenames = filenames;
+	}
+
+	public FTPHandler(final Properties properties) {
+		loadProperties(properties);
 	}
 
 
@@ -67,18 +97,20 @@ public class Ftps {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int download(final Properties info) {
-		final Protocol protocol = Protocol.get(info.getProperty("protocol"));
-		final String hostname = info.getProperty("hostname");
-		final Integer port = Integer
-				.valueOf(info.getProperty("port", protocol.equals("sftp") ? "22" : "21"));
-		final String username = info.getProperty("username");
-		final String password = info.getProperty("password");
-		final String remoteDir = info.getProperty("remoteDir");
-		final String localDir = info.getProperty("localDir");
-		String filter = info.getProperty("filter", "*");
-		final String[] filenames = info.getProperty("filenames").split(Arrays.DEFAULT_DELIMITER);
+	public void loadProperties(final Properties properties) {
+		protocol = Protocol.get(properties.getProperty("protocol"));
+		hostname = properties.getProperty("hostname");
+		port = Integer
+				.valueOf(properties.getProperty("port", protocol.equals("sftp") ? "22" : "21"));
+		username = properties.getProperty("username");
+		password = properties.getProperty("password");
+		remoteDir = properties.getProperty("remoteDir");
+		localDir = properties.getProperty("localDir");
+		filter = properties.getProperty("filter", "*");
+		filenames = properties.getProperty("filenames").split(Arrays.DEFAULT_DELIMITER);
+	}
 
+	public int download() {
 		if (filenames.length > 0) {
 			if (Strings.isNotEmpty(filenames[0])) {
 				// Download the files
@@ -86,17 +118,14 @@ public class Ftps {
 				switch (protocol) {
 					case FTP:
 						filter = filter.replace("*", ".*");
-						downloadedFileCount = downloadFtp(hostname, port, username, password,
-								remoteDir, localDir, filter, filenames);
+						downloadedFileCount = downloadFTP();
 						break;
 					case FTPS:
 						filter = filter.replace("*", ".*");
-						downloadedFileCount = downloadFtps(hostname, port, username, password,
-								remoteDir, localDir, filter, filenames);
+						downloadedFileCount = downloadFTPS();
 						break;
 					case SFTP:
-						downloadedFileCount = downloadSftp(hostname, port, username, password,
-								remoteDir, localDir, filter, filenames);
+						downloadedFileCount = downloadSFTP();
 						break;
 					default:
 						downloadedFileCount = 0;
@@ -119,22 +148,9 @@ public class Ftps {
 	 * Download the specified files from the specified FTP with the specified parameters and returns
 	 * the number of downloaded files.
 	 * <p>
-	 * @param hostname  the host name
-	 * @param port      the port
-	 * @param username  the username
-	 * @param password  the password
-	 * @param remoteDir the remote directory where to get the files
-	 * @param localDir  the local directory where to store the files
-	 * @param filter    a file filter (can be a regular expression)
-	 * @param filenames the array of files to download (can be regular expressions)
-	 * <p>
-	 * @return the number of downloaded files
-	 * <p>
 	 * @since 1.6
 	 */
-	protected static int downloadFtp(final String hostname, final int port, final String username,
-			final String password, final String remoteDir, final String localDir,
-			final String filter, final String[] filenames) {
+	protected int downloadFTP() {
 		int downloadedFileCount = 0;
 		final FTPClient ftp = new FTPClient();
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
@@ -203,22 +219,11 @@ public class Ftps {
 	 * Download the specified files from the specified FTPS with the specified parameters and
 	 * returns the number of downloaded files.
 	 * <p>
-	 * @param hostname  the host name
-	 * @param port      the port
-	 * @param username  the username
-	 * @param password  the password
-	 * @param remoteDir the remote directory where to get the files
-	 * @param localDir  the local directory where to store the files
-	 * @param filter    a file filter (can be a regular expression)
-	 * @param filenames the array of files to download (can be regular expressions)
-	 * <p>
 	 * @return the number of downloaded files
 	 * <p>
 	 * @since 1.6
 	 */
-	protected static int downloadFtps(final String hostname, final int port, final String username,
-			final String password, final String remoteDir, final String localDir,
-			final String filter, final String[] filenames) {
+	protected int downloadFTPS() {
 		int downloadedFileCount = 0;
 		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
@@ -289,22 +294,11 @@ public class Ftps {
 	 * Download the specified files from the specified SFTP with the specified parameters and
 	 * returns the number of downloaded files.
 	 * <p>
-	 * @param hostname  the host name
-	 * @param port      the port
-	 * @param username  the username
-	 * @param password  the password
-	 * @param remoteDir the remote directory where to get the files
-	 * @param localDir  the local directory where to store the files
-	 * @param filter    a file filter (can be a regular expression)
-	 * @param filenames the array of files to download (can be regular expressions)
-	 * <p>
 	 * @return the number of downloaded files
 	 * <p>
 	 * @since 1.6
 	 */
-	protected static int downloadSftp(final String hostname, final int port, final String username,
-			final String password, final String remoteDir, final String localDir,
-			final String filter, final String[] filenames) {
+	protected int downloadSFTP() {
 		int downloadedFileCount = 0;
 		final JSch jsch = new JSch();
 		Session session;
@@ -343,6 +337,11 @@ public class Ftps {
 		}
 		return downloadedFileCount;
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ENUMS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public enum Protocol {
 		FTP("FTP"),
