@@ -54,7 +54,7 @@ extern "C"
 	/**
 	 * Defines the size of the Iterators.
 	 */
-	extern const natural ITERATOR_SIZE;
+	extern const size ITERATOR_SIZE;
 
 
 	/***********************************************************************************************

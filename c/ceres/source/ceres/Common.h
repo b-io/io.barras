@@ -52,7 +52,7 @@ extern "C"
 #include "ceres/math/CommonMath.h"
 
 #include "ceres/time/CommonTime.h"
-#include "ceres/time/CommonClocks.h"
+#include "ceres/time/CommonClock.h"
 
 
 #endif /* _COMMON_H */

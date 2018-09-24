@@ -105,7 +105,7 @@ public class JNI {
 		final int aRowDimension = A.length / aColumnDimension;
 		final double[] result = new double[aRowDimension * bColumnDimension];
 
-		// Execute the JNI code
+		// Execute the JNI function
 		// TODO
 		return result;
 	}
@@ -129,7 +129,7 @@ public class JNI {
 		// Initialize
 		final double[] result = new double[A.length];
 
-		// Execute the JNI code
+		// Execute the JNI function
 		// TODO
 		return result;
 	}
@@ -156,7 +156,7 @@ public class JNI {
 		final int aRowDimension = A.length / aColumnDimension;
 		final double[] result = new double[aRowDimension * bColumnDimension];
 
-		// Execute the JNI code
+		// Execute the JNI function
 		// TODO
 		return result;
 	}

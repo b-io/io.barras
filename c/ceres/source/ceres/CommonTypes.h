@@ -64,7 +64,7 @@ extern "C"
 #endif
 
 	/**
-	 * Defines the digits (symbols) as unsigned characters ([_DIGIT_MIN, _DIGIT_MAX]).
+	 * Defines the digits (symbols) ([_DIGIT_MIN, _DIGIT_MAX]).
 	 */
 	typedef unsigned char digit;
 
@@ -80,12 +80,21 @@ extern "C"
 	/**
 	 * Defines the natural numbers ([_NATURAL_MIN, _NATURAL_MAX]).
 	 */
-	typedef size_t natural;
+#if __STDC__
+	typedef unsigned long int natural;
+#else
+	typedef unsigned long long int natural;
+#endif
 
 	/**
 	 * Defines the real numbers ([_REAL_MIN, _REAL_MAX]).
 	 */
 	typedef long double real;
+
+	/**
+	 * Defines the sizes.
+	 */
+	typedef size_t size;
 
 	/**
 	 * Defines the status.
@@ -163,7 +172,7 @@ extern "C"
 	/**
 	 * Defines the clock ticks.
 	 */
-	typedef clock_t clocks;
+	typedef clock_t tick;
 
 	/**
 	 * Defines the timestamps.
@@ -183,37 +192,37 @@ extern "C"
 	/**
 	 * Defines the size of the booleans.
 	 */
-	extern const natural BOOLEAN_SIZE;
+	extern const size BOOLEAN_SIZE;
 
 	/**
 	 * Defines the size of the characters.
 	 */
-	extern const natural CHARACTER_SIZE;
+	extern const size CHARACTER_SIZE;
 
 	/**
 	 * Defines the size of the digits.
 	 */
-	extern const natural DIGIT_SIZE;
+	extern const size DIGIT_SIZE;
 
 	/**
 	 * Defines the size of the integers.
 	 */
-	extern const natural INTEGER_SIZE;
+	extern const size INTEGER_SIZE;
 
 	/**
 	 * Defines the size of the natural numbers.
 	 */
-	extern const natural NATURAL_SIZE;
+	extern const size NATURAL_SIZE;
 
 	/**
 	 * Defines the size of the real numbers.
 	 */
-	extern const natural REAL_SIZE;
+	extern const size REAL_SIZE;
 
 	/**
 	 * Defines the size of the strings.
 	 */
-	extern const natural STRING_SIZE;
+	extern const size STRING_SIZE;
 
 
 #endif /* _COMMON_TYPES_H */

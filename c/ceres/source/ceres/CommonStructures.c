@@ -34,7 +34,7 @@
  * SIZES
  **************************************************************************************************/
 
-const natural CORE_SIZE = sizeof (Core);
-const natural STRUCTURE_SIZE = sizeof (Structure);
-const natural BASIC_SIZE = sizeof (Basic);
-const natural COMPARABLE_SIZE = sizeof (Comparable);
+const size CORE_SIZE = sizeof (Core);
+const size STRUCTURE_SIZE = sizeof (Structure);
+const size BASIC_SIZE = sizeof (Basic);
+const size COMPARABLE_SIZE = sizeof (Comparable);

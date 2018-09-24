@@ -56,7 +56,7 @@ extern "C"
 	/**
 	 * Defines the size of the Numbers.
 	 */
-	extern const natural NUMBER_SIZE;
+	extern const size NUMBER_SIZE;
 
 
 	/***********************************************************************************************

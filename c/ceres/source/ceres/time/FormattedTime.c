@@ -34,7 +34,7 @@
  * CONSTANTS
  **************************************************************************************************/
 
-const natural FORMATTED_TIME_SIZE = sizeof (FormattedTime);
+const size FORMATTED_TIME_SIZE = sizeof (FormattedTime);
 
 
 /***************************************************************************************************

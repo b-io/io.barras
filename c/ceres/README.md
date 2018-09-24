@@ -48,13 +48,13 @@ while respecting [this MIT License (MIT)][license].
 const natural number = 20;
 const digit base = 10;
 Number n = Number_create(number, base);
-println(_S("%N"), &n); /* 20 */
+printn(_S("%N"), &n); /* 20 */
 
 /* Change the base of the Number to binary and store the result in a string */
 string output;
 n.changeBase(&n, 2);
 n.toString(&n, output);
-println(output); /* 10100 */
+printn(output); /* 10100 */
 
 /* Encapsulate the Number in an Object (only the reference to the Number is kept) */
 const integer type = _NUMBER_TYPE; /* (_NUMBER_TYPE is a preprocessor definition) */
@@ -63,7 +63,7 @@ Object o = Object_create(&s);
 
 /* Change the base of the Number to hexadecimal (0 -> 0, 1 -> 1, ..., 10 -> A, 11 -> B, ...) */
 n.changeBase(&n, 16);
-println(_S("%O"), &o); /* 14 */
+printn(_S("%O"), &o); /* 14 */
 
 ~~~
 
@@ -77,34 +77,34 @@ string s1 = _S("hello");
 string s2 = _S("world");
 string s3 = _S("!");
 const natural initialSize = 10;
-const type elementType = _STRING_TYPE;
-const natural elementSize = STRING_SIZE;
+const type elementType = _STRING_TYPE; /* (_STRING_TYPE is a preprocessor definition) */
+const size elementSize = STRING_SIZE;
 
 /* Construct an Array of strings */
 Array* a = Array_new(elementType, elementSize, initialSize);
-a->addValue(a, s1); a->addValue(a, s1);
+a->addValue(a, s1); a->addValue(a, s1); /* (2x) */
 a->addValue(a, s2);
 a->addValue(a, s3);
 
 /* Print some information about the Array */
-println(_S("The number of elements in %A is %n."), a, a->length);
-println(_S("The number of '%s' in %A is %n."), s1, a, a->countValue(a, s1));
+printn(_S("The number of elements in %A is %n."), a, a->length);
+printn(_S("The number of '%s' in %A is %n."), s1, a, a->countValue(a, s1));
 {
   /* Count the number of specific strings in a string */
   Array* set = Array_new(elementType, elementSize, 2);
   set->addValue(set, s1);
   set->addValue(set, s2);
-  println(_S("The number of '%s' and '%s' in %A is %n."), s1, s2, a, a->countAll(a, set));
+  printn(_S("The number of '%s' and '%s' in %A is %n."), s1, s2, a, a->countAll(a, set));
   _RELEASE(set);
 }
 
 /* Remove a string */
-println(_S("Let us remove the first '%s' from %A."), s1, a);
+printn(_S("Let us remove the first '%s' from %A."), s1, a);
 a->removeValue(a, s1);
-println(_S("Then the number of '%s' in %A is %n."), s1, a, a->countValue(a, s1));
+printn(_S("Then the number of '%s' in %A is %n."), s1, a, a->countValue(a, s1));
 
 /* Get and print the elements */
-println(_S("%s %s%s"), a->get(a, 0).value, a->get(a, 1).value, a->get(a, 2).value); /* hello world! */
+printn(_S("%s %s%s"), a->get(a, 0).value, a->get(a, 1).value, a->get(a, 2).value); /* hello world! */
 
 /* Release the Array */
 _RELEASE(a);
@@ -116,20 +116,24 @@ _RELEASE(a);
 
 ~~~c
 
-const clocks t = chrono_start();
+const tick t = chrono_start();
 
 /* Construct a Number */
+#ifdef _64_BITS
 const natural number = real_to_natural(1E18);
+#else
+const natural number = real_to_natural(1E9);
+#endif
 const natural base = 10;
 Number n = Number_create(number, base);
 
 /* Change the base of the Number to binary */
 n.changeBase(&n, 2);
-println(_S("Binary: %N"), &n); /* 1000101011000111001000110000010010001001111010000000000000000000 */
+printn(_S("Binary: %N"), &n); /* 111011100110101100101000000000 or 110111100000101101101011001110100111011001000000000000000000 */
 
 /* Change the base of the Number to hexavigesimal */
 n.changeBase(&n, 26);
-println(_S("Hexavigesimal: %N"), &n); /* EAUOAZHDXOZNRK */
+printn(_S("Hexavigesimal: %N"), &n); /* DGEHTYM or KMLUXINKECOJO */
 
 chrono_end(t); /* #Ticks: ... | Elapsed time: ... [ms] */
 
@@ -148,16 +152,16 @@ for (i = n; i > 0; --i)
 {
   a->addValue(a, &i);
 }
-println(_S("%A"), a); /* (10000000, 9999999, 9999998, ...) */
+printn(_S("%A"), a); /* (10000000, 9999999, 9999998, ...) */
 
 /* Sort the Array */
 {
-  const clocks t = chrono_start();
+  const tick t = chrono_start();
 
   integers_quicksort(a->elements, a->length);
 
   chrono_end(t); /* #Ticks: ... | Elapsed time: .... [ms] */
-  println(_S("%A"), a); /* (1, 2, 3, ...) */
+  printn(_S("%A"), a); /* (1, 2, 3, ...) */
 }
 
 /* Release the Array */

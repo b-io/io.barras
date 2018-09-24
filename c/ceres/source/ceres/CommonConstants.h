@@ -69,8 +69,12 @@ extern "C"
 	/**
 	 * Defines the architecture to be considered.
 	 */
+#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_X64) || defined(_M_AMD64) ||\
+	defined(__ia64__) || defined(_IA64) || defined(__IA64__) || defined(__ia64) || defined(_M_IA64) || defined(__itanium__)
+#define _64_BITS
+#else
 #define _32_BITS
-/* #define _64_BITS */
+#endif
 
 	/**********************************************************************************************/
 
@@ -427,7 +431,7 @@ extern "C"
 	/**
 	 * Defines the number of clock ticks per millisecond.
 	 */
-#define _CLOCKS_PER_MSEC					((real) CLOCKS_PER_SEC / 1000.)
+#define _TICKS_PER_MILLIS					((real) CLOCKS_PER_SEC / 1000.)
 
 	/**********************************************************************************************/
 

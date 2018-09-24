@@ -56,7 +56,7 @@ extern "C"
 	/**
 	 * Defines the size of the Objects.
 	 */
-	extern const natural OBJECT_SIZE;
+	extern const size OBJECT_SIZE;
 
 
 	/***********************************************************************************************

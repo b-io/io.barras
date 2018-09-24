@@ -58,7 +58,7 @@ extern "C"
 	/**
 	 * Defines the size of the Times.
 	 */
-	extern const natural TIME_SIZE;
+	extern const size TIME_SIZE;
 
 
 	/***********************************************************************************************

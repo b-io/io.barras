@@ -34,10 +34,10 @@
  * SIZES
  **************************************************************************************************/
 
-const natural BOOLEAN_SIZE = sizeof (boolean);
-const natural CHARACTER_SIZE = sizeof (character);
-const natural DIGIT_SIZE = sizeof (digit);
-const natural INTEGER_SIZE = sizeof (integer);
-const natural NATURAL_SIZE = sizeof (natural);
-const natural REAL_SIZE = sizeof (real);
-const natural STRING_SIZE = _STRING_SIZE * sizeof (character);
+const size BOOLEAN_SIZE = sizeof (boolean);
+const size CHARACTER_SIZE = sizeof (character);
+const size DIGIT_SIZE = sizeof (digit);
+const size INTEGER_SIZE = sizeof (integer);
+const size NATURAL_SIZE = sizeof (natural);
+const size REAL_SIZE = sizeof (real);
+const size STRING_SIZE = _STRING_SIZE * sizeof (character);

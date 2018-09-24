@@ -31,7 +31,7 @@
 		<stack.protector.option />
 		<architecture.option />
 		<subsystem.option />
-		<standard.option>-ansi</standard.option>
+		<standard.option>-std=c99</standard.option><!-- -ansi -->
 		<pedentic.option>-pedantic</pedentic.option>
 		<optimisation.option>-O2</optimisation.option>
 		<debug.option>-g</debug.option>

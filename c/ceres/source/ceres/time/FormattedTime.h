@@ -63,7 +63,7 @@ extern "C"
 	/**
 	 * Defines the size of the Formatted Times.
 	 */
-	extern const natural FORMATTED_TIME_SIZE;
+	extern const size FORMATTED_TIME_SIZE;
 
 
 	/***********************************************************************************************

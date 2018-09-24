@@ -56,11 +56,11 @@ extern "C"
 	 **********************************************************************************************/
 
 	/**
-	 * Returns the current clock.
+	 * Returns the current number of clock ticks.
 	 * <p>
-	 * @return the current clock
+	 * @return the current number of clock ticks
 	 */
-	clocks clocks_get(void);
+	tick clock_get(void);
 
 
 	/***********************************************************************************************
@@ -75,7 +75,7 @@ extern "C"
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
 	 */
-	boolean clocks_to_string(const void* source, string target);
+	boolean clock_to_string(const void* source, string target);
 
 	/**
 	 * Appends {@code source} to the end of {@code target} (of size
@@ -85,7 +85,7 @@ extern "C"
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.
 	 */
-	boolean clocks_append_to_string(const void* source, string target);
+	boolean clock_append_to_string(const void* source, string target);
 
 
 #endif /* _COMMON_CLOCK_H */

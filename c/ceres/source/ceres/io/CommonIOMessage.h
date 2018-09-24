@@ -57,7 +57,7 @@ extern "C"
 	/**
 	 * Defines the size of the I/O Messages.
 	 */
-	extern const natural IO_MESSAGE_SIZE;
+	extern const size IO_MESSAGE_SIZE;
 
 
 	/***********************************************************************************************

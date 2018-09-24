@@ -862,22 +862,22 @@ extern "C"
 	/**
 	 * Defines the size of the Cores.
 	 */
-	extern const natural CORE_SIZE;
+	extern const size CORE_SIZE;
 
 	/**
 	 * Defines the size of the Structures.
 	 */
-	extern const natural STRUCTURE_SIZE;
+	extern const size STRUCTURE_SIZE;
 
 	/**
 	 * Defines the size of the Basic structures.
 	 */
-	extern const natural BASIC_SIZE;
+	extern const size BASIC_SIZE;
 
 	/**
 	 * Defines the size of the Comparable structures.
 	 */
-	extern const natural COMPARABLE_SIZE;
+	extern const size COMPARABLE_SIZE;
 
 
 #endif /* _COMMON_STRUCTURES_H */

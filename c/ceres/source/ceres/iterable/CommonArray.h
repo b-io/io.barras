@@ -56,7 +56,7 @@ extern "C"
 	/**
 	 * Defines the size of the Arrays.
 	 */
-	extern const natural ARRAY_SIZE;
+	extern const size ARRAY_SIZE;
 
 
 	/***********************************************************************************************

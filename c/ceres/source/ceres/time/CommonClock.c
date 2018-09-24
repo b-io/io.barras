@@ -27,14 +27,14 @@
  * INCLUDES
  **************************************************************************************************/
 
-#include "ceres/time/CommonClocks.h"
+#include "ceres/time/CommonClock.h"
 
 
 /***************************************************************************************************
  * CLOCK
  **************************************************************************************************/
 
-clocks clocks_get(void)
+tick clock_get(void)
 {
 	return clock();
 }
@@ -44,24 +44,24 @@ clocks clocks_get(void)
  * STRINGABLE
  **************************************************************************************************/
 
-boolean clocks_to_string(const void* source, string target)
+boolean clock_to_string(const void* source, string target)
 {
 	_IF (_SOURCE_TARGET_CHECK(source, target))
 	{
 		/* Get the clock ticks */
-		const clocks* t = (clocks*) source;
+		const tick* t = (tick*) source;
 		/* Compute the number of clock ticks per millisecond */
-		const real n = (real) (*t) / _CLOCKS_PER_MSEC;
+		const real n = (real) (*t) / _TICKS_PER_MILLIS;
 
 		return real_to_string(&n, target);
 	}
 	return _FALSE;
 }
 
-boolean clocks_append_to_string(const void* source, string target)
+boolean clock_append_to_string(const void* source, string target)
 {
 	string buffer;
 
-	clocks_to_string(source, buffer);
+	clock_to_string(source, buffer);
 	return string_append_to_string(buffer, target);
 }
