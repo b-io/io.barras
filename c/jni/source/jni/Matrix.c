@@ -32,40 +32,8 @@
  * OPERATORS
  **************************************************************************************************/
 
-JNIEXPORT void JNICALL dot(JNIEnv* context, jobject this)
+JNIEXPORT void JNICALL dot(JNIEnv* env, jobject obj)
 {
 	printf("Hello World!\n");
 	return;
 }
-
-/*
-JNIEXPORT void JNICALL dot(JNIEnv* jEnv, jobject jObject, jdoubleArray jA, jdoubleArray jB,
-	jdoubleArray jC, jint jARowDimension, jint jInnerDimension, jint jBColumnDimension)
-{
-	// Initialize
-	jboolean isCopy;
-	double* A = (double*) (*jEnv)->GetPrimitiveArrayCritical(jEnv, jA, &isCopy);
-	double* B = (double*) (*jEnv)->GetPrimitiveArrayCritical(jEnv, jB, &isCopy);
-	double* C = (double*) (*jEnv)->GetPrimitiveArrayCritical(jEnv, jC, &isCopy);
-	const int aRowDimension = (int) jARowDimension;
-	const int innerDimension = (int) jInnerDimension;
-	const int bColumnDimension = (int) jBColumnDimension;
-
-	// Process
-	for (int i = 0; i < aRowDimension; ++i) {
-		const int aRowOffset = i * innerDimension;
-		for (int j = 0; j < bColumnDimension; ++j) {
-			double sum = 0.;
-			for (int k = 0; k < innerDimension; ++k) {
-				sum += A[aRowOffset + k] * B[k * bColumnDimension + j];
-			}
-			C[i * bColumnDimension + j] = sum;
-		}
-	}
-
-	// Release
-	(*jEnv)->ReleasePrimitiveArrayCritical(jEnv, jA, (jbyte *) A, 0);
-	(*jEnv)->ReleasePrimitiveArrayCritical(jEnv, jB, (jbyte *) B, 0);
-	(*jEnv)->ReleasePrimitiveArrayCritical(jEnv, jC, (jbyte *) C, 0);
-}
- */

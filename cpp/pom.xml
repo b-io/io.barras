@@ -23,8 +23,11 @@
 	</modules>
 
 	<properties>
+		<!-- Project -->
+		<project.build.source>1.8</project.build.source>
+		<project.build.target>1.8</project.build.target>
 		<!-- Maven -->
-		<maven.nar.version>3.0.0</maven.nar.version>
+		<maven.nar.version>3.4.0</maven.nar.version>
 		<!-- Compilation -->
 		<java.os.include />
 		<stack.protector.option />

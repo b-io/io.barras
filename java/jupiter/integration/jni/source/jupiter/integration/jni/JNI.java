@@ -47,8 +47,7 @@ public class JNI {
 	 */
 	public static volatile boolean IS_LOADED = false;
 
-	public static volatile String LIB_DIR = Files.getPath() + "/../../../../" +
-			"c/jni/target/nar/jni-1.0.0-amd64-Windows-gcc-shared/lib/amd64-Windows-gcc/shared";
+	public static volatile String LIB_DIR = Files.getPath() + "/lib";
 	public static final String LIB_NAME = "jni-" + Formats.VERSION + ".dll";
 
 	static {
@@ -79,7 +78,7 @@ public class JNI {
 					System.load(libPath);
 					IS_LOADED = true;
 					return true;
-				} catch (final IllegalStateException ex) {
+				} catch (final Exception ex) {
 					IO.error(ex);
 				}
 			} else {
@@ -91,7 +90,7 @@ public class JNI {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected native void dot();
+	public native void dot();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -115,6 +114,7 @@ public class JNI {
 
 		// Execute the JNI function
 		// TODO
+		new JNI().dot();
 		return result;
 	}
 

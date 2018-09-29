@@ -33,13 +33,7 @@ extern "C"
 	 * INCLUDES
 	 **********************************************************************************************/
 
-#include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
-
-/*
-#include <immintrin.h>
-*/
 
 #include <jni.h>
 
@@ -48,12 +42,7 @@ extern "C"
 	 * OPERATORS
 	 **********************************************************************************************/
 
-	JNIEXPORT void JNICALL dot(JNIEnv* context, jobject this);
-
-	/*
-	JNIEXPORT void JNICALL dot(JNIEnv* jEnv, jobject jObject, jdoubleArray jA, jdoubleArray jB,
-		jdoubleArray jC, jint jARowDimension, jint jInnerDimension, jint jBColumnDimension);
-	*/
+	JNIEXPORT void JNICALL dot(JNIEnv*, jobject);
 
 
 #endif /* _MATRIX_H */
