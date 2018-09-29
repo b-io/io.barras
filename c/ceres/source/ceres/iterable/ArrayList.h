@@ -220,7 +220,7 @@ extern "C"
 
 	/**
 	 * Removes all of the elements from the specified Collection. The specified
-	 * Collection will be empty after this method returns.
+	 * Collection will be empty after this function returns.
 	 * <p>
 	 * @param collection the Collection to be cleared
 	 */

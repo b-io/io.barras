@@ -69,21 +69,29 @@ public class JNI {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean load() {
+		return load(LIB_DIR + "/" + LIB_NAME);
+	}
+
+	public static boolean load(final String libPath) {
 		if (USE) {
 			if (!IS_LOADED) {
 				try {
-					System.load(LIB_DIR + "/" + LIB_NAME);
+					System.load(libPath);
 					IS_LOADED = true;
 					return true;
 				} catch (final IllegalStateException ex) {
 					IO.error(ex);
 				}
 			} else {
-				IO.warn("The library " + Strings.quote(LIB_NAME) + " is already loaded");
+				IO.warn("The library " + Strings.quote(libPath) + " is already loaded");
 			}
 		}
 		return false;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected native void dot();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

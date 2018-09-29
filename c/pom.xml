@@ -71,6 +71,7 @@
 						</includes>
 						<options>
 							<option>-I${JAVA_HOME}/include</option>
+							<option>-I${JAVA_HOME}/include/win32</option>
 							<option>${java.os.include}</option>
 							<option>${stack.protector.option}</option>
 							<option>${architecture.option}</option>
