@@ -26,7 +26,7 @@ package jupiter.integration.transfer.db;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
-public class DBRow2 {
+public class DBRow {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -40,7 +40,7 @@ public class DBRow2 {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public DBRow2(final String[] header, final Object[] values) {
+	public DBRow(final String[] header, final Object[] values) {
 		this.header = header;
 		this.values = values;
 	}

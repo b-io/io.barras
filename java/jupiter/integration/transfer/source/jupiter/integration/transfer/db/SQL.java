@@ -67,7 +67,7 @@ public class SQL {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedList<DBRow2> getRows(final CallableStatement statement)
+	public static ExtendedList<DBRow> getRows(final CallableStatement statement)
 			throws SQLException {
 		// Get the result of the query
 		final ResultSet resultSet = statement.executeQuery();
@@ -79,13 +79,13 @@ public class SQL {
 			header[i - 1] = metaData.getColumnName(i);
 		}
 		// Store and return the rows
-		final ExtendedList<DBRow2> rows = new ExtendedList<DBRow2>();
+		final ExtendedList<DBRow> rows = new ExtendedList<DBRow>();
 		while (resultSet.next()) {
 			final Object[] values = new Object[n];
 			for (int i = 0; i < n; ++i) {
 				values[i] = resultSet.getObject(header[i]);
 			}
-			rows.add(new DBRow2(header, values));
+			rows.add(new DBRow(header, values));
 		}
 		return rows;
 	}
