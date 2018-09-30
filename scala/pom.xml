@@ -30,9 +30,9 @@
 		<maven.source.version>2.4</maven.source.version>
 		<maven.javadoc.version>2.10.4</maven.javadoc.version>
 		<!-- Scala -->
-		<scala.version>2.15.2</scala.version>
-		<scala.binary.version>2.12</scala.binary.version>
-		<scala.library.version>2.12.4</scala.library.version>
+		<scala.version>2.12.7</scala.version>
+		<scala.minor.version>2.12</scala.minor.version>
+		<scala.plugin.version>2.15.2</scala.plugin.version>
 	</properties>
 
 	<dependencies>
@@ -40,22 +40,22 @@
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
-			<version>${scala.library.version}</version>
+			<version>${scala.version}</version>
 		</dependency>
 		<!--
 		<dependency>
 			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-parser-combinators_${scala.binary.version}</artifactId>
+			<artifactId>scala-parser-combinators_${scala.minor.version}</artifactId>
 			<version>1.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-swing_${scala.binary.version}</artifactId>
+			<artifactId>scala-swing_${scala.minor.version}</artifactId>
 			<version>1.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-xml_${scala.binary.version}</artifactId>
+			<artifactId>scala-xml_${scala.minor.version}</artifactId>
 			<version>1.0.5</version>
 		</dependency>
 		-->
@@ -80,7 +80,7 @@
 				<plugin>
 					<groupId>org.scala-tools</groupId>
 					<artifactId>maven-scala-plugin</artifactId>
-					<version>${scala.version}</version>
+					<version>${scala.plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
