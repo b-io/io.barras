@@ -48,61 +48,46 @@
 					<groupId>com.github.maven-nar</groupId>
 					<artifactId>nar-maven-plugin</artifactId>
 					<version>${maven.nar.version}</version>
+					<extensions>true</extensions>
+
+					<configuration>
+						<cpp>
+							<name>g++</name>
+							<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+							<includePaths>
+								<includePath>${project.build.sourceDirectory}</includePath>
+							</includePaths>
+							<includes>
+								<include>**/*.h</include>
+								<include>**/*.cpp</include>
+							</includes>
+							<options>
+								<option>${java.os.include}</option>
+								<option>${stack.protector.option}</option>
+								<option>${architecture.option}</option>
+								<option>${subsystem.option}</option>
+								<option>${standard.option}</option>
+								<option>${optimisation.option}</option>
+								<option>${debug.option}</option>
+								<option>${warning.option}</option>
+							</options>
+						</cpp>
+
+						<linker>
+							<name>g++</name>
+							<options>
+								<option>${architecture.option}</option>
+								<option>${subsystem.option}</option>
+							</options>
+							<sysLibs>
+								<sysLib>
+									<name>${libdl.name}</name>
+								</sysLib>
+							</sysLibs>
+						</linker>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
-		<plugins>
-			<!-- Compile C++ -->
-			<plugin>
-				<groupId>com.github.maven-nar</groupId>
-				<artifactId>nar-maven-plugin</artifactId>
-				<extensions>true</extensions>
-
-				<configuration>
-					<libraries>
-						<library>
-							<type>shared</type>
-							<narSystemPackage>${project.groupId}</narSystemPackage>
-						</library>
-					</libraries>
-
-					<cpp>
-						<name>g++</name>
-						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-						<includePaths>
-							<includePath>${project.build.sourceDirectory}</includePath>
-						</includePaths>
-						<includes>
-							<include>**/*.h</include>
-							<include>**/*.cpp</include>
-						</includes>
-						<options>
-							<option>${java.os.include}</option>
-							<option>${stack.protector.option}</option>
-							<option>${architecture.option}</option>
-							<option>${subsystem.option}</option>
-							<option>${standard.option}</option>
-							<option>${optimisation.option}</option>
-							<option>${debug.option}</option>
-							<option>${warning.option}</option>
-						</options>
-					</cpp>
-
-					<linker>
-						<name>g++</name>
-						<options>
-							<option>${architecture.option}</option>
-							<option>${subsystem.option}</option>
-						</options>
-						<sysLibs>
-							<sysLib>
-								<name>${libdl.name}</name>
-							</sysLib>
-						</sysLibs>
-					</linker>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 </project>
