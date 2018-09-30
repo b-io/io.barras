@@ -27,14 +27,14 @@ import static jupiter.common.io.IO.IO;
 
 import java.io.IOException;
 
+import org.scijava.nativelib.NativeLoader;
+
 import jupiter.common.io.file.Files;
 import jupiter.common.math.Maths;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
-
-import org.scijava.nativelib.NativeLoader;
 
 public class JNI {
 
