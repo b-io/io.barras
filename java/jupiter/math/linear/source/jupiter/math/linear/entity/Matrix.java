@@ -1852,7 +1852,6 @@ public class Matrix
 	 * Returns the LU decomposition.
 	 * <p>
 	 * @return the LU decomposition
-	 * <p>
 	 * @see LUDecomposition
 	 */
 	public LUDecomposition lu() {
@@ -1863,7 +1862,6 @@ public class Matrix
 	 * Returns the QR decomposition.
 	 * <p>
 	 * @return the QR decomposition
-	 * <p>
 	 * @see QRDecomposition
 	 */
 	public QRDecomposition qr() {
@@ -1874,7 +1872,6 @@ public class Matrix
 	 * Returns the Cholesky decomposition.
 	 * <p>
 	 * @return the Cholesky decomposition
-	 * <p>
 	 * @see CholeskyDecomposition
 	 */
 	public CholeskyDecomposition chol() {
@@ -1885,7 +1882,6 @@ public class Matrix
 	 * Returns the singular value decomposition.
 	 * <p>
 	 * @return the singular value decomposition
-	 * <p>
 	 * @see SingularValueDecomposition
 	 */
 	public SingularValueDecomposition svd() {
@@ -1896,7 +1892,6 @@ public class Matrix
 	 * Returns the eigenvalue decomposition.
 	 * <p>
 	 * @return the eigenvalue decomposition
-	 * <p>
 	 * @see EigenvalueDecomposition
 	 */
 	public EigenvalueDecomposition eig() {
