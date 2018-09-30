@@ -34,18 +34,18 @@
 		<stack.protector.option />
 		<architecture.option />
 		<subsystem.option />
-		<standard.option>-std=c99</standard.option><!-- -ansi -->
+		<standard.option>-ansi</standard.option>
 		<pedentic.option>-pedantic</pedentic.option>
 		<optimisation.option>-O2</optimisation.option>
 		<debug.option>-g</debug.option>
-		<extra.option>-Wpadded</extra.option>
+		<warning.option>-Wpadded</warning.option>
 		<libdl.name>dl</libdl.name>
 	</properties>
 
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- Maven -->
+				<!-- Maven NAR -->
 				<plugin>
 					<groupId>com.github.maven-nar</groupId>
 					<artifactId>nar-maven-plugin</artifactId>
@@ -53,60 +53,5 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
-		<plugins>
-			<!-- Compile -->
-			<plugin>
-				<groupId>com.github.maven-nar</groupId>
-				<artifactId>nar-maven-plugin</artifactId>
-				<extensions>true</extensions>
-
-				<configuration>
-					<c>
-						<name>gcc</name>
-						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-						<includePaths>
-							<includePath>${project.build.sourceDirectory}</includePath>
-						</includePaths>
-						<includes>
-							<include>**/*.h</include>
-							<include>**/*.c</include>
-						</includes>
-						<options>
-							<option>-I${JAVA_HOME}/include</option>
-							<option>-I${JAVA_HOME}/include/win32</option>
-							<option>${java.os.include}</option>
-							<option>${stack.protector.option}</option>
-							<option>${architecture.option}</option>
-							<option>${subsystem.option}</option>
-							<option>${standard.option}</option>
-							<option>${pedentic.option}</option>
-							<option>${optimisation.option}</option>
-							<option>${debug.option}</option>
-							<option>${extra.option}</option>
-						</options>
-					</c>
-					<linker>
-						<name>gcc</name>
-						<options>
-							<option>${architecture.option}</option>
-							<option>${subsystem.option}</option>
-							<option>${optimisation.option}</option>
-						</options>
-						<sysLibs>
-							<sysLib>
-								<name>${libdl.name}</name>
-							</sysLib>
-						</sysLibs>
-					</linker>
-					<libraries>
-						<library>
-							<type>shared</type>
-							<narSystemPackage>${project.groupId}</narSystemPackage>
-						</library>
-					</libraries>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 </project>

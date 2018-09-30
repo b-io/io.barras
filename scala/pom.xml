@@ -27,16 +27,12 @@
 		<project.build.source>1.8</project.build.source>
 		<project.build.target>1.8</project.build.target>
 		<!-- Maven -->
-		<maven.compiler.source>${project.build.source}</maven.compiler.source>
-		<maven.compiler.target>${project.build.target}</maven.compiler.target>
-		<maven.compiler.version>2.5.1</maven.compiler.version>
 		<maven.source.version>2.4</maven.source.version>
 		<maven.javadoc.version>2.10.4</maven.javadoc.version>
-		<maven.scala.version>2.15.2</maven.scala.version>
 		<!-- Scala -->
-		<scala.version>2.12.4</scala.version>
+		<scala.version>2.15.2</scala.version>
 		<scala.binary.version>2.12</scala.binary.version>
-		<scala.plugin.version>2.15.2</scala.plugin.version>
+		<scala.library.version>2.12.4</scala.library.version>
 	</properties>
 
 	<dependencies>
@@ -44,7 +40,7 @@
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
-			<version>${scala.version}</version>
+			<version>${scala.library.version}</version>
 		</dependency>
 		<!--
 		<dependency>
@@ -70,11 +66,6 @@
 			<plugins>
 				<!-- Maven -->
 				<plugin>
-					<groupId>org.scala-tools</groupId>
-					<artifactId>maven-scala-plugin</artifactId>
-					<version>${maven.scala.version}</version>
-				</plugin>
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>${maven.source.version}</version>
@@ -84,11 +75,18 @@
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>${maven.javadoc.version}</version>
 				</plugin>
+
+				<!-- Scala -->
+				<plugin>
+					<groupId>org.scala-tools</groupId>
+					<artifactId>maven-scala-plugin</artifactId>
+					<version>${scala.version}</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
 		<plugins>
-			<!-- Compile -->
+			<!-- Compile Scala -->
 			<plugin>
 				<groupId>org.scala-tools</groupId>
 				<artifactId>maven-scala-plugin</artifactId>
@@ -112,7 +110,7 @@
 				</executions>
 			</plugin>
 
-			<!-- Attach the source files  -->
+			<!-- Attach the source files -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -127,7 +125,7 @@
 				</executions>
 			</plugin>
 
-			<!-- Generate the Javadoc  -->
+			<!-- Generate the Javadoc -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>

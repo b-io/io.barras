@@ -33,6 +33,8 @@ extern "C"
 	 * INCLUDES
 	 **********************************************************************************************/
 
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 
 #include <jni.h>

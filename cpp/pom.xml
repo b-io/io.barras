@@ -36,14 +36,14 @@
 		<standard.option>-std=c++11</standard.option>
 		<optimisation.option>-O2</optimisation.option>
 		<debug.option>-g</debug.option>
-		<extra.option>-Wpadded</extra.option>
+		<warning.option>-Wpadded</warning.option>
 		<libdl.name>dl</libdl.name>
 	</properties>
 
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- Maven -->
+				<!-- Maven NAR -->
 				<plugin>
 					<groupId>com.github.maven-nar</groupId>
 					<artifactId>nar-maven-plugin</artifactId>
@@ -53,13 +53,20 @@
 		</pluginManagement>
 
 		<plugins>
-			<!-- Compile -->
+			<!-- Compile C++ -->
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
 				<extensions>true</extensions>
 
 				<configuration>
+					<libraries>
+						<library>
+							<type>shared</type>
+							<narSystemPackage>${project.groupId}</narSystemPackage>
+						</library>
+					</libraries>
+
 					<cpp>
 						<name>g++</name>
 						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
@@ -71,7 +78,6 @@
 							<include>**/*.cpp</include>
 						</includes>
 						<options>
-							<option>-I${JAVA_HOME}/include</option>
 							<option>${java.os.include}</option>
 							<option>${stack.protector.option}</option>
 							<option>${architecture.option}</option>
@@ -79,15 +85,15 @@
 							<option>${standard.option}</option>
 							<option>${optimisation.option}</option>
 							<option>${debug.option}</option>
-							<option>${extra.option}</option>
+							<option>${warning.option}</option>
 						</options>
 					</cpp>
+
 					<linker>
 						<name>g++</name>
 						<options>
 							<option>${architecture.option}</option>
 							<option>${subsystem.option}</option>
-							<option>${optimisation.option}</option>
 						</options>
 						<sysLibs>
 							<sysLib>
@@ -95,12 +101,6 @@
 							</sysLib>
 						</sysLibs>
 					</linker>
-					<libraries>
-						<library>
-							<type>shared</type>
-							<narSystemPackage>${project.groupId}</narSystemPackage>
-						</library>
-					</libraries>
 				</configuration>
 			</plugin>
 		</plugins>

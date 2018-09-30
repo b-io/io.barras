@@ -17,4 +17,60 @@
 	<name>Ceres</name>
 	<description>Utility library for C</description>
 	<url>https://github.com/b-io/io.barras/tree/master/c/ceres</url>
+
+	<build>
+		<plugins>
+			<!-- Compile C -->
+			<plugin>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+				<extensions>true</extensions>
+
+				<configuration>
+					<libraries>
+						<library>
+							<type>shared</type>
+							<narSystemPackage>${project.groupId}</narSystemPackage>
+						</library>
+					</libraries>
+
+					<c>
+						<name>gcc</name>
+						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+						<includePaths>
+							<includePath>${project.build.sourceDirectory}</includePath>
+						</includePaths>
+						<includes>
+							<include>**/*.h</include>
+							<include>**/*.c</include>
+						</includes>
+						<options>
+							<option>${java.os.include}</option>
+							<option>${stack.protector.option}</option>
+							<option>${architecture.option}</option>
+							<option>${subsystem.option}</option>
+							<option>${standard.option}</option>
+							<option>${pedentic.option}</option>
+							<option>${optimisation.option}</option>
+							<option>${debug.option}</option>
+							<option>${warning.option}</option>
+						</options>
+					</c>
+
+					<linker>
+						<name>gcc</name>
+						<options>
+							<option>${architecture.option}</option>
+							<option>${subsystem.option}</option>
+						</options>
+						<sysLibs>
+							<sysLib>
+								<name>${libdl.name}</name>
+							</sysLib>
+						</sysLibs>
+					</linker>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

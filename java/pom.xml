@@ -27,8 +27,6 @@
 		<project.build.source>1.5</project.build.source>
 		<project.build.target>1.5</project.build.target>
 		<!-- Maven -->
-		<maven.compiler.source>${project.build.source}</maven.compiler.source>
-		<maven.compiler.target>${project.build.target}</maven.compiler.target>
 		<maven.compiler.version>2.5.1</maven.compiler.version>
 		<maven.source.version>2.4</maven.source.version>
 		<maven.javadoc.version>2.9.1</maven.javadoc.version>
@@ -48,7 +46,7 @@
 
 	<build>
 		<plugins>
-			<!-- Compile -->
+			<!-- Compile Java -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -64,7 +62,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Attach the source files  -->
+			<!-- Attach the source files -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
