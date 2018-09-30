@@ -71,34 +71,34 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the current pathname.
+	 * Returns the current path name.
 	 * <p>
-	 * @return the current pathname
+	 * @return the current path name
 	 */
 	public static String getPath() {
 		return new File(".").getAbsolutePath();
 	}
 
 	/**
-	 * Returns the filename of the specified pathname.
+	 * Returns the file name of the specified path name.
 	 * <p>
-	 * @param pathname a {@link String}
+	 * @param pathName a {@link String}
 	 * <p>
-	 * @return the filename of the specified pathname
+	 * @return the file name of the specified path name
 	 */
-	public static String getFilename(final String pathname) {
-		return pathname.substring(pathname.lastIndexOf('\\') + 1);
+	public static String getFileName(final String pathName) {
+		return pathName.substring(pathName.lastIndexOf('\\') + 1);
 	}
 
 	/**
-	 * Returns the extension of the specified filename.
+	 * Returns the extension of the specified file name.
 	 * <p>
-	 * @param filename a {@link String}
+	 * @param fileName a {@link String}
 	 * <p>
-	 * @return the extension of the specified filename
+	 * @return the extension of the specified file name
 	 */
-	public static String getExtension(final String filename) {
-		return filename.substring(filename.lastIndexOf('.') + 1);
+	public static String getExtension(final String fileName) {
+		return fileName.substring(fileName.lastIndexOf('.') + 1);
 	}
 
 
@@ -107,17 +107,17 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates all the directories of the specified pathname.
+	 * Creates all the directories of the specified path name.
 	 * <p>
-	 * @param pathname a {@link String}
+	 * @param pathName a {@link String}
 	 * <p>
 	 * @return {@code true} if the directories are created, {@code false} otherwise
 	 */
-	public static boolean createDirectories(final String pathname) {
-		final File file = new File(pathname);
+	public static boolean createDirectories(final String pathName) {
+		final File file = new File(pathName);
 		if (!file.exists()) {
 			if (!file.mkdirs()) {
-				IO.error("Unable to create the directories ", Strings.quote(pathname));
+				IO.error("Unable to create the directories ", Strings.quote(pathName));
 				return false;
 			}
 		}
@@ -150,30 +150,30 @@ public class Files {
 	/**
 	 * Creates a {@link BufferedReader} of the specified file.
 	 * <p>
-	 * @param pathname the pathname of the file to read
+	 * @param pathName the path name of the file to read
 	 * <p>
 	 * @return a {@link BufferedReader} of the specified file
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening the specified file
 	 */
-	public static BufferedReader createReader(final String pathname)
+	public static BufferedReader createReader(final String pathName)
 			throws FileNotFoundException {
-		return createReader(pathname, Formats.DEFAULT_CHARSET);
+		return createReader(pathName, Formats.DEFAULT_CHARSET);
 	}
 
 	/**
 	 * Creates a {@link BufferedReader} of the specified file with the specified {@link Charset}.
 	 * <p>
-	 * @param pathname the pathname of the file to read
+	 * @param pathName the path name of the file to read
 	 * @param charset  the {@link Charset} of the file to read
 	 * <p>
 	 * @return a {@link BufferedReader} of the specified file with the specified {@link Charset}
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening the specified file
 	 */
-	public static BufferedReader createReader(final String pathname, final Charset charset)
+	public static BufferedReader createReader(final String pathName, final Charset charset)
 			throws FileNotFoundException {
-		return new BufferedReader(new InputStreamReader(new FileInputStream(pathname), charset));
+		return new BufferedReader(new InputStreamReader(new FileInputStream(pathName), charset));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,30 +181,30 @@ public class Files {
 	/**
 	 * Returns the {@link FileContent} of the specified file.
 	 * <p>
-	 * @param pathname the pathname of the file to read
+	 * @param pathName the path name of the file to read
 	 * <p>
 	 * @return the {@link FileContent} of the specified file
 	 */
-	public static FileContent read(final String pathname) {
-		return read(pathname, Formats.DEFAULT_CHARSET);
+	public static FileContent read(final String pathName) {
+		return read(pathName, Formats.DEFAULT_CHARSET);
 	}
 
 	/**
 	 * Returns the content of the specified file with the specified {@link Charset}.
 	 * <p>
-	 * @param pathname the pathname of the file to read
+	 * @param pathName the path name of the file to read
 	 * @param charset  the {@link Charset} of the file to read
 	 * <p>
 	 * @return the content of the specified file with the specified {@link Charset}
 	 */
-	public static FileContent read(final String pathname, final Charset charset) {
+	public static FileContent read(final String pathName, final Charset charset) {
 		final StringBuilder builder = Strings.createBuilder();
 		int lineCount = 0;
 		// File reader
 		BufferedReader reader = null;
 		try {
 			// Create a new file reader
-			reader = createReader(pathname, charset);
+			reader = createReader(pathName, charset);
 			// Iterate over the lines of the file
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -212,7 +212,7 @@ public class Files {
 				++lineCount;
 			}
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathname),
+			IO.error("Unable to find the specified file ", Strings.quote(pathName),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -228,34 +228,34 @@ public class Files {
 	/**
 	 * Returns the number of lines of the specified file.
 	 * <p>
-	 * @param pathname the pathname of the file to read
+	 * @param pathName the path name of the file to read
 	 * @param charset  the {@link Charset} of the file to read
 	 * <p>
 	 * @return the number of lines of the specified file
 	 */
-	public static int countLines(final String pathname, final Charset charset) {
-		return countLines(pathname, charset, false);
+	public static int countLines(final String pathName, final Charset charset) {
+		return countLines(pathName, charset, false);
 	}
 
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 * file.
 	 * <p>
-	 * @param pathname       the pathname of the file to read
+	 * @param pathName       the path name of the file to read
 	 * @param charset        the {@link Charset} of the file to read
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         file
 	 */
-	public static int countLines(final String pathname, final Charset charset,
+	public static int countLines(final String pathName, final Charset charset,
 			final boolean skipEmptyLines) {
 		int lineCount = 0;
 		// Lines counter
 		BufferedReader reader = null;
 		try {
 			// Create a new file reader
-			reader = createReader(pathname, charset);
+			reader = createReader(pathName, charset);
 			// Iterate over the lines of the file
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -264,7 +264,7 @@ public class Files {
 				}
 			}
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathname),
+			IO.error("Unable to find the specified file ", Strings.quote(pathName),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -283,16 +283,16 @@ public class Files {
 	/**
 	 * Creates a {@link BufferedWriter} of the specified file.
 	 * <p>
-	 * @param pathname the pathname of the file to write
+	 * @param pathName the path name of the file to write
 	 * @param append   the flag specifying whether to append
 	 * <p>
 	 * @return a {@link BufferedWriter} of the specified file
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening the specified file
 	 */
-	public static BufferedWriter createWriter(final String pathname, final boolean append)
+	public static BufferedWriter createWriter(final String pathName, final boolean append)
 			throws FileNotFoundException {
-		return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pathname, append)));
+		return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pathName, append)));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -301,40 +301,40 @@ public class Files {
 	 * Appends the specified string to the specified file.
 	 * <p>
 	 * @param content  the {@link String} to write
-	 * @param pathname the pathname of the file to write
+	 * @param pathName the path name of the file to write
 	 * <p>
 	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
 	 *         otherwise
 	 */
-	public static boolean appendLine(final String content, final String pathname) {
-		return writeLine(content, pathname, true, Formats.DEFAULT_CHARSET);
+	public static boolean appendLine(final String content, final String pathName) {
+		return writeLine(content, pathName, true, Formats.DEFAULT_CHARSET);
 	}
 
 	/**
 	 * Writes the specified string to the specified file.
 	 * <p>
 	 * @param content  the {@link String} to write
-	 * @param pathname the pathname of the file to write
+	 * @param pathName the path name of the file to write
 	 * <p>
 	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
 	 *         otherwise
 	 */
-	public static boolean writeLine(final String content, final String pathname) {
-		return writeLine(content, pathname, true, Formats.DEFAULT_CHARSET);
+	public static boolean writeLine(final String content, final String pathName) {
+		return writeLine(content, pathName, true, Formats.DEFAULT_CHARSET);
 	}
 
 	/**
 	 * Writes the specified string to the specified file.
 	 * <p>
 	 * @param content  the {@link String} to write
-	 * @param pathname the pathname of the file to write
+	 * @param pathName the path name of the file to write
 	 * @param append   the flag specifying whether to append
 	 * @param charset  the {@link Charset} of the file to write
 	 * <p>
 	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
 	 *         otherwise
 	 */
-	public static boolean writeLine(final String content, final String pathname,
+	public static boolean writeLine(final String content, final String pathName,
 			final boolean append, final Charset charset) {
 		boolean isWritten = false;
 		// File writer
@@ -342,12 +342,12 @@ public class Files {
 		try {
 			// Create a new file writer
 			writer = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(pathname, append), charset));
+					new OutputStreamWriter(new FileOutputStream(pathName, append), charset));
 			// Append the string to the file
 			writer.write(content + "\n");
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathname),
+			IO.error("Unable to find the specified file ", Strings.quote(pathName),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -460,12 +460,12 @@ public class Files {
 	/**
 	 * Deletes the specified file (or directory).
 	 * <p>
-	 * @param pathname the pathname of the file (or directory) to delete
+	 * @param pathName the path name of the file (or directory) to delete
 	 * <p>
 	 * @return {@code true} if the specified file (or directory) is deleted, {@code false} otherwise
 	 */
-	public static boolean delete(final String pathname) {
-		return delete(pathname, false);
+	public static boolean delete(final String pathName) {
+		return delete(pathName, false);
 	}
 
 	/**
@@ -482,13 +482,13 @@ public class Files {
 	/**
 	 * Deletes the specified file (or directory).
 	 * <p>
-	 * @param pathname the pathname of the file (or directory) to delete
+	 * @param pathName the path name of the file (or directory) to delete
 	 * @param force    the flag specifying whether to force deleting
 	 * <p>
 	 * @return {@code true} if the specified file (or directory) is deleted, {@code false} otherwise
 	 */
-	public static boolean delete(final String pathname, final boolean force) {
-		return delete(new File(pathname), force);
+	public static boolean delete(final String pathName, final boolean force) {
+		return delete(new File(pathName), force);
 	}
 
 	/**
@@ -543,7 +543,7 @@ public class Files {
 	/**
 	 * Tests whether the specified file (or directory) exists.
 	 * <p>
-	 * @param pathname the pathname of the file (or directory) to test
+	 * @param pathName the path name of the file (or directory) to test
 	 * <p>
 	 * @return {@code true} if and only if the specified file (or directory) exists, {@code false}
 	 *         otherwise
@@ -552,9 +552,9 @@ public class Files {
 	 *                           {@link java.lang.SecurityManager#checkRead(java.lang.String)}
 	 *                           method denies read access to the specified file (or directory)
 	 */
-	public static boolean exists(final String pathname)
+	public static boolean exists(final String pathName)
 			throws SecurityException {
-		return Strings.isNotEmpty(pathname) && new File(pathname).exists();
+		return Strings.isNotEmpty(pathName) && new File(pathName).exists();
 	}
 
 	/**

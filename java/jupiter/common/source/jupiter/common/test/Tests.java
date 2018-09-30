@@ -96,7 +96,7 @@ public class Tests {
 			final StackTraceElement stackTraceElement = new Throwable().fillInStackTrace()
 					.getStackTrace()[1];
 			final String simpleClassName = Messages.getSimpleClassName(stackTraceElement);
-			IO.error("The test in class ", Strings.quote(simpleClassName), " at line ",
+			IO.error("The test in class ", simpleClassName, " at line ",
 					stackTraceElement.getLineNumber(), " has failed");
 		}
 	}

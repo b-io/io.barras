@@ -10,7 +10,6 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<groupId>io.barras.jni</groupId>
 	<artifactId>jni</artifactId>
 	<packaging>nar</packaging>
 

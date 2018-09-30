@@ -25,12 +25,16 @@ package jupiter.integration.jni;
 
 import static jupiter.common.io.IO.IO;
 
+import java.io.IOException;
+
 import jupiter.common.io.file.Files;
 import jupiter.common.math.Maths;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
+
+import org.scijava.nativelib.NativeLoader;
 
 public class JNI {
 
@@ -48,7 +52,7 @@ public class JNI {
 	public static volatile boolean IS_LOADED = false;
 
 	public static volatile String LIB_DIR = Files.getPath() + "/lib";
-	public static final String LIB_NAME = "jni-" + Formats.VERSION + ".dll";
+	public static final String LIB_NAME = "jni-" + Formats.VERSION;
 
 	static {
 		load();
@@ -68,19 +72,21 @@ public class JNI {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean load() {
-		return load(LIB_DIR + "/" + LIB_NAME);
+		try {
+			return load(LIB_DIR + "/" + LIB_NAME);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return false;
 	}
 
-	public static boolean load(final String libPath) {
+	public static boolean load(final String libPath)
+			throws IOException {
 		if (USE) {
 			if (!IS_LOADED) {
-				try {
-					System.load(libPath);
-					IS_LOADED = true;
-					return true;
-				} catch (final Exception ex) {
-					IO.error(ex);
-				}
+				NativeLoader.loadLibrary(LIB_NAME, Strings.toArray(LIB_DIR));
+				IS_LOADED = true;
+				return true;
 			} else {
 				IO.warn("The library " + Strings.quote(libPath) + " is already loaded");
 			}

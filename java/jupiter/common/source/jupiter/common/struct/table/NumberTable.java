@@ -103,14 +103,14 @@ public class NumberTable<T extends Number>
 	 * Constructs a {@link NumberTable} of type {@code T} imported from the specified file.
 	 * <p>
 	 * @param parser    a {@link Parser} of type {@code T}
-	 * @param pathname  the pathname of the file to import
+	 * @param pathName  the path name of the file to import
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public NumberTable(final Parser<T> parser, final String pathname, final boolean hasHeader)
+	public NumberTable(final Parser<T> parser, final String pathName, final boolean hasHeader)
 			throws IOException {
-		super(parser, pathname, hasHeader);
+		super(parser, pathName, hasHeader);
 	}
 
 

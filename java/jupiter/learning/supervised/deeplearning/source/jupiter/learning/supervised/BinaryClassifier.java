@@ -103,18 +103,18 @@ public abstract class BinaryClassifier {
 	 * Constructs a binary classifier from the specified files containing the feature vectors and
 	 * the classes.
 	 * <p>
-	 * @param featureVectorsPathname the pathname of the file containing the feature vectors of size
+	 * @param featureVectorsPathName the path name of the file containing the feature vectors of size
 	 *                               (n x m)
-	 * @param classesPathname        the pathname of the file containing the classes of size m
+	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files
 	 */
-	protected BinaryClassifier(final String featureVectorsPathname, final String classesPathname)
+	protected BinaryClassifier(final String featureVectorsPathName, final String classesPathName)
 			throws IOException {
-		X = Matrix.load(featureVectorsPathname);
+		X = Matrix.load(featureVectorsPathName);
 		featureCount = X.getRowDimension();
 		trainingExampleCount = X.getColumnDimension();
-		Y = Matrix.load(classesPathname).toVector();
+		Y = Matrix.load(classesPathName).toVector();
 		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
 		YT = Y.transpose();
 	}
@@ -123,21 +123,21 @@ public abstract class BinaryClassifier {
 	 * Constructs a binary classifier from the specified files containing the feature vectors and
 	 * the classes.
 	 * <p>
-	 * @param featureVectorsPathname the pathname of the file containing the feature vectors of size
+	 * @param featureVectorsPathName the path name of the file containing the feature vectors of size
 	 *                               (n x m) (or (m x n) if {@code transpose})
-	 * @param classesPathname        the pathname of the file containing the classes of size m
+	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * @param transpose              the flag specifying whether to transpose the feature vectors
 	 *                               and the classes
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files
 	 */
-	protected BinaryClassifier(final String featureVectorsPathname, final String classesPathname,
+	protected BinaryClassifier(final String featureVectorsPathName, final String classesPathName,
 			final boolean transpose)
 			throws IOException {
-		X = Matrix.load(featureVectorsPathname, transpose);
+		X = Matrix.load(featureVectorsPathName, transpose);
 		featureCount = X.getRowDimension();
 		trainingExampleCount = X.getColumnDimension();
-		Y = Matrix.load(classesPathname, transpose).toVector();
+		Y = Matrix.load(classesPathName, transpose).toVector();
 		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
 		YT = Y.transpose();
 	}

@@ -50,6 +50,6 @@ public class IllegalClassException
 	 * @param c   the illegal {@link Class} of type {@code T}
 	 */
 	public <T> IllegalClassException(final Class<T> c) {
-		super("Illegal class " + Strings.quote(c.getCanonicalName()));
+		super("Illegal class " + c.getCanonicalName());
 	}
 }

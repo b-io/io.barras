@@ -82,17 +82,17 @@ public class SystemFiles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Collection<File> find(final String dirname, final String fileFilter) {
-		return find(new File(dirname), fileFilter, Strings.EMPTY);
+	public static Collection<File> find(final String dirName, final String fileFilter) {
+		return find(new File(dirName), fileFilter, Strings.EMPTY);
 	}
 
 	public static Collection<File> find(final File dir, final String fileFilter) {
 		return find(dir, fileFilter, Strings.EMPTY);
 	}
 
-	public static Collection<File> find(final String dirname, final String fileFilter,
+	public static Collection<File> find(final String dirName, final String fileFilter,
 			final String dirFilter) {
-		return find(new File(dirname), fileFilter, dirFilter);
+		return find(new File(dirName), fileFilter, dirFilter);
 	}
 
 	public static Collection<File> find(final File dir, final String fileFilter,
@@ -102,17 +102,17 @@ public class SystemFiles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Collection<File> find(final String dirname, final String[] fileFilters) {
-		return find(new File(dirname), fileFilters, Strings.EMPTY);
+	public static Collection<File> find(final String dirName, final String[] fileFilters) {
+		return find(new File(dirName), fileFilters, Strings.EMPTY);
 	}
 
 	public static Collection<File> find(final File dir, final String[] fileFilters) {
 		return find(dir, fileFilters, Strings.EMPTY);
 	}
 
-	public static Collection<File> find(final String dirname, final String[] fileFilters,
+	public static Collection<File> find(final String dirName, final String[] fileFilters,
 			final String dirFilter) {
-		return find(new File(dirname), fileFilters, dirFilter);
+		return find(new File(dirName), fileFilters, dirFilter);
 	}
 
 	public static Collection<File> find(final File dir, final String[] fileFilters,
@@ -153,15 +153,15 @@ public class SystemFiles {
 	public static int unzip(final Properties info) {
 		final String localDir = info.getProperty("localDir");
 		final String filter = info.getProperty("filter", "*").replace("*", ".*");
-		final String[] filenames = info.getProperty("filenames").split(Arrays.DEFAULT_DELIMITER);
-		if (filenames.length > 0) {
-			if (Strings.isNotEmpty(filenames[0])) {
+		final String[] fileNames = info.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
+		if (fileNames.length > 0) {
+			if (Strings.isNotEmpty(fileNames[0])) {
 				// Unzip the files
 				int unzippedFileCount = 0;
-				for (final String filename : filenames) {
-					final Collection<File> files = SystemFiles.find(localDir, filename, "zip");
+				for (final String fileName : fileNames) {
+					final Collection<File> files = SystemFiles.find(localDir, fileName, "zip");
 					for (final File file : files) {
-						if (file.isFile() && filename.matches(filter)) {
+						if (file.isFile() && fileName.matches(filter)) {
 							unzippedFileCount += unzip(file.getAbsolutePath(), localDir);
 						}
 					}
@@ -173,24 +173,24 @@ public class SystemFiles {
 				}
 				return unzippedFileCount;
 			}
-			IO.error("Empty filename");
+			IO.error("Empty file name");
 			return 0;
 		}
-		IO.info("No filename");
+		IO.info("No file name");
 		return 0;
 	}
 
 	/**
 	 * Unzip the specified file and returns the number of unzipped files.
 	 * <p>
-	 * @param pathname  the pathname of the file to unzip
+	 * @param pathName  the path name of the file to unzip
 	 * @param targetDir the output directory
 	 * <p>
 	 * @return the number of unzipped files
 	 * <p>
 	 * @since 1.6
 	 */
-	protected static int unzip(final String pathname, final String targetDir) {
+	protected static int unzip(final String pathName, final String targetDir) {
 		int n = 0;
 		final byte[] buffer = new byte[1024];
 		try {
@@ -203,7 +203,7 @@ public class SystemFiles {
 			ZipInputStream zis = null;
 			try {
 				// Get the zip file content
-				zis = new ZipInputStream(new FileInputStream(pathname));
+				zis = new ZipInputStream(new FileInputStream(pathName));
 				// Get the zipped file list entry
 				ZipEntry ze;
 				while ((ze = zis.getNextEntry()) != null) {
@@ -213,7 +213,7 @@ public class SystemFiles {
 						final File targetFile = new File(targetDir + File.separator + ze.getName());
 						new File(targetFile.getParent()).mkdirs();
 						// Unzip the file
-						IO.info("Unzip ", targetFile.getAbsoluteFile());
+						IO.info("Unzip ", Strings.quote(targetFile.getAbsoluteFile()));
 						fos = new FileOutputStream(targetFile);
 						int length;
 						while ((length = zis.read(buffer)) > 0) {

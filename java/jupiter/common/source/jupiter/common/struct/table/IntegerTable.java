@@ -110,14 +110,14 @@ public class IntegerTable
 	/**
 	 * Constructs an {@link IntegerTable} imported from the specified file.
 	 * <p>
-	 * @param pathname  the pathname of the file to import
+	 * @param pathName  the path name of the file to import
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public IntegerTable(final String pathname, final boolean hasHeader)
+	public IntegerTable(final String pathName, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.INTEGER_PARSER, pathname, hasHeader);
+		super(Parsers.INTEGER_PARSER, pathName, hasHeader);
 	}
 
 

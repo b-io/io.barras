@@ -60,32 +60,32 @@ public class FTPHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected Protocol protocol;
-	protected String hostname;
+	protected String hostName;
 	protected int port;
-	protected String username;
+	protected String userName;
 	protected String password;
 	protected String remoteDir;
 	protected String localDir;
 	protected String filter;
-	protected String[] filenames;
+	protected String[] fileNames;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public FTPHandler(final Protocol protocol, final String hostname, final int port,
-			final String username, final String password, final String remoteDir,
-			final String localDir, final String filter, final String[] filenames) {
+	public FTPHandler(final Protocol protocol, final String hostName, final int port,
+			final String userName, final String password, final String remoteDir,
+			final String localDir, final String filter, final String[] fileNames) {
 		this.protocol = protocol;
-		this.hostname = hostname;
+		this.hostName = hostName;
 		this.port = port;
-		this.username = username;
+		this.userName = userName;
 		this.password = password;
 		this.remoteDir = remoteDir;
 		this.localDir = localDir;
 		this.filter = filter;
-		this.filenames = filenames;
+		this.fileNames = fileNames;
 	}
 
 	public FTPHandler(final Properties properties) {
@@ -99,20 +99,20 @@ public class FTPHandler {
 
 	public void loadProperties(final Properties properties) {
 		protocol = Protocol.get(properties.getProperty("protocol"));
-		hostname = properties.getProperty("hostname");
+		hostName = properties.getProperty("hostName");
 		port = Integer
 				.valueOf(properties.getProperty("port", protocol.equals("sftp") ? "22" : "21"));
-		username = properties.getProperty("username");
+		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 		remoteDir = properties.getProperty("remoteDir");
 		localDir = properties.getProperty("localDir");
 		filter = properties.getProperty("filter", "*");
-		filenames = properties.getProperty("filenames").split(Arrays.DEFAULT_DELIMITER);
+		fileNames = properties.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
 	}
 
 	public int download() {
-		if (filenames.length > 0) {
-			if (Strings.isNotEmpty(filenames[0])) {
+		if (fileNames.length > 0) {
+			if (Strings.isNotEmpty(fileNames[0])) {
 				// Download the files
 				final int downloadedFileCount;
 				switch (protocol) {
@@ -137,10 +137,10 @@ public class FTPHandler {
 				}
 				return downloadedFileCount;
 			}
-			IO.error("Empty filename");
+			IO.error("Empty file name");
 			return 0;
 		}
-		IO.info("No filename");
+		IO.info("No file name");
 		return 0;
 	}
 
@@ -155,28 +155,30 @@ public class FTPHandler {
 		final FTPClient ftp = new FTPClient();
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.info("Connect to ", hostname, ":", port);
-			ftp.connect(hostname, port);
+			IO.info("Connect to ", Strings.quote(hostName + ":" + port));
+			ftp.connect(hostName, port);
 			final int replyCode = ftp.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftp.enterLocalPassiveMode();
 
-				IO.info("Login with ", username, " and ", password);
-				if (ftp.login(username, password)) {
+				IO.info("Login with ", Strings.quote(userName), " and ", Strings.quote(password));
+				if (ftp.login(userName, password)) {
 					ftp.pwd();
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.info("Download the files ", filter, " in ", remoteDir);
+					IO.info("Download the files ", Strings.quote(filter), " in ",
+							Strings.quote(remoteDir));
 					final FTPFile[] files = ftp.listFiles(remoteDir);
 					for (final FTPFile file : files) {
-						final String filename = file.getName();
-						if (file.isFile() && filename.matches(filter) &&
-								Strings.matches(filename, filenames)) {
-							final String remotePath = remoteDir + "/" + filename;
-							final String localPath = localDir + "/" + filename;
+						final String fileName = file.getName();
+						if (file.isFile() && fileName.matches(filter) &&
+								Strings.matches(fileName, fileNames)) {
+							final String remotePath = remoteDir + "/" + fileName;
+							final String localPath = localDir + "/" + fileName;
 
-							IO.info("Download the file ", remotePath, " to ", localPath);
+							IO.info("Download the file ", Strings.quote(remotePath), " to ",
+									Strings.quote(localPath));
 							OutputStream output = null;
 							try {
 								output = new BufferedOutputStream(new FileOutputStream(localPath));
@@ -194,11 +196,11 @@ public class FTPHandler {
 						}
 					}
 				} else {
-					IO.error("Fail to login to ", Strings.quote(hostname), " with ",
-							Strings.quote(username));
+					IO.error("Fail to login to ", Strings.quote(hostName), " with ",
+							Strings.quote(userName));
 				}
 			} else {
-				IO.error("Fail to connect to ", Strings.quote(hostname), "; reply code: ",
+				IO.error("Fail to connect to ", Strings.quote(hostName), "; reply code: ",
 						replyCode);
 			}
 		} catch (final IOException ex) {
@@ -228,30 +230,32 @@ public class FTPHandler {
 		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.info("Connect to ", hostname, ":", port);
-			ftps.connect(hostname, port);
+			IO.info("Connect to ", Strings.quote(hostName + ":" + port));
+			ftps.connect(hostName, port);
 			final int replyCode = ftps.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftps.enterLocalPassiveMode();
 
-				IO.info("Login with ", username, " and ", password);
-				if (ftps.login(username, password)) {
+				IO.info("Login with ", Strings.quote(userName), " and ", Strings.quote(password));
+				if (ftps.login(userName, password)) {
 					ftps.execPBSZ(0);
 					ftps.execPROT("P");
 					ftps.pwd();
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftps.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.info("Download the files ", filter, " in ", remoteDir);
+					IO.info("Download the files ", Strings.quote(filter), " in ",
+							Strings.quote(remoteDir));
 					final FTPFile[] files = ftps.listFiles(remoteDir);
 					for (final FTPFile file : files) {
-						final String filename = file.getName();
-						if (file.isFile() && filename.matches(filter) &&
-								Strings.matches(filename, filenames)) {
-							final String remotePath = remoteDir + "/" + filename;
-							final String localPath = localDir + "/" + filename;
+						final String fileName = file.getName();
+						if (file.isFile() && fileName.matches(filter) &&
+								Strings.matches(fileName, fileNames)) {
+							final String remotePath = remoteDir + "/" + fileName;
+							final String localPath = localDir + "/" + fileName;
 
-							IO.info("Download the file ", remotePath, " to ", localPath);
+							IO.info("Download the file ", Strings.quote(remotePath), " to ",
+									Strings.quote(localPath));
 							OutputStream output = null;
 							try {
 								output = new BufferedOutputStream(new FileOutputStream(localPath));
@@ -269,11 +273,11 @@ public class FTPHandler {
 						}
 					}
 				} else {
-					IO.error("Fail to login to ", Strings.quote(hostname), " with ",
-							Strings.quote(username));
+					IO.error("Fail to login to ", Strings.quote(hostName), " with ",
+							Strings.quote(userName));
 				}
 			} else {
-				IO.error("Fail to connect to ", Strings.quote(hostname), "; reply code: ",
+				IO.error("Fail to connect to ", Strings.quote(hostName), "; reply code: ",
 						replyCode);
 			}
 		} catch (final IOException ex) {
@@ -304,26 +308,28 @@ public class FTPHandler {
 		Session session;
 		try {
 			// Connect and login to host
-			IO.info("Connect to ", hostname, ":", port, " with ", username);
-			session = jsch.getSession(username, hostname, 22);
+			IO.info("Connect to ", Strings.quote(hostName + ":" + port), " with ",
+					Strings.quote(userName));
+			session = jsch.getSession(userName, hostName, 22);
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.setPassword(password);
 			session.connect();
 
 			// Retrieve the files
-			IO.info("Download the files ", filter, " in ", remoteDir);
+			IO.info("Download the files ", Strings.quote(filter), " in ", Strings.quote(remoteDir));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
 			sftp.cd(remoteDir);
 			final Vector<ChannelSftp.LsEntry> entries = sftp.ls(filter);
 			for (final ChannelSftp.LsEntry entry : entries) {
-				final String filename = entry.getFilename();
-				if (Strings.matches(filename, filenames)) {
-					final String localPath = localDir + File.separator + filename;
+				final String fileName = entry.getFilename();
+				if (Strings.matches(fileName, fileNames)) {
+					final String localPath = localDir + File.separator + fileName;
 
-					IO.info("Download the file ", filename, " to ", localPath);
-					sftp.get(filename, localPath);
+					IO.info("Download the file ", Strings.quote(fileName), " to ",
+							Strings.quote(localPath));
+					sftp.get(fileName, localPath);
 					++downloadedFileCount;
 				}
 			}

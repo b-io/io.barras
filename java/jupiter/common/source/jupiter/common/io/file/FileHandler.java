@@ -43,8 +43,8 @@ public class FileHandler {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final String pathname;
-	protected final String filename;
+	protected final String pathName;
+	protected final String fileName;
 	protected final Charset charset;
 	protected BufferedWriter writer;
 
@@ -53,18 +53,18 @@ public class FileHandler {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public FileHandler(final String pathname) {
-		this(pathname, Formats.DEFAULT_CHARSET);
+	public FileHandler(final String pathName) {
+		this(pathName, Formats.DEFAULT_CHARSET);
 	}
 
-	public FileHandler(final String pathname, final Charset charset) {
+	public FileHandler(final String pathName, final Charset charset) {
 		// Check the arguments
-		Arguments.requireNonNull(pathname);
+		Arguments.requireNonNull(pathName);
 		Arguments.requireNonNull(charset);
 
 		// Set the attributes
-		this.pathname = pathname;
-		filename = Files.getFilename(pathname);
+		this.pathName = pathName;
+		fileName = Files.getFileName(pathName);
 		this.charset = charset;
 		writer = null;
 	}
@@ -75,21 +75,21 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the pathname.
+	 * Returns the path name.
 	 * <p>
-	 * @return the pathname
+	 * @return the path name
 	 */
 	public String getPath() {
-		return pathname;
+		return pathName;
 	}
 
 	/**
-	 * Returns the filename.
+	 * Returns the file name.
 	 * <p>
-	 * @return the filename
+	 * @return the file name
 	 */
-	public String getFilename() {
-		return filename;
+	public String getFileName() {
+		return fileName;
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class FileHandler {
 	 * @return the extension
 	 */
 	public String getExtension() {
-		return Files.getExtension(filename);
+		return Files.getExtension(fileName);
 	}
 
 
@@ -107,12 +107,12 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates all the directories of the pathname.
+	 * Creates all the directories of the path name.
 	 * <p>
 	 * @return {@code true} if the directories are created, {@code false} otherwise
 	 */
 	public boolean createDirectories() {
-		return Files.createDirectories(pathname);
+		return Files.createDirectories(pathName);
 	}
 
 
@@ -129,7 +129,7 @@ public class FileHandler {
 	 */
 	public BufferedReader getReader()
 			throws FileNotFoundException {
-		return Files.createReader(pathname, charset);
+		return Files.createReader(pathName, charset);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class FileHandler {
 	 * @return the content
 	 */
 	public FileContent read() {
-		return Files.read(pathname, charset);
+		return Files.read(pathName, charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ public class FileHandler {
 	 * @return the number of lines
 	 */
 	public int countLines() {
-		return Files.countLines(pathname, charset, false);
+		return Files.countLines(pathName, charset, false);
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class FileHandler {
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines})
 	 */
 	public int countLines(final boolean skipEmptyLines) {
-		return Files.countLines(pathname, charset, skipEmptyLines);
+		return Files.countLines(pathName, charset, skipEmptyLines);
 	}
 
 
@@ -178,7 +178,7 @@ public class FileHandler {
 	public void initWriter(final boolean append)
 			throws FileNotFoundException {
 		if (writer == null) {
-			writer = Files.createWriter(pathname, append);
+			writer = Files.createWriter(pathName, append);
 		}
 	}
 
@@ -222,7 +222,7 @@ public class FileHandler {
 			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathname),
+			IO.error("Unable to find the specified file ", Strings.quote(pathName),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -234,7 +234,7 @@ public class FileHandler {
 	 * Closes the writer.
 	 */
 	public void closeWriter() {
-		closeWriter("The writer of " + Strings.quote(pathname) + " has already been closed");
+		closeWriter("The writer of " + Strings.quote(pathName) + " has already been closed");
 	}
 
 	/**
@@ -270,7 +270,7 @@ public class FileHandler {
 	 */
 	public boolean delete(final boolean force) {
 		closeWriter(null);
-		return Files.delete(new File(pathname), force);
+		return Files.delete(new File(pathName), force);
 	}
 
 
@@ -289,6 +289,6 @@ public class FileHandler {
 	 */
 	public boolean exists()
 			throws SecurityException {
-		return Files.exists(pathname);
+		return Files.exists(pathName);
 	}
 }

@@ -2065,31 +2065,31 @@ public class Matrix
 	/**
 	 * Returns a {@link Matrix} loaded from the specified file.
 	 * <p>
-	 * @param pathname the pathname of the file to load
+	 * @param pathName the path name of the file to load
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public static Matrix load(final String pathname)
+	public static Matrix load(final String pathName)
 			throws IOException {
-		final FileHandler fileHandler = new FileHandler(pathname);
+		final FileHandler fileHandler = new FileHandler(pathName);
 		return load(fileHandler.getReader(), fileHandler.countLines(true), false);
 	}
 
 	/**
 	 * Returns a {@link Matrix} loaded from the specified file.
 	 * <p>
-	 * @param pathname  the pathname of the file to load
+	 * @param pathName  the path name of the file to load
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public static Matrix load(final String pathname, final boolean transpose)
+	public static Matrix load(final String pathName, final boolean transpose)
 			throws IOException {
-		final FileHandler fileHandler = new FileHandler(pathname);
+		final FileHandler fileHandler = new FileHandler(pathName);
 		return load(fileHandler.getReader(), fileHandler.countLines(true), transpose);
 	}
 

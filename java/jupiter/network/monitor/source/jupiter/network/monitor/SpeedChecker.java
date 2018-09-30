@@ -122,10 +122,10 @@ public class SpeedChecker {
 				// Get the URL
 				final URL url = new URL(urlName);
 				// Get the name of the file pointed by the URL
-				final String filename = url.getFile().replace("/", Strings.EMPTY);
+				final String fileName = url.getFile().replace("/", Strings.EMPTY);
 				// Create a file handler of the data file storing the downloading speeds
 				DATA_FILES.put(urlName,
-						new FileHandler(TEMP_DIR + "/downloading_speeds_of_" + filename + ".csv"));
+						new FileHandler(TEMP_DIR + "/downloading_speeds_of_" + fileName + ".csv"));
 			} catch (final MalformedURLException ex) {
 				IO.error("The URL ", Strings.quote(urlName), " is malformed",
 						IO.appendException(ex));
@@ -197,14 +197,14 @@ public class SpeedChecker {
 
 			// Check if the host of the URL is reachable
 			try {
-				final String hostname = url.getHost();
-				ping(hostname);
-				IO.debug("The host ", hostname, " is reachable");
+				final String hostName = url.getHost();
+				ping(hostName);
+				IO.debug("The host ", Strings.quote(hostName), " is reachable");
 
 				// Download the file pointed by the URL
-				final String filename = url.getFile().replace("/", Strings.EMPTY);
-				final File targetFilePath = new File("C:/Temp/" + filename);
-				IO.debug("Download the file ", filename);
+				final String fileName = url.getFile().replace("/", Strings.EMPTY);
+				final File targetFilePath = new File(TEMP_DIR + "/" + fileName);
+				IO.debug("Download the file ", Strings.quote(fileName));
 				ReadableByteChannel channel = null;
 				FileOutputStream tempFile = null;
 				try {
@@ -223,7 +223,8 @@ public class SpeedChecker {
 				} catch (final IOException ex) {
 					return new Report<Double>(0.,
 							IO.error("Unable to transfer the file ", Strings.quote(urlName), " to ",
-									targetFilePath.getCanonicalPath(), IO.appendException(ex)));
+									Strings.quote(targetFilePath.getCanonicalPath()),
+									IO.appendException(ex)));
 				} finally {
 					Resources.close(channel);
 					Resources.close(tempFile);
@@ -239,9 +240,9 @@ public class SpeedChecker {
 		}
 	}
 
-	protected static boolean ping(final String hostname)
+	protected static boolean ping(final String hostName)
 			throws IOException {
-		final InetAddress host = InetAddress.getByName(hostname);
+		final InetAddress host = InetAddress.getByName(hostName);
 		return host.isReachable(TIME_OUT);
 	}
 

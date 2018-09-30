@@ -108,11 +108,11 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the pathname of the specified log.
+	 * Returns the path name of the specified log.
 	 * <p>
 	 * @param logName the name of the log
 	 * <p>
-	 * @return the pathname of the specified log
+	 * @return the path name of the specified log
 	 */
 	protected String getPath(final String logName) {
 		return logDir + "/" + logName;
@@ -173,7 +173,7 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates all the directories of the logs pathname.
+	 * Creates all the directories of the logs path name.
 	 * <p>
 	 * @return {@code true} if the directories are created, {@code false} otherwise
 	 */

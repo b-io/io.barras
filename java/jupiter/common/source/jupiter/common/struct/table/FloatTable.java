@@ -110,14 +110,14 @@ public class FloatTable
 	/**
 	 * Constructs a {@link FloatTable} imported from the specified file.
 	 * <p>
-	 * @param pathname  the pathname of the file to import
+	 * @param pathName  the path name of the file to import
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public FloatTable(final String pathname, final boolean hasHeader)
+	public FloatTable(final String pathName, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.FLOAT_PARSER, pathname, hasHeader);
+		super(Parsers.FLOAT_PARSER, pathName, hasHeader);
 	}
 
 

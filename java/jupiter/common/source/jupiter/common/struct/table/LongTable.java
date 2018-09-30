@@ -110,14 +110,14 @@ public class LongTable
 	/**
 	 * Constructs a {@link LongTable} imported from the specified file.
 	 * <p>
-	 * @param pathname  the pathname of the file to import
+	 * @param pathName  the path name of the file to import
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public LongTable(final String pathname, final boolean hasHeader)
+	public LongTable(final String pathName, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.LONG_PARSER, pathname, hasHeader);
+		super(Parsers.LONG_PARSER, pathName, hasHeader);
 	}
 
 
