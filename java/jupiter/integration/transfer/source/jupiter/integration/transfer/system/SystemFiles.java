@@ -194,12 +194,12 @@ public class SystemFiles {
 		int n = 0;
 		final byte[] buffer = new byte[1024];
 		try {
-			// Create the target directory if not present
+			// Create the target directory if it is not present
 			final File folder = new File(targetDir);
 			if (!folder.exists()) {
 				folder.mkdir();
 			}
-			// Create the output directory if not present
+			// Create the output directory if it is not present
 			ZipInputStream zis = null;
 			try {
 				// Get the zip file content

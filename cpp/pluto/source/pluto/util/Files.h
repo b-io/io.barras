@@ -69,7 +69,7 @@ public:
 		{
 			fileName.erase(0, last_slash_index + 1);
 		}
-		// Remove the extension (if exists)
+		// Remove the extension (if it exists)
 		const size_t period_index = fileName.rfind('.');
 		if (period_index != string::npos)
 		{

@@ -80,12 +80,12 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 
 	/**
 	 * Associates the specified value with the specified key and returns the previous associated
-	 * value, or {@code null} if not present.
+	 * value, or {@code null} if it is not present.
 	 * <p>
 	 * @param key   the key of the key-value mapping to put
 	 * @param value the value of the key-value mapping to put
 	 * <p>
-	 * @return the previous associated value, or {@code null} if not present
+	 * @return the previous associated value, or {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -148,7 +148,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 		// Test whether there is 0 or 1 child or there are 2 children
 		if (node.left == null || node.right == null) {
 			// - There is 0 or 1 child (so the tree is guaranteed to be balanced)
-			// Get the child (if exists)
+			// Get the child (if it exists)
 			RedBlackTreeNode<K, V> child;
 			if (node.left != null) {
 				child = node.left;
