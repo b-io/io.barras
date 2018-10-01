@@ -24,8 +24,8 @@
 
 	<properties>
 		<!-- Project -->
-		<project.build.source>1.6</project.build.source>
-		<project.build.target>1.6</project.build.target>
+		<project.build.source>1.8</project.build.source>
+		<project.build.target>1.8</project.build.target>
 		<!-- Compilation -->
 		<java.os.include />
 		<stack.protector.option />
