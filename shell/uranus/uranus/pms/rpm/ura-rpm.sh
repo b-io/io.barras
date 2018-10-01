@@ -180,7 +180,7 @@ installRpmFile()
 	fi &&
 	checkFile "$filename" &&
 
-	startList 'Uninstall the previous package (if present)' &&
+	startList 'Uninstall the previous package (if exists)' &&
 		uninstallRpmFile "`getBaseWithoutExtension "$filename"`" &&
 	endList &&
 

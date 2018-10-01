@@ -112,7 +112,7 @@ extern "C"
 
 	/**
 	 * Returns the first element with the specified value and its index in the
-	 * specified array if present, {@code NULL} and the length of the array
+	 * specified array if exists, {@code NULL} and the length of the array
 	 * otherwise.
 	 * <p>
 	 * @param array       the array
@@ -122,14 +122,14 @@ extern "C"
 	 * @param value       the value to be found
 	 * <p>
 	 * @return the first element with the specified value and its index in the
-	 *         specified array if present, {@code NULL} and the length of the
+	 *         specified array if exists, {@code NULL} and the length of the
 	 *         array otherwise
 	 */
 	Element array_find(const void* array, const natural length, const type elementType, const natural elementSize, const void* value);
 
 	/**
 	 * Returns the first element with the specified value in the specified array
-	 * if present, {@code NULL} otherwise.
+	 * if exists, {@code NULL} otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -138,13 +138,13 @@ extern "C"
 	 * @param value       the value to be found
 	 * <p>
 	 * @return the first element with the specified value in the specified array
-	 *         if present, {@code NULL} otherwise
+	 *         if exists, {@code NULL} otherwise
 	 */
 	void* array_find_element(const void* array, const natural length, const type elementType, const natural elementSize, const void* value);
 
 	/**
 	 * Returns the index of the first element with the specified value in the
-	 * specified array if present, the length of the array otherwise.
+	 * specified array if exists, the length of the array otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -153,7 +153,7 @@ extern "C"
 	 * @param value       the value to be found
 	 * <p>
 	 * @return the index of the first element with the specified value in the
-	 *         specified array if present, the length of the array otherwise
+	 *         specified array if exists, the length of the array otherwise
 	 */
 	natural array_find_index(const void* array, const natural length, const type elementType, const natural elementSize, const void* value);
 
@@ -161,7 +161,7 @@ extern "C"
 
 	/**
 	 * Returns the first element with the specified value and its index in the
-	 * specified array if present, {@code NULL} and the length of the array
+	 * specified array if exists, {@code NULL} and the length of the array
 	 * otherwise.
 	 * <p>
 	 * @param array       the array
@@ -172,14 +172,14 @@ extern "C"
 	 * @param comparator  the comparator for element equality of the array
 	 * <p>
 	 * @return the first element with the specified value and its index in the
-	 *         specified array if present, {@code NULL} and the length of the
+	 *         specified array if exists, {@code NULL} and the length of the
 	 *         array otherwise
 	 */
 	Element array_find_with_comparator(const void* array, const natural length, const type elementType, const natural elementSize, const void* value, const Comparable* comparator);
 
 	/**
 	 * Returns the first element with the specified value in the specified array
-	 * if present, {@code NULL} otherwise.
+	 * if exists, {@code NULL} otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -189,13 +189,13 @@ extern "C"
 	 * @param comparator  the comparator for element equality of the array
 	 * <p>
 	 * @return the first element with the specified value in the specified array
-	 *         if present, {@code NULL} otherwise
+	 *         if exists, {@code NULL} otherwise
 	 */
 	void* array_find_element_with_comparator(const void* array, const natural length, const type elementType, const natural elementSize, const void* value, const Comparable* comparator);
 
 	/**
 	 * Returns the index of the first element with the specified value in the
-	 * specified array if present, the length of the array otherwise.
+	 * specified array if exists, the length of the array otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -205,7 +205,7 @@ extern "C"
 	 * @param comparator  the comparator for element equality of the array
 	 * <p>
 	 * @return the index of the first element with the specified value in the
-	 *         specified array if present, the length of the array otherwise
+	 *         specified array if exists, the length of the array otherwise
 	 */
 	natural array_find_index_with_comparator(const void* array, const natural length, const type elementType, const natural elementSize, const void* value, const Comparable* comparator);
 

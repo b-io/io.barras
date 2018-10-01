@@ -159,7 +159,7 @@ installPkgFile()
 	unzip -q "$filename" -d "$targetDir" &&
 	package="`ls "$targetDir"`" &&
 
-	startList 'Uninstall the previous package (if present)' &&
+	startList 'Uninstall the previous package (if exists)' &&
 		uninstallPkgFile "$package" &&
 	endList &&
 
