@@ -148,7 +148,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 		// Test whether there is 0 or 1 child or there are 2 children
 		if (node.left == null || node.right == null) {
 			// - There is 0 or 1 child (so the tree is guaranteed to be balanced)
-			// Get the child if present
+			// Get the child (if present)
 			RedBlackTreeNode<K, V> child;
 			if (node.left != null) {
 				child = node.left;

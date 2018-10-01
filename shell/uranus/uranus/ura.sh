@@ -1707,7 +1707,7 @@ printStackTrace()
 	increment "${1:-0}" | toGetStackTrace | toPrintToLog
 }
 
-# Print the last access denied of SERVICE (if exists).
+# Print the last access denied of SERVICE (if present).
 #> printAccessDenied SERVICE
 printAccessDenied()
 {
@@ -2013,7 +2013,7 @@ addUserToGroup()
 	checkArguments $# 2 &&
 	checkNonEmpty "$1" &&
 
-	# Create the group (if not exists)
+	# Create the group (if not present)
 	createGroup "$2" &&
 
 	# Add the user to the group

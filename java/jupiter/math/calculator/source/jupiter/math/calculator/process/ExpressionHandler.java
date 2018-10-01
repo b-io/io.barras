@@ -151,7 +151,7 @@ public class ExpressionHandler {
 		// Find the delimiting intervals
 		final IntervalList<Integer> delimitingIntervals = getDelimitingIntervals(trimmedExpression);
 
-		// Get the index of the binary operator (if any)
+		// Get the index of the binary operator (if present)
 		final int binaryOperatorIndex = getBinaryOperatorIndex(trimmedExpression,
 				delimitingIntervals);
 
