@@ -23,20 +23,47 @@
  */
 package jupiter.integration.jni;
 
-import jupiter.common.test.Arguments;
+import static jupiter.common.io.IO.IO;
 
-public class JNIArguments {
+public class MatrixOperations {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
+	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void requireSameInnerDimension(final int aColumnDimension,
-			final int bRowDimension) {
-		if (aColumnDimension != bRowDimension) {
-			throw new IllegalArgumentException(
-					"The specified arrays do not have the same (inner) row dimensions " +
-							Arguments.isNotEqualTo(aColumnDimension, bRowDimension));
+	public static final boolean USE = true;
+
+	static {
+		if (USE) {
+			NarSystem.loadLibrary();
+		}
+	}
+
+	public static final MatrixOperations JNI = new MatrixOperations();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public MatrixOperations() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public final native String hello();
+
+	public final native int plus(int a, int b);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void main(String[] args) {
+		JNI.hello();
+		for (int i = 0; i < 10; ++i) {
+			IO.result(JNI.plus(0, 1));
 		}
 	}
 }

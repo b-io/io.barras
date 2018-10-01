@@ -18,6 +18,12 @@
 	<description>Utility library for C</description>
 	<url>https://github.com/b-io/io.barras/tree/master/c/ceres</url>
 
+	<properties>
+		<standard.option>-ansi</standard.option>
+		<pedentic.option>-pedantic</pedentic.option>
+		<warning.option>-Wpadded</warning.option>
+	</properties>
+
 	<build>
 		<plugins>
 			<!-- Compile C -->

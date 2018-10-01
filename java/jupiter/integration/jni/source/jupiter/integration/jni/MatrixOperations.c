@@ -21,33 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-#ifndef _MATRIX_H
-#define _MATRIX_H
-
-
-	/***********************************************************************************************
-	 * INCLUDES
-	 **********************************************************************************************/
+/***************************************************************************************************
+ * INCLUDES
+ **************************************************************************************************/
 
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 
-#include <jni.h>
+#include "jupiter_integration_jni_MatrixOperations.h"
 
 
-	/***********************************************************************************************
-	 * OPERATORS
-	 **********************************************************************************************/
+/***************************************************************************************************
+ * OPERATORS
+ **************************************************************************************************/
 
-	JNIEXPORT void JNICALL dot(JNIEnv*, jobject);
+JNIEXPORT jstring JNICALL Java_jupiter_integration_jni_MatrixOperations_hello(JNIEnv* env, jobject obj)
+{
+	jstring value;
+	char buffer[255];
 
-
-#endif /* _MATRIX_H */
-#ifdef __cplusplus
+	sprintf(buffer, "%s", "Hello World from MatrixOperations!");
+	value = (*env)->NewStringUTF(env, buffer);
+	return value;
 }
-#endif
+
+JNIEXPORT jint JNICALL Java_jupiter_integration_jni_MatrixOperations_plus(JNIEnv* env, jobject obj, jint a, jint b)
+{
+	return a + b;
+}
