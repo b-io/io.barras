@@ -25,6 +25,8 @@ package jupiter.integration.jni;
 
 import static jupiter.common.io.IO.IO;
 
+import jupiter.common.util.Doubles;
+
 public class MatrixOperations {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +48,7 @@ public class MatrixOperations {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public MatrixOperations() {
+	protected MatrixOperations() {
 	}
 
 
@@ -54,16 +56,22 @@ public class MatrixOperations {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public final native String hello();
+	public final native String test();
 
 	public final native int plus(int a, int b);
+
+	public final native double[] dot(double[] A, double[] B, int aColumnDimension,
+			int bColumnDimension);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void main(String[] args) {
-		JNI.hello();
+		JNI.test();
 		for (int i = 0; i < 10; ++i) {
 			IO.result(JNI.plus(0, 1));
 		}
+		double[] A = new double[] {1., 2., 3., 4.};
+		double[] B = new double[] {1., 2., 3., 4.};
+		IO.result(Doubles.toString(new MatrixOperations().dot(A, B, 2, 2)));
 	}
 }

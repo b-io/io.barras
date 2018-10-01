@@ -36,17 +36,62 @@
  * OPERATORS
  **************************************************************************************************/
 
-JNIEXPORT jstring JNICALL Java_jupiter_integration_jni_MatrixOperations_hello(JNIEnv* env, jobject obj)
+JNIEXPORT jstring JNICALL Java_jupiter_integration_jni_MatrixOperations_tests(JNIEnv* env, jobject obj)
 {
-	jstring value;
+	/* Initialize */
 	char buffer[255];
 
-	sprintf(buffer, "%s", "Hello World from MatrixOperations!");
-	value = (*env)->NewStringUTF(env, buffer);
-	return value;
+	/* Process */
+	sprintf(buffer, "%s", "Hello from MatrixOperations!");
+	jstring result = (*env)->NewStringUTF(env, buffer);
+	return result;
 }
 
-JNIEXPORT jint JNICALL Java_jupiter_integration_jni_MatrixOperations_plus(JNIEnv* env, jobject obj, jint a, jint b)
+JNIEXPORT jint JNICALL Java_jupiter_integration_jni_MatrixOperations_plus(JNIEnv* env, jobject obj,
+	jint a, jint b)
 {
 	return a + b;
+}
+
+JNIEXPORT jdoubleArray JNICALL Java_jupiter_integration_jni_MatrixOperations_dot(JNIEnv* env, jobject obj,
+	jdoubleArray A, jdoubleArray B, jint aColumnDimension, jint bColumnDimension)
+{
+	/* Initialize */
+	jsize aLength = (*env)->GetArrayLength(env, A);
+	jsize aRowDimension = aLength / aColumnDimension;
+	jsize resultDimension = aRowDimension * bColumnDimension;
+	jboolean aCopy, bCopy, resultCopy;
+	jdouble* aBuffer = (*env)->GetDoubleArrayElements(env, A, &aCopy);
+	jdouble* bBuffer = (*env)->GetDoubleArrayElements(env, B, &bCopy);
+	jdoubleArray result = (*env)->NewDoubleArray(env, resultDimension);
+	jdouble* resultBuffer = (*env)->GetDoubleArrayElements(env, result, &resultCopy);
+
+	/* Process */
+	for (int e = 0; e < resultDimension; ++e)
+	{
+		jdouble sum = 0.;
+		jint rowOffset = e / bColumnDimension;
+		jint columnOffset = e % bColumnDimension;
+		for (int i = 0; i < aColumnDimension; ++i)
+		{
+			sum += aBuffer[rowOffset * aColumnDimension + i] *
+				bBuffer[i * bColumnDimension + columnOffset];
+		}
+		resultBuffer[e] = sum;
+	}
+
+	/* Release the memory */
+	if (aCopy == JNI_TRUE)
+	{
+		(*env)->ReleaseDoubleArrayElements(env, A, aBuffer, JNI_ABORT);
+	}
+	if (bCopy == JNI_TRUE)
+	{
+		(*env)->ReleaseDoubleArrayElements(env, B, bBuffer, JNI_ABORT);
+	}
+	if (resultCopy == JNI_TRUE)
+	{
+		(*env)->ReleaseDoubleArrayElements(env, result, resultBuffer, 0);
+	}
+	return result;
 }

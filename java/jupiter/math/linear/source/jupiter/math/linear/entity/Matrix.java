@@ -1835,9 +1835,9 @@ public class Matrix
 		if (OpenCL.USE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
 			final Matrix a = A.toMatrix();
 			final Matrix b = B.toMatrix();
-			if (CL.test(n, a.getColumnDimension(), b.getColumnDimension())) {
+			if (CL.test(n, a.n, b.n)) {
 				return new Matrix(m, CL.forward(toPrimitiveArray(), a.toPrimitiveArray(),
-						b.toPrimitiveArray(), n, a.getColumnDimension(), b.getColumnDimension()));
+						b.toPrimitiveArray(), n, a.n, b.n));
 			}
 		}
 		return times(A).plus(B);
@@ -1852,6 +1852,7 @@ public class Matrix
 	 * Returns the LU decomposition.
 	 * <p>
 	 * @return the LU decomposition
+	 *
 	 * @see LUDecomposition
 	 */
 	public LUDecomposition lu() {
@@ -1862,6 +1863,7 @@ public class Matrix
 	 * Returns the QR decomposition.
 	 * <p>
 	 * @return the QR decomposition
+	 *
 	 * @see QRDecomposition
 	 */
 	public QRDecomposition qr() {
@@ -1872,6 +1874,7 @@ public class Matrix
 	 * Returns the Cholesky decomposition.
 	 * <p>
 	 * @return the Cholesky decomposition
+	 *
 	 * @see CholeskyDecomposition
 	 */
 	public CholeskyDecomposition chol() {
@@ -1882,6 +1885,7 @@ public class Matrix
 	 * Returns the singular value decomposition.
 	 * <p>
 	 * @return the singular value decomposition
+	 *
 	 * @see SingularValueDecomposition
 	 */
 	public SingularValueDecomposition svd() {
@@ -1892,6 +1896,7 @@ public class Matrix
 	 * Returns the eigenvalue decomposition.
 	 * <p>
 	 * @return the eigenvalue decomposition
+	 *
 	 * @see EigenvalueDecomposition
 	 */
 	public EigenvalueDecomposition eig() {

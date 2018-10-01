@@ -110,7 +110,7 @@ public class OpenCLTest
 			for (int e = 0; e < result.length; ++e) {
 				final double x = result[e];
 
-				double y = 0f;
+				double y = 0.;
 				final int rowOffset = e / bColumnDimension;
 				final int columnOffset = e % bColumnDimension;
 				for (int i = 0; i < aColumnDimension; ++i) {
@@ -165,7 +165,7 @@ public class OpenCLTest
 			for (int e = 0; e < result.length; ++e) {
 				final double x = result[e];
 
-				double y = 0f;
+				double y = 0.;
 				final int rowOffset = e / bColumnDimension;
 				final int columnOffset = e % bColumnDimension;
 				for (int i = 0; i < aColumnDimension; ++i) {

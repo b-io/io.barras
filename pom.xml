@@ -42,8 +42,12 @@
 
 	<properties>
 		<!-- Project -->
+		<project.build.source>1.6</project.build.source>
+		<project.build.target>1.6</project.build.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Maven -->
+		<maven.compiler.source>${project.build.source}</maven.compiler.source>
+		<maven.compiler.target>${project.build.target}</maven.compiler.target>
 		<maven.version>2.2.1</maven.version>
 		<maven.release.version>2.5.3</maven.release.version>
 		<maven.nar.version>3.4.0</maven.nar.version>
