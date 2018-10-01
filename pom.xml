@@ -142,6 +142,7 @@
 								<include>**/*.c</include>
 							</includes>
 							<options>
+								<option>-D__int64=int64_t</option>
 								<option>-I${JAVA_HOME}/include</option>
 								<option>-I${JAVA_HOME}/include/win32</option>
 								<option>${java.os.include}</option>
