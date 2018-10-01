@@ -80,12 +80,12 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 
 	/**
 	 * Associates the specified value with the specified key and returns the previous associated
-	 * value, or {@code null} if not exists.
+	 * value, or {@code null} if not present.
 	 * <p>
 	 * @param key   the key of the key-value mapping to put
 	 * @param value the value of the key-value mapping to put
 	 * <p>
-	 * @return the previous associated value, or {@code null} if not exists
+	 * @return the previous associated value, or {@code null} if not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}

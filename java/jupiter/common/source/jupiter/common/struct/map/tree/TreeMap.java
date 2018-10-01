@@ -78,11 +78,11 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the value associated with the specified key, or {@code null} if not exists.
+	 * Returns the value associated with the specified key, or {@code null} if not present.
 	 * <p>
 	 * @param key the key of the value to get
 	 * <p>
-	 * @return the value associated with the specified key, or {@code null} if not exists
+	 * @return the value associated with the specified key, or {@code null} if not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -107,11 +107,11 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node of the specified key, or {@code null} if not exists.
+	 * Returns the node of the specified key, or {@code null} if not present.
 	 * <p>
 	 * @param key the key of the node to get
 	 * <p>
-	 * @return the node of the specified key, or {@code null} if not exists
+	 * @return the node of the specified key, or {@code null} if not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -126,11 +126,11 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node of the specified key, or {@code null} if not exists.
+	 * Returns the node of the specified key, or {@code null} if not present.
 	 * <p>
 	 * @param key the key of the node to get
 	 * <p>
-	 * @return the node of the specified key, or {@code null} if not exists
+	 * @return the node of the specified key, or {@code null} if not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}

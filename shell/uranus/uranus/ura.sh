@@ -2013,7 +2013,7 @@ addUserToGroup()
 	checkArguments $# 2 &&
 	checkNonEmpty "$1" &&
 
-	# Create the group (if not exists)
+	# Create the group (if not present)
 	createGroup "$2" &&
 
 	# Add the user to the group
