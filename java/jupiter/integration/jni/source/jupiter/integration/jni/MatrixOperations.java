@@ -56,22 +56,18 @@ public class MatrixOperations {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public final native String test();
-
-	public final native int plus(int a, int b);
-
 	public final native double[] dot(double[] A, double[] B, int aColumnDimension,
 			int bColumnDimension);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void main(String[] args) {
-		JNI.test();
-		for (int i = 0; i < 10; ++i) {
-			IO.result(JNI.plus(0, 1));
-		}
-		double[] A = new double[] {1., 2., 3., 4.};
-		double[] B = new double[] {1., 2., 3., 4.};
-		IO.result(Doubles.toString(new MatrixOperations().dot(A, B, 2, 2)));
+	public static void main(final String[] args) {
+		final double[] A = new double[] {
+			1., 2., 3., 4.
+		};
+		final double[] B = new double[] {
+			1., 2., 3., 4.
+		};
+		IO.result(Doubles.toString(JNI.dot(A, B, 2, 2)));
 	}
 }

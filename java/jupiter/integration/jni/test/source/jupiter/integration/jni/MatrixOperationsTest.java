@@ -24,7 +24,6 @@
 package jupiter.integration.jni;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.integration.jni.MatrixOperations.JNI;
 
 import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
@@ -39,34 +38,6 @@ public class MatrixOperationsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of test method, of class MatrixOperations.
-	 * <p>
-	 * @since 1.6
-	 */
-	public void testTest() {
-		if (MatrixOperations.USE && false) {
-			IO.test("test");
-
-			JNI.test();
-		}
-	}
-
-	/**
-	 * Test of plus method, of class MatrixOperations.
-	 * <p>
-	 * @since 1.6
-	 */
-	public void testPlus() {
-		if (MatrixOperations.USE && false) {
-			IO.test("plus");
-
-			for (int i = 0; i < 10; ++i) {
-				IO.result(JNI.plus(0, 1));
-			}
-		}
-	}
-
-	/**
 	 * Test of dot method, of class MatrixOperations.
 	 * <p>
 	 * @since 1.6
@@ -75,8 +46,12 @@ public class MatrixOperationsTest
 		if (MatrixOperations.USE && false) {
 			IO.test("dot");
 
-			double[] A = new double[] {1., 2., 3., 4.};
-			double[] B = new double[] {1., 2., 3., 4.};
+			final double[] A = new double[] {
+				1., 2., 3., 4.
+			};
+			final double[] B = new double[] {
+				1., 2., 3., 4.
+			};
 			IO.result(Doubles.toString(new MatrixOperations().dot(A, B, 2, 2)));
 		}
 	}

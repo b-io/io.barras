@@ -36,23 +36,6 @@
  * OPERATORS
  **************************************************************************************************/
 
-JNIEXPORT jstring JNICALL Java_jupiter_integration_jni_MatrixOperations_tests(JNIEnv* env, jobject obj)
-{
-	/* Initialize */
-	char buffer[255];
-
-	/* Process */
-	sprintf(buffer, "%s", "Hello from MatrixOperations!");
-	jstring result = (*env)->NewStringUTF(env, buffer);
-	return result;
-}
-
-JNIEXPORT jint JNICALL Java_jupiter_integration_jni_MatrixOperations_plus(JNIEnv* env, jobject obj,
-	jint a, jint b)
-{
-	return a + b;
-}
-
 JNIEXPORT jdoubleArray JNICALL Java_jupiter_integration_jni_MatrixOperations_dot(JNIEnv* env, jobject obj,
 	jdoubleArray A, jdoubleArray B, jint aColumnDimension, jint bColumnDimension)
 {
