@@ -74,6 +74,9 @@ public class FTPHandler {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public FTPHandler() {
+	}
+
 	public FTPHandler(final Protocol protocol, final String hostName, final int port,
 			final String userName, final String password, final String remoteDir,
 			final String localDir, final String filter, final String[] fileNames) {
@@ -100,14 +103,26 @@ public class FTPHandler {
 	public void loadProperties(final Properties properties) {
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
-		port = Integer
-				.valueOf(properties.getProperty("port", protocol.equals("sftp") ? "22" : "21"));
+		switch(protocol) {
+			case SFTP:
+				port = Integer.valueOf(properties.getProperty("port", "22"));
+				break;
+			default:
+				port = Integer.valueOf(properties.getProperty("port", "21"));
+		}
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 		remoteDir = properties.getProperty("remoteDir");
 		localDir = properties.getProperty("localDir");
 		filter = properties.getProperty("filter", "*");
 		fileNames = properties.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public int download(final Properties properties) {
+		loadProperties(properties);
+		return download();
 	}
 
 	public int download() {
