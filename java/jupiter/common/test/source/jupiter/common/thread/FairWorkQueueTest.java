@@ -33,10 +33,10 @@ import java.util.Set;
 import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
-public class LockedWorkQueueTest
+public class FairWorkQueueTest
 		extends Test {
 
-	public LockedWorkQueueTest(final String name) {
+	public FairWorkQueueTest(final String name) {
 		super(name);
 	}
 

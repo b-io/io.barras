@@ -42,10 +42,10 @@ import java.util.Map;
 
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.thread.FairWorkQueue;
 import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
 import jupiter.common.thread.Threads;
-import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.time.Chronometer;
 import jupiter.common.time.Dates;
@@ -133,7 +133,7 @@ public class SpeedChecker {
 		}
 		// - The work queue
 		if (PARALLELIZE) {
-			WORK_QUEUE = new WorkQueue<String, Report<Double>>(new Checker());
+			WORK_QUEUE = new FairWorkQueue<String, Report<Double>>(new Checker());
 		}
 	}
 

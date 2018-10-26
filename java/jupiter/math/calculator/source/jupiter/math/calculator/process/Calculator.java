@@ -35,9 +35,9 @@ import jupiter.common.io.Message;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.struct.tuple.Pair;
+import jupiter.common.thread.FairWorkQueue;
 import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
-import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.BinaryOperation;
@@ -100,7 +100,7 @@ public class Calculator {
 		ExpressionHandler.start();
 		// - The work queue
 		if (PARALLELIZE) {
-			WORK_QUEUE = new WorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
+			WORK_QUEUE = new FairWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
 					new Evaluator());
 		}
 	}
