@@ -69,7 +69,7 @@ public class LogHandler
 	/**
 	 * The internal lock of the output log.
 	 */
-	protected final Lock outputLogLock = new ReentrantLock();
+	protected final Lock outputLogLock = new ReentrantLock(true);
 	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
 
 	/**
@@ -79,7 +79,7 @@ public class LogHandler
 	/**
 	 * The internal lock of the error log.
 	 */
-	protected final Lock errorLogLock = new ReentrantLock();
+	protected final Lock errorLogLock = new ReentrantLock(true);
 	protected final StringBuilder errorLineBuilder = Strings.createBuilder();
 
 
