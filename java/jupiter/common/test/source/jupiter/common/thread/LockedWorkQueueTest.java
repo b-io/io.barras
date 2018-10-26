@@ -43,7 +43,7 @@ public class LockedWorkQueueTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of addTask method, of class LockedWorkQueue.
+	 * Test of addTask method, of class FairWorkQueue.
 	 */
 	public void testAddTask() {
 		IO.test("addTask");
@@ -53,10 +53,10 @@ public class LockedWorkQueueTest
 		final Chronometer chrono = new Chronometer();
 
 		// Create a work queue
-		final IWorkQueue<Integer, Integer> workQueue = new LockedWorkQueue<Integer, Integer>(
+		final IWorkQueue<Integer, Integer> workQueue = new FairWorkQueue<Integer, Integer>(
 				new SimpleWorker());
-		workQueue.reserveWorkers(LockedWorkQueue.MAX_THREADS);
-		IO.test("There are ", LockedWorkQueue.MAX_THREADS, " working threads");
+		workQueue.reserveWorkers(FairWorkQueue.MAX_THREADS);
+		IO.test("There are ", FairWorkQueue.MAX_THREADS, " working threads");
 
 		// Process the tasks
 		chrono.start();
