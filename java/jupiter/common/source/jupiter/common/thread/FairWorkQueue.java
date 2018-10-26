@@ -93,7 +93,7 @@ public class FairWorkQueue<I, O>
 	/**
 	 * The internal lock of the results.
 	 */
-	protected final Lock resultsLock = new ReentrantLock();
+	protected final Lock resultsLock = new ReentrantLock(true);
 	protected final Condition resultsLockCondition = resultsLock.newCondition();
 
 
