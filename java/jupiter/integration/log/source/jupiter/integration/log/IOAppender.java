@@ -23,6 +23,7 @@
  */
 package jupiter.integration.log;
 
+import java.io.File;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -33,6 +34,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import jupiter.common.io.IO;
 import jupiter.common.io.Message;
 import jupiter.common.io.console.ConsoleHandler;
+import jupiter.common.io.file.Files;
 import jupiter.common.io.log.LogHandler;
 
 public class IOAppender
@@ -84,6 +86,24 @@ public class IOAppender
 		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
 				logHandler);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void setConfigurationPath() {
+		setConfigurationPath("log4j.properties");
+	}
+
+	public static void setConfigurationPath(final String fileName) {
+		try {
+			final File log4j = new File(Files.getPath() + File.separatorChar + fileName);
+			System.setProperty("log4j.configuration", "file:///" + log4j.getCanonicalPath());
+		} catch (Exception ex) {
+			IO.IO.error(ex.getMessage());
+		}
 	}
 
 
