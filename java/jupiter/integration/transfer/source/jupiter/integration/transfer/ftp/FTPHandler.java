@@ -189,8 +189,8 @@ public class FTPHandler {
 						final String fileName = file.getName();
 						if (file.isFile() && fileName.matches(filter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDir + "/" + fileName;
-							final String localPath = localDir + "/" + fileName;
+							final String remotePath = remoteDir + File.separatorChar + fileName;
+							final String localPath = localDir + File.separatorChar + fileName;
 
 							IO.info("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));
@@ -266,8 +266,8 @@ public class FTPHandler {
 						final String fileName = file.getName();
 						if (file.isFile() && fileName.matches(filter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDir + "/" + fileName;
-							final String localPath = localDir + "/" + fileName;
+							final String remotePath = remoteDir + File.separatorChar + fileName;
+							final String localPath = localDir + File.separatorChar + fileName;
 
 							IO.info("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));

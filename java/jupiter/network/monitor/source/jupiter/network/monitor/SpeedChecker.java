@@ -122,7 +122,7 @@ public class SpeedChecker {
 				// Get the URL
 				final URL url = new URL(urlName);
 				// Get the name of the file pointed by the URL
-				final String fileName = url.getFile().replace("/", Strings.EMPTY);
+				final String fileName = url.getFile().replace(File.separator, Strings.EMPTY);
 				// Create a file handler of the data file storing the downloading speeds
 				DATA_FILES.put(urlName,
 						new FileHandler(TEMP_DIR + "/downloading_speeds_of_" + fileName + ".csv"));
@@ -202,8 +202,8 @@ public class SpeedChecker {
 				IO.debug("The host ", Strings.quote(hostName), " is reachable");
 
 				// Download the file pointed by the URL
-				final String fileName = url.getFile().replace("/", Strings.EMPTY);
-				final File targetFilePath = new File(TEMP_DIR + "/" + fileName);
+				final String fileName = url.getFile().replace(File.separator, Strings.EMPTY);
+				final File targetFilePath = new File(TEMP_DIR + File.separatorChar + fileName);
 				IO.debug("Download the file ", Strings.quote(fileName));
 				ReadableByteChannel channel = null;
 				FileOutputStream tempFile = null;
