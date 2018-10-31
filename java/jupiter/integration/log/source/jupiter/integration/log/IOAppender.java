@@ -24,6 +24,7 @@
 package jupiter.integration.log;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -101,7 +102,7 @@ public class IOAppender
 		try {
 			final File log4j = new File(Files.getPath() + File.separatorChar + fileName);
 			System.setProperty("log4j.configuration", "file:///" + log4j.getCanonicalPath());
-		} catch (final Exception ex) {
+		} catch (final IOException ex) {
 			IO.IO.error(ex.getMessage());
 		}
 	}
