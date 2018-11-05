@@ -203,7 +203,7 @@ public class SpeedChecker {
 
 				// Download the file pointed by the URL
 				final String fileName = url.getFile().replace(File.separator, Strings.EMPTY);
-				final File targetFilePath = new File(TEMP_DIR + File.separatorChar + fileName);
+				final File targetFilePath = new File(TEMP_DIR + File.separator + fileName);
 				IO.debug("Download the file ", Strings.quote(fileName));
 				ReadableByteChannel channel = null;
 				FileOutputStream tempFile = null;

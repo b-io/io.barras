@@ -116,7 +116,7 @@ public class LogHandler
 	 * @return the path name of the specified log
 	 */
 	protected String getPath(final String logName) {
-		return logDir + File.separatorChar + logName;
+		return logDir + File.separator + logName;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

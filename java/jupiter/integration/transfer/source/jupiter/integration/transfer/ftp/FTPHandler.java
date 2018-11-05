@@ -56,6 +56,13 @@ import jupiter.common.util.Strings;
 public class FTPHandler {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final String REMOTE_SEPARATOR = "/";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -189,8 +196,8 @@ public class FTPHandler {
 						final String fileName = file.getName();
 						if (file.isFile() && fileName.matches(filter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDir + File.separatorChar + fileName;
-							final String localPath = localDir + File.separatorChar + fileName;
+							final String remotePath = remoteDir + REMOTE_SEPARATOR + fileName;
+							final String localPath = localDir + File.separator + fileName;
 
 							IO.info("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));
@@ -266,8 +273,8 @@ public class FTPHandler {
 						final String fileName = file.getName();
 						if (file.isFile() && fileName.matches(filter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDir + File.separatorChar + fileName;
-							final String localPath = localDir + File.separatorChar + fileName;
+							final String remotePath = remoteDir + REMOTE_SEPARATOR + fileName;
+							final String localPath = localDir + File.separator + fileName;
 
 							IO.info("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));

@@ -100,7 +100,7 @@ public class IOAppender
 
 	public static void setConfigurationPath(final String fileName) {
 		try {
-			final File log4j = new File(Files.getPath() + File.separatorChar + fileName);
+			final File log4j = new File(Files.getPath() + File.separator + fileName);
 			System.setProperty("log4j.configuration", "file:///" + log4j.getCanonicalPath());
 		} catch (final IOException ex) {
 			IO.IO.error(ex.getMessage());
