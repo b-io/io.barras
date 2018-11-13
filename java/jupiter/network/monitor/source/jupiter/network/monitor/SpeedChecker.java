@@ -57,7 +57,7 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final int N_RUNS = 1000;
+	protected static final int RUNS_COUNT = 1000;
 	protected static final int TIME_INTERVAL = 30000; // [ms]
 	protected static final int TIME_OUT = 10000; // [ms]
 	protected static final String TEMP_DIR = "C:/Temp";
@@ -96,7 +96,7 @@ public class SpeedChecker {
 	 */
 	public static void main(final String[] args) {
 		start();
-		for (int i = 0; i < N_RUNS; ++i) {
+		for (int i = 0; i < RUNS_COUNT; ++i) {
 			check();
 			Threads.sleep();
 		}
