@@ -91,27 +91,40 @@ public class ExpressionHandler {
 	/**
 	 * Starts {@code this}.
 	 */
-	public static void start() {
+	public static synchronized void start() {
 		IO.debug("");
-		stop();
 
 		// Initialize
 		if (PARALLELIZE) {
-			WORK_QUEUE = new WorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
-					new Parser());
+			if (WORK_QUEUE == null) {
+				WORK_QUEUE = new WorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
+						new Parser());
+			} else {
+				IO.warn("The ", WORK_QUEUE.getClass().getSimpleName(), " has already started");
+			}
 		}
 	}
 
 	/**
 	 * Stops {@code this}.
 	 */
-	public static void stop() {
+	public static synchronized void stop() {
 		IO.debug("");
 
 		// Shutdown
 		if (WORK_QUEUE != null) {
 			WORK_QUEUE.shutdown();
 		}
+	}
+
+	/**
+	 * Restarts {@code this}.
+	 */
+	public static synchronized void restart() {
+		IO.debug("");
+
+		stop();
+		start();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

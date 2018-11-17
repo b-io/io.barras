@@ -104,15 +104,17 @@ public class Chronometer {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void start() {
+	public synchronized void start() {
 		begin = System.nanoTime();
 	}
 
-	public long stop() {
+	public synchronized long stop() {
 		end = System.nanoTime();
 		compute();
 		return difference;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void compute() {
 		difference = end - begin;

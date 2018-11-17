@@ -148,27 +148,15 @@ public class ProgressBar {
 	/**
 	 * Prints the start of the progress bar.
 	 */
-	public void start() {
+	public synchronized void start() {
 		progress = 0;
 		IO.print(START_SYMBOL, isError);
 	}
 
 	/**
-	 * Prints {@code n} symbols.
-	 * <p>
-	 * @param n the number of symbols to print
-	 */
-	public void printSymbols(final int n) {
-		if (n > 0) {
-			IO.print(SYMBOL, n, isError);
-			progress += n;
-		}
-	}
-
-	/**
 	 * Prints the end of the progress bar.
 	 */
-	public void end() {
+	public synchronized void end() {
 		IO.println(END_SYMBOL, isError);
 	}
 
@@ -193,6 +181,18 @@ public class ProgressBar {
 		printSymbols(progress);
 	}
 
+	/**
+	 * Prints {@code n} symbols.
+	 * <p>
+	 * @param n the number of symbols to print
+	 */
+	public synchronized void printSymbols(final int n) {
+		if (n > 0) {
+			IO.print(SYMBOL, n, isError);
+			progress += n;
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -207,7 +207,7 @@ public class ProgressBar {
 	 * <p>
 	 * @param n the number of spaces to print
 	 */
-	protected void printSpaces(final int n) {
+	protected synchronized void printSpaces(final int n) {
 		IO.print(SPACE, n, isError);
 	}
 }

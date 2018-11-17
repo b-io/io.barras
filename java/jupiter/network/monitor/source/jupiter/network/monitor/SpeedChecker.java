@@ -109,11 +109,10 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Start {@code this}.
+	 * Starts {@code this}.
 	 */
-	protected static void start() {
+	protected static synchronized void start() {
 		IO.debug("");
-		stop();
 
 		// Initialize
 		// - The file handlers of the data files storing the downloading speeds
@@ -133,14 +132,18 @@ public class SpeedChecker {
 		}
 		// - The work queue
 		if (PARALLELIZE) {
-			WORK_QUEUE = new WorkQueue<String, Report<Double>>(new Checker());
+			if (WORK_QUEUE == null) {
+				WORK_QUEUE = new WorkQueue<String, Report<Double>>(new Checker());
+			} else {
+				IO.warn("The ", WORK_QUEUE.getClass().getSimpleName(), " has already started");
+			}
 		}
 	}
 
 	/**
 	 * Stops {@code this}.
 	 */
-	protected static void stop() {
+	protected static synchronized void stop() {
 		IO.debug("");
 
 		// Shutdown
@@ -153,6 +156,16 @@ public class SpeedChecker {
 			fileHandler.closeWriter();
 		}
 		DATA_FILES.clear();
+	}
+
+	/**
+	 * Restarts {@code this}.
+	 */
+	public static synchronized void restart() {
+		IO.debug("");
+
+		stop();
+		start();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

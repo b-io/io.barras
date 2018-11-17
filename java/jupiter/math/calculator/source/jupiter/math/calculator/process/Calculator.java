@@ -91,24 +91,27 @@ public class Calculator {
 	/**
 	 * Starts {@code this}.
 	 */
-	public static void start() {
+	public static synchronized void start() {
 		IO.debug("");
-		stop();
 
 		// Initialize
 		// - The expression handler
 		ExpressionHandler.start();
 		// - The work queue
 		if (PARALLELIZE) {
-			WORK_QUEUE = new WorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
-					new Evaluator());
+			if (WORK_QUEUE == null) {
+				WORK_QUEUE = new WorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
+						new Evaluator());
+			} else {
+				IO.warn("The ", WORK_QUEUE.getClass().getSimpleName(), " has already started");
+			}
 		}
 	}
 
 	/**
 	 * Stops {@code this}.
 	 */
-	public static void stop() {
+	public static synchronized void stop() {
 		IO.debug("");
 
 		// Shutdown
@@ -118,6 +121,16 @@ public class Calculator {
 		}
 		// - The expression handler
 		ExpressionHandler.stop();
+	}
+
+	/**
+	 * Restarts {@code this}.
+	 */
+	public static synchronized void restart() {
+		IO.debug("");
+
+		stop();
+		start();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
