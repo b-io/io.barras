@@ -112,7 +112,6 @@ public class NeuralNetworkTest
 		final double[] times = new double[testCount];
 
 		// Test
-		Matrix.start();
 		try {
 			// - Test the example A
 			for (int t = 0; t < testCount; ++t) {
@@ -129,8 +128,6 @@ public class NeuralNetworkTest
 			Tests.printTimes(times);
 		} catch (final IOException ex) {
 			IO.error(ex);
-		} finally {
-			Matrix.stop();
 		}
 	}
 
