@@ -21,42 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.io;
+package jupiter.integration.transfer.web;
 
-import static jupiter.common.io.IO.IO;
+import java.lang.reflect.Field;
 
-import java.io.Closeable;
-import java.io.IOException;
+import jupiter.common.util.Strings;
 
-public class Resources {
+public class Web {
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected Resources() {
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static boolean close(final Closeable closeable) {
-		return close(closeable, null);
-	}
-
-	public static boolean close(final Closeable closable, final String message) {
-		if (closable != null) {
-			try {
-				closable.close();
-				return true;
-			} catch (final IOException ex) {
-				IO.error(ex);
+	/**
+	 * Returns a JSON {@link String} representation of the specified {@link Object}.
+	 * <p>
+	 * @param content the {@link Object} to represent as a JSON {@link String}
+	 * <p>
+	 * @return a JSON {@link String} representation of the specified {@link Object}
+	 */
+	public static String jsonify(final Object content) {
+		final StringBuilder builder = Strings.createBuilder();
+		builder.append('{');
+		if (content != null) {
+			final Field[] fields = content.getClass().getDeclaredFields();
+			for (int i = 0; i < fields.length; ++i) {
+				final Field field = fields[i];
+				builder.append(Strings.doubleQuote(field.getName()));
+				builder.append(':');
+				try {
+					if (field.getType().isAssignableFrom(String.class)) {
+						builder.append(Strings.doubleQuote(field.get(content)));
+					} else {
+						builder.append(field.get(content));
+					}
+				} catch (final IllegalAccessException ignored) {
+				}
+				if (i < fields.length - 1) {
+					builder.append(',');
+				}
 			}
-		} else if (message != null) {
-			IO.warn(message);
 		}
-		return false;
+		builder.append('}');
+		return builder.toString();
 	}
 }

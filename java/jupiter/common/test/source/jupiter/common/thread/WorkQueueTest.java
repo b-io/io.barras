@@ -53,7 +53,7 @@ public class WorkQueueTest
 		final Chronometer chrono = new Chronometer();
 
 		// Create a work queue
-		final IWorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(
+		final IWorkQueue<Integer, Integer> workQueue = new FairWorkQueue<Integer, Integer>(
 				new SimpleWorker());
 		workQueue.reserveWorkers(WorkQueue.MAX_THREADS);
 		IO.test("There are ", WorkQueue.MAX_THREADS, " working threads");

@@ -763,7 +763,7 @@ boolean chars_cat(const character* source, const natural sourceSize, const natur
 		else
 		{
 			/* Check for truncation */
-			if (length != 0 && *source)
+			if (length > 0 && *source)
 			{
 				_PRINT_WARNING_TRUNCATION(_CHARACTERS_NAME);
 			}

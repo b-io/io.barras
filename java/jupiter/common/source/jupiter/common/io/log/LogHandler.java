@@ -23,6 +23,7 @@
  */
 package jupiter.common.io.log;
 
+import java.io.File;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -69,7 +70,7 @@ public class LogHandler
 	/**
 	 * The internal lock of the output log.
 	 */
-	protected final Lock outputLogLock = new ReentrantLock();
+	protected final Lock outputLogLock = new ReentrantLock(true);
 	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
 
 	/**
@@ -79,7 +80,7 @@ public class LogHandler
 	/**
 	 * The internal lock of the error log.
 	 */
-	protected final Lock errorLogLock = new ReentrantLock();
+	protected final Lock errorLogLock = new ReentrantLock(true);
 	protected final StringBuilder errorLineBuilder = Strings.createBuilder();
 
 
@@ -115,7 +116,7 @@ public class LogHandler
 	 * @return the path name of the specified log
 	 */
 	protected String getPath(final String logName) {
-		return logDir + "/" + logName;
+		return logDir + File.separator + logName;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

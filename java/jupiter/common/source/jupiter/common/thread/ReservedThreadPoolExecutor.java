@@ -49,7 +49,7 @@ public class ReservedThreadPoolExecutor
 	/**
 	 * The internal lock for submission.
 	 */
-	protected final ReentrantLock submitLock = new ReentrantLock();
+	protected final ReentrantLock submitLock = new ReentrantLock(true);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

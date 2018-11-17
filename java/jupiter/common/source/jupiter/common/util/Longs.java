@@ -612,7 +612,7 @@ public class Longs {
 	 * @return a hash code value for the specified value
 	 */
 	public static int hashCode(final long value) {
-		return Objects.hashCode((int) value, (int) (value >>> Bits.N_HALF_LONG_BITS));
+		return Objects.hashCode((int) value, (int) (value >>> Bits.HALF_LONG_BITS_COUNT));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

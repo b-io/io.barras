@@ -209,7 +209,7 @@ public class JogAmpl
 
 	public static int count(final DoubleBuffer buffer) {
 		int i = 0;
-		while (buffer.remaining() != 0) {
+		while (buffer.remaining() > 0) {
 			buffer.get();
 			++i;
 		}
@@ -219,7 +219,7 @@ public class JogAmpl
 
 	public static void fill(final DoubleBuffer buffer, final double[] array) {
 		int i = 0;
-		while (i < array.length && buffer.remaining() != 0) {
+		while (i < array.length && buffer.remaining() > 0) {
 			buffer.put(array[i]);
 			++i;
 		}

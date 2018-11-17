@@ -56,6 +56,13 @@ import jupiter.common.util.Strings;
 public class FTPHandler {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final String REMOTE_SEPARATOR = "/";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,6 +80,9 @@ public class FTPHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public FTPHandler() {
+	}
 
 	public FTPHandler(final Protocol protocol, final String hostName, final int port,
 			final String userName, final String password, final String remoteDir,
@@ -100,14 +110,26 @@ public class FTPHandler {
 	public void loadProperties(final Properties properties) {
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
-		port = Integer
-				.valueOf(properties.getProperty("port", protocol.equals("sftp") ? "22" : "21"));
+		switch(protocol) {
+			case SFTP:
+				port = Integer.valueOf(properties.getProperty("port", "22"));
+				break;
+			default:
+				port = Integer.valueOf(properties.getProperty("port", "21"));
+		}
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 		remoteDir = properties.getProperty("remoteDir");
 		localDir = properties.getProperty("localDir");
 		filter = properties.getProperty("filter", "*");
 		fileNames = properties.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public int download(final Properties properties) {
+		loadProperties(properties);
+		return download();
 	}
 
 	public int download() {
@@ -174,8 +196,8 @@ public class FTPHandler {
 						final String fileName = file.getName();
 						if (file.isFile() && fileName.matches(filter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDir + "/" + fileName;
-							final String localPath = localDir + "/" + fileName;
+							final String remotePath = remoteDir + REMOTE_SEPARATOR + fileName;
+							final String localPath = localDir + File.separator + fileName;
 
 							IO.info("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));
@@ -251,8 +273,8 @@ public class FTPHandler {
 						final String fileName = file.getName();
 						if (file.isFile() && fileName.matches(filter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDir + "/" + fileName;
-							final String localPath = localDir + "/" + fileName;
+							final String remotePath = remoteDir + REMOTE_SEPARATOR + fileName;
+							final String localPath = localDir + File.separator + fileName;
 
 							IO.info("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));

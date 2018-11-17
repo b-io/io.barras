@@ -42,10 +42,10 @@ import java.util.Map;
 
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.thread.FairWorkQueue;
 import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
 import jupiter.common.thread.Threads;
-import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.time.Chronometer;
 import jupiter.common.time.Dates;
@@ -57,7 +57,7 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final int N_RUNS = 1000;
+	protected static final int RUNS_COUNT = 1000;
 	protected static final int TIME_INTERVAL = 30000; // [ms]
 	protected static final int TIME_OUT = 10000; // [ms]
 	protected static final String TEMP_DIR = "C:/Temp";
@@ -96,7 +96,7 @@ public class SpeedChecker {
 	 */
 	public static void main(final String[] args) {
 		start();
-		for (int i = 0; i < N_RUNS; ++i) {
+		for (int i = 0; i < RUNS_COUNT; ++i) {
 			check();
 			Threads.sleep();
 		}
@@ -121,7 +121,7 @@ public class SpeedChecker {
 				// Get the URL
 				final URL url = new URL(urlName);
 				// Get the name of the file pointed by the URL
-				final String fileName = url.getFile().replace("/", Strings.EMPTY);
+				final String fileName = url.getFile().replace(File.separator, Strings.EMPTY);
 				// Create a file handler of the data file storing the downloading speeds
 				DATA_FILES.put(urlName,
 						new FileHandler(TEMP_DIR + "/downloading_speeds_of_" + fileName + ".csv"));
@@ -133,7 +133,7 @@ public class SpeedChecker {
 		// - The work queue
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new WorkQueue<String, Report<Double>>(new Checker());
+				WORK_QUEUE = new FairWorkQueue<String, Report<Double>>(new Checker());
 			} else {
 				IO.warn("The ", WORK_QUEUE.getClass().getSimpleName(), " has already started");
 			}
@@ -215,8 +215,8 @@ public class SpeedChecker {
 				IO.debug("The host ", Strings.quote(hostName), " is reachable");
 
 				// Download the file pointed by the URL
-				final String fileName = url.getFile().replace("/", Strings.EMPTY);
-				final File targetFilePath = new File(TEMP_DIR + "/" + fileName);
+				final String fileName = url.getFile().replace(File.separator, Strings.EMPTY);
+				final File targetFilePath = new File(TEMP_DIR + File.separator + fileName);
 				IO.debug("Download the file ", Strings.quote(fileName));
 				ReadableByteChannel channel = null;
 				FileOutputStream tempFile = null;
