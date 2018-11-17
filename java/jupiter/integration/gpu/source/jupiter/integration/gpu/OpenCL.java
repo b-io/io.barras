@@ -41,7 +41,7 @@ public abstract class OpenCL {
 	/**
 	 * The flag specifying whether to use OpenCL.
 	 */
-	public static volatile boolean USE = false;
+	public static volatile boolean USE = true;
 
 	protected static final String KERNEL_PREFIX = "__kernel void";
 	protected static final String PROGRAM = "#pragma OPENCL EXTENSION cl_khr_fp64: enable\n" +
@@ -112,7 +112,7 @@ public abstract class OpenCL {
 	public volatile boolean use;
 
 	protected final String sourceCode;
-	protected final List<String> kernelNames = new LinkedList();
+	protected final List<String> kernelNames = new LinkedList<String>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
