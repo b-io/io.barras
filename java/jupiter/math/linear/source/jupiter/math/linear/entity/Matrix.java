@@ -121,7 +121,7 @@ public class Matrix
 	/**
 	 * The flag specifying whether to parallelize using a work queue.
 	 */
-	public static volatile boolean PARALLELIZE = true;
+	public static volatile boolean PARALLELIZE = false;
 	/**
 	 * The work queue for computing the dot product.
 	 */
@@ -1175,13 +1175,12 @@ public class Matrix
 		IO.debug("");
 
 		// Initialize
-		if (PARALLELIZE) {
-			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
-						new DotProduct());
-			} else {
-				IO.warn("The ", WORK_QUEUE.getClass().getSimpleName(), " has already started");
-			}
+		if (WORK_QUEUE == null) {
+			WORK_QUEUE = new WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
+					new DotProduct());
+			PARALLELIZE = true;
+		} else {
+			IO.warn("The ", WORK_QUEUE.getClass().getSimpleName(), " has already started");
 		}
 	}
 
@@ -1193,6 +1192,7 @@ public class Matrix
 
 		// Shutdown
 		if (WORK_QUEUE != null) {
+			PARALLELIZE = false;
 			WORK_QUEUE.shutdown();
 		}
 	}
