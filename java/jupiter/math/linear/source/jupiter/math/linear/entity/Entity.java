@@ -508,7 +508,14 @@ public abstract class Entity
 	 * @return {@code this ^ scalar}
 	 */
 	public Entity power(final int scalar) {
-		return clone().raise(scalar);
+		Entity result = this;
+		if (scalar > 1) {
+			result = times(result);
+			for (int i = 2; i < scalar; ++i) {
+				result = multiply(result);
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -559,10 +566,11 @@ public abstract class Entity
 	 * @return {@code this ^= scalar}
 	 */
 	public Entity raise(final int scalar) {
-		for (int i = 0; i < scalar; ++i) {
-			multiply(this);
+		Entity result = this;
+		for (int i = 1; i < scalar; ++i) {
+			result = multiply(result);
 		}
-		return this;
+		return result;
 	}
 
 	/**

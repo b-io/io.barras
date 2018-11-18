@@ -1255,7 +1255,7 @@ public class Matrix
 	 * @return the sum of the elements
 	 */
 	public double sum() {
-		final double sum = 0.;
+		double sum = 0.;
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				sum += elements[i][j];
@@ -1460,7 +1460,7 @@ public class Matrix
 	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
-	public Matrix times(final Matrix matrix) {
+	public Entity times(final Matrix matrix) {
 		// Check the arguments
 		requireInnerDimension(matrix);
 
@@ -1567,7 +1567,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this *= matrix}
 	 */
-	public Matrix multiply(final Matrix matrix) {
+	public Entity multiply(final Matrix matrix) {
 		return times(matrix);
 	}
 
@@ -1618,7 +1618,7 @@ public class Matrix
 	 * @return {@code this / matrix}
 	 */
 	public Entity division(final Matrix matrix) {
-		return times(((Matrix) entity).inverse());
+		return times(matrix.inverse());
 	}
 
 	/**
@@ -1667,7 +1667,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this /= matrix}
 	 */
-	public Matrix divide(final Matrix matrix) {
+	public Entity divide(final Matrix matrix) {
 		return multiply(matrix.inverse());
 	}
 
@@ -1727,7 +1727,7 @@ public class Matrix
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result[i][j] = Math.pow(elements[i][j], matrix[i][j]);
+				result.elements[i][j] = Math.pow(elements[i][j], matrix.elements[i][j]);
 			}
 		}
 		return result;
@@ -1765,7 +1765,7 @@ public class Matrix
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i][j] = Math.pow(elements[i][j], matrix[i][j]);
+				elements[i][j] = Math.pow(elements[i][j], matrix.elements[i][j]);
 			}
 		}
 		return this;

@@ -26,10 +26,7 @@ package jupiter.math.linear.entity;
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.math.Maths;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Floats;
 import jupiter.common.util.Formats;
-import jupiter.common.util.Integers;
-import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
@@ -359,40 +356,36 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
+	 * Returns the subtraction of the specified scalar from {@code this}.
 	 * <p>
-	 * @param entity an {@link Entity}
+	 * @param scalar a {@code double} value
 	 * <p>
-	 * @return {@code this - entity}
+	 * @return {@code this - scalar}
 	 */
-	public Entity minus(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return new Scalar(value - ((Scalar) entity).value);
-		} else if (entity instanceof Matrix) {
-			return ((Matrix) entity).minus().plus(this);
+	@Override
+	public Scalar minus(final double scalar) {
+		return new Scalar(value - scalar);
+	}
+
+	/**
+	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this - matrix}
+	 */
+	@Override
+	public Matrix minus(final Matrix matrix) {
+		final Matrix result = new Matrix(matrix.m, matrix.n);
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				result.elements[i][j] = value - matrix.elements[i][j];
+			}
 		}
-		throw new IllegalOperationException(
-				"Cannot subtract a " + entity.getName() + " from a " + getName());
+		return result;
 	}
 
 	//////////////////////////////////////////////
-
-	/**
-	 * Subtracts the specified {@link Entity} from {@code this}.
-	 * <p>
-	 * @param entity an {@link Entity}
-	 * <p>
-	 * @return {@code this -= entity}
-	 */
-	public Entity subtract(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return subtract(((Scalar) entity).value);
-		} else if (entity instanceof Matrix) {
-			return subtract(((Matrix) entity));
-		}
-		throw new IllegalOperationException(
-				"Cannot subtract a " + entity.getName() + " from a " + getName());
-	}
 
 	/**
 	 * Subtracts the specified scalar from {@code this}.
@@ -425,50 +418,106 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
+	 * Returns the multiplication of {@code this} by the specified scalar.
 	 * <p>
-	 * @param entity an {@link Entity}
+	 * @param scalar a {@code double} value
 	 * <p>
-	 * @return {@code this * entity}
+	 * @return {@code this * scalar}
 	 */
-	public Entity times(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return new Scalar(value * ((Scalar) entity).value);
-		} else if (entity instanceof Matrix) {
-			return value.times(entity);
-		}
-		throw new IllegalOperationException(
-				"Cannot multiply a " + getName() + " by a " + entity.getName());
+	@Override
+	public Scalar times(final double scalar) {
+		return new Scalar(value * scalar);
 	}
 
 	/**
-	 * Returns the multiplication of {@code this} by the specified {@link Matrix}.
+	 * Returns the multiplication of {@code this} with the specified {@link Matrix}.
 	 * <p>
-	 * @param matrix an {@link Matrix}
+	 * @param matrix a {@link Matrix}
 	 * <p>
 	 * @return {@code this * matrix}
+	 * <p>
+	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
 	public Matrix times(final Matrix matrix) {
 		return matrix.times(value);
 	}
 
+	/**
+	 * Returns the element-by-element multiplication of {@code this} by the specified
+	 * {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .* matrix}
+	 */
+	public Matrix arrayTimes(final Matrix matrix) {
+		return times(matrix);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Multiplies {@code this} by the specified scalar.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this *= scalar}
+	 */
+	public Scalar multiply(final double scalar) {
+		value *= scalar;
+		return this;
+	}
+
+	/**
+	 * Multiplies {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this *= matrix}
+	 */
+	public Matrix multiply(final Matrix matrix) {
+		return matrix.multiply(value);
+	}
+
+	/**
+	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .*= matrix}
+	 */
+	public Matrix arrayMultiply(final Matrix matrix) {
+		return multiply(matrix);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the division of {@code this} by the specified {@link Entity}.
+	 * Returns the division of {@code this} by the specified scalar.
 	 * <p>
-	 * @param entity an {@link Entity}
+	 * @param scalar a {@code double} value
 	 * <p>
-	 * @return {@code this / entity}
+	 * @return {@code this / scalar}
 	 */
-	public Entity division(final Entity entity) {
-		if (entity instanceof Matrix) {
-			return arrayDivision(((Matrix) entity));
-		} else if (entity instanceof Scalar) {
-			return new Scalar(value / ((Scalar) entity).value);
+	public Scalar division(final double scalar) {
+		return new Scalar(value / scalar);
+	}
+
+	/**
+	 * Returns the division of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this / matrix}
+	 */
+	public Matrix division(final Matrix matrix) {
+		final Matrix result = new Matrix(matrix.m, matrix.n);
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				result.elements[i][j] = value / matrix.elements[i][j];
+			}
 		}
-		throw new IllegalOperationException(
-				"Cannot divide a " + getName() + " by a " + entity.getName());
+		return result;
 	}
 
 	/**
@@ -479,34 +528,110 @@ public class Scalar
 	 * @return {@code this ./ matrix}
 	 */
 	public Matrix arrayDivision(final Matrix matrix) {
-		final Matrix result = new Matrix(matrix.m, matrix.n);
+		return division(matrix);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Divides {@code this} by the specified scalar.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this /= scalar}
+	 */
+	public Scalar divide(final double scalar) {
+		value /= scalar;
+		return this;
+	}
+
+	/**
+	 * Divides {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this /= matrix}
+	 */
+	public Matrix divide(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				result.elements[i][j] = value / matrix.elements[i][j];
+				matrix.elements[i][j] = value / matrix.elements[i][j];
 			}
 		}
-		return result;
+		return matrix;
+	}
+
+	/**
+	 * Divides {@code this} by the specified {@link Matrix} element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this ./= matrix}
+	 */
+	public Matrix arrayDivide(final Matrix matrix) {
+		return divide(matrix);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}
+	 * Returns the value of {@code this} raised to the power of the specified scalar
 	 * element-by-element.
 	 * <p>
-	 * @param entity an {@link Entity}
+	 * @param scalar a {@code double} value
 	 * <p>
-	 * @return {@code this .^ entity}
+	 * @return {@code this .^ scalar}
 	 */
-	public Entity power(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.times(value);
-		} else if (entity instanceof Scalar) {
-			return new Scalar(Math.pow(value, ((Scalar) entity).value));
+	public Scalar arrayPower(final double scalar) {
+		return new Scalar(Math.pow(value, scalar));
+	}
+
+	/**
+	 * Returns the value of {@code this} raised to the power of the specified {@link Matrix}
+	 * element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .^ matrix}
+	 */
+	public Matrix arrayPower(final Matrix matrix) {
+		final Matrix result = new Matrix(matrix.m, matrix.n);
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				result.elements[i][j] = Math.pow(value, matrix.elements[i][j]);
+			}
 		}
-		throw new IllegalOperationException(
-				"Cannot raise a " + getName() + " to the power of " + entity.getName());
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Raises {@code this} to the power of the specified scalar element-by-element.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this .^= scalar}
+	 */
+	public Scalar arrayRaise(final double scalar) {
+		value = Math.pow(value, scalar);
+		return this;
+	}
+
+	/**
+	 * Raises {@code this} to the power of the specified {@link Matrix} element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .^= matrix}
+	 */
+	public Matrix arrayRaise(final Matrix matrix) {
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				matrix.elements[i][j] = Math.pow(value, matrix.elements[i][j]);
+			}
+		}
+		return matrix;
 	}
 
 
@@ -545,41 +670,6 @@ public class Scalar
 	 */
 	public Scalar inverse() {
 		return new Scalar(1. / value);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// NUMBER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public byte byteValue() {
-		return (byte) value;
-	}
-
-	@Override
-	public short shortValue() {
-		return (short) value;
-	}
-
-	@Override
-	public int intValue() {
-		return Integers.convert(value);
-	}
-
-	@Override
-	public long longValue() {
-		return Longs.convert(value);
-	}
-
-	@Override
-	public float floatValue() {
-		return Floats.convert(value);
-	}
-
-	@Override
-	public double doubleValue() {
-		return value;
 	}
 
 

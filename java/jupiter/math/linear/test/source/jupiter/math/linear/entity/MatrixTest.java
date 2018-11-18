@@ -87,7 +87,7 @@ public class MatrixTest
 				Matrix expected = null;
 				for (int t = 0; t < testCount; ++t) {
 					chrono.start();
-					expected = A.dot(B).toMatrix();
+					expected = A.times(B).toMatrix();
 					chrono.stop();
 					times[t] = chrono.getMilliseconds();
 				}
@@ -103,7 +103,7 @@ public class MatrixTest
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
 						chrono.start();
-						found = A.dot(B).toMatrix();
+						found = A.times(B).toMatrix();
 						chrono.stop();
 						times[t] = chrono.getMilliseconds();
 					}
@@ -123,7 +123,7 @@ public class MatrixTest
 						Matrix found = null;
 						for (int t = 0; t < testCount; ++t) {
 							chrono.start();
-							found = A.dot(B).toMatrix();
+							found = A.times(B).toMatrix();
 							chrono.stop();
 							times[t] = chrono.getMilliseconds();
 						}
@@ -143,7 +143,7 @@ public class MatrixTest
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
 						chrono.start();
-						found = A.dot(B).toMatrix();
+						found = A.times(B).toMatrix();
 						chrono.stop();
 						times[t] = chrono.getMilliseconds();
 					}
