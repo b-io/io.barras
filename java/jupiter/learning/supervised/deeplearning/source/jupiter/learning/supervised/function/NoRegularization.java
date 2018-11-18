@@ -23,7 +23,6 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.common.math.Maths;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
 
@@ -43,7 +42,7 @@ public class NoRegularization
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public double apply(double x) {
+	public double apply(final double x) {
 		return 0.;
 	}
 

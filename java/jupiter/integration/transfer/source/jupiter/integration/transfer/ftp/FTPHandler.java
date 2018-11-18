@@ -110,7 +110,7 @@ public class FTPHandler {
 	public void loadProperties(final Properties properties) {
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
-		switch(protocol) {
+		switch (protocol) {
 			case SFTP:
 				port = Integer.valueOf(properties.getProperty("port", "22"));
 				break;

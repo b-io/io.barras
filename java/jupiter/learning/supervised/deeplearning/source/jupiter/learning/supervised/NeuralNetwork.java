@@ -167,7 +167,8 @@ public class NeuralNetwork
 		this.activationFunction = activationFunction;
 	}
 
-	public synchronized void setRegularizationFunction(final RegularizationFunction regularizationFunction) {
+	public synchronized void setRegularizationFunction(
+			final RegularizationFunction regularizationFunction) {
 		this.regularizationFunction = regularizationFunction;
 	}
 
@@ -294,11 +295,9 @@ public class NeuralNetwork
 				// - Compute the derivatives with respect to W and b
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 				final Matrix dW = A[l].times(dZT).transpose().divide(trainingExampleCount)
-						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
-						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
+						.add(regularizationFunction.derive(trainingExampleCount, W[l])).toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
 				final Vector db = dZT.mean()
-						.add(regularizationFunction.derive(trainingExampleCount, b[l]))
-						.toVector();
+						.add(regularizationFunction.derive(trainingExampleCount, b[l])).toVector();
 
 				// - Update the weights and the bias
 				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)

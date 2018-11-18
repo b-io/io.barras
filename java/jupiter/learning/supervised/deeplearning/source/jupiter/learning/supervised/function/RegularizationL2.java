@@ -51,7 +51,7 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public double apply(double x) {
+	public double apply(final double x) {
 		return Maths.square(x);
 	}
 

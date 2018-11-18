@@ -17,7 +17,7 @@
 	<description>Transfer interface</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/integration/transfer</url>
 
-    <properties>
+	<properties>
 		<!-- Project -->
 		<project.build.source>1.6</project.build.source>
 		<project.build.target>1.6</project.build.target>

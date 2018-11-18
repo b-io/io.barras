@@ -103,8 +103,8 @@ public abstract class BinaryClassifier {
 	 * Constructs a binary classifier from the specified files containing the feature vectors and
 	 * the classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of size
-	 *                               (n x m)
+	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
+	 *                               size (n x m)
 	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files
@@ -123,8 +123,8 @@ public abstract class BinaryClassifier {
 	 * Constructs a binary classifier from the specified files containing the feature vectors and
 	 * the classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of size
-	 *                               (n x m) (or (m x n) if {@code transpose})
+	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
+	 *                               size (n x m) (or (m x n) if {@code transpose})
 	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * @param transpose              the flag specifying whether to transpose the feature vectors
 	 *                               and the classes
@@ -256,7 +256,7 @@ public abstract class BinaryClassifier {
 		// Classify X
 		final Entity A = classify(X); // (1 x m)
 		// Compute (A Y' + (1 - A) (1 - Y')) / m
-		return A.times(YT).add(Scalar.ONE.minus(A).multiply(Scalar.ONE.minus(YT)))
-				.toScalar().get() / trainingExampleCount;
+		return A.times(YT).add(Scalar.ONE.minus(A).multiply(Scalar.ONE.minus(YT))).toScalar()
+				.get() / trainingExampleCount;
 	}
 }

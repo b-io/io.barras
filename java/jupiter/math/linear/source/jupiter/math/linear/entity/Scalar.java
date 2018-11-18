@@ -99,6 +99,7 @@ public class Scalar
 	 * <p>
 	 * @return the name
 	 */
+	@Override
 	public String getName() {
 		return getClass().getSimpleName();
 	}
@@ -108,6 +109,7 @@ public class Scalar
 	 * <p>
 	 * @return the dimensions
 	 */
+	@Override
 	public Dimensions getDimensions() {
 		return DIMENSIONS;
 	}
@@ -147,6 +149,7 @@ public class Scalar
 	 * <p>
 	 * @return a {@link Scalar}
 	 */
+	@Override
 	public Scalar toScalar() {
 		return this;
 	}
@@ -156,6 +159,7 @@ public class Scalar
 	 * <p>
 	 * @return a {@link Vector}
 	 */
+	@Override
 	public Vector toVector() {
 		return new Vector(new double[][] {
 			new double[] {
@@ -169,6 +173,7 @@ public class Scalar
 	 * <p>
 	 * @return a {@link Matrix}
 	 */
+	@Override
 	public Matrix toMatrix() {
 		return new Matrix(new double[][] {
 			new double[] {
@@ -182,6 +187,7 @@ public class Scalar
 	 * <p>
 	 * @return an array of {@code double} values
 	 */
+	@Override
 	public double[] toPrimitiveArray() {
 		return new double[] {
 			value
@@ -198,6 +204,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code mean(this)}
 	 */
+	@Override
 	public Scalar mean() {
 		return clone();
 	}
@@ -207,6 +214,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code size(this)}
 	 */
+	@Override
 	public Scalar size() {
 		return new Scalar(1.);
 	}
@@ -218,6 +226,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code eye(size(this))}
 	 */
+	@Override
 	public Scalar identity() {
 		return new Scalar(1.);
 	}
@@ -227,6 +236,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code rand(size(this))}
 	 */
+	@Override
 	public Scalar random() {
 		return new Scalar(Doubles.random());
 	}
@@ -241,6 +251,7 @@ public class Scalar
 	 * <p>
 	 * @param value the value to fill with
 	 */
+	@Override
 	public void fill(final double value) {
 		if (!readOnly) {
 			this.value = value;
@@ -262,6 +273,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code f(this)}
 	 */
+	@Override
 	public Scalar apply(final Function f) {
 		return new Scalar(f.apply(value));
 	}
@@ -271,6 +283,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code -this}
 	 */
+	@Override
 	public Scalar minus() {
 		return new Scalar(-value);
 	}
@@ -280,6 +293,7 @@ public class Scalar
 	 * <p>
 	 * @return the sum of the elements
 	 */
+	@Override
 	public double sum() {
 		return value;
 	}
@@ -289,6 +303,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this'}
 	 */
+	@Override
 	public Scalar transpose() {
 		return this;
 	}
@@ -305,6 +320,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this + scalar}
 	 */
+	@Override
 	public Scalar plus(final double scalar) {
 		return new Scalar(value + scalar);
 	}
@@ -316,6 +332,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this + matrix}
 	 */
+	@Override
 	public Matrix plus(final Matrix matrix) {
 		return matrix.plus(value);
 	}
@@ -329,6 +346,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this += scalar}
 	 */
+	@Override
 	public Scalar add(final double scalar) {
 		if (!readOnly) {
 			value += scalar;
@@ -346,6 +364,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this += matrix}
 	 */
+	@Override
 	public Matrix add(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
@@ -396,6 +415,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this -= scalar}
 	 */
+	@Override
 	public Scalar subtract(final double scalar) {
 		if (!readOnly) {
 			value -= scalar;
@@ -413,6 +433,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this -= matrix}
 	 */
+	@Override
 	public Matrix subtract(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
@@ -445,6 +466,7 @@ public class Scalar
 	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
+	@Override
 	public Matrix times(final Matrix matrix) {
 		return matrix.times(value);
 	}
@@ -457,6 +479,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this .* matrix}
 	 */
+	@Override
 	public Matrix arrayTimes(final Matrix matrix) {
 		return times(matrix);
 	}
@@ -470,6 +493,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this *= scalar}
 	 */
+	@Override
 	public Scalar multiply(final double scalar) {
 		if (!readOnly) {
 			value *= scalar;
@@ -487,6 +511,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this *= matrix}
 	 */
+	@Override
 	public Matrix multiply(final Matrix matrix) {
 		return matrix.multiply(value);
 	}
@@ -498,6 +523,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this .*= matrix}
 	 */
+	@Override
 	public Matrix arrayMultiply(final Matrix matrix) {
 		return multiply(matrix);
 	}
@@ -511,6 +537,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this / scalar}
 	 */
+	@Override
 	public Scalar division(final double scalar) {
 		return new Scalar(value / scalar);
 	}
@@ -522,6 +549,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this / matrix}
 	 */
+	@Override
 	public Matrix division(final Matrix matrix) {
 		final Matrix result = new Matrix(matrix.m, matrix.n);
 		for (int i = 0; i < matrix.m; ++i) {
@@ -539,6 +567,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this ./ matrix}
 	 */
+	@Override
 	public Matrix arrayDivision(final Matrix matrix) {
 		return division(matrix);
 	}
@@ -552,6 +581,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this /= scalar}
 	 */
+	@Override
 	public Scalar divide(final double scalar) {
 		if (!readOnly) {
 			value /= scalar;
@@ -569,6 +599,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this /= matrix}
 	 */
+	@Override
 	public Matrix divide(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
@@ -585,6 +616,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this ./= matrix}
 	 */
+	@Override
 	public Matrix arrayDivide(final Matrix matrix) {
 		return divide(matrix);
 	}
@@ -599,6 +631,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this .^ scalar}
 	 */
+	@Override
 	public Scalar arrayPower(final double scalar) {
 		return new Scalar(Math.pow(value, scalar));
 	}
@@ -611,6 +644,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this .^ matrix}
 	 */
+	@Override
 	public Matrix arrayPower(final Matrix matrix) {
 		final Matrix result = new Matrix(matrix.m, matrix.n);
 		for (int i = 0; i < matrix.m; ++i) {
@@ -630,6 +664,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this .^= scalar}
 	 */
+	@Override
 	public Scalar arrayRaise(final double scalar) {
 		if (!readOnly) {
 			value = Math.pow(value, scalar);
@@ -647,6 +682,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this .^= matrix}
 	 */
+	@Override
 	public Matrix arrayRaise(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
@@ -668,6 +704,7 @@ public class Scalar
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
 	 */
+	@Override
 	public Scalar solve(final Entity entity) {
 		if (entity instanceof Scalar) {
 			final Scalar scalar = (Scalar) entity;
@@ -690,6 +727,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code inv(this)}
 	 */
+	@Override
 	public Scalar inverse() {
 		return new Scalar(1. / value);
 	}
@@ -709,6 +747,7 @@ public class Scalar
 		return equals(other, Maths.DEFAULT_TOLERANCE);
 	}
 
+	@Override
 	public boolean equals(final Object other, final double tolerance) {
 		if (this == other) {
 			return true;

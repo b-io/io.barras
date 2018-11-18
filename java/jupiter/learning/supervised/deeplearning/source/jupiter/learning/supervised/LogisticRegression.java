@@ -78,8 +78,8 @@ public class LogisticRegression
 	 * Constructs a logistic regression model from the specified files containing the feature
 	 * vectors and the classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of size
-	 *                               (n x m)
+	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
+	 *                               size (n x m)
 	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files
@@ -93,8 +93,8 @@ public class LogisticRegression
 	 * Constructs a logistic regression model from the specified files containing the feature
 	 * vectors and the classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of size
-	 *                               (n x m) (or (m x n) if {@code transpose})
+	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
+	 *                               size (n x m) (or (m x n) if {@code transpose})
 	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * @param transpose              the flag specifying whether to transpose the feature vectors
 	 *                               and the classes

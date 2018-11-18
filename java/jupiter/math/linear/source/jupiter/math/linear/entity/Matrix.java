@@ -330,6 +330,7 @@ public class Matrix
 	 * <p>
 	 * @return the name
 	 */
+	@Override
 	public String getName() {
 		return getClass().getSimpleName() + " of dimensions " + size;
 	}
@@ -357,6 +358,7 @@ public class Matrix
 	 * <p>
 	 * @return the dimensions
 	 */
+	@Override
 	public Dimensions getDimensions() {
 		return size;
 	}
@@ -884,6 +886,7 @@ public class Matrix
 	 * <p>
 	 * @return an array of {@code double} values
 	 */
+	@Override
 	public double[] toPrimitiveArray() {
 		final double[] array = new double[m * n];
 		for (int i = 0; i < m; ++i) {
@@ -910,6 +913,7 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Scalar}
 	 */
+	@Override
 	public Scalar toScalar() {
 		if (m == 1 && n == 1) {
 			return new Scalar(elements[0][0]);
@@ -923,6 +927,7 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Vector}
 	 */
+	@Override
 	public Vector toVector() {
 		if (m == 1 || n == 1) {
 			return new Vector(toPrimitiveArray(), n != 1);
@@ -936,6 +941,7 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Matrix}
 	 */
+	@Override
 	public Matrix toMatrix() {
 		return this;
 	}
@@ -959,6 +965,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code mean(this)}
 	 */
+	@Override
 	public Vector mean() {
 		return mean(false);
 	}
@@ -991,6 +998,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code size(this)}
 	 */
+	@Override
 	public Vector size() {
 		return new Vector(new double[] {
 			m, n
@@ -1004,6 +1012,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code eye(size(this))}
 	 */
+	@Override
 	public Matrix identity() {
 		return identity(m, n);
 	}
@@ -1048,6 +1057,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code rand(size(this))}
 	 */
+	@Override
 	public Matrix random() {
 		return random(m, n);
 	}
@@ -1224,6 +1234,7 @@ public class Matrix
 	 * <p>
 	 * @param value the value to fill with
 	 */
+	@Override
 	public void fill(final double value) {
 		Doubles.fill(elements, value);
 	}
@@ -1240,6 +1251,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code f(this)}
 	 */
+	@Override
 	public Matrix apply(final Function f) {
 		return new Matrix(f.applyToPrimitiveArray2D(elements));
 	}
@@ -1249,6 +1261,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code -this}
 	 */
+	@Override
 	public Matrix minus() {
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
@@ -1264,6 +1277,7 @@ public class Matrix
 	 * <p>
 	 * @return the sum of the elements
 	 */
+	@Override
 	public double sum() {
 		double sum = 0.;
 		for (int i = 0; i < m; ++i) {
@@ -1279,6 +1293,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this'}
 	 */
+	@Override
 	public Matrix transpose() {
 		return new Matrix(Doubles.transpose(elements));
 	}
@@ -1295,6 +1310,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this + scalar}
 	 */
+	@Override
 	public Matrix plus(final double scalar) {
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
@@ -1312,6 +1328,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this + matrix}
 	 */
+	@Override
 	public Matrix plus(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1343,6 +1360,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this += scalar}
 	 */
+	@Override
 	public Matrix add(final double scalar) {
 		if (scalar != 0.) {
 			for (int i = 0; i < m; ++i) {
@@ -1361,6 +1379,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this += matrix}
 	 */
+	@Override
 	public Matrix add(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1391,6 +1410,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this - scalar}
 	 */
+	@Override
 	public Matrix minus(final double scalar) {
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
@@ -1408,6 +1428,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this - matrix}
 	 */
+	@Override
 	public Matrix minus(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1439,6 +1460,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this -= scalar}
 	 */
+	@Override
 	public Matrix subtract(final double scalar) {
 		if (scalar != 0.) {
 			for (int i = 0; i < m; ++i) {
@@ -1457,6 +1479,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this -= matrix}
 	 */
+	@Override
 	public Matrix subtract(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1487,6 +1510,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this * scalar}
 	 */
+	@Override
 	public Matrix times(final double scalar) {
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
@@ -1506,6 +1530,7 @@ public class Matrix
 	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
+	@Override
 	public Entity times(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1541,8 +1566,8 @@ public class Matrix
 			for (int i = 0; i < intervalCount; ++i) {
 				final Interval<Integer> interval = new Interval<Integer>(i * rowCountPerInterval,
 						(i + 1) * rowCountPerInterval);
-				ids.add(WORK_QUEUE.submit(
-						new Triple<Matrix, Matrix, Interval<Integer>>(this, broadcastedMatrix, interval)));
+				ids.add(WORK_QUEUE.submit(new Triple<Matrix, Matrix, Interval<Integer>>(this,
+						broadcastedMatrix, interval)));
 			}
 			if (remainingRowCount > 0) {
 				final Interval<Integer> interval = new Interval<Integer>(
@@ -1582,6 +1607,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this .* matrix}
 	 */
+	@Override
 	public Matrix arrayTimes(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1613,6 +1639,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this *= scalar}
 	 */
+	@Override
 	public Matrix multiply(final double scalar) {
 		if (scalar != 1.) {
 			for (int i = 0; i < m; ++i) {
@@ -1631,6 +1658,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this *= matrix}
 	 */
+	@Override
 	public Entity multiply(final Matrix matrix) {
 		return times(matrix);
 	}
@@ -1642,6 +1670,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this .*= matrix}
 	 */
+	@Override
 	public Matrix arrayMultiply(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1672,6 +1701,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this / scalar}
 	 */
+	@Override
 	public Matrix division(final double scalar) {
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
@@ -1689,6 +1719,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this / matrix}
 	 */
+	@Override
 	public Entity division(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1709,6 +1740,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this ./ matrix}
 	 */
+	@Override
 	public Matrix arrayDivision(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1740,6 +1772,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this /= scalar}
 	 */
+	@Override
 	public Matrix divide(final double scalar) {
 		if (scalar != 1.) {
 			for (int i = 0; i < m; ++i) {
@@ -1758,6 +1791,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this /= matrix}
 	 */
+	@Override
 	public Entity divide(final Matrix matrix) {
 		return multiply(matrix.inverse());
 	}
@@ -1769,6 +1803,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this ./= matrix}
 	 */
+	@Override
 	public Matrix arrayDivide(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1800,6 +1835,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this .^ scalar}
 	 */
+	@Override
 	public Matrix arrayPower(final double scalar) {
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
@@ -1818,6 +1854,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this .^ matrix}
 	 */
+	@Override
 	public Matrix arrayPower(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1849,6 +1886,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this .^= scalar}
 	 */
+	@Override
 	public Matrix arrayRaise(final double scalar) {
 		if (scalar != 1.) {
 			for (int i = 0; i < m; ++i) {
@@ -1867,6 +1905,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code this .^= matrix}
 	 */
+	@Override
 	public Matrix arrayRaise(final Matrix matrix) {
 		// Broadcast
 		final Matrix broadcastedMatrix;
@@ -1985,6 +2024,7 @@ public class Matrix
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
 	 */
+	@Override
 	public Matrix solve(final Entity entity) {
 		if (entity instanceof Matrix) {
 			return solve((Matrix) entity);
@@ -2039,6 +2079,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code inv(this)}
 	 */
+	@Override
 	public Matrix inverse() {
 		return solve(identity(m, m));
 	}
@@ -2305,6 +2346,7 @@ public class Matrix
 		return equals(other, Maths.DEFAULT_TOLERANCE);
 	}
 
+	@Override
 	public boolean equals(final Object other, final double tolerance) {
 		if (this == other) {
 			return true;
