@@ -45,14 +45,19 @@ public class Scalar
 
 	public static final Dimensions DIMENSIONS = new Dimensions(1, 1);
 
-	public static final Scalar ZERO = new Scalar(0.);
-	public static final Scalar ONE = new Scalar(1.);
-	public static final Scalar TEN = new Scalar(10.);
+	public static final Scalar ZERO = new Scalar(0., true);
+	public static final Scalar ONE = new Scalar(1., true);
+	public static final Scalar TEN = new Scalar(10., true);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The flag specifying whether {@code this} is read-only.
+	 */
+	protected final boolean readOnly;
 
 	/**
 	 * The value.
@@ -65,43 +70,23 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Scalar() {
-		super();
-		value = 0.;
-	}
-
-	public Scalar(final byte value) {
-		super();
-		this.value = value;
-	}
-
-	public Scalar(final short value) {
-		super();
-		this.value = value;
-	}
-
-	public Scalar(final int value) {
-		super();
-		this.value = value;
-	}
-
-	public Scalar(final long value) {
-		super();
-		this.value = value;
-	}
-
-	public Scalar(final float value) {
-		super();
-		this.value = value;
+		this(0.);
 	}
 
 	public Scalar(final double value) {
-		super();
 		this.value = value;
+		readOnly = false;
 	}
 
-	public Scalar(final Number value) {
-		super();
-		this.value = value.doubleValue();
+	//////////////////////////////////////////////
+
+	public Scalar(final boolean readOnly) {
+		this(0., readOnly);
+	}
+
+	public Scalar(final double value, final boolean readOnly) {
+		this.value = value;
+		this.readOnly = readOnly;
 	}
 
 
@@ -144,16 +129,12 @@ public class Scalar
 	 * @param value a {@code double} value
 	 */
 	public void set(final double value) {
-		this.value = value;
-	}
-
-	/**
-	 * Sets the value.
-	 * <p>
-	 * @param value an {@link Object}
-	 */
-	public void set(final Object value) {
-		this.value = Doubles.convert(value);
+		if (!readOnly) {
+			this.value = value;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of a read-only " + getName());
+		}
 	}
 
 
@@ -227,7 +208,7 @@ public class Scalar
 	 * @return {@code size(this)}
 	 */
 	public Scalar size() {
-		return new Scalar(1);
+		return new Scalar(1.);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -261,7 +242,12 @@ public class Scalar
 	 * @param value the value to fill with
 	 */
 	public void fill(final double value) {
-		this.value = value;
+		if (!readOnly) {
+			this.value = value;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of a read-only " + getName());
+		}
 	}
 
 
@@ -344,7 +330,12 @@ public class Scalar
 	 * @return {@code this += scalar}
 	 */
 	public Scalar add(final double scalar) {
-		value += scalar;
+		if (!readOnly) {
+			value += scalar;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of a read-only " + getName());
+		}
 		return this;
 	}
 
@@ -406,7 +397,12 @@ public class Scalar
 	 * @return {@code this -= scalar}
 	 */
 	public Scalar subtract(final double scalar) {
-		value -= scalar;
+		if (!readOnly) {
+			value -= scalar;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of a read-only " + getName());
+		}
 		return this;
 	}
 
@@ -475,7 +471,12 @@ public class Scalar
 	 * @return {@code this *= scalar}
 	 */
 	public Scalar multiply(final double scalar) {
-		value *= scalar;
+		if (!readOnly) {
+			value *= scalar;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of a read-only " + getName());
+		}
 		return this;
 	}
 
@@ -552,7 +553,12 @@ public class Scalar
 	 * @return {@code this /= scalar}
 	 */
 	public Scalar divide(final double scalar) {
-		value /= scalar;
+		if (!readOnly) {
+			value /= scalar;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of a read-only " + getName());
+		}
 		return this;
 	}
 
@@ -625,7 +631,12 @@ public class Scalar
 	 * @return {@code this .^= scalar}
 	 */
 	public Scalar arrayRaise(final double scalar) {
-		value = Math.pow(value, scalar);
+		if (!readOnly) {
+			value = Math.pow(value, scalar);
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of a read-only " + getName());
+		}
 		return this;
 	}
 
