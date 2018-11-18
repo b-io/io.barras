@@ -98,7 +98,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * @version 1.0.3
  */
 public class Matrix
-		implements Entity {
+		extends Entity {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -1250,6 +1250,21 @@ public class Matrix
 	}
 
 	/**
+	 * Returns the sum of the elements.
+	 * <p>
+	 * @return the sum of the elements
+	 */
+	public double sum() {
+		final double sum = 0.;
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				sum += elements[i][j];
+			}
+		}
+		return sum;
+	}
+
+	/**
 	 * Returns the transpose of {@code this}.
 	 * <p>
 	 * @return {@code this'}
@@ -1262,25 +1277,6 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// BINARY OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the addition of the specified {@link Entity} to {@code this}.
-	 * <p>
-	 * @param entity an {@link Entity}
-	 * <p>
-	 * @return {@code this + entity}
-	 */
-	public Matrix plus(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return plus(((Scalar) entity).value);
-		} else if (entity instanceof Vector) {
-			return plus(((Vector) entity).toMatrix(m, n));
-		} else if (entity instanceof Matrix) {
-			return plus((Matrix) entity);
-		}
-		throw new IllegalOperationException(
-				"Cannot add a " + entity.getName() + " to a " + getName());
-	}
 
 	/**
 	 * Returns the addition of the specified scalar to {@code this}.
@@ -1320,7 +1316,7 @@ public class Matrix
 		return result;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Adds the specified scalar to {@code this}.
@@ -1359,25 +1355,6 @@ public class Matrix
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
-	 * <p>
-	 * @param entity an {@link Entity}
-	 * <p>
-	 * @return {@code this - entity}
-	 */
-	public Matrix minus(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return minus(((Scalar) entity).value);
-		} else if (entity instanceof Vector) {
-			return minus(((Vector) entity).toMatrix(m, n));
-		} else if (entity instanceof Matrix) {
-			return minus((Matrix) entity);
-		}
-		throw new IllegalOperationException(
-				"Cannot subtract a " + entity.getName() + " from a " + getName());
-	}
 
 	/**
 	 * Returns the subtraction of the specified scalar from {@code this}.
@@ -1458,25 +1435,6 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
-	 * <p>
-	 * @param entity an {@link Entity}
-	 * <p>
-	 * @return {@code this * entity}
-	 */
-	public Entity times(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return times(((Scalar) entity).value);
-		} else if (entity instanceof Vector) {
-			return dot(((Vector) entity).toMatrix(n));
-		} else if (entity instanceof Matrix) {
-			return dot((Matrix) entity);
-		}
-		throw new IllegalOperationException(
-				"Cannot multiply a " + getName() + " by a " + entity.getName());
-	}
-
-	/**
 	 * Returns the multiplication of {@code this} by the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
@@ -1494,77 +1452,15 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the element-by-element multiplication of {@code this} by the specified
-	 * {@link Matrix}.
+	 * Returns the multiplication of {@code this} with the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
-	 * @return {@code this .* matrix}
-	 */
-	public Matrix arrayTimes(final Matrix matrix) {
-		// Check the arguments
-		requireDimensions(matrix);
-
-		// Compute
-		final Matrix result = new Matrix(m, n);
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = elements[i][j] * matrix.elements[i][j];
-			}
-		}
-		return result;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Multiplies {@code this} by the specified scalar.
-	 * <p>
-	 * @param scalar a {@code double} value
-	 * <p>
-	 * @return {@code this *= scalar}
-	 */
-	public Matrix multiply(final double scalar) {
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				elements[i][j] *= scalar;
-			}
-		}
-		return this;
-	}
-
-	/**
-	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this .*= matrix}
-	 */
-	public Matrix arrayMultiply(final Matrix matrix) {
-		// Check the arguments
-		requireDimensions(matrix);
-
-		// Compute
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				elements[i][j] *= matrix.elements[i][j];
-			}
-		}
-		return this;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the dot product of {@code this} with the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this . matrix}
+	 * @return {@code this * matrix}
 	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
-	public Entity dot(final Matrix matrix) {
+	public Matrix times(final Matrix matrix) {
 		// Check the arguments
 		requireInnerDimension(matrix);
 
@@ -1624,26 +1520,78 @@ public class Matrix
 		return result;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Returns the element-by-element multiplication of {@code this} by the specified
+	 * {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .* matrix}
+	 */
+	public Matrix arrayTimes(final Matrix matrix) {
+		// Check the arguments
+		requireDimensions(matrix);
+
+		// Compute
+		final Matrix result = new Matrix(m, n);
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				result.elements[i][j] = elements[i][j] * matrix.elements[i][j];
+			}
+		}
+		return result;
+	}
+
+	//////////////////////////////////////////////
 
 	/**
-	 * Returns the division of {@code this} by the specified {@link Entity}.
+	 * Multiplies {@code this} by the specified scalar.
 	 * <p>
-	 * @param entity an {@link Entity}
+	 * @param scalar a {@code double} value
 	 * <p>
-	 * @return {@code this / entity}
+	 * @return {@code this *= scalar}
 	 */
-	public Matrix division(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return division(((Scalar) entity).value);
-		} else if (entity instanceof Vector) {
-			return (Matrix) dot(((Vector) entity).toMatrix(n, true).inverse());
-		} else if (entity instanceof Matrix) {
-			return (Matrix) dot(((Matrix) entity).inverse());
+	public Matrix multiply(final double scalar) {
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				elements[i][j] *= scalar;
+			}
 		}
-		throw new IllegalOperationException(
-				"Cannot divide a " + getName() + " by a " + entity.getName());
+		return this;
 	}
+
+	/**
+	 * Multiplies {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this *= matrix}
+	 */
+	public Matrix multiply(final Matrix matrix) {
+		return times(matrix);
+	}
+
+	/**
+	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .*= matrix}
+	 */
+	public Matrix arrayMultiply(final Matrix matrix) {
+		// Check the arguments
+		requireDimensions(matrix);
+
+		// Compute
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				elements[i][j] *= matrix.elements[i][j];
+			}
+		}
+		return this;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the division of {@code this} by the specified scalar.
@@ -1663,6 +1611,17 @@ public class Matrix
 	}
 
 	/**
+	 * Returns the division of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this / matrix}
+	 */
+	public Entity division(final Matrix matrix) {
+		return times(((Matrix) entity).inverse());
+	}
+
+	/**
 	 * Returns the element-by-element division of {@code this} by the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
@@ -1678,27 +1637,6 @@ public class Matrix
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				result.elements[i][j] = elements[i][j] / matrix.elements[i][j];
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Returns the element-by-element division of the specified {@link Matrix} by {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code matrix ./ this}
-	 */
-	public Matrix arrayLeftDivision(final Matrix matrix) {
-		// Check the arguments
-		requireDimensions(matrix);
-
-		// Compute
-		final Matrix result = new Matrix(m, n);
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = matrix.elements[i][j] / elements[i][j];
 			}
 		}
 		return result;
@@ -1723,19 +1661,14 @@ public class Matrix
 	}
 
 	/**
-	 * Divides the specified scalar by {@code this}.
+	 * Divides {@code this} by the specified {@link Matrix}.
 	 * <p>
-	 * @param scalar a {@code double} value
+	 * @param matrix a {@link Matrix}
 	 * <p>
-	 * @return {@code this = scalar / this}
+	 * @return {@code this /= matrix}
 	 */
-	public Matrix leftDivide(final double scalar) {
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				elements[i][j] = scalar / elements[i][j];
-			}
-		}
-		return this;
+	public Matrix divide(final Matrix matrix) {
+		return multiply(matrix.inverse());
 	}
 
 	/**
@@ -1758,77 +1691,84 @@ public class Matrix
 		return this;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Divides the specified {@link Matrix} by {@code this} element-by-element.
+	 * Returns the value of {@code this} raised to the power of the specified scalar
+	 * element-by-element.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this .^ scalar}
+	 */
+	public Matrix arrayPower(final double scalar) {
+		final Matrix result = new Matrix(m, n);
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				result.elements[i][j] = Math.pow(elements[i][j], scalar);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Returns the value of {@code this} raised to the power of the specified {@link Matrix}
+	 * element-by-element.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
-	 * @return {@code this = matrix ./ this}
+	 * @return {@code this .^ matrix}
 	 */
-	public Matrix arrayLeftDivide(final Matrix matrix) {
+	public Matrix arrayPower(final Matrix matrix) {
+		// Check the arguments
+		requireDimensions(matrix);
+
+		// Compute
+		final Matrix result = new Matrix(m, n);
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				result[i][j] = Math.pow(elements[i][j], matrix[i][j]);
+			}
+		}
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Raises {@code this} to the power of the specified scalar element-by-element.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this .^= scalar}
+	 */
+	public Matrix arrayRaise(final double scalar) {
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				elements[i][j] = Math.pow(elements[i][j], scalar);
+			}
+		}
+		return this;
+	}
+
+	/**
+	 * Raises {@code this} to the power of the specified {@link Matrix} element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .^= matrix}
+	 */
+	public Matrix arrayRaise(final Matrix matrix) {
 		// Check the arguments
 		requireDimensions(matrix);
 
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i][j] = matrix.elements[i][j] / elements[i][j];
+				elements[i][j] = Math.pow(elements[i][j], matrix[i][j]);
 			}
 		}
 		return this;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}.
-	 * <p>
-	 * @param entity an {@link Entity}
-	 * <p>
-	 * @return {@code this ^ entity}
-	 */
-	public Matrix power(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return times(((Scalar) entity).value);
-		}
-		throw new IllegalOperationException(
-				"Cannot raise " + getName() + " to the power of " + entity.getName());
-	}
-
-	/**
-	 * Returns the value of {@code this} raised to the power of the specified scalar.
-	 * <p>
-	 * @param scalar a {@code double} value
-	 * <p>
-	 * @return {@code this ^ scalar}
-	 */
-	public Matrix power(final double scalar) {
-		final Matrix result = new Matrix(m, n);
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = Math.pow(elements[i][j], scalar);
-			}
-		}
-		return result;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the value of {@code this} raised to the power of the specified scalar.
-	 * <p>
-	 * @param scalar a {@code double} value
-	 * <p>
-	 * @return {@code this ^ scalar}
-	 */
-	public Matrix raise(final double scalar) {
-		final Matrix result = new Matrix(m, n);
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = Math.pow(elements[i][j], scalar);
-			}
-		}
-		return result;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

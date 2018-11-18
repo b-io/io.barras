@@ -23,9 +23,7 @@
  */
 package jupiter.math.linear.entity;
 
-
 import jupiter.common.exception.IllegalOperationException;
-import jupiter.common.math.ComparableNumber;
 import jupiter.common.math.Maths;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Floats;
@@ -37,8 +35,7 @@ import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
 
 public class Scalar
-		extends ComparableNumber
-		implements Entity {
+		extends Entity {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -285,6 +282,15 @@ public class Scalar
 	}
 
 	/**
+	 * Returns the sum of the elements.
+	 * <p>
+	 * @return the sum of the elements
+	 */
+	public double sum() {
+		return value;
+	}
+
+	/**
 	 * Returns the transpose of {@code this}.
 	 * <p>
 	 * @return {@code this'}
@@ -299,23 +305,58 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the addition of the specified {@link Entity} to {@code this}.
+	 * Returns the addition of the specified scalar to {@code this}.
 	 * <p>
-	 * @param entity an {@link Entity}
+	 * @param scalar a {@code double} value
 	 * <p>
-	 * @return {@code this + entity}
+	 * @return {@code this + scalar}
 	 */
-	public Entity plus(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.plus(this);
-		} else if (entity instanceof Scalar) {
-			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value + scalar.value);
-		}
-		throw new IllegalOperationException(
-				"Cannot add a " + entity.getName() + " to a " + getName());
+	public Scalar plus(final double scalar) {
+		return new Scalar(value + scalar);
 	}
+
+	/**
+	 * Returns the addition of the specified {@link Matrix} to {@code this}.
+	 * <p>
+	 * @param matrix a {@code Matrix}
+	 * <p>
+	 * @return {@code this + matrix}
+	 */
+	public Matrix plus(final Matrix matrix) {
+		return matrix.plus(value);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Adds the specified scalar to {@code this}.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this += scalar}
+	 */
+	public Scalar add(final double scalar) {
+		value += scalar;
+		return this;
+	}
+
+	/**
+	 * Adds the specified {@link Matrix} to {@code this}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this += matrix}
+	 */
+	public Matrix add(final Matrix matrix) {
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				matrix.elements[i][j] += value;
+			}
+		}
+		return matrix;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
@@ -325,16 +366,63 @@ public class Scalar
 	 * @return {@code this - entity}
 	 */
 	public Entity minus(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.minus().plus(this);
-		} else if (entity instanceof Scalar) {
-			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value - scalar.value);
+		if (entity instanceof Scalar) {
+			return new Scalar(value - ((Scalar) entity).value);
+		} else if (entity instanceof Matrix) {
+			return ((Matrix) entity).minus().plus(this);
 		}
 		throw new IllegalOperationException(
 				"Cannot subtract a " + entity.getName() + " from a " + getName());
 	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Subtracts the specified {@link Entity} from {@code this}.
+	 * <p>
+	 * @param entity an {@link Entity}
+	 * <p>
+	 * @return {@code this -= entity}
+	 */
+	public Entity subtract(final Entity entity) {
+		if (entity instanceof Scalar) {
+			return subtract(((Scalar) entity).value);
+		} else if (entity instanceof Matrix) {
+			return subtract(((Matrix) entity));
+		}
+		throw new IllegalOperationException(
+				"Cannot subtract a " + entity.getName() + " from a " + getName());
+	}
+
+	/**
+	 * Subtracts the specified scalar from {@code this}.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this -= scalar}
+	 */
+	public Scalar subtract(final double scalar) {
+		value -= scalar;
+		return this;
+	}
+
+	/**
+	 * Subtracts the specified {@link Matrix} from {@code this}.
+	 * <p>
+	 * @param matrix a {@code Matrix}
+	 * <p>
+	 * @return {@code this -= matrix}
+	 */
+	public Matrix subtract(final Matrix matrix) {
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				matrix.elements[i][j] = value - matrix.elements[i][j];
+			}
+		}
+		return matrix;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
@@ -344,16 +432,27 @@ public class Scalar
 	 * @return {@code this * entity}
 	 */
 	public Entity times(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.times(value);
-		} else if (entity instanceof Scalar) {
-			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value * scalar.value);
+		if (entity instanceof Scalar) {
+			return new Scalar(value * ((Scalar) entity).value);
+		} else if (entity instanceof Matrix) {
+			return value.times(entity);
 		}
 		throw new IllegalOperationException(
 				"Cannot multiply a " + getName() + " by a " + entity.getName());
 	}
+
+	/**
+	 * Returns the multiplication of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix an {@link Matrix}
+	 * <p>
+	 * @return {@code this * matrix}
+	 */
+	public Matrix times(final Matrix matrix) {
+		return matrix.times(value);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the division of {@code this} by the specified {@link Entity}.
@@ -364,8 +463,7 @@ public class Scalar
 	 */
 	public Entity division(final Entity entity) {
 		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.division(value);
+			return arrayDivision(((Matrix) entity));
 		} else if (entity instanceof Scalar) {
 			return new Scalar(value / ((Scalar) entity).value);
 		}
@@ -374,11 +472,31 @@ public class Scalar
 	}
 
 	/**
-	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}.
+	 * Returns the element-by-element division of the specified {@link Matrix} by {@code this}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this ./ matrix}
+	 */
+	public Matrix arrayDivision(final Matrix matrix) {
+		final Matrix result = new Matrix(matrix.m, matrix.n);
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				result.elements[i][j] = value / matrix.elements[i][j];
+			}
+		}
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}
+	 * element-by-element.
 	 * <p>
 	 * @param entity an {@link Entity}
 	 * <p>
-	 * @return {@code this ^ entity}
+	 * @return {@code this .^ entity}
 	 */
 	public Entity power(final Entity entity) {
 		if (entity instanceof Matrix) {
