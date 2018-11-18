@@ -23,7 +23,6 @@
  */
 package jupiter.math.linear.entity;
 
-
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Formats;
@@ -135,7 +134,7 @@ public class Vector
 			isTransposed = false;
 		} else {
 			throw new IllegalArgumentException("The specified 2D array of dimensions " +
-					Formats.getDimensions(elements.length, elements[0].length) +
+					new Dimensions(elements.length, elements[0].length) +
 					" is not one-dimensional");
 		}
 	}
@@ -344,201 +343,6 @@ public class Vector
 	@Override
 	public Vector transpose() {
 		return new Vector(Doubles.transpose(elements));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// BINARY OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the addition of the specified {@link Matrix} to {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this + matrix}
-	 */
-	@Override
-	public Matrix plus(final Matrix matrix) {
-		return super.plus(((Vector) matrix).toMatrix(m, n));
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Adds the specified {@link Matrix} to {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this += matrix}
-	 */
-	@Override
-	public Matrix add(final Matrix matrix) {
-		return super.add(((Vector) matrix).toMatrix(m, n));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this - matrix}
-	 */
-	@Override
-	public Matrix minus(final Matrix matrix) {
-		return super.minus(((Vector) matrix).toMatrix(m, n));
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Subtracts the specified {@link Matrix} from {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this -= matrix}
-	 */
-	@Override
-	public Matrix subtract(final Matrix matrix) {
-		return super.subtract(((Vector) matrix).toMatrix(m, n));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the multiplication of {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this * matrix}
-	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
-	 */
-	@Override
-	public Entity times(final Matrix matrix) {
-		return super.times(((Vector) matrix).toMatrix(n));
-	}
-
-	/**
-	 * Returns the element-by-element multiplication of {@code this} by the specified
-	 * {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this .* matrix}
-	 */
-	@Override
-	public Matrix arrayTimes(final Matrix matrix) {
-		return super.arrayTimes(((Vector) matrix).toMatrix(m, n));
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Multiplies {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this *= matrix}
-	 */
-	@Override
-	public Entity multiply(final Matrix matrix) {
-		return super.multiply(((Vector) matrix).toMatrix(n));
-	}
-
-	/**
-	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this .*= matrix}
-	 */
-	@Override
-	public Matrix arrayMultiply(final Matrix matrix) {
-		return super.arrayMultiply(((Vector) matrix).toMatrix(m, n));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the division of {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this / matrix}
-	 */
-	@Override
-	public Entity division(final Matrix matrix) {
-		return super.division(((Vector) matrix).toMatrix(n, true));
-	}
-
-	/**
-	 * Returns the element-by-element division of {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this ./ matrix}
-	 */
-	@Override
-	public Matrix arrayDivision(final Matrix matrix) {
-		return super.arrayDivision(((Vector) matrix).toMatrix(m, n));
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Divides {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this /= matrix}
-	 */
-	@Override
-	public Entity divide(final Matrix matrix) {
-		return super.divide(((Vector) matrix).toMatrix(n, true));
-	}
-
-	/**
-	 * Divides {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this ./= matrix}
-	 */
-	@Override
-	public Matrix arrayDivide(final Matrix matrix) {
-		return super.arrayDivide(((Vector) matrix).toMatrix(m, n));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the value of {@code this} raised to the power of the specified {@link Matrix}
-	 * element-by-element.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this .^ matrix}
-	 */
-	@Override
-	public Matrix arrayPower(final Matrix matrix) {
-		return super.arrayPower(((Vector) matrix).toMatrix(m, n));
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Raises {@code this} to the power of the specified {@link Matrix} element-by-element.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this .^= matrix}
-	 */
-	@Override
-	public Matrix arrayRaise(final Matrix matrix) {
-		return super.arrayRaise(((Vector) matrix).toMatrix(m, n));
 	}
 
 

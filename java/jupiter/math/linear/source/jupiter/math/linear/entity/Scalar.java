@@ -43,6 +43,8 @@ public class Scalar
 	 */
 	private static final long serialVersionUID = 4598899924191933856L;
 
+	public static final Dimensions DIMENSIONS = new Dimensions(1, 1);
+
 	public static final Scalar ZERO = new Scalar(0.);
 	public static final Scalar ONE = new Scalar(1.);
 	public static final Scalar TEN = new Scalar(10.);
@@ -114,6 +116,15 @@ public class Scalar
 	 */
 	public String getName() {
 		return getClass().getSimpleName();
+	}
+
+	/**
+	 * Returns the dimensions.
+	 * <p>
+	 * @return the dimensions
+	 */
+	public Dimensions getDimensions() {
+		return DIMENSIONS;
 	}
 
 	/**

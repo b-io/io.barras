@@ -24,8 +24,8 @@
 package jupiter.math.linear.entity;
 
 import java.io.Serializable;
-import jupiter.common.exception.IllegalOperationException;
 
+import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
@@ -44,6 +44,13 @@ public abstract class Entity
 	 * @return the name
 	 */
 	public abstract String getName();
+
+	/**
+	 * Returns the dimensions of {@code this}.
+	 * <p>
+	 * @return the dimensions of {@code this}
+	 */
+	public abstract Dimensions getDimensions();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

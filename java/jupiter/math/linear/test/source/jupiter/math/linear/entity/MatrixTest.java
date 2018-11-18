@@ -171,6 +171,22 @@ public class MatrixTest
 	}
 
 	/**
+	 * Test of division method, of class Matrix.
+	 * <p>
+	 * @since 1.6
+	 */
+	public void testDivision() {
+		IO.test("division");
+
+		// Initialize
+		final int size = 10;
+		final Matrix A = Matrix.random(size);
+
+		// Test
+		assertTrue(A.equals(A.times(A).division(A), 1E-10));
+	}
+
+	/**
 	 * Test of forward method, of class Matrix.
 	 * <p>
 	 * @since 1.6

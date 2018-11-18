@@ -141,6 +141,10 @@ public class Matrix
 	 */
 	protected final int n;
 	/**
+	 * The dimensions.
+	 */
+	protected final Dimensions size;
+	/**
 	 * The elements.
 	 */
 	protected final double[][] elements;
@@ -169,6 +173,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		this.m = m;
 		this.n = n;
+		size = new Dimensions(m, n);
 		// Set the elements
 		elements = new double[m][n];
 	}
@@ -185,6 +190,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		this.m = m;
 		this.n = n;
+		size = new Dimensions(m, n);
 		// Set the elements
 		elements = new double[m][n];
 		for (int i = 0; i < m; ++i) {
@@ -228,6 +234,7 @@ public class Matrix
 			m = dimension;
 			n = dimension > 0 ? length / dimension : 0;
 		}
+		size = new Dimensions(m, n);
 		// Check the length of the specified array
 		if (m * n != length) {
 			throw new IllegalArgumentException("The length of the specified array " + length +
@@ -257,6 +264,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		m = elements.length;
 		n = elements[0].length;
+		size = new Dimensions(m, n);
 		// Check the row lengths of the specified array
 		for (int i = 0; i < m; ++i) {
 			if (elements[i].length != n) {
@@ -282,6 +290,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		this.m = m;
 		this.n = n;
+		size = new Dimensions(m, n);
 		// Check the row and column lengths of the specified array
 		if (values.length < m) {
 			throw new IllegalArgumentException(
@@ -306,6 +315,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		m = table.getRowCount();
 		n = table.getColumnCount();
+		size = new Dimensions(m, n);
 		// Set the elements
 		elements = table.toPrimitiveArray2D();
 	}
@@ -321,7 +331,7 @@ public class Matrix
 	 * @return the name
 	 */
 	public String getName() {
-		return getClass().getSimpleName() + " of dimensions " + getDimensions();
+		return getClass().getSimpleName() + " of dimensions " + size;
 	}
 
 	/**
@@ -347,8 +357,8 @@ public class Matrix
 	 * <p>
 	 * @return the dimensions
 	 */
-	public String getDimensions() {
-		return Formats.getDimensions(m, n);
+	public Dimensions getDimensions() {
+		return size;
 	}
 
 	/**
@@ -1303,6 +1313,11 @@ public class Matrix
 	 * @return {@code this + matrix}
 	 */
 	public Matrix plus(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return plus(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1342,6 +1357,11 @@ public class Matrix
 	 * @return {@code this += matrix}
 	 */
 	public Matrix add(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return add(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1381,6 +1401,11 @@ public class Matrix
 	 * @return {@code this - matrix}
 	 */
 	public Matrix minus(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return minus(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1420,6 +1445,11 @@ public class Matrix
 	 * @return {@code this -= matrix}
 	 */
 	public Matrix subtract(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return subtract(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1461,6 +1491,11 @@ public class Matrix
 	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
 	public Entity times(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return times(((Vector) matrix).toMatrix(n));
+		}
+
 		// Check the arguments
 		requireInnerDimension(matrix);
 
@@ -1529,6 +1564,11 @@ public class Matrix
 	 * @return {@code this .* matrix}
 	 */
 	public Matrix arrayTimes(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return arrayTimes(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1579,6 +1619,11 @@ public class Matrix
 	 * @return {@code this .*= matrix}
 	 */
 	public Matrix arrayMultiply(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return arrayMultiply(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1618,6 +1663,12 @@ public class Matrix
 	 * @return {@code this / matrix}
 	 */
 	public Entity division(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return division(((Vector) matrix).toMatrix(n, true));
+		}
+
+		// Compute
 		return times(matrix.inverse());
 	}
 
@@ -1629,6 +1680,11 @@ public class Matrix
 	 * @return {@code this ./ matrix}
 	 */
 	public Matrix arrayDivision(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return arrayDivision(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1679,6 +1735,11 @@ public class Matrix
 	 * @return {@code this ./= matrix}
 	 */
 	public Matrix arrayDivide(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return arrayDivide(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1720,6 +1781,11 @@ public class Matrix
 	 * @return {@code this .^ matrix}
 	 */
 	public Matrix arrayPower(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return arrayPower(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
@@ -1759,6 +1825,11 @@ public class Matrix
 	 * @return {@code this .^= matrix}
 	 */
 	public Matrix arrayRaise(final Matrix matrix) {
+		// Broadcast
+		if (matrix instanceof Vector) {
+			return arrayRaise(((Vector) matrix).toMatrix(m, n));
+		}
+
 		// Check the arguments
 		requireDimensions(matrix);
 
