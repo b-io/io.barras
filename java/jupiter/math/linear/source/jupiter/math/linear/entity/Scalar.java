@@ -430,7 +430,7 @@ public class Scalar
 	}
 
 	/**
-	 * Returns the multiplication of {@code this} with the specified {@link Matrix}.
+	 * Returns the multiplication of {@code this} by the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
