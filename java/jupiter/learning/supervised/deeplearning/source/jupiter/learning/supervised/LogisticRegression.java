@@ -161,7 +161,6 @@ public class LogisticRegression
 		}
 
 		// Initialize
-		final Scalar alpha = new Scalar(learningRate);
 		// - The weight vector
 		if (W == null) {
 			W = new Vector(featureCount, true); // (1 x n)
@@ -196,12 +195,12 @@ public class LogisticRegression
 
 			// Compute the derivatives
 			final Entity dZT = A.minus(Y).transpose(); // (m x 1)
-			final Entity dW = X.times(dZT).division(new Scalar(trainingExampleCount)).transpose(); // (1 x n)
+			final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
 			final Scalar db = dZT.mean().toScalar();
 
 			// Update the weights and the bias
-			W = W.minus(alpha.times(dW)).toVector(); // (1 x n)
-			b = b.minus(alpha.times(db)).toScalar();
+			W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
+			b.subtract(db.multiply(learningRate)).toScalar();
 		}
 
 		return maxIterationCount;
@@ -232,6 +231,6 @@ public class LogisticRegression
 	 */
 	@Override
 	public synchronized Entity estimate(final Entity X) {
-		return W.times(X).plus(b).apply(Functions.SIGMOID); // (1 x m)
+		return W.times(X).add(b).apply(Functions.SIGMOID); // (1 x m)
 	}
 }

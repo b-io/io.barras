@@ -23,84 +23,41 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.common.test.DoubleArguments;
-import jupiter.math.analysis.function.Filter;
-import jupiter.math.analysis.function.Functions;
-import jupiter.math.analysis.function.Max;
+import jupiter.math.analysis.function.Function;
 import jupiter.math.linear.entity.Entity;
 
-/**
- * The rectified linear unit (ReLU) function.
- */
-public class ActivationReLU
-		extends ActivationFunction {
+public abstract class RegularizationFunction
+		extends Function {
 
-	protected final Max max;
-	protected final Filter filter;
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	protected final double lambda;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected RegularizationFunction(final double lambda) {
+		super();
+		this.lambda = lambda;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a ReLU function.
-	 */
-	protected ActivationReLU() {
-		super();
-		max = Functions.MAX;
-		filter = Functions.FILTER;
-	}
-
-	/**
-	 * Constructs a leaky ReLU function with the specified positive gradient.
+	 * Applies the derivative of the regularization function to the specified {@link Entity} and
+	 * returns the result.
 	 * <p>
-	 * @param gradient a {@code double} value
-	 */
-	public ActivationReLU(final double gradient) {
-		super();
-
-		// Check the arguments
-		DoubleArguments.requirePositive(gradient);
-
-		// Set the attributes
-		max = new Max(gradient);
-		filter = new Filter(0., gradient, 1.);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Applies the ReLU function to the specified value and returns the result.
-	 * <p>
-	 * @param x a {@code double} value
-	 * <p>
-	 * @return the result
-	 */
-	@Override
-	public double apply(final double x) {
-		return max.apply(x);
-	}
-
-	/**
-	 * Applies the ReLU function to the specified {@link Entity} and returns the result.
-	 * <p>
+	 * @param m the number of training examples
 	 * @param E an {@link Entity}
 	 * <p>
 	 * @return the result
 	 */
-	@Override
-	public Entity apply(final Entity E) {
-		return E.apply(max);
-	}
-
-	/**
-	 * Applies the derivative of the ReLU function to the specified {@link Entity} and returns the
-	 * result.
-	 * <p>
-	 * @param E an {@link Entity}
-	 * <p>
-	 * @return the result
-	 */
-	@Override
-	public Entity derive(final Entity E) {
-		return E.apply(filter);
-	}
+	public abstract Entity derive(final int m, final Entity E);
 }

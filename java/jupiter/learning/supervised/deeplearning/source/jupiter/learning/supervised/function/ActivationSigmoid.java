@@ -51,25 +51,25 @@ public class ActivationSigmoid
 	/**
 	 * Applies the sigmoid function to the specified {@link Entity} and returns the result.
 	 * <p>
-	 * @param A an {@link Entity}
+	 * @param E an {@link Entity}
 	 * <p>
 	 * @return the result
 	 */
 	@Override
-	public Entity apply(final Entity A) {
-		return A.apply(Functions.SIGMOID);
+	public Entity apply(final Entity E) {
+		return E.apply(Functions.SIGMOID);
 	}
 
 	/**
 	 * Applies the derivative of the sigmoid function to the specified {@link Entity} and returns
 	 * the result.
 	 * <p>
-	 * @param A an {@link Entity}
+	 * @param E an {@link Entity}
 	 * <p>
 	 * @return the result
 	 */
 	@Override
-	public Entity derive(final Entity A) {
-		return A.times(Scalar.ONE.minus(A));
+	public Entity derive(final Entity E) {
+		return E.times(Scalar.ONE.minus(E));
 	}
 }

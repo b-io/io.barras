@@ -23,54 +23,49 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Functions;
+import jupiter.common.math.Maths;
 import jupiter.math.linear.entity.Entity;
-import jupiter.math.linear.entity.Scalar;
 
-public class ActivationHyperbolicTangent
-		extends ActivationFunction {
+/**
+ * The L2 regularization function.
+ */
+public class RegularizationL2
+		extends RegularizationFunction {
 
-	protected ActivationHyperbolicTangent() {
-		super();
+	/**
+	 * Constructs a L2 regularization function.
+	 */
+	protected RegularizationL2() {
+		this(0.1);
+	}
+
+	/**
+	 * Constructs a L2 regularization function.
+	 * <p>
+	 * @param lambda the hyper-parameter
+	 */
+	protected RegularizationL2(final double lambda) {
+		super(lambda);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Applies the hyperbolic tangent function to the specified value and returns the result.
-	 * <p>
-	 * @param x a {@code double} value
-	 * <p>
-	 * @return the result
-	 */
 	@Override
-	public double apply(final double x) {
-		return Functions.TANH.apply(x);
+	public double apply(double x) {
+		return Maths.square(x);
 	}
 
 	/**
-	 * Applies the hyperbolic tangent function to the specified {@link Entity} and returns the
-	 * result.
+	 * Applies the derivative of the regularization function to the specified {@link Entity} and
+	 * returns the result.
 	 * <p>
+	 * @param m the number of training examples
 	 * @param E an {@link Entity}
 	 * <p>
 	 * @return the result
 	 */
 	@Override
-	public Entity apply(final Entity E) {
-		return E.apply(Functions.TANH);
-	}
-
-	/**
-	 * Applies the derivative of the hyperbolic tangent function to the specified {@link Entity} and
-	 * returns the result.
-	 * <p>
-	 * @param E an array of {@link Entity}
-	 * <p>
-	 * @return the result
-	 */
-	@Override
-	public Entity derive(final Entity E) {
-		return Scalar.ONE.subtract(E.apply(Functions.SQUARE));
+	public Entity derive(final int m, final Entity E) {
+		return E.times(lambda / m);
 	}
 }

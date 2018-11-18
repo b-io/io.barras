@@ -31,6 +31,8 @@ import jupiter.common.math.Maths;
 import jupiter.common.test.Arguments;
 import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
+import jupiter.learning.supervised.function.RegularizationFunction;
+import jupiter.learning.supervised.function.RegularizationFunctions;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
@@ -67,6 +69,11 @@ public class NeuralNetwork
 	 */
 	protected ActivationFunction activationFunction;
 
+	/**
+	 * The regularization function r.
+	 */
+	protected RegularizationFunction regularizationFunction;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -79,14 +86,15 @@ public class NeuralNetwork
 	 */
 	public NeuralNetwork(final int featureCount) {
 		super(featureCount);
+		setDefaultFunctions();
 	}
 
 	/**
 	 * Constructs a neural network from the specified files containing the feature vectors and the
 	 * classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of size
-	 *                               (n x m)
+	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
+	 *                               size (n x m)
 	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files
@@ -94,14 +102,15 @@ public class NeuralNetwork
 	public NeuralNetwork(final String featureVectorsPathName, final String classesPathName)
 			throws IOException {
 		super(featureVectorsPathName, classesPathName);
+		setDefaultFunctions();
 	}
 
 	/**
 	 * Constructs a neural network from the specified files containing the feature vectors and the
 	 * classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of size
-	 *                               (n x m) (or (m x n) if {@code transpose})
+	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
+	 *                               size (n x m) (or (m x n) if {@code transpose})
 	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * @param transpose              the flag specifying whether to transpose the feature vectors
 	 *                               and the classes
@@ -112,6 +121,7 @@ public class NeuralNetwork
 			final boolean transpose)
 			throws IOException {
 		super(featureVectorsPathName, classesPathName, transpose);
+		setDefaultFunctions();
 	}
 
 
@@ -129,6 +139,10 @@ public class NeuralNetwork
 
 	public synchronized ActivationFunction getActivationFunction() {
 		return activationFunction;
+	}
+
+	public synchronized RegularizationFunction getRegularizationFunction() {
+		return regularizationFunction;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,6 +165,15 @@ public class NeuralNetwork
 
 	public synchronized void setActivationFunction(final ActivationFunction activationFunction) {
 		this.activationFunction = activationFunction;
+	}
+
+	public synchronized void setRegularizationFunction(final RegularizationFunction regularizationFunction) {
+		this.regularizationFunction = regularizationFunction;
+	}
+
+	protected void setDefaultFunctions() {
+		activationFunction = ActivationFunctions.TANH;
+		regularizationFunction = RegularizationFunctions.NO;
 	}
 
 
@@ -222,10 +245,6 @@ public class NeuralNetwork
 		// - The feature and hidden vectors
 		A = new Matrix[layerCount + 1];
 		A[0] = X; // (n x m)
-		// - The activation function
-		if (activationFunction == null) {
-			activationFunction = ActivationFunctions.TANH;
-		}
 		// - The frequency of the convergence test
 		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
 				Maths.roundToInt(1. / learningRate));
@@ -250,7 +269,7 @@ public class NeuralNetwork
 			if (i % convergenceTestFrequency == 0) {
 				// - Compute the cost
 				final double cost = computeCost();
-				IO.debug(i, ") Cost: ", cost);
+				IO.test(i, ") Cost: ", cost);
 				final double delta = Maths.delta(j, cost);
 				IO.debug(i, ") Delta: ", delta);
 				j = cost;
@@ -270,13 +289,16 @@ public class NeuralNetwork
 				} else {
 					dZ = dA.arrayMultiply(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
 				}
-				dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
+				dA = W[l].transpose().multiply(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
 
 				// - Compute the derivatives with respect to W and b
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
-				final Matrix dW = A[l].times(dZT).transpose().toMatrix()
-						.divide(trainingExampleCount); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				final Vector db = dZT.mean().toVector();
+				final Matrix dW = A[l].times(dZT).transpose().divide(trainingExampleCount)
+						//.add(regularizationFunction.derive(trainingExampleCount, W[l]))
+						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
+				final Vector db = dZT.mean()
+						//.add(regularizationFunction.derive(trainingExampleCount, b[l]))
+						.toVector();
 
 				// - Update the weights and the bias
 				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)
