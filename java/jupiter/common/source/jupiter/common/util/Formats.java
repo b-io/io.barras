@@ -166,10 +166,4 @@ public class Formats {
 		format.setMinimumIntegerDigits(DEFAULT_MIN_INTEGER_DIGITS);
 		return format;
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static String getDimensions(final int m, final int n) {
-		return Strings.parenthesize(m + " x " + n);
-	}
 }

@@ -1314,18 +1314,21 @@ public class Matrix
 	 */
 	public Matrix plus(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return plus(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = elements[i][j] + matrix.elements[i][j];
+				result.elements[i][j] = elements[i][j] + broadcastedMatrix.elements[i][j];
 			}
 		}
 		return result;
@@ -1341,9 +1344,11 @@ public class Matrix
 	 * @return {@code this += scalar}
 	 */
 	public Matrix add(final double scalar) {
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				elements[i][j] += scalar;
+		if (scalar != 0.) {
+			for (int i = 0; i < m; ++i) {
+				for (int j = 0; j < n; ++j) {
+					elements[i][j] += scalar;
+				}
 			}
 		}
 		return this;
@@ -1358,17 +1363,20 @@ public class Matrix
 	 */
 	public Matrix add(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return add(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i][j] += matrix.elements[i][j];
+				elements[i][j] += broadcastedMatrix.elements[i][j];
 			}
 		}
 		return this;
@@ -1402,18 +1410,21 @@ public class Matrix
 	 */
 	public Matrix minus(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return minus(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = elements[i][j] - matrix.elements[i][j];
+				result.elements[i][j] = elements[i][j] - broadcastedMatrix.elements[i][j];
 			}
 		}
 		return result;
@@ -1429,9 +1440,11 @@ public class Matrix
 	 * @return {@code this -= scalar}
 	 */
 	public Matrix subtract(final double scalar) {
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				elements[i][j] -= scalar;
+		if (scalar != 0.) {
+			for (int i = 0; i < m; ++i) {
+				for (int j = 0; j < n; ++j) {
+					elements[i][j] -= scalar;
+				}
 			}
 		}
 		return this;
@@ -1446,17 +1459,20 @@ public class Matrix
 	 */
 	public Matrix subtract(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return subtract(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i][j] -= matrix.elements[i][j];
+				elements[i][j] -= broadcastedMatrix.elements[i][j];
 			}
 		}
 		return this;
@@ -1492,25 +1508,28 @@ public class Matrix
 	 */
 	public Entity times(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return times(((Vector) matrix).toMatrix(n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireInnerDimension(matrix);
+		requireInnerDimension(broadcastedMatrix);
 
 		// Test whether the result is a scalar or a matrix
-		if (m == 1 && matrix.n == 1) {
+		if (m == 1 && broadcastedMatrix.n == 1) {
 			// - Scalar
 			final double[] row = elements[0];
 			double sum = 0.;
 			for (int k = 0; k < n; ++k) {
-				sum += row[k] * matrix.elements[k][0];
+				sum += row[k] * broadcastedMatrix.elements[k][0];
 			}
 			return new Scalar(sum);
 		}
 		// - Matrix
-		final Matrix result = new Matrix(m, matrix.n);
+		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (PARALLELIZE) {
 			// Initialize
 			final int intervalCount = Math.min(m, WORK_QUEUE.getWorkerCount());
@@ -1523,12 +1542,12 @@ public class Matrix
 				final Interval<Integer> interval = new Interval<Integer>(i * rowCountPerInterval,
 						(i + 1) * rowCountPerInterval);
 				ids.add(WORK_QUEUE.submit(
-						new Triple<Matrix, Matrix, Interval<Integer>>(this, matrix, interval)));
+						new Triple<Matrix, Matrix, Interval<Integer>>(this, broadcastedMatrix, interval)));
 			}
 			if (remainingRowCount > 0) {
 				final Interval<Integer> interval = new Interval<Integer>(
 						intervalCount * rowCountPerInterval, m);
-				final Matrix submatrix = DotProduct.apply(this, matrix, interval);
+				final Matrix submatrix = DotProduct.apply(this, broadcastedMatrix, interval);
 				result.setSubmatrix(interval.getLowerBound(), result.m, 0, submatrix.n, submatrix);
 			}
 
@@ -1543,10 +1562,10 @@ public class Matrix
 		} else {
 			for (int i = 0; i < m; ++i) {
 				final double[] row = elements[i];
-				for (int j = 0; j < matrix.n; ++j) {
+				for (int j = 0; j < broadcastedMatrix.n; ++j) {
 					double sum = 0.;
 					for (int k = 0; k < n; ++k) {
-						sum += row[k] * matrix.elements[k][j];
+						sum += row[k] * broadcastedMatrix.elements[k][j];
 					}
 					result.elements[i][j] = sum;
 				}
@@ -1565,18 +1584,21 @@ public class Matrix
 	 */
 	public Matrix arrayTimes(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return arrayTimes(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = elements[i][j] * matrix.elements[i][j];
+				result.elements[i][j] = elements[i][j] * broadcastedMatrix.elements[i][j];
 			}
 		}
 		return result;
@@ -1592,9 +1614,11 @@ public class Matrix
 	 * @return {@code this *= scalar}
 	 */
 	public Matrix multiply(final double scalar) {
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				elements[i][j] *= scalar;
+		if (scalar != 1.) {
+			for (int i = 0; i < m; ++i) {
+				for (int j = 0; j < n; ++j) {
+					elements[i][j] *= scalar;
+				}
 			}
 		}
 		return this;
@@ -1620,17 +1644,20 @@ public class Matrix
 	 */
 	public Matrix arrayMultiply(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return arrayMultiply(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i][j] *= matrix.elements[i][j];
+				elements[i][j] *= broadcastedMatrix.elements[i][j];
 			}
 		}
 		return this;
@@ -1664,12 +1691,15 @@ public class Matrix
 	 */
 	public Entity division(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return division(((Vector) matrix).toMatrix(n, true));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(n, true);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Compute
-		return times(matrix.inverse());
+		return times(broadcastedMatrix.inverse());
 	}
 
 	/**
@@ -1681,18 +1711,21 @@ public class Matrix
 	 */
 	public Matrix arrayDivision(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return arrayDivision(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = elements[i][j] / matrix.elements[i][j];
+				result.elements[i][j] = elements[i][j] / broadcastedMatrix.elements[i][j];
 			}
 		}
 		return result;
@@ -1708,9 +1741,11 @@ public class Matrix
 	 * @return {@code this /= scalar}
 	 */
 	public Matrix divide(final double scalar) {
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				elements[i][j] /= scalar;
+		if (scalar != 1.) {
+			for (int i = 0; i < m; ++i) {
+				for (int j = 0; j < n; ++j) {
+					elements[i][j] /= scalar;
+				}
 			}
 		}
 		return this;
@@ -1736,17 +1771,20 @@ public class Matrix
 	 */
 	public Matrix arrayDivide(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return arrayDivide(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i][j] /= matrix.elements[i][j];
+				elements[i][j] /= broadcastedMatrix.elements[i][j];
 			}
 		}
 		return this;
@@ -1782,18 +1820,21 @@ public class Matrix
 	 */
 	public Matrix arrayPower(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return arrayPower(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = Math.pow(elements[i][j], matrix.elements[i][j]);
+				result.elements[i][j] = Math.pow(elements[i][j], broadcastedMatrix.elements[i][j]);
 			}
 		}
 		return result;
@@ -1809,9 +1850,11 @@ public class Matrix
 	 * @return {@code this .^= scalar}
 	 */
 	public Matrix arrayRaise(final double scalar) {
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				elements[i][j] = Math.pow(elements[i][j], scalar);
+		if (scalar != 1.) {
+			for (int i = 0; i < m; ++i) {
+				for (int j = 0; j < n; ++j) {
+					elements[i][j] = Math.pow(elements[i][j], scalar);
+				}
 			}
 		}
 		return this;
@@ -1826,17 +1869,20 @@ public class Matrix
 	 */
 	public Matrix arrayRaise(final Matrix matrix) {
 		// Broadcast
+		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			return arrayRaise(((Vector) matrix).toMatrix(m, n));
+			broadcastedMatrix = ((Vector) matrix).toMatrix(m, n);
+		} else {
+			broadcastedMatrix = matrix;
 		}
 
 		// Check the arguments
-		requireDimensions(matrix);
+		requireDimensions(broadcastedMatrix);
 
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i][j] = Math.pow(elements[i][j], matrix.elements[i][j]);
+				elements[i][j] = Math.pow(elements[i][j], broadcastedMatrix.elements[i][j]);
 			}
 		}
 		return this;

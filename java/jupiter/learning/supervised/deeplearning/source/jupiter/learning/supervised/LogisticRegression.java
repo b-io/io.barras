@@ -167,7 +167,7 @@ public class LogisticRegression
 		}
 		// - The bias
 		if (b == null) {
-			b = Scalar.ZERO;
+			b = new Scalar(0.);
 		}
 		// - The frequency of the convergence test
 		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,

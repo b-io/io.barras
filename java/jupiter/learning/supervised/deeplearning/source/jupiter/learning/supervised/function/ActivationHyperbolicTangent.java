@@ -71,6 +71,6 @@ public class ActivationHyperbolicTangent
 	 */
 	@Override
 	public Entity derive(final Entity E) {
-		return Scalar.ONE.subtract(E.apply(Functions.SQUARE));
+		return Scalar.ONE.minus(E.apply(Functions.SQUARE));
 	}
 }

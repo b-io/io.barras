@@ -269,7 +269,7 @@ public class NeuralNetwork
 			if (i % convergenceTestFrequency == 0) {
 				// - Compute the cost
 				final double cost = computeCost();
-				IO.test(i, ") Cost: ", cost);
+				IO.debug(i, ") Cost: ", cost);
 				final double delta = Maths.delta(j, cost);
 				IO.debug(i, ") Delta: ", delta);
 				j = cost;
@@ -294,10 +294,10 @@ public class NeuralNetwork
 				// - Compute the derivatives with respect to W and b
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 				final Matrix dW = A[l].times(dZT).transpose().divide(trainingExampleCount)
-						//.add(regularizationFunction.derive(trainingExampleCount, W[l]))
+						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
 						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
 				final Vector db = dZT.mean()
-						//.add(regularizationFunction.derive(trainingExampleCount, b[l]))
+						.add(regularizationFunction.derive(trainingExampleCount, b[l]))
 						.toVector();
 
 				// - Update the weights and the bias
