@@ -25,6 +25,7 @@ package jupiter.learning.supervised.function;
 
 import jupiter.math.analysis.function.Function;
 import jupiter.math.linear.entity.Entity;
+import jupiter.math.linear.entity.Matrix;
 
 public abstract class RegularizationFunction
 		extends Function {
@@ -51,13 +52,23 @@ public abstract class RegularizationFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the derivative of the regularization function to the specified {@link Entity} and
-	 * returns the result.
+	 * Computes the regularization cost.
 	 * <p>
 	 * @param m the number of training examples
-	 * @param E an {@link Entity}
+	 * @param W the array of weight {@link Matrix}
+	 * <p>
+	 * @return the regularization cost
+	 */
+	public abstract double computeCost(final int m, final Matrix[] W);
+
+	/**
+	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
+	 * and returns the result.
+	 * <p>
+	 * @param m the number of training examples
+	 * @param W the weight {@link Matrix}
 	 * <p>
 	 * @return the result
 	 */
-	public abstract Entity derive(final int m, final Entity E);
+	public abstract Entity derive(final int m, final Matrix W);
 }

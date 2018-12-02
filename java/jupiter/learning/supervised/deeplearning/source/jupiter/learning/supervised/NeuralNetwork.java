@@ -341,7 +341,8 @@ public class NeuralNetwork
 	 */
 	@Override
 	public synchronized double computeCost() {
-		return computeCost(A[A.length - 1]);
+		return computeCost(A[A.length - 1]) +
+				regularizationFunction.computeCost(trainingExampleCount, W);
 	}
 
 

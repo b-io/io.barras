@@ -29,8 +29,9 @@ public abstract class RegularizationFunctions {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final RegularizationL2 L2 = new RegularizationL2();
 	public static final NoRegularization NO = new NoRegularization();
+
+	public static final RegularizationL2 L2 = new RegularizationL2();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -24,7 +24,9 @@
 package jupiter.learning.supervised.function;
 
 import jupiter.common.math.Maths;
-import jupiter.math.linear.entity.Entity;
+import jupiter.math.analysis.function.Functions;
+import jupiter.math.linear.entity.Matrix;
+import jupiter.math.linear.entity.Scalar;
 
 /**
  * The L2 regularization function.
@@ -56,16 +58,33 @@ public class RegularizationL2
 	}
 
 	/**
-	 * Applies the derivative of the regularization function to the specified {@link Entity} and
-	 * returns the result.
+	 * Computes the regularization cost.
 	 * <p>
 	 * @param m the number of training examples
-	 * @param E an {@link Entity}
+	 * @param W the array of weight {@link Matrix}
+	 * <p>
+	 * @return the regularization cost
+	 */
+	@Override
+	public double computeCost(final int m, final Matrix[] W) {
+		double sum = 0.;
+		for (final Matrix w : W) {
+			sum += w.apply(Functions.SQUARE).sum();
+		}
+		return lambda * sum / (2. * m);
+	}
+
+	/**
+	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
+	 * and returns the result.
+	 * <p>
+	 * @param m the number of training examples
+	 * @param W the weight {@link Matrix}
 	 * <p>
 	 * @return the result
 	 */
 	@Override
-	public Entity derive(final int m, final Entity E) {
-		return E.times(lambda / m);
+	public Matrix derive(final int m, final Matrix W) {
+		return W.times(lambda / m);
 	}
 }

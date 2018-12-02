@@ -24,6 +24,7 @@
 package jupiter.learning.supervised.function;
 
 import jupiter.math.linear.entity.Entity;
+import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 
 /**
@@ -47,16 +48,29 @@ public class NoRegularization
 	}
 
 	/**
-	 * Applies the derivative of the regularization function to the specified {@link Entity} and
-	 * returns the result.
+	 * Computes the regularization cost.
 	 * <p>
 	 * @param m the number of training examples
-	 * @param E an {@link Entity}
+	 * @param W the array of weight {@link Matrix}
+	 * <p>
+	 * @return the regularization cost
+	 */
+	@Override
+	public double computeCost(final int m, final Matrix[] W) {
+		return 0.;
+	}
+
+	/**
+	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
+	 * and returns the result.
+	 * <p>
+	 * @param m the number of training examples
+	 * @param W the weight {@link Matrix}
 	 * <p>
 	 * @return the result
 	 */
 	@Override
-	public Scalar derive(final int m, final Entity E) {
+	public Scalar derive(final int m, final Matrix W) {
 		return Scalar.ZERO;
 	}
 }
