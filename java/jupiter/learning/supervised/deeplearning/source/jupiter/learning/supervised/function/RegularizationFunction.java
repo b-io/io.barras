@@ -54,12 +54,12 @@ public abstract class RegularizationFunction
 	/**
 	 * Computes the regularization cost.
 	 * <p>
-	 * @param m the number of training examples
-	 * @param W the array of weight {@link Matrix}
+	 * @param m       the number of training examples
+	 * @param weights the array of weight {@link Matrix}
 	 * <p>
 	 * @return the regularization cost
 	 */
-	public abstract double computeCost(final int m, final Matrix[] W);
+	public abstract double computeCost(final int m, final Matrix[] weights);
 
 	/**
 	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}

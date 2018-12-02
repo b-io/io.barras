@@ -59,16 +59,16 @@ public class RegularizationL2
 	/**
 	 * Computes the regularization cost.
 	 * <p>
-	 * @param m the number of training examples
-	 * @param W the array of weight {@link Matrix}
+	 * @param m       the number of training examples
+	 * @param weights the array of weight {@link Matrix}
 	 * <p>
 	 * @return the regularization cost
 	 */
 	@Override
-	public double computeCost(final int m, final Matrix[] W) {
+	public double computeCost(final int m, final Matrix[] weights) {
 		double sum = 0.;
-		for (final Matrix w : W) {
-			sum += w.apply(Functions.SQUARE).sum();
+		for (final Matrix W : weights) {
+			sum += W.apply(Functions.SQUARE).sum();
 		}
 		return lambda * sum / (2. * m);
 	}

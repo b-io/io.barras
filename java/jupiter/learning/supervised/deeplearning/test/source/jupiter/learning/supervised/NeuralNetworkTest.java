@@ -24,6 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 
 import java.io.IOException;
 import java.util.Random;
@@ -34,6 +35,7 @@ import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
 import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
+import jupiter.learning.supervised.function.RegularizationFunction;
 import jupiter.learning.supervised.function.RegularizationFunctions;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
@@ -48,14 +50,13 @@ public class NeuralNetworkTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of classify method (without regularization), of class NeuralNetwork.
+	 * Test of classify method, of class NeuralNetwork.
 	 */
-	public void testClassifyWithoutRegularization() {
-		IO.test("classify (without regularization)");
+	public void testClassify() {
+		IO.test("classify");
 
 		// Initialize
 		final NeuralNetwork model = new NeuralNetwork(2);
-		model.setRegularizationFunction(RegularizationFunctions.NONE);
 		final int layerCount = 2;
 		// - X
 		model.setFeatureVectors(new Matrix(new double[][] {
@@ -103,65 +104,10 @@ public class NeuralNetworkTest
 	}
 
 	/**
-	 * Test of classify method (with L2 regularization), of class NeuralNetwork.
+	 * Test of classify method using files, of class NeuralNetwork.
 	 */
-	public void testClassifyWithL2Regularization() {
-		IO.test("classify (with L2 regularization)");
-
-		// Initialize
-		final NeuralNetwork model = new NeuralNetwork(2);
-		model.setRegularizationFunction(RegularizationFunctions.L2);
-		final int layerCount = 2;
-		// - X
-		model.setFeatureVectors(new Matrix(new double[][] {
-			new double[] {
-				1.62434536, -0.61175641, -0.52817175
-			}, new double[] {
-				-1.07296862, 0.86540763, -2.30153870
-			}
-		})); // (n x m)
-		// - Y
-		model.setClasses(new Vector(1, 0, 1).transpose()); // (1 x m)
-		// - W
-		final Matrix[] weights = new Matrix[layerCount];
-		weights[0] = new Matrix(new double[][] {
-			new double[] {
-				-0.00416758, -0.00056267
-			}, new double[] {
-				-0.02136196, 0.01640271
-			}, new double[] {
-				-0.01793436, -0.00841747
-			}, new double[] {
-				0.00502881, -0.01245288
-			}
-		}); // (nh x n)
-		weights[1] = new Matrix(new double[][] {
-			new double[] {
-				-0.01057952, -0.00909008, 0.00551454, 0.02292208
-			}
-		}); // (1 x nh)
-		model.setWeights(weights);
-
-		// Train
-		final int iterationCount = model.train(1.2, 1E-8, 10000, layerCount - 1, 4);
-
-		// Test
-		// - The accuracy
-		final double accuracy = model.computeAccuracy();
-		assertEquals(1., accuracy, BinaryClassifier.DEFAULT_TOLERANCE);
-		// - The cost
-		final double cost = model.computeCost();
-		assertEquals(0.14573662193753475, cost, BinaryClassifier.DEFAULT_TOLERANCE);
-
-		// Report the statistics
-		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
-	}
-
-	/**
-	 * Test of classify method, of class NeuralNetwork.
-	 */
-	public void testClassify_File() {
-		IO.test("classify_File");
+	public void testClassify_Files() {
+		IO.test("classify_Files");
 
 		// Initialize
 		Doubles.RANDOM = new Random(1L);
@@ -170,17 +116,24 @@ public class NeuralNetworkTest
 
 		// Test
 		try {
-			// - Test the example A
+			IO.test("A) Test the activation function TANH");
 			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH, 0.9, 0.285,
-						0.5);
+				times[t] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
+						RegularizationFunctions.NONE, 0.9, 0.285, 0.5);
 			}
 			Tests.printTimes(times);
 
-			// - Test the example B
+			IO.test("B) Test the activation function RELU");
 			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("B", 100, 0.0075, 1, 7, ActivationFunctions.RELU, 0.7, 0.65,
-						0.05);
+				times[t] = testExample("B", 100, 0.0075, 1, 0, ActivationFunctions.RELU,
+						RegularizationFunctions.NONE, 0.65, 0.65, 0.05);
+			}
+			Tests.printTimes(times);
+
+			IO.test("C) Test the L2 regularization");
+			for (int t = 0; t < testCount; ++t) {
+				times[t] = testExample("C", 100, 0.0075, 2, 0, ActivationFunctions.RELU,
+						RegularizationFunctions.L2, 0.63, 0.7, 0.1);
 			}
 			Tests.printTimes(times);
 		} catch (final IOException ex) {
@@ -190,21 +143,25 @@ public class NeuralNetworkTest
 
 	protected static double testExample(final String example, final int maxIterations,
 			final double learningRate, final int hiddenLayerCount, final int hiddenLayerSize,
-			final ActivationFunction activationFunction, final double expectedAccuracy,
+			final ActivationFunction activationFunction,
+			final RegularizationFunction regularizationFunction, final double expectedAccuracy,
 			final double expectedCost, final double tolerance)
 			throws IOException {
 		// Initialize
 		final NeuralNetwork model = new NeuralNetwork("test/resources/" + example + "/X.csv",
 				"test/resources/" + example + "/Y.csv");
 		model.setActivationFunction(activationFunction);
+		model.setRegularizationFunction(regularizationFunction);
 		try {
-			final Matrix W1 = Matrix.load("test/resources/" + example + "/W1.csv");
-			final Matrix W2 = Matrix.load("test/resources/" + example + "/W2.csv");
-			final Matrix[] weights = new Matrix[] {
-				W1, W2
-			};
+			final int layerCount = hiddenLayerCount + 1;
+			final Matrix[] weights = new Matrix[layerCount];
+			for (int l = 0; l < layerCount; ++l) {
+				weights[l] = Matrix.load("test/resources/" + example + "/W" + (l + 1) + ".csv");
+				IO.test("W", l + 1, " loaded");
+			}
 			model.setWeights(weights);
 		} catch (final Exception ignored) {
+			IO.warn("No weights");
 		}
 		final Chronometer chrono = new Chronometer();
 
@@ -223,8 +180,8 @@ public class NeuralNetworkTest
 		assertEquals(expectedCost, cost, tolerance);
 
 		// Report the statistics
-		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations",
-				" in ", chrono.getMilliseconds(), " [ms]");
+		IO.test(Doubles.toPercentage(accuracy), " accuracy and ", DECIMAL_FORMAT.format(cost),
+				" cost in ", iterationCount, " iterations in ", chrono.getMilliseconds(), " [ms]");
 		return chrono.getMilliseconds();
 	}
 }

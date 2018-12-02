@@ -49,13 +49,13 @@ public class RegularizationNone
 	/**
 	 * Computes the regularization cost.
 	 * <p>
-	 * @param m the number of training examples
-	 * @param W the array of weight {@link Matrix}
+	 * @param m       the number of training examples
+	 * @param weights the array of weight {@link Matrix}
 	 * <p>
 	 * @return the regularization cost
 	 */
 	@Override
-	public double computeCost(final int m, final Matrix[] W) {
+	public double computeCost(final int m, final Matrix[] weights) {
 		return 0.;
 	}
 

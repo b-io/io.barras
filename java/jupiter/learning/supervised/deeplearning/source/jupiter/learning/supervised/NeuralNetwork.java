@@ -174,7 +174,7 @@ public class NeuralNetwork
 
 	protected void setDefaultFunctions() {
 		activationFunction = ActivationFunctions.TANH;
-		regularizationFunction = RegularizationFunctions.L2;
+		regularizationFunction = RegularizationFunctions.NONE;
 	}
 
 
@@ -194,8 +194,15 @@ public class NeuralNetwork
 	@Override
 	public synchronized int train(final double learningRate, final double tolerance,
 			final int maxIterationCount) {
-		final int hiddenLayerCount = featureCount;
-		final int hiddenLayerSize = featureCount * featureCount;
+		final int hiddenLayerCount;
+		final int hiddenLayerSize;
+		if (W == null) {
+			hiddenLayerCount = featureCount;
+			hiddenLayerSize = featureCount * featureCount;
+		} else {
+			hiddenLayerCount = W.length;
+			hiddenLayerSize = 0;
+		}
 		return train(learningRate, tolerance, maxIterationCount, hiddenLayerCount, hiddenLayerSize);
 	}
 
@@ -228,8 +235,8 @@ public class NeuralNetwork
 			W[0] = Matrix.random(hiddenLayerSize, featureCount).subtract(0.5)
 					.multiply(Math.sqrt(2. / featureCount)); // (nh x n)
 			final double scalingFactor = Math.sqrt(2. / hiddenLayerSize);
-			for (int i = 1; i < layerCount - 1; ++i) {
-				W[i] = Matrix.random(hiddenLayerSize, hiddenLayerSize).subtract(0.5)
+			for (int l = 1; l < layerCount - 1; ++l) {
+				W[l] = Matrix.random(hiddenLayerSize, hiddenLayerSize).subtract(0.5)
 						.multiply(scalingFactor); // (nh x nh)
 			}
 			W[layerCount - 1] = Matrix.random(1, hiddenLayerSize).subtract(0.5)
@@ -239,7 +246,7 @@ public class NeuralNetwork
 		if (b == null) {
 			b = new Vector[layerCount];
 			for (int l = 0; l < layerCount - 1; ++l) {
-				b[l] = new Vector(hiddenLayerSize); // (nh x 1)
+				b[l] = new Vector(W[l].getRowDimension()); // (nh x 1)
 			}
 			b[layerCount - 1] = new Vector(1); // (1 x 1)
 		}
