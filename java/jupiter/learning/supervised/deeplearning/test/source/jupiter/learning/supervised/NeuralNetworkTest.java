@@ -151,7 +151,7 @@ public class NeuralNetworkTest
 		assertEquals(1., accuracy, BinaryClassifier.DEFAULT_TOLERANCE);
 		// - The cost
 		final double cost = model.computeCost();
-		assertEquals(2.11368793E-5, cost, BinaryClassifier.DEFAULT_TOLERANCE);
+		assertEquals(0.14573662193753475, cost, BinaryClassifier.DEFAULT_TOLERANCE);
 
 		// Report the statistics
 		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
