@@ -29,7 +29,7 @@ public abstract class RegularizationFunctions {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final NoRegularization NO = new NoRegularization();
+	public static final RegularizationNone NONE = new RegularizationNone();
 
 	public static final RegularizationL2 L2 = new RegularizationL2();
 

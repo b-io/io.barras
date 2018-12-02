@@ -26,7 +26,6 @@ package jupiter.learning.supervised.function;
 import jupiter.common.math.Maths;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Matrix;
-import jupiter.math.linear.entity.Scalar;
 
 /**
  * The L2 regularization function.

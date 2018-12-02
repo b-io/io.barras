@@ -23,20 +23,19 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 
 /**
- * The L2 regularization function.
+ * The void regularization function.
  */
-public class NoRegularization
+public class RegularizationNone
 		extends RegularizationFunction {
 
 	/**
 	 * Constructs a void regularization function.
 	 */
-	protected NoRegularization() {
+	protected RegularizationNone() {
 		super(0.);
 	}
 

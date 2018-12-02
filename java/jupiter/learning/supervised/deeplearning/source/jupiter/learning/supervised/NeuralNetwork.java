@@ -174,7 +174,7 @@ public class NeuralNetwork
 
 	protected void setDefaultFunctions() {
 		activationFunction = ActivationFunctions.TANH;
-		regularizationFunction = RegularizationFunctions.NO;
+		regularizationFunction = RegularizationFunctions.L2;
 	}
 
 
