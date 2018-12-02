@@ -303,8 +303,7 @@ public class NeuralNetwork
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 				final Matrix dW = A[l].times(dZT).transpose().divide(trainingExampleCount)
 						.add(regularizationFunction.derive(trainingExampleCount, W[l])).toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				final Vector db = dZT.mean()
-						.add(regularizationFunction.derive(trainingExampleCount, b[l])).toVector();
+				final Vector db = dZT.mean().toVector();
 
 				// - Update the weights and the bias
 				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)

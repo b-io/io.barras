@@ -45,7 +45,7 @@ public class RegularizationL2
 	 * <p>
 	 * @param lambda the hyper-parameter
 	 */
-	protected RegularizationL2(final double lambda) {
+	public RegularizationL2(final double lambda) {
 		super(lambda);
 	}
 

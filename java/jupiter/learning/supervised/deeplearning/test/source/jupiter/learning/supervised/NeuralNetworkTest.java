@@ -37,6 +37,7 @@ import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.learning.supervised.function.RegularizationFunction;
 import jupiter.learning.supervised.function.RegularizationFunctions;
+import jupiter.learning.supervised.function.RegularizationL2;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
 
@@ -132,8 +133,8 @@ public class NeuralNetworkTest
 
 			IO.test("C) Test the L2 regularization");
 			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("C", 100, 0.0075, 2, 0, ActivationFunctions.RELU,
-						RegularizationFunctions.L2, 0.63, 0.7, 0.1);
+				times[t] = testExample("C", 100, 0.3, 2, 0, ActivationFunctions.RELU,
+						new RegularizationL2(0.7), 0.91, 0.3, 0.01);
 			}
 			Tests.printTimes(times);
 		} catch (final IOException ex) {
