@@ -42,6 +42,7 @@ import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.BinaryOperation;
 import jupiter.math.calculator.model.Element;
+import jupiter.math.calculator.model.Element.Type;
 import jupiter.math.calculator.model.MatrixElement;
 import jupiter.math.calculator.model.Result;
 import jupiter.math.calculator.model.ScalarElement;
@@ -269,7 +270,7 @@ public class Calculator {
 		}
 
 		// Get the type of the binary operation
-		final Element.Type type = binaryOperation.getType();
+		final Type type = binaryOperation.getType();
 		IO.debug(leftEntity, " ", type, " ", rightEntity);
 
 		// Evaluate the binary operation
@@ -318,7 +319,7 @@ public class Calculator {
 		}
 
 		// Get the type of the unary operation
-		final Element.Type type = unaryOperation.getType();
+		final Type type = unaryOperation.getType();
 		IO.debug(type, " ", entity);
 
 		// Evaluate the unary operation

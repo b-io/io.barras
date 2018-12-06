@@ -149,7 +149,7 @@ extern "C"
 	} IOType;
 
 	/**
-	 * Defines the Severity Levels.
+	 * Defines the severity levels.
 	 */
 	typedef enum SeverityLevel
 	{

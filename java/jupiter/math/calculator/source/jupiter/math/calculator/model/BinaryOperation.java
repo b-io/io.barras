@@ -32,7 +32,7 @@ public class BinaryOperation
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected Element.Type type;
+	protected Type type;
 	protected Element left;
 	protected Element right;
 
@@ -41,7 +41,7 @@ public class BinaryOperation
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public BinaryOperation(final Element parent, final String expression, final Element.Type type,
+	public BinaryOperation(final Element parent, final String expression, final Type type,
 			final Element left, final Element right) {
 		super(parent, expression);
 		this.type = type;
@@ -59,7 +59,7 @@ public class BinaryOperation
 	 * <p>
 	 * @return the type
 	 */
-	public Element.Type getType() {
+	public Type getType() {
 		return type;
 	}
 
@@ -86,9 +86,9 @@ public class BinaryOperation
 	/**
 	 * Sets the type.
 	 * <p>
-	 * @param type an {@link Element.Type}
+	 * @param type an {@link Type}
 	 */
-	public void setType(final Element.Type type) {
+	public void setType(final Type type) {
 		this.type = type;
 	}
 

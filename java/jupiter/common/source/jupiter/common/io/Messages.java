@@ -23,6 +23,8 @@
  */
 package jupiter.common.io;
 
+import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.IO.Type;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Strings;
 
@@ -41,7 +43,7 @@ public class Messages {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// - ALL
-	public static String getPrefix(final IO.Type type, final IO.SeverityLevel level,
+	public static String getPrefix(final Type type, final SeverityLevel level,
 			final int stackIndex) {
 		switch (type) {
 			case INPUT:
@@ -59,7 +61,7 @@ public class Messages {
 	}
 
 	// - OUTPUT
-	public static String getOutputPrefix(final IO.SeverityLevel level, final int stackIndex) {
+	public static String getOutputPrefix(final SeverityLevel level, final int stackIndex) {
 		// Get information about the call (class name, method name and Message number)
 		final StackTraceElement stackTraceElement = new Throwable().fillInStackTrace()
 				.getStackTrace()[stackIndex];
@@ -101,13 +103,13 @@ public class Messages {
 		return createLabel(Dates.getDateTime());
 	}
 
-	protected static String createPrefix(final IO.Type type) {
+	protected static String createPrefix(final Type type) {
 		return createPrefix() + createLabel(type);
 	}
 
 	// - INPUT
 	protected static String createInputPrefix() {
-		return createPrefix(IO.Type.INPUT);
+		return createPrefix(Type.INPUT);
 	}
 
 	// - OUTPUT
@@ -115,21 +117,21 @@ public class Messages {
 		return createPrefix();
 	}
 
-	protected static String createOutputPrefix(final IO.SeverityLevel level) {
+	protected static String createOutputPrefix(final SeverityLevel level) {
 		return createOutputPrefix() + createLabel(level);
 	}
 
-	protected static String createOutputPrefix(final IO.SeverityLevel level,
+	protected static String createOutputPrefix(final SeverityLevel level,
 			final String className) {
 		return createOutputPrefix(level) + createLabel(className);
 	}
 
-	protected static String createOutputPrefix(final IO.SeverityLevel level, final String className,
+	protected static String createOutputPrefix(final SeverityLevel level, final String className,
 			final String methodName) {
 		return createOutputPrefix(level, className) + createLabel(methodName);
 	}
 
-	protected static String createOutputPrefix(final IO.SeverityLevel level, final String className,
+	protected static String createOutputPrefix(final SeverityLevel level, final String className,
 			final String methodName, final int lineNumber) {
 		return createOutputPrefix(level, className, methodName) +
 				createLabel(Strings.toString(lineNumber));
@@ -138,7 +140,7 @@ public class Messages {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// - ALL
-	protected static String createLabel(final IO.Type type) {
+	protected static String createLabel(final Type type) {
 		final String content;
 		switch (type) {
 			case INPUT:
@@ -153,7 +155,7 @@ public class Messages {
 		return createLabel(content);
 	}
 
-	protected static String createLabel(final IO.SeverityLevel level) {
+	protected static String createLabel(final SeverityLevel level) {
 		return createLabel(Strings.toString(level).substring(0, 4));
 	}
 

@@ -25,7 +25,6 @@ package jupiter.math.linear.entity;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Formats;
 import jupiter.math.analysis.function.Function;
 
 public class Vector
@@ -253,7 +252,7 @@ public class Vector
 				return result;
 			}
 			throw new IllegalOperationException("Cannot broadcast " + getName() + " to " +
-					Formats.getDimensions(m, n) + " (wrong number of columns)");
+					getDimensions() + " (wrong number of columns)");
 		}
 		if (this.m == m) {
 			final double[] column = getColumn(0);
@@ -264,7 +263,7 @@ public class Vector
 			return result;
 		}
 		throw new IllegalOperationException("Cannot broadcast " + getName() + " to " +
-				Formats.getDimensions(m, n) + " (wrong number of rows)");
+				getDimensions() + " (wrong number of rows)");
 	}
 
 

@@ -57,21 +57,21 @@ public class Systems {
 
 	public static OS getOS() {
 		if (OS_NAME.contains("nux")) {
-			return jupiter.common.io.Systems.OS.LINUX;
+			return OS.LINUX;
 		} else if (OS_NAME.contains("darwin") || OS_NAME.contains("mac")) {
-			return jupiter.common.io.Systems.OS.MACOS;
+			return OS.MACOS;
 		} else if (OS_NAME.contains("win")) {
-			return jupiter.common.io.Systems.OS.WINDOWS;
+			return OS.WINDOWS;
 		}
-		return jupiter.common.io.Systems.OS.OTHER;
+		return OS.OTHER;
 	}
 
 	public static boolean isUnix() {
-		return OS == jupiter.common.io.Systems.OS.LINUX || OS == jupiter.common.io.Systems.OS.MACOS;
+		return OS == OS.LINUX || OS == OS.MACOS;
 	}
 
 	public static boolean isWindows() {
-		return OS == jupiter.common.io.Systems.OS.WINDOWS;
+		return OS == OS.WINDOWS;
 	}
 
 	public static Process execute(final String command)

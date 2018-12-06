@@ -64,16 +64,16 @@ public class AIO {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
-	public AIO(final IO.SeverityLevel severityLevel) {
+	public AIO(final SeverityLevel severityLevel) {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
-	public AIO(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
+	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
 				consoleHandler);
 	}
 
-	public AIO(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
+	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
 				logHandler);

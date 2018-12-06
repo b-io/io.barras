@@ -25,6 +25,8 @@ package jupiter.common.io;
 
 import java.io.Serializable;
 
+import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.IO.Type;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -54,8 +56,8 @@ public class Message
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final IO.Type type;
-	protected final IO.SeverityLevel level;
+	protected final Type type;
+	protected final SeverityLevel level;
 	protected final String prefix;
 	protected final String content;
 	protected final Exception exception;
@@ -66,19 +68,19 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Message(final Object content) {
-		this(IO.Type.OUTPUT, IO.SeverityLevel.INFO, content,
+		this(Type.OUTPUT, SeverityLevel.INFO, content,
 				DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final Object content, final int stackIndex) {
-		this(IO.Type.OUTPUT, IO.SeverityLevel.INFO, content, stackIndex + STACK_INDEX_OFFSET);
+		this(Type.OUTPUT, SeverityLevel.INFO, content, stackIndex + STACK_INDEX_OFFSET);
 	}
 
-	public Message(final IO.Type type, final IO.SeverityLevel level, final Object content) {
+	public Message(final Type type, final SeverityLevel level, final Object content) {
 		this(type, level, content, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
-	public Message(final IO.Type type, final IO.SeverityLevel level, final Object content,
+	public Message(final Type type, final SeverityLevel level, final Object content,
 			final int stackIndex) {
 		this.type = type;
 		this.level = level;
@@ -90,19 +92,19 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Message(final Exception exception) {
-		this(IO.SeverityLevel.ERROR, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+		this(SeverityLevel.ERROR, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final Exception exception, final int stackIndex) {
-		this(IO.SeverityLevel.ERROR, exception, stackIndex + STACK_INDEX_OFFSET);
+		this(SeverityLevel.ERROR, exception, stackIndex + STACK_INDEX_OFFSET);
 	}
 
-	public Message(final IO.SeverityLevel level, final Exception exception) {
+	public Message(final SeverityLevel level, final Exception exception) {
 		this(level, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
-	public Message(final IO.SeverityLevel level, final Exception exception, final int stackIndex) {
-		type = IO.Type.OUTPUT;
+	public Message(final SeverityLevel level, final Exception exception, final int stackIndex) {
+		type = Type.OUTPUT;
 		this.level = level;
 		prefix = Messages.getPrefix(type, level, stackIndex);
 		content = Strings.toString(exception);
@@ -117,14 +119,14 @@ public class Message
 	/**
 	 * @return the type
 	 */
-	public IO.Type getType() {
+	public Type getType() {
 		return type;
 	}
 
 	/**
 	 * @return the level
 	 */
-	public IO.SeverityLevel getLevel() {
+	public SeverityLevel getLevel() {
 		return level;
 	}
 

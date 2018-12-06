@@ -33,6 +33,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 
 import jupiter.common.io.IO;
+import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.Message;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.file.Files;
@@ -71,18 +72,18 @@ public class IOAppender
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
-	public IOAppender(final IO.SeverityLevel severityLevel) {
+	public IOAppender(final SeverityLevel severityLevel) {
 		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
-	public IOAppender(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
+	public IOAppender(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
 		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
 				consoleHandler);
 	}
 
-	public IOAppender(final IO.SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
+	public IOAppender(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
 		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
