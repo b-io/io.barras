@@ -23,6 +23,8 @@
  */
 package jupiter.common.map.parser;
 
+import static jupiter.common.io.IO.IO;
+
 import jupiter.common.map.ObjectToIntegerMapper;
 import jupiter.common.util.Strings;
 
@@ -61,7 +63,12 @@ public class IntegerParser
 		if (value == null) {
 			return null;
 		}
-		return Integer.valueOf(value);
+		try {
+			return Integer.valueOf(value);
+		} catch (NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to an ", c.getSimpleName());
+		}
+		return null;
 	}
 
 

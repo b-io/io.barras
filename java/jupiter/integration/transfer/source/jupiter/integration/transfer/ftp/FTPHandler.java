@@ -51,6 +51,7 @@ import com.jcraft.jsch.SftpException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.Resources;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
 
 public class FTPHandler {
@@ -112,10 +113,10 @@ public class FTPHandler {
 		hostName = properties.getProperty("hostName");
 		switch (protocol) {
 			case SFTP:
-				port = Integer.valueOf(properties.getProperty("port", "22"));
+				port = Integers.convert(properties.getProperty("port", "22"));
 				break;
 			default:
-				port = Integer.valueOf(properties.getProperty("port", "21"));
+				port = Integers.convert(properties.getProperty("port", "21"));
 		}
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");

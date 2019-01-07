@@ -35,6 +35,8 @@ import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
+import jupiter.common.util.Doubles;
+import jupiter.common.util.Integers;
 import jupiter.math.analysis.function.Functions;
 import libsvm.svm;
 import libsvm.svm_model;
@@ -347,9 +349,9 @@ public class SVM {
 				trainingExampleCount = m;
 				updateProblem();
 				for (int i = 0; i < trainingExampleCount; ++i) {
-					updateClassification(i, Integer.valueOf(trainingExamples.get(i, classesIndex)));
+					updateClassification(i, Integers.convert(trainingExamples.get(i, classesIndex)));
 					for (int j = 0; j < featureCount; ++j) {
-						updateValue(i, j, Double.valueOf(trainingExamples.get(i, j)));
+						updateValue(i, j, Doubles.convert(trainingExamples.get(i, j)));
 					}
 				}
 			} else {

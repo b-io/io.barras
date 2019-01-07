@@ -31,6 +31,7 @@ import java.sql.Timestamp;
 
 import jupiter.common.math.Numbers;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.util.Integers;
 
 public class SQL {
 
@@ -51,7 +52,7 @@ public class SQL {
 			return null;
 		}
 		if (Boolean.class.isAssignableFrom(c)) {
-			return Integer.valueOf(string) == 1;
+			return Integers.convert(string) == 1;
 		} else if (Numbers.isNumber(c)) {
 			return Numbers.toNumber(c, string);
 		} else if (String.class.isAssignableFrom(c)) {

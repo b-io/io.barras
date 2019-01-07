@@ -2149,7 +2149,7 @@ public class Matrix
 						rowElements = Strings.split(row, COLUMN_DELIMITERS);
 						// Store the elements
 						for (int j = 0; j < n; ++j) {
-							elements[i][j] = Double.valueOf(rowElements.get(j));
+							elements[i][j] = Doubles.convert(rowElements.get(j));
 						}
 					}
 					return new Matrix(m, n, elements);

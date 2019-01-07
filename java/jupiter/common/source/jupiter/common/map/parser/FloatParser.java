@@ -23,6 +23,8 @@
  */
 package jupiter.common.map.parser;
 
+import static jupiter.common.io.IO.IO;
+
 import jupiter.common.map.ObjectToFloatMapper;
 import jupiter.common.util.Strings;
 
@@ -61,7 +63,12 @@ public class FloatParser
 		if (value == null) {
 			return null;
 		}
-		return Float.valueOf(value);
+		try {
+			return Float.valueOf(value);
+		} catch (NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", c.getSimpleName());
+		}
+		return null;
 	}
 
 
