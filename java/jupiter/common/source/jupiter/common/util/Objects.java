@@ -33,6 +33,27 @@ public class Objects {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static boolean isNull(final Object object) {
+		return object == null;
+	}
+
+	/**
+	 * Tests whether {@code object} is {@code null} or its {@link String} representation is empty.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if {@code object} is {@code null} or its {@link String} representation
+	 *         is empty, {@code false} otherwise
+	 */
+	public static boolean isNullOrEmpty(final Object object) {
+		return object == null || Strings.isNullOrEmpty(object.toString());
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

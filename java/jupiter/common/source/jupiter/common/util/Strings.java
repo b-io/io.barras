@@ -1331,6 +1331,17 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether {@code string} is {@code null} or empty.
+	 * <p>
+	 * @param string the {@link String} to test
+	 * <p>
+	 * @return {@code true} if {@code string} is {@code null} or empty, {@code false} otherwise
+	 */
+	public static boolean isNullOrEmpty(final String string) {
+		return string == null || string.length() == 0;
+	}
+
+	/**
 	 * Tests whether {@code string} is not {@code null} and empty.
 	 * <p>
 	 * @param string the {@link String} to test
@@ -1365,9 +1376,9 @@ public class Strings {
 			return false;
 		}
 		final NumberFormat formatter = NumberFormat.getInstance();
-		final ParsePosition pos = new ParsePosition(0);
-		formatter.parse(string, pos);
-		return string.length() == pos.getIndex();
+		final ParsePosition position = new ParsePosition(0);
+		formatter.parse(string, position);
+		return string.length() == position.getIndex();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
