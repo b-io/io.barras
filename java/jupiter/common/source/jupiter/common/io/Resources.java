@@ -42,16 +42,69 @@ public class Resources {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Closes the specified {@link Closeable}.
+	 * <p>
+	 * @param closeable a {@link Closeable}
+	 * <p>
+	 * @return {@code true} if the resource is closed, {@code false} otherwise
+	 */
 	public static boolean close(final Closeable closeable) {
 		return close(closeable, null);
 	}
 
-	public static boolean close(final Closeable closable, final String message) {
-		if (closable != null) {
+	/**
+	 * Closes the specified {@link Closeable}, or prints a warning message if it is {@code null}.
+	 * <p>
+	 * @param closeable a {@link Closeable}
+	 * @param message   a warning message
+	 * <p>
+	 * @return {@code true} if the resource is closed, {@code false} otherwise
+	 */
+	public static boolean close(final Closeable closeable, final String message) {
+		if (closeable != null) {
 			try {
-				closable.close();
+				closeable.close();
 				return true;
 			} catch (final IOException ex) {
+				IO.error(ex);
+			}
+		} else if (message != null) {
+			IO.warn(message);
+		}
+		return false;
+	}
+
+	/**
+	 * Closes the specified {@link AutoCloseable}.
+	 * <p>
+	 * @param closeable an {@link AutoCloseable}
+	 * <p>
+	 * @return {@code true} if the resource is closed, {@code false} otherwise
+	 * <p>
+	 * @since 1.7
+	 */
+	public static boolean close(final AutoCloseable closeable) {
+		return close(closeable, null);
+	}
+
+	/**
+	 * Closes the specified {@link AutoCloseable}, or prints a warning message if it is
+	 * {@code null}.
+	 * <p>
+	 * @param closeable an {@link AutoCloseable}
+	 * @param message   a warning message
+	 * <p>
+	 * @return {@code true} if the resource is closed, {@code false} otherwise
+	 * <p>
+	 * @since 1.7
+	 */
+	public static boolean close(final AutoCloseable closeable, final String message) {
+		if (closeable != null) {
+			try {
+				closeable.close();
+				return true;
+			} catch (final Exception ex) {
 				IO.error(ex);
 			}
 		} else if (message != null) {
