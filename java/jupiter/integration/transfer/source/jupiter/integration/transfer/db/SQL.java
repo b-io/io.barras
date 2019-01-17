@@ -27,6 +27,7 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 import jupiter.common.math.Numbers;
@@ -47,18 +48,20 @@ public class SQL {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Object convert(final Class<?> c, final String string) {
-		if (isNull(string)) {
+	public static Object convert(final Class<?> c, final String value) {
+		if (isNull(value)) {
 			return null;
 		}
 		if (Boolean.class.isAssignableFrom(c)) {
-			return Integers.convert(string) == 1;
+			return Integers.convert(value) == 1;
 		} else if (Numbers.isNumber(c)) {
-			return Numbers.toNumber(c, string);
+			return Numbers.toNumber(c, value);
 		} else if (String.class.isAssignableFrom(c)) {
-			return string;
+			return value;
+		} else if (Time.class.isAssignableFrom(c)) {
+			return Time.valueOf(value);
 		} else if (Timestamp.class.isAssignableFrom(c)) {
-			return Timestamp.valueOf(string);
+			return Timestamp.valueOf(value);
 		}
 		throw new IllegalArgumentException("Unknown class: " + c);
 	}
@@ -68,7 +71,7 @@ public class SQL {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedList<DBRow> getRows(final CallableStatement statement)
+	public static ExtendedList<GenericRow> getRows(final CallableStatement statement)
 			throws SQLException {
 		// Get the result of the query
 		final ResultSet resultSet = statement.executeQuery();
@@ -80,13 +83,13 @@ public class SQL {
 			header[i - 1] = metaData.getColumnName(i);
 		}
 		// Store and return the rows
-		final ExtendedList<DBRow> rows = new ExtendedList<DBRow>();
+		final ExtendedList<GenericRow> rows = new ExtendedList<GenericRow>();
 		while (resultSet.next()) {
 			final Object[] values = new Object[n];
 			for (int i = 0; i < n; ++i) {
 				values[i] = resultSet.getObject(header[i]);
 			}
-			rows.add(new DBRow(header, values));
+			rows.add(new GenericRow(header, values));
 		}
 		return rows;
 	}
