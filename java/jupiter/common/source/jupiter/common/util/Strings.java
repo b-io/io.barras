@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
 import jupiter.common.map.wrapper.StringWrapper;
@@ -229,6 +230,8 @@ public class Strings {
 		return joinWith(collection, EMPTY);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter}.
@@ -277,14 +280,68 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param <T>       the type of the array to join
+	 * @param array     an array of type {@code T}
+	 * @param delimiter a {@code char} value
+	 * @param wrapper   an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 */
+	public static <T> String joinWith(final T[] array, final char delimiter,
+			final ObjectToStringMapper wrapper) {
+		return joinWith(array, toString(delimiter), wrapper);
+	}
+
+	/**
+	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param <T>       the type of the array to join
+	 * @param array     an array of type {@code T}
+	 * @param delimiter a {@link String}
+	 * @param wrapper   an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 */
+	public static <T> String joinWith(final T[] array, final String delimiter,
+			final ObjectToStringMapper wrapper) {
+		// Check the arguments
+		Arguments.requireNonNull(array);
+
+		// Initialize
+		final int length = array.length;
+		int i = 0;
+		final StringBuilder builder = createBuilder(array.length * delimiter.length());
+
+		// Join the array
+		if (length > 0) {
+			builder.append(toString(array[i]));
+			++i;
+			while (i < length) {
+				builder.append(delimiter).append(wrapper.call(array[i]));
+				++i;
+			}
+		}
+		return builder.toString();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * joined by {@code delimiter}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to join
 	 * @param collection a {@link Collection} of type {@code T}
 	 * @param delimiter  a {@code char} value
 	 * <p>
 	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 *         joined by {@code delimiter}
 	 */
 	public static <T> String joinWith(final Collection<T> collection, final char delimiter) {
 		return joinWith(collection, toString(delimiter));
@@ -314,6 +371,54 @@ public class Strings {
 			builder.append(iterator.next());
 			while (iterator.hasNext()) {
 				builder.append(delimiter).append(toString(iterator.next()));
+			}
+		}
+		return builder.toString();
+	}
+
+	/**
+	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to join
+	 * @param collection a {@link Collection} of type {@code T}
+	 * @param delimiter  a {@code char} value
+	 * @param wrapper    an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
+	 */
+	public static <T> String joinWith(final Collection<T> collection, final char delimiter,
+			final ObjectToStringMapper wrapper) {
+		return joinWith(collection, toString(delimiter), wrapper);
+	}
+
+	/**
+	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to join
+	 * @param collection a {@link Collection} of type {@code T}
+	 * @param delimiter  a {@link String}
+	 * @param wrapper    an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
+	 */
+	public static <T> String joinWith(final Collection<T> collection, final String delimiter,
+			final ObjectToStringMapper wrapper) {
+		// Check the arguments
+		Arguments.requireNonNull(collection);
+
+		// Initialize
+		final StringBuilder builder = createBuilder(collection.size() * delimiter.length());
+		final Iterator<T> iterator = collection.iterator();
+
+		// Join the collection
+		if (iterator.hasNext()) {
+			builder.append(iterator.next());
+			while (iterator.hasNext()) {
+				builder.append(delimiter).append(wrapper.call(iterator.next()));
 			}
 		}
 		return builder.toString();
@@ -360,6 +465,46 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the escaped {@link String} representation of the specified unescaped content (i.e.
+	 * without traces of offending characters that can prevent parsing).
+	 * <p>
+	 * @param content an {@link Object}
+	 * <p>
+	 * @return the escaped {@link String} representation of the specified unescaped content (i.e.
+	 *         without traces of offending characters that can prevent parsing)
+	 */
+	public static String escape(final Object content) {
+		return toString(content).replaceAll("\\\\", "\\\\\\\\")
+				.replaceAll("\"", "\\\\\"")
+				.replaceAll("\b", "\\\\b")
+				.replaceAll("\f", "\\\\f")
+				.replaceAll("\n", "\\\\n")
+				.replaceAll("\r", "\\\\r")
+				.replaceAll("\t", "\\\\t");
+	}
+
+	/**
+	 * Returns the unescaped {@link String} representation of the specified escaped content (i.e.
+	 * with traces of offending characters that can prevent parsing).
+	 * <p>
+	 * @param content an {@link Object}
+	 * <p>
+	 * @return the unescaped {@link String} representation of the specified escaped content (i.e.
+	 *         with traces of offending characters that can prevent parsing)
+	 */
+	public static String unescape(final Object content) {
+		return toString(content).replaceAll("\\\\t", "\t")
+				.replaceAll("\\\\r", "\r")
+				.replaceAll("\\\\n", "\n")
+				.replaceAll("\\\\f", "\f")
+				.replaceAll("\\\\b", "\b")
+				.replaceAll("\\\\\"", "\"")
+				.replaceAll("\\\\\\\\", "\\\\");
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

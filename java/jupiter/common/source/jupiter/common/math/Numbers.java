@@ -71,19 +71,19 @@ public class Numbers {
 		if (string == null) {
 			return null;
 		}
-		if (c.isAssignableFrom(Byte.class)) {
+		if (Byte.class.isAssignableFrom(c)) {
 			return Byte.valueOf(string);
-		} else if (c.isAssignableFrom(Short.class)) {
+		} else if (Short.class.isAssignableFrom(c)) {
 			return Short.valueOf(string);
-		} else if (c.isAssignableFrom(Integer.class)) {
+		} else if (Integer.class.isAssignableFrom(c)) {
 			return Integer.valueOf(string);
-		} else if (c.isAssignableFrom(Long.class)) {
+		} else if (Long.class.isAssignableFrom(c)) {
 			return Long.valueOf(string);
-		} else if (c.isAssignableFrom(Float.class)) {
+		} else if (Float.class.isAssignableFrom(c)) {
 			return Float.valueOf(string);
-		} else if (c.isAssignableFrom(Double.class)) {
+		} else if (Double.class.isAssignableFrom(c)) {
 			return Double.valueOf(string);
-		} else if (c.isAssignableFrom(BigDecimal.class)) {
+		} else if (BigDecimal.class.isAssignableFrom(c)) {
 			return new BigDecimal(string);
 		}
 		throw new IllegalOperationException(

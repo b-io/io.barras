@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
@@ -338,21 +339,33 @@ public class Arrays {
 
 	/**
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
-	 * {@code delimiter} (and wrapped with parentheses if {@code useParentheses}).
+	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>            the type of the array to convert
-	 * @param array          an array of type {@code T}
-	 * @param delimiter      a {@link String}
-	 * @param useParentheses the flag specifying whether to use parentheses
+	 * @param <T>       the type of the array to convert
+	 * @param array     an array of type {@code T}
+	 * @param delimiter a {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T} joined by
-	 *         {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
+	 *         {@code delimiter}
+	 */
+	public static <T> String toString(final T[] array, final String delimiter) {
+		return Strings.parenthesize(Strings.joinWith(array, delimiter));
+	}
+
+	/**
+	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param <T>       the type of the array to convert
+	 * @param array     an array of type {@code T}
+	 * @param delimiter a {@link String}
+	 * @param wrapper   an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static <T> String toString(final T[] array, final String delimiter,
-			final boolean useParentheses) {
-		if (useParentheses) {
-			return Strings.parenthesize(Strings.joinWith(array, delimiter));
-		}
-		return Strings.joinWith(array, delimiter);
+			final ObjectToStringMapper wrapper) {
+		return Strings.parenthesize(Strings.joinWith(array, delimiter, wrapper));
 	}
 }

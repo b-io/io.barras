@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.DoubleParser;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedList;
@@ -657,19 +658,35 @@ public class Doubles {
 
 	/**
 	 * Returns a {@link String} representation of the specified array of {@code double} values
-	 * joined by {@code delimiter} (and wrapped with parentheses if {@code useParentheses}).
+	 * joined by {@code delimiter}.
 	 * <p>
-	 * @param array          an array of {@code double} values
-	 * @param delimiter      a {@link String}
-	 * @param useParentheses the flag specifying whether to use parentheses
+	 * @param array     an array of {@code double} values
+	 * @param delimiter a {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code double} values
-	 *         joined by {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
+	 *         joined by {@code delimiter}
+	 */
+	public static String toString(final double[] array, final String delimiter) {
+		return Arrays.toString(toArray(array), delimiter);
+	}
+
+	/**
+	 * Returns a {@link String} representation of the specified array of {@code double} values
+	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param array     an array of {@code double} values
+	 * @param delimiter a {@link String}
+	 * @param wrapper   an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a {@link String} representation of the specified array of {@code double} values
+	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final double[] array, final String delimiter,
-			final boolean useParentheses) {
-		return Arrays.toString(toArray(array), delimiter, useParentheses);
+			final ObjectToStringMapper wrapper) {
+		return Arrays.toString(toArray(array), delimiter, wrapper);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@link String} representation of the specified array of {@link Double}.
@@ -684,17 +701,31 @@ public class Doubles {
 
 	/**
 	 * Returns a {@link String} representation of the specified array of {@link Double} joined by
-	 * {@code delimiter} (and wrapped with parentheses if {@code useParentheses}).
+	 * {@code delimiter}.
 	 * <p>
-	 * @param array          an array of {@link Double}
-	 * @param delimiter      a {@link String}
-	 * @param useParentheses the flag specifying whether to use parentheses
+	 * @param array     an array of {@link Double}
+	 * @param delimiter a {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Double} joined by
-	 *         {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
+	 *         {@code delimiter}
+	 */
+	public static String toString(final Double[] array, final String delimiter) {
+		return Arrays.toString(array, delimiter);
+	}
+
+	/**
+	 * Returns a {@link String} representation of the specified array of {@link Double} joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param array     an array of {@link Double}
+	 * @param delimiter a {@link String}
+	 * @param wrapper   an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a {@link String} representation of the specified array of {@link Double} joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Double[] array, final String delimiter,
-			final boolean useParentheses) {
-		return Arrays.toString(array, delimiter, useParentheses);
+			final ObjectToStringMapper wrapper) {
+		return Arrays.toString(array, delimiter, wrapper);
 	}
 }

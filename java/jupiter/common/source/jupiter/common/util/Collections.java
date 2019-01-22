@@ -25,6 +25,8 @@ package jupiter.common.util;
 
 import java.util.Collection;
 
+import jupiter.common.map.ObjectToStringMapper;
+
 public class Collections {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,26 +76,38 @@ public class Collections {
 	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
 	 */
 	public static <T> String toString(final Collection<T> collection) {
-		return Strings.parenthesize(Strings.joinWith(collection, DEFAULT_DELIMITER));
+		return Strings.bracketize(Strings.joinWith(collection, DEFAULT_DELIMITER));
 	}
 
 	/**
 	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
-	 * joined by {@code delimiter} (and wrapped with parentheses if {@code useParentheses}).
+	 * joined by {@code delimiter}.
 	 * <p>
-	 * @param <T>            the type of the {@link Collection} to convert
-	 * @param collection     a {@link Collection} of type {@code T}
-	 * @param delimiter      a {@link String}
-	 * @param useParentheses the flag specifying whether to use parentheses
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * @param delimiter  a {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
-	 *         joined by {@code delimiter} (and wrapped with parentheses if {@code useParentheses})
+	 *         joined by {@code delimiter}
+	 */
+	public static <T> String toString(final Collection<T> collection, final String delimiter) {
+		return Strings.bracketize(Strings.joinWith(collection, delimiter));
+	}
+
+	/**
+	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * @param delimiter  a {@link String}
+	 * @param wrapper    an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static <T> String toString(final Collection<T> collection, final String delimiter,
-			final boolean useParentheses) {
-		if (useParentheses) {
-			return Strings.parenthesize(Strings.joinWith(collection, delimiter));
-		}
-		return Strings.joinWith(collection, delimiter);
+			final ObjectToStringMapper wrapper) {
+		return Strings.bracketize(Strings.joinWith(collection, delimiter, wrapper));
 	}
 }
