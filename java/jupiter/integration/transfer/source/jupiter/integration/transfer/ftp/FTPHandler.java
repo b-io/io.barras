@@ -171,6 +171,8 @@ public class FTPHandler {
 	 * Download the specified files from the specified FTP with the specified parameters and returns
 	 * the number of downloaded files.
 	 * <p>
+	 * @return the number of downloaded files
+	 * <p>
 	 * @since 1.6
 	 */
 	protected int downloadFTP() {
