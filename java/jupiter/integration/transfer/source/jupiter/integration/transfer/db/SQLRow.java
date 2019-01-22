@@ -123,22 +123,22 @@ public abstract class SQLRow {
 				try {
 					final String columnName = getColumnName(field.getName());
 					final Class<?> c = field.getType();
-					if (c.isAssignableFrom(BigDecimal.class)) {
+					if (BigDecimal.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getBigDecimal(columnName));
-					} else if (c.isAssignableFrom(boolean.class) ||
-							c.isAssignableFrom(Boolean.class)) {
+					} else if (boolean.class.isAssignableFrom(c) ||
+							Boolean.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getBoolean(columnName));
-					} else if (c.isAssignableFrom(double.class) ||
-							c.isAssignableFrom(Double.class)) {
+					} else if (double.class.isAssignableFrom(c) ||
+							Double.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getDouble(columnName));
-					} else if (c.isAssignableFrom(int.class) ||
-							c.isAssignableFrom(Integer.class)) {
+					} else if (int.class.isAssignableFrom(c) ||
+							Integer.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getInt(columnName));
-					} else if (c.isAssignableFrom(String.class)) {
+					} else if (String.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getString(columnName));
-					} else if (c.isAssignableFrom(Time.class)) {
+					} else if (Time.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getTime(columnName));
-					} else if (c.isAssignableFrom(Timestamp.class)) {
+					} else if (Timestamp.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getTimestamp(columnName));
 					} else {
 						IO.error("Unhandled field class: ", Strings.quote(c));

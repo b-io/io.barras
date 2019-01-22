@@ -24,10 +24,14 @@
 package jupiter.integration.transfer.web;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 
+import jupiter.common.util.Collections;
 import jupiter.common.util.Strings;
 
 public class Web {
+
+	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
 
 	/**
 	 * Returns a JSON {@link String} representation of the specified {@link Object}.
@@ -46,10 +50,11 @@ public class Web {
 				builder.append(Strings.doubleQuote(field.getName()));
 				builder.append(':');
 				try {
-					if (field.getType().isAssignableFrom(String.class)) {
-						builder.append(Strings.doubleQuote(field.get(content)));
+					if (Collection.class.isAssignableFrom(field.getType())) {
+						builder.append(Collections.toString((Collection<?>) field.get(content),
+								Collections.DEFAULT_DELIMITER, JSON_WRAPPER));
 					} else {
-						builder.append(field.get(content));
+						builder.append(JSON_WRAPPER.call(field.get(content)));
 					}
 				} catch (final IllegalAccessException ignored) {
 				}
