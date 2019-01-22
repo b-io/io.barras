@@ -44,7 +44,7 @@ public class JSONWrapper
 
 	@Override
 	public String call(final Object input) {
-		if (Strings.is(input.getClass())) {
+		if (input != null && Strings.is(input.getClass())) {
 			return Strings.doubleQuote(Strings.escape(input));
 		}
 		return Strings.toString(input);
