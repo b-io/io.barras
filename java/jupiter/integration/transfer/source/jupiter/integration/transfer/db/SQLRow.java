@@ -38,6 +38,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import jupiter.common.io.Resources;
+import jupiter.common.util.Booleans;
+import jupiter.common.util.Doubles;
+import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
 import jupiter.integration.transfer.web.Web;
 
@@ -125,16 +128,13 @@ public abstract class SQLRow {
 					final Class<?> c = field.getType();
 					if (BigDecimal.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getBigDecimal(columnName));
-					} else if (boolean.class.isAssignableFrom(c) ||
-							Boolean.class.isAssignableFrom(c)) {
+					} else if (Booleans.is(c)) {
 						field.set(this, resultSet.getBoolean(columnName));
-					} else if (double.class.isAssignableFrom(c) ||
-							Double.class.isAssignableFrom(c)) {
+					} else if (Doubles.is(c)) {
 						field.set(this, resultSet.getDouble(columnName));
-					} else if (int.class.isAssignableFrom(c) ||
-							Integer.class.isAssignableFrom(c)) {
+					} else if (Integers.is(c)) {
 						field.set(this, resultSet.getInt(columnName));
-					} else if (String.class.isAssignableFrom(c)) {
+					} else if (Strings.is(c)) {
 						field.set(this, resultSet.getString(columnName));
 					} else if (Time.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getTime(columnName));

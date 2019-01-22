@@ -21,19 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.transfer.web;
+package jupiter.common.map.parser;
 
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.util.Strings;
+import jupiter.common.map.ObjectToBooleanMapper;
 
-public class JSONWrapper
-		extends ObjectToStringMapper {
+/**
+ * {@link BooleanParser} is a map operator parsing an {@link Object} to a {@link Boolean}.
+ */
+public class BooleanParser
+		extends ObjectToBooleanMapper
+		implements Parser<Boolean> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public JSONWrapper() {
+	public BooleanParser() {
 		super();
 	}
 
@@ -43,11 +46,35 @@ public class JSONWrapper
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public String call(final Object input) {
-		if (Strings.is(input.getClass())) {
-			return Strings.doubleQuote(Strings.escape(input));
+	public Boolean call(final Object input) {
+		if (input == null) {
+			return null;
 		}
-		return Strings.toString(input);
+		if (input instanceof Boolean) {
+			return (Boolean) input;
+		}
+		return null;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSER
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Boolean parse(final Object input) {
+		return call(input);
+	}
+
+	public Boolean[] parseToArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	public Boolean[][] parseToArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	public Boolean[][][] parseToArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
 	}
 
 
@@ -56,7 +83,7 @@ public class JSONWrapper
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public JSONWrapper clone() {
-		return new JSONWrapper();
+	public BooleanParser clone() {
+		return new BooleanParser();
 	}
 }

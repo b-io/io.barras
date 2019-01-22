@@ -21,42 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.transfer.web;
+package jupiter.common.map;
 
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.util.Strings;
+import java.util.Collection;
 
-public class JSONWrapper
-		extends ObjectToStringMapper {
+/**
+ * {@link ObjectToBooleanMapper} is an operator mapping an {@link Object} to a {@link Boolean}.
+ */
+public abstract class ObjectToBooleanMapper
+		extends ObjectMapper<Boolean> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public JSONWrapper() {
-		super();
+	protected ObjectToBooleanMapper() {
+		super(Boolean.class);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public String call(final Object input) {
-		if (Strings.is(input.getClass())) {
-			return Strings.doubleQuote(Strings.escape(input));
+	public <I> boolean callToPrimitive(final I input) {
+		return call(input);
+	}
+
+	public <I> boolean[] callToPrimitiveArray(final I... input) {
+		final boolean[] result = new boolean[input.length];
+		for (int i = 0; i < input.length; ++i) {
+			result[i] = call(input[i]);
 		}
-		return Strings.toString(input);
+		return result;
 	}
 
+	public <I> boolean[][] callToPrimitiveArray2D(final I[]... input2D) {
+		final boolean[][] result = new boolean[input2D.length][];
+		for (int i = 0; i < input2D.length; ++i) {
+			result[i] = callToPrimitiveArray(input2D[i]);
+		}
+		return result;
+	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	public <I> boolean[][][] callToPrimitiveArray3D(final I[][]... input3D) {
+		final boolean[][][] result = new boolean[input3D.length][][];
+		for (int i = 0; i < input3D.length; ++i) {
+			result[i] = callToPrimitiveArray2D(input3D[i]);
+		}
+		return result;
+	}
 
-	@Override
-	public JSONWrapper clone() {
-		return new JSONWrapper();
+	public <I> boolean[] callCollectionToPrimitiveArray(final Collection<I> input) {
+		final boolean[] result = new boolean[input.size()];
+		int i = 0;
+		for (final I element : input) {
+			result[i] = call(element);
+			++i;
+		}
+		return result;
 	}
 }

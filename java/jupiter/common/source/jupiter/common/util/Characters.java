@@ -446,7 +446,7 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void fill(final char[] array, final char value) {
-		for (char i = 0; i < array.length; ++i) {
+		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
 	}
@@ -545,6 +545,21 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@code char} value or a
+	 * {@link Character}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code char} value or
+	 *         a {@link Character}, {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return char.class.isAssignableFrom(c) || Character.class.isAssignableFrom(c);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

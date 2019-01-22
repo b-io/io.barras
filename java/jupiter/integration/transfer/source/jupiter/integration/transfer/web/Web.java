@@ -50,7 +50,7 @@ public class Web {
 				builder.append(Strings.doubleQuote(field.getName()));
 				builder.append(':');
 				try {
-					if (Collection.class.isAssignableFrom(field.getType())) {
+					if (Collections.is(field.getType())) {
 						builder.append(Collections.toString((Collection<?>) field.get(content),
 								Collections.DEFAULT_DELIMITER, JSON_WRAPPER));
 					} else {

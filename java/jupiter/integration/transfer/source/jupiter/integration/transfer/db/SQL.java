@@ -32,7 +32,9 @@ import java.sql.Timestamp;
 
 import jupiter.common.math.Numbers;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.util.Booleans;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Strings;
 
 public class SQL {
 
@@ -52,11 +54,11 @@ public class SQL {
 		if (isNull(value)) {
 			return null;
 		}
-		if (Boolean.class.isAssignableFrom(c)) {
+		if (Booleans.is(c)) {
 			return Integers.convert(value) == 1;
-		} else if (Numbers.isNumber(c)) {
+		} else if (Numbers.is(c)) {
 			return Numbers.toNumber(c, value);
-		} else if (String.class.isAssignableFrom(c)) {
+		} else if (Strings.is(c)) {
 			return value;
 		} else if (Time.class.isAssignableFrom(c)) {
 			return Time.valueOf(value);

@@ -1476,6 +1476,20 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@link String}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link String},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return String.class.isAssignableFrom(c);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests whether {@code string} is {@code null} or empty.
 	 * <p>
 	 * @param string the {@link String} to test

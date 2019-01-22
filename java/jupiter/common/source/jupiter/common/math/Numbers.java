@@ -27,6 +27,9 @@ import java.math.BigDecimal;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Floats;
+import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
 import jupiter.common.util.Strings;
 
 public class Numbers {
@@ -75,19 +78,52 @@ public class Numbers {
 			return Byte.valueOf(string);
 		} else if (Short.class.isAssignableFrom(c)) {
 			return Short.valueOf(string);
-		} else if (Integer.class.isAssignableFrom(c)) {
+		} else if (Integers.is(c)) {
 			return Integer.valueOf(string);
-		} else if (Long.class.isAssignableFrom(c)) {
+		} else if (Longs.is(c)) {
 			return Long.valueOf(string);
-		} else if (Float.class.isAssignableFrom(c)) {
+		} else if (Floats.is(c)) {
 			return Float.valueOf(string);
-		} else if (Double.class.isAssignableFrom(c)) {
+		} else if (Doubles.is(c)) {
 			return Double.valueOf(string);
 		} else if (BigDecimal.class.isAssignableFrom(c)) {
 			return new BigDecimal(string);
 		}
 		throw new IllegalOperationException(
 				"Cannot convert " + Strings.quote(string) + " to a " + c.getSimpleName());
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@link Number}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Number},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return Number.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether {@code string} is a parsable {@link Number}.
+	 * <p>
+	 * @param string the {@link String} to test
+	 * <p>
+	 * @return {@code true} if {@code string} is a parsable {@link Number}, {@code false} otherwise
+	 */
+	public static boolean is(final String string) {
+		try {
+			Double.parseDouble(string);
+		} catch (final NumberFormatException ignored) {
+			return false;
+		}
+		return true;
 	}
 
 
@@ -202,39 +238,6 @@ public class Numbers {
 	 */
 	public static <T extends Number> T getMax(final T a, final T b) {
 		return compare(a, b) >= 0 ? a : b;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether the specified {@link Class} is assignable to a {@link Number}.
-	 * <p>
-	 * @param c the {@link Class} to test
-	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Number},
-	 *         {@code false} otherwise
-	 */
-	public static boolean isNumber(final Class<?> c) {
-		return Number.class.isAssignableFrom(c);
-	}
-
-	/**
-	 * Tests whether {@code string} is a parsable {@link Number}.
-	 * <p>
-	 * @param string the {@link String} to test
-	 * <p>
-	 * @return {@code true} if {@code string} is a parsable {@link Number}, {@code false} otherwise
-	 */
-	public static boolean isNumber(final String string) {
-		try {
-			Double.parseDouble(string);
-		} catch (final NumberFormatException ignored) {
-			return false;
-		}
-		return true;
 	}
 
 
