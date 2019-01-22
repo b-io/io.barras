@@ -25,6 +25,7 @@ package jupiter.integration.transfer.db;
 
 import static jupiter.common.io.IO.IO;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -43,10 +44,30 @@ import jupiter.integration.transfer.web.Web;
 public abstract class SQLRow {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected final Constructor<? extends SQLRow> constructor;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link SQLRow} with the specified {@link ResultSet}.
+	 * <p>
+	 * @param resultSet the {@link ResultSet} whose cursor is pointing to the row of data to load
+	 * <p>
+	 * @throws NoSuchMethodException if the child constructor does not exist
+	 */
 	protected SQLRow(final ResultSet resultSet) {
+		try {
+			constructor = getClass().getConstructor(ResultSet.class);
+		} catch (final NoSuchMethodException ex) {
+			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ", getClass()
+					.getSimpleName(), " found: ", ex.getMessage());
+		}
 		load(resultSet);
 	}
 
@@ -69,8 +90,6 @@ public abstract class SQLRow {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected abstract SQLRow create(final ResultSet resultSet);
-
 	public List<SQLRow> request(final Connection connection, final String query) {
 		final List<SQLRow> result = new LinkedList<SQLRow>();
 		CallableStatement statement = null;
@@ -78,9 +97,9 @@ public abstract class SQLRow {
 			statement = connection.prepareCall(query);
 			final ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				result.add(create(resultSet));
+				result.add(constructor.newInstance(resultSet));
 			}
-		} catch (final SQLException ex) {
+		} catch (final Exception ex) {
 			IO.error(ex);
 		} finally {
 			Resources.autoClose(statement);

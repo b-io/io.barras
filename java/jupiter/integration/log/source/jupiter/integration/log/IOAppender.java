@@ -104,7 +104,7 @@ public class IOAppender
 			final File log4j = new File(Files.getPath() + File.separator + fileName);
 			System.setProperty("log4j.configuration", "file:///" + log4j.getCanonicalPath());
 		} catch (final IOException ex) {
-			IO.IO.error(ex.getMessage());
+			IO.IO.error(ex);
 		}
 	}
 
