@@ -25,7 +25,6 @@ package jupiter.math.calculator.process;
 
 import static jupiter.common.io.IO.IO;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -289,7 +288,7 @@ public class Calculator {
 				result = leftEntity.division(rightEntity);
 				break;
 			case POWER:
-				result = leftEntity.power(rightEntity);
+				result = leftEntity.arrayPower(rightEntity);
 				break;
 			case SOLUTION:
 				result = leftEntity.solve(rightEntity);
@@ -327,8 +326,7 @@ public class Calculator {
 		switch (type) {
 			case FACTORIAL:
 				final Scalar scalar = (Scalar) entity;
-				final BigInteger bigInt = Maths.factorial(scalar.intValue());
-				result = new Scalar(bigInt.doubleValue());
+				result = new Scalar(Maths.factorial(scalar.get()));
 				break;
 			case INVERSE:
 				result = entity.inverse();

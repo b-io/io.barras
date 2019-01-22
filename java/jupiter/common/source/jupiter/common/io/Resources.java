@@ -84,8 +84,8 @@ public class Resources {
 	 * <p>
 	 * @since 1.7
 	 */
-	public static boolean close(final AutoCloseable closeable) {
-		return close(closeable, null);
+	public static boolean autoClose(final AutoCloseable closeable) {
+		return autoClose(closeable, null);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class Resources {
 	 * <p>
 	 * @since 1.7
 	 */
-	public static boolean close(final AutoCloseable closeable, final String message) {
+	public static boolean autoClose(final AutoCloseable closeable, final String message) {
 		if (closeable != null) {
 			try {
 				closeable.close();
