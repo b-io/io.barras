@@ -1615,26 +1615,26 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code String} representation of the specified {@link Object} if not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns the {@code String} representation of the specified content if not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param content an {@link Object}
 	 * <p>
-	 * @return the {@code String} representation of the specified {@link Object} if not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return the {@code String} representation of the specified content if not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String toString(final Object content) {
 		return String.valueOf(content);
 	}
 
 	/**
-	 * Returns the {@code String} representation of the specified {@link Object} if not {@code null}
-	 * or {@code "null"}, {@code null} otherwise.
+	 * Returns the {@code String} representation of the specified content if not {@code null} or
+	 * {@code "null"}, {@code null} otherwise.
 	 * <p>
 	 * @param content an {@link Object}
 	 * <p>
-	 * @return the {@code String} representation of the specified {@link Object} if not {@code null}
-	 *         or {@code "null"}, {@code null} otherwise
+	 * @return the {@code String} representation of the specified content if not {@code null} or
+	 *         {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object content) {
 		final String value = String.valueOf(content);
@@ -1645,28 +1645,28 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@code String} representation of the specified {@link Object} if not
-	 * {@code null}, {@code defaultString} otherwise.
+	 * Returns the {@code String} representation of the specified content if not {@code null},
+	 * {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the {@code String} representation of the specified {@link Object} if not
-	 *         {@code null}, {@code defaultString} otherwise
+	 * @return the {@code String} representation of the specified content if not {@code null},
+	 *         {@code defaultString} otherwise
 	 */
 	public static String toString(final Object content, final String defaultString) {
 		return content != null ? String.valueOf(content) : defaultString;
 	}
 
 	/**
-	 * Returns the {@code String} representation of the specified {@link Object} if not {@code null}
-	 * or {@code "null"}, {@code defaultString} otherwise.
+	 * Returns the {@code String} representation of the specified content if not {@code null} or
+	 * {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the {@code String} representation of the specified {@link Object} if not {@code null}
-	 *         or {@code "null"}, {@code defaultString} otherwise
+	 * @return the {@code String} representation of the specified content if not {@code null} or
+	 *         {@code "null"}, {@code defaultString} otherwise
 	 */
 	public static String toStringWithNull(final Object content, final String defaultString) {
 		final String value = String.valueOf(content);

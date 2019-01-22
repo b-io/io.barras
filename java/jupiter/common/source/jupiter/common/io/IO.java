@@ -440,7 +440,7 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified exception with the IO handlers indicating the severity level
+	 * Prints the specified {@link Exception} with the IO handlers indicating the severity level
 	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param exception the {@link Exception} to print
@@ -458,8 +458,8 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content and exception with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#WARNING}.
+	 * Prints the specified content and {@link Exception} with the IO handlers indicating the
+	 * severity level {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param content   the {@link Object} to print
 	 * @param exception the {@link Exception} to print
@@ -496,7 +496,7 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified exception with the IO handlers indicating the severity level
+	 * Prints the specified {@link Exception} with the IO handlers indicating the severity level
 	 * {@link SeverityLevel#ERROR}.
 	 * <p>
 	 * @param exception the {@link Exception} to print
@@ -514,8 +514,8 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content and exception with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#ERROR}.
+	 * Prints the specified content and {@link Exception} with the IO handlers indicating the
+	 * severity level {@link SeverityLevel#ERROR}.
 	 * <p>
 	 * @param content   the {@link Object} to print
 	 * @param exception the {@link Exception} to print
@@ -553,7 +553,7 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified exception with the IO handlers indicating the severity level
+	 * Prints the specified {@link Exception} with the IO handlers indicating the severity level
 	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param exception the {@link Exception} to print
@@ -572,8 +572,8 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content and exception with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#FAILURE}.
+	 * Prints the specified content and {@link Exception} with the IO handlers indicating the
+	 * severity level {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param content   the {@link Object} to print
 	 * @param exception the {@link Exception} to print

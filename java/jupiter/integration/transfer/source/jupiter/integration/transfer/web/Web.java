@@ -34,11 +34,11 @@ public class Web {
 	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
 
 	/**
-	 * Returns a JSON {@link String} representation of the specified {@link Object}.
+	 * Returns a JSON {@link String} representation of the specified content.
 	 * <p>
 	 * @param content the {@link Object} to represent as a JSON {@link String}
 	 * <p>
-	 * @return a JSON {@link String} representation of the specified {@link Object}
+	 * @return a JSON {@link String} representation of the specified content
 	 */
 	public static String jsonify(final Object content) {
 		final StringBuilder builder = Strings.createBuilder();

@@ -75,7 +75,7 @@ public abstract class Appender
 	}
 
 	/**
-	 * Writes the specified object in the log indicating the severity level
+	 * Writes the specified content in the log indicating the severity level
 	 * {@link IO.SeverityLevel#TRACE}.
 	 * <p>
 	 * @param content the {@link Object} to print
@@ -83,7 +83,7 @@ public abstract class Appender
 	public abstract void trace(final Object content);
 
 	/**
-	 * Writes the specified object in the log indicating the severity level
+	 * Writes the specified content in the log indicating the severity level
 	 * {@link IO.SeverityLevel#DEBUG}.
 	 * <p>
 	 * @param content the {@link Object} to print
@@ -91,7 +91,7 @@ public abstract class Appender
 	public abstract void debug(final Object content);
 
 	/**
-	 * Writes the specified object in the log indicating the severity level
+	 * Writes the specified content in the log indicating the severity level
 	 * {@link IO.SeverityLevel#TEST}.
 	 * <p>
 	 * @param content the {@link Object} to print
@@ -99,7 +99,7 @@ public abstract class Appender
 	public abstract void test(final Object content);
 
 	/**
-	 * Writes the specified object in the log indicating the severity level
+	 * Writes the specified content in the log indicating the severity level
 	 * {@link IO.SeverityLevel#INFO}.
 	 * <p>
 	 * @param content the {@link Object} to print
@@ -107,7 +107,7 @@ public abstract class Appender
 	public abstract void info(final Object content);
 
 	/**
-	 * Writes the specified object in the log indicating the severity level
+	 * Writes the specified content in the log indicating the severity level
 	 * {@link IO.SeverityLevel#RESULT}.
 	 * <p>
 	 * @param content the {@link Object} to print
@@ -115,7 +115,7 @@ public abstract class Appender
 	public abstract void result(final Object content);
 
 	/**
-	 * Writes the specified object in the log indicating the severity level
+	 * Writes the specified content in the log indicating the severity level
 	 * {@link IO.SeverityLevel#WARNING}.
 	 * <p>
 	 * @param content the {@link Object} to print
@@ -123,7 +123,7 @@ public abstract class Appender
 	public abstract void warn(final Object content);
 
 	/**
-	 * Writes the specified object in the log indicating the severity level
+	 * Writes the specified {@link Exception} in the log indicating the severity level
 	 * {@link IO.SeverityLevel#ERROR}.
 	 * <p>
 	 * @param exception the {@link Exception} to print
@@ -131,7 +131,7 @@ public abstract class Appender
 	public abstract void error(final Exception exception);
 
 	/**
-	 * Prints the specified object in the console and writes it in the error log indicating the
+	 * Prints the specified content in the console and writes it in the error log indicating the
 	 * severity level {@link IO.SeverityLevel#ERROR}.
 	 * <p>
 	 * @param content the {@link Object} to print
@@ -139,15 +139,15 @@ public abstract class Appender
 	public abstract void error(final Object content);
 
 	/**
-	 * Prints the message of the specified exception in the console and writes it in the error log
-	 * indicating the severity level {@link IO.SeverityLevel#FAILURE}.
+	 * Prints the message of the specified {@link Exception} in the console and writes it in the
+	 * error log indicating the severity level {@link IO.SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param exception the {@link Exception} to print
 	 */
 	public abstract void fail(final Exception exception);
 
 	/**
-	 * Prints the specified object in the console and writes it in the error log indicating the
+	 * Prints the specified content in the console and writes it in the error log indicating the
 	 * severity level {@link IO.SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param content the {@link Object} to print
