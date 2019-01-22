@@ -320,7 +320,7 @@ public class Strings {
 
 		// Join the array
 		if (length > 0) {
-			builder.append(toString(array[i]));
+			builder.append(wrapper.call(array[i]));
 			++i;
 			while (i < length) {
 				builder.append(delimiter).append(wrapper.call(array[i]));
@@ -416,7 +416,7 @@ public class Strings {
 
 		// Join the collection
 		if (iterator.hasNext()) {
-			builder.append(iterator.next());
+			builder.append(wrapper.call(iterator.next()));
 			while (iterator.hasNext()) {
 				builder.append(delimiter).append(wrapper.call(iterator.next()));
 			}
