@@ -45,7 +45,7 @@ public class JSONWrapper
 
 	@Override
 	public String call(final Object input) {
-		if (Numbers.isNumber(input.getClass())) {
+		if (input == null || Numbers.isNumber(input.getClass())) {
 			return Strings.toString(input);
 		}
 		return Strings.doubleQuote(Strings.escape(input));
