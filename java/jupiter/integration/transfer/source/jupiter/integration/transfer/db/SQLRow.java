@@ -58,8 +58,6 @@ public abstract class SQLRow {
 	 * Constructs a {@link SQLRow} with the specified {@link ResultSet}.
 	 * <p>
 	 * @param resultSet the {@link ResultSet} whose cursor is pointing to the row of data to load
-	 * <p>
-	 * @throws NoSuchMethodException if the child constructor does not exist
 	 */
 	protected SQLRow(final ResultSet resultSet) {
 		constructor = null;
