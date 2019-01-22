@@ -69,7 +69,7 @@ public abstract class SQLRow {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected abstract SQLRow createInstance(final ResultSet resultSet);
+	protected abstract SQLRow create(final ResultSet resultSet);
 
 	public List<SQLRow> request(final Connection connection, final String query) {
 		final List<SQLRow> result = new LinkedList<SQLRow>();
@@ -78,7 +78,7 @@ public abstract class SQLRow {
 			statement = connection.prepareCall(query);
 			final ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				result.add(createInstance(resultSet));
+				result.add(create(resultSet));
 			}
 		} catch (final SQLException ex) {
 			IO.error(ex);
