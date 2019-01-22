@@ -71,7 +71,7 @@ public class SQL {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedList<GenericRow> getRows(final CallableStatement statement)
+	public static ExtendedList<SQLGenericRow> getRows(final CallableStatement statement)
 			throws SQLException {
 		// Get the result of the query
 		final ResultSet resultSet = statement.executeQuery();
@@ -83,13 +83,13 @@ public class SQL {
 			header[i - 1] = metaData.getColumnName(i);
 		}
 		// Store and return the rows
-		final ExtendedList<GenericRow> rows = new ExtendedList<GenericRow>();
+		final ExtendedList<SQLGenericRow> rows = new ExtendedList<SQLGenericRow>();
 		while (resultSet.next()) {
 			final Object[] values = new Object[n];
 			for (int i = 0; i < n; ++i) {
 				values[i] = resultSet.getObject(header[i]);
 			}
-			rows.add(new GenericRow(header, values));
+			rows.add(new SQLGenericRow(header, values));
 		}
 		return rows;
 	}

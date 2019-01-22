@@ -27,26 +27,32 @@ import static jupiter.common.io.IO.IO;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
+import jupiter.common.io.Resources;
 
 import jupiter.common.util.Strings;
 import jupiter.integration.transfer.web.Web;
 
-public abstract class Row {
+public abstract class SQLRow {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected Row() {
+	protected SQLRow(final ResultSet resultSet) {
+		load(resultSet);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SQL
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -57,6 +63,35 @@ public abstract class Row {
 	 * @return the database column name from the specified field name
 	 */
 	protected abstract String getColumnName(final String fieldName);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected abstract SQLRow createInstance(final ResultSet resultSet);
+
+	public List<SQLRow> request(final Connection connection, final String query) {
+		final List<SQLRow> result = new LinkedList<SQLRow>();
+		CallableStatement statement = null;
+		try {
+			statement = connection.prepareCall(query);
+			final ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				result.add(createInstance(resultSet));
+			}
+		} catch (final SQLException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.autoClose(statement);
+		}
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void load(final ResultSet resultSet) {
 		if (resultSet != null) {

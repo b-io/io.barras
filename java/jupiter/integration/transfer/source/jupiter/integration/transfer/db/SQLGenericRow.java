@@ -26,7 +26,7 @@ package jupiter.integration.transfer.db;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
-public class GenericRow {
+public class SQLGenericRow {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -40,7 +40,7 @@ public class GenericRow {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public GenericRow(final String[] header, final Object[] values) {
+	public SQLGenericRow(final String[] header, final Object[] values) {
 		this.header = header;
 		this.values = values;
 	}
