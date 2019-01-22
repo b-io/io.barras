@@ -47,7 +47,7 @@ public abstract class SQLRow {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final Constructor<? extends SQLRow> constructor;
+	protected Constructor<? extends SQLRow> constructor;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +62,7 @@ public abstract class SQLRow {
 	 * @throws NoSuchMethodException if the child constructor does not exist
 	 */
 	protected SQLRow(final ResultSet resultSet) {
+		constructor = null;
 		try {
 			constructor = getClass().getConstructor(ResultSet.class);
 		} catch (final NoSuchMethodException ex) {
@@ -92,17 +93,22 @@ public abstract class SQLRow {
 
 	public List<SQLRow> request(final Connection connection, final String query) {
 		final List<SQLRow> result = new LinkedList<SQLRow>();
-		CallableStatement statement = null;
-		try {
-			statement = connection.prepareCall(query);
-			final ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				result.add(constructor.newInstance(resultSet));
+		if (constructor != null) {
+			CallableStatement statement = null;
+			try {
+				statement = connection.prepareCall(query);
+				final ResultSet resultSet = statement.executeQuery();
+				while (resultSet.next()) {
+					result.add(constructor.newInstance(resultSet));
+				}
+			} catch (final Exception ex) {
+				IO.error(ex);
+			} finally {
+				Resources.autoClose(statement);
 			}
-		} catch (final Exception ex) {
-			IO.error(ex);
-		} finally {
-			Resources.autoClose(statement);
+		} else {
+			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ", getClass()
+					.getSimpleName(), " found");
 		}
 		return result;
 	}
