@@ -182,7 +182,7 @@ public class SQL {
 		CallableStatement statement = null;
 		try {
 			statement = connection.prepareCall(query);
-			return statement.executeUpdate(query);
+			return statement.executeUpdate();
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
