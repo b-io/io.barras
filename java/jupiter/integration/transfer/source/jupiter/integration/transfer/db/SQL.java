@@ -45,6 +45,13 @@ import jupiter.common.util.Strings;
 public class SQL {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final String NULL = "NULL";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,11 +86,11 @@ public class SQL {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedList<SQLGenericRow> request(final Connection connection,
+	public static ExtendedList<SQLGenericRow> execute(final Connection connection,
 			final String query) {
 		CallableStatement statement = null;
 		try {
-			return request(connection.prepareCall(query));
+			return execute(connection.prepareCall(query));
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
@@ -92,7 +99,7 @@ public class SQL {
 		return new ExtendedList<SQLGenericRow>();
 	}
 
-	public static ExtendedList<SQLGenericRow> request(final CallableStatement statement)
+	public static ExtendedList<SQLGenericRow> execute(final CallableStatement statement)
 			throws SQLException {
 		// Get the result of the query
 		final ResultSet resultSet = statement.executeQuery();
@@ -117,11 +124,11 @@ public class SQL {
 
 	//////////////////////////////////////////////
 
-	public static <T extends SQLRow> ExtendedList<T> request(final Connection connection,
+	public static <T extends SQLRow> ExtendedList<T> execute(final Connection connection,
 			final String query, final Class<T> c) {
 		CallableStatement statement = null;
 		try {
-			return request(connection.prepareCall(query), c);
+			return execute(connection.prepareCall(query), c);
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
@@ -130,7 +137,7 @@ public class SQL {
 		return new ExtendedList<T>();
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> request(final CallableStatement statement,
+	public static <T extends SQLRow> ExtendedList<T> execute(final CallableStatement statement,
 			final Class<T> c)
 			throws SQLException {
 		final ExtendedList<T> rows = new ExtendedList<T>();
@@ -190,10 +197,10 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean isNull(final Object object) {
-		return object == null || object.toString().equals("NULL");
+		return object == null || NULL.equals(object.toString());
 	}
 
 	public static boolean isNull(final String string) {
-		return string == null || string.equals("NULL");
+		return string == null || NULL.equals(string);
 	}
 }
