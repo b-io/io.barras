@@ -109,7 +109,7 @@ public abstract class SQLRow {
 					} else if (Timestamp.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getTimestamp(columnName));
 					} else {
-						IO.error("Unhandled field class: ", Strings.quote(c));
+						IO.warn("Unhandled field class: ", Strings.quote(c));
 					}
 				} catch (final IllegalAccessException ignored) {
 				} catch (final IllegalArgumentException ex) {
