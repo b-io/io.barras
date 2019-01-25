@@ -23,13 +23,19 @@
  */
 package jupiter.integration.transfer.db;
 
+import static jupiter.common.io.IO.IO;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+import jupiter.common.io.Resources;
 import jupiter.common.math.Numbers;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Booleans;
@@ -73,7 +79,20 @@ public class SQL {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedList<SQLGenericRow> getRows(final CallableStatement statement)
+	public static ExtendedList<SQLGenericRow> request(final Connection connection,
+			final String query) {
+		CallableStatement statement = null;
+		try {
+			return request(connection.prepareCall(query));
+		} catch (final SQLException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.autoClose(statement);
+		}
+		return new ExtendedList<SQLGenericRow>();
+	}
+
+	public static ExtendedList<SQLGenericRow> request(final CallableStatement statement)
 			throws SQLException {
 		// Get the result of the query
 		final ResultSet resultSet = statement.executeQuery();
@@ -94,6 +113,75 @@ public class SQL {
 			rows.add(new SQLGenericRow(header, values));
 		}
 		return rows;
+	}
+
+	//////////////////////////////////////////////
+
+	public static <T extends SQLRow> ExtendedList<T> request(final Connection connection,
+			final String query, final Class<T> c) {
+		CallableStatement statement = null;
+		try {
+			return request(connection.prepareCall(query), c);
+		} catch (final SQLException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.autoClose(statement);
+		}
+		return new ExtendedList<T>();
+	}
+
+	public static <T extends SQLRow> ExtendedList<T> request(final CallableStatement statement,
+			final Class<T> c)
+			throws SQLException {
+		final ExtendedList<T> rows = new ExtendedList<T>();
+		try {
+			final Constructor<T> constructor = c.getConstructor(ResultSet.class);
+			final ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				rows.add(constructor.newInstance(resultSet));
+			}
+		} catch (final IllegalAccessException ex) {
+			IO.error(ex);
+		} catch (final IllegalArgumentException ex) {
+			IO.error(ex);
+		} catch (final InstantiationException ex) {
+			IO.error(ex);
+		} catch (final InvocationTargetException ex) {
+			IO.error(ex);
+		} catch (final NoSuchMethodException ex) {
+			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ", c
+					.getSimpleName(), " found: ", ex.getMessage());
+		} catch (final SecurityException ex) {
+			IO.error(ex);
+		}
+		return rows;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns either the row count for SQL Data Manipulation Language (DML) statements, {@code 0}
+	 * for SQL statements that return nothing, or {@code -1} if there is a problem.
+	 * <p>
+	 * @param connection a {@link Connection} (session) with a specific database
+	 * @param query      a SQL Data Manipulation Language (DML) statement, such as {@code INSERT},
+	 *                   {@code UPDATE} or {@code DELETE}; or an SQL statement that returns nothing,
+	 *                   such as a DDL statement
+	 * <p>
+	 * @return either the row count for SQL Data Manipulation Language (DML) statements, {@code 0}
+	 *         for SQL statements that return nothing, or {@code -1} if there is a problem
+	 */
+	public static int update(final Connection connection, final String query) {
+		CallableStatement statement = null;
+		try {
+			statement = connection.prepareCall(query);
+			return statement.executeUpdate(query);
+		} catch (final SQLException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.autoClose(statement);
+		}
+		return -1;
 	}
 
 

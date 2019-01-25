@@ -28,16 +28,11 @@ import static jupiter.common.io.IO.IO;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.LinkedList;
-import java.util.List;
 
-import jupiter.common.io.Resources;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
@@ -86,33 +81,6 @@ public abstract class SQLRow {
 	 * @return the database column name from the specified field name
 	 */
 	protected abstract String getColumnName(final String fieldName);
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public List<SQLRow> request(final Connection connection, final String query) {
-		final List<SQLRow> result = new LinkedList<SQLRow>();
-		if (constructor != null) {
-			CallableStatement statement = null;
-			try {
-				statement = connection.prepareCall(query);
-				final ResultSet resultSet = statement.executeQuery();
-				while (resultSet.next()) {
-					result.add(constructor.newInstance(resultSet));
-				}
-			} catch (final Exception ex) {
-				IO.error(ex);
-			} finally {
-				Resources.autoClose(statement);
-			}
-		} else {
-			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ", getClass()
-					.getSimpleName(), " found");
-		}
-		return result;
-	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
