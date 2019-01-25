@@ -29,9 +29,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -165,6 +167,33 @@ public class SQL {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns either any auto-generated keys created as a result of executing the specified SQL
+	 * Data Manipulation Language (DML) statement, or {@code -1} if there is a problem.
+	 * <p>
+	 * @param connection a {@link Connection} (session) with a specific database
+	 * @param query      a SQL Data Manipulation Language (DML) {@code INSERT} statement
+	 * <p>
+	 * @return either any auto-generated keys created as a result of executing the specified SQL
+	 *         Data Manipulation Language (DML) statement, or {@code -1} if there is a problem
+	 */
+	public static long insert(final Connection connection, final String query) {
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			statement.executeUpdate();
+			final ResultSet rs = statement.getGeneratedKeys();
+			if (rs.next()) {
+				return rs.getLong(1);
+			}
+		} catch (final SQLException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.autoClose(statement);
+		}
+		return -1;
+	}
 
 	/**
 	 * Returns either the row count for SQL Data Manipulation Language (DML) statements, {@code 0}
