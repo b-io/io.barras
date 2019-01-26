@@ -42,6 +42,17 @@ public class WorkQueueTest
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Test of constants, of class WorkQueue.
+	 */
+	public void testConstants() {
+		IO.test("constants");
+
+		assertTrue(WorkQueue.MIN_THREADS <= WorkQueue.MAX_THREADS);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	protected double test(final WorkQueue<Integer, Integer> workQueue, final int taskCount) {
 		// Initialize
 		workQueue.initWorkers();

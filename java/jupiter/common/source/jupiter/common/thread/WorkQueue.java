@@ -318,7 +318,17 @@ public class WorkQueue<I, O> {
 	 * Shutdowns {@code this}.
 	 */
 	public void shutdown() {
-		IO.debug("Shutdown the ", getClass().getSimpleName());
+		IO.debug("Shutdown the work queue ", this);
 		isRunning = false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " of type " + type.getSimpleName();
 	}
 }

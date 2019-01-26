@@ -43,7 +43,7 @@ public class FairWorkQueueTest
 		IO.test("addTask");
 
 		// Initialize
-		final int testCount = 100;
+		final int testCount = 10;
 		final int taskCount = 10000;
 		final double[] testTimes = new double[testCount];
 

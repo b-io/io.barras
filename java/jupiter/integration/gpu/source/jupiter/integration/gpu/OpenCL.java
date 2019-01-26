@@ -227,7 +227,7 @@ public abstract class OpenCL {
 
 	@Override
 	protected void finalize() {
-		IO.debug(getClass().getSimpleName(), " is finalized");
+		IO.debug(this, " is finalized");
 		try {
 			release();
 		} finally {
@@ -236,5 +236,10 @@ public abstract class OpenCL {
 			} catch (final Throwable ignored) {
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
 	}
 }

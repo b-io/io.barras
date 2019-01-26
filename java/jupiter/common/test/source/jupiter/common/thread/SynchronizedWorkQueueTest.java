@@ -43,13 +43,14 @@ public class SynchronizedWorkQueueTest
 		IO.test("addTask");
 
 		// Initialize
-		final int testCount = 100;
+		final int testCount = 10;
 		final int taskCount = 10000;
 		final double[] testTimes = new double[testCount];
 
 		// Test
 		for (int i = 0; i < testCount; ++i) {
-			testTimes[i] = test(new SynchronizedWorkQueue<Integer, Integer>(new SimpleWorker()), taskCount);
+			testTimes[i] = test(new SynchronizedWorkQueue<Integer, Integer>(new SimpleWorker()),
+					taskCount);
 		}
 		Tests.printTimes(testTimes);
 	}

@@ -43,7 +43,7 @@ import jupiter.common.struct.table.Table;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
-import jupiter.common.thread.FairWorkQueue;
+import jupiter.common.thread.SynchronizedWorkQueue;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Characters;
@@ -1196,11 +1196,11 @@ public class Matrix
 
 		// Initialize
 		if (WORK_QUEUE == null) {
-			WORK_QUEUE = new FairWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
+			WORK_QUEUE = new SynchronizedWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
 					new DotProduct());
 			PARALLELIZE = true;
 		} else {
-			IO.warn("The ", WORK_QUEUE.getClass().getSimpleName(), " has already started");
+			IO.warn("The work queue ", WORK_QUEUE, " has already started");
 		}
 	}
 
@@ -1557,7 +1557,7 @@ public class Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (PARALLELIZE) {
 			// Initialize
-			final int intervalCount = Math.min(m, WORK_QUEUE.getWorkerCount());
+			final int intervalCount = Math.min(m, WorkQueue.MAX_THREADS);
 			final int rowCountPerInterval = m / intervalCount;
 			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
 			final List<Long> ids = new ArrayList<Long>(intervalCount);
