@@ -165,7 +165,7 @@ public class WorkQueue<I, O> {
 		if (workerToCreateCount <= 0) {
 			return 0;
 		}
-		return createWorkers(workerToCreateCount);
+		return createWorkers(Math.min(workerToCreateCount, MAX_THREADS - workerCount));
 	}
 
 	/**

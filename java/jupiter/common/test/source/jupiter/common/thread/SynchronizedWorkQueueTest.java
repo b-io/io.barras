@@ -44,7 +44,7 @@ public class SynchronizedWorkQueueTest
 
 		// Initialize
 		final int testCount = 100;
-		final int taskCount = 100000;
+		final int taskCount = 10000;
 		final double[] testTimes = new double[testCount];
 
 		// Test

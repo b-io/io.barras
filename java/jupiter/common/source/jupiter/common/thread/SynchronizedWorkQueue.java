@@ -52,9 +52,8 @@ public class SynchronizedWorkQueue<I, O>
 	@Override
 	public boolean reserveWorkers(final int n) {
 		synchronized (workers) {
-			super.reserveWorkers(n);
+			return super.reserveWorkers(n);
 		}
-		return false;
 	}
 
 	/**

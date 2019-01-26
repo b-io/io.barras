@@ -43,9 +43,8 @@ public class WorkQueueTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected double test(final WorkQueue<Integer, Integer> workQueue, final int taskCount) {
-		IO.test("There are ", workQueue.getAvailableWorkerCount(), " available workers");
-
 		// Initialize
+		workQueue.initWorkers();
 		final Chronometer chrono = new Chronometer();
 
 		// Process the tasks
