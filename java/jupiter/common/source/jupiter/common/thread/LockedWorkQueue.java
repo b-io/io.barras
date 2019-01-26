@@ -60,16 +60,21 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the non-fairness policy.
+	 * Constructs a {@code LockedWorkQueue} with the specified model of the workers to handle and
+	 * the non-fairness policy.
+	 * <p>
+	 * @param model the model of the workers to handle
 	 */
 	public LockedWorkQueue(final Worker<I, O> model) {
 		this(model, false);
 	}
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the specified fairness policy.
+	 * Constructs a {@code LockedWorkQueue} with the specified model of the workers to handle and
+	 * the specified fairness policy.
 	 * <p>
-	 * @param fair the flag specifying whether to use a fair ordering policy
+	 * @param model the model of the workers to handle
+	 * @param fair  the flag specifying whether to use a fair ordering policy
 	 */
 	public LockedWorkQueue(final Worker<I, O> model, final boolean fair) {
 		super(model);

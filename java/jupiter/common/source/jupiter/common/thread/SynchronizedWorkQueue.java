@@ -33,6 +33,11 @@ public class SynchronizedWorkQueue<I, O>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@code SynchronizedWorkQueue} with the specified model of the workers to handle.
+	 * <p>
+	 * @param model the model of the workers to handle
+	 */
 	public SynchronizedWorkQueue(final Worker<I, O> model) {
 		super(model);
 	}
