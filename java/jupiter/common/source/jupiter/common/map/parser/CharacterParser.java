@@ -31,7 +31,7 @@ import jupiter.common.util.Strings;
  */
 public class CharacterParser
 		extends ObjectToCharacterMapper
-		implements Parser<Character> {
+		implements IParser<Character> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS

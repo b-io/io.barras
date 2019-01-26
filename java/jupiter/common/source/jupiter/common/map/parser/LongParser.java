@@ -33,7 +33,7 @@ import jupiter.common.util.Strings;
  */
 public class LongParser
 		extends ObjectToLongMapper
-		implements Parser<Long> {
+		implements IParser<Long> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -65,7 +65,7 @@ public class LongParser
 		}
 		try {
 			return Long.valueOf(value);
-		} catch (NumberFormatException ignored) {
+		} catch (final NumberFormatException ignored) {
 			IO.error("Cannot convert ", Strings.quote(input), " to a ", c.getSimpleName());
 		}
 		return null;

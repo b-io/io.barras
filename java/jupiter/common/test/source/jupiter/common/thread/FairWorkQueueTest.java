@@ -25,16 +25,10 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import jupiter.common.test.Test;
-import jupiter.common.time.Chronometer;
+import jupiter.common.test.Tests;
 
 public class FairWorkQueueTest
-		extends Test {
+		extends WorkQueueTest {
 
 	public FairWorkQueueTest(final String name) {
 		super(name);
@@ -49,31 +43,14 @@ public class FairWorkQueueTest
 		IO.test("addTask");
 
 		// Initialize
+		final int testCount = 100;
 		final int taskCount = 100000;
-		final Chronometer chrono = new Chronometer();
-
-		// Create a work queue
-		final IWorkQueue<Integer, Integer> workQueue = new FairWorkQueue<Integer, Integer>(
-				new SimpleWorker());
-		workQueue.reserveWorkers(FairWorkQueue.MAX_THREADS);
-		IO.test("There are ", FairWorkQueue.MAX_THREADS, " working threads");
-
-		// Process the tasks
-		chrono.start();
-		final List<Long> ids = new ArrayList<Long>(taskCount);
-		for (int i = 0; i < taskCount; ++i) {
-			ids.add(workQueue.submit(i));
-		}
-		final Set<Integer> results = new HashSet<Integer>(ids.size());
-		for (final long id : ids) {
-			results.add(workQueue.get(id));
-		}
-		chrono.stop();
-		IO.test(chrono.getMilliseconds(), " [ms]");
+		final double[] testTimes = new double[testCount];
 
 		// Test
-		for (int i = 0; i < taskCount; ++i) {
-			assertTrue(results.contains(i));
+		for (int i = 0; i < testCount; ++i) {
+			testTimes[i] = test(new FairWorkQueue<Integer, Integer>(new SimpleWorker()), taskCount);
 		}
+		Tests.printTimes(testTimes);
 	}
 }

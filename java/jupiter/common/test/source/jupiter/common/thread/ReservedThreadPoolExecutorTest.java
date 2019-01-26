@@ -57,7 +57,7 @@ public class ReservedThreadPoolExecutorTest
 
 		// Create a work queue
 		final ReservedThreadPoolExecutor queue = new ReservedThreadPoolExecutor();
-		IO.test("There are ", queue.getMaxPoolSize(), " working threads");
+		IO.test("There are ", queue.getMaxPoolSize(), " workers");
 
 		// Process the tasks
 		chrono.start();

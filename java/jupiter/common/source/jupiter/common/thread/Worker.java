@@ -31,6 +31,12 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.util.Strings;
 
+/**
+ * Working thread.
+ * <p>
+ * @param <I> the input type
+ * @param <O> the output type
+ */
 public abstract class Worker<I, O>
 		extends Thread
 		implements Callable<O>, ICloneable<Worker<I, O>> {
@@ -43,7 +49,7 @@ public abstract class Worker<I, O>
 
 	protected final long id;
 	protected volatile I input;
-	protected volatile IWorkQueue<I, O> workQueue;
+	protected volatile WorkQueue<I, O> workQueue;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,9 +84,9 @@ public abstract class Worker<I, O>
 	/**
 	 * Sets the work queue.
 	 * <p>
-	 * @param workQueue an {@link IWorkQueue} of type {@code I} and {@code O}
+	 * @param workQueue an {@link WorkQueue} of type {@code I} and {@code O}
 	 */
-	public void setWorkQueue(final IWorkQueue<I, O> workQueue) {
+	public void setWorkQueue(final WorkQueue<I, O> workQueue) {
 		this.workQueue = workQueue;
 	}
 
@@ -102,10 +108,9 @@ public abstract class Worker<I, O>
 
 	@Override
 	public void run() {
-		IO.debug("The working thread ", id, " has started");
-		Pair<Long, I> task;
+		IO.debug("The worker ", this, " has started");
 		while (true) {
-			task = workQueue.getNextTask();
+			final Pair<Long, I> task = workQueue.getNextTask();
 			if (workQueue.isRunning()) {
 				O output;
 				try {
@@ -132,7 +137,7 @@ public abstract class Worker<I, O>
 
 	@Override
 	protected void finalize() {
-		IO.debug(getClass().getSimpleName(), " ", id, " is finalized");
+		IO.debug(this, " is finalized");
 		try {
 			super.finalize();
 		} catch (final Throwable ignored) {

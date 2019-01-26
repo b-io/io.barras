@@ -25,7 +25,7 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parser;
+import jupiter.common.map.parser.IParser;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Numbers;
 import jupiter.common.math.Statistics;
@@ -102,13 +102,13 @@ public class NumberTable<T extends Number>
 	/**
 	 * Constructs a {@link NumberTable} of type {@code T} imported from the specified file.
 	 * <p>
-	 * @param parser    a {@link Parser} of type {@code T}
+	 * @param parser    a {@link IParser} of type {@code T}
 	 * @param pathName  the path name of the file to import
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public NumberTable(final Parser<T> parser, final String pathName, final boolean hasHeader)
+	public NumberTable(final IParser<T> parser, final String pathName, final boolean hasHeader)
 			throws IOException {
 		super(parser, pathName, hasHeader);
 	}

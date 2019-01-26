@@ -33,7 +33,7 @@ import jupiter.common.util.Strings;
  */
 public class FloatParser
 		extends ObjectToFloatMapper
-		implements Parser<Float> {
+		implements IParser<Float> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -65,7 +65,7 @@ public class FloatParser
 		}
 		try {
 			return Float.valueOf(value);
-		} catch (NumberFormatException ignored) {
+		} catch (final NumberFormatException ignored) {
 			IO.error("Cannot convert ", Strings.quote(input), " to a ", c.getSimpleName());
 		}
 		return null;

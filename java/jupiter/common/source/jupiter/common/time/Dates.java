@@ -176,7 +176,7 @@ public class Dates {
 			}
 			// - Increment the current day
 			start.add(Calendar.DAY_OF_MONTH, 1);
-			// - Update the public holidays if necessary
+			// - Update the public holidays if required
 			if (year != start.get(Calendar.YEAR)) {
 				year = start.get(Calendar.YEAR);
 				publicHolidays = getSwissPublicHolidays(year);

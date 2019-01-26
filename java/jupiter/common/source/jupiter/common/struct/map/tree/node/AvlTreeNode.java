@@ -82,7 +82,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the parent and updates the parents if necessary.
+	 * Sets the parent and updates the parents if required.
 	 * <p>
 	 * @param parentNode an {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
@@ -94,7 +94,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Sets the left node and updates the parents if necessary.
+	 * Sets the left node and updates the parents if required.
 	 * <p>
 	 * @param leftNode an {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
@@ -111,7 +111,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Sets the right node and updates the parents if necessary.
+	 * Sets the right node and updates the parents if required.
 	 * <p>
 	 * @param rightNode an {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */

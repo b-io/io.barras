@@ -30,7 +30,7 @@ import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.FloatParser;
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedList;
 
@@ -43,7 +43,7 @@ public class Floats {
 	public static final float[] EMPTY_PRIMITIVE_ARRAY = new float[] {};
 	public static final Float[] EMPTY_ARRAY = new Float[] {};
 
-	protected static final FloatParser PARSER = Parsers.FLOAT_PARSER;
+	protected static final FloatParser PARSER = IParsers.FLOAT_PARSER;
 
 	public static volatile Random RANDOM = new Random();
 

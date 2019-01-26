@@ -30,7 +30,7 @@ import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.CharacterParser;
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.struct.list.ExtendedList;
 
 public class Characters {
@@ -42,7 +42,7 @@ public class Characters {
 	public static final char[] EMPTY_PRIMITIVE_ARRAY = new char[] {};
 	public static final Character[] EMPTY_ARRAY = new Character[] {};
 
-	protected static final CharacterParser PARSER = Parsers.CHARACTER_PARSER;
+	protected static final CharacterParser PARSER = IParsers.CHARACTER_PARSER;
 
 	public static volatile Random RANDOM = new Random();
 

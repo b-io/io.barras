@@ -68,8 +68,7 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Message(final Object content) {
-		this(Type.OUTPUT, SeverityLevel.INFO, content,
-				DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+		this(Type.OUTPUT, SeverityLevel.INFO, content, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	public Message(final Object content, final int stackIndex) {

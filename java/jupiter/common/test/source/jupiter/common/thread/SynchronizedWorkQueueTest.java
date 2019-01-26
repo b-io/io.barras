@@ -21,22 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.map.parser;
+package jupiter.common.thread;
 
-/**
- * {@link Parser} is a map operator parsing an {@link Object} to an {@code O} object.
- * <p>
- * @param <O> the output type
- */
-public interface Parser<O> {
+import static jupiter.common.io.IO.IO;
 
-	public O parse(final Object input);
+import jupiter.common.test.Tests;
 
-	public O[] parseToArray(final Object... input);
+public class SynchronizedWorkQueueTest
+		extends WorkQueueTest {
 
-	public O[][] parseToArray2D(final Object[]... input2D);
+	public SynchronizedWorkQueueTest(final String name) {
+		super(name);
+	}
 
-	public O[][][] parseToArray3D(final Object[][]... input3D);
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Class<O> getOutputClass();
+	/**
+	 * Test of addTask method, of class SynchronizedWorkQueue.
+	 */
+	public void testAddTask() {
+		IO.test("addTask");
+
+		// Initialize
+		final int testCount = 100;
+		final int taskCount = 100000;
+		final double[] testTimes = new double[testCount];
+
+		// Test
+		for (int i = 0; i < testCount; ++i) {
+			testTimes[i] = test(new SynchronizedWorkQueue<Integer, Integer>(new SimpleWorker()), taskCount);
+		}
+		Tests.printTimes(testTimes);
+	}
 }

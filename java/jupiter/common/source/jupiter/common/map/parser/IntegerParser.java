@@ -33,7 +33,7 @@ import jupiter.common.util.Strings;
  */
 public class IntegerParser
 		extends ObjectToIntegerMapper
-		implements Parser<Integer> {
+		implements IParser<Integer> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -65,7 +65,7 @@ public class IntegerParser
 		}
 		try {
 			return Integer.valueOf(value);
-		} catch (NumberFormatException ignored) {
+		} catch (final NumberFormatException ignored) {
 			IO.error("Cannot convert ", Strings.quote(input), " to an ", c.getSimpleName());
 		}
 		return null;

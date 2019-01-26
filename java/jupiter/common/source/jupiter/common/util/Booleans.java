@@ -30,7 +30,7 @@ import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.BooleanParser;
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.struct.list.ExtendedList;
 
 public class Booleans {
@@ -42,7 +42,7 @@ public class Booleans {
 	public static final boolean[] EMPTY_PRIMITIVE_ARRAY = new boolean[] {};
 	public static final Boolean[] EMPTY_ARRAY = new Boolean[] {};
 
-	protected static final BooleanParser PARSER = Parsers.BOOLEAN_PARSER;
+	protected static final BooleanParser PARSER = IParsers.BOOLEAN_PARSER;
 
 	public static volatile Random RANDOM = new Random();
 
@@ -402,7 +402,8 @@ public class Booleans {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
 	}
 
-	public static boolean[] take(final boolean[][][] array3D, final int fromRow, final int rowCount) {
+	public static boolean[] take(final boolean[][][] array3D, final int fromRow,
+			final int rowCount) {
 		return take(array3D, fromRow, rowCount, 0, array3D[0].length, 0, array3D[0][0].length);
 	}
 

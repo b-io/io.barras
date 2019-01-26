@@ -33,7 +33,7 @@ import jupiter.common.util.Strings;
  */
 public class DoubleParser
 		extends ObjectToDoubleMapper
-		implements Parser<Double> {
+		implements IParser<Double> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -65,7 +65,7 @@ public class DoubleParser
 		}
 		try {
 			return Double.valueOf(value);
-		} catch (NumberFormatException ignored) {
+		} catch (final NumberFormatException ignored) {
 			IO.error("Cannot convert ", Strings.quote(input), " to a ", c.getSimpleName());
 		}
 		return null;

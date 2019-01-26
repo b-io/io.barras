@@ -23,73 +23,31 @@
  */
 package jupiter.common.thread;
 
-import static jupiter.common.io.IO.IO;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Stack;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.struct.tuple.Pair;
-import jupiter.common.util.Arrays;
 
 public class FairWorkQueue<I, O>
-		implements IWorkQueue<I, O> {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static volatile int MIN_THREADS = Runtime.getRuntime().availableProcessors();
-	public static volatile int MAX_THREADS = 2 * MIN_THREADS;
-
+		extends WorkQueue<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether {@code this} is running.
-	 */
-	protected volatile boolean isRunning = true;
-
-	/**
-	 * The worker model.
-	 */
-	protected final Worker<I, O> model;
-	/**
-	 * The workers.
-	 */
-	protected final Stack<Worker<I, O>> workers = new Stack<Worker<I, O>>();
-	/**
 	 * The internal lock of the workers.
 	 */
 	protected final Lock workersLock = new ReentrantLock(true);
-	protected volatile int workerCount = 0;
-	protected volatile int reservedWorkerCount = 0;
 
-	/**
-	 * The tasks.
-	 */
-	protected final LinkedList<Pair<Long, I>> tasks = new LinkedList<Pair<Long, I>>();
 	/**
 	 * The internal lock of the tasks.
 	 */
 	protected final Lock tasksLock = new ReentrantLock(true);
 	protected final Condition tasksLockCondition = tasksLock.newCondition();
-	/**
-	 * The current task identifier.
-	 */
-	protected volatile long currentTaskId = 0L;
 
-	/**
-	 * The results.
-	 */
-	protected final Map<Long, O> results = new HashMap<Long, O>(Arrays.DEFAULT_CAPACITY);
 	/**
 	 * The internal lock of the results.
 	 */
@@ -102,108 +60,47 @@ public class FairWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public FairWorkQueue(final Worker<I, O> model) {
-		this.model = model;
-		initWorkers();
+		super(model);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKERS
+	// WORKER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of working threads.
+	 * Reserves n workers.
 	 * <p>
-	 * @return the number of working threads
-	 */
-	public int getWorkerCount() {
-		return workerCount;
-	}
-
-	/**
-	 * Initializes the working threads.
-	 */
-	public void initWorkers() {
-		createWorkers(MIN_THREADS);
-	}
-
-	/**
-	 * Reserves n working threads.
+	 * @param n the number of workers to reserve
 	 * <p>
-	 * @param n the number of working threads to reserve
-	 * <p>
-	 * @return {@code true} if the working threads are reserved, {@code false} otherwise
+	 * @return {@code true} if the workers are reserved, {@code false} otherwise
 	 */
+	@Override
 	public boolean reserveWorkers(final int n) {
 		workersLock.lock();
 		try {
-			IO.debug("Try to reserve ", n, " working threads");
-			if (MAX_THREADS - reservedWorkerCount >= n) {
-				reservedWorkerCount += n;
-				// Create more workers if required
-				final int workerToCreateCount = reservedWorkerCount - workerCount;
-				if (workerToCreateCount > 0) {
-					IO.debug("OK, create ", workerToCreateCount, " more workers (total reserved: ",
-							reservedWorkerCount, ")");
-					return createWorkers(workerToCreateCount) == workerToCreateCount;
-				}
-				IO.debug("OK, the workers are already created (total reserved: ",
-						reservedWorkerCount, ")");
-				return true;
-			}
-			IO.debug("No workers available (total reserved: ", reservedWorkerCount, ")");
+			return super.reserveWorkers(n);
 		} finally {
 			workersLock.unlock();
 		}
-		return false;
 	}
 
 	/**
-	 * Instantiates n working threads according to the model.
+	 * Instantiates a worker according to the model.
 	 * <p>
-	 * @param n the number of working threads to create
+	 * @return the number of created workers
 	 * <p>
-	 * @return the number of created working threads
+	 * @throws IllegalOperationException if the maximum number of workers has been reached
 	 */
-	protected int createWorkers(final int n) {
-		int createdWorkerCount = 0;
-		try {
-			for (int i = 0; i < n; ++i) {
-				createdWorkerCount += createWorker();
-			}
-		} catch (final Exception ex) {
-			IO.error(ex);
-		}
-		return createdWorkerCount;
-	}
-
-	/**
-	 * Instantiates a working thread according to the model.
-	 * <p>
-	 * @return the number of created working threads
-	 * <p>
-	 * @throws Exception if the maximum number of working threads has been reached
-	 */
+	@Override
 	protected int createWorker()
-			throws Exception {
-		int createdWorkerCount = 0;
+			throws IllegalOperationException {
 		workersLock.lock();
 		try {
-			IO.debug("Create the working thread ", workerCount + 1);
-			if (workerCount >= MAX_THREADS) {
-				throw new IllegalOperationException("The maximum number of working threads (" +
-						MAX_THREADS + ") has been reached");
-			}
-			final Worker<I, O> worker = model.clone();
-			worker.setWorkQueue(this);
-			workers.push(worker);
-			++workerCount;
-			++createdWorkerCount;
-			worker.start();
+			return super.createWorker();
 		} finally {
 			workersLock.unlock();
 		}
-		return createdWorkerCount;
 	}
 
 
@@ -218,14 +115,16 @@ public class FairWorkQueue<I, O>
 	 * <p>
 	 * @return the identifier of the added task
 	 */
+	@Override
 	public long submit(final I input) {
+		// Create a worker if required
+		createAvailableWorkers(1);
+		// Add the task
 		tasksLock.lock();
 		try {
-			++currentTaskId;
-			IO.debug("Add the task ", currentTaskId);
-			tasks.add(new Pair<Long, I>(currentTaskId, input));
+			final long taskId = super.submit(input);
 			tasksLockCondition.signal();
-			return currentTaskId;
+			return taskId;
 		} finally {
 			tasksLock.unlock();
 		}
@@ -236,23 +135,20 @@ public class FairWorkQueue<I, O>
 	 * <p>
 	 * @return the next task
 	 */
+	@Override
 	public Pair<Long, I> getNextTask() {
 		tasksLock.lock();
 		try {
-			IO.debug("Get the next task");
 			while (isRunning && tasks.isEmpty()) {
 				try {
 					tasksLockCondition.await();
 				} catch (final InterruptedException ignored) {
 				}
 			}
-			if (isRunning) {
-				return tasks.removeFirst();
-			}
+			return super.getNextTask();
 		} finally {
 			tasksLock.unlock();
 		}
-		return null;
 	}
 
 
@@ -266,20 +162,14 @@ public class FairWorkQueue<I, O>
 	 * @param id     the identifier of the task
 	 * @param result the result of the task
 	 */
+	@Override
 	public void addResult(final long id, final O result) {
 		resultsLock.lock();
 		try {
-			IO.debug("Add the result of the task ", id);
-			results.put(id, result);
+			super.addResult(id, result);
 			resultsLockCondition.signalAll();
 		} finally {
 			resultsLock.unlock();
-		}
-		workersLock.lock();
-		try {
-			--reservedWorkerCount;
-		} finally {
-			workersLock.unlock();
 		}
 	}
 
@@ -290,32 +180,20 @@ public class FairWorkQueue<I, O>
 	 * <p>
 	 * @return the result of the task with the specified identifier
 	 */
+	@Override
 	public O get(final long id) {
 		resultsLock.lock();
 		try {
-			IO.debug("Get the result of the task ", id);
 			while (!results.containsKey(id)) {
 				try {
 					resultsLockCondition.await();
 				} catch (final InterruptedException ignored) {
 				}
 			}
-			return results.remove(id);
+			return super.get(id);
 		} finally {
 			resultsLock.unlock();
 		}
-	}
-
-	/**
-	 * Tests whether the result of the task with the specified identifier is ready.
-	 * <p>
-	 * @param id the identifier of the task
-	 * <p>
-	 * @return {@code true} if the result of the task with the specified identifier is ready,
-	 *         {@code false} otherwise
-	 */
-	public boolean isReady(final long id) {
-		return results.containsKey(id);
 	}
 
 
@@ -324,22 +202,13 @@ public class FairWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code this} is running.
-	 * <p>
-	 * @return {@code true} if {@code this} is running, {@code false} otherwise
-	 */
-	public boolean isRunning() {
-		return isRunning;
-	}
-
-	/**
 	 * Shutdowns {@code this}.
 	 */
+	@Override
 	public void shutdown() {
 		tasksLock.lock();
 		try {
-			IO.debug("Shutdown the ", getClass().getSimpleName());
-			isRunning = false;
+			super.shutdown();
 			tasksLockCondition.signalAll();
 		} finally {
 			tasksLock.unlock();

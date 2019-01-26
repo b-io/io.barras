@@ -182,7 +182,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 				// The new node is the right node of the parent
 				parent.setRight(newNode);
 			}
-			// Balance this tree if necessary
+			// Balance this tree if required
 			balanceAfterInsertion(newNode);
 		}
 		// Increment the number of nodes

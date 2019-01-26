@@ -34,7 +34,7 @@ import java.util.NoSuchElementException;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.io.file.FileHandler;
-import jupiter.common.map.parser.Parser;
+import jupiter.common.map.parser.IParser;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
@@ -182,13 +182,13 @@ public class Table<T>
 	/**
 	 * Constructs a {@link Table} of type {@code T} imported from the specified file.
 	 * <p>
-	 * @param parser    a {@link Parser} of type {@code T}
+	 * @param parser    a {@link IParser} of type {@code T}
 	 * @param pathName  the path name of the file to import
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public Table(final Parser<T> parser, final String pathName, final boolean hasHeader)
+	public Table(final IParser<T> parser, final String pathName, final boolean hasHeader)
 			throws IOException {
 		// Set the attributes
 		this.c = parser.getOutputClass();
@@ -982,13 +982,13 @@ public class Table<T>
 	/**
 	 * Loads the values from the specified file.
 	 * <p>
-	 * @param parser    a {@link Parser} of type {@code T}
+	 * @param parser    a {@link IParser} of type {@code T}
 	 * @param pathName  the path name of the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file
 	 */
-	public void load(final Parser<T> parser, final String pathName, final boolean hasHeader)
+	public void load(final IParser<T> parser, final String pathName, final boolean hasHeader)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(pathName);
 		load(parser, fileHandler.getReader(), fileHandler.countLines(true) - (hasHeader ? 1 : 0),
@@ -998,14 +998,14 @@ public class Table<T>
 	/**
 	 * Loads the values of the specified row length from the specified reader.
 	 * <p>
-	 * @param parser    a {@link Parser} of type {@code T}
+	 * @param parser    a {@link IParser} of type {@code T}
 	 * @param reader    a {@link BufferedReader}
 	 * @param rowCount  the number of lines to load
 	 * @param hasHeader the flag specifying whether the reader has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */
-	public void load(final Parser<T> parser, final BufferedReader reader, final int rowCount,
+	public void load(final IParser<T> parser, final BufferedReader reader, final int rowCount,
 			final boolean hasHeader)
 			throws ClassCastException, IOException {
 		m = rowCount;

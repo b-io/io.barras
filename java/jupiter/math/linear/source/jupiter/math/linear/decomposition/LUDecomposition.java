@@ -122,7 +122,7 @@ public class LUDecomposition
 				}
 				row[j] = column[i] -= s;
 			}
-			// Find the pivot and exchange if necessary
+			// Find the pivot and exchange if required
 			int p = j;
 			for (int i = j + 1; i < m; ++i) {
 				if (Math.abs(column[i]) > Math.abs(column[p])) {

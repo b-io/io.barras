@@ -349,7 +349,8 @@ public class SVM {
 				trainingExampleCount = m;
 				updateProblem();
 				for (int i = 0; i < trainingExampleCount; ++i) {
-					updateClassification(i, Integers.convert(trainingExamples.get(i, classesIndex)));
+					updateClassification(i,
+							Integers.convert(trainingExamples.get(i, classesIndex)));
 					for (int j = 0; j < featureCount; ++j) {
 						updateValue(i, j, Doubles.convert(trainingExamples.get(i, j)));
 					}

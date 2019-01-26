@@ -42,21 +42,11 @@ public class WorkQueueTest
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Test of addTask method, of class WorkQueue.
-	 */
-	public void testAddTask() {
-		IO.test("addTask");
+	protected double test(final WorkQueue<Integer, Integer> workQueue, final int taskCount) {
+		IO.test("There are ", workQueue.getAvailableWorkerCount(), " available workers");
 
 		// Initialize
-		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
-
-		// Create a work queue
-		final IWorkQueue<Integer, Integer> workQueue = new FairWorkQueue<Integer, Integer>(
-				new SimpleWorker());
-		workQueue.reserveWorkers(WorkQueue.MAX_THREADS);
-		IO.test("There are ", WorkQueue.MAX_THREADS, " working threads");
 
 		// Process the tasks
 		chrono.start();
@@ -75,5 +65,7 @@ public class WorkQueueTest
 		for (int i = 0; i < taskCount; ++i) {
 			assertTrue(results.contains(i));
 		}
+
+		return chrono.getMilliseconds();
 	}
 }

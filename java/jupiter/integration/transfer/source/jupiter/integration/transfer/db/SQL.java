@@ -92,7 +92,8 @@ public class SQL {
 			final String query) {
 		CallableStatement statement = null;
 		try {
-			return execute(connection.prepareCall(query));
+			statement = connection.prepareCall(query);
+			return execute(statement);
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
@@ -130,7 +131,8 @@ public class SQL {
 			final String query, final Class<T> c) {
 		CallableStatement statement = null;
 		try {
-			return execute(connection.prepareCall(query), c);
+			statement = connection.prepareCall(query);
+			return execute(statement, c);
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
@@ -158,8 +160,8 @@ public class SQL {
 		} catch (final InvocationTargetException ex) {
 			IO.error(ex);
 		} catch (final NoSuchMethodException ex) {
-			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ", c
-					.getSimpleName(), " found: ", ex.getMessage());
+			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ",
+					c.getSimpleName(), " found: ", ex.getMessage());
 		} catch (final SecurityException ex) {
 			IO.error(ex);
 		}

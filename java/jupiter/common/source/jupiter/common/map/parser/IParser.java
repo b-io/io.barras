@@ -21,11 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.statistics;
+package jupiter.common.map.parser;
 
-public interface Inference {
+/**
+ * {@link IParser} is a map operator parsing an {@link Object} to an {@code O} object.
+ * <p>
+ * @param <O> the output type
+ */
+public interface IParser<O> {
 
-	public void reset();
+	public O parse(final Object input);
 
-	public void updateHypothesesProbabilities(final double value);
+	public O[] parseToArray(final Object... input);
+
+	public O[][] parseToArray2D(final Object[]... input2D);
+
+	public O[][][] parseToArray3D(final Object[][]... input3D);
+
+	public Class<O> getOutputClass();
 }

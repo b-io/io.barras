@@ -25,7 +25,7 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Characters;
 
 /**
@@ -117,7 +117,7 @@ public class CharacterTable
 	 */
 	public CharacterTable(final String pathName, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.CHARACTER_PARSER, pathName, hasHeader);
+		super(IParsers.CHARACTER_PARSER, pathName, hasHeader);
 	}
 
 

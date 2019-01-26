@@ -30,7 +30,7 @@ import jupiter.common.map.ObjectToBooleanMapper;
  */
 public class BooleanParser
 		extends ObjectToBooleanMapper
-		implements Parser<Boolean> {
+		implements IParser<Boolean> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS

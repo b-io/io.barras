@@ -44,7 +44,7 @@ import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
 import jupiter.common.thread.FairWorkQueue;
-import jupiter.common.thread.IWorkQueue;
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Characters;
 import jupiter.common.util.Doubles;
@@ -125,7 +125,7 @@ public class Matrix
 	/**
 	 * The work queue for computing the dot product.
 	 */
-	protected static volatile IWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> WORK_QUEUE = null;
+	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

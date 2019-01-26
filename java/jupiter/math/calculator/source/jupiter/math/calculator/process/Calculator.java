@@ -35,8 +35,8 @@ import jupiter.common.math.Maths;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.thread.FairWorkQueue;
-import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.BinaryOperation;
@@ -63,7 +63,7 @@ public class Calculator {
 	/**
 	 * The work queue for evaluating the elements.
 	 */
-	protected static volatile IWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> WORK_QUEUE = null;
+	protected static volatile WorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +251,7 @@ public class Calculator {
 			// Get the results
 			leftEntityResult = WORK_QUEUE.get(leftId);
 			rightEntityResult = WORK_QUEUE.get(rightId);
+			WORK_QUEUE.freeWorkers(2);
 		} else {
 			// Get the results
 			leftEntityResult = evaluateTree(binaryOperation.getLeft(), context);

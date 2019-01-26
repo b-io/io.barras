@@ -25,7 +25,7 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Integers;
 
 /**
@@ -117,7 +117,7 @@ public class IntegerTable
 	 */
 	public IntegerTable(final String pathName, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.INTEGER_PARSER, pathName, hasHeader);
+		super(IParsers.INTEGER_PARSER, pathName, hasHeader);
 	}
 
 

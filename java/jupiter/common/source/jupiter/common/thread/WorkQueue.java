@@ -34,8 +34,7 @@ import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.util.Arrays;
 
-public class WorkQueue<I, O>
-		implements IWorkQueue<I, O> {
+public class WorkQueue<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -59,10 +58,15 @@ public class WorkQueue<I, O>
 	 */
 	protected final Worker<I, O> model;
 	/**
+	 * The worker type.
+	 */
+	protected final Class<?> type;
+	/**
 	 * The workers.
 	 */
 	protected final Stack<Worker<I, O>> workers = new Stack<Worker<I, O>>();
 	protected volatile int workerCount = 0;
+	protected volatile int availableWorkerCount = 0;
 	protected volatile int reservedWorkerCount = 0;
 
 	/**
@@ -84,67 +88,58 @@ public class WorkQueue<I, O>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public WorkQueue(final Worker<I, O> model) {
+	protected WorkQueue(final Worker<I, O> model) {
 		this.model = model;
-		initWorkers();
+		this.type = model.getClass();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKERS
+	// WORKER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of working threads.
+	 * Returns the type of the workers to handle.
 	 * <p>
-	 * @return the number of working threads
+	 * @return the type of the workers to handle
+	 */
+	public Class<?> getType() {
+		return type;
+	}
+
+	/**
+	 * Returns the number of workers.
+	 * <p>
+	 * @return the number of workers
 	 */
 	public int getWorkerCount() {
 		return workerCount;
 	}
 
 	/**
-	 * Initializes the working threads.
+	 * Returns the number of available workers.
+	 * <p>
+	 * @return the number of available workers
+	 */
+	public int getAvailableWorkerCount() {
+		return availableWorkerCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Initializes the workers.
 	 */
 	public void initWorkers() {
 		createWorkers(MIN_THREADS);
 	}
 
 	/**
-	 * Reserves n working threads.
+	 * Instantiates n workers according to the model.
 	 * <p>
-	 * @param n the number of working threads to reserve
+	 * @param n the number of workers to create
 	 * <p>
-	 * @return {@code true} if the working threads are reserved, {@code false} otherwise
-	 */
-	public boolean reserveWorkers(final int n) {
-		synchronized (workers) {
-			IO.debug("Try to reserve ", n, " working threads");
-			if (MAX_THREADS - reservedWorkerCount >= n) {
-				reservedWorkerCount += n;
-				// Create more workers if required
-				final int workerToCreateCount = reservedWorkerCount - workerCount;
-				if (workerToCreateCount > 0) {
-					IO.debug("OK, create ", workerToCreateCount, " more workers (total reserved: ",
-							reservedWorkerCount, ")");
-					return createWorkers(workerToCreateCount) == workerToCreateCount;
-				}
-				IO.debug("OK, the workers are already created (total reserved: ",
-						reservedWorkerCount, ")");
-				return true;
-			} else {
-				IO.debug("No workers available (total reserved: ", reservedWorkerCount, ")");
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Instantiates n working threads according to the model.
-	 * <p>
-	 * @param n the number of working threads to create
-	 * <p>
-	 * @return the number of created working threads
+	 * @return the number of created workers
 	 */
 	protected int createWorkers(final int n) {
 		int createdWorkerCount = 0;
@@ -152,36 +147,83 @@ public class WorkQueue<I, O>
 			for (int i = 0; i < n; ++i) {
 				createdWorkerCount += createWorker();
 			}
-		} catch (final Exception ex) {
-			IO.fail(ex);
+		} catch (final IllegalOperationException ex) {
+			IO.error(ex);
 		}
 		return createdWorkerCount;
 	}
 
 	/**
-	 * Instantiates a working thread according to the model.
+	 * Instantiates n workers according to the model if required.
 	 * <p>
-	 * @return the number of created working threads
+	 * @param n the number of workers to create if required
 	 * <p>
-	 * @throws Exception if the maximum number of working threads has been reached
+	 * @return the number of created workers
+	 */
+	public int createAvailableWorkers(final int n) {
+		final int workerToCreateCount = n - availableWorkerCount;
+		if (workerToCreateCount <= 0) {
+			return 0;
+		}
+		return createWorkers(workerToCreateCount);
+	}
+
+	/**
+	 * Instantiates a worker according to the model.
+	 * <p>
+	 * @return the number of created workers
+	 * <p>
+	 * @throws IllegalOperationException if the maximum number of workers has been reached
 	 */
 	protected int createWorker()
-			throws Exception {
+			throws IllegalOperationException {
 		int createdWorkerCount = 0;
-		synchronized (workers) {
-			IO.debug("Create the working thread ", workerCount + 1);
-			if (workerCount >= MAX_THREADS) {
-				throw new IllegalOperationException("The maximum number of working threads (" +
-						MAX_THREADS + ") has been reached");
-			}
-			final Worker<I, O> worker = model.clone();
-			worker.setWorkQueue(this);
-			workers.push(worker);
-			++workerCount;
-			++createdWorkerCount;
-			worker.start();
+		if (workerCount >= MAX_THREADS) {
+			throw new IllegalOperationException(
+					"The maximum number of workers (" + MAX_THREADS + ") has been reached");
 		}
+		final Worker<I, O> worker = model.clone();
+		worker.setWorkQueue(this);
+		workers.push(worker);
+		++workerCount;
+		++availableWorkerCount;
+		++createdWorkerCount;
+		IO.debug(workerCount, ") Start the worker ", worker);
+		worker.start();
 		return createdWorkerCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean reserveWorkers(final int n) {
+		IO.debug("Try to reserve ", n, " workers of type ", type);
+		if (MAX_THREADS - reservedWorkerCount >= n) {
+			// Reserve the workers
+			reservedWorkerCount += n;
+			// Create more workers if required
+			final int workerToCreateCount = reservedWorkerCount - workerCount;
+			if (workerToCreateCount > 0) {
+				IO.debug("OK, create ", workerToCreateCount, " more workers of type ", type,
+						" (total reserved: ", reservedWorkerCount, "/", MAX_THREADS, ")");
+				return createWorkers(workerToCreateCount) == workerToCreateCount;
+			} else {
+				IO.debug("OK, the workers of type ", type, " are already created (total reserved: ",
+						reservedWorkerCount, "/", MAX_THREADS, ")");
+			}
+			return true;
+		}
+		IO.debug("Cannot reserve ", n, " workers of type ", type, " (total reserved: ",
+				reservedWorkerCount, "/", MAX_THREADS, ")");
+		return false;
+	}
+
+	/**
+	 * Frees n workers.
+	 * <p>
+	 * @param n the number of workers to free
+	 */
+	public void freeWorkers(final int n) {
+		reservedWorkerCount -= n;
 	}
 
 
@@ -197,32 +239,22 @@ public class WorkQueue<I, O>
 	 * @return the identifier of the added task
 	 */
 	public long submit(final I input) {
-		synchronized (tasks) {
-			++currentTaskId;
-			IO.debug("Add the task ", currentTaskId);
-			tasks.addLast(new Pair<Long, I>(currentTaskId, input));
-			tasks.notifyAll();
-			return currentTaskId;
-		}
+		++currentTaskId;
+		IO.debug("Add the task ", currentTaskId);
+		tasks.add(new Pair<Long, I>(currentTaskId, input));
+		return currentTaskId;
 	}
 
 	/**
-	 * Returns the next task.
+	 * Returns the next task if {@code this} is running, or {@code null} otherwise.
 	 * <p>
-	 * @return the next task
+	 * @return the next task if {@code this} is running, or {@code null} otherwise
 	 */
 	public Pair<Long, I> getNextTask() {
-		synchronized (tasks) {
+		if (isRunning) {
 			IO.debug("Get the next task");
-			while (isRunning && tasks.isEmpty()) {
-				try {
-					tasks.wait();
-				} catch (final InterruptedException ignored) {
-				}
-			}
-			if (isRunning) {
-				return tasks.removeFirst();
-			}
+			--availableWorkerCount;
+			return tasks.removeFirst();
 		}
 		return null;
 	}
@@ -239,14 +271,9 @@ public class WorkQueue<I, O>
 	 * @param result the result of the task
 	 */
 	public void addResult(final long id, final O result) {
-		synchronized (results) {
-			IO.debug("Add the result of the task ", id);
-			results.put(id, result);
-			results.notifyAll();
-		}
-		synchronized (workers) {
-			--reservedWorkerCount;
-		}
+		IO.debug("Add the result of the task ", id);
+		results.put(id, result);
+		++availableWorkerCount;
 	}
 
 	/**
@@ -257,16 +284,8 @@ public class WorkQueue<I, O>
 	 * @return the result of the task with the specified identifier
 	 */
 	public O get(final long id) {
-		synchronized (results) {
-			IO.debug("Get the result of the task ", id);
-			while (!results.containsKey(id)) {
-				try {
-					results.wait();
-				} catch (final InterruptedException ignored) {
-				}
-			}
-			return results.remove(id);
-		}
+		IO.debug("Get the result of the task ", id);
+		return results.remove(id);
 	}
 
 	/**
@@ -299,10 +318,7 @@ public class WorkQueue<I, O>
 	 * Shutdowns {@code this}.
 	 */
 	public void shutdown() {
-		synchronized (tasks) {
-			IO.debug("Shutdown the ", getClass().getSimpleName());
-			isRunning = false;
-			tasks.notifyAll();
-		}
+		IO.debug("Shutdown the ", getClass().getSimpleName());
+		isRunning = false;
 	}
 }

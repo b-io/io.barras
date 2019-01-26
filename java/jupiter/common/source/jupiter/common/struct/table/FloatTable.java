@@ -25,7 +25,7 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Floats;
 
 /**
@@ -117,7 +117,7 @@ public class FloatTable
 	 */
 	public FloatTable(final String pathName, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.FLOAT_PARSER, pathName, hasHeader);
+		super(IParsers.FLOAT_PARSER, pathName, hasHeader);
 	}
 
 

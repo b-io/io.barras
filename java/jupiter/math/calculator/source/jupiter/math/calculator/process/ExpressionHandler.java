@@ -35,8 +35,8 @@ import jupiter.common.math.IntervalList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.thread.FairWorkQueue;
-import jupiter.common.thread.IWorkQueue;
 import jupiter.common.thread.Report;
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
@@ -73,7 +73,7 @@ public class ExpressionHandler {
 	/**
 	 * The work queue for parsing the expressions.
 	 */
-	protected static volatile IWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>> WORK_QUEUE = null;
+	protected static volatile WorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,6 +201,7 @@ public class ExpressionHandler {
 			// Get the results
 			leftNodeResult = WORK_QUEUE.get(leftId);
 			rightNodeResult = WORK_QUEUE.get(rightId);
+			WORK_QUEUE.freeWorkers(2);
 		} else {
 			// Get the results
 			leftNodeResult = parseExpression(parent, leftExpression, context);

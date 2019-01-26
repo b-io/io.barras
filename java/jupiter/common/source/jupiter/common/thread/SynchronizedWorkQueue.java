@@ -23,34 +23,54 @@
  */
 package jupiter.common.thread;
 
+import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.struct.tuple.Pair;
 
-public interface IWorkQueue<I, O> {
+public class SynchronizedWorkQueue<I, O>
+		extends WorkQueue<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKERS
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public SynchronizedWorkQueue(final Worker<I, O> model) {
+		super(model);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// WORKER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of working threads.
+	 * Reserves n workers.
 	 * <p>
-	 * @return the number of working threads
+	 * @param n the number of workers to reserve
+	 * <p>
+	 * @return {@code true} if the workers are reserved, {@code false} otherwise
 	 */
-	public int getWorkerCount();
+	@Override
+	public boolean reserveWorkers(final int n) {
+		synchronized (workers) {
+			super.reserveWorkers(n);
+		}
+		return false;
+	}
 
 	/**
-	 * Initializes the working threads.
-	 */
-	public void initWorkers();
-
-	/**
-	 * Reserves n working threads.
+	 * Instantiates a worker according to the model.
 	 * <p>
-	 * @param n the number of working threads to reserve
+	 * @return the number of created workers
 	 * <p>
-	 * @return {@code true} if the working threads are reserved, {@code false} otherwise
+	 * @throws IllegalOperationException if the maximum number of workers has been reached
 	 */
-	public boolean reserveWorkers(final int n);
+	@Override
+	protected int createWorker()
+			throws IllegalOperationException {
+		synchronized (workers) {
+			return super.createWorker();
+		}
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,14 +84,35 @@ public interface IWorkQueue<I, O> {
 	 * <p>
 	 * @return the identifier of the added task
 	 */
-	public long submit(final I input);
+	@Override
+	public long submit(final I input) {
+		// Create a worker if required
+		createAvailableWorkers(1);
+		// Add the task
+		synchronized (tasks) {
+			final long taskId = super.submit(input);
+			tasks.notifyAll();
+			return taskId;
+		}
+	}
 
 	/**
 	 * Returns the next task.
 	 * <p>
 	 * @return the next task
 	 */
-	public Pair<Long, I> getNextTask();
+	@Override
+	public Pair<Long, I> getNextTask() {
+		synchronized (tasks) {
+			while (isRunning && tasks.isEmpty()) {
+				try {
+					tasks.wait();
+				} catch (final InterruptedException ignored) {
+				}
+			}
+			return super.getNextTask();
+		}
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,9 +123,15 @@ public interface IWorkQueue<I, O> {
 	 * Adds the result of the task with the specified identifier.
 	 * <p>
 	 * @param id     the identifier of the task
-	 * @param output the result of the task
+	 * @param result the result of the task
 	 */
-	public void addResult(final long id, final O output);
+	@Override
+	public void addResult(final long id, final O result) {
+		synchronized (results) {
+			super.addResult(id, result);
+			results.notifyAll();
+		}
+	}
 
 	/**
 	 * Returns the result of the task with the specified identifier.
@@ -93,17 +140,18 @@ public interface IWorkQueue<I, O> {
 	 * <p>
 	 * @return the result of the task with the specified identifier
 	 */
-	public O get(final long id);
-
-	/**
-	 * Tests whether the result of the task with the specified identifier is ready.
-	 * <p>
-	 * @param id the identifier of the task
-	 * <p>
-	 * @return {@code true} if the result of the task with the specified identifier is ready,
-	 *         {@code false} otherwise
-	 */
-	public boolean isReady(final long id);
+	@Override
+	public O get(final long id) {
+		synchronized (results) {
+			while (!results.containsKey(id)) {
+				try {
+					results.wait();
+				} catch (final InterruptedException ignored) {
+				}
+			}
+			return super.get(id);
+		}
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,14 +159,13 @@ public interface IWorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code this} is running.
-	 * <p>
-	 * @return {@code true} if {@code this} is running, {@code false} otherwise
-	 */
-	public boolean isRunning();
-
-	/**
 	 * Shutdowns {@code this}.
 	 */
-	public void shutdown();
+	@Override
+	public void shutdown() {
+		synchronized (tasks) {
+			super.shutdown();
+			tasks.notifyAll();
+		}
+	}
 }

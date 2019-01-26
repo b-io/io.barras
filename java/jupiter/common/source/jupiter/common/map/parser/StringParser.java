@@ -31,7 +31,7 @@ import jupiter.common.util.Strings;
  */
 public class StringParser
 		extends ObjectToStringMapper
-		implements Parser<String> {
+		implements IParser<String> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS

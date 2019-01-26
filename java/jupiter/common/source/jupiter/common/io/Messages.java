@@ -121,8 +121,7 @@ public class Messages {
 		return createOutputPrefix() + createLabel(level);
 	}
 
-	protected static String createOutputPrefix(final SeverityLevel level,
-			final String className) {
+	protected static String createOutputPrefix(final SeverityLevel level, final String className) {
 		return createOutputPrefix(level) + createLabel(className);
 	}
 

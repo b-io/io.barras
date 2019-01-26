@@ -25,7 +25,7 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Longs;
 
 /**
@@ -117,7 +117,7 @@ public class LongTable
 	 */
 	public LongTable(final String pathName, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.LONG_PARSER, pathName, hasHeader);
+		super(IParsers.LONG_PARSER, pathName, hasHeader);
 	}
 
 
