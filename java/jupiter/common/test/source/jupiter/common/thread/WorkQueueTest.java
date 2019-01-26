@@ -69,7 +69,6 @@ public class WorkQueueTest
 			results.add(workQueue.get(id));
 		}
 		chrono.stop();
-		IO.test(chrono.getMilliseconds(), " [ms]");
 
 		// Test
 		for (int i = 0; i < taskCount; ++i) {

@@ -49,35 +49,49 @@ public class Tests {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void printTimes(final double... times) {
-		final double mean = Statistics.mean(times);
-		final double stddev = Statistics.sampleStandardDeviationWith(times, mean);
-		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.length,
-				mean, stddev);
-		printAverageTime(mean, confidenceInterval);
-		printMinMaxInterval(Maths.minToDouble(times), Maths.maxToDouble(times));
+		printValues("time", times);
 	}
 
 	public static <T extends Number> void printTimes(final T... times) {
+		printValues("time", times);
+	}
+
+	public static void printTimes(final Collection<Long> times) {
+		printValues("time", times);
+	}
+
+	//////////////////////////////////////////////
+
+	public static void printValues(final String label, final double... values) {
+		final double mean = Statistics.mean(values);
+		final double stddev = Statistics.sampleStandardDeviationWith(values, mean);
+		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.length,
+				mean, stddev);
+		printAverageValue(label, mean, confidenceInterval);
+		printMinMaxInterval(Maths.minToDouble(values), Maths.maxToDouble(values));
+	}
+
+	public static <T extends Number> void printValues(final String label, final T... times) {
 		final double mean = Statistics.getMean(times);
 		final double stddev = Statistics.getSampleStandardDeviationWith(times, mean);
 		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.length,
 				mean, stddev);
-		printAverageTime(mean, confidenceInterval);
+		printAverageValue(label, mean, confidenceInterval);
 		printMinMaxInterval(Maths.getMin(times), Maths.getMax(times));
 	}
 
-	public static void printTimes(final Collection<Long> times) {
+	public static void printValues(final String label, final Collection<Long> times) {
 		final double mean = Statistics.getMean(times);
 		final double stddev = Statistics.getSampleStandardDeviationWith(times, mean);
 		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.size(),
 				mean, stddev);
-		printAverageTime(mean, confidenceInterval);
+		printAverageValue(label, mean, confidenceInterval);
 		printMinMaxInterval(Maths.getMin(times), Maths.getMax(times));
 	}
 
-	protected static void printAverageTime(final double mean,
+	protected static void printAverageValue(final String label, final double mean,
 			final Interval<Double> confidenceInterval) {
-		IO.test("Average time: ", mean, " +- ", confidenceInterval.getUpperBound() - mean,
+		IO.test("Average ", label, ": ", mean, " +- ", confidenceInterval.getUpperBound() - mean,
 				" (" + Doubles.toPercentage(Maths.DEFAULT_CONFIDENCE) + ")");
 	}
 
