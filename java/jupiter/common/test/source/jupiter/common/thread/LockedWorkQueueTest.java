@@ -27,29 +27,28 @@ import static jupiter.common.io.IO.IO;
 
 import jupiter.common.test.Tests;
 
-public class FairWorkQueueTest
+public class LockedWorkQueueTest
 		extends WorkQueueTest {
 
-	public FairWorkQueueTest(final String name) {
+	public LockedWorkQueueTest(final String name) {
 		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of addTask method, of class FairWorkQueue.
+	 * Test of addTask method, of class LockedWorkQueue.
 	 */
 	public void testAddTask() {
 		IO.test("addTask");
 
 		// Initialize
-		final int testCount = 10;
-		final int taskCount = 10000;
+		final int testCount = 100;
 		final double[] testTimes = new double[testCount];
 
 		// Test
 		for (int i = 0; i < testCount; ++i) {
-			testTimes[i] = test(new FairWorkQueue<Integer, Integer>(new SimpleWorker()), taskCount);
+			testTimes[i] = test(new LockedWorkQueue<Integer, Integer>(new SimpleWorker()));
 		}
 		Tests.printTimes(testTimes);
 	}

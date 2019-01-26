@@ -53,9 +53,9 @@ public class WorkQueueTest
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected double test(final WorkQueue<Integer, Integer> workQueue, final int taskCount) {
+	protected double test(final WorkQueue<Integer, Integer> workQueue) {
 		// Initialize
-		workQueue.initWorkers();
+		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
 
 		// Process the tasks

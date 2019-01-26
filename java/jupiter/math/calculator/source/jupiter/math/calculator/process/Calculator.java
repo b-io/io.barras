@@ -34,8 +34,8 @@ import jupiter.common.io.Message;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.struct.tuple.Pair;
+import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Report;
-import jupiter.common.thread.SynchronizedWorkQueue;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
@@ -100,7 +100,7 @@ public class Calculator {
 		// - The work queue
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new SynchronizedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
+				WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
 						new Evaluator());
 			} else {
 				IO.warn("The work queue ", WORK_QUEUE, " has already started");

@@ -34,8 +34,8 @@ import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
+import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Report;
-import jupiter.common.thread.SynchronizedWorkQueue;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
@@ -97,7 +97,7 @@ public class ExpressionHandler {
 		// Initialize
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new SynchronizedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
+				WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
 						new Parser());
 			} else {
 				IO.warn("The work queue ", WORK_QUEUE, " has already started");

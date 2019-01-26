@@ -43,7 +43,7 @@ import jupiter.common.struct.table.Table;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
-import jupiter.common.thread.SynchronizedWorkQueue;
+import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Characters;
@@ -1196,7 +1196,7 @@ public class Matrix
 
 		// Initialize
 		if (WORK_QUEUE == null) {
-			WORK_QUEUE = new SynchronizedWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
+			WORK_QUEUE = new LockedWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
 					new DotProduct());
 			PARALLELIZE = true;
 		} else {

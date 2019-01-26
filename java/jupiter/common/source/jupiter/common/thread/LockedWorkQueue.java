@@ -30,7 +30,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.struct.tuple.Pair;
 
-public class FairWorkQueue<I, O>
+public class LockedWorkQueue<I, O>
 		extends WorkQueue<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,27 +40,44 @@ public class FairWorkQueue<I, O>
 	/**
 	 * The internal lock of the workers.
 	 */
-	protected final Lock workersLock = new ReentrantLock(true);
+	protected final Lock workersLock;
 
 	/**
 	 * The internal lock of the tasks.
 	 */
-	protected final Lock tasksLock = new ReentrantLock(true);
-	protected final Condition tasksLockCondition = tasksLock.newCondition();
+	protected final Lock tasksLock;
+	protected final Condition tasksLockCondition;
 
 	/**
 	 * The internal lock of the results.
 	 */
-	protected final Lock resultsLock = new ReentrantLock(true);
-	protected final Condition resultsLockCondition = resultsLock.newCondition();
+	protected final Lock resultsLock;
+	protected final Condition resultsLockCondition;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public FairWorkQueue(final Worker<I, O> model) {
+	/**
+	 * Constructs a {@code LockedWorkQueue} with the non-fairness policy.
+	 */
+	public LockedWorkQueue(final Worker<I, O> model) {
+		this(model, false);
+	}
+
+	/**
+	 * Constructs a {@code LockedWorkQueue} with the specified fairness policy.
+	 * <p>
+	 * @param fair the flag specifying whether to use a fair ordering policy
+	 */
+	public LockedWorkQueue(final Worker<I, O> model, final boolean fair) {
 		super(model);
+		workersLock = new ReentrantLock(fair);
+		tasksLock = new ReentrantLock(fair);
+		tasksLockCondition = tasksLock.newCondition();
+		resultsLock = new ReentrantLock(fair);
+		resultsLockCondition = resultsLock.newCondition();
 	}
 
 

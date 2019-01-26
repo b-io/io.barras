@@ -131,7 +131,7 @@ public class WorkQueue<I, O> {
 	 * Initializes the workers.
 	 */
 	public void initWorkers() {
-		createWorkers(MIN_THREADS);
+		createWorkers(Math.min(MIN_THREADS, MAX_THREADS - workerCount));
 	}
 
 	/**

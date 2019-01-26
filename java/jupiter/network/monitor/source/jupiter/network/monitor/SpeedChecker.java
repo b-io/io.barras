@@ -42,8 +42,8 @@ import java.util.Map;
 
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Report;
-import jupiter.common.thread.SynchronizedWorkQueue;
 import jupiter.common.thread.Threads;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
@@ -133,7 +133,7 @@ public class SpeedChecker {
 		// - The work queue
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new SynchronizedWorkQueue<String, Report<Double>>(new Checker());
+				WORK_QUEUE = new LockedWorkQueue<String, Report<Double>>(new Checker());
 			} else {
 				IO.warn("The work queue ", WORK_QUEUE, " has already started");
 			}
