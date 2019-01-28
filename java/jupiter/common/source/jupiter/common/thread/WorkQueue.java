@@ -240,7 +240,7 @@ public class WorkQueue<I, O> {
 	 */
 	public long submit(final I input) {
 		++currentTaskId;
-		IO.debug("Add the task ", currentTaskId);
+		IO.debug("Add task ", currentTaskId);
 		tasks.add(new Pair<Long, I>(currentTaskId, input));
 		return currentTaskId;
 	}
@@ -271,7 +271,7 @@ public class WorkQueue<I, O> {
 	 * @param result the result of the task
 	 */
 	public void addResult(final long id, final O result) {
-		IO.debug("Add the result of the task ", id);
+		IO.debug("Add the result of task ", id);
 		results.put(id, result);
 		++availableWorkerCount;
 	}
@@ -284,7 +284,7 @@ public class WorkQueue<I, O> {
 	 * @return the result of the task with the specified identifier
 	 */
 	public O get(final long id) {
-		IO.debug("Get the result of the task ", id);
+		IO.debug("Get the result of task ", id);
 		return results.remove(id);
 	}
 
