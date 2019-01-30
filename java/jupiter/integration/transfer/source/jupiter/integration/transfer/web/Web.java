@@ -86,15 +86,13 @@ public class Web {
 	 */
 	public static String jsonifyEntry(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
-		if (value != null) {
-			builder.append(Strings.doubleQuote(key));
-			builder.append(':');
-			if (Collections.is(value.getClass())) {
-				builder.append(Collections.toString((Collection<?>) value,
-						Collections.DEFAULT_DELIMITER, JSON_WRAPPER));
-			} else {
-				builder.append(JSON_WRAPPER.call(value));
-			}
+		builder.append(Strings.doubleQuote(key));
+		builder.append(':');
+		if (value != null && Collections.is(value.getClass())) {
+			builder.append(Collections.toString((Collection<?>) value,
+					Collections.DEFAULT_DELIMITER, JSON_WRAPPER));
+		} else {
+			builder.append(JSON_WRAPPER.call(value));
 		}
 		return builder.toString();
 	}
