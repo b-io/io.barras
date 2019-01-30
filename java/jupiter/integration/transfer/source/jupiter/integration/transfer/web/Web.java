@@ -48,11 +48,11 @@ public class Web {
 			for (int i = 0; i < fields.length; ++i) {
 				final Field field = fields[i];
 				try {
-					jsonifyEntry(field.getName(), field.get(content));
+					builder.append(jsonifyEntry(field.getName(), field.get(content)));
+					if (i < fields.length - 1) {
+						builder.append(',');
+					}
 				} catch (final IllegalAccessException ignored) {
-				}
-				if (i < fields.length - 1) {
-					builder.append(',');
 				}
 			}
 		}
