@@ -34,11 +34,11 @@ public class Web {
 	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
 
 	/**
-	 * Returns a JSON {@link String} representation of the specified content.
+	 * Returns a JSON {@link String} representation of the fields of the specified content.
 	 * <p>
-	 * @param content the {@link Object} to represent as a JSON {@link String}
+	 * @param content the {@link Object} containing the fields to represent as a JSON {@link String}
 	 * <p>
-	 * @return a JSON {@link String} representation of the specified content
+	 * @return a JSON {@link String} representation of the fields of the specified content
 	 */
 	public static String jsonify(final Object content) {
 		final StringBuilder builder = Strings.createBuilder();
@@ -47,15 +47,8 @@ public class Web {
 			final Field[] fields = content.getClass().getDeclaredFields();
 			for (int i = 0; i < fields.length; ++i) {
 				final Field field = fields[i];
-				builder.append(Strings.doubleQuote(field.getName()));
-				builder.append(':');
 				try {
-					if (Collections.is(field.getType())) {
-						builder.append(Collections.toString((Collection<?>) field.get(content),
-								Collections.DEFAULT_DELIMITER, JSON_WRAPPER));
-					} else {
-						builder.append(JSON_WRAPPER.call(field.get(content)));
-					}
+					jsonifyEntry(field.getName(), field.get(content));
 				} catch (final IllegalAccessException ignored) {
 				}
 				if (i < fields.length - 1) {
@@ -64,6 +57,45 @@ public class Web {
 			}
 		}
 		builder.append('}');
+		return builder.toString();
+	}
+
+	/**
+	 * Returns a JSON {@link String} representation of the specified key-value mapping.
+	 * <p>
+	 * @param key   the key of the key-value mapping to represent as a JSON {@link String}
+	 * @param value the value of the key-value mapping to represent as a JSON {@link String}
+	 * <p>
+	 * @return a JSON {@link String} representation of the specified key-value mapping
+	 */
+	public static String jsonify(final String key, final Object value) {
+		final StringBuilder builder = Strings.createBuilder();
+		builder.append('{');
+		builder.append(jsonifyEntry(key, value));
+		builder.append('}');
+		return builder.toString();
+	}
+
+	/**
+	 * Returns a JSON entry {@link String} representation of the specified key-value mapping.
+	 * <p>
+	 * @param key   the key of the key-value mapping to represent as a JSON entry {@link String}
+	 * @param value the value of the key-value mapping to represent as a JSON entry {@link String}
+	 * <p>
+	 * @return a JSON entry {@link String} representation of the specified key-value mapping
+	 */
+	public static String jsonifyEntry(final String key, final Object value) {
+		final StringBuilder builder = Strings.createBuilder();
+		if (value != null) {
+			builder.append(Strings.doubleQuote(key));
+			builder.append(':');
+			if (Collections.is(value.getClass())) {
+				builder.append(Collections.toString((Collection<?>) value,
+						Collections.DEFAULT_DELIMITER, JSON_WRAPPER));
+			} else {
+				builder.append(JSON_WRAPPER.call(value));
+			}
+		}
 		return builder.toString();
 	}
 }
