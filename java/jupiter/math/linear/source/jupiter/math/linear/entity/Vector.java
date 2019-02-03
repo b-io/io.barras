@@ -181,7 +181,7 @@ public class Vector
 	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void set(final int i, final double value) {
-		elements[i * n] = value;
+		elements[i] = value;
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class Vector
 	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void set(final int i, final Object value) {
-		elements[i * n] = Doubles.convert(value);
+		elements[i] = Doubles.convert(value);
 	}
 
 
@@ -244,10 +244,9 @@ public class Vector
 		}
 		if (isTransposed) {
 			if (n == columnCount) {
-				final double[] row = getRow(0);
 				final Matrix result = new Matrix(rowCount, columnCount);
 				for (int i = 0; i < rowCount; ++i) {
-					result.setRow(i, row);
+					result.setRow(i, elements);
 				}
 				return result;
 			}
@@ -255,10 +254,9 @@ public class Vector
 					getDimensions() + " (wrong number of columns)");
 		}
 		if (m == rowCount) {
-			final double[] column = getColumn(0);
 			final Matrix result = new Matrix(rowCount, columnCount);
 			for (int j = 0; j < columnCount; ++j) {
-				result.setColumn(j, column);
+				result.setColumn(j, elements);
 			}
 			return result;
 		}
@@ -328,7 +326,7 @@ public class Vector
 		final Vector result = new Vector(getDimension());
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * n + j] = -elements[i * n + j];
+				result.elements[i * result.n + j] = -elements[i * n + j];
 			}
 		}
 		return result;
@@ -341,7 +339,7 @@ public class Vector
 	 */
 	@Override
 	public Vector transpose() {
-		return new Vector(Doubles.transpose(m, elements));
+		return new Vector(Doubles.transpose(m, elements), !isTransposed);
 	}
 
 

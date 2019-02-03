@@ -1564,7 +1564,7 @@ public class Matrix
 					for (int k = 0; k < n; ++k) {
 						sum += elements[i * n + k] * broadcastedMatrix.elements[k * broadcastedMatrix.n + j];
 					}
-					result.elements[i * broadcastedMatrix.n + j] = sum;
+					result.elements[i * result.n + j] = sum;
 				}
 			}
 		}
@@ -1917,8 +1917,7 @@ public class Matrix
 			final Matrix a = A.toMatrix();
 			final Matrix b = B.toMatrix();
 			if (CL.test(n, a.n, b.n)) {
-				return new Matrix(m, CL.forward(toPrimitiveArray(), a.toPrimitiveArray(),
-						b.toPrimitiveArray(), n, a.n, b.n));
+				return new Matrix(m, CL.forward(elements, a.elements, b.elements, n, a.n, b.n));
 			}
 		}
 		return times(A).plus(B);
@@ -2409,7 +2408,7 @@ public class Matrix
 
 			// Compute
 			for (int i = 0; i < m; ++i) {
-				final int leftRowIndex = (interval.getLowerBound() + i) * n;
+				final int leftRowIndex = (interval.getLowerBound() + i) * left.n;
 				for (int j = 0; j < n; ++j) {
 					double sum = 0.;
 					for (int k = 0; k < innerDimension; ++k) {
