@@ -292,7 +292,8 @@ public class LUDecomposition
 		for (int k = 0; k < n; ++k) {
 			for (int i = k + 1; i < n; ++i) {
 				for (int j = 0; j < xColumnDimension; ++j) {
-					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] * LU[i][k];
+					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] *
+							LU[i][k];
 				}
 			}
 		}
@@ -304,7 +305,8 @@ public class LUDecomposition
 			}
 			for (int i = 0; i < k; ++i) {
 				for (int j = 0; j < xColumnDimension; ++j) {
-					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] * LU[i][k];
+					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] *
+							LU[i][k];
 				}
 			}
 		}

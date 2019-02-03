@@ -553,7 +553,8 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					submatrix.elements[i * columnCount + j] = elements[(rowStart + i) * n + columnIndexes[j]];
+					submatrix.elements[i * columnCount + j] = elements[(rowStart + i) * n +
+							columnIndexes[j]];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -581,7 +582,8 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					submatrix.elements[i * columnCount + j] = elements[rowIndexes[i] * n + columnIndexes[j]];
+					submatrix.elements[i * columnCount + j] = elements[rowIndexes[i] * n +
+							columnIndexes[j]];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -826,7 +828,8 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					elements[(rowStart + i) * n + columnIndexes[j]] = submatrix.elements[i * columnCount + j];
+					elements[(rowStart + i) * n +
+							columnIndexes[j]] = submatrix.elements[i * columnCount + j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -851,7 +854,8 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					elements[rowIndexes[i] * n + columnIndexes[j]] = submatrix.elements[i * columnCount + j];
+					elements[rowIndexes[i] * n +
+							columnIndexes[j]] = submatrix.elements[i * columnCount + j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -1319,7 +1323,8 @@ public class Matrix
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] + broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] = elements[i * n + j] +
+						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1419,7 +1424,8 @@ public class Matrix
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] - broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] = elements[i * n + j] -
+						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1562,7 +1568,8 @@ public class Matrix
 				for (int j = 0; j < broadcastedMatrix.n; ++j) {
 					double sum = 0.;
 					for (int k = 0; k < n; ++k) {
-						sum += elements[i * n + k] * broadcastedMatrix.elements[k * broadcastedMatrix.n + j];
+						sum += elements[i * n + k] *
+								broadcastedMatrix.elements[k * broadcastedMatrix.n + j];
 					}
 					result.elements[i * result.n + j] = sum;
 				}
@@ -1596,7 +1603,8 @@ public class Matrix
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] * broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] = elements[i * n + j] *
+						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1729,7 +1737,8 @@ public class Matrix
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] / broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] = elements[i * n + j] /
+						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1843,7 +1852,8 @@ public class Matrix
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = Math.pow(elements[i * n + j], broadcastedMatrix.elements[i * broadcastedMatrix.n + j]);
+				result.elements[i * result.n + j] = Math.pow(elements[i * n + j],
+						broadcastedMatrix.elements[i * broadcastedMatrix.n + j]);
 			}
 		}
 		return result;
@@ -1893,7 +1903,8 @@ public class Matrix
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i * n + j] = Math.pow(elements[i * n + j], broadcastedMatrix.elements[i * broadcastedMatrix.n + j]);
+				elements[i * n + j] = Math.pow(elements[i * n + j],
+						broadcastedMatrix.elements[i * broadcastedMatrix.n + j]);
 			}
 		}
 		return this;
@@ -2351,7 +2362,8 @@ public class Matrix
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				if (!Doubles.equals(elements[i * n + j], otherMatrix.elements[i * otherMatrix.n + j], tolerance)) {
+				if (!Doubles.equals(elements[i * n + j],
+						otherMatrix.elements[i * otherMatrix.n + j], tolerance)) {
 					return false;
 				}
 			}

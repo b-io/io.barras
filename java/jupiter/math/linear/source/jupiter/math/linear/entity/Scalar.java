@@ -645,7 +645,8 @@ public class Scalar
 		final Matrix result = new Matrix(matrix.m, matrix.n);
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				result.elements[i * result.n + j] = Math.pow(value, matrix.elements[i * matrix.n + j]);
+				result.elements[i * result.n + j] = Math.pow(value,
+						matrix.elements[i * matrix.n + j]);
 			}
 		}
 		return result;
@@ -682,7 +683,8 @@ public class Scalar
 	public Matrix arrayRaise(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				matrix.elements[i * matrix.n + j] = Math.pow(value, matrix.elements[i * matrix.n + j]);
+				matrix.elements[i * matrix.n + j] = Math.pow(value,
+						matrix.elements[i * matrix.n + j]);
 			}
 		}
 		return matrix;

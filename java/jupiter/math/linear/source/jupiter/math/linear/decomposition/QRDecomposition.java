@@ -263,7 +263,8 @@ public class QRDecomposition
 			}
 			for (int i = 0; i < k; ++i) {
 				for (int j = 0; j < xColumnDimension; ++j) {
-					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] * QR[i][k];
+					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] *
+							QR[i][k];
 				}
 			}
 		}

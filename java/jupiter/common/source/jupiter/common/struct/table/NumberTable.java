@@ -74,7 +74,8 @@ public class NumberTable<T extends Number>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public NumberTable(final Class<T> c, final String[] header, final int rowCount, final int columnCount) {
+	public NumberTable(final Class<T> c, final String[] header, final int rowCount,
+			final int columnCount) {
 		super(c, header, rowCount, columnCount);
 	}
 

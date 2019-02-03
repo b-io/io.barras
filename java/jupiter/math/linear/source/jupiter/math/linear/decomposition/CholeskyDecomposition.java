@@ -104,7 +104,8 @@ public class CholeskyDecomposition
 				}
 				Lrowj[k] = s = (elements[j * dimension + k] - s) / L[k][k];
 				d += s * s;
-				isSymmetricPositiveDefinite &= elements[k * dimension + j] == elements[j * dimension + k];
+				isSymmetricPositiveDefinite &= elements[k * dimension +
+						j] == elements[j * dimension + k];
 			}
 			d = elements[j * dimension + j] - d;
 			isSymmetricPositiveDefinite &= d > 0.;
@@ -171,7 +172,8 @@ public class CholeskyDecomposition
 		for (int k = 0; k < dimension; ++k) {
 			for (int j = 0; j < xColumnDimension; ++j) {
 				for (int i = 0; i < k; ++i) {
-					xElements[k * xColumnDimension + j] -= xElements[i * xColumnDimension + j] * L[k][i];
+					xElements[k * xColumnDimension + j] -= xElements[i * xColumnDimension + j] *
+							L[k][i];
 				}
 				xElements[k * xColumnDimension + j] /= L[k][k];
 			}
@@ -181,7 +183,8 @@ public class CholeskyDecomposition
 		for (int k = dimension - 1; k >= 0; --k) {
 			for (int j = 0; j < xColumnDimension; ++j) {
 				for (int i = k + 1; i < dimension; ++i) {
-					xElements[k * xColumnDimension + j] -= xElements[i * xColumnDimension + j] * L[i][k];
+					xElements[k * xColumnDimension + j] -= xElements[i * xColumnDimension + j] *
+							L[i][k];
 				}
 				xElements[k * xColumnDimension + j] /= L[k][k];
 			}

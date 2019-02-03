@@ -126,7 +126,8 @@ public class Table<T>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public Table(final Class<T> c, final String[] header, final int rowCount, final int columnCount) {
+	public Table(final Class<T> c, final String[] header, final int rowCount,
+			final int columnCount) {
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
