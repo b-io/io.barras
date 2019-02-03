@@ -32,9 +32,9 @@ import static org.jocl.CL.CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS;
 import static org.jocl.CL.CL_DEVICE_NAME;
 import static org.jocl.CL.CL_DEVICE_TYPE_ALL;
 import static org.jocl.CL.CL_MEM_ALLOC_HOST_PTR;
-import static org.jocl.CL.CL_MEM_COPY_HOST_PTR;
 import static org.jocl.CL.CL_MEM_READ_ONLY;
 import static org.jocl.CL.CL_MEM_READ_WRITE;
+import static org.jocl.CL.CL_MEM_USE_HOST_PTR;
 import static org.jocl.CL.CL_TRUE;
 import static org.jocl.CL.clBuildProgram;
 import static org.jocl.CL.clCreateBuffer;
@@ -294,7 +294,7 @@ public class JOCL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public cl_mem createReadBuffer(final double[] array) {
-		return clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+		return clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
 				array.length * Sizeof.cl_double, Pointer.to(array), null);
 	}
 
