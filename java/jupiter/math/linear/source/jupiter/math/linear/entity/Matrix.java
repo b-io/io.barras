@@ -2270,8 +2270,6 @@ public class Matrix
 	/**
 	 * Requires {@code this} to have the row dimension equals to the column dimension.
 	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @throws IllegalArgumentException if {@code this} is not square
 	 */
 	public void requireSquare() {
