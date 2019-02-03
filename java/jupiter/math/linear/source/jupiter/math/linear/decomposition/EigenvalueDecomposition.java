@@ -103,12 +103,12 @@ public class EigenvalueDecomposition
 	 */
 	public EigenvalueDecomposition(final Matrix A) {
 		// Initialize
-		final double[][] elements = A.toPrimitiveArray2D();
+		final double[] elements = A.getElements();
 		dimension = A.getColumnDimension();
 		isSymmetric = true;
 		for (int j = 0; j < dimension & isSymmetric; ++j) {
 			for (int i = 0; i < dimension & isSymmetric; ++i) {
-				isSymmetric = elements[i][j] == elements[j][i];
+				isSymmetric = elements[i * dimension + j] == elements[j * dimension + i];
 			}
 		}
 		d = new double[dimension];
@@ -118,7 +118,7 @@ public class EigenvalueDecomposition
 		// Decompose
 		if (isSymmetric) {
 			for (int i = 0; i < dimension; ++i) {
-				System.arraycopy(elements[i], 0, V[i], 0, dimension);
+				System.arraycopy(elements, i * dimension, V[i], 0, dimension);
 			}
 			// Tridiagonalize
 			tred2();
@@ -129,7 +129,7 @@ public class EigenvalueDecomposition
 			ort = new double[dimension];
 			for (int j = 0; j < dimension; ++j) {
 				for (int i = 0; i < dimension; ++i) {
-					H[i][j] = elements[i][j];
+					H[i][j] = elements[i * dimension + j];
 				}
 			}
 			// Reduce to the Hessenberg form

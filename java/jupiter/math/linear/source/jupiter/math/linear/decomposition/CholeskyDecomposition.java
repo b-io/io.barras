@@ -83,8 +83,11 @@ public class CholeskyDecomposition
 	 * @param A a symmetric and positive definite {@link Matrix}
 	 */
 	public CholeskyDecomposition(final Matrix A) {
+		// Verify the feasibility
+		A.requireSquare();
+
 		// Initialize
-		final double[][] elements = A.toPrimitiveArray2D();
+		final double[] elements = A.getElements();
 		dimension = A.getRowDimension();
 		isSymmetricPositiveDefinite = A.getColumnDimension() == dimension;
 		L = new double[dimension][dimension];
@@ -99,16 +102,21 @@ public class CholeskyDecomposition
 				for (int i = 0; i < k; ++i) {
 					s += Lrowk[i] * Lrowj[i];
 				}
-				Lrowj[k] = s = (elements[j][k] - s) / L[k][k];
+				Lrowj[k] = s = (elements[j * dimension + k] - s) / L[k][k];
 				d += s * s;
-				isSymmetricPositiveDefinite &= elements[k][j] == elements[j][k];
+				isSymmetricPositiveDefinite &= elements[k * dimension + j] == elements[j * dimension + k];
 			}
-			d = elements[j][j] - d;
+			d = elements[j * dimension + j] - d;
 			isSymmetricPositiveDefinite &= d > 0.;
 			L[j][j] = Math.sqrt(Math.max(0., d));
 			for (int k = j + 1; k < dimension; ++k) {
 				L[j][k] = 0.;
 			}
+		}
+
+		// Verify the feasibility
+		if (!isSymmetricPositiveDefinite) {
+			throw new IllegalOperationException("The matrix is not symmetric positive definite");
 		}
 	}
 
@@ -153,11 +161,6 @@ public class CholeskyDecomposition
 	public Matrix solve(final Matrix B) {
 		// Check the arguments
 		MatrixArguments.requireInnerDimension(B.getRowDimension(), dimension);
-
-		// Verify the feasibility
-		if (!isSymmetricPositiveDefinite) {
-			throw new IllegalOperationException("The matrix is not symmetric positive definite");
-		}
 
 		// Initialize
 		final Matrix X = B.clone();

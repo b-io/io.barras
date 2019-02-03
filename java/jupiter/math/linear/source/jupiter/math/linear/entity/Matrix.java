@@ -2012,7 +2012,7 @@ public class Matrix
 	 * @return the solution if {@code this} is square, the least squares solution otherwise
 	 */
 	public Matrix solve(final Matrix B) {
-		return m == n ? new LUDecomposition(this).solve(B) : new QRDecomposition(this).solve(B);
+		return isSquare() ? new LUDecomposition(this).solve(B) : new QRDecomposition(this).solve(B);
 	}
 
 	/**
@@ -2259,13 +2259,35 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns {@code true} if {@code this} is square, {@code false} otherwise.
+	 * <p>
+	 * @return {@code true} if {@code this} is square, {@code false} otherwise
+	 */
+	public boolean isSquare() {
+		return m == n;
+	}
+
+	/**
+	 * Requires {@code this} to have the row dimension equals to the column dimension.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @throws IllegalArgumentException if {@code this} is not square
+	 */
+	public void requireSquare() {
+		if (!isSquare()) {
+			throw new IllegalOperationException("The matrix is not square");
+		}
+	}
+
+	/**
 	 * Requires the specified {@link Matrix} to have the same dimensions as {@code this}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
 	 * @throws IllegalArgumentException if the dimensions of the matrices do not agree
 	 */
-	protected void requireDimensions(final Matrix matrix) {
+	public void requireDimensions(final Matrix matrix) {
 		MatrixArguments.requireDimensions(matrix, m, n);
 	}
 
@@ -2277,7 +2299,7 @@ public class Matrix
 	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
-	protected void requireInnerDimension(final Matrix matrix) {
+	public void requireInnerDimension(final Matrix matrix) {
 		MatrixArguments.requireInnerDimension(matrix, n);
 	}
 
@@ -2288,7 +2310,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code true} if {@code string} is a parsable {@link Matrix}, {@code false} otherwise
 	 */
-	public static boolean isMatrix(final String string) {
+	public static boolean is(final String string) {
 		final char[] delimiters = Characters.toPrimitiveArray('[', ']');
 		final List<Integer> indexes = Strings.getAllIndexes(string.trim(), delimiters);
 		if (indexes.size() == 2) {

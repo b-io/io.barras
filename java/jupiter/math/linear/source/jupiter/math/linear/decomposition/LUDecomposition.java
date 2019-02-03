@@ -93,6 +93,9 @@ public class LUDecomposition
 	 * @param A a rectangular {@link Matrix}
 	 */
 	public LUDecomposition(final Matrix A) {
+		// Verify the feasibility
+		A.requireSquare();
+
 		// Initialize
 		LU = A.toPrimitiveArray2D();
 		m = A.getRowDimension();
@@ -146,6 +149,11 @@ public class LUDecomposition
 					LU[i][j] /= LU[j][j];
 				}
 			}
+		}
+
+		// Verify the feasibility
+		if (!isNonsingular()) {
+			throw new IllegalOperationException("The matrix is singular");
 		}
 	}
 
@@ -249,12 +257,6 @@ public class LUDecomposition
 	 * @throws IllegalOperationException if {@code A} is not square
 	 */
 	public double det() {
-		// Verify the feasibility
-		if (m != n) {
-			throw new IllegalOperationException("The matrix is not square");
-		}
-
-		// Compute the determinant
 		double d = pivotSign;
 		for (int j = 0; j < n; ++j) {
 			d *= LU[j][j];
@@ -280,11 +282,6 @@ public class LUDecomposition
 	public Matrix solve(final Matrix B) {
 		// Check the arguments
 		MatrixArguments.requireRowDimension(B.getRowDimension(), m);
-
-		// Verify the feasibility
-		if (!isNonsingular()) {
-			throw new IllegalOperationException("The matrix is singular");
-		}
 
 		// Initialize
 		final Matrix X = B.getSubmatrix(pivot, 0, B.getRowDimension());

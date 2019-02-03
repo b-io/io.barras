@@ -256,6 +256,7 @@ public class Table<T>
 	 * @return the index of the specified column, or {@code -1} if there is no such occurrence
 	 */
 	public int getColumnIndex(final String name) {
+		// Verify the feasibility
 		if (header == null) {
 			throw new IllegalOperationException("There is no header");
 		}
@@ -924,6 +925,8 @@ public class Table<T>
 			// Initialize
 			final int rowCount = rowOffset + m;
 			final int columnCount = columnOffset + n;
+
+			// Verify the feasibility
 			if (rowCount <= 0 || columnCount <= 0) {
 				throw new IllegalOperationException("The table cannot be empty");
 			}

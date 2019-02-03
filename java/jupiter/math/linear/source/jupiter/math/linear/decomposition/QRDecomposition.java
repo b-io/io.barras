@@ -124,6 +124,11 @@ public class QRDecomposition
 			}
 			Rdiag[k] = -norm;
 		}
+
+		// Verify the feasibility
+		if (!isFullRank()) {
+			throw new IllegalOperationException("The matrix is rank deficient");
+		}
 	}
 
 
@@ -231,11 +236,6 @@ public class QRDecomposition
 	public Matrix solve(final Matrix B) {
 		// Check the arguments
 		MatrixArguments.requireRowDimension(B.getRowDimension(), m);
-
-		// Verify the feasibility
-		if (!isFullRank()) {
-			throw new IllegalOperationException("The matrix is rank deficient");
-		}
 
 		// Initialize
 		final Matrix X = B.clone();

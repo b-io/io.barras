@@ -92,7 +92,7 @@ public class SingularValueDecomposition
 	 */
 	public SingularValueDecomposition(final Matrix A) {
 		// Initialize
-		final double[][] elements = A.toPrimitiveArray2D();
+		final double[] elements = A.getElements();
 		m = A.getRowDimension();
 		n = A.getColumnDimension();
 		/*
@@ -119,16 +119,16 @@ public class SingularValueDecomposition
 				// Compute the 2-norm of the k-th column without under/overflow
 				s[k] = 0;
 				for (int i = k; i < m; ++i) {
-					s[k] = Norms.getEuclideanNorm(s[k], elements[i][k]);
+					s[k] = Norms.getEuclideanNorm(s[k], elements[i * n + k]);
 				}
 				if (s[k] != 0.) {
-					if (elements[k][k] < 0.) {
+					if (elements[k * n + k] < 0.) {
 						s[k] = -s[k];
 					}
 					for (int i = k; i < m; ++i) {
-						elements[i][k] /= s[k];
+						elements[i * n + k] /= s[k];
 					}
-					elements[k][k] += 1.;
+					elements[k * n + k] += 1.;
 				}
 				s[k] = -s[k];
 			}
@@ -137,21 +137,21 @@ public class SingularValueDecomposition
 					// Apply the transformation
 					double t = 0.;
 					for (int i = k; i < m; ++i) {
-						t += elements[i][k] * elements[i][j];
+						t += elements[i * n + k] * elements[i * n + j];
 					}
-					t = -t / elements[k][k];
+					t = -t / elements[k * n + k];
 					for (int i = k; i < m; ++i) {
-						elements[i][j] += t * elements[i][k];
+						elements[i * n + j] += t * elements[i * n + k];
 					}
 				}
 				// Store the k-th row of A into e
 				// for the subsequent calculation of the row transformation
-				e[j] = elements[k][j];
+				e[j] = elements[k * n + j];
 			}
 			if (requireU & k < nct) {
 				// Store the transformation in U for the subsequent back multiplication
 				for (int i = k; i < m; ++i) {
-					U[i][k] = elements[i][k];
+					U[i][k] = elements[i * n + k];
 				}
 			}
 			if (k < nrt) {
@@ -178,13 +178,13 @@ public class SingularValueDecomposition
 					}
 					for (int j = k + 1; j < n; ++j) {
 						for (int i = k + 1; i < m; ++i) {
-							work[i] += e[j] * elements[i][j];
+							work[i] += e[j] * elements[i * n + j];
 						}
 					}
 					for (int j = k + 1; j < n; ++j) {
 						final double t = -e[j] / e[k + 1];
 						for (int i = k + 1; i < m; ++i) {
-							elements[i][j] += t * work[i];
+							elements[i * n + j] += t * work[i];
 						}
 					}
 				}
@@ -200,13 +200,13 @@ public class SingularValueDecomposition
 		// Set up the final bidiagonal matrix or order p
 		int p = Math.min(m + 1, n);
 		if (nct < n) {
-			s[nct] = elements[nct][nct];
+			s[nct] = elements[nct * n + nct];
 		}
 		if (m < p) {
 			s[p - 1] = 0.;
 		}
 		if (nrt + 1 < p) {
-			e[nrt] = elements[nrt][p - 1];
+			e[nrt] = elements[nrt * n + p - 1];
 		}
 		e[p - 1] = 0.;
 
