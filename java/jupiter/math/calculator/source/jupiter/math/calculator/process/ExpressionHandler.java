@@ -275,7 +275,7 @@ public class ExpressionHandler {
 		if (context.containsKey(expression)) {
 			// Variable
 			leaf = context.get(expression);
-		} else if (Matrix.isMatrix(expression)) {
+		} else if (Matrix.is(expression)) {
 			// Matrix
 			leaf = new MatrixElement(parent, expression);
 		} else if (Strings.isNumeric(expression)) {
