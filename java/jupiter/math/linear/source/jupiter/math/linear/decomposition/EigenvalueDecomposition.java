@@ -103,7 +103,7 @@ public class EigenvalueDecomposition
 	 */
 	public EigenvalueDecomposition(final Matrix A) {
 		// Initialize
-		final double[][] elements = A.getElements();
+		final double[][] elements = A.toPrimitiveArray2D();
 		dimension = A.getColumnDimension();
 		isSymmetric = true;
 		for (int j = 0; j < dimension & isSymmetric; ++j) {
@@ -177,8 +177,7 @@ public class EigenvalueDecomposition
 	 * @return the block diagonal eigenvalue matrix {@code D}
 	 */
 	public Matrix getD() {
-		final Matrix X = new Matrix(dimension, dimension);
-		final double[][] D = X.getElements();
+		final double[][] D = new double[dimension][dimension];
 		for (int i = 0; i < dimension; ++i) {
 			for (int j = 0; j < dimension; ++j) {
 				D[i][j] = 0.;
@@ -190,7 +189,7 @@ public class EigenvalueDecomposition
 				D[i][i - 1] = e[i];
 			}
 		}
-		return X;
+		return new Matrix(D);
 	}
 
 

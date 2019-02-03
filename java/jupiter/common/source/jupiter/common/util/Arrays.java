@@ -134,7 +134,7 @@ public class Arrays {
 	/**
 	 * Returns a {@link String} representation of the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to join
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T}
@@ -269,7 +269,7 @@ public class Arrays {
 	/**
 	 * Tests whether the specified array of type {@code T} is empty.
 	 * <p>
-	 * @param <T>   the type of the array to test
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return {@code true} if the specified array of type {@code T} is empty, {@code false}
@@ -328,7 +328,7 @@ public class Arrays {
 	/**
 	 * Returns a {@link String} representation of the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T}
@@ -341,7 +341,7 @@ public class Arrays {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the type of the array to convert
+	 * @param <T>       the type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter a {@link String}
 	 * <p>
@@ -356,7 +356,7 @@ public class Arrays {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the type of the array to convert
+	 * @param <T>       the type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter a {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}

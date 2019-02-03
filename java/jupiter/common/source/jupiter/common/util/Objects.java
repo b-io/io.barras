@@ -72,7 +72,7 @@ public class Objects {
 	/**
 	 * Returns a hash code value for the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to hash
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a hash code value for the specified array of type {@code T}
@@ -84,7 +84,7 @@ public class Objects {
 	/**
 	 * Returns a hash code value for the specified array of {@code Object} at the specified depth.
 	 * <p>
-	 * @param <T>   the type of the array to hash
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * @param depth the depth to hash at
 	 * <p>

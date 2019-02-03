@@ -39,9 +39,9 @@ public class Dimensions {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Dimensions(final int m, final int n) {
-		this.m = m;
-		this.n = n;
+	public Dimensions(final int rowCount, final int columnCount) {
+		m = rowCount;
+		n = columnCount;
 	}
 
 

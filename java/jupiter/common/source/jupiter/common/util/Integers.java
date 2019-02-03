@@ -128,7 +128,7 @@ public class Integers {
 	/**
 	 * Returns an array of {@code int} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code int} values from the specified array of type {@code T}
@@ -140,7 +140,7 @@ public class Integers {
 	/**
 	 * Returns a 2D array of {@code int} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array to convert
+	 * @param <T>     the type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code int} values from the specified 2D array of type {@code T}
@@ -152,7 +152,7 @@ public class Integers {
 	/**
 	 * Returns a 3D array of {@code int} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array to convert
+	 * @param <T>     the type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code int} values from the specified 3D array of type {@code T}
@@ -263,7 +263,7 @@ public class Integers {
 	/**
 	 * Returns a {@link List} of {@link Integer} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link List} of {@link Integer} from the specified array of type {@code T}
@@ -276,7 +276,7 @@ public class Integers {
 	 * Returns an {@link ExtendedList} of {@link Integer} from the specified array of type
 	 * {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Integer} from the specified array of type {@code T}
@@ -330,7 +330,7 @@ public class Integers {
 	/**
 	 * Returns a {@link Set} of {@link Integer} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified array of type {@code T}

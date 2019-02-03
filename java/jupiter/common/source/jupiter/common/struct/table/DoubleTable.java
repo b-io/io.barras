@@ -51,22 +51,22 @@ public class DoubleTable
 	/**
 	 * Constructs a {@link DoubleTable} of the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public DoubleTable(final int m, final int n) {
-		super(Double.class, m, n);
+	public DoubleTable(final int rowCount, final int columnCount) {
+		super(Double.class, rowCount, columnCount);
 	}
 
 	/**
 	 * Constructs a {@link DoubleTable} of the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header an array of {@link String}
-	 * @param m      the number of rows
-	 * @param n      the number of columns
+	 * @param header      an array of {@link String}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public DoubleTable(final String[] header, final int m, final int n) {
-		super(Double.class, header, m, n);
+	public DoubleTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Double.class, header, rowCount, columnCount);
 	}
 
 	/**
@@ -124,6 +124,10 @@ public class DoubleTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public double[] toPrimitiveArray() {
+		return Doubles.toPrimitiveArray(elements);
+	}
 
 	public double[][] toPrimitiveArray2D() {
 		return Doubles.toPrimitiveArray2D(elements);

@@ -112,7 +112,7 @@ public class Strings {
 	/**
 	 * Returns an array of {@code String} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code String} values from the specified array of type {@code T}
@@ -124,7 +124,7 @@ public class Strings {
 	/**
 	 * Returns a 2D array of {@code String} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array to convert
+	 * @param <T>     the type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code String} values from the specified 2D array of type {@code T}
@@ -136,7 +136,7 @@ public class Strings {
 	/**
 	 * Returns a 3D array of {@code String} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array to convert
+	 * @param <T>     the type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code String} values from the specified 3D array of type {@code T}
@@ -208,7 +208,7 @@ public class Strings {
 	/**
 	 * Returns a {@link String} representation of the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to join
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T}
@@ -236,7 +236,7 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the type of the array to join
+	 * @param <T>       the type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter a {@code char} value
 	 * <p>
@@ -251,7 +251,7 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the type of the array to join
+	 * @param <T>       the type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter a {@link String}
 	 * <p>
@@ -263,15 +263,14 @@ public class Strings {
 		Arguments.requireNonNull(array);
 
 		// Initialize
-		final int length = array.length;
 		int i = 0;
 		final StringBuilder builder = createBuilder(array.length * delimiter.length());
 
 		// Join the array
-		if (length > 0) {
+		if (array.length > 0) {
 			builder.append(toString(array[i]));
 			++i;
-			while (i < length) {
+			while (i < array.length) {
 				builder.append(delimiter).append(toString(array[i]));
 				++i;
 			}
@@ -283,7 +282,7 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the type of the array to join
+	 * @param <T>       the type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter a {@code char} value
 	 * @param wrapper   an {@link ObjectToStringMapper}
@@ -300,7 +299,7 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the type of the array to join
+	 * @param <T>       the type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter a {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
@@ -314,15 +313,14 @@ public class Strings {
 		Arguments.requireNonNull(array);
 
 		// Initialize
-		final int length = array.length;
 		int i = 0;
 		final StringBuilder builder = createBuilder(array.length * delimiter.length());
 
 		// Join the array
-		if (length > 0) {
+		if (array.length > 0) {
 			builder.append(wrapper.call(array[i]));
 			++i;
-			while (i < length) {
+			while (i < array.length) {
 				builder.append(delimiter).append(wrapper.call(array[i]));
 				++i;
 			}
@@ -815,13 +813,12 @@ public class Strings {
 	 *         {@code character}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findFirstCharacterNotEqualTo(final String string, final char character) {
-		final int length = string.length();
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(character);
 
 		// Find the first character
-		for (int index = 0; index < length; ++index) {
+		for (int index = 0; index < string.length(); ++index) {
 			if (string.charAt(index) != character) {
 				return index;
 			}

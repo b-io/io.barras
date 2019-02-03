@@ -100,43 +100,43 @@ public class Table<T>
 	/**
 	 * Constructs a {@link Table} of type {@code T} of the specified numbers of rows and columns.
 	 * <p>
-	 * @param c the {@link Class} of type {@code T}
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param c           the {@link Class} of type {@code T}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public Table(final Class<T> c, final int m, final int n) {
+	public Table(final Class<T> c, final int rowCount, final int columnCount) {
 		// Check the arguments
-		IntegerArguments.requirePositive(m);
-		IntegerArguments.requirePositive(n);
+		IntegerArguments.requirePositive(rowCount);
+		IntegerArguments.requirePositive(columnCount);
 
 		// Set the attributes
 		this.c = c;
-		this.m = m;
-		this.n = n;
-		createHeader(n);
-		elements = createArray2D(m, n);
+		m = rowCount;
+		n = columnCount;
+		createHeader(columnCount);
+		elements = createArray2D(rowCount, columnCount);
 	}
 
 	/**
 	 * Constructs a {@link Table} of type {@code T} of the specified header and numbers of rows and
 	 * columns.
 	 * <p>
-	 * @param c      the {@link Class} of type {@code T}
-	 * @param header an array of {@link String}
-	 * @param m      the number of rows
-	 * @param n      the number of columns
+	 * @param c           the {@link Class} of type {@code T}
+	 * @param header      an array of {@link String}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public Table(final Class<T> c, final String[] header, final int m, final int n) {
+	public Table(final Class<T> c, final String[] header, final int rowCount, final int columnCount) {
 		// Check the arguments
-		IntegerArguments.requirePositive(m);
-		IntegerArguments.requirePositive(n);
+		IntegerArguments.requirePositive(rowCount);
+		IntegerArguments.requirePositive(columnCount);
 
 		// Set the attributes
 		this.c = c;
-		this.m = m;
-		this.n = n;
+		m = rowCount;
+		n = columnCount;
 		this.header = header;
-		elements = createArray2D(m, n);
+		elements = createArray2D(rowCount, columnCount);
 	}
 
 	/**
@@ -148,11 +148,11 @@ public class Table<T>
 	public Table(final Class<T> c, final T[]... elements) {
 		// Set the attributes
 		this.c = c;
-		this.m = elements.length;
-		if (this.m > 0) {
-			this.n = elements[0].length;
+		m = elements.length;
+		if (m > 0) {
+			n = elements[0].length;
 		} else {
-			this.n = 0;
+			n = 0;
 		}
 		createHeader(n);
 		this.elements = elements;
@@ -173,8 +173,8 @@ public class Table<T>
 
 		// Set the attributes
 		this.c = c;
-		this.m = elements.length;
-		this.n = header.length;
+		m = elements.length;
+		n = header.length;
 		this.header = header;
 		this.elements = elements;
 	}

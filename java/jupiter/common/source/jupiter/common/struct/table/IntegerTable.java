@@ -51,22 +51,22 @@ public class IntegerTable
 	/**
 	 * Constructs an {@link IntegerTable} of the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public IntegerTable(final int m, final int n) {
-		super(Integer.class, m, n);
+	public IntegerTable(final int rowCount, final int columnCount) {
+		super(Integer.class, rowCount, columnCount);
 	}
 
 	/**
 	 * Constructs a {@link IntegerTable} of the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header an array of {@link String}
-	 * @param m      the number of rows
-	 * @param n      the number of columns
+	 * @param header      an array of {@link String}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public IntegerTable(final String[] header, final int m, final int n) {
-		super(Integer.class, header, m, n);
+	public IntegerTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Integer.class, header, rowCount, columnCount);
 	}
 
 	/**

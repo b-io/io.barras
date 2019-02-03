@@ -57,25 +57,25 @@ public class NumberTable<T extends Number>
 	 * Constructs a {@link NumberTable} of type {@code T} of the specified numbers of rows and
 	 * columns.
 	 * <p>
-	 * @param c the {@link Class} of type {@code T}
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param c           the {@link Class} of type {@code T}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public NumberTable(final Class<T> c, final int m, final int n) {
-		super(c, m, n);
+	public NumberTable(final Class<T> c, final int rowCount, final int columnCount) {
+		super(c, rowCount, columnCount);
 	}
 
 	/**
 	 * Constructs a {@link NumberTable} of type {@code T} of the specified header and numbers of
 	 * rows and columns.
 	 * <p>
-	 * @param c      the {@link Class} of type {@code T}
-	 * @param header an array of {@link String}
-	 * @param m      the number of rows
-	 * @param n      the number of columns
+	 * @param c           the {@link Class} of type {@code T}
+	 * @param header      an array of {@link String}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public NumberTable(final Class<T> c, final String[] header, final int m, final int n) {
-		super(c, header, m, n);
+	public NumberTable(final Class<T> c, final String[] header, final int rowCount, final int columnCount) {
+		super(c, header, rowCount, columnCount);
 	}
 
 	/**

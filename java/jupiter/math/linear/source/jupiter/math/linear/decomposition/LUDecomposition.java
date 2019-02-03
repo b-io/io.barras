@@ -174,8 +174,7 @@ public class LUDecomposition
 	 * @return the lower triangular factor {@code L}
 	 */
 	public Matrix getL() {
-		final Matrix X = new Matrix(m, n);
-		final double[][] L = X.getElements();
+		final double[][] L = new double[m][n];
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				if (i > j) {
@@ -187,7 +186,7 @@ public class LUDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(L);
 	}
 
 	/**
@@ -205,8 +204,7 @@ public class LUDecomposition
 	 * @return the upper triangular factor {@code U}
 	 */
 	public Matrix getU() {
-		final Matrix X = new Matrix(n, n);
-		final double[][] U = X.getElements();
+		final double[][] U = new double[n][n];
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
 				if (i <= j) {
@@ -216,7 +214,7 @@ public class LUDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(U);
 	}
 
 	/**
@@ -289,27 +287,27 @@ public class LUDecomposition
 		}
 
 		// Initialize
-		final int nx = B.getColumnDimension();
-		final Matrix X = B.getSubmatrix(pivot, 0, nx);
-		final double[][] xElements = X.getElements();
+		final Matrix X = B.getSubmatrix(pivot, 0, B.getRowDimension());
+		final int xColumnDimension = X.getColumnDimension();
+		final double[] xElements = X.getElements();
 
 		// Solve L * Y = B(pivot, :)
 		for (int k = 0; k < n; ++k) {
 			for (int i = k + 1; i < n; ++i) {
-				for (int j = 0; j < nx; ++j) {
-					xElements[i][j] -= xElements[k][j] * LU[i][k];
+				for (int j = 0; j < xColumnDimension; ++j) {
+					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] * LU[i][k];
 				}
 			}
 		}
 
 		// Solve U * X = Y
 		for (int k = n - 1; k >= 0; --k) {
-			for (int j = 0; j < nx; ++j) {
-				xElements[k][j] /= LU[k][k];
+			for (int j = 0; j < xColumnDimension; ++j) {
+				xElements[k * xColumnDimension + j] /= LU[k][k];
 			}
 			for (int i = 0; i < k; ++i) {
-				for (int j = 0; j < nx; ++j) {
-					xElements[i][j] -= xElements[k][j] * LU[i][k];
+				for (int j = 0; j < xColumnDimension; ++j) {
+					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] * LU[i][k];
 				}
 			}
 		}

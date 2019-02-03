@@ -440,11 +440,10 @@ public class ExpressionHandler {
 	 */
 	protected static IntervalList<Integer> getDelimitingIntervals(final String expression) {
 		final List<Interval<Integer>> delimitingIntervals = new LinkedList<Interval<Integer>>();
-		final int length = expression.length();
 		int counter = 0;
 		int lowerBound, upperBound = -1;
 
-		for (int index = length - 1; index >= 0; --index) {
+		for (int index = expression.length() - 1; index >= 0; --index) {
 			final Element.Type type = getType(expression.charAt(index));
 			if (type == Element.Type.RIGHT_PARENTHESIS || type == Element.Type.RIGHT_BRACKET) {
 				if (counter == 0) {

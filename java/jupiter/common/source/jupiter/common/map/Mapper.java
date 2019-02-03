@@ -83,6 +83,33 @@ public abstract class Mapper<I, O>
 		return result;
 	}
 
+	public O[] callToArray(final I[]... input2D) {
+		final int n = input2D[0].length;
+		final O[] result = Arrays.<O>create(c, input2D.length * n);
+		for (int i = 0; i < input2D.length; ++i) {
+			for (int j = 0; j < n; ++j) {
+				result[i * n + j] = call(input2D[i][j]);
+			}
+		}
+		return result;
+	}
+
+	public O[] callToArray(final I[][]... input3D) {
+		final int n = input3D[0].length;
+		final int o = input3D[0][0].length;
+		final O[] result = Arrays.<O>create(c, input3D.length * n * o);
+		for (int i = 0; i < input3D.length; ++i) {
+			for (int j = 0; j < n; ++j) {
+				for (int k = 0; k < o; ++k) {
+					result[i * n + j * o + k] = call(input3D[i][j][k]);
+				}
+			}
+		}
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
 	public O[][] callToArray2D(final I[]... input2D) {
 		final O[][] result = Arrays.<O>create(c, input2D.length, 0);
 		for (int i = 0; i < input2D.length; ++i) {

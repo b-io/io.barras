@@ -52,22 +52,22 @@ public class StringTable
 	/**
 	 * Constructs a {@link StringTable} of the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public StringTable(final int m, final int n) {
-		super(String.class, m, n);
+	public StringTable(final int rowCount, final int columnCount) {
+		super(String.class, rowCount, columnCount);
 	}
 
 	/**
 	 * Constructs a {@link StringTable} of the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header an array of {@link String}
-	 * @param m      the number of rows
-	 * @param n      the number of columns
+	 * @param header      an array of {@link String}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public StringTable(final String[] header, final int m, final int n) {
-		super(String.class, header, m, n);
+	public StringTable(final String[] header, final int rowCount, final int columnCount) {
+		super(String.class, header, rowCount, columnCount);
 	}
 
 	/**

@@ -95,10 +95,12 @@ public class Doubles {
 		return PARSER.callToPrimitive(object);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns an array of {@code double} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code double} values from the specified array of type {@code T}
@@ -108,9 +110,35 @@ public class Doubles {
 	}
 
 	/**
+	 * Returns an array of {@code double} values from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code double} values from the specified 2D array of type {@code T}
+	 */
+	public static <T> double[] toPrimitiveArray(final T[]... array2D) {
+		return PARSER.callToPrimitiveArray(array2D);
+	}
+
+	/**
+	 * Returns an array of {@code double} values from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code double} values from the specified 3D array of type {@code T}
+	 */
+	public static <T> double[] toPrimitiveArray(final T[][]... array3D) {
+		return PARSER.callToPrimitiveArray(array3D);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns a 2D array of {@code double} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array to convert
+	 * @param <T>     the type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code double} values from the specified 2D array of type {@code T}
@@ -122,7 +150,7 @@ public class Doubles {
 	/**
 	 * Returns a 3D array of {@code double} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array to convert
+	 * @param <T>     the type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code double} values from the specified 3D array of type {@code T}
@@ -233,7 +261,7 @@ public class Doubles {
 	/**
 	 * Returns a {@link List} of {@link Double} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link List} of {@link Double} from the specified array of type {@code T}
@@ -245,7 +273,7 @@ public class Doubles {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Double} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Double} from the specified array of type {@code T}
@@ -299,7 +327,7 @@ public class Doubles {
 	/**
 	 * Returns a {@link Set} of {@link Double} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link Set} of {@link Double} from the specified array of type {@code T}
@@ -562,6 +590,26 @@ public class Doubles {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the transpose of the specified array of {@code double} values.
+	 * <p>
+	 * @param rowCount the number of rows of the array
+	 * @param array    an array of {@code double} values
+	 * <p>
+	 * @return the transpose of the specified array of {@code double} values
+	 */
+	public static double[] transpose(final int rowCount, final double[] array) {
+		final int n = rowCount;
+		final int m = array.length / rowCount;
+		final double[] transpose = new double[m * n];
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				transpose[i * n + j] = array[j * m + i];
+			}
+		}
+		return transpose;
+	}
 
 	/**
 	 * Returns the transpose of the specified 2D array of {@code double} values.

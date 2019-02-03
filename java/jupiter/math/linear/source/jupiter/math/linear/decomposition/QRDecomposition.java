@@ -151,8 +151,7 @@ public class QRDecomposition
 	 * @return the lower trapezoidal matrix whose columns define the reflections
 	 */
 	public Matrix getH() {
-		final Matrix X = new Matrix(m, n);
-		final double[][] H = X.getElements();
+		final double[][] H = new double[m][n];
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				if (i >= j) {
@@ -162,7 +161,7 @@ public class QRDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(H);
 	}
 
 	/**
@@ -171,8 +170,7 @@ public class QRDecomposition
 	 * @return the upper triangular factor {@code R}
 	 */
 	public Matrix getR() {
-		final Matrix X = new Matrix(n, n);
-		final double[][] R = X.getElements();
+		final double[][] R = new double[n][n];
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
 				if (i < j) {
@@ -184,7 +182,7 @@ public class QRDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(R);
 	}
 
 	/**
@@ -193,8 +191,7 @@ public class QRDecomposition
 	 * @return the (economy-sized) orthogonal factor {@code Q}
 	 */
 	public Matrix getQ() {
-		final Matrix X = new Matrix(m, n);
-		final double[][] Q = X.getElements();
+		final double[][] Q = new double[m][n];
 		for (int k = n - 1; k >= 0; --k) {
 			for (int i = 0; i < m; ++i) {
 				Q[i][k] = 0.;
@@ -213,7 +210,7 @@ public class QRDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(Q);
 	}
 
 
@@ -241,35 +238,36 @@ public class QRDecomposition
 		}
 
 		// Initialize
-		final int nx = B.getColumnDimension();
-		final double[][] xElements = B.toPrimitiveArray2D();
+		final Matrix X = B.clone();
+		final int xColumnDimension = X.getColumnDimension();
+		final double[] xElements = X.getElements();
 
 		// Compute Y = Q' * B
 		for (int k = 0; k < n; ++k) {
-			for (int j = 0; j < nx; ++j) {
+			for (int j = 0; j < xColumnDimension; ++j) {
 				double s = 0.;
 				for (int i = k; i < m; ++i) {
-					s += QR[i][k] * xElements[i][j];
+					s += QR[i][k] * xElements[i * xColumnDimension + j];
 				}
 				s = -s / QR[k][k];
 				for (int i = k; i < m; ++i) {
-					xElements[i][j] += s * QR[i][k];
+					xElements[i * xColumnDimension + j] += s * QR[i][k];
 				}
 			}
 		}
 
 		// Solve R * X = Y
 		for (int k = n - 1; k >= 0; --k) {
-			for (int j = 0; j < nx; ++j) {
-				xElements[k][j] /= Rdiag[k];
+			for (int j = 0; j < xColumnDimension; ++j) {
+				xElements[k * xColumnDimension + j] /= Rdiag[k];
 			}
 			for (int i = 0; i < k; ++i) {
-				for (int j = 0; j < nx; ++j) {
-					xElements[i][j] -= xElements[k][j] * QR[i][k];
+				for (int j = 0; j < xColumnDimension; ++j) {
+					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] * QR[i][k];
 				}
 			}
 		}
 
-		return new Matrix(n, nx, xElements).getSubmatrix(0, n, 0, nx);
+		return X;
 	}
 }

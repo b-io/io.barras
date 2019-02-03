@@ -51,22 +51,22 @@ public class FloatTable
 	/**
 	 * Constructs a {@link FloatTable} of the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public FloatTable(final int m, final int n) {
-		super(Float.class, m, n);
+	public FloatTable(final int rowCount, final int columnCount) {
+		super(Float.class, rowCount, columnCount);
 	}
 
 	/**
 	 * Constructs a {@link FloatTable} of the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header an array of {@link String}
-	 * @param m      the number of rows
-	 * @param n      the number of columns
+	 * @param header      an array of {@link String}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public FloatTable(final String[] header, final int m, final int n) {
-		super(Float.class, header, m, n);
+	public FloatTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Float.class, header, rowCount, columnCount);
 	}
 
 	/**

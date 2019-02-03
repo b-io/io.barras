@@ -161,10 +161,8 @@ public class Scalar
 	 */
 	@Override
 	public Vector toVector() {
-		return new Vector(new double[][] {
-			new double[] {
-				value
-			}
+		return new Vector(new double[] {
+			value
 		});
 	}
 
@@ -175,10 +173,8 @@ public class Scalar
 	 */
 	@Override
 	public Matrix toMatrix() {
-		return new Matrix(new double[][] {
-			new double[] {
-				value
-			}
+		return new Matrix(1, new double[] {
+			value
 		});
 	}
 
@@ -368,7 +364,7 @@ public class Scalar
 	public Matrix add(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				matrix.elements[i][j] += value;
+				matrix.elements[i * matrix.n + j] += value;
 			}
 		}
 		return matrix;
@@ -400,7 +396,7 @@ public class Scalar
 		final Matrix result = new Matrix(matrix.m, matrix.n);
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				result.elements[i][j] = value - matrix.elements[i][j];
+				result.elements[i * result.n + j] = value - matrix.elements[i * matrix.n + j];
 			}
 		}
 		return result;
@@ -437,7 +433,7 @@ public class Scalar
 	public Matrix subtract(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				matrix.elements[i][j] = value - matrix.elements[i][j];
+				matrix.elements[i * matrix.n + j] = value - matrix.elements[i * matrix.n + j];
 			}
 		}
 		return matrix;
@@ -554,7 +550,7 @@ public class Scalar
 		final Matrix result = new Matrix(matrix.m, matrix.n);
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				result.elements[i][j] = value / matrix.elements[i][j];
+				result.elements[i * result.n + j] = value / matrix.elements[i * matrix.n + j];
 			}
 		}
 		return result;
@@ -603,7 +599,7 @@ public class Scalar
 	public Matrix divide(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				matrix.elements[i][j] = value / matrix.elements[i][j];
+				matrix.elements[i * matrix.n + j] = value / matrix.elements[i * matrix.n + j];
 			}
 		}
 		return matrix;
@@ -649,7 +645,7 @@ public class Scalar
 		final Matrix result = new Matrix(matrix.m, matrix.n);
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				result.elements[i][j] = Math.pow(value, matrix.elements[i][j]);
+				result.elements[i * result.n + j] = Math.pow(value, matrix.elements[i * matrix.n + j]);
 			}
 		}
 		return result;
@@ -686,7 +682,7 @@ public class Scalar
 	public Matrix arrayRaise(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				matrix.elements[i][j] = Math.pow(value, matrix.elements[i][j]);
+				matrix.elements[i * matrix.n + j] = Math.pow(value, matrix.elements[i * matrix.n + j]);
 			}
 		}
 		return matrix;

@@ -51,22 +51,22 @@ public class LongTable
 	/**
 	 * Constructs a {@link LongTable} of the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public LongTable(final int m, final int n) {
-		super(Long.class, m, n);
+	public LongTable(final int rowCount, final int columnCount) {
+		super(Long.class, rowCount, columnCount);
 	}
 
 	/**
 	 * Constructs a {@link LongTable} of the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header an array of {@link String}
-	 * @param m      the number of rows
-	 * @param n      the number of columns
+	 * @param header      an array of {@link String}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public LongTable(final String[] header, final int m, final int n) {
-		super(Long.class, header, m, n);
+	public LongTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Long.class, header, rowCount, columnCount);
 	}
 
 	/**

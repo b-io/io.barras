@@ -97,7 +97,7 @@ public class Characters {
 	/**
 	 * Returns an array of {@code char} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code char} values from the specified array of type {@code T}
@@ -109,7 +109,7 @@ public class Characters {
 	/**
 	 * Returns a 2D array of {@code char} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array to convert
+	 * @param <T>     the type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code char} values from the specified 2D array of type {@code T}
@@ -121,7 +121,7 @@ public class Characters {
 	/**
 	 * Returns a 3D array of {@code char} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array to convert
+	 * @param <T>     the type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code char} values from the specified 3D array of type {@code T}
@@ -233,7 +233,7 @@ public class Characters {
 	/**
 	 * Returns a {@link List} of {@link Character} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link List} of {@link Character} from the specified array of type {@code T}
@@ -246,7 +246,7 @@ public class Characters {
 	 * Returns an {@link ExtendedList} of {@link Character} from the specified array of type
 	 * {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Character} from the specified array of type
@@ -301,7 +301,7 @@ public class Characters {
 	/**
 	 * Returns a {@link Set} of {@link Character} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array to convert
+	 * @param <T>   the type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link Set} of {@link Character} from the specified array of type {@code T}

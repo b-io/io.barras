@@ -51,22 +51,22 @@ public class CharacterTable
 	/**
 	 * Constructs a {@link CharacterTable} of the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public CharacterTable(final int m, final int n) {
-		super(Character.class, m, n);
+	public CharacterTable(final int rowCount, final int columnCount) {
+		super(Character.class, rowCount, columnCount);
 	}
 
 	/**
 	 * Constructs a {@link CharacterTable} of the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header an array of {@link String}
-	 * @param m      the number of rows
-	 * @param n      the number of columns
+	 * @param header      an array of {@link String}
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public CharacterTable(final String[] header, final int m, final int n) {
-		super(Character.class, header, m, n);
+	public CharacterTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Character.class, header, rowCount, columnCount);
 	}
 
 	/**

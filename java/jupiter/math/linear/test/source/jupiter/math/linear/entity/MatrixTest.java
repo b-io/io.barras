@@ -56,10 +56,10 @@ public class MatrixTest
 		// Initialize
 		final int testCount = 10;
 		final int[] rowCounts = {
-			10, 50, 100, 200
+			10, 50, 100, 200, 300
 		};
 		final int[] columnCounts = {
-			10, 50, 100, 200
+			10, 50, 100, 200, 300
 		};
 		final String[] header = Strings.toArray(Integers.toArray(columnCounts));
 		final DoubleTable normalStats = new DoubleTable(header, rowCounts.length,
@@ -98,7 +98,7 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.start();
-				//CL.use = false;
+				CL.use = false;
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
@@ -139,6 +139,7 @@ public class MatrixTest
 				// Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.start();
+				CL.use = true;
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
@@ -153,6 +154,7 @@ public class MatrixTest
 					assertEquals(expected, found);
 				} finally {
 					Matrix.stop();
+					CL.use = false;
 				}
 
 				++j;
@@ -281,6 +283,7 @@ public class MatrixTest
 				// Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.start();
+				CL.use = true;
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
@@ -295,6 +298,7 @@ public class MatrixTest
 					assertEquals(expected, found);
 				} finally {
 					Matrix.stop();
+					CL.use = false;
 				}
 
 				++j;

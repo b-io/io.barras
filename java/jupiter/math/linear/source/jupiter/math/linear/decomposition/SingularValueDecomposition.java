@@ -514,15 +514,14 @@ public class SingularValueDecomposition
 	 * @return the diagonal matrix of singular values {@code S}
 	 */
 	public Matrix getS() {
-		final Matrix X = new Matrix(n, n);
-		final double[][] S = X.getElements();
+		final double[][] S = new double[n][n];
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
 				S[i][j] = 0.;
 			}
 			S[i][i] = s[i];
 		}
-		return X;
+		return new Matrix(S);
 	}
 
 	/**

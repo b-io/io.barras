@@ -181,7 +181,7 @@ public class Vector
 	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void set(final int i, final double value) {
-		elements[i][0] = value;
+		elements[i * n] = value;
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class Vector
 	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
 	 */
 	public void set(final int i, final Object value) {
-		elements[i][0] = Doubles.convert(value);
+		elements[i * n] = Doubles.convert(value);
 	}
 
 
@@ -238,15 +238,15 @@ public class Vector
 		return toMatrix(dimension, n);
 	}
 
-	public Matrix toMatrix(final int m, final int n) {
-		if (this.m == m && this.n == n) {
+	public Matrix toMatrix(final int rowCount, final int columnCount) {
+		if (m == rowCount && n == columnCount) {
 			return this;
 		}
 		if (isTransposed) {
-			if (this.n == n) {
+			if (n == columnCount) {
 				final double[] row = getRow(0);
-				final Matrix result = new Matrix(m, n);
-				for (int i = 0; i < m; ++i) {
+				final Matrix result = new Matrix(rowCount, columnCount);
+				for (int i = 0; i < rowCount; ++i) {
 					result.setRow(i, row);
 				}
 				return result;
@@ -254,10 +254,10 @@ public class Vector
 			throw new IllegalOperationException("Cannot broadcast " + getName() + " to " +
 					getDimensions() + " (wrong number of columns)");
 		}
-		if (this.m == m) {
+		if (m == rowCount) {
 			final double[] column = getColumn(0);
-			final Matrix result = new Matrix(m, n);
-			for (int j = 0; j < n; ++j) {
+			final Matrix result = new Matrix(rowCount, columnCount);
+			for (int j = 0; j < columnCount; ++j) {
 				result.setColumn(j, column);
 			}
 			return result;
@@ -281,7 +281,7 @@ public class Vector
 	public static Vector random(final int m) {
 		final Vector random = new Vector(m);
 		for (int i = 0; i < m; ++i) {
-			random.elements[i][0] = Doubles.random();
+			random.elements[i] = Doubles.random();
 		}
 		return random;
 	}
@@ -315,7 +315,7 @@ public class Vector
 	 */
 	@Override
 	public Vector apply(final Function f) {
-		return new Vector(f.applyToPrimitiveArray2D(elements));
+		return new Vector(f.applyToPrimitiveArray(elements));
 	}
 
 	/**
@@ -328,7 +328,7 @@ public class Vector
 		final Vector result = new Vector(getDimension());
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i][j] = -elements[i][j];
+				result.elements[i * n + j] = -elements[i * n + j];
 			}
 		}
 		return result;
@@ -341,7 +341,7 @@ public class Vector
 	 */
 	@Override
 	public Vector transpose() {
-		return new Vector(Doubles.transpose(elements));
+		return new Vector(Doubles.transpose(m, elements));
 	}
 
 
