@@ -109,6 +109,8 @@ public abstract class OpenCL {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public volatile boolean use;
+
 	protected final String sourceCode;
 	protected final List<String> kernelNames = new LinkedList<String>();
 
@@ -214,7 +216,7 @@ public abstract class OpenCL {
 
 	public boolean test(final int rowDimension, final int innerDimension,
 			final int columnDimension) {
-		return USE && Maths.maxToInt(rowDimension * innerDimension, rowDimension * columnDimension,
+		return use && Maths.maxToInt(rowDimension * innerDimension, rowDimension * columnDimension,
 				innerDimension * columnDimension) > 1E5;
 	}
 
