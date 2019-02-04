@@ -533,7 +533,7 @@ public class Doubles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double[] take(final double[] array) {
+	public static double[] take(final double... array) {
 		return take(array, 0, array.length);
 	}
 
@@ -544,7 +544,7 @@ public class Doubles {
 		return result;
 	}
 
-	public static double[] take(final double[][] array2D) {
+	public static double[] take(final double[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
 
@@ -563,7 +563,7 @@ public class Doubles {
 		return result;
 	}
 
-	public static double[] take(final double[][][] array3D) {
+	public static double[] take(final double[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
 	}
 

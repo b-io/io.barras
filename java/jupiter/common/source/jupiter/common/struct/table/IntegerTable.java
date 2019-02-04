@@ -125,6 +125,10 @@ public class IntegerTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public int[] toPrimitiveArray() {
+		return Integers.toPrimitiveArray(elements);
+	}
+
 	public int[][] toPrimitiveArray2D() {
 		return Integers.toPrimitiveArray2D(elements);
 	}

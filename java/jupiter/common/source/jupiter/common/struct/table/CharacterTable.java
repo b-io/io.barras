@@ -125,6 +125,10 @@ public class CharacterTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public char[] toPrimitiveArray() {
+		return Characters.toPrimitiveArray(elements);
+	}
+
 	public char[][] toPrimitiveArray2D() {
 		return Characters.toPrimitiveArray2D(elements);
 	}

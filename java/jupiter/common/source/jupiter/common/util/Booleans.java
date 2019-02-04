@@ -368,7 +368,7 @@ public class Booleans {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static boolean[] take(final boolean[] array) {
+	public static boolean[] take(final boolean... array) {
 		return take(array, 0, array.length);
 	}
 
@@ -379,7 +379,7 @@ public class Booleans {
 		return result;
 	}
 
-	public static boolean[] take(final boolean[][] array2D) {
+	public static boolean[] take(final boolean[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
 
@@ -398,7 +398,7 @@ public class Booleans {
 		return result;
 	}
 
-	public static boolean[] take(final boolean[][][] array3D) {
+	public static boolean[] take(final boolean[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
 	}
 
@@ -426,6 +426,26 @@ public class Booleans {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the transpose of the specified array of {@code boolean} values.
+	 * <p>
+	 * @param rowCount the number of rows of the array
+	 * @param array    an array of {@code boolean} values
+	 * <p>
+	 * @return the transpose of the specified array of {@code boolean} values
+	 */
+	public static boolean[] transpose(final int rowCount, final boolean[] array) {
+		final int n = rowCount;
+		final int m = array.length / rowCount;
+		final boolean[] transpose = new boolean[m * n];
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				transpose[i * n + j] = array[j * m + i];
+			}
+		}
+		return transpose;
+	}
 
 	/**
 	 * Returns the transpose of the specified 2D array of {@code boolean} values.

@@ -125,6 +125,10 @@ public class FloatTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public float[] toPrimitiveArray() {
+		return Floats.toPrimitiveArray(elements);
+	}
+
 	public float[][] toPrimitiveArray2D() {
 		return Floats.toPrimitiveArray2D(elements);
 	}

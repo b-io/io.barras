@@ -521,7 +521,7 @@ public class Integers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int[] take(final int[] array) {
+	public static int[] take(final int... array) {
 		return take(array, 0, array.length);
 	}
 
@@ -532,7 +532,7 @@ public class Integers {
 		return result;
 	}
 
-	public static int[] take(final int[][] array2D) {
+	public static int[] take(final int[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
 
@@ -551,7 +551,7 @@ public class Integers {
 		return result;
 	}
 
-	public static int[] take(final int[][][] array3D) {
+	public static int[] take(final int[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
 	}
 
@@ -578,6 +578,26 @@ public class Integers {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the transpose of the specified array of {@code int} values.
+	 * <p>
+	 * @param rowCount the number of rows of the array
+	 * @param array    an array of {@code int} values
+	 * <p>
+	 * @return the transpose of the specified array of {@code int} values
+	 */
+	public static int[] transpose(final int rowCount, final int[] array) {
+		final int n = rowCount;
+		final int m = array.length / rowCount;
+		final int[] transpose = new int[m * n];
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				transpose[i * n + j] = array[j * m + i];
+			}
+		}
+		return transpose;
+	}
 
 	/**
 	 * Returns the transpose of the specified 2D array of {@code int} values.

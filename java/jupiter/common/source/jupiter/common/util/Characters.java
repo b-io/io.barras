@@ -465,7 +465,7 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static char[] take(final char[] array) {
+	public static char[] take(final char... array) {
 		return take(array, 0, array.length);
 	}
 
@@ -476,7 +476,7 @@ public class Characters {
 		return result;
 	}
 
-	public static char[] take(final char[][] array2D) {
+	public static char[] take(final char[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
 
@@ -495,7 +495,7 @@ public class Characters {
 		return result;
 	}
 
-	public static char[] take(final char[][][] array3D) {
+	public static char[] take(final char[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
 	}
 
@@ -522,6 +522,26 @@ public class Characters {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the transpose of the specified array of {@code char} values.
+	 * <p>
+	 * @param rowCount the number of rows of the array
+	 * @param array    an array of {@code char} values
+	 * <p>
+	 * @return the transpose of the specified array of {@code char} values
+	 */
+	public static char[] transpose(final int rowCount, final char[] array) {
+		final int n = rowCount;
+		final int m = array.length / rowCount;
+		final char[] transpose = new char[m * n];
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				transpose[i * n + j] = array[j * m + i];
+			}
+		}
+		return transpose;
+	}
 
 	/**
 	 * Returns the transpose of the specified 2D array of {@code char} values.

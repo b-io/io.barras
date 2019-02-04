@@ -64,7 +64,7 @@ public class Table<T>
 	/**
 	 * The column delimiters.
 	 */
-	public static final char[] COLUMN_DELIMITERS = Characters.toPrimitiveArray('\t', ',', ';');
+	public static final char[] COLUMN_DELIMITERS = Characters.take('\t', ',', ';');
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

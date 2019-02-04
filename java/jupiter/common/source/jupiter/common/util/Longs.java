@@ -504,7 +504,7 @@ public class Longs {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static long[] take(final long[] array) {
+	public static long[] take(final long... array) {
 		return take(array, 0, array.length);
 	}
 
@@ -515,7 +515,7 @@ public class Longs {
 		return result;
 	}
 
-	public static long[] take(final long[][] array2D) {
+	public static long[] take(final long[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
 
@@ -534,7 +534,7 @@ public class Longs {
 		return result;
 	}
 
-	public static long[] take(final long[][][] array3D) {
+	public static long[] take(final long[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
 	}
 
@@ -561,6 +561,26 @@ public class Longs {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the transpose of the specified array of {@code long} values.
+	 * <p>
+	 * @param rowCount the number of rows of the array
+	 * @param array    an array of {@code long} values
+	 * <p>
+	 * @return the transpose of the specified array of {@code long} values
+	 */
+	public static long[] transpose(final int rowCount, final long[] array) {
+		final int n = rowCount;
+		final int m = array.length / rowCount;
+		final long[] transpose = new long[m * n];
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				transpose[i * n + j] = array[j * m + i];
+			}
+		}
+		return transpose;
+	}
 
 	/**
 	 * Returns the transpose of the specified 2D array of {@code long} values.

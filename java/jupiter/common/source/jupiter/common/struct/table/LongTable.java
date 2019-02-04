@@ -125,6 +125,10 @@ public class LongTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public long[] toPrimitiveArray() {
+		return Longs.toPrimitiveArray(elements);
+	}
+
 	public long[][] toPrimitiveArray2D() {
 		return Longs.toPrimitiveArray2D(elements);
 	}
