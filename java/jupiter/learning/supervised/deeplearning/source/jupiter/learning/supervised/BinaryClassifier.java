@@ -217,8 +217,8 @@ public abstract class BinaryClassifier {
 	 */
 	public synchronized double computeCost(final Entity A) {
 		// Compute -(log(A) Y' + log(1 - A) (1 - Y')) / m
-		return -A.apply(Functions.LOG).multiply(YT)
-				.add(Scalar.ONE.minus(A).apply(Functions.LOG).multiply(Scalar.ONE.minus(YT)))
+		return -A.apply(Functions.LOG).times(YT)
+				.add(Scalar.ONE.minus(A).apply(Functions.LOG).times(Scalar.ONE.minus(YT)))
 				.toScalar().get() / trainingExampleCount;
 	}
 
@@ -256,7 +256,7 @@ public abstract class BinaryClassifier {
 		// Classify X
 		final Entity A = classify(X); // (1 x m)
 		// Compute (A Y' + (1 - A) (1 - Y')) / m
-		return A.times(YT).add(Scalar.ONE.minus(A).multiply(Scalar.ONE.minus(YT))).toScalar()
-				.get() / trainingExampleCount;
+		return A.times(YT).add(Scalar.ONE.minus(A).times(Scalar.ONE.minus(YT))).toScalar().get() /
+				trainingExampleCount;
 	}
 }

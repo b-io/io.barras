@@ -380,23 +380,6 @@ public abstract class Entity
 	//////////////////////////////////////////////
 
 	/**
-	 * Multiplies {@code this} by the specified {@link Entity}.
-	 * <p>
-	 * @param entity an {@link Entity}
-	 * <p>
-	 * @return {@code this *= entity}
-	 */
-	public Entity multiply(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return multiply(((Scalar) entity).value);
-		} else if (entity instanceof Matrix) {
-			return multiply((Matrix) entity);
-		}
-		throw new IllegalOperationException(
-				"Cannot multiply a " + getName() + " by a " + entity.getName());
-	}
-
-	/**
 	 * Multiplies {@code this} by the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
@@ -404,15 +387,6 @@ public abstract class Entity
 	 * @return {@code this *= scalar}
 	 */
 	public abstract Entity multiply(final double scalar);
-
-	/**
-	 * Multiplies {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this *= matrix}
-	 */
-	public abstract Entity multiply(final Matrix matrix);
 
 	/**
 	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
@@ -472,23 +446,6 @@ public abstract class Entity
 	//////////////////////////////////////////////
 
 	/**
-	 * Divides {@code this} by the specified {@link Entity}.
-	 * <p>
-	 * @param entity an {@link Entity}
-	 * <p>
-	 * @return {@code this /= entity}
-	 */
-	public Entity divide(final Entity entity) {
-		if (entity instanceof Scalar) {
-			return divide(((Scalar) entity).value);
-		} else if (entity instanceof Matrix) {
-			return divide((Matrix) entity);
-		}
-		throw new IllegalOperationException(
-				"Cannot divide a " + getName() + " by a " + entity.getName());
-	}
-
-	/**
 	 * Divides {@code this} by the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
@@ -496,15 +453,6 @@ public abstract class Entity
 	 * @return {@code this /= scalar}
 	 */
 	public abstract Entity divide(final double scalar);
-
-	/**
-	 * Divides {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this /= matrix}
-	 */
-	public abstract Entity divide(final Matrix matrix);
 
 	/**
 	 * Divides {@code this} by the specified {@link Matrix} element-by-element.
@@ -526,11 +474,8 @@ public abstract class Entity
 	 */
 	public Entity power(final int scalar) {
 		Entity result = this;
-		if (scalar > 1) {
+		for (int i = 1; i < scalar; ++i) {
 			result = times(result);
-			for (int i = 2; i < scalar; ++i) {
-				result = multiply(result);
-			}
 		}
 		return result;
 	}
@@ -574,21 +519,6 @@ public abstract class Entity
 	public abstract Matrix arrayPower(final Matrix matrix);
 
 	//////////////////////////////////////////////
-
-	/**
-	 * Raises {@code this} to the power of the specified scalar.
-	 * <p>
-	 * @param scalar an {@code int} value
-	 * <p>
-	 * @return {@code this ^= scalar}
-	 */
-	public Entity raise(final int scalar) {
-		Entity result = this;
-		for (int i = 1; i < scalar; ++i) {
-			result = multiply(result);
-		}
-		return result;
-	}
 
 	/**
 	 * Raises {@code this} to the power of the specified {@link Entity} element-by-element.

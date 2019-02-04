@@ -1632,18 +1632,6 @@ public class Matrix
 	}
 
 	/**
-	 * Multiplies {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this *= matrix}
-	 */
-	@Override
-	public Entity multiply(final Matrix matrix) {
-		return times(matrix);
-	}
-
-	/**
 	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
 	 * <p>
 	 * @param matrix a {@link Matrix}
@@ -1763,18 +1751,6 @@ public class Matrix
 			}
 		}
 		return this;
-	}
-
-	/**
-	 * Divides {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this /= matrix}
-	 */
-	@Override
-	public Entity divide(final Matrix matrix) {
-		return multiply(matrix.inverse());
 	}
 
 	/**

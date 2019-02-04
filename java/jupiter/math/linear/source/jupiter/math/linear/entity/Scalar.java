@@ -501,18 +501,6 @@ public class Scalar
 	}
 
 	/**
-	 * Multiplies {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this *= matrix}
-	 */
-	@Override
-	public Matrix multiply(final Matrix matrix) {
-		return matrix.multiply(value);
-	}
-
-	/**
 	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
 	 * <p>
 	 * @param matrix a {@link Matrix}
@@ -521,7 +509,7 @@ public class Scalar
 	 */
 	@Override
 	public Matrix arrayMultiply(final Matrix matrix) {
-		return multiply(matrix);
+		return matrix.multiply(value);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -589,23 +577,6 @@ public class Scalar
 	}
 
 	/**
-	 * Divides {@code this} by the specified {@link Matrix}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @return {@code this /= matrix}
-	 */
-	@Override
-	public Matrix divide(final Matrix matrix) {
-		for (int i = 0; i < matrix.m; ++i) {
-			for (int j = 0; j < matrix.n; ++j) {
-				matrix.elements[i * matrix.n + j] = value / matrix.elements[i * matrix.n + j];
-			}
-		}
-		return matrix;
-	}
-
-	/**
 	 * Divides {@code this} by the specified {@link Matrix} element-by-element.
 	 * <p>
 	 * @param matrix a {@link Matrix}
@@ -614,7 +585,12 @@ public class Scalar
 	 */
 	@Override
 	public Matrix arrayDivide(final Matrix matrix) {
-		return divide(matrix);
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				matrix.elements[i * matrix.n + j] = value / matrix.elements[i * matrix.n + j];
+			}
+		}
+		return matrix;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -297,7 +297,7 @@ public class NeuralNetwork
 				} else {
 					dZ = dA.arrayMultiply(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
 				}
-				dA = W[l].transpose().multiply(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
+				dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
 
 				// - Compute the derivatives with respect to W and b
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
