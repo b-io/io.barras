@@ -112,7 +112,7 @@ public class Matrix
 	/**
 	 * The column delimiters.
 	 */
-	public static final char[] COLUMN_DELIMITERS = Characters.toPrimitiveArray(' ', '\t', ',');
+	public static final char[] COLUMN_DELIMITERS = Characters.take(' ', '\t', ',');
 	/**
 	 * The row delimiter.
 	 */
@@ -2104,7 +2104,7 @@ public class Matrix
 	 */
 	public static Matrix parse(final String expression) {
 		try {
-			final char[] delimiters = Characters.toPrimitiveArray(Characters.LEFT_BRACKET,
+			final char[] delimiters = Characters.take(Characters.LEFT_BRACKET,
 					Characters.RIGHT_BRACKET);
 			final List<Integer> indexes = Strings.getAllIndexes(expression.trim(), delimiters);
 			if (indexes.size() == 2) {
@@ -2320,7 +2320,7 @@ public class Matrix
 	 * @return {@code true} if {@code string} is a parsable {@link Matrix}, {@code false} otherwise
 	 */
 	public static boolean is(final String string) {
-		final char[] delimiters = Characters.toPrimitiveArray('[', ']');
+		final char[] delimiters = Characters.take('[', ']');
 		final List<Integer> indexes = Strings.getAllIndexes(string.trim(), delimiters);
 		if (indexes.size() == 2) {
 			final int from = indexes.get(0);

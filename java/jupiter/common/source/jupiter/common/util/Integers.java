@@ -125,6 +125,8 @@ public class Integers {
 		return PARSER.callToPrimitive(object);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns an array of {@code int} values from the specified array of type {@code T}.
 	 * <p>
@@ -136,6 +138,32 @@ public class Integers {
 	public static <T> int[] toPrimitiveArray(final T... array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
+
+	/**
+	 * Returns an array of {@code int} values from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code int} values from the specified 2D array of type {@code T}
+	 */
+	public static <T> int[] toPrimitiveArray(final T[]... array2D) {
+		return PARSER.callToPrimitiveArray(array2D);
+	}
+
+	/**
+	 * Returns an array of {@code int} values from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code int} values from the specified 3D array of type {@code T}
+	 */
+	public static <T> int[] toPrimitiveArray(final T[][]... array3D) {
+		return PARSER.callToPrimitiveArray(array3D);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a 2D array of {@code int} values from the specified 2D array of type {@code T}.

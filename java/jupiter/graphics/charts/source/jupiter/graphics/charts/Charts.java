@@ -179,7 +179,7 @@ public class Charts {
 		final XYItemRenderer renderer = plot.getRenderer();
 		if (renderer instanceof StandardXYItemRenderer) {
 			final BasicStroke dashedStroke = new BasicStroke(2f, BasicStroke.CAP_ROUND,
-					BasicStroke.JOIN_ROUND, 1f, Floats.toPrimitiveArray(6f, 6f), 0f); // new BasicStroke(2f)
+					BasicStroke.JOIN_ROUND, 1f, Floats.take(6f, 6f), 0f); // new BasicStroke(2f)
 			renderer.setSeriesStroke(0, dashedStroke);
 			renderer.setSeriesStroke(1, dashedStroke);
 		}
