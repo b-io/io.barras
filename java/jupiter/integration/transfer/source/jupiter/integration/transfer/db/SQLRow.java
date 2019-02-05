@@ -80,7 +80,9 @@ public abstract class SQLRow {
 	 * <p>
 	 * @return the database column name from the specified field name
 	 */
-	protected abstract String getColumnName(final String fieldName);
+	protected String getColumnName(final String fieldName) {
+		return fieldName;
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
