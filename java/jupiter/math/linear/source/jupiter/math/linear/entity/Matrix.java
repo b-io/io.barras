@@ -23,6 +23,8 @@
  */
 package jupiter.math.linear.entity;
 
+import jupiter.math.linear.jni.MatrixOperations;
+
 import static jupiter.common.io.IO.IO;
 import static jupiter.integration.gpu.OpenCL.CL;
 
@@ -126,6 +128,15 @@ public class Matrix
 	 * The work queue for computing the dot product.
 	 */
 	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> WORK_QUEUE = null;
+
+	/**
+	 * The flag specifying whether to use a JNI work queue.
+	 */
+	public static volatile boolean JNI = false;
+	/**
+	 * The JNI work queue for computing the dot product.
+	 */
+	protected static volatile WorkQueue<Pair<Matrix, Matrix>, Matrix> JNI_WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -275,7 +286,7 @@ public class Matrix
 	 * @param columnCount the number of columns
 	 * @param values      a 2D array of {@code double} values
 	 * <p>
-	 * @throws IllegalArgumentException if the rows of {@code elements} have not the same length
+	 * @throws IllegalArgumentException if the rows of {@code values} have not the same length
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double[][] values) {
 		// Set the numbers of rows and columns
@@ -1180,6 +1191,16 @@ public class Matrix
 		} else {
 			IO.warn("The work queue ", WORK_QUEUE, " has already started");
 		}
+		if (MatrixOperations.USE) {
+			if (JNI_WORK_QUEUE == null) {
+				JNI_WORK_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(new JNIDotProduct());
+				JNI_WORK_QUEUE.MIN_THREADS = 1;
+				JNI_WORK_QUEUE.MAX_THREADS = 1;
+				JNI = true;
+			} else {
+				IO.warn("The JNI work queue ", JNI_WORK_QUEUE, " has already started");
+			}
+		}
 	}
 
 	/**
@@ -1189,6 +1210,12 @@ public class Matrix
 		IO.debug("");
 
 		// Shutdown
+		if (MatrixOperations.USE) {
+			if (JNI_WORK_QUEUE != null) {
+				JNI = false;
+				JNI_WORK_QUEUE.shutdown();
+			}
+		}
 		if (WORK_QUEUE != null) {
 			PARALLELIZE = false;
 			WORK_QUEUE.shutdown();
@@ -1534,9 +1561,12 @@ public class Matrix
 		}
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
-		if (PARALLELIZE) {
+		if (JNI) {
+			return JNI_WORK_QUEUE.get(JNI_WORK_QUEUE.submit(
+					new Pair<Matrix, Matrix>(this, broadcastedMatrix)));
+		} else if (PARALLELIZE) {
 			// Initialize
-			final int intervalCount = Math.min(m, WorkQueue.MAX_THREADS);
+			final int intervalCount = Math.min(m, WORK_QUEUE.MAX_THREADS);
 			final int rowCountPerInterval = m / intervalCount;
 			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
 			final List<Long> ids = new ArrayList<Long>(intervalCount);
@@ -1548,6 +1578,8 @@ public class Matrix
 				ids.add(WORK_QUEUE.submit(new Triple<Matrix, Matrix, Interval<Integer>>(this,
 						broadcastedMatrix, interval)));
 			}
+
+			// Process the remaining rows
 			if (remainingRowCount > 0) {
 				final Interval<Integer> interval = new Interval<Integer>(
 						intervalCount * rowCountPerInterval, m);
@@ -2431,13 +2463,42 @@ public class Matrix
 		@Override
 		public Pair<Matrix, Interval<Integer>> call(
 				final Triple<Matrix, Matrix, Interval<Integer>> input) {
-			return new Pair<Matrix, Interval<Integer>>(
-					apply(input.getFirst(), input.getSecond(), input.getThird()), input.getThird());
+			final Matrix left = input.getFirst();
+			final Matrix right = input.getSecond();
+			final Interval<Integer> interval = input.getThird();
+			return new Pair<Matrix, Interval<Integer>>(apply(left, right, interval), interval);
 		}
 
 		@Override
 		public DotProduct clone() {
 			return new DotProduct();
+		}
+	}
+
+	protected static class JNIDotProduct
+			extends Worker<Pair<Matrix, Matrix>, Matrix> {
+
+		protected JNIDotProduct() {
+			super();
+		}
+
+		public double[] apply(final double[] leftElements, final double[] rightElements,
+				final int leftColumnDimension, final int rightColumnDimension) {
+			return MatrixOperations.dot(leftElements, rightElements, leftColumnDimension,
+					rightColumnDimension);
+		}
+
+		@Override
+		public Matrix call(final Pair<Matrix, Matrix> input) {
+			final Matrix left = input.getFirst();
+			final Matrix right = input.getSecond();
+			return new Matrix(left.getRowDimension(), apply(left.getElements(), right.getElements(),
+					left.getColumnDimension(), right.getColumnDimension()));
+		}
+
+		@Override
+		public JNIDotProduct clone() {
+			return new JNIDotProduct();
 		}
 	}
 }

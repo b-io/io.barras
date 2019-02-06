@@ -48,7 +48,11 @@ public class WorkQueueTest
 	public void testConstants() {
 		IO.test("constants");
 
-		assertTrue(WorkQueue.MIN_THREADS <= WorkQueue.MAX_THREADS);
+		// Initialize
+		final WorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(new SimpleWorker());
+
+		// Test
+		assertTrue(workQueue.MIN_THREADS <= workQueue.MAX_THREADS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

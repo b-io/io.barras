@@ -55,7 +55,8 @@
 					<libraries>
 						<library>
 							<type>jni</type>
-							<narSystemPackage>jupiter.integration.jni</narSystemPackage>
+							<narSystemPackage>jupiter.math.linear.jni</narSystemPackage>
+							<linkCPP>false</linkCPP>
 						</library>
 					</libraries>
 				</configuration>

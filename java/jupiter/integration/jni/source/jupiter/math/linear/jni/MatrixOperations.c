@@ -29,15 +29,15 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "jupiter_integration_jni_MatrixOperations.h"
+#include "jupiter_math_linear_jni_MatrixOperations.h"
 
 
 /***************************************************************************************************
  * OPERATORS
  **************************************************************************************************/
 
-JNIEXPORT jdoubleArray JNICALL Java_jupiter_integration_jni_MatrixOperations_dot(JNIEnv* env, jobject obj,
-	jdoubleArray A, jdoubleArray B, jint aColumnDimension, jint bColumnDimension)
+JNIEXPORT jdoubleArray JNICALL Java_jupiter_math_linear_jni_MatrixOperations_dot(JNIEnv* env,
+	jobject obj, jdoubleArray A, jdoubleArray B, jint aColumnDimension, jint bColumnDimension)
 {
 	/* Initialize */
 	jsize aLength = (*env)->GetArrayLength(env, A);

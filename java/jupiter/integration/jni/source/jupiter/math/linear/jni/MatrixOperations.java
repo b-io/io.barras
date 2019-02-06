@@ -21,34 +21,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.reduce.encoder;
+package jupiter.math.linear.jni;
 
-import jupiter.common.reduce.Reducer;
-import jupiter.common.util.Objects;
+import static jupiter.common.io.IO.IO;
 
-/**
- * {@link Hasher} is a reduce operator hashing an array of {@code I} objects to an {@code Integer}.
- * <p>
- * @param <I> the type of the array to hash
- */
-public class Hasher<I>
-		extends Reducer<I, Integer> {
+import jupiter.common.util.Doubles;
+
+public class MatrixOperations {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final boolean USE = true;
+
+	static {
+		if (USE) {
+			NarSystem.loadLibrary();
+		}
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Hasher(final Class<Integer> c) {
-		super(Integer.class);
+	protected MatrixOperations() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public Integer call(final I... input) {
-		return Objects.hashCode(input);
+	public static void main(final String[] args) {
+		final double[] A = new double[] {
+			1., 2., 3., 4., 5., 6.
+		};
+		final double[] B = new double[] {
+			1., 2., 3., 4.
+		};
+		for (int i = 0; i < 100; ++i) {
+			IO.result(Doubles.toString(dot(A, B, 2, 2)));
+		}
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static native double[] dot(double[] A, double[] B, int aColumnDimension,
+			int bColumnDimension);
 }

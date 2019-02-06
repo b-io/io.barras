@@ -40,8 +40,8 @@ public class WorkQueue<I, O> {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile int MIN_THREADS = Runtime.getRuntime().availableProcessors();
-	public static volatile int MAX_THREADS = 2 * MIN_THREADS;
+	public volatile int MIN_THREADS = Runtime.getRuntime().availableProcessors();
+	public volatile int MAX_THREADS = 2 * MIN_THREADS;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

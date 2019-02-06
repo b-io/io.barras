@@ -21,11 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.jni;
+package jupiter.math.linear.jni;
 
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Formats;
 
 public class MatrixOperations {
 
@@ -33,15 +34,13 @@ public class MatrixOperations {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final boolean USE = true;
+	public static final boolean USE = false;
 
 	static {
 		if (USE) {
-			NarSystem.loadLibrary();
+			System.loadLibrary("jni-" + Formats.VERSION);
 		}
 	}
-
-	public static final MatrixOperations JNI = new MatrixOperations();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,18 +55,20 @@ public class MatrixOperations {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public final native double[] dot(double[] A, double[] B, int aColumnDimension,
+	public static native double[] dot(double[] A, double[] B, int aColumnDimension,
 			int bColumnDimension);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void main(final String[] args) {
 		final double[] A = new double[] {
-			1., 2., 3., 4.
+			1., 2., 3., 4., 5., 6.
 		};
 		final double[] B = new double[] {
 			1., 2., 3., 4.
 		};
-		IO.result(Doubles.toString(JNI.dot(A, B, 2, 2)));
+		for (int i = 0; i < 100; ++i) {
+			IO.result(Doubles.toString(dot(A, B, 2, 2)));
+		}
 	}
 }

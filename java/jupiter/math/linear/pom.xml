@@ -34,5 +34,11 @@
 			<artifactId>gpu</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>jni</artifactId>
+			<version>${project.version}</version>
+			<type>nar</type>
+		</dependency>
 	</dependencies>
 </project>
