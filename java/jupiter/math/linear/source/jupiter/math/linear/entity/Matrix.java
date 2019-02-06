@@ -23,8 +23,6 @@
  */
 package jupiter.math.linear.entity;
 
-import jupiter.math.linear.jni.MatrixOperations;
-
 import static jupiter.common.io.IO.IO;
 import static jupiter.integration.gpu.OpenCL.CL;
 
@@ -62,6 +60,7 @@ import jupiter.math.linear.decomposition.LUDecomposition;
 import jupiter.math.linear.decomposition.Norms;
 import jupiter.math.linear.decomposition.QRDecomposition;
 import jupiter.math.linear.decomposition.SingularValueDecomposition;
+import jupiter.math.linear.jni.MatrixOperations;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
@@ -1193,7 +1192,8 @@ public class Matrix
 		}
 		if (MatrixOperations.USE) {
 			if (JNI_WORK_QUEUE == null) {
-				JNI_WORK_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(new JNIDotProduct());
+				JNI_WORK_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
+						new JNIDotProduct());
 				JNI_WORK_QUEUE.MIN_THREADS = 1;
 				JNI_WORK_QUEUE.MAX_THREADS = 1;
 				JNI = true;
@@ -1562,8 +1562,8 @@ public class Matrix
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (JNI) {
-			return JNI_WORK_QUEUE.get(JNI_WORK_QUEUE.submit(
-					new Pair<Matrix, Matrix>(this, broadcastedMatrix)));
+			return JNI_WORK_QUEUE
+					.get(JNI_WORK_QUEUE.submit(new Pair<Matrix, Matrix>(this, broadcastedMatrix)));
 		} else if (PARALLELIZE) {
 			// Initialize
 			final int intervalCount = Math.min(m, WORK_QUEUE.MAX_THREADS);
