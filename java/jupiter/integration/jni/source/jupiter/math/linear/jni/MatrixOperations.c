@@ -39,6 +39,17 @@
 JNIEXPORT jdoubleArray JNICALL Java_jupiter_math_linear_jni_MatrixOperations_dot(JNIEnv* env,
 	jobject obj, jdoubleArray A, jdoubleArray B, jint aColumnDimension, jint bColumnDimension)
 {
+	printf("[INFO] Java_jupiter_math_linear_jni_MatrixOperations_dot\n");
+
+	/* Check */
+	if ((*env)->ExceptionCheck(env))
+	{
+		printf("[ERROR] Fail to initialize the environment:\n");
+		(*env)->ExceptionDescribe(env);
+		(*env)->ExceptionClear(env);
+		return NULL;
+	}
+
 	/* Initialize */
 	jsize aLength = (*env)->GetArrayLength(env, A);
 	jsize aRowDimension = aLength / aColumnDimension;
@@ -47,6 +58,11 @@ JNIEXPORT jdoubleArray JNICALL Java_jupiter_math_linear_jni_MatrixOperations_dot
 	jdouble* aBuffer = (*env)->GetDoubleArrayElements(env, A, &aCopy);
 	jdouble* bBuffer = (*env)->GetDoubleArrayElements(env, B, &bCopy);
 	jdoubleArray result = (*env)->NewDoubleArray(env, resultDimension);
+	if (result == NULL)
+	{
+		printf("[ERROR] Fail to allocate the result\n");
+		return NULL;
+	}
 	jdouble* resultBuffer = (*env)->GetDoubleArrayElements(env, result, &resultCopy);
 
 	/* Process */

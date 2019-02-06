@@ -83,6 +83,7 @@ public class LockedWorkQueue<I, O>
 		tasksLockCondition = tasksLock.newCondition();
 		resultsLock = new ReentrantLock(fair);
 		resultsLockCondition = resultsLock.newCondition();
+		createWorkers(MIN_THREADS);
 	}
 
 

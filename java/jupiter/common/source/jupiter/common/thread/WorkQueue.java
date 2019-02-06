@@ -40,13 +40,16 @@ public class WorkQueue<I, O> {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public volatile int MIN_THREADS = Runtime.getRuntime().availableProcessors();
-	public volatile int MAX_THREADS = 2 * MIN_THREADS;
+	public static volatile int DEFAULT_MIN_THREADS = Runtime.getRuntime().availableProcessors();
+	public static volatile int DEFAULT_MAX_THREADS = 2 * DEFAULT_MIN_THREADS;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public volatile int MIN_THREADS = DEFAULT_MIN_THREADS;
+	public volatile int MAX_THREADS = DEFAULT_MAX_THREADS;
 
 	/**
 	 * The flag specifying whether {@code this} is running.
@@ -128,20 +131,13 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Initializes the workers.
-	 */
-	public void initWorkers() {
-		createWorkers(Math.min(MIN_THREADS, MAX_THREADS - workerCount));
-	}
-
-	/**
 	 * Instantiates n workers according to the model.
 	 * <p>
 	 * @param n the number of workers to create
 	 * <p>
 	 * @return the number of created workers
 	 */
-	protected int createWorkers(final int n) {
+	public int createWorkers(final int n) {
 		int createdWorkerCount = 0;
 		try {
 			for (int i = 0; i < n; ++i) {

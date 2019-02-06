@@ -40,6 +40,7 @@ public class SynchronizedWorkQueue<I, O>
 	 */
 	public SynchronizedWorkQueue(final Worker<I, O> model) {
 		super(model);
+		createWorkers(MIN_THREADS);
 	}
 
 
