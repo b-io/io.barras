@@ -96,11 +96,13 @@ public abstract class OpenCL {
 	public static volatile OpenCL CL = null;
 
 	static {
-		try {
-			CL = new JOCL(PROGRAM);
-		} catch (final IllegalStateException ex) {
-			IO.error(ex);
-			USE = false;
+		if (USE) {
+			try {
+				CL = new JOCL(PROGRAM);
+			} catch (final IllegalStateException ex) {
+				IO.error(ex);
+				USE = false;
+			}
 		}
 	}
 

@@ -33,7 +33,7 @@ public class MatrixOperations {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final boolean USE = true;
+	public static final boolean USE = false;
 
 	static {
 		if (USE) {
