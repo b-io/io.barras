@@ -98,7 +98,9 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.start();
-				CL.use = false;
+				if (OpenCL.USE) {
+					CL.setUse(false);
+				}
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
@@ -118,7 +120,7 @@ public class MatrixTest
 				// Test the GPU version
 				if (OpenCL.USE) {
 					IO.test("- GPU:");
-					CL.use = true;
+					CL.setUse(true);
 					try {
 						Matrix found = null;
 						for (int t = 0; t < testCount; ++t) {
@@ -132,14 +134,16 @@ public class MatrixTest
 						gpuStats.set(i, j, Statistics.mean(times));
 						assertEquals(expected, found);
 					} finally {
-						CL.use = false;
+						CL.setUse(false);
 					}
 				}
 
 				// Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.start();
-				CL.use = true;
+				if (OpenCL.USE) {
+					CL.setUse(true);
+				}
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
@@ -154,7 +158,9 @@ public class MatrixTest
 					assertEquals(expected, found);
 				} finally {
 					Matrix.stop();
-					CL.use = false;
+					if (OpenCL.USE) {
+						CL.setUse(false);
+					}
 				}
 
 				++j;
@@ -242,7 +248,9 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.start();
-				CL.use = false;
+				if (OpenCL.USE) {
+					CL.setUse(false);
+				}
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
@@ -262,7 +270,7 @@ public class MatrixTest
 				// Test the GPU version
 				if (OpenCL.USE) {
 					IO.test("- GPU:");
-					CL.use = true;
+					CL.setUse(true);
 					try {
 						Matrix found = null;
 						for (int t = 0; t < testCount; ++t) {
@@ -276,14 +284,16 @@ public class MatrixTest
 						gpuStats.set(i, j, Statistics.mean(times));
 						assertEquals(expected, found);
 					} finally {
-						CL.use = false;
+						CL.setUse(false);
 					}
 				}
 
 				// Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.start();
-				CL.use = true;
+				if (OpenCL.USE) {
+					CL.setUse(true);
+				}
 				try {
 					Matrix found = null;
 					for (int t = 0; t < testCount; ++t) {
@@ -298,7 +308,9 @@ public class MatrixTest
 					assertEquals(expected, found);
 				} finally {
 					Matrix.stop();
-					CL.use = false;
+					if (OpenCL.USE) {
+						CL.setUse(false);
+					}
 				}
 
 				++j;
