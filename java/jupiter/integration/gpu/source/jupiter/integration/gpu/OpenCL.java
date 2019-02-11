@@ -169,7 +169,7 @@ public abstract class OpenCL {
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public boolean setUse(final boolean use) {
+	public void setUse(final boolean use) {
 		if (USE) {
 			this.use = use;
 		}
