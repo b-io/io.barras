@@ -112,12 +112,11 @@ public abstract class Worker<I, O>
 		while (true) {
 			final Pair<Long, I> task = workQueue.getNextTask();
 			if (workQueue.isRunning()) {
-				O output;
+				O output = null;
 				try {
 					output = call(task.getSecond());
 				} catch (final RuntimeException ex) {
 					IO.error(ex);
-					output = null;
 				}
 				workQueue.addResult(task.getFirst(), output);
 			} else {

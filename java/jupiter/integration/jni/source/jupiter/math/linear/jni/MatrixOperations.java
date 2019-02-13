@@ -33,10 +33,10 @@ public class MatrixOperations {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final boolean USE = false;
+	public static final boolean ACTIVE = false;
 
 	static {
-		if (USE) {
+		if (ACTIVE) {
 			NarSystem.loadLibrary();
 		}
 	}

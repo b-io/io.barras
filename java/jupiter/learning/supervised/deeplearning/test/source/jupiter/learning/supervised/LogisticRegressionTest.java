@@ -62,7 +62,7 @@ public class LogisticRegressionTest
 			final double cost = model.computeCost();
 			assertEquals(0.67, cost, 0.05);
 		} catch (final IOException ex) {
-			ex.printStackTrace();
+			IO.error(ex);
 		}
 	}
 }

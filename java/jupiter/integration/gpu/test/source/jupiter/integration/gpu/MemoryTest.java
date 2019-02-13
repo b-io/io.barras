@@ -113,7 +113,7 @@ public class MemoryTest
 	 * @since 1.6
 	 */
 	public static void test() {
-		if (OpenCL.USE) {
+		if (OpenCL.ACTIVE) {
 			initialize();
 			for (final MemoryMode memoryMode : MemoryMode.values()) {
 				for (final AccessMode accessMode : AccessMode.values()) {

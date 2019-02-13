@@ -95,9 +95,9 @@ public class JogAmpl
 			localWorkGroupSize = Math.min(device.getMaxWorkGroupSize(), 256);
 			IO.debug("Local work group size: ", localWorkGroupSize);
 
-			use = USE;
+			active = true;
 		} catch (final Exception ex) {
-			use = false;
+			ACTIVE = false;
 			release();
 			throw new IllegalStateException(
 					"There is a problem with the program: " + ex.getMessage());
@@ -233,6 +233,7 @@ public class JogAmpl
 	 */
 	@Override
 	public void release() {
+		active = false;
 		for (final CLKernel kernel : kernels.values()) {
 			kernel.release();
 		}

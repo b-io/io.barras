@@ -39,9 +39,9 @@ public abstract class OpenCL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether to use OpenCL.
+	 * The flag specifying whether OpenCL is active.
 	 */
-	public static volatile boolean USE = false;
+	public static volatile boolean ACTIVE = false;
 
 	protected static final String KERNEL_PREFIX = "__kernel void";
 	protected static final String PROGRAM = "#pragma OPENCL EXTENSION cl_khr_fp64: enable\n" +
@@ -96,12 +96,12 @@ public abstract class OpenCL {
 	public static volatile OpenCL CL = null;
 
 	static {
-		if (USE) {
+		if (ACTIVE) {
 			try {
 				CL = new JOCL(PROGRAM);
 			} catch (final IllegalStateException ex) {
+				ACTIVE = false;
 				IO.error(ex);
-				USE = false;
 			}
 		}
 	}
@@ -111,7 +111,10 @@ public abstract class OpenCL {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected volatile boolean use = USE;
+	/**
+	 * The flag specifying whether {@code this} is active.
+	 */
+	protected volatile boolean active;
 
 	protected final String sourceCode;
 	protected final List<String> kernelNames = new LinkedList<String>();
@@ -122,6 +125,10 @@ public abstract class OpenCL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected OpenCL(final String sourceCode) {
+		if (!ACTIVE) {
+			throw new IllegalStateException("OpenCL is not active");
+		}
+
 		// Check the arguments
 		StringArguments.requireNonEmpty(sourceCode);
 
@@ -140,8 +147,8 @@ public abstract class OpenCL {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public boolean use() {
-		return use;
+	public boolean isActive() {
+		return active;
 	}
 
 	public String getSourceCode() {
@@ -169,10 +176,8 @@ public abstract class OpenCL {
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void setUse(final boolean use) {
-		if (USE) {
-			this.use = use;
-		}
+	public void setActive(final boolean active) {
+		this.active = active;
 	}
 
 
@@ -233,8 +238,8 @@ public abstract class OpenCL {
 
 	public boolean test(final int rowDimension, final int innerDimension,
 			final int columnDimension) {
-		return use && Maths.maxToInt(rowDimension * innerDimension, rowDimension * columnDimension,
-				innerDimension * columnDimension) > 1E5;
+		return active && Maths.maxToInt(rowDimension * innerDimension,
+				rowDimension * columnDimension, innerDimension * columnDimension) > 1E5;
 	}
 
 

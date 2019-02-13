@@ -131,7 +131,7 @@ public class Matrix
 	/**
 	 * The flag specifying whether to use a JNI work queue.
 	 */
-	public static volatile boolean JNI = false;
+	public static volatile boolean USE_JNI = false;
 	/**
 	 * The JNI work queue for computing the dot product.
 	 */
@@ -1190,13 +1190,13 @@ public class Matrix
 		} else {
 			IO.warn("The work queue ", WORK_QUEUE, " has already started");
 		}
-		if (MatrixOperations.USE) {
+		if (MatrixOperations.ACTIVE) {
 			if (JNI_WORK_QUEUE == null) {
 				JNI_WORK_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
 						new JNIDotProduct());
 				JNI_WORK_QUEUE.MIN_THREADS = 1;
 				JNI_WORK_QUEUE.MAX_THREADS = 1;
-				JNI = true;
+				USE_JNI = true;
 			} else {
 				IO.warn("The JNI work queue ", JNI_WORK_QUEUE, " has already started");
 			}
@@ -1210,11 +1210,9 @@ public class Matrix
 		IO.debug("");
 
 		// Shutdown
-		if (MatrixOperations.USE) {
-			if (JNI_WORK_QUEUE != null) {
-				JNI = false;
-				JNI_WORK_QUEUE.shutdown();
-			}
+		if (JNI_WORK_QUEUE != null) {
+			USE_JNI = false;
+			JNI_WORK_QUEUE.shutdown();
 		}
 		if (WORK_QUEUE != null) {
 			PARALLELIZE = false;
@@ -1561,7 +1559,7 @@ public class Matrix
 		}
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
-		if (JNI) {
+		if (USE_JNI) {
 			return JNI_WORK_QUEUE
 					.get(JNI_WORK_QUEUE.submit(new Pair<Matrix, Matrix>(this, broadcastedMatrix)));
 		} else if (PARALLELIZE) {
@@ -1932,7 +1930,7 @@ public class Matrix
 	 * @since 1.6
 	 */
 	public Entity forward(final Entity A, final Entity B) {
-		if (OpenCL.USE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
+		if (OpenCL.ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
 			final Matrix a = A.toMatrix();
 			final Matrix b = B.toMatrix();
 			if (CL.test(n, a.n, b.n)) {

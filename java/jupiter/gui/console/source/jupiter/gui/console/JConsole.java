@@ -397,15 +397,14 @@ public class JConsole
 		line = builder.toString();
 		if (outPipe == null) {
 			IO.error("No console output stream");
-		} else {
-			try {
-				outPipe.write(line.getBytes(Formats.DEFAULT_CHARSET.name()));
-				outPipe.flush();
-			} catch (final IOException ex) {
-				outPipe = null;
-				throw new RuntimeException(
-						"Unable to write in the console" + IO.appendException(ex));
-			}
+			return;
+		}
+		try {
+			outPipe.write(line.getBytes(Formats.DEFAULT_CHARSET.name()));
+			outPipe.flush();
+		} catch (final IOException ex) {
+			throw new RuntimeException(
+					"Unable to write in the console" + IO.appendException(ex));
 		}
 		// text.repaint();
 	}

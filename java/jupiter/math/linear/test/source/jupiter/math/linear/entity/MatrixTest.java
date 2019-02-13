@@ -98,8 +98,8 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.start();
-				if (OpenCL.USE) {
-					CL.setUse(false);
+				if (OpenCL.ACTIVE) {
+					CL.setActive(false);
 				}
 				try {
 					Matrix found = null;
@@ -118,9 +118,9 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
-				if (OpenCL.USE) {
+				if (OpenCL.ACTIVE) {
 					IO.test("- GPU:");
-					CL.setUse(true);
+					CL.setActive(true);
 					try {
 						Matrix found = null;
 						for (int t = 0; t < testCount; ++t) {
@@ -134,15 +134,15 @@ public class MatrixTest
 						gpuStats.set(i, j, Statistics.mean(times));
 						assertEquals(expected, found);
 					} finally {
-						CL.setUse(false);
+						CL.setActive(false);
 					}
 				}
 
 				// Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.start();
-				if (OpenCL.USE) {
-					CL.setUse(true);
+				if (OpenCL.ACTIVE) {
+					CL.setActive(true);
 				}
 				try {
 					Matrix found = null;
@@ -158,8 +158,8 @@ public class MatrixTest
 					assertEquals(expected, found);
 				} finally {
 					Matrix.stop();
-					if (OpenCL.USE) {
-						CL.setUse(false);
+					if (OpenCL.ACTIVE) {
+						CL.setActive(false);
 					}
 				}
 
@@ -248,8 +248,8 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.start();
-				if (OpenCL.USE) {
-					CL.setUse(false);
+				if (OpenCL.ACTIVE) {
+					CL.setActive(false);
 				}
 				try {
 					Matrix found = null;
@@ -268,9 +268,9 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
-				if (OpenCL.USE) {
+				if (OpenCL.ACTIVE) {
 					IO.test("- GPU:");
-					CL.setUse(true);
+					CL.setActive(true);
 					try {
 						Matrix found = null;
 						for (int t = 0; t < testCount; ++t) {
@@ -284,15 +284,15 @@ public class MatrixTest
 						gpuStats.set(i, j, Statistics.mean(times));
 						assertEquals(expected, found);
 					} finally {
-						CL.setUse(false);
+						CL.setActive(false);
 					}
 				}
 
 				// Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.start();
-				if (OpenCL.USE) {
-					CL.setUse(true);
+				if (OpenCL.ACTIVE) {
+					CL.setActive(true);
 				}
 				try {
 					Matrix found = null;
@@ -308,8 +308,8 @@ public class MatrixTest
 					assertEquals(expected, found);
 				} finally {
 					Matrix.stop();
-					if (OpenCL.USE) {
-						CL.setUse(false);
+					if (OpenCL.ACTIVE) {
+						CL.setActive(false);
 					}
 				}
 

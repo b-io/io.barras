@@ -47,7 +47,7 @@ public class OpenCLTest
 	 */
 	public void testArrayTimes()
 			throws IOException {
-		if (OpenCL.USE) {
+		if (OpenCL.ACTIVE) {
 			IO.test("arrayTimes");
 
 			// Create the input and output data
@@ -85,7 +85,7 @@ public class OpenCLTest
 	 */
 	public void testTimes()
 			throws IOException {
-		if (OpenCL.USE) {
+		if (OpenCL.ACTIVE) {
 			IO.test("times");
 
 			// Create the input and output data
@@ -134,7 +134,7 @@ public class OpenCLTest
 	 */
 	public void testForward()
 			throws IOException {
-		if (OpenCL.USE) {
+		if (OpenCL.ACTIVE) {
 			IO.test("forward");
 
 			// Create the input and output data
