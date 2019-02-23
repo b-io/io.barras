@@ -708,7 +708,7 @@ public class Shorts {
 	 * @return a hash code value for the specified value
 	 */
 	public static int hashCode(final short value) {
-		return Objects.hashCode((int) value, (int) (value >>> Bits.HALF_LONG_BITS_COUNT));
+		return Objects.hashCode((int) value, value >>> Bits.HALF_LONG_BITS_COUNT);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

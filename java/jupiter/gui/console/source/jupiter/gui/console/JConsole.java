@@ -403,8 +403,7 @@ public class JConsole
 			outPipe.write(line.getBytes(Formats.DEFAULT_CHARSET.name()));
 			outPipe.flush();
 		} catch (final IOException ex) {
-			throw new RuntimeException(
-					"Unable to write in the console" + IO.appendException(ex));
+			throw new RuntimeException("Unable to write in the console" + IO.appendException(ex));
 		}
 		// text.repaint();
 	}
