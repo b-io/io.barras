@@ -32,8 +32,10 @@ import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.FloatArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.test.LongArguments;
+import jupiter.common.test.ShortArguments;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Shorts;
 
 public class Maths {
 
@@ -76,6 +78,10 @@ public class Maths {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static short floorToShort(final double number) {
+		return Shorts.convert(Math.floor(number));
+	}
+
 	public static int floorToInt(final double number) {
 		return Integers.convert(Math.floor(number));
 	}
@@ -84,12 +90,24 @@ public class Maths {
 		return Longs.convert(Math.floor(number));
 	}
 
+	//////////////////////////////////////////////
+
+	public static short ceilToShort(final double number) {
+		return Shorts.convert(Math.ceil(number));
+	}
+
 	public static int ceilToInt(final double number) {
 		return Integers.convert(Math.ceil(number));
 	}
 
 	public static long ceilToLong(final double number) {
 		return Longs.convert(Math.ceil(number));
+	}
+
+	//////////////////////////////////////////////
+
+	public static short roundToShort(final double number) {
+		return Shorts.convert(Math.round(number));
 	}
 
 	public static int roundToInt(final double number) {
@@ -195,6 +213,18 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static short maxToShort(final short... values) {
+		// Check the arguments
+		ShortArguments.requireNonEmpty(values);
+
+		// Get the maximum
+		short max = Short.MIN_VALUE;
+		for (final short value : values) {
+			max = value > max ? value : max;
+		}
+		return max;
+	}
+
 	public static int maxToInt(final int... values) {
 		// Check the arguments
 		IntegerArguments.requireNonEmpty(values);
@@ -243,6 +273,8 @@ public class Maths {
 		return max;
 	}
 
+	//////////////////////////////////////////////
+
 	public static <T extends Number> double getMax(final T... numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers);
@@ -268,6 +300,18 @@ public class Maths {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static short minToShort(final short... values) {
+		// Check the arguments
+		ShortArguments.requireNonEmpty(values);
+
+		// Get the minimum
+		short min = Short.MAX_VALUE;
+		for (final short value : values) {
+			min = value < min ? value : min;
+		}
+		return min;
+	}
 
 	public static int minToInt(final int... values) {
 		// Check the arguments
@@ -316,6 +360,8 @@ public class Maths {
 		}
 		return min;
 	}
+
+	//////////////////////////////////////////////
 
 	public static <T extends Number> double getMin(final T... numbers) {
 		// Check the arguments

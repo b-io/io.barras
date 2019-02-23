@@ -35,5 +35,6 @@ public interface IParsers {
 	public static final FloatParser FLOAT_PARSER = new FloatParser();
 	public static final IntegerParser INTEGER_PARSER = new IntegerParser();
 	public static final LongParser LONG_PARSER = new LongParser();
+	public static final ShortParser SHORT_PARSER = new ShortParser();
 	public static final StringParser STRING_PARSER = new StringParser();
 }

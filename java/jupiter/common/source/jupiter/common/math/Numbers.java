@@ -30,6 +30,7 @@ import jupiter.common.util.Doubles;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
 
 public class Numbers {
@@ -76,7 +77,7 @@ public class Numbers {
 		}
 		if (Byte.class.isAssignableFrom(c)) {
 			return Byte.valueOf(string);
-		} else if (Short.class.isAssignableFrom(c)) {
+		} else if (Shorts.is(c)) {
 			return Short.valueOf(string);
 		} else if (Integers.is(c)) {
 			return Integer.valueOf(string);

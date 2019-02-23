@@ -26,6 +26,7 @@ package jupiter.common.math;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
 
 public class WholeNumber
@@ -123,6 +124,11 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// NUMBER
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public short shortValue() {
+		return Shorts.convert(value);
+	}
 
 	@Override
 	public int intValue() {

@@ -28,6 +28,11 @@ import static jupiter.common.io.IO.IO;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.Array;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -35,7 +40,10 @@ import java.sql.Timestamp;
 
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
+import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
 import jupiter.integration.transfer.web.Web;
 
@@ -93,31 +101,53 @@ public abstract class SQLRow {
 		if (resultSet != null) {
 			final Field[] fields = getClass().getDeclaredFields();
 			for (final Field field : fields) {
-				try {
-					final String columnName = getColumnName(field.getName());
-					final Class<?> c = field.getType();
-					if (BigDecimal.class.isAssignableFrom(c)) {
-						field.set(this, resultSet.getBigDecimal(columnName));
-					} else if (Booleans.is(c)) {
-						field.set(this, resultSet.getBoolean(columnName));
-					} else if (Doubles.is(c)) {
-						field.set(this, resultSet.getDouble(columnName));
-					} else if (Integers.is(c)) {
-						field.set(this, resultSet.getInt(columnName));
-					} else if (Strings.is(c)) {
-						field.set(this, resultSet.getString(columnName));
-					} else if (Time.class.isAssignableFrom(c)) {
-						field.set(this, resultSet.getTime(columnName));
-					} else if (Timestamp.class.isAssignableFrom(c)) {
-						field.set(this, resultSet.getTimestamp(columnName));
-					} else {
-						IO.warn("Unhandled field class: ", Strings.quote(c));
+				if (field.isAccessible()) {
+					try {
+						final String columnName = getColumnName(field.getName());
+						final Class<?> c = field.getType();
+						if (Array.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getArray(columnName));
+						} else if (BigDecimal.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getBigDecimal(columnName));
+						} else if (Blob.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getBlob(columnName));
+						} else if (Booleans.is(c)) {
+							field.set(this, resultSet.getBoolean(columnName));
+						} else if (byte.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getByte(columnName));
+						} else if (byte[].class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getBytes(columnName));
+						} else if (Clob.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getClob(columnName));
+						} else if (Date.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getDate(columnName));
+						} else if (Doubles.is(c)) {
+							field.set(this, resultSet.getDouble(columnName));
+						} else if (Floats.is(c)) {
+							field.set(this, resultSet.getFloat(columnName));
+						} else if (Integers.is(c)) {
+							field.set(this, resultSet.getInt(columnName));
+						} else if (Longs.is(c)) {
+							field.set(this, resultSet.getLong(columnName));
+						} else if (Shorts.is(c)) {
+							field.set(this, resultSet.getShort(columnName));
+						} else if (Strings.is(c)) {
+							field.set(this, resultSet.getString(columnName));
+						} else if (Time.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getTime(columnName));
+						} else if (Timestamp.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getTimestamp(columnName));
+						} else if (URL.class.isAssignableFrom(c)) {
+							field.set(this, resultSet.getURL(columnName));
+						} else {
+							IO.warn("Unhandled field class: ", Strings.quote(c));
+						}
+					} catch (final IllegalAccessException ignored) {
+					} catch (final IllegalArgumentException ex) {
+						IO.error(ex);
+					} catch (final SQLException ex) {
+						IO.error(ex);
 					}
-				} catch (final IllegalAccessException ignored) {
-				} catch (final IllegalArgumentException ex) {
-					IO.error(ex);
-				} catch (final SQLException ex) {
-					IO.error(ex);
 				}
 			}
 		}
