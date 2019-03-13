@@ -11,7 +11,7 @@ PLUTO is based on the standard C++ 11 library and does not require any other lib
 Launch the following commands in a shell:
 ~~~bash
 git clone https://github.com/b-io/io.barras.git
-cd io.barras/
+cd io.barras/cpp/pluto
 mvn clean install
 ~~~
 
