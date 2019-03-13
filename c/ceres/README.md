@@ -21,7 +21,7 @@ Please do not hesitate to leave your comments for further improvement!
 Launch the following commands in a shell:
 ~~~bash
 git clone https://github.com/b-io/io.barras.git
-cd io.barras/
+cd io.barras/c/ceres/
 mvn clean install
 ~~~
 
