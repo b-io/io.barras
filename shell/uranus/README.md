@@ -16,7 +16,7 @@ URANUS is fully compliant with POSIX and does not require any other library.
 Launch the following commands in a shell:
 ~~~bash
 git clone https://github.com/b-io/io.barras.git
-cd io.barras/shell/uranus
+cd io.barras/shell/uranus/
 mvn clean install
 ~~~
 
