@@ -25,19 +25,19 @@ package jupiter.integration.r;
 
 import static jupiter.common.io.IO.IO;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import org.rosuda.REngine.Rserve.RConnection;
-import org.rosuda.REngine.Rserve.RserveException;
+import java.util.List;
 
 import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.IOHandler;
+import jupiter.common.io.IOPrinter;
 import jupiter.common.io.Systems;
 import jupiter.common.thread.Threads;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
+
+import org.rosuda.REngine.Rserve.RConnection;
+import org.rosuda.REngine.Rserve.RserveException;
 
 public class R {
 
@@ -49,6 +49,8 @@ public class R {
 	protected static final String ARGS = "--no-save --slave";
 	protected static final String REPO = "https://cloud.r-project.org";
 
+	public static final IOHandler PRINTER = new RPrinter();
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -59,7 +61,7 @@ public class R {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// R MONITOR
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean installPackage(final String name) {
@@ -118,6 +120,47 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Executes the specified script on the R engine and returns {@code true} if the R engine
+	 * processed it, {@code false} otherwise.
+	 * <p>
+	 * @param script the script to execute
+	 * <p>
+	 * @return {@code true} if the R engine processed the specified script, {@code false} otherwise
+	 */
+	public static boolean execute(final String script) {
+		return execute(script, ARGS);
+	}
+
+	public static boolean execute(final String script, final String args) {
+		try {
+			IO.debug(">> Run ", Strings.quote(script));
+			// Test whether the OS is Windows or Unix
+			if (Systems.isWindows()) {
+				// - Execute the script on Windows
+				Systems.execute(Strings.doubleQuote(PATH) + " -e " + Strings.doubleQuote(script) +
+						" " + args, PRINTER);
+			} else {
+				// - Execute the script on Unix
+				Systems.execute(Arrays.toArray("/bin/sh", "-c", "echo " +
+						Strings.doubleQuote(script) + " | " +
+						Strings.doubleQuote(PATH) + " " + args), PRINTER);
+			}
+			IO.debug("<< Done");
+			return true;
+		} catch (final InterruptedException ex) {
+			IO.error("<< Fail to run the script", ex);
+		} catch (final IOException ex) {
+			IO.error("<< Fail to run the script", ex);
+		}
+		return false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests whether the local Rserve instance is running on the default port.
 	 * <p>
 	 * @return {@code true} if the local Rserve instance is running on the default port,
@@ -135,77 +178,34 @@ public class R {
 		return false;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Executes the specified script on the R engine and returns {@code true} if the R engine
-	 * processed it, {@code false} otherwise.
-	 * <p>
-	 * @param script the script to execute
-	 * <p>
-	 * @return {@code true} if the R engine processed the specified script, {@code false} otherwise
-	 */
-	public static boolean execute(final String script) {
-		return execute(script, ARGS);
-	}
-
-	public static boolean execute(final String script, final String args) {
-		try {
-			IO.debug(">> Run ", Strings.quote(script));
-			final Process process;
-			// Test whether the OS is Windows or Unix
-			if (Systems.isWindows()) {
-				// - Windows
-				process = Systems.execute(Strings.doubleQuote(PATH) + " -e " +
-						Strings.doubleQuote(script) + " " + args);
-			} else {
-				// - Unix
-				process = Systems.execute(
-						Arrays.toArray("/bin/sh", "-c", "echo " + Strings.doubleQuote(script) +
-								" | " + Strings.doubleQuote(PATH) + " " + args));
-			}
-			new RStream(process.getInputStream());
-			new RStream(process.getErrorStream());
-			if (!Systems.isWindows()) {
-				process.waitFor();
-			}
-			IO.debug("<< Done");
-			return true;
-		} catch (final InterruptedException ex) {
-			IO.error("<< Fail to run the script", ex);
-		} catch (final IOException ex) {
-			IO.error("<< Fail to run the script", ex);
-		}
-		return false;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static class RStream
-			extends Thread {
+	protected static class RPrinter
+			extends IOPrinter {
 
-		protected final InputStream input;
+		public RPrinter() {
+			super(IO.getPrinter());
+		}
 
-		protected RStream(final InputStream input) {
-			super();
-			this.input = input;
-			start();
+		public RPrinter(final IOHandler... handlers) {
+			super(handlers);
+		}
+
+		public RPrinter(final List<IOHandler> handlers) {
+			super(handlers);
 		}
 
 		@Override
-		public void run() {
-			try {
-				final BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					IO.info("R> ", line);
-				}
-			} catch (final IOException ex) {
-				IO.error(ex);
-			}
+		public void print(final Object content, final boolean isError) {
+			super.print("R> " + Strings.toString(content), isError);
+		}
+
+		@Override
+		public void println(final Object content, final boolean isError) {
+			super.println("R> " + Strings.toString(content), isError);
 		}
 	}
 }

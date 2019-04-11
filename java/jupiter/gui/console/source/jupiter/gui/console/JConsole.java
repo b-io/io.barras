@@ -210,6 +210,10 @@ public class JConsole
 		return input;
 	}
 
+	public InputStream getIn() {
+		return in;
+	}
+
 	public PrintStream getOut() {
 		return out;
 	}

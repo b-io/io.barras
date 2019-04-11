@@ -23,6 +23,7 @@
  */
 package jupiter.common.io;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class IOPrinter
@@ -41,6 +42,11 @@ public class IOPrinter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public IOPrinter(final IOHandler... handlers) {
+		super();
+		this.handlers = Arrays.asList(handlers);
+	}
 
 	public IOPrinter(final List<IOHandler> handlers) {
 		super();
