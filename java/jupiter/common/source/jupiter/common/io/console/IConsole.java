@@ -23,6 +23,7 @@
  */
 package jupiter.common.io.console;
 
+import java.io.InputStream;
 import java.io.PrintStream;
 
 public interface IConsole {
@@ -42,6 +43,13 @@ public interface IConsole {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OUTPUT
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the input stream.
+	 * <p>
+	 * @return the input stream
+	 */
+	public InputStream getIn();
 
 	/**
 	 * Returns the output stream.

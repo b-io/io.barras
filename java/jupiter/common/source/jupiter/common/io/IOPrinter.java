@@ -21,84 +21,77 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.io.console;
+package jupiter.common.io;
 
-import static jupiter.common.io.IO.IO;
+import java.util.List;
 
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.nio.charset.Charset;
-import java.util.Scanner;
-
-public class SystemConsole
-		implements IConsole {
+public class IOPrinter
+		extends IOHandler {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final Charset charset;
-	protected final Scanner scanner;
+	/**
+	 * The IO handlers.
+	 */
+	protected final List<IOHandler> handlers;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public SystemConsole() {
-		charset = Charset.defaultCharset();
-		scanner = new Scanner(getIn(), charset.name());
-	}
-
-	public SystemConsole(final Charset charset) {
-		this.charset = charset;
-		scanner = new Scanner(getIn(), charset.name());
+	public IOPrinter(final List<IOHandler> handlers) {
+		super();
+		this.handlers = handlers;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUT
+	// PRINTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the input line.
+	 * Prints the specified content with the IO handlers.
 	 * <p>
-	 * @return the input line
+	 * @param content the {@link Object} to print
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
-	public String input() {
-		IO.printInput();
-		return scanner.nextLine();
+	@Override
+	public void print(final Object content, final boolean isError) {
+		for (final IOHandler handler : handlers) {
+			handler.print(content, isError);
+		}
+	}
+
+	/**
+	 * Prints the specified content and terminates the line with the IO handlers.
+	 * <p>
+	 * @param content the {@link Object} to print
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
+	 */
+	@Override
+	public void println(final Object content, final boolean isError) {
+		for (final IOHandler handler : handlers) {
+			handler.println(content, isError);
+		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OUTPUT
+	// CLEANERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the "standard" input stream.
-	 * <p>
-	 * @return the "standard" input stream
+	 * Clears the IO handlers.
 	 */
-	public InputStream getIn() {
-		return System.in;
-	}
-
-	/**
-	 * Returns the "standard" output stream.
-	 * <p>
-	 * @return the "standard" output stream
-	 */
-	public PrintStream getOut() {
-		return System.out;
-	}
-
-	/**
-	 * Returns the "standard" error output stream.
-	 * <p>
-	 * @return the "standard" error output stream
-	 */
-	public PrintStream getErr() {
-		return System.err;
+	@Override
+	public void clear() {
+		for (final IOHandler handler : handlers) {
+			handler.clear();
+		}
 	}
 }

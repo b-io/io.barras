@@ -23,6 +23,12 @@
  */
 package jupiter.common.io;
 
+import static jupiter.common.io.IO.IO;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+
 public abstract class IOHandler {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,10 +71,36 @@ public abstract class IOHandler {
 		println(message, message.getLevel().isError());
 	}
 
+	/**
+	 * Prints the specified {@link InputStream} (whether in the standard output or in the standard
+	 * error) and then terminates the line.
+	 * <p>
+	 * @param input   the {@link InputStream} to print
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
+	 */
+	public void println(final InputStream input, final boolean isError) {
+		BufferedReader reader = null;
+		try {
+			reader = IO.createReader(input);
+			String line;
+			while ((line = reader.readLine()) != null) {
+				println(line, isError);
+			}
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.close(reader);
+		}
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CLEANERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clears the IO handler.
+	 */
 	public abstract void clear();
 }

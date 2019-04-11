@@ -23,6 +23,13 @@
  */
 package jupiter.common.io;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -105,6 +112,10 @@ public class IO {
 	 * The log handler.
 	 */
 	protected final LogHandler logHandler;
+	/**
+	 * The printer.
+	 */
+	protected final IOHandler printer;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,6 +149,8 @@ public class IO {
 		handlers.add(consoleHandler);
 		this.logHandler = logHandler;
 		handlers.add(logHandler);
+		// Set the printer
+		printer = new IOPrinter(handlers);
 	}
 
 
@@ -152,6 +165,15 @@ public class IO {
 	 */
 	public SeverityLevel getSeverityLevel() {
 		return severityLevel;
+	}
+
+	/**
+	 * Returns the printer.
+	 * <p>
+	 * @return the printer
+	 */
+	public IOHandler getPrinter() {
+		return printer;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,6 +225,27 @@ public class IO {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static BufferedReader createReader(final InputStream inputStream) {
+		return new BufferedReader(new InputStreamReader(inputStream));
+	}
+
+	public static BufferedReader createReader(final InputStream inputStream, final Charset charset) {
+		return new BufferedReader(new InputStreamReader(inputStream, charset));
+	}
+
+	public static BufferedWriter createWriter(final OutputStream outputStream) {
+		return new BufferedWriter(new OutputStreamWriter(outputStream));
+	}
+
+	public static BufferedWriter createWriter(final OutputStream outputStream, final Charset charset) {
+		return new BufferedWriter(new OutputStreamWriter(outputStream, charset));
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -236,9 +279,7 @@ public class IO {
 	 *                output
 	 */
 	public void print(final Object content, final boolean isError) {
-		for (final IOHandler handler : handlers) {
-			handler.print(content, isError);
-		}
+		printer.print(content, isError);
 	}
 
 	/**
@@ -280,9 +321,7 @@ public class IO {
 	 *                output
 	 */
 	public void println(final Object content, final boolean isError) {
-		for (final IOHandler handler : handlers) {
-			handler.println(content, isError);
-		}
+		printer.println(content, isError);
 	}
 
 	/**
@@ -305,9 +344,7 @@ public class IO {
 	 * @param message the {@link Message} to print
 	 */
 	public void println(final Message message) {
-		for (final IOHandler handler : handlers) {
-			handler.println(message);
-		}
+		printer.println(message);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -606,9 +643,7 @@ public class IO {
 	 * Clears the IO handlers.
 	 */
 	public void clear() {
-		for (final IOHandler handler : handlers) {
-			handler.clear();
-		}
+		printer.clear();
 	}
 
 

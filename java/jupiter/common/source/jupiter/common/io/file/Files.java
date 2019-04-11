@@ -34,8 +34,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -173,7 +171,7 @@ public class Files {
 	 */
 	public static BufferedReader createReader(final String pathName, final Charset charset)
 			throws FileNotFoundException {
-		return new BufferedReader(new InputStreamReader(new FileInputStream(pathName), charset));
+		return IO.createReader(new FileInputStream(pathName), charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,7 +290,7 @@ public class Files {
 	 */
 	public static BufferedWriter createWriter(final String pathName, final boolean append)
 			throws FileNotFoundException {
-		return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pathName, append)));
+		return IO.createWriter(new FileOutputStream(pathName, append));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -341,8 +339,7 @@ public class Files {
 		BufferedWriter writer = null;
 		try {
 			// Create a new file writer
-			writer = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(pathName, append), charset));
+			writer = IO.createWriter(new FileOutputStream(pathName, append), charset);
 			// Append the string to the file
 			writer.write(content + "\n");
 			isWritten = true;

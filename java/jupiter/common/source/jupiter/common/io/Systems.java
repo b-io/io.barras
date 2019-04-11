@@ -52,7 +52,7 @@ public class Systems {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static OS getOS() {
@@ -66,34 +66,38 @@ public class Systems {
 		return OS.OTHER;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int execute(final String command, final IOHandler printer)
+			throws InterruptedException, IOException {
+		return execute(new String[] {command}, printer);
+	}
+
+	public static int execute(final String[] commands, final IOHandler printer)
+			throws InterruptedException, IOException {
+		final Process process = Runtime.getRuntime().exec(commands);
+		// Read the input stream from the process and print it
+		printer.println(process.getInputStream(), false);
+		// Read the error stream from the process and print it
+		printer.println(process.getErrorStream(), true);
+		// Wait until the process has terminated
+		return process.waitFor();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static boolean isUnix() {
 		return OS == OS.LINUX || OS == OS.MACOS;
 	}
 
 	public static boolean isWindows() {
 		return OS == OS.WINDOWS;
-	}
-
-	public static Process execute(final String command)
-			throws IOException {
-		final Process process = Runtime.getRuntime().exec(command);
-		try {
-			process.waitFor();
-		} catch (InterruptedException ex) {
-			IO.IO.warn(ex);
-		}
-		return process;
-	}
-
-	public static Process execute(final String[] commands)
-			throws IOException {
-		final Process process = Runtime.getRuntime().exec(commands);
-		try {
-			process.waitFor();
-		} catch (InterruptedException ex) {
-			IO.IO.warn(ex);
-		}
-		return process;
 	}
 
 
