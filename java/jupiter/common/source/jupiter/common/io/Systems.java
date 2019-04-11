@@ -95,7 +95,7 @@ public class Systems {
 
 	public static int execute(final String[] command, final IOHandler printer)
 			throws InterruptedException, IOException {
-		IO.debug(Strings.joinWith(command, " "));
+		IO.info(Strings.joinWith(command, " "));
 		final Process process = Runtime.getRuntime().exec(command);
 		// Read the input stream from the process and print it
 		final WorkQueue printerQueue = new LockedWorkQueue<InputStream, Integer>(
