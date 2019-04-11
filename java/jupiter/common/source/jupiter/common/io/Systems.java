@@ -76,12 +76,24 @@ public class Systems {
 
 	public static Process execute(final String command)
 			throws IOException {
-		return Runtime.getRuntime().exec(command);
+		final Process process = Runtime.getRuntime().exec(command);
+		try {
+			process.waitFor();
+		} catch (InterruptedException ex) {
+			IO.IO.warn(ex);
+		}
+		return process;
 	}
 
 	public static Process execute(final String[] commands)
 			throws IOException {
-		return Runtime.getRuntime().exec(commands);
+		final Process process = Runtime.getRuntime().exec(commands);
+		try {
+			process.waitFor();
+		} catch (InterruptedException ex) {
+			IO.IO.warn(ex);
+		}
+		return process;
 	}
 
 
