@@ -1193,9 +1193,7 @@ public class Matrix
 		if (MatrixOperations.ACTIVE) {
 			if (JNI_WORK_QUEUE == null) {
 				JNI_WORK_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
-						new JNIDotProduct());
-				JNI_WORK_QUEUE.MIN_THREADS = 1;
-				JNI_WORK_QUEUE.MAX_THREADS = 1;
+						new JNIDotProduct(), 1, 1);
 				USE_JNI = true;
 			} else {
 				IO.warn("The JNI work queue ", JNI_WORK_QUEUE, " has already started");
@@ -1564,7 +1562,7 @@ public class Matrix
 					.get(JNI_WORK_QUEUE.submit(new Pair<Matrix, Matrix>(this, broadcastedMatrix)));
 		} else if (PARALLELIZE) {
 			// Initialize
-			final int intervalCount = Math.min(m, WORK_QUEUE.MAX_THREADS);
+			final int intervalCount = Math.min(m, WORK_QUEUE.maxThreads);
 			final int rowCountPerInterval = m / intervalCount;
 			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
 			final List<Long> ids = new ArrayList<Long>(intervalCount);

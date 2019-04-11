@@ -48,8 +48,8 @@ public class WorkQueue<I, O> {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public volatile int MIN_THREADS = DEFAULT_MIN_THREADS;
-	public volatile int MAX_THREADS = DEFAULT_MAX_THREADS;
+	public volatile int minThreads;
+	public volatile int maxThreads;
 
 	/**
 	 * The flag specifying whether {@code this} is running.
@@ -91,9 +91,28 @@ public class WorkQueue<I, O> {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@code WorkQueue} with the specified model of the workers to handle.
+	 * <p>
+	 * @param model the model of the workers to handle
+	 */
 	protected WorkQueue(final Worker<I, O> model) {
+		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
+	}
+
+	/**
+	 * Constructs a {@code WorkQueue} with the specified model and the specified minimum and maximum
+	 * number of workers to handle.
+	 * <p>
+	 * @param model      the model of the workers to handle
+	 * @param minThreads the minimum number of the workers to handle
+	 * @param maxThreads the maximum number of the workers to handle
+	 */
+	protected WorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads) {
 		this.model = model;
 		this.type = model.getClass();
+		this.minThreads = minThreads;
+		this.maxThreads = maxThreads;
 	}
 
 
@@ -161,7 +180,7 @@ public class WorkQueue<I, O> {
 		if (workerToCreateCount <= 0) {
 			return 0;
 		}
-		return createWorkers(Math.min(workerToCreateCount, MAX_THREADS - workerCount));
+		return createWorkers(Math.min(workerToCreateCount, maxThreads - workerCount));
 	}
 
 	/**
@@ -174,9 +193,9 @@ public class WorkQueue<I, O> {
 	protected int createWorker()
 			throws IllegalOperationException {
 		int createdWorkerCount = 0;
-		if (workerCount >= MAX_THREADS) {
+		if (workerCount >= maxThreads) {
 			throw new IllegalOperationException(
-					"The maximum number of workers (" + MAX_THREADS + ") has been reached");
+					"The maximum number of workers (" + maxThreads + ") has been reached");
 		}
 		final Worker<I, O> worker = model.clone();
 		worker.setWorkQueue(this);
@@ -193,23 +212,23 @@ public class WorkQueue<I, O> {
 
 	public boolean reserveWorkers(final int n) {
 		IO.debug("Try to reserve ", n, " workers of type ", type);
-		if (MAX_THREADS - reservedWorkerCount >= n) {
+		if (maxThreads - reservedWorkerCount >= n) {
 			// Reserve the workers
 			reservedWorkerCount += n;
 			// Create more workers if required
 			final int workerToCreateCount = reservedWorkerCount - workerCount;
 			if (workerToCreateCount > 0) {
 				IO.debug("OK, create ", workerToCreateCount, " more workers of type ", type,
-						" (total reserved: ", reservedWorkerCount, "/", MAX_THREADS, ")");
+						" (total reserved: ", reservedWorkerCount, "/", maxThreads, ")");
 				return createWorkers(workerToCreateCount) == workerToCreateCount;
 			} else {
 				IO.debug("OK, the workers of type ", type, " are already created (total reserved: ",
-						reservedWorkerCount, "/", MAX_THREADS, ")");
+						reservedWorkerCount, "/", maxThreads, ")");
 			}
 			return true;
 		}
 		IO.debug("Cannot reserve ", n, " workers of type ", type, " (total reserved: ",
-				reservedWorkerCount, "/", MAX_THREADS, ")");
+				reservedWorkerCount, "/", maxThreads, ")");
 		return false;
 	}
 

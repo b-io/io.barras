@@ -26,6 +26,7 @@ package jupiter.common.io.console;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
 import jupiter.common.test.Arguments;
+import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 
 public class ConsoleHandler
@@ -134,7 +135,8 @@ public class ConsoleHandler
 	}
 
 	/**
-	 * Prints the specified message (in color if {@code USE_COLORS}) in the console.
+	 * Prints the specified message (whether in the standard output or in the standard error and in
+	 * color if {@code USE_COLORS}) in the console and terminates the line.
 	 * <p>
 	 * @param message the {@link Message} to print
 	 */
@@ -179,6 +181,16 @@ public class ConsoleHandler
 
 	@Override
 	public void clear() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Worker<Message, Integer> clone() {
+		return new ConsoleHandler(console);
 	}
 
 

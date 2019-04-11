@@ -26,6 +26,8 @@ package jupiter.common.io;
 import java.util.Arrays;
 import java.util.List;
 
+import jupiter.common.thread.Worker;
+
 public class IOPrinter
 		extends IOHandler {
 
@@ -86,6 +88,18 @@ public class IOPrinter
 		}
 	}
 
+	/**
+	 * Prints the specified message (whether in the standard output or in the standard error) and
+	 * then terminates the line.
+	 * <p>
+	 * @param message the {@link Message} to print
+	 */
+	public void println(final Message message) {
+		for (final IOHandler handler : handlers) {
+			handler.println(message);
+		}
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CLEANERS
@@ -99,5 +113,15 @@ public class IOPrinter
 		for (final IOHandler handler : handlers) {
 			handler.clear();
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Worker<Message, Integer> clone() {
+		return new IOPrinter(handlers);
 	}
 }

@@ -21,21 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.thread;
+package jupiter.common.io;
 
-public class SimpleWorker
-		extends Worker<Integer, Integer> {
+import java.io.InputStream;
+
+import jupiter.common.thread.Worker;
+
+public class IOStreamWriter
+		extends Worker<InputStream, Integer> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The printer.
+	 */
+	protected final IOHandler printer;
+	protected final boolean isError;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public SimpleWorker() {
+	public IOStreamWriter(final IOHandler printer, final boolean isError) {
 		super();
-	}
-
-	public SimpleWorker(final Integer input) {
-		super(input);
+		this.printer = printer;
+		this.isError = isError;
 	}
 
 
@@ -44,8 +57,9 @@ public class SimpleWorker
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public Integer call(final Integer input) {
-		return input;
+	public Integer call(final InputStream input) {
+		printer.println(input, isError);
+		return IO.EXIT_SUCCESS;
 	}
 
 
@@ -54,7 +68,7 @@ public class SimpleWorker
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public SimpleWorker clone() {
-		return new SimpleWorker();
+	public Worker<InputStream, Integer> clone() {
+		return new IOStreamWriter(printer, isError);
 	}
 }

@@ -26,11 +26,9 @@ package jupiter.integration.r;
 import static jupiter.common.io.IO.IO;
 
 import java.io.IOException;
-import java.util.List;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
-import jupiter.common.io.IOPrinter;
 import jupiter.common.io.Systems;
 import jupiter.common.thread.Threads;
 import jupiter.common.util.Arrays;
@@ -184,28 +182,43 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class RPrinter
-			extends IOPrinter {
+			extends IOHandler {
+
+		protected static final String PREFIX = "R> ";
+
+		/**
+		 * The printer.
+		 */
+		protected final IOHandler printer;
+		protected final boolean isError;
 
 		public RPrinter() {
-			super(IO.getPrinter());
+			this(false);
 		}
 
-		public RPrinter(final IOHandler... handlers) {
-			super(handlers);
+		public RPrinter(final boolean isError) {
+			this(IO.getPrinter(), isError);
 		}
 
-		public RPrinter(final List<IOHandler> handlers) {
-			super(handlers);
+		public RPrinter(final IOHandler printer, final boolean isError) {
+			super();
+			this.printer = printer;
+			this.isError = isError;
 		}
 
 		@Override
 		public void print(final Object content, final boolean isError) {
-			super.print("R> " + Strings.toString(content), isError);
+			printer.print(PREFIX + Strings.toString(content), isError);
 		}
 
 		@Override
 		public void println(final Object content, final boolean isError) {
-			super.println("R> " + Strings.toString(content), isError);
+			printer.println(PREFIX + Strings.toString(content), isError);
+		}
+
+		@Override
+		public void clear() {
+			printer.clear();
 		}
 	}
 }

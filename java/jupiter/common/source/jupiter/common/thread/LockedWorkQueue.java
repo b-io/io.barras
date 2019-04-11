@@ -60,30 +60,44 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the specified model of the workers to handle and
-	 * the non-fairness policy.
+	 * Constructs a {@code LockedWorkQueue} with the specified model of the workers to handle.
 	 * <p>
 	 * @param model the model of the workers to handle
 	 */
 	public LockedWorkQueue(final Worker<I, O> model) {
-		this(model, false);
+		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
 	}
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the specified model of the workers to handle and
-	 * the specified fairness policy.
+	 * Constructs a {@code LockedWorkQueue} with the specified model and the specified minimum and
+	 * maximum number of workers to handle.
 	 * <p>
-	 * @param model the model of the workers to handle
-	 * @param fair  the flag specifying whether to use a fair ordering policy
+	 * @param model      the model of the workers to handle
+	 * @param minThreads the minimum number of the workers to handle
+	 * @param maxThreads the maximum number of the workers to handle
 	 */
-	public LockedWorkQueue(final Worker<I, O> model, final boolean fair) {
-		super(model);
+	public LockedWorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads) {
+		this(model, minThreads, maxThreads, false);
+	}
+
+	/**
+	 * Constructs a {@code LockedWorkQueue} with the specified model and the specified minimum and
+	 * maximum number of workers to handle and the specified fairness policy.
+	 * <p>
+	 * @param model      the model of the workers to handle
+	 * @param minThreads the minimum number of the workers to handle
+	 * @param maxThreads the maximum number of the workers to handle
+	 * @param fair       the flag specifying whether to use a fair ordering policy
+	 */
+	public LockedWorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads,
+			final boolean fair) {
+		super(model, minThreads, maxThreads);
 		workersLock = new ReentrantLock(fair);
 		tasksLock = new ReentrantLock(fair);
 		tasksLockCondition = tasksLock.newCondition();
 		resultsLock = new ReentrantLock(fair);
 		resultsLockCondition = resultsLock.newCondition();
-		createWorkers(MIN_THREADS);
+		createWorkers(minThreads);
 	}
 
 

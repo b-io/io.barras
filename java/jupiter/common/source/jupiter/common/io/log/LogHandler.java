@@ -28,8 +28,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.io.IOHandler;
+import jupiter.common.io.Message;
 import jupiter.common.io.file.Files;
 import jupiter.common.test.Arguments;
+import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 
 public class LogHandler
@@ -64,8 +66,9 @@ public class LogHandler
 	protected volatile String logDir;
 
 	/**
-	 * The output log path.
+	 * The output log name and path.
 	 */
+	protected volatile String outputLogName;
 	protected volatile String outputLogPath;
 	/**
 	 * The internal lock of the output log.
@@ -74,8 +77,9 @@ public class LogHandler
 	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
 
 	/**
-	 * The error log path.
+	 * The error log name and path.
 	 */
+	protected volatile String errorLogName;
 	protected volatile String errorLogPath;
 	/**
 	 * The internal lock of the error log.
@@ -99,8 +103,8 @@ public class LogHandler
 	public LogHandler(final String logDir, final String outputLogName, final String errorLogName) {
 		super();
 		this.logDir = logDir;
-		outputLogPath = getPath(outputLogName);
-		errorLogPath = getPath(errorLogName);
+		setOutputLog(outputLogName);
+		setErrorLog(errorLogName);
 	}
 
 
@@ -148,6 +152,7 @@ public class LogHandler
 	public void setOutputLog(final String outputLogName) {
 		outputLogLock.lock();
 		try {
+			this.outputLogName = outputLogName;
 			outputLogPath = getPath(outputLogName);
 		} finally {
 			outputLogLock.unlock();
@@ -162,6 +167,7 @@ public class LogHandler
 	public void setErrorLog(final String errorLogName) {
 		errorLogLock.lock();
 		try {
+			this.errorLogName = errorLogName;
 			errorLogPath = getPath(errorLogName);
 		} finally {
 			errorLogLock.unlock();
@@ -325,5 +331,15 @@ public class LogHandler
 		} finally {
 			errorLogLock.unlock();
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Worker<Message, Integer> clone() {
+		return new LogHandler(logDir, outputLogName, errorLogName);
 	}
 }

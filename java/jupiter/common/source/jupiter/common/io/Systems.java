@@ -24,7 +24,11 @@
 package jupiter.common.io;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
+
+import jupiter.common.thread.LockedWorkQueue;
+import jupiter.common.thread.WorkQueue;
 
 public class Systems {
 
@@ -80,11 +84,19 @@ public class Systems {
 			throws InterruptedException, IOException {
 		final Process process = Runtime.getRuntime().exec(commands);
 		// Read the input stream from the process and print it
-		printer.println(process.getInputStream(), false);
+		final WorkQueue printerQueue = new LockedWorkQueue<InputStream, Integer>(
+				new IOStreamWriter(printer, false), 1, 1);
+		printerQueue.submit(process.getInputStream());
 		// Read the error stream from the process and print it
-		printer.println(process.getErrorStream(), true);
+		final WorkQueue errorPrinterQueue = new LockedWorkQueue<InputStream, Integer>(
+				new IOStreamWriter(printer, true), 1, 1);
+		errorPrinterQueue.submit(process.getErrorStream());
 		// Wait until the process has terminated
-		return process.waitFor();
+		process.waitFor();
+		// Clear
+		printerQueue.shutdown();
+		errorPrinterQueue.shutdown();
+		return process.exitValue();
 	}
 
 

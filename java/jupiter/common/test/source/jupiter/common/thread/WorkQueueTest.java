@@ -53,7 +53,7 @@ public class WorkQueueTest
 				new SimpleWorker());
 
 		// Test
-		assertTrue(workQueue.MIN_THREADS <= workQueue.MAX_THREADS);
+		assertTrue(workQueue.minThreads <= workQueue.maxThreads);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

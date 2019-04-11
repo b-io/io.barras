@@ -39,8 +39,21 @@ public class SynchronizedWorkQueue<I, O>
 	 * @param model the model of the workers to handle
 	 */
 	public SynchronizedWorkQueue(final Worker<I, O> model) {
-		super(model);
-		createWorkers(MIN_THREADS);
+		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
+	}
+
+	/**
+	 * Constructs a {@code SynchronizedWorkQueue} with the specified model and the specified minimum
+	 * and maximum number of workers to handle.
+	 * <p>
+	 * @param model      the model of the workers to handle
+	 * @param minThreads the minimum number of the workers to handle
+	 * @param maxThreads the maximum number of the workers to handle
+	 */
+	public SynchronizedWorkQueue(final Worker<I, O> model, final int minThreads,
+			final int maxThreads) {
+		super(model, minThreads, maxThreads);
+		createWorkers(minThreads);
 	}
 
 
