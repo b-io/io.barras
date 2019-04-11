@@ -29,8 +29,10 @@ import java.io.IOException;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
+import jupiter.common.io.Message;
 import jupiter.common.io.Systems;
 import jupiter.common.thread.Threads;
+import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
@@ -219,6 +221,11 @@ public class R {
 		@Override
 		public void clear() {
 			printer.clear();
+		}
+
+		@Override
+		public Worker<Message, Integer>  clone() {
+			return new RPrinter(printer, isError);
 		}
 	}
 }
