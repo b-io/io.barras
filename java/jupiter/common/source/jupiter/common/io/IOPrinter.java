@@ -94,6 +94,7 @@ public class IOPrinter
 	 * <p>
 	 * @param message the {@link Message} to print
 	 */
+	@Override
 	public void println(final Message message) {
 		for (final IOHandler handler : handlers) {
 			handler.println(message);

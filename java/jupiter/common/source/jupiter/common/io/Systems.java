@@ -85,7 +85,9 @@ public class Systems {
 
 	public static int execute(final String command, final IOHandler printer)
 			throws InterruptedException, IOException {
-		return execute(new String[] {command}, printer);
+		return execute(new String[] {
+			command
+		}, printer);
 	}
 
 	public static int execute(final String[] command)

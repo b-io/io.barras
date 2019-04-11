@@ -27,6 +27,9 @@ import static jupiter.common.io.IO.IO;
 
 import java.io.IOException;
 
+import org.rosuda.REngine.Rserve.RConnection;
+import org.rosuda.REngine.Rserve.RserveException;
+
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
@@ -35,9 +38,6 @@ import jupiter.common.thread.Threads;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
-
-import org.rosuda.REngine.Rserve.RConnection;
-import org.rosuda.REngine.Rserve.RserveException;
 
 public class R {
 
@@ -141,9 +141,10 @@ public class R {
 						" " + args, PRINTER);
 			} else {
 				// - Execute the script on Unix
-				Systems.execute(Arrays.toArray("/bin/sh", "-c", "echo " +
-						Strings.doubleQuote(script) + " | " +
-						Strings.doubleQuote(PATH) + " " + args), PRINTER);
+				Systems.execute(
+						Arrays.toArray("/bin/sh", "-c", "echo " + Strings.doubleQuote(script) +
+								" | " + Strings.doubleQuote(PATH) + " " + args),
+						PRINTER);
 			}
 			IO.debug("<< Done");
 			return true;
@@ -224,7 +225,7 @@ public class R {
 		}
 
 		@Override
-		public Worker<Message, Integer>  clone() {
+		public Worker<Message, Integer> clone() {
 			return new RPrinter(printer, isError);
 		}
 	}

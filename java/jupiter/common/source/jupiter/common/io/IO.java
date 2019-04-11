@@ -232,7 +232,8 @@ public class IO {
 		return new BufferedReader(new InputStreamReader(inputStream));
 	}
 
-	public static BufferedReader createReader(final InputStream inputStream, final Charset charset) {
+	public static BufferedReader createReader(final InputStream inputStream,
+			final Charset charset) {
 		return new BufferedReader(new InputStreamReader(inputStream, charset));
 	}
 
@@ -240,7 +241,8 @@ public class IO {
 		return new BufferedWriter(new OutputStreamWriter(outputStream));
 	}
 
-	public static BufferedWriter createWriter(final OutputStream outputStream, final Charset charset) {
+	public static BufferedWriter createWriter(final OutputStream outputStream,
+			final Charset charset) {
 		return new BufferedWriter(new OutputStreamWriter(outputStream, charset));
 	}
 
