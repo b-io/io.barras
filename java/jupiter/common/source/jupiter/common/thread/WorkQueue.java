@@ -176,7 +176,7 @@ public class WorkQueue<I, O> {
 	 * @return the number of created workers
 	 */
 	public int createAvailableWorkers(final int n) {
-		final int workerToCreateCount = n - availableWorkerCount;
+		final int workerToCreateCount = n - (availableWorkerCount - tasks.size());
 		if (workerToCreateCount <= 0) {
 			return 0;
 		}
