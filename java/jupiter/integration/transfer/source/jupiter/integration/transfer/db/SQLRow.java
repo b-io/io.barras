@@ -27,6 +27,7 @@ import static jupiter.common.io.IO.IO;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.Array;
@@ -101,7 +102,7 @@ public abstract class SQLRow {
 		if (resultSet != null) {
 			final Field[] fields = getClass().getDeclaredFields();
 			for (final Field field : fields) {
-				if (field.isAccessible()) {
+				if (Modifier.isPublic(field.getModifiers())) {
 					try {
 						final String columnName = getColumnName(field.getName());
 						final Class<?> c = field.getType();
