@@ -643,20 +643,6 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the index of the first character of {@code string} that is in {@code characters}, or
-	 * {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param characters the {@link Collection} of {@link Character} to find
-	 * <p>
-	 * @return the index of the first character of {@code string} that is in {@code characters}, or
-	 *         {@code -1} if there is no such occurrence
-	 */
-	public static int findFirst(final String string, final Collection<Character> characters) {
-		return findFirst(string, characters, 0);
-	}
-
-	/**
 	 * Returns the index of the first character of {@code string} that is in {@code characters},
 	 * seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
@@ -681,6 +667,22 @@ public class Strings {
 			}
 		}
 		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the first character of {@code string} that is in {@code characters}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param characters the {@link Collection} of {@link Character} to find
+	 * <p>
+	 * @return the index of the first character of {@code string} that is in {@code characters}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findFirst(final String string, final Collection<Character> characters) {
+		return findFirst(string, characters, 0);
 	}
 
 	/**
@@ -727,20 +729,6 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the index of the last character of {@code string} that is in {@code characters}, or
-	 * {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param characters the {@link Collection} of {@link Character} to find
-	 * <p>
-	 * @return the index of the last character of {@code string} that is in {@code characters}, or
-	 *         {@code -1} if there is no such occurrence
-	 */
-	public static int findLast(final String string, final Collection<Character> characters) {
-		return findLast(string, characters, string.length());
-	}
-
-	/**
 	 * Returns the index of the last character of {@code string} that is in {@code characters},
 	 * seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
@@ -765,6 +753,22 @@ public class Strings {
 			}
 		}
 		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the last character of {@code string} that is in {@code characters}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param characters the {@link Collection} of {@link Character} to find
+	 * <p>
+	 * @return the index of the last character of {@code string} that is in {@code characters}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findLast(final String string, final Collection<Character> characters) {
+		return findLast(string, characters, string.length());
 	}
 
 	/**
@@ -840,6 +844,8 @@ public class Strings {
 		return -1;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the index of the first character of {@code string} that is not in {@code characters},
 	 * or {@code -1} if there is no such occurrence.
@@ -851,20 +857,6 @@ public class Strings {
 	 *         or {@code -1} if there is no such occurrence
 	 */
 	public static int findFirstNotIn(final String string, final char[] characters) {
-		return findFirstNotIn(string, characters, 0);
-	}
-
-	/**
-	 * Returns the index of the first character of {@code string} that is not in {@code characters},
-	 * or {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param characters the {@link Collection} of {@link Character} to find
-	 * <p>
-	 * @return the index of the first character of {@code string} that is not in {@code characters},
-	 *         or {@code -1} if there is no such occurrence
-	 */
-	public static int findFirstNotIn(final String string, final Collection<Character> characters) {
 		return findFirstNotIn(string, characters, 0);
 	}
 
@@ -894,6 +886,22 @@ public class Strings {
 			}
 		}
 		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the first character of {@code string} that is not in {@code characters},
+	 * or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param characters the {@link Collection} of {@link Character} to find
+	 * <p>
+	 * @return the index of the first character of {@code string} that is not in {@code characters},
+	 *         or {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstNotIn(final String string, final Collection<Character> characters) {
+		return findFirstNotIn(string, characters, 0);
 	}
 
 	/**
@@ -969,6 +977,8 @@ public class Strings {
 		return -1;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the index of the last character of {@code string} that is not in {@code characters},
 	 * or {@code -1} if there is no such occurrence.
@@ -980,20 +990,6 @@ public class Strings {
 	 *         or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String string, final char[] characters) {
-		return findLastNotIn(string, characters, string.length());
-	}
-
-	/**
-	 * Returns the index of the last character of {@code string} that is not in {@code characters},
-	 * or {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param characters the {@link Collection} of {@link Character} to find
-	 * <p>
-	 * @return the index of the last character of {@code string} that is not in {@code characters},
-	 *         or {@code -1} if there is no such occurrence
-	 */
-	public static int findLastNotIn(final String string, final Collection<Character> characters) {
 		return findLastNotIn(string, characters, string.length());
 	}
 
@@ -1022,6 +1018,22 @@ public class Strings {
 			}
 		}
 		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the last character of {@code string} that is not in {@code characters},
+	 * or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param characters the {@link Collection} of {@link Character} to find
+	 * <p>
+	 * @return the index of the last character of {@code string} that is not in {@code characters},
+	 *         or {@code -1} if there is no such occurrence
+	 */
+	public static int findLastNotIn(final String string, final Collection<Character> characters) {
+		return findLastNotIn(string, characters, string.length());
 	}
 
 	/**
@@ -1077,8 +1089,7 @@ public class Strings {
 	 * @return the indexes of {@code character} in {@code string}, seeking forward from
 	 *         {@code fromIndex}
 	 */
-	public static List<Integer> getIndexes(final String string, final char character,
-			final int fromIndex) {
+	public static List<Integer> getIndexes(final String string, final char character, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(character);
@@ -1097,6 +1108,37 @@ public class Strings {
 		return indexes;
 	}
 
+	/**
+	 * Returns the indexes of {@code character} in {@code string}, seeking forward to
+	 * {@code toIndex}.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param character the {@code char} value to find
+	 * @param toIndex   the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the indexes of {@code character} in {@code string}, seeking forward to
+	 *         {@code toIndex}
+	 */
+	public static List<Integer> getIndexesTo(final String string, final char character,
+			final int toIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(character);
+		IntegerArguments.requireNonNegative(toIndex);
+		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
+
+		// Initialize
+		final List<Integer> indexes = new LinkedList<Integer>();
+		int index = string.indexOf(character);
+
+		// Get the indexes
+		while (index >= 0 && index < toIndex) {
+			indexes.add(index);
+			index = string.indexOf(character, index + 1);
+		}
+		return indexes;
+	}
+
 	//////////////////////////////////////////////
 
 	/**
@@ -1108,19 +1150,6 @@ public class Strings {
 	 * @return the indexes of {@code characters} in {@code string}
 	 */
 	public static List<Integer> getIndexes(final String string, final char[] characters) {
-		return getIndexes(string, characters, 0);
-	}
-
-	/**
-	 * Returns the indexes of {@code characters} in {@code string}.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param characters the {@link Collection} of {@link Character} to find
-	 * <p>
-	 * @return the indexes of {@code characters} in {@code string}
-	 */
-	public static List<Integer> getIndexes(final String string,
-			final Collection<Character> characters) {
 		return getIndexes(string, characters, 0);
 	}
 
@@ -1158,71 +1187,6 @@ public class Strings {
 
 	/**
 	 * Returns the indexes of the characters of {@code string} that are in {@code characters},
-	 * seeking forward from {@code fromIndex}.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param characters the {@link Collection} of {@link Character} to find
-	 * @param fromIndex  the index to start seeking forward from (inclusive)
-	 * <p>
-	 * @return the indexes of the characters of {@code string} that are in {@code characters},
-	 *         seeking forward from {@code fromIndex}
-	 */
-	public static List<Integer> getIndexes(final String string,
-			final Collection<Character> characters, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(string);
-		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
-
-		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
-		final char[] array = string.toCharArray();
-
-		// Get the indexes
-		for (int index = fromIndex; index < string.length(); ++index) {
-			if (characters.contains(array[index])) {
-				indexes.add(index);
-			}
-		}
-		return indexes;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the indexes of {@code character} in {@code string}, seeking forward to
-	 * {@code toIndex}.
-	 * <p>
-	 * @param string    a {@link String}
-	 * @param character the {@code char} value to find
-	 * @param toIndex   the index to finish seeking forward at (exclusive)
-	 * <p>
-	 * @return the indexes of {@code character} in {@code string}, seeking forward to
-	 *         {@code toIndex}
-	 */
-	public static List<Integer> getIndexesTo(final String string, final char character,
-			final int toIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(string);
-		Arguments.requireNonNull(character);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
-
-		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
-		int index = string.indexOf(character);
-
-		// Get the indexes
-		while (index >= 0 && index < toIndex) {
-			indexes.add(index);
-			index = string.indexOf(character, index + 1);
-		}
-		return indexes;
-	}
-
-	/**
-	 * Returns the indexes of the characters of {@code string} that are in {@code characters},
 	 * seeking forward to {@code toIndex}.
 	 * <p>
 	 * @param string     a {@link String}
@@ -1247,6 +1211,51 @@ public class Strings {
 		// Get the indexes
 		for (int index = 0; index < toIndex; ++index) {
 			if (Characters.contains(characters, array[index])) {
+				indexes.add(index);
+			}
+		}
+		return indexes;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the indexes of {@code characters} in {@code string}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param characters the {@link Collection} of {@link Character} to find
+	 * <p>
+	 * @return the indexes of {@code characters} in {@code string}
+	 */
+	public static List<Integer> getIndexes(final String string, final Collection<Character> characters) {
+		return getIndexes(string, characters, 0);
+	}
+
+	/**
+	 * Returns the indexes of the characters of {@code string} that are in {@code characters},
+	 * seeking forward from {@code fromIndex}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param characters the {@link Collection} of {@link Character} to find
+	 * @param fromIndex  the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the indexes of the characters of {@code string} that are in {@code characters},
+	 *         seeking forward from {@code fromIndex}
+	 */
+	public static List<Integer> getIndexes(final String string, final Collection<Character> characters, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(characters);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		final List<Integer> indexes = new LinkedList<Integer>();
+		final char[] array = string.toCharArray();
+
+		// Get the indexes
+		for (int index = fromIndex; index < string.length(); ++index) {
+			if (characters.contains(array[index])) {
 				indexes.add(index);
 			}
 		}
@@ -1316,6 +1325,8 @@ public class Strings {
 		tokens.add(string.substring(index));
 		return tokens;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
@@ -1413,20 +1424,6 @@ public class Strings {
 
 	/**
 	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiters}.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param delimiters the {@link Collection} of delimiting {@link Character}
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiters}
-	 */
-	public static List<String> split(final String string, final Collection<Character> delimiters) {
-		return getTokens(string, getIndexes(string, delimiters));
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
 	 * {@code delimiters} (inside).
 	 * <p>
 	 * @param string     a {@link String}
@@ -1437,6 +1434,38 @@ public class Strings {
 	 */
 	public static List<String> splitInside(final String string, final char[] delimiters) {
 		return splitTo(string, delimiters, findLastNotIn(string, delimiters));
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters} to {@code toIndex}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the {@link Collection} of delimiting {@link Character}
+	 * @param toIndex    the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters} to {@code toIndex}
+	 */
+	public static List<String> splitTo(final String string,
+			final Collection<Character> delimiters, final int toIndex) {
+		return getTokens(string, getIndexesTo(string, delimiters, toIndex));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the {@link Collection} of delimiting {@link Character}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters}
+	 */
+	public static List<String> split(final String string, final Collection<Character> delimiters) {
+		return getTokens(string, getIndexes(string, delimiters));
 	}
 
 	/**
@@ -1466,22 +1495,6 @@ public class Strings {
 	 */
 	public static List<String> splitTo(final String string, final char[] delimiters,
 			final int toIndex) {
-		return getTokens(string, getIndexesTo(string, delimiters, toIndex));
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiters} to {@code toIndex}.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param delimiters the {@link Collection} of delimiting {@link Character}
-	 * @param toIndex    the index to finish seeking forward at (exclusive)
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiters} to {@code toIndex}
-	 */
-	public static List<String> splitTo(final String string,
-			final Collection<Character> delimiters, final int toIndex) {
 		return getTokens(string, getIndexesTo(string, delimiters, toIndex));
 	}
 
