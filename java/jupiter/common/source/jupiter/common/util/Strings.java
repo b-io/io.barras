@@ -662,7 +662,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the array of {@code char} values to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the index of the first character of {@code string} that is in {@code characters},
 	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
@@ -689,7 +689,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the {@link Collection} of {@link Character} to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the index of the first character of {@code string} that is in {@code characters},
 	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
@@ -746,7 +746,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the array of {@code char} values to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking backward from (inclusive)
 	 * <p>
 	 * @return the index of the last character of {@code string} that is in {@code characters},
 	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
@@ -773,7 +773,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the {@link Collection} of {@link Character} to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking backward from (inclusive)
 	 * <p>
 	 * @return the index of the last character of {@code string} that is in {@code characters},
 	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
@@ -818,7 +818,7 @@ public class Strings {
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param character the {@code char} value to find
-	 * @param fromIndex the index to start seeking from (inclusive)
+	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the index of the first character of {@code string} that is not equal to
 	 *         {@code character}, seeking forward from {@code fromIndex}, or {@code -1} if there is
@@ -874,7 +874,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the array of {@code char} values to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the index of the first character of {@code string} that is not in {@code characters},
 	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
@@ -902,7 +902,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the {@link Collection} of {@link Character} to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the index of the first character of {@code string} that is not in {@code characters},
 	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
@@ -947,7 +947,7 @@ public class Strings {
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param character the {@code char} value to find
-	 * @param fromIndex the index to start seeking from (inclusive)
+	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
 	 * @return the index of the last character of {@code string} that is not equal to
 	 *         {@code character}, seeking backward from {@code fromIndex}, or {@code -1} if there is
@@ -1003,7 +1003,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the array of {@code char} values to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking backward from (inclusive)
 	 * <p>
 	 * @return the index of the last character of {@code string} that is not in {@code characters},
 	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
@@ -1030,7 +1030,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the {@link Collection} of {@link Character} to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking backward from (inclusive)
 	 * <p>
 	 * @return the index of the last character of {@code string} that is not in {@code characters},
 	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
@@ -1099,7 +1099,7 @@ public class Strings {
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param character the {@code char} value to find
-	 * @param fromIndex the index to start seeking from (inclusive)
+	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the indexes of {@code character} in {@code string}, seeking forward from
 	 *         {@code fromIndex}
@@ -1130,7 +1130,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the array of {@code char} values to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the indexes of the characters of {@code string} that are in {@code characters},
 	 *         seeking forward from {@code fromIndex}
@@ -1162,7 +1162,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the {@link Collection} of {@link Character} to find
-	 * @param fromIndex  the index to start seeking from (inclusive)
+	 * @param fromIndex  the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the indexes of the characters of {@code string} that are in {@code characters},
 	 *         seeking forward from {@code fromIndex}
@@ -1196,7 +1196,7 @@ public class Strings {
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param character the {@code char} value to find
-	 * @param toIndex   the index to finish seeking at (exclusive)
+	 * @param toIndex   the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the indexes of {@code character} in {@code string}, seeking forward to
 	 *         {@code toIndex}
@@ -1227,7 +1227,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the array of {@code char} values to find
-	 * @param toIndex    the index to finish seeking at (exclusive)
+	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the indexes of the characters of {@code string} that are in {@code characters},
 	 *         seeking forward to {@code toIndex}
@@ -1259,7 +1259,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param characters the {@link Collection} of {@link Character} to find
-	 * @param toIndex    the index to finish seeking at (exclusive)
+	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the indexes of the characters of {@code string} that are in {@code characters},
 	 *         seeking forward to {@code toIndex}
@@ -1386,7 +1386,7 @@ public class Strings {
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param delimiter the delimiting {@code char} value
-	 * @param toIndex   the index to finish seeking at (exclusive)
+	 * @param toIndex   the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiter}
@@ -1431,7 +1431,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param delimiters the array of delimiting {@code char} values
-	 * @param toIndex    the index to finish seeking at (exclusive)
+	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters} to {@code toIndex}
@@ -1478,7 +1478,7 @@ public class Strings {
 	 * <p>
 	 * @param string     a {@link String}
 	 * @param delimiters the {@link Collection} of delimiting {@link Character}
-	 * @param toIndex    the index to finish seeking at (exclusive)
+	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters} to {@code toIndex}
