@@ -725,7 +725,7 @@ public class Strings {
 	 *         {@code -1} if there is no such occurrence
 	 */
 	public static int findLast(final String string, final char[] characters) {
-		return findLast(string, characters, string.length());
+		return findLast(string, characters, string.length() - 1);
 	}
 
 	/**
@@ -768,7 +768,7 @@ public class Strings {
 	 *         {@code -1} if there is no such occurrence
 	 */
 	public static int findLast(final String string, final Collection<Character> characters) {
-		return findLast(string, characters, string.length());
+		return findLast(string, characters, string.length() - 1);
 	}
 
 	/**
@@ -990,7 +990,7 @@ public class Strings {
 	 *         or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String string, final char[] characters) {
-		return findLastNotIn(string, characters, string.length());
+		return findLastNotIn(string, characters, string.length() - 1);
 	}
 
 	/**
@@ -1033,7 +1033,7 @@ public class Strings {
 	 *         or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String string, final Collection<Character> characters) {
-		return findLastNotIn(string, characters, string.length());
+		return findLastNotIn(string, characters, string.length() - 1);
 	}
 
 	/**
@@ -1307,6 +1307,21 @@ public class Strings {
 	 *         {@code delimiterIndexes}
 	 */
 	public static List<String> getTokens(final String string, final int[] delimiterIndexes) {
+		return getTokensTo(string, delimiterIndexes, string.length());
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiterIndexes}.
+	 * <p>
+	 * @param string           a {@link String}
+	 * @param delimiterIndexes an array of {@code int} values
+	 * @param toIndex          the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiterIndexes}
+	 */
+	public static List<String> getTokensTo(final String string, final int[] delimiterIndexes, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(delimiterIndexes);
@@ -1322,7 +1337,7 @@ public class Strings {
 			}
 			index = delimiterIndex + 1;
 		}
-		tokens.add(string.substring(index));
+		tokens.add(string.substring(index, toIndex));
 		return tokens;
 	}
 
@@ -1339,6 +1354,21 @@ public class Strings {
 	 *         {@code delimiterIndexes}
 	 */
 	public static List<String> getTokens(final String string, final Collection<Integer> delimiterIndexes) {
+		return getTokensTo(string, delimiterIndexes, string.length());
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiterIndexes}.
+	 * <p>
+	 * @param string           a {@link String}
+	 * @param delimiterIndexes a {@link Collection} of {@link Integer}
+	 * @param toIndex          the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiterIndexes}
+	 */
+	public static List<String> getTokensTo(final String string, final Collection<Integer> delimiterIndexes, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(delimiterIndexes);
@@ -1354,7 +1384,7 @@ public class Strings {
 			}
 			index = delimiterIndex + 1;
 		}
-		tokens.add(string.substring(index));
+		tokens.add(string.substring(index, toIndex));
 		return tokens;
 	}
 
@@ -1374,7 +1404,7 @@ public class Strings {
 	 *         {@code delimiter}
 	 */
 	public static List<String> split(final String string, final char delimiter) {
-		return getTokens(string, getIndexes(string, delimiter));
+		return splitTo(string, delimiter, string.length());
 	}
 
 	/**
@@ -1388,7 +1418,7 @@ public class Strings {
 	 *         {@code delimiter} (inside)
 	 */
 	public static List<String> splitInside(final String string, final char delimiter) {
-		return splitTo(string, delimiter, findLastNotEqualTo(string, delimiter));
+		return splitTo(string, delimiter, findLastNotEqualTo(string, delimiter) + 1);
 	}
 
 	/**
@@ -1403,7 +1433,7 @@ public class Strings {
 	 *         {@code delimiter}
 	 */
 	public static List<String> splitTo(final String string, final char delimiter, final int toIndex) {
-		return getTokens(string, getIndexesTo(string, delimiter, toIndex));
+		return getTokensTo(string, getIndexesTo(string, delimiter, toIndex), toIndex);
 	}
 
 	//////////////////////////////////////////////
@@ -1419,7 +1449,7 @@ public class Strings {
 	 *         {@code delimiters}
 	 */
 	public static List<String> split(final String string, final char[] delimiters) {
-		return getTokens(string, getIndexes(string, delimiters));
+		return splitTo(string, delimiters, string.length());
 	}
 
 	/**
@@ -1433,7 +1463,7 @@ public class Strings {
 	 *         {@code delimiters} (inside)
 	 */
 	public static List<String> splitInside(final String string, final char[] delimiters) {
-		return splitTo(string, delimiters, findLastNotIn(string, delimiters));
+		return splitTo(string, delimiters, findLastNotIn(string, delimiters) + 1);
 	}
 
 	/**
@@ -1441,15 +1471,14 @@ public class Strings {
 	 * {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param string     a {@link String}
-	 * @param delimiters the {@link Collection} of delimiting {@link Character}
+	 * @param delimiters the array of delimiting {@code char} values
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitTo(final String string,
-			final Collection<Character> delimiters, final int toIndex) {
-		return getTokens(string, getIndexesTo(string, delimiters, toIndex));
+	public static List<String> splitTo(final String string, final char[] delimiters, final int toIndex) {
+		return getTokensTo(string, getIndexesTo(string, delimiters, toIndex), toIndex);
 	}
 
 	//////////////////////////////////////////////
@@ -1465,7 +1494,7 @@ public class Strings {
 	 *         {@code delimiters}
 	 */
 	public static List<String> split(final String string, final Collection<Character> delimiters) {
-		return getTokens(string, getIndexes(string, delimiters));
+		return splitTo(string, delimiters, string.length());
 	}
 
 	/**
@@ -1479,7 +1508,7 @@ public class Strings {
 	 *         {@code delimiters} (inside)
 	 */
 	public static List<String> splitInside(final String string, final Collection<Character> delimiters) {
-		return splitTo(string, delimiters, findLastNotIn(string, delimiters));
+		return splitTo(string, delimiters, findLastNotIn(string, delimiters) + 1);
 	}
 
 	/**
@@ -1487,15 +1516,14 @@ public class Strings {
 	 * {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param string     a {@link String}
-	 * @param delimiters the array of delimiting {@code char} values
+	 * @param delimiters the {@link Collection} of delimiting {@link Character}
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitTo(final String string, final char[] delimiters,
-			final int toIndex) {
-		return getTokens(string, getIndexesTo(string, delimiters, toIndex));
+	public static List<String> splitTo(final String string, final Collection<Character> delimiters, final int toIndex) {
+		return getTokensTo(string, getIndexesTo(string, delimiters, toIndex), toIndex);
 	}
 
 
