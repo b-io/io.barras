@@ -727,7 +727,7 @@ public class Doubles {
 	 * joined by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code double} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code double} values
 	 *         joined by {@code delimiter}
@@ -741,7 +741,7 @@ public class Doubles {
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code double} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code double} values
@@ -770,7 +770,7 @@ public class Doubles {
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Double}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Double} joined by
 	 *         {@code delimiter}
@@ -784,7 +784,7 @@ public class Doubles {
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Double}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Double} joined by

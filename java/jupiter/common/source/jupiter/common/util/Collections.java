@@ -102,7 +102,7 @@ public class Collections {
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
-	 * @param delimiter  a {@link String}
+	 * @param delimiter  the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
 	 *         joined by {@code delimiter}
@@ -117,7 +117,7 @@ public class Collections {
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
-	 * @param delimiter  a {@link String}
+	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}

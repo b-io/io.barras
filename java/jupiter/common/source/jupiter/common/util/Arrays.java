@@ -343,7 +343,7 @@ public class Arrays {
 	 * <p>
 	 * @param <T>       the type of the array
 	 * @param array     an array of type {@code T}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T} joined by
 	 *         {@code delimiter}
@@ -358,7 +358,7 @@ public class Arrays {
 	 * <p>
 	 * @param <T>       the type of the array
 	 * @param array     an array of type {@code T}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T} joined by

@@ -23,6 +23,8 @@
  */
 package jupiter.common.io.console;
 
+import jupiter.common.io.IO;
+import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
 import jupiter.common.test.Arguments;
@@ -64,6 +66,32 @@ public class ConsoleHandler
 	public ConsoleHandler(final IConsole console) {
 		super();
 		this.console = console;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Color getColor(final SeverityLevel severityLevel) {
+		switch (severityLevel) {
+			case TRACE:
+				return Color.MAGENTA;
+			case DEBUG:
+				return Color.GREEN;
+			case TEST:
+				return Color.CYAN;
+			case INFO:
+				return Color.BLUE;
+			case RESULT:
+				return Color.BLACK;
+			case WARNING:
+				return Color.YELLOW;
+			case ERROR:
+			case FAILURE:
+			default:
+				return Color.RED;
+		}
 	}
 
 
@@ -143,31 +171,7 @@ public class ConsoleHandler
 	@Override
 	public void println(final Message message) {
 		if (USE_COLORS) {
-			final String color;
-			switch (message.getLevel()) {
-				case TRACE:
-					color = Strings.toString(Color.MAGENTA);
-					break;
-				case DEBUG:
-					color = Strings.toString(Color.GREEN);
-					break;
-				case TEST:
-					color = Strings.toString(Color.CYAN);
-					break;
-				case INFO:
-					color = Strings.toString(Color.BLUE);
-					break;
-				case RESULT:
-					color = Strings.toString(Color.BLACK);
-					break;
-				case WARNING:
-					color = Strings.toString(Color.YELLOW);
-					break;
-				case ERROR:
-				case FAILURE:
-				default:
-					color = Strings.toString(Color.RED);
-			}
+			final String color = Strings.toString(getColor(message.getLevel()));
 			println(color + message + Color.RESET, message.getLevel().isError());
 		} else {
 			println(message, message.getLevel().isError());
@@ -210,33 +214,91 @@ public class ConsoleHandler
 		YELLOW;
 
 		/**
+		 * The color prefix.
+		 */
+		public static volatile String PREFIX = "\u001B[";
+		/**
 		 * The color intensity.
 		 * <p>
 		 * 0: standard 1: light 2: dark
 		 */
 		public static volatile int INTENSITY = 0;
 
+		public String getText(final String text) {
+			return text.replace(toString(), "").replace(RESET.toString(), "");
+		}
+
+		public static Color parse(final String string) {
+			if (string.startsWith(RESET.toString())) {
+				return RESET;
+			} else if (string.startsWith(BLACK.toString())) {
+				return BLACK;
+			} else if (string.startsWith(BLUE.toString())) {
+				return BLUE;
+			} else if (string.startsWith(CYAN.toString())) {
+				return CYAN;
+			} else if (string.startsWith(GREEN.toString())) {
+				return GREEN;
+			} else if (string.startsWith(MAGENTA.toString())) {
+				return MAGENTA;
+			} else if (string.startsWith(RED.toString())) {
+				return RED;
+			} else if (string.startsWith(WHITE.toString())) {
+				return WHITE;
+			} else if (string.startsWith(YELLOW.toString())) {
+				return YELLOW;
+			} else {
+				return null;
+			}
+		}
+
+		public java.awt.Color toAWT() {
+			switch (this) {
+				case BLACK:
+					return java.awt.Color.BLACK;
+				case BLUE:
+					return java.awt.Color.BLUE;
+				case CYAN:
+					return java.awt.Color.CYAN;
+				case GREEN:
+					return java.awt.Color.GREEN;
+				case MAGENTA:
+					return java.awt.Color.MAGENTA;
+				case RED:
+					return java.awt.Color.RED;
+				case WHITE:
+					return java.awt.Color.WHITE;
+				case YELLOW:
+					return java.awt.Color.YELLOW;
+				default:
+					// RESET
+					return null;
+			}
+		}
+
 		@Override
 		public String toString() {
 			switch (this) {
+				case RESET:
+					return PREFIX + INTENSITY + ";0m";
 				case BLACK:
-					return "\u001B[" + INTENSITY + ";30m";
+					return PREFIX + INTENSITY + ";30m";
 				case BLUE:
-					return "\u001B[" + INTENSITY + ";34m";
+					return PREFIX + INTENSITY + ";34m";
 				case CYAN:
-					return "\u001B[" + INTENSITY + ";36m";
+					return PREFIX + INTENSITY + ";36m";
 				case GREEN:
-					return "\u001B[" + INTENSITY + ";32m";
+					return PREFIX + INTENSITY + ";32m";
 				case MAGENTA:
-					return "\u001B[" + INTENSITY + ";35m";
+					return PREFIX + INTENSITY + ";35m";
 				case RED:
-					return "\u001B[" + INTENSITY + ";31m";
+					return PREFIX + INTENSITY + ";31m";
 				case WHITE:
-					return "\u001B[" + INTENSITY + ";37m";
+					return PREFIX + INTENSITY + ";37m";
 				case YELLOW:
-					return "\u001B[" + INTENSITY + ";33m";
-				default: // RESET
-					return "\u001B[" + INTENSITY + ";0m";
+					return PREFIX + INTENSITY + ";33m";
+				default:
+					return null;
 			}
 		}
 	}

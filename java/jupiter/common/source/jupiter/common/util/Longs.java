@@ -700,7 +700,7 @@ public class Longs {
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code long} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code long} values joined
 	 *         by {@code delimiter}
@@ -714,7 +714,7 @@ public class Longs {
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code long} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code long} values joined
@@ -743,7 +743,7 @@ public class Longs {
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Long}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Long} joined by
 	 *         {@code delimiter}
@@ -757,7 +757,7 @@ public class Longs {
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Long}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Long} joined by

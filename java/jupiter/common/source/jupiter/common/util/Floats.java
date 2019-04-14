@@ -739,7 +739,7 @@ public class Floats {
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code float} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code float} values joined
 	 *         by {@code delimiter}
@@ -753,7 +753,7 @@ public class Floats {
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code float} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code float} values joined
@@ -782,7 +782,7 @@ public class Floats {
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Float}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Float} joined by
 	 *         {@code delimiter}
@@ -796,7 +796,7 @@ public class Floats {
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Float}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Float} joined by

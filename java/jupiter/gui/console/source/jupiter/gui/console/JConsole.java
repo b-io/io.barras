@@ -48,8 +48,12 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
@@ -63,7 +67,12 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+
+import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.console.ConsoleHandler;
 
 import jupiter.common.io.console.IConsole;
 import jupiter.common.util.Formats;
@@ -94,6 +103,21 @@ public class JConsole
 	protected static final String PASTE = "Paste";
 	protected static final String ZEROS = "000";
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static final StyleContext STYLE_CONTEXT = new StyleContext();
+	protected static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
+
+	protected static final Map<Object, Style> STYLES = new HashMap<Object, Style>();
+
+	static {
+		for (final SeverityLevel severityLevel : SeverityLevel.class.getEnumConstants()) {
+			final ConsoleHandler.Color color = ConsoleHandler.getColor(severityLevel);
+			final Style style = STYLE_CONTEXT.addStyle(color.toString(), DEFAULT_STYLE);
+			StyleConstants.setForeground(style, color.toAWT());
+			STYLES.put(color, style);
+		}
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -109,7 +133,7 @@ public class JConsole
 	protected volatile String currentLine;
 	protected volatile int historicalLineIndex = 0;
 	protected volatile JPopupMenu menu;
-	protected volatile JTextPane text;
+	protected volatile JTextPane textPane;
 	protected volatile boolean isKeyUp = true;
 
 
@@ -133,7 +157,7 @@ public class JConsole
 
 	protected void init(final InputStream cin, final OutputStream cout) {
 		// Special TextPane which catches for cut and paste, both L&F keys and programmatic behavior
-		text = new JTextPane(new DefaultStyledDocument()) {
+		textPane = new JTextPane(new DefaultStyledDocument()) {
 			/**
 			 * The generated serial version ID.
 			 */
@@ -141,7 +165,7 @@ public class JConsole
 
 			@Override
 			public void cut() {
-				if (text.getCaretPosition() < commandStart) {
+				if (textPane.getCaretPosition() < commandStart) {
 					super.copy();
 				} else {
 					super.cut();
@@ -154,19 +178,20 @@ public class JConsole
 				super.paste();
 			}
 		};
-		text.setText(Strings.EMPTY);
-		text.setFont(FONT);
-		text.setMargin(new Insets(7, 5, 7, 5));
-		text.addKeyListener(this);
-		setViewportView(text);
+		textPane.setText(Strings.EMPTY);
+		textPane.setFont(FONT);
+		textPane.setMargin(new Insets(7, 5, 7, 5));
+		textPane.addKeyListener(this);
+		setViewportView(textPane);
 		// Create the popup menu
 		menu = new JPopupMenu("Menu");
 		menu.add(new JMenuItem(CUT)).addActionListener(this);
 		menu.add(new JMenuItem(COPY)).addActionListener(this);
 		menu.add(new JMenuItem(PASTE)).addActionListener(this);
-		text.addMouseListener(this);
+		textPane.addMouseListener(this);
 		// Make sure the popup menu follows the Look & Feel
 		UIManager.addPropertyChangeListener(this);
+		// Set the input
 		outPipe = cout;
 		if (outPipe == null) {
 			outPipe = new PipedOutputStream();
@@ -176,6 +201,7 @@ public class JConsole
 				IO.error(ex);
 			}
 		}
+		// Set the output
 		inPipe = cin;
 		if (inPipe == null) {
 			final PipedOutputStream pout = new PipedOutputStream();
@@ -253,11 +279,11 @@ public class JConsole
 	}
 
 	/**
-	 * Prints "\\n" (i.e. newline).
+	 * Terminates the line.
 	 */
 	public void println() {
 		print("\n");
-		text.repaint();
+		textPane.repaint();
 	}
 
 	public void println(final Object content) {
@@ -273,7 +299,7 @@ public class JConsole
 	public void println(final Icon icon) {
 		print(icon);
 		println();
-		text.repaint();
+		textPane.repaint();
 	}
 
 	public void print(final Icon icon) {
@@ -317,19 +343,19 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void forceCaretMoveToEnd() {
-		if (text.getCaretPosition() < commandStart) {
+		if (textPane.getCaretPosition() < commandStart) {
 			// Move the caret
-			text.setCaretPosition(getTextLength());
+			textPane.setCaretPosition(getTextLength());
 		}
-		text.repaint();
+		textPane.repaint();
 	}
 
 	protected void forceCaretMoveToStart() {
-		if (text.getCaretPosition() < commandStart) {
+		if (textPane.getCaretPosition() < commandStart) {
 			// Move the caret
-			text.setCaretPosition(getTextLength());
+			textPane.setCaretPosition(getTextLength());
 		}
-		text.repaint();
+		textPane.repaint();
 	}
 
 
@@ -380,8 +406,8 @@ public class JConsole
 			showline = history.get(history.size() - historicalLineIndex);
 		}
 		replaceRange(showline, commandStart, getTextLength());
-		text.setCaretPosition(getTextLength());
-		text.repaint();
+		textPane.setCaretPosition(getTextLength());
+		textPane.repaint();
 	}
 
 
@@ -392,11 +418,10 @@ public class JConsole
 	protected void acceptLine(String line) {
 		// Handle Unicode characters
 		final StringBuilder builder = Strings.createBuilder();
-		final int lineLength = line.length();
-		for (int i = 0; i < lineLength; ++i) {
-			String val = Integer.toString(line.charAt(i), 16);
-			val = ZEROS.substring(0, 4 - val.length()) + val;
-			builder.append("\\u").append(val);
+		for (int i = 0; i < line.length(); ++i) {
+			String unicode = Integer.toString(line.charAt(i), 16);
+			unicode = ZEROS.substring(0, 4 - unicode.length()) + unicode;
+			builder.append("\\u").append(unicode);
 		}
 		line = builder.toString();
 		if (outPipe == null) {
@@ -409,7 +434,7 @@ public class JConsole
 		} catch (final IOException ex) {
 			throw new RuntimeException("Unable to write in the console" + IO.appendException(ex));
 		}
-		// text.repaint();
+		// textPane.repaint();
 	}
 
 
@@ -418,7 +443,7 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected AttributeSet getStyle() {
-		return text.getCharacterAttributes();
+		return textPane.getCharacterAttributes();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,7 +465,7 @@ public class JConsole
 		if (fontFamilyName != null) {
 			StyleConstants.setFontFamily(attr, fontFamilyName);
 		}
-		if (size != -1) {
+		if (size >= 0) {
 			StyleConstants.setFontSize(attr, size);
 		}
 		setStyle(attr);
@@ -456,7 +481,7 @@ public class JConsole
 		if (fontFamilyName != null) {
 			StyleConstants.setFontFamily(attr, fontFamilyName);
 		}
-		if (size != -1) {
+		if (size >= 0) {
 			StyleConstants.setFontSize(attr, size);
 		}
 		StyleConstants.setBold(attr, bold);
@@ -471,14 +496,14 @@ public class JConsole
 	}
 
 	protected void setStyle(final AttributeSet attributes, final boolean overwrite) {
-		text.setCharacterAttributes(attributes, overwrite);
+		textPane.setCharacterAttributes(attributes, overwrite);
 	}
 
 	@Override
 	public void setFont(final Font font) {
 		super.setFont(font);
-		if (text != null) {
-			text.setFont(font);
+		if (textPane != null) {
+			textPane.setFont(font);
 		}
 	}
 
@@ -500,9 +525,9 @@ public class JConsole
 		// Arbitrary blocking factor
 		final byte[] ba = new byte[256];
 		int read;
-		while ((read = inPipe.read(ba)) != -1) {
+		while ((read = inPipe.read(ba)) >= 0) {
 			print(new String(ba, 0, read, Formats.DEFAULT_CHARSET.name()));
-			// text.repaint();
+			// textPane.repaint();
 		}
 	}
 
@@ -512,14 +537,14 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected int getTextLength() {
-		return text.getDocument().getLength();
+		return textPane.getDocument().getLength();
 	}
 
 	protected String replaceRange(final Object content, final int from, final int to) {
 		final String selection = Strings.toString(content);
-		text.select(from, to);
-		text.replaceSelection(selection);
-		// text.repaint();
+		textPane.select(from, to);
+		textPane.replaceSelection(selection);
+		// textPane.repaint();
 		return selection;
 	}
 
@@ -536,11 +561,11 @@ public class JConsole
 	public void actionPerformed(final ActionEvent event) {
 		final String cmd = event.getActionCommand();
 		if (cmd.equals(CUT)) {
-			text.cut();
+			textPane.cut();
 		} else if (cmd.equals(COPY)) {
-			text.copy();
+			textPane.copy();
 		} else if (cmd.equals(PASTE)) {
-			text.paste();
+			textPane.paste();
 		}
 	}
 
@@ -552,7 +577,7 @@ public class JConsole
 	@Override
 	public void requestFocus() {
 		super.requestFocus();
-		text.requestFocus();
+		textPane.requestFocus();
 	}
 
 	public void keyPressed(final KeyEvent event) {
@@ -578,7 +603,7 @@ public class JConsole
 					}
 				}
 				event.consume();
-				text.repaint();
+				textPane.repaint();
 				break;
 			case KeyEvent.VK_UP:
 				if (event.getID() == KeyEvent.KEY_PRESSED) {
@@ -595,7 +620,7 @@ public class JConsole
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_BACK_SPACE:
 			case KeyEvent.VK_DELETE:
-				if (text.getCaretPosition() <= commandStart) {
+				if (textPane.getCaretPosition() <= commandStart) {
 					// This does not work for backspace; see the default case for a workaround
 					event.consume();
 				}
@@ -604,7 +629,7 @@ public class JConsole
 				forceCaretMoveToStart();
 				break;
 			case KeyEvent.VK_HOME:
-				text.setCaretPosition(commandStart);
+				textPane.setCaretPosition(commandStart);
 				event.consume();
 				break;
 			case KeyEvent.VK_U: // clear the line
@@ -638,7 +663,7 @@ public class JConsole
 				break;
 			// Control-C
 			case KeyEvent.VK_C:
-				if (text.getSelectedText() == null) {
+				if (textPane.getSelectedText() == null) {
 					if ((event.getModifiers() & InputEvent.CTRL_MASK) > 0 &&
 							event.getID() == KeyEvent.KEY_PRESSED) {
 						append("^C");
@@ -655,7 +680,7 @@ public class JConsole
 				// The getKeyCode function always returns VK_UNDEFINED for keyTyped events,
 				// so backspace is not fully consumed
 				if (event.paramString().contains("Backspace")) {
-					if (text.getCaretPosition() <= commandStart) {
+					if (textPane.getCaretPosition() <= commandStart) {
 						event.consume();
 						break;
 					}
@@ -685,7 +710,7 @@ public class JConsole
 	protected String getCmd() {
 		String s = Strings.EMPTY;
 		try {
-			s = text.getText(commandStart, getTextLength() - commandStart);
+			s = textPane.getText(commandStart, getTextLength() - commandStart);
 		} catch (final BadLocationException ex) {
 			IO.error(ex);
 		}
@@ -694,15 +719,23 @@ public class JConsole
 
 	public synchronized void append(final Object content) {
 		if (content instanceof String) {
-			final int slen = getTextLength();
-			text.select(slen, slen);
-			text.replaceSelection((String) content);
+			final int offset = getTextLength();
+			final String styledText = (String) content;
+			Strings.split();
+			styledText.split(Pattern.quote());
+			final ConsoleHandler.Color textColor = ConsoleHandler.Color.parse(styledText);
+			try {
+				textPane.getStyledDocument().insertString(offset,
+						textColor != null ? textColor.getText(styledText) : styledText,
+						textColor != null ? STYLES.get(textColor) : DEFAULT_STYLE);
+			} catch (BadLocationException ignored) {
+			}
 		} else if (content instanceof Icon) {
-			text.insertIcon((Icon) content);
+			textPane.insertIcon((Icon) content);
 		}
 		commandStart = getTextLength();
-		text.setCaretPosition(commandStart);
-		text.repaint();
+		textPane.setCaretPosition(commandStart);
+		textPane.repaint();
 	}
 
 
@@ -723,7 +756,7 @@ public class JConsole
 		if (event.isPopupTrigger()) {
 			menu.show((Component) event.getSource(), event.getX(), event.getY());
 		}
-		text.repaint();
+		textPane.repaint();
 	}
 
 	public void mouseEntered(final MouseEvent event) {

@@ -135,7 +135,7 @@ public abstract class OpenCL {
 		// Set the attributes
 		this.sourceCode = sourceCode;
 		int index = -1;
-		while ((index = sourceCode.indexOf(KERNEL_PREFIX, index + 1)) != -1) {
+		while ((index = sourceCode.indexOf(KERNEL_PREFIX, index + 1)) >= 0) {
 			final int fromIndex = index + KERNEL_PREFIX.length() + 1;
 			final int toIndex = sourceCode.indexOf(Characters.LEFT_PARENTHESIS, index);
 			kernelNames.add(sourceCode.substring(fromIndex, toIndex).trim());

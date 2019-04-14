@@ -698,7 +698,7 @@ public class Characters {
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code char} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code char} values joined
 	 *         by {@code delimiter}
@@ -712,7 +712,7 @@ public class Characters {
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code char} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code char} values joined
@@ -741,7 +741,7 @@ public class Characters {
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Character}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Character} joined by
 	 *         {@code delimiter}
@@ -755,7 +755,7 @@ public class Characters {
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Character}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Character} joined by

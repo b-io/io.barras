@@ -704,7 +704,7 @@ public class Integers {
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code int} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code int} values joined
 	 *         by {@code delimiter}
@@ -718,7 +718,7 @@ public class Integers {
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code int} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code int} values joined
@@ -747,7 +747,7 @@ public class Integers {
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Integer}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Integer} joined by
 	 *         {@code delimiter}
@@ -761,7 +761,7 @@ public class Integers {
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Integer}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Integer} joined by

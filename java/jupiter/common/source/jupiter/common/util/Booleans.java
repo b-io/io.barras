@@ -555,7 +555,7 @@ public class Booleans {
 	 * joined by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code boolean} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code boolean} values
 	 *         joined by {@code delimiter}
@@ -569,7 +569,7 @@ public class Booleans {
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code boolean} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code boolean} values
@@ -598,7 +598,7 @@ public class Booleans {
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Boolean}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Boolean} joined by
 	 *         {@code delimiter}
@@ -612,7 +612,7 @@ public class Booleans {
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Boolean}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Boolean} joined by

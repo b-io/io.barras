@@ -729,7 +729,7 @@ public class Shorts {
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code short} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code short} values joined
 	 *         by {@code delimiter}
@@ -743,7 +743,7 @@ public class Shorts {
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code short} values
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@code short} values joined
@@ -772,7 +772,7 @@ public class Shorts {
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Short}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Short} joined by
 	 *         {@code delimiter}
@@ -786,7 +786,7 @@ public class Shorts {
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Short}
-	 * @param delimiter a {@link String}
+	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of {@link Short} joined by
