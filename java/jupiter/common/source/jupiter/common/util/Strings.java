@@ -1430,9 +1430,9 @@ public class Strings {
 		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the last token
-		for (int toIndex = fromIndex; toIndex >= 0; toIndex -= token.length()) {
-			if (!isTokenTo(string, toIndex, token)) {
-				return toIndex;
+		for (int index = fromIndex; index >= 0; index -= token.length()) {
+			if (!isTokenTo(string, index, token)) {
+				return index;
 			}
 		}
 		return -1;
@@ -1474,15 +1474,15 @@ public class Strings {
 		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
-		int toIndex = fromIndex;
+		int index = fromIndex;
 
 		// Find the last token
-		while (toIndex >= 0) {
-			final int i = getTokenTo(string, toIndex, tokens);
+		while (index >= 0) {
+			final int i = getTokenTo(string, index + 1, tokens);
 			if (i >= 0) {
-				toIndex -= tokens[i].length();
+				index -= tokens[i].length();
 			} else {
-				return toIndex;
+				return index;
 			}
 		}
 		return -1;
@@ -1523,15 +1523,15 @@ public class Strings {
 		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
-		int toIndex = fromIndex;
+		int index = fromIndex;
 
 		// Find the last token
-		while (toIndex >= 0) {
-			final int i = getTokenTo(string, toIndex, tokens);
+		while (index >= 0) {
+			final int i = getTokenTo(string, index + 1, tokens);
 			if (i >= 0) {
-				toIndex -= tokens.get(i).length();
+				index -= tokens.get(i).length();
 			} else {
-				return toIndex;
+				return index;
 			}
 		}
 		return -1;
@@ -2330,7 +2330,7 @@ public class Strings {
 
 		// Initialize
 		final List<String> tokens = new LinkedList<String>();
-		final List<Integer> delimiterIndexes = getStringIndexes(string, delimiter);
+		final List<Integer> delimiterIndexes = getStringIndexesTo(string, delimiter, toIndex);
 		int index = 0;
 
 		// Get the tokens
@@ -2340,7 +2340,7 @@ public class Strings {
 			}
 			index = delimiterIndex + delimiter.length();
 		}
-		tokens.add(string.substring(index));
+		tokens.add(string.substring(index, toIndex));
 		return tokens;
 	}
 
@@ -2394,7 +2394,7 @@ public class Strings {
 
 		// Initialize
 		final List<String> tokens = new LinkedList<String>();
-		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexes(string, delimiters);
+		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexesTo(string, delimiters, toIndex);
 		int index = 0;
 
 		// Get the tokens
@@ -2406,7 +2406,7 @@ public class Strings {
 			}
 			index = delimiterIndex + delimiterIndexAndToken.getSecond().length();
 		}
-		tokens.add(string.substring(index));
+		tokens.add(string.substring(index, toIndex));
 		return tokens;
 	}
 
@@ -2454,7 +2454,7 @@ public class Strings {
 	public static List<String> splitStringTo(final String string, final List<String> delimiters, final int toIndex) {
 		// Initialize
 		final List<String> tokens = new LinkedList<String>();
-		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexes(string, delimiters);
+		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexesTo(string, delimiters, toIndex);
 		int index = 0;
 
 		// Get the tokens
@@ -2466,7 +2466,7 @@ public class Strings {
 			}
 			index = delimiterIndex + delimiterIndexAndToken.getSecond().length();
 		}
-		tokens.add(string.substring(index));
+		tokens.add(string.substring(index, toIndex));
 		return tokens;
 	}
 
@@ -2543,7 +2543,7 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean isToken(final String string, final int index, final String token) {
-		return index >= 0 && string.substring(index, token.length()).equals(token);
+		return index >= 0 && string.substring(index, index + token.length()).equals(token);
 	}
 
 	public static boolean isTokenTo(final String string, final int toIndex, final String token) {
