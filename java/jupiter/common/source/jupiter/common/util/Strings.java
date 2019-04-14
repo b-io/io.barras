@@ -1055,43 +1055,16 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns all the indexes of {@code character} in {@code string}.
+	 * Returns the indexes of {@code character} in {@code string}.
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param character the {@code char} value to find
 	 * <p>
-	 * @return all the indexes of {@code character} in {@code string}
+	 * @return the indexes of {@code character} in {@code string}
 	 */
-	public static List<Integer> getAllIndexes(final String string, final char character) {
+	public static List<Integer> getIndexes(final String string, final char character) {
 		return getIndexes(string, character, 0);
 	}
-
-	/**
-	 * Returns all the indexes of {@code characters} in {@code string}.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param characters the array of {@code char} values to find
-	 * <p>
-	 * @return all the indexes of {@code characters} in {@code string}
-	 */
-	public static List<Integer> getAllIndexes(final String string, final char[] characters) {
-		return getIndexes(string, characters, 0);
-	}
-
-	/**
-	 * Returns all the indexes of {@code characters} in {@code string}.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param characters the {@link Collection} of {@link Character} to find
-	 * <p>
-	 * @return all the indexes of {@code characters} in {@code string}
-	 */
-	public static List<Integer> getAllIndexes(final String string,
-			final Collection<Character> characters) {
-		return getIndexes(string, characters, 0);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the indexes of {@code character} in {@code string}, seeking forward from
@@ -1122,6 +1095,33 @@ public class Strings {
 			index = string.indexOf(character, index + 1);
 		}
 		return indexes;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the indexes of {@code characters} in {@code string}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param characters the array of {@code char} values to find
+	 * <p>
+	 * @return the indexes of {@code characters} in {@code string}
+	 */
+	public static List<Integer> getIndexes(final String string, final char[] characters) {
+		return getIndexes(string, characters, 0);
+	}
+
+	/**
+	 * Returns the indexes of {@code characters} in {@code string}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param characters the {@link Collection} of {@link Character} to find
+	 * <p>
+	 * @return the indexes of {@code characters} in {@code string}
+	 */
+	public static List<Integer> getIndexes(final String string,
+			final Collection<Character> characters) {
+		return getIndexes(string, characters, 0);
 	}
 
 	/**
@@ -1363,7 +1363,7 @@ public class Strings {
 	 *         {@code delimiter}
 	 */
 	public static List<String> split(final String string, final char delimiter) {
-		return getTokens(string, getAllIndexes(string, delimiter));
+		return getTokens(string, getIndexes(string, delimiter));
 	}
 
 	/**
@@ -1395,7 +1395,7 @@ public class Strings {
 		return getTokens(string, getIndexesTo(string, delimiter, toIndex));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
@@ -1408,7 +1408,21 @@ public class Strings {
 	 *         {@code delimiters}
 	 */
 	public static List<String> split(final String string, final char[] delimiters) {
-		return getTokens(string, getAllIndexes(string, delimiters));
+		return getTokens(string, getIndexes(string, delimiters));
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the {@link Collection} of delimiting {@link Character}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters}
+	 */
+	public static List<String> split(final String string, final Collection<Character> delimiters) {
+		return getTokens(string, getIndexes(string, delimiters));
 	}
 
 	/**
@@ -1427,6 +1441,20 @@ public class Strings {
 
 	/**
 	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters} (inside).
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the {@link Collection} of delimiting {@link Character}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters} (inside)
+	 */
+	public static List<String> splitInside(final String string, final Collection<Character> delimiters) {
+		return splitTo(string, delimiters, findLastNotIn(string, delimiters));
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
 	 * {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param string     a {@link String}
@@ -1439,37 +1467,6 @@ public class Strings {
 	public static List<String> splitTo(final String string, final char[] delimiters,
 			final int toIndex) {
 		return getTokens(string, getIndexesTo(string, delimiters, toIndex));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiters}.
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param delimiters the {@link Collection} of delimiting {@link Character}
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiters}
-	 */
-	public static List<String> split(final String string,
-			final Collection<Character> delimiters) {
-		return getTokens(string, getAllIndexes(string, delimiters));
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiters} (inside).
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param delimiters the {@link Collection} of delimiting {@link Character}
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiters} (inside)
-	 */
-	public static List<String> splitInside(final String string, final Collection<Character> delimiters) {
-		return splitTo(string, delimiters, findLastNotIn(string, delimiters));
 	}
 
 	/**
