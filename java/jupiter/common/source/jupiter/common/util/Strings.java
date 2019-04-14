@@ -26,6 +26,7 @@ package jupiter.common.util;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
 import jupiter.common.map.wrapper.StringWrapper;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.IntegerArguments;
 
@@ -715,6 +717,100 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the index and the first token of {@code string} that is in {@code tokens}, or
+	 * {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the array of {@link String} to find
+	 * <p>
+	 * @return the index and the first token of {@code string} that is in {@code tokens}, or
+	 *         {@code null} if there is no such occurrence
+	 */
+	public static Pair<Integer, String> findFirstString(final String string, final String[] tokens) {
+		return findFirstString(string, tokens, 0);
+	}
+
+	/**
+	 * Returns the index and the first token of {@code string} that is in {@code tokens}, seeking
+	 * forward from {@code fromIndex}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the array of {@link String} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index and the first token of {@code string} that is in {@code tokens}, seeking
+	 *         forward from {@code fromIndex}, or {@code null} if there is no such occurrence
+	 */
+	public static Pair<Integer, String> findFirstString(final String string, final String[] tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		Pair<Integer, String> indexAndToken = null;
+
+		// Find the first token
+		for (final String token : tokens) {
+			final int index = string.indexOf(token, fromIndex);
+			if (index >= 0 && (indexAndToken == null || index < indexAndToken.getFirst())) {
+				indexAndToken = new Pair<Integer, String>(index, token);
+			}
+		}
+		return indexAndToken;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index and the first token of {@code string} that is in {@code tokens}, or
+	 * {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the {@link Collection} of {@link String} to find
+	 * <p>
+	 * @return the index and the first token of {@code string} that is in {@code tokens}, or
+	 *         {@code null} if there is no such occurrence
+	 */
+	public static Pair<Integer, String> findFirstString(final String string, final Collection<String> tokens) {
+		return findFirstString(string, tokens, 0);
+	}
+
+	/**
+	 * Returns the index and the first token of {@code string} that is in {@code tokens}, seeking
+	 * forward from {@code fromIndex}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the {@link Collection} of {@link String} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index and the first token of {@code string} that is in {@code tokens}, seeking
+	 *         forward from {@code fromIndex}, or {@code null} if there is no such occurrence
+	 */
+	public static Pair<Integer, String> findFirstString(final String string, final Collection<String> tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		Pair<Integer, String> indexAndToken = null;
+
+		// Find the first token
+		for (final String token : tokens) {
+			final int index = string.indexOf(token, fromIndex);
+			if (index >= 0 && (indexAndToken == null || index < indexAndToken.getFirst())) {
+				indexAndToken = new Pair<Integer, String>(index, token);
+			}
+		}
+		return indexAndToken;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the index of the last character of {@code string} that is in {@code characters}, or
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
@@ -797,6 +893,100 @@ public class Strings {
 			}
 		}
 		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the index and the last token of {@code string} that is in {@code tokens}, or
+	 * {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the array of {@link String} to find
+	 * <p>
+	 * @return the index and the last token of {@code string} that is in {@code tokens}, or
+	 *         {@code null} if there is no such occurrence
+	 */
+	public static Pair<Integer, String> findLastString(final String string, final String[] tokens) {
+		return findLastString(string, tokens, string.length() - 1);
+	}
+
+	/**
+	 * Returns the index and the last token of {@code string} that is in {@code tokens}, seeking
+	 * backward from {@code fromIndex}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the array of {@link String} to find
+	 * @param fromIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the index and the last token of {@code string} that is in {@code tokens}, seeking
+	 *         backward from {@code fromIndex}, or {@code null} if there is no such occurrence
+	 */
+	public static Pair<Integer, String> findLastString(final String string, final String[] tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		Pair<Integer, String> indexAndToken = null;
+
+		// Find the last token
+		for (final String token : tokens) {
+			final int index = string.lastIndexOf(token, fromIndex);
+			if (index >= 0 && (indexAndToken == null || index > indexAndToken.getFirst())) {
+				indexAndToken = new Pair<Integer, String>(index, token);
+			}
+		}
+		return indexAndToken;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index and the last token of {@code string} that is in {@code tokens}, or
+	 * {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the {@link Collection} of {@link String} to find
+	 * <p>
+	 * @return the index and the last token of {@code string} that is in {@code tokens}, or
+	 *         {@code null} if there is no such occurrence
+	 */
+	public static Pair<Integer, String> findLastString(final String string, final Collection<String> tokens) {
+		return findLastString(string, tokens, string.length() - 1);
+	}
+
+	/**
+	 * Returns the index and the last token of {@code string} that is in {@code tokens}, seeking
+	 * backward from {@code fromIndex}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the {@link Collection} of {@link String} to find
+	 * @param fromIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the index and the last token of {@code string} that is in {@code tokens}, seeking
+	 *         backward from {@code fromIndex}, or {@code null} if there is no such occurrence
+	 */
+	public static Pair<Integer, String> findLastString(final String string, final Collection<String> tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		Pair<Integer, String> indexAndToken = null;
+
+		// Find the last token
+		for (final String token : tokens) {
+			final int index = string.lastIndexOf(token, fromIndex);
+			if (index >= 0 && (indexAndToken == null || index > indexAndToken.getFirst())) {
+				indexAndToken = new Pair<Integer, String>(index, token);
+			}
+		}
+		return indexAndToken;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -935,6 +1125,147 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the index of the first token of {@code string} that is not equal to {@code token}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param token  the {@link String} to find
+	 * <p>
+	 * @return the index of the first token of {@code string} that is not equal to {@code token}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstStringNotEqualTo(final String string, final String token) {
+		return findFirstStringNotEqualTo(string, token, 0);
+	}
+
+	/**
+	 * Returns the index of the first token of {@code string} that is not equal to {@code token},
+	 * seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param token     the {@link String} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index of the first token of {@code string} that is not equal to {@code token},
+	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstStringNotEqualTo(final String string, final String token, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(token);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Find the first token
+		for (int index = fromIndex; index < string.length(); index += token.length()) {
+			if (!isToken(string, index, token)) {
+				return index;
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the first token of {@code string} that is not in {@code tokens}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the array of {@code String} to find
+	 * <p>
+	 * @return the index of the first token of {@code string} that is not in {@code tokens}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstStringNotIn(final String string, final String[] tokens) {
+		return findFirstStringNotIn(string, tokens, 0);
+	}
+
+	/**
+	 * Returns the index of the first token of {@code string} that is not in {@code tokens}, seeking
+	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the array of {@code String} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index of the first token of {@code string} that is not in {@code tokens}, seeking
+	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstStringNotIn(final String string, final String[] tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		int index = fromIndex;
+
+		// Find the first token
+		while (index < string.length()) {
+			final int i = getToken(string, index, tokens);
+			if (i >= 0) {
+				index += tokens[i].length();
+			} else {
+				return index;
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the first token of {@code string} that is not in {@code tokens}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the {@link List} of {@link String} to find
+	 * <p>
+	 * @return the index of the first token of {@code string} that is not in {@code tokens}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstStringNotIn(final String string, final List<String> tokens) {
+		return findFirstStringNotIn(string, tokens, 0);
+	}
+
+	/**
+	 * Returns the index of the first token of {@code string} that is not in {@code tokens}, seeking
+	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the {@link List} of {@link String} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index of the first token of {@code string} that is not in {@code tokens}, seeking
+	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstStringNotIn(final String string, final List<String> tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		int index = fromIndex;
+
+		// Find the first token
+		while (index < string.length()) {
+			final int i = getToken(string, index, tokens);
+			if (i >= 0) {
+				index += tokens.get(i).length();
+			} else {
+				return index;
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the index of the last character of {@code string} that is not equal to
 	 * {@code character}, or {@code -1} if there is no such occurrence.
 	 * <p>
@@ -1059,6 +1390,148 @@ public class Strings {
 		for (int index = fromIndex; index >= 0; --index) {
 			if (!characters.contains(string.charAt(index))) {
 				return index;
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the last token of {@code string} that is not equal to {@code token}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param token  the {@link String} to find
+	 * <p>
+	 * @return the index of the last token of {@code string} that is not equal to {@code token}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findLastStringNotEqualTo(final String string, final String token) {
+		return findLastStringNotEqualTo(string, token, string.length() - 1);
+	}
+
+	/**
+	 * Returns the index of the last token of {@code string} that is not equal to {@code token},
+	 * seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param token     the {@link String} to find
+	 * @param fromIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the index of the last token of {@code string} that is not equal to {@code token},
+	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findLastStringNotEqualTo(final String string, final String token, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(token);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Find the last token
+		for (int toIndex = fromIndex; toIndex >= 0; toIndex -= token.length()) {
+			if (!isTokenTo(string, toIndex, token)) {
+				return toIndex;
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the last token of {@code string} that is not in {@code tokens}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the array of {@code String} to find
+	 * <p>
+	 * @return the index of the last token of {@code string} that is not in {@code tokens}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findLastStringNotIn(final String string, final String[] tokens) {
+		return findLastStringNotIn(string, tokens, string.length() - 1);
+	}
+
+	/**
+	 * Returns the index of the last token of {@code string} that is not in {@code tokens}, seeking
+	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the array of {@code String} to find
+	 * @param fromIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the index of the last token of {@code string} that is not in {@code tokens}, seeking
+	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findLastStringNotIn(final String string, final String[] tokens,
+			final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		int toIndex = fromIndex;
+
+		// Find the last token
+		while (toIndex >= 0) {
+			final int i = getTokenTo(string, toIndex, tokens);
+			if (i >= 0) {
+				toIndex -= tokens[i].length();
+			} else {
+				return toIndex;
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the last token of {@code string} that is not in {@code tokens}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the {@link List} of {@link String} to find
+	 * <p>
+	 * @return the index of the last token of {@code string} that is not in {@code tokens}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findLastStringNotIn(final String string, final List<String> tokens) {
+		return findLastStringNotIn(string, tokens, string.length() - 1);
+	}
+
+	/**
+	 * Returns the index of the last token of {@code string} that is not in {@code tokens}, seeking
+	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the {@link List} of {@link String} to find
+	 * @param fromIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the index of the last token of {@code string} that is not in {@code tokens}, seeking
+	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findLastStringNotIn(final String string, final List<String> tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		int toIndex = fromIndex;
+
+		// Find the last token
+		while (toIndex >= 0) {
+			final int i = getTokenTo(string, toIndex, tokens);
+			if (i >= 0) {
+				toIndex -= tokens.get(i).length();
+			} else {
+				return toIndex;
 			}
 		}
 		return -1;
@@ -1297,6 +1770,247 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the indexes of {@code token} in {@code string}.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param token  the {@link String} to find
+	 * <p>
+	 * @return the indexes of {@code token} in {@code string}
+	 */
+	public static List<Integer> getStringIndexes(final String string, final String token) {
+		return getStringIndexes(string, token, 0);
+	}
+
+	/**
+	 * Returns the indexes of {@code token} in {@code string}, seeking forward from
+	 * {@code fromIndex}.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param token     the {@link String} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the indexes of {@code token} in {@code string}, seeking forward from
+	 *         {@code fromIndex}
+	 */
+	public static List<Integer> getStringIndexes(final String string, final String token, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(token);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		final List<Integer> indexes = new LinkedList<Integer>();
+		int index = string.indexOf(token, fromIndex);
+
+		// Get the indexes
+		while (index >= 0) {
+			indexes.add(index);
+			index = string.indexOf(token, index + 1);
+		}
+		return indexes;
+	}
+
+	/**
+	 * Returns the indexes of {@code token} in {@code string}, seeking forward to {@code toIndex}.
+	 * <p>
+	 * @param string  a {@link String}
+	 * @param token   the {@link String} to find
+	 * @param toIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the indexes of {@code token} in {@code string}, seeking forward to {@code toIndex}
+	 */
+	public static List<Integer> getStringIndexesTo(final String string, final String token, final int toIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(token);
+		IntegerArguments.requireNonNegative(toIndex);
+		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
+
+		// Initialize
+		final List<Integer> indexes = new LinkedList<Integer>();
+		int index = string.indexOf(token);
+
+		// Get the indexes
+		while (index >= 0 && index < toIndex) {
+			indexes.add(index);
+			index = string.indexOf(token, index + 1);
+		}
+		return indexes;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the indexes and {@code tokens} in {@code string}.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the array of {@link String} to find
+	 * <p>
+	 * @return the indexes and {@code tokens} in {@code string}
+	 */
+	public static List<Pair<Integer, String>> getStringIndexes(final String string, final String[] tokens) {
+		return getStringIndexes(string, tokens, 0);
+	}
+
+	/**
+	 * Returns the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
+	 * forward from {@code fromIndex}.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the array of {@link String} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
+	 *         forward from {@code fromIndex}
+	 */
+	public static List<Pair<Integer, String>> getStringIndexes(final String string, final String[] tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		final List<Pair<Integer, String>> indexes = new LinkedList<Pair<Integer, String>>();
+
+		// Get the indexes
+		for (final String token : tokens) {
+			final List<Integer> tokenIndexes = getStringIndexes(string, token, fromIndex);
+			for (int tokenIndex : tokenIndexes) {
+				indexes.add(new Pair<Integer, String>(tokenIndex, token));
+			}
+		}
+		return indexes;
+	}
+
+	/**
+	 * Returns the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
+	 * forward to {@code toIndex}.
+	 * <p>
+	 * @param string  a {@link String}
+	 * @param tokens  the array of {@link String} to find
+	 * @param toIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
+	 *         forward to {@code toIndex}
+	 */
+	public static List<Pair<Integer, String>> getStringIndexesTo(final String string, final String[] tokens, final int toIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(toIndex);
+		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
+
+		// Initialize
+		final List<Pair<Integer, String>> indexes = new LinkedList<Pair<Integer, String>>();
+
+		// Get the indexes
+		for (final String token : tokens) {
+			final List<Integer> tokenIndexes = getStringIndexesTo(string, token, toIndex);
+			for (int tokenIndex : tokenIndexes) {
+				indexes.add(new Pair<Integer, String>(tokenIndex, token));
+			}
+		}
+		return indexes;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the indexes and {@code tokens} in {@code string}.
+	 * <p>
+	 * @param string a {@link String}
+	 * @param tokens the {@link Collection} of {@link String} to find
+	 * <p>
+	 * @return the indexes and {@code tokens} in {@code string}
+	 */
+	public static List<Pair<Integer, String>> getStringIndexes(final String string, final Collection<String> tokens) {
+		return getStringIndexes(string, tokens, 0);
+	}
+
+	/**
+	 * Returns the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
+	 * forward from {@code fromIndex}.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param tokens    the {@link Collection} of {@link String} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
+	 *         forward from {@code fromIndex}
+	 */
+	public static List<Pair<Integer, String>> getStringIndexes(final String string, final Collection<String> tokens, final int fromIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(fromIndex);
+		IntegerArguments.requireLessThan(fromIndex, string.length());
+
+		// Initialize
+		final List<Pair<Integer, String>> indexes = new LinkedList<Pair<Integer, String>>();
+
+		// Get the indexes
+		for (final String token : tokens) {
+			final List<Integer> tokenIndexes = getStringIndexes(string, token, fromIndex);
+			for (int tokenIndex : tokenIndexes) {
+				indexes.add(new Pair<Integer, String>(tokenIndex, token));
+			}
+		}
+		return indexes;
+	}
+
+	/**
+	 * Returns the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
+	 * forward to {@code toIndex}.
+	 * <p>
+	 * @param string  a {@link String}
+	 * @param tokens  the {@link Collection} of {@link String} to find
+	 * @param toIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
+	 *         forward to {@code toIndex}
+	 */
+	public static List<Pair<Integer, String>> getStringIndexesTo(final String string, final Collection<String> tokens, final int toIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(tokens);
+		IntegerArguments.requireNonNegative(toIndex);
+		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
+
+		// Initialize
+		final List<Pair<Integer, String>> indexes = new LinkedList<Pair<Integer, String>>();
+
+		// Get the indexes
+		for (final String token : tokens) {
+			final List<Integer> tokenIndexes = getStringIndexesTo(string, token, toIndex);
+			for (int tokenIndex : tokenIndexes) {
+				indexes.add(new Pair<Integer, String>(tokenIndex, token));
+			}
+		}
+		return indexes;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static final Comparator<Pair<Integer, String>> STRING_INDEX_COMPARATOR = new Comparator<Pair<Integer, String>>() {
+		public int compare(Pair<Integer, String> a, Pair<Integer, String> b) {
+			return Integers.compare(a.getFirst(), b.getFirst());
+		}
+	};
+
+	/**
+	 * Sorts the specified {@link String} indexes.
+	 * <p>
+	 * @param indexes a {@link Pair} of {@link Integer} and {@link String}
+	 */
+	public static void sortStringIndexes(final List<Pair<Integer, String>> indexes) {
+		indexes.sort(STRING_INDEX_COMPARATOR);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
 	 * {@code delimiterIndexes}.
 	 * <p>
@@ -1386,6 +2100,46 @@ public class Strings {
 		}
 		tokens.add(string.substring(index, toIndex));
 		return tokens;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int getToken(final String string, final int fromIndex, final String[] tokens) {
+		for (int i = 0; i < tokens.length; ++i) {
+			if (isToken(string, fromIndex, tokens[i])) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static int getTokenTo(final String string, final int toIndex, final String[] tokens) {
+		for (int i = 0; i < tokens.length; ++i) {
+			if (isToken(string, toIndex - tokens[i].length(), tokens[i])) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	public static int getToken(final String string, final int fromIndex, final List<String> tokens) {
+		for (int i = 0; i < tokens.size(); ++i) {
+			if (isToken(string, fromIndex, tokens.get(i))) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static int getTokenTo(final String string, final int toIndex, final List<String> tokens) {
+		for (int i = 0; i < tokens.size(); ++i) {
+			if (isToken(string, toIndex - tokens.get(i).length(), tokens.get(i))) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 
@@ -1526,6 +2280,196 @@ public class Strings {
 		return getTokensTo(string, getIndexesTo(string, delimiters, toIndex), toIndex);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiter}.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param delimiter the delimiting {@link String}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiter}
+	 */
+	public static List<String> splitString(final String string, final String delimiter) {
+		return splitStringTo(string, delimiter, string.length());
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiter} (inside).
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param delimiter the delimiting {@link String}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiter} (inside)
+	 */
+	public static List<String> splitStringInside(final String string, final String delimiter) {
+		return splitStringTo(string, delimiter, findLastStringNotEqualTo(string, delimiter) + 1);
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiter}.
+	 * <p>
+	 * @param string    a {@link String}
+	 * @param delimiter the delimiting {@link String}
+	 * @param toIndex   the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiter}
+	 */
+	public static List<String> splitStringTo(final String string, final String delimiter, final int toIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(delimiter);
+		IntegerArguments.requireNonNegative(toIndex);
+		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
+
+		// Initialize
+		final List<String> tokens = new LinkedList<String>();
+		final List<Integer> delimiterIndexes = getStringIndexes(string, delimiter);
+		int index = 0;
+
+		// Get the tokens
+		for (final int delimiterIndex : delimiterIndexes) {
+			if (delimiterIndex > index && delimiterIndex < toIndex) {
+				tokens.add(string.substring(index, delimiterIndex));
+			}
+			index = delimiterIndex + delimiter.length();
+		}
+		tokens.add(string.substring(index));
+		return tokens;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the array of delimiting {@code String}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters}
+	 */
+	public static List<String> splitString(final String string, final String[] delimiters) {
+		return splitStringTo(string, delimiters, string.length());
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters} (inside).
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the array of delimiting {@code String}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters} (inside)
+	 */
+	public static List<String> splitStringInside(final String string, final String[] delimiters) {
+		return splitStringTo(string, delimiters, findLastStringNotIn(string, delimiters) + 1);
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters} to {@code toIndex}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the array of delimiting {@code String}
+	 * @param toIndex    the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters} to {@code toIndex}
+	 */
+	public static List<String> splitStringTo(final String string, final String[] delimiters, final int toIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(string);
+		Arguments.requireNonNull(delimiters);
+		IntegerArguments.requireNonNegative(toIndex);
+		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
+
+		// Initialize
+		final List<String> tokens = new LinkedList<String>();
+		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexes(string, delimiters);
+		int index = 0;
+
+		// Get the tokens
+		sortStringIndexes(delimiterIndexes);
+		for (final Pair<Integer, String> delimiterIndexAndToken : delimiterIndexes) {
+			final int delimiterIndex = delimiterIndexAndToken.getFirst();
+			if (delimiterIndex > index && delimiterIndex < toIndex) {
+				tokens.add(string.substring(index, delimiterIndex));
+			}
+			index = delimiterIndex + delimiterIndexAndToken.getSecond().length();
+		}
+		tokens.add(string.substring(index));
+		return tokens;
+	}
+
+	///////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the {@link List} of delimiting {@link String}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters}
+	 */
+	public static List<String> splitString(final String string, final List<String> delimiters) {
+		return splitStringTo(string, delimiters, string.length());
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters} (inside).
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the {@link List} of delimiting {@link String}
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters} (inside)
+	 */
+	public static List<String> splitStringInside(final String string, final List<String> delimiters) {
+		return splitStringTo(string, delimiters, findLastStringNotIn(string, delimiters) + 1);
+	}
+
+	/**
+	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
+	 * {@code delimiters} to {@code toIndex}.
+	 * <p>
+	 * @param string     a {@link String}
+	 * @param delimiters the {@link List} of delimiting {@link String}
+	 * @param toIndex    the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
+	 *         {@code delimiters} to {@code toIndex}
+	 */
+	public static List<String> splitStringTo(final String string, final List<String> delimiters, final int toIndex) {
+		// Initialize
+		final List<String> tokens = new LinkedList<String>();
+		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexes(string, delimiters);
+		int index = 0;
+
+		// Get the tokens
+		sortStringIndexes(delimiterIndexes);
+		for (final Pair<Integer, String> delimiterIndexAndToken : delimiterIndexes) {
+			final int delimiterIndex = delimiterIndexAndToken.getFirst();
+			if (delimiterIndex > index && delimiterIndex < toIndex) {
+				tokens.add(string.substring(index, delimiterIndex));
+			}
+			index = delimiterIndex + delimiterIndexAndToken.getSecond().length();
+		}
+		tokens.add(string.substring(index));
+		return tokens;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
@@ -1594,6 +2538,16 @@ public class Strings {
 		final ParsePosition position = new ParsePosition(0);
 		formatter.parse(string, position);
 		return string.length() == position.getIndex();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static boolean isToken(final String string, final int index, final String token) {
+		return index >= 0 && string.substring(index, token.length()).equals(token);
+	}
+
+	public static boolean isTokenTo(final String string, final int toIndex, final String token) {
+		return isToken(string, toIndex - token.length(), token);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
