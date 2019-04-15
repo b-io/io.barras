@@ -1020,7 +1020,7 @@ public class Table<T>
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			String delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
-				final int occurrenceCount = Strings.getAllIndexes(line, d).size();
+				final int occurrenceCount = Strings.getIndexes(line, d).size();
 				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = Strings.toString(d);

@@ -721,8 +721,7 @@ public class JConsole
 		if (content instanceof String) {
 			final int offset = getTextLength();
 			final String styledText = (String) content;
-			Strings.split();
-			styledText.split(Pattern.quote());
+//			Strings.split();
 			final ConsoleHandler.Color textColor = ConsoleHandler.Color.parse(styledText);
 			try {
 				textPane.getStyledDocument().insertString(offset,

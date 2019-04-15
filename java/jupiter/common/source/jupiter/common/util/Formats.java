@@ -145,7 +145,7 @@ public class Formats {
 			--digitCount;
 		}
 		if (digitCount > MAX_FRACTION_DIGITS + 2) {
-			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", "");
+			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", Strings.EMPTY);
 		} else {
 			formattedNumber = DECIMAL_FORMAT.format(number);
 		}

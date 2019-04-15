@@ -112,7 +112,7 @@ public class SpeedChecker {
 	 * Starts {@code this}.
 	 */
 	protected static synchronized void start() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		// Initialize
 		// - The file handlers of the data files storing the downloading speeds
@@ -144,7 +144,7 @@ public class SpeedChecker {
 	 * Stops {@code this}.
 	 */
 	protected static synchronized void stop() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		// Shutdown
 		// - The work queue
@@ -162,7 +162,7 @@ public class SpeedChecker {
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		stop();
 		start();

@@ -92,7 +92,7 @@ public class ExpressionHandler {
 	 * Starts {@code this}.
 	 */
 	public static synchronized void start() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		// Initialize
 		if (PARALLELIZE) {
@@ -109,7 +109,7 @@ public class ExpressionHandler {
 	 * Stops {@code this}.
 	 */
 	public static synchronized void stop() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		// Shutdown
 		if (WORK_QUEUE != null) {
@@ -121,7 +121,7 @@ public class ExpressionHandler {
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		stop();
 		start();
@@ -239,7 +239,7 @@ public class ExpressionHandler {
 			final Element.Type type = getType(unaryOperator);
 			IO.debug("Type: ", type);
 			// Parse the nested expression
-			final String nestedExpression = Strings.split(expression, unaryOperator).get(0);
+			final String nestedExpression = Strings.removeEmpty(Strings.split(expression, unaryOperator)).get(0);
 			IO.debug("Nested expression: ", nestedExpression);
 			final Report<Element> nodeResult = parseExpression(parent, nestedExpression, context);
 			final Element node = nodeResult.getOutput();
@@ -326,7 +326,7 @@ public class ExpressionHandler {
 	 */
 	protected static ExtendedList<Integer> getBinaryOperatorIndexes(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
-		return getOperatorIndexes(expression, delimitingIntervals, expression.length(),
+		return getOperatorIndexes(expression, delimitingIntervals, expression.length() - 1,
 				BINARY_OPERATORS);
 	}
 
@@ -342,7 +342,7 @@ public class ExpressionHandler {
 	 */
 	protected static Integer getLastUnaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
-		return getLastOperatorIndexFromList(expression, delimitingIntervals, expression.length(),
+		return getLastOperatorIndexFromList(expression, delimitingIntervals, expression.length() - 1,
 				UNARY_OPERATORS);
 	}
 
@@ -352,14 +352,14 @@ public class ExpressionHandler {
 	 * <p>
 	 * @param expression          a {@link String}
 	 * @param delimitingIntervals the delimiting intervals in the specified expression
-	 * @param to                  the index to finish seeking at (exclusive)
+	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
 	 * @return the indexes of all the operators in the specified expression that are not in the
 	 *         specified delimiting intervals
 	 */
 	protected static ExtendedList<Integer> getOperatorIndexes(final String expression,
-			final IntervalList<Integer> delimitingIntervals, final int to,
+			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<List<Character>> allOperators) {
 		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
 		final int size = allOperators.size();
@@ -367,10 +367,9 @@ public class ExpressionHandler {
 
 		do {
 			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
-			int index = getLastOperatorIndex(expression, delimitingIntervals, to, operators);
-			while (index >= 0) {
+			int index = fromIndex + 1;
+			while ((index = getLastOperatorIndex(expression, delimitingIntervals, --index, operators)) >= 0) {
 				indexes.add(index);
-				index = getLastOperatorIndex(expression, delimitingIntervals, index, operators);
 			}
 			++binaryOperatorsIndex;
 		} while (binaryOperatorsIndex < size && indexes.isEmpty());
@@ -384,20 +383,18 @@ public class ExpressionHandler {
 	 * <p>
 	 * @param expression          a {@link String}
 	 * @param delimitingIntervals the delimiting intervals in the specified expression
-	 * @param to                  the index to finish seeking at (exclusive)
+	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param operators           the {@link List} of operators to find
 	 * <p>
 	 * @return the index of the last operator in the specified expression that is not in the
 	 *         specified delimiting intervals
 	 */
 	protected static int getLastOperatorIndex(final String expression,
-			final IntervalList<Integer> delimitingIntervals, final int to,
+			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<Character> operators) {
-		int index = to;
-		do {
-			index = Strings.findLastCharacter(expression, operators, index);
-		} while (index >= 0 && delimitingIntervals.isValid() &&
-				delimitingIntervals.isInside(index));
+		int index = fromIndex + 1;
+		while ((index = Strings.findLast(expression, operators, --index)) >= 0 &&
+				delimitingIntervals.isValid() && delimitingIntervals.isInside(index));
 		return index;
 	}
 
@@ -407,14 +404,14 @@ public class ExpressionHandler {
 	 * <p>
 	 * @param expression          a {@link String}
 	 * @param delimitingIntervals the delimiting intervals in the specified expression
-	 * @param to                  the index to finish seeking at (exclusive)
+	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
 	 * @return the index of the last operator in the specified expression that is not in the
 	 *         specified delimiting intervals
 	 */
 	protected static int getLastOperatorIndexFromList(final String expression,
-			final IntervalList<Integer> delimitingIntervals, final int to,
+			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<List<Character>> allOperators) {
 		final int size = allOperators.size();
 		int index;
@@ -422,7 +419,7 @@ public class ExpressionHandler {
 
 		do {
 			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
-			index = getLastOperatorIndex(expression, delimitingIntervals, to, operators);
+			index = getLastOperatorIndex(expression, delimitingIntervals, fromIndex, operators);
 			++binaryOperatorsIndex;
 		} while (index < 0 && binaryOperatorsIndex < size);
 

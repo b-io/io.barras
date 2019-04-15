@@ -1180,7 +1180,7 @@ public class Matrix
 	 * Starts {@code this}.
 	 */
 	public static synchronized void start() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		// Initialize
 		if (WORK_QUEUE == null) {
@@ -1205,7 +1205,7 @@ public class Matrix
 	 * Stops {@code this}.
 	 */
 	public static synchronized void stop() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		// Shutdown
 		if (JNI_WORK_QUEUE != null) {
@@ -1222,7 +1222,7 @@ public class Matrix
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		stop();
 		start();
@@ -2110,29 +2110,30 @@ public class Matrix
 		try {
 			final char[] delimiters = Characters.take(Characters.LEFT_BRACKET,
 					Characters.RIGHT_BRACKET);
-			final List<Integer> indexes = Strings.getAllIndexes(expression.trim(), delimiters);
+			final List<Integer> indexes = Strings.getIndexes(expression, delimiters);
 			if (indexes.size() == 2) {
 				final int from = indexes.get(0);
 				final int to = indexes.get(1);
 				if (from < to && expression.charAt(from) == delimiters[0] &&
 						expression.charAt(to) == delimiters[1]) {
-					final String content = expression.substring(from + 1, to);
+					// Get the content
+					final String content = expression.substring(from + 1, to).trim();
 					// Get the rows
-					final List<String> rows = Strings.split(content, ROW_DELIMITER);
+					final List<String> rows = Strings.removeEmpty(Strings.split(content, ROW_DELIMITER));
 					// Count the number of rows
 					final int m = rows.size();
 					// Count the number of columns
-					String row = rows.get(0);
-					final int n = Strings.splitInside(row, COLUMN_DELIMITERS).size();
+					String row = rows.get(0).trim();
+					final int n = Strings.removeEmpty(Strings.split(row, COLUMN_DELIMITERS)).size();
 					// Create the elements of the matrix
 					final double[] elements = new double[m * n];
 					List<String> rowElements;
 					// Fill the matrix
 					for (int i = 0; i < m; ++i) {
 						// Get the current row
-						row = rows.get(i);
+						row = rows.get(i).trim();
 						// Get the elements of the row
-						rowElements = Strings.split(row, COLUMN_DELIMITERS);
+						rowElements = Strings.removeEmpty(Strings.split(row, COLUMN_DELIMITERS));
 						// Store the elements
 						for (int j = 0; j < n; ++j) {
 							elements[i * n + j] = Doubles.convert(rowElements.get(j));
@@ -2212,7 +2213,7 @@ public class Matrix
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			String delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
-				final int occurrenceCount = Strings.getAllIndexes(line, d).size();
+				final int occurrenceCount = Strings.getIndexes(line, d).size();
 				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = Strings.toString(d);
@@ -2325,7 +2326,7 @@ public class Matrix
 	 */
 	public static boolean is(final String string) {
 		final char[] delimiters = Characters.take('[', ']');
-		final List<Integer> indexes = Strings.getAllIndexes(string.trim(), delimiters);
+		final List<Integer> indexes = Strings.getIndexes(string.trim(), delimiters);
 		if (indexes.size() == 2) {
 			final int from = indexes.get(0);
 			final int to = indexes.get(1);

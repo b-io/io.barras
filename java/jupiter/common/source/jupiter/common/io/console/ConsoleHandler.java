@@ -225,7 +225,7 @@ public class ConsoleHandler
 		public static volatile int INTENSITY = 0;
 
 		public String getText(final String text) {
-			return text.replace(toString(), "").replace(RESET.toString(), "");
+			return text.replace(toString(), Strings.EMPTY).replace(RESET.toString(), Strings.EMPTY);
 		}
 
 		public static Color parse(final String string) {

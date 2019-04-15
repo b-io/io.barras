@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import jupiter.common.map.ObjectToStringMapper;
 
@@ -59,6 +60,28 @@ public class Collections {
 	 */
 	public static <T> String join(final Collection<T> collection) {
 		return Strings.joinWith(collection, DEFAULT_DELIMITER);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the specified {@link Collection} of type {@code T} without the specified
+	 * {@link Object}.
+	 * <p>
+	 * @param <C>        the type of {@link Collection}
+	 * @param <T>        the type of the {@link Collection}
+	 * @param collection a {@link Collection} of type {@code T}
+	 * @param object     an {@link Object}
+	 * <p>
+	 * @return the specified {@link Collection} of type {@code T} without the specified
+	 *         {@link Object}
+	 */
+	public static <C extends Collection<T>, T> C removeAll(final C collection, final Object object) {
+		while (collection.remove(object));
+		return collection;
 	}
 
 

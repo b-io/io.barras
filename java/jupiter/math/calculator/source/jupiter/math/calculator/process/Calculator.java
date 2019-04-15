@@ -92,7 +92,7 @@ public class Calculator {
 	 * Starts {@code this}.
 	 */
 	public static synchronized void start() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		// Initialize
 		// - The expression handler
@@ -112,7 +112,7 @@ public class Calculator {
 	 * Stops {@code this}.
 	 */
 	public static synchronized void stop() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		// Shutdown
 		// - The work queue
@@ -127,7 +127,7 @@ public class Calculator {
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug("");
+		IO.debug(Strings.EMPTY);
 
 		stop();
 		start();
@@ -149,7 +149,7 @@ public class Calculator {
 			String trimmedExpression = expression.trim();
 
 			// Test whether the epression is an assignment
-			final List<String> expressions = Strings.split(trimmedExpression, '=');
+			final List<String> expressions = Strings.removeEmpty(Strings.split(trimmedExpression, '='));
 			final int size = expressions.size();
 			if (size > 1) {
 				// - Assignment

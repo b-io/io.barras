@@ -555,6 +555,18 @@ public class Strings {
 		return toString(content).replaceAll(Strings.bracketize(characters), EMPTY);
 	}
 
+	/**
+	 * Returns the specified {@link Collection} of {@link String} without the empty {@link String}.
+	 * <p>
+	 * @param <C>        the type of {@link Collection}
+	 * @param collection a {@link Collection} of {@link String}
+	 * <p>
+	 * @return the specified {@link Collection} of {@link String} without the empty {@link String}
+	 */
+	public static <C extends Collection<String>> C removeEmpty(final C collection) {
+		return Collections.<C, String>removeAll(collection, EMPTY);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -659,13 +671,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the first character
-		for (int index = fromIndex; index < string.length(); ++index) {
-			if (Characters.contains(characters, string.charAt(index))) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index < string.length(); ++index) {
+				if (Characters.contains(characters, string.charAt(index))) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -702,13 +714,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the first character
-		for (int index = fromIndex; index < string.length(); ++index) {
-			if (characters.contains(string.charAt(index))) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index < string.length(); ++index) {
+				if (characters.contains(string.charAt(index))) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -745,17 +757,17 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		Pair<Integer, String> indexAndToken = null;
 
 		// Find the first token
-		for (final String token : tokens) {
-			final int index = string.indexOf(token, fromIndex);
-			if (index >= 0 && (indexAndToken == null || index < indexAndToken.getFirst())) {
-				indexAndToken = new Pair<Integer, String>(index, token);
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (final String token : tokens) {
+				final int index = string.indexOf(token, fromIndex);
+				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getFirst())) {
+					indexAndToken = new Pair<Integer, String>(index, token);
+				}
 			}
 		}
 		return indexAndToken;
@@ -792,17 +804,17 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		Pair<Integer, String> indexAndToken = null;
 
 		// Find the first token
-		for (final String token : tokens) {
-			final int index = string.indexOf(token, fromIndex);
-			if (index >= 0 && (indexAndToken == null || index < indexAndToken.getFirst())) {
-				indexAndToken = new Pair<Integer, String>(index, token);
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (final String token : tokens) {
+				final int index = string.indexOf(token, fromIndex);
+				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getFirst())) {
+					indexAndToken = new Pair<Integer, String>(index, token);
+				}
 			}
 		}
 		return indexAndToken;
@@ -839,13 +851,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the last character
-		for (int index = fromIndex; index >= 0; --index) {
-			if (Characters.contains(characters, string.charAt(index))) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index >= 0; --index) {
+				if (Characters.contains(characters, string.charAt(index))) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -883,13 +895,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the last character
-		for (int index = fromIndex; index >= 0; --index) {
-			if (characters.contains(string.charAt(index))) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index >= 0; --index) {
+				if (characters.contains(string.charAt(index))) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -926,17 +938,17 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		Pair<Integer, String> indexAndToken = null;
 
 		// Find the last token
-		for (final String token : tokens) {
-			final int index = string.lastIndexOf(token, fromIndex);
-			if (index >= 0 && (indexAndToken == null || index > indexAndToken.getFirst())) {
-				indexAndToken = new Pair<Integer, String>(index, token);
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (final String token : tokens) {
+				final int index = string.lastIndexOf(token, fromIndex);
+				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getFirst())) {
+					indexAndToken = new Pair<Integer, String>(index, token);
+				}
 			}
 		}
 		return indexAndToken;
@@ -973,17 +985,17 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		Pair<Integer, String> indexAndToken = null;
 
 		// Find the last token
-		for (final String token : tokens) {
-			final int index = string.lastIndexOf(token, fromIndex);
-			if (index >= 0 && (indexAndToken == null || index > indexAndToken.getFirst())) {
-				indexAndToken = new Pair<Integer, String>(index, token);
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (final String token : tokens) {
+				final int index = string.lastIndexOf(token, fromIndex);
+				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getFirst())) {
+					indexAndToken = new Pair<Integer, String>(index, token);
+				}
 			}
 		}
 		return indexAndToken;
@@ -1022,13 +1034,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(character);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the first character
-		for (int index = fromIndex; index < string.length(); ++index) {
-			if (string.charAt(index) != character) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index < string.length(); ++index) {
+				if (string.charAt(index) != character) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -1066,13 +1078,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the first character
-		for (int index = fromIndex; index < string.length(); ++index) {
-			if (!Characters.contains(characters, string.charAt(index))) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index < string.length(); ++index) {
+				if (!Characters.contains(characters, string.charAt(index))) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -1110,13 +1122,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the first character
-		for (int index = fromIndex; index < string.length(); ++index) {
-			if (!characters.contains(string.charAt(index))) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index < string.length(); ++index) {
+				if (!characters.contains(string.charAt(index))) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -1153,13 +1165,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(token);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the first token
-		for (int index = fromIndex; index < string.length(); index += token.length()) {
-			if (!isToken(string, index, token)) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index < string.length(); index += token.length()) {
+				if (!isToken(string, index, token)) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -1196,20 +1208,18 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
-
-		// Initialize
-		int index = fromIndex;
 
 		// Find the first token
-		while (index < string.length()) {
-			final int i = getToken(string, index, tokens);
-			if (i >= 0) {
-				index += tokens[i].length();
-			} else {
-				return index;
-			}
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			int index = fromIndex;
+			do {
+				final int i = getToken(string, index, tokens);
+				if (i >= 0) {
+					index += tokens[i].length();
+				} else {
+					return index;
+				}
+			} while (index < string.length());
 		}
 		return -1;
 	}
@@ -1245,20 +1255,18 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
-
-		// Initialize
-		int index = fromIndex;
 
 		// Find the first token
-		while (index < string.length()) {
-			final int i = getToken(string, index, tokens);
-			if (i >= 0) {
-				index += tokens.get(i).length();
-			} else {
-				return index;
-			}
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			int index = fromIndex;
+			do {
+				final int i = getToken(string, index, tokens);
+				if (i >= 0) {
+					index += tokens.get(i).length();
+				} else {
+					return index;
+				}
+			} while (index < string.length());
 		}
 		return -1;
 	}
@@ -1296,13 +1304,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(character);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the last character
-		for (int index = fromIndex; index >= 0; --index) {
-			if (string.charAt(index) != character) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index >= 0; --index) {
+				if (string.charAt(index) != character) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -1339,13 +1347,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the last character
-		for (int index = fromIndex; index >= 0; --index) {
-			if (!Characters.contains(characters, string.charAt(index))) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index >= 0; --index) {
+				if (!Characters.contains(characters, string.charAt(index))) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -1383,13 +1391,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the last character
-		for (int index = fromIndex; index >= 0; --index) {
-			if (!characters.contains(string.charAt(index))) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index >= 0; --index) {
+				if (!characters.contains(string.charAt(index))) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -1426,13 +1434,13 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(token);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Find the last token
-		for (int index = fromIndex; index >= 0; index -= token.length()) {
-			if (!isTokenTo(string, index, token)) {
-				return index;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int index = fromIndex; index >= 0; index -= token.length()) {
+				if (!isTokenTo(string, index, token)) {
+					return index;
+				}
 			}
 		}
 		return -1;
@@ -1470,20 +1478,18 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
-
-		// Initialize
-		int index = fromIndex;
 
 		// Find the last token
-		while (index >= 0) {
-			final int i = getTokenTo(string, index + 1, tokens);
-			if (i >= 0) {
-				index -= tokens[i].length();
-			} else {
-				return index;
-			}
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			int index = fromIndex;
+			do {
+				final int i = getTokenTo(string, index + 1, tokens);
+				if (i >= 0) {
+					index -= tokens[i].length();
+				} else {
+					return index;
+				}
+			} while (index >= 0);
 		}
 		return -1;
 	}
@@ -1519,20 +1525,18 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
-
-		// Initialize
-		int index = fromIndex;
 
 		// Find the last token
-		while (index >= 0) {
-			final int i = getTokenTo(string, index + 1, tokens);
-			if (i >= 0) {
-				index -= tokens.get(i).length();
-			} else {
-				return index;
-			}
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			int index = fromIndex;
+			do {
+				final int i = getTokenTo(string, index + 1, tokens);
+				if (i >= 0) {
+					index -= tokens.get(i).length();
+				} else {
+					return index;
+				}
+			} while (index >= 0);
 		}
 		return -1;
 	}
@@ -1566,17 +1570,16 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(character);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		final List<Integer> indexes = new LinkedList<Integer>();
-		int index = string.indexOf(character, fromIndex);
 
 		// Get the indexes
-		while (index >= 0) {
-			indexes.add(index);
-			index = string.indexOf(character, index + 1);
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			int index = fromIndex - 1;
+			while ((index = string.indexOf(character, index + 1)) >= 0) {
+				indexes.add(index);
+			}
 		}
 		return indexes;
 	}
@@ -1642,17 +1645,17 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		final List<Integer> indexes = new LinkedList<Integer>();
-		final char[] array = string.toCharArray();
 
 		// Get the indexes
-		for (int index = fromIndex; index < string.length(); ++index) {
-			if (Characters.contains(characters, array[index])) {
-				indexes.add(index);
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			final char[] array = string.toCharArray();
+			for (int index = fromIndex; index < string.length(); ++index) {
+				if (Characters.contains(characters, array[index])) {
+					indexes.add(index);
+				}
 			}
 		}
 		return indexes;
@@ -1719,17 +1722,17 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		final List<Integer> indexes = new LinkedList<Integer>();
-		final char[] array = string.toCharArray();
 
 		// Get the indexes
-		for (int index = fromIndex; index < string.length(); ++index) {
-			if (characters.contains(array[index])) {
-				indexes.add(index);
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			final char[] array = string.toCharArray();
+			for (int index = fromIndex; index < string.length(); ++index) {
+				if (characters.contains(array[index])) {
+					indexes.add(index);
+				}
 			}
 		}
 		return indexes;
@@ -1796,17 +1799,16 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(token);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		final List<Integer> indexes = new LinkedList<Integer>();
-		int index = string.indexOf(token, fromIndex);
 
 		// Get the indexes
-		while (index >= 0) {
-			indexes.add(index);
-			index = string.indexOf(token, index + 1);
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			int index = fromIndex - 1;
+			while ((index = string.indexOf(token, index + 1)) >= 0) {
+				indexes.add(index);
+			}
 		}
 		return indexes;
 	}
@@ -1868,17 +1870,17 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		final List<Pair<Integer, String>> indexes = new LinkedList<Pair<Integer, String>>();
 
 		// Get the indexes
-		for (final String token : tokens) {
-			final List<Integer> tokenIndexes = getStringIndexes(string, token, fromIndex);
-			for (int tokenIndex : tokenIndexes) {
-				indexes.add(new Pair<Integer, String>(tokenIndex, token));
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (final String token : tokens) {
+				final List<Integer> tokenIndexes = getStringIndexes(string, token, fromIndex);
+				for (int tokenIndex : tokenIndexes) {
+					indexes.add(new Pair<Integer, String>(tokenIndex, token));
+				}
 			}
 		}
 		return indexes;
@@ -1944,17 +1946,17 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(fromIndex);
-		IntegerArguments.requireLessThan(fromIndex, string.length());
 
 		// Initialize
 		final List<Pair<Integer, String>> indexes = new LinkedList<Pair<Integer, String>>();
 
 		// Get the indexes
-		for (final String token : tokens) {
-			final List<Integer> tokenIndexes = getStringIndexes(string, token, fromIndex);
-			for (int tokenIndex : tokenIndexes) {
-				indexes.add(new Pair<Integer, String>(tokenIndex, token));
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (final String token : tokens) {
+				final List<Integer> tokenIndexes = getStringIndexes(string, token, fromIndex);
+				for (int tokenIndex : tokenIndexes) {
+					indexes.add(new Pair<Integer, String>(tokenIndex, token));
+				}
 			}
 		}
 		return indexes;
@@ -2046,12 +2048,14 @@ public class Strings {
 
 		// Get the tokens
 		for (final int delimiterIndex : delimiterIndexes) {
-			if (delimiterIndex > index) {
+			if (index <= delimiterIndex && delimiterIndex < toIndex) {
 				tokens.add(string.substring(index, delimiterIndex));
 			}
 			index = delimiterIndex + 1;
 		}
-		tokens.add(string.substring(index, toIndex));
+		if (index <= toIndex) {
+			tokens.add(string.substring(index, toIndex));
+		}
 		return tokens;
 	}
 
@@ -2093,21 +2097,25 @@ public class Strings {
 
 		// Get the tokens
 		for (final int delimiterIndex : delimiterIndexes) {
-			if (delimiterIndex > index) {
+			if (index <= delimiterIndex && delimiterIndex < toIndex) {
 				tokens.add(string.substring(index, delimiterIndex));
 			}
 			index = delimiterIndex + 1;
 		}
-		tokens.add(string.substring(index, toIndex));
+		if (index <= toIndex) {
+			tokens.add(string.substring(index, toIndex));
+		}
 		return tokens;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int getToken(final String string, final int fromIndex, final String[] tokens) {
-		for (int i = 0; i < tokens.length; ++i) {
-			if (isToken(string, fromIndex, tokens[i])) {
-				return i;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int i = 0; i < tokens.length; ++i) {
+				if (isToken(string, fromIndex, tokens[i])) {
+					return i;
+				}
 			}
 		}
 		return -1;
@@ -2125,9 +2133,11 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	public static int getToken(final String string, final int fromIndex, final List<String> tokens) {
-		for (int i = 0; i < tokens.size(); ++i) {
-			if (isToken(string, fromIndex, tokens.get(i))) {
-				return i;
+		if (fromIndex >= 0 && fromIndex < string.length()) {
+			for (int i = 0; i < tokens.size(); ++i) {
+				if (isToken(string, fromIndex, tokens.get(i))) {
+					return i;
+				}
 			}
 		}
 		return -1;
@@ -2163,20 +2173,6 @@ public class Strings {
 
 	/**
 	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiter} (inside).
-	 * <p>
-	 * @param string    a {@link String}
-	 * @param delimiter the delimiting {@code char} value
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiter} (inside)
-	 */
-	public static List<String> splitInside(final String string, final char delimiter) {
-		return splitTo(string, delimiter, findLastNotEqualTo(string, delimiter) + 1);
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
 	 * {@code delimiter}.
 	 * <p>
 	 * @param string    a {@link String}
@@ -2204,20 +2200,6 @@ public class Strings {
 	 */
 	public static List<String> split(final String string, final char[] delimiters) {
 		return splitTo(string, delimiters, string.length());
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiters} (inside).
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param delimiters the array of delimiting {@code char} values
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiters} (inside)
-	 */
-	public static List<String> splitInside(final String string, final char[] delimiters) {
-		return splitTo(string, delimiters, findLastNotIn(string, delimiters) + 1);
 	}
 
 	/**
@@ -2253,20 +2235,6 @@ public class Strings {
 
 	/**
 	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiters} (inside).
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param delimiters the {@link Collection} of delimiting {@link Character}
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiters} (inside)
-	 */
-	public static List<String> splitInside(final String string, final Collection<Character> delimiters) {
-		return splitTo(string, delimiters, findLastNotIn(string, delimiters) + 1);
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
 	 * {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param string     a {@link String}
@@ -2298,20 +2266,6 @@ public class Strings {
 
 	/**
 	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiter} (inside).
-	 * <p>
-	 * @param string    a {@link String}
-	 * @param delimiter the delimiting {@link String}
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiter} (inside)
-	 */
-	public static List<String> splitStringInside(final String string, final String delimiter) {
-		return splitStringTo(string, delimiter, findLastStringNotEqualTo(string, delimiter) + 1);
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
 	 * {@code delimiter}.
 	 * <p>
 	 * @param string    a {@link String}
@@ -2335,12 +2289,14 @@ public class Strings {
 
 		// Get the tokens
 		for (final int delimiterIndex : delimiterIndexes) {
-			if (delimiterIndex > index && delimiterIndex < toIndex) {
+			if (index <= delimiterIndex && delimiterIndex < toIndex) {
 				tokens.add(string.substring(index, delimiterIndex));
 			}
 			index = delimiterIndex + delimiter.length();
 		}
-		tokens.add(string.substring(index, toIndex));
+		if (index <= toIndex) {
+			tokens.add(string.substring(index, toIndex));
+		}
 		return tokens;
 	}
 
@@ -2358,20 +2314,6 @@ public class Strings {
 	 */
 	public static List<String> splitString(final String string, final String[] delimiters) {
 		return splitStringTo(string, delimiters, string.length());
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiters} (inside).
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param delimiters the array of delimiting {@code String}
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiters} (inside)
-	 */
-	public static List<String> splitStringInside(final String string, final String[] delimiters) {
-		return splitStringTo(string, delimiters, findLastStringNotIn(string, delimiters) + 1);
 	}
 
 	/**
@@ -2401,12 +2343,14 @@ public class Strings {
 		sortStringIndexes(delimiterIndexes);
 		for (final Pair<Integer, String> delimiterIndexAndToken : delimiterIndexes) {
 			final int delimiterIndex = delimiterIndexAndToken.getFirst();
-			if (delimiterIndex > index && delimiterIndex < toIndex) {
+			if (index <= delimiterIndex && delimiterIndex < toIndex) {
 				tokens.add(string.substring(index, delimiterIndex));
 			}
 			index = delimiterIndex + delimiterIndexAndToken.getSecond().length();
 		}
-		tokens.add(string.substring(index, toIndex));
+		if (index <= toIndex) {
+			tokens.add(string.substring(index, toIndex));
+		}
 		return tokens;
 	}
 
@@ -2424,20 +2368,6 @@ public class Strings {
 	 */
 	public static List<String> splitString(final String string, final List<String> delimiters) {
 		return splitStringTo(string, delimiters, string.length());
-	}
-
-	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code string} around
-	 * {@code delimiters} (inside).
-	 * <p>
-	 * @param string     a {@link String}
-	 * @param delimiters the {@link List} of delimiting {@link String}
-	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
-	 *         {@code delimiters} (inside)
-	 */
-	public static List<String> splitStringInside(final String string, final List<String> delimiters) {
-		return splitStringTo(string, delimiters, findLastStringNotIn(string, delimiters) + 1);
 	}
 
 	/**
@@ -2461,12 +2391,14 @@ public class Strings {
 		sortStringIndexes(delimiterIndexes);
 		for (final Pair<Integer, String> delimiterIndexAndToken : delimiterIndexes) {
 			final int delimiterIndex = delimiterIndexAndToken.getFirst();
-			if (delimiterIndex > index && delimiterIndex < toIndex) {
+			if (index <= delimiterIndex && delimiterIndex < toIndex) {
 				tokens.add(string.substring(index, delimiterIndex));
 			}
 			index = delimiterIndex + delimiterIndexAndToken.getSecond().length();
 		}
-		tokens.add(string.substring(index, toIndex));
+		if (index <= toIndex) {
+			tokens.add(string.substring(index, toIndex));
+		}
 		return tokens;
 	}
 
