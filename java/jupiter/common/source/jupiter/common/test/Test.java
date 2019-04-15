@@ -46,6 +46,6 @@ public class Test
 
 	@Override
 	protected void setUp() {
-		IO.setSeverityLevel(SeverityLevel.DEBUG);
+		IO.setSeverityLevel(SeverityLevel.TEST);
 	}
 }
