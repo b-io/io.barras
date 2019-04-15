@@ -710,7 +710,8 @@ public class Strings {
 	 * @return the index of the first character of {@code string} that is in {@code characters},
 	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findFirst(final String string, final Collection<Character> characters, final int fromIndex) {
+	public static int findFirst(final String string, final Collection<Character> characters,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
@@ -738,7 +739,8 @@ public class Strings {
 	 * @return the index and the first token of {@code string} that is in {@code tokens}, or
 	 *         {@code null} if there is no such occurrence
 	 */
-	public static Pair<Integer, String> findFirstString(final String string, final String[] tokens) {
+	public static Pair<Integer, String> findFirstString(final String string,
+			final String[] tokens) {
 		return findFirstString(string, tokens, 0);
 	}
 
@@ -753,7 +755,8 @@ public class Strings {
 	 * @return the index and the first token of {@code string} that is in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}, or {@code null} if there is no such occurrence
 	 */
-	public static Pair<Integer, String> findFirstString(final String string, final String[] tokens, final int fromIndex) {
+	public static Pair<Integer, String> findFirstString(final String string, final String[] tokens,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -785,7 +788,8 @@ public class Strings {
 	 * @return the index and the first token of {@code string} that is in {@code tokens}, or
 	 *         {@code null} if there is no such occurrence
 	 */
-	public static Pair<Integer, String> findFirstString(final String string, final Collection<String> tokens) {
+	public static Pair<Integer, String> findFirstString(final String string,
+			final Collection<String> tokens) {
 		return findFirstString(string, tokens, 0);
 	}
 
@@ -800,7 +804,8 @@ public class Strings {
 	 * @return the index and the first token of {@code string} that is in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}, or {@code null} if there is no such occurrence
 	 */
-	public static Pair<Integer, String> findFirstString(final String string, final Collection<String> tokens, final int fromIndex) {
+	public static Pair<Integer, String> findFirstString(final String string,
+			final Collection<String> tokens, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -934,7 +939,8 @@ public class Strings {
 	 * @return the index and the last token of {@code string} that is in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code null} if there is no such occurrence
 	 */
-	public static Pair<Integer, String> findLastString(final String string, final String[] tokens, final int fromIndex) {
+	public static Pair<Integer, String> findLastString(final String string, final String[] tokens,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -966,7 +972,8 @@ public class Strings {
 	 * @return the index and the last token of {@code string} that is in {@code tokens}, or
 	 *         {@code null} if there is no such occurrence
 	 */
-	public static Pair<Integer, String> findLastString(final String string, final Collection<String> tokens) {
+	public static Pair<Integer, String> findLastString(final String string,
+			final Collection<String> tokens) {
 		return findLastString(string, tokens, string.length() - 1);
 	}
 
@@ -981,7 +988,8 @@ public class Strings {
 	 * @return the index and the last token of {@code string} that is in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code null} if there is no such occurrence
 	 */
-	public static Pair<Integer, String> findLastString(final String string, final Collection<String> tokens, final int fromIndex) {
+	public static Pair<Integer, String> findLastString(final String string,
+			final Collection<String> tokens, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1030,7 +1038,8 @@ public class Strings {
 	 *         {@code character}, seeking forward from {@code fromIndex}, or {@code -1} if there is
 	 *         no such occurrence
 	 */
-	public static int findFirstNotEqualTo(final String string, final char character, final int fromIndex) {
+	public static int findFirstNotEqualTo(final String string, final char character,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(character);
@@ -1117,8 +1126,8 @@ public class Strings {
 	 * @return the index of the first character of {@code string} that is not in {@code characters},
 	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstNotIn(final String string,
-			final Collection<Character> characters, final int fromIndex) {
+	public static int findFirstNotIn(final String string, final Collection<Character> characters,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
@@ -1161,7 +1170,8 @@ public class Strings {
 	 * @return the index of the first token of {@code string} that is not equal to {@code token},
 	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstStringNotEqualTo(final String string, final String token, final int fromIndex) {
+	public static int findFirstStringNotEqualTo(final String string, final String token,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(token);
@@ -1204,7 +1214,8 @@ public class Strings {
 	 * @return the index of the first token of {@code string} that is not in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstStringNotIn(final String string, final String[] tokens, final int fromIndex) {
+	public static int findFirstStringNotIn(final String string, final String[] tokens,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1251,7 +1262,8 @@ public class Strings {
 	 * @return the index of the first token of {@code string} that is not in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstStringNotIn(final String string, final List<String> tokens, final int fromIndex) {
+	public static int findFirstStringNotIn(final String string, final List<String> tokens,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1300,7 +1312,8 @@ public class Strings {
 	 *         {@code character}, seeking backward from {@code fromIndex}, or {@code -1} if there is
 	 *         no such occurrence
 	 */
-	public static int findLastNotEqualTo(final String string, final char character, final int fromIndex) {
+	public static int findLastNotEqualTo(final String string, final char character,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(character);
@@ -1343,7 +1356,8 @@ public class Strings {
 	 * @return the index of the last character of {@code string} that is not in {@code characters},
 	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findLastNotIn(final String string, final char[] characters, final int fromIndex) {
+	public static int findLastNotIn(final String string, final char[] characters,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
@@ -1386,8 +1400,8 @@ public class Strings {
 	 * @return the index of the last character of {@code string} that is not in {@code characters},
 	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findLastNotIn(final String string,
-			final Collection<Character> characters, final int fromIndex) {
+	public static int findLastNotIn(final String string, final Collection<Character> characters,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
@@ -1430,7 +1444,8 @@ public class Strings {
 	 * @return the index of the last token of {@code string} that is not equal to {@code token},
 	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findLastStringNotEqualTo(final String string, final String token, final int fromIndex) {
+	public static int findLastStringNotEqualTo(final String string, final String token,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(token);
@@ -1521,7 +1536,8 @@ public class Strings {
 	 * @return the index of the last token of {@code string} that is not in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findLastStringNotIn(final String string, final List<String> tokens, final int fromIndex) {
+	public static int findLastStringNotIn(final String string, final List<String> tokens,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1566,7 +1582,8 @@ public class Strings {
 	 * @return the indexes of {@code character} in {@code string}, seeking forward from
 	 *         {@code fromIndex}
 	 */
-	public static List<Integer> getIndexes(final String string, final char character, final int fromIndex) {
+	public static List<Integer> getIndexes(final String string, final char character,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(character);
@@ -1703,7 +1720,8 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code characters} in {@code string}
 	 */
-	public static List<Integer> getIndexes(final String string, final Collection<Character> characters) {
+	public static List<Integer> getIndexes(final String string,
+			final Collection<Character> characters) {
 		return getIndexes(string, characters, 0);
 	}
 
@@ -1718,7 +1736,8 @@ public class Strings {
 	 * @return the indexes of the characters of {@code string} that are in {@code characters},
 	 *         seeking forward from {@code fromIndex}
 	 */
-	public static List<Integer> getIndexes(final String string, final Collection<Character> characters, final int fromIndex) {
+	public static List<Integer> getIndexes(final String string,
+			final Collection<Character> characters, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(characters);
@@ -1795,7 +1814,8 @@ public class Strings {
 	 * @return the indexes of {@code token} in {@code string}, seeking forward from
 	 *         {@code fromIndex}
 	 */
-	public static List<Integer> getStringIndexes(final String string, final String token, final int fromIndex) {
+	public static List<Integer> getStringIndexes(final String string, final String token,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(token);
@@ -1822,7 +1842,8 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code token} in {@code string}, seeking forward to {@code toIndex}
 	 */
-	public static List<Integer> getStringIndexesTo(final String string, final String token, final int toIndex) {
+	public static List<Integer> getStringIndexesTo(final String string, final String token,
+			final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(token);
@@ -1851,7 +1872,8 @@ public class Strings {
 	 * <p>
 	 * @return the indexes and {@code tokens} in {@code string}
 	 */
-	public static List<Pair<Integer, String>> getStringIndexes(final String string, final String[] tokens) {
+	public static List<Pair<Integer, String>> getStringIndexes(final String string,
+			final String[] tokens) {
 		return getStringIndexes(string, tokens, 0);
 	}
 
@@ -1866,7 +1888,8 @@ public class Strings {
 	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}
 	 */
-	public static List<Pair<Integer, String>> getStringIndexes(final String string, final String[] tokens, final int fromIndex) {
+	public static List<Pair<Integer, String>> getStringIndexes(final String string,
+			final String[] tokens, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1878,7 +1901,7 @@ public class Strings {
 		if (fromIndex >= 0 && fromIndex < string.length()) {
 			for (final String token : tokens) {
 				final List<Integer> tokenIndexes = getStringIndexes(string, token, fromIndex);
-				for (int tokenIndex : tokenIndexes) {
+				for (final int tokenIndex : tokenIndexes) {
 					indexes.add(new Pair<Integer, String>(tokenIndex, token));
 				}
 			}
@@ -1897,7 +1920,8 @@ public class Strings {
 	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
 	 *         forward to {@code toIndex}
 	 */
-	public static List<Pair<Integer, String>> getStringIndexesTo(final String string, final String[] tokens, final int toIndex) {
+	public static List<Pair<Integer, String>> getStringIndexesTo(final String string,
+			final String[] tokens, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1910,7 +1934,7 @@ public class Strings {
 		// Get the indexes
 		for (final String token : tokens) {
 			final List<Integer> tokenIndexes = getStringIndexesTo(string, token, toIndex);
-			for (int tokenIndex : tokenIndexes) {
+			for (final int tokenIndex : tokenIndexes) {
 				indexes.add(new Pair<Integer, String>(tokenIndex, token));
 			}
 		}
@@ -1927,7 +1951,8 @@ public class Strings {
 	 * <p>
 	 * @return the indexes and {@code tokens} in {@code string}
 	 */
-	public static List<Pair<Integer, String>> getStringIndexes(final String string, final Collection<String> tokens) {
+	public static List<Pair<Integer, String>> getStringIndexes(final String string,
+			final Collection<String> tokens) {
 		return getStringIndexes(string, tokens, 0);
 	}
 
@@ -1942,7 +1967,8 @@ public class Strings {
 	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}
 	 */
-	public static List<Pair<Integer, String>> getStringIndexes(final String string, final Collection<String> tokens, final int fromIndex) {
+	public static List<Pair<Integer, String>> getStringIndexes(final String string,
+			final Collection<String> tokens, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1954,7 +1980,7 @@ public class Strings {
 		if (fromIndex >= 0 && fromIndex < string.length()) {
 			for (final String token : tokens) {
 				final List<Integer> tokenIndexes = getStringIndexes(string, token, fromIndex);
-				for (int tokenIndex : tokenIndexes) {
+				for (final int tokenIndex : tokenIndexes) {
 					indexes.add(new Pair<Integer, String>(tokenIndex, token));
 				}
 			}
@@ -1973,7 +1999,8 @@ public class Strings {
 	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
 	 *         forward to {@code toIndex}
 	 */
-	public static List<Pair<Integer, String>> getStringIndexesTo(final String string, final Collection<String> tokens, final int toIndex) {
+	public static List<Pair<Integer, String>> getStringIndexesTo(final String string,
+			final Collection<String> tokens, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1986,7 +2013,7 @@ public class Strings {
 		// Get the indexes
 		for (final String token : tokens) {
 			final List<Integer> tokenIndexes = getStringIndexesTo(string, token, toIndex);
-			for (int tokenIndex : tokenIndexes) {
+			for (final int tokenIndex : tokenIndexes) {
 				indexes.add(new Pair<Integer, String>(tokenIndex, token));
 			}
 		}
@@ -1996,7 +2023,7 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static final Comparator<Pair<Integer, String>> STRING_INDEX_COMPARATOR = new Comparator<Pair<Integer, String>>() {
-		public int compare(Pair<Integer, String> a, Pair<Integer, String> b) {
+		public int compare(final Pair<Integer, String> a, final Pair<Integer, String> b) {
 			return Integers.compare(a.getFirst(), b.getFirst());
 		}
 	};
@@ -2037,7 +2064,8 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiterIndexes}
 	 */
-	public static List<String> getTokensTo(final String string, final int[] delimiterIndexes, final int toIndex) {
+	public static List<String> getTokensTo(final String string, final int[] delimiterIndexes,
+			final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(delimiterIndexes);
@@ -2071,7 +2099,8 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiterIndexes}
 	 */
-	public static List<String> getTokens(final String string, final Collection<Integer> delimiterIndexes) {
+	public static List<String> getTokens(final String string,
+			final Collection<Integer> delimiterIndexes) {
 		return getTokensTo(string, delimiterIndexes, string.length());
 	}
 
@@ -2086,7 +2115,8 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiterIndexes}
 	 */
-	public static List<String> getTokensTo(final String string, final Collection<Integer> delimiterIndexes, final int toIndex) {
+	public static List<String> getTokensTo(final String string,
+			final Collection<Integer> delimiterIndexes, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(delimiterIndexes);
@@ -2132,7 +2162,8 @@ public class Strings {
 
 	//////////////////////////////////////////////
 
-	public static int getToken(final String string, final int fromIndex, final List<String> tokens) {
+	public static int getToken(final String string, final int fromIndex,
+			final List<String> tokens) {
 		if (fromIndex >= 0 && fromIndex < string.length()) {
 			for (int i = 0; i < tokens.size(); ++i) {
 				if (isToken(string, fromIndex, tokens.get(i))) {
@@ -2143,7 +2174,8 @@ public class Strings {
 		return -1;
 	}
 
-	public static int getTokenTo(final String string, final int toIndex, final List<String> tokens) {
+	public static int getTokenTo(final String string, final int toIndex,
+			final List<String> tokens) {
 		for (int i = 0; i < tokens.size(); ++i) {
 			if (isToken(string, toIndex - tokens.get(i).length(), tokens.get(i))) {
 				return i;
@@ -2182,7 +2214,8 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiter}
 	 */
-	public static List<String> splitTo(final String string, final char delimiter, final int toIndex) {
+	public static List<String> splitTo(final String string, final char delimiter,
+			final int toIndex) {
 		return getTokensTo(string, getIndexesTo(string, delimiter, toIndex), toIndex);
 	}
 
@@ -2213,7 +2246,8 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitTo(final String string, final char[] delimiters, final int toIndex) {
+	public static List<String> splitTo(final String string, final char[] delimiters,
+			final int toIndex) {
 		return getTokensTo(string, getIndexesTo(string, delimiters, toIndex), toIndex);
 	}
 
@@ -2244,7 +2278,8 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitTo(final String string, final Collection<Character> delimiters, final int toIndex) {
+	public static List<String> splitTo(final String string, final Collection<Character> delimiters,
+			final int toIndex) {
 		return getTokensTo(string, getIndexesTo(string, delimiters, toIndex), toIndex);
 	}
 
@@ -2275,7 +2310,8 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiter}
 	 */
-	public static List<String> splitStringTo(final String string, final String delimiter, final int toIndex) {
+	public static List<String> splitStringTo(final String string, final String delimiter,
+			final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(delimiter);
@@ -2327,7 +2363,8 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitStringTo(final String string, final String[] delimiters, final int toIndex) {
+	public static List<String> splitStringTo(final String string, final String[] delimiters,
+			final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(delimiters);
@@ -2336,7 +2373,8 @@ public class Strings {
 
 		// Initialize
 		final List<String> tokens = new LinkedList<String>();
-		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexesTo(string, delimiters, toIndex);
+		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexesTo(string, delimiters,
+				toIndex);
 		int index = 0;
 
 		// Get the tokens
@@ -2381,10 +2419,12 @@ public class Strings {
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitStringTo(final String string, final List<String> delimiters, final int toIndex) {
+	public static List<String> splitStringTo(final String string, final List<String> delimiters,
+			final int toIndex) {
 		// Initialize
 		final List<String> tokens = new LinkedList<String>();
-		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexesTo(string, delimiters, toIndex);
+		final List<Pair<Integer, String>> delimiterIndexes = getStringIndexesTo(string, delimiters,
+				toIndex);
 		int index = 0;
 
 		// Get the tokens

@@ -239,7 +239,8 @@ public class ExpressionHandler {
 			final Element.Type type = getType(unaryOperator);
 			IO.debug("Type: ", type);
 			// Parse the nested expression
-			final String nestedExpression = Strings.removeEmpty(Strings.split(expression, unaryOperator)).get(0);
+			final String nestedExpression = Strings.removeEmpty(
+					Strings.split(expression, unaryOperator)).get(0);
 			IO.debug("Nested expression: ", nestedExpression);
 			final Report<Element> nodeResult = parseExpression(parent, nestedExpression, context);
 			final Element node = nodeResult.getOutput();
@@ -342,8 +343,8 @@ public class ExpressionHandler {
 	 */
 	protected static Integer getLastUnaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
-		return getLastOperatorIndexFromList(expression, delimitingIntervals, expression.length() - 1,
-				UNARY_OPERATORS);
+		return getLastOperatorIndexFromList(expression, delimitingIntervals,
+				expression.length() - 1, UNARY_OPERATORS);
 	}
 
 	/**
@@ -368,7 +369,8 @@ public class ExpressionHandler {
 		do {
 			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
 			int index = fromIndex + 1;
-			while ((index = getLastOperatorIndex(expression, delimitingIntervals, --index, operators)) >= 0) {
+			while ((index = getLastOperatorIndex(expression, delimitingIntervals, --index,
+					operators)) >= 0) {
 				indexes.add(index);
 			}
 			++binaryOperatorsIndex;

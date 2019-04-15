@@ -23,7 +23,6 @@
  */
 package jupiter.common.util;
 
-import static junit.framework.TestCase.assertEquals;
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.test.Test;
@@ -31,8 +30,12 @@ import jupiter.common.test.Test;
 public class StringsTest
 		extends Test {
 
-	protected static final char[] DELIMITERS = new char[] {'.', ':', ',', ';', '-'};
-	protected static final String[] STRING_DELIMITERS = new String[] {".", ":", ",", ";", "-"};
+	protected static final char[] DELIMITERS = new char[] {
+		'.', ':', ',', ';', '-'
+	};
+	protected static final String[] STRING_DELIMITERS = new String[] {
+		".", ":", ",", ";", "-"
+	};
 	protected static final String STRING = "-AA.BB:CC--DD;EE,FF-";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,11 +53,17 @@ public class StringsTest
 		IO.test("testSplit");
 
 		assertEquals(Objects.hashCode(Strings.split(Strings.EMPTY, DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {Strings.EMPTY}));
+				Objects.hashCode(new String[] {
+					Strings.EMPTY
+				}));
 		assertEquals(Objects.hashCode(Strings.split(STRING_DELIMITERS[0], DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {Strings.EMPTY, Strings.EMPTY}));
+				Objects.hashCode(new String[] {
+					Strings.EMPTY, Strings.EMPTY
+				}));
 		assertEquals(Objects.hashCode(Strings.split(STRING, DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {Strings.EMPTY, "AA", "BB", "CC", Strings.EMPTY, "DD", "EE", "FF", Strings.EMPTY}));
+				Objects.hashCode(new String[] {
+					Strings.EMPTY, "AA", "BB", "CC", Strings.EMPTY, "DD", "EE", "FF", Strings.EMPTY
+				}));
 	}
 
 	/**
@@ -63,11 +72,20 @@ public class StringsTest
 	public void testSplitString() {
 		IO.test("testSplitString");
 
-		assertEquals(Objects.hashCode(Strings.splitString(Strings.EMPTY, STRING_DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {Strings.EMPTY}));
-		assertEquals(Objects.hashCode(Strings.splitString(STRING_DELIMITERS[0], STRING_DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {Strings.EMPTY, Strings.EMPTY}));
+		assertEquals(
+				Objects.hashCode(Strings.splitString(Strings.EMPTY, STRING_DELIMITERS).toArray()),
+				Objects.hashCode(new String[] {
+					Strings.EMPTY
+				}));
+		assertEquals(
+				Objects.hashCode(
+						Strings.splitString(STRING_DELIMITERS[0], STRING_DELIMITERS).toArray()),
+				Objects.hashCode(new String[] {
+					Strings.EMPTY, Strings.EMPTY
+				}));
 		assertEquals(Objects.hashCode(Strings.splitString(STRING, STRING_DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {Strings.EMPTY, "AA", "BB", "CC", Strings.EMPTY, "DD", "EE", "FF", Strings.EMPTY}));
+				Objects.hashCode(new String[] {
+					Strings.EMPTY, "AA", "BB", "CC", Strings.EMPTY, "DD", "EE", "FF", Strings.EMPTY
+				}));
 	}
 }

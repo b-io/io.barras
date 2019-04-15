@@ -52,8 +52,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
@@ -73,7 +71,6 @@ import javax.swing.text.StyleContext;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
-
 import jupiter.common.io.console.IConsole;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
@@ -721,13 +718,13 @@ public class JConsole
 		if (content instanceof String) {
 			final int offset = getTextLength();
 			final String styledText = (String) content;
-//			Strings.split();
+			//			Strings.split();
 			final ConsoleHandler.Color textColor = ConsoleHandler.Color.parse(styledText);
 			try {
 				textPane.getStyledDocument().insertString(offset,
 						textColor != null ? textColor.getText(styledText) : styledText,
 						textColor != null ? STYLES.get(textColor) : DEFAULT_STYLE);
-			} catch (BadLocationException ignored) {
+			} catch (final BadLocationException ignored) {
 			}
 		} else if (content instanceof Icon) {
 			textPane.insertIcon((Icon) content);

@@ -23,7 +23,6 @@
  */
 package jupiter.common.io.console;
 
-import jupiter.common.io.IO;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
