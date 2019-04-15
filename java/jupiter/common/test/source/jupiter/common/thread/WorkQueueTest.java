@@ -25,11 +25,11 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
@@ -65,7 +65,7 @@ public class WorkQueueTest
 
 		// Process the tasks
 		chrono.start();
-		final List<Long> ids = new ArrayList<Long>(taskCount);
+		final List<Long> ids = new ExtendedList<Long>(taskCount);
 		for (int i = 0; i < taskCount; ++i) {
 			ids.add(workQueue.submit(i));
 		}

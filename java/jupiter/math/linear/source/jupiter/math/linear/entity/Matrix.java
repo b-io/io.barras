@@ -29,7 +29,6 @@ import static jupiter.integration.gpu.OpenCL.CL;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,6 +37,7 @@ import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.Table;
 import jupiter.common.struct.tuple.Pair;
@@ -1565,7 +1565,7 @@ public class Matrix
 			final int intervalCount = Math.min(m, WORK_QUEUE.maxThreads);
 			final int rowCountPerInterval = m / intervalCount;
 			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
-			final List<Long> ids = new ArrayList<Long>(intervalCount);
+			final List<Long> ids = new ExtendedList<Long>(intervalCount);
 
 			// Distribute the tasks
 			for (int i = 0; i < intervalCount; ++i) {

@@ -35,6 +35,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
 import jupiter.common.map.wrapper.StringWrapper;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.IntegerArguments;
@@ -157,6 +158,61 @@ public class Strings {
 	 */
 	public static <T> String[] collectionToArray(final Collection<T> collection) {
 		return PARSER.callCollectionToArray(collection);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a {@link List} of {@link String} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link List} of {@link String} from the specified array of type {@code T}
+	 */
+	public static <T> List<String> toList(final T... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link String} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link String} from the specified array of type {@code T}
+	 */
+	public static <T> ExtendedList<String> toExtendedList(final T... array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns a {@link List} of {@link String} from the specified {@link Collection} of type
+	 * {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return a {@link List} of {@link String} from the specified {@link Collection} of type
+	 *         {@code T}
+	 */
+	public static <T> List<String> collectionToList(final Collection<T> collection) {
+		return PARSER.callCollectionToList(collection);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
+	 * type {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
+	 *         type {@code T}
+	 */
+	public static <T> ExtendedList<String> collectionToExtendedList(
+			final Collection<T> collection) {
+		return PARSER.callCollectionToList(collection);
 	}
 
 

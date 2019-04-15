@@ -34,14 +34,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Report;
 import jupiter.common.thread.Threads;
@@ -66,8 +65,8 @@ public class SpeedChecker {
 	/**
 	 * The {@link List} of URLs to download.
 	 */
-	protected static final List<String> URLS = new ArrayList<String>(Arrays.<String>asList(
-			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test"));
+	protected static final List<String> URLS = Strings.toList(
+			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test");
 
 	/**
 	 * The file handlers of the data files storing the downloading speeds.
@@ -174,7 +173,7 @@ public class SpeedChecker {
 		// Download the files pointed by the URLs
 		if (PARALLELIZE) {
 			// Distribute the tasks
-			final List<Long> ids = new ArrayList<Long>(URLS.size());
+			final List<Long> ids = new ExtendedList<Long>(URLS.size());
 			for (final String urlName : URLS) {
 				ids.add(WORK_QUEUE.submit(urlName));
 			}

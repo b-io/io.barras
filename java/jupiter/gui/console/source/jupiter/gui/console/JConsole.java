@@ -72,6 +72,7 @@ import javax.swing.text.StyleContext;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
@@ -105,7 +106,7 @@ public class JConsole
 	protected static final StyleContext STYLE_CONTEXT = new StyleContext();
 	protected static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
 
-	protected static final Map<Object, Style> STYLES = new HashMap<Object, Style>();
+	protected static final Map<ConsoleHandler.Color, Style> STYLES = new HashMap<ConsoleHandler.Color, Style>();
 
 	static {
 		for (final SeverityLevel severityLevel : SeverityLevel.class.getEnumConstants()) {
@@ -115,6 +116,10 @@ public class JConsole
 			STYLES.put(color, style);
 		}
 	}
+
+	protected static final List<String> COLORS = Strings.toList(
+			ConsoleHandler.Color.class.getEnumConstants());
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -132,6 +137,8 @@ public class JConsole
 	protected volatile JPopupMenu menu;
 	protected volatile JTextPane textPane;
 	protected volatile boolean isKeyUp = true;
+
+	protected volatile ConsoleHandler.Color textColor;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -718,12 +725,13 @@ public class JConsole
 		if (content instanceof String) {
 			final int offset = getTextLength();
 			final String styledText = (String) content;
-			//			Strings.split();
+			final List<Pair<Integer, String>> indexes = Strings.getStringIndexes(styledText, COLORS);
 			final ConsoleHandler.Color textColor = ConsoleHandler.Color.parse(styledText);
 			try {
-				textPane.getStyledDocument().insertString(offset,
-						textColor != null ? textColor.getText(styledText) : styledText,
-						textColor != null ? STYLES.get(textColor) : DEFAULT_STYLE);
+				textPane.getStyledDocument()
+						.insertString(offset,
+								textColor != null ? textColor.getText(styledText) : styledText,
+								textColor != null ? STYLES.get(textColor) : DEFAULT_STYLE);
 			} catch (final BadLocationException ignored) {
 			}
 		} else if (content instanceof Icon) {

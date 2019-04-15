@@ -25,7 +25,6 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +32,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
@@ -61,7 +61,7 @@ public class ReservedThreadPoolExecutorTest
 
 		// Process the tasks
 		chrono.start();
-		final List<Future<Integer>> futures = new ArrayList<Future<Integer>>(taskCount);
+		final List<Future<Integer>> futures = new ExtendedList<Future<Integer>>(taskCount);
 		for (int i = 0; i < taskCount; ++i) {
 			Future<Integer> future;
 			//do {

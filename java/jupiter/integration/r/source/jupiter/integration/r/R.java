@@ -45,9 +45,9 @@ public class R {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final String PATH = System.getenv("R") + "/bin/R.exe";
-	protected static final String ARGS = "--no-save --slave";
-	protected static final String REPO = "https://cloud.r-project.org";
+	public static volatile String PATH = System.getenv("R") + "/bin/R.exe";
+	public static volatile String ARGS = "--no-save --slave";
+	public static volatile String REPO = "https://cloud.r-project.org";
 
 	public static final IOHandler PRINTER = new RPrinter();
 
