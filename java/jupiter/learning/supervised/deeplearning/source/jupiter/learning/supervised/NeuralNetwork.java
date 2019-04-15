@@ -301,8 +301,11 @@ public class NeuralNetwork
 
 				// - Compute the derivatives with respect to W and b
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
-				final Matrix dW = A[l].times(dZT).transpose().divide(trainingExampleCount)
-						.add(regularizationFunction.derive(trainingExampleCount, W[l])).toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
+				final Matrix dW = A[l].times(dZT)
+						.transpose()
+						.divide(trainingExampleCount)
+						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
+						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
 				final Vector db = dZT.mean().toVector();
 
 				// - Update the weights and the bias

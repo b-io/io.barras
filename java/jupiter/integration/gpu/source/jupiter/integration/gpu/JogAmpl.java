@@ -263,7 +263,8 @@ public class JogAmpl
 		kernel.putArgs(aBuffer, bBuffer, resultBuffer);
 		// Execute the kernel
 		final int globalWorkGroupSize = Maths.roundUp(resultLength, localWorkGroupSize);
-		commandQueue.putWriteBuffer(aBuffer, false).putWriteBuffer(bBuffer, false)
+		commandQueue.putWriteBuffer(aBuffer, false)
+				.putWriteBuffer(bBuffer, false)
 				.put1DRangeKernel(kernel, 0, globalWorkGroupSize, localWorkGroupSize)
 				.putReadBuffer(resultBuffer, true);
 		// Read the result
@@ -294,12 +295,14 @@ public class JogAmpl
 		// Get the kernel
 		final CLKernel kernel = getKernel("times");
 		// Set the kernel arguments
-		kernel.putArgs(aBuffer, bBuffer, resultBuffer).putArg(aColumnDimension)
+		kernel.putArgs(aBuffer, bBuffer, resultBuffer)
+				.putArg(aColumnDimension)
 				.putArg(bColumnDimension);
 		// Execute the kernel
 		final int globalWorkGroupSize = Maths.roundUp(Maths.maxToInt(A.length, B.length),
 				localWorkGroupSize);
-		commandQueue.putWriteBuffer(aBuffer, false).putWriteBuffer(bBuffer, false)
+		commandQueue.putWriteBuffer(aBuffer, false)
+				.putWriteBuffer(bBuffer, false)
 				.put1DRangeKernel(kernel, 0, globalWorkGroupSize, localWorkGroupSize)
 				.putReadBuffer(resultBuffer, true);
 		// Read the result
@@ -347,12 +350,15 @@ public class JogAmpl
 		// Get the kernel
 		final CLKernel kernel = getKernel("forward");
 		// Set the kernel arguments
-		kernel.putArgs(aBuffer, bBuffer, cBuffer, resultBuffer).putArg(aColumnDimension)
-				.putArg(bColumnDimension).putArg(cColumnDimension);
+		kernel.putArgs(aBuffer, bBuffer, cBuffer, resultBuffer)
+				.putArg(aColumnDimension)
+				.putArg(bColumnDimension)
+				.putArg(cColumnDimension);
 		// Execute the kernel
 		final int globalWorkGroupSize = Maths.roundUp(Maths.maxToInt(A.length, B.length),
 				localWorkGroupSize);
-		commandQueue.putWriteBuffer(aBuffer, false).putWriteBuffer(bBuffer, false)
+		commandQueue.putWriteBuffer(aBuffer, false)
+				.putWriteBuffer(bBuffer, false)
 				.putWriteBuffer(cBuffer, false)
 				.put1DRangeKernel(kernel, 0, globalWorkGroupSize, localWorkGroupSize)
 				.putReadBuffer(resultBuffer, true);

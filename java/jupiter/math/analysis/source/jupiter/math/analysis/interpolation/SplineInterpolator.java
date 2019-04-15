@@ -170,8 +170,12 @@ public class SplineInterpolator {
 			if (i > 0) {
 				builder.append(Arrays.DEFAULT_DELIMITER);
 			}
-			builder.append(Characters.LEFT_PARENTHESIS).append(x[i])
-					.append(Arrays.DEFAULT_DELIMITER).append(y[i]).append(": ").append(m[i])
+			builder.append(Characters.LEFT_PARENTHESIS)
+					.append(x[i])
+					.append(Arrays.DEFAULT_DELIMITER)
+					.append(y[i])
+					.append(": ")
+					.append(m[i])
 					.append(Characters.RIGHT_PARENTHESIS);
 		}
 		return Strings.bracketize(builder.toString());

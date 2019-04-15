@@ -82,7 +82,8 @@ public class ChartPanels {
 
 		// Find the closest chart entity
 		// - Get all the chart entities
-		final Collection<ChartEntity> entities = panel.getChartRenderingInfo().getEntityCollection()
+		final Collection<ChartEntity> entities = panel.getChartRenderingInfo()
+				.getEntityCollection()
 				.getEntities();
 		// - Get the mouse position
 		final int xPosition = Integers

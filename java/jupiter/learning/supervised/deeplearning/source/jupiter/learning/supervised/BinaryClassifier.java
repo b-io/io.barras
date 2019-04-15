@@ -217,9 +217,11 @@ public abstract class BinaryClassifier {
 	 */
 	public synchronized double computeCost(final Entity A) {
 		// Compute -(log(A) Y' + log(1 - A) (1 - Y')) / m
-		return -A.apply(Functions.LOG).times(YT)
+		return -A.apply(Functions.LOG)
+				.times(YT)
 				.add(Scalar.ONE.minus(A).apply(Functions.LOG).times(Scalar.ONE.minus(YT)))
-				.toScalar().get() / trainingExampleCount;
+				.toScalar()
+				.get() / trainingExampleCount;
 	}
 
 
