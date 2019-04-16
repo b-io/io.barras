@@ -182,27 +182,27 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARABLE
+	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int compareTo(final ComparableQuintuple<T1, T2, T3, T4, T5> quintuple) {
-		int comparison = first.compareTo(quintuple.getFirst());
+		int comparison = first.compareTo(quintuple.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = second.compareTo(quintuple.getSecond());
+		comparison = second.compareTo(quintuple.second);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = third.compareTo(quintuple.getThird());
+		comparison = third.compareTo(quintuple.third);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = fourth.compareTo(quintuple.getFourth());
+		comparison = fourth.compareTo(quintuple.fourth);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return fifth.compareTo(quintuple.getFifth());
+		return fifth.compareTo(quintuple.fifth);
 	}
 
 

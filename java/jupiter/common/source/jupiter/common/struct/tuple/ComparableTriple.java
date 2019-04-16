@@ -135,19 +135,19 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARABLE
+	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int compareTo(final ComparableTriple<T1, T2, T3> triple) {
-		int comparison = first.compareTo(triple.getFirst());
+		int comparison = first.compareTo(triple.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = second.compareTo(triple.getSecond());
+		comparison = second.compareTo(triple.second);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return third.compareTo(triple.getThird());
+		return third.compareTo(triple.third);
 	}
 
 

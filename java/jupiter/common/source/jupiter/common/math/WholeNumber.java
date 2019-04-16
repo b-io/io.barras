@@ -170,7 +170,7 @@ public class WholeNumber
 	@Override
 	public int compareTo(final ComparableNumber comparableNumber) {
 		if (comparableNumber instanceof WholeNumber) {
-			return Longs.compare(value, ((WholeNumber) comparableNumber).get());
+			return Longs.compare(value, ((WholeNumber) comparableNumber).value);
 		}
 		return Numbers.compare(value, comparableNumber);
 	}

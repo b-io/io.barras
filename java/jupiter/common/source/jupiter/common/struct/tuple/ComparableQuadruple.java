@@ -158,23 +158,23 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARABLE
+	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int compareTo(final ComparableQuadruple<T1, T2, T3, T4> quadruple) {
-		int comparison = first.compareTo(quadruple.getFirst());
+		int comparison = first.compareTo(quadruple.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = second.compareTo(quadruple.getSecond());
+		comparison = second.compareTo(quadruple.second);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = third.compareTo(quadruple.getThird());
+		comparison = third.compareTo(quadruple.third);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return fourth.compareTo(quadruple.getFourth());
+		return fourth.compareTo(quadruple.fourth);
 	}
 
 

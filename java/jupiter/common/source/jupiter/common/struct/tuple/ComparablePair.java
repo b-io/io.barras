@@ -112,15 +112,15 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARABLE
+	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int compareTo(final ComparablePair<T1, T2> pair) {
-		final int comparison = first.compareTo(pair.getFirst());
+		final int comparison = first.compareTo(pair.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return second.compareTo(pair.getSecond());
+		return second.compareTo(pair.second);
 	}
 
 

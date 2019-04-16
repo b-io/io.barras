@@ -72,7 +72,7 @@ import javax.swing.text.StyleContext;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
-import jupiter.common.struct.tuple.Pair;
+import jupiter.common.struct.list.Index;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
@@ -725,7 +725,8 @@ public class JConsole
 		if (content instanceof String) {
 			final int offset = getTextLength();
 			final String styledText = (String) content;
-			final List<Pair<Integer, String>> indexes = Strings.getStringIndexes(styledText, COLORS);
+			final List<Index<String>> indexes = Strings.getStringIndexes(styledText,
+					COLORS);
 			final ConsoleHandler.Color textColor = ConsoleHandler.Color.parse(styledText);
 			try {
 				textPane.getStyledDocument()

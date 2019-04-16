@@ -232,14 +232,17 @@ public class NeuralNetwork
 		// - The weight matrices
 		if (W == null) {
 			W = new Matrix[layerCount];
-			W[0] = Matrix.random(hiddenLayerSize, featureCount).subtract(0.5)
+			W[0] = Matrix.random(hiddenLayerSize, featureCount)
+					.subtract(0.5)
 					.multiply(Math.sqrt(2. / featureCount)); // (nh x n)
 			final double scalingFactor = Math.sqrt(2. / hiddenLayerSize);
 			for (int l = 1; l < layerCount - 1; ++l) {
-				W[l] = Matrix.random(hiddenLayerSize, hiddenLayerSize).subtract(0.5)
+				W[l] = Matrix.random(hiddenLayerSize, hiddenLayerSize)
+						.subtract(0.5)
 						.multiply(scalingFactor); // (nh x nh)
 			}
-			W[layerCount - 1] = Matrix.random(1, hiddenLayerSize).subtract(0.5)
+			W[layerCount - 1] = Matrix.random(1, hiddenLayerSize)
+					.subtract(0.5)
 					.multiply(scalingFactor); // (1 x nh)
 		}
 		// - The bias vectors
