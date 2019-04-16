@@ -2754,8 +2754,8 @@ public class Strings {
 	public static String toString(final Exception exception, final int stackTraceElementCount) {
 		if (exception != null) {
 			if (stackTraceElementCount > 0) {
-				final List<StackTraceElement> stackTraces = Arrays.take(exception.getStackTrace(),
-						0, stackTraceElementCount);
+				final List<StackTraceElement> stackTraces = Arrays.<StackTraceElement>take(
+						exception.getStackTrace(), 0, stackTraceElementCount);
 				return exception.getMessage() + ":\n" + joinWith(stackTraces, "\n");
 			}
 			return exception.getMessage();

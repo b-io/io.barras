@@ -26,7 +26,6 @@ package jupiter.graphics.charts;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.text.DateFormat;
-import java.util.Arrays;
 import java.util.List;
 
 import org.jfree.chart.ChartFactory;
@@ -43,6 +42,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Floats;
 
 public class Charts {
@@ -66,7 +66,7 @@ public class Charts {
 	 */
 	public static ExtendedList<Color> getColors() {
 		return new ExtendedList<Color>(
-				Arrays.<Color>asList(Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE));
+				Arrays.<Color>toList(Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE));
 	}
 
 

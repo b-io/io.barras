@@ -25,11 +25,65 @@ package jupiter.integration.r;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 import jupiter.gui.console.GraphicalConsole;
 
 public class RConsole {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile String[] PACKAGES = new String[] {
+		"BHH2",
+		"bsts",
+		"d3heatmap",
+		"dbplyr",
+		"dendextend",
+		"DescTools",
+		"dplyr",
+		"DT",
+		"foreach",
+		"forecast",
+		"ggplot2",
+		"gridExtra",
+		"highcharter",
+		"imputeTS",
+		"Jmisc",
+		"lars",
+		"lubridate",
+		"magrittr",
+		"mgcv",
+		"openintro",
+		"parallel",
+		"plotly",
+		"pls",
+		"plyr",
+		"purr",
+		"quantmod",
+		"random",
+		"Rblpapi",
+		"RColorBrewer",
+		"reshape2",
+		"rJava",
+		"RODBC",
+		"rstudioapi",
+		"shiny",
+		"shinyalert",
+		"shinycssloaders",
+		"shinydashboard",
+		"shinyHeatmaply",
+		"shinyjs",
+		"stringi",
+		"stringr",
+		"tbl2xts",
+		"tidyquant",
+		"tidyr",
+		"TSA",
+		"xts",
+		"zoo"
+	};
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// MAIN
@@ -40,9 +94,7 @@ public class RConsole {
 		final GraphicalConsole console = new GraphicalConsole();
 		R.start();
 		try {
-			R.installPackages(
-					Arrays.toArray("bsts", "dplyr", "forecast", "Jmisc", "highcharter", "imputeTS",
-							"lars", "lubridate", "mgcv", "quantmod", "Rblpapi", "RODBC", "shiny"));
+			R.installPackages(PACKAGES);
 			interactions();
 		} catch (final Exception ignored) {
 			status = IO.EXIT_FAILURE;

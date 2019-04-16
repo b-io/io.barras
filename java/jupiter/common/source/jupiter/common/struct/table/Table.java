@@ -261,7 +261,7 @@ public class Table<T>
 		if (header == null) {
 			throw new IllegalOperationException("There is no header");
 		}
-		final int index = Arrays.indexOf(header, name);
+		final int index = Arrays.<String>indexOf(header, name);
 		if (index < 0) {
 			throw new IllegalArgumentException("There is no column " + Strings.quote(name));
 		}

@@ -159,7 +159,8 @@ public class JOCL
 			commandQueue = clCreateCommandQueue(context, device, 0, null);
 
 			// Create the program from the source code
-			program = clCreateProgramWithSource(context, 1, Arrays.toArray(sourceCode), null, null);
+			program = clCreateProgramWithSource(context, 1, Arrays.<String>toArray(sourceCode),
+					null, null);
 
 			// Build the program
 			clBuildProgram(program, 0, null, null, null, null);

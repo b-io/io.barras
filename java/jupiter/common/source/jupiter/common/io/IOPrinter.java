@@ -23,10 +23,10 @@
  */
 package jupiter.common.io;
 
-import java.util.Arrays;
 import java.util.List;
 
 import jupiter.common.thread.Worker;
+import jupiter.common.util.Arrays;
 
 public class IOPrinter
 		extends IOHandler {
@@ -47,7 +47,7 @@ public class IOPrinter
 
 	public IOPrinter(final IOHandler... handlers) {
 		super();
-		this.handlers = Arrays.asList(handlers);
+		this.handlers = Arrays.<IOHandler>toList(handlers);
 	}
 
 	public IOPrinter(final List<IOHandler> handlers) {

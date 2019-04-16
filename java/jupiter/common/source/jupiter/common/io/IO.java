@@ -30,12 +30,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.util.LinkedList;
 import java.util.List;
 
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.log.LogHandler;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
 public class IO {
@@ -59,10 +59,6 @@ public class IO {
 	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.TRACE;
 
 	/**
-	 * The default IO handlers.
-	 */
-	public static final List<IOHandler> DEFAULT_HANDLERS = new LinkedList<IOHandler>();
-	/**
 	 * The default console handler.
 	 */
 	public static final ConsoleHandler DEFAULT_CONSOLE_HANDLER = new ConsoleHandler();
@@ -70,11 +66,6 @@ public class IO {
 	 * The default log handler.
 	 */
 	public static final LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
-
-	static {
-		DEFAULT_HANDLERS.add(DEFAULT_CONSOLE_HANDLER);
-		//DEFAULT_HANDLERS.add(DEFAULT_LOG_HANDLER);
-	}
 
 	/**
 	 * The default IO.
@@ -103,15 +94,15 @@ public class IO {
 	/**
 	 * The IO handlers.
 	 */
-	protected final List<IOHandler> handlers = new LinkedList<IOHandler>();
+	protected List<IOHandler> handlers;
 	/**
 	 * The console handler.
 	 */
-	protected final ConsoleHandler consoleHandler;
+	protected ConsoleHandler consoleHandler;
 	/**
 	 * The log handler.
 	 */
-	protected final LogHandler logHandler;
+	protected LogHandler logHandler;
 	/**
 	 * The printer.
 	 */
@@ -131,24 +122,42 @@ public class IO {
 	}
 
 	public IO(final int stackIndex, final SeverityLevel severityLevel) {
-		this(stackIndex, severityLevel, DEFAULT_CONSOLE_HANDLER);
+		this(stackIndex, severityLevel, Arrays.<IOHandler>toList(DEFAULT_CONSOLE_HANDLER));
 	}
 
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler) {
-		this(stackIndex, severityLevel, consoleHandler, DEFAULT_LOG_HANDLER);
+		this(stackIndex, severityLevel,
+				Arrays.<IOHandler>toList(consoleHandler, DEFAULT_LOG_HANDLER));
+	}
+
+	public IO(final int stackIndex, final SeverityLevel severityLevel,
+			final LogHandler logHandler) {
+		this(stackIndex, severityLevel,
+				Arrays.<IOHandler>toList(DEFAULT_CONSOLE_HANDLER, logHandler));
 	}
 
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
+		this(stackIndex, severityLevel, Arrays.<IOHandler>toList(consoleHandler, logHandler));
+	}
+
+	public IO(final int stackIndex, final SeverityLevel severityLevel,
+			final List<IOHandler> handlers) {
 		// Set the stack index and the severity level
 		this.stackIndex = stackIndex;
 		this.severityLevel = severityLevel;
 		// Set the IO handlers
-		this.consoleHandler = consoleHandler;
-		handlers.add(consoleHandler);
-		this.logHandler = logHandler;
-		handlers.add(logHandler);
+		this.handlers = handlers;
+		consoleHandler = DEFAULT_CONSOLE_HANDLER;
+		logHandler = DEFAULT_LOG_HANDLER;
+		for (final IOHandler handler : handlers) {
+			if (ConsoleHandler.class.isAssignableFrom(handler.getClass())) {
+				consoleHandler = (ConsoleHandler) handler;
+			} else if (LogHandler.class.isAssignableFrom(handler.getClass())) {
+				logHandler = (LogHandler) handler;
+			}
+		}
 		// Set the printer
 		printer = new IOPrinter(handlers);
 	}

@@ -57,14 +57,14 @@ public class ExpressionHandler {
 	/**
 	 * The {@link List} of binary operators.
 	 */
-	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.toList(
-			Arrays.toList('+', '-'), Arrays.toList('*', '/'), Arrays.<Character>toList('^'),
-			Arrays.toList('~'));
+	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.<List<Character>>toList(
+			Arrays.<Character>toList('+', '-'), Arrays.<Character>toList('*', '/'),
+			Arrays.<Character>toList('^'), Arrays.<Character>toList('~'));
 	/**
 	 * The {@link List} of unary operators.
 	 */
-	protected static final List<List<Character>> UNARY_OPERATORS = Arrays
-			.toList(Arrays.toList('!', '\''), Arrays.toList('@'));
+	protected static final List<List<Character>> UNARY_OPERATORS = Arrays.<List<Character>>toList(
+			Arrays.<Character>toList('!', '\''), Arrays.<Character>toList('@'));
 
 	/**
 	 * The flag specifying whether to parallelize using a work queue.
