@@ -37,6 +37,7 @@ import jupiter.common.map.remover.StringRemover;
 import jupiter.common.map.wrapper.StringWrapper;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Index;
+import jupiter.common.struct.list.SortedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.IntegerArguments;
@@ -1952,7 +1953,7 @@ public class Strings {
 		Arguments.requireNonNull(tokens);
 
 		// Initialize
-		final List<Index<String>> indexes = new LinkedList<Index<String>>();
+		final List<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < string.length()) {
@@ -1986,7 +1987,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
 
 		// Initialize
-		final List<Index<String>> indexes = new LinkedList<Index<String>>();
+		final List<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
 		for (final String token : tokens) {
@@ -2031,7 +2032,7 @@ public class Strings {
 		Arguments.requireNonNull(tokens);
 
 		// Initialize
-		final List<Index<String>> indexes = new LinkedList<Index<String>>();
+		final List<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < string.length()) {
@@ -2065,7 +2066,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, string.length());
 
 		// Initialize
-		final List<Index<String>> indexes = new LinkedList<Index<String>>();
+		final List<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
 		for (final String token : tokens) {

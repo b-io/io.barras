@@ -725,8 +725,7 @@ public class JConsole
 		if (content instanceof String) {
 			final int offset = getTextLength();
 			final String styledText = (String) content;
-			final List<Index<String>> indexes = Strings.getStringIndexes(styledText,
-					COLORS);
+			final List<Index<String>> indexes = Strings.getStringIndexes(styledText, COLORS);
 			final ConsoleHandler.Color textColor = ConsoleHandler.Color.parse(styledText);
 			try {
 				textPane.getStyledDocument()
