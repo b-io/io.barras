@@ -98,7 +98,7 @@ public class SortedList<T extends Comparable<T>>
 	public synchronized boolean add(final T element) {
 		int i = 0;
 		for (final T e : this) {
-			if (e.compareTo(element) < 0) {
+			if (e.compareTo(element) > 0) {
 				add(i, element);
 				return true;
 			}
