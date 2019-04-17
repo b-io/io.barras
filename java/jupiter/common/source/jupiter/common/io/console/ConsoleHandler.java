@@ -223,7 +223,7 @@ public class ConsoleHandler
 		/**
 		 * The color saturation.
 		 */
-		public static volatile int SATURATION = 100;
+		public static volatile float SATURATION = 1f;
 		/**
 		 * The color intensity.
 		 * <p>
@@ -233,37 +233,37 @@ public class ConsoleHandler
 		 */
 		public static volatile int INTENSITY = 0;
 
-		public int getHue() {
+		public float getHue() {
 			switch (this) {
 				case RESET:
 				case BLACK:
-					return 0;
+					return 0f;
 				case WHITE:
-					return 100;
+					return 1f;
 				case BLUE:
-					return 240;
+					return 4f/6f;
 				case CYAN:
-					return 180;
+					return 3f/6f;
 				case GREEN:
-					return 120;
+					return 2f/6f;
 				case MAGENTA:
-					return 300;
+					return 5f/6f;
 				case RED:
-					return 0;
+					return 0f;
 				case YELLOW:
-					return 60;
+					return 1f/6f;
 				default:
 					throw new IllegalTypeException(this);
 			}
 		}
 
-		public int getSaturation() {
+		public float getSaturation() {
 			switch (this) {
 				case RESET:
 				case BLACK:
-					return 0;
+					return 0f;
 				case WHITE:
-					return 100;
+					return 1f;
 				case BLUE:
 				case CYAN:
 				case GREEN:
@@ -276,21 +276,21 @@ public class ConsoleHandler
 			}
 		}
 
-		public int getBrightness() {
+		public float getBrightness() {
 			switch (this) {
 				case RESET:
 				case BLACK:
-					return 0;
+					return 0f;
 				case WHITE:
-					return 100;
+					return 1f;
 				default:
 					switch (INTENSITY) {
 						case 0:
-							return 67;
+							return 2f/3f;
 						case 1:
-							return 100;
+							return 1f;
 						case 2:
-							return 33;
+							return 1f/3f;
 						default:
 							throw new IllegalTypeException(INTENSITY);
 					}
