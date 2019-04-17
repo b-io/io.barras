@@ -97,6 +97,6 @@ public class UnaryOperation
 
 	@Override
 	public String toString() {
-		return Strings.toString(type) + " " + Strings.toString(element);
+		return Strings.toString(type) + " " + element;
 	}
 }

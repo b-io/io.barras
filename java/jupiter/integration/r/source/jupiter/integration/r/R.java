@@ -44,7 +44,7 @@ public class R {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile String PATH = System.getenv("R") + "/R.exe";
+	public static volatile String PATH = "Rscript";
 	public static volatile String ARGS = "--no-save";
 	public static volatile String REPO = "https://cloud.r-project.org";
 
@@ -215,12 +215,12 @@ public class R {
 
 		@Override
 		public void print(final Object content, final boolean isError) {
-			printer.print(PREFIX + Strings.toString(content), isError);
+			printer.print(PREFIX + content, isError);
 		}
 
 		@Override
 		public void println(final Object content, final boolean isError) {
-			printer.println(PREFIX + Strings.toString(content), isError);
+			printer.println(PREFIX + content, isError);
 		}
 
 		@Override

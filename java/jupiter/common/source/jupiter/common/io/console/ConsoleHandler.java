@@ -159,7 +159,17 @@ public class ConsoleHandler
 
 		// Print the content
 		if (isError) {
-			console.getErr().println(content);
+			if (USE_COLORS) {
+				final String text = Strings.toString(content);
+				final Color color = Color.parse(text);
+				if (color == null) {
+					console.getErr().println(Color.RED.getStyledText(text));
+				} else {
+					console.getErr().println(text);
+				}
+			} else {
+				console.getErr().println(content);
+			}
 		} else {
 			console.getOut().println(content);
 		}
@@ -174,8 +184,8 @@ public class ConsoleHandler
 	@Override
 	public void println(final Message message) {
 		if (USE_COLORS) {
-			final String color = Strings.toString(getColor(message.getLevel()));
-			println(color + message + Color.RESET, message.getLevel().isError());
+			println(getColor(message.getLevel()).getStyledText(Strings.toString(message)),
+					message.getLevel().isError());
 		} else {
 			println(message, message.getLevel().isError());
 		}
@@ -307,6 +317,10 @@ public class ConsoleHandler
 
 		public String getText(final String text) {
 			return text.replace(toString(), Strings.EMPTY).replace(RESET.toString(), Strings.EMPTY);
+		}
+
+		public String getStyledText(final String text) {
+			return toString() + text + RESET.toString();
 		}
 
 		public static Color parse(final String string) {

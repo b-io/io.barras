@@ -56,7 +56,7 @@ public class IO {
 	/**
 	 * The default severity level.
 	 */
-	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.TRACE;
+	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
 
 	/**
 	 * The default console handler.
@@ -642,7 +642,7 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String appendException(final Exception ex) {
-		return ": " + Strings.toString(ex);
+		return ": " + ex;
 	}
 
 

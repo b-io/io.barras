@@ -117,7 +117,6 @@ public class BinaryOperation
 
 	@Override
 	public String toString() {
-		return Strings.toString(left) + " " + Strings.toString(type) + " " +
-				Strings.toString(right);
+		return Strings.toString(left) + " " + type + " " + right;
 	}
 }
