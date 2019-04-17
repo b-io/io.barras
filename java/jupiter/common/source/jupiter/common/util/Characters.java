@@ -46,6 +46,8 @@ public class Characters {
 
 	public static volatile Random RANDOM = new Random();
 
+	public static final char ESCAPE = '\u001B';
+
 	public static final char SINGLE_QUOTE = '\'';
 	public static final char DOUBLE_QUOTE = '"';
 	public static final char LEFT_QUOTE = '`';

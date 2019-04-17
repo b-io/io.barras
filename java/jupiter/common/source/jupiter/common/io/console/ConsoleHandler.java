@@ -30,6 +30,7 @@ import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
 import jupiter.common.test.Arguments;
 import jupiter.common.thread.Worker;
+import jupiter.common.util.Characters;
 import jupiter.common.util.Strings;
 
 public class ConsoleHandler
@@ -220,7 +221,7 @@ public class ConsoleHandler
 		/**
 		 * The color prefix.
 		 */
-		public static volatile String PREFIX = "\u001B[";
+		public static final String PREFIX = Characters.ESCAPE + "[";
 		/**
 		 * The color saturation.
 		 */

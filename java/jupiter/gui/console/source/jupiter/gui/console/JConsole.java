@@ -74,6 +74,7 @@ import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.Index;
+import jupiter.common.util.Characters;
 import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
@@ -142,6 +143,7 @@ public class JConsole
 	protected volatile JTextPane textPane;
 	protected volatile boolean isKeyUp = true;
 
+	protected volatile String text = Strings.EMPTY;
 	protected volatile ConsoleHandler.Color textColor = ConsoleHandler.Color.RESET;
 
 
@@ -728,14 +730,17 @@ public class JConsole
 	public synchronized void append(final Object content) {
 		if (content instanceof String) {
 			final StyledDocument document = textPane.getStyledDocument();
-			final String styledText = (String) content;
+			final String styledText = text + content;
 			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
 			final List<String> texts = Strings.splitString(styledText, COLORS);
 
 			for (int i = 0; i < texts.size(); ++i) {
-				insertString(document, getTextLength(), texts.get(i), textColor);
-				if (i < delimiters.size()) {
-					textColor = ConsoleHandler.Color.parse(delimiters.get(i).getSecond());
+				text = texts.get(i);
+				if (i != texts.size() - 1 || text.indexOf(Characters.ESCAPE) < 0) {
+					insertString(document, getTextLength(), text, textColor);
+					if (i < delimiters.size()) {
+						textColor = ConsoleHandler.Color.parse(delimiters.get(i).getSecond());
+					}
 				}
 			}
 		} else if (content instanceof Icon) {
