@@ -68,6 +68,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
@@ -112,7 +113,10 @@ public class JConsole
 		for (final SeverityLevel severityLevel : SeverityLevel.class.getEnumConstants()) {
 			final ConsoleHandler.Color color = ConsoleHandler.getColor(severityLevel);
 			final Style style = STYLE_CONTEXT.addStyle(color.toString(), DEFAULT_STYLE);
-			StyleConstants.setForeground(style, color.toAWT());
+			final Color c = color.toAWT();
+			if (c != null) {
+				StyleConstants.setForeground(style, c);
+			}
 			STYLES.put(color, style);
 		}
 	}
@@ -138,7 +142,7 @@ public class JConsole
 	protected volatile JTextPane textPane;
 	protected volatile boolean isKeyUp = true;
 
-	protected volatile ConsoleHandler.Color textColor;
+	protected volatile ConsoleHandler.Color textColor = ConsoleHandler.Color.RESET;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -723,16 +727,16 @@ public class JConsole
 
 	public synchronized void append(final Object content) {
 		if (content instanceof String) {
-			final int offset = getTextLength();
+			final StyledDocument document = textPane.getStyledDocument();
 			final String styledText = (String) content;
-			final List<Index<String>> indexes = Strings.getStringIndexes(styledText, COLORS);
-			final ConsoleHandler.Color textColor = ConsoleHandler.Color.parse(styledText);
-			try {
-				textPane.getStyledDocument()
-						.insertString(offset,
-								textColor != null ? textColor.getText(styledText) : styledText,
-								textColor != null ? STYLES.get(textColor) : DEFAULT_STYLE);
-			} catch (final BadLocationException ignored) {
+			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
+			final List<String> texts = Strings.splitString(styledText, COLORS);
+
+			for (int i = 0; i < texts.size(); ++i) {
+				insertString(document, getTextLength(), texts.get(i), textColor);
+				if (i < delimiters.size()) {
+					textColor = ConsoleHandler.Color.parse(delimiters.get(i).getSecond());
+				}
 			}
 		} else if (content instanceof Icon) {
 			textPane.insertIcon((Icon) content);
@@ -740,6 +744,18 @@ public class JConsole
 		commandStart = getTextLength();
 		textPane.setCaretPosition(commandStart);
 		textPane.repaint();
+	}
+
+	protected void insertString(final StyledDocument document, final int offset,
+			final String text, final ConsoleHandler.Color textColor) {
+		if (text.length() > 0) {
+			try {
+				document.insertString(offset,
+						textColor != null ? textColor.getText(text) : text,
+						textColor != null ? STYLES.get(textColor) : DEFAULT_STYLE);
+			} catch (final BadLocationException ignored) {
+			}
+		}
 	}
 
 

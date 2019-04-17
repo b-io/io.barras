@@ -23,6 +23,7 @@
  */
 package jupiter.common.io.console;
 
+import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
@@ -88,8 +89,9 @@ public class ConsoleHandler
 				return Color.YELLOW;
 			case ERROR:
 			case FAILURE:
-			default:
 				return Color.RED;
+			default:
+				return Color.BLACK;
 		}
 	}
 
@@ -203,13 +205,15 @@ public class ConsoleHandler
 
 	public enum Color {
 		RESET,
+
 		BLACK,
+		WHITE,
+
 		BLUE,
 		CYAN,
 		GREEN,
 		MAGENTA,
 		RED,
-		WHITE,
 		YELLOW;
 
 		/**
@@ -217,11 +221,81 @@ public class ConsoleHandler
 		 */
 		public static volatile String PREFIX = "\u001B[";
 		/**
+		 * The color saturation.
+		 */
+		public static volatile int SATURATION = 100;
+		/**
 		 * The color intensity.
 		 * <p>
-		 * 0: standard 1: light 2: dark
+		 * - 0: standard
+		 * - 1: light
+		 * - 2: dark
 		 */
 		public static volatile int INTENSITY = 0;
+
+		public int getHue() {
+			switch (this) {
+				case RESET:
+				case BLACK:
+					return 0;
+				case WHITE:
+					return 100;
+				case BLUE:
+					return 240;
+				case CYAN:
+					return 180;
+				case GREEN:
+					return 120;
+				case MAGENTA:
+					return 300;
+				case RED:
+					return 0;
+				case YELLOW:
+					return 60;
+				default:
+					throw new IllegalTypeException(this);
+			}
+		}
+
+		public int getSaturation() {
+			switch (this) {
+				case RESET:
+				case BLACK:
+					return 0;
+				case WHITE:
+					return 100;
+				case BLUE:
+				case CYAN:
+				case GREEN:
+				case MAGENTA:
+				case RED:
+				case YELLOW:
+					return SATURATION;
+				default:
+					throw new IllegalTypeException(this);
+			}
+		}
+
+		public int getBrightness() {
+			switch (this) {
+				case RESET:
+				case BLACK:
+					return 0;
+				case WHITE:
+					return 100;
+				default:
+					switch (INTENSITY) {
+						case 0:
+							return 67;
+						case 1:
+							return 100;
+						case 2:
+							return 33;
+						default:
+							throw new IllegalTypeException(INTENSITY);
+					}
+			}
+		}
 
 		public String getText(final String text) {
 			return text.replace(toString(), Strings.EMPTY).replace(RESET.toString(), Strings.EMPTY);
@@ -232,6 +306,8 @@ public class ConsoleHandler
 				return RESET;
 			} else if (string.startsWith(BLACK.toString())) {
 				return BLACK;
+			} else if (string.startsWith(WHITE.toString())) {
+				return WHITE;
 			} else if (string.startsWith(BLUE.toString())) {
 				return BLUE;
 			} else if (string.startsWith(CYAN.toString())) {
@@ -242,36 +318,26 @@ public class ConsoleHandler
 				return MAGENTA;
 			} else if (string.startsWith(RED.toString())) {
 				return RED;
-			} else if (string.startsWith(WHITE.toString())) {
-				return WHITE;
 			} else if (string.startsWith(YELLOW.toString())) {
 				return YELLOW;
-			} else {
-				return null;
 			}
+			return null;
 		}
 
 		public java.awt.Color toAWT() {
 			switch (this) {
+				case RESET:
 				case BLACK:
-					return java.awt.Color.BLACK;
-				case BLUE:
-					return java.awt.Color.BLUE;
-				case CYAN:
-					return java.awt.Color.CYAN;
-				case GREEN:
-					return java.awt.Color.GREEN;
-				case MAGENTA:
-					return java.awt.Color.MAGENTA;
-				case RED:
-					return java.awt.Color.RED;
 				case WHITE:
-					return java.awt.Color.WHITE;
+				case BLUE:
+				case CYAN:
+				case GREEN:
+				case MAGENTA:
+				case RED:
 				case YELLOW:
-					return java.awt.Color.YELLOW;
+					return java.awt.Color.getHSBColor(getHue(), getSaturation(), getBrightness());
 				default:
-					// RESET
-					return null;
+					throw new IllegalTypeException(this);
 			}
 		}
 
@@ -282,6 +348,8 @@ public class ConsoleHandler
 					return PREFIX + INTENSITY + ";0m";
 				case BLACK:
 					return PREFIX + INTENSITY + ";30m";
+				case WHITE:
+					return PREFIX + INTENSITY + ";37m";
 				case BLUE:
 					return PREFIX + INTENSITY + ";34m";
 				case CYAN:
@@ -292,12 +360,10 @@ public class ConsoleHandler
 					return PREFIX + INTENSITY + ";35m";
 				case RED:
 					return PREFIX + INTENSITY + ";31m";
-				case WHITE:
-					return PREFIX + INTENSITY + ";37m";
 				case YELLOW:
 					return PREFIX + INTENSITY + ";33m";
 				default:
-					return null;
+					throw new IllegalTypeException(this);
 			}
 		}
 	}
