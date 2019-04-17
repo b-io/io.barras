@@ -36,7 +36,6 @@ import jupiter.common.io.Message;
 import jupiter.common.io.Systems;
 import jupiter.common.thread.Threads;
 import jupiter.common.thread.Worker;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
 public class R {
@@ -137,14 +136,18 @@ public class R {
 			// Test whether the OS is Windows or Unix
 			if (Systems.isWindows()) {
 				// - Execute the script on Windows
-				Systems.execute(Strings.doubleQuote(PATH) + " -e " +
-						Strings.doubleQuote(script) + " " + args,
+				Systems.execute(
+						new String[] {
+							Strings.doubleQuote(PATH), "-e", Strings.doubleQuote(script), args
+						},
 						PRINTER);
 			} else {
 				// - Execute the script on Unix
-				Systems.execute(Arrays.<String>toArray("/bin/sh", "-c",
-						"echo " + Strings.doubleQuote(script) + " | " +
-								Strings.doubleQuote(PATH) + " " + args),
+				Systems.execute(
+						new String[] {
+							"/bin/sh", "-c", "echo", Strings.doubleQuote(script), "|",
+							Strings.doubleQuote(PATH), args
+						},
 						PRINTER);
 			}
 			IO.debug("<< Done");

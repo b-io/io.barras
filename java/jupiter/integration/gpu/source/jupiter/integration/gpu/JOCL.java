@@ -71,7 +71,6 @@ import org.jocl.cl_program;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
 public class JOCL
@@ -159,8 +158,7 @@ public class JOCL
 			commandQueue = clCreateCommandQueue(context, device, 0, null);
 
 			// Create the program from the source code
-			program = clCreateProgramWithSource(context, 1, Arrays.<String>toArray(sourceCode),
-					null, null);
+			program = clCreateProgramWithSource(context, 1, new String[] {sourceCode}, null, null);
 
 			// Build the program
 			clBuildProgram(program, 0, null, null, null, null);
