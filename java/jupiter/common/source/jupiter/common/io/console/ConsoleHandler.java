@@ -23,6 +23,7 @@
  */
 package jupiter.common.io.console;
 
+import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
@@ -236,6 +237,8 @@ public class ConsoleHandler
 		public float getHue() {
 			switch (this) {
 				case RESET:
+					throw new IllegalOperationException(
+							"Cannot get the hue of " + Strings.quote("RESET"));
 				case BLACK:
 					return 0f;
 				case WHITE:
@@ -260,6 +263,8 @@ public class ConsoleHandler
 		public float getSaturation() {
 			switch (this) {
 				case RESET:
+					throw new IllegalOperationException(
+							"Cannot get the saturation of " + Strings.quote("RESET"));
 				case BLACK:
 					return 0f;
 				case WHITE:
@@ -279,6 +284,8 @@ public class ConsoleHandler
 		public float getBrightness() {
 			switch (this) {
 				case RESET:
+					throw new IllegalOperationException(
+							"Cannot get the brightness of " + Strings.quote("RESET"));
 				case BLACK:
 					return 0f;
 				case WHITE:
@@ -327,6 +334,7 @@ public class ConsoleHandler
 		public java.awt.Color toAWT() {
 			switch (this) {
 				case RESET:
+					return null;
 				case BLACK:
 				case WHITE:
 				case BLUE:
