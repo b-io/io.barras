@@ -241,17 +241,17 @@ public class ConsoleHandler
 				case WHITE:
 					return 1f;
 				case BLUE:
-					return 4f/6f;
+					return 4f / 6f;
 				case CYAN:
-					return 3f/6f;
+					return 3f / 6f;
 				case GREEN:
-					return 2f/6f;
+					return 2f / 6f;
 				case MAGENTA:
-					return 5f/6f;
+					return 5f / 6f;
 				case RED:
 					return 0f;
 				case YELLOW:
-					return 1f/6f;
+					return 1f / 6f;
 				default:
 					throw new IllegalTypeException(this);
 			}
@@ -286,11 +286,11 @@ public class ConsoleHandler
 				default:
 					switch (INTENSITY) {
 						case 0:
-							return 2f/3f;
+							return 2f / 3f;
 						case 1:
 							return 1f;
 						case 2:
-							return 1f/3f;
+							return 1f / 3f;
 						default:
 							throw new IllegalTypeException(INTENSITY);
 					}
