@@ -59,7 +59,6 @@ public class RConsole {
 		"plotly",
 		"pls",
 		"plyr",
-		"purr",
 		"quantmod",
 		"random",
 		"Rblpapi",
