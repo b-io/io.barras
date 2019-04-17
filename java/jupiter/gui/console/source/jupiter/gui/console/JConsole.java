@@ -734,13 +734,19 @@ public class JConsole
 			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
 			final List<String> texts = Strings.splitString(styledText, COLORS);
 
+			text = Strings.EMPTY;
 			for (int i = 0; i < texts.size(); ++i) {
-				text = texts.get(i);
-				if (i != texts.size() - 1 || text.indexOf(Characters.ESCAPE) < 0) {
-					insertString(document, getTextLength(), text, textColor);
-					if (i < delimiters.size()) {
-						textColor = ConsoleHandler.Color.parse(delimiters.get(i).getSecond());
-					}
+				String t = texts.get(i);
+				// Store the text if required (if the text contains a part of the next delimiter)
+				if (i == texts.size() - 1 && t.indexOf(Characters.ESCAPE) >= 0) {
+					text = t;
+					t = Strings.EMPTY;
+				}
+				// Insert the text
+				insertString(document, getTextLength(), t, textColor);
+				// Update the color
+				if (i < delimiters.size()) {
+					textColor = ConsoleHandler.Color.parse(delimiters.get(i).getSecond());
 				}
 			}
 		} else if (content instanceof Icon) {
