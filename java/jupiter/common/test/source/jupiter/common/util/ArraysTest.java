@@ -61,6 +61,8 @@ public class ArraysTest
 	public void testMerge() {
 		IO.test("testMerge");
 
+		assertEquals(Objects.hashCode(Arrays.<String>merge(ARRAY, ARRAY)),
+				Objects.hashCode(FLAT_ARRAY_2D));
 		assertEquals(Objects.hashCode(Arrays.<String>merge(ARRAY_2D)),
 				Objects.hashCode(FLAT_ARRAY_2D));
 	}
