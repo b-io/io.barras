@@ -30,18 +30,20 @@ import jupiter.common.test.Test;
 public class ArraysTest
 		extends Test {
 
+	// - 1D
 	protected static final String[] ARRAY = new String[] {
 		"a", "b", "c", "d", "e", "f"
 	};
+	// - 2D
 	protected static final String[][] ARRAY_2D = new String[][] {
 		ARRAY, ARRAY
 	};
+	protected static final String[] FLAT_ARRAY_2D = Arrays.<String>merge(
+			ARRAY, ARRAY);
+	// - 3D
 	protected static final String[][][] ARRAY_3D = new String[][][] {
 		ARRAY_2D, ARRAY_2D
 	};
-
-	protected static final String[] FLAT_ARRAY_2D = Arrays.<String>merge(
-			ARRAY, ARRAY);
 	protected static final String[] FLAT_ARRAY_3D = Arrays.<String>merge(
 			FLAT_ARRAY_2D, FLAT_ARRAY_2D);
 
@@ -52,6 +54,16 @@ public class ArraysTest
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Test of merge method, of class Arrays.
+	 */
+	public void testMerge() {
+		IO.test("testMerge");
+
+		assertEquals(Objects.hashCode(Arrays.<String>merge(ARRAY_2D)),
+				Objects.hashCode(FLAT_ARRAY_2D));
+	}
 
 	/**
 	 * Test of take method, of class Arrays.

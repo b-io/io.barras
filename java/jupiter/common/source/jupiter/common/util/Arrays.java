@@ -103,7 +103,7 @@ public class Arrays {
 	 * {@code null}.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array an array of type {@code T} (may be {@code null})
 	 * <p>
 	 * @return a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
 	 *         {@code null}
@@ -166,6 +166,16 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> int count(final T[]... arrays) {
+		int result = 0;
+		for (int i = 0; i < arrays.length; ++i) {
+			result += arrays[i].length;
+		}
+		return result;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> void fill(final T[] array, final T value) {
@@ -235,6 +245,7 @@ public class Arrays {
 	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
 	 *                                  superclass or superinterface of, the type of {@code b}
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T[] merge(final T a, final T... b) {
 		return merge(toArray(a), b);
 	}
@@ -260,15 +271,51 @@ public class Arrays {
 		} else if (b == null) {
 			return clone(a);
 		}
-		final Class<?> aType = a.getClass().getComponentType();
-		final T[] result = (T[]) create(aType, a.length + b.length);
+		final Class<?> type = a.getClass().getComponentType();
+		final T[] result = (T[]) create(type, a.length + b.length);
 		System.arraycopy(a, 0, result, 0, a.length);
 		try {
 			System.arraycopy(b, 0, result, a.length, b.length);
 		} catch (final ArrayStoreException ex) {
-			final Class<?> bType = b.getClass().getComponentType();
-			ArrayArguments.requireAssignableFrom(aType, bType);
+			ArrayArguments.requireAssignableFrom(type, b.getClass().getComponentType());
 			throw ex;
+		}
+		return result;
+	}
+
+	/**
+	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
+	 * type {@code T}.
+	 * <p>
+	 * @param <T>    the component type of the arrays
+	 * @param arrays a 2D array of type {@code T} (may be {@code null})
+	 * <p>
+	 * @return an array of type {@code T} containing all the elements of the specified arrays of
+	 *         type {@code T}
+	 * <p>
+	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
+	 *                                  superclass or superinterface of, the type of {@code b}
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T[] merge(final T[]... arrays) {
+		if (arrays == null) {
+			return null;
+		} else if (arrays.length == 1) {
+			return clone(arrays[0]);
+		}
+		final Class<?> type = arrays.getClass().getComponentType().getComponentType();
+		final T[] result = (T[]) create(type, count(arrays));
+		int offset = 0;
+		for (int i = 0; i < arrays.length; ++i) {
+			final T[] array = arrays[i];
+			try {
+				System.arraycopy(array, 0, result, offset, array.length);
+			} catch (final ArrayStoreException ex) {
+				ArrayArguments.requireAssignableFrom(type, array.getClass().getComponentType()
+						.getComponentType());
+				throw ex;
+			}
+			offset += array.length;
 		}
 		return result;
 	}
@@ -283,6 +330,7 @@ public class Arrays {
 		return take(array, from, array.length);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T[] take(final T[] array, final int from, final int length) {
 		final int maxLength = Math.min(length, array.length - from);
 		final T[] result = (T[]) create(array.getClass().getComponentType(), maxLength);
@@ -309,6 +357,7 @@ public class Arrays {
 		return take(array2D, fromRow, rowCount, fromColumn, array2D[0].length);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T[] take(final T[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
@@ -352,6 +401,7 @@ public class Arrays {
 				array3D[0][0].length);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount, final int fromDepth,
 			final int depthCount) {

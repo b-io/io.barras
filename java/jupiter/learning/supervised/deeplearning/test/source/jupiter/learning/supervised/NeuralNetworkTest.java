@@ -60,7 +60,6 @@ public class NeuralNetworkTest
 		final NeuralNetwork model = new NeuralNetwork(2);
 		final int layerCount = 2;
 		// - X
-		Doubles.toPrimitiveArray2D(array2D)
 		model.setFeatureVectors(new Matrix(new double[][] {
 			new double[] {
 				1.62434536, -0.61175641, -0.52817175
@@ -162,7 +161,7 @@ public class NeuralNetworkTest
 				IO.test("W", l + 1, " loaded");
 			}
 			model.setWeights(weights);
-		} catch (final Exception ignored) {
+		} catch (final IOException ignored) {
 			IO.warn("No weights");
 		}
 		final Chronometer chrono = new Chronometer();

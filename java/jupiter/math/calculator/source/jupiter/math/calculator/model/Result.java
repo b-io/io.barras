@@ -23,6 +23,8 @@
  */
 package jupiter.math.calculator.model;
 
+import static jupiter.common.util.Strings.SPACE;
+
 import jupiter.common.io.Message;
 import jupiter.common.util.Strings;
 import jupiter.math.linear.entity.Entity;

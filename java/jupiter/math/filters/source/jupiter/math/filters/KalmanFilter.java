@@ -25,7 +25,8 @@ package jupiter.math.filters;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.util.Strings;
+import static jupiter.common.util.Strings.SPACE;
+
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;

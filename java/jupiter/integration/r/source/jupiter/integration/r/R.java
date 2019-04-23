@@ -69,7 +69,7 @@ public class R {
 	public static boolean installPackage(final String name) {
 		return execute("if (!" + Strings.singleQuote(name) + " %in% installed.packages())" +
 				"install.packages(" + Strings.singleQuote(name) +
-					", repos=" + Strings.singleQuote(REPO) +
+				", repos=" + Strings.singleQuote(REPO) +
 				")");
 	}
 
@@ -96,7 +96,7 @@ public class R {
 		// Launch Rserve
 		if (!(installPackage("Rserve") && execute("library(Rserve);" +
 				"Rserve(" + (debug ? "T" : "F") +
-					", args = " + Strings.singleQuote(Strings.joinWith(ARGS, SPACE)) +
+				", args = " + Strings.singleQuote(Strings.joinWith(ARGS, SPACE)) +
 				")"))) {
 			return false;
 		}
@@ -146,13 +146,14 @@ public class R {
 			// Test whether the OS is Windows or Unix
 			if (Systems.isWindows()) {
 				// - Execute the script on Windows
-				Systems.execute(PRINTER,
-						Strings.merge(Strings.doubleQuote(PATH), "-e", command);
+				Systems.execute(PRINTER, Arrays.<String>merge(new String[] {
+					Strings.doubleQuote(PATH), "-e"
+				}, command));
 			} else {
 				// - Execute the script on Unix
-				Systems.execute(PRINTER,
-						"/bin/sh", "-c", "echo", command[0], "|",
-						Strings.doubleQuote(PATH), Arrays.<String>take(command, 1, command.length);
+				Systems.execute(PRINTER, Arrays.<String>merge(new String[] {
+					"/bin/sh", "-c", "echo", command[0], "|", Strings.doubleQuote(PATH)
+				}, Arrays.<String>take(command, 1, command.length)));
 			}
 			return true;
 		} catch (final InterruptedException ex) {

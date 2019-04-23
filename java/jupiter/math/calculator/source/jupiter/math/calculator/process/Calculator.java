@@ -24,6 +24,8 @@
 package jupiter.math.calculator.process;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.SPACE;
 
 import java.util.List;
 import java.util.Map;

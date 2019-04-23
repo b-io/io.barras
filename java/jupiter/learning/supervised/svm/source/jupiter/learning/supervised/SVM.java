@@ -24,6 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.SPACE;
 
 import java.util.HashMap;
 
@@ -37,7 +38,6 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
-import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Functions;
 
 import libsvm.svm;
