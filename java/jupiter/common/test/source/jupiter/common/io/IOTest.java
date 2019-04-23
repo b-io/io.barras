@@ -24,13 +24,13 @@
 package jupiter.common.io;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.EMPTY;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.console.SystemConsole;
 import jupiter.common.test.Test;
-import jupiter.common.util.Strings;
 
 public class IOTest
 		extends Test {
@@ -47,7 +47,7 @@ public class IOTest
 		final String content = "This is a test message";
 		IO.print(content, false);
 		IO.print(content, true);
-		IO.print(Strings.EMPTY, 0, false);
+		IO.print(EMPTY, 0, false);
 		IO.println();
 	}
 

@@ -24,6 +24,7 @@
 package jupiter.integration.transfer.system;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -83,11 +84,11 @@ public class SystemFiles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static Collection<File> find(final String dirName, final String fileFilter) {
-		return find(new File(dirName), fileFilter, Strings.EMPTY);
+		return find(new File(dirName), fileFilter, EMPTY);
 	}
 
 	public static Collection<File> find(final File dir, final String fileFilter) {
-		return find(dir, fileFilter, Strings.EMPTY);
+		return find(dir, fileFilter, EMPTY);
 	}
 
 	public static Collection<File> find(final String dirName, final String fileFilter,
@@ -103,11 +104,11 @@ public class SystemFiles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static Collection<File> find(final String dirName, final String[] fileFilters) {
-		return find(new File(dirName), fileFilters, Strings.EMPTY);
+		return find(new File(dirName), fileFilters, EMPTY);
 	}
 
 	public static Collection<File> find(final File dir, final String[] fileFilters) {
-		return find(dir, fileFilters, Strings.EMPTY);
+		return find(dir, fileFilters, EMPTY);
 	}
 
 	public static Collection<File> find(final String dirName, final String[] fileFilters,

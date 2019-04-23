@@ -37,7 +37,9 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Functions;
+
 import libsvm.svm;
 import libsvm.svm_model;
 import libsvm.svm_node;
@@ -316,7 +318,7 @@ public class SVM {
 				final int n = featureVectors[i].length;
 				if (n < featureCount) {
 					throw new IllegalArgumentException("The feature vector size is wrong at row " +
-							i + " " + Arguments.atLeastExpectedButFound(n, featureCount));
+							i + SPACE + Arguments.atLeastExpectedButFound(n, featureCount));
 				}
 				updateClassification(i, classes[i]);
 				updateFeatureVector(i, featureVectors[i]);
@@ -404,13 +406,13 @@ public class SVM {
 	protected void updateValue(final int trainingExampleIndex, final int featureIndex,
 			final double value) {
 		if (featureIndex == 0) {
-			IO.debug(Characters.LEFT_PARENTHESIS, " ");
+			IO.debug(Characters.LEFT_PARENTHESIS, SPACE);
 		}
 		final svm_node node = new svm_node();
 		node.index = featureIndex;
 		node.value = value;
 		problem.x[trainingExampleIndex][featureIndex] = node;
-		IO.debug(node.value, " ");
+		IO.debug(node.value, SPACE);
 		if (featureIndex == featureCount - 1) {
 			IO.debug(Characters.RIGHT_PARENTHESIS);
 		}

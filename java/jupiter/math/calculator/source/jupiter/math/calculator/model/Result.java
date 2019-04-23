@@ -76,7 +76,7 @@ public class Result {
 		if (solution != null) {
 			builder.append(Strings.toString(solution));
 			if (message != null) {
-				builder.append(" ").append(Strings.parenthesize(message.getContent()));
+				builder.append(SPACE).append(Strings.parenthesize(message.getContent()));
 			}
 		} else if (message != null) {
 			builder.append(message.getContent());

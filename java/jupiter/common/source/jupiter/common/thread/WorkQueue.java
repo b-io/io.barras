@@ -261,9 +261,9 @@ public class WorkQueue<I, O> {
 	}
 
 	/**
-	 * Returns the next task if {@code this} is running, or {@code null} otherwise.
+	 * Returns the next task if {@code this} is running, {@code null} otherwise.
 	 * <p>
-	 * @return the next task if {@code this} is running, or {@code null} otherwise
+	 * @return the next task if {@code this} is running, {@code null} otherwise
 	 */
 	public Pair<Long, I> getNextTask() {
 		if (isRunning) {

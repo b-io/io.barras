@@ -130,7 +130,7 @@ public class Integers {
 	/**
 	 * Returns an array of {@code int} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code int} values from the specified array of type {@code T}
@@ -142,7 +142,7 @@ public class Integers {
 	/**
 	 * Returns an array of {@code int} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return an array of {@code int} values from the specified 2D array of type {@code T}
@@ -154,7 +154,7 @@ public class Integers {
 	/**
 	 * Returns an array of {@code int} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return an array of {@code int} values from the specified 3D array of type {@code T}
@@ -168,7 +168,7 @@ public class Integers {
 	/**
 	 * Returns a 2D array of {@code int} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code int} values from the specified 2D array of type {@code T}
@@ -180,7 +180,7 @@ public class Integers {
 	/**
 	 * Returns a 3D array of {@code int} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code int} values from the specified 3D array of type {@code T}
@@ -291,7 +291,7 @@ public class Integers {
 	/**
 	 * Returns a {@link List} of {@link Integer} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link List} of {@link Integer} from the specified array of type {@code T}
@@ -304,7 +304,7 @@ public class Integers {
 	 * Returns an {@link ExtendedList} of {@link Integer} from the specified array of type
 	 * {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Integer} from the specified array of type {@code T}
@@ -358,7 +358,7 @@ public class Integers {
 	/**
 	 * Returns a {@link Set} of {@link Integer} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified array of type {@code T}
@@ -384,6 +384,24 @@ public class Integers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code int} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code int} values
+	 * <p>
+	 * @return a clone of the specified array of {@code int} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static int[] clone(final int... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -523,6 +541,44 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns an array of {@code int} values containing the specified {@code int} value and all the
+	 * elements of the specified array of {@code int} values.
+	 * <p>
+	 * @param a a {@code int} value (may be {@code null})
+	 * @param b an array of {@code int} values (may be {@code null})
+	 * <p>
+	 * @return an array of {@code int} values containing the specified {@code int} value and all the
+	 *         elements of the specified array of {@code int} values
+	 */
+	public static int[] merge(final int a, final int... b) {
+		return merge(toPrimitiveArray(a), b);
+	}
+
+	/**
+	 * Returns an array of {@code int} values containing all the elements of the specified arrays of
+	 * {@code int} values.
+	 * <p>
+	 * @param a an array of {@code int} values (may be {@code null})
+	 * @param b an array of {@code int} values (may be {@code null})
+	 * <p>
+	 * @return an array of {@code int} values containing all the elements of the specified arrays of
+	 *         {@code int} values
+	 */
+	public static int[] merge(final int[] a, final int... b) {
+		if (a == null) {
+			return clone(b);
+		} else if (b == null) {
+			return clone(a);
+		}
+		final int[] result = new int[a.length + b.length];
+		System.arraycopy(a, 0, result, 0, a.length);
+		System.arraycopy(b, 0, result, a.length, b.length);
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the middle of the specified {@code int} value.
 	 * <p>
 	 * @param value an {@code int} value
@@ -554,7 +610,7 @@ public class Integers {
 	}
 
 	public static int[] take(final int[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length);
+		final int maxLength = Math.min(length, array.length - from);
 		final int[] result = new int[maxLength];
 		System.arraycopy(array, from, result, 0, maxLength);
 		return result;
@@ -570,7 +626,7 @@ public class Integers {
 
 	public static int[] take(final int[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
-		final int maxRowCount = Math.min(rowCount, array2D.length);
+		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final int[] result = new int[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, result, i * columnCount,
@@ -595,7 +651,7 @@ public class Integers {
 	public static int[] take(final int[][][] array3D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount, final int fromDepth,
 			final int depthCount) {
-		final int maxRowCount = Math.min(rowCount, array3D.length);
+		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int length = columnCount * depthCount;
 		final int[] result = new int[maxRowCount * length];
 		for (int i = fromRow; i < maxRowCount; ++i) {

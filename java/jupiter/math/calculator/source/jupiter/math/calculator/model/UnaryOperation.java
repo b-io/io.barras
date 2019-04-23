@@ -23,6 +23,8 @@
  */
 package jupiter.math.calculator.model;
 
+import static jupiter.common.util.Strings.SPACE;
+
 import jupiter.common.util.Strings;
 
 public class UnaryOperation
@@ -97,6 +99,6 @@ public class UnaryOperation
 
 	@Override
 	public String toString() {
-		return Strings.toString(type) + " " + element;
+		return Strings.toString(type) + SPACE + element;
 	}
 }

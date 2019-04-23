@@ -42,19 +42,20 @@ public class ObjectsTest
 	public void testHashCode() {
 		IO.test("hashCode");
 
-		assertEquals(Objects.hashCode(new Integer[] {}), Objects.hashCode(new Integer[] {}));
+		assertEquals(Objects.hashCode(Integers.EMPTY_ARRAY),
+				Objects.hashCode(Integers.EMPTY_ARRAY));
 		assertEquals(Objects.hashCode(new Integer[][] {
-			new Integer[] {}
+			Integers.EMPTY_ARRAY
 		}), Objects.hashCode(new Integer[][] {
-			new Integer[] {}
+			Integers.EMPTY_ARRAY
 		}));
 		assertEquals(Objects.hashCode(new Integer[][][] {
 			new Integer[][] {
-				new Integer[] {}
+				Integers.EMPTY_ARRAY
 			}
 		}), Objects.hashCode(new Integer[][][] {
 			new Integer[][] {
-				new Integer[] {}
+				Integers.EMPTY_ARRAY
 			}
 		}));
 

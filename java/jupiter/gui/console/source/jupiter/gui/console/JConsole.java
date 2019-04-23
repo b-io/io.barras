@@ -24,6 +24,7 @@
 package jupiter.gui.console;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -143,7 +144,7 @@ public class JConsole
 	protected volatile JTextPane textPane;
 	protected volatile boolean isKeyUp = true;
 
-	protected volatile String text = Strings.EMPTY;
+	protected volatile String text = EMPTY;
 	protected volatile ConsoleHandler.Color textColor = ConsoleHandler.Color.RESET;
 
 
@@ -188,7 +189,7 @@ public class JConsole
 				super.paste();
 			}
 		};
-		textPane.setText(Strings.EMPTY);
+		textPane.setText(EMPTY);
 		textPane.setFont(FONT);
 		textPane.setMargin(new Insets(7, 5, 7, 5));
 		textPane.addKeyListener(this);
@@ -644,7 +645,7 @@ public class JConsole
 				break;
 			case KeyEvent.VK_U: // clear the line
 				if ((event.getModifiers() & InputEvent.CTRL_MASK) > 0) {
-					replaceRange(Strings.EMPTY, commandStart, getTextLength());
+					replaceRange(EMPTY, commandStart, getTextLength());
 					historicalLineIndex = 0;
 					event.consume();
 				}
@@ -718,7 +719,7 @@ public class JConsole
 	}
 
 	protected String getCmd() {
-		String s = Strings.EMPTY;
+		String s = EMPTY;
 		try {
 			s = textPane.getText(commandStart, getTextLength() - commandStart);
 		} catch (final BadLocationException ex) {
@@ -734,13 +735,13 @@ public class JConsole
 			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
 			final List<String> texts = Strings.splitString(styledText, COLORS);
 
-			text = Strings.EMPTY;
+			text = EMPTY;
 			for (int i = 0; i < texts.size(); ++i) {
 				String t = texts.get(i);
 				// Store the text if required (if the text contains a part of the next delimiter)
 				if (i == texts.size() - 1 && t.indexOf(Characters.ESCAPE) >= 0) {
 					text = t;
-					t = Strings.EMPTY;
+					t = EMPTY;
 				}
 				// Insert the text
 				insertString(document, getTextLength(), t, textColor);

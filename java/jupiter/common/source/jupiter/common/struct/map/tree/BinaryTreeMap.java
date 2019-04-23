@@ -124,24 +124,24 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the parent of the specified node, or {@code null} if the specified node is
-	 * {@code null}.
+	 * Returns the parent of the specified node, or {@code null} if {@code node} is {@code null}.
 	 * <p>
 	 * @param node the node to get the parent from
 	 * <p>
-	 * @return the parent of the specified node, or {@code null} if the specified node is
-	 *         {@code null}
+	 * @return the parent of the specified node, or {@code null} if {@code node} is {@code null}.
 	 */
 	protected N getParent(final N node) {
 		return node == null ? null : node.parent;
 	}
 
 	/**
-	 * Returns the node associated to the specified key, or {@code null} if it is not present.
+	 * Returns the node associated to the specified key, or {@code null} if {@code key} is not
+	 * present.
 	 * <p>
 	 * @param key the key of the node to get
 	 * <p>
-	 * @return the node associated to the specified key, or {@code null} if it is not present
+	 * @return the node associated to the specified key, or {@code null} if {@code key} is not
+	 *         present
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
@@ -269,11 +269,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Removes the key-value mapping of the specified key and returns the previous associated value,
-	 * or {@code null} if it is not present.
+	 * or {@code null} if {@code key} is not present.
 	 * <p>
 	 * @param key the key of the key-value mapping to remove
 	 * <p>
-	 * @return the previous associated value, or {@code null} if it is not present
+	 * @return the previous associated value, or {@code null} if {@code key} is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}

@@ -24,6 +24,8 @@
 package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.SPACE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,7 +42,6 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
-import jupiter.common.util.Characters;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -64,7 +65,7 @@ public class Table<T>
 	/**
 	 * The column delimiters.
 	 */
-	public static final char[] COLUMN_DELIMITERS = Characters.take('\t', ',', ';');
+	public static final char[] COLUMN_DELIMITERS = new char[] {'\t', ',', ';'};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,6 +256,9 @@ public class Table<T>
 	 * @param name the column name
 	 * <p>
 	 * @return the index of the specified column, or {@code -1} if there is no such occurrence
+	 * <p>
+	 * @throws IllegalArgumentException  if {@code name} is not present
+	 * @throws IllegalOperationException if there is no header
 	 */
 	public int getColumnIndex(final String name) {
 		// Verify the feasibility
@@ -1047,15 +1051,15 @@ public class Table<T>
 			while ((line = reader.readLine()) != null) {
 				values = line.split(delimiter);
 				if (values == null || values.length == 0 || values[0] == null ||
-						Strings.EMPTY.equals(values[0])) {
-					IO.warn("There is no element at line ", i, " ",
+						EMPTY.equals(values[0])) {
+					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
 				} else if (values.length < n) {
-					IO.error("There are not enough elements at line ", i, " ",
+					IO.error("There are not enough elements at line ", i, SPACE,
 							Arguments.expectedButFound(values.length, n));
 				} else {
 					if (values.length > n) {
-						IO.warn("There are too many elements at line ", i, " ",
+						IO.warn("There are too many elements at line ", i, SPACE,
 								Arguments.expectedButFound(values.length, n));
 					}
 					setRow(i, parser.parseToArray(values));

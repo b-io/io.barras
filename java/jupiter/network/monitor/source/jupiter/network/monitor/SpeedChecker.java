@@ -25,6 +25,7 @@ package jupiter.network.monitor;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DECIMAL_FORMAT;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -111,7 +112,7 @@ public class SpeedChecker {
 	 * Starts {@code this}.
 	 */
 	protected static synchronized void start() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		// Initialize
 		// - The file handlers of the data files storing the downloading speeds
@@ -120,7 +121,7 @@ public class SpeedChecker {
 				// Get the URL
 				final URL url = new URL(urlName);
 				// Get the name of the file pointed by the URL
-				final String fileName = url.getFile().replace(File.separator, Strings.EMPTY);
+				final String fileName = url.getFile().replace(File.separator, EMPTY);
 				// Create a file handler of the data file storing the downloading speeds
 				DATA_FILES.put(urlName,
 						new FileHandler(TEMP_DIR + "/downloading_speeds_of_" + fileName + ".csv"));
@@ -143,7 +144,7 @@ public class SpeedChecker {
 	 * Stops {@code this}.
 	 */
 	protected static synchronized void stop() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		// Shutdown
 		// - The work queue
@@ -161,7 +162,7 @@ public class SpeedChecker {
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		stop();
 		start();
@@ -214,7 +215,7 @@ public class SpeedChecker {
 				IO.debug("The host ", Strings.quote(hostName), " is reachable");
 
 				// Download the file pointed by the URL
-				final String fileName = url.getFile().replace(File.separator, Strings.EMPTY);
+				final String fileName = url.getFile().replace(File.separator, EMPTY);
 				final File targetFilePath = new File(TEMP_DIR + File.separator + fileName);
 				IO.debug("Download the file ", Strings.quote(fileName));
 				ReadableByteChannel channel = null;

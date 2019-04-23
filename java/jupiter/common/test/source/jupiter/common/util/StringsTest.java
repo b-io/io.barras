@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.EMPTY;
 
 import jupiter.common.test.Test;
 
@@ -52,17 +53,17 @@ public class StringsTest
 	public void testSplit() {
 		IO.test("testSplit");
 
-		assertEquals(Objects.hashCode(Strings.split(Strings.EMPTY, DELIMITERS).toArray()),
+		assertEquals(Objects.hashCode(Strings.split(EMPTY, DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {
-					Strings.EMPTY
+					EMPTY
 				}));
 		assertEquals(Objects.hashCode(Strings.split(STRING_DELIMITERS[0], DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {
-					Strings.EMPTY, Strings.EMPTY
+					EMPTY, EMPTY
 				}));
 		assertEquals(Objects.hashCode(Strings.split(STRING, DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {
-					Strings.EMPTY, "AA", "BB", "CC", Strings.EMPTY, "DD", "EE", "FF", Strings.EMPTY
+					EMPTY, "AA", "BB", "CC", EMPTY, "DD", "EE", "FF", EMPTY
 				}));
 	}
 
@@ -73,19 +74,19 @@ public class StringsTest
 		IO.test("testSplitString");
 
 		assertEquals(
-				Objects.hashCode(Strings.splitString(Strings.EMPTY, STRING_DELIMITERS).toArray()),
+				Objects.hashCode(Strings.splitString(EMPTY, STRING_DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {
-					Strings.EMPTY
+					EMPTY
 				}));
 		assertEquals(
 				Objects.hashCode(
 						Strings.splitString(STRING_DELIMITERS[0], STRING_DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {
-					Strings.EMPTY, Strings.EMPTY
+					EMPTY, EMPTY
 				}));
 		assertEquals(Objects.hashCode(Strings.splitString(STRING, STRING_DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {
-					Strings.EMPTY, "AA", "BB", "CC", Strings.EMPTY, "DD", "EE", "FF", Strings.EMPTY
+					EMPTY, "AA", "BB", "CC", EMPTY, "DD", "EE", "FF", EMPTY
 				}));
 	}
 }

@@ -23,9 +23,10 @@
  */
 package jupiter.common.time;
 
+import static jupiter.common.util.Strings.EMPTY;
+
 import jupiter.common.math.Maths;
 import jupiter.common.util.Longs;
-import jupiter.common.util.Strings;
 
 public class Chronometer {
 
@@ -47,7 +48,7 @@ public class Chronometer {
 	protected final double[] timeByUnit = new double[TIME_UNITS_COUNT];
 	protected long begin = 0L, end = 0L;
 	protected long difference = 0L;
-	protected String representation = Strings.EMPTY;
+	protected String representation = EMPTY;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

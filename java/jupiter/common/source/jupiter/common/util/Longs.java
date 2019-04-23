@@ -116,7 +116,7 @@ public class Longs {
 	/**
 	 * Returns an array of {@code long} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code long} values from the specified array of type {@code T}
@@ -128,7 +128,7 @@ public class Longs {
 	/**
 	 * Returns an array of {@code long} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return an array of {@code long} values from the specified 2D array of type {@code T}
@@ -140,7 +140,7 @@ public class Longs {
 	/**
 	 * Returns an array of {@code long} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return an array of {@code long} values from the specified 3D array of type {@code T}
@@ -154,7 +154,7 @@ public class Longs {
 	/**
 	 * Returns a 2D array of {@code long} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code long} values from the specified 2D array of type {@code T}
@@ -166,7 +166,7 @@ public class Longs {
 	/**
 	 * Returns a 3D array of {@code long} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code long} values from the specified 3D array of type {@code T}
@@ -277,7 +277,7 @@ public class Longs {
 	/**
 	 * Returns a {@link List} of {@link Long} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link List} of {@link Long} from the specified array of type {@code T}
@@ -289,7 +289,7 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} from the specified array of type {@code T}
@@ -342,7 +342,7 @@ public class Longs {
 	/**
 	 * Returns a {@link Set} of {@link Long} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link Set} of {@link Long} from the specified array of type {@code T}
@@ -367,6 +367,24 @@ public class Longs {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code long} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code long} values
+	 * <p>
+	 * @return a clone of the specified array of {@code long} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static long[] clone(final long... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -506,6 +524,44 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns an array of {@code long} values containing the specified {@code long} value and all
+	 * the elements of the specified array of {@code long} values.
+	 * <p>
+	 * @param a a {@code long} value (may be {@code null})
+	 * @param b an array of {@code long} values (may be {@code null})
+	 * <p>
+	 * @return an array of {@code long} values containing the specified {@code long} value and all
+	 *         the elements of the specified array of {@code long} values
+	 */
+	public static long[] merge(final long a, final long... b) {
+		return merge(toPrimitiveArray(a), b);
+	}
+
+	/**
+	 * Returns an array of {@code long} values containing all the elements of the specified arrays
+	 * of {@code long} values.
+	 * <p>
+	 * @param a an array of {@code long} values (may be {@code null})
+	 * @param b an array of {@code long} values (may be {@code null})
+	 * <p>
+	 * @return an array of {@code long} values containing all the elements of the specified arrays
+	 *         of {@code long} values
+	 */
+	public static long[] merge(final long[] a, final long... b) {
+		if (a == null) {
+			return clone(b);
+		} else if (b == null) {
+			return clone(a);
+		}
+		final long[] result = new long[a.length + b.length];
+		System.arraycopy(a, 0, result, 0, a.length);
+		System.arraycopy(b, 0, result, a.length, b.length);
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the middle of the specified {@code long} value.
 	 * <p>
 	 * @param value a {@code long} value
@@ -537,7 +593,7 @@ public class Longs {
 	}
 
 	public static long[] take(final long[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length);
+		final int maxLength = Math.min(length, array.length - from);
 		final long[] result = new long[maxLength];
 		System.arraycopy(array, from, result, 0, maxLength);
 		return result;
@@ -553,7 +609,7 @@ public class Longs {
 
 	public static long[] take(final long[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
-		final int maxRowCount = Math.min(rowCount, array2D.length);
+		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final long[] result = new long[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, result, i * columnCount,
@@ -578,7 +634,7 @@ public class Longs {
 	public static long[] take(final long[][][] array3D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount, final int fromDepth,
 			final int depthCount) {
-		final int maxRowCount = Math.min(rowCount, array3D.length);
+		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int length = columnCount * depthCount;
 		final long[] result = new long[maxRowCount * length];
 		for (int i = fromRow; i < maxRowCount; ++i) {

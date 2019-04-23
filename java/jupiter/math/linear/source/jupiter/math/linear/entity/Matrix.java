@@ -24,6 +24,8 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.SPACE;
 import static jupiter.integration.gpu.OpenCL.CL;
 
 import java.io.BufferedReader;
@@ -113,7 +115,7 @@ public class Matrix
 	/**
 	 * The column delimiters.
 	 */
-	public static final char[] COLUMN_DELIMITERS = Characters.take(' ', '\t', ',');
+	public static final char[] COLUMN_DELIMITERS = new char[] {' ', '\t', ','};
 	/**
 	 * The row delimiter.
 	 */
@@ -673,7 +675,7 @@ public class Matrix
 	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int from, final int length) {
-		System.arraycopy(values, 0, elements, i * n + from, Math.min(length, n));
+		System.arraycopy(values, 0, elements, i * n + from, Math.min(length, n - from));
 	}
 
 	/**
@@ -727,7 +729,7 @@ public class Matrix
 	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int from, final int length) {
-		for (int i = 0; i < Math.min(length, m); ++i) {
+		for (int i = 0; i < Math.min(length, m - from); ++i) {
 			elements[i * n + j] = values[from + i];
 		}
 	}
@@ -1180,7 +1182,7 @@ public class Matrix
 	 * Starts {@code this}.
 	 */
 	public static synchronized void start() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		// Initialize
 		if (WORK_QUEUE == null) {
@@ -1205,7 +1207,7 @@ public class Matrix
 	 * Stops {@code this}.
 	 */
 	public static synchronized void stop() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		// Shutdown
 		if (JNI_WORK_QUEUE != null) {
@@ -1222,7 +1224,7 @@ public class Matrix
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		stop();
 		start();
@@ -2108,8 +2110,10 @@ public class Matrix
 	 */
 	public static Matrix parse(final String expression) {
 		try {
-			final char[] delimiters = Characters.take(Characters.LEFT_BRACKET,
-					Characters.RIGHT_BRACKET);
+			final char[] delimiters = new char[] {
+				Characters.LEFT_BRACKET,
+				Characters.RIGHT_BRACKET
+			};
 			final List<Integer> indexes = Strings.getIndexes(expression, delimiters);
 			if (indexes.size() == 2) {
 				final int from = indexes.get(0);
@@ -2246,15 +2250,15 @@ public class Matrix
 			while ((line = reader.readLine()) != null) {
 				values = line.split(delimiter);
 				if (values == null || values.length == 0 || values[0] == null ||
-						Strings.EMPTY.equals(values[0])) {
-					IO.warn("There is no element at line ", i, " ",
+						EMPTY.equals(values[0])) {
+					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
 				} else if (values.length < n) {
-					IO.error("There are not enough elements at line ", i, " ",
+					IO.error("There are not enough elements at line ", i, SPACE,
 							Arguments.expectedButFound(values.length, n));
 				} else {
 					if (values.length > n) {
-						IO.warn("There are too many elements at line ", i, " ",
+						IO.warn("There are too many elements at line ", i, SPACE,
 								Arguments.expectedButFound(values.length, n));
 					}
 					if (transpose) {
@@ -2326,7 +2330,10 @@ public class Matrix
 	 * @return {@code true} if {@code string} is a parsable {@link Matrix}, {@code false} otherwise
 	 */
 	public static boolean is(final String string) {
-		final char[] delimiters = Characters.take('[', ']');
+		final char[] delimiters = new char[] {
+			Characters.LEFT_BRACKET,
+			Characters.RIGHT_BRACKET
+		};
 		final List<Integer> indexes = Strings.getIndexes(string.trim(), delimiters);
 		if (indexes.size() == 2) {
 			final int from = indexes.get(0);

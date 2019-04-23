@@ -29,7 +29,7 @@ import jupiter.common.util.Objects;
 /**
  * {@link Hasher} is a reduce operator hashing an array of {@code I} objects to an {@code Integer}.
  * <p>
- * @param <I> the type of the array to hash
+ * @param <I> the component type of the array to hash
  */
 public class Hasher<I>
 		extends Reducer<I, Integer> {

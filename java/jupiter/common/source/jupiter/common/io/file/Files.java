@@ -24,6 +24,7 @@
 package jupiter.common.io.file;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.SPACE;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -393,7 +394,7 @@ public class Files {
 				}
 				if (source.length() != target.length()) {
 					throw new CopyFileException("Failed to copy the full contents from " +
-							Strings.quote(source) + " to " + Strings.quote(target) + " " +
+							Strings.quote(source) + " to " + Strings.quote(target) + SPACE +
 							Arguments.expectedButFound(target.length(), source.length()));
 				}
 				target.setLastModified(source.lastModified());

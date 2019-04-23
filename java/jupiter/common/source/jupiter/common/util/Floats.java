@@ -113,7 +113,7 @@ public class Floats {
 	/**
 	 * Returns an array of {@code float} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code float} values from the specified array of type {@code T}
@@ -125,7 +125,7 @@ public class Floats {
 	/**
 	 * Returns an array of {@code float} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return an array of {@code float} values from the specified 2D array of type {@code T}
@@ -137,7 +137,7 @@ public class Floats {
 	/**
 	 * Returns an array of {@code float} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return an array of {@code float} values from the specified 3D array of type {@code T}
@@ -151,7 +151,7 @@ public class Floats {
 	/**
 	 * Returns a 2D array of {@code float} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code float} values from the specified 2D array of type {@code T}
@@ -163,7 +163,7 @@ public class Floats {
 	/**
 	 * Returns a 3D array of {@code float} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code float} values from the specified 3D array of type {@code T}
@@ -274,7 +274,7 @@ public class Floats {
 	/**
 	 * Returns a {@link List} of {@link Float} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link List} of {@link Float} from the specified array of type {@code T}
@@ -286,7 +286,7 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified array of type {@code T}
@@ -339,7 +339,7 @@ public class Floats {
 	/**
 	 * Returns a {@link Set} of {@link Float} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified array of type {@code T}
@@ -365,6 +365,24 @@ public class Floats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code float} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code float} values
+	 * <p>
+	 * @return a clone of the specified array of {@code float} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static float[] clone(final float... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -545,12 +563,50 @@ public class Floats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns an array of {@code float} values containing the specified {@code float} value and all
+	 * the elements of the specified array of {@code float} values.
+	 * <p>
+	 * @param a a {@code float} value (may be {@code null})
+	 * @param b an array of {@code float} values (may be {@code null})
+	 * <p>
+	 * @return an array of {@code float} values containing the specified {@code float} value and all
+	 *         the elements of the specified array of {@code float} values
+	 */
+	public static float[] merge(final float a, final float... b) {
+		return merge(toPrimitiveArray(a), b);
+	}
+
+	/**
+	 * Returns an array of {@code float} values containing all the elements of the specified arrays
+	 * of {@code float} values.
+	 * <p>
+	 * @param a an array of {@code float} values (may be {@code null})
+	 * @param b an array of {@code float} values (may be {@code null})
+	 * <p>
+	 * @return an array of {@code float} values containing all the elements of the specified arrays
+	 *         of {@code float} values
+	 */
+	public static float[] merge(final float[] a, final float... b) {
+		if (a == null) {
+			return clone(b);
+		} else if (b == null) {
+			return clone(a);
+		}
+		final float[] result = new float[a.length + b.length];
+		System.arraycopy(a, 0, result, 0, a.length);
+		System.arraycopy(b, 0, result, a.length, b.length);
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static float[] take(final float... array) {
 		return take(array, 0, array.length);
 	}
 
 	public static float[] take(final float[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length);
+		final int maxLength = Math.min(length, array.length - from);
 		final float[] result = new float[maxLength];
 		System.arraycopy(array, from, result, 0, maxLength);
 		return result;
@@ -566,7 +622,7 @@ public class Floats {
 
 	public static float[] take(final float[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
-		final int maxRowCount = Math.min(rowCount, array2D.length);
+		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final float[] result = new float[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, result, i * columnCount,
@@ -591,7 +647,7 @@ public class Floats {
 	public static float[] take(final float[][][] array3D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount, final int fromDepth,
 			final int depthCount) {
-		final int maxRowCount = Math.min(rowCount, array3D.length);
+		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int length = columnCount * depthCount;
 		final float[] result = new float[maxRowCount * length];
 		for (int i = fromRow; i < maxRowCount; ++i) {

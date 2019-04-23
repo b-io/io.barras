@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Strings.EMPTY;
+
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -145,7 +147,7 @@ public class Formats {
 			--digitCount;
 		}
 		if (digitCount > MAX_FRACTION_DIGITS + 2) {
-			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", Strings.EMPTY);
+			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY);
 		} else {
 			formattedNumber = DECIMAL_FORMAT.format(number);
 		}

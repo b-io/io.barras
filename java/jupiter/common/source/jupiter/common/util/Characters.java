@@ -101,7 +101,7 @@ public class Characters {
 	/**
 	 * Returns an array of {@code char} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code char} values from the specified array of type {@code T}
@@ -113,7 +113,7 @@ public class Characters {
 	/**
 	 * Returns an array of {@code char} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return an array of {@code char} values from the specified 2D array of type {@code T}
@@ -125,7 +125,7 @@ public class Characters {
 	/**
 	 * Returns an array of {@code char} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return an array of {@code char} values from the specified 3D array of type {@code T}
@@ -139,7 +139,7 @@ public class Characters {
 	/**
 	 * Returns a 2D array of {@code char} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code char} values from the specified 2D array of type {@code T}
@@ -151,7 +151,7 @@ public class Characters {
 	/**
 	 * Returns a 3D array of {@code char} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code char} values from the specified 3D array of type {@code T}
@@ -263,7 +263,7 @@ public class Characters {
 	/**
 	 * Returns a {@link List} of {@link Character} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link List} of {@link Character} from the specified array of type {@code T}
@@ -276,7 +276,7 @@ public class Characters {
 	 * Returns an {@link ExtendedList} of {@link Character} from the specified array of type
 	 * {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Character} from the specified array of type
@@ -331,7 +331,7 @@ public class Characters {
 	/**
 	 * Returns a {@link Set} of {@link Character} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link Set} of {@link Character} from the specified array of type {@code T}
@@ -357,6 +357,24 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code char} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code char} values
+	 * <p>
+	 * @return a clone of the specified array of {@code char} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static char[] clone(final char... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -495,12 +513,50 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns an array of {@code char} values containing the specified {@code char} value and all
+	 * the elements of the specified array of {@code char} values.
+	 * <p>
+	 * @param a a {@code char} value (may be {@code null})
+	 * @param b an array of {@code char} values (may be {@code null})
+	 * <p>
+	 * @return an array of {@code char} values containing the specified {@code char} value and all
+	 *         the elements of the specified array of {@code char} values
+	 */
+	public static char[] merge(final char a, final char... b) {
+		return merge(toPrimitiveArray(a), b);
+	}
+
+	/**
+	 * Returns an array of {@code char} values containing all the elements of the specified arrays
+	 * of {@code char} values.
+	 * <p>
+	 * @param a an array of {@code char} values (may be {@code null})
+	 * @param b an array of {@code char} values (may be {@code null})
+	 * <p>
+	 * @return an array of {@code char} values containing all the elements of the specified arrays
+	 *         of {@code char} values
+	 */
+	public static char[] merge(final char[] a, final char... b) {
+		if (a == null) {
+			return clone(b);
+		} else if (b == null) {
+			return clone(a);
+		}
+		final char[] result = new char[a.length + b.length];
+		System.arraycopy(a, 0, result, 0, a.length);
+		System.arraycopy(b, 0, result, a.length, b.length);
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static char[] take(final char... array) {
 		return take(array, 0, array.length);
 	}
 
 	public static char[] take(final char[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length);
+		final int maxLength = Math.min(length, array.length - from);
 		final char[] result = new char[maxLength];
 		System.arraycopy(array, from, result, 0, maxLength);
 		return result;
@@ -516,7 +572,7 @@ public class Characters {
 
 	public static char[] take(final char[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
-		final int maxRowCount = Math.min(rowCount, array2D.length);
+		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final char[] result = new char[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, result, i * columnCount,
@@ -541,7 +597,7 @@ public class Characters {
 	public static char[] take(final char[][][] array3D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount, final int fromDepth,
 			final int depthCount) {
-		final int maxRowCount = Math.min(rowCount, array3D.length);
+		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int length = columnCount * depthCount;
 		final char[] result = new char[maxRowCount * length];
 		for (int i = fromRow; i < maxRowCount; ++i) {

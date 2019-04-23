@@ -23,6 +23,8 @@
  */
 package jupiter.math.calculator.model;
 
+import static jupiter.common.util.Strings.SPACE;
+
 import jupiter.common.util.Strings;
 
 public class BinaryOperation
@@ -117,6 +119,6 @@ public class BinaryOperation
 
 	@Override
 	public String toString() {
-		return Strings.toString(left) + " " + type + " " + right;
+		return Strings.toString(left) + SPACE + type + SPACE + right;
 	}
 }

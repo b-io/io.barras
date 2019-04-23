@@ -23,6 +23,8 @@
  */
 package jupiter.common.io;
 
+import static jupiter.common.util.Strings.EMPTY;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -311,7 +313,7 @@ public class IO {
 	 * Prints the indication of an input line in the console.
 	 */
 	public void printInput() {
-		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT, Strings.EMPTY,
+		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT, EMPTY,
 				stackIndex + STACK_INDEX_OFFSET), false);
 	}
 
@@ -321,7 +323,7 @@ public class IO {
 	 * Prints an empty line with the IO handlers.
 	 */
 	public void println() {
-		println(Strings.EMPTY, false);
+		println(EMPTY, false);
 	}
 
 	/**
@@ -716,7 +718,7 @@ public class IO {
 				case 7:
 					return "FAILURE";
 			}
-			return Strings.EMPTY;
+			return EMPTY;
 		}
 	}
 }

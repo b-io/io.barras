@@ -459,8 +459,6 @@ public class Scalar
 	 * @param matrix a {@link Matrix}
 	 * <p>
 	 * @return {@code this * matrix}
-	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
 	 */
 	@Override
 	public Matrix times(final Matrix matrix) {

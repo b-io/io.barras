@@ -24,6 +24,7 @@
 package jupiter.math.calculator.process;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -92,7 +93,7 @@ public class ExpressionHandler {
 	 * Starts {@code this}.
 	 */
 	public static synchronized void start() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		// Initialize
 		if (PARALLELIZE) {
@@ -109,7 +110,7 @@ public class ExpressionHandler {
 	 * Stops {@code this}.
 	 */
 	public static synchronized void stop() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		// Shutdown
 		if (WORK_QUEUE != null) {
@@ -121,7 +122,7 @@ public class ExpressionHandler {
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		stop();
 		start();

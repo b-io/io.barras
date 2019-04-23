@@ -105,4 +105,18 @@ public class ArrayArguments
 					"The specified arrays do not have the same length " + isNotEqualTo(a, b));
 		}
 	}
+
+	/**
+	 * Checks if {@code aType} is either the same as, or is a superclass or superinterface of, the
+	 * class or interface represented by {@code bType}.
+	 * <p>
+	 * @param aType a {@link Class}
+	 * @param bType a {@link Class}
+	 */
+	public static void requireAssignableFrom(final Class<?> aType, final Class<?> bType) {
+		if (CHECK_ARGS && !aType.isAssignableFrom(bType)) {
+			throw new IllegalArgumentException("Cannot store " + bType.getSimpleName() +
+					" in an array of " + aType.getSimpleName());
+		}
+	}
 }

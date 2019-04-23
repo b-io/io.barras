@@ -23,6 +23,8 @@
  */
 package jupiter.common.io.console;
 
+import static jupiter.common.util.Strings.EMPTY;
+
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
@@ -316,7 +318,7 @@ public class ConsoleHandler
 		}
 
 		public String getText(final String text) {
-			return text.replace(toString(), Strings.EMPTY).replace(RESET.toString(), Strings.EMPTY);
+			return text.replace(toString(), EMPTY).replace(RESET.toString(), EMPTY);
 		}
 
 		public String getStyledText(final String text) {

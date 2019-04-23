@@ -25,6 +25,7 @@ package jupiter.math.filters;
 
 import static jupiter.common.io.IO.IO;
 
+import jupiter.common.util.Strings;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
@@ -121,16 +122,19 @@ public class KalmanFilter {
 		// Compute K = P H' inv(H P H' + R),
 		// where (H P H' + R) is the innovation covariance
 		K = P.times(H.transpose()).times(H.times(P).times(H.transpose()).plus(R).inverse());
-		IO.debug("K = P H' inv(H P H' + R) = ", P, " ", H, "' inv(", H, " ", P, " ", H, "' + ", R,
-				") = ", K);
+		IO.debug("K = P H' inv(H P H' + R) = ",
+				P, SPACE, H, "' inv(", H, SPACE, P, SPACE, H, "' + ", R, ") = ",
+				K);
 		// Compute x = x + K (y - H x),
 		// where (y - H x) is the innovation
 		x = x.plus(K.times(y.minus(H.times(x))));
-		IO.debug("x = x + K (y - H x) = ", x, " + ", K, " (", y, " - ", H, " ", x, ") = ", x);
+		IO.debug("x = x + K (y - H x) = ",
+				x, " + ", K, " (", y, " - ", H, SPACE, x, ") = ",
+				x);
 		// Compute P = (I - K H) P
 		final Entity KH = K.times(H);
 		final Entity I = KH.identity();
-		IO.debug("P = (I - K H) P = (", I, " - ", K, " ", H, ") ", P, " = ", P);
+		IO.debug("P = (I - K H) P = (", I, " - ", K, SPACE, H, ") ", P, " = ", P);
 		P = I.minus(KH).times(P);
 	}
 }

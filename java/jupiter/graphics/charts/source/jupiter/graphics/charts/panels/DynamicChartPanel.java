@@ -24,6 +24,7 @@
 package jupiter.graphics.charts.panels;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.SPACE;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -341,7 +342,7 @@ public class DynamicChartPanel
 		}
 
 		// Draw the selection
-		IO.test(xSelectionCoordinate, " ", ySelectionCoordinate);
+		IO.test(xSelectionCoordinate, SPACE, ySelectionCoordinate);
 		final double xSelection = domainValueToJava2D(xSelectionCoordinate, screenDataArea);
 		final double ySelection = rangeValueToJava2D(ySelectionCoordinate, screenDataArea);
 		selection = new Ellipse2D.Double(xSelection - 5, ySelection - 5, 10, 10);
@@ -385,7 +386,7 @@ public class DynamicChartPanel
 		for (int i = 0; i < coordinateCount; ++i) {
 			final Pair<String, String> coordinate = coordinates.get(i);
 			final int location = Integers.convert((fromStepNumber + i) * step);
-			g.drawString(coordinate.getFirst() + " " + coordinate.getSecond(), location,
+			g.drawString(coordinate.getFirst() + SPACE + coordinate.getSecond(), location,
 					fontHeight);
 		}
 		g.dispose();

@@ -23,6 +23,9 @@
  */
 package jupiter.common.io;
 
+import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.SPACE;
+
 import java.io.Serializable;
 
 import jupiter.common.io.IO.SeverityLevel;
@@ -178,6 +181,6 @@ public class Message
 
 	@Override
 	public String toString() {
-		return (Strings.isNotEmpty(prefix) ? prefix + " " : Strings.EMPTY) + content;
+		return (Strings.isNotEmpty(prefix) ? prefix + SPACE : EMPTY) + content;
 	}
 }

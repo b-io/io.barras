@@ -92,7 +92,7 @@ public class Calculator {
 	 * Starts {@code this}.
 	 */
 	public static synchronized void start() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		// Initialize
 		// - The expression handler
@@ -112,7 +112,7 @@ public class Calculator {
 	 * Stops {@code this}.
 	 */
 	public static synchronized void stop() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		// Shutdown
 		// - The work queue
@@ -127,7 +127,7 @@ public class Calculator {
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug(Strings.EMPTY);
+		IO.debug(EMPTY);
 
 		stop();
 		start();
@@ -272,7 +272,7 @@ public class Calculator {
 
 		// Get the type of the binary operation
 		final Type type = binaryOperation.getType();
-		IO.debug(leftEntity, " ", type, " ", rightEntity);
+		IO.debug(leftEntity, SPACE, type, SPACE, rightEntity);
 
 		// Evaluate the binary operation
 		final Entity result;
@@ -321,7 +321,7 @@ public class Calculator {
 
 		// Get the type of the unary operation
 		final Type type = unaryOperation.getType();
-		IO.debug(type, " ", entity);
+		IO.debug(type, SPACE, entity);
 
 		// Evaluate the unary operation
 		final Entity result;

@@ -53,6 +53,8 @@ public class Strings {
 
 	public static final String NULL = "null";
 
+	public static final String SPACE = " ";
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static final char DEFAULT_BAR_CHARACTER = '-';
@@ -117,7 +119,7 @@ public class Strings {
 	/**
 	 * Returns an array of {@code String} values from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an array of {@code String} values from the specified array of type {@code T}
@@ -129,7 +131,7 @@ public class Strings {
 	/**
 	 * Returns a 2D array of {@code String} values from the specified 2D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return a 2D array of {@code String} values from the specified 2D array of type {@code T}
@@ -141,7 +143,7 @@ public class Strings {
 	/**
 	 * Returns a 3D array of {@code String} values from the specified 3D array of type {@code T}.
 	 * <p>
-	 * @param <T>     the type of the array
+	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
 	 * @return a 3D array of {@code String} values from the specified 3D array of type {@code T}
@@ -167,7 +169,7 @@ public class Strings {
 	/**
 	 * Returns a {@link List} of {@link String} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link List} of {@link String} from the specified array of type {@code T}
@@ -179,7 +181,7 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedList} of {@link String} from the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified array of type {@code T}
@@ -268,7 +270,7 @@ public class Strings {
 	/**
 	 * Returns a {@link String} representation of the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T}
@@ -296,7 +298,7 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the type of the array
+	 * @param <T>       the component type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter the delimiting {@code char} value
 	 * <p>
@@ -311,7 +313,7 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the type of the array
+	 * @param <T>       the component type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
@@ -342,7 +344,7 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the type of the array
+	 * @param <T>       the component type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter the delimiting {@code char} value
 	 * @param wrapper   an {@link ObjectToStringMapper}
@@ -359,7 +361,7 @@ public class Strings {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the type of the array
+	 * @param <T>       the component type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
@@ -2756,7 +2758,7 @@ public class Strings {
 	public static String toString(final Exception exception, final int stackTraceElementCount) {
 		if (exception != null) {
 			if (stackTraceElementCount > 0) {
-				final List<StackTraceElement> stackTraces = Arrays.<StackTraceElement>take(
+				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
 				return exception.getMessage() + ":\n" + joinWith(stackTraces, "\n");
 			}

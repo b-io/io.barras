@@ -23,6 +23,8 @@
  */
 package jupiter.common.io;
 
+import static jupiter.common.util.Strings.EMPTY;
+
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
 import jupiter.common.time.Dates;
@@ -51,7 +53,7 @@ public class Messages {
 			case OUTPUT:
 				return getOutputPrefix(level, stackIndex);
 			default:
-				return Strings.EMPTY;
+				return EMPTY;
 		}
 	}
 
@@ -69,7 +71,7 @@ public class Messages {
 		// Create the prefix
 		switch (level) {
 			case RESULT:
-				return Strings.EMPTY;
+				return EMPTY;
 			case INFO:
 				return createOutputPrefix(level);
 			case TEST:
@@ -84,7 +86,7 @@ public class Messages {
 				return createOutputPrefix(level, simpleClassName, stackTraceElement.getMethodName(),
 						stackTraceElement.getLineNumber());
 			default:
-				return Strings.EMPTY;
+				return EMPTY;
 		}
 	}
 
@@ -149,7 +151,7 @@ public class Messages {
 				content = "OUTPUT";
 				break;
 			default:
-				content = Strings.EMPTY;
+				content = EMPTY;
 		}
 		return createLabel(content);
 	}
@@ -159,6 +161,6 @@ public class Messages {
 	}
 
 	protected static String createLabel(final String string) {
-		return Strings.isNotEmpty(string) ? Strings.bracketize(string) : Strings.EMPTY;
+		return Strings.isNotEmpty(string) ? Strings.bracketize(string) : EMPTY;
 	}
 }

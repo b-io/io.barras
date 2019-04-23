@@ -78,11 +78,13 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the value associated with the specified key, or {@code null} if it is not present.
+	 * Returns the value associated with the specified key, or {@code null} if {@code key} is not
+	 * present.
 	 * <p>
 	 * @param key the key of the value to get
 	 * <p>
-	 * @return the value associated with the specified key, or {@code null} if it is not present
+	 * @return the value associated with the specified key, or {@code null} if {@code key} is not
+	 *         present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -107,11 +109,11 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node of the specified key, or {@code null} if it is not present.
+	 * Returns the node of the specified key, or {@code null} if {@code key} is not present.
 	 * <p>
 	 * @param key the key of the node to get
 	 * <p>
-	 * @return the node of the specified key, or {@code null} if it is not present
+	 * @return the node of the specified key, or {@code null} if {@code key} is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -126,11 +128,11 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node of the specified key, or {@code null} if it is not present.
+	 * Returns the node of the specified key, or {@code null} if {@code key} is not present.
 	 * <p>
 	 * @param key the key of the node to get
 	 * <p>
-	 * @return the node of the specified key, or {@code null} if it is not present
+	 * @return the node of the specified key, or {@code null} if {@code key} is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}

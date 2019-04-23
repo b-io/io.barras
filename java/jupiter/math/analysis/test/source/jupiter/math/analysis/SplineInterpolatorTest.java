@@ -26,7 +26,6 @@ package jupiter.math.analysis;
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.test.Test;
-import jupiter.common.util.Doubles;
 import jupiter.math.analysis.function.Function;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.analysis.interpolation.SplineInterpolator;
@@ -47,7 +46,7 @@ public class SplineInterpolatorTest
 		IO.test("interpolate");
 
 		final Function f = Functions.SIN;
-		final double[] x = Doubles.take(0., 1., 2., 3., 4., 5., 6., 7., 8., 9.);
+		final double[] x = new double[] {0., 1., 2., 3., 4., 5., 6., 7., 8., 9.};
 		final double[] y = f.applyToPrimitiveArray(x);
 		final SplineInterpolator instance = SplineInterpolator.createMonotoneCubicSpline(x, y);
 		for (int i = 0; i < x.length - 1; ++i) {

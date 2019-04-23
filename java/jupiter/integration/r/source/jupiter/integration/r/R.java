@@ -24,6 +24,7 @@
 package jupiter.integration.r;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.SPACE;
 
 import java.io.IOException;
 
@@ -34,8 +35,10 @@ import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
 import jupiter.common.io.Systems;
+import jupiter.common.test.ArrayArguments;
 import jupiter.common.thread.Threads;
 import jupiter.common.thread.Worker;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
 public class R {
@@ -44,8 +47,8 @@ public class R {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile String PATH = "Rscript";
-	public static volatile String ARGS = "--no-save";
+	public static final String PATH = "Rscript";
+	public static final String[] ARGS = Strings.toArray("--no-save");
 	public static volatile String REPO = "https://cloud.r-project.org";
 
 	public static final IOHandler PRINTER = new RPrinter();
@@ -64,8 +67,10 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean installPackage(final String name) {
-		return execute("if (!'" + name + "' %in% installed.packages())" + "install.packages('" +
-				name + "', repos='" + REPO + "')");
+		return execute("if (!" + Strings.singleQuote(name) + " %in% installed.packages())" +
+				"install.packages(" + Strings.singleQuote(name) +
+					", repos=" + Strings.singleQuote(REPO) +
+				")");
 	}
 
 	public static boolean installPackages(final String[] names) {
@@ -89,8 +94,10 @@ public class R {
 		}
 
 		// Launch Rserve
-		if (!(installPackage("Rserve") && execute("library(Rserve); Rserve(" +
-				(debug ? "TRUE" : "FALSE") + ", args='" + ARGS + "')"))) {
+		if (!(installPackage("Rserve") && execute("library(Rserve);" +
+				"Rserve(" + (debug ? "T" : "F") +
+					", args = " + Strings.singleQuote(Strings.joinWith(ARGS, SPACE)) +
+				")"))) {
 			return false;
 		}
 
@@ -127,30 +134,26 @@ public class R {
 	 * @return {@code true} if the R engine processed the specified script, {@code false} otherwise
 	 */
 	public static boolean execute(final String script) {
-		return execute(script, ARGS);
+		return execute(Arrays.<String>merge(script, ARGS));
 	}
 
-	public static boolean execute(final String script, final String args) {
+	public static boolean execute(final String... command) {
+		// Check the arguments
+		ArrayArguments.requireMinLength(command, 1);
+
+		// Process
 		try {
-			IO.debug(">> Run ", Strings.quote(script));
 			// Test whether the OS is Windows or Unix
 			if (Systems.isWindows()) {
 				// - Execute the script on Windows
-				Systems.execute(
-						new String[] {
-							Strings.doubleQuote(PATH), "-e", Strings.doubleQuote(script), args
-						},
-						PRINTER);
+				Systems.execute(PRINTER,
+						Strings.merge(Strings.doubleQuote(PATH), "-e", command);
 			} else {
 				// - Execute the script on Unix
-				Systems.execute(
-						new String[] {
-							"/bin/sh", "-c", "echo", Strings.doubleQuote(script), "|",
-							Strings.doubleQuote(PATH), args
-						},
-						PRINTER);
+				Systems.execute(PRINTER,
+						"/bin/sh", "-c", "echo", command[0], "|",
+						Strings.doubleQuote(PATH), Arrays.<String>take(command, 1, command.length);
 			}
-			IO.debug("<< Done");
 			return true;
 		} catch (final InterruptedException ex) {
 			IO.error("<< Fail to run the script", ex);

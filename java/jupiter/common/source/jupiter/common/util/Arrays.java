@@ -32,6 +32,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
+import jupiter.common.test.ArrayArguments;
 
 public class Arrays {
 
@@ -97,6 +98,25 @@ public class Arrays {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
+	 * {@code null}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
+	 *         {@code null}
+	 */
+	public static <T> T[] clone(final T... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	@SuppressWarnings("unchecked")
 	public static <T> T[] create(final Class<T> c, final int length) {
 		return (T[]) Array.newInstance(c, length);
@@ -134,7 +154,7 @@ public class Arrays {
 	/**
 	 * Returns a {@link String} representation of the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T}
@@ -201,48 +221,150 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> ExtendedList<T> take(final T[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length);
-		final ExtendedList<T> result = new ExtendedList<T>(maxLength);
-		for (int i = from; i < maxLength; ++i) {
-			result.add(array[i]);
+	/**
+	 * Returns an array of type {@code T} containing the specified object of type {@code T} and all
+	 * the elements of the specified array of type {@code T}.
+	 * <p>
+	 * @param <T> the type of the object and the component type of the array
+	 * @param a   an object of type {@code T} (may be {@code null})
+	 * @param b   an array of type {@code T} (may be {@code null})
+	 * <p>
+	 * @return an array of type {@code T} containing the specified object of type {@code T} and all
+	 *         the elements of the specified array of type {@code T}
+	 * <p>
+	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
+	 *                                  superclass or superinterface of, the type of {@code b}
+	 */
+	public static <T> T[] merge(final T a, final T... b) {
+		return merge(toArray(a), b);
+	}
+
+	/**
+	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
+	 * type {@code T}.
+	 * <p>
+	 * @param <T> the component type of the arrays
+	 * @param a   an array of type {@code T} (may be {@code null})
+	 * @param b   an array of type {@code T} (may be {@code null})
+	 * <p>
+	 * @return an array of type {@code T} containing all the elements of the specified arrays of
+	 *         type {@code T}
+	 * <p>
+	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
+	 *                                  superclass or superinterface of, the type of {@code b}
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T[] merge(final T[] a, final T... b) {
+		if (a == null) {
+			return clone(b);
+		} else if (b == null) {
+			return clone(a);
+		}
+		final Class<?> aType = a.getClass().getComponentType();
+		final T[] result = (T[]) create(aType, a.length + b.length);
+		System.arraycopy(a, 0, result, 0, a.length);
+		try {
+			System.arraycopy(b, 0, result, a.length, b.length);
+		} catch (final ArrayStoreException ex) {
+			final Class<?> bType = b.getClass().getComponentType();
+			ArrayArguments.requireAssignableFrom(aType, bType);
+			throw ex;
 		}
 		return result;
 	}
 
-	public static <T> ExtendedList<T> take(final T[][] array2D, final int fromRow,
-			final int rowCount) {
-		return take(array2D, fromRow, rowCount, 0, array2D[0].length);
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> T[] take(final T[] array) {
+		return take(array, 0);
 	}
 
-	public static <T> ExtendedList<T> take(final T[][] array2D, final int fromRow,
-			final int rowCount, final int fromColumn, final int columnCount) {
-		final int maxRowCount = Math.min(rowCount, array2D.length);
-		final ExtendedList<T> result = new ExtendedList<T>(maxRowCount * columnCount);
-		for (int i = fromRow; i < maxRowCount; ++i) {
-			result.addAll(take(array2D[i], fromColumn, columnCount));
+	public static <T> T[] take(final T[] array, final int from) {
+		return take(array, from, array.length);
+	}
+
+	public static <T> T[] take(final T[] array, final int from, final int length) {
+		final int maxLength = Math.min(length, array.length - from);
+		final T[] result = (T[]) create(array.getClass().getComponentType(), maxLength);
+		System.arraycopy(array, from, result, 0, maxLength);
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
+	public static <T> T[] take(final T[][] array2D) {
+		return take(array2D, 0);
+	}
+
+	public static <T> T[] take(final T[][] array2D, final int fromRow) {
+		return take(array2D, fromRow, array2D.length);
+	}
+
+	public static <T> T[] take(final T[][] array2D, final int fromRow, final int rowCount) {
+		return take(array2D, fromRow, rowCount, 0);
+	}
+
+	public static <T> T[] take(final T[][] array2D, final int fromRow, final int rowCount,
+			final int fromColumn) {
+		return take(array2D, fromRow, rowCount, fromColumn, array2D[0].length);
+	}
+
+	public static <T> T[] take(final T[][] array2D, final int fromRow, final int rowCount,
+			final int fromColumn, final int columnCount) {
+		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
+		final int maxColumnCount = Math.min(columnCount, array2D[0].length - fromColumn);
+		final T[] result = (T[]) create(array2D.getClass().getComponentType().getComponentType(),
+				maxRowCount * maxColumnCount);
+		for (int i = 0; i < maxRowCount; ++i) {
+			System.arraycopy(array2D[fromRow + i], fromColumn, result, i * maxColumnCount,
+					maxColumnCount);
 		}
 		return result;
 	}
 
-	public static <T> ExtendedList<T> take(final T[][][] array3D, final int fromRow,
-			final int rowCount) {
-		return take(array3D, fromRow, rowCount, 0, array3D[0].length, 0, array3D[0][0].length);
+	//////////////////////////////////////////////
+
+	public static <T> T[] take(final T[][][] array3D) {
+		return take(array3D, 0);
 	}
 
-	public static <T> ExtendedList<T> take(final T[][][] array3D, final int fromRow,
-			final int rowCount, final int fromColumn, final int columnCount) {
-		return take(array3D, fromRow, rowCount, fromColumn, columnCount, 0, array3D[0][0].length);
+	public static <T> T[] take(final T[][][] array3D, final int fromRow) {
+		return take(array3D, fromRow, array3D.length);
 	}
 
-	public static <T> ExtendedList<T> take(final T[][][] array3D, final int fromRow,
-			final int rowCount, final int fromColumn, final int columnCount, final int fromDepth,
+	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount) {
+		return take(array3D, fromRow, rowCount, 0);
+	}
+
+	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
+			final int fromColumn) {
+		return take(array3D, fromRow, rowCount, fromColumn, array3D[0].length);
+	}
+
+	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
+			final int fromColumn, final int columnCount) {
+		return take(array3D, fromRow, rowCount, fromColumn, columnCount, 0);
+	}
+
+	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
+			final int fromColumn, final int columnCount, final int fromDepth) {
+		return take(array3D, fromRow, rowCount, fromColumn, columnCount, fromDepth,
+				array3D[0][0].length);
+	}
+
+	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
+			final int fromColumn, final int columnCount, final int fromDepth,
 			final int depthCount) {
-		final int maxRowCount = Math.min(rowCount, array3D.length);
-		final int length = columnCount * depthCount;
-		final ExtendedList<T> result = new ExtendedList<T>(maxRowCount * length);
-		for (int i = fromRow; i < maxRowCount; ++i) {
-			result.addAll(take(array3D[i], fromColumn, columnCount, fromDepth, depthCount));
+		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
+		final int maxColumnCount = Math.min(columnCount, array3D[0].length - fromColumn);
+		final int maxDepthCount = Math.min(depthCount, array3D[0][0].length - fromDepth);
+		final T[] result = (T[]) create(array3D.getClass().getComponentType().getComponentType()
+				.getComponentType(), maxRowCount * maxColumnCount * maxDepthCount);
+		for (int i = 0; i < maxRowCount; ++i) {
+			for (int j = 0; j < maxColumnCount; ++j) {
+				System.arraycopy(array3D[fromRow + i][fromColumn + j], fromDepth, result,
+						(i * maxColumnCount + j) * maxDepthCount, maxDepthCount);
+			}
 		}
 		return result;
 	}
@@ -269,7 +391,7 @@ public class Arrays {
 	/**
 	 * Tests whether the specified array of type {@code T} is empty.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return {@code true} if the specified array of type {@code T} is empty, {@code false}
@@ -287,7 +409,7 @@ public class Arrays {
 	/**
 	 * Tests whether the specified 2D array of type {@code T} is empty.
 	 * <p>
-	 * @param <T>     the type of the 2D array to test
+	 * @param <T>     the component type of the 2D array to test
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
 	 * @return {@code true} if the specified 2D array of type {@code T} is empty, {@code false}
@@ -305,7 +427,7 @@ public class Arrays {
 	/**
 	 * Tests whether the specified 3D array of type {@code T} is empty.
 	 * <p>
-	 * @param <T>     the type of the 3D array to test
+	 * @param <T>     the component type of the 3D array to test
 	 * @param array3D an 3D array of type {@code T}
 	 * <p>
 	 * @return {@code true} if the specified 3D array of type {@code T} is empty, {@code false}
@@ -328,7 +450,7 @@ public class Arrays {
 	/**
 	 * Returns a {@link String} representation of the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the type of the array
+	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return a {@link String} representation of the specified array of type {@code T}
@@ -341,7 +463,7 @@ public class Arrays {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the type of the array
+	 * @param <T>       the component type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
@@ -356,7 +478,7 @@ public class Arrays {
 	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the type of the array
+	 * @param <T>       the component type of the array
 	 * @param array     an array of type {@code T}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
