@@ -23,6 +23,8 @@
  */
 package jupiter.common.io;
 
+import jupiter.common.exception.IllegalTypeException;
+
 public abstract class Appender
 		extends IOHandler {
 
@@ -71,6 +73,8 @@ public abstract class Appender
 			case FAILURE:
 				fail(message.getContent());
 				break;
+			default:
+				throw new IllegalTypeException(message.getLevel());
 		}
 	}
 

@@ -112,11 +112,15 @@ public class FTPHandler {
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
 		switch (protocol) {
+			case FTP:
+			case FTPS:
+				port = Integers.convert(properties.getProperty("port", "21"));
+				break;
 			case SFTP:
 				port = Integers.convert(properties.getProperty("port", "22"));
 				break;
 			default:
-				port = Integers.convert(properties.getProperty("port", "21"));
+				throw new IllegalTypeException(protocol);
 		}
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
@@ -151,7 +155,7 @@ public class FTPHandler {
 						downloadedFileCount = downloadSFTP();
 						break;
 					default:
-						downloadedFileCount = 0;
+						throw new IllegalTypeException(protocol);
 				}
 				if (downloadedFileCount > 0) {
 					IO.info(downloadedFileCount, " files downloaded");

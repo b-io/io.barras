@@ -95,7 +95,7 @@ public class ConsoleHandler
 			case FAILURE:
 				return Color.RED;
 			default:
-				return Color.BLACK;
+				throw new IllegalTypeException(severityLevel);
 		}
 	}
 
@@ -303,7 +303,12 @@ public class ConsoleHandler
 					return 0f;
 				case WHITE:
 					return 1f;
-				default:
+				case BLUE:
+				case CYAN:
+				case GREEN:
+				case MAGENTA:
+				case RED:
+				case YELLOW:
 					switch (INTENSITY) {
 						case 0:
 							return 2f / 3f;
@@ -314,6 +319,8 @@ public class ConsoleHandler
 						default:
 							throw new IllegalTypeException(INTENSITY);
 					}
+				default:
+					throw new IllegalTypeException(this);
 			}
 		}
 

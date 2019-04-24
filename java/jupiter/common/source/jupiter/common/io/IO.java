@@ -33,6 +33,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.List;
+import jupiter.common.exception.IllegalTypeException;
 
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
@@ -717,8 +718,9 @@ public class IO {
 					return "ERROR";
 				case 7:
 					return "FAILURE";
+				default:
+					throw new IllegalTypeException(value);
 			}
-			return EMPTY;
 		}
 	}
 }

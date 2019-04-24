@@ -25,6 +25,7 @@ package jupiter.common.io;
 
 import static jupiter.common.util.Strings.EMPTY;
 
+import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
 import jupiter.common.time.Dates;
@@ -53,7 +54,7 @@ public class Messages {
 			case OUTPUT:
 				return getOutputPrefix(level, stackIndex);
 			default:
-				return EMPTY;
+				throw new IllegalTypeException(type);
 		}
 	}
 
@@ -86,7 +87,7 @@ public class Messages {
 				return createOutputPrefix(level, simpleClassName, stackTraceElement.getMethodName(),
 						stackTraceElement.getLineNumber());
 			default:
-				return EMPTY;
+				throw new IllegalTypeException(level);
 		}
 	}
 
@@ -151,7 +152,7 @@ public class Messages {
 				content = "OUTPUT";
 				break;
 			default:
-				content = EMPTY;
+				throw new IllegalTypeException(type);
 		}
 		return createLabel(content);
 	}
