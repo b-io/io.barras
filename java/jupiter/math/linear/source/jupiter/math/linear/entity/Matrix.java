@@ -996,9 +996,7 @@ public class Matrix
 	 */
 	@Override
 	public Vector size() {
-		return new Vector(new double[] {
-			m, n
-		});
+		return new Vector(new double[] {m, n});
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2110,10 +2108,8 @@ public class Matrix
 	 */
 	public static Matrix parse(final String expression) {
 		try {
-			final char[] delimiters = new char[] {
-				Characters.LEFT_BRACKET,
-				Characters.RIGHT_BRACKET
-			};
+			final char[] delimiters = new char[] {Characters.LEFT_BRACKET,
+				Characters.RIGHT_BRACKET};
 			final List<Integer> indexes = Strings.getIndexes(expression, delimiters);
 			if (indexes.size() == 2) {
 				final int from = indexes.get(0);
@@ -2330,10 +2326,7 @@ public class Matrix
 	 * @return {@code true} if {@code string} is a parsable {@link Matrix}, {@code false} otherwise
 	 */
 	public static boolean is(final String string) {
-		final char[] delimiters = new char[] {
-			Characters.LEFT_BRACKET,
-			Characters.RIGHT_BRACKET
-		};
+		final char[] delimiters = new char[] {Characters.LEFT_BRACKET, Characters.RIGHT_BRACKET};
 		final List<Integer> indexes = Strings.getIndexes(string.trim(), delimiters);
 		if (indexes.size() == 2) {
 			final int from = indexes.get(0);

@@ -24,7 +24,6 @@
 package jupiter.math.filters;
 
 import static jupiter.common.io.IO.IO;
-
 import static jupiter.common.util.Strings.SPACE;
 
 import jupiter.math.linear.entity.Entity;
@@ -129,9 +128,7 @@ public class KalmanFilter {
 		// Compute x = x + K (y - H x),
 		// where (y - H x) is the innovation
 		x = x.plus(K.times(y.minus(H.times(x))));
-		IO.debug("x = x + K (y - H x) = ",
-				x, " + ", K, " (", y, " - ", H, SPACE, x, ") = ",
-				x);
+		IO.debug("x = x + K (y - H x) = ", x, " + ", K, " (", y, " - ", H, SPACE, x, ") = ", x);
 		// Compute P = (I - K H) P
 		final Entity KH = K.times(H);
 		final Entity I = KH.identity();

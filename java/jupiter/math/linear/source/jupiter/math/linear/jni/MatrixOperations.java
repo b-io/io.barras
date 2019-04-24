@@ -61,12 +61,8 @@ public class MatrixOperations {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void main(final String[] args) {
-		final double[] A = new double[] {
-			1., 2., 3., 4., 5., 6.
-		};
-		final double[] B = new double[] {
-			1., 2., 3., 4.
-		};
+		final double[] A = new double[] {1., 2., 3., 4., 5., 6.};
+		final double[] B = new double[] {1., 2., 3., 4.};
 		for (int i = 0; i < 100; ++i) {
 			IO.result(Doubles.toString(dot(A, B, 2, 2)));
 		}

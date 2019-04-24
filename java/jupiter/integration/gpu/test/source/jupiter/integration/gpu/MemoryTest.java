@@ -299,9 +299,8 @@ public class MemoryTest
 		final cl_device_id device = devices[deviceIndex];
 
 		// Create a context for the selected device
-		context = clCreateContext(contextProperties, 1, new cl_device_id[] {
-			device
-		}, null, null, null);
+		context = clCreateContext(contextProperties, 1, new cl_device_id[] {device}, null, null,
+				null);
 
 		// Create a command-queue for the selected device
 		commandQueue = clCreateCommandQueue(context, device, 0, null);

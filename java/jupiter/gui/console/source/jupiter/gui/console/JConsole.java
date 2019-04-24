@@ -758,8 +758,8 @@ public class JConsole
 		textPane.repaint();
 	}
 
-	protected void insertString(final StyledDocument document, final int offset,
-			final String text, final ConsoleHandler.Color textColor) {
+	protected void insertString(final StyledDocument document, final int offset, final String text,
+			final ConsoleHandler.Color textColor) {
 		if (text.length() > 0) {
 			try {
 				document.insertString(offset,

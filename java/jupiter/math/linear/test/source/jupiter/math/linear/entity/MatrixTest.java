@@ -55,12 +55,8 @@ public class MatrixTest
 
 		// Initialize
 		final int testCount = 10;
-		final int[] rowCounts = {
-			10, 50, 100, 200, 300
-		};
-		final int[] columnCounts = {
-			10, 50, 100, 200, 300
-		};
+		final int[] rowCounts = {10, 50, 100, 200, 300};
+		final int[] columnCounts = {10, 50, 100, 200, 300};
 		final String[] header = Strings.toArray(Integers.toArray(columnCounts));
 		final DoubleTable normalStats = new DoubleTable(header, rowCounts.length,
 				columnCounts.length);
@@ -204,12 +200,8 @@ public class MatrixTest
 
 		// Initialize
 		final int testCount = 10;
-		final int[] rowCounts = {
-			10, 50, 100, 200
-		};
-		final int[] columnCounts = {
-			10, 50, 100, 200
-		};
+		final int[] rowCounts = {10, 50, 100, 200};
+		final int[] columnCounts = {10, 50, 100, 200};
 		final String[] header = Strings.toArray(Integers.toArray(columnCounts));
 		final DoubleTable normalStats = new DoubleTable(header, rowCounts.length,
 				columnCounts.length);

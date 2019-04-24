@@ -188,8 +188,8 @@ public class Arrays {
 
 	public static <T> int count(final T[]... arrays) {
 		int result = 0;
-		for (int i = 0; i < arrays.length; ++i) {
-			result += arrays[i].length;
+		for (final T[] array : arrays) {
+			result += array.length;
 		}
 		return result;
 	}
@@ -305,13 +305,12 @@ public class Arrays {
 		final Class<?> type = arrays.getClass().getComponentType().getComponentType();
 		final T[] result = (T[]) create(type, count(arrays));
 		int offset = 0;
-		for (int i = 0; i < arrays.length; ++i) {
-			final T[] array = arrays[i];
+		for (final T[] array : arrays) {
 			try {
 				System.arraycopy(array, 0, result, offset, array.length);
 			} catch (final ArrayStoreException ex) {
-				ArrayArguments.requireAssignableFrom(type, array.getClass().getComponentType()
-						.getComponentType());
+				ArrayArguments.requireAssignableFrom(type,
+						array.getClass().getComponentType().getComponentType());
 				throw ex;
 			}
 			offset += array.length;
@@ -407,8 +406,9 @@ public class Arrays {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array3D[0].length - fromColumn);
 		final int maxDepthCount = Math.min(depthCount, array3D[0][0].length - fromDepth);
-		final T[] result = (T[]) create(array3D.getClass().getComponentType().getComponentType()
-				.getComponentType(), maxRowCount * maxColumnCount * maxDepthCount);
+		final T[] result = (T[]) create(
+				array3D.getClass().getComponentType().getComponentType().getComponentType(),
+				maxRowCount * maxColumnCount * maxDepthCount);
 		for (int i = 0; i < maxRowCount; ++i) {
 			for (int j = 0; j < maxColumnCount; ++j) {
 				System.arraycopy(array3D[fromRow + i][fromColumn + j], fromDepth, result,

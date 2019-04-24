@@ -150,9 +150,8 @@ public class JOCL
 
 		try {
 			// Create a context for the selected device
-			context = clCreateContext(contextProperties, 1, new cl_device_id[] {
-				device
-			}, null, null, null);
+			context = clCreateContext(contextProperties, 1, new cl_device_id[] {device}, null, null,
+					null);
 
 			// Create a command-queue for the selected device
 			commandQueue = clCreateCommandQueue(context, device, 0, null);
@@ -312,11 +311,8 @@ public class JOCL
 	}
 
 	public int execute(final cl_kernel kernel, final int globalWorkSize, final int localWorkSize) {
-		return clEnqueueNDRangeKernel(commandQueue, kernel, 1, null, new long[] {
-			globalWorkSize
-		}, new long[] {
-			localWorkSize
-		}, 0, null, null);
+		return clEnqueueNDRangeKernel(commandQueue, kernel, 1, null, new long[] {globalWorkSize},
+				new long[] {localWorkSize}, 0, null, null);
 	}
 
 	public int read(final cl_mem buffer, final double[] array) {
@@ -405,12 +401,8 @@ public class JOCL
 		clSetKernelArg(kernel, 0, Sizeof.cl_mem, Pointer.to(buffers[0]));
 		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
 		clSetKernelArg(kernel, 2, Sizeof.cl_mem, Pointer.to(buffers[2]));
-		clSetKernelArg(kernel, 3, Sizeof.cl_int, Pointer.to(new int[] {
-			aColumnDimension
-		}));
-		clSetKernelArg(kernel, 4, Sizeof.cl_int, Pointer.to(new int[] {
-			bColumnDimension
-		}));
+		clSetKernelArg(kernel, 3, Sizeof.cl_int, Pointer.to(new int[] {aColumnDimension}));
+		clSetKernelArg(kernel, 4, Sizeof.cl_int, Pointer.to(new int[] {bColumnDimension}));
 		// Execute the kernel
 		execute(kernel, result.length, 1);
 		// Read the result
@@ -459,15 +451,9 @@ public class JOCL
 		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
 		clSetKernelArg(kernel, 2, Sizeof.cl_mem, Pointer.to(buffers[2]));
 		clSetKernelArg(kernel, 3, Sizeof.cl_mem, Pointer.to(buffers[3]));
-		clSetKernelArg(kernel, 4, Sizeof.cl_int, Pointer.to(new int[] {
-			aColumnDimension
-		}));
-		clSetKernelArg(kernel, 5, Sizeof.cl_int, Pointer.to(new int[] {
-			bColumnDimension
-		}));
-		clSetKernelArg(kernel, 6, Sizeof.cl_int, Pointer.to(new int[] {
-			cColumnDimension
-		}));
+		clSetKernelArg(kernel, 4, Sizeof.cl_int, Pointer.to(new int[] {aColumnDimension}));
+		clSetKernelArg(kernel, 5, Sizeof.cl_int, Pointer.to(new int[] {bColumnDimension}));
+		clSetKernelArg(kernel, 6, Sizeof.cl_int, Pointer.to(new int[] {cColumnDimension}));
 		// Execute the kernel
 		execute(kernel, result.length, 1);
 		// Read the result

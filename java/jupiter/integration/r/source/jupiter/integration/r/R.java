@@ -149,11 +149,10 @@ public class R {
 				Systems.execute(PRINTER, Arrays.<String>merge(new String[] {PATH, "-e"}, command));
 			} else {
 				// - Execute the script on Unix
-				Systems.execute(PRINTER, Arrays.<String>merge(
-						new String[] {
-							"/bin/sh", "-c", "echo", command[0], "|", PATH
-						},
-						Arrays.<String>take(command, 1, command.length)));
+				Systems.execute(PRINTER,
+						Arrays.<String>merge(
+								new String[] {"/bin/sh", "-c", "echo", command[0], "|", PATH},
+								Arrays.<String>take(command, 1, command.length)));
 			}
 			return true;
 		} catch (final InterruptedException ex) {

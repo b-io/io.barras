@@ -31,12 +31,8 @@ import jupiter.common.test.Test;
 public class StringsTest
 		extends Test {
 
-	protected static final char[] DELIMITERS = new char[] {
-		'.', ':', ',', ';', '-'
-	};
-	protected static final String[] STRING_DELIMITERS = new String[] {
-		".", ":", ",", ";", "-"
-	};
+	protected static final char[] DELIMITERS = new char[] {'.', ':', ',', ';', '-'};
+	protected static final String[] STRING_DELIMITERS = new String[] {".", ":", ",", ";", "-"};
 	protected static final String STRING = "-AA.BB:CC--DD;EE,FF-";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,17 +50,11 @@ public class StringsTest
 		IO.test("testSplit");
 
 		assertEquals(Objects.hashCode(Strings.split(EMPTY, DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {
-					EMPTY
-				}));
+				Objects.hashCode(new String[] {EMPTY}));
 		assertEquals(Objects.hashCode(Strings.split(STRING_DELIMITERS[0], DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {
-					EMPTY, EMPTY
-				}));
-		assertEquals(Objects.hashCode(Strings.split(STRING, DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {
-					EMPTY, "AA", "BB", "CC", EMPTY, "DD", "EE", "FF", EMPTY
-				}));
+				Objects.hashCode(new String[] {EMPTY, EMPTY}));
+		assertEquals(Objects.hashCode(Strings.split(STRING, DELIMITERS).toArray()), Objects
+				.hashCode(new String[] {EMPTY, "AA", "BB", "CC", EMPTY, "DD", "EE", "FF", EMPTY}));
 	}
 
 	/**
@@ -73,20 +63,14 @@ public class StringsTest
 	public void testSplitString() {
 		IO.test("testSplitString");
 
-		assertEquals(
-				Objects.hashCode(Strings.splitString(EMPTY, STRING_DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {
-					EMPTY
-				}));
+		assertEquals(Objects.hashCode(Strings.splitString(EMPTY, STRING_DELIMITERS).toArray()),
+				Objects.hashCode(new String[] {EMPTY}));
 		assertEquals(
 				Objects.hashCode(
 						Strings.splitString(STRING_DELIMITERS[0], STRING_DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {
-					EMPTY, EMPTY
-				}));
+				Objects.hashCode(new String[] {EMPTY, EMPTY}));
 		assertEquals(Objects.hashCode(Strings.splitString(STRING, STRING_DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {
-					EMPTY, "AA", "BB", "CC", EMPTY, "DD", "EE", "FF", EMPTY
-				}));
+				Objects.hashCode(
+						new String[] {EMPTY, "AA", "BB", "CC", EMPTY, "DD", "EE", "FF", EMPTY}));
 	}
 }

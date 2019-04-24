@@ -33,8 +33,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.List;
-import jupiter.common.exception.IllegalTypeException;
 
+import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.log.LogHandler;

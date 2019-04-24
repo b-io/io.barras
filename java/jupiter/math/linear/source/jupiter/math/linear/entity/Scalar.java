@@ -161,9 +161,7 @@ public class Scalar
 	 */
 	@Override
 	public Vector toVector() {
-		return new Vector(new double[] {
-			value
-		});
+		return new Vector(new double[] {value});
 	}
 
 	/**
@@ -173,9 +171,7 @@ public class Scalar
 	 */
 	@Override
 	public Matrix toMatrix() {
-		return new Matrix(1, new double[] {
-			value
-		});
+		return new Matrix(1, new double[] {value});
 	}
 
 	/**
@@ -185,9 +181,7 @@ public class Scalar
 	 */
 	@Override
 	public double[] toPrimitiveArray() {
-		return new double[] {
-			value
-		};
+		return new double[] {value};
 	}
 
 

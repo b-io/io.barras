@@ -31,21 +31,14 @@ public class ArraysTest
 		extends Test {
 
 	// - 1D
-	protected static final String[] ARRAY = new String[] {
-		"a", "b", "c", "d", "e", "f"
-	};
+	protected static final String[] ARRAY = new String[] {"a", "b", "c", "d", "e", "f"};
 	// - 2D
-	protected static final String[][] ARRAY_2D = new String[][] {
-		ARRAY, ARRAY
-	};
-	protected static final String[] FLAT_ARRAY_2D = Arrays.<String>merge(
-			ARRAY, ARRAY);
+	protected static final String[][] ARRAY_2D = new String[][] {ARRAY, ARRAY};
+	protected static final String[] FLAT_ARRAY_2D = Arrays.<String>merge(ARRAY, ARRAY);
 	// - 3D
-	protected static final String[][][] ARRAY_3D = new String[][][] {
-		ARRAY_2D, ARRAY_2D
-	};
-	protected static final String[] FLAT_ARRAY_3D = Arrays.<String>merge(
-			FLAT_ARRAY_2D, FLAT_ARRAY_2D);
+	protected static final String[][][] ARRAY_3D = new String[][][] {ARRAY_2D, ARRAY_2D};
+	protected static final String[] FLAT_ARRAY_3D = Arrays.<String>merge(FLAT_ARRAY_2D,
+			FLAT_ARRAY_2D);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -61,17 +54,11 @@ public class ArraysTest
 	public void testMerge() {
 		IO.test("testMerge");
 
-		assertEquals(
-				Objects.hashCode(Arrays.<String>merge(Strings.<String>toArray("a"), ARRAY)),
-				Objects.hashCode(new String[] {
-					"a", "a", "b", "c", "d", "e", "f"
-				}
-		));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>merge(ARRAY, ARRAY)),
+		assertEquals(Objects.hashCode(Arrays.<String>merge(Strings.<String>toArray("a"), ARRAY)),
+				Objects.hashCode(new String[] {"a", "a", "b", "c", "d", "e", "f"}));
+		assertEquals(Objects.hashCode(Arrays.<String>merge(ARRAY, ARRAY)),
 				Objects.hashCode(FLAT_ARRAY_2D));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>merge(ARRAY_2D)),
+		assertEquals(Objects.hashCode(Arrays.<String>merge(ARRAY_2D)),
 				Objects.hashCode(FLAT_ARRAY_2D));
 	}
 
@@ -82,54 +69,37 @@ public class ArraysTest
 		IO.test("testTake");
 
 		// - 1D
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY)),
-				Objects.hashCode(ARRAY));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY, 4)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY)), Objects.hashCode(ARRAY));
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY, 4)),
 				Objects.hashCode(new String[] {"e", "f"}));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY, 4, 2)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY, 4, 2)),
 				Objects.hashCode(new String[] {"e", "f"}));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY, 4, 10)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY, 4, 10)),
 				Objects.hashCode(new String[] {"e", "f"}));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY, 4, 0)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY, 4, 0)),
 				Objects.hashCode(Strings.EMPTY_ARRAY));
 
 		// - 2D
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_2D)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_2D)),
 				Objects.hashCode(FLAT_ARRAY_2D));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1)), Objects.hashCode(ARRAY));
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 1)),
 				Objects.hashCode(ARRAY));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 1)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 10)),
 				Objects.hashCode(ARRAY));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 10)),
-				Objects.hashCode(ARRAY));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 0)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 0)),
 				Objects.hashCode(Strings.EMPTY_ARRAY));
 
 		// - 3D
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_3D)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_3D)),
 				Objects.hashCode(FLAT_ARRAY_3D));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1)),
 				Objects.hashCode(FLAT_ARRAY_2D));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 1)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 1)),
 				Objects.hashCode(FLAT_ARRAY_2D));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 10)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 10)),
 				Objects.hashCode(FLAT_ARRAY_2D));
-		assertEquals(
-				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 0)),
+		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 0)),
 				Objects.hashCode(Strings.EMPTY_ARRAY));
 	}
 }

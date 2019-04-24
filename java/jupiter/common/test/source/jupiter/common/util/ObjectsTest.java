@@ -44,48 +44,17 @@ public class ObjectsTest
 
 		assertEquals(Objects.hashCode(Integers.EMPTY_ARRAY),
 				Objects.hashCode(Integers.EMPTY_ARRAY));
-		assertEquals(Objects.hashCode(new Integer[][] {
-			Integers.EMPTY_ARRAY
-		}), Objects.hashCode(new Integer[][] {
-			Integers.EMPTY_ARRAY
-		}));
-		assertEquals(Objects.hashCode(new Integer[][][] {
-			new Integer[][] {
-				Integers.EMPTY_ARRAY
-			}
-		}), Objects.hashCode(new Integer[][][] {
-			new Integer[][] {
-				Integers.EMPTY_ARRAY
-			}
-		}));
+		assertEquals(Objects.hashCode(new Integer[][] {Integers.EMPTY_ARRAY}),
+				Objects.hashCode(new Integer[][] {Integers.EMPTY_ARRAY}));
+		assertEquals(Objects.hashCode(new Integer[][][] {new Integer[][] {Integers.EMPTY_ARRAY}}),
+				Objects.hashCode(new Integer[][][] {new Integer[][] {Integers.EMPTY_ARRAY}}));
 
 		assertEquals(Objects.hashCode(null), Objects.hashCode(null));
-		assertEquals(Objects.hashCode(new Integer[] {
-			null
-		}), Objects.hashCode(new Integer[] {
-			null
-		}));
-		assertEquals(Objects.hashCode(new Integer[][] {
-			new Integer[] {
-				null
-			}
-		}), Objects.hashCode(new Integer[][] {
-			new Integer[] {
-				null
-			}
-		}));
-		assertEquals(Objects.hashCode(new Integer[][][] {
-			new Integer[][] {
-				new Integer[] {
-					null
-				}
-			}
-		}), Objects.hashCode(new Integer[][][] {
-			new Integer[][] {
-				new Integer[] {
-					null
-				}
-			}
-		}));
+		assertEquals(Objects.hashCode(new Integer[] {null}),
+				Objects.hashCode(new Integer[] {null}));
+		assertEquals(Objects.hashCode(new Integer[][] {new Integer[] {null}}),
+				Objects.hashCode(new Integer[][] {new Integer[] {null}}));
+		assertEquals(Objects.hashCode(new Integer[][][] {new Integer[][] {new Integer[] {null}}}),
+				Objects.hashCode(new Integer[][][] {new Integer[][] {new Integer[] {null}}}));
 	}
 }

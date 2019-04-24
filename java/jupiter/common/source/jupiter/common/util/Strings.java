@@ -799,8 +799,7 @@ public class Strings {
 	 * @return the index and the first token of {@code string} that is in {@code tokens}, or
 	 *         {@code null} if there is no such occurrence
 	 */
-	public static Index<String> findFirstString(final String string,
-			final String[] tokens) {
+	public static Index<String> findFirstString(final String string, final String[] tokens) {
 		return findFirstString(string, tokens, 0);
 	}
 
@@ -1048,8 +1047,8 @@ public class Strings {
 	 * @return the index and the last token of {@code string} that is in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code null} if there is no such occurrence
 	 */
-	public static Index<String> findLastString(final String string,
-			final Collection<String> tokens, final int fromIndex) {
+	public static Index<String> findLastString(final String string, final Collection<String> tokens,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1932,8 +1931,7 @@ public class Strings {
 	 * <p>
 	 * @return the indexes and {@code tokens} in {@code string}
 	 */
-	public static List<Index<String>> getStringIndexes(final String string,
-			final String[] tokens) {
+	public static List<Index<String>> getStringIndexes(final String string, final String[] tokens) {
 		return getStringIndexes(string, tokens, 0);
 	}
 
@@ -1948,8 +1946,8 @@ public class Strings {
 	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}
 	 */
-	public static List<Index<String>> getStringIndexes(final String string,
-			final String[] tokens, final int fromIndex) {
+	public static List<Index<String>> getStringIndexes(final String string, final String[] tokens,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1980,8 +1978,8 @@ public class Strings {
 	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
 	 *         forward to {@code toIndex}
 	 */
-	public static List<Index<String>> getStringIndexesTo(final String string,
-			final String[] tokens, final int toIndex) {
+	public static List<Index<String>> getStringIndexesTo(final String string, final String[] tokens,
+			final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
