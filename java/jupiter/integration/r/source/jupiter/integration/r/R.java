@@ -48,7 +48,7 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static final String PATH = "Rscript";
-	public static final String[] ARGS = Strings.toArray("--no-save");
+	public static final String[] ARGS = new String[] {"--no-save"};
 	public static volatile String REPO = "https://cloud.r-project.org";
 
 	public static final IOHandler PRINTER = new RPrinter();
@@ -201,20 +201,14 @@ public class R {
 		 * The printer.
 		 */
 		protected final IOHandler printer;
-		protected final boolean isError;
 
-		public RPrinter() {
-			this(false);
+		protected RPrinter() {
+			this(IO.getPrinter());
 		}
 
-		public RPrinter(final boolean isError) {
-			this(IO.getPrinter(), isError);
-		}
-
-		public RPrinter(final IOHandler printer, final boolean isError) {
+		protected RPrinter(final IOHandler printer) {
 			super();
 			this.printer = printer;
-			this.isError = isError;
 		}
 
 		@Override
@@ -234,7 +228,7 @@ public class R {
 
 		@Override
 		public Worker<Message, Integer> clone() {
-			return new RPrinter(printer, isError);
+			return new RPrinter(printer);
 		}
 	}
 }

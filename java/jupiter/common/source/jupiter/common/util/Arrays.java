@@ -57,16 +57,34 @@ public class Arrays {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> T[] toArray(final T... array) {
-		return array;
+	public static <T> T[] toArray(final Class<T> c, final T... array) {
+		final T[] result = create(c, array.length);
+		System.arraycopy(array, 0, result, 0, array.length);
+		return result;
 	}
 
-	public static <T> T[][] toArray2D(final T[]... array2D) {
-		return array2D;
+	public static <T> T[][] toArray2D(final Class<T> c, final T[]... array2D) {
+		final int rowCount = array2D.length;
+		final int columnCount = array2D[0].length;
+		final T[][] result = create(c, rowCount, columnCount);
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array2D[i], 0, result, i * columnCount, columnCount);
+		}
+		return result;
 	}
 
-	public static <T> T[][][] toArray3D(final T[][]... array3D) {
-		return array3D;
+	public static <T> T[][][] toArray3D(final Class<T> c, final T[][]... array3D) {
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final T[][][] result = create(c, rowCount, columnCount, depthCount);
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < rowCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, result, (i * columnCount + j) * depthCount,
+						depthCount);
+			}
+		}
+		return result;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,25 +248,6 @@ public class Arrays {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns an array of type {@code T} containing the specified object of type {@code T} and all
-	 * the elements of the specified array of type {@code T}.
-	 * <p>
-	 * @param <T> the type of the object and the component type of the array
-	 * @param a   an object of type {@code T} (may be {@code null})
-	 * @param b   an array of type {@code T} (may be {@code null})
-	 * <p>
-	 * @return an array of type {@code T} containing the specified object of type {@code T} and all
-	 *         the elements of the specified array of type {@code T}
-	 * <p>
-	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
-	 *                                  superclass or superinterface of, the type of {@code b}
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T[] merge(final T a, final T... b) {
-		return merge(toArray(a), b);
-	}
 
 	/**
 	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
