@@ -48,7 +48,7 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static final String PATH = "Rscript";
-	public static final String[] ARGS = new String[] {"--no-save"};
+	public static final String[] ARGS = new String[] {};
 	public static volatile String REPO = "https://cloud.r-project.org";
 
 	public static final IOHandler PRINTER = new RPrinter();
