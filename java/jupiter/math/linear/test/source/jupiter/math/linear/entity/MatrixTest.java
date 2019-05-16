@@ -24,7 +24,7 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.integration.gpu.OpenCL.CL;
+import static jupiter.integration.hardware.OpenCL.CL;
 
 import jupiter.common.math.Statistics;
 import jupiter.common.struct.table.DoubleTable;
@@ -34,7 +34,7 @@ import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
-import jupiter.integration.gpu.OpenCL;
+import jupiter.integration.hardware.OpenCL;
 
 public class MatrixTest
 		extends Test {

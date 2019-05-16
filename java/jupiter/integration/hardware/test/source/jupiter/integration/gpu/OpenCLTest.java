@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.gpu;
+package jupiter.integration.hardware;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.integration.gpu.OpenCL.CL;
+import static jupiter.integration.hardware.OpenCL.CL;
 
 import java.io.IOException;
 
