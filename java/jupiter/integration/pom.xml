@@ -19,7 +19,7 @@
 
 	<modules>
 		<module>android</module>
-		<module>gpu</module><!-- @since 1.6 -->
+		<module>hardware</module><!-- @since 1.6 -->
 		<!--<module>jni</module>--><!-- @since 1.8 -->
 		<module>log</module>
 		<module>r</module>
