@@ -134,7 +134,7 @@ public class R {
 	 * @return {@code true} if the R engine processed the specified script, {@code false} otherwise
 	 */
 	public static boolean execute(final String script) {
-		return execute(Arrays.<String>merge(Strings.toArray(script), ARGS));
+		return execute(Arrays.<String>merge(Strings.asArray(script), ARGS));
 	}
 
 	public static boolean execute(final String... command) {

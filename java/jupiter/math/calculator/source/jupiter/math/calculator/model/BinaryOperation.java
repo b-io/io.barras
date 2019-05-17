@@ -88,7 +88,7 @@ public class BinaryOperation
 	/**
 	 * Sets the type.
 	 * <p>
-	 * @param type an {@link Type}
+	 * @param type an {@link jupiter.math.calculator.model.Element.Type}
 	 */
 	public void setType(final Type type) {
 		this.type = type;

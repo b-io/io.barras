@@ -465,11 +465,11 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Element.Type} of the specified token.
+	 * Returns the {@link jupiter.math.calculator.model.Element.Type} of the specified token.
 	 * <p>
 	 * @param token a {@code char} value
 	 * <p>
-	 * @return the {@link Element.Type} of the specified token
+	 * @return the {@link jupiter.math.calculator.model.Element.Type} of the specified token
 	 */
 	protected static Element.Type getType(final char token) {
 		switch (token) {
