@@ -1354,7 +1354,7 @@ public class Strings {
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param string a {@link String}
-	 * @param tokens the array of {@code String} to find
+	 * @param tokens the array of {@link String} to find
 	 * <p>
 	 * @return the index of the first token of {@code string} that is not in {@code tokens}, or
 	 *         {@code -1} if there is no such occurrence
@@ -1368,7 +1368,7 @@ public class Strings {
 	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param string    a {@link String}
-	 * @param tokens    the array of {@code String} to find
+	 * @param tokens    the array of {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the index of the first token of {@code string} that is not in {@code tokens}, seeking
@@ -1628,7 +1628,7 @@ public class Strings {
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param string a {@link String}
-	 * @param tokens the array of {@code String} to find
+	 * @param tokens the array of {@link String} to find
 	 * <p>
 	 * @return the index of the last token of {@code string} that is not in {@code tokens}, or
 	 *         {@code -1} if there is no such occurrence
@@ -1642,7 +1642,7 @@ public class Strings {
 	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param string    a {@link String}
-	 * @param tokens    the array of {@code String} to find
+	 * @param tokens    the array of {@link String} to find
 	 * @param fromIndex the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the index of the last token of {@code string} that is not in {@code tokens}, seeking
@@ -2502,7 +2502,7 @@ public class Strings {
 	 * {@code delimiters}.
 	 * <p>
 	 * @param string     a {@link String}
-	 * @param delimiters the array of delimiting {@code String}
+	 * @param delimiters the array of delimiting {@link String}
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
 	 *         {@code delimiters}
@@ -2516,7 +2516,7 @@ public class Strings {
 	 * {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param string     a {@link String}
-	 * @param delimiters the array of delimiting {@code String}
+	 * @param delimiters the array of delimiting {@link String}
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code string} around
@@ -2770,12 +2770,12 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code String} representation of the specified content if not {@code null},
+	 * Returns the {@link String} representation of the specified content if not {@code null},
 	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param content an {@link Object}
 	 * <p>
-	 * @return the {@code String} representation of the specified content if not {@code null},
+	 * @return the {@link String} representation of the specified content if not {@code null},
 	 *         {@code "null"} otherwise
 	 */
 	public static String toString(final Object content) {
@@ -2783,12 +2783,12 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@code String} representation of the specified content if not {@code null} or
+	 * Returns the {@link String} representation of the specified content if not {@code null} or
 	 * {@code "null"}, {@code null} otherwise.
 	 * <p>
 	 * @param content an {@link Object}
 	 * <p>
-	 * @return the {@code String} representation of the specified content if not {@code null} or
+	 * @return the {@link String} representation of the specified content if not {@code null} or
 	 *         {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object content) {
@@ -2800,13 +2800,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@code String} representation of the specified content if not {@code null},
+	 * Returns the {@link String} representation of the specified content if not {@code null},
 	 * {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the {@code String} representation of the specified content if not {@code null},
+	 * @return the {@link String} representation of the specified content if not {@code null},
 	 *         {@code defaultString} otherwise
 	 */
 	public static String toString(final Object content, final String defaultString) {
@@ -2814,13 +2814,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@code String} representation of the specified content if not {@code null} or
+	 * Returns the {@link String} representation of the specified content if not {@code null} or
 	 * {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the {@code String} representation of the specified content if not {@code null} or
+	 * @return the {@link String} representation of the specified content if not {@code null} or
 	 *         {@code "null"}, {@code defaultString} otherwise
 	 */
 	public static String toStringWithNull(final Object content, final String defaultString) {
