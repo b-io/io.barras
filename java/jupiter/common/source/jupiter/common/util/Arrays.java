@@ -364,7 +364,6 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param <T>   the class of the objects to be sorted
 	 * @param array the array to be sorted
 	 * <p>
 	 * @throws ClassCastException       if the array contains elements that are not mutually
@@ -372,8 +371,8 @@ public class Arrays {
 	 * @throws IllegalArgumentException (optional) if the natural ordering of the array elements is
 	 *                                  found to violate the {@link Comparable} contract
 	 */
-	public static <T> void sort(final T[] array) {
-		ComparableSort.<T>sort(array, 0, array.length, null, 0, 0);
+	public static void sort(final Object[] array) {
+		ComparableSort.sort(array, 0, array.length, null, 0, 0);
 	}
 
 	/**
@@ -406,7 +405,6 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param <T>       the class of the objects to be sorted
 	 * @param array     the array to be sorted
 	 * @param fromIndex the index of the first element (inclusive) to be sorted
 	 * @param toIndex   the index of the last element (exclusive) to be sorted
@@ -418,11 +416,11 @@ public class Arrays {
 	 * @throws ClassCastException             if the array contains elements that are not mutually
 	 *                                        comparable (for example, strings and integers)
 	 */
-	public static <T> void sort(final T[] array, final int fromIndex, final int toIndex) {
+	public static void sort(final Object[] array, final int fromIndex, final int toIndex) {
 		// Check the arguments
 		IntegerArguments.requireNonNegative(toIndex);
 
-		ComparableSort.<T>sort(array, fromIndex, toIndex, null, 0, 0);
+		ComparableSort.sort(array, fromIndex, toIndex, null, 0, 0);
 	}
 
 	//////////////////////////////////////////////
@@ -455,7 +453,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param <T>        the class of the objects to be sorted
+	 * @param <T>        the component type of the array
 	 * @param array      the array to be sorted
 	 * @param comparator the comparator to determine the order of the array. A {@code null} value
 	 *                   indicates that {@linkplain Comparable natural ordering} of the elements
@@ -504,7 +502,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param <T>        the class of the objects to be sorted
+	 * @param <T>        the component type of the array
 	 * @param a          the array to be sorted
 	 * @param fromIndex  the index of the first element (inclusive) to be sorted
 	 * @param toIndex    the index of the last element (exclusive) to be sorted

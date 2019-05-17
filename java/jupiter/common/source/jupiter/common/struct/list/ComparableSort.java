@@ -96,16 +96,16 @@ public class ComparableSort {
 	/**
 	 * Creates a TimSort instance to maintain the state of an ongoing sort.
 	 * <p>
-	 * @param a        the array to be sorted
+	 * @param array    the array to be sorted
 	 * @param work     a workspace array (slice)
 	 * @param workBase the origin of the usable space in the work array
 	 * @param workLen  the usable size of the work array
 	 */
-	protected ComparableSort(Object[] a, Object[] work, int workBase, int workLen) {
-		this.a = a;
+	protected ComparableSort(Object[] array, Object[] work, int workBase, int workLen) {
+		this.a = array;
 
 		// Allocate temporary storage (which may be increased later if necessary)
-		int len = a.length;
+		int len = array.length;
 		int tlen = (len < 2 * INITIAL_TMP_STORAGE_LENGTH) ?
 				len >>> 1 : INITIAL_TMP_STORAGE_LENGTH;
 		if (work == null || workLen < tlen || workBase + tlen > work.length) {
@@ -147,15 +147,15 @@ public class ComparableSort {
 	 * {@link jupiter.common.util.Arrays}) after performing any necessary array bounds checks and
 	 * expanding parameters into the required forms.
 	 * <p>
-	 * @param a        the array to be sorted
+	 * @param array    the array to be sorted
 	 * @param lo       the index of the first element, inclusive, to be sorted
 	 * @param hi       the index of the last element, exclusive, to be sorted
 	 * @param work     a workspace array (slice)
 	 * @param workBase the origin of the usable space in the work array
 	 * @param workLen  the usable size of the work array
 	 */
-	public static void sort(Object[] a, int lo, int hi, Object[] work, int workBase, int workLen) {
-		assert a != null && lo >= 0 && lo <= hi && hi <= a.length;
+	public static void sort(Object[] array, int lo, int hi, Object[] work, int workBase, int workLen) {
+		assert array != null && lo >= 0 && lo <= hi && hi <= array.length;
 
 		int nRemaining = hi - lo;
 		if (nRemaining < 2) {
@@ -163,8 +163,8 @@ public class ComparableSort {
 		}
 		// If array is small, do a "mini-TimSort" with no merges
 		if (nRemaining < MIN_MERGE) {
-			int initRunLen = countRunAndMakeAscending(a, lo, hi);
-			binarySort(a, lo, hi, lo + initRunLen);
+			int initRunLen = countRunAndMakeAscending(array, lo, hi);
+			binarySort(array, lo, hi, lo + initRunLen);
 			return;
 		}
 
@@ -172,16 +172,16 @@ public class ComparableSort {
 		 * March over the array once, left to right, finding natural runs, extending short natural
 		 * runs to minRun elements and merging runs to maintain stack invariant.
 		 */
-		ComparableSort ts = new ComparableSort(a, work, workBase, workLen);
+		ComparableSort ts = new ComparableSort(array, work, workBase, workLen);
 		int minRun = minRunLength(nRemaining);
 		do {
 			// Identify next run
-			int runLen = countRunAndMakeAscending(a, lo, hi);
+			int runLen = countRunAndMakeAscending(array, lo, hi);
 
 			// If run is short, extend to min(minRun, nRemaining)
 			if (runLen < minRun) {
 				int force = nRemaining <= minRun ? nRemaining : minRun;
-				binarySort(a, lo, lo + force, lo + runLen);
+				binarySort(array, lo, lo + force, lo + runLen);
 				runLen = force;
 			}
 
@@ -209,20 +209,20 @@ public class ComparableSort {
 	 * of it: the method assumes that the elements from index {@code lo}, inclusive, to
 	 * {@code start}, exclusive are already sorted.
 	 * <p>
-	 * @param a     the array in which a range is to be sorted
+	 * @param array the array in which a range is to be sorted
 	 * @param lo    the index of the first element in the range to be sorted
 	 * @param hi    the index after the last element in the range to be sorted
 	 * @param start the index of the first element in the range that is not already known to be
 	 *              sorted ({@code lo <= start <= hi})
 	 */
 	@SuppressWarnings({"fallthrough", "rawtypes", "unchecked"})
-	protected static void binarySort(Object[] a, int lo, int hi, int start) {
+	protected static void binarySort(Object[] array, int lo, int hi, int start) {
 		assert lo <= start && start <= hi;
 		if (start == lo) {
 			start++;
 		}
 		for (; start < hi; start++) {
-			Comparable pivot = (Comparable) a[start];
+			Comparable pivot = (Comparable) array[start];
 
 			// Set left (and right) to the index where a[start] (pivot) belongs
 			int left = lo;
@@ -233,7 +233,7 @@ public class ComparableSort {
 			//   pivot < all in [right, start).
 			while (left < right) {
 				int mid = (left + right) >>> 1;
-				if (pivot.compareTo(a[mid]) < 0) {
+				if (pivot.compareTo(array[mid]) < 0) {
 					right = mid;
 				} else {
 					left = mid + 1;
@@ -250,12 +250,12 @@ public class ComparableSort {
 			int n = start - left; // the number of elements to move
 			// Switch is just an optimization for arraycopy in default case
 			switch (n) {
-				case 2: a[left + 2] = a[left + 1];
-				case 1: a[left + 1] = a[left];
+				case 2: array[left + 2] = array[left + 1];
+				case 1: array[left + 1] = array[left];
 					break;
-				default: System.arraycopy(a, left, a, left + 1, n);
+				default: System.arraycopy(array, left, array, left + 1, n);
 			}
-			a[left] = pivot;
+			array[left] = pivot;
 		}
 	}
 
@@ -271,15 +271,15 @@ public class ComparableSort {
 	 * is needed so that the call can safely reverse a descending sequence without violating
 	 * stability.
 	 * <p>
-	 * @param a  the array in which a run is to be counted and possibly reversed
-	 * @param lo the index of the first element in the run
-	 * @param hi the index after the last element that may be contained in the run. It is required
-	 *           that {@code lo < hi}.
+	 * @param array the array in which a run is to be counted and possibly reversed
+	 * @param lo    the index of the first element in the run
+	 * @param hi    the index after the last element that may be contained in the run. It is
+	 *              required that {@code lo < hi}.
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	protected static int countRunAndMakeAscending(Object[] a, int lo, int hi) {
+	protected static int countRunAndMakeAscending(Object[] array, int lo, int hi) {
 		assert lo < hi;
 		int runHi = lo + 1;
 		if (runHi == hi) {
@@ -287,15 +287,15 @@ public class ComparableSort {
 		}
 
 		// Find end of run and reverse range if descending
-		if (((Comparable) a[runHi++]).compareTo(a[lo]) < 0) {
+		if (((Comparable) array[runHi++]).compareTo(array[lo]) < 0) {
 			// Descending
-			while (runHi < hi && ((Comparable) a[runHi]).compareTo(a[runHi - 1]) < 0) {
+			while (runHi < hi && ((Comparable) array[runHi]).compareTo(array[runHi - 1]) < 0) {
 				runHi++;
 			}
-			reverseRange(a, lo, runHi);
+			reverseRange(array, lo, runHi);
 		} else {
 			// Ascending
-			while (runHi < hi && ((Comparable) a[runHi]).compareTo(a[runHi - 1]) >= 0) {
+			while (runHi < hi && ((Comparable) array[runHi]).compareTo(array[runHi - 1]) >= 0) {
 				runHi++;
 			}
 		}
@@ -306,16 +306,16 @@ public class ComparableSort {
 	/**
 	 * Reverse the specified range of the specified array.
 	 * <p>
-	 * @param a  the array in which a range is to be reversed
-	 * @param lo the index of the first element in the range to be reversed
-	 * @param hi the index after the last element in the range to be reversed
+	 * @param array the array in which a range is to be reversed
+	 * @param lo    the index of the first element in the range to be reversed
+	 * @param hi    the index after the last element in the range to be reversed
 	 */
-	protected static void reverseRange(Object[] a, int lo, int hi) {
+	protected static void reverseRange(Object[] array, int lo, int hi) {
 		hi--;
 		while (lo < hi) {
-			Object t = a[lo];
-			a[lo++] = a[hi];
-			a[hi--] = t;
+			Object t = array[lo];
+			array[lo++] = array[hi];
+			array[hi--] = t;
 		}
 	}
 
@@ -469,12 +469,12 @@ public class ComparableSort {
 	 * the range contains an element equal to {@code key}, returns the index of the leftmost equal
 	 * element.
 	 * <p>
-	 * @param key  the key whose insertion point to search for
-	 * @param a    the array in which to search
-	 * @param base the index of the first element in the range
-	 * @param len  the length of the range (must be greater than 0)
-	 * @param hint the index at which to begin the search, {@code 0 <= hint < n} (the closer hint is
-	 *             to the result, the faster this method will run)
+	 * @param key   the key whose insertion point to search for
+	 * @param array the array in which to search
+	 * @param base  the index of the first element in the range
+	 * @param len   the length of the range (must be greater than 0)
+	 * @param hint  the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
+	 *              is to the result, the faster this method will run)
 	 * <p>
 	 * @return the int k, {@code 0 <= k <= n} such that {@code a[b + k - 1] < key <= a[b + k]},
 	 *         pretending that {@code a[b - 1]} is minus infinity and {@code a[b + n]} is infinity;
@@ -482,18 +482,18 @@ public class ComparableSort {
 	 *         first {@code k} elements of {@code a} should precede {@code key}, and the last
 	 *         {@code n - k} should follow it
 	 */
-	protected static int gallopLeft(Comparable<Object> key, Object[] a,
+	protected static int gallopLeft(Comparable<Object> key, Object[] array,
 			int base, int len, int hint) {
 		assert len > 0 && hint >= 0 && hint < len;
 
 		int lastOfs = 0;
 		int ofs = 1;
-		if (key.compareTo(a[base + hint]) > 0) {
+		if (key.compareTo(array[base + hint]) > 0) {
 			/*
 			 * Gallop right until {@code a[base + hint + lastOfs] < key <= a[base + hint + ofs]}.
 			 */
 			int maxOfs = len - hint;
-			while (ofs < maxOfs && key.compareTo(a[base + hint + ofs]) > 0) {
+			while (ofs < maxOfs && key.compareTo(array[base + hint + ofs]) > 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
 				if (ofs <= 0) // int overflow
@@ -514,7 +514,7 @@ public class ComparableSort {
 			 * Gallop left until {@code a[base + hint - ofs] < key <= a[base + hint - lastOfs]}.
 			 */
 			final int maxOfs = hint + 1;
-			while (ofs < maxOfs && key.compareTo(a[base + hint - ofs]) <= 0) {
+			while (ofs < maxOfs && key.compareTo(array[base + hint - ofs]) <= 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
 				if (ofs <= 0) // int overflow
@@ -542,7 +542,7 @@ public class ComparableSort {
 		while (lastOfs < ofs) {
 			int m = lastOfs + ((ofs - lastOfs) >>> 1);
 
-			if (key.compareTo(a[base + m]) > 0) {
+			if (key.compareTo(array[base + m]) > 0) {
 				lastOfs = m + 1; // a[base + m] < key
 			} else {
 				ofs = m; // key <= a[base + m]
@@ -556,28 +556,28 @@ public class ComparableSort {
 	 * Like {@link #gallopLeft}, except that if the range contains an element equal to {@code key},
 	 * {@link #gallopRight} returns the index after the rightmost equal element.
 	 * <p>
-	 * @param key  the key whose insertion point to search for
-	 * @param a    the array in which to search
-	 * @param base the index of the first element in the range
-	 * @param len  the length of the range (must be greater than 0)
-	 * @param hint the index at which to begin the search, {@code 0 <= hint < n} (the closer hint is
-	 *             to the result, the faster this method will run)
+	 * @param key   the key whose insertion point to search for
+	 * @param array the array in which to search
+	 * @param base  the index of the first element in the range
+	 * @param len   the length of the range (must be greater than 0)
+	 * @param hint  the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
+	 *              is to the result, the faster this method will run)
 	 * <p>
 	 * @return the int {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
 	 */
-	protected static int gallopRight(Comparable<Object> key, Object[] a,
+	protected static int gallopRight(Comparable<Object> key, Object[] array,
 			int base, int len, int hint) {
 		assert len > 0 && hint >= 0 && hint < len;
 
 		int ofs = 1;
 		int lastOfs = 0;
-		if (key.compareTo(a[base + hint]) < 0) {
+		if (key.compareTo(array[base + hint]) < 0) {
 			/*
 			 * Gallop left until {@code a[b + hint - ofs] <= key < a[b + hint - lastOfs]}.
 			 */
 			int maxOfs = hint + 1;
-			while (ofs < maxOfs && key.compareTo(a[base + hint - ofs]) < 0) {
+			while (ofs < maxOfs && key.compareTo(array[base + hint - ofs]) < 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
 				if (ofs <= 0) // int overflow
@@ -599,7 +599,7 @@ public class ComparableSort {
 			 * Gallop right until {@code a[b + hint + lastOfs] <= key < a[b + hint + ofs]}.
 			 */
 			int maxOfs = len - hint;
-			while (ofs < maxOfs && key.compareTo(a[base + hint + ofs]) >= 0) {
+			while (ofs < maxOfs && key.compareTo(array[base + hint + ofs]) >= 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
 				if (ofs <= 0) // int overflow
@@ -626,7 +626,7 @@ public class ComparableSort {
 		while (lastOfs < ofs) {
 			int m = lastOfs + ((ofs - lastOfs) >>> 1);
 
-			if (key.compareTo(a[base + m]) < 0) {
+			if (key.compareTo(array[base + m]) < 0) {
 				ofs = m; // key < a[b + m]
 			} else {
 				lastOfs = m + 1; // a[b + m] <= key
