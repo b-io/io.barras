@@ -30,6 +30,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.StringParser;
@@ -117,39 +118,75 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code String} values from the specified array of type {@code T}.
+	 * Returns an array of {@link String} from the specified array of type {@code T}.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
-	 * @return an array of {@code String} values from the specified array of type {@code T}
+	 * @return an array of {@link String} from the specified array of type {@code T}
 	 */
-	public static <T> String[] toArray(final T... array) {
+	public static <T> String[] toArray(final T[] array) {
 		return PARSER.callToArray(array);
 	}
 
 	/**
-	 * Returns a 2D array of {@code String} values from the specified 2D array of type {@code T}.
+	 * Returns an array of {@link String} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an array of {@link String} from the specified array of type {@code T}
+	 */
+	public static <T> String[] asArray(final T... array) {
+		return toArray(array);
+	}
+
+	/**
+	 * Returns a 2D array of {@link String} from the specified 2D array of type {@code T}.
 	 * <p>
 	 * @param <T>     the component type of the array
 	 * @param array2D a 2D array of type {@code T}
 	 * <p>
-	 * @return a 2D array of {@code String} values from the specified 2D array of type {@code T}
+	 * @return a 2D array of {@link String} from the specified 2D array of type {@code T}
 	 */
-	public static <T> String[][] toArray2D(final T[]... array2D) {
+	public static <T> String[][] toArray2D(final T[][] array2D) {
 		return PARSER.callToArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code String} values from the specified 3D array of type {@code T}.
+	 * Returns a 2D array of {@link String} from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return a 2D array of {@link String} from the specified 2D array of type {@code T}
+	 */
+	public static <T> String[][] asArray2D(final T[]... array2D) {
+		return toArray2D(array2D);
+	}
+
+	/**
+	 * Returns a 3D array of {@link String} from the specified 3D array of type {@code T}.
 	 * <p>
 	 * @param <T>     the component type of the array
 	 * @param array3D a 3D array of type {@code T}
 	 * <p>
-	 * @return a 3D array of {@code String} values from the specified 3D array of type {@code T}
+	 * @return a 3D array of {@link String} from the specified 3D array of type {@code T}
 	 */
-	public static <T> String[][][] toArray3D(final T[][]... array3D) {
+	public static <T> String[][][] toArray3D(final T[][][] array3D) {
 		return PARSER.callToArray3D(array3D);
+	}
+
+	/**
+	 * Returns a 3D array of {@link String} from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return a 3D array of {@link String} from the specified 3D array of type {@code T}
+	 */
+	public static <T> String[][][] asArray3D(final T[][]... array3D) {
+		return toArray3D(array3D);
 	}
 
 	/**
@@ -174,8 +211,20 @@ public class Strings {
 	 * <p>
 	 * @return a {@link List} of {@link String} from the specified array of type {@code T}
 	 */
-	public static <T> List<String> toList(final T... array) {
-		return PARSER.callToList(toArray(array));
+	public static <T> List<String> toList(final T[] array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns a {@link List} of {@link String} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link List} of {@link String} from the specified array of type {@code T}
+	 */
+	public static <T> List<String> asList(final T... array) {
+		return toList(array);
 	}
 
 	/**
@@ -186,8 +235,20 @@ public class Strings {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified array of type {@code T}
 	 */
-	public static <T> ExtendedList<String> toExtendedList(final T... array) {
-		return PARSER.callToList(toArray(array));
+	public static <T> ExtendedList<String> toExtendedList(final T[] array) {
+		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link String} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link String} from the specified array of type {@code T}
+	 */
+	public static <T> ExtendedList<String> asExtendedList(final T... array) {
+		return toExtendedList(array);
 	}
 
 	/**
@@ -217,6 +278,46 @@ public class Strings {
 	public static <T> ExtendedList<String> collectionToExtendedList(
 			final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a {@link Set} of {@link String} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link Set} of {@link String} from the specified array of type {@code T}
+	 */
+	public static <T> Set<String> toSet(final T[] array) {
+		return PARSER.callToSet(array);
+	}
+
+	/**
+	 * Returns a {@link Set} of {@link String} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link Set} of {@link String} from the specified array of type {@code T}
+	 */
+	public static <T> Set<String> asSet(final T... array) {
+		return toSet(array);
+	}
+
+	/**
+	 * Returns a {@link Set} of {@link String} from the specified {@link Collection} of type
+	 * {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return a {@link Set} of {@link String} from the specified {@link Collection} of type
+	 *         {@code T}
+	 */
+	public static <T> Set<String> collectionToSet(final Collection<T> collection) {
+		return PARSER.callCollectionToSet(collection);
 	}
 
 
