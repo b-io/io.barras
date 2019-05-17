@@ -48,9 +48,9 @@ public abstract class ObjectToShortMapper
 		return call(input);
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <I> short[] callToPrimitiveArray(final I... input) {
+	public <I> short[] callToPrimitiveArray(final I[] input) {
 		final short[] result = new short[input.length];
 		for (int i = 0; i < input.length; ++i) {
 			result[i] = call(input[i]);
@@ -58,7 +58,11 @@ public abstract class ObjectToShortMapper
 		return result;
 	}
 
-	public <I> short[] callToPrimitiveArray(final I[]... input2D) {
+	public <I> short[] callAsPrimitiveArray(final I... input) {
+		return callToPrimitiveArray(input);
+	}
+
+	public <I> short[] callToPrimitiveArray(final I[][] input2D) {
 		final int n = input2D[0].length;
 		final short[] result = new short[input2D.length * n];
 		for (int i = 0; i < input2D.length; ++i) {
@@ -69,7 +73,11 @@ public abstract class ObjectToShortMapper
 		return result;
 	}
 
-	public <I> short[] callToPrimitiveArray(final I[][]... input3D) {
+	public <I> short[] callAsPrimitiveArray(final I[]... input2D) {
+		return callToPrimitiveArray(input2D);
+	}
+
+	public <I> short[] callToPrimitiveArray(final I[][][] input3D) {
 		final int n = input3D[0].length;
 		final int o = input3D[0][0].length;
 		final short[] result = new short[input3D.length * n * o];
@@ -83,9 +91,13 @@ public abstract class ObjectToShortMapper
 		return result;
 	}
 
+	public <I> short[] callAsPrimitiveArray(final I[][]... input3D) {
+		return callToPrimitiveArray(input3D);
+	}
+
 	//////////////////////////////////////////////
 
-	public <I> short[][] callToPrimitiveArray2D(final I[]... input2D) {
+	public <I> short[][] callToPrimitiveArray2D(final I[][] input2D) {
 		final short[][] result = new short[input2D.length][];
 		for (int i = 0; i < input2D.length; ++i) {
 			result[i] = callToPrimitiveArray(input2D[i]);
@@ -93,13 +105,25 @@ public abstract class ObjectToShortMapper
 		return result;
 	}
 
-	public <I> short[][][] callToPrimitiveArray3D(final I[][]... input3D) {
+	public <I> short[][] callAsPrimitiveArray2D(final I[]... input2D) {
+		return callToPrimitiveArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public <I> short[][][] callToPrimitiveArray3D(final I[][][] input3D) {
 		final short[][][] result = new short[input3D.length][][];
 		for (int i = 0; i < input3D.length; ++i) {
 			result[i] = callToPrimitiveArray2D(input3D[i]);
 		}
 		return result;
 	}
+
+	public <I> short[][][] callAsPrimitiveArray3D(final I[][]... input3D) {
+		return callToPrimitiveArray3D(input3D);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> short[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final short[] result = new short[input.size()];

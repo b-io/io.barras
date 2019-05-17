@@ -66,15 +66,33 @@ public class StringParser
 		return call(input);
 	}
 
-	public String[] parseToArray(final Object... input) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String[] parseToArray(final Object[] input) {
 		return callToArray(input);
 	}
 
-	public String[][] parseToArray2D(final Object[]... input2D) {
+	public String[] parseAsArray(Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public String[][] parseToArray2D(final Object[][] input2D) {
 		return callToArray2D(input2D);
 	}
 
-	public String[][][] parseToArray3D(final Object[][]... input3D) {
+	public String[][] parseAsArray2D(Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public String[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public String[][][] parseAsArray3D(Object[][]... input3D) {
 		return callToArray3D(input3D);
 	}
 

@@ -207,7 +207,7 @@ public class Dates {
 	 * @return the Swiss public holidays in an {@link ExtendedList}
 	 */
 	public static ExtendedList<Date> getSwissPublicHolidays(final int year) {
-		final ExtendedList<Date> publicHolidays = new ExtendedList<Date>();
+		final ExtendedList<Date> publicHolidays = new ExtendedList<Date>(9);
 		// Add New Year's Day
 		publicHolidays.add(createDate(1, 1, year));
 		// Add Good Friday

@@ -80,15 +80,33 @@ public class DoubleParser
 		return call(input);
 	}
 
-	public Double[] parseToArray(final Object... input) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Double[] parseToArray(final Object[] input) {
 		return callToArray(input);
 	}
 
-	public Double[][] parseToArray2D(final Object[]... input2D) {
+	public Double[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Double[][] parseToArray2D(final Object[][] input2D) {
 		return callToArray2D(input2D);
 	}
 
-	public Double[][][] parseToArray3D(final Object[][]... input3D) {
+	public Double[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Double[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Double[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
 	}
 

@@ -80,18 +80,35 @@ public class LongParser
 		return call(input);
 	}
 
-	public Long[] parseToArray(final Object... input) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Long[] parseToArray(final Object[] input) {
 		return callToArray(input);
 	}
 
-	public Long[][] parseToArray2D(final Object[]... input2D) {
+	public Long[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Long[][] parseToArray2D(final Object[][] input2D) {
 		return callToArray2D(input2D);
 	}
 
-	public Long[][][] parseToArray3D(final Object[][]... input3D) {
+	public Long[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Long[][][] parseToArray3D(final Object[][][] input3D) {
 		return callToArray3D(input3D);
 	}
 
+	public Long[][][] parseAsArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT

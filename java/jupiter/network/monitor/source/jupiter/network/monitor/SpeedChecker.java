@@ -66,7 +66,7 @@ public class SpeedChecker {
 	/**
 	 * The {@link List} of URLs to download.
 	 */
-	protected static final List<String> URLS = Strings.toList(
+	protected static final List<String> URLS = Strings.asList(
 			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test");
 
 	/**

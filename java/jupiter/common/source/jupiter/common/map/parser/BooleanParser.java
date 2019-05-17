@@ -65,15 +65,33 @@ public class BooleanParser
 		return call(input);
 	}
 
-	public Boolean[] parseToArray(final Object... input) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Boolean[] parseToArray(final Object[] input) {
 		return callToArray(input);
 	}
 
-	public Boolean[][] parseToArray2D(final Object[]... input2D) {
+	public Boolean[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Boolean[][] parseToArray2D(final Object[][] input2D) {
 		return callToArray2D(input2D);
 	}
 
-	public Boolean[][][] parseToArray3D(final Object[][]... input3D) {
+	public Boolean[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Boolean[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Boolean[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
 	}
 

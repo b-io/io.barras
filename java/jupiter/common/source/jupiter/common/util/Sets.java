@@ -21,84 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.calculator.model;
+package jupiter.common.util;
 
-import static jupiter.common.util.Strings.SPACE;
+import java.util.Set;
 
-import jupiter.common.util.Strings;
-
-public class UnaryOperation
-		extends Element {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected Type type;
-	protected Element element;
-
+public class Sets
+		extends Collections {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public UnaryOperation(final Element parent, final String expression, final Type type,
-			final Element element) {
-		super(parent, expression);
-		this.type = type;
-		this.element = element;
+	protected Sets() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the type.
+	 * Tests whether the specified {@link Class} is assignable to a {@link Set}.
 	 * <p>
-	 * @return the type
-	 */
-	public Type getType() {
-		return type;
-	}
-
-	/**
-	 * Returns the element.
+	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return the element
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Set},
+	 *         {@code false} otherwise
 	 */
-	public Element getElement() {
-		return element;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Sets the type.
-	 * <p>
-	 * @param type an {@link jupiter.math.calculator.model.Element.Type}
-	 */
-	public void setType(final Type type) {
-		this.type = type;
-	}
-
-	/**
-	 * Sets the element.
-	 * <p>
-	 * @param element an {@link Element}
-	 */
-	public void setElement(final Element element) {
-		this.element = element;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public String toString() {
-		return Strings.toString(type) + SPACE + element;
+	public static boolean is(final Class<?> c) {
+		return Set.class.isAssignableFrom(c);
 	}
 }

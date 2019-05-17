@@ -58,14 +58,14 @@ public class ExpressionHandler {
 	/**
 	 * The {@link List} of binary operators.
 	 */
-	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.<List<Character>>toList(
-			Arrays.<Character>toList('+', '-'), Arrays.<Character>toList('*', '/'),
-			Arrays.<Character>toList('^'), Arrays.<Character>toList('~'));
+	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.<List<Character>>asList(
+			Arrays.<Character>asList('+', '-'), Arrays.<Character>asList('*', '/'),
+			Arrays.<Character>asList('^'), Arrays.<Character>asList('~'));
 	/**
 	 * The {@link List} of unary operators.
 	 */
-	protected static final List<List<Character>> UNARY_OPERATORS = Arrays.<List<Character>>toList(
-			Arrays.<Character>toList('!', '\''), Arrays.<Character>toList('@'));
+	protected static final List<List<Character>> UNARY_OPERATORS = Arrays.<List<Character>>asList(
+			Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
 
 	/**
 	 * The flag specifying whether to parallelize using a work queue.
@@ -465,11 +465,11 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Element.Type} of the specified token.
+	 * Returns the {@link jupiter.math.calculator.model.Element.Type} of the specified token.
 	 * <p>
 	 * @param token a {@code char} value
 	 * <p>
-	 * @return the {@link Element.Type} of the specified token
+	 * @return the {@link jupiter.math.calculator.model.Element.Type} of the specified token
 	 */
 	protected static Element.Type getType(final char token) {
 		switch (token) {

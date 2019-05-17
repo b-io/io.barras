@@ -100,9 +100,9 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the root {@link Map.Entry}.
+	 * Returns the root {@link java.util.Map.Entry}.
 	 * <p>
-	 * @return the root {@link Map.Entry}
+	 * @return the root {@link java.util.Map.Entry}
 	 */
 	public Entry<K, V> getRootEntry() {
 		return root;

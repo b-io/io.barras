@@ -48,9 +48,9 @@ public abstract class ObjectToDoubleMapper
 		return call(input);
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <I> double[] callToPrimitiveArray(final I... input) {
+	public <I> double[] callToPrimitiveArray(final I[] input) {
 		final double[] result = new double[input.length];
 		for (int i = 0; i < input.length; ++i) {
 			result[i] = call(input[i]);
@@ -58,7 +58,11 @@ public abstract class ObjectToDoubleMapper
 		return result;
 	}
 
-	public <I> double[] callToPrimitiveArray(final I[]... input2D) {
+	public <I> double[] callAsPrimitiveArray(final I... input) {
+		return callToPrimitiveArray(input);
+	}
+
+	public <I> double[] callToPrimitiveArray(final I[][] input2D) {
 		final int n = input2D[0].length;
 		final double[] result = new double[input2D.length * n];
 		for (int i = 0; i < input2D.length; ++i) {
@@ -69,7 +73,11 @@ public abstract class ObjectToDoubleMapper
 		return result;
 	}
 
-	public <I> double[] callToPrimitiveArray(final I[][]... input3D) {
+	public <I> double[] callAsPrimitiveArray(final I[]... input2D) {
+		return callToPrimitiveArray(input2D);
+	}
+
+	public <I> double[] callToPrimitiveArray(final I[][][] input3D) {
 		final int n = input3D[0].length;
 		final int o = input3D[0][0].length;
 		final double[] result = new double[input3D.length * n * o];
@@ -83,9 +91,13 @@ public abstract class ObjectToDoubleMapper
 		return result;
 	}
 
+	public <I> double[] callAsPrimitiveArray(final I[][]... input3D) {
+		return callToPrimitiveArray(input3D);
+	}
+
 	//////////////////////////////////////////////
 
-	public <I> double[][] callToPrimitiveArray2D(final I[]... input2D) {
+	public <I> double[][] callToPrimitiveArray2D(final I[][] input2D) {
 		final double[][] result = new double[input2D.length][];
 		for (int i = 0; i < input2D.length; ++i) {
 			result[i] = callToPrimitiveArray(input2D[i]);
@@ -93,7 +105,13 @@ public abstract class ObjectToDoubleMapper
 		return result;
 	}
 
-	public <I> double[][][] callToPrimitiveArray3D(final I[][]... input3D) {
+	public <I> double[][] callAsPrimitiveArray2D(final I[]... input2D) {
+		return callToPrimitiveArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public <I> double[][][] callToPrimitiveArray3D(final I[][][] input3D) {
 		final double[][][] result = new double[input3D.length][][];
 		for (int i = 0; i < input3D.length; ++i) {
 			result[i] = callToPrimitiveArray2D(input3D[i]);
@@ -101,7 +119,11 @@ public abstract class ObjectToDoubleMapper
 		return result;
 	}
 
-	//////////////////////////////////////////////
+	public <I> double[][][] callAsPrimitiveArray3D(final I[][]... input3D) {
+		return callToPrimitiveArray3D(input3D);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> double[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final double[] result = new double[input.size()];

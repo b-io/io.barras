@@ -125,24 +125,24 @@ public class IO {
 	}
 
 	public IO(final int stackIndex, final SeverityLevel severityLevel) {
-		this(stackIndex, severityLevel, Arrays.<IOHandler>toList(DEFAULT_CONSOLE_HANDLER));
+		this(stackIndex, severityLevel, Arrays.<IOHandler>asList(DEFAULT_CONSOLE_HANDLER));
 	}
 
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler) {
 		this(stackIndex, severityLevel,
-				Arrays.<IOHandler>toList(consoleHandler, DEFAULT_LOG_HANDLER));
+				Arrays.<IOHandler>asList(consoleHandler, DEFAULT_LOG_HANDLER));
 	}
 
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final LogHandler logHandler) {
 		this(stackIndex, severityLevel,
-				Arrays.<IOHandler>toList(DEFAULT_CONSOLE_HANDLER, logHandler));
+				Arrays.<IOHandler>asList(DEFAULT_CONSOLE_HANDLER, logHandler));
 	}
 
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
-		this(stackIndex, severityLevel, Arrays.<IOHandler>toList(consoleHandler, logHandler));
+		this(stackIndex, severityLevel, Arrays.<IOHandler>asList(consoleHandler, logHandler));
 	}
 
 	public IO(final int stackIndex, final SeverityLevel severityLevel,

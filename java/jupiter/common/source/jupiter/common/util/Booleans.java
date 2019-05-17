@@ -94,8 +94,20 @@ public class Booleans {
 	 * <p>
 	 * @return an array of {@code boolean} values from the specified array of type {@code T}
 	 */
-	public static <T> boolean[] toPrimitiveArray(final T... array) {
+	public static <T> boolean[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
+	}
+
+	/**
+	 * Returns an array of {@code boolean} values from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an array of {@code boolean} values from the specified array of type {@code T}
+	 */
+	public static <T> boolean[] asPrimitiveArray(final T... array) {
+		return toPrimitiveArray(array);
 	}
 
 	/**
@@ -106,8 +118,20 @@ public class Booleans {
 	 * <p>
 	 * @return an array of {@code boolean} values from the specified 2D array of type {@code T}
 	 */
-	public static <T> boolean[] toPrimitiveArray(final T[]... array2D) {
+	public static <T> boolean[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
+	}
+
+	/**
+	 * Returns an array of {@code boolean} values from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code boolean} values from the specified 2D array of type {@code T}
+	 */
+	public static <T> boolean[] asPrimitiveArray(final T[]... array2D) {
+		return toPrimitiveArray(array2D);
 	}
 
 	/**
@@ -118,8 +142,20 @@ public class Booleans {
 	 * <p>
 	 * @return an array of {@code boolean} values from the specified 3D array of type {@code T}
 	 */
-	public static <T> boolean[] toPrimitiveArray(final T[][]... array3D) {
+	public static <T> boolean[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
+	}
+
+	/**
+	 * Returns an array of {@code boolean} values from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code boolean} values from the specified 3D array of type {@code T}
+	 */
+	public static <T> boolean[] asPrimitiveArray(final T[][]... array3D) {
+		return toPrimitiveArray(array3D);
 	}
 
 	//////////////////////////////////////////////
@@ -132,8 +168,20 @@ public class Booleans {
 	 * <p>
 	 * @return a 2D array of {@code boolean} values from the specified 2D array of type {@code T}
 	 */
-	public static <T> boolean[][] toPrimitiveArray2D(final T[]... array2D) {
+	public static <T> boolean[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
+	}
+
+	/**
+	 * Returns a 2D array of {@code boolean} values from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return a 2D array of {@code boolean} values from the specified 2D array of type {@code T}
+	 */
+	public static <T> boolean[][] asPrimitiveArray2D(final T[]... array2D) {
+		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
@@ -144,8 +192,20 @@ public class Booleans {
 	 * <p>
 	 * @return a 3D array of {@code boolean} values from the specified 3D array of type {@code T}
 	 */
-	public static <T> boolean[][][] toPrimitiveArray3D(final T[][]... array3D) {
+	public static <T> boolean[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
+	}
+
+	/**
+	 * Returns a 3D array of {@code boolean} values from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return a 3D array of {@code boolean} values from the specified 3D array of type {@code T}
+	 */
+	public static <T> boolean[][][] asPrimitiveArray3D(final T[][]... array3D) {
+		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
@@ -171,10 +231,36 @@ public class Booleans {
 	 * <p>
 	 * @return an array of {@link Boolean} from the specified array of {@code boolean} values
 	 */
-	public static Boolean[] toArray(final boolean... array) {
+	public static Boolean[] toArray(final boolean[] array) {
 		final Boolean[] result = new Boolean[array.length];
 		for (int i = 0; i < array.length; ++i) {
 			result[i] = array[i];
+		}
+		return result;
+	}
+
+	/**
+	 * Returns an array of {@link Boolean} from the specified array of {@code boolean} values.
+	 * <p>
+	 * @param array an array of {@code boolean} values
+	 * <p>
+	 * @return an array of {@link Boolean} from the specified array of {@code boolean} values
+	 */
+	public static Boolean[] asArray(final boolean... array) {
+		return toArray(array);
+	}
+
+	/**
+	 * Returns a 2D array of {@link Boolean} from the specified 2D array of {@code boolean} values.
+	 * <p>
+	 * @param array2D a 2D array of {@code boolean} values
+	 * <p>
+	 * @return a 2D array of {@link Boolean} from the specified 2D array of {@code boolean} values
+	 */
+	public static Boolean[][] toArray2D(final boolean[][] array2D) {
+		final Boolean[][] result = new Boolean[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = toArray(array2D[i]);
 		}
 		return result;
 	}
@@ -186,10 +272,21 @@ public class Booleans {
 	 * <p>
 	 * @return a 2D array of {@link Boolean} from the specified 2D array of {@code boolean} values
 	 */
-	public static Boolean[][] toArray2D(final boolean[]... array2D) {
-		final Boolean[][] result = new Boolean[array2D.length][];
-		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = toArray(array2D[i]);
+	public static Boolean[][] asArray2D(final boolean[]... array2D) {
+		return toArray2D(array2D);
+	}
+
+	/**
+	 * Returns a 3D array of {@link Boolean} from the specified 3D array of {@code boolean} values.
+	 * <p>
+	 * @param array3D a 3D array of {@code boolean} values
+	 * <p>
+	 * @return a 3D array of {@link Boolean} from the specified 3D array of {@code boolean} values
+	 */
+	public static Boolean[][][] toArray3D(final boolean[][][] array3D) {
+		final Boolean[][][] result = new Boolean[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = toArray2D(array3D[i]);
 		}
 		return result;
 	}
@@ -201,12 +298,8 @@ public class Booleans {
 	 * <p>
 	 * @return a 3D array of {@link Boolean} from the specified 3D array of {@code boolean} values
 	 */
-	public static Boolean[][][] toArray3D(final boolean[][]... array3D) {
-		final Boolean[][][] result = new Boolean[array3D.length][][];
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = toArray2D(array3D[i]);
-		}
-		return result;
+	public static Boolean[][][] asArray3D(final boolean[][]... array3D) {
+		return toArray3D(array3D);
 	}
 
 	/**
@@ -230,8 +323,19 @@ public class Booleans {
 	 * <p>
 	 * @return a {@link List} of {@link Boolean} from the specified array of {@code boolean} values
 	 */
-	public static List<Boolean> toList(final boolean... array) {
-		return PARSER.callToList(array);
+	public static List<Boolean> toList(final boolean[] array) {
+		return PARSER.callToList(toArray(array));
+	}
+
+	/**
+	 * Returns a {@link List} of {@link Boolean} from the specified array of {@code boolean} values.
+	 * <p>
+	 * @param array an array of {@code boolean} values
+	 * <p>
+	 * @return a {@link List} of {@link Boolean} from the specified array of {@code boolean} values
+	 */
+	public static List<Boolean> asList(final boolean... array) {
+		return toList(array);
 	}
 
 	/**
@@ -243,7 +347,32 @@ public class Booleans {
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified array of
 	 *         {@code boolean} values
 	 */
-	public static ExtendedList<Boolean> toExtendedList(final boolean... array) {
+	public static ExtendedList<Boolean> toExtendedList(final boolean[] array) {
+		return PARSER.callToList(toArray(array));
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified array of
+	 * {@code boolean} values.
+	 * <p>
+	 * @param array an array of {@code boolean} values
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Boolean} from the specified array of
+	 *         {@code boolean} values
+	 */
+	public static ExtendedList<Boolean> asExtendedList(final boolean... array) {
+		return toExtendedList(array);
+	}
+
+	/**
+	 * Returns a {@link List} of {@link Boolean} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link List} of {@link Boolean} from the specified array of type {@code T}
+	 */
+	public static <T> List<Boolean> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
@@ -255,7 +384,20 @@ public class Booleans {
 	 * <p>
 	 * @return a {@link List} of {@link Boolean} from the specified array of type {@code T}
 	 */
-	public static <T> List<Boolean> toList(final T... array) {
+	public static <T> List<Boolean> asList(final T... array) {
+		return toList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified array of type
+	 * {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Boolean} from the specified array of type {@code T}
+	 */
+	public static <T> ExtendedList<Boolean> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
@@ -268,8 +410,8 @@ public class Booleans {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified array of type {@code T}
 	 */
-	public static <T> ExtendedList<Boolean> toExtendedList(final T... array) {
-		return PARSER.callToList(array);
+	public static <T> ExtendedList<Boolean> asExtendedList(final T... array) {
+		return toExtendedList(array);
 	}
 
 	/**
@@ -310,7 +452,30 @@ public class Booleans {
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified array of {@code boolean} values
 	 */
-	public static Set<Boolean> toSet(final boolean... array) {
+	public static Set<Boolean> toSet(final boolean[] array) {
+		return PARSER.callToSet(toArray(array));
+	}
+
+	/**
+	 * Returns a {@link Set} of {@link Boolean} from the specified array of {@code boolean} values.
+	 * <p>
+	 * @param array an array of {@code boolean} values
+	 * <p>
+	 * @return a {@link Set} of {@link Boolean} from the specified array of {@code boolean} values
+	 */
+	public static Set<Boolean> asSet(final boolean... array) {
+		return toSet(array);
+	}
+
+	/**
+	 * Returns a {@link Set} of {@link Boolean} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link Set} of {@link Boolean} from the specified array of type {@code T}
+	 */
+	public static <T> Set<Boolean> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
@@ -322,8 +487,8 @@ public class Booleans {
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified array of type {@code T}
 	 */
-	public static <T> Set<Boolean> toSet(final T... array) {
-		return PARSER.callToSet(array);
+	public static <T> Set<Boolean> asSet(final T... array) {
+		return toSet(array);
 	}
 
 	/**
@@ -425,7 +590,7 @@ public class Booleans {
 	 *         all the elements of the specified array of {@code boolean} values
 	 */
 	public static boolean[] merge(final boolean a, final boolean... b) {
-		return merge(toPrimitiveArray(a), b);
+		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
