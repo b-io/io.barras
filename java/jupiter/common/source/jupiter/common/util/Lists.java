@@ -46,7 +46,7 @@ public class Lists
 	@SuppressWarnings("unchecked")
 	public static <T> void sort(final List<T> list) {
 		final T[] array = (T[]) list.toArray();
-		Arrays.<T>sort(array);
+		Arrays.sort(array);
 		final ListIterator<T> iterator = list.listIterator();
 		for (final T element : array) {
 			iterator.next();
