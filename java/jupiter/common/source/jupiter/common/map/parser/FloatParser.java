@@ -80,15 +80,33 @@ public class FloatParser
 		return call(input);
 	}
 
-	public Float[] parseToArray(final Object... input) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Float[] parseToArray(final Object[] input) {
 		return callToArray(input);
 	}
 
-	public Float[][] parseToArray2D(final Object[]... input2D) {
+	public Float[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Float[][] parseToArray2D(final Object[][] input2D) {
 		return callToArray2D(input2D);
 	}
 
-	public Float[][][] parseToArray3D(final Object[][]... input3D) {
+	public Float[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Float[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Float[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
 	}
 

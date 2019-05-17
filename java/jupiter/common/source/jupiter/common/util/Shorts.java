@@ -149,8 +149,20 @@ public class Shorts {
 	 * <p>
 	 * @return an array of {@code short} values from the specified array of type {@code T}
 	 */
-	public static <T> short[] toPrimitiveArray(final T... array) {
+	public static <T> short[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
+	}
+
+	/**
+	 * Returns an array of {@code short} values from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an array of {@code short} values from the specified array of type {@code T}
+	 */
+	public static <T> short[] asPrimitiveArray(final T... array) {
+		return toPrimitiveArray(array);
 	}
 
 	/**
@@ -161,8 +173,20 @@ public class Shorts {
 	 * <p>
 	 * @return an array of {@code short} values from the specified 2D array of type {@code T}
 	 */
-	public static <T> short[] toPrimitiveArray(final T[]... array2D) {
+	public static <T> short[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
+	}
+
+	/**
+	 * Returns an array of {@code short} values from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code short} values from the specified 2D array of type {@code T}
+	 */
+	public static <T> short[] asPrimitiveArray(final T[]... array2D) {
+		return toPrimitiveArray(array2D);
 	}
 
 	/**
@@ -173,8 +197,20 @@ public class Shorts {
 	 * <p>
 	 * @return an array of {@code short} values from the specified 3D array of type {@code T}
 	 */
-	public static <T> short[] toPrimitiveArray(final T[][]... array3D) {
+	public static <T> short[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
+	}
+
+	/**
+	 * Returns an array of {@code short} values from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code short} values from the specified 3D array of type {@code T}
+	 */
+	public static <T> short[] asPrimitiveArray(final T[][]... array3D) {
+		return toPrimitiveArray(array3D);
 	}
 
 	//////////////////////////////////////////////
@@ -187,8 +223,20 @@ public class Shorts {
 	 * <p>
 	 * @return a 2D array of {@code short} values from the specified 2D array of type {@code T}
 	 */
-	public static <T> short[][] toPrimitiveArray2D(final T[]... array2D) {
+	public static <T> short[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
+	}
+
+	/**
+	 * Returns a 2D array of {@code short} values from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return a 2D array of {@code short} values from the specified 2D array of type {@code T}
+	 */
+	public static <T> short[][] asPrimitiveArray2D(final T[]... array2D) {
+		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
@@ -199,8 +247,20 @@ public class Shorts {
 	 * <p>
 	 * @return a 3D array of {@code short} values from the specified 3D array of type {@code T}
 	 */
-	public static <T> short[][][] toPrimitiveArray3D(final T[][]... array3D) {
+	public static <T> short[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
+	}
+
+	/**
+	 * Returns a 3D array of {@code short} values from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return a 3D array of {@code short} values from the specified 3D array of type {@code T}
+	 */
+	public static <T> short[][][] asPrimitiveArray3D(final T[][]... array3D) {
+		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
@@ -226,10 +286,36 @@ public class Shorts {
 	 * <p>
 	 * @return an array of {@link Short} from the specified array of {@code short} values
 	 */
-	public static Short[] toArray(final short... array) {
+	public static Short[] toArray(final short[] array) {
 		final Short[] result = new Short[array.length];
 		for (int i = 0; i < array.length; ++i) {
 			result[i] = array[i];
+		}
+		return result;
+	}
+
+	/**
+	 * Returns an array of {@link Short} from the specified array of {@code short} values.
+	 * <p>
+	 * @param array an array of {@code short} values
+	 * <p>
+	 * @return an array of {@link Short} from the specified array of {@code short} values
+	 */
+	public static Short[] asArray(final short... array) {
+		return toArray(array);
+	}
+
+	/**
+	 * Returns a 2D array of {@link Short} from the specified 2D array of {@code short} values.
+	 * <p>
+	 * @param array2D a 2D array of {@code short} values
+	 * <p>
+	 * @return a 2D array of {@link Short} from the specified 2D array of {@code short} values
+	 */
+	public static Short[][] toArray2D(final short[][] array2D) {
+		final Short[][] result = new Short[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = toArray(array2D[i]);
 		}
 		return result;
 	}
@@ -241,10 +327,21 @@ public class Shorts {
 	 * <p>
 	 * @return a 2D array of {@link Short} from the specified 2D array of {@code short} values
 	 */
-	public static Short[][] toArray2D(final short[]... array2D) {
-		final Short[][] result = new Short[array2D.length][];
-		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = toArray(array2D[i]);
+	public static Short[][] asArray2D(final short[]... array2D) {
+		return toArray2D(array2D);
+	}
+
+	/**
+	 * Returns a 3D array of {@link Short} from the specified 3D array of {@code short} values.
+	 * <p>
+	 * @param array3D a 3D array of {@code short} values
+	 * <p>
+	 * @return a 3D array of {@link Short} from the specified 3D array of {@code short} values
+	 */
+	public static Short[][][] toArray3D(final short[][][] array3D) {
+		final Short[][][] result = new Short[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = toArray2D(array3D[i]);
 		}
 		return result;
 	}
@@ -256,12 +353,8 @@ public class Shorts {
 	 * <p>
 	 * @return a 3D array of {@link Short} from the specified 3D array of {@code short} values
 	 */
-	public static Short[][][] toArray3D(final short[][]... array3D) {
-		final Short[][][] result = new Short[array3D.length][][];
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = toArray2D(array3D[i]);
-		}
-		return result;
+	public static Short[][][] asArray3D(final short[][]... array3D) {
+		return toArray3D(array3D);
 	}
 
 	/**
@@ -285,20 +378,56 @@ public class Shorts {
 	 * <p>
 	 * @return a {@link List} of {@link Short} from the specified array of {@code short} values
 	 */
-	public static List<Short> toList(final short... array) {
-		return PARSER.callToList(array);
+	public static List<Short> toList(final short[] array) {
+		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
-	 * values.
+	 * Returns a {@link List} of {@link Short} from the specified array of {@code short} values.
 	 * <p>
 	 * @param array an array of {@code short} values
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
-	 *         values
+	 * @return a {@link List} of {@link Short} from the specified array of {@code short} values
 	 */
-	public static ExtendedList<Short> toExtendedList(final short... array) {
+	public static List<Short> asList(final short... array) {
+		return toList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of
+	 * {@code short} values.
+	 * <p>
+	 * @param array an array of {@code short} values
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Short} from the specified array of
+	 *         {@code short} values
+	 */
+	public static ExtendedList<Short> toExtendedList(final short[] array) {
+		return PARSER.callToList(toArray(array));
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of
+	 * {@code short} values.
+	 * <p>
+	 * @param array an array of {@code short} values
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Short} from the specified array of
+	 *         {@code short} values
+	 */
+	public static ExtendedList<Short> asExtendedList(final short... array) {
+		return toExtendedList(array);
+	}
+
+	/**
+	 * Returns a {@link List} of {@link Short} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link List} of {@link Short} from the specified array of type {@code T}
+	 */
+	public static <T> List<Short> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
@@ -310,20 +439,34 @@ public class Shorts {
 	 * <p>
 	 * @return a {@link List} of {@link Short} from the specified array of type {@code T}
 	 */
-	public static <T> List<Short> toList(final T... array) {
-		return PARSER.callToList(array);
+	public static <T> List<Short> asList(final T... array) {
+		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type
+	 * {@code T}.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}
 	 */
-	public static <T> ExtendedList<Short> toExtendedList(final T... array) {
+	public static <T> ExtendedList<Short> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type
+	 * {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}
+	 */
+	public static <T> ExtendedList<Short> asExtendedList(final T... array) {
+		return toExtendedList(array);
 	}
 
 	/**
@@ -350,7 +493,8 @@ public class Shorts {
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@link Collection} of
 	 *         type {@code T}
 	 */
-	public static <T> ExtendedList<Short> collectionToExtendedList(final Collection<T> collection) {
+	public static <T> ExtendedList<Short> collectionToExtendedList(
+			final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
@@ -363,7 +507,30 @@ public class Shorts {
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified array of {@code short} values
 	 */
-	public static Set<Short> toSet(final short... array) {
+	public static Set<Short> toSet(final short[] array) {
+		return PARSER.callToSet(toArray(array));
+	}
+
+	/**
+	 * Returns a {@link Set} of {@link Short} from the specified array of {@code short} values.
+	 * <p>
+	 * @param array an array of {@code short} values
+	 * <p>
+	 * @return a {@link Set} of {@link Short} from the specified array of {@code short} values
+	 */
+	public static Set<Short> asSet(final short... array) {
+		return toSet(array);
+	}
+
+	/**
+	 * Returns a {@link Set} of {@link Short} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link Set} of {@link Short} from the specified array of type {@code T}
+	 */
+	public static <T> Set<Short> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
@@ -375,8 +542,8 @@ public class Shorts {
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified array of type {@code T}
 	 */
-	public static <T> Set<Short> toSet(final T... array) {
-		return PARSER.callToSet(array);
+	public static <T> Set<Short> asSet(final T... array) {
+		return toSet(array);
 	}
 
 	/**
@@ -563,7 +730,7 @@ public class Shorts {
 	 *         the elements of the specified array of {@code short} values
 	 */
 	public static short[] merge(final short a, final short... b) {
-		return merge(toPrimitiveArray(a), b);
+		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**

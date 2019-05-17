@@ -105,8 +105,20 @@ public class Doubles {
 	 * <p>
 	 * @return an array of {@code double} values from the specified array of type {@code T}
 	 */
-	public static <T> double[] toPrimitiveArray(final T... array) {
+	public static <T> double[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
+	}
+
+	/**
+	 * Returns an array of {@code double} values from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an array of {@code double} values from the specified array of type {@code T}
+	 */
+	public static <T> double[] asPrimitiveArray(final T... array) {
+		return toPrimitiveArray(array);
 	}
 
 	/**
@@ -117,8 +129,20 @@ public class Doubles {
 	 * <p>
 	 * @return an array of {@code double} values from the specified 2D array of type {@code T}
 	 */
-	public static <T> double[] toPrimitiveArray(final T[]... array2D) {
+	public static <T> double[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
+	}
+
+	/**
+	 * Returns an array of {@code double} values from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code double} values from the specified 2D array of type {@code T}
+	 */
+	public static <T> double[] asPrimitiveArray(final T[]... array2D) {
+		return toPrimitiveArray(array2D);
 	}
 
 	/**
@@ -129,8 +153,20 @@ public class Doubles {
 	 * <p>
 	 * @return an array of {@code double} values from the specified 3D array of type {@code T}
 	 */
-	public static <T> double[] toPrimitiveArray(final T[][]... array3D) {
+	public static <T> double[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
+	}
+
+	/**
+	 * Returns an array of {@code double} values from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return an array of {@code double} values from the specified 3D array of type {@code T}
+	 */
+	public static <T> double[] asPrimitiveArray(final T[][]... array3D) {
+		return toPrimitiveArray(array3D);
 	}
 
 	//////////////////////////////////////////////
@@ -143,8 +179,20 @@ public class Doubles {
 	 * <p>
 	 * @return a 2D array of {@code double} values from the specified 2D array of type {@code T}
 	 */
-	public static <T> double[][] toPrimitiveArray2D(final T[]... array2D) {
+	public static <T> double[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
+	}
+
+	/**
+	 * Returns a 2D array of {@code double} values from the specified 2D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array2D a 2D array of type {@code T}
+	 * <p>
+	 * @return a 2D array of {@code double} values from the specified 2D array of type {@code T}
+	 */
+	public static <T> double[][] asPrimitiveArray2D(final T[]... array2D) {
+		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
@@ -155,8 +203,20 @@ public class Doubles {
 	 * <p>
 	 * @return a 3D array of {@code double} values from the specified 3D array of type {@code T}
 	 */
-	public static <T> double[][][] toPrimitiveArray3D(final T[][]... array3D) {
+	public static <T> double[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
+	}
+
+	/**
+	 * Returns a 3D array of {@code double} values from the specified 3D array of type {@code T}.
+	 * <p>
+	 * @param <T>     the component type of the array
+	 * @param array3D a 3D array of type {@code T}
+	 * <p>
+	 * @return a 3D array of {@code double} values from the specified 3D array of type {@code T}
+	 */
+	public static <T> double[][][] asPrimitiveArray3D(final T[][]... array3D) {
+		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
@@ -182,10 +242,36 @@ public class Doubles {
 	 * <p>
 	 * @return an array of {@link Double} from the specified array of {@code double} values
 	 */
-	public static Double[] toArray(final double... array) {
+	public static Double[] toArray(final double[] array) {
 		final Double[] result = new Double[array.length];
 		for (int i = 0; i < array.length; ++i) {
 			result[i] = array[i];
+		}
+		return result;
+	}
+
+	/**
+	 * Returns an array of {@link Double} from the specified array of {@code double} values.
+	 * <p>
+	 * @param array an array of {@code double} values
+	 * <p>
+	 * @return an array of {@link Double} from the specified array of {@code double} values
+	 */
+	public static Double[] asArray(final double... array) {
+		return toArray(array);
+	}
+
+	/**
+	 * Returns a 2D array of {@link Double} from the specified 2D array of {@code double} values.
+	 * <p>
+	 * @param array2D a 2D array of {@code double} values
+	 * <p>
+	 * @return a 2D array of {@link Double} from the specified 2D array of {@code double} values
+	 */
+	public static Double[][] toArray2D(final double[][] array2D) {
+		final Double[][] result = new Double[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = toArray(array2D[i]);
 		}
 		return result;
 	}
@@ -197,10 +283,21 @@ public class Doubles {
 	 * <p>
 	 * @return a 2D array of {@link Double} from the specified 2D array of {@code double} values
 	 */
-	public static Double[][] toArray2D(final double[]... array2D) {
-		final Double[][] result = new Double[array2D.length][];
-		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = toArray(array2D[i]);
+	public static Double[][] asArray2D(final double[]... array2D) {
+		return toArray2D(array2D);
+	}
+
+	/**
+	 * Returns a 3D array of {@link Double} from the specified 3D array of {@code double} values.
+	 * <p>
+	 * @param array3D a 3D array of {@code double} values
+	 * <p>
+	 * @return a 3D array of {@link Double} from the specified 3D array of {@code double} values
+	 */
+	public static Double[][][] toArray3D(final double[][][] array3D) {
+		final Double[][][] result = new Double[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = toArray2D(array3D[i]);
 		}
 		return result;
 	}
@@ -212,12 +309,8 @@ public class Doubles {
 	 * <p>
 	 * @return a 3D array of {@link Double} from the specified 3D array of {@code double} values
 	 */
-	public static Double[][][] toArray3D(final double[][]... array3D) {
-		final Double[][][] result = new Double[array3D.length][][];
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = toArray2D(array3D[i]);
-		}
-		return result;
+	public static Double[][][] asArray3D(final double[][]... array3D) {
+		return toArray3D(array3D);
 	}
 
 	/**
@@ -241,8 +334,19 @@ public class Doubles {
 	 * <p>
 	 * @return a {@link List} of {@link Double} from the specified array of {@code double} values
 	 */
-	public static List<Double> toList(final double... array) {
-		return PARSER.callToList(array);
+	public static List<Double> toList(final double[] array) {
+		return PARSER.callToList(toArray(array));
+	}
+
+	/**
+	 * Returns a {@link List} of {@link Double} from the specified array of {@code double} values.
+	 * <p>
+	 * @param array an array of {@code double} values
+	 * <p>
+	 * @return a {@link List} of {@link Double} from the specified array of {@code double} values
+	 */
+	public static List<Double> asList(final double... array) {
+		return toList(array);
 	}
 
 	/**
@@ -254,7 +358,32 @@ public class Doubles {
 	 * @return an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
 	 *         values
 	 */
-	public static ExtendedList<Double> toExtendedList(final double... array) {
+	public static ExtendedList<Double> toExtendedList(final double[] array) {
+		return PARSER.callToList(toArray(array));
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
+	 * values.
+	 * <p>
+	 * @param array an array of {@code double} values
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
+	 *         values
+	 */
+	public static ExtendedList<Double> asExtendedList(final double... array) {
+		return toExtendedList(array);
+	}
+
+	/**
+	 * Returns a {@link List} of {@link Double} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link List} of {@link Double} from the specified array of type {@code T}
+	 */
+	public static <T> List<Double> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
@@ -266,7 +395,19 @@ public class Doubles {
 	 * <p>
 	 * @return a {@link List} of {@link Double} from the specified array of type {@code T}
 	 */
-	public static <T> List<Double> toList(final T... array) {
+	public static <T> List<Double> asList(final T... array) {
+		return toList(array);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of {@link Double} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedList} of {@link Double} from the specified array of type {@code T}
+	 */
+	public static <T> ExtendedList<Double> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
@@ -278,8 +419,8 @@ public class Doubles {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Double} from the specified array of type {@code T}
 	 */
-	public static <T> ExtendedList<Double> toExtendedList(final T... array) {
-		return PARSER.callToList(array);
+	public static <T> ExtendedList<Double> asExtendedList(final T... array) {
+		return toExtendedList(array);
 	}
 
 	/**
@@ -320,7 +461,30 @@ public class Doubles {
 	 * <p>
 	 * @return a {@link Set} of {@link Double} from the specified array of {@code double} values
 	 */
-	public static Set<Double> toSet(final double... array) {
+	public static Set<Double> toSet(final double[] array) {
+		return PARSER.callToSet(toArray(array));
+	}
+
+	/**
+	 * Returns a {@link Set} of {@link Double} from the specified array of {@code double} values.
+	 * <p>
+	 * @param array an array of {@code double} values
+	 * <p>
+	 * @return a {@link Set} of {@link Double} from the specified array of {@code double} values
+	 */
+	public static Set<Double> asSet(final double... array) {
+		return toSet(array);
+	}
+
+	/**
+	 * Returns a {@link Set} of {@link Double} from the specified array of type {@code T}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T}
+	 * <p>
+	 * @return a {@link Set} of {@link Double} from the specified array of type {@code T}
+	 */
+	public static <T> Set<Double> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
@@ -332,8 +496,8 @@ public class Doubles {
 	 * <p>
 	 * @return a {@link Set} of {@link Double} from the specified array of type {@code T}
 	 */
-	public static <T> Set<Double> toSet(final T... array) {
-		return PARSER.callToSet(array);
+	public static <T> Set<Double> asSet(final T... array) {
+		return toSet(array);
 	}
 
 	/**
@@ -535,7 +699,7 @@ public class Doubles {
 	 *         all the elements of the specified array of {@code double} values
 	 */
 	public static double[] merge(final double a, final double... b) {
-		return merge(toPrimitiveArray(a), b);
+		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**

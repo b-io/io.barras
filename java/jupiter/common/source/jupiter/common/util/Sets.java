@@ -21,36 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.map.parser;
+package jupiter.common.util;
 
-/**
- * {@link IParser} is a map operator parsing an {@link Object} to an {@code O} object.
- * <p>
- * @param <O> the output type
- */
-public interface IParser<O> {
+import java.util.Set;
 
-	public O parse(final Object input);
+public class Sets
+		extends Collections {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public O[] parseToArray(final Object[] input);
-
-	public O[] parseAsArray(final Object... input);
-
-	//////////////////////////////////////////////
-
-	public O[][] parseToArray2D(final Object[][] input2D);
-
-	public O[][] parseAsArray2D(final Object[]... input2D);
-
-	//////////////////////////////////////////////
-
-	public O[][][] parseToArray3D(final Object[][][] input3D);
-
-	public O[][][] parseAsArray3D(final Object[][]... input3D);
-
+	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Class<O> getOutputClass();
+	protected Sets() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@link Set}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Set},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return Set.class.isAssignableFrom(c);
+	}
 }

@@ -47,7 +47,7 @@ public class IOPrinter
 
 	public IOPrinter(final IOHandler... handlers) {
 		super();
-		this.handlers = Arrays.<IOHandler>toList(handlers);
+		this.handlers = Arrays.<IOHandler>asList(handlers);
 	}
 
 	public IOPrinter(final List<IOHandler> handlers) {

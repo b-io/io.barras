@@ -80,15 +80,33 @@ public class ShortParser
 		return call(input);
 	}
 
-	public Short[] parseToArray(final Object... input) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Short[] parseToArray(final Object[] input) {
 		return callToArray(input);
 	}
 
-	public Short[][] parseToArray2D(final Object[]... input2D) {
+	public Short[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Short[][] parseToArray2D(final Object[][] input2D) {
 		return callToArray2D(input2D);
 	}
 
-	public Short[][][] parseToArray3D(final Object[][]... input3D) {
+	public Short[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Short[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Short[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
 	}
 

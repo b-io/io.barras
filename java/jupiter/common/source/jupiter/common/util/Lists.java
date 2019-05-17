@@ -21,88 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.map.parser;
+package jupiter.common.util;
 
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.util.Strings;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ListIterator;
 
-/**
- * {@link StringParser} is a map operator parsing an {@link Object} to a {@link String}.
- */
-public class StringParser
-		extends ObjectToStringMapper
-		implements IParser<String> {
+
+public class Lists
+		extends Collections {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public StringParser() {
-		super();
+	protected Lists() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public String call(final Object input) {
-		if (input == null) {
-			return null;
+	@SuppressWarnings("unchecked")
+	public static <T> void sort(final List<T> list) {
+		final T[] array = (T[]) list.toArray();
+		Arrays.<T>sort(array);
+		final ListIterator<T> iterator = list.listIterator();
+		for (final T element : array) {
+			iterator.next();
+			iterator.set(element);
 		}
-		if (input instanceof String) {
-			return (String) input;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> void sort(final List<T> list, final Comparator<? super T> comparator) {
+		final T[] array = (T[]) list.toArray();
+		Arrays.<T>sort(array, comparator);
+		final ListIterator<T> iterator = list.listIterator();
+		for (final T element : array) {
+			iterator.next();
+			iterator.set(element);
 		}
-		return Strings.toString(input);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSER
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public String parse(final Object input) {
-		return call(input);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public String[] parseToArray(final Object[] input) {
-		return callToArray(input);
-	}
-
-	public String[] parseAsArray(Object... input) {
-		return callToArray(input);
-	}
-
-	//////////////////////////////////////////////
-
-	public String[][] parseToArray2D(final Object[][] input2D) {
-		return callToArray2D(input2D);
-	}
-
-	public String[][] parseAsArray2D(Object[]... input2D) {
-		return callToArray2D(input2D);
-	}
-
-	//////////////////////////////////////////////
-
-	public String[][][] parseToArray3D(final Object[][][] input3D) {
-		return callToArray3D(input3D);
-	}
-
-	public String[][][] parseAsArray3D(Object[][]... input3D) {
-		return callToArray3D(input3D);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public StringParser clone() {
-		return new StringParser();
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@link List}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link List},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return List.class.isAssignableFrom(c);
 	}
 }

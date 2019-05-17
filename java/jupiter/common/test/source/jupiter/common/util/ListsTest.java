@@ -21,36 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.map.parser;
+package jupiter.common.util;
 
-/**
- * {@link IParser} is a map operator parsing an {@link Object} to an {@code O} object.
- * <p>
- * @param <O> the output type
- */
-public interface IParser<O> {
+import static jupiter.common.io.IO.IO;
 
-	public O parse(final Object input);
+import java.util.List;
+import jupiter.common.test.Test;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+public class ListsTest
+		extends Test {
 
-	public O[] parseToArray(final Object[] input);
-
-	public O[] parseAsArray(final Object... input);
-
-	//////////////////////////////////////////////
-
-	public O[][] parseToArray2D(final Object[][] input2D);
-
-	public O[][] parseAsArray2D(final Object[]... input2D);
-
-	//////////////////////////////////////////////
-
-	public O[][][] parseToArray3D(final Object[][][] input3D);
-
-	public O[][][] parseAsArray3D(final Object[][]... input3D);
+	public ListsTest(final String name) {
+		super(name);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Class<O> getOutputClass();
+	/**
+	 * Test of sort method, of class Lists.
+	 */
+	public void testSort() {
+		IO.test("sort");
+		List<Integer> integers = Integers.asList(Integers.createRandomSequence(100));
+		IO.test(integers);
+		Lists.sort(integers);
+		IO.test(integers);
+	}
 }

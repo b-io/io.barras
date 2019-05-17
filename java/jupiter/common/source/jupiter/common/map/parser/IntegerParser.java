@@ -80,15 +80,33 @@ public class IntegerParser
 		return call(input);
 	}
 
-	public Integer[] parseToArray(final Object... input) {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Integer[] parseToArray(final Object[] input) {
 		return callToArray(input);
 	}
 
-	public Integer[][] parseToArray2D(final Object[]... input2D) {
+	public Integer[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Integer[][] parseToArray2D(final Object[][] input2D) {
 		return callToArray2D(input2D);
 	}
 
-	public Integer[][][] parseToArray3D(final Object[][]... input3D) {
+	public Integer[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Integer[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Integer[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
 	}
 

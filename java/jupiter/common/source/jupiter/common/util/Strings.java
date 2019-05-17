@@ -175,7 +175,7 @@ public class Strings {
 	 * @return a {@link List} of {@link String} from the specified array of type {@code T}
 	 */
 	public static <T> List<String> toList(final T... array) {
-		return PARSER.callToList(array);
+		return PARSER.callToList(toArray(array));
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class Strings {
 	 * @return an {@link ExtendedList} of {@link String} from the specified array of type {@code T}
 	 */
 	public static <T> ExtendedList<String> toExtendedList(final T... array) {
-		return PARSER.callToList(array);
+		return PARSER.callToList(toArray(array));
 	}
 
 	/**
@@ -2092,7 +2092,7 @@ public class Strings {
 	 * @param indexes a {@link Pair} of {@link Integer} and {@link String}
 	 */
 	public static void sortStringIndexes(final List<Index<String>> indexes) {
-		indexes.sort(STRING_INDEX_COMPARATOR);
+		Lists.sort(indexes, STRING_INDEX_COMPARATOR);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
