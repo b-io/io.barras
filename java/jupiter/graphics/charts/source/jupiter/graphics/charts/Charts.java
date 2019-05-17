@@ -65,7 +65,7 @@ public class Charts {
 	 */
 	public static ExtendedList<Color> getColors() {
 		return new ExtendedList<Color>(
-				Arrays.<Color>toList(Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE));
+				Arrays.<Color>asList(Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE));
 	}
 
 
