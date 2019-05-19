@@ -761,7 +761,7 @@ outer:  while (true) {
 				break;
 			case 0:
 				throw new IllegalArgumentException(
-						"Comparison method violates its general contract!");
+						"Comparison method violates its general contract");
 			default:
 				assert len2 == 0;
 				assert len1 > 1;
@@ -890,7 +890,7 @@ outer:  while (true) {
 				break;
 			case 0:
 				throw new IllegalArgumentException(
-						"Comparison method violates its general contract!");
+						"Comparison method violates its general contract");
 			default:
 				assert len1 == 0;
 				assert len2 > 0;
