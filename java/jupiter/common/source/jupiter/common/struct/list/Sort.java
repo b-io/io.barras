@@ -681,28 +681,28 @@ public class Sort<T> {
 		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
 		// Copy first run into temporary array
-		final T[] a = this.array; // for performance
+		final T[] array = this.array; // for performance
 		final T[] tmp = ensureCapacity(len1);
 
 		int cursor1 = tmpBase; // indexes into tmp array
 		int cursor2 = base2; // indexes int a
 		int dest = base1; // indexes int a
-		System.arraycopy(a, base1, tmp, cursor1, len1);
+		System.arraycopy(array, base1, tmp, cursor1, len1);
 
 		// Move first element of second run and deal with degenerate cases
-		a[dest++] = a[cursor2++];
+		array[dest++] = array[cursor2++];
 		if (--len2 == 0) {
-			System.arraycopy(tmp, cursor1, a, dest, len1);
+			System.arraycopy(tmp, cursor1, array, dest, len1);
 			return;
 		}
 		if (len1 == 1) {
-			System.arraycopy(a, cursor2, a, dest, len2);
-			a[dest + len2] = tmp[cursor1]; // last elt of run 1 to end of merge
+			System.arraycopy(array, cursor2, array, dest, len2);
+			array[dest + len2] = tmp[cursor1]; // last elt of run 1 to end of merge
 			return;
 		}
 
 		// Use local variable for performance
-		final Comparator<? super T> c = this.comparator;
+		final Comparator<? super T> comparator = this.comparator;
 		int minGallop = this.minGallop;
 outer:  while (true) {
 			int count1 = 0; // number of times in a row that first run won
@@ -713,15 +713,15 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 1 && len2 > 0;
-				if (c.compare(a[cursor2], tmp[cursor1]) < 0) {
-					a[dest++] = a[cursor2++];
+				if (comparator.compare(array[cursor2], tmp[cursor1]) < 0) {
+					array[dest++] = array[cursor2++];
 					count2++;
 					count1 = 0;
 					if (--len2 == 0) {
 						break outer;
 					}
 				} else {
-					a[dest++] = tmp[cursor1++];
+					array[dest++] = tmp[cursor1++];
 					count1++;
 					count2 = 0;
 					if (--len1 == 1) {
@@ -737,9 +737,9 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 1 && len2 > 0;
-				count1 = gallopRight(a[cursor2], tmp, cursor1, len1, 0, c);
+				count1 = gallopRight(array[cursor2], tmp, cursor1, len1, 0, comparator);
 				if (count1 != 0) {
-					System.arraycopy(tmp, cursor1, a, dest, count1);
+					System.arraycopy(tmp, cursor1, array, dest, count1);
 					dest += count1;
 					cursor1 += count1;
 					len1 -= count1;
@@ -748,14 +748,14 @@ outer:  while (true) {
 						break outer;
 					}
 				}
-				a[dest++] = a[cursor2++];
+				array[dest++] = array[cursor2++];
 				if (--len2 == 0) {
 					break outer;
 				}
 
-				count2 = gallopLeft(tmp[cursor1], a, cursor2, len2, 0, c);
+				count2 = gallopLeft(tmp[cursor1], array, cursor2, len2, 0, comparator);
 				if (count2 != 0) {
-					System.arraycopy(a, cursor2, a, dest, count2);
+					System.arraycopy(array, cursor2, array, dest, count2);
 					dest += count2;
 					cursor2 += count2;
 					len2 -= count2;
@@ -763,7 +763,7 @@ outer:  while (true) {
 						break outer;
 					}
 				}
-				a[dest++] = tmp[cursor1++];
+				array[dest++] = tmp[cursor1++];
 				if (--len1 == 1) {
 					break outer;
 				}
@@ -779,8 +779,8 @@ outer:  while (true) {
 		switch (len1) {
 			case 1:
 				assert len2 > 0;
-				System.arraycopy(a, cursor2, a, dest, len2);
-				a[dest + len2] = tmp[cursor1]; //  Last elt of run 1 to end of merge
+				System.arraycopy(array, cursor2, array, dest, len2);
+				array[dest + len2] = tmp[cursor1]; //  Last elt of run 1 to end of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
@@ -788,7 +788,7 @@ outer:  while (true) {
 			default:
 				assert len2 == 0;
 				assert len1 > 1;
-				System.arraycopy(tmp, cursor1, a, dest, len1);
+				System.arraycopy(tmp, cursor1, array, dest, len1);
 		}
 	}
 
@@ -806,31 +806,31 @@ outer:  while (true) {
 		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
 		// Copy second run into temporary array
-		final T[] a = this.array; // for performance
+		final T[] array = this.array; // for performance
 		final T[] tmp = ensureCapacity(len2);
 		final int tmpBase = this.tmpBase;
-		System.arraycopy(a, base2, tmp, tmpBase, len2);
+		System.arraycopy(array, base2, tmp, tmpBase, len2);
 
 		int cursor1 = base1 + len1 - 1; // indexes into a
 		int cursor2 = tmpBase + len2 - 1; // indexes into tmp array
 		int dest = base2 + len2 - 1; // indexes into a
 
 		// Move last element of first run and deal with degenerate cases
-		a[dest--] = a[cursor1--];
+		array[dest--] = array[cursor1--];
 		if (--len1 == 0) {
-			System.arraycopy(tmp, tmpBase, a, dest - (len2 - 1), len2);
+			System.arraycopy(tmp, tmpBase, array, dest - (len2 - 1), len2);
 			return;
 		}
 		if (len2 == 1) {
 			dest -= len1;
 			cursor1 -= len1;
-			System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
-			a[dest] = tmp[cursor2];
+			System.arraycopy(array, cursor1 + 1, array, dest + 1, len1);
+			array[dest] = tmp[cursor2];
 			return;
 		}
 
 		// Use local variable for performance
-		final Comparator<? super T> c = this.comparator;
+		final Comparator<? super T> comparator = this.comparator;
 		int minGallop = this.minGallop;
 outer:  while (true) {
 			int count1 = 0; // number of times in a row that first run won
@@ -841,15 +841,15 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 0 && len2 > 1;
-				if (c.compare(tmp[cursor2], a[cursor1]) < 0) {
-					a[dest--] = a[cursor1--];
+				if (comparator.compare(tmp[cursor2], array[cursor1]) < 0) {
+					array[dest--] = array[cursor1--];
 					count1++;
 					count2 = 0;
 					if (--len1 == 0) {
 						break outer;
 					}
 				} else {
-					a[dest--] = tmp[cursor2--];
+					array[dest--] = tmp[cursor2--];
 					count2++;
 					count1 = 0;
 					if (--len2 == 1) {
@@ -865,32 +865,32 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 0 && len2 > 1;
-				count1 = len1 - gallopRight(tmp[cursor2], a, base1, len1, len1 - 1, c);
+				count1 = len1 - gallopRight(tmp[cursor2], array, base1, len1, len1 - 1, comparator);
 				if (count1 != 0) {
 					dest -= count1;
 					cursor1 -= count1;
 					len1 -= count1;
-					System.arraycopy(a, cursor1 + 1, a, dest + 1, count1);
+					System.arraycopy(array, cursor1 + 1, array, dest + 1, count1);
 					if (len1 == 0) {
 						break outer;
 					}
 				}
-				a[dest--] = tmp[cursor2--];
+				array[dest--] = tmp[cursor2--];
 				if (--len2 == 1) {
 					break outer;
 				}
 
-				count2 = len2 - gallopLeft(a[cursor1], tmp, tmpBase, len2, len2 - 1, c);
+				count2 = len2 - gallopLeft(array[cursor1], tmp, tmpBase, len2, len2 - 1, comparator);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;
 					len2 -= count2;
-					System.arraycopy(tmp, cursor2 + 1, a, dest + 1, count2);
+					System.arraycopy(tmp, cursor2 + 1, array, dest + 1, count2);
 					if (len2 <= 1) {
 						break outer; // len2 == 1 || len2 == 0
 					}
 				}
-				a[dest--] = a[cursor1--];
+				array[dest--] = array[cursor1--];
 				if (--len1 == 0) {
 					break outer;
 				}
@@ -908,8 +908,8 @@ outer:  while (true) {
 				assert len1 > 0;
 				dest -= len1;
 				cursor1 -= len1;
-				System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
-				a[dest] = tmp[cursor2]; // move first elt of run2 to front of merge
+				System.arraycopy(array, cursor1 + 1, array, dest + 1, len1);
+				array[dest] = tmp[cursor2]; // move first elt of run2 to front of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
@@ -917,7 +917,7 @@ outer:  while (true) {
 			default:
 				assert len1 == 0;
 				assert len2 > 0;
-				System.arraycopy(tmp, tmpBase, a, dest - (len2 - 1), len2);
+				System.arraycopy(tmp, tmpBase, array, dest - (len2 - 1), len2);
 		}
 	}
 
