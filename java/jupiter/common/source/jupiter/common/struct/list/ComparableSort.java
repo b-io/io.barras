@@ -47,7 +47,7 @@ public class ComparableSort {
 	/**
 	 * The array being sorted.
 	 */
-	protected final Object[] a;
+	protected final Object[] array;
 
 	/**
 	 * When we get into galloping mode, we stay there until both runs win less often than
@@ -103,7 +103,7 @@ public class ComparableSort {
 	 */
 	protected ComparableSort(final Object[] array, final Object[] work, final int workBase,
 			final int workLen) {
-		a = array;
+		this.array = array;
 
 		// Allocate temporary storage (which may be increased later if necessary)
 		final int len = array.length;
@@ -439,7 +439,7 @@ public class ComparableSort {
 		 * Find where the first element of run2 goes in run1. Prior elements in run1 can be ignored
 		 * (because they're already in place).
 		 */
-		final int k = gallopRight((Comparable<Object>) a[base2], a, base1, len1, 0);
+		final int k = gallopRight((Comparable<Object>) array[base2], array, base1, len1, 0);
 		assert k >= 0;
 		base1 += k;
 		len1 -= k;
@@ -451,7 +451,8 @@ public class ComparableSort {
 		 * Find where the last element of run1 goes in run2. Subsequent elements in run2 can be
 		 * ignored (because they're already in place).
 		 */
-		len2 = gallopLeft((Comparable<Object>) a[base1 + len1 - 1], a, base2, len2, len2 - 1);
+		len2 = gallopLeft((Comparable<Object>) array[base1 + len1 - 1], array, base2, len2,
+				len2 - 1);
 		assert len2 >= 0;
 		if (len2 == 0) {
 			return;
@@ -659,7 +660,7 @@ public class ComparableSort {
 		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
 		// Copy first run into temporary array
-		final Object[] a = this.a; // for performance
+		final Object[] a = array; // for performance
 		final Object[] tmp = ensureCapacity(len1);
 
 		int cursor1 = tmpBase; // indexes into tmp array
@@ -784,7 +785,7 @@ outer:  while (true) {
 		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
 		// Copy second run into temporary array
-		final Object[] a = this.a; // for performance
+		final Object[] a = array; // for performance
 		final Object[] tmp = ensureCapacity(len2);
 		final int tmpBase = this.tmpBase;
 		System.arraycopy(a, base2, tmp, tmpBase, len2);
@@ -922,7 +923,7 @@ outer:  while (true) {
 			{
 				newSize = minCapacity;
 			} else {
-				newSize = Math.min(newSize, a.length >>> 1);
+				newSize = Math.min(newSize, array.length >>> 1);
 			}
 
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})

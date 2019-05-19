@@ -50,7 +50,7 @@ public class Sort<T> {
 	/**
 	 * The array being sorted.
 	 */
-	protected final T[] a;
+	protected final T[] array;
 
 	/**
 	 * The comparator for this sort.
@@ -112,7 +112,7 @@ public class Sort<T> {
 	 */
 	protected Sort(final T[] array, final Comparator<? super T> comparator, final T[] work,
 			final int workBase, final int workLen) {
-		this.a = array;
+		this.array = array;
 		this.comparator = comparator;
 
 		// Allocate temporary storage (which may be increased later if necessary)
@@ -458,7 +458,7 @@ public class Sort<T> {
 		 * Find where the first element of run2 goes in run1. Prior elements in run1 can be ignored
 		 * (because they're already in place).
 		 */
-		final int k = gallopRight(a[base2], a, base1, len1, 0, comparator);
+		final int k = gallopRight(array[base2], array, base1, len1, 0, comparator);
 		assert k >= 0;
 		base1 += k;
 		len1 -= k;
@@ -470,7 +470,7 @@ public class Sort<T> {
 		 * Find where the last element of run1 goes in run2. Subsequent elements in run2 can be
 		 * ignored (because they're already in place).
 		 */
-		len2 = gallopLeft(a[base1 + len1 - 1], a, base2, len2, len2 - 1, comparator);
+		len2 = gallopLeft(array[base1 + len1 - 1], array, base2, len2, len2 - 1, comparator);
 		assert len2 >= 0;
 		if (len2 == 0) {
 			return;
@@ -681,7 +681,7 @@ public class Sort<T> {
 		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
 		// Copy first run into temporary array
-		final T[] a = this.a; // for performance
+		final T[] a = this.array; // for performance
 		final T[] tmp = ensureCapacity(len1);
 
 		int cursor1 = tmpBase; // indexes into tmp array
@@ -702,7 +702,7 @@ public class Sort<T> {
 		}
 
 		// Use local variable for performance
-		final Comparator<? super T> comparator = this.comparator;
+		final Comparator<? super T> c = this.comparator;
 		int minGallop = this.minGallop;
 outer:  while (true) {
 			int count1 = 0; // number of times in a row that first run won
@@ -713,7 +713,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 1 && len2 > 0;
-				if (comparator.compare(a[cursor2], tmp[cursor1]) < 0) {
+				if (c.compare(a[cursor2], tmp[cursor1]) < 0) {
 					a[dest++] = a[cursor2++];
 					count2++;
 					count1 = 0;
@@ -737,7 +737,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 1 && len2 > 0;
-				count1 = gallopRight(a[cursor2], tmp, cursor1, len1, 0, comparator);
+				count1 = gallopRight(a[cursor2], tmp, cursor1, len1, 0, c);
 				if (count1 != 0) {
 					System.arraycopy(tmp, cursor1, a, dest, count1);
 					dest += count1;
@@ -753,7 +753,7 @@ outer:  while (true) {
 					break outer;
 				}
 
-				count2 = gallopLeft(tmp[cursor1], a, cursor2, len2, 0, comparator);
+				count2 = gallopLeft(tmp[cursor1], a, cursor2, len2, 0, c);
 				if (count2 != 0) {
 					System.arraycopy(a, cursor2, a, dest, count2);
 					dest += count2;
@@ -806,7 +806,7 @@ outer:  while (true) {
 		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
 		// Copy second run into temporary array
-		final T[] a = this.a; // for performance
+		final T[] a = this.array; // for performance
 		final T[] tmp = ensureCapacity(len2);
 		final int tmpBase = this.tmpBase;
 		System.arraycopy(a, base2, tmp, tmpBase, len2);
@@ -830,7 +830,7 @@ outer:  while (true) {
 		}
 
 		// Use local variable for performance
-		final Comparator<? super T> comparator = this.comparator;
+		final Comparator<? super T> c = this.comparator;
 		int minGallop = this.minGallop;
 outer:  while (true) {
 			int count1 = 0; // number of times in a row that first run won
@@ -841,7 +841,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 0 && len2 > 1;
-				if (comparator.compare(tmp[cursor2], a[cursor1]) < 0) {
+				if (c.compare(tmp[cursor2], a[cursor1]) < 0) {
 					a[dest--] = a[cursor1--];
 					count1++;
 					count2 = 0;
@@ -865,7 +865,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 0 && len2 > 1;
-				count1 = len1 - gallopRight(tmp[cursor2], a, base1, len1, len1 - 1, comparator);
+				count1 = len1 - gallopRight(tmp[cursor2], a, base1, len1, len1 - 1, c);
 				if (count1 != 0) {
 					dest -= count1;
 					cursor1 -= count1;
@@ -880,7 +880,7 @@ outer:  while (true) {
 					break outer;
 				}
 
-				count2 = len2 - gallopLeft(a[cursor1], tmp, tmpBase, len2, len2 - 1, comparator);
+				count2 = len2 - gallopLeft(a[cursor1], tmp, tmpBase, len2, len2 - 1, c);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;
@@ -945,11 +945,12 @@ outer:  while (true) {
 			{
 				newSize = minCapacity;
 			} else {
-				newSize = Math.min(newSize, a.length >>> 1);
+				newSize = Math.min(newSize, array.length >>> 1);
 			}
 
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-			final T[] newArray = (T[]) Array.newInstance(a.getClass().getComponentType(), newSize);
+			final T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(),
+					newSize);
 			tmp = newArray;
 			tmpLen = newSize;
 			tmpBase = 0;
