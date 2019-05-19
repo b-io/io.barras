@@ -121,8 +121,7 @@ public class Sort<T> {
 				INITIAL_TMP_STORAGE_LENGTH;
 		if (work == null || workLen < tlen || workBase + tlen > work.length) {
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-			final T[] newArray = (T[]) java.lang.reflect.Array
-					.newInstance(array.getClass().getComponentType(), tlen);
+			final T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(), tlen);
 			tmp = newArray;
 			tmpBase = 0;
 			tmpLen = tlen;
