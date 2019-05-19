@@ -26,6 +26,7 @@ package jupiter.common.util;
 import static jupiter.common.io.IO.IO;
 
 import java.util.List;
+
 import jupiter.common.test.Test;
 
 public class ListsTest
@@ -42,7 +43,7 @@ public class ListsTest
 	 */
 	public void testSort() {
 		IO.test("sort");
-		List<Integer> integers = Integers.asList(Integers.createRandomSequence(100));
+		final List<Integer> integers = Integers.asList(Integers.createRandomSequence(100));
 		IO.test(integers);
 		Lists.sort(integers);
 		IO.test(integers);

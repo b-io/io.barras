@@ -72,7 +72,7 @@ public class StringParser
 		return callToArray(input);
 	}
 
-	public String[] parseAsArray(Object... input) {
+	public String[] parseAsArray(final Object... input) {
 		return callToArray(input);
 	}
 
@@ -82,7 +82,7 @@ public class StringParser
 		return callToArray2D(input2D);
 	}
 
-	public String[][] parseAsArray2D(Object[]... input2D) {
+	public String[][] parseAsArray2D(final Object[]... input2D) {
 		return callToArray2D(input2D);
 	}
 
@@ -92,7 +92,7 @@ public class StringParser
 		return callToArray3D(input3D);
 	}
 
-	public String[][][] parseAsArray3D(Object[][]... input3D) {
+	public String[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
 	}
 

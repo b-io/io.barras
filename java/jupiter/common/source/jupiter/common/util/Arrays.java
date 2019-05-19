@@ -464,7 +464,7 @@ public class Arrays {
 	 * @throws IllegalArgumentException (optional) if the comparator is found to violate the
 	 *                                  {@link Comparator} contract
 	 */
-	public static <T> void sort(T[] array, Comparator<? super T> comparator) {
+	public static <T> void sort(final T[] array, final Comparator<? super T> comparator) {
 		if (comparator == null) {
 			sort(array);
 		} else {
@@ -517,8 +517,8 @@ public class Arrays {
 	 *                                        contract
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or {@code toIndex > a.length}
 	 */
-	public static <T> void sort(T[] a, int fromIndex, int toIndex,
-			Comparator<? super T> comparator) {
+	public static <T> void sort(final T[] a, final int fromIndex, final int toIndex,
+			final Comparator<? super T> comparator) {
 		if (comparator == null) {
 			sort(a, fromIndex, toIndex);
 		} else {

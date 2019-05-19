@@ -26,7 +26,7 @@ package jupiter.math.linear.entity;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
-import static jupiter.integration.hardware.OpenCL.CL;
+import static jupiter.integration.hardware.gpu.OpenCL.CL;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,7 +54,7 @@ import jupiter.common.util.Formats;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
-import jupiter.integration.hardware.OpenCL;
+import jupiter.integration.hardware.gpu.OpenCL;
 import jupiter.math.analysis.function.Function;
 import jupiter.math.linear.decomposition.CholeskyDecomposition;
 import jupiter.math.linear.decomposition.EigenvalueDecomposition;

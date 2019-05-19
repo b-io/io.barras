@@ -460,8 +460,7 @@ public class Floats {
 	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
 	 *         type {@code T}
 	 */
-	public static <T> ExtendedList<Float> collectionToExtendedList(
-			final Collection<T> collection) {
+	public static <T> ExtendedList<Float> collectionToExtendedList(final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 

@@ -101,13 +101,14 @@ public class ComparableSort {
 	 * @param workBase the origin of the usable space in the work array
 	 * @param workLen  the usable size of the work array
 	 */
-	protected ComparableSort(Object[] array, Object[] work, int workBase, int workLen) {
-		this.a = array;
+	protected ComparableSort(final Object[] array, final Object[] work, final int workBase,
+			final int workLen) {
+		a = array;
 
 		// Allocate temporary storage (which may be increased later if necessary)
-		int len = array.length;
-		int tlen = (len < 2 * INITIAL_TMP_STORAGE_LENGTH) ?
-				len >>> 1 : INITIAL_TMP_STORAGE_LENGTH;
+		final int len = array.length;
+		final int tlen = len < 2 * INITIAL_TMP_STORAGE_LENGTH ? len >>> 1 :
+				INITIAL_TMP_STORAGE_LENGTH;
 		if (work == null || workLen < tlen || workBase + tlen > work.length) {
 			tmp = new Object[tlen];
 			tmpBase = 0;
@@ -130,9 +131,7 @@ public class ComparableSort {
 		 * scenario. More explanations are given in section 4 of:
 		 * http://envisage-project.eu/wp-content/uploads/2015/02/sorting.pdf
 		 */
-		int stackLen = (len < 120 ? 5 :
-				len < 1542 ? 10 :
-						len < 119151 ? 24 : 49);
+		final int stackLen = len < 120 ? 5 : len < 1542 ? 10 : len < 119151 ? 24 : 49;
 		runBase = new int[stackLen];
 		runLen = new int[stackLen];
 	}
@@ -154,7 +153,8 @@ public class ComparableSort {
 	 * @param workBase the origin of the usable space in the work array
 	 * @param workLen  the usable size of the work array
 	 */
-	public static void sort(Object[] array, int lo, int hi, Object[] work, int workBase, int workLen) {
+	public static void sort(final Object[] array, int lo, final int hi, final Object[] work,
+			final int workBase, final int workLen) {
 		assert array != null && lo >= 0 && lo <= hi && hi <= array.length;
 
 		int nRemaining = hi - lo;
@@ -163,7 +163,7 @@ public class ComparableSort {
 		}
 		// If array is small, do a "mini-TimSort" with no merges
 		if (nRemaining < MIN_MERGE) {
-			int initRunLen = countRunAndMakeAscending(array, lo, hi);
+			final int initRunLen = countRunAndMakeAscending(array, lo, hi);
 			binarySort(array, lo, hi, lo + initRunLen);
 			return;
 		}
@@ -172,15 +172,15 @@ public class ComparableSort {
 		 * March over the array once, left to right, finding natural runs, extending short natural
 		 * runs to minRun elements and merging runs to maintain stack invariant.
 		 */
-		ComparableSort ts = new ComparableSort(array, work, workBase, workLen);
-		int minRun = minRunLength(nRemaining);
+		final ComparableSort ts = new ComparableSort(array, work, workBase, workLen);
+		final int minRun = minRunLength(nRemaining);
 		do {
 			// Identify next run
 			int runLen = countRunAndMakeAscending(array, lo, hi);
 
 			// If run is short, extend to min(minRun, nRemaining)
 			if (runLen < minRun) {
-				int force = nRemaining <= minRun ? nRemaining : minRun;
+				final int force = nRemaining <= minRun ? nRemaining : minRun;
 				binarySort(array, lo, lo + force, lo + runLen);
 				runLen = force;
 			}
@@ -216,13 +216,13 @@ public class ComparableSort {
 	 *              sorted ({@code lo <= start <= hi})
 	 */
 	@SuppressWarnings({"fallthrough", "rawtypes", "unchecked"})
-	protected static void binarySort(Object[] array, int lo, int hi, int start) {
+	protected static void binarySort(final Object[] array, final int lo, final int hi, int start) {
 		assert lo <= start && start <= hi;
 		if (start == lo) {
 			start++;
 		}
 		for (; start < hi; start++) {
-			Comparable pivot = (Comparable) array[start];
+			final Comparable pivot = (Comparable) array[start];
 
 			// Set left (and right) to the index where a[start] (pivot) belongs
 			int left = lo;
@@ -232,7 +232,7 @@ public class ComparableSort {
 			//   pivot >= all in [lo, left) and
 			//   pivot < all in [right, start).
 			while (left < right) {
-				int mid = (left + right) >>> 1;
+				final int mid = left + right >>> 1;
 				if (pivot.compareTo(array[mid]) < 0) {
 					right = mid;
 				} else {
@@ -247,13 +247,16 @@ public class ComparableSort {
 			// so pivot belongs at left. Note that if there are elements equal to pivot, left points
 			// to the first slot after them -- that's why this sort is stable. Slide elements over
 			// to make room for pivot.
-			int n = start - left; // the number of elements to move
+			final int n = start - left; // the number of elements to move
 			// Switch is just an optimization for arraycopy in default case
 			switch (n) {
-				case 2: array[left + 2] = array[left + 1];
-				case 1: array[left + 1] = array[left];
+				case 2:
+					array[left + 2] = array[left + 1];
+				case 1:
+					array[left + 1] = array[left];
 					break;
-				default: System.arraycopy(array, left, array, left + 1, n);
+				default:
+					System.arraycopy(array, left, array, left + 1, n);
 			}
 			array[left] = pivot;
 		}
@@ -279,7 +282,8 @@ public class ComparableSort {
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	protected static int countRunAndMakeAscending(Object[] array, int lo, int hi) {
+	protected static int countRunAndMakeAscending(final Object[] array, final int lo,
+			final int hi) {
 		assert lo < hi;
 		int runHi = lo + 1;
 		if (runHi == hi) {
@@ -310,10 +314,10 @@ public class ComparableSort {
 	 * @param lo    the index of the first element in the range to be reversed
 	 * @param hi    the index after the last element in the range to be reversed
 	 */
-	protected static void reverseRange(Object[] array, int lo, int hi) {
+	protected static void reverseRange(final Object[] array, int lo, int hi) {
 		hi--;
 		while (lo < hi) {
-			Object t = array[lo];
+			final Object t = array[lo];
 			array[lo++] = array[hi];
 			array[hi--] = t;
 		}
@@ -340,7 +344,7 @@ public class ComparableSort {
 		assert n >= 0;
 		int r = 0; // becomes 1 if any 1 bits are shifted off
 		while (n >= MIN_MERGE) {
-			r |= (n & 1);
+			r |= n & 1;
 			n >>= 1;
 		}
 		return n + r;
@@ -352,7 +356,7 @@ public class ComparableSort {
 	 * @param runBase the index of the first element in the run
 	 * @param runLen  the number of elements in the run
 	 */
-	protected void pushRun(int runBase, int runLen) {
+	protected void pushRun(final int runBase, final int runLen) {
 		this.runBase[stackSize] = runBase;
 		this.runLen[stackSize] = runLen;
 		stackSize++;
@@ -407,14 +411,14 @@ public class ComparableSort {
 	 * @param i the stack index of the first of the two runs to merge
 	 */
 	@SuppressWarnings("unchecked")
-	protected void mergeAt(int i) {
+	protected void mergeAt(final int i) {
 		assert stackSize >= 2;
 		assert i >= 0;
 		assert i == stackSize - 2 || i == stackSize - 3;
 
 		int base1 = runBase[i];
 		int len1 = runLen[i];
-		int base2 = runBase[i + 1];
+		final int base2 = runBase[i + 1];
 		int len2 = runLen[i + 1];
 		assert len1 > 0 && len2 > 0;
 		assert base1 + len1 == base2;
@@ -435,7 +439,7 @@ public class ComparableSort {
 		 * Find where the first element of run2 goes in run1. Prior elements in run1 can be ignored
 		 * (because they're already in place).
 		 */
-		int k = gallopRight((Comparable<Object>) a[base2], a, base1, len1, 0);
+		final int k = gallopRight((Comparable<Object>) a[base2], a, base1, len1, 0);
 		assert k >= 0;
 		base1 += k;
 		len1 -= k;
@@ -447,8 +451,7 @@ public class ComparableSort {
 		 * Find where the last element of run1 goes in run2. Subsequent elements in run2 can be
 		 * ignored (because they're already in place).
 		 */
-		len2 = gallopLeft((Comparable<Object>) a[base1 + len1 - 1], a,
-				base2, len2, len2 - 1);
+		len2 = gallopLeft((Comparable<Object>) a[base1 + len1 - 1], a, base2, len2, len2 - 1);
 		assert len2 >= 0;
 		if (len2 == 0) {
 			return;
@@ -482,8 +485,8 @@ public class ComparableSort {
 	 *         first {@code k} elements of {@code a} should precede {@code key}, and the last
 	 *         {@code n - k} should follow it
 	 */
-	protected static int gallopLeft(Comparable<Object> key, Object[] array,
-			int base, int len, int hint) {
+	protected static int gallopLeft(final Comparable<Object> key, final Object[] array,
+			final int base, final int len, final int hint) {
 		assert len > 0 && hint >= 0 && hint < len;
 
 		int lastOfs = 0;
@@ -492,7 +495,7 @@ public class ComparableSort {
 			/*
 			 * Gallop right until {@code a[base + hint + lastOfs] < key <= a[base + hint + ofs]}.
 			 */
-			int maxOfs = len - hint;
+			final int maxOfs = len - hint;
 			while (ofs < maxOfs && key.compareTo(array[base + hint + ofs]) > 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
@@ -527,7 +530,7 @@ public class ComparableSort {
 			}
 
 			// Make offsets relative to base
-			int tmp = lastOfs;
+			final int tmp = lastOfs;
 			lastOfs = hint - ofs;
 			ofs = hint - tmp;
 		}
@@ -540,7 +543,7 @@ public class ComparableSort {
 		 */
 		lastOfs++;
 		while (lastOfs < ofs) {
-			int m = lastOfs + ((ofs - lastOfs) >>> 1);
+			final int m = lastOfs + (ofs - lastOfs >>> 1);
 
 			if (key.compareTo(array[base + m]) > 0) {
 				lastOfs = m + 1; // a[base + m] < key
@@ -566,8 +569,8 @@ public class ComparableSort {
 	 * @return the int {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
 	 */
-	protected static int gallopRight(Comparable<Object> key, Object[] array,
-			int base, int len, int hint) {
+	protected static int gallopRight(final Comparable<Object> key, final Object[] array,
+			final int base, final int len, final int hint) {
 		assert len > 0 && hint >= 0 && hint < len;
 
 		int ofs = 1;
@@ -576,7 +579,7 @@ public class ComparableSort {
 			/*
 			 * Gallop left until {@code a[b + hint - ofs] <= key < a[b + hint - lastOfs]}.
 			 */
-			int maxOfs = hint + 1;
+			final int maxOfs = hint + 1;
 			while (ofs < maxOfs && key.compareTo(array[base + hint - ofs]) < 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
@@ -590,7 +593,7 @@ public class ComparableSort {
 			}
 
 			// Make offsets relative to b
-			int tmp = lastOfs;
+			final int tmp = lastOfs;
 			lastOfs = hint - ofs;
 			ofs = hint - tmp;
 		} else {
@@ -598,7 +601,7 @@ public class ComparableSort {
 			/*
 			 * Gallop right until {@code a[b + hint + lastOfs] <= key < a[b + hint + ofs]}.
 			 */
-			int maxOfs = len - hint;
+			final int maxOfs = len - hint;
 			while (ofs < maxOfs && key.compareTo(array[base + hint + ofs]) >= 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
@@ -624,7 +627,7 @@ public class ComparableSort {
 		 */
 		lastOfs++;
 		while (lastOfs < ofs) {
-			int m = lastOfs + ((ofs - lastOfs) >>> 1);
+			final int m = lastOfs + (ofs - lastOfs >>> 1);
 
 			if (key.compareTo(array[base + m]) < 0) {
 				ofs = m; // key < a[b + m]
@@ -652,12 +655,12 @@ public class ComparableSort {
 	 * @param len2  length of second run to be merged (must be greater than 0)
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	protected void mergeLo(int base1, int len1, int base2, int len2) {
+	protected void mergeLo(final int base1, int len1, final int base2, int len2) {
 		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
 		// Copy first run into temporary array
-		Object[] a = this.a; // for performance
-		Object[] tmp = ensureCapacity(len1);
+		final Object[] a = this.a; // for performance
+		final Object[] tmp = ensureCapacity(len1);
 
 		int cursor1 = tmpBase; // indexes into tmp array
 		int cursor2 = base2; // indexes int a
@@ -678,7 +681,7 @@ public class ComparableSort {
 
 		// Use local variable for performance
 		int minGallop = this.minGallop;
-outer:  while (true) {
+		outer: while (true) {
 			int count1 = 0; // number of times in a row that first run won
 			int count2 = 0; // number of times in a row that second run won
 
@@ -777,13 +780,13 @@ outer:  while (true) {
 	 * @param len2  length of second run to be merged (must be greater than 0)
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	protected void mergeHi(int base1, int len1, int base2, int len2) {
+	protected void mergeHi(final int base1, int len1, final int base2, int len2) {
 		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
 		// Copy second run into temporary array
-		Object[] a = this.a; // for performance
-		Object[] tmp = ensureCapacity(len2);
-		int tmpBase = this.tmpBase;
+		final Object[] a = this.a; // for performance
+		final Object[] tmp = ensureCapacity(len2);
+		final int tmpBase = this.tmpBase;
 		System.arraycopy(a, base2, tmp, tmpBase, len2);
 
 		int cursor1 = base1 + len1 - 1; // indexes into a
@@ -806,7 +809,7 @@ outer:  while (true) {
 
 		// Use local variable for performance
 		int minGallop = this.minGallop;
-outer:  while (true) {
+		outer: while (true) {
 			int count1 = 0; // number of times in a row that first run won
 			int count2 = 0; // number of times in a row that second run won
 
@@ -905,7 +908,7 @@ outer:  while (true) {
 	 * <p>
 	 * @return {@code tmp}, whether or not it grew
 	 */
-	protected Object[] ensureCapacity(int minCapacity) {
+	protected Object[] ensureCapacity(final int minCapacity) {
 		if (tmpLen < minCapacity) {
 			// Compute smallest power of 2 > minCapacity
 			int newSize = minCapacity;
@@ -924,7 +927,7 @@ outer:  while (true) {
 			}
 
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-			Object[] newArray = new Object[newSize];
+			final Object[] newArray = new Object[newSize];
 			tmp = newArray;
 			tmpLen = newSize;
 			tmpBase = 0;
