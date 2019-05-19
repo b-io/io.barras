@@ -34,13 +34,13 @@ public class ComparableSort {
 	 * <p>
 	 * This constant should be a power of two. It was 64 in Tim Peter's C implementation, but 32 was
 	 * empirically determined to work better in this implementation. In the unlikely event that you
-	 * set this constant to be a number that's not a power of two, you'll need to change the
+	 * set this constant to be a number that is not a power of two, you'll need to change the
 	 * {@link #minRunLength} computation.
 	 * <p>
 	 * If you decrease this constant, you must change the {@code stackLen} computation in the
-	 * TimSort constructor, or you risk an {@link ArrayIndexOutOfBoundsException}. See listsort.txt
-	 * for a discussion of the minimum stack length required as a function of the length of the
-	 * array being sorted and the minimum merge sequence length.
+	 * {@link ComparableSort} constructor, or you risk an {@link ArrayIndexOutOfBoundsException}.
+	 * See listsort.txt for a discussion of the minimum stack length required as a function of the
+	 * length of the array being sorted and the minimum merge sequence length.
 	 */
 	protected static final int MIN_MERGE = 32;
 
@@ -81,12 +81,12 @@ public class ComparableSort {
 
 	/**
 	 * A stack of pending runs yet to be merged. Run {@code i} starts at address {@code base[i]} and
-	 * extends for {@code len[i]} elements. It's always true (so long as the indices are in bounds)
+	 * extends for {@code len[i]} elements. It is always true (so long as the indices are in bounds)
 	 * that:
 	 * <p>
 	 * {@code runBase[i] + runLen[i] == runBase[i + 1]}
 	 * <p>
-	 * so we could cut the storage for this, but it's a minor amount and keeping all the info
+	 * so we could cut the storage for this, but it is a minor amount and keeping all the info
 	 * explicit simplifies the code.
 	 */
 	protected int stackSize = 0; // number of pending runs on stack
@@ -94,7 +94,7 @@ public class ComparableSort {
 	protected final int[] runLen;
 
 	/**
-	 * Creates a TimSort instance to maintain the state of an ongoing sort.
+	 * Creates a {@link ComparableSort} instance to maintain the state of an ongoing sort.
 	 * <p>
 	 * @param array    the array to be sorted
 	 * @param work     a workspace array (slice)
@@ -245,7 +245,7 @@ public class ComparableSort {
 			//   pivot >= all in [lo, left) and
 			//   pivot < all in [left, start),
 			// so pivot belongs at left. Note that if there are elements equal to pivot, left points
-			// to the first slot after them -- that's why this sort is stable. Slide elements over
+			// to the first slot after them -- that is why this sort is stable. Slide elements over
 			// to make room for pivot.
 			final int n = start - left; // the number of elements to move
 			// Switch is just an optimization for arraycopy in default case
@@ -329,7 +329,7 @@ public class ComparableSort {
 	 * <p>
 	 * Roughly speaking, the computation is:
 	 * <p>
-	 * If {@code n < MIN_MERGE}, return {@code n} (it's too small to bother with fancy stuff); else
+	 * If {@code n < MIN_MERGE}, return {@code n} (it is too small to bother with fancy stuff); else
 	 * if {@code n} is an exact power of 2, return {@code MIN_MERGE / 2}; else return an int
 	 * {@code k}, {@code MIN_MERGE / 2 <= k <= MIN_MERGE}, such that {@code n / k} is close to, but
 	 * strictly less than, an exact power of 2.
@@ -482,7 +482,7 @@ public class ComparableSort {
 	 * @return the int k, {@code 0 <= k <= n} such that {@code a[b + k - 1] < key <= a[b + k]},
 	 *         pretending that {@code a[b - 1]} is minus infinity and {@code a[b + n]} is infinity;
 	 *         in other words, {@code key} belongs at index {@code b + k}; or in other words, the
-	 *         first {@code k} elements of {@code a} should precede {@code key}, and the last
+	 *         first {@code k} elements of {@code a} should precede {@code key} and the last
 	 *         {@code n - k} should follow it
 	 */
 	protected static int gallopLeft(final Comparable<Object> key, final Object[] array,
@@ -641,7 +641,7 @@ public class ComparableSort {
 
 	/**
 	 * Merges two adjacent runs in place, in a stable fashion. The first element of the first run
-	 * must be greater than the first element of the second run ({@code a[base1] > a[base2]}), and
+	 * must be greater than the first element of the second run ({@code a[base1] > a[base2]}) and
 	 * the last element of the first run ({@code a[base1 + len1 - 1]}) must be greater than all
 	 * elements of the second run.
 	 * <p>
@@ -681,7 +681,7 @@ public class ComparableSort {
 
 		// Use local variable for performance
 		int minGallop = this.minGallop;
-		outer: while (true) {
+outer:  while (true) {
 			int count1 = 0; // number of times in a row that first run won
 			int count2 = 0; // number of times in a row that second run won
 
@@ -708,7 +708,7 @@ public class ComparableSort {
 			} while ((count1 | count2) < minGallop);
 
 			/*
-			 * One run is winning so consistently that galloping may be a huge win. So try that, and
+			 * One run is winning so consistently that galloping may be a huge win. So try that and
 			 * continue galloping until (if ever) neither run appears to be winning consistently
 			 * anymore.
 			 */
@@ -754,14 +754,14 @@ public class ComparableSort {
 		this.minGallop = minGallop < 1 ? 1 : minGallop; // write back to field
 
 		switch (len1) {
-			case 0:
-				throw new IllegalArgumentException(
-						"Comparison method violates its general contract!");
 			case 1:
 				assert len2 > 0;
 				System.arraycopy(a, cursor2, a, dest, len2);
 				a[dest + len2] = tmp[cursor1]; //  Last elt of run 1 to end of merge
 				break;
+			case 0:
+				throw new IllegalArgumentException(
+						"Comparison method violates its general contract!");
 			default:
 				assert len2 == 0;
 				assert len1 > 1;
@@ -809,7 +809,7 @@ public class ComparableSort {
 
 		// Use local variable for performance
 		int minGallop = this.minGallop;
-		outer: while (true) {
+outer:  while (true) {
 			int count1 = 0; // number of times in a row that first run won
 			int count2 = 0; // number of times in a row that second run won
 
@@ -836,7 +836,7 @@ public class ComparableSort {
 			} while ((count1 | count2) < minGallop);
 
 			/*
-			 * One run is winning so consistently that galloping may be a huge win. So try that, and
+			 * One run is winning so consistently that galloping may be a huge win. So try that and
 			 * continue galloping until (if ever) neither run appears to be winning consistently
 			 * anymore.
 			 */
@@ -881,9 +881,6 @@ public class ComparableSort {
 		this.minGallop = minGallop < 1 ? 1 : minGallop; // write back to field
 
 		switch (len2) {
-			case 0:
-				throw new IllegalArgumentException(
-						"Comparison method violates its general contract!");
 			case 1:
 				assert len1 > 0;
 				dest -= len1;
@@ -891,11 +888,13 @@ public class ComparableSort {
 				System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
 				a[dest] = tmp[cursor2]; // move first elt of run2 to front of merge
 				break;
+			case 0:
+				throw new IllegalArgumentException(
+						"Comparison method violates its general contract!");
 			default:
 				assert len1 == 0;
 				assert len2 > 0;
 				System.arraycopy(tmp, tmpBase, a, dest - (len2 - 1), len2);
-				break;
 		}
 	}
 
