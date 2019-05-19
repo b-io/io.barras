@@ -23,8 +23,10 @@
  */
 package jupiter.integration.hardware;
 
+import jupiter.integration.hardware.gpu.OpenCL;
+
 import static jupiter.common.io.IO.IO;
-import static jupiter.integration.hardware.OpenCL.CL;
+import static jupiter.integration.hardware.gpu.OpenCL.CL;
 
 import java.io.IOException;
 

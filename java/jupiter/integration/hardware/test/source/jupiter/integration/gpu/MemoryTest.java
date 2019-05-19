@@ -23,6 +23,8 @@
  */
 package jupiter.integration.hardware;
 
+import jupiter.integration.hardware.gpu.OpenCL;
+
 import static jupiter.common.io.IO.IO;
 import static org.jocl.CL.CL_CONTEXT_PLATFORM;
 import static org.jocl.CL.CL_DEVICE_TYPE_ALL;

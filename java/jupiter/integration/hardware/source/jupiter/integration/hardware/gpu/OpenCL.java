@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.hardware;
+package jupiter.integration.hardware.gpu;
 
 import static jupiter.common.io.IO.IO;
 
