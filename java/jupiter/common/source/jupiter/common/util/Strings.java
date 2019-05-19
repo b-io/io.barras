@@ -341,7 +341,7 @@ public class Strings {
 	 * @return a {@link String} bar of the default length
 	 */
 	public static String createBar() {
-		return Strings.createBar(Formats.DEFAULT_LINE_LENGTH);
+		return createBar(Formats.DEFAULT_LINE_LENGTH);
 	}
 
 	/**
@@ -713,7 +713,7 @@ public class Strings {
 		if (content == null) {
 			return null;
 		}
-		return toString(content).replaceAll(Strings.bracketize(characters), EMPTY);
+		return toString(content).replaceAll(bracketize(characters), EMPTY);
 	}
 
 	/**
