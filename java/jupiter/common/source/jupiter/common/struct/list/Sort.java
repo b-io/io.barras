@@ -880,7 +880,8 @@ outer:  while (true) {
 					break outer;
 				}
 
-				count2 = len2 - gallopLeft(array[cursor1], tmp, tmpBase, len2, len2 - 1, comparator);
+				count2 = len2 -
+						gallopLeft(array[cursor1], tmp, tmpBase, len2, len2 - 1, comparator);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;

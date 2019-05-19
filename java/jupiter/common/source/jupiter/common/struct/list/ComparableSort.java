@@ -843,7 +843,8 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 0 && len2 > 1;
-				count1 = len1 - gallopRight((Comparable) tmp[cursor2], array, base1, len1, len1 - 1);
+				count1 = len1 -
+						gallopRight((Comparable) tmp[cursor2], array, base1, len1, len1 - 1);
 				if (count1 != 0) {
 					dest -= count1;
 					cursor1 -= count1;
@@ -858,7 +859,8 @@ outer:  while (true) {
 					break outer;
 				}
 
-				count2 = len2 - gallopLeft((Comparable) array[cursor1], tmp, tmpBase, len2, len2 - 1);
+				count2 = len2 -
+						gallopLeft((Comparable) array[cursor1], tmp, tmpBase, len2, len2 - 1);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;
