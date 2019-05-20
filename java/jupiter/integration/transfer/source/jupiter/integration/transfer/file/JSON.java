@@ -50,7 +50,7 @@ public class JSON {
 			for (int i = 0; i < fields.length; ++i) {
 				final Field field = fields[i];
 				try {
-					builder.append(jsonifyEntry(field.getName(), field.get(content)));
+					builder.append(jsonifyNode(field.getName(), field.get(content)));
 					if (i < fields.length - 1) {
 						builder.append(',');
 					}
@@ -73,7 +73,7 @@ public class JSON {
 	public static String jsonify(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
 		builder.append('{');
-		builder.append(jsonifyEntry(key, value));
+		builder.append(jsonifyNode(key, value));
 		builder.append('}');
 		return builder.toString();
 	}
@@ -85,8 +85,8 @@ public class JSON {
 	 * <p>
 	 * @return a JSON entry {@link String} representation of the specified value
 	 */
-	public static String jsonifyEntry(final Object value) {
-		return jsonifyEntry(null, value);
+	public static String jsonifyNode(final Object value) {
+		return jsonifyNode(null, value);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class JSON {
 	 * <p>
 	 * @return a JSON entry {@link String} representation of the specified key-value mapping
 	 */
-	public static String jsonifyEntry(final String key, final Object value) {
+	public static String jsonifyNode(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
 		if (key != null) {
 			builder.append(Strings.doubleQuote(key));
@@ -112,11 +112,18 @@ public class JSON {
 				builder.append(Strings.bracketize(Strings.joinWith((Collection<?>) value,
 						JSON_DELIMITER, JSON_WRAPPER)));
 			} else {
-				builder.append(JSON_WRAPPER.call(value));
+				builder.append(jsonifyLeaf(value));
 			}
 		} else {
-			builder.append(JSON_WRAPPER.call(value));
+			builder.append(jsonifyLeaf(value));
 		}
 		return builder.toString();
+	}
+
+	public static String jsonifyLeaf(final Object input) {
+		if (input != null && Strings.is(input.getClass())) {
+			return Strings.doubleQuote(Strings.escape(input));
+		}
+		return Strings.toString(input);
 	}
 }
