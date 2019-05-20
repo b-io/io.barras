@@ -55,10 +55,16 @@
 
 				<configuration>
 					<source>${project.build.source}</source>
+					<testSource>${project.build.source}</testSource>
+
 					<target>${project.build.target}</target>
+					<testTarget>${project.build.target}</testTarget>
+
 					<compilerArgs>
 						<!--<arg>-Xlint:deprecation</arg>-->
+						<!--<arg>-Xlint:unchecked</arg>-->
 					</compilerArgs>
+
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
