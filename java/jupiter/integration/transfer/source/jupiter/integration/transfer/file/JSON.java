@@ -106,9 +106,11 @@ public class JSON {
 		if (value != null) {
 			final Class<?> c = value.getClass();
 			if (c.isArray()) {
-				builder.append(jsonifyArray(value));
+				builder.append(Strings.bracketize(Strings.joinWith(Arrays.toArray(value),
+						JSON_DELIMITER, JSON_WRAPPER)));
 			} else if (Collections.is(c)) {
-				builder.append(jsonifyCollection((Collection<?>) value));
+				builder.append(Strings.bracketize(Strings.joinWith((Collection<?>) value,
+						JSON_DELIMITER, JSON_WRAPPER)));
 			} else {
 				builder.append(JSON_WRAPPER.call(value));
 			}
@@ -116,17 +118,5 @@ public class JSON {
 			builder.append(JSON_WRAPPER.call(value));
 		}
 		return builder.toString();
-	}
-
-	public static String jsonifyArray(final Object array) {
-		return jsonifyArray(Arrays.toArray(array));
-	}
-
-	public static <T> String jsonifyArray(final T[] array) {
-		return Strings.<T>bracketize(Strings.joinWith(array, JSON_DELIMITER, JSON_WRAPPER));
-	}
-
-	public static <T> String jsonifyCollection(final Collection<T> collection) {
-		return Strings.<T>bracketize(Strings.joinWith(collection, JSON_DELIMITER, JSON_WRAPPER));
 	}
 }
