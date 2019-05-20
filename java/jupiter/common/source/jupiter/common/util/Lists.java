@@ -26,6 +26,9 @@ package jupiter.common.util;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
+import jupiter.common.math.Numbers;
+import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.test.CollectionArguments;
 
 
 public class Lists
@@ -41,6 +44,38 @@ public class Lists
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T extends Number> ExtendedList<T> getMinElements(final List<T> a,
+			final List<T> b) {
+		// Check the arguments
+		CollectionArguments.<List<T>>requireSameSize(a, b);
+
+		// Get the size
+		final int size = a.size();
+		// For each index, get the minimum number
+		final ExtendedList<T> minElements = new ExtendedList<T>(size);
+		for (int i = 0; i < size; ++i) {
+			minElements.add(Numbers.<T>getMin(a.get(i), b.get(i)));
+		}
+		return minElements;
+	}
+
+	public static <T extends Number> ExtendedList<T> getMaxElements(final List<T> a,
+			final List<T> b) {
+		// Check the arguments
+		CollectionArguments.<List<T>>requireSameSize(a, b);
+
+		// Get the size
+		final int size = a.size();
+		// For each index, get the maximum number
+		final ExtendedList<T> maxElements = new ExtendedList<T>(size);
+		for (int i = 0; i < size; ++i) {
+			maxElements.add(Numbers.<T>getMax(a.get(i), b.get(i)));
+		}
+		return maxElements;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@SuppressWarnings("unchecked")
