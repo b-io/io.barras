@@ -12,6 +12,7 @@
 
 	<groupId>io.barras.java</groupId>
 	<artifactId>io.barras.java</artifactId>
+	<version>1.6.0</version>
 	<packaging>pom</packaging>
 
 	<name>Java</name>
