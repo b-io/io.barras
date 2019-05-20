@@ -26,6 +26,7 @@ package jupiter.common.math;
 import java.math.BigDecimal;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.util.Bytes;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
@@ -75,7 +76,7 @@ public class Numbers {
 		if (string == null) {
 			return null;
 		}
-		if (Byte.class.isAssignableFrom(c)) {
+		if (Bytes.is(c)) {
 			return Byte.valueOf(string);
 		} else if (Shorts.is(c)) {
 			return Short.valueOf(string);

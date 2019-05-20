@@ -61,6 +61,30 @@ public class Arrays {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static Object[] toArray(Object array) {
+		// Check the arguments
+		ArrayArguments.requireArray(array);
+
+		// Convert
+		final Class<?> c = array.getClass();
+		if (Bytes.isPrimitiveArray(c)) {
+			return Bytes.toArray((byte[]) array);
+		} else if (Shorts.isPrimitiveArray(c)) {
+			return Shorts.toArray((short[]) array);
+		} else if (Integers.isPrimitiveArray(c)) {
+			return Integers.toArray((int[]) array);
+		} else if (Longs.isPrimitiveArray(c)) {
+			return Longs.toArray((long[]) array);
+		} else if (Floats.isPrimitiveArray(c)) {
+			return Floats.toArray((float[]) array);
+		} else if (Doubles.isPrimitiveArray(c)) {
+			return Doubles.toArray((double[]) array);
+		}
+		return (Object[]) array;
+	}
+
+	//////////////////////////////////////////////
+
 	public static <T> T[] toArray(final Class<T> c, final T... array) {
 		final T[] result = create(c, array.length);
 		System.arraycopy(array, 0, result, 0, array.length);

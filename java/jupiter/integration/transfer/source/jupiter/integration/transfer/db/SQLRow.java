@@ -30,7 +30,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Date;
@@ -40,13 +39,14 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 import jupiter.common.util.Booleans;
+import jupiter.common.util.Bytes;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
-import jupiter.integration.transfer.web.Web;
+import jupiter.integration.transfer.file.JSON;
 
 public abstract class SQLRow {
 
@@ -106,7 +106,7 @@ public abstract class SQLRow {
 					try {
 						final String columnName = getColumnName(field.getName());
 						final Class<?> c = field.getType();
-						if (Array.class.isAssignableFrom(c)) {
+						if (c.isArray()) {
 							field.set(this, resultSet.getArray(columnName));
 						} else if (BigDecimal.class.isAssignableFrom(c)) {
 							field.set(this, resultSet.getBigDecimal(columnName));
@@ -114,9 +114,9 @@ public abstract class SQLRow {
 							field.set(this, resultSet.getBlob(columnName));
 						} else if (Booleans.is(c)) {
 							field.set(this, resultSet.getBoolean(columnName));
-						} else if (byte.class.isAssignableFrom(c)) {
+						} else if (Bytes.is(c)) {
 							field.set(this, resultSet.getByte(columnName));
-						} else if (byte[].class.isAssignableFrom(c)) {
+						} else if (Bytes.isPrimitiveArray(c)) {
 							field.set(this, resultSet.getBytes(columnName));
 						} else if (Clob.class.isAssignableFrom(c)) {
 							field.set(this, resultSet.getClob(columnName));
@@ -161,6 +161,6 @@ public abstract class SQLRow {
 
 	@Override
 	public String toString() {
-		return Web.jsonify(this);
+		return JSON.jsonify(this);
 	}
 }

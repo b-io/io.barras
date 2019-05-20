@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.transfer.web;
+package jupiter.integration.transfer.file;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.util.Strings;

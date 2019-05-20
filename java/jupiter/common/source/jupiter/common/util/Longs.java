@@ -867,6 +867,30 @@ public class Longs {
 		return long.class.isAssignableFrom(c) || Long.class.isAssignableFrom(c);
 	}
 
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@code long} value.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} value,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitive(final Class<?> c) {
+		return long.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to an array of {@code long} values.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code long}
+	 *         values, {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Class<?> c) {
+		return long[].class.isAssignableFrom(c);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// COMPARATORS

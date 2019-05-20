@@ -21,16 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.transfer.web;
+package jupiter.integration.transfer.file;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Strings;
 
-public class Web {
+public class JSON {
 
+	public static final char JSON_DELIMITER = ',';
 	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
 
 	/**
@@ -77,6 +79,17 @@ public class Web {
 	}
 
 	/**
+	 * Returns a JSON entry {@link String} representation of the specified value.
+	 * <p>
+	 * @param value the value to represent as a JSON entry {@link String}
+	 * <p>
+	 * @return a JSON entry {@link String} representation of the specified value
+	 */
+	public static String jsonifyEntry(final Object value) {
+		return jsonifyEntry(null, value);
+	}
+
+	/**
 	 * Returns a JSON entry {@link String} representation of the specified key-value mapping.
 	 * <p>
 	 * @param key   the key of the key-value mapping to represent as a JSON entry {@link String}
@@ -90,12 +103,30 @@ public class Web {
 			builder.append(Strings.doubleQuote(key));
 			builder.append(':');
 		}
-		if (value != null && Collections.is(value.getClass())) {
-			builder.append(Collections.toString((Collection<?>) value,
-					Collections.DEFAULT_DELIMITER, JSON_WRAPPER));
+		if (value != null) {
+			final Class<?> c = value.getClass();
+			if (c.isArray()) {
+				builder.append(jsonifyArray(value));
+			} else if (Collections.is(c)) {
+				builder.append(jsonifyCollection((Collection<?>) value));
+			} else {
+				builder.append(JSON_WRAPPER.call(value));
+			}
 		} else {
 			builder.append(JSON_WRAPPER.call(value));
 		}
 		return builder.toString();
+	}
+
+	public static String jsonifyArray(final Object array) {
+		return jsonifyArray(Arrays.toArray(array));
+	}
+
+	public static <T> String jsonifyArray(final T[] array) {
+		return Strings.<T>bracketize(Strings.joinWith(array, JSON_DELIMITER, JSON_WRAPPER));
+	}
+
+	public static <T> String jsonifyCollection(final Collection<T> collection) {
+		return Strings.<T>bracketize(Strings.joinWith(collection, JSON_DELIMITER, JSON_WRAPPER));
 	}
 }

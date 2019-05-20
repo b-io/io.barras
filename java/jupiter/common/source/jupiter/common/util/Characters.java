@@ -832,6 +832,30 @@ public class Characters {
 		return char.class.isAssignableFrom(c) || Character.class.isAssignableFrom(c);
 	}
 
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@code char} value.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code char} value,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitive(final Class<?> c) {
+		return char.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to an array of {@code char} values.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code char}
+	 *         values, {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Class<?> c) {
+		return char[].class.isAssignableFrom(c);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

@@ -880,6 +880,30 @@ public class Floats {
 		return float.class.isAssignableFrom(c) || Float.class.isAssignableFrom(c);
 	}
 
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@code float} value.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} value,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitive(final Class<?> c) {
+		return float.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to an array of {@code float} values.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code float}
+	 *         values, {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Class<?> c) {
+		return float[].class.isAssignableFrom(c);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// COMPARATORS
