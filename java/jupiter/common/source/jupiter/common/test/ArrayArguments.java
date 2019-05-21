@@ -23,6 +23,8 @@
  */
 package jupiter.common.test;
 
+import jupiter.common.util.Arrays;
+
 public class ArrayArguments
 		extends Arguments {
 
@@ -39,7 +41,7 @@ public class ArrayArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void requireArray(final Object array) {
-		if (CHECK_ARGS && !requireNonNull(array).getClass().isArray()) {
+		if (CHECK_ARGS && !Arrays.is(requireNonNull(array).getClass())) {
 			throw new IllegalArgumentException("The specified object is not an array");
 		}
 	}

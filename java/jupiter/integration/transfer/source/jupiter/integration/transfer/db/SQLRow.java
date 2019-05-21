@@ -37,6 +37,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import jupiter.common.util.Arrays;
 
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
@@ -106,7 +107,7 @@ public abstract class SQLRow {
 					try {
 						final String columnName = getColumnName(field.getName());
 						final Class<?> c = field.getType();
-						if (c.isArray()) {
+						if (Arrays.is(c)) {
 							field.set(this, resultSet.getArray(columnName));
 						} else if (BigDecimal.class.isAssignableFrom(c)) {
 							field.set(this, resultSet.getBigDecimal(columnName));

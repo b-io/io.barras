@@ -539,6 +539,20 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@link File}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link File},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return File.class.isAssignableFrom(c);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests whether the specified file (or directory) exists.
 	 * <p>
 	 * @param pathName the path name of the file (or directory) to test
