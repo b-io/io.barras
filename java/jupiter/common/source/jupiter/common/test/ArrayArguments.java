@@ -38,6 +38,12 @@ public class ArrayArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void requireArray(final Object array) {
+		if (CHECK_ARGS && !requireNonNull(array).getClass().isArray()) {
+			throw new IllegalArgumentException("The specified object is not an array");
+		}
+	}
+
 	public static <T> T[] requireNonEmpty(final T... array) {
 		if (CHECK_ARGS) {
 			requireNonEmpty(requireNonNull(array).length);

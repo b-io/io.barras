@@ -394,26 +394,26 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of
-	 * {@code short} values.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
+	 * values.
 	 * <p>
 	 * @param array an array of {@code short} values
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Short} from the specified array of
-	 *         {@code short} values
+	 * @return an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
+	 *         values
 	 */
 	public static ExtendedList<Short> toExtendedList(final short[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of
-	 * {@code short} values.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
+	 * values.
 	 * <p>
 	 * @param array an array of {@code short} values
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Short} from the specified array of
-	 *         {@code short} values
+	 * @return an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
+	 *         values
 	 */
 	public static ExtendedList<Short> asExtendedList(final short... array) {
 		return toExtendedList(array);
@@ -444,8 +444,7 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type
-	 * {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
@@ -457,8 +456,7 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type
-	 * {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array an array of type {@code T}
@@ -896,6 +894,30 @@ public class Shorts {
 	 */
 	public static boolean is(final Class<?> c) {
 		return short.class.isAssignableFrom(c) || Short.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@code short} value.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code short} value,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitive(final Class<?> c) {
+		return short.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to an array of {@code short} values.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code short}
+	 *         values, {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Class<?> c) {
+		return short[].class.isAssignableFrom(c);
 	}
 
 

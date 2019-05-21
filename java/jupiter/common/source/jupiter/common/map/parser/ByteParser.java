@@ -21,50 +21,102 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.linear.jni;
+package jupiter.common.map.parser;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.util.Doubles;
-import jupiter.common.util.Formats;
+import jupiter.common.map.ObjectToByteMapper;
+import jupiter.common.util.Strings;
 
-public class MatrixOperations {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static final boolean ACTIVE = false;
-
-	static {
-		if (ACTIVE) {
-			System.loadLibrary("jni-" + Formats.VERSION);
-		}
-	}
-
+/**
+ * {@link ByteParser} is a map operator parsing an {@link Object} to a {@link Byte}.
+ */
+public class ByteParser
+		extends ObjectToByteMapper
+		implements IParser<Byte> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected MatrixOperations() {
+	public ByteParser() {
+		super();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// CALLABLE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static native double[] dot(final double[] A, final double[] B,
-			final int aColumnDimension, final int bColumnDimension);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static void main(final String[] args) {
-		final double[] A = new double[] {1., 2., 3., 4., 5., 6.};
-		final double[] B = new double[] {1., 2., 3., 4.};
-		for (int i = 0; i < 100; ++i) {
-			IO.result(Doubles.toString(dot(A, B, 2, 2)));
+	@Override
+	public Byte call(final Object input) {
+		if (input == null) {
+			return null;
 		}
+		if (input instanceof Byte) {
+			return (Byte) input;
+		}
+		if (input instanceof Number) {
+			return ((Number) input).byteValue();
+		}
+		final String value = Strings.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		try {
+			return Byte.valueOf(value);
+		} catch (final NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", c.getSimpleName());
+		}
+		return null;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSER
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Byte parse(final Object input) {
+		return call(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Byte[] parseToArray(final Object[] input) {
+		return callToArray(input);
+	}
+
+	public Byte[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Byte[][] parseToArray2D(final Object[][] input2D) {
+		return callToArray2D(input2D);
+	}
+
+	public Byte[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Byte[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Byte[][][] parseAsArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public ByteParser clone() {
+		return new ByteParser();
 	}
 }

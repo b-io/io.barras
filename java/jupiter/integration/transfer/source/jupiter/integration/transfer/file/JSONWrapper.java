@@ -21,10 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.transfer.web;
+package jupiter.integration.transfer.file;
 
 import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.util.Strings;
 
 public class JSONWrapper
 		extends ObjectToStringMapper {
@@ -44,10 +43,7 @@ public class JSONWrapper
 
 	@Override
 	public String call(final Object input) {
-		if (input != null && Strings.is(input.getClass())) {
-			return Strings.doubleQuote(Strings.escape(input));
-		}
-		return Strings.toString(input);
+		return JSON.jsonify(input);
 	}
 
 

@@ -26,7 +26,7 @@ package jupiter.common.util;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
-import jupiter.common.math.Numbers;
+
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.CollectionArguments;
 

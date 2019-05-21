@@ -868,6 +868,30 @@ public class Doubles {
 		return double.class.isAssignableFrom(c) || Double.class.isAssignableFrom(c);
 	}
 
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@code double} value.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code double} value,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitive(final Class<?> c) {
+		return double.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to an array of {@code double} values.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code double}
+	 *         values, {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Class<?> c) {
+		return double[].class.isAssignableFrom(c);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// COMPARATORS

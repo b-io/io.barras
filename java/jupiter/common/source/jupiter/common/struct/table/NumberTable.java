@@ -27,8 +27,8 @@ import java.io.IOException;
 
 import jupiter.common.map.parser.IParser;
 import jupiter.common.math.Maths;
-import jupiter.common.math.Numbers;
 import jupiter.common.math.Statistics;
+import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 
 /**

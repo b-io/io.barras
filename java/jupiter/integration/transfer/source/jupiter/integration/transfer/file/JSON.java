@@ -21,16 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.integration.transfer.web;
+package jupiter.integration.transfer.file;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class Web {
+public class JSON {
 
+	public static final char JSON_DELIMITER = ',';
 	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
 
 	/**
@@ -48,7 +51,7 @@ public class Web {
 			for (int i = 0; i < fields.length; ++i) {
 				final Field field = fields[i];
 				try {
-					builder.append(jsonifyEntry(field.getName(), field.get(content)));
+					builder.append(jsonifyNode(field.getName(), field.get(content)));
 					if (i < fields.length - 1) {
 						builder.append(',');
 					}
@@ -71,9 +74,20 @@ public class Web {
 	public static String jsonify(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
 		builder.append('{');
-		builder.append(jsonifyEntry(key, value));
+		builder.append(jsonifyNode(key, value));
 		builder.append('}');
 		return builder.toString();
+	}
+
+	/**
+	 * Returns a JSON entry {@link String} representation of the specified value.
+	 * <p>
+	 * @param value the value to represent as a JSON entry {@link String}
+	 * <p>
+	 * @return a JSON entry {@link String} representation of the specified value
+	 */
+	public static String jsonifyNode(final Object value) {
+		return jsonifyNode(null, value);
 	}
 
 	/**
@@ -84,18 +98,54 @@ public class Web {
 	 * <p>
 	 * @return a JSON entry {@link String} representation of the specified key-value mapping
 	 */
-	public static String jsonifyEntry(final String key, final Object value) {
+	public static String jsonifyNode(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
 		if (key != null) {
 			builder.append(Strings.doubleQuote(key));
 			builder.append(':');
 		}
-		if (value != null && Collections.is(value.getClass())) {
-			builder.append(Collections.toString((Collection<?>) value,
-					Collections.DEFAULT_DELIMITER, JSON_WRAPPER));
+		if (value != null) {
+			final Class<?> c = value.getClass();
+			if (c.isArray()) {
+				if (isLeaf(c.getComponentType())) {
+					builder.append(Strings.bracketize(Strings.joinWith(Arrays.toArray(value),
+							JSON_DELIMITER)));
+				} else {
+					builder.append(Strings.bracketize(Strings.joinWith(Arrays.toArray(value),
+							JSON_DELIMITER, JSON_WRAPPER)));
+				}
+			} else if (Collections.is(c)) {
+				if (isLeaf(c.getComponentType())) {
+					builder.append(Strings.bracketize(Strings.joinWith((Collection<?>) value,
+							JSON_DELIMITER)));
+				} else {
+					builder.append(Strings.bracketize(Strings.joinWith((Collection<?>) value,
+							JSON_DELIMITER, JSON_WRAPPER)));
+				}
+			} else if (isLeaf(c)) {
+				builder.append(jsonifyLeaf(value));
+			} else {
+				builder.append(jsonify(value));
+			}
 		} else {
-			builder.append(JSON_WRAPPER.call(value));
+			builder.append(jsonifyLeaf(value));
 		}
 		return builder.toString();
+	}
+
+	public static String jsonifyLeaf(final Object value) {
+		if (value != null && Strings.is(value.getClass())) {
+			return Strings.doubleQuote(Strings.escape(value));
+		}
+		return Strings.toString(value);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static boolean isLeaf(final Class<?> c) {
+		return c.isPrimitive() || Objects.hasToString(c);
 	}
 }

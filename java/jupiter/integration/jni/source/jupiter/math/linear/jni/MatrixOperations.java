@@ -71,6 +71,6 @@ public class MatrixOperations {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static native double[] dot(double[] A, double[] B, int aColumnDimension,
-			int bColumnDimension);
+	public static native double[] dot(final double[] A, final double[] B,
+			final int aColumnDimension, final int bColumnDimension);
 }
