@@ -61,7 +61,7 @@ public class Arrays {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Object[] toArray(Object array) {
+	public static Object[] toArray(final Object array) {
 		// Check the arguments
 		ArrayArguments.requireArray(array);
 

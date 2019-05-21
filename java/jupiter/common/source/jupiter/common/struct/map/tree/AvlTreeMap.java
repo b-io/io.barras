@@ -247,7 +247,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * @param node the inserted node
 	 */
 	@Override
-	protected void balanceAfterInsertion(final AvlTreeNode<K, V> node) {
+	protected void balanceAfterInsertion(AvlTreeNode<K, V> node) {
 		balance(node);
 	}
 
@@ -257,7 +257,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * @param node the deleted node
 	 */
 	@Override
-	protected void balanceAfterDeletion(final AvlTreeNode<K, V> node) {
+	protected void balanceAfterDeletion(AvlTreeNode<K, V> node) {
 		balance(node);
 	}
 

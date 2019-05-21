@@ -25,6 +25,7 @@ package jupiter.common.math;
 
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;

@@ -30,9 +30,9 @@ import java.util.Collection;
 import jupiter.common.io.Messages;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
-import jupiter.common.math.Numbers;
 import jupiter.common.math.Statistics;
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Numbers;
 
 public class Tests {
 

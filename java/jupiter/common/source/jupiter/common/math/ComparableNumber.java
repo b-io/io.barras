@@ -24,6 +24,7 @@
 package jupiter.common.math;
 
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 

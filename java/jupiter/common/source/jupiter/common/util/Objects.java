@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import java.lang.reflect.Method;
+
 public class Objects {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +52,18 @@ public class Objects {
 	 */
 	public static boolean isNullOrEmpty(final Object object) {
 		return object == null || Strings.isNullOrEmpty(object.toString());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static boolean hasToString(final Class<?> c) {
+		final Method[] methods = c.getDeclaredMethods();
+		for (final Method method : methods) {
+			if (method.getName().equals("toString")) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 

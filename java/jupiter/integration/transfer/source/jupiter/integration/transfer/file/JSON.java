@@ -28,6 +28,7 @@ import java.util.Collection;
 
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class JSON {
@@ -106,13 +107,25 @@ public class JSON {
 		if (value != null) {
 			final Class<?> c = value.getClass();
 			if (c.isArray()) {
-				builder.append(Strings.bracketize(Strings.joinWith(Arrays.toArray(value),
-						JSON_DELIMITER, JSON_WRAPPER)));
+				if (isLeaf(c.getComponentType())) {
+					builder.append(Strings.bracketize(Strings.joinWith(Arrays.toArray(value),
+							JSON_DELIMITER)));
+				} else {
+					builder.append(Strings.bracketize(Strings.joinWith(Arrays.toArray(value),
+							JSON_DELIMITER, JSON_WRAPPER)));
+				}
 			} else if (Collections.is(c)) {
-				builder.append(Strings.bracketize(Strings.joinWith((Collection<?>) value,
-						JSON_DELIMITER, JSON_WRAPPER)));
-			} else {
+				if (isLeaf(c.getComponentType())) {
+					builder.append(Strings.bracketize(Strings.joinWith((Collection<?>) value,
+							JSON_DELIMITER)));
+				} else {
+					builder.append(Strings.bracketize(Strings.joinWith((Collection<?>) value,
+							JSON_DELIMITER, JSON_WRAPPER)));
+				}
+			} else if (isLeaf(c)) {
 				builder.append(jsonifyLeaf(value));
+			} else {
+				builder.append(jsonify(value));
 			}
 		} else {
 			builder.append(jsonifyLeaf(value));
@@ -120,10 +133,19 @@ public class JSON {
 		return builder.toString();
 	}
 
-	public static String jsonifyLeaf(final Object input) {
-		if (input != null && Strings.is(input.getClass())) {
-			return Strings.doubleQuote(Strings.escape(input));
+	public static String jsonifyLeaf(final Object value) {
+		if (value != null && Strings.is(value.getClass())) {
+			return Strings.doubleQuote(Strings.escape(value));
 		}
-		return Strings.toString(input);
+		return Strings.toString(value);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static boolean isLeaf(final Class<?> c) {
+		return c.isPrimitive() || Objects.hasToString(c);
 	}
 }

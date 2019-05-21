@@ -567,7 +567,7 @@ public abstract class Entity
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
 	 */
-	public abstract Entity solve(Entity entity);
+	public abstract Entity solve(final Entity entity);
 
 	/**
 	 * Returns the inverse of {@code this}.

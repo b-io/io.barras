@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.math;
+package jupiter.common.util;
 
 import java.math.BigDecimal;
 
