@@ -24,6 +24,7 @@
 package jupiter.common.time;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -106,6 +107,36 @@ public class Dates {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Date} from the specified date {@link String}.
+	 * <p>
+	 * @param date the date {@link String} to parse
+	 * <p>
+	 * @return the {@link Date} from the specified date {@link String}
+	 * <p>
+	 * @throws java.text.ParseException
+	 */
+	public static Date parse(final String date)
+			throws ParseException {
+		return DATE_FORMATTER.parse(date);
+	}
+
+	/**
+	 * Returns the {@link Date} from the specified date {@link String} with time.
+	 * <p>
+	 * @param date the date {@link String} to parse
+	 * <p>
+	 * @return the {@link Date} from the specified date {@link String} with time
+	 * <p>
+	 * @throws java.text.ParseException
+	 */
+	public static Date parseWithTime(final String date)
+			throws ParseException {
+		return DATE_TIME_FORMATTER.parse(date);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
