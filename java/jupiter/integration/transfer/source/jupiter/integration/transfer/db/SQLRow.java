@@ -32,13 +32,13 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.Blob;
 import java.sql.Clob;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
-import jupiter.common.util.Arrays;
 
+import jupiter.common.time.Dates;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
 import jupiter.common.util.Doubles;
@@ -121,7 +121,7 @@ public abstract class SQLRow {
 							field.set(this, resultSet.getBytes(columnName));
 						} else if (Clob.class.isAssignableFrom(c)) {
 							field.set(this, resultSet.getClob(columnName));
-						} else if (Date.class.isAssignableFrom(c)) {
+						} else if (Dates.is(c)) {
 							field.set(this, resultSet.getDate(columnName));
 						} else if (Doubles.is(c)) {
 							field.set(this, resultSet.getDouble(columnName));

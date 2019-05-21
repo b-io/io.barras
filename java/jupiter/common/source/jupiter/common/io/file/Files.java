@@ -560,7 +560,7 @@ public class Files {
 	 * @return {@code true} if and only if the specified file (or directory) exists, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws SecurityException If a security manager exists and its
+	 * @throws SecurityException if a security manager exists and its
 	 *                           {@link java.lang.SecurityManager#checkRead(java.lang.String)}
 	 *                           method denies read access to the specified file (or directory)
 	 */
@@ -577,7 +577,7 @@ public class Files {
 	 * @return {@code true} if and only if the specified file (or directory) exists, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws SecurityException If a security manager exists and its
+	 * @throws SecurityException if a security manager exists and its
 	 *                           {@link java.lang.SecurityManager#checkRead(java.lang.String)}
 	 *                           method denies read access to the file (or directory)
 	 */
