@@ -48,7 +48,7 @@ public class ChronometerTest
 		// Initialize
 		final long sleepingTime = 600L; // [ms]
 		final long unit = 1L;
-		final long tolerance = 10L * unit;
+		final long tolerance = 100L * unit;
 		final Chronometer chrono = new Chronometer();
 
 		// Process
