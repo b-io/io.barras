@@ -106,7 +106,7 @@ public class JSON {
 		}
 		if (value != null) {
 			final Class<?> c = value.getClass();
-			if (c.isArray()) {
+			if (Arrays.is(c)) {
 				if (isLeaf(c.getComponentType())) {
 					builder.append(Strings.bracketize(Strings.joinWith(Arrays.toArray(value),
 							JSON_DELIMITER)));

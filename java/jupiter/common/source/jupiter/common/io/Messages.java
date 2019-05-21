@@ -164,4 +164,21 @@ public class Messages {
 	protected static String createLabel(final String string) {
 		return Strings.isNotEmpty(string) ? Strings.bracketize(string) : EMPTY;
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@link Message}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Message},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return Message.class.isAssignableFrom(c);
+	}
 }

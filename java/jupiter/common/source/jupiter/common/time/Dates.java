@@ -316,4 +316,21 @@ public class Dates {
 		calendar.add(Calendar.DATE, 50);
 		return calendar.getTime();
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@link Date}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Date},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return Date.class.isAssignableFrom(c);
+	}
 }

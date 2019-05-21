@@ -75,6 +75,8 @@ public class Resources {
 		return false;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Closes the specified {@link AutoCloseable}.
 	 * <p>
