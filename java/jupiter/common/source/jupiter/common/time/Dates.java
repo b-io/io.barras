@@ -116,7 +116,7 @@ public class Dates {
 	 * <p>
 	 * @return the {@link Date} from the specified date {@link String}
 	 * <p>
-	 * @throws java.text.ParseException
+	 * @throws ParseException if there is a problem with parsing the date
 	 */
 	public static Date parse(final String date)
 			throws ParseException {
@@ -130,7 +130,7 @@ public class Dates {
 	 * <p>
 	 * @return the {@link Date} from the specified date {@link String} with time
 	 * <p>
-	 * @throws java.text.ParseException
+	 * @throws ParseException if there is a problem with parsing the date
 	 */
 	public static Date parseWithTime(final String date)
 			throws ParseException {
