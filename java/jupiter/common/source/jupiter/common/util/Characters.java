@@ -886,20 +886,39 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code characters} contains {@code character}.
+	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
-	 * @param characters an array of {@code char} values
-	 * @param character  the {@code char} value to test for presence
+	 * @param array an array of {@code char} values
+	 * @param token the {@code char} value to test for presence
 	 * <p>
-	 * @return {@code true} if {@code characters} contains {@code character}, {@code false}
-	 *         otherwise
+	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
-	public static boolean contains(final char[] characters, final char character) {
-		if (characters == null) {
+	public static boolean contains(final char[] array, final char token) {
+		if (array == null) {
 			return false;
 		}
-		for (final char c : characters) {
-			if (character == c) {
+		for (final char element : array) {
+			if (element == token) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Tests whether {@code array} contains any {@code tokens}.
+	 * <p>
+	 * @param array  an array of {@code char} values
+	 * @param tokens the array of {@code char} values to test for presence
+	 * <p>
+	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 */
+	public static boolean containsAny(final char[] array, final char[] tokens) {
+		if (array == null) {
+			return false;
+		}
+		for (final char token : tokens) {
+			if (contains(array, token)) {
 				return true;
 			}
 		}

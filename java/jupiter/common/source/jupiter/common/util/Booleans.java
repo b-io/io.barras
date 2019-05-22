@@ -746,12 +746,13 @@ public class Booleans {
 	}
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to an array of {@code boolean} values.
+	 * Tests whether the specified {@link Class} is assignable to an array of {@code boolean}
+	 * values.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code boolean}
-	 *         values, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to an array of
+	 *         {@code boolean} values, {@code false} otherwise
 	 */
 	public static boolean isPrimitiveArray(final Class<?> c) {
 		return boolean[].class.isAssignableFrom(c);
@@ -760,19 +761,39 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code bools} contains {@code bool}.
+	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
-	 * @param bools an array of {@code boolean} values
-	 * @param bool  the {@code boolean} value to test for presence
+	 * @param array an array of {@code boolean} values
+	 * @param token the {@code boolean} value to test for presence
 	 * <p>
-	 * @return {@code true} if {@code bools} contains {@code bool}, {@code false} otherwise
+	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
-	public static boolean contains(final boolean[] bools, final boolean bool) {
-		if (bools == null) {
+	public static boolean contains(final boolean[] array, final boolean token) {
+		if (array == null) {
 			return false;
 		}
-		for (final boolean c : bools) {
-			if (bool == c) {
+		for (final boolean element : array) {
+			if (element == token) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Tests whether {@code array} contains any {@code tokens}.
+	 * <p>
+	 * @param array  an array of {@code boolean} values
+	 * @param tokens the array of {@code boolean} values to test for presence
+	 * <p>
+	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 */
+	public static boolean containsAny(final boolean[] array, final boolean[] tokens) {
+		if (array == null) {
+			return false;
+		}
+		for (final boolean token : tokens) {
+			if (contains(array, token)) {
 				return true;
 			}
 		}

@@ -27,7 +27,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringRemover} is a map operator removing characters from a {@link String}.
+ * {@link StringRemover} is a map operator removing tokens from a {@link String}.
  */
 public class StringRemover
 		extends ObjectToStringMapper {
@@ -36,21 +36,21 @@ public class StringRemover
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final String characters;
+	protected final String tokens;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public StringRemover(final char... characters) {
+	public StringRemover(final char... tokens) {
 		super();
-		this.characters = Strings.join(characters);
+		this.tokens = Strings.join(tokens);
 	}
 
-	public StringRemover(final String characters) {
+	public StringRemover(final String tokens) {
 		super();
-		this.characters = characters;
+		this.tokens = tokens;
 	}
 
 
@@ -60,7 +60,7 @@ public class StringRemover
 
 	@Override
 	public String call(final Object input) {
-		return Strings.remove(input, characters);
+		return Strings.remove(input, tokens);
 	}
 
 
