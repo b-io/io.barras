@@ -24,6 +24,8 @@
 package jupiter.common.util;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import jupiter.common.map.ObjectToStringMapper;
 
@@ -64,6 +66,29 @@ public class Collections {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the element at the specified index of the elements returned by the iterator.
+	 * <p>
+	 * @param <C>        the type of {@link Collection}
+	 * @param <T>        the type of the {@link Collection}
+	 * @param collection a {@link Collection} of type {@code T}
+	 * @param index      the index of the element to return
+	 * <p>
+	 * @return the element at the specified index of the elements returned by the iterator
+	 * <p>
+	 * @throws NoSuchElementException if the iteration has no more elements
+	 */
+	public static <C extends Collection<T>, T> T get(final C collection, final int index)
+			throws NoSuchElementException {
+		final Iterator<T> iterator = collection.iterator();
+		for (int i = 0; i < index; ++i) {
+			iterator.next();
+		}
+		return iterator.next();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
