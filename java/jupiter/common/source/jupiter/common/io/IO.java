@@ -371,13 +371,13 @@ public class IO {
 	}
 
 	/**
-	 * Prints a bar line with the specified {@code char} value and terminates the line with the IO
+	 * Prints a bar line with the specified progress character and terminates the line with the IO
 	 * handlers.
 	 * <p>
-	 * @param character the {@code char} value of the bar to print
+	 * @param progressCharacter the {@code char} value of the bar to print
 	 */
-	public void bar(final char character) {
-		println(Strings.createBar(character), false);
+	public void bar(final char progressCharacter) {
+		println(Strings.createBar(progressCharacter), false);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -737,6 +737,50 @@ public class Arrays {
 		return true;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code array} contains {@code token}.
+	 * <p>
+	 * @param <T>   the component type of the array to test
+	 * @param array an array of type {@code T}
+	 * @param token the {@code T} object to test for presence
+	 * <p>
+	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 */
+	public static <T> boolean contains(final T[] array, final T token) {
+		if (array == null) {
+			return false;
+		}
+		for (final T element : array) {
+			if (Objects.equals(element, token)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Tests whether {@code array} contains any {@code tokens}.
+	 * <p>
+	 * @param <T>    the component type of the array to test
+	 * @param array  an array of {@link String}
+	 * @param tokens the array of type {@code T} to test for presence
+	 * <p>
+	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 */
+	public static <T> boolean containsAny(final T[] array, final T[] tokens) {
+		if (array == null) {
+			return false;
+		}
+		for (final T token : tokens) {
+			if (contains(array, token)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT

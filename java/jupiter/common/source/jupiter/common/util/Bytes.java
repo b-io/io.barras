@@ -933,6 +933,48 @@ public class Bytes {
 		return byte[].class.isAssignableFrom(c);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code array} contains {@code token}.
+	 * <p>
+	 * @param array an array of {@code byte} values
+	 * @param token the {@code byte} value to test for presence
+	 * <p>
+	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 */
+	public static boolean contains(final byte[] array, final byte token) {
+		if (array == null) {
+			return false;
+		}
+		for (final byte element : array) {
+			if (element == token) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Tests whether {@code array} contains any {@code tokens}.
+	 * <p>
+	 * @param array  an array of {@code byte} values
+	 * @param tokens the array of {@code byte} values to test for presence
+	 * <p>
+	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 */
+	public static boolean containsAny(final byte[] array, final byte[] tokens) {
+		if (array == null) {
+			return false;
+		}
+		for (final byte token : tokens) {
+			if (contains(array, token)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// COMPARATORS

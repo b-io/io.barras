@@ -80,7 +80,10 @@ public class Objects {
 	 * @return {@code true} if the arguments are equal to each other, {@code false} otherwise
 	 */
 	public static boolean equals(final Object a, final Object b) {
-		return a == b || a != null && a.equals(b);
+		if (a == null) {
+			return b == null;
+		}
+		return b != null && a.equals(b);
 	}
 
 	/**

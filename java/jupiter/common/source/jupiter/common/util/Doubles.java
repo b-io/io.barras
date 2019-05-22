@@ -885,11 +885,53 @@ public class Doubles {
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code double}
-	 *         values, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to an array of
+	 *         {@code double} values, {@code false} otherwise
 	 */
 	public static boolean isPrimitiveArray(final Class<?> c) {
 		return double[].class.isAssignableFrom(c);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code array} contains {@code token}.
+	 * <p>
+	 * @param array an array of {@code double} values
+	 * @param token the {@code double} value to test for presence
+	 * <p>
+	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 */
+	public static boolean contains(final double[] array, final double token) {
+		if (array == null) {
+			return false;
+		}
+		for (final double element : array) {
+			if (element == token) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Tests whether {@code array} contains any {@code tokens}.
+	 * <p>
+	 * @param array  an array of {@code double} values
+	 * @param tokens the array of {@code double} values to test for presence
+	 * <p>
+	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 */
+	public static boolean containsAny(final double[] array, final double[] tokens) {
+		if (array == null) {
+			return false;
+		}
+		for (final double token : tokens) {
+			if (contains(array, token)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 
