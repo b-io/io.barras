@@ -196,9 +196,9 @@ public class SafeDateFormat
 	 * {@linkplain Calendar#clear() cleared} before parsing, and the {@code calendar}'s default
 	 * values of the date-time fields are used for any missing date-time information. For example,
 	 * the year value of the parsed {@link Date} is 1970 with {@link GregorianCalendar} if no year
-	 * value is specified from the parsing operation. The {@link TimeZone} value may be overwritten,
-	 * depending on the specified pattern and the time zone value in {@code text}. Any
-	 * {@link TimeZone} value that has previously been set by a call to
+	 * value is specified from the parsing operation. The {@link java.util.TimeZone} value may be
+	 * overwritten, depending on the specified pattern and the time zone value in {@code text}. Any
+	 * {@link java.util.TimeZone} value that has previously been set by a call to
 	 * {@link #setTimeZone(java.util.TimeZone) setTimeZone} may need to be restored for further
 	 * operations.
 	 * <p>
