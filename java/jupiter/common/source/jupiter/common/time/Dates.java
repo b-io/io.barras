@@ -116,6 +116,15 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the {@link Date} of the last day of the current month.
+	 * <p>
+	 * @return the {@link Date} of the last day of the current month
+	 */
+	public static Date getMonthLastDay() {
+		return getMonthLastDay(new Date());
+	}
+
+	/**
 	 * Returns the {@link Date} of the last day of the specified month.
 	 * <p>
 	 * @param month the month to consider
@@ -127,6 +136,17 @@ public class Dates {
 		calendar.setTime(month);
 		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 		return calendar.getTime();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Date} of the last day of the current year.
+	 * <p>
+	 * @return the {@link Date} of the last day of the current year
+	 */
+	public static Date getYearLastDay() {
+		return getYearLastDay(new Date());
 	}
 
 	/**
