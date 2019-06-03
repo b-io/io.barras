@@ -18,9 +18,6 @@
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/integration/hardware</url>
 
 	<properties>
-		<!-- Project -->
-		<project.build.source>1.6</project.build.source>
-		<project.build.target>1.6</project.build.target>
 		<!-- JOCL @since 1.6 -->
 		<jocl.version>2.0.1</jocl.version>
 		<jocl.blast.version>1.3.0</jocl.blast.version>
