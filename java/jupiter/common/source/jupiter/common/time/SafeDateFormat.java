@@ -60,7 +60,7 @@ public class SafeDateFormat
 	 * This is equivalent to calling {@link #SafeDateFormat(String, Locale)
 	 * SafeDateFormat(pattern, Locale.getDefault(java.util.Locale.Category.FORMAT))}.
 	 *
-	 * @see java.util.Locale#getDefault(java.util.Locale.Category)
+	 * @see java.util.Locale#getDefault
 	 * @see java.util.Locale.Category#FORMAT
 	 * <p>
 	 * @param pattern the pattern describing the date and time format
