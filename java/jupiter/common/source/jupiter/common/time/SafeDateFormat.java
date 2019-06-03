@@ -43,7 +43,7 @@ public class SafeDateFormat
 
 	/**
 	 * Constructs a {@link SafeDateFormat} using the default pattern and date format symbols for the
-	 * default {@link Locale.Category#FORMAT FORMAT} locale.
+	 * default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
 	 * <b>Note:</b> This constructor may not support all locales. For full coverage, use the factory
 	 * methods in the {@link DateFormat} class.
 	 */
@@ -53,15 +53,15 @@ public class SafeDateFormat
 
 	/**
 	 * Constructs a {@link SafeDateFormat} using the specified pattern and the default date format
-	 * symbols for the default {@link Locale.Category#FORMAT FORMAT} locale.
+	 * symbols for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
 	 * <b>Note:</b> This constructor may not support all locales. For full coverage, use the factory
 	 * methods in the {@link DateFormat} class.
 	 * <p>
 	 * This is equivalent to calling {@link #SafeDateFormat(String, Locale)
-	 * SafeDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT))}.
+	 * SafeDateFormat(pattern, Locale.getDefault(java.util.Locale.Category.FORMAT))}.
 	 *
-	 * @see Locale#getDefault(Locale.Category)
-	 * @see Locale.Category#FORMAT
+	 * @see java.util.Locale#getDefault
+	 * @see java.util.Locale.Category#FORMAT
 	 * <p>
 	 * @param pattern the pattern describing the date and time format
 	 * <p>
@@ -162,8 +162,8 @@ public class SafeDateFormat
 	 * information about the resulting String.
 	 * <p>
 	 * Each attribute key of the {@link AttributedCharacterIterator} will be of type
-	 * {@link DateFormat.Field}, with the corresponding attribute value being the same as the
-	 * attribute key.
+	 * {@link java.text.DateFormat.Field}, with the corresponding attribute value being the same as
+	 * the attribute key.
 	 * <p>
 	 * @param object the object to format
 	 * <p>
