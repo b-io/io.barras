@@ -24,6 +24,7 @@
 package jupiter.common.io;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.SINGLE_QUOTER;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.IOException;
@@ -86,7 +87,7 @@ public class Systems {
 
 	public static int execute(final IOHandler printer, final String... command)
 			throws InterruptedException, IOException {
-		IO.info(Strings.joinWith(command, SPACE));
+		IO.info(Strings.joinWith(command, SPACE, SINGLE_QUOTER));
 		final Process process = Runtime.getRuntime().exec(command);
 		// Read the input stream from the process and print it
 		final WorkQueue printerQueue = new LockedWorkQueue<InputStream, Integer>(
