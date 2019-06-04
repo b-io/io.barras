@@ -118,86 +118,79 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link String} from the specified array of type {@code T}.
+	 * Returns an array of {@link String} from the specified array of {@link Object}.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return an array of {@link String} from the specified array of type {@code T}
+	 * @return an array of {@link String} from the specified array of {@link Object}
 	 */
-	public static <T> String[] toArray(final T[] array) {
+	public static String[] toArray(final Object[] array) {
 		return PARSER.callToArray(array);
 	}
 
 	/**
-	 * Returns an array of {@link String} from the specified array of type {@code T}.
+	 * Returns an array of {@link String} from the specified array of {@link Object}.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return an array of {@link String} from the specified array of type {@code T}
+	 * @return an array of {@link String} from the specified array of {@link Object}
 	 */
-	public static <T> String[] asArray(final T... array) {
+	public static String[] asArray(final Object... array) {
 		return toArray(array);
 	}
 
 	/**
-	 * Returns a 2D array of {@link String} from the specified 2D array of type {@code T}.
+	 * Returns a 2D array of {@link String} from the specified 2D array of {@link Object}.
 	 * <p>
-	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D array of {@link Object}
 	 * <p>
-	 * @return a 2D array of {@link String} from the specified 2D array of type {@code T}
+	 * @return a 2D array of {@link String} from the specified 2D array of {@link Object}
 	 */
-	public static <T> String[][] toArray2D(final T[][] array2D) {
+	public static String[][] toArray2D(final Object[][] array2D) {
 		return PARSER.callToArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@link String} from the specified 2D array of type {@code T}.
+	 * Returns a 2D array of {@link String} from the specified 2D array of {@link Object}.
 	 * <p>
-	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D array of {@link Object}
 	 * <p>
-	 * @return a 2D array of {@link String} from the specified 2D array of type {@code T}
+	 * @return a 2D array of {@link String} from the specified 2D array of {@link Object}
 	 */
-	public static <T> String[][] asArray2D(final T[]... array2D) {
+	public static String[][] asArray2D(final Object[]... array2D) {
 		return toArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link String} from the specified 3D array of type {@code T}.
+	 * Returns a 3D array of {@link String} from the specified 3D array of {@link Object}.
 	 * <p>
-	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D array of {@link Object}
 	 * <p>
-	 * @return a 3D array of {@link String} from the specified 3D array of type {@code T}
+	 * @return a 3D array of {@link String} from the specified 3D array of {@link Object}
 	 */
-	public static <T> String[][][] toArray3D(final T[][][] array3D) {
+	public static String[][][] toArray3D(final Object[][][] array3D) {
 		return PARSER.callToArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link String} from the specified 3D array of type {@code T}.
+	 * Returns a 3D array of {@link String} from the specified 3D array of {@link Object}.
 	 * <p>
-	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D array of {@link Object}
 	 * <p>
-	 * @return a 3D array of {@link String} from the specified 3D array of type {@code T}
+	 * @return a 3D array of {@link String} from the specified 3D array of {@link Object}
 	 */
-	public static <T> String[][][] asArray3D(final T[][]... array3D) {
+	public static String[][][] asArray3D(final Object[][]... array3D) {
 		return toArray3D(array3D);
 	}
 
 	/**
-	 * Returns an array of {@link String} from the specified {@link Collection} of type {@code T}.
+	 * Returns an array of {@link String} from the specified {@link Collection} of {@link Object}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * <p>
-	 * @return an array of {@link String} from the specified {@link Collection} of type {@code T}
+	 * @return an array of {@link String} from the specified {@link Collection} of {@link Object}
 	 */
-	public static <T> String[] collectionToArray(final Collection<T> collection) {
+	public static String[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -381,59 +374,55 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T}.
+	 * Returns a {@link String} representation of the specified array of {@link Object}.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T}
+	 * @return a {@link String} representation of the specified array of {@link Object}
 	 */
-	public static <T> String join(final T... array) {
+	public static String join(final Object... array) {
 		return joinWith(array, EMPTY);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@link String} representation of the specified {@link Collection} of
+	 * {@link Object}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to join
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 */
-	public static <T> String join(final Collection<T> collection) {
+	public static String join(final Collection<?> collection) {
 		return joinWith(collection, EMPTY);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the component type of the array
-	 * @param array     an array of type {@code T}
+	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@code char} value
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 * @return a {@link String} representation of the specified array of {@link Object} joined by
 	 *         {@code delimiter}
 	 */
-	public static <T> String joinWith(final T[] array, final char delimiter) {
+	public static String joinWith(final Object[] array, final char delimiter) {
 		return joinWith(array, toString(delimiter));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the component type of the array
-	 * @param array     an array of type {@code T}
+	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 * @return a {@link String} representation of the specified array of {@link Object} joined by
 	 *         {@code delimiter}
 	 */
-	public static <T> String joinWith(final T[] array, final String delimiter) {
+	public static String joinWith(final Object[] array, final String delimiter) {
 		// Check the arguments
 		Arguments.requireNonNull(array);
 
@@ -454,35 +443,33 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the component type of the array
-	 * @param array     an array of type {@code T}
+	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@code char} value
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 * @return a {@link String} representation of the specified array of {@link Object} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static <T> String joinWith(final T[] array, final char delimiter,
+	public static String joinWith(final Object[] array, final char delimiter,
 			final ObjectToStringMapper wrapper) {
 		return joinWith(array, toString(delimiter), wrapper);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the component type of the array
-	 * @param array     an array of type {@code T}
+	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 * @return a {@link String} representation of the specified array of {@link Object} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static <T> String joinWith(final T[] array, final String delimiter,
+	public static String joinWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		// Check the arguments
 		Arguments.requireNonNull(array);
@@ -506,38 +493,36 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to join
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@code char} value
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter}
 	 */
-	public static <T> String joinWith(final Collection<T> collection, final char delimiter) {
+	public static String joinWith(final Collection<?> collection, final char delimiter) {
 		return joinWith(collection, toString(delimiter));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to join
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter}
 	 */
-	public static <T> String joinWith(final Collection<T> collection, final String delimiter) {
+	public static String joinWith(final Collection<?> collection, final String delimiter) {
 		// Check the arguments
 		Arguments.requireNonNull(collection);
 
 		// Initialize
 		final StringBuilder builder = createBuilder(collection.size() * delimiter.length());
-		final Iterator<T> iterator = collection.iterator();
+		final Iterator<?> iterator = collection.iterator();
 
 		// Join the collection
 		if (iterator.hasNext()) {
@@ -550,42 +535,40 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to join
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@code char} value
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static <T> String joinWith(final Collection<T> collection, final char delimiter,
+	public static String joinWith(final Collection<?> collection, final char delimiter,
 			final ObjectToStringMapper wrapper) {
 		return joinWith(collection, toString(delimiter), wrapper);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to join
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static <T> String joinWith(final Collection<T> collection, final String delimiter,
+	public static String joinWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		// Check the arguments
 		Arguments.requireNonNull(collection);
 
 		// Initialize
 		final StringBuilder builder = createBuilder(collection.size() * delimiter.length());
-		final Iterator<T> iterator = collection.iterator();
+		final Iterator<?> iterator = collection.iterator();
 
 		// Join the collection
 		if (iterator.hasNext()) {
