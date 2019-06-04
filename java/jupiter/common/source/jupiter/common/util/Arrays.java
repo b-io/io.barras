@@ -210,14 +210,13 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T}.
+	 * Returns a {@link String} representation of the specified array of {@link Object}.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T}
+	 * @return a {@link String} representation of the specified array of {@link Object}
 	 */
-	public static <T> String join(final T... array) {
+	public static String join(final Object... array) {
 		return Strings.joinWith(array, DEFAULT_DELIMITER);
 	}
 
@@ -787,45 +786,42 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T}.
+	 * Returns a {@link String} representation of the specified array of {@link Object}.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T}
+	 * @return a {@link String} representation of the specified array of {@link Object}
 	 */
-	public static <T> String toString(final T... array) {
+	public static String toString(final Object... array) {
 		return Strings.parenthesize(join(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param <T>       the component type of the array
-	 * @param array     an array of type {@code T}
+	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 * @return a {@link String} representation of the specified array of {@link Object} joined by
 	 *         {@code delimiter}
 	 */
-	public static <T> String toString(final T[] array, final String delimiter) {
+	public static String toString(final Object[] array, final String delimiter) {
 		return Strings.parenthesize(Strings.joinWith(array, delimiter));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of type {@code T} joined by
+	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>       the component type of the array
-	 * @param array     an array of type {@code T}
+	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of type {@code T} joined by
+	 * @return a {@link String} representation of the specified array of {@link Object} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static <T> String toString(final T[] array, final String delimiter,
+	public static String toString(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		return Strings.parenthesize(Strings.joinWith(array, delimiter, wrapper));
 	}

@@ -51,15 +51,14 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@link String} representation of the specified {@link Collection} of
+	 * {@link Object}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to join
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 */
-	public static <T> String join(final Collection<T> collection) {
+	public static String join(final Collection<?> collection) {
 		return Strings.joinWith(collection, DEFAULT_DELIMITER);
 	}
 
@@ -132,46 +131,43 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@link String} representation of the specified {@link Collection} of
+	 * {@link Object}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 */
-	public static <T> String toString(final Collection<T> collection) {
+	public static String toString(final Collection<?> collection) {
 		return Strings.bracketize(Strings.joinWith(collection, DEFAULT_DELIMITER));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter}
 	 */
-	public static <T> String toString(final Collection<T> collection, final String delimiter) {
+	public static String toString(final Collection<?> collection, final String delimiter) {
 		return Strings.bracketize(Strings.joinWith(collection, delimiter));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of type {@code T}
+	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static <T> String toString(final Collection<T> collection, final String delimiter,
+	public static String toString(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		return Strings.bracketize(Strings.joinWith(collection, delimiter, wrapper));
 	}

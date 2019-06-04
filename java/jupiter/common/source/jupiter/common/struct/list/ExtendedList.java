@@ -170,6 +170,6 @@ public class ExtendedList<T>
 
 	@Override
 	public String toString() {
-		return Collections.<T>toString(this);
+		return Collections.toString(this);
 	}
 }
