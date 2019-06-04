@@ -24,21 +24,22 @@
 package jupiter.lang.r;
 
 
+import jupiter.common.io.IO;
 import jupiter.common.thread.Worker;
 
 public class RServer
-		extends Worker<String[], Boolean> {
+		extends Worker<String[], Integer> {
 
 	public RServer() {
 	}
 
 	@Override
-	public Boolean call(final String[] command) {
-		return R.execute(command);
+	public Integer call(final String[] command) {
+		return R.execute(command)? IO.EXIT_SUCCESS : IO.EXIT_FAILURE;
 	}
 
 	@Override
-	public Worker<String[], Boolean> clone() {
+	public Worker<String[], Integer> clone() {
 		return new RServer();
 	}
 }
