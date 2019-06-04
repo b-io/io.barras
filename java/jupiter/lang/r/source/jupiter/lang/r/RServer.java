@@ -23,34 +23,22 @@
  */
 package jupiter.lang.r;
 
-import static jupiter.common.io.IO.IO;
 
-import java.io.IOException;
-
-import jupiter.common.io.Systems;
 import jupiter.common.thread.Worker;
-import jupiter.common.util.Arrays;
 
 public class RServer
-		extends Worker<String[], Integer> {
+		extends Worker<String[], Boolean> {
 
 	public RServer() {
 	}
 
 	@Override
-	public Integer call(final String[] command) {
-		try {
-			return Systems.execute(Arrays.<String>merge(new String[] {R.PATH}, command, R.ARGS));
-		} catch (final InterruptedException ex) {
-			IO.error(ex);
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-		return IO.EXIT_FAILURE;
+	public Boolean call(final String[] command) {
+		return R.execute(command);
 	}
 
 	@Override
-	public Worker<String[], Integer> clone() {
+	public Worker<String[], Boolean> clone() {
 		return new RServer();
 	}
 }

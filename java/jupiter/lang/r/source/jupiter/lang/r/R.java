@@ -156,9 +156,9 @@ public class R {
 			}
 			return true;
 		} catch (final InterruptedException ex) {
-			IO.error("<< Fail to run the script", ex);
+			IO.error("Fail to execute the script", Strings.quote(command[0]), ex);
 		} catch (final IOException ex) {
-			IO.error("<< Fail to run the script", ex);
+			IO.error("Fail to execute the script", Strings.quote(command[0]), ex);
 		}
 		return false;
 	}
