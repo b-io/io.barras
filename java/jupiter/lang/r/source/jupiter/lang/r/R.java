@@ -47,7 +47,8 @@ public class R {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final String PATH = "Rscript";
+	public static final String R_PATH = "R";
+	public static final String R_SCRIPT_PATH = "RScript";
 	public static final String[] ARGS = new String[] {};
 	public static volatile String REPO = "https://cloud.r-project.org";
 
@@ -66,19 +67,19 @@ public class R {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static boolean installPackage(final String name) {
+	public static int installPackage(final String name) {
 		return execute("if (!" + Strings.singleQuote(name) + " %in% installed.packages())" +
 				"install.packages(" + Strings.singleQuote(name) +
-					", repos=" + Strings.singleQuote(REPO) +
+				", repos=" + Strings.singleQuote(REPO) +
 				")");
 	}
 
-	public static boolean installPackages(final String[] names) {
-		boolean isSuccess = true;
-		for (final String name : names) {
-			isSuccess &= installPackage(name);
+	public static int[] installPackages(final String[] names) {
+		final int[] status = new int[names.length];
+		for (int i = 0; i < names.length; ++i) {
+			status[i] = installPackage(names[i]);
 		}
-		return isSuccess;
+		return status;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,10 +95,10 @@ public class R {
 		}
 
 		// Launch Rserve
-		if (!(installPackage("Rserve") && execute("library(Rserve);" +
+		if (!(installPackage("Rserve") == IO.EXIT_SUCCESS && execute("library(Rserve);" +
 				"Rserve(" + (debug ? "T" : "F") +
-					", args = " + Strings.singleQuote(Strings.joinWith(ARGS, SPACE)) +
-				")"))) {
+				", args = " + Strings.singleQuote(Strings.joinWith(ARGS, SPACE)) +
+				")") == IO.EXIT_SUCCESS)) {
 			return false;
 		}
 
@@ -126,18 +127,34 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Executes the specified script on the R engine and returns {@code true} if the R engine
-	 * processed it, {@code false} otherwise.
+	 * Executes the specified script on the R engine and returns its exit value.
 	 * <p>
 	 * @param script the script to execute
 	 * <p>
-	 * @return {@code true} if the R engine processed the specified script, {@code false} otherwise
+	 * @return the exit value of the specified script executed on the R engine
 	 */
-	public static boolean execute(final String script) {
-		return execute(Arrays.<String>merge(Strings.asArray(script), ARGS));
+	public static int executeScript(final String... script) {
+		try {
+			return Systems.execute(PRINTER,
+					Arrays.<String>merge(new String[] {R_SCRIPT_PATH}, script, ARGS));
+		} catch (final InterruptedException ex) {
+			IO.error("Fail to execute the script", Strings.quote(script[0]), ex);
+		} catch (final IOException ex) {
+			IO.error("Fail to execute the script", Strings.quote(script[0]), ex);
+		}
+		return IO.EXIT_FAILURE;
 	}
 
-	public static boolean execute(final String... command) {
+	/**
+	 * Executes the specified command on the R engine and returns its exit value.
+	 * <p>
+	 * @param command the command to execute
+	 * <p>
+	 * @return the exit value of the specified command executed on the R engine
+	 */
+	public static int execute(final String... command) {
+		// Check the system
+		Systems.requireOS();
 		// Check the arguments
 		ArrayArguments.requireMinLength(command, 1);
 
@@ -145,22 +162,22 @@ public class R {
 		try {
 			// Test whether the OS is Windows or Unix
 			if (Systems.isWindows()) {
-				// - Execute the script on Windows
-				Systems.execute(PRINTER, Arrays.<String>merge(new String[] {PATH, "-e"}, command));
-			} else {
-				// - Execute the script on Unix
-				Systems.execute(PRINTER,
+				// - Execute the command on Windows
+				return Systems.execute(PRINTER,
+						Arrays.<String>merge(new String[] {R_PATH, "-e"}, command));
+			} else if (Systems.isUnix()) {
+				// - Execute the command on Unix
+				return Systems.execute(PRINTER,
 						Arrays.<String>merge(
-								new String[] {"/bin/sh", "-c", "echo", command[0], "|", PATH},
+								new String[] {"/bin/sh", "-c", "echo", command[0], "|", R_PATH},
 								Arrays.<String>take(command, 1, command.length)));
 			}
-			return true;
 		} catch (final InterruptedException ex) {
-			IO.error("Fail to execute the script", Strings.quote(command[0]), ex);
+			IO.error("Fail to execute the command", Strings.quote(command[0]), ex);
 		} catch (final IOException ex) {
-			IO.error("Fail to execute the script", Strings.quote(command[0]), ex);
+			IO.error("Fail to execute the command", Strings.quote(command[0]), ex);
 		}
-		return false;
+		return IO.EXIT_FAILURE;
 	}
 
 
