@@ -23,8 +23,6 @@
  */
 package jupiter.lang.r;
 
-
-import jupiter.common.io.IO;
 import jupiter.common.thread.Worker;
 
 public class RServer
@@ -34,8 +32,8 @@ public class RServer
 	}
 
 	@Override
-	public Integer call(final String[] command) {
-		return R.execute(command)? IO.EXIT_SUCCESS : IO.EXIT_FAILURE;
+	public Integer call(final String[] script) {
+		return R.executeScript(script);
 	}
 
 	@Override

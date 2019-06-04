@@ -211,8 +211,7 @@ public class FTPHandler {
 							OutputStream output = null;
 							try {
 								output = new BufferedOutputStream(new FileOutputStream(localPath));
-								final boolean isSuccess = ftp.retrieveFile(remotePath, output);
-								if (isSuccess) {
+								if (ftp.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
 									IO.error("Unable to download the file ",
@@ -288,8 +287,7 @@ public class FTPHandler {
 							OutputStream output = null;
 							try {
 								output = new BufferedOutputStream(new FileOutputStream(localPath));
-								final boolean isSuccess = ftps.retrieveFile(remotePath, output);
-								if (isSuccess) {
+								if (ftps.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
 									IO.error("Unable to download the file ",
