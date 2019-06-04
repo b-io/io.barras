@@ -34,7 +34,7 @@
 			<artifactId>hardware</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- @since 1.8 -->
+		<!-- @since 1.7 -->
 		<!--
 		<dependency>
 			<groupId>io.barras.jupiter</groupId>
