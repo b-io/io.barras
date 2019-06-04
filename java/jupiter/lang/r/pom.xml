@@ -6,18 +6,36 @@
 
 	<parent>
 		<groupId>io.barras.jupiter</groupId>
-		<artifactId>math</artifactId>
+		<artifactId>lang</artifactId>
 		<version>1.7.0</version>
 	</parent>
 
-	<artifactId>linear</artifactId>
+	<artifactId>r</artifactId>
 	<packaging>jar</packaging>
 
-	<name>Linear Algebra</name>
-	<description>Linear Algebra</description>
-	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/math/linear</url>
+	<name>R</name>
+	<description>R interfaces</description>
+	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/lang/r</url>
+
+	<properties>
+		<!-- ROSUDA -->
+		<rosuda.rengine.version>2.1.0</rosuda.rengine.version>
+		<rosuda.rserve.version>1.8.1</rosuda.rserve.version>
+	</properties>
 
 	<dependencies>
+		<!-- ROSUDA -->
+		<dependency>
+			<groupId>org.rosuda.REngine</groupId>
+			<artifactId>REngine</artifactId>
+			<version>${rosuda.rengine.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.rosuda.REngine</groupId>
+			<artifactId>Rserve</artifactId>
+			<version>${rosuda.rserve.version}</version>
+		</dependency>
+
 		<!-- Jupiter -->
 		<dependency>
 			<groupId>io.barras.jupiter</groupId>
@@ -26,19 +44,8 @@
 		</dependency>
 		<dependency>
 			<groupId>io.barras.jupiter</groupId>
-			<artifactId>analysis</artifactId>
+			<artifactId>console</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.barras.jupiter</groupId>
-			<artifactId>hardware</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.barras.jupiter</groupId>
-			<artifactId>jni</artifactId>
-			<version>${project.version}</version>
-			<type>nar</type>
 		</dependency>
 	</dependencies>
 </project>
