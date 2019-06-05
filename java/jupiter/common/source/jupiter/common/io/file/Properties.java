@@ -21,81 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.thread;
+package jupiter.common.io.file;
 
-import static jupiter.common.io.IO.IO;
+import java.io.IOException;
+import jupiter.common.thread.Threads;
 
-import jupiter.common.test.LongArguments;
-
-public class Threads {
+public class Properties
+		extends java.util.Properties {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final long DEFAULT_WAITING_TIME = 1000L; // [ms]
+	private static final long serialVersionUID = 3993938553202913923L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected Threads() {
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static ClassLoader getClassLoader() {
-		return Thread.currentThread().getContextClassLoader();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static void sleep() {
-		sleep(DEFAULT_WAITING_TIME);
+	/**
+	 * Creates an empty property list with no default values.
+	 */
+	public Properties() {
+		this(null);
 	}
 
 	/**
-	 * Causes the currently executing thread to sleep (temporarily cease execution) for the
-	 * specified number of milliseconds, subject to the precision and accuracy of system timers and
-	 * schedulers. The thread does not lose ownership of any monitors.
+	 * Creates an empty property list with the specified defaults.
 	 * <p>
-	 * @param time the length of time to sleep in milliseconds
-	 * <p>
-	 * @throws IllegalArgumentException if {@code time} is negative
+	 * @param defaults the defaults
 	 */
-	public static void sleep(final long time) {
-		// Check the arguments
-		LongArguments.requireNonNegative(time);
-
-		// Sleep
-		try {
-			Thread.sleep(time);
-		} catch (final InterruptedException ex) {
-			IO.warn(ex);
-		}
+	public Properties(final java.util.Properties defaults) {
+		this.defaults = defaults;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
+	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Tests whether the specified {@link Class} is assignable to a {@link Thread}.
-	 * <p>
-	 * @param c the {@link Class} to test
-	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Thread},
-	 *         {@code false} otherwise
-	 */
-	public static boolean is(final Class<?> c) {
-		return Thread.class.isAssignableFrom(c);
+	public static Properties load(final String fileName)
+			throws IOException {
+		final Properties properties = new Properties();
+		properties.load(Threads.getClassLoader().getResourceAsStream(fileName));
+		return properties;
 	}
 }
