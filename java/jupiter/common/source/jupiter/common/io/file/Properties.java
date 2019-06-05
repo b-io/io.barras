@@ -44,7 +44,7 @@ public class Properties
 	 * Creates an empty property list with no default values.
 	 */
 	public Properties() {
-		this(null);
+		super();
 	}
 
 	/**
@@ -53,7 +53,19 @@ public class Properties
 	 * @param defaults the defaults
 	 */
 	public Properties(final java.util.Properties defaults) {
-		this.defaults = defaults;
+		super(defaults);
+	}
+
+	/**
+	 * Creates a property list loaded from the specified file.
+	 * <p>
+	 * @param fileName a {@link String}
+	 *
+	 * @throws java.io.IOException
+	 */
+	public Properties(final String fileName)
+			throws IOException {
+		load(fileName);
 	}
 
 
@@ -61,10 +73,20 @@ public class Properties
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Properties load(final String fileName)
+	public static Properties create(final String fileName)
 			throws IOException {
 		final Properties properties = new Properties();
-		properties.load(Threads.getClassLoader().getResourceAsStream(fileName));
+		properties.load(fileName);
 		return properties;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void load(final String fileName)
+			throws IOException {
+		load(Threads.getClassLoader().getResourceAsStream(fileName));
 	}
 }
