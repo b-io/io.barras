@@ -163,8 +163,9 @@ public class SortedList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public SortedList<T> clone() {
-		return new SortedList<T>(this);
+		return (SortedList<T>) super.clone();
 	}
 
 	@Override

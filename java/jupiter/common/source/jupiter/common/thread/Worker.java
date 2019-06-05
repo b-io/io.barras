@@ -26,6 +26,8 @@ package jupiter.common.thread;
 import static jupiter.common.io.IO.IO;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
@@ -42,10 +44,16 @@ public abstract class Worker<I, O>
 		implements Callable<O>, ICloneable<Worker<I, O>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
+	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static volatile long currentId = 0L;
+	protected static volatile long CURRENT_ID = 0L;
+	protected static final Lock CURRENT_ID_LOCK = new ReentrantLock(true);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected final long id;
 	protected volatile I input;
@@ -62,9 +70,14 @@ public abstract class Worker<I, O>
 
 	protected Worker(final I input) {
 		super();
-		this.id = currentId;
-		this.input = input;
-		++currentId;
+		CURRENT_ID_LOCK.lock();
+		try {
+			this.id = CURRENT_ID;
+			this.input = input;
+			++CURRENT_ID;
+		} finally {
+			CURRENT_ID_LOCK.unlock();
+		}
 	}
 
 

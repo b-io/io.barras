@@ -164,8 +164,9 @@ public class ExtendedList<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public ExtendedList<T> clone() {
-		return new ExtendedList<T>(this);
+		return (ExtendedList<T>) super.clone();
 	}
 
 	@Override

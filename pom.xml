@@ -50,7 +50,7 @@
 		<maven.compiler.target>${project.build.target}</maven.compiler.target>
 		<maven.version>2.2.1</maven.version>
 		<maven.release.version>2.5.3</maven.release.version>
-		<maven.nar.version>3.4.0</maven.nar.version>
+		<maven.nar.version>3.2.3</maven.nar.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
 		<!-- Build -->
 		<build.sourceFolder>source</build.sourceFolder>

@@ -308,8 +308,8 @@ public class SafeDateFormat
 	 * @return a clone of {@code this}
 	 */
 	@Override
-	public synchronized Object clone() {
-		return super.clone();
+	public SafeDateFormat clone() {
+        return (SafeDateFormat) super.clone();
 	}
 
 	/**
@@ -318,7 +318,7 @@ public class SafeDateFormat
 	 * @return {@code true} if the specified object is equal to {@code this}
 	 */
 	@Override
-	public synchronized boolean equals(Object obj) {
+	public boolean equals(Object obj) {
 		return super.equals(obj);
 	}
 
@@ -328,7 +328,7 @@ public class SafeDateFormat
 	 * @return the hash code value for {@code this}
 	 */
 	@Override
-	public synchronized int hashCode() {
+	public int hashCode() {
 		return super.hashCode();
 	}
 }
