@@ -297,6 +297,11 @@ public class SafeDateFormat
 		super.setDateFormatSymbols(newFormatSymbols);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Creates a copy of {@code this}. This also clones the date format symbols.
 	 * <p>
@@ -308,16 +313,6 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Returns the hash code value for {@code this} object.
-	 * <p>
-	 * @return the hash code value for {@code this} object
-	 */
-	@Override
-	public synchronized int hashCode() {
-		return super.hashCode();
-	}
-
-	/**
 	 * Compares the specified object with {@code this} for equality.
 	 * <p>
 	 * @return {@code true} if the specified object is equal to {@code this}
@@ -325,5 +320,15 @@ public class SafeDateFormat
 	@Override
 	public synchronized boolean equals(Object obj) {
 		return super.equals(obj);
+	}
+
+	/**
+	 * Returns the hash code value for {@code this}.
+	 * <p>
+	 * @return the hash code value for {@code this}
+	 */
+	@Override
+	public synchronized int hashCode() {
+		return super.hashCode();
 	}
 }
