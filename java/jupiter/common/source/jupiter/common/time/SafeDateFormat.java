@@ -78,7 +78,7 @@ public class SafeDateFormat
 	 * @exception NullPointerException     if the specified pattern is {@code null}
 	 * @exception IllegalArgumentException if the specified pattern is invalid
 	 */
-	public SafeDateFormat(String pattern) {
+	public SafeDateFormat(final String pattern) {
 		super(pattern);
 	}
 
@@ -94,7 +94,7 @@ public class SafeDateFormat
 	 * @exception NullPointerException     if the specified pattern or locale is {@code null}
 	 * @exception IllegalArgumentException if the specified pattern is invalid
 	 */
-	public SafeDateFormat(String pattern, Locale locale) {
+	public SafeDateFormat(final String pattern, final Locale locale) {
 		super(pattern, locale);
 	}
 
@@ -107,7 +107,7 @@ public class SafeDateFormat
 	 * @exception NullPointerException     if the specified pattern or formatSymbols is {@code null}
 	 * @exception IllegalArgumentException if the specified pattern is invalid
 	 */
-	public SafeDateFormat(String pattern, DateFormatSymbols formatSymbols) {
+	public SafeDateFormat(final String pattern, final DateFormatSymbols formatSymbols) {
 		super(pattern, formatSymbols);
 	}
 
@@ -128,7 +128,7 @@ public class SafeDateFormat
 	 * @see #get2DigitYearStart
 	 */
 	@Override
-	public synchronized void set2DigitYearStart(Date startDate) {
+	public synchronized void set2DigitYearStart(final Date startDate) {
 		super.set2DigitYearStart(startDate);
 	}
 
@@ -161,32 +161,32 @@ public class SafeDateFormat
 	 * @exception NullPointerException if the specified {@code date} is {@code null}
 	 */
 	@Override
-	public synchronized StringBuffer format(Date date, StringBuffer toAppendTo,
-			FieldPosition pos) {
+	public synchronized StringBuffer format(final Date date, final StringBuffer toAppendTo,
+			final FieldPosition pos) {
 		return super.format(date, toAppendTo, pos);
 	}
 
 	/**
-	 * Formats an Object producing an {@link AttributedCharacterIterator}. You can use the returned
-	 * {@link AttributedCharacterIterator} to build the resulting String, as well as to determine
-	 * information about the resulting String.
+	 * Formats an {@link Object} producing an {@link AttributedCharacterIterator}. You can use the
+	 * returned {@link AttributedCharacterIterator} to build the resulting {@link String}, as well
+	 * as to determine information about the resulting {@link String}.
 	 * <p>
 	 * Each attribute key of the {@link AttributedCharacterIterator} will be of type
 	 * {@link java.text.DateFormat.Field}, with the corresponding attribute value being the same as
 	 * the attribute key.
 	 * <p>
-	 * @param object the object to format
+	 * @param object the {@link Object} to format
 	 * <p>
 	 * @return an {@link AttributedCharacterIterator} describing the formatted value
 	 * <p>
 	 * @exception NullPointerException     if {@code object} is {@code null}
-	 * @exception IllegalArgumentException if the Format cannot format the specified object, or if
-	 *                                     the format pattern string is invalid
+	 * @exception IllegalArgumentException if {@code this} cannot format {@code object}, or if the
+	 *                                     format pattern {@link String} is invalid
 	 * <p>
 	 * @since 1.4
 	 */
 	@Override
-	public synchronized AttributedCharacterIterator formatToCharacterIterator(Object object) {
+	public synchronized AttributedCharacterIterator formatToCharacterIterator(final Object object) {
 		return super.formatToCharacterIterator(object);
 	}
 
@@ -221,7 +221,7 @@ public class SafeDateFormat
 	 * @exception NullPointerException if {@code text} or {@code pos} is {@code null}
 	 */
 	@Override
-	public synchronized Date parse(String text, ParsePosition pos) {
+	public synchronized Date parse(final String text, final ParsePosition pos) {
 		return super.parse(text, pos);
 	}
 
@@ -254,20 +254,21 @@ public class SafeDateFormat
 	 * @exception IllegalArgumentException if the specified pattern is invalid
 	 */
 	@Override
-	public synchronized void applyPattern(String pattern) {
+	public synchronized void applyPattern(final String pattern) {
 		super.applyPattern(pattern);
 	}
 
 	/**
 	 * Applies the specified localized pattern string to {@code this}.
 	 * <p>
-	 * @param pattern a String to be mapped to the new date and time format pattern for this format
+	 * @param pattern a {@link String} to be mapped to the new date and time format pattern for this
+	 *                format
 	 * <p>
 	 * @exception NullPointerException     if the specified pattern is {@code null}
 	 * @exception IllegalArgumentException if the specified pattern is invalid
 	 */
 	@Override
-	public synchronized void applyLocalizedPattern(String pattern) {
+	public synchronized void applyLocalizedPattern(final String pattern) {
 		super.applyLocalizedPattern(pattern);
 	}
 
@@ -293,7 +294,7 @@ public class SafeDateFormat
 	 * @see #getDateFormatSymbols
 	 */
 	@Override
-	public synchronized void setDateFormatSymbols(DateFormatSymbols newFormatSymbols) {
+	public synchronized void setDateFormatSymbols(final DateFormatSymbols newFormatSymbols) {
 		super.setDateFormatSymbols(newFormatSymbols);
 	}
 
@@ -308,17 +309,17 @@ public class SafeDateFormat
 	 * @return a clone of {@code this}
 	 */
 	@Override
-	public synchronized Object clone() {
-		return super.clone();
+	public SafeDateFormat clone() {
+		return (SafeDateFormat) super.clone();
 	}
 
 	/**
-	 * Compares the specified object with {@code this} for equality.
+	 * Compares the specified {@link Object} with {@code this} for equality.
 	 * <p>
-	 * @return {@code true} if the specified object is equal to {@code this}
+	 * @return {@code true} if the specified {@link Object} is equal to {@code this}
 	 */
 	@Override
-	public synchronized boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return super.equals(obj);
 	}
 
@@ -328,7 +329,7 @@ public class SafeDateFormat
 	 * @return the hash code value for {@code this}
 	 */
 	@Override
-	public synchronized int hashCode() {
+	public int hashCode() {
 		return super.hashCode();
 	}
 }

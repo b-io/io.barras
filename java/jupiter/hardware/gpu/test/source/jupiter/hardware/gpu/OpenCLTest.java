@@ -23,8 +23,6 @@
  */
 package jupiter.hardware.gpu;
 
-import jupiter.hardware.gpu.OpenCL;
-
 import static jupiter.common.io.IO.IO;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
