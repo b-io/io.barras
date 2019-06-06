@@ -24,6 +24,7 @@
 package jupiter.common.io.file;
 
 import java.io.IOException;
+
 import jupiter.common.thread.Threads;
 
 public class Properties
@@ -33,6 +34,9 @@ public class Properties
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The generated serial version ID.
+	 */
 	private static final long serialVersionUID = 3993938553202913923L;
 
 
@@ -60,8 +64,8 @@ public class Properties
 	 * Creates a property list loaded from the specified file.
 	 * <p>
 	 * @param fileName a {@link String}
-	 *
-	 * @throws java.io.IOException
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file
 	 */
 	public Properties(final String fileName)
 			throws IOException {
@@ -85,8 +89,18 @@ public class Properties
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void load(final String fileName)
+	public synchronized void load(final String fileName)
 			throws IOException {
 		load(Threads.getClassLoader().getResourceAsStream(fileName));
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Properties clone() {
+		return (Properties) super.clone();
 	}
 }

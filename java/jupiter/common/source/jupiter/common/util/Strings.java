@@ -1507,8 +1507,7 @@ public class Strings {
 	 * @return the index of the last token of {@code string} that is not in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findLastNotIn(final String string, final char[] tokens,
-			final int fromIndex) {
+	public static int findLastNotIn(final String string, final char[] tokens, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);
@@ -1885,8 +1884,8 @@ public class Strings {
 	 * @return the indexes of the tokens of {@code string} that are in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}
 	 */
-	public static List<Integer> getIndexes(final String string,
-			final Collection<Character> tokens, final int fromIndex) {
+	public static List<Integer> getIndexes(final String string, final Collection<Character> tokens,
+			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(string);
 		Arguments.requireNonNull(tokens);

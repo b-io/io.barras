@@ -25,6 +25,7 @@ package jupiter.common.model;
 
 public interface ICloneable<T extends ICloneable<T>>
 		extends Cloneable {
+
 	/**
 	 * Returns a clone of {@code this} of type {@code T}.
 	 * <p>

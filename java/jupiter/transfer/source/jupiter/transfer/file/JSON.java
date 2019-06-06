@@ -111,17 +111,17 @@ public class JSON {
 				if (array.length == 0 || isLeaf(c.getComponentType())) {
 					builder.append(Strings.bracketize(Strings.joinWith(array, JSON_DELIMITER)));
 				} else {
-					builder.append(Strings.bracketize(Strings.joinWith(array, JSON_DELIMITER,
-							JSON_WRAPPER)));
+					builder.append(Strings.bracketize(
+							Strings.joinWith(array, JSON_DELIMITER, JSON_WRAPPER)));
 				}
 			} else if (Collections.is(c)) {
 				final Collection<?> collection = (Collection<?>) value;
 				if (collection.isEmpty() || isLeaf(Collections.get(collection, 0).getClass())) {
-					builder.append(Strings.bracketize(Strings.joinWith(collection,
-							JSON_DELIMITER)));
+					builder.append(Strings.bracketize(
+							Strings.joinWith(collection, JSON_DELIMITER)));
 				} else {
-					builder.append(Strings.bracketize(Strings.joinWith(collection, JSON_DELIMITER,
-							JSON_WRAPPER)));
+					builder.append(Strings.bracketize(
+							Strings.joinWith(collection, JSON_DELIMITER, JSON_WRAPPER)));
 				}
 			} else if (isLeaf(c)) {
 				builder.append(jsonifyLeaf(value));
