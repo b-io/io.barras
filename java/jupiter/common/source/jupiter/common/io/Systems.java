@@ -90,11 +90,11 @@ public class Systems {
 		IO.info(Strings.joinWith(command, SPACE, SINGLE_QUOTER));
 		final Process process = Runtime.getRuntime().exec(command);
 		// Read the input stream from the process and print it
-		final WorkQueue printerQueue = new LockedWorkQueue<InputStream, Integer>(
+		final WorkQueue<InputStream, Integer> printerQueue = new LockedWorkQueue<InputStream, Integer>(
 				new IOStreamWriter(printer, false), 1, 1);
 		printerQueue.submit(process.getInputStream());
 		// Read the error stream from the process and print it
-		final WorkQueue errorPrinterQueue = new LockedWorkQueue<InputStream, Integer>(
+		final WorkQueue<InputStream, Integer> errorPrinterQueue = new LockedWorkQueue<InputStream, Integer>(
 				new IOStreamWriter(printer, true), 1, 1);
 		errorPrinterQueue.submit(process.getErrorStream());
 		// Wait until the process has terminated
