@@ -24,9 +24,9 @@
 package jupiter.common.io;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 
 import jupiter.common.util.Characters;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Integers;
 
 public class ProgressBar {
@@ -81,7 +81,7 @@ public class ProgressBar {
 	 * Constructs a {@link ProgressBar}.
 	 */
 	public ProgressBar() {
-		this(Formats.DEFAULT_LINE_LENGTH - 2);
+		this(DEFAULT_LINE_LENGTH - 2);
 	}
 
 	/**

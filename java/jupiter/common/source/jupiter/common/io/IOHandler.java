@@ -24,10 +24,12 @@
 package jupiter.common.io;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import jupiter.common.thread.Worker;
 
@@ -89,14 +91,27 @@ public abstract class IOHandler
 	 * Prints the specified {@link InputStream} (whether in the standard output or in the standard
 	 * error) and then terminates the line.
 	 * <p>
-	 * @param input   the {@link InputStream} to print
+	 * @param input   the {@link InputStream} of the data to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
 	public void println(final InputStream input, final boolean isError) {
+		println(input, DEFAULT_CHARSET, isError);
+	}
+
+	/**
+	 * Prints the specified {@link InputStream} (whether in the standard output or in the standard
+	 * error) and then terminates the line.
+	 * <p>
+	 * @param input   the {@link InputStream} of the data to print
+	 * @param charset the {@link Charset} of the data to print
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
+	 */
+	public void println(final InputStream input, final Charset charset, final boolean isError) {
 		BufferedReader reader = null;
 		try {
-			reader = IO.createReader(input);
+			reader = IO.createReader(input, charset);
 			String line;
 			while ((line = reader.readLine()) != null) {
 				println(line, isError);

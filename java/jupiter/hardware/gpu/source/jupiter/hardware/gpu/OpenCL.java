@@ -24,6 +24,7 @@
 package jupiter.hardware.gpu;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.NEWLINE;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +45,8 @@ public abstract class OpenCL {
 	public static volatile boolean ACTIVE = false;
 
 	protected static final String KERNEL_PREFIX = "__kernel void";
-	protected static final String PROGRAM = "#pragma OPENCL EXTENSION cl_khr_fp64: enable\n" +
+	protected static final String PROGRAM = "#pragma OPENCL EXTENSION cl_khr_fp64: enable" +
+			NEWLINE +
 			"__kernel void plus(__global const double* A, __global const double* B," +
 			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +

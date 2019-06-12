@@ -1,5 +1,5 @@
 /*
- * The MIT License (MIT)
+ * The MIT License
  *
  * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
@@ -21,53 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.thread;
+package jupiter.common.io;
 
-import jupiter.common.io.Message;
+import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+
+import java.nio.charset.Charset;
 import jupiter.common.util.Strings;
 
-public class Report<O> {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The stack index offset.
-	 */
-	protected static final int STACK_INDEX_OFFSET = 1;
-
+public class Content {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final O output;
-	protected final Message message;
+	protected final String content;
+	protected final Charset charset;
+	protected final int lineCount;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Report(final O output) {
-		this.output = output;
-		this.message = null;
+	public Content(final Object content) {
+		this(content, DEFAULT_CHARSET, -1);
 	}
 
-	public Report(final Message message) {
-		this.output = null;
-		this.message = message;
+	public Content(final Object content, final Charset charset) {
+		this(content, charset, -1);
 	}
 
-	public Report(final O output, final Message message) {
-		this.output = output;
-		this.message = message;
+	public Content(final Object content, final int lineCount) {
+		this(content, DEFAULT_CHARSET, lineCount);
 	}
 
-	public Report(final Exception exception) {
-		this.output = null;
-		this.message = new Message(exception, Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+	public Content(final Object content, final Charset charset, final int lineCount) {
+		this.content = Strings.toString(content);
+		this.charset = charset;
+		this.lineCount = lineCount;
 	}
 
 
@@ -76,21 +67,39 @@ public class Report<O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the output.
+	 * Returns the content.
 	 * <p>
-	 * @return the output
+	 * @return the content
 	 */
-	public O getOutput() {
-		return output;
+	public String getContent() {
+		return content;
 	}
 
 	/**
-	 * Returns the message.
+	 * Returns the character set.
 	 * <p>
-	 * @return the message
+	 * @return the character set.
 	 */
-	public Message getMessage() {
-		return message;
+	public Charset getCharset() {
+		return charset;
+	}
+
+	/**
+	 * Returns the number of lines.
+	 * <p>
+	 * @return the number of lines
+	 */
+	public int getLineCount() {
+		return lineCount;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean isNullOrEmpty() {
+		return Strings.isNullOrEmpty(content);
 	}
 
 
@@ -100,6 +109,6 @@ public class Report<O> {
 
 	@Override
 	public String toString() {
-		return Strings.toString(output);
+		return content;
 	}
 }

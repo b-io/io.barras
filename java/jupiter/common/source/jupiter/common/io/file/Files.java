@@ -24,6 +24,8 @@
 package jupiter.common.io.file;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.BufferedReader;
@@ -38,11 +40,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import jupiter.common.exception.CopyFileException;
+import jupiter.common.io.Content;
 import jupiter.common.io.Resources;
 import jupiter.common.test.Arguments;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
 public class Files {
@@ -157,7 +162,7 @@ public class Files {
 	 */
 	public static BufferedReader createReader(final String pathName)
 			throws FileNotFoundException {
-		return createReader(pathName, Formats.DEFAULT_CHARSET);
+		return createReader(pathName, DEFAULT_CHARSET);
 	}
 
 	/**
@@ -178,48 +183,103 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link FileContent} of the specified file.
+	 * Returns the {@link Content} of the specified file.
 	 * <p>
 	 * @param pathName the path name of the file to read
 	 * <p>
-	 * @return the {@link FileContent} of the specified file
+	 * @return the {@link Content} of the specified file
 	 */
-	public static FileContent read(final String pathName) {
-		return read(pathName, Formats.DEFAULT_CHARSET);
+	public static Content read(final String pathName) {
+		return read(pathName, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Returns the content of the specified file with the specified {@link Charset}.
+	 * Returns the {@link Content} of the specified file with the specified {@link Charset}.
 	 * <p>
 	 * @param pathName the path name of the file to read
 	 * @param charset  the {@link Charset} of the file to read
 	 * <p>
-	 * @return the content of the specified file with the specified {@link Charset}
+	 * @return the {@link Content} of the specified file with the specified {@link Charset}
 	 */
-	public static FileContent read(final String pathName, final Charset charset) {
-		final StringBuilder builder = Strings.createBuilder();
-		int lineCount = 0;
-		// File reader
-		BufferedReader reader = null;
+	public static Content read(final String pathName, final Charset charset) {
 		try {
-			// Create a new file reader
-			reader = createReader(pathName, charset);
-			// Iterate over the lines of the file
-			String line;
-			while ((line = reader.readLine()) != null) {
-				builder.append(line).append("\n");
-				++lineCount;
-			}
+			return IO.read(new FileInputStream(pathName), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(pathName),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
-		} finally {
-			// Close the file reader
-			Resources.close(reader);
 		}
-		return new FileContent(builder.toString(), lineCount);
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the unzipped {@link Content} of the specified file.
+	 * <p>
+	 * @param pathName the path name of the file to unzip
+	 * <p>
+	 * @return the unzipped {@link Content} of the specified file
+	 */
+	public static Content unzip(final String pathName) {
+		return unzip(pathName, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the unzipped {@link Content} of the specified file with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param pathName the path name of the file to unzip
+	 * @param charset  the {@link Charset} of the file to unzip
+	 * <p>
+	 * @return the unzipped {@link Content} of the specified file with the specified {@link Charset}
+	 */
+	public static Content unzip(final String pathName, final Charset charset) {
+		try {
+			return IO.read(new ZipInputStream(new FileInputStream(pathName)), charset);
+		} catch (final FileNotFoundException ex) {
+			IO.error("Unable to find the specified file ", Strings.quote(pathName),
+					IO.appendException(ex));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the ungzipped {@link Content} of the specified file.
+	 * <p>
+	 * @param pathName the path name of the file to ungzip
+	 * <p>
+	 * @return the ungzipped {@link Content} of the specified file
+	 */
+	public static Content ungzip(final String pathName) {
+		return ungzip(pathName, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the ungzipped {@link Content} of the specified file with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param pathName the path name of the file to ungzip
+	 * @param charset  the {@link Charset} of the file to ungzip
+	 * <p>
+	 * @return the ungzipped {@link Content} of the specified file with the specified
+	 *         {@link Charset}
+	 */
+	public static Content ungzip(final String pathName, final Charset charset) {
+		try {
+			return IO.read(new GZIPInputStream(new FileInputStream(pathName)), charset);
+		} catch (final FileNotFoundException ex) {
+			IO.error("Unable to find the specified file ", Strings.quote(pathName),
+					IO.appendException(ex));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -227,10 +287,21 @@ public class Files {
 	/**
 	 * Returns the number of lines of the specified file.
 	 * <p>
-	 * @param pathName the path name of the file to read
-	 * @param charset  the {@link Charset} of the file to read
+	 * @param pathName the path name of the file of the lines to count
 	 * <p>
 	 * @return the number of lines of the specified file
+	 */
+	public static int countLines(final String pathName) {
+		return countLines(pathName, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the number of lines of the specified file with the specified {@link Charset}.
+	 * <p>
+	 * @param pathName the path name of the file of the lines to count
+	 * @param charset  the {@link Charset} of the lines to count
+	 * <p>
+	 * @return the number of lines of the specified file with the specified {@link Charset}
 	 */
 	public static int countLines(final String pathName, final Charset charset) {
 		return countLines(pathName, charset, false);
@@ -240,38 +311,94 @@ public class Files {
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 * file.
 	 * <p>
-	 * @param pathName       the path name of the file to read
-	 * @param charset        the {@link Charset} of the file to read
+	 * @param pathName       the path name of the file of the lines to count
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         file
 	 */
+	public static int countLines(final String pathName, final boolean skipEmptyLines) {
+		return countLines(pathName, DEFAULT_CHARSET, skipEmptyLines);
+	}
+
+	/**
+	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 * file with the specified {@link Charset}.
+	 * <p>
+	 * @param pathName       the path name of the file of the lines to count
+	 * @param charset        the {@link Charset} of the lines to count
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 *         file with the specified {@link Charset}
+	 */
 	public static int countLines(final String pathName, final Charset charset,
 			final boolean skipEmptyLines) {
-		int lineCount = 0;
-		// Lines counter
-		BufferedReader reader = null;
 		try {
-			// Create a new file reader
-			reader = createReader(pathName, charset);
-			// Iterate over the lines of the file
-			String line;
-			while ((line = reader.readLine()) != null) {
-				if (Strings.isNotEmpty(line)) {
-					++lineCount;
-				}
-			}
+			return IO.countLines(new FileInputStream(pathName), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(pathName),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
-		} finally {
-			// Close the file reader
-			Resources.close(reader);
 		}
-		return lineCount;
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Unzip the specified file and returns the number of unzipped files.
+	 * <p>
+	 * @param pathName  the path name of the file to unzip
+	 * @param targetDir the output directory
+	 * <p>
+	 * @return the number of unzipped files
+	 */
+	public static int unzip(final String pathName, final String targetDir) {
+		int entryCount = 0;
+		final byte[] buffer = new byte[1024];
+		try {
+			// Create the target directory if it is not present
+			final File folder = new File(targetDir);
+			if (!folder.exists()) {
+				folder.mkdir();
+			}
+			// Create the output directory if it is not present
+			ZipInputStream input = null;
+			try {
+				// Get the content of the zipped file
+				input = new ZipInputStream(new FileInputStream(pathName));
+				// Get the list entry of the zipped file
+				ZipEntry entry;
+				while ((entry = input.getNextEntry()) != null) {
+					FileOutputStream fos = null;
+					try {
+						// Create the target directory
+						final File targetFile = new File(targetDir + File.separator +
+								entry.getName());
+						new File(targetFile.getParent()).mkdirs();
+						// Unzip the file
+						IO.info("Unzip ", Strings.quote(targetFile.getAbsoluteFile()));
+						fos = new FileOutputStream(targetFile);
+						int length;
+						while ((length = input.read(buffer)) > 0) {
+							fos.write(buffer, 0, length);
+						}
+						++entryCount;
+					} catch (final IOException ex) {
+						IO.error(ex);
+					} finally {
+						Resources.close(fos);
+					}
+				}
+			} finally {
+				Resources.close(input);
+			}
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return entryCount;
 	}
 
 
@@ -291,7 +418,24 @@ public class Files {
 	 */
 	public static BufferedWriter createWriter(final String pathName, final boolean append)
 			throws FileNotFoundException {
-		return IO.createWriter(new FileOutputStream(pathName, append));
+		return createWriter(pathName, DEFAULT_CHARSET, append);
+	}
+
+	/**
+	 * Creates a {@link BufferedWriter} of the specified file with the specified {@link Charset}.
+	 * <p>
+	 * @param pathName the path name of the file to write
+	 * @param charset  the {@link Charset} of the file to write
+	 * @param append   the flag specifying whether to append
+	 * <p>
+	 * @return a {@link BufferedWriter} of the specified file with the specified {@link Charset}
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with opening the specified file
+	 */
+	public static BufferedWriter createWriter(final String pathName, final Charset charset,
+			final boolean append)
+			throws FileNotFoundException {
+		return IO.createWriter(new FileOutputStream(pathName, append), charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -306,7 +450,7 @@ public class Files {
 	 *         otherwise
 	 */
 	public static boolean appendLine(final String content, final String pathName) {
-		return writeLine(content, pathName, true, Formats.DEFAULT_CHARSET);
+		return writeLine(content, pathName, true, DEFAULT_CHARSET);
 	}
 
 	/**
@@ -319,7 +463,7 @@ public class Files {
 	 *         otherwise
 	 */
 	public static boolean writeLine(final String content, final String pathName) {
-		return writeLine(content, pathName, true, Formats.DEFAULT_CHARSET);
+		return writeLine(content, pathName, true, DEFAULT_CHARSET);
 	}
 
 	/**
@@ -336,13 +480,12 @@ public class Files {
 	public static boolean writeLine(final String content, final String pathName,
 			final boolean append, final Charset charset) {
 		boolean isWritten = false;
-		// File writer
 		BufferedWriter writer = null;
 		try {
 			// Create a new file writer
 			writer = IO.createWriter(new FileOutputStream(pathName, append), charset);
 			// Append the string to the file
-			writer.write(content + "\n");
+			writer.write(content + NEWLINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(pathName),
@@ -350,7 +493,6 @@ public class Files {
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
-			// Close the file writer
 			Resources.close(writer);
 		}
 		return isWritten;
@@ -432,14 +574,7 @@ public class Files {
 			try {
 				reader = new BufferedReader(new FileReader(source));
 				writer = new PrintWriter(new FileWriter(target));
-				int i = 0;
-				String line;
-				while ((line = reader.readLine()) != null) {
-					if (i >= from) {
-						writer.println(line);
-					}
-					++i;
-				}
+				IO.copy(reader, writer, from);
 				return true;
 			} catch (final IOException ex) {
 				IO.error(ex);

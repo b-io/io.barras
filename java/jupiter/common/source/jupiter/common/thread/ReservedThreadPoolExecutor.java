@@ -98,6 +98,11 @@ public class ReservedThreadPoolExecutor
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the maximum pool size.
+	 * <p>
+	 * @return the maximum pool size
+	 */
 	public int getMaxPoolSize() {
 		return maxPoolSize;
 	}

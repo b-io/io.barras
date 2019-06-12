@@ -24,6 +24,8 @@
 package jupiter.common.io.file;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.util.Formats.NEWLINE;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -32,9 +34,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import jupiter.common.io.Content;
 import jupiter.common.io.Resources;
 import jupiter.common.test.Arguments;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
 public class FileHandler {
@@ -54,7 +56,7 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public FileHandler(final String pathName) {
-		this(pathName, Formats.DEFAULT_CHARSET);
+		this(pathName, DEFAULT_CHARSET);
 	}
 
 	public FileHandler(final String pathName, final Charset charset) {
@@ -132,13 +134,33 @@ public class FileHandler {
 		return Files.createReader(pathName, charset);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Returns the content.
+	 * Returns the {@link Content}.
 	 * <p>
-	 * @return the content
+	 * @return the {@link Content}
 	 */
-	public FileContent read() {
+	public Content read() {
 		return Files.read(pathName, charset);
+	}
+
+	/**
+	 * Returns the unzipped {@link Content}.
+	 * <p>
+	 * @return the unzipped {@link Content}
+	 */
+	public Content unzip() {
+		return Files.unzip(pathName, charset);
+	}
+
+	/**
+	 * Returns the ungzipped {@link Content}.
+	 * <p>
+	 * @return the ungzipped {@link Content}
+	 */
+	public Content ungzip() {
+		return Files.ungzip(pathName, charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +171,7 @@ public class FileHandler {
 	 * @return the number of lines
 	 */
 	public int countLines() {
-		return Files.countLines(pathName, charset, false);
+		return Files.countLines(pathName, charset);
 	}
 
 	/**
@@ -178,7 +200,7 @@ public class FileHandler {
 	public void initWriter(final boolean append)
 			throws FileNotFoundException {
 		if (writer == null) {
-			writer = Files.createWriter(pathName, append);
+			writer = Files.createWriter(pathName, charset, append);
 		}
 	}
 
@@ -218,7 +240,7 @@ public class FileHandler {
 			initWriter(append);
 
 			// Append the string
-			writer.write(string + "\n");
+			writer.write(string + NEWLINE);
 			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {

@@ -119,6 +119,8 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the type.
+	 * <p>
 	 * @return the type
 	 */
 	public Type getType() {
@@ -126,6 +128,8 @@ public class Message
 	}
 
 	/**
+	 * Returns the level.
+	 * <p>
 	 * @return the level
 	 */
 	public SeverityLevel getLevel() {
@@ -133,6 +137,8 @@ public class Message
 	}
 
 	/**
+	 * Returns the prefix.
+	 * <p>
 	 * @return the prefix
 	 */
 	public String getPrefix() {
@@ -140,6 +146,8 @@ public class Message
 	}
 
 	/**
+	 * Returns the content.
+	 * <p>
 	 * @return the content
 	 */
 	public String getContent() {
@@ -147,6 +155,8 @@ public class Message
 	}
 
 	/**
+	 * Returns the exception.
+	 * <p>
 	 * @return the exception
 	 */
 	public Exception getException() {

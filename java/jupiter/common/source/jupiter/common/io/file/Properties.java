@@ -65,7 +65,7 @@ public class Properties
 	 * <p>
 	 * @param fileName a {@link String}
 	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @throws IOException if there is a problem with reading the specified file
 	 */
 	public Properties(final String fileName)
 			throws IOException {

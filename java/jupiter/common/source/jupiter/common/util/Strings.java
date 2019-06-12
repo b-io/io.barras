@@ -23,6 +23,10 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
+import static jupiter.common.util.Formats.DEFAULT_LOCALE;
+import static jupiter.common.util.Formats.NEWLINE;
+
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Collection;
@@ -31,6 +35,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.StringParser;
@@ -108,11 +114,11 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String toLowerCase(final String string) {
-		return string.toLowerCase(Formats.DEFAULT_LOCALE);
+		return string.toLowerCase(DEFAULT_LOCALE);
 	}
 
 	public static String toUpperCase(final String string) {
-		return string.toUpperCase(Formats.DEFAULT_LOCALE);
+		return string.toUpperCase(DEFAULT_LOCALE);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -334,7 +340,7 @@ public class Strings {
 	 * @return a {@link String} bar of the default length with the default progress character
 	 */
 	public static String createBar() {
-		return createBar(Formats.DEFAULT_LINE_LENGTH, DEFAULT_BAR_CHARACTER);
+		return createBar(DEFAULT_LINE_LENGTH, DEFAULT_BAR_CHARACTER);
 	}
 
 	/**
@@ -356,7 +362,7 @@ public class Strings {
 	 * @return a {@link String} bar of the default length with the specified progress character
 	 */
 	public static String createBar(final char progressCharacter) {
-		return createBar(Formats.DEFAULT_LINE_LENGTH, progressCharacter);
+		return createBar(DEFAULT_LINE_LENGTH, progressCharacter);
 	}
 
 	/**
@@ -2746,6 +2752,54 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of lines of the specified {@link String}.
+	 * <p>
+	 * @param string a {@link String}
+	 * <p>
+	 * @return the number of lines of the specified {@link String}
+	 */
+	public static int countLines(final String string) {
+		return countLines(string, false);
+	}
+
+	/**
+	 * Returns the number of lines of the specified {@link String}.
+	 * <p>
+	 * @param string         a {@link String}
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the number of lines of the specified {@link String}
+	 */
+	public static int countLines(final String string, final boolean skipEmptyLines) {
+		if (string == null) {
+			return 0;
+		}
+		int lineCount;
+		final Matcher matcher = Pattern.compile("\r\n|\r|\n").matcher(string);
+		if (skipEmptyLines) {
+			lineCount = 0;
+			int previousIndex = matcher.regionStart();
+			while (matcher.find()) {
+				if (previousIndex != matcher.start()) {
+					++lineCount;
+				}
+				previousIndex = matcher.end();
+			}
+			if (previousIndex != matcher.regionEnd()) {
+				++lineCount;
+			}
+		} else {
+			lineCount = 1;
+			while (matcher.find()) {
+				++lineCount;
+			}
+		}
+		return lineCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests whether {@code string} matches {@code expression}.
 	 * <p>
 	 * @param string     a {@link String}
@@ -2891,7 +2945,8 @@ public class Strings {
 			if (stackTraceElementCount > 0) {
 				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
-				return exception.getMessage() + ":\n" + joinWith(stackTraces, "\n");
+				return exception.getMessage() + ":" + NEWLINE +
+						joinWith(stackTraces, NEWLINE);
 			}
 			return exception.getMessage();
 		}

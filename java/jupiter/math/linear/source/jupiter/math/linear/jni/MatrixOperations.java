@@ -24,9 +24,9 @@
 package jupiter.math.linear.jni;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.VERSION;
 
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Formats;
 
 public class MatrixOperations {
 
@@ -38,7 +38,7 @@ public class MatrixOperations {
 
 	static {
 		if (ACTIVE) {
-			System.loadLibrary("jni-" + Formats.VERSION);
+			System.loadLibrary("jni-" + VERSION);
 		}
 	}
 

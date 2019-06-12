@@ -64,9 +64,9 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link Interval}.
+	 * Returns the intervals.
 	 * <p>
-	 * @return the {@link List} of {@link Interval}
+	 * @return the intervals
 	 */
 	public List<Interval<T>> getIntervals() {
 		return intervals;

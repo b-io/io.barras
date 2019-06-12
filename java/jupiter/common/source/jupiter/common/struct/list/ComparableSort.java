@@ -63,21 +63,21 @@ public class ComparableSort {
 	protected int minGallop = MIN_GALLOP;
 
 	/**
-	 * Maximum initial size of {@code tmp} array, which is used for merging. The array can grow to
-	 * accommodate demand.
+	 * Maximum initial size of {@code tempArray} array, which is used for merging. The array can
+	 * grow to accommodate demand.
 	 * <p>
 	 * Unlike Tim's original C version, we do not allocate this much storage when sorting smaller
 	 * arrays. This change was required for performance.
 	 */
-	protected static final int INITIAL_TMP_STORAGE_LENGTH = 256;
+	protected static final int INITIAL_TEMP_STORAGE_LENGTH = 256;
 
 	/**
 	 * Temporary storage for merges. A workspace array may optionally be provided in constructor and
 	 * if so will be used as long as it is big enough.
 	 */
-	protected Object[] tmp;
-	protected int tmpBase; // base of tmp array slice
-	protected int tmpLen; // length of tmp array slice
+	protected Object[] tempArray;
+	protected int tempArrayBase; // base of temp array slice
+	protected int tempArrayLen; // length of temp array slice
 
 	/**
 	 * A stack of pending runs yet to be merged. Run {@code i} starts at address {@code base[i]} and
@@ -107,16 +107,16 @@ public class ComparableSort {
 
 		// Allocate temporary storage (which may be increased later if necessary)
 		final int len = array.length;
-		final int tlen = len < 2 * INITIAL_TMP_STORAGE_LENGTH ? len >>> 1 :
-				INITIAL_TMP_STORAGE_LENGTH;
+		final int tlen = len < 2 * INITIAL_TEMP_STORAGE_LENGTH ? len >>> 1 :
+				INITIAL_TEMP_STORAGE_LENGTH;
 		if (work == null || workLen < tlen || workBase + tlen > work.length) {
-			tmp = new Object[tlen];
-			tmpBase = 0;
-			tmpLen = tlen;
+			tempArray = new Object[tlen];
+			tempArrayBase = 0;
+			tempArrayLen = tlen;
 		} else {
-			tmp = work;
-			tmpBase = workBase;
-			tmpLen = workLen;
+			tempArray = work;
+			tempArrayBase = workBase;
+			tempArrayLen = workLen;
 		}
 
 		/*
@@ -459,7 +459,8 @@ public class ComparableSort {
 		}
 
 		/*
-		 * Merge remaining runs, using {@code tmp} array with {@code min(len1, len2)} elements.
+		 * Merge remaining runs, using {@code tempArray} array with {@code min(len1, len2)}
+		 * elements.
 		 */
 		if (len1 <= len2) {
 			mergeLo(base1, len1, base2, len2);
@@ -531,9 +532,9 @@ public class ComparableSort {
 			}
 
 			// Make offsets relative to base
-			final int tmp = lastOfs;
+			final int tempArray = lastOfs;
 			lastOfs = hint - ofs;
-			ofs = hint - tmp;
+			ofs = hint - tempArray;
 		}
 		assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
 
@@ -594,9 +595,9 @@ public class ComparableSort {
 			}
 
 			// Make offsets relative to b
-			final int tmp = lastOfs;
+			final int tempArray = lastOfs;
 			lastOfs = hint - ofs;
-			ofs = hint - tmp;
+			ofs = hint - tempArray;
 		} else {
 			// a[b + hint] <= key
 			/*
@@ -661,22 +662,22 @@ public class ComparableSort {
 
 		// Copy first run into temporary array
 		final Object[] array = this.array; // for performance
-		final Object[] tmp = ensureCapacity(len1);
+		final Object[] tempArray = ensureCapacity(len1);
 
-		int cursor1 = tmpBase; // indexes into tmp array
+		int cursor1 = tempArrayBase; // indexes into temp array
 		int cursor2 = base2; // indexes int a
 		int dest = base1; // indexes int a
-		System.arraycopy(array, base1, tmp, cursor1, len1);
+		System.arraycopy(array, base1, tempArray, cursor1, len1);
 
 		// Move first element of second run and deal with degenerate cases
 		array[dest++] = array[cursor2++];
 		if (--len2 == 0) {
-			System.arraycopy(tmp, cursor1, array, dest, len1);
+			System.arraycopy(tempArray, cursor1, array, dest, len1);
 			return;
 		}
 		if (len1 == 1) {
 			System.arraycopy(array, cursor2, array, dest, len2);
-			array[dest + len2] = tmp[cursor1]; // last elt of run 1 to end of merge
+			array[dest + len2] = tempArray[cursor1]; // last elt of run 1 to end of merge
 			return;
 		}
 
@@ -691,7 +692,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 1 && len2 > 0;
-				if (((Comparable) array[cursor2]).compareTo(tmp[cursor1]) < 0) {
+				if (((Comparable) array[cursor2]).compareTo(tempArray[cursor1]) < 0) {
 					array[dest++] = array[cursor2++];
 					count2++;
 					count1 = 0;
@@ -699,7 +700,7 @@ outer:  while (true) {
 						break outer;
 					}
 				} else {
-					array[dest++] = tmp[cursor1++];
+					array[dest++] = tempArray[cursor1++];
 					count1++;
 					count2 = 0;
 					if (--len1 == 1) {
@@ -715,9 +716,9 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 1 && len2 > 0;
-				count1 = gallopRight((Comparable) array[cursor2], tmp, cursor1, len1, 0);
+				count1 = gallopRight((Comparable) array[cursor2], tempArray, cursor1, len1, 0);
 				if (count1 != 0) {
-					System.arraycopy(tmp, cursor1, array, dest, count1);
+					System.arraycopy(tempArray, cursor1, array, dest, count1);
 					dest += count1;
 					cursor1 += count1;
 					len1 -= count1;
@@ -731,7 +732,7 @@ outer:  while (true) {
 					break outer;
 				}
 
-				count2 = gallopLeft((Comparable) tmp[cursor1], array, cursor2, len2, 0);
+				count2 = gallopLeft((Comparable) tempArray[cursor1], array, cursor2, len2, 0);
 				if (count2 != 0) {
 					System.arraycopy(array, cursor2, array, dest, count2);
 					dest += count2;
@@ -741,7 +742,7 @@ outer:  while (true) {
 						break outer;
 					}
 				}
-				array[dest++] = tmp[cursor1++];
+				array[dest++] = tempArray[cursor1++];
 				if (--len1 == 1) {
 					break outer;
 				}
@@ -758,7 +759,7 @@ outer:  while (true) {
 			case 1:
 				assert len2 > 0;
 				System.arraycopy(array, cursor2, array, dest, len2);
-				array[dest + len2] = tmp[cursor1]; //  Last elt of run 1 to end of merge
+				array[dest + len2] = tempArray[cursor1]; //  Last elt of run 1 to end of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
@@ -766,7 +767,7 @@ outer:  while (true) {
 			default:
 				assert len2 == 0;
 				assert len1 > 1;
-				System.arraycopy(tmp, cursor1, array, dest, len1);
+				System.arraycopy(tempArray, cursor1, array, dest, len1);
 		}
 	}
 
@@ -786,25 +787,25 @@ outer:  while (true) {
 
 		// Copy second run into temporary array
 		final Object[] array = this.array; // for performance
-		final Object[] tmp = ensureCapacity(len2);
-		final int tmpBase = this.tmpBase;
-		System.arraycopy(array, base2, tmp, tmpBase, len2);
+		final Object[] tempArray = ensureCapacity(len2);
+		final int tempArrayBase = this.tempArrayBase;
+		System.arraycopy(array, base2, tempArray, tempArrayBase, len2);
 
 		int cursor1 = base1 + len1 - 1; // indexes into a
-		int cursor2 = tmpBase + len2 - 1; // indexes into tmp array
+		int cursor2 = tempArrayBase + len2 - 1; // indexes into temp array
 		int dest = base2 + len2 - 1; // indexes into a
 
 		// Move last element of first run and deal with degenerate cases
 		array[dest--] = array[cursor1--];
 		if (--len1 == 0) {
-			System.arraycopy(tmp, tmpBase, array, dest - (len2 - 1), len2);
+			System.arraycopy(tempArray, tempArrayBase, array, dest - (len2 - 1), len2);
 			return;
 		}
 		if (len2 == 1) {
 			dest -= len1;
 			cursor1 -= len1;
 			System.arraycopy(array, cursor1 + 1, array, dest + 1, len1);
-			array[dest] = tmp[cursor2];
+			array[dest] = tempArray[cursor2];
 			return;
 		}
 
@@ -819,7 +820,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert len1 > 0 && len2 > 1;
-				if (((Comparable) tmp[cursor2]).compareTo(array[cursor1]) < 0) {
+				if (((Comparable) tempArray[cursor2]).compareTo(array[cursor1]) < 0) {
 					array[dest--] = array[cursor1--];
 					count1++;
 					count2 = 0;
@@ -827,7 +828,7 @@ outer:  while (true) {
 						break outer;
 					}
 				} else {
-					array[dest--] = tmp[cursor2--];
+					array[dest--] = tempArray[cursor2--];
 					count2++;
 					count1 = 0;
 					if (--len2 == 1) {
@@ -844,7 +845,7 @@ outer:  while (true) {
 			do {
 				assert len1 > 0 && len2 > 1;
 				count1 = len1 -
-						gallopRight((Comparable) tmp[cursor2], array, base1, len1, len1 - 1);
+						gallopRight((Comparable) tempArray[cursor2], array, base1, len1, len1 - 1);
 				if (count1 != 0) {
 					dest -= count1;
 					cursor1 -= count1;
@@ -854,18 +855,19 @@ outer:  while (true) {
 						break outer;
 					}
 				}
-				array[dest--] = tmp[cursor2--];
+				array[dest--] = tempArray[cursor2--];
 				if (--len2 == 1) {
 					break outer;
 				}
 
 				count2 = len2 -
-						gallopLeft((Comparable) array[cursor1], tmp, tmpBase, len2, len2 - 1);
+						gallopLeft((Comparable) array[cursor1], tempArray, tempArrayBase, len2,
+								len2 - 1);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;
 					len2 -= count2;
-					System.arraycopy(tmp, cursor2 + 1, array, dest + 1, count2);
+					System.arraycopy(tempArray, cursor2 + 1, array, dest + 1, count2);
 					if (len2 <= 1) {
 						break outer; // len2 == 1 || len2 == 0
 					}
@@ -889,7 +891,7 @@ outer:  while (true) {
 				dest -= len1;
 				cursor1 -= len1;
 				System.arraycopy(array, cursor1 + 1, array, dest + 1, len1);
-				array[dest] = tmp[cursor2]; // move first elt of run2 to front of merge
+				array[dest] = tempArray[cursor2]; // move first elt of run2 to front of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
@@ -897,21 +899,21 @@ outer:  while (true) {
 			default:
 				assert len1 == 0;
 				assert len2 > 0;
-				System.arraycopy(tmp, tmpBase, array, dest - (len2 - 1), len2);
+				System.arraycopy(tempArray, tempArrayBase, array, dest - (len2 - 1), len2);
 		}
 	}
 
 	/**
-	 * Ensures that the external array {@code tmp} has at least the specified number of elements,
-	 * increasing its size if necessary. The size increases exponentially to ensure amortized linear
-	 * time complexity.
+	 * Ensures that the external array {@code tempArray} has at least the specified number of
+	 * elements, increasing its size if necessary. The size increases exponentially to ensure
+	 * amortized linear time complexity.
 	 * <p>
-	 * @param minCapacity the minimum required capacity of the {@code tmp} array
+	 * @param minCapacity the minimum required capacity of the {@code tempArray} array
 	 * <p>
-	 * @return {@code tmp}, whether or not it grew
+	 * @return {@code tempArray}, whether or not it grew
 	 */
 	protected Object[] ensureCapacity(final int minCapacity) {
-		if (tmpLen < minCapacity) {
+		if (tempArrayLen < minCapacity) {
 			// Compute smallest power of 2 > minCapacity
 			int newSize = minCapacity;
 			newSize |= newSize >> 1;
@@ -930,10 +932,10 @@ outer:  while (true) {
 
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 			final Object[] newArray = new Object[newSize];
-			tmp = newArray;
-			tmpLen = newSize;
-			tmpBase = 0;
+			tempArray = newArray;
+			tempArrayLen = newSize;
+			tempArrayBase = 0;
 		}
-		return tmp;
+		return tempArray;
 	}
 }
