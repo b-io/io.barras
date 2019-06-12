@@ -24,6 +24,10 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.NEWLINE;
+import static jupiter.common.util.Formats.DEFAULT_NUMBER_LENGTH;
+import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
+import static jupiter.common.util.Formats.format;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 import static jupiter.hardware.gpu.OpenCL.CL;
@@ -50,7 +54,6 @@ import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Characters;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -2168,7 +2171,7 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @throws IOException if there is a problem with reading the specified file
 	 */
 	public static Matrix load(final String pathName)
 			throws IOException {
@@ -2184,7 +2187,7 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @throws IOException if there is a problem with reading the specified file
 	 */
 	public static Matrix load(final String pathName, final boolean transpose)
 			throws IOException {
@@ -2390,19 +2393,19 @@ public class Matrix
 
 	@Override
 	public String toString() {
-		return toString(Formats.MIN_NUMBER_LENGTH, false);
+		return toString(MIN_NUMBER_LENGTH, false);
 	}
 
 	public String toString(final int columnWidth, final boolean multiLines) {
 		final StringBuilder builder;
 		if (multiLines) {
-			builder = Strings.createBuilder(m + m * n * (Formats.DEFAULT_NUMBER_LENGTH + 1));
+			builder = Strings.createBuilder(m + m * n * (DEFAULT_NUMBER_LENGTH + 1));
 		} else {
-			builder = Strings.createBuilder(2 + m + m * n * (Formats.DEFAULT_NUMBER_LENGTH + 1));
+			builder = Strings.createBuilder(2 + m + m * n * (DEFAULT_NUMBER_LENGTH + 1));
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				final String formattedElement = Formats.format(elements[i * n + j]);
+				final String formattedElement = format(elements[i * n + j]);
 				final int padding = Math.max(1, columnWidth - formattedElement.length());
 				for (int k = 0; k < padding; ++k) {
 					builder.append(' ');
@@ -2411,7 +2414,7 @@ public class Matrix
 			}
 			if (i < m - 1) {
 				if (multiLines) {
-					builder.append("\n");
+					builder.append(NEWLINE);
 				} else {
 					builder.append(ROW_DELIMITER);
 				}

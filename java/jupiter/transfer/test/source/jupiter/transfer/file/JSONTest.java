@@ -25,6 +25,7 @@ package jupiter.transfer.file;
 
 import static jupiter.common.io.IO.IO;
 
+import java.util.List;
 import jupiter.common.test.Test;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
@@ -96,10 +97,12 @@ public class JSONTest
 		final Node object = new Node();
 		result = JSON.jsonifyNode(object);
 		IO.test(result);
-		assertEquals("{\"key\":\"value\",\"this$0\":{}}", result);
+		assertEquals("{\"key\":\"value\",\"array\":[a,b,c],\"list\":[a,b,c]}", result);
 	}
 
-	protected class Node {
+	protected static class Node {
 		public String key = "value";
+		public String[] array = new String[] {"a", "b", "c"};
+		public List<String> list = Arrays.toList(array);
 	}
 }

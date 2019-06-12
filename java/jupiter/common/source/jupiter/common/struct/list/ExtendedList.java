@@ -87,6 +87,11 @@ public class ExtendedList<T>
 	// GETTERS & SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the middle.
+	 * <p>
+	 * @return the middle
+	 */
 	public T getMiddle() {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(this);
@@ -97,6 +102,16 @@ public class ExtendedList<T>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Replaces the element at the specified position in {@code this} with the specified element.
+	 * <p>
+	 * @param index   the index of the element to replace
+	 * @param element the element to be stored at the specified position
+	 * <p>
+	 * @return the element previously at the specified position
+	 * <p>
+	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
+	 */
 	@Override
 	public synchronized T set(final int index, final T element) {
 		return super.set(index, element);

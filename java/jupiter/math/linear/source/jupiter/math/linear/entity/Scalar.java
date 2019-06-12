@@ -23,6 +23,9 @@
  */
 package jupiter.math.linear.entity;
 
+import static jupiter.common.util.Formats.DEFAULT_NUMBER_LENGTH;
+import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
+
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.math.Maths;
 import jupiter.common.util.Doubles;
@@ -731,11 +734,11 @@ public class Scalar
 
 	@Override
 	public String toString() {
-		return toString(Formats.MIN_NUMBER_LENGTH);
+		return toString(MIN_NUMBER_LENGTH);
 	}
 
 	public String toString(final int width) {
-		final StringBuilder builder = Strings.createBuilder(Formats.DEFAULT_NUMBER_LENGTH);
+		final StringBuilder builder = Strings.createBuilder(DEFAULT_NUMBER_LENGTH);
 		final String formattedValue = Formats.format(value);
 		final int padding = Math.max(0, width - formattedValue.length());
 		for (int k = 0; k < padding; ++k) {

@@ -23,13 +23,15 @@
  */
 package jupiter.common.time;
 
+import static jupiter.common.util.Formats.DEFAULT_DATE_FORMAT;
+import static jupiter.common.util.Formats.DEFAULT_DATE_TIME_FORMAT;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.util.Formats;
 
 public class Dates {
 
@@ -37,10 +39,9 @@ public class Dates {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final SafeDateFormat DATE_FORMATTER = new SafeDateFormat(
-			Formats.DEFAULT_DATE_FORMAT);
+	protected static final SafeDateFormat DATE_FORMATTER = new SafeDateFormat(DEFAULT_DATE_FORMAT);
 	protected static final SafeDateFormat DATE_TIME_FORMATTER = new SafeDateFormat(
-			Formats.DEFAULT_DATE_TIME_FORMAT);
+			DEFAULT_DATE_TIME_FORMAT);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

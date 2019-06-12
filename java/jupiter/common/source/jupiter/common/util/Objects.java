@@ -38,10 +38,6 @@ public class Objects {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static boolean isNull(final Object object) {
-		return object == null;
-	}
-
 	/**
 	 * Tests whether {@code object} is {@code null} or its {@link String} representation is empty.
 	 * <p>

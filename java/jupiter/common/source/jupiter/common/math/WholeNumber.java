@@ -64,9 +64,9 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code long} value.
+	 * Returns the value.
 	 * <p>
-	 * @return the {@code long} value
+	 * @return the value
 	 */
 	public long get() {
 		return value;

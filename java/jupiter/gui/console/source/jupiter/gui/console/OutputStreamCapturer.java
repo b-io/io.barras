@@ -23,6 +23,8 @@
  */
 package jupiter.gui.console;
 
+import static jupiter.common.util.Formats.NEWLINE;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -63,7 +65,7 @@ public class OutputStreamCapturer
 		final char character = (char) b;
 		final String value = Character.toString(character);
 		builder.append(value);
-		if (value.equals("\n")) {
+		if (value.equals(NEWLINE)) {
 			consumer.append(builder.toString());
 			builder.delete(0, builder.length());
 		}

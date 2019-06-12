@@ -27,20 +27,15 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 
-import jupiter.common.io.Resources;
 import jupiter.common.io.file.Files;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
@@ -160,10 +155,10 @@ public class SystemFiles {
 				// Unzip the files
 				int unzippedFileCount = 0;
 				for (final String fileName : fileNames) {
-					final Collection<File> files = SystemFiles.find(localDir, fileName, "zip");
+					final Collection<File> files = find(localDir, fileName, "zip");
 					for (final File file : files) {
 						if (file.isFile() && fileName.matches(filter)) {
-							unzippedFileCount += unzip(file.getAbsolutePath(), localDir);
+							unzippedFileCount += Files.unzip(file.getAbsolutePath(), localDir);
 						}
 					}
 				}
@@ -179,62 +174,5 @@ public class SystemFiles {
 		}
 		IO.info("No file name");
 		return 0;
-	}
-
-	/**
-	 * Unzip the specified file and returns the number of unzipped files.
-	 * <p>
-	 * @param pathName  the path name of the file to unzip
-	 * @param targetDir the output directory
-	 * <p>
-	 * @return the number of unzipped files
-	 * <p>
-	 * @since 1.6
-	 */
-	protected static int unzip(final String pathName, final String targetDir) {
-		int n = 0;
-		final byte[] buffer = new byte[1024];
-		try {
-			// Create the target directory if it is not present
-			final File folder = new File(targetDir);
-			if (!folder.exists()) {
-				folder.mkdir();
-			}
-			// Create the output directory if it is not present
-			ZipInputStream zis = null;
-			try {
-				// Get the zip file content
-				zis = new ZipInputStream(new FileInputStream(pathName));
-				// Get the zipped file list entry
-				ZipEntry ze;
-				while ((ze = zis.getNextEntry()) != null) {
-					FileOutputStream fos = null;
-					try {
-						// Create the target directory
-						final File targetFile = new File(targetDir + File.separator + ze.getName());
-						new File(targetFile.getParent()).mkdirs();
-						// Unzip the file
-						IO.info("Unzip ", Strings.quote(targetFile.getAbsoluteFile()));
-						fos = new FileOutputStream(targetFile);
-						int length;
-						while ((length = zis.read(buffer)) > 0) {
-							fos.write(buffer, 0, length);
-						}
-						++n;
-					} catch (final IOException ex) {
-						IO.error(ex);
-					} finally {
-						Resources.close(fos);
-					}
-				}
-			} finally {
-				if (zis != null) {
-					zis.closeEntry();
-				}
-			}
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-		return n;
 	}
 }

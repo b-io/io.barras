@@ -24,6 +24,7 @@
 package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 
@@ -185,10 +186,10 @@ public class Table<T>
 	 * Constructs a {@link Table} of type {@code T} imported from the specified file.
 	 * <p>
 	 * @param parser    a {@link IParser} of type {@code T}
-	 * @param pathName  the path name of the file to import
+	 * @param pathName  the path name of the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @throws IOException if there is a problem with reading the specified file
 	 */
 	public Table(final IParser<T> parser, final String pathName, final boolean hasHeader)
 			throws IOException {
@@ -994,7 +995,7 @@ public class Table<T>
 	 * @param pathName  the path name of the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @throws IOException if there is a problem with reading the specified file
 	 */
 	public void load(final IParser<T> parser, final String pathName, final boolean hasHeader)
 			throws IOException {
@@ -1205,7 +1206,8 @@ public class Table<T>
 	public String toString() {
 		final StringBuilder builder = Strings.createBuilder(10 * m * n);
 		for (int i = 0; i < m; ++i) {
-			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append("\n");
+			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))
+					.append(NEWLINE);
 		}
 		return builder.toString();
 	}

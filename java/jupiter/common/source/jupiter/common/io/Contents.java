@@ -1,5 +1,5 @@
 /*
- * The MIT License (MIT)
+ * The MIT License
  *
  * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
@@ -21,57 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.io.file;
+package jupiter.common.io;
 
-public class FileContent {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected final String content;
-	protected final int lineCount;
-
+public class Contents {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public FileContent(final String content, final int lineCount) {
-		this.content = content;
-		this.lineCount = lineCount;
+	protected Contents() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the content.
+	 * Tests whether the specified {@link Class} is assignable to a {@link Content}.
 	 * <p>
-	 * @return the content
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Content},
+	 *         {@code false} otherwise
 	 */
-	public String getContent() {
-		return content;
+	public static boolean is(final Class<?> c) {
+		return Content.class.isAssignableFrom(c);
 	}
 
-	/**
-	 * Returns the number of lines.
-	 * <p>
-	 * @return the number of lines
-	 */
-	public int getLineCount() {
-		return lineCount;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public String toString() {
-		return content;
+	public static boolean isNullOrEmpty(final Content content) {
+		return content == null || content.isNullOrEmpty();
 	}
 }

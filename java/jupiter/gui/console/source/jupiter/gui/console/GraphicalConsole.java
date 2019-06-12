@@ -24,6 +24,8 @@
 package jupiter.gui.console;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.DEFAULT_CHARSET_NAME;
+import static jupiter.common.util.Formats.VERSION;
 
 import java.awt.BorderLayout;
 import java.io.PrintStream;
@@ -34,7 +36,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import jupiter.common.io.Resources;
-import jupiter.common.util.Formats;
 
 public class GraphicalConsole {
 
@@ -42,7 +43,7 @@ public class GraphicalConsole {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final String TITLE = "Jupiter v" + Formats.VERSION;
+	protected static final String TITLE = "Jupiter v" + VERSION;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +73,7 @@ public class GraphicalConsole {
 		try {
 			// Redirect the system output to the console
 			printStream = new PrintStream(new OutputStreamCapturer(console, System.out), true,
-					Formats.DEFAULT_CHARSET_NAME);
+					DEFAULT_CHARSET_NAME);
 			System.setOut(printStream);
 			System.setErr(printStream);
 			// Display the frame

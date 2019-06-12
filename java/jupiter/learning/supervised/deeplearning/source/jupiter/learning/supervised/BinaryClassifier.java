@@ -107,7 +107,7 @@ public abstract class BinaryClassifier {
 	 *                               size (n x m)
 	 * @param classesPathName        the path name of the file containing the classes of size m
 	 * <p>
-	 * @throws IOException if there is a problem with reading the files
+	 * @throws IOException if there is a problem with reading the specified files
 	 */
 	protected BinaryClassifier(final String featureVectorsPathName, final String classesPathName)
 			throws IOException {
@@ -129,7 +129,7 @@ public abstract class BinaryClassifier {
 	 * @param transpose              the flag specifying whether to transpose the feature vectors
 	 *                               and the classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading the files
+	 * @throws IOException if there is a problem with reading the specified files
 	 */
 	protected BinaryClassifier(final String featureVectorsPathName, final String classesPathName,
 			final boolean transpose)

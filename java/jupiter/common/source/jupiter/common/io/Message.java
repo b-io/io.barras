@@ -27,6 +27,7 @@ import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.Serializable;
+import java.nio.charset.Charset;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
@@ -62,7 +63,7 @@ public class Message
 	protected final Type type;
 	protected final SeverityLevel level;
 	protected final String prefix;
-	protected final String content;
+	protected final Content content;
 	protected final Exception exception;
 
 
@@ -87,7 +88,11 @@ public class Message
 		this.type = type;
 		this.level = level;
 		prefix = Messages.getPrefix(type, level, stackIndex);
-		this.content = Strings.toString(content);
+		if (content instanceof Content) {
+			this.content = (Content) content;
+		} else {
+			this.content = new Content(content);
+		}
 		exception = null;
 	}
 
@@ -109,7 +114,7 @@ public class Message
 		type = Type.OUTPUT;
 		this.level = level;
 		prefix = Messages.getPrefix(type, level, stackIndex);
-		content = Strings.toString(exception);
+		content = new Content(exception);
 		this.exception = exception;
 	}
 
@@ -119,6 +124,8 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the type.
+	 * <p>
 	 * @return the type
 	 */
 	public Type getType() {
@@ -126,6 +133,8 @@ public class Message
 	}
 
 	/**
+	 * Returns the level.
+	 * <p>
 	 * @return the level
 	 */
 	public SeverityLevel getLevel() {
@@ -133,6 +142,8 @@ public class Message
 	}
 
 	/**
+	 * Returns the prefix.
+	 * <p>
 	 * @return the prefix
 	 */
 	public String getPrefix() {
@@ -140,13 +151,26 @@ public class Message
 	}
 
 	/**
+	 * Returns the content.
+	 * <p>
 	 * @return the content
 	 */
 	public String getContent() {
-		return content;
+		return content.getContent();
 	}
 
 	/**
+	 * Returns the character set.
+	 * <p>
+	 * @return the character set
+	 */
+	public Charset getCharset() {
+		return content.getCharset();
+	}
+
+	/**
+	 * Returns the exception.
+	 * <p>
 	 * @return the exception
 	 */
 	public Exception getException() {
@@ -170,7 +194,7 @@ public class Message
 		return Objects.equals(type, otherMessage.getType()) &&
 				Objects.equals(level, otherMessage.getLevel()) &&
 				Objects.equals(prefix, otherMessage.getPrefix()) &&
-				Objects.equals(content, otherMessage.getContent()) &&
+				Objects.equals(content.getContent(), otherMessage.getContent()) &&
 				Objects.equals(exception, otherMessage.getException());
 	}
 

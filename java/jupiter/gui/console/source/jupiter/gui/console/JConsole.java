@@ -24,6 +24,9 @@
 package jupiter.gui.console;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.util.Formats.DEFAULT_CHARSET_NAME;
+import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.awt.Color;
@@ -76,7 +79,6 @@ import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.Index;
 import jupiter.common.util.Characters;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 
 /**
@@ -217,7 +219,7 @@ public class JConsole
 		if (inPipe == null) {
 			final PipedOutputStream pout = new PipedOutputStream();
 			try {
-				out = new PrintStream(pout, true, Formats.DEFAULT_CHARSET_NAME);
+				out = new PrintStream(pout, true, DEFAULT_CHARSET_NAME);
 				inPipe = new BlockingPipedInputStream(pout);
 			} catch (final IOException ex) {
 				IO.error(ex);
@@ -265,7 +267,7 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Reader getReader() {
-		return new InputStreamReader(in, Formats.DEFAULT_CHARSET);
+		return new InputStreamReader(in, DEFAULT_CHARSET);
 	}
 
 	public InputStream getInputStream() {
@@ -293,12 +295,12 @@ public class JConsole
 	 * Terminates the line.
 	 */
 	public void println() {
-		print("\n");
+		print(NEWLINE);
 		textPane.repaint();
 	}
 
 	public void println(final Object content) {
-		append(Strings.toString(content) + "\n");
+		append(Strings.toString(content) + NEWLINE);
 	}
 
 	public void error(final Object content) {
@@ -393,7 +395,7 @@ public class JConsole
 		}
 		// Save the current line
 		if (historicalLineIndex == 0) {
-			currentLine = getCmd();
+			currentLine = getCommand();
 		}
 		if (historicalLineIndex < history.size()) {
 			++historicalLineIndex;
@@ -440,7 +442,7 @@ public class JConsole
 			return;
 		}
 		try {
-			outPipe.write(line.getBytes(Formats.DEFAULT_CHARSET.name()));
+			outPipe.write(line.getBytes(DEFAULT_CHARSET.name()));
 			outPipe.flush();
 		} catch (final IOException ex) {
 			throw new RuntimeException("Unable to write in the console" + IO.appendException(ex));
@@ -537,7 +539,7 @@ public class JConsole
 		final byte[] ba = new byte[256];
 		int read;
 		while ((read = inPipe.read(ba)) >= 0) {
-			print(new String(ba, 0, read, Formats.DEFAULT_CHARSET.name()));
+			print(new String(ba, 0, read, DEFAULT_CHARSET.name()));
 			// textPane.repaint();
 		}
 	}
@@ -701,31 +703,31 @@ public class JConsole
 	}
 
 	protected void enter() {
-		String s = getCmd();
+		String command = getCommand();
 		// Special hack for empty return
-		if (s.length() == 0) {
-			s = ";\n";
+		if (command.length() == 0) {
+			command = ";" + NEWLINE;
 		} else {
-			history.add(s);
+			history.add(command);
 			synchronized (inputLines) {
-				inputLines.add(s);
+				inputLines.add(command);
 				inputLines.notifyAll();
 			}
-			s += "\n";
+			command += NEWLINE;
 		}
-		append("\n");
+		append(NEWLINE);
 		historicalLineIndex = 0;
-		acceptLine(s);
+		acceptLine(command);
 	}
 
-	protected String getCmd() {
-		String s = EMPTY;
+	protected String getCommand() {
+		String command = EMPTY;
 		try {
-			s = textPane.getText(commandStart, getTextLength() - commandStart);
+			command = textPane.getText(commandStart, getTextLength() - commandStart);
 		} catch (final BadLocationException ex) {
 			IO.error(ex);
 		}
-		return s;
+		return command;
 	}
 
 	public synchronized void append(final Object content) {

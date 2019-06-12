@@ -51,7 +51,7 @@ public class DynamicSample
 	 */
 	protected int minSampleSize;
 	/**
-	 * The max sample size (inclusive).
+	 * The maximum sample size (inclusive).
 	 */
 	protected int maxSampleSize;
 	/**

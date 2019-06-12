@@ -66,6 +66,11 @@ public abstract class Mapper<I, O>
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the output class.
+	 * <p>
+	 * @return the output class
+	 */
 	public Class<O> getOutputClass() {
 		return c;
 	}
