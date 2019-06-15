@@ -224,9 +224,6 @@ public class NeuralNetwork
 			return 0;
 		}
 
-		// Parallelize
-		Matrix.start();
-
 		// Initialize
 		final int layerCount = hiddenLayerCount + 1; // L
 		// - The weight matrices
