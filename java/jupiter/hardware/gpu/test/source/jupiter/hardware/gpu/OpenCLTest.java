@@ -42,8 +42,6 @@ public class OpenCLTest
 
 	/**
 	 * Test of arrayTimes method, of class OpenCL.
-	 * <p>
-	 * @since 1.6
 	 */
 	public void testArrayTimes()
 			throws IOException {
@@ -80,8 +78,6 @@ public class OpenCLTest
 
 	/**
 	 * Test of times method, of class OpenCL.
-	 * <p>
-	 * @since 1.6
 	 */
 	public void testTimes()
 			throws IOException {
@@ -129,8 +125,6 @@ public class OpenCLTest
 
 	/**
 	 * Test of forward method, of class OpenCL.
-	 * <p>
-	 * @since 1.6
 	 */
 	public void testForward()
 			throws IOException {

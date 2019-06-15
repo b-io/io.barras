@@ -22,13 +22,13 @@
 		<module>common</module>
 		<module>graphics</module>
 		<module>gui</module>
-		<module>hardware</module><!-- @since 1.6 -->
+		<module>hardware</module>
 		<module>lang</module>
 		<module>learning</module>
 		<module>log</module>
 		<module>math</module>
 		<module>mobile</module>
 		<module>network</module>
-		<module>transfer</module><!-- @since 1.6 -->
+		<module>transfer</module>
 	</modules>
 </project>

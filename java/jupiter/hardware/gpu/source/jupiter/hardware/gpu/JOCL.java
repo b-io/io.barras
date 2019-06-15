@@ -187,8 +187,6 @@ public class JOCL
 	 * Returns the context.
 	 * <p>
 	 * @return the context
-	 * <p>
-	 * @since 1.6
 	 */
 	public cl_context getContext() {
 		return context;
@@ -198,8 +196,6 @@ public class JOCL
 	 * Returns the command-queue.
 	 * <p>
 	 * @return the command-queue
-	 * <p>
-	 * @since 1.6
 	 */
 	public cl_command_queue getCommandQueue() {
 		return commandQueue;
@@ -209,8 +205,6 @@ public class JOCL
 	 * Returns the program.
 	 * <p>
 	 * @return the program
-	 * <p>
-	 * @since 1.6
 	 */
 	public cl_program getProgram() {
 		return program;
@@ -222,8 +216,6 @@ public class JOCL
 	 * @param name the kernel name
 	 * <p>
 	 * @return the specified kernel
-	 * <p>
-	 * @since 1.6
 	 */
 	public cl_kernel getKernel(final String name) {
 		return kernels.get(name);
@@ -324,8 +316,6 @@ public class JOCL
 	 * Releases the specified memory buffers.
 	 * <p>
 	 * @param buffers the array of {@link cl_mem} to release
-	 * <p>
-	 * @since 1.6
 	 */
 	public void release(final cl_mem[] buffers) {
 		for (final cl_mem buffer : buffers) {
@@ -335,8 +325,6 @@ public class JOCL
 
 	/**
 	 * Releases the memory.
-	 * <p>
-	 * @since 1.6
 	 */
 	@Override
 	public void release() {
@@ -423,8 +411,6 @@ public class JOCL
 	 * @param cColumnDimension the column dimension of {@code C}
 	 * <p>
 	 * @return {@code A . B + C}
-	 * <p>
-	 * @since 1.6
 	 */
 	@Override
 	public double[] forward(final double[] A, final double[] B, final double[] C,
