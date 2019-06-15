@@ -227,8 +227,6 @@ public abstract class OpenCL {
 	 * @param cColumnDimension the column dimension of {@code C}
 	 * <p>
 	 * @return {@code A . B + C}
-	 * <p>
-	 * @since 1.6
 	 */
 	public abstract double[] forward(final double[] A, final double[] B, final double[] C,
 			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension);

@@ -176,8 +176,6 @@ public class FTPHandler {
 	 * the number of downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
-	 * <p>
-	 * @since 1.6
 	 */
 	protected int downloadFTP() {
 		int downloadedFileCount = 0;
@@ -250,8 +248,6 @@ public class FTPHandler {
 	 * returns the number of downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
-	 * <p>
-	 * @since 1.6
 	 */
 	protected int downloadFTPS() {
 		int downloadedFileCount = 0;
@@ -326,8 +322,6 @@ public class FTPHandler {
 	 * returns the number of downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
-	 * <p>
-	 * @since 1.6
 	 */
 	protected int downloadSFTP() {
 		int downloadedFileCount = 0;

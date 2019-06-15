@@ -18,7 +18,7 @@
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/hardware</url>
 
 	<modules>
-		<module>gpu</module><!-- @since 1.6 -->
+		<module>gpu</module>
 		<module>jni</module><!-- @since 1.7 -->
 	</modules>
 </project>

@@ -1927,8 +1927,6 @@ public class Matrix
 	 * @param B the {@link Entity} to add
 	 * <p>
 	 * @return {@code this * A + B}
-	 * <p>
-	 * @since 1.6
 	 */
 	public Entity forward(final Entity A, final Entity B) {
 		if (OpenCL.ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {

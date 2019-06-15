@@ -47,8 +47,6 @@ public class MatrixTest
 
 	/**
 	 * Test of dot method, of class Matrix.
-	 * <p>
-	 * @since 1.6
 	 */
 	public void testDot() {
 		IO.test("dot");
@@ -176,8 +174,6 @@ public class MatrixTest
 
 	/**
 	 * Test of division method, of class Matrix.
-	 * <p>
-	 * @since 1.6
 	 */
 	public void testDivision() {
 		IO.test("division");
@@ -192,8 +188,6 @@ public class MatrixTest
 
 	/**
 	 * Test of forward method, of class Matrix.
-	 * <p>
-	 * @since 1.6
 	 */
 	public void testForward() {
 		IO.test("forward");

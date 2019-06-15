@@ -113,8 +113,6 @@ public class JogAmpl
 	 * Returns the context.
 	 * <p>
 	 * @return the context
-	 * <p>
-	 * @since 1.6
 	 */
 	public CLContext getContext() {
 		return context;
@@ -124,8 +122,6 @@ public class JogAmpl
 	 * Returns the command-queue.
 	 * <p>
 	 * @return the command-queue
-	 * <p>
-	 * @since 1.6
 	 */
 	public CLCommandQueue getCommandQueue() {
 		return commandQueue;
@@ -135,8 +131,6 @@ public class JogAmpl
 	 * Returns the program.
 	 * <p>
 	 * @return the program
-	 * <p>
-	 * @since 1.6
 	 */
 	public CLProgram getProgram() {
 		return program;
@@ -148,8 +142,6 @@ public class JogAmpl
 	 * @param name the kernel name
 	 * <p>
 	 * @return the specified kernel
-	 * <p>
-	 * @since 1.6
 	 */
 	public CLKernel getKernel(final String name) {
 		return kernels.get(name);
@@ -228,8 +220,6 @@ public class JogAmpl
 
 	/**
 	 * Releases the memory.
-	 * <p>
-	 * @since 1.6
 	 */
 	@Override
 	public void release() {
@@ -325,8 +315,6 @@ public class JogAmpl
 	 * @param cColumnDimension the column dimension of {@code C}
 	 * <p>
 	 * @return {@code A . B + C}
-	 * <p>
-	 * @since 1.6
 	 */
 	@Override
 	public synchronized double[] forward(final double[] A, final double[] B, final double[] C,
