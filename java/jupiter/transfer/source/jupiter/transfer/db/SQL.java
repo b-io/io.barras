@@ -36,8 +36,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
-import jupiter.common.io.Resources;
 
+import jupiter.common.io.Resources;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Integers;
