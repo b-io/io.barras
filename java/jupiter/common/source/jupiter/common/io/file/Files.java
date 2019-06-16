@@ -375,8 +375,8 @@ public class Files {
 					FileOutputStream fos = null;
 					try {
 						// Create the target directory
-						final File targetFile = new File(targetDir + File.separator +
-								entry.getName());
+						final File targetFile = new File(
+								targetDir + File.separator + entry.getName());
 						new File(targetFile.getParent()).mkdirs();
 						// Unzip the file
 						IO.info("Unzip ", Strings.quote(targetFile.getAbsoluteFile()));

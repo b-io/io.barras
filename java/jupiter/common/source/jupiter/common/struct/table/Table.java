@@ -1206,8 +1206,7 @@ public class Table<T>
 	public String toString() {
 		final StringBuilder builder = Strings.createBuilder(10 * m * n);
 		for (int i = 0; i < m; ++i) {
-			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))
-					.append(NEWLINE);
+			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append(NEWLINE);
 		}
 		return builder.toString();
 	}

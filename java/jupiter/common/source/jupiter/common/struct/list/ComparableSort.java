@@ -860,9 +860,8 @@ outer:  while (true) {
 					break outer;
 				}
 
-				count2 = len2 -
-						gallopLeft((Comparable) array[cursor1], tempArray, tempArrayBase, len2,
-								len2 - 1);
+				count2 = len2 - gallopLeft((Comparable) array[cursor1], tempArray, tempArrayBase,
+						len2, len2 - 1);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;

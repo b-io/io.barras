@@ -122,8 +122,8 @@ public class Systems {
 
 	public static void requireOS() {
 		if (!isUnix() && !isWindows()) {
-			throw new IllegalStateException("The OS " + Strings.quote(Systems.OS) +
-					" is not yet supported");
+			throw new IllegalStateException(
+					"The OS " + Strings.quote(Systems.OS) + " is not yet supported");
 		}
 	}
 
