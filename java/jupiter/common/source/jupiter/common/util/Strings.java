@@ -2945,8 +2945,7 @@ public class Strings {
 			if (stackTraceElementCount > 0) {
 				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
-				return exception.getMessage() + ":" + NEWLINE +
-						joinWith(stackTraces, NEWLINE);
+				return exception.getMessage() + ":" + NEWLINE + joinWith(stackTraces, NEWLINE);
 			}
 			return exception.getMessage();
 		}

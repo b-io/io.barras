@@ -26,6 +26,7 @@ package jupiter.common.io;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 
 import java.nio.charset.Charset;
+
 import jupiter.common.util.Strings;
 
 public class Content {
