@@ -8,7 +8,7 @@ scientific computing. The library contains utility functions; among them:
   * a multithreaded matrix calculator (supporting broadcasting) and
   * several machine learning models (like logistic regression or deep neural networks).
 
-JUPITER is fully compliant with Java 5.
+JUPITER is fully compliant with Java 6.
 
 Please do not hesitate to leave your comments for further improvement!
 
