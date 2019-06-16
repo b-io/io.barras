@@ -57,8 +57,11 @@ public class NeuralNetworkTest
 		IO.test("classify");
 
 		// Initialize
-		final NeuralNetwork model = new NeuralNetwork(2);
-		final int layerCount = 2;
+		final int featureCount = 2;
+		final int layerCount = featureCount;
+		final NeuralNetwork model = new NeuralNetwork(featureCount);
+		model.setActivationFunction(ActivationFunctions.TANH);
+		model.setRegularizationFunction(RegularizationFunctions.NONE);
 		// - X
 		model.setFeatureVectors(
 				new Matrix(new double[][] {new double[] {1.62434536, -0.61175641, -0.52817175},
