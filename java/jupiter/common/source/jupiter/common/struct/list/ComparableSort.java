@@ -80,7 +80,7 @@ public class ComparableSort {
 	protected int tempArrayLen; // length of temp array slice
 
 	/**
-	 * A stack of pending runs yet to be merged. Run {@code i} starts at address {@code base[i]} and
+	 * A stack of pending runs yet to merge. Run {@code i} starts at address {@code base[i]} and
 	 * extends for {@code len[i]} elements. It is always true (so long as the indices are in bounds)
 	 * that:
 	 * <p>
@@ -96,7 +96,7 @@ public class ComparableSort {
 	/**
 	 * Creates a {@link ComparableSort} instance to maintain the state of an ongoing sort.
 	 * <p>
-	 * @param array    the array to be sorted
+	 * @param array    the array to sort
 	 * @param work     a workspace array (slice)
 	 * @param workBase the origin of the usable space in the work array
 	 * @param workLen  the usable size of the work array
@@ -146,9 +146,9 @@ public class ComparableSort {
 	 * {@link jupiter.common.util.Arrays}) after performing any necessary array bounds checks and
 	 * expanding parameters into the required forms.
 	 * <p>
-	 * @param array    the array to be sorted
-	 * @param lo       the index of the first element, inclusive, to be sorted
-	 * @param hi       the index of the last element, exclusive, to be sorted
+	 * @param array    the array to sort
+	 * @param lo       the index of the first element, inclusive, to sort
+	 * @param hi       the index of the last element, exclusive, to sort
 	 * @param work     a workspace array (slice)
 	 * @param workBase the origin of the usable space in the work array
 	 * @param workLen  the usable size of the work array
@@ -210,10 +210,10 @@ public class ComparableSort {
 	 * {@code start}, exclusive are already sorted.
 	 * <p>
 	 * @param array the array in which a range is to be sorted
-	 * @param lo    the index of the first element in the range to be sorted
-	 * @param hi    the index after the last element in the range to be sorted
-	 * @param start the index of the first element in the range that is not already known to be
-	 *              sorted ({@code lo <= start <= hi})
+	 * @param lo    the index of the first element in the range to sort
+	 * @param hi    the index after the last element in the range to sort
+	 * @param start the index of the first element in the range that is not already known to sort
+	 *              ({@code lo <= start <= hi})
 	 */
 	@SuppressWarnings({"fallthrough", "rawtypes", "unchecked"})
 	protected static void binarySort(final Object[] array, final int lo, final int hi, int start) {
@@ -311,8 +311,8 @@ public class ComparableSort {
 	 * Reverse the specified range of the specified array.
 	 * <p>
 	 * @param array the array in which a range is to be reversed
-	 * @param lo    the index of the first element in the range to be reversed
-	 * @param hi    the index after the last element in the range to be reversed
+	 * @param lo    the index of the first element in the range to reverse
+	 * @param hi    the index after the last element in the range to reverse
 	 */
 	protected static void reverseRange(final Object[] array, int lo, int hi) {
 		hi--;
@@ -336,9 +336,9 @@ public class ComparableSort {
 	 * <p>
 	 * For the rationale, see listsort.txt.
 	 * <p>
-	 * @param n the length of the array to be sorted
+	 * @param n the length of the array to sort
 	 * <p>
-	 * @return the length of the minimum run to be merged
+	 * @return the length of the minimum run to merge
 	 */
 	protected static int minRunLength(int n) {
 		assert n >= 0;
@@ -363,7 +363,7 @@ public class ComparableSort {
 	}
 
 	/**
-	 * Examines the stack of runs waiting to be merged and merges adjacent runs until the stack
+	 * Examines the stack of runs waiting to merge and merges adjacent runs until the stack
 	 * invariants are reestablished:
 	 * <p>
 	 * 1. {@code runLen[i - 3] > runLen[i - 2] + runLen[i - 1]}
@@ -651,10 +651,10 @@ public class ComparableSort {
 	 * {@link #mergeHi} should be called if {@code len1 >= len2}. (Either method may be called if
 	 * {@code len1 == len2}.)
 	 * <p>
-	 * @param base1 index of first element in first run to be merged
-	 * @param len1  length of first run to be merged (must be greater than 0)
-	 * @param base2 index of first element in second run to be merged (must be {@code aBase + aLen})
-	 * @param len2  length of second run to be merged (must be greater than 0)
+	 * @param base1 index of first element in first run to merge
+	 * @param len1  length of first run to merge (must be greater than 0)
+	 * @param base2 index of first element in second run to merge (must be {@code aBase + aLen})
+	 * @param len2  length of second run to merge (must be greater than 0)
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	protected void mergeLo(final int base1, int len1, final int base2, int len2) {
@@ -776,10 +776,10 @@ outer:  while (true) {
 	 * {@link #mergeLo} should be called if {@code len1 <= len2}. (Either method may be called if
 	 * {@code len1 == len2}.)
 	 * <p>
-	 * @param base1 index of first element in first run to be merged
-	 * @param len1  length of first run to be merged (must be greater than 0)
-	 * @param base2 index of first element in second run to be merged (must be {@code aBase + aLen})
-	 * @param len2  length of second run to be merged (must be greater than 0)
+	 * @param base1 index of first element in first run to merge
+	 * @param len1  length of first run to merge (must be greater than 0)
+	 * @param base2 index of first element in second run to merge (must be {@code aBase + aLen})
+	 * @param len2  length of second run to merge (must be greater than 0)
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	protected void mergeHi(final int base1, int len1, final int base2, int len2) {
@@ -907,7 +907,7 @@ outer:  while (true) {
 	 * elements, increasing its size if necessary. The size increases exponentially to ensure
 	 * amortized linear time complexity.
 	 * <p>
-	 * @param minCapacity the minimum required capacity of the {@code tempArray} array
+	 * @param minCapacity the minimum required capacity of {@code tempArray}
 	 * <p>
 	 * @return {@code tempArray}, whether or not it grew
 	 */

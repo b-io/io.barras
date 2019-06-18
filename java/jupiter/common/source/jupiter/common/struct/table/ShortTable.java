@@ -110,14 +110,14 @@ public class ShortTable
 	/**
 	 * Constructs a {@link ShortTable} imported from the specified file.
 	 * <p>
-	 * @param pathName  the path name of the file to load
+	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public ShortTable(final String pathName, final boolean hasHeader)
+	public ShortTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(IParsers.SHORT_PARSER, pathName, hasHeader);
+		super(IParsers.SHORT_PARSER, path, hasHeader);
 	}
 
 

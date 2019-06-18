@@ -91,7 +91,7 @@ public class MatrixTest
 
 				// Test the parallel version
 				IO.test("- Parallel:");
-				Matrix.start();
+				Matrix.parallelize();
 				if (OpenCL.ACTIVE) {
 					CL.setActive(false);
 				}
@@ -108,7 +108,7 @@ public class MatrixTest
 					//found.toTable().export("parallel.values.csv");
 					assertEquals(expected, found);
 				} finally {
-					Matrix.stop();
+					Matrix.unparallelize();
 				}
 
 				// Test the GPU version
@@ -134,7 +134,7 @@ public class MatrixTest
 
 				// Test the hybrid version
 				IO.test("- Hybrid:");
-				Matrix.start();
+				Matrix.parallelize();
 				if (OpenCL.ACTIVE) {
 					CL.setActive(true);
 				}
@@ -151,7 +151,7 @@ public class MatrixTest
 					//found.toTable().export("hybrid.values.csv");
 					assertEquals(expected, found);
 				} finally {
-					Matrix.stop();
+					Matrix.unparallelize();
 					if (OpenCL.ACTIVE) {
 						CL.setActive(false);
 					}
@@ -233,7 +233,7 @@ public class MatrixTest
 
 				// Test the parallel version
 				IO.test("- Parallel:");
-				Matrix.start();
+				Matrix.parallelize();
 				if (OpenCL.ACTIVE) {
 					CL.setActive(false);
 				}
@@ -250,7 +250,7 @@ public class MatrixTest
 					//found.toTable().export("parallel.values.csv");
 					assertEquals(expected, found);
 				} finally {
-					Matrix.stop();
+					Matrix.unparallelize();
 				}
 
 				// Test the GPU version
@@ -276,7 +276,7 @@ public class MatrixTest
 
 				// Test the hybrid version
 				IO.test("- Hybrid:");
-				Matrix.start();
+				Matrix.parallelize();
 				if (OpenCL.ACTIVE) {
 					CL.setActive(true);
 				}
@@ -293,7 +293,7 @@ public class MatrixTest
 					//found.toTable().export("hybrid.values.csv");
 					assertEquals(expected, found);
 				} finally {
-					Matrix.stop();
+					Matrix.unparallelize();
 					if (OpenCL.ACTIVE) {
 						CL.setActive(false);
 					}

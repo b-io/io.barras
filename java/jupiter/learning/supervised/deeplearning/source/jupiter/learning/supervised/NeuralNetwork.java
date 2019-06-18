@@ -93,15 +93,14 @@ public class NeuralNetwork
 	 * Constructs a neural network from the specified files containing the feature vectors and the
 	 * classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
-	 *                               size (n x m)
-	 * @param classesPathName        the path name of the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
+	 * @param classesPath        the path to the file containing the classes of size m
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
-	public NeuralNetwork(final String featureVectorsPathName, final String classesPathName)
+	public NeuralNetwork(final String featureVectorsPath, final String classesPath)
 			throws IOException {
-		super(featureVectorsPathName, classesPathName);
+		super(featureVectorsPath, classesPath);
 		setDefaultFunctions();
 	}
 
@@ -109,18 +108,18 @@ public class NeuralNetwork
 	 * Constructs a neural network from the specified files containing the feature vectors and the
 	 * classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
-	 *                               size (n x m) (or (m x n) if {@code transpose})
-	 * @param classesPathName        the path name of the file containing the classes of size m
-	 * @param transpose              the flag specifying whether to transpose the feature vectors
-	 *                               and the classes
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
+	 *                           (or (m x n) if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size m
+	 * @param transpose          the flag specifying whether to transpose the feature vectors and
+	 *                           the classes
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
-	public NeuralNetwork(final String featureVectorsPathName, final String classesPathName,
+	public NeuralNetwork(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
 			throws IOException {
-		super(featureVectorsPathName, classesPathName, transpose);
+		super(featureVectorsPath, classesPath, transpose);
 		setDefaultFunctions();
 	}
 

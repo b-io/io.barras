@@ -79,7 +79,7 @@ public class Content {
 	/**
 	 * Returns the character set.
 	 * <p>
-	 * @return the character set.
+	 * @return the character set
 	 */
 	public Charset getCharset() {
 		return charset;

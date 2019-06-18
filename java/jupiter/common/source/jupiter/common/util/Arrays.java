@@ -387,10 +387,11 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param array the array to be sorted
+	 * @param array the array to sort
 	 * <p>
 	 * @throws ClassCastException       if the array contains elements that are not mutually
-	 *                                  comparable (for example, strings and integers)
+	 *                                  comparable (for example, a {@link String} and an
+	 *                                  {@link Integer})
 	 * @throws IllegalArgumentException (optional) if the natural ordering of the array elements is
 	 *                                  found to violate the {@link Comparable} contract
 	 */
@@ -400,9 +401,9 @@ public class Arrays {
 
 	/**
 	 * Sorts the specified range of the specified array of objects into ascending order, according
-	 * to the {@linkplain Comparable natural ordering} of its elements. The range to be sorted
-	 * extends from index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
-	 * {@code fromIndex==toIndex}, the range to be sorted is empty.) All elements in this range must
+	 * to the {@linkplain Comparable natural ordering} of its elements. The range to sort extends
+	 * from index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
+	 * {@code fromIndex==toIndex}, the range to sort is empty.) All elements in this range must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in this range must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
 	 * {@code ClassCastException} for any elements {@code e1} and {@code e2} in the array).
@@ -428,16 +429,17 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param array     the array to be sorted
-	 * @param fromIndex the index of the first element (inclusive) to be sorted
-	 * @param toIndex   the index of the last element (exclusive) to be sorted
+	 * @param array     the array to sort
+	 * @param fromIndex the index of the first element (inclusive) to sort
+	 * @param toIndex   the index of the last element (exclusive) to sort
 	 * <p>
 	 * @throws IllegalArgumentException       if {@code fromIndex > toIndex} or (optional) if the
 	 *                                        natural ordering of the array elements is found to
 	 *                                        violate the {@link Comparable} contract
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or {@code toIndex > a.length}
 	 * @throws ClassCastException             if the array contains elements that are not mutually
-	 *                                        comparable (for example, strings and integers)
+	 *                                        comparable (for example, a {@link String} and an
+	 *                                        {@link Integer})
 	 */
 	public static void sort(final Object[] array, final int fromIndex, final int toIndex) {
 		// Check the arguments
@@ -477,7 +479,7 @@ public class Arrays {
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param array      the array to be sorted
+	 * @param array      the array to sort
 	 * @param comparator the comparator to determine the order of the array. A {@code null} value
 	 *                   indicates that {@linkplain Comparable natural ordering} of the elements
 	 *                   should be used
@@ -497,9 +499,9 @@ public class Arrays {
 
 	/**
 	 * Sorts the specified range of the specified array of objects according to the order induced by
-	 * the specified comparator. The range to be sorted extends from index {@code fromIndex},
-	 * inclusive, to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to
-	 * be sorted is empty.) All elements in the range must be
+	 * the specified comparator. The range to sort extends from index {@code fromIndex}, inclusive,
+	 * to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to be sorted
+	 * is empty.) All elements in the range must be
 	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
 	 * must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in the
 	 * range).
@@ -526,9 +528,9 @@ public class Arrays {
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param a          the array to be sorted
-	 * @param fromIndex  the index of the first element (inclusive) to be sorted
-	 * @param toIndex    the index of the last element (exclusive) to be sorted
+	 * @param a          the array to sort
+	 * @param fromIndex  the index of the first element (inclusive) to sort
+	 * @param toIndex    the index of the last element (exclusive) to sort
 	 * @param comparator the comparator to determine the order of the array. A {@code null} value
 	 *                   indicates that {@linkplain Comparable natural ordering} of the elements
 	 *                   should be used

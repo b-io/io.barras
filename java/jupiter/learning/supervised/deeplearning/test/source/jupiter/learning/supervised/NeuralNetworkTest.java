@@ -66,14 +66,14 @@ public class NeuralNetworkTest
 		// - X
 		model.setFeatureVectors(
 				new Matrix(new double[][] {new double[] {1.62434536, -0.61175641, -0.52817175},
-					new double[] {-1.07296862, 0.86540763, -2.30153870}})); // (n x m)
+		new double[] {-1.07296862, 0.86540763, -2.30153870}})); // (n x m)
 		// - Y
 		model.setClasses(new Vector(1, 0, 1).transpose()); // (1 x m)
 		// - W
 		final Matrix[] weights = new Matrix[layerCount];
 		weights[0] = new Matrix(new double[][] {new double[] {-0.00416758, -0.00056267},
-			new double[] {-0.02136196, 0.01640271}, new double[] {-0.01793436, -0.00841747},
-			new double[] {0.00502881, -0.01245288}}); // (nh x n)
+		new double[] {-0.02136196, 0.01640271}, new double[] {-0.01793436, -0.00841747},
+		new double[] {0.00502881, -0.01245288}}); // (nh x n)
 		weights[1] = new Matrix(
 				new double[][] {new double[] {-0.01057952, -0.00909008, 0.00551454, 0.02292208}}); // (1 x nh)
 		model.setWeights(weights);

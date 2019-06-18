@@ -131,7 +131,7 @@ public class Matrix
 	/**
 	 * The work queue for computing the dot product.
 	 */
-	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> WORK_QUEUE = null;
+	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> DOT_PRODUCT_QUEUE = null;
 
 	/**
 	 * The flag specifying whether to use a JNI work queue.
@@ -140,7 +140,7 @@ public class Matrix
 	/**
 	 * The JNI work queue for computing the dot product.
 	 */
-	protected static volatile WorkQueue<Pair<Matrix, Matrix>, Matrix> JNI_WORK_QUEUE = null;
+	protected static volatile WorkQueue<Pair<Matrix, Matrix>, Matrix> JNI_DOT_PRODUCT_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1180,55 +1180,55 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts {@code this}.
+	 * Parallelizes {@code this}.
 	 */
-	public static synchronized void start() {
+	public static synchronized void parallelize() {
 		IO.debug(EMPTY);
 
 		// Initialize
-		if (WORK_QUEUE == null) {
-			WORK_QUEUE = new LockedWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
+		if (DOT_PRODUCT_QUEUE == null) {
+			DOT_PRODUCT_QUEUE = new LockedWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
 					new DotProduct());
 			PARALLELIZE = true;
 		} else {
-			IO.warn("The work queue ", WORK_QUEUE, " has already started");
+			IO.warn("The work queue ", DOT_PRODUCT_QUEUE, " has already started");
 		}
 		if (MatrixOperations.ACTIVE) {
-			if (JNI_WORK_QUEUE == null) {
-				JNI_WORK_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
+			if (JNI_DOT_PRODUCT_QUEUE == null) {
+				JNI_DOT_PRODUCT_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
 						new JNIDotProduct(), 1, 1);
 				USE_JNI = true;
 			} else {
-				IO.warn("The JNI work queue ", JNI_WORK_QUEUE, " has already started");
+				IO.warn("The JNI work queue ", JNI_DOT_PRODUCT_QUEUE, " has already started");
 			}
 		}
 	}
 
 	/**
-	 * Stops {@code this}.
+	 * Unparallelizes {@code this}.
 	 */
-	public static synchronized void stop() {
+	public static synchronized void unparallelize() {
 		IO.debug(EMPTY);
 
 		// Shutdown
-		if (JNI_WORK_QUEUE != null) {
+		if (JNI_DOT_PRODUCT_QUEUE != null) {
 			USE_JNI = false;
-			JNI_WORK_QUEUE.shutdown();
+			JNI_DOT_PRODUCT_QUEUE.shutdown();
 		}
-		if (WORK_QUEUE != null) {
+		if (DOT_PRODUCT_QUEUE != null) {
 			PARALLELIZE = false;
-			WORK_QUEUE.shutdown();
+			DOT_PRODUCT_QUEUE.shutdown();
 		}
 	}
 
 	/**
-	 * Restarts {@code this}.
+	 * Reparallelizes {@code this}.
 	 */
-	public static synchronized void restart() {
+	public static synchronized void reparallelize() {
 		IO.debug(EMPTY);
 
-		stop();
-		start();
+		unparallelize();
+		parallelize();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1561,11 +1561,11 @@ public class Matrix
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (USE_JNI) {
-			return JNI_WORK_QUEUE
-					.get(JNI_WORK_QUEUE.submit(new Pair<Matrix, Matrix>(this, broadcastedMatrix)));
+			return JNI_DOT_PRODUCT_QUEUE.get(JNI_DOT_PRODUCT_QUEUE.submit(new Pair<Matrix, Matrix>(
+					this, broadcastedMatrix)));
 		} else if (PARALLELIZE) {
 			// Initialize
-			final int intervalCount = Math.min(m, WORK_QUEUE.maxThreads);
+			final int intervalCount = Math.min(m, DOT_PRODUCT_QUEUE.maxThreads);
 			final int rowCountPerInterval = m / intervalCount;
 			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
 			final List<Long> ids = new ExtendedList<Long>(intervalCount);
@@ -1574,8 +1574,8 @@ public class Matrix
 			for (int i = 0; i < intervalCount; ++i) {
 				final Interval<Integer> interval = new Interval<Integer>(i * rowCountPerInterval,
 						(i + 1) * rowCountPerInterval);
-				ids.add(WORK_QUEUE.submit(new Triple<Matrix, Matrix, Interval<Integer>>(this,
-						broadcastedMatrix, interval)));
+				ids.add(DOT_PRODUCT_QUEUE.submit(new Triple<Matrix, Matrix, Interval<Integer>>(
+						this, broadcastedMatrix, interval)));
 			}
 
 			// Process the remaining rows
@@ -1588,7 +1588,7 @@ public class Matrix
 
 			// Collect the results
 			for (final long id : ids) {
-				final Pair<Matrix, Interval<Integer>> pair = WORK_QUEUE.get(id);
+				final Pair<Matrix, Interval<Integer>> pair = DOT_PRODUCT_QUEUE.get(id);
 				final Matrix submatrix = pair.getFirst();
 				final Interval<Integer> interval = pair.getSecond();
 				result.setSubmatrix(interval.getLowerBound(),
@@ -2165,31 +2165,31 @@ public class Matrix
 	/**
 	 * Returns a {@link Matrix} loaded from the specified file.
 	 * <p>
-	 * @param pathName the path name of the file to load
+	 * @param path the path to the file to load
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public static Matrix load(final String pathName)
+	public static Matrix load(final String path)
 			throws IOException {
-		final FileHandler fileHandler = new FileHandler(pathName);
+		final FileHandler fileHandler = new FileHandler(path);
 		return load(fileHandler.getReader(), fileHandler.countLines(true), false);
 	}
 
 	/**
 	 * Returns a {@link Matrix} loaded from the specified file.
 	 * <p>
-	 * @param pathName  the path name of the file to load
+	 * @param path      the path to the file to load
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public static Matrix load(final String pathName, final boolean transpose)
+	public static Matrix load(final String path, final boolean transpose)
 			throws IOException {
-		final FileHandler fileHandler = new FileHandler(pathName);
+		final FileHandler fileHandler = new FileHandler(path);
 		return load(fileHandler.getReader(), fileHandler.countLines(true), transpose);
 	}
 

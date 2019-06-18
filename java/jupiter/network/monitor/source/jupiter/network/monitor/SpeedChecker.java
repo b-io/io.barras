@@ -41,6 +41,7 @@ import java.util.Map;
 
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.io.file.Files;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Report;
@@ -216,17 +217,17 @@ public class SpeedChecker {
 
 				// Download the file pointed by the URL
 				final String fileName = url.getFile().replace(File.separator, EMPTY);
-				final File targetFilePath = new File(TEMP_DIR + File.separator + fileName);
+				final File targetFile = new File(TEMP_DIR + File.separator + fileName);
 				IO.debug("Download the file ", Strings.quote(fileName));
 				ReadableByteChannel channel = null;
 				FileOutputStream tempFile = null;
 				try {
 					channel = Channels.newChannel(url.openStream());
-					tempFile = new FileOutputStream(targetFilePath);
+					tempFile = new FileOutputStream(targetFile);
 					chrono.start();
 					tempFile.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
 					chrono.stop();
-					final double length = targetFilePath.length() / 1048576. * 8.;
+					final double length = targetFile.length() / 1048576. * 8.;
 					final double time = chrono.getSeconds();
 					final double speed = length / time;
 					return new Report<Double>(speed,
@@ -236,7 +237,7 @@ public class SpeedChecker {
 				} catch (final IOException ex) {
 					return new Report<Double>(0.,
 							IO.error("Unable to transfer the file ", Strings.quote(urlName), " to ",
-									Strings.quote(targetFilePath.getCanonicalPath()),
+									Strings.quote(Files.getCanonicalPath(targetFile)),
 									IO.appendException(ex)));
 				} finally {
 					Resources.close(channel);
