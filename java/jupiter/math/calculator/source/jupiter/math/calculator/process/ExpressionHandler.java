@@ -90,9 +90,9 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts {@code this}.
+	 * Parallelizes {@code this}.
 	 */
-	public static synchronized void start() {
+	public static synchronized void parallelize() {
 		IO.debug(EMPTY);
 
 		// Initialize
@@ -107,9 +107,9 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * Stops {@code this}.
+	 * Unparallelizes {@code this}.
 	 */
-	public static synchronized void stop() {
+	public static synchronized void unparallelize() {
 		IO.debug(EMPTY);
 
 		// Shutdown
@@ -119,13 +119,13 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * Restarts {@code this}.
+	 * Reparallelizes {@code this}.
 	 */
-	public static synchronized void restart() {
+	public static synchronized void reparallelize() {
 		IO.debug(EMPTY);
 
-		stop();
-		start();
+		unparallelize();
+		parallelize();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -300,7 +300,7 @@ public class ExpressionHandler {
 	 * is no such occurrence.
 	 * <p>
 	 * @param expression          the expression to parse
-	 * @param delimitingIntervals the delimiting intervals in the specified expression
+	 * @param delimitingIntervals the delimiting intervals in the expression
 	 * <p>
 	 * @return the index of the binary operator in the specified expression, or {@code -1} if there
 	 *         is no such occurrence
@@ -321,7 +321,7 @@ public class ExpressionHandler {
 	 * the specified delimiting intervals.
 	 * <p>
 	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the specified expression
+	 * @param delimitingIntervals the delimiting intervals in the expression
 	 * <p>
 	 * @return the indexes of all the binary operators in the specified expression that are not in
 	 *         the specified delimiting intervals
@@ -337,7 +337,7 @@ public class ExpressionHandler {
 	 * specified delimiting intervals.
 	 * <p>
 	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the specified expression
+	 * @param delimitingIntervals the delimiting intervals in the expression
 	 * <p>
 	 * @return the index of the last unary operator in the specified expression that is not in the
 	 *         specified delimiting intervals
@@ -353,7 +353,7 @@ public class ExpressionHandler {
 	 * specified delimiting intervals.
 	 * <p>
 	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the specified expression
+	 * @param delimitingIntervals the delimiting intervals in the expression
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
@@ -385,7 +385,7 @@ public class ExpressionHandler {
 	 * specified delimiting intervals.
 	 * <p>
 	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the specified expression
+	 * @param delimitingIntervals the delimiting intervals in the expression
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param operators           the {@link List} of operators to find
 	 * <p>
@@ -406,7 +406,7 @@ public class ExpressionHandler {
 	 * specified delimiting intervals.
 	 * <p>
 	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the specified expression
+	 * @param delimitingIntervals the delimiting intervals in the expression
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>

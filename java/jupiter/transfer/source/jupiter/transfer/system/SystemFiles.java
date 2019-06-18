@@ -78,17 +78,8 @@ public class SystemFiles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Collection<File> find(final String dirName, final String fileFilter) {
-		return find(new File(dirName), fileFilter, EMPTY);
-	}
-
 	public static Collection<File> find(final File dir, final String fileFilter) {
 		return find(dir, fileFilter, EMPTY);
-	}
-
-	public static Collection<File> find(final String dirName, final String fileFilter,
-			final String dirFilter) {
-		return find(new File(dirName), fileFilter, dirFilter);
 	}
 
 	public static Collection<File> find(final File dir, final String fileFilter,
@@ -98,17 +89,8 @@ public class SystemFiles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Collection<File> find(final String dirName, final String[] fileFilters) {
-		return find(new File(dirName), fileFilters, EMPTY);
-	}
-
 	public static Collection<File> find(final File dir, final String[] fileFilters) {
 		return find(dir, fileFilters, EMPTY);
-	}
-
-	public static Collection<File> find(final String dirName, final String[] fileFilters,
-			final String dirFilter) {
-		return find(new File(dirName), fileFilters, dirFilter);
 	}
 
 	public static Collection<File> find(final File dir, final String[] fileFilters,
@@ -126,7 +108,7 @@ public class SystemFiles {
 			final Set<String> extensions) {
 		final Collection<File> filteredFiles = new LinkedList<File>();
 		for (final File file : files) {
-			if (extensions.contains(Files.getExtension(file.getName()).toLowerCase())) {
+			if (extensions.contains(Files.getFileExtension(file.getName()).toLowerCase())) {
 				filteredFiles.add(file);
 			}
 		}
@@ -147,7 +129,7 @@ public class SystemFiles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int unzip(final Properties info) {
-		final String localDir = info.getProperty("localDir");
+		final File localDir = new File(info.getProperty("localDir"));
 		final String filter = info.getProperty("filter", "*").replace("*", ".*");
 		final String[] fileNames = info.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
 		if (fileNames.length > 0) {
@@ -158,7 +140,7 @@ public class SystemFiles {
 					final Collection<File> files = find(localDir, fileName, "zip");
 					for (final File file : files) {
 						if (file.isFile() && fileName.matches(filter)) {
-							unzippedFileCount += Files.unzip(file.getAbsolutePath(), localDir);
+							unzippedFileCount += Files.unzipDir(file, localDir);
 						}
 					}
 				}

@@ -26,6 +26,7 @@ package jupiter.common.io.file;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEWLINE;
+import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.BufferedReader;
@@ -40,14 +41,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import jupiter.common.exception.CopyFileException;
 import jupiter.common.io.Content;
 import jupiter.common.io.Resources;
+import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
+import jupiter.common.test.FileArguments;
+import jupiter.common.thread.LockedWorkQueue;
+import jupiter.common.thread.WorkQueue;
+import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 
 public class Files {
@@ -60,6 +71,15 @@ public class Files {
 	 * The buffer size.
 	 */
 	public static final int BUFFER_SIZE = 8192;
+
+	/**
+	 * The flag specifying whether to parallelize using a work queue.
+	 */
+	public static volatile boolean PARALLELIZE = false;
+	/**
+	 * The work queue for copying the files (or directories).
+	 */
+	protected static volatile WorkQueue<Triple<File, File, Boolean>, Boolean> COPIER_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,34 +95,98 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the current path name.
+	 * Returns the current path.
 	 * <p>
-	 * @return the current path name
+	 * @return the current path
 	 */
 	public static String getPath() {
-		return new File(".").getAbsolutePath();
+		return getPath(new File("."));
 	}
 
 	/**
-	 * Returns the file name of the specified path name.
+	 * Returns the path to the specified {@link File}.
 	 * <p>
-	 * @param pathName a {@link String}
+	 * @param file a {@link File}
 	 * <p>
-	 * @return the file name of the specified path name
+	 * @return the path to the specified {@link File}
 	 */
-	public static String getFileName(final String pathName) {
-		return pathName.substring(pathName.lastIndexOf('\\') + 1);
+	public static String getPath(final File file) {
+		return file.getAbsolutePath();
 	}
 
 	/**
-	 * Returns the extension of the specified file name.
+	 * Returns the canonical path to the specified {@link File}.
 	 * <p>
-	 * @param fileName a {@link String}
+	 * @param file a {@link File}
 	 * <p>
-	 * @return the extension of the specified file name
+	 * @return the canonical path to the specified {@link File}
+	 * <p>
+	 * @throws IOException       if there is a problem querying the file system
+	 * @throws SecurityException if there is a permission problem
 	 */
-	public static String getExtension(final String fileName) {
+	public static String getCanonicalPath(final File file)
+			throws IOException {
+		return file.getCanonicalPath();
+	}
+
+	/**
+	 * Returns the relative path to the specified path against the specified base.
+	 * <p>
+	 * @param base the {@link File} base of the path to relativize
+	 * @param path the {@link File} path to relativize
+	 * <p>
+	 * @return the relative path to the specified path against the specified base
+	 */
+	public static String getRelativePath(final File base, final File path) {
+		return base.toURI().relativize(path.toURI()).getPath();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the file name of the specified path.
+	 * <p>
+	 * @param path a {@link String}
+	 * <p>
+	 * @return the file name of the specified path
+	 */
+	public static String getFileName(final String path) {
+		return path.substring(path.lastIndexOf(File.separator) + 1);
+	}
+
+	/**
+	 * Returns the file name without the extension of the specified path.
+	 * <p>
+	 * @param path a {@link String}
+	 * <p>
+	 * @return the file name without the extension of the specified path
+	 */
+	public static String getFileNameWithoutExtension(final String path) {
+		final String fileName = getFileName(path);
+		return fileName.substring(0, fileName.lastIndexOf('.'));
+	}
+
+	/**
+	 * Returns the file extension of the specified path.
+	 * <p>
+	 * @param path a {@link String}
+	 * <p>
+	 * @return the file extension of the specified path
+	 */
+	public static String getFileExtension(final String path) {
+		final String fileName = getFileName(path);
 		return fileName.substring(fileName.lastIndexOf('.') + 1);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void setLastModified(final File file, final long time) {
+		if (exists(file)) {
+			file.setLastModified(time);
+		}
 	}
 
 
@@ -111,39 +195,32 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates all the directories of the specified path name.
-	 * <p>
-	 * @param pathName a {@link String}
-	 * <p>
-	 * @return {@code true} if the directories are created, {@code false} otherwise
-	 */
-	public static boolean createDirectories(final String pathName) {
-		final File file = new File(pathName);
-		if (!file.exists()) {
-			if (!file.mkdirs()) {
-				IO.error("Unable to create the directories ", Strings.quote(pathName));
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Creates all the directories of the specified file (or directory).
+	 * Creates all the directories of the specified {@link File}.
 	 * <p>
 	 * @param file a {@link File}
 	 * <p>
-	 * @return {@code true} if the directories are created, {@code false} otherwise
+	 * @throws IOException       if there is a problem creating the directories
+	 * @throws SecurityException if there is a permission problem
 	 */
-	public static boolean createDirectories(final File file) {
-		if (!file.exists()) {
-			if (!file.mkdirs()) {
-				IO.error("Unable to create the directories ",
-						Strings.quote(file.getAbsolutePath()));
-				return false;
-			}
+	public static void createDirs(final File file)
+			throws IOException {
+		if (!exists(file) && !file.mkdirs()) {
+			throw new IOException("Unable to create the directories " +
+					Strings.quote(getPath(file)));
 		}
-		return true;
+	}
+
+	/**
+	 * Creates all the parent directories of the specified {@link File}.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @throws IOException       if there is a problem creating the directories
+	 * @throws SecurityException if there is a permission problem
+	 */
+	public static void createParentDirs(final File file)
+			throws IOException {
+		createDirs(file.getParentFile());
 	}
 
 
@@ -152,60 +229,62 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link BufferedReader} of the specified file.
+	 * Creates a {@link BufferedReader} of the specified {@link File}.
 	 * <p>
-	 * @param pathName the path name of the file to read
+	 * @param file the {@link File} to read
 	 * <p>
-	 * @return a {@link BufferedReader} of the specified file
+	 * @return a {@link BufferedReader} of the specified {@link File}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening the specified file
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
-	public static BufferedReader createReader(final String pathName)
+	public static BufferedReader createReader(final File file)
 			throws FileNotFoundException {
-		return createReader(pathName, DEFAULT_CHARSET);
+		return createReader(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Creates a {@link BufferedReader} of the specified file with the specified {@link Charset}.
+	 * Creates a {@link BufferedReader} of the specified {@link File} with the specified
+	 * {@link Charset}.
 	 * <p>
-	 * @param pathName the path name of the file to read
-	 * @param charset  the {@link Charset} of the file to read
+	 * @param file    the {@link File} to read
+	 * @param charset the {@link Charset} of the {@link File} to read
 	 * <p>
-	 * @return a {@link BufferedReader} of the specified file with the specified {@link Charset}
+	 * @return a {@link BufferedReader} of the specified {@link File} with the specified
+	 *         {@link Charset}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening the specified file
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
-	public static BufferedReader createReader(final String pathName, final Charset charset)
+	public static BufferedReader createReader(final File file, final Charset charset)
 			throws FileNotFoundException {
-		return IO.createReader(new FileInputStream(pathName), charset);
+		return IO.createReader(new FileInputStream(file), charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Content} of the specified file.
+	 * Returns the {@link Content} of the specified {@link File}.
 	 * <p>
-	 * @param pathName the path name of the file to read
+	 * @param file the {@link File} to read
 	 * <p>
-	 * @return the {@link Content} of the specified file
+	 * @return the {@link Content} of the specified {@link File}
 	 */
-	public static Content read(final String pathName) {
-		return read(pathName, DEFAULT_CHARSET);
+	public static Content read(final File file) {
+		return read(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Returns the {@link Content} of the specified file with the specified {@link Charset}.
+	 * Returns the {@link Content} of the specified {@link File} with the specified {@link Charset}.
 	 * <p>
-	 * @param pathName the path name of the file to read
-	 * @param charset  the {@link Charset} of the file to read
+	 * @param file    the {@link File} to read
+	 * @param charset the {@link Charset} of the {@link File} to read
 	 * <p>
-	 * @return the {@link Content} of the specified file with the specified {@link Charset}
+	 * @return the {@link Content} of the specified {@link File} with the specified {@link Charset}
 	 */
-	public static Content read(final String pathName, final Charset charset) {
+	public static Content read(final File file, final Charset charset) {
 		try {
-			return IO.read(new FileInputStream(pathName), charset);
+			return IO.read(new FileInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathName),
+			IO.error("Unable to find the specified file ", Strings.quote(file),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -216,65 +295,66 @@ public class Files {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the unzipped {@link Content} of the specified file.
+	 * Returns the unzipped {@link Content} of the specified {@link File}.
 	 * <p>
-	 * @param pathName the path name of the file to unzip
+	 * @param file the {@link File} to unzip
 	 * <p>
-	 * @return the unzipped {@link Content} of the specified file
+	 * @return the unzipped {@link Content} of the specified {@link File}
 	 */
-	public static Content unzip(final String pathName) {
-		return unzip(pathName, DEFAULT_CHARSET);
+	public static Content unzip(final File file) {
+		return unzip(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Returns the unzipped {@link Content} of the specified file with the specified
+	 * Returns the unzipped {@link Content} of the specified {@link File} with the specified
 	 * {@link Charset}.
 	 * <p>
-	 * @param pathName the path name of the file to unzip
-	 * @param charset  the {@link Charset} of the file to unzip
+	 * @param file    the {@link File} to unzip
+	 * @param charset the {@link Charset} of the {@link File} to unzip
 	 * <p>
-	 * @return the unzipped {@link Content} of the specified file with the specified {@link Charset}
-	 */
-	public static Content unzip(final String pathName, final Charset charset) {
-		try {
-			return IO.read(new ZipInputStream(new FileInputStream(pathName)), charset);
-		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathName),
-					IO.appendException(ex));
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-		return null;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the ungzipped {@link Content} of the specified file.
-	 * <p>
-	 * @param pathName the path name of the file to ungzip
-	 * <p>
-	 * @return the ungzipped {@link Content} of the specified file
-	 */
-	public static Content ungzip(final String pathName) {
-		return ungzip(pathName, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Returns the ungzipped {@link Content} of the specified file with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param pathName the path name of the file to ungzip
-	 * @param charset  the {@link Charset} of the file to ungzip
-	 * <p>
-	 * @return the ungzipped {@link Content} of the specified file with the specified
+	 * @return the unzipped {@link Content} of the specified {@link File} with the specified
 	 *         {@link Charset}
 	 */
-	public static Content ungzip(final String pathName, final Charset charset) {
+	public static Content unzip(final File file, final Charset charset) {
 		try {
-			return IO.read(new GZIPInputStream(new FileInputStream(pathName)), charset);
+			return IO.read(new ZipInputStream(new FileInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathName),
+			IO.error("Unable to find the specified file ", Strings.quote(file),
+					IO.appendException(ex));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the ungzipped {@link Content} of the specified {@link File}.
+	 * <p>
+	 * @param file the {@link File} to ungzip
+	 * <p>
+	 * @return the ungzipped {@link Content} of the specified {@link File}
+	 */
+	public static Content ungzip(final File file) {
+		return ungzip(file, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the ungzipped {@link Content} of the specified {@link File} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to ungzip
+	 * @param charset the {@link Charset} of the {@link File} to ungzip
+	 * <p>
+	 * @return the ungzipped {@link Content} of the specified {@link File} with the specified
+	 *         {@link Charset}
+	 */
+	public static Content ungzip(final File file, final Charset charset) {
+		try {
+			return IO.read(new GZIPInputStream(new FileInputStream(file)), charset);
+		} catch (final FileNotFoundException ex) {
+			IO.error("Unable to find the specified file ", Strings.quote(file),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -285,120 +365,64 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of lines of the specified file.
+	 * Returns the number of lines of the specified {@link File}.
 	 * <p>
-	 * @param pathName the path name of the file of the lines to count
+	 * @param file the {@link File} to count the lines from
 	 * <p>
-	 * @return the number of lines of the specified file
+	 * @return the number of lines of the specified {@link File}
 	 */
-	public static int countLines(final String pathName) {
-		return countLines(pathName, DEFAULT_CHARSET);
+	public static int countLines(final File file) {
+		return countLines(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Returns the number of lines of the specified file with the specified {@link Charset}.
+	 * Returns the number of lines of the specified {@link File} with the specified {@link Charset}.
 	 * <p>
-	 * @param pathName the path name of the file of the lines to count
-	 * @param charset  the {@link Charset} of the lines to count
+	 * @param file    the {@link File} to count the lines from
+	 * @param charset the {@link Charset} of the {@link File} to count the lines from
 	 * <p>
-	 * @return the number of lines of the specified file with the specified {@link Charset}
+	 * @return the number of lines of the specified {@link File} with the specified {@link Charset}
 	 */
-	public static int countLines(final String pathName, final Charset charset) {
-		return countLines(pathName, charset, false);
-	}
-
-	/**
-	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * file.
-	 * <p>
-	 * @param pathName       the path name of the file of the lines to count
-	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
-	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         file
-	 */
-	public static int countLines(final String pathName, final boolean skipEmptyLines) {
-		return countLines(pathName, DEFAULT_CHARSET, skipEmptyLines);
+	public static int countLines(final File file, final Charset charset) {
+		return countLines(file, charset, false);
 	}
 
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * file with the specified {@link Charset}.
+	 * {@link File}.
 	 * <p>
-	 * @param pathName       the path name of the file of the lines to count
-	 * @param charset        the {@link Charset} of the lines to count
+	 * @param file           the {@link File} to count the lines from
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         file with the specified {@link Charset}
+	 *         {@link File}
 	 */
-	public static int countLines(final String pathName, final Charset charset,
+	public static int countLines(final File file, final boolean skipEmptyLines) {
+		return countLines(file, DEFAULT_CHARSET, skipEmptyLines);
+	}
+
+	/**
+	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 * {@link File} with the specified {@link Charset}.
+	 * <p>
+	 * @param file           the {@link File} to count the lines from
+	 * @param charset        the {@link Charset} of the {@link File} to count the lines from
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 *         {@link File} with the specified {@link Charset}
+	 */
+	public static int countLines(final File file, final Charset charset,
 			final boolean skipEmptyLines) {
 		try {
-			return IO.countLines(new FileInputStream(pathName), charset);
+			return IO.countLines(new FileInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathName),
+			IO.error("Unable to find the specified file ", Strings.quote(file),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
 		return -1;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Unzip the specified file and returns the number of unzipped files.
-	 * <p>
-	 * @param pathName  the path name of the file to unzip
-	 * @param targetDir the output directory
-	 * <p>
-	 * @return the number of unzipped files
-	 */
-	public static int unzip(final String pathName, final String targetDir) {
-		int entryCount = 0;
-		final byte[] buffer = new byte[1024];
-		try {
-			// Create the target directory if it is not present
-			final File folder = new File(targetDir);
-			if (!folder.exists()) {
-				folder.mkdir();
-			}
-			// Create the output directory if it is not present
-			ZipInputStream input = null;
-			try {
-				// Get the content of the zipped file
-				input = new ZipInputStream(new FileInputStream(pathName));
-				// Get the list entry of the zipped file
-				ZipEntry entry;
-				while ((entry = input.getNextEntry()) != null) {
-					FileOutputStream fos = null;
-					try {
-						// Create the target directory
-						final File targetFile = new File(
-								targetDir + File.separator + entry.getName());
-						new File(targetFile.getParent()).mkdirs();
-						// Unzip the file
-						IO.info("Unzip ", Strings.quote(targetFile.getAbsoluteFile()));
-						fos = new FileOutputStream(targetFile);
-						int length;
-						while ((length = input.read(buffer)) > 0) {
-							fos.write(buffer, 0, length);
-						}
-						++entryCount;
-					} catch (final IOException ex) {
-						IO.error(ex);
-					} finally {
-						Resources.close(fos);
-					}
-				}
-			} finally {
-				Resources.close(input);
-			}
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-		return entryCount;
 	}
 
 
@@ -407,88 +431,77 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link BufferedWriter} of the specified file.
+	 * Creates a {@link BufferedWriter} of the specified {@link File}.
 	 * <p>
-	 * @param pathName the path name of the file to write
-	 * @param append   the flag specifying whether to append
+	 * @param file   the {@link File} to write to
+	 * @param append the flag specifying whether to append
 	 * <p>
-	 * @return a {@link BufferedWriter} of the specified file
+	 * @return a {@link BufferedWriter} of the specified {@link File}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening the specified file
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
-	public static BufferedWriter createWriter(final String pathName, final boolean append)
+	public static BufferedWriter createWriter(final File file, final boolean append)
 			throws FileNotFoundException {
-		return createWriter(pathName, DEFAULT_CHARSET, append);
+		return createWriter(file, DEFAULT_CHARSET, append);
 	}
 
 	/**
-	 * Creates a {@link BufferedWriter} of the specified file with the specified {@link Charset}.
+	 * Creates a {@link BufferedWriter} of the specified {@link File} with the specified
+	 * {@link Charset}.
 	 * <p>
-	 * @param pathName the path name of the file to write
-	 * @param charset  the {@link Charset} of the file to write
-	 * @param append   the flag specifying whether to append
+	 * @param file    the {@link File} to write to
+	 * @param charset the {@link Charset} of the {@link File} to write to
+	 * @param append  the flag specifying whether to append
 	 * <p>
-	 * @return a {@link BufferedWriter} of the specified file with the specified {@link Charset}
+	 * @return a {@link BufferedWriter} of the specified {@link File} with the specified
+	 *         {@link Charset}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening the specified file
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
-	public static BufferedWriter createWriter(final String pathName, final Charset charset,
+	public static BufferedWriter createWriter(final File file, final Charset charset,
 			final boolean append)
 			throws FileNotFoundException {
-		return IO.createWriter(new FileOutputStream(pathName, append), charset);
+		return IO.createWriter(new FileOutputStream(file, append), charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Appends the specified string to the specified file.
+	 * Writes the specified {@link String} to the specified {@link File}.
 	 * <p>
-	 * @param content  the {@link String} to write
-	 * @param pathName the path name of the file to write
+	 * @param content the {@link String} to write
+	 * @param file    the {@link File} to write to
 	 * <p>
-	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
-	 *         otherwise
+	 * @return {@code true} if {@code string} is written to the specified
+	 *         {@link File}, {@code false} otherwise
 	 */
-	public static boolean appendLine(final String content, final String pathName) {
-		return writeLine(content, pathName, true, DEFAULT_CHARSET);
+	public static boolean writeLine(final String content, final File file) {
+		return writeLine(content, file, true, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Writes the specified string to the specified file.
+	 * Writes or appends the specified {@link String} to the specified {@link File}.
 	 * <p>
-	 * @param content  the {@link String} to write
-	 * @param pathName the path name of the file to write
+	 * @param content the {@link String} to write
+	 * @param file    the {@link File} to write to
+	 * @param append  the flag specifying whether to append
+	 * @param charset the {@link Charset} of the {@link File} to write to
 	 * <p>
-	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
-	 *         otherwise
+	 * @return {@code true} if {@code string} is written to the specified
+	 *         {@link File}, {@code false} otherwise
 	 */
-	public static boolean writeLine(final String content, final String pathName) {
-		return writeLine(content, pathName, true, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Writes the specified string to the specified file.
-	 * <p>
-	 * @param content  the {@link String} to write
-	 * @param pathName the path name of the file to write
-	 * @param append   the flag specifying whether to append
-	 * @param charset  the {@link Charset} of the file to write
-	 * <p>
-	 * @return {@code true} if {@code string} is written to the specified file, {@code false}
-	 *         otherwise
-	 */
-	public static boolean writeLine(final String content, final String pathName,
+	public static boolean writeLine(final String content, final File file,
 			final boolean append, final Charset charset) {
 		boolean isWritten = false;
 		BufferedWriter writer = null;
 		try {
 			// Create a new file writer
-			writer = IO.createWriter(new FileOutputStream(pathName, append), charset);
-			// Append the string to the file
+			writer = IO.createWriter(new FileOutputStream(file, append), charset);
+			// Write or append the content to the file
 			writer.write(content + NEWLINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathName),
+			IO.error("Unable to find the specified file ", Strings.quote(file),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -503,21 +516,107 @@ public class Files {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		if (COPIER_QUEUE == null) {
+			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
+			PARALLELIZE = true;
+		} else {
+			IO.warn("The copier queue ", COPIER_QUEUE, " has already started");
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (COPIER_QUEUE != null) {
+			PARALLELIZE = false;
+			COPIER_QUEUE.shutdown();
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Copies the specified source {@link File} to the specified target {@link File} (preserving the
+	 * file dates).
+	 * <p>
+	 * @param source the source {@link File}
+	 * @param target the target {@link File}
+	 * @param force  the flag specifying whether to delete the target {@link File} before copying
+	 * <p>
+	 * @return {@code true} if the specified source {@link File} is copied to the specified target
+	 *         {@link File} (preserving the file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code source}
+	 */
 	public static boolean copy(final File source, final File target, final boolean force)
 			throws CopyFileException {
 		if (exists(target)) {
 			if (force) {
-				delete(target);
+				delete(target, true);
 			} else {
 				throw new CopyFileException(
 						"Target file " + Strings.quote(target) + " already exists");
 			}
 		}
-		if (source.isFile()) {
-			createDirectories(target.getParentFile());
+		if (source.isDirectory()) {
+			// Copy the directory
+			try {
+				boolean status = true;
+				// Create the target directory
+				final String targetDirPath = getPath(target);
+				createDirs(target);
+				// Copy the files to the directory
+				final File[] files = source.listFiles();
+				if (PARALLELIZE) {
+					final List<Long> ids = new ExtendedList<Long>();
+					for (final File file : files) {
+						ids.add(COPIER_QUEUE.submit(new Triple<File, File, Boolean>(
+								file, new File(targetDirPath + File.separator +
+										getRelativePath(source, file)), force)));
+					}
+					for (final long id : ids) {
+						status = status && COPIER_QUEUE.get(id);
+					}
+				} else {
+					for (final File file : files) {
+						status = status &&
+								copy(file, new File(targetDirPath + File.separator +
+										getRelativePath(source, file)), force);
+					}
+				}
+				return status;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				setLastModified(target, source.lastModified());
+			}
+		} else {
+			// Copy the file
 			FileChannel input = null;
 			FileChannel output = null;
 			try {
+				createParentDirs(target);
 				input = new FileInputStream(source).getChannel();
 				output = new FileOutputStream(target).getChannel();
 				final long size = input.size();
@@ -539,20 +638,34 @@ public class Files {
 							Strings.quote(source) + " to " + Strings.quote(target) + SPACE +
 							Arguments.expectedButFound(target.length(), source.length()));
 				}
-				target.setLastModified(source.lastModified());
 				return true;
 			} catch (final IOException ex) {
 				IO.error(ex);
 			} finally {
 				Resources.close(input);
 				Resources.close(output);
+				setLastModified(target, source.lastModified());
 			}
-		} else {
-			createDirectories(target);
 		}
 		return false;
 	}
 
+	/**
+	 * Copies the specified source {@link File} to the specified target {@link File} from the
+	 * specified number of lines (without necessary preserving the file dates).
+	 * <p>
+	 * @param source the source {@link File}
+	 * @param target the target {@link File}
+	 * @param force  the flag specifying whether to delete the target {@link File} before copying
+	 * @param from   the line index to start copying forward from
+	 * <p>
+	 * @return {@code true} if the specified source {@link File} is copied to the specified target
+	 *         {@link File} from the specified number of lines (without necessary preserving the
+	 *         file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying the specified file (or
+	 *                           directory)
+	 */
 	public static boolean copy(final File source, final File target, final boolean force,
 			final int from)
 			throws CopyFileException {
@@ -561,29 +674,28 @@ public class Files {
 		}
 		if (exists(target)) {
 			if (force) {
-				delete(target);
+				delete(target, true);
 			} else {
 				throw new CopyFileException(
 						"Target file " + Strings.quote(target) + " already exists");
 			}
 		}
-		if (source.isFile()) {
-			createDirectories(target.getParentFile());
-			BufferedReader reader = null;
-			PrintWriter writer = null;
-			try {
-				reader = new BufferedReader(new FileReader(source));
-				writer = new PrintWriter(new FileWriter(target));
-				IO.copy(reader, writer, from);
-				return true;
-			} catch (final IOException ex) {
-				IO.error(ex);
-			} finally {
-				Resources.close(reader);
-				Resources.close(writer);
-			}
-		} else {
-			createDirectories(target);
+		if (source.isDirectory()) {
+			return copy(source, target, force);
+		}
+		BufferedReader reader = null;
+		PrintWriter writer = null;
+		try {
+			createParentDirs(target);
+			reader = new BufferedReader(new FileReader(source));
+			writer = new PrintWriter(new FileWriter(target));
+			IO.copy(reader, writer, from);
+			return true;
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.close(reader);
+			Resources.close(writer);
 		}
 		return false;
 	}
@@ -591,51 +703,28 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Deletes the specified file (or directory).
-	 * <p>
-	 * @param pathName the path name of the file (or directory) to delete
-	 * <p>
-	 * @return {@code true} if the specified file (or directory) is deleted, {@code false} otherwise
-	 */
-	public static boolean delete(final String pathName) {
-		return delete(pathName, false);
-	}
-
-	/**
-	 * Deletes the specified file (or directory).
+	 * Deletes the specified {@link File}.
 	 * <p>
 	 * @param file the {@link File} to delete
 	 * <p>
-	 * @return {@code true} if the file (or directory) is deleted, {@code false} otherwise
+	 * @return {@code true} if {@code file} is deleted, {@code false} otherwise
 	 */
 	public static boolean delete(final File file) {
 		return delete(file, false);
 	}
 
 	/**
-	 * Deletes the specified file (or directory).
-	 * <p>
-	 * @param pathName the path name of the file (or directory) to delete
-	 * @param force    the flag specifying whether to force deleting
-	 * <p>
-	 * @return {@code true} if the specified file (or directory) is deleted, {@code false} otherwise
-	 */
-	public static boolean delete(final String pathName, final boolean force) {
-		return delete(new File(pathName), force);
-	}
-
-	/**
-	 * Deletes the specified file (or directory).
+	 * Deletes the specified {@link File}.
 	 * <p>
 	 * @param file  the {@link File} to delete
 	 * @param force the flag specifying whether to force deleting
 	 * <p>
-	 * @return {@code true} if the specified file (or directory) is deleted, {@code false} otherwise
+	 * @return {@code true} if the specified {@link File} is deleted, {@code false} otherwise
 	 */
 	public static boolean delete(final File file, final boolean force) {
 		boolean isDeleted = false;
 		// Test whether the file (or directory) exists
-		if (file.exists()) {
+		if (exists(file)) {
 			// Test whether it is not write protected
 			if (file.canWrite()) {
 				// Test whether it is a directory
@@ -647,7 +736,7 @@ public class Files {
 						// If force, delete the files of the directory recursively
 						if (force) {
 							for (final File f : files) {
-								delete(f, force);
+								delete(f, true);
 							}
 						} else {
 							IO.warn("The directory ", Strings.quote(file), " is not empty");
@@ -666,6 +755,196 @@ public class Files {
 			IO.warn("The file ", Strings.quote(file), " does not exist");
 		}
 		return isDeleted;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link List} of {@link File} contained in the specified directory.
+	 * <p>
+	 * @param dir a {@link File}
+	 * <p>
+	 * @return the {@link List} of {@link File} contained in the specified directory
+	 */
+	public static List<File> listAll(final File dir) {
+		final List<File> list = new LinkedList<File>();
+		for (final File file : dir.listFiles()) {
+			list.add(file);
+			if (file.isDirectory()) {
+				list.addAll(listAll(file));
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * Returns the {@link List} of {@link File} contained in the specified directory and matching
+	 * the specified {@link Pattern}.
+	 * <p>
+	 * @param dir     a {@link File}
+	 * @param pattern a {@link Pattern}
+	 * <p>
+	 * @return the {@link List} of {@link File} contained in the specified directory and matching
+	 *         the specified {@link Pattern}
+	 */
+	public static List<File> listAll(final File dir, final Pattern pattern) {
+		final List<File> list = new LinkedList<File>();
+		for (final File file : dir.listFiles()) {
+			if (pattern.matcher(file.getName()).matches()) {
+				list.add(file);
+			}
+			if (file.isDirectory()) {
+				list.addAll(listAll(file));
+			}
+		}
+		return list;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Zips the specified directory (preserving the file dates) and returns the number of zipped
+	 * files.
+	 * <p>
+	 * @param sourceDir the source directory {@link File}
+	 * <p>
+	 * @return the number of zipped files
+	 */
+	public static int zipDir(final File sourceDir) {
+		return zipDir(sourceDir, new File(getPath(sourceDir) + ".zip"));
+	}
+
+	/**
+	 * Zips the specified directory (preserving the file dates) and returns the number of zipped
+	 * files.
+	 * <p>
+	 * @param sourceDir  the source directory {@link File}
+	 * @param targetFile the target ZIP {@link File}
+	 * <p>
+	 * @return the number of zipped files
+	 */
+	public static int zipDir(final File sourceDir, final File targetFile) {
+		// Check the arguments
+		FileArguments.requireDir(sourceDir);
+
+		// Zip the directory
+		int entryCount = 0;
+		final byte[] buffer = new byte[1024];
+		try {
+			// Zip the files
+			ZipOutputStream output = null;
+			try {
+				output = new ZipOutputStream(new FileOutputStream(targetFile));
+				for (final File source : listAll(sourceDir)) {
+					// Zip the file
+					final ZipEntry entry = new ZipEntry(getRelativePath(sourceDir, source));
+					entry.setTime(source.lastModified());
+					output.putNextEntry(entry);
+					IO.debug("Zip ", Strings.quote(entry.getName()), " to ",
+							Strings.quote(targetFile));
+					if (source.isDirectory()) {
+						++entryCount;
+					} else {
+						FileInputStream input = null;
+						try {
+							input = new FileInputStream(source);
+							int length;
+							while ((length = input.read(buffer)) > 0) {
+								output.write(buffer, 0, length);
+							}
+							++entryCount;
+						} finally {
+							Resources.close(input);
+						}
+					}
+					output.closeEntry();
+				}
+			} finally {
+				Resources.close(output);
+			}
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return entryCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Unzips the specified file (preserving the file dates) and returns the number of unzipped
+	 * files.
+	 * <p>
+	 * @param sourceFile the source ZIP {@link File}
+	 * <p>
+	 * @return the number of unzipped files
+	 */
+	public static int unzipDir(final File sourceFile) {
+		return unzipDir(sourceFile, new File(getFileNameWithoutExtension(sourceFile.getName())));
+	}
+
+	/**
+	 * Unzips the specified file (preserving the file dates) to the specified directory and returns
+	 * the number of unzipped files.
+	 * <p>
+	 * @param sourceFile the source ZIP {@link File}
+	 * @param targetDir  the target directory {@link File}
+	 * <p>
+	 * @return the number of unzipped files
+	 */
+	public static int unzipDir(final File sourceFile, final File targetDir) {
+		// Unzip the directory
+		int entryCount = 0;
+		final byte[] buffer = new byte[1024];
+		try {
+			// Create the target directory
+			final String targetDirPath = getPath(targetDir);
+			createDirs(targetDir);
+			// Unzip the files
+			ZipInputStream input = null;
+			try {
+				input = new ZipInputStream(new FileInputStream(sourceFile));
+				ZipEntry entry;
+				while ((entry = input.getNextEntry()) != null) {
+					// Unzip the file
+					final File target = new File(
+							targetDirPath + File.separator + entry.getName());
+					IO.debug("Unzip ", Strings.quote(entry.getName()), " to ",
+							Strings.quote(target));
+					if (entry.isDirectory()) {
+						try {
+							createDirs(target);
+							++entryCount;
+						} catch (final IOException ex) {
+							IO.error(ex);
+						}
+					} else {
+						final File parentDir = target.getParentFile();
+						final long lastModified = parentDir.lastModified();
+						FileOutputStream output = null;
+						try {
+							output = new FileOutputStream(target);
+							int length;
+							while ((length = input.read(buffer)) > 0) {
+								output.write(buffer, 0, length);
+							}
+							++entryCount;
+						} catch (final IOException ex) {
+							IO.error(ex);
+						} finally {
+							Resources.close(output);
+							setLastModified(parentDir, lastModified);
+						}
+					}
+					setLastModified(target, entry.getTime());
+					input.closeEntry();
+				}
+			} finally {
+				Resources.close(input);
+			}
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return entryCount;
 	}
 
 
@@ -688,36 +967,45 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified file (or directory) exists.
-	 * <p>
-	 * @param pathName the path name of the file (or directory) to test
-	 * <p>
-	 * @return {@code true} if and only if the specified file (or directory) exists, {@code false}
-	 *         otherwise
-	 * <p>
-	 * @throws SecurityException if a security manager exists and its
-	 *                           {@link java.lang.SecurityManager#checkRead(java.lang.String)}
-	 *                           method denies read access to the specified file (or directory)
-	 */
-	public static boolean exists(final String pathName)
-			throws SecurityException {
-		return Strings.isNotEmpty(pathName) && new File(pathName).exists();
-	}
-
-	/**
-	 * Tests whether the specified file (or directory) exists.
+	 * Tests whether the specified {@link File} exists.
 	 * <p>
 	 * @param file the {@link File} to test
 	 * <p>
-	 * @return {@code true} if and only if the specified file (or directory) exists, {@code false}
+	 * @return {@code true} if and only if the specified {@link File} exists, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws SecurityException if a security manager exists and its
-	 *                           {@link java.lang.SecurityManager#checkRead(java.lang.String)}
-	 *                           method denies read access to the file (or directory)
+	 * @throws SecurityException if there is a permission problem
 	 */
 	public static boolean exists(final File file)
 			throws SecurityException {
-		return file.exists();
+		return file != null && file.exists();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLASSES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static class Copier
+			extends Worker<Triple<File, File, Boolean>, Boolean> {
+
+		protected Copier() {
+			super();
+		}
+
+		@Override
+		public Boolean call(final Triple<File, File, Boolean> input) {
+			try {
+				return copy(input.getFirst(), input.getSecond(), input.getThird());
+			} catch (Exception ex) {
+				IO.error(ex);
+			}
+			return true;
+		}
+
+		@Override
+		public Worker<Triple<File, File, Boolean>, Boolean> clone() {
+			return new Copier();
+		}
 	}
 }

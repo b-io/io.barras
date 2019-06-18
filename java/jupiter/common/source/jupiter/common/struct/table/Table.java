@@ -186,17 +186,17 @@ public class Table<T>
 	 * Constructs a {@link Table} of type {@code T} imported from the specified file.
 	 * <p>
 	 * @param parser    a {@link IParser} of type {@code T}
-	 * @param pathName  the path name of the file to load
+	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public Table(final IParser<T> parser, final String pathName, final boolean hasHeader)
+	public Table(final IParser<T> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		// Set the attributes
 		this.c = parser.getOutputClass();
 		// Load the file
-		load(parser, pathName, hasHeader);
+		load(parser, path, hasHeader);
 	}
 
 
@@ -992,14 +992,14 @@ public class Table<T>
 	 * Loads the values from the specified file.
 	 * <p>
 	 * @param parser    a {@link IParser} of type {@code T}
-	 * @param pathName  the path name of the file to load
+	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public void load(final IParser<T> parser, final String pathName, final boolean hasHeader)
+	public void load(final IParser<T> parser, final String path, final boolean hasHeader)
 			throws IOException {
-		final FileHandler fileHandler = new FileHandler(pathName);
+		final FileHandler fileHandler = new FileHandler(path);
 		load(parser, fileHandler.getReader(), fileHandler.countLines(true) - (hasHeader ? 1 : 0),
 				hasHeader);
 	}
@@ -1074,8 +1074,8 @@ public class Table<T>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public boolean export(final String pathName) {
-		final FileHandler fileHandler = new FileHandler(pathName);
+	public boolean export(final String path) {
+		final FileHandler fileHandler = new FileHandler(path);
 		fileHandler.delete();
 		// Export the header
 		if (!fileHandler.appendLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {

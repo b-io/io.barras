@@ -110,14 +110,14 @@ public class CharacterTable
 	/**
 	 * Constructs a {@link CharacterTable} imported from the specified file.
 	 * <p>
-	 * @param pathName  the path name of the file to load
+	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public CharacterTable(final String pathName, final boolean hasHeader)
+	public CharacterTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(IParsers.CHARACTER_PARSER, pathName, hasHeader);
+		super(IParsers.CHARACTER_PARSER, path, hasHeader);
 	}
 
 

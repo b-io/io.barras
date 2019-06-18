@@ -21,22 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.hardware.gpu;
+package jupiter.common.test;
 
-import jupiter.common.test.Arguments;
+import java.io.File;
 
-public class OpenCLArguments {
+public class FileArguments
+		extends Arguments {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected FileArguments() {
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void requireSameInnerDimension(final int aColumnDimension,
-			final int bRowDimension) {
-		if (aColumnDimension != bRowDimension) {
-			throw new IllegalArgumentException(
-					"The specified arrays do not have the same (inner) row dimensions " +
-					Arguments.isNotEqualTo(aColumnDimension, bRowDimension));
+	public static File requireDir(final File file) {
+		if (CHECK_ARGS && !file.isDirectory()) {
+			throw new IllegalArgumentException("The specified file is not a directory");
 		}
+		return file;
+	}
+
+	public static File requireFile(final File file) {
+		if (CHECK_ARGS && !file.isFile()) {
+			throw new IllegalArgumentException("The specified file is not a normal file");
+		}
+		return file;
 	}
 }

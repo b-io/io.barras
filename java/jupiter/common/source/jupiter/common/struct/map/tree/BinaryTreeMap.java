@@ -128,7 +128,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * <p>
 	 * @param node the node to get the parent from
 	 * <p>
-	 * @return the parent of the specified node, or {@code null} if {@code node} is {@code null}.
+	 * @return the parent of the specified node, or {@code null} if {@code node} is {@code null}
 	 */
 	protected N getParent(final N node) {
 		return node == null ? null : node.parent;

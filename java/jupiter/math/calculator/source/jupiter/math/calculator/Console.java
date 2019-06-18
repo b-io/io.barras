@@ -36,11 +36,11 @@ public class Console {
 
 	public static void main(final String[] args) {
 		IO.clear();
-		Calculator.start();
+		Calculator.parallelize();
 		try {
 			interactions();
 		} finally {
-			Calculator.stop();
+			Calculator.unparallelize();
 		}
 	}
 
