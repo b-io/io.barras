@@ -59,6 +59,7 @@ public class NeuralNetworkTest
 		// Initialize
 		final int featureCount = 2;
 		final int layerCount = featureCount;
+		final int layerSize = featureCount * featureCount;
 		final NeuralNetwork model = new NeuralNetwork(featureCount);
 		model.setActivationFunction(ActivationFunctions.TANH);
 		model.setRegularizationFunction(RegularizationFunctions.NONE);
@@ -78,7 +79,7 @@ public class NeuralNetworkTest
 		model.setWeights(weights);
 
 		// Train
-		final int iterationCount = model.train(1.2, 1E-8, 10000, layerCount - 1, 4);
+		final int iterationCount = model.train(1.2, 1E-8, 10000, layerCount - 1, layerSize);
 
 		// Test
 		// - The accuracy

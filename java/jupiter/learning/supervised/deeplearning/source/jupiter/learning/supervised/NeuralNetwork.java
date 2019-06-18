@@ -185,14 +185,19 @@ public class NeuralNetwork
 	/**
 	 * Trains the model with the specified parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate      the learning rate
-	 * @param tolerance         the tolerance level
-	 * @param maxIterationCount the maximum number of iterations
+	 * @param learningRate                     the learning rate
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
+	 * @param tolerance                        the tolerance level
+	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */
 	@Override
-	public synchronized int train(final double learningRate, final double tolerance,
+	public synchronized int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
 			final int maxIterationCount) {
 		final int hiddenLayerCount;
 		final int hiddenLayerSize;
@@ -203,7 +208,9 @@ public class NeuralNetwork
 			hiddenLayerCount = W.length;
 			hiddenLayerSize = 0;
 		}
-		return train(learningRate, tolerance, maxIterationCount, hiddenLayerCount, hiddenLayerSize);
+		return train(learningRate, firstMomentExponentialDecayRate,
+				secondMomentExponentialDecayRate, tolerance, maxIterationCount, hiddenLayerCount,
+				hiddenLayerSize);
 	}
 
 	/**
@@ -213,12 +220,40 @@ public class NeuralNetwork
 	 * @param tolerance         the tolerance level
 	 * @param maxIterationCount the maximum number of iterations
 	 * @param hiddenLayerCount  the number of hidden layers
-	 * @param hiddenLayerSize   the size of the hidden layers nh
+	 * @param hiddenLayerSize   the size of the hidden layers
 	 * <p>
 	 * @return the number of iterations
 	 */
-	public synchronized int train(final double learningRate, final double tolerance,
-			final int maxIterationCount, final int hiddenLayerCount, final int hiddenLayerSize) {
+	public synchronized int train(final double learningRate,
+			final double tolerance,
+			final int maxIterationCount,
+			final int hiddenLayerCount,
+			final int hiddenLayerSize) {
+		return train(learningRate, DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE,
+				DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE, tolerance, maxIterationCount,
+				hiddenLayerCount, hiddenLayerSize);
+	}
+
+	/**
+	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * <p>
+	 * @param learningRate                     the learning rate
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
+	 * @param tolerance                        the tolerance level
+	 * @param maxIterationCount                the maximum number of iterations
+	 * @param hiddenLayerCount                 the number of hidden layers
+	 * @param hiddenLayerSize                  the size of the hidden layers
+	 * <p>
+	 * @return the number of iterations
+	 */
+	public synchronized int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
+			final int maxIterationCount,
+			final int hiddenLayerCount,
+			final int hiddenLayerSize) {
 		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return 0;

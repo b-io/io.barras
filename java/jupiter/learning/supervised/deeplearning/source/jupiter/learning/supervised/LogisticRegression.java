@@ -146,14 +146,19 @@ public class LogisticRegression
 	/**
 	 * Trains the model with the specified parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate      the learning rate
+	 * @param learningRate                     the learning rate
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
 	 * @param tolerance         the tolerance level
 	 * @param maxIterationCount the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */
 	@Override
-	public synchronized int train(final double learningRate, final double tolerance,
+	public synchronized int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
 			final int maxIterationCount) {
 		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");

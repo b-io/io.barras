@@ -183,7 +183,7 @@ public class MatrixTest
 		final Matrix A = Matrix.random(size);
 
 		// Test
-		assertTrue(A.equals(A.times(A).division(A), 1E-10));
+		assertTrue(A.equals(A.times(A).division(A)));
 	}
 
 	/**

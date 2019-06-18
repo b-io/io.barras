@@ -42,7 +42,17 @@ public abstract class BinaryClassifier {
 	/**
 	 * The default learning rate α.
 	 */
-	protected static final double DEFAULT_LEARNING_RATE = 1E-1;
+	protected static final double DEFAULT_LEARNING_RATE = 0.1;
+
+	/**
+	 * The default exponential decay rate for the first-moment estimates β1 (Adam algorithm).
+	 */
+	protected static final double DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE = 0.9;
+
+	/**
+	 * The default exponential decay rate for the second-moment estimates β2 (Adam algorithm).
+	 */
+	protected static final double DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE = 0.999;
 
 	/**
 	 * The default tolerance level (or termination criterion) ε.
@@ -198,7 +208,27 @@ public abstract class BinaryClassifier {
 	 * <p>
 	 * @return the number of iterations
 	 */
-	public abstract int train(final double learningRate, final double tolerance,
+	public synchronized int train(final double learningRate, final double tolerance,
+			final int maxIterationCount) {
+		return train(learningRate, DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE,
+				DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE, tolerance, maxIterationCount);
+	}
+
+	/**
+	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * <p>
+	 * @param learningRate                     the learning rate
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
+	 * @param tolerance                        the tolerance level
+	 * @param maxIterationCount                the maximum number of iterations
+	 * <p>
+	 * @return the number of iterations
+	 */
+	public abstract int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
 			final int maxIterationCount);
 
 	/**
