@@ -62,7 +62,7 @@ import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
 /**
- * A test for the bandwidth of of the data transfer from the host to the device.
+ * A test for the bandwidth of the data transfer from the host to the device.
  */
 public class MemoryTest
 		extends Test {

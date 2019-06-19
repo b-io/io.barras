@@ -377,9 +377,9 @@ public class Arrays {
 	 * input arrays to n/2 object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
-	 * and can take advantage of ascending and descending order in different parts of the the same
-	 * input array. It is well-suited to merging two or more sorted arrays: simply concatenate the
-	 * arrays and sort the resulting array.
+	 * and can take advantage of ascending and descending order in different parts of the same input
+	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
+	 * and sort the resulting array.
 	 * <p>
 	 * The implementation was adapted from Tim Peters's list sort for Python
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
@@ -419,9 +419,9 @@ public class Arrays {
 	 * input arrays to n/2 object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
-	 * and can take advantage of ascending and descending order in different parts of the the same
-	 * input array. It is well-suited to merging two or more sorted arrays: simply concatenate the
-	 * arrays and sort the resulting array.
+	 * and can take advantage of ascending and descending order in different parts of the same input
+	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
+	 * and sort the resulting array.
 	 * <p>
 	 * The implementation was adapted from Tim Peters's list sort for Python
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
@@ -468,9 +468,9 @@ public class Arrays {
 	 * input arrays to n/2 object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
-	 * and can take advantage of ascending and descending order in different parts of the the same
-	 * input array. It is well-suited to merging two or more sorted arrays: simply concatenate the
-	 * arrays and sort the resulting array.
+	 * and can take advantage of ascending and descending order in different parts of the same input
+	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
+	 * and sort the resulting array.
 	 * <p>
 	 * The implementation was adapted from Tim Peters's list sort for Python
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
@@ -517,9 +517,9 @@ public class Arrays {
 	 * input arrays to n/2 object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
-	 * and can take advantage of ascending and descending order in different parts of the the same
-	 * input array. It is well-suited to merging two or more sorted arrays: simply concatenate the
-	 * arrays and sort the resulting array.
+	 * and can take advantage of ascending and descending order in different parts of the same input
+	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
+	 * and sort the resulting array.
 	 * <p>
 	 * The implementation was adapted from Tim Peters's list sort for Python
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">

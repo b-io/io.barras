@@ -45,7 +45,6 @@ import jupiter.common.map.wrapper.StringWrapper;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Index;
 import jupiter.common.struct.list.SortedList;
-import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.IntegerArguments;
 
@@ -892,29 +891,31 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index and the first token of {@code string} that is in {@code tokens}, or
-	 * {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of {@link String} containing the first token of {@code string} that
+	 * is in {@code tokens}, or {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param string a {@link String}
 	 * @param tokens the array of {@link String} to find
 	 * <p>
-	 * @return the index and the first token of {@code string} that is in {@code tokens}, or
-	 *         {@code null} if there is no such occurrence
+	 * @return the {@link Index} of {@link String} containing the first token of {@code string} that
+	 *         is in {@code tokens}, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findFirstString(final String string, final String[] tokens) {
 		return findFirstString(string, tokens, 0);
 	}
 
 	/**
-	 * Returns the index and the first token of {@code string} that is in {@code tokens}, seeking
-	 * forward from {@code fromIndex}, or {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of {@link String} containing the first token of {@code string} that
+	 * is in {@code tokens}, seeking forward from {@code fromIndex}, or {@code null} if there is no
+	 * such occurrence.
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param tokens    the array of {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the index and the first token of {@code string} that is in {@code tokens}, seeking
-	 *         forward from {@code fromIndex}, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of {@link String} containing the first token of {@code string} that
+	 *         is in {@code tokens}, seeking forward from {@code fromIndex}, or {@code null} if
+	 *         there is no such occurrence
 	 */
 	public static Index<String> findFirstString(final String string, final String[] tokens,
 			final int fromIndex) {
@@ -940,14 +941,14 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the index and the first token of {@code string} that is in {@code tokens}, or
-	 * {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of {@link String} containing the first token of {@code string} that
+	 * is in {@code tokens}, or {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param string a {@link String}
 	 * @param tokens the {@link Collection} of {@link String} to find
 	 * <p>
-	 * @return the index and the first token of {@code string} that is in {@code tokens}, or
-	 *         {@code null} if there is no such occurrence
+	 * @return the {@link Index} of {@link String} containing the first token of {@code string} that
+	 *         is in {@code tokens}, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findFirstString(final String string,
 			final Collection<String> tokens) {
@@ -955,15 +956,17 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the index and the first token of {@code string} that is in {@code tokens}, seeking
-	 * forward from {@code fromIndex}, or {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of {@link String} containing the first token of {@code string} that
+	 * is in {@code tokens}, seeking forward from {@code fromIndex}, or {@code null} if there is no
+	 * such occurrence.
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param tokens    the {@link Collection} of {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the index and the first token of {@code string} that is in {@code tokens}, seeking
-	 *         forward from {@code fromIndex}, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of {@link String} containing the first token of {@code string} that
+	 *         is in {@code tokens}, seeking forward from {@code fromIndex}, or {@code null} if
+	 *         there is no such occurrence
 	 */
 	public static Index<String> findFirstString(final String string,
 			final Collection<String> tokens, final int fromIndex) {
@@ -1076,29 +1079,31 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index and the last token of {@code string} that is in {@code tokens}, or
-	 * {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of {@link String} containing the last token of {@code string} that
+	 * is in {@code tokens}, or {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param string a {@link String}
 	 * @param tokens the array of {@link String} to find
 	 * <p>
-	 * @return the index and the last token of {@code string} that is in {@code tokens}, or
-	 *         {@code null} if there is no such occurrence
+	 * @return the {@link Index} of {@link String} containing the last token of {@code string} that
+	 *         is in {@code tokens}, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String string, final String[] tokens) {
 		return findLastString(string, tokens, string.length() - 1);
 	}
 
 	/**
-	 * Returns the index and the last token of {@code string} that is in {@code tokens}, seeking
-	 * backward from {@code fromIndex}, or {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of {@link String} containing the last token of {@code string} that
+	 * is in {@code tokens}, seeking backward from {@code fromIndex}, or {@code null} if there is no
+	 * such occurrence.
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param tokens    the array of {@link String} to find
 	 * @param fromIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the index and the last token of {@code string} that is in {@code tokens}, seeking
-	 *         backward from {@code fromIndex}, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of {@link String} containing the last token of {@code string} that
+	 *         is in {@code tokens}, seeking backward from {@code fromIndex}, or {@code null} if
+	 *         there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String string, final String[] tokens,
 			final int fromIndex) {
@@ -1124,14 +1129,14 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the index and the last token of {@code string} that is in {@code tokens}, or
-	 * {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of {@link String} containing the last token of {@code string} that
+	 * is in {@code tokens}, or {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param string a {@link String}
 	 * @param tokens the {@link Collection} of {@link String} to find
 	 * <p>
-	 * @return the index and the last token of {@code string} that is in {@code tokens}, or
-	 *         {@code null} if there is no such occurrence
+	 * @return the {@link Index} of {@link String} containing the last token of {@code string} that
+	 *         is in {@code tokens}, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String string,
 			final Collection<String> tokens) {
@@ -1139,15 +1144,17 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the index and the last token of {@code string} that is in {@code tokens}, seeking
-	 * backward from {@code fromIndex}, or {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of {@link String} containing the last token of {@code string} that
+	 * is in {@code tokens}, seeking backward from {@code fromIndex}, or {@code null} if there is no
+	 * such occurrence.
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param tokens    the {@link Collection} of {@link String} to find
 	 * @param fromIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the index and the last token of {@code string} that is in {@code tokens}, seeking
-	 *         backward from {@code fromIndex}, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of {@link String} containing the last token of {@code string} that
+	 *         is in {@code tokens}, seeking backward from {@code fromIndex}, or {@code null} if
+	 *         there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String string, final Collection<String> tokens,
 			final int fromIndex) {
@@ -2182,9 +2189,9 @@ public class Strings {
 	};
 
 	/**
-	 * Sorts the specified {@link String} indexes.
+	 * Sorts the specified {@link List} of {@link Index} of {@link String}.
 	 * <p>
-	 * @param indexes a {@link Pair} of {@link Integer} and {@link String}
+	 * @param indexes a {@link List} of {@link Index} of {@link String}
 	 */
 	public static void sortStringIndexes(final List<Index<String>> indexes) {
 		Lists.sort(indexes, STRING_INDEX_COMPARATOR);
