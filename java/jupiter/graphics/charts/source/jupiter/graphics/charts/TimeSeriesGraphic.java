@@ -25,6 +25,7 @@ package jupiter.graphics.charts;
 
 import static jupiter.common.io.IO.IO;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import org.jfree.chart.JFreeChart;
@@ -32,6 +33,8 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.XYDataset;
 
 import jupiter.common.struct.table.StringTable;
+import jupiter.common.time.Dates;
+import jupiter.common.util.Doubles;
 import jupiter.graphics.charts.structure.TimeSeriesList;
 
 public class TimeSeriesGraphic
@@ -114,17 +117,22 @@ public class TimeSeriesGraphic
 	 * @param coordinates  the {@link StringTable} of the x and y coordinates
 	 * @param xColumnIndex the index of the column containing the x coordinates in the table
 	 * @param yColumnIndex the index of the column containing the y coordinates in the table
+	 * @param hasTime      the flag specifying whether to parse the x coordinates with time
+	 * <p>
+	 * @throws ParseException if there is a problem with parsing the x coordinates to {@link Date}
 	 */
 	public void loadXY(final StringTable coordinates, final int xColumnIndex,
-			final int yColumnIndex) {
+			final int yColumnIndex, final boolean hasTime)
+			throws ParseException {
 		if (coordinates != null) {
+			final int seriesIndex = addSeries(coordinates.getColumnName(yColumnIndex));
 			final int m = coordinates.getRowCount();
 			if (m > 0) {
-				final int n = coordinates.getColumnCount();
-				for (int i = 0; i < n; ++i) {
-					coordinates.get(i, xColumnIndex);
-					coordinates.get(i, yColumnIndex);
-					// @todo
+				for (int i = 0; i < m; ++i) {
+					addValue(seriesIndex,
+							hasTime ? Dates.parseWithTime(coordinates.get(i, xColumnIndex)) :
+									Dates.parse(coordinates.get(i, xColumnIndex)),
+							Doubles.convert(coordinates.get(i, yColumnIndex)));
 				}
 			} else {
 				IO.warn("No coordinates found");

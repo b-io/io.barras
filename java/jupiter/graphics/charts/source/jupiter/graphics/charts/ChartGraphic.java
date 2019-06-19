@@ -23,7 +23,6 @@
  */
 package jupiter.graphics.charts;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +33,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
-import jupiter.graphics.charts.panels.JPanels;
+import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.graphics.charts.structure.SeriesStyle;
 
 public abstract class ChartGraphic
@@ -115,18 +114,9 @@ public abstract class ChartGraphic
 	public void display() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				// Set the dimension
-				final Dimension minDimension = new Dimension(800, 600);
-				final Dimension dimension = new Dimension(1900, 1200);
-				setMinimumSize(minDimension);
-				setPreferredSize(dimension);
 				// Create the chart panel
 				final JFreeChart chart = createChart();
-				final ChartPanel chartPanel = new ChartPanel(chart);
-				chartPanel.setMinimumSize(minDimension);
-				chartPanel.setPreferredSize(dimension);
-				chartPanel.setMouseZoomable(true, false);
-				JPanels.addScrollZoom(chartPanel);
+				final ChartPanel chartPanel = new DynamicChartPanel(chart);
 				setContentPane(chartPanel);
 				// Display
 				setVisible(true);

@@ -129,18 +129,21 @@ public class DynamicChartPanel
 		super(chart);
 		xFormat = null;
 		yFormat = null;
+		setDefaultParameters();
 	}
 
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat) {
 		super(chart);
 		this.xFormat = xFormat;
 		yFormat = null;
+		setDefaultParameters();
 	}
 
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat, final Format yFormat) {
 		super(chart);
 		this.xFormat = xFormat;
 		this.yFormat = yFormat;
+		setDefaultParameters();
 	}
 
 
@@ -157,6 +160,15 @@ public class DynamicChartPanel
 			plot = combinedDomainPlot.findSubplot(getChartRenderingInfo().getPlotInfo(), point);
 		}
 		return plot;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void setDefaultParameters() {
+		ChartPanels.setDefaultParameters(this);
 	}
 
 

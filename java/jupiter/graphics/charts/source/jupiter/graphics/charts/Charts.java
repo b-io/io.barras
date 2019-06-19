@@ -25,6 +25,8 @@ package jupiter.graphics.charts;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -42,9 +44,29 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.time.SafeDateFormat;
 import jupiter.common.util.Arrays;
 
 public class Charts {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The minimum size of the chart panels.
+	 */
+	protected static final Dimension MIN_DIMENSION = new Dimension(960, 600); // 13.5"
+	/**
+	 * The preferred size of the chart panels.
+	 */
+	protected static final Dimension DIMENSION = new Dimension(1920, 1200); // 27"
+
+	/**
+	 * The date format.
+	 */
+	public static volatile DateFormat DATE_FORMAT = new SafeDateFormat("dd/MM/YY HH:mm");
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -66,6 +88,25 @@ public class Charts {
 	public static ExtendedList<Color> getColors() {
 		return new ExtendedList<Color>(
 				Arrays.<Color>asList(Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE));
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void setDefaultParameters(final Component component) {
+		setSizes(component);
+	}
+
+	public static void setSizes(final Component component) {
+		setSizes(component, MIN_DIMENSION, DIMENSION);
+	}
+
+	public static void setSizes(final Component component, final Dimension minDimension,
+			final Dimension dimension) {
+		component.setMinimumSize(minDimension);
+		component.setPreferredSize(dimension);
 	}
 
 
@@ -144,7 +185,7 @@ public class Charts {
 	 */
 	public static JFreeChart createTimeSeriesChart(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset) {
-		return createTimeSeriesChart(title, xLabel, yLabel, dataset, null);
+		return createTimeSeriesChart(title, xLabel, yLabel, dataset, DATE_FORMAT);
 	}
 
 	/**

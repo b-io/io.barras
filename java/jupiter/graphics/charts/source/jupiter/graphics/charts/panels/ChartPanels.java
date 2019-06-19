@@ -25,7 +25,6 @@ package jupiter.graphics.charts.panels;
 
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import java.text.DateFormat;
 import java.util.Collection;
 
 import org.jfree.chart.ChartMouseEvent;
@@ -36,20 +35,10 @@ import org.jfree.chart.entity.ContourEntity;
 import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.entity.XYItemEntity;
 
-import jupiter.common.time.SafeDateFormat;
 import jupiter.common.util.Integers;
+import jupiter.graphics.charts.Charts;
 
 public class ChartPanels {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The date format.
-	 */
-	public static volatile DateFormat DATE_FORMAT = new SafeDateFormat("MM-dd HH:mm");
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -60,7 +49,7 @@ public class ChartPanels {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// JPANELS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -106,5 +95,16 @@ public class ChartPanels {
 			}
 		}
 		return entity;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void setDefaultParameters(final ChartPanel chartPanel) {
+		Charts.setSizes(chartPanel);
+		JPanels.addScrollZoom(chartPanel);
+		chartPanel.setMouseZoomable(true, false);
 	}
 }
