@@ -46,11 +46,11 @@ public class Maths {
 	/**
 	 * The default tolerance level (or termination criterion) ε for float.
 	 */
-	public static final float DEFAULT_FLOAT_TOLERANCE = 1E-7f;
+	public static final float DEFAULT_FLOAT_TOLERANCE = 1E-6f;
 	/**
 	 * The default tolerance level (or termination criterion) ε for double.
 	 */
-	public static final double DEFAULT_TOLERANCE = 1E-14;
+	public static final double DEFAULT_TOLERANCE = 1E-12;
 	/**
 	 * The default tiny tolerance level for double.
 	 */
