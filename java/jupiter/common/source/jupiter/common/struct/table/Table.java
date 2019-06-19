@@ -281,7 +281,9 @@ public class Table<T>
 	 * <p>
 	 * @return the element at the specified row and column indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no header
 	 */
 	public T get(final int i, final String name) {
 		return get(i, getColumnIndex(name));
@@ -295,7 +297,7 @@ public class Table<T>
 	 * <p>
 	 * @return the element at the specified row and column indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public T get(final int i, final int j) {
 		// Check the arguments
@@ -319,7 +321,7 @@ public class Table<T>
 	 * <p>
 	 * @return the elements of the specified row
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public T[] getRow(final int i) {
 		return getRow(i, 0, n);
@@ -335,7 +337,7 @@ public class Table<T>
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public T[] getRow(final int i, final int from) {
 		return getRow(i, from, n - from);
@@ -352,7 +354,7 @@ public class Table<T>
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public T[] getRow(final int i, final int from, final int length) {
 		// Check the arguments
@@ -392,7 +394,7 @@ public class Table<T>
 	 * <p>
 	 * @return the elements of the specified column
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public T[] getColumn(final int j) {
 		return getColumn(j, 0, m);
@@ -408,7 +410,9 @@ public class Table<T>
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code from} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no header
 	 */
 	public T[] getColumn(final String name, final int from) {
 		return getColumn(name, from, m - from);
@@ -424,7 +428,7 @@ public class Table<T>
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public T[] getColumn(final int j, final int from) {
 		return getColumn(j, from, m - from);
@@ -441,10 +445,12 @@ public class Table<T>
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code from} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no header
 	 */
 	public T[] getColumn(final String name, final int from, final int length) {
-		return getColumn(getColumnIndex(name), from, m - from);
+		return getColumn(getColumnIndex(name), from, length);
 	}
 
 	/**
@@ -458,7 +464,7 @@ public class Table<T>
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public T[] getColumn(final int j, final int from, final int length) {
 		// Check the arguments
@@ -522,7 +528,7 @@ public class Table<T>
 	 * @param j     the column index
 	 * @param value a {@code T} object
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public void set(final int i, final int j, final T value) {
 		// Check the arguments
@@ -545,7 +551,7 @@ public class Table<T>
 	 * @param i      the row index
 	 * @param values an array of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final T[] values) {
 		setRow(i, values, 0, values.length);
@@ -558,7 +564,7 @@ public class Table<T>
 	 * @param values an array of type {@code T}
 	 * @param from   the initial column index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public void setRow(final int i, final T[] values, final int from) {
 		setRow(i, values, from, values.length);
@@ -573,7 +579,7 @@ public class Table<T>
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public void setRow(final int i, final T[] values, final int from, final int length) {
 		// Check the arguments
@@ -600,7 +606,7 @@ public class Table<T>
 	 * @param i      the row index
 	 * @param values a {@link Collection} of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final Collection<T> values) {
 		setRow(i, values.toArray(createArray(n)));
@@ -614,7 +620,7 @@ public class Table<T>
 	 * @param j      the column index
 	 * @param values an array of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final T[] values) {
 		setColumn(j, values, 0, values.length);
@@ -627,7 +633,7 @@ public class Table<T>
 	 * @param values an array of type {@code T}
 	 * @param from   the initial row index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public void setColumn(final int j, final T[] values, final int from) {
 		setColumn(j, values, from, values.length);
@@ -642,7 +648,7 @@ public class Table<T>
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public void setColumn(final int j, final T[] values, final int from, final int length) {
 		// Check the arguments
@@ -671,7 +677,7 @@ public class Table<T>
 	 * @param j      the column index
 	 * @param values a {@link Collection} of type {@code T}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final Collection<T> values) {
 		setColumn(j, values.toArray(createArray(m)));

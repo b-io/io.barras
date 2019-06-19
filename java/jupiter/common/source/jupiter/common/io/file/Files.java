@@ -472,7 +472,7 @@ public class Files {
 	 * @param content the {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * <p>
-	 * @return {@code true} if {@code string} is written to the specified
+	 * @return {@code true} if the specified {@link String} is written to the specified
 	 *         {@link File}, {@code false} otherwise
 	 */
 	public static boolean writeLine(final String content, final File file) {
@@ -487,7 +487,7 @@ public class Files {
 	 * @param append  the flag specifying whether to append
 	 * @param charset the {@link Charset} of the {@link File} to write to
 	 * <p>
-	 * @return {@code true} if {@code string} is written to the specified
+	 * @return {@code true} if the specified {@link String} is written to the specified
 	 *         {@link File}, {@code false} otherwise
 	 */
 	public static boolean writeLine(final String content, final File file,
@@ -663,8 +663,7 @@ public class Files {
 	 *         {@link File} from the specified number of lines (without necessary preserving the
 	 *         file dates), {@code false} otherwise
 	 * <p>
-	 * @throws CopyFileException if there is a problem with copying the specified file (or
-	 *                           directory)
+	 * @throws CopyFileException if there is a problem with copying {@code source}
 	 */
 	public static boolean copy(final File source, final File target, final boolean force,
 			final int from)

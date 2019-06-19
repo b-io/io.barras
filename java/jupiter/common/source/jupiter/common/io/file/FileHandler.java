@@ -238,22 +238,11 @@ public class FileHandler {
 	}
 
 	/**
-	 * Appends the specified {@link String}.
-	 * <p>
-	 * @param string the {@link String} to write
-	 * <p>
-	 * @return {@code true} if {@code string} is written, {@code false} otherwise
-	 */
-	public boolean appendLine(final String string) {
-		return writeLine(string, true);
-	}
-
-	/**
 	 * Writes the specified {@link String}.
 	 * <p>
 	 * @param string the {@link String} to write
 	 * <p>
-	 * @return {@code true} if {@code string} is written, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is written, {@code false} otherwise
 	 */
 	public boolean writeLine(final String string) {
 		return writeLine(string, true);
@@ -265,7 +254,7 @@ public class FileHandler {
 	 * @param string the {@link String} to write
 	 * @param append the flag specifying whether to append
 	 * <p>
-	 * @return {@code true} if {@code string} is written, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is written, {@code false} otherwise
 	 */
 	public boolean writeLine(final String string, final boolean append) {
 		try {

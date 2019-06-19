@@ -161,7 +161,7 @@ public class Vector
 	 * <p>
 	 * @return the element at the specified row index
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public double get(final int i) {
 		return get(i, 0);
@@ -178,7 +178,7 @@ public class Vector
 	 * @param i     the row index
 	 * @param value a {@code double} value
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void set(final int i, final double value) {
 		elements[i] = value;
@@ -190,7 +190,7 @@ public class Vector
 	 * @param i     the row index
 	 * @param value an {@link Object}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void set(final int i, final Object value) {
 		elements[i] = Doubles.convert(value);

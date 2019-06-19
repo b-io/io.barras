@@ -106,11 +106,12 @@ public class Numbers {
 	}
 
 	/**
-	 * Tests whether {@code string} is a parsable {@link Number}.
+	 * Tests whether the specified {@link String} is a parsable {@link Number}.
 	 * <p>
 	 * @param string the {@link String} to test
 	 * <p>
-	 * @return {@code true} if {@code string} is a parsable {@link Number}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is a parsable
+	 *         {@link Number}, {@code false} otherwise
 	 */
 	public static boolean is(final String string) {
 		try {

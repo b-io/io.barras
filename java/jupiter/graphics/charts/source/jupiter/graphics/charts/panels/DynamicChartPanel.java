@@ -385,8 +385,8 @@ public class DynamicChartPanel
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < coordinateCount; ++i) {
 			final Pair<String, String> coordinate = coordinates.get(i);
-			final int location = Integers.convert((fromStepNumber + i) * step);
-			g.drawString(coordinate.getFirst() + SPACE + coordinate.getSecond(), location,
+			final int position = Integers.convert((fromStepNumber + i) * step);
+			g.drawString(coordinate.getFirst() + SPACE + coordinate.getSecond(), position,
 					fontHeight);
 		}
 		g.dispose();

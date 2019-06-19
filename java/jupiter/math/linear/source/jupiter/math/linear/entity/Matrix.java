@@ -383,7 +383,7 @@ public class Matrix
 	 * <p>
 	 * @return the element at the specified row and column indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public double get(final int i, final int j) {
 		return elements[i * n + j];
@@ -398,7 +398,7 @@ public class Matrix
 	 * <p>
 	 * @return the elements of the specified row
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public double[] getRow(final int i) {
 		return getRow(i, 0, n);
@@ -414,7 +414,7 @@ public class Matrix
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public double[] getRow(final int i, final int from) {
 		return getRow(i, from, n - from);
@@ -431,7 +431,7 @@ public class Matrix
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public double[] getRow(final int i, final int from, final int length) {
 		final double[] row = new double[Math.min(length, n - from)];
@@ -448,7 +448,7 @@ public class Matrix
 	 * <p>
 	 * @return the elements of the specified column
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public double[] getColumn(final int j) {
 		return getColumn(j, 0, m);
@@ -464,7 +464,7 @@ public class Matrix
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public double[] getColumn(final int j, final int from) {
 		return getColumn(j, from, m - from);
@@ -481,7 +481,7 @@ public class Matrix
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public double[] getColumn(final int j, final int from, final int length) {
 		final double[] column = new double[Math.min(length, m - from)];
@@ -620,7 +620,7 @@ public class Matrix
 	 * @param j     the column index
 	 * @param value a {@code double} value
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public void set(final int i, final int j, final double value) {
 		elements[i * n + j] = value;
@@ -633,7 +633,7 @@ public class Matrix
 	 * @param j     the column index
 	 * @param value an {@link Object}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public void set(final int i, final int j, final Object value) {
 		elements[i * n + j] = Doubles.convert(value);
@@ -647,7 +647,7 @@ public class Matrix
 	 * @param i      the row index
 	 * @param values an array of {@code double} values
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final double[] values) {
 		setRow(i, values, 0, values.length);
@@ -660,7 +660,7 @@ public class Matrix
 	 * @param values an array of {@code double} values
 	 * @param from   the initial column index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int from) {
 		setRow(i, values, from, values.length);
@@ -675,7 +675,7 @@ public class Matrix
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int from, final int length) {
 		System.arraycopy(values, 0, elements, i * n + from, Math.min(length, n - from));
@@ -687,7 +687,7 @@ public class Matrix
 	 * @param i      the row index
 	 * @param values a {@link Collection} of {@link Double}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final Collection<Double> values) {
 		setRow(i, Doubles.collectionToPrimitiveArray(values));
@@ -701,7 +701,7 @@ public class Matrix
 	 * @param j      the column index
 	 * @param values an array of {@code double} values
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values) {
 		setColumn(j, values, 0, values.length);
@@ -714,7 +714,7 @@ public class Matrix
 	 * @param values an array of {@code double} values
 	 * @param from   the initial row index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int from) {
 		setColumn(j, values, 0, values.length);
@@ -729,7 +729,7 @@ public class Matrix
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int from, final int length) {
 		for (int i = 0; i < Math.min(length, m - from); ++i) {
@@ -743,7 +743,7 @@ public class Matrix
 	 * @param j      the column index
 	 * @param values a {@link Collection} of {@link Double}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final Collection<Double> values) {
 		setColumn(j, Doubles.collectionToPrimitiveArray(values));
@@ -1091,7 +1091,7 @@ public class Matrix
 	 * <p>
 	 * @return the pivot rows at the specified row indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified row indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndexes} are out of bounds
 	 */
 	public Matrix pivot(final int[] rowIndexes) {
 		return getSubmatrix(rowIndexes, 0, n);
@@ -1104,7 +1104,7 @@ public class Matrix
 	 * <p>
 	 * @return the unpivot rows at the specified row indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified row indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndexes} are out of bounds
 	 */
 	public Matrix unpivot(final int[] rowIndexes) {
 		final int rowCount = rowIndexes.length;
@@ -2320,11 +2320,12 @@ public class Matrix
 	}
 
 	/**
-	 * Tests whether {@code string} is a parsable {@link Matrix}.
+	 * Tests whether the specified {@link String} is a parsable {@link Matrix}.
 	 * <p>
 	 * @param string a {@link String}
 	 * <p>
-	 * @return {@code true} if {@code string} is a parsable {@link Matrix}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is a parsable
+	 *         {@link Matrix}, {@code false} otherwise
 	 */
 	public static boolean is(final String string) {
 		final char[] delimiters = new char[] {Characters.LEFT_BRACKET, Characters.RIGHT_BRACKET};
