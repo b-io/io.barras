@@ -1084,13 +1084,13 @@ public class Table<T>
 		final FileHandler fileHandler = new FileHandler(path);
 		fileHandler.delete();
 		// Export the header
-		if (!fileHandler.appendLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
+		if (!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
 			fileHandler.closeWriter();
 			return false;
 		}
 		// Export the elements
 		for (int i = 0; i < m; ++i) {
-			if (!fileHandler.appendLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
+			if (!fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
 				fileHandler.closeWriter();
 				return false;
 			}
