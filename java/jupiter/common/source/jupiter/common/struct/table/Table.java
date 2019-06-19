@@ -266,12 +266,37 @@ public class Table<T>
 		if (header == null) {
 			throw new IllegalOperationException("There is no header");
 		}
+
+		// Get the column index
 		final int index = Arrays.<String>indexOf(header, name);
 		if (index < 0) {
 			throw new IllegalArgumentException("There is no column " + Strings.quote(name));
 		}
 		return index;
 	}
+
+	/**
+	 * Returns the name of the specified column.
+	 * <p>
+	 * @param j the column index
+	 * <p>
+	 * @return the name of the specified column
+	 */
+	public String getColumnName(final int j) {
+		// Verify the feasibility
+		if (header == null) {
+			throw new IllegalOperationException("There is no header");
+		}
+
+		// Check the arguments
+		IntegerArguments.requireNonNegative(j);
+		IntegerArguments.requireLessThan(j, n);
+
+		// Get the column name
+		return header[j];
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the element at the specified row and column indexes.

@@ -59,10 +59,15 @@ public class JPanels {
 		JOptionPane.showMessageDialog(panel, p);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// MOUSE LISTENER
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Adds the scroll zoom to the specified panel.
+	 * Adds the scroll zoom to the specified {@link JPanel}.
 	 * <p>
-	 * @param panel the panel to modify
+	 * @param panel the {@link JPanel} to modify
 	 */
 	public static void addScrollZoom(final JPanel panel) {
 		panel.addMouseWheelListener(new MouseWheelListener() {
@@ -76,14 +81,12 @@ public class JPanels {
 				}
 			}
 
-			protected synchronized void increaseZoom(final JComponent chart,
-					final boolean saveAction) {
+			protected void increaseZoom(final JComponent chart, final boolean saveAction) {
 				final ChartPanel chartPanel = (ChartPanel) chart;
 				zoomChartAxis(chartPanel, true);
 			}
 
-			protected synchronized void decreaseZoom(final JComponent chart,
-					final boolean saveAction) {
+			protected void decreaseZoom(final JComponent chart, final boolean saveAction) {
 				final ChartPanel chartPanel = (ChartPanel) chart;
 				zoomChartAxis(chartPanel, false);
 			}

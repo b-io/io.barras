@@ -35,7 +35,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.CrosshairLabelGenerator;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -267,6 +269,27 @@ public class Charts {
 					new StandardXYItemRenderer()));
 		}
 		return new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Crosshair createCrosshair(final boolean showLabel) {
+		// Create the crosshair
+		final Crosshair crosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(
+				1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[] {10f, 5f}, 0f));
+		// Set the label
+		crosshair.setLabelBackgroundPaint(Color.BLACK);
+		crosshair.setLabelGenerator(new CrosshairLabelGenerator() {
+			@Override
+			public String generateLabel(final Crosshair crosshair) {
+				return Charts.DATE_FORMAT.format(crosshair.getValue());
+			}
+		});
+		crosshair.setLabelOutlinePaint(Color.WHITE);
+		crosshair.setLabelOutlineStroke(new BasicStroke(1f));
+		crosshair.setLabelPaint(Color.WHITE);
+		crosshair.setLabelVisible(showLabel);
+		return crosshair;
 	}
 
 
