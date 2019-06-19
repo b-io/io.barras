@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>io.barras.jupiter</groupId>
 		<artifactId>jupiter</artifactId>
-		<version>1.6.0</version>
+		<version>1.7.0</version>
 	</parent>
 
 	<artifactId>hardware</artifactId>
@@ -19,6 +19,6 @@
 
 	<modules>
 		<module>gpu</module>
-		<!--<module>jni</module>--><!-- @since 1.7 -->
+		<module>jni</module><!-- @since 1.7 -->
 	</modules>
 </project>

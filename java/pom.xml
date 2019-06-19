@@ -12,7 +12,7 @@
 
 	<groupId>io.barras.java</groupId>
 	<artifactId>io.barras.java</artifactId>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<packaging>pom</packaging>
 
 	<name>Java</name>
@@ -25,8 +25,8 @@
 
 	<properties>
 		<!-- Project -->
-		<project.build.source>1.6</project.build.source>
-		<project.build.target>1.6</project.build.target>
+		<project.build.source>1.7</project.build.source>
+		<project.build.target>1.7</project.build.target>
 		<!-- Maven -->
 		<maven.compiler.version>2.5.1</maven.compiler.version>
 		<maven.source.version>2.4</maven.source.version>
