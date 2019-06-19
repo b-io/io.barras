@@ -101,7 +101,8 @@ public class LogHandler
 		this(logDirPath, DEFAULT_OUTPUT_LOG_NAME, DEFAULT_ERROR_LOG_NAME);
 	}
 
-	public LogHandler(final String logDirPath, final String outputLogName, final String errorLogName) {
+	public LogHandler(final String logDirPath, final String outputLogName,
+			final String errorLogName) {
 		super();
 		setLogDir(logDirPath);
 		setOutputLog(outputLogName);
@@ -136,7 +137,7 @@ public class LogHandler
 		try {
 			errorLogLock.lock();
 			try {
-				this.logDir = new File(logDirPath);
+				logDir = new File(logDirPath);
 			} finally {
 				errorLogLock.unlock();
 			}

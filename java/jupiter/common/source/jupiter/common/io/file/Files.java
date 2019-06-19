@@ -205,8 +205,8 @@ public class Files {
 	public static void createDirs(final File file)
 			throws IOException {
 		if (!exists(file) && !file.mkdirs()) {
-			throw new IOException("Unable to create the directories " +
-					Strings.quote(getPath(file)));
+			throw new IOException(
+					"Unable to create the directories " + Strings.quote(getPath(file)));
 		}
 	}
 
@@ -490,8 +490,8 @@ public class Files {
 	 * @return {@code true} if the specified {@link String} is written to the specified
 	 *         {@link File}, {@code false} otherwise
 	 */
-	public static boolean writeLine(final String content, final File file,
-			final boolean append, final Charset charset) {
+	public static boolean writeLine(final String content, final File file, final boolean append,
+			final Charset charset) {
 		boolean isWritten = false;
 		BufferedWriter writer = null;
 		try {
@@ -591,18 +591,18 @@ public class Files {
 				if (PARALLELIZE) {
 					final List<Long> ids = new ExtendedList<Long>();
 					for (final File file : files) {
-						ids.add(COPIER_QUEUE.submit(new Triple<File, File, Boolean>(
-								file, new File(targetDirPath + File.separator +
-										getRelativePath(source, file)), force)));
+						ids.add(COPIER_QUEUE.submit(new Triple<File, File, Boolean>(file, new File(
+								targetDirPath + File.separator + getRelativePath(source, file)),
+								force)));
 					}
 					for (final long id : ids) {
 						status = status && COPIER_QUEUE.get(id);
 					}
 				} else {
 					for (final File file : files) {
-						status = status &&
-								copy(file, new File(targetDirPath + File.separator +
-										getRelativePath(source, file)), force);
+						status = status && copy(file, new File(
+								targetDirPath + File.separator + getRelativePath(source, file)),
+								force);
 					}
 				}
 				return status;
@@ -905,8 +905,7 @@ public class Files {
 				ZipEntry entry;
 				while ((entry = input.getNextEntry()) != null) {
 					// Unzip the file
-					final File target = new File(
-							targetDirPath + File.separator + entry.getName());
+					final File target = new File(targetDirPath + File.separator + entry.getName());
 					IO.debug("Unzip ", Strings.quote(entry.getName()), " to ",
 							Strings.quote(target));
 					if (entry.isDirectory()) {
@@ -996,7 +995,7 @@ public class Files {
 		public Boolean call(final Triple<File, File, Boolean> input) {
 			try {
 				return copy(input.getFirst(), input.getSecond(), input.getThird());
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				IO.error(ex);
 			}
 			return true;
