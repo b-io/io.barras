@@ -92,14 +92,14 @@ public class StringTable
 	/**
 	 * Constructs a {@link StringTable} imported from the specified file.
 	 * <p>
-	 * @param pathName  the path name of the file to load
+	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public StringTable(final String pathName, final boolean hasHeader)
+	public StringTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(IParsers.STRING_PARSER, pathName, hasHeader);
+		super(IParsers.STRING_PARSER, path, hasHeader);
 	}
 
 
@@ -113,7 +113,7 @@ public class StringTable
 	 * @param i      the row index
 	 * @param values an array of {@link String}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	@Override
 	public void setRow(final int i, final String[] values) {
@@ -136,7 +136,7 @@ public class StringTable
 	 * @param j      the column index
 	 * @param values an array of {@link String}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	@Override
 	public void setColumn(final int j, final String[] values) {

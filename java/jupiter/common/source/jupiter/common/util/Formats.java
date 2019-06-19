@@ -73,7 +73,7 @@ public class Formats {
 	 */
 	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 	/**
-	 * The default date and time format.
+	 * The default date-time format.
 	 */
 	public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 

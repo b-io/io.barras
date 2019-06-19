@@ -21,47 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.calculator;
+package jupiter.common.test;
 
-import static jupiter.common.io.IO.IO;
+import java.io.File;
 
-import jupiter.common.util.Strings;
-import jupiter.math.calculator.process.Calculator;
-
-public class Console {
+public class FileArguments
+		extends Arguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
+	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void main(final String[] args) {
-		IO.clear();
-		Calculator.parallelize();
-		try {
-			interactions();
-		} finally {
-			Calculator.unparallelize();
-		}
+	protected FileArguments() {
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Interacts with the user.
-	 */
-	protected static void interactions() {
-		boolean isRunning = true;
-		final Calculator calc = new Calculator();
+	public static File requireDir(final File file) {
+		if (CHECK_ARGS && !file.isDirectory()) {
+			throw new IllegalArgumentException("The specified file is not a directory");
+		}
+		return file;
+	}
 
-		do {
-			// Process the input expression
-			final String inputExpression = IO.input().trim();
-			if (Strings.toLowerCase(inputExpression).contains("exit")) {
-				IO.info("Good bye!");
-				isRunning = false;
-			} else {
-				IO.result(calc.process(inputExpression));
-			}
-		} while (isRunning);
+	public static File requireFile(final File file) {
+		if (CHECK_ARGS && !file.isFile()) {
+			throw new IllegalArgumentException("The specified file is not a normal file");
+		}
+		return file;
 	}
 }

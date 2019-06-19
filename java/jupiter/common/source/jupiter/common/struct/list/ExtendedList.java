@@ -106,11 +106,11 @@ public class ExtendedList<T>
 	 * Replaces the element at the specified position in {@code this} with the specified element.
 	 * <p>
 	 * @param index   the index of the element to replace
-	 * @param element the element to be stored at the specified position
+	 * @param element the element to store at the index
 	 * <p>
 	 * @return the element previously at the specified position
 	 * <p>
-	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
+	 * @throws IndexOutOfBoundsException if {@code index} is out of bounds
 	 */
 	@Override
 	public synchronized T set(final int index, final T element) {

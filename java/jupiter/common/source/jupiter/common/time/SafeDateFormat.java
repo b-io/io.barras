@@ -73,7 +73,7 @@ public class SafeDateFormat
 	 * @see java.util.Locale#getDefault
 	 * @see java.util.Locale.Category#FORMAT
 	 * <p>
-	 * @param pattern the pattern describing the date and time format
+	 * @param pattern the pattern describing the date-time format
 	 * <p>
 	 * @exception NullPointerException     if the specified pattern is {@code null}
 	 * @exception IllegalArgumentException if the specified pattern is invalid
@@ -88,7 +88,7 @@ public class SafeDateFormat
 	 * <b>Note:</b> This constructor may not support all locales. For full coverage, use the factory
 	 * methods in the {@link DateFormat} class.
 	 * <p>
-	 * @param pattern the pattern describing the date and time format
+	 * @param pattern the pattern describing the date-time format
 	 * @param locale  the locale whose date format symbols should be used
 	 * <p>
 	 * @exception NullPointerException     if the specified pattern or locale is {@code null}
@@ -101,7 +101,7 @@ public class SafeDateFormat
 	/**
 	 * Constructs a {@link SafeDateFormat} using the specified pattern and date format symbols.
 	 * <p>
-	 * @param pattern       the pattern describing the date and time format
+	 * @param pattern       the pattern describing the date-time format
 	 * @param formatSymbols the date format symbols to be used for formatting
 	 * <p>
 	 * @exception NullPointerException     if the specified pattern or formatSymbols is {@code null}
@@ -148,10 +148,10 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Formats the specified {@link Date} into a date/time string and appends the result to the
-	 * specified {@link StringBuffer}.
+	 * Formats the specified {@link Date} into a date-time {@link String} and appends the result to
+	 * the specified {@link StringBuffer}.
 	 * <p>
-	 * @param date       the date-time value to be formatted into a date-time string
+	 * @param date       the date-time value to format into a date-time {@link String}
 	 * @param toAppendTo where the new date-time text is to be appended
 	 * @param pos        the formatting position. On input: an alignment field, if desired; on
 	 *                   output: the offsets of the alignment field
@@ -191,18 +191,18 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Parses text from a string to produce a {@link Date}.
+	 * Parses the specified {@link String} to produce a {@link Date}.
 	 * <p>
 	 * The method attempts to parse text starting at the index specified by {@code pos}. If parsing
 	 * succeeds, then the index of {@code pos} is updated to the index after the last character used
-	 * (parsing does not necessarily use all characters up to the end of the string), and the parsed
-	 * date is returned. The updated {@code pos} can be used to indicate the starting point for the
-	 * next call to this method. If an error occurs, then the index of {@code pos} is not changed,
-	 * the error index of {@code pos} is set to the index of the character where the error occurred,
-	 * and {@code null} is returned.
+	 * (parsing does not necessarily use all characters up to the end of the {@link String}), and
+	 * the parsed date is returned. The updated {@code pos} can be used to indicate the starting
+	 * point for the next call to this method. If an error occurs, then the index of {@code pos} is
+	 * not changed, the error index of {@code pos} is set to the index of the character where the
+	 * error occurred, and {@code null} is returned.
 	 * <p>
 	 * This parsing operation uses the {@link DateFormat#calendar calendar} to produce a
-	 * {@link Date}. All of the {@code calendar}'s date-time fields are
+	 * {@link Date}. All of {@code calendar}'s date-time fields are
 	 * {@linkplain Calendar#clear() cleared} before parsing, and the {@code calendar}'s default
 	 * values of the date-time fields are used for any missing date-time information. For example,
 	 * the year value of the parsed {@link Date} is 1970 with {@link GregorianCalendar} if no year
@@ -216,7 +216,7 @@ public class SafeDateFormat
 	 * @param pos  a {@link ParsePosition} object with index and error index information as
 	 *             described above
 	 * <p>
-	 * @return a {@link Date} parsed from the string, or {@code null} in case of error
+	 * @return a {@link Date} parsed from the {@link String}, or {@code null} in case of error
 	 * <p>
 	 * @exception NullPointerException if {@code text} or {@code pos} is {@code null}
 	 */
@@ -226,9 +226,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Returns a pattern string describing {@code this}.
+	 * Returns a pattern {@link String} describing {@code this}.
 	 * <p>
-	 * @return a pattern string describing {@code this}
+	 * @return a pattern {@link String} describing {@code this}
 	 */
 	@Override
 	public synchronized String toPattern() {
@@ -236,9 +236,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Returns a localized pattern string describing {@code this}.
+	 * Returns a localized pattern {@link String} describing {@code this}.
 	 * <p>
-	 * @return a localized pattern string describing {@code this}
+	 * @return a localized pattern {@link String} describing {@code this}
 	 */
 	@Override
 	public synchronized String toLocalizedPattern() {
@@ -246,9 +246,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Applies the specified pattern string to {@code this}.
+	 * Applies the specified pattern {@link String} to {@code this}.
 	 * <p>
-	 * @param pattern the new date and time pattern for {@code this}
+	 * @param pattern the new date-time pattern for {@code this}
 	 * <p>
 	 * @exception NullPointerException     if the specified pattern is {@code null}
 	 * @exception IllegalArgumentException if the specified pattern is invalid
@@ -259,10 +259,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Applies the specified localized pattern string to {@code this}.
+	 * Applies the specified localized pattern {@link String} to {@code this}.
 	 * <p>
-	 * @param pattern a {@link String} to be mapped to the new date and time format pattern for this
-	 *                format
+	 * @param pattern a {@link String} to map to the new date-time format pattern for this format
 	 * <p>
 	 * @exception NullPointerException     if the specified pattern is {@code null}
 	 * @exception IllegalArgumentException if the specified pattern is invalid
@@ -273,9 +272,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Gets a copy of the date and time format symbols of {@code this}.
+	 * Gets a copy of the date-time format symbols of {@code this}.
 	 * <p>
-	 * @return the date and time format symbols of {@code this}
+	 * @return the date-time format symbols of {@code this}
 	 *
 	 * @see #setDateFormatSymbols
 	 */
@@ -285,9 +284,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Sets the date and time format symbols of {@code this}.
+	 * Sets the date-time format symbols of {@code this}.
 	 * <p>
-	 * @param newFormatSymbols the new date and time format symbols
+	 * @param newFormatSymbols the new date-time format symbols
 	 * <p>
 	 * @exception NullPointerException if the specified newFormatSymbols is {@code null}
 	 *

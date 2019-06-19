@@ -45,8 +45,7 @@ public class FileHandler {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final String pathName;
-	protected final String fileName;
+	protected final File file;
 	protected final Charset charset;
 	protected BufferedWriter writer;
 
@@ -55,18 +54,17 @@ public class FileHandler {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public FileHandler(final String pathName) {
-		this(pathName, DEFAULT_CHARSET);
+	public FileHandler(final String path) {
+		this(path, DEFAULT_CHARSET);
 	}
 
-	public FileHandler(final String pathName, final Charset charset) {
+	public FileHandler(final String path, final Charset charset) {
 		// Check the arguments
-		Arguments.requireNonNull(pathName);
+		Arguments.requireNonNull(path);
 		Arguments.requireNonNull(charset);
 
 		// Set the attributes
-		this.pathName = pathName;
-		fileName = Files.getFileName(pathName);
+		file = new File(path);
 		this.charset = charset;
 		writer = null;
 	}
@@ -77,21 +75,43 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the path name.
+	 * Returns the path.
 	 * <p>
-	 * @return the path name
+	 * @return the path
 	 */
 	public String getPath() {
-		return pathName;
+		return Files.getPath(file);
 	}
 
 	/**
-	 * Returns the file name.
+	 * Returns the canonical path.
 	 * <p>
-	 * @return the file name
+	 * @return the canonical path
+	 * <p>
+	 * @throws IOException       if there is a problem querying the file system
+	 * @throws SecurityException if there is a permission problem
 	 */
-	public String getFileName() {
-		return fileName;
+	public String getCanonicalPath()
+			throws IOException {
+		return Files.getCanonicalPath(file);
+	}
+
+	/**
+	 * Returns the name.
+	 * <p>
+	 * @return the name
+	 */
+	public String getName() {
+		return file.getName();
+	}
+
+	/**
+	 * Returns the name without the extension.
+	 * <p>
+	 * @return the name without the extension
+	 */
+	public String getNameWithoutExtension() {
+		return Files.getFileNameWithoutExtension(file.getName());
 	}
 
 	/**
@@ -100,7 +120,7 @@ public class FileHandler {
 	 * @return the extension
 	 */
 	public String getExtension() {
-		return Files.getExtension(fileName);
+		return Files.getFileExtension(file.getName());
 	}
 
 
@@ -109,12 +129,25 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates all the directories of the path name.
+	 * Creates all the directories.
 	 * <p>
-	 * @return {@code true} if the directories are created, {@code false} otherwise
+	 * @throws IOException       if there is a problem creating the directories
+	 * @throws SecurityException if there is a permission problem
 	 */
-	public boolean createDirectories() {
-		return Files.createDirectories(pathName);
+	public void createDirs()
+			throws IOException {
+		Files.createDirs(file);
+	}
+
+	/**
+	 * Creates all the parent directories.
+	 * <p>
+	 * @throws IOException       if there is a problem creating the directories
+	 * @throws SecurityException if there is a permission problem
+	 */
+	public void createParentDirs()
+			throws IOException {
+		Files.createParentDirs(file);
 	}
 
 
@@ -127,11 +160,11 @@ public class FileHandler {
 	 * <p>
 	 * @return a {@link BufferedReader}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening the file
+	 * @throws FileNotFoundException if there is a problem with opening {@code this}
 	 */
 	public BufferedReader getReader()
 			throws FileNotFoundException {
-		return Files.createReader(pathName, charset);
+		return Files.createReader(file, charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,7 +175,7 @@ public class FileHandler {
 	 * @return the {@link Content}
 	 */
 	public Content read() {
-		return Files.read(pathName, charset);
+		return Files.read(file, charset);
 	}
 
 	/**
@@ -151,7 +184,7 @@ public class FileHandler {
 	 * @return the unzipped {@link Content}
 	 */
 	public Content unzip() {
-		return Files.unzip(pathName, charset);
+		return Files.unzip(file, charset);
 	}
 
 	/**
@@ -160,7 +193,7 @@ public class FileHandler {
 	 * @return the ungzipped {@link Content}
 	 */
 	public Content ungzip() {
-		return Files.ungzip(pathName, charset);
+		return Files.ungzip(file, charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +204,7 @@ public class FileHandler {
 	 * @return the number of lines
 	 */
 	public int countLines() {
-		return Files.countLines(pathName, charset);
+		return Files.countLines(file, charset);
 	}
 
 	/**
@@ -182,7 +215,7 @@ public class FileHandler {
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines})
 	 */
 	public int countLines(final boolean skipEmptyLines) {
-		return Files.countLines(pathName, charset, skipEmptyLines);
+		return Files.countLines(file, charset, skipEmptyLines);
 	}
 
 
@@ -195,44 +228,33 @@ public class FileHandler {
 	 * <p>
 	 * @param append the flag specifying whether to append
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening the file
+	 * @throws FileNotFoundException if there is a problem with opening {@code this}
 	 */
 	public void initWriter(final boolean append)
 			throws FileNotFoundException {
 		if (writer == null) {
-			writer = Files.createWriter(pathName, charset, append);
+			writer = Files.createWriter(file, charset, append);
 		}
 	}
 
 	/**
-	 * Appends the specified string.
+	 * Writes the specified {@link String}.
 	 * <p>
 	 * @param string the {@link String} to write
 	 * <p>
-	 * @return {@code true} if {@code string} is written, {@code false} otherwise
-	 */
-	public boolean appendLine(final String string) {
-		return writeLine(string, true);
-	}
-
-	/**
-	 * Writes the specified string.
-	 * <p>
-	 * @param string the {@link String} to write
-	 * <p>
-	 * @return {@code true} if {@code string} is written, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is written, {@code false} otherwise
 	 */
 	public boolean writeLine(final String string) {
 		return writeLine(string, true);
 	}
 
 	/**
-	 * Writes the specified string.
+	 * Writes the specified {@link String}.
 	 * <p>
 	 * @param string the {@link String} to write
 	 * @param append the flag specifying whether to append
 	 * <p>
-	 * @return {@code true} if {@code string} is written, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is written, {@code false} otherwise
 	 */
 	public boolean writeLine(final String string, final boolean append) {
 		try {
@@ -244,7 +266,7 @@ public class FileHandler {
 			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(pathName),
+			IO.error("Unable to find the specified file ", Strings.quote(file),
 					IO.appendException(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -256,7 +278,7 @@ public class FileHandler {
 	 * Closes the writer.
 	 */
 	public void closeWriter() {
-		closeWriter("The writer of " + Strings.quote(pathName) + " has already been closed");
+		closeWriter("The writer of " + Strings.quote(file) + " has already been closed");
 	}
 
 	/**
@@ -275,24 +297,24 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Deletes the file (or directory).
+	 * Deletes {@code this}.
 	 * <p>
-	 * @return {@code true} if the file (or directory) is deleted, {@code false} otherwise
+	 * @return {@code true} if {@code this} is deleted, {@code false} otherwise
 	 */
 	public boolean delete() {
 		return delete(true);
 	}
 
 	/**
-	 * Deletes the file (or directory).
+	 * Deletes {@code this}.
 	 * <p>
 	 * @param force the flag specifying whether to force deleting
 	 * <p>
-	 * @return {@code true} if the file (or directory) is deleted, {@code false} otherwise
+	 * @return {@code true} if {@code this} is deleted, {@code false} otherwise
 	 */
 	public boolean delete(final boolean force) {
 		closeWriter(null);
-		return Files.delete(new File(pathName), force);
+		return Files.delete(file, force);
 	}
 
 
@@ -301,16 +323,14 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the file (or directory) exists.
+	 * Tests whether {@code this} exists.
 	 * <p>
-	 * @return {@code true} if and only if the file (or directory) exists, {@code false} otherwise
+	 * @return {@code true} if and only if {@code this} exists, {@code false} otherwise
 	 * <p>
-	 * @throws SecurityException if a security manager exists and its
-	 *                           {@link java.lang.SecurityManager#checkRead(java.lang.String)}
-	 *                           method denies read access to the file (or directory)
+	 * @throws SecurityException if there is a permission problem
 	 */
 	public boolean exists()
 			throws SecurityException {
-		return Files.exists(pathName);
+		return Files.exists(file);
 	}
 }

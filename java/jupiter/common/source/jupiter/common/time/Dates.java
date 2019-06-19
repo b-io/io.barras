@@ -95,20 +95,20 @@ public class Dates {
 	}
 
 	/**
-	 * Returns the current date and time {@link String}.
+	 * Returns the current date-time {@link String}.
 	 * <p>
-	 * @return the current date and time {@link String}
+	 * @return the current date-time {@link String}
 	 */
 	public static String getDateTime() {
 		return formatWithTime(new Date());
 	}
 
 	/**
-	 * Returns the current date and time {@link String} formatted according to {@code format}.
+	 * Returns the current date-time {@link String} formatted according to {@code format}.
 	 * <p>
-	 * @param format the format {@link String} of the date and time
+	 * @param format the format {@link String} of the date-time
 	 * <p>
-	 * @return the current date and time {@link String} formatted according to {@code format}
+	 * @return the current date-time {@link String} formatted according to {@code format}
 	 */
 	public static String getDateTime(final String format) {
 		return new SafeDateFormat(format).format(new Date());

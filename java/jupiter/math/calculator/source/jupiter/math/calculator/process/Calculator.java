@@ -91,14 +91,14 @@ public class Calculator {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts {@code this}.
+	 * Parallelizes {@code this}.
 	 */
-	public static synchronized void start() {
+	public static synchronized void parallelize() {
 		IO.debug(EMPTY);
 
 		// Initialize
 		// - The expression handler
-		ExpressionHandler.start();
+		ExpressionHandler.parallelize();
 		// - The work queue
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
@@ -111,9 +111,9 @@ public class Calculator {
 	}
 
 	/**
-	 * Stops {@code this}.
+	 * Unparallelizes {@code this}.
 	 */
-	public static synchronized void stop() {
+	public static synchronized void unparallelize() {
 		IO.debug(EMPTY);
 
 		// Shutdown
@@ -122,17 +122,17 @@ public class Calculator {
 			WORK_QUEUE.shutdown();
 		}
 		// - The expression handler
-		ExpressionHandler.stop();
+		ExpressionHandler.unparallelize();
 	}
 
 	/**
-	 * Restarts {@code this}.
+	 * Reparallelizes {@code this}.
 	 */
-	public static synchronized void restart() {
+	public static synchronized void reparallelize() {
 		IO.debug(EMPTY);
 
-		stop();
-		start();
+		unparallelize();
+		parallelize();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

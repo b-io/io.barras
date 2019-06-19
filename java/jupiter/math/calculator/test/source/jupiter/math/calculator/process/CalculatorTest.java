@@ -60,7 +60,7 @@ public class CalculatorTest
 		final double[] entityTimes = new double[2 * testCount];
 
 		// Process
-		Calculator.start();
+		Calculator.parallelize();
 		try {
 			for (int t = 0; t < testCount; ++t) {
 				// Initialize
@@ -110,7 +110,7 @@ public class CalculatorTest
 			Tests.printTimes(elementTimes);
 			Tests.printTimes(entityTimes);
 		} finally {
-			Calculator.stop();
+			Calculator.unparallelize();
 		}
 	}
 }

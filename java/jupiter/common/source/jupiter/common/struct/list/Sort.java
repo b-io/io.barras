@@ -104,7 +104,7 @@ public class Sort<T> {
 	/**
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
 	 * <p>
-	 * @param array      the array to be sorted
+	 * @param array      the array to sort
 	 * @param comparator the comparator to determine the order of the sort
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
@@ -159,9 +159,9 @@ public class Sort<T> {
 	 * expanding parameters into the required forms.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param array      the array to be sorted
-	 * @param lo         the index of the first element, inclusive, to be sorted
-	 * @param hi         the index of the last element, exclusive, to be sorted
+	 * @param array      the array to sort
+	 * @param lo         the index of the first element, inclusive, to sort
+	 * @param hi         the index of the last element, exclusive, to sort
 	 * @param comparator the comparator to use
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
@@ -226,8 +226,8 @@ public class Sort<T> {
 	 * <p>
 	 * @param <T>        the component type of the array
 	 * @param array      the array in which a range is to be sorted
-	 * @param lo         the index of the first element in the range to be sorted
-	 * @param hi         the index after the last element in the range to be sorted
+	 * @param lo         the index of the first element in the range to sort
+	 * @param hi         the index after the last element in the range to sort
 	 * @param start      the index of the first element in the range that is not already known to be
 	 *                   sorted ({@code lo <= start <= hi})
 	 * @param comparator the comparator to use
@@ -330,8 +330,8 @@ public class Sort<T> {
 	 * Reverse the specified range of the specified array.
 	 * <p>
 	 * @param array the array in which a range is to be reversed
-	 * @param lo    the index of the first element in the range to be reversed
-	 * @param hi    the index after the last element in the range to be reversed
+	 * @param lo    the index of the first element in the range to reverse
+	 * @param hi    the index after the last element in the range to reverse
 	 */
 	protected static void reverseRange(final Object[] array, int lo, int hi) {
 		hi--;
@@ -355,9 +355,9 @@ public class Sort<T> {
 	 * <p>
 	 * For the rationale, see listsort.txt.
 	 * <p>
-	 * @param n the length of the array to be sorted
+	 * @param n the length of the array to sort
 	 * <p>
-	 * @return the length of the minimum run to be merged
+	 * @return the length of the minimum run to merge
 	 */
 	protected static int minRunLength(int n) {
 		assert n >= 0;
@@ -928,7 +928,7 @@ outer:  while (true) {
 	 * elements, increasing its size if necessary. The size increases exponentially to ensure
 	 * amortized linear time complexity.
 	 * <p>
-	 * @param minCapacity the minimum required capacity of the {@code tempArray} array
+	 * @param minCapacity the minimum required capacity of {@code tempArray}
 	 * <p>
 	 * @return {@code tempArray}, whether or not it grew
 	 */

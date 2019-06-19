@@ -23,7 +23,10 @@
  */
 package jupiter.common.io.log;
 
+import static jupiter.common.io.IO.IO;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -63,13 +66,12 @@ public class LogHandler
 	/**
 	 * The log directory.
 	 */
-	protected volatile String logDir;
+	protected volatile File logDir;
 
 	/**
-	 * The output log name and path.
+	 * The output log.
 	 */
-	protected volatile String outputLogName;
-	protected volatile String outputLogPath;
+	protected volatile File outputLog;
 	/**
 	 * The internal lock of the output log.
 	 */
@@ -77,10 +79,9 @@ public class LogHandler
 	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
 
 	/**
-	 * The error log name and path.
+	 * The error log.
 	 */
-	protected volatile String errorLogName;
-	protected volatile String errorLogPath;
+	protected volatile File errorLog;
 	/**
 	 * The internal lock of the error log.
 	 */
@@ -96,13 +97,14 @@ public class LogHandler
 		this(DEFAULT_LOG_DIR);
 	}
 
-	public LogHandler(final String logDir) {
-		this(logDir, DEFAULT_OUTPUT_LOG_NAME, DEFAULT_ERROR_LOG_NAME);
+	public LogHandler(final String logDirPath) {
+		this(logDirPath, DEFAULT_OUTPUT_LOG_NAME, DEFAULT_ERROR_LOG_NAME);
 	}
 
-	public LogHandler(final String logDir, final String outputLogName, final String errorLogName) {
+	public LogHandler(final String logDirPath, final String outputLogName,
+			final String errorLogName) {
 		super();
-		this.logDir = logDir;
+		setLogDir(logDirPath);
 		setOutputLog(outputLogName);
 		setErrorLog(errorLogName);
 	}
@@ -113,14 +115,14 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the path name of the specified log.
+	 * Returns the path to the specified log.
 	 * <p>
 	 * @param logName the name of the log
 	 * <p>
-	 * @return the path name of the specified log
+	 * @return the path to the specified log
 	 */
 	protected String getPath(final String logName) {
-		return logDir + File.separator + logName;
+		return Files.getPath(logDir) + File.separator + logName;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,14 +130,14 @@ public class LogHandler
 	/**
 	 * Sets the log directory.
 	 * <p>
-	 * @param logDir a {@link String}
+	 * @param logDirPath a {@link String}
 	 */
-	public void setLogDir(final String logDir) {
+	public void setLogDir(final String logDirPath) {
 		outputLogLock.lock();
 		try {
 			errorLogLock.lock();
 			try {
-				this.logDir = logDir;
+				logDir = new File(logDirPath);
 			} finally {
 				errorLogLock.unlock();
 			}
@@ -145,30 +147,28 @@ public class LogHandler
 	}
 
 	/**
-	 * Sets the name of the output log.
+	 * Sets the output log.
 	 * <p>
 	 * @param outputLogName a {@link String}
 	 */
 	public void setOutputLog(final String outputLogName) {
 		outputLogLock.lock();
 		try {
-			this.outputLogName = outputLogName;
-			outputLogPath = getPath(outputLogName);
+			outputLog = new File(getPath(outputLogName));
 		} finally {
 			outputLogLock.unlock();
 		}
 	}
 
 	/**
-	 * Sets the name of the error log.
+	 * Sets the error log.
 	 * <p>
 	 * @param errorLogName a {@link String}
 	 */
 	public void setErrorLog(final String errorLogName) {
 		errorLogLock.lock();
 		try {
-			this.errorLogName = errorLogName;
-			errorLogPath = getPath(errorLogName);
+			errorLog = new File(getPath(errorLogName));
 		} finally {
 			errorLogLock.unlock();
 		}
@@ -180,12 +180,14 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates all the directories of the logs path name.
+	 * Creates all the directories of the log directory.
 	 * <p>
-	 * @return {@code true} if the directories are created, {@code false} otherwise
+	 * @throws IOException       if there is a problem creating the directories
+	 * @throws SecurityException if there is a permission problem
 	 */
-	protected boolean createDirectories() {
-		return Files.createDirectories(logDir);
+	protected void createDirs()
+			throws IOException {
+		Files.createDirs(logDir);
 	}
 
 
@@ -224,20 +226,22 @@ public class LogHandler
 		if (isError) {
 			errorLogLock.lock();
 			try {
-				if (createDirectories()) {
-					updateLogLine(content, isError);
-					flush(isError);
-				}
+				createDirs();
+				updateLogLine(content, isError);
+				flush(isError);
+			} catch (final IOException ex) {
+				IO.error(ex);
 			} finally {
 				errorLogLock.unlock();
 			}
 		} else {
 			outputLogLock.lock();
 			try {
-				if (createDirectories()) {
-					updateLogLine(content, isError);
-					flush(isError);
-				}
+				createDirs();
+				updateLogLine(content, isError);
+				flush(isError);
+			} catch (final IOException ex) {
+				IO.error(ex);
 			} finally {
 				outputLogLock.unlock();
 			}
@@ -274,7 +278,7 @@ public class LogHandler
 	}
 
 	public void flush(final boolean isError) {
-		Files.writeLine(getLogLine(isError), isError ? errorLogPath : outputLogPath);
+		Files.writeLine(getLogLine(isError), isError ? errorLog : outputLog);
 		clearLogLine(isError);
 	}
 
@@ -311,8 +315,8 @@ public class LogHandler
 	public void deleteOutputLog() {
 		outputLogLock.lock();
 		try {
-			if (Files.exists(outputLogPath)) {
-				Files.delete(outputLogPath);
+			if (Files.exists(outputLog)) {
+				Files.delete(outputLog);
 			}
 		} finally {
 			outputLogLock.unlock();
@@ -325,8 +329,8 @@ public class LogHandler
 	public void deleteErrorLog() {
 		errorLogLock.lock();
 		try {
-			if (Files.exists(errorLogPath)) {
-				Files.delete(errorLogPath);
+			if (Files.exists(errorLog)) {
+				Files.delete(errorLog);
 			}
 		} finally {
 			errorLogLock.unlock();
@@ -340,6 +344,6 @@ public class LogHandler
 
 	@Override
 	public Worker<Message, Integer> clone() {
-		return new LogHandler(logDir, outputLogName, errorLogName);
+		return new LogHandler(Files.getPath(logDir), outputLog.getName(), errorLog.getName());
 	}
 }

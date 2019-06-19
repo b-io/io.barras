@@ -93,15 +93,14 @@ public class NeuralNetwork
 	 * Constructs a neural network from the specified files containing the feature vectors and the
 	 * classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
-	 *                               size (n x m)
-	 * @param classesPathName        the path name of the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
+	 * @param classesPath        the path to the file containing the classes of size m
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
-	public NeuralNetwork(final String featureVectorsPathName, final String classesPathName)
+	public NeuralNetwork(final String featureVectorsPath, final String classesPath)
 			throws IOException {
-		super(featureVectorsPathName, classesPathName);
+		super(featureVectorsPath, classesPath);
 		setDefaultFunctions();
 	}
 
@@ -109,18 +108,18 @@ public class NeuralNetwork
 	 * Constructs a neural network from the specified files containing the feature vectors and the
 	 * classes.
 	 * <p>
-	 * @param featureVectorsPathName the path name of the file containing the feature vectors of
-	 *                               size (n x m) (or (m x n) if {@code transpose})
-	 * @param classesPathName        the path name of the file containing the classes of size m
-	 * @param transpose              the flag specifying whether to transpose the feature vectors
-	 *                               and the classes
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
+	 *                           (or (m x n) if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size m
+	 * @param transpose          the flag specifying whether to transpose the feature vectors and
+	 *                           the classes
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
-	public NeuralNetwork(final String featureVectorsPathName, final String classesPathName,
+	public NeuralNetwork(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
 			throws IOException {
-		super(featureVectorsPathName, classesPathName, transpose);
+		super(featureVectorsPath, classesPath, transpose);
 		setDefaultFunctions();
 	}
 
@@ -185,14 +184,19 @@ public class NeuralNetwork
 	/**
 	 * Trains the model with the specified parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate      the learning rate
-	 * @param tolerance         the tolerance level
-	 * @param maxIterationCount the maximum number of iterations
+	 * @param learningRate                     the learning rate
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
+	 * @param tolerance                        the tolerance level
+	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */
 	@Override
-	public synchronized int train(final double learningRate, final double tolerance,
+	public synchronized int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
 			final int maxIterationCount) {
 		final int hiddenLayerCount;
 		final int hiddenLayerSize;
@@ -203,7 +207,9 @@ public class NeuralNetwork
 			hiddenLayerCount = W.length;
 			hiddenLayerSize = 0;
 		}
-		return train(learningRate, tolerance, maxIterationCount, hiddenLayerCount, hiddenLayerSize);
+		return train(learningRate, firstMomentExponentialDecayRate,
+				secondMomentExponentialDecayRate, tolerance, maxIterationCount, hiddenLayerCount,
+				hiddenLayerSize);
 	}
 
 	/**
@@ -213,12 +219,40 @@ public class NeuralNetwork
 	 * @param tolerance         the tolerance level
 	 * @param maxIterationCount the maximum number of iterations
 	 * @param hiddenLayerCount  the number of hidden layers
-	 * @param hiddenLayerSize   the size of the hidden layers nh
+	 * @param hiddenLayerSize   the size of the hidden layers
 	 * <p>
 	 * @return the number of iterations
 	 */
-	public synchronized int train(final double learningRate, final double tolerance,
-			final int maxIterationCount, final int hiddenLayerCount, final int hiddenLayerSize) {
+	public synchronized int train(final double learningRate,
+			final double tolerance,
+			final int maxIterationCount,
+			final int hiddenLayerCount,
+			final int hiddenLayerSize) {
+		return train(learningRate, DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE,
+				DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE, tolerance, maxIterationCount,
+				hiddenLayerCount, hiddenLayerSize);
+	}
+
+	/**
+	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * <p>
+	 * @param learningRate                     the learning rate
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
+	 * @param tolerance                        the tolerance level
+	 * @param maxIterationCount                the maximum number of iterations
+	 * @param hiddenLayerCount                 the number of hidden layers
+	 * @param hiddenLayerSize                  the size of the hidden layers
+	 * <p>
+	 * @return the number of iterations
+	 */
+	public synchronized int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
+			final int maxIterationCount,
+			final int hiddenLayerCount,
+			final int hiddenLayerSize) {
 		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return 0;

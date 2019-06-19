@@ -131,7 +131,7 @@ public class Matrix
 	/**
 	 * The work queue for computing the dot product.
 	 */
-	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> WORK_QUEUE = null;
+	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> DOT_PRODUCT_QUEUE = null;
 
 	/**
 	 * The flag specifying whether to use a JNI work queue.
@@ -140,7 +140,7 @@ public class Matrix
 	/**
 	 * The JNI work queue for computing the dot product.
 	 */
-	protected static volatile WorkQueue<Pair<Matrix, Matrix>, Matrix> JNI_WORK_QUEUE = null;
+	protected static volatile WorkQueue<Pair<Matrix, Matrix>, Matrix> JNI_DOT_PRODUCT_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -383,7 +383,7 @@ public class Matrix
 	 * <p>
 	 * @return the element at the specified row and column indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public double get(final int i, final int j) {
 		return elements[i * n + j];
@@ -398,7 +398,7 @@ public class Matrix
 	 * <p>
 	 * @return the elements of the specified row
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public double[] getRow(final int i) {
 		return getRow(i, 0, n);
@@ -414,7 +414,7 @@ public class Matrix
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public double[] getRow(final int i, final int from) {
 		return getRow(i, from, n - from);
@@ -431,7 +431,7 @@ public class Matrix
 	 * @return the elements of the specified row truncated from the specified column index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public double[] getRow(final int i, final int from, final int length) {
 		final double[] row = new double[Math.min(length, n - from)];
@@ -448,7 +448,7 @@ public class Matrix
 	 * <p>
 	 * @return the elements of the specified column
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public double[] getColumn(final int j) {
 		return getColumn(j, 0, m);
@@ -464,7 +464,7 @@ public class Matrix
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public double[] getColumn(final int j, final int from) {
 		return getColumn(j, from, m - from);
@@ -481,7 +481,7 @@ public class Matrix
 	 * @return the elements of the specified column truncated from the specified row index
 	 *         (inclusive) to the specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public double[] getColumn(final int j, final int from, final int length) {
 		final double[] column = new double[Math.min(length, m - from)];
@@ -620,7 +620,7 @@ public class Matrix
 	 * @param j     the column index
 	 * @param value a {@code double} value
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public void set(final int i, final int j, final double value) {
 		elements[i * n + j] = value;
@@ -633,7 +633,7 @@ public class Matrix
 	 * @param j     the column index
 	 * @param value an {@link Object}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public void set(final int i, final int j, final Object value) {
 		elements[i * n + j] = Doubles.convert(value);
@@ -647,7 +647,7 @@ public class Matrix
 	 * @param i      the row index
 	 * @param values an array of {@code double} values
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final double[] values) {
 		setRow(i, values, 0, values.length);
@@ -660,7 +660,7 @@ public class Matrix
 	 * @param values an array of {@code double} values
 	 * @param from   the initial column index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int from) {
 		setRow(i, values, from, values.length);
@@ -675,7 +675,7 @@ public class Matrix
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int from, final int length) {
 		System.arraycopy(values, 0, elements, i * n + from, Math.min(length, n - from));
@@ -687,7 +687,7 @@ public class Matrix
 	 * @param i      the row index
 	 * @param values a {@link Collection} of {@link Double}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final Collection<Double> values) {
 		setRow(i, Doubles.collectionToPrimitiveArray(values));
@@ -701,7 +701,7 @@ public class Matrix
 	 * @param j      the column index
 	 * @param values an array of {@code double} values
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values) {
 		setColumn(j, values, 0, values.length);
@@ -714,7 +714,7 @@ public class Matrix
 	 * @param values an array of {@code double} values
 	 * @param from   the initial row index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int from) {
 		setColumn(j, values, 0, values.length);
@@ -729,7 +729,7 @@ public class Matrix
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int from, final int length) {
 		for (int i = 0; i < Math.min(length, m - from); ++i) {
@@ -743,7 +743,7 @@ public class Matrix
 	 * @param j      the column index
 	 * @param values a {@link Collection} of {@link Double}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified index is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final Collection<Double> values) {
 		setColumn(j, Doubles.collectionToPrimitiveArray(values));
@@ -1091,7 +1091,7 @@ public class Matrix
 	 * <p>
 	 * @return the pivot rows at the specified row indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified row indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndexes} are out of bounds
 	 */
 	public Matrix pivot(final int[] rowIndexes) {
 		return getSubmatrix(rowIndexes, 0, n);
@@ -1104,7 +1104,7 @@ public class Matrix
 	 * <p>
 	 * @return the unpivot rows at the specified row indexes
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified row indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndexes} are out of bounds
 	 */
 	public Matrix unpivot(final int[] rowIndexes) {
 		final int rowCount = rowIndexes.length;
@@ -1180,55 +1180,55 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts {@code this}.
+	 * Parallelizes {@code this}.
 	 */
-	public static synchronized void start() {
+	public static synchronized void parallelize() {
 		IO.debug(EMPTY);
 
 		// Initialize
-		if (WORK_QUEUE == null) {
-			WORK_QUEUE = new LockedWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
+		if (DOT_PRODUCT_QUEUE == null) {
+			DOT_PRODUCT_QUEUE = new LockedWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
 					new DotProduct());
 			PARALLELIZE = true;
 		} else {
-			IO.warn("The work queue ", WORK_QUEUE, " has already started");
+			IO.warn("The work queue ", DOT_PRODUCT_QUEUE, " has already started");
 		}
 		if (MatrixOperations.ACTIVE) {
-			if (JNI_WORK_QUEUE == null) {
-				JNI_WORK_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
+			if (JNI_DOT_PRODUCT_QUEUE == null) {
+				JNI_DOT_PRODUCT_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
 						new JNIDotProduct(), 1, 1);
 				USE_JNI = true;
 			} else {
-				IO.warn("The JNI work queue ", JNI_WORK_QUEUE, " has already started");
+				IO.warn("The JNI work queue ", JNI_DOT_PRODUCT_QUEUE, " has already started");
 			}
 		}
 	}
 
 	/**
-	 * Stops {@code this}.
+	 * Unparallelizes {@code this}.
 	 */
-	public static synchronized void stop() {
+	public static synchronized void unparallelize() {
 		IO.debug(EMPTY);
 
 		// Shutdown
-		if (JNI_WORK_QUEUE != null) {
+		if (JNI_DOT_PRODUCT_QUEUE != null) {
 			USE_JNI = false;
-			JNI_WORK_QUEUE.shutdown();
+			JNI_DOT_PRODUCT_QUEUE.shutdown();
 		}
-		if (WORK_QUEUE != null) {
+		if (DOT_PRODUCT_QUEUE != null) {
 			PARALLELIZE = false;
-			WORK_QUEUE.shutdown();
+			DOT_PRODUCT_QUEUE.shutdown();
 		}
 	}
 
 	/**
-	 * Restarts {@code this}.
+	 * Reparallelizes {@code this}.
 	 */
-	public static synchronized void restart() {
+	public static synchronized void reparallelize() {
 		IO.debug(EMPTY);
 
-		stop();
-		start();
+		unparallelize();
+		parallelize();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1561,11 +1561,11 @@ public class Matrix
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (USE_JNI) {
-			return JNI_WORK_QUEUE
-					.get(JNI_WORK_QUEUE.submit(new Pair<Matrix, Matrix>(this, broadcastedMatrix)));
+			return JNI_DOT_PRODUCT_QUEUE.get(JNI_DOT_PRODUCT_QUEUE.submit(new Pair<Matrix, Matrix>(
+					this, broadcastedMatrix)));
 		} else if (PARALLELIZE) {
 			// Initialize
-			final int intervalCount = Math.min(m, WORK_QUEUE.maxThreads);
+			final int intervalCount = Math.min(m, DOT_PRODUCT_QUEUE.maxThreads);
 			final int rowCountPerInterval = m / intervalCount;
 			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
 			final List<Long> ids = new ExtendedList<Long>(intervalCount);
@@ -1574,8 +1574,8 @@ public class Matrix
 			for (int i = 0; i < intervalCount; ++i) {
 				final Interval<Integer> interval = new Interval<Integer>(i * rowCountPerInterval,
 						(i + 1) * rowCountPerInterval);
-				ids.add(WORK_QUEUE.submit(new Triple<Matrix, Matrix, Interval<Integer>>(this,
-						broadcastedMatrix, interval)));
+				ids.add(DOT_PRODUCT_QUEUE.submit(new Triple<Matrix, Matrix, Interval<Integer>>(
+						this, broadcastedMatrix, interval)));
 			}
 
 			// Process the remaining rows
@@ -1588,7 +1588,7 @@ public class Matrix
 
 			// Collect the results
 			for (final long id : ids) {
-				final Pair<Matrix, Interval<Integer>> pair = WORK_QUEUE.get(id);
+				final Pair<Matrix, Interval<Integer>> pair = DOT_PRODUCT_QUEUE.get(id);
 				final Matrix submatrix = pair.getFirst();
 				final Interval<Integer> interval = pair.getSecond();
 				result.setSubmatrix(interval.getLowerBound(),
@@ -2165,31 +2165,31 @@ public class Matrix
 	/**
 	 * Returns a {@link Matrix} loaded from the specified file.
 	 * <p>
-	 * @param pathName the path name of the file to load
+	 * @param path the path to the file to load
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public static Matrix load(final String pathName)
+	public static Matrix load(final String path)
 			throws IOException {
-		final FileHandler fileHandler = new FileHandler(pathName);
+		final FileHandler fileHandler = new FileHandler(path);
 		return load(fileHandler.getReader(), fileHandler.countLines(true), false);
 	}
 
 	/**
 	 * Returns a {@link Matrix} loaded from the specified file.
 	 * <p>
-	 * @param pathName  the path name of the file to load
+	 * @param path      the path to the file to load
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public static Matrix load(final String pathName, final boolean transpose)
+	public static Matrix load(final String path, final boolean transpose)
 			throws IOException {
-		final FileHandler fileHandler = new FileHandler(pathName);
+		final FileHandler fileHandler = new FileHandler(path);
 		return load(fileHandler.getReader(), fileHandler.countLines(true), transpose);
 	}
 
@@ -2320,11 +2320,12 @@ public class Matrix
 	}
 
 	/**
-	 * Tests whether {@code string} is a parsable {@link Matrix}.
+	 * Tests whether the specified {@link String} is a parsable {@link Matrix}.
 	 * <p>
 	 * @param string a {@link String}
 	 * <p>
-	 * @return {@code true} if {@code string} is a parsable {@link Matrix}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is a parsable
+	 *         {@link Matrix}, {@code false} otherwise
 	 */
 	public static boolean is(final String string) {
 		final char[] delimiters = new char[] {Characters.LEFT_BRACKET, Characters.RIGHT_BRACKET};
