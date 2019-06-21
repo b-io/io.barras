@@ -513,6 +513,11 @@ public class ExpressionHandler {
 	protected static class Parser
 			extends Worker<Triple<Element, String, Map<String, Element>>, Report<Element>> {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
 		protected Parser() {
 			super();
 		}

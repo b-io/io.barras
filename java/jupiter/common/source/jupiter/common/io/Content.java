@@ -1,5 +1,5 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
  * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
@@ -25,11 +25,25 @@ package jupiter.common.io;
 
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 
+import java.io.Serializable;
 import java.nio.charset.Charset;
 
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class Content {
+public class Content
+		implements ICloneable<Content>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -106,6 +120,38 @@ public class Content {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Content clone() {
+		try {
+			return (Content) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex.getMessage(), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof Content)) {
+			return false;
+		}
+		final Content otherContent = (Content) other;
+		return Objects.equals(content, otherContent.content) &&
+				Objects.equals(charset, otherContent.charset) &&
+				Objects.equals(lineCount, otherContent.lineCount);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, content, charset, lineCount);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override

@@ -60,7 +60,7 @@ public class Scalar
 	/**
 	 * The flag specifying whether {@code this} is read-only.
 	 */
-	protected final boolean readOnly;
+	protected final boolean isReadOnly;
 
 	/**
 	 * The value.
@@ -78,18 +78,18 @@ public class Scalar
 
 	public Scalar(final double value) {
 		this.value = value;
-		readOnly = false;
+		isReadOnly = false;
 	}
 
 	//////////////////////////////////////////////
 
-	public Scalar(final boolean readOnly) {
-		this(0., readOnly);
+	public Scalar(final boolean isReadOnly) {
+		this(0., isReadOnly);
 	}
 
-	public Scalar(final double value, final boolean readOnly) {
+	public Scalar(final double value, final boolean isReadOnly) {
 		this.value = value;
-		this.readOnly = readOnly;
+		this.isReadOnly = isReadOnly;
 	}
 
 
@@ -134,7 +134,7 @@ public class Scalar
 	 * @param value a {@code double} value
 	 */
 	public void set(final double value) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			this.value = value;
 		} else {
 			throw new IllegalOperationException(
@@ -246,7 +246,7 @@ public class Scalar
 	 */
 	@Override
 	public void fill(final double value) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			this.value = value;
 		} else {
 			throw new IllegalOperationException(
@@ -341,7 +341,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar add(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value += scalar;
 		} else {
 			throw new IllegalOperationException(
@@ -410,7 +410,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar subtract(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value -= scalar;
 		} else {
 			throw new IllegalOperationException(
@@ -486,7 +486,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar multiply(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value *= scalar;
 		} else {
 			throw new IllegalOperationException(
@@ -562,7 +562,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar divide(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value /= scalar;
 		} else {
 			throw new IllegalOperationException(
@@ -634,7 +634,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar arrayRaise(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value = Math.pow(value, scalar);
 		} else {
 			throw new IllegalOperationException(

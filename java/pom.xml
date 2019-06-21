@@ -61,8 +61,8 @@
 					<testTarget>${project.build.target}</testTarget>
 
 					<compilerArgs>
-						<!--<arg>-Xlint:deprecation</arg>-->
-						<!--<arg>-Xlint:unchecked</arg>-->
+						<arg>-Xlint:deprecation</arg>
+						<arg>-Xlint:unchecked</arg>
 					</compilerArgs>
 
 					<encoding>${project.build.sourceEncoding}</encoding>

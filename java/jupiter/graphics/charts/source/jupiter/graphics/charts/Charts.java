@@ -28,6 +28,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.text.DateFormat;
+import java.text.Format;
 import java.util.List;
 
 import org.jfree.chart.ChartFactory;
@@ -273,7 +274,7 @@ public class Charts {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Crosshair createCrosshair(final boolean showLabel) {
+	public static Crosshair createCrosshair(final boolean showLabel, final Format labelFormat) {
 		// Create the crosshair
 		final Crosshair crosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(
 				1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[] {10f, 5f}, 0f));
@@ -282,7 +283,7 @@ public class Charts {
 		crosshair.setLabelGenerator(new CrosshairLabelGenerator() {
 			@Override
 			public String generateLabel(final Crosshair crosshair) {
-				return Charts.DATE_FORMAT.format(crosshair.getValue());
+				return labelFormat.format(crosshair.getValue());
 			}
 		});
 		crosshair.setLabelOutlinePaint(Color.WHITE);

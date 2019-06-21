@@ -28,6 +28,9 @@ import static jupiter.common.util.Strings.EMPTY;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 import java.util.Locale;
 
 public class Formats {
@@ -65,6 +68,23 @@ public class Formats {
 	 * The default length of a line (useful for IO).
 	 */
 	public static final int DEFAULT_LINE_LENGTH = 72;
+
+	/**
+	 * The default format.
+	 */
+	public static Format DEFAULT_FORMAT = new Format() {
+		@Override
+		public StringBuffer format(final Object object, final StringBuffer toAppendTo,
+				final FieldPosition position) {
+			toAppendTo.append(object);
+			return toAppendTo;
+		}
+
+		@Override
+		public Object parseObject(final String source, final ParsePosition position) {
+			return source;
+		}
+	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

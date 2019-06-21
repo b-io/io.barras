@@ -21,19 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.map.parser;
+package jupiter.math.analysis.struct;
 
-import static jupiter.common.io.IO.IO;
-
-import jupiter.common.map.ObjectToByteMapper;
-import jupiter.common.util.Strings;
+import jupiter.common.struct.tuple.Pair;
 
 /**
- * {@link ByteParser} is a map operator parsing an {@link Object} to a {@link Byte}.
+ * A {@link Pair} of type {@code T}.
+ * <p>
+ * @param <T> the type of the {@link Pair}
  */
-public class ByteParser
-		extends ObjectToByteMapper
-		implements IParser<Byte> {
+public class XY<T>
+		extends Pair<T, T> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -49,75 +47,38 @@ public class ByteParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ByteParser() {
+	public XY() {
 		super();
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Byte call(final Object input) {
-		if (input == null) {
-			return null;
-		}
-		if (input instanceof Byte) {
-			return (Byte) input;
-		}
-		if (input instanceof Number) {
-			return ((Number) input).byteValue();
-		}
-		final String value = Strings.toStringWithNull(input);
-		if (value == null) {
-			return null;
-		}
-		try {
-			return Byte.valueOf(value);
-		} catch (final NumberFormatException ignored) {
-			IO.error("Cannot convert ", Strings.quote(input), " to a ", c.getSimpleName());
-		}
-		return null;
+	public XY(final T first, final T second) {
+		super(first, second);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSER
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Byte parse(final Object input) {
-		return call(input);
+	public T getX() {
+		return first;
 	}
+
+	public T getY() {
+		return second;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Byte[] parseToArray(final Object[] input) {
-		return callToArray(input);
+	public void setX(final T x) {
+		super.setFirst(x);
 	}
 
-	public Byte[] parseAsArray(final Object... input) {
-		return callToArray(input);
-	}
-
-	//////////////////////////////////////////////
-
-	public Byte[][] parseToArray2D(final Object[][] input2D) {
-		return callToArray2D(input2D);
-	}
-
-	public Byte[][] parseAsArray2D(final Object[]... input2D) {
-		return callToArray2D(input2D);
-	}
-
-	//////////////////////////////////////////////
-
-	public Byte[][][] parseToArray3D(final Object[][][] input3D) {
-		return callToArray3D(input3D);
-	}
-
-	public Byte[][][] parseAsArray3D(final Object[][]... input3D) {
-		return callToArray3D(input3D);
+	public void setY(final T y) {
+		super.setSecond(y);
 	}
 
 
@@ -126,7 +87,11 @@ public class ByteParser
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public ByteParser clone() {
-		return new ByteParser();
+	public XY<T> clone() {
+		try {
+			return (XY<T>) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex.getMessage(), ex);
+		}
 	}
 }

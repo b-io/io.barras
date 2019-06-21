@@ -41,9 +41,22 @@ public abstract class Mapper<I, O>
 		extends Worker<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The output class.
+	 */
 	protected final Class<O> c;
 
 
@@ -80,16 +93,19 @@ public abstract class Mapper<I, O>
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
+	public O call(final I input) {
+		return c.cast(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public O[] callToArray(final I[] input) {
 		final O[] result = Arrays.<O>create(c, input.length);
 		for (int i = 0; i < input.length; ++i) {
 			result[i] = call(input[i]);
 		}
 		return result;
-	}
-
-	public O[] callAsArray(final I... input) {
-		return callToArray(input);
 	}
 
 	public O[] callToArray(final I[][] input2D) {
@@ -101,10 +117,6 @@ public abstract class Mapper<I, O>
 			}
 		}
 		return result;
-	}
-
-	public O[] callAsArray(final I[]... input2D) {
-		return callToArray(input2D);
 	}
 
 	public O[] callToArray(final I[][][] input3D) {
@@ -121,10 +133,6 @@ public abstract class Mapper<I, O>
 		return result;
 	}
 
-	public O[] callAsArray(final I[][]... input3D) {
-		return callToArray(input3D);
-	}
-
 	//////////////////////////////////////////////
 
 	public O[][] callToArray2D(final I[][] input2D) {
@@ -133,10 +141,6 @@ public abstract class Mapper<I, O>
 			result[i] = callToArray(input2D[i]);
 		}
 		return result;
-	}
-
-	public O[][] callAsArray2D(final I[]... input2D) {
-		return callToArray2D(input2D);
 	}
 
 	//////////////////////////////////////////////
@@ -149,10 +153,6 @@ public abstract class Mapper<I, O>
 		return result;
 	}
 
-	public O[][][] callAsArray3D(final I[][]... input3D) {
-		return callToArray3D(input3D);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public ExtendedList<O> callToList(final I[] input) {
@@ -163,10 +163,6 @@ public abstract class Mapper<I, O>
 		return result;
 	}
 
-	public ExtendedList<O> callAsList(final I... input) {
-		return callToList(input);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Set<O> callToSet(final I[] input) {
@@ -175,9 +171,5 @@ public abstract class Mapper<I, O>
 			result.add(call(element));
 		}
 		return result;
-	}
-
-	public Set<O> callAsSet(final I... input) {
-		return callToSet(input);
 	}
 }

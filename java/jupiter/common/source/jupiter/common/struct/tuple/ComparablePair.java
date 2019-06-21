@@ -29,7 +29,7 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
-		implements Comparable<ComparablePair<T1, T2>>, Serializable {
+		implements Cloneable, Comparable<ComparablePair<T1, T2>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -129,6 +129,18 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public ComparablePair<T1, T2> clone()
+			throws CloneNotSupportedException {
+		final ComparablePair<T1, T2> clone = (ComparablePair<T1, T2>) super.clone();
+		clone.first = Objects.clone(first);
+		clone.second = Objects.clone(second);
+		return clone;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -142,9 +154,12 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String toString() {

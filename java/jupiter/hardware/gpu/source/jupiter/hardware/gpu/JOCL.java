@@ -108,7 +108,7 @@ public class JOCL
 		final int platformCount = platformCountArray[0];
 		IO.debug("#Platforms: ", platformCount);
 		if (platformCount == 0) {
-			ACTIVE = false;
+			IS_ACTIVE = false;
 			throw new IllegalStateException("There is no compatible OpenCL platform");
 		}
 
@@ -127,7 +127,7 @@ public class JOCL
 		final int deviceCount = deviceCountArray[0];
 		IO.debug("#Devices: ", deviceCount);
 		if (platformCount == 0) {
-			ACTIVE = false;
+			IS_ACTIVE = false;
 			throw new IllegalStateException("There is no compatible OpenCL device");
 		}
 
@@ -169,9 +169,9 @@ public class JOCL
 				kernels.put(kernelName, build(kernelName));
 			}
 
-			active = true;
+			isActive = true;
 		} catch (final Exception ex) {
-			ACTIVE = false;
+			IS_ACTIVE = false;
 			release();
 			throw new IllegalStateException(
 					"There is a problem with the OpenCL program: " + ex.getMessage());
@@ -328,7 +328,7 @@ public class JOCL
 	 */
 	@Override
 	public void release() {
-		active = false;
+		isActive = false;
 		for (final cl_kernel kernel : kernels.values()) {
 			clReleaseKernel(kernel);
 		}

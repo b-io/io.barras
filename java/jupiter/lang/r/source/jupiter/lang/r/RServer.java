@@ -28,6 +28,11 @@ import jupiter.common.thread.Worker;
 public class RServer
 		extends Worker<String[], Integer> {
 
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public RServer() {
 	}
 

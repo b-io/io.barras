@@ -29,7 +29,7 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Triple<T1, T2, T3>
-		implements Serializable {
+		implements Cloneable, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -139,6 +139,19 @@ public class Triple<T1, T2, T3>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public Triple<T1, T2, T3> clone()
+			throws CloneNotSupportedException {
+		final Triple<T1, T2, T3> clone = (Triple<T1, T2, T3>) super.clone();
+		clone.first = Objects.clone(first);
+		clone.second = Objects.clone(second);
+		clone.third = Objects.clone(third);
+		return clone;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -156,6 +169,8 @@ public class Triple<T1, T2, T3>
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String toString() {

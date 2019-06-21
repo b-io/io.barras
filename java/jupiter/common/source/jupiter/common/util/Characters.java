@@ -526,24 +526,6 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code char} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code char} values
-	 * <p>
-	 * @return a clone of the specified array of {@code char} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static char[] clone(final char... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code char} value.
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code char} value
@@ -947,6 +929,24 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code char} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code char} values
+	 * <p>
+	 * @return a clone of the specified array of {@code char} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static char[] clone(final char... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

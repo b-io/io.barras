@@ -30,11 +30,12 @@ import java.io.Serializable;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Message
-		implements Serializable {
+		implements ICloneable<Message>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -169,6 +170,17 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	public Message clone() {
+		try {
+			return (Message) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex.getMessage(), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -177,17 +189,19 @@ public class Message
 			return false;
 		}
 		final Message otherMessage = (Message) other;
-		return Objects.equals(type, otherMessage.getType()) &&
-				Objects.equals(level, otherMessage.getLevel()) &&
-				Objects.equals(prefix, otherMessage.getPrefix()) &&
-				Objects.equals(content, otherMessage.getContent()) &&
-				Objects.equals(exception, otherMessage.getException());
+		return Objects.equals(type, otherMessage.type) &&
+				Objects.equals(level, otherMessage.level) &&
+				Objects.equals(prefix, otherMessage.prefix) &&
+				Objects.equals(content, otherMessage.content) &&
+				Objects.equals(exception, otherMessage.exception);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, type, level, prefix, content, exception);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String toString() {

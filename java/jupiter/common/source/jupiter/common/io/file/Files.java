@@ -987,6 +987,11 @@ public class Files {
 	protected static class Copier
 			extends Worker<Triple<File, File, Boolean>, Boolean> {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
 		protected Copier() {
 			super();
 		}
@@ -1002,7 +1007,7 @@ public class Files {
 		}
 
 		@Override
-		public Worker<Triple<File, File, Boolean>, Boolean> clone() {
+		public Copier clone() {
 			return new Copier();
 		}
 	}

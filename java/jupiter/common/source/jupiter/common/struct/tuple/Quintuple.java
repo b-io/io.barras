@@ -29,7 +29,7 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Quintuple<T1, T2, T3, T4, T5>
-		implements Serializable {
+		implements Cloneable, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -186,6 +186,21 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public Quintuple<T1, T2, T3, T4, T5> clone()
+			throws CloneNotSupportedException {
+		final Quintuple<T1, T2, T3, T4, T5> clone = (Quintuple<T1, T2, T3, T4, T5>) super.clone();
+		clone.first = Objects.clone(first);
+		clone.second = Objects.clone(second);
+		clone.third = Objects.clone(third);
+		clone.fourth = Objects.clone(fourth);
+		clone.fifth = Objects.clone(fifth);
+		return clone;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -205,6 +220,8 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third, fourth, fifth);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String toString() {

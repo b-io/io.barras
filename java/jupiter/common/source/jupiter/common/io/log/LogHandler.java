@@ -31,10 +31,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.io.IOHandler;
-import jupiter.common.io.Message;
 import jupiter.common.io.file.Files;
 import jupiter.common.test.Arguments;
-import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 
 public class LogHandler
@@ -43,6 +41,11 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The default log directory.
@@ -343,7 +346,7 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public Worker<Message, Integer> clone() {
+	public LogHandler clone() {
 		return new LogHandler(Files.getPath(logDir), outputLog.getName(), errorLog.getName());
 	}
 }

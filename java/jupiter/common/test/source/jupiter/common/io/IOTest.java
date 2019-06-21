@@ -173,7 +173,7 @@ public class IOTest
 		IO.test("warn_Object_Exception");
 
 		final String content = "This is a test message";
-		IO.warn(content, new Exception("Test error"));
+		IO.warn(content, new Exception("This is a test warning"));
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class IOTest
 	public void testError_Exception() {
 		IO.test("error_Exception");
 
-		IO.error(new Exception("Test error"));
+		IO.error(new Exception("This is a test error"));
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class IOTest
 		IO.test("error_Object_Exception");
 
 		final String content = "This is a test message";
-		IO.error(content, new Exception("Test error"));
+		IO.error(content, new Exception("This is a test error"));
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class IOTest
 	public void testFail_Exception() {
 		IO.test("fail_Exception");
 
-		IO.fail(new Exception("Test error"));
+		IO.fail(new Exception("This is a test failure"));
 	}
 
 	/**

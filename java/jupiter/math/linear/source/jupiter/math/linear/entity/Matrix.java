@@ -65,7 +65,6 @@ import jupiter.math.linear.decomposition.LUDecomposition;
 import jupiter.math.linear.decomposition.Norms;
 import jupiter.math.linear.decomposition.QRDecomposition;
 import jupiter.math.linear.decomposition.SingularValueDecomposition;
-import jupiter.math.linear.jni.MatrixOperations;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
@@ -1193,15 +1192,6 @@ public class Matrix
 		} else {
 			IO.warn("The work queue ", DOT_PRODUCT_QUEUE, " has already started");
 		}
-		if (MatrixOperations.ACTIVE) {
-			if (JNI_DOT_PRODUCT_QUEUE == null) {
-				JNI_DOT_PRODUCT_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
-						new JNIDotProduct(), 1, 1);
-				USE_JNI = true;
-			} else {
-				IO.warn("The JNI work queue ", JNI_DOT_PRODUCT_QUEUE, " has already started");
-			}
-		}
 	}
 
 	/**
@@ -1929,7 +1919,7 @@ public class Matrix
 	 * @return {@code this * A + B}
 	 */
 	public Entity forward(final Entity A, final Entity B) {
-		if (OpenCL.ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
+		if (OpenCL.IS_ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
 			final Matrix a = A.toMatrix();
 			final Matrix b = B.toMatrix();
 			if (CL.test(n, a.n, b.n)) {
@@ -2472,33 +2462,6 @@ public class Matrix
 		@Override
 		public DotProduct clone() {
 			return new DotProduct();
-		}
-	}
-
-	protected static class JNIDotProduct
-			extends Worker<Pair<Matrix, Matrix>, Matrix> {
-
-		protected JNIDotProduct() {
-			super();
-		}
-
-		public double[] apply(final double[] leftElements, final double[] rightElements,
-				final int leftColumnDimension, final int rightColumnDimension) {
-			return MatrixOperations.dot(leftElements, rightElements, leftColumnDimension,
-					rightColumnDimension);
-		}
-
-		@Override
-		public Matrix call(final Pair<Matrix, Matrix> input) {
-			final Matrix left = input.getFirst();
-			final Matrix right = input.getSecond();
-			return new Matrix(left.getRowDimension(), apply(left.getElements(), right.getElements(),
-					left.getColumnDimension(), right.getColumnDimension()));
-		}
-
-		@Override
-		public JNIDotProduct clone() {
-			return new JNIDotProduct();
 		}
 	}
 }

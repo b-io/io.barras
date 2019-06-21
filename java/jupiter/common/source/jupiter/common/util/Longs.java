@@ -534,24 +534,6 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code long} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code long} values
-	 * <p>
-	 * @return a clone of the specified array of {@code long} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static long[] clone(final long... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code long} value.
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code long} value
@@ -955,6 +937,24 @@ public class Longs {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code long} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code long} values
+	 * <p>
+	 * @return a clone of the specified array of {@code long} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static long[] clone(final long... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

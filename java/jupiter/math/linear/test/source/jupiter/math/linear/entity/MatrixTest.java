@@ -92,7 +92,7 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.parallelize();
-				if (OpenCL.ACTIVE) {
+				if (OpenCL.IS_ACTIVE) {
 					CL.setActive(false);
 				}
 				try {
@@ -112,7 +112,7 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
-				if (OpenCL.ACTIVE) {
+				if (OpenCL.IS_ACTIVE) {
 					IO.test("- GPU:");
 					CL.setActive(true);
 					try {
@@ -135,7 +135,7 @@ public class MatrixTest
 				// Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.parallelize();
-				if (OpenCL.ACTIVE) {
+				if (OpenCL.IS_ACTIVE) {
 					CL.setActive(true);
 				}
 				try {
@@ -152,7 +152,7 @@ public class MatrixTest
 					assertEquals(expected, found);
 				} finally {
 					Matrix.unparallelize();
-					if (OpenCL.ACTIVE) {
+					if (OpenCL.IS_ACTIVE) {
 						CL.setActive(false);
 					}
 				}
@@ -234,7 +234,7 @@ public class MatrixTest
 				// Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.parallelize();
-				if (OpenCL.ACTIVE) {
+				if (OpenCL.IS_ACTIVE) {
 					CL.setActive(false);
 				}
 				try {
@@ -254,7 +254,7 @@ public class MatrixTest
 				}
 
 				// Test the GPU version
-				if (OpenCL.ACTIVE) {
+				if (OpenCL.IS_ACTIVE) {
 					IO.test("- GPU:");
 					CL.setActive(true);
 					try {
@@ -277,7 +277,7 @@ public class MatrixTest
 				// Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.parallelize();
-				if (OpenCL.ACTIVE) {
+				if (OpenCL.IS_ACTIVE) {
 					CL.setActive(true);
 				}
 				try {
@@ -294,7 +294,7 @@ public class MatrixTest
 					assertEquals(expected, found);
 				} finally {
 					Matrix.unparallelize();
-					if (OpenCL.ACTIVE) {
+					if (OpenCL.IS_ACTIVE) {
 						CL.setActive(false);
 					}
 				}

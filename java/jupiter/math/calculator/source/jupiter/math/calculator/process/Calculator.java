@@ -353,6 +353,11 @@ public class Calculator {
 	protected static class Evaluator
 			extends Worker<Pair<Element, Map<String, Element>>, Report<Entity>> {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
 		protected Evaluator() {
 			super();
 		}

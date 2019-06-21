@@ -211,6 +211,14 @@ public class R {
 	protected static class RPrinter
 			extends IOHandler {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * The message prefix.
+		 */
 		protected static final String PREFIX = "R> ";
 
 		/**
@@ -243,7 +251,7 @@ public class R {
 		}
 
 		@Override
-		public Worker<Message, Integer> clone() {
+		public RPrinter clone() {
 			return new RPrinter(printer);
 		}
 	}

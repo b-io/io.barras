@@ -520,24 +520,6 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code double} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code double} values
-	 * <p>
-	 * @return a clone of the specified array of {@code double} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static double[] clone(final double... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code double} value between {@code 0.} and
 	 * {@code 1.}.
 	 * <p>
@@ -967,6 +949,24 @@ public class Doubles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code double} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code double} values
+	 * <p>
+	 * @return a clone of the specified array of {@code double} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static double[] clone(final double... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

@@ -563,24 +563,6 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code short} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code short} values
-	 * <p>
-	 * @return a clone of the specified array of {@code short} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static short[] clone(final short... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code short} value.
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code short} value
@@ -984,6 +966,24 @@ public class Shorts {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code short} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code short} values
+	 * <p>
+	 * @return a clone of the specified array of {@code short} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static short[] clone(final short... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

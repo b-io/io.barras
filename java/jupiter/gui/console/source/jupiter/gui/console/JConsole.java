@@ -847,9 +847,10 @@ public class JConsole
 			if (isClosed) {
 				throw new IOException("No console input stream");
 			}
+
 			// While there is no data
 			while (!isClosed && super.in < 0) {
-				// Notify any writers to wake up
+				// Notify all the writers
 				notifyAll();
 				try {
 					wait(750);
@@ -857,6 +858,7 @@ public class JConsole
 					throw new InterruptedIOException(ex.getMessage());
 				}
 			}
+
 			// This is what the superclass does
 			final int nextByte = buffer[super.out++] & 0xFF;
 			if (super.out >= buffer.length) {

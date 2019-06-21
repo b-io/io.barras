@@ -25,6 +25,7 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
+import java.io.Serializable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -41,11 +42,16 @@ import jupiter.common.util.Strings;
  */
 public abstract class Worker<I, O>
 		extends Thread
-		implements Callable<O>, ICloneable<Worker<I, O>> {
+		implements Callable<O>, ICloneable<Worker<I, O>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	protected static volatile long CURRENT_ID = 0L;
 	protected static final Lock CURRENT_ID_LOCK = new ReentrantLock(true);

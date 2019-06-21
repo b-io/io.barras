@@ -69,8 +69,8 @@ public class LockedWorkQueue<I, O>
 	}
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the specified model and the specified minimum and
-	 * maximum number of workers to handle.
+	 * Constructs a {@code LockedWorkQueue} with the specified model and minimum and maximum number
+	 * of workers to handle.
 	 * <p>
 	 * @param model      the model of the workers to handle
 	 * @param minThreads the minimum number of the workers to handle
@@ -81,21 +81,21 @@ public class LockedWorkQueue<I, O>
 	}
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the specified model and the specified minimum and
-	 * maximum number of workers to handle and the specified fairness policy.
+	 * Constructs a {@code LockedWorkQueue} with the specified model, minimum and maximum number of
+	 * workers to handle and fairness policy.
 	 * <p>
 	 * @param model      the model of the workers to handle
 	 * @param minThreads the minimum number of the workers to handle
 	 * @param maxThreads the maximum number of the workers to handle
-	 * @param fair       the flag specifying whether to use a fair ordering policy
+	 * @param isFair     the flag specifying whether to use a fair ordering policy
 	 */
 	public LockedWorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads,
-			final boolean fair) {
+			final boolean isFair) {
 		super(model, minThreads, maxThreads);
-		workersLock = new ReentrantLock(fair);
-		tasksLock = new ReentrantLock(fair);
+		workersLock = new ReentrantLock(isFair);
+		tasksLock = new ReentrantLock(isFair);
 		tasksLockCondition = tasksLock.newCondition();
-		resultsLock = new ReentrantLock(fair);
+		resultsLock = new ReentrantLock(isFair);
 		resultsLockCondition = resultsLock.newCondition();
 		createWorkers(minThreads);
 	}

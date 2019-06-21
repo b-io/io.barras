@@ -21,39 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.map;
+package jupiter.math.analysis.interpolation;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.util.Arrays;
+import jupiter.math.analysis.struct.XY;
 
 /**
- * {@link ObjectMapper} is an operator mapping an {@link Object} to an {@code O} object.
- * <p>
- * @param <O> the output type
+ * Performs a linear interpolation from a specified set of control points.
  */
-public abstract class ObjectMapper<O>
-		extends Mapper<Object, O> {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class LinearInterpolator {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected ObjectMapper(final Class<O> c) {
-		super(c);
+	protected LinearInterpolator() {
 	}
 
 
@@ -61,33 +42,33 @@ public abstract class ObjectMapper<O>
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <I> O[] callCollectionToArray(final Collection<I> input) {
-		final O[] result = Arrays.<O>create(c, input.size());
-		int i = 0;
-		for (final I element : input) {
-			result[i] = call(element);
-			++i;
+	/**
+	 * Returns the interpolated {@code double} value of Y = f(X) for the specified X. Clamps X to
+	 * the domain of the line determined by the specified points.
+	 * <p>
+	 * @param from the starting point {@link XY} of {@link Double} of the interpolating line
+	 * @param to   the end point {@link XY} of {@link Double} of the interpolating line
+	 * @param x    the X {@code double} value
+	 * <p>
+	 * @return the interpolated {@code double} value of Y = f(X) for the specified X
+	 */
+	public static double interpolate(final XY<Double> from, final XY<Double> to, final double x) {
+		// Handle the boundary cases
+		if (Double.isNaN(x)) {
+			return x;
 		}
-		return result;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public <I> ExtendedList<O> callCollectionToList(final Collection<I> input) {
-		final ExtendedList<O> result = new ExtendedList<O>(input.size());
-		for (final I element : input) {
-			result.add(call(element));
+		if (x <= from.getX()) {
+			return from.getY();
 		}
-		return result;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public <I> Set<O> callCollectionToSet(final Collection<I> input) {
-		final Set<O> result = new HashSet<O>(input.size());
-		for (final I element : input) {
-			result.add(call(element));
+		if (x >= to.getX()) {
+			return to.getY();
 		}
-		return result;
+
+		// Compute the slope and the intercept of the interpolating line
+		final double slope = (to.getY() - from.getY()) / (to.getX() - from.getX());
+		final double intercept = from.getY() - slope * from.getX();
+
+		// Apply the linear interpolation
+		return (intercept + slope * x) ;
 	}
 }

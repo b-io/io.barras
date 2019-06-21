@@ -23,6 +23,7 @@
  */
 package jupiter.common.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class Objects {
@@ -35,7 +36,34 @@ public class Objects {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected Objects() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static boolean isBasic(final Class<?> c) {
+		return isVoid(c) ||
+				Booleans.is(c) ||
+				Characters.is(c) ||
+				Bytes.is(c) ||
+				Shorts.is(c) ||
+				Integers.is(c) ||
+				Longs.is(c) ||
+				Floats.is(c) ||
+				Doubles.is(c) ||
+				Strings.is(c);
+	}
+
+	public static boolean isVoid(final Class<?> c) {
+		return void.class.isAssignableFrom(c);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -65,6 +93,48 @@ public class Objects {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@SuppressWarnings("unchecked")
+	public static <T> T clone(final T object)
+			throws CloneNotSupportedException {
+		if (object == null) {
+			return null;
+		}
+		try {
+			final Class<?> c = object.getClass();
+			if (c.isArray()) {
+				if (Bytes.isPrimitiveArray(c)) {
+					return (T) Bytes.clone((byte[]) object);
+				} else if (Shorts.isPrimitiveArray(c)) {
+					return (T) Shorts.clone((short[]) object);
+				} else if (Integers.isPrimitiveArray(c)) {
+					return (T) Integers.clone((int[]) object);
+				} else if (Longs.isPrimitiveArray(c)) {
+					return (T) Longs.clone((long[]) object);
+				} else if (Floats.isPrimitiveArray(c)) {
+					return (T) Floats.clone((float[]) object);
+				} else if (Doubles.isPrimitiveArray(c)) {
+					return (T) Doubles.clone((double[]) object);
+				}
+				return (T) Arrays.clone((Object[]) object);
+			} else if (isBasic(c)) {
+				return object;
+			}
+			return (T) c.getMethod("clone").invoke(object);
+		} catch (IllegalAccessException ex) {
+			throw new CloneNotSupportedException(ex.getMessage());
+		} catch (IllegalArgumentException ex) {
+			throw new CloneNotSupportedException(ex.getMessage());
+		} catch (InvocationTargetException ex) {
+			throw new CloneNotSupportedException(ex.getMessage());
+		} catch (NoSuchMethodException ex) {
+			throw new CloneNotSupportedException(ex.getMessage());
+		} catch (SecurityException ex) {
+			throw new CloneNotSupportedException(ex.getMessage());
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -103,6 +173,7 @@ public class Objects {
 	 * <p>
 	 * @return a hash code value for the specified array of {@code Object} at the specified depth
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int hashCodeWith(final int depth, final T... array) {
 		if (array == null) {
 			return 0;

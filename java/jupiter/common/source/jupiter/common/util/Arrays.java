@@ -26,6 +26,7 @@ package jupiter.common.util;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -85,7 +86,7 @@ public class Arrays {
 
 	//////////////////////////////////////////////
 
-	public static <T> T[] toArray(final Class<T> c, final T... array) {
+	public static <T> T[] toArray(final Class<T> c, final T[] array) {
 		final T[] result = create(c, array.length);
 		System.arraycopy(array, 0, result, 0, array.length);
 		return result;
@@ -137,6 +138,18 @@ public class Arrays {
 		return toExtendedList(array);
 	}
 
+	public static <T> LinkedList<T> toLinkedList(final T[] array) {
+		final LinkedList<T> result = new LinkedList<T>();
+		for (final T element : array) {
+			result.add(element);
+		}
+		return result;
+	}
+
+	public static <T> LinkedList<T> asLinkedList(final T... array) {
+		return toLinkedList(array);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> Set<T> toSet(final T[] array) {
@@ -154,25 +167,6 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
-	 * {@code null}.
-	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T} (may be {@code null})
-	 * <p>
-	 * @return a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
-	 *         {@code null}
-	 */
-	public static <T> T[] clone(final T... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@SuppressWarnings("unchecked")
@@ -303,7 +297,7 @@ public class Arrays {
 	 *                                  superclass or superinterface of, the type of {@code b}
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T[] merge(final T[] a, final T... b) {
+	public static <T> T[] merge(final T[] a, final T[] b) {
 		if (a == null) {
 			return clone(b);
 		} else if (b == null) {
@@ -693,7 +687,7 @@ public class Arrays {
 	 * @return {@code true} if the specified array of type {@code T} is empty, {@code false}
 	 *         otherwise
 	 */
-	public static <T> boolean isEmpty(final T... array) {
+	public static <T> boolean isEmpty(final T[] array) {
 		for (final T element : array) {
 			if (element != null) {
 				return false;
@@ -785,6 +779,25 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
+	 * {@code null}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T} (may be {@code null})
+	 * <p>
+	 * @return a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
+	 *         {@code null}
+	 */
+	public static <T> T[] clone(final T[] array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

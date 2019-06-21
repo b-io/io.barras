@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.graphics.charts.structure;
+package jupiter.graphics.charts.struct;
 
 import java.awt.Color;
 import java.awt.Shape;

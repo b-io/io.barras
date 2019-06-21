@@ -95,9 +95,9 @@ public class JogAmpl
 			localWorkGroupSize = Math.min(device.getMaxWorkGroupSize(), 256);
 			IO.debug("Local work group size: ", localWorkGroupSize);
 
-			active = true;
+			isActive = true;
 		} catch (final Exception ex) {
-			ACTIVE = false;
+			IS_ACTIVE = false;
 			release();
 			throw new IllegalStateException(
 					"There is a problem with the OpenCL program: " + ex.getMessage());
@@ -223,7 +223,7 @@ public class JogAmpl
 	 */
 	@Override
 	public void release() {
-		active = false;
+		isActive = false;
 		for (final CLKernel kernel : kernels.values()) {
 			kernel.release();
 		}

@@ -552,24 +552,6 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code int} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code int} values
-	 * <p>
-	 * @return a clone of the specified array of {@code int} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static int[] clone(final int... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code int} value.
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code int} value
@@ -973,6 +955,24 @@ public class Integers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code int} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code int} values
+	 * <p>
+	 * @return a clone of the specified array of {@code int} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static int[] clone(final int... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

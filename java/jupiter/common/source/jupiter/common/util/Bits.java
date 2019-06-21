@@ -34,7 +34,7 @@ public class Bits {
 	public static final long LONG_BITS_COUNT = 64L;
 	public static final long HALF_LONG_BITS_COUNT = LONG_BITS_COUNT / 2L;
 
-	public static final int[] SEEDS = Integers.createRandomSequence(100);
+	public static volatile int[] SEEDS = Integers.createRandomSequence(128);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

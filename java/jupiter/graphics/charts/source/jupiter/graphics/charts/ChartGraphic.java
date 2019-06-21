@@ -34,7 +34,8 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 import jupiter.graphics.charts.panels.DynamicChartPanel;
-import jupiter.graphics.charts.structure.SeriesStyle;
+import jupiter.graphics.charts.struct.SeriesStyle;
+import jupiter.math.analysis.struct.XY;
 
 public abstract class ChartGraphic
 		extends Graphic {
@@ -53,8 +54,7 @@ public abstract class ChartGraphic
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final String xLabel;
-	protected final String yLabel;
+	protected final XY<String> labels;
 	protected final Map<Integer, SeriesStyle> styles = new HashMap<Integer, SeriesStyle>(10);
 
 
@@ -71,8 +71,7 @@ public abstract class ChartGraphic
 	 */
 	protected ChartGraphic(final String title, final String xLabel, final String yLabel) {
 		super(title);
-		this.xLabel = xLabel;
-		this.yLabel = yLabel;
+		labels = new XY<String>(xLabel, yLabel);
 	}
 
 
@@ -80,12 +79,16 @@ public abstract class ChartGraphic
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public abstract JFreeChart createChart();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Returns the item renderer.
+	 * Creates a {@link XYItemRenderer}.
 	 * <p>
-	 * @return the item renderer
+	 * @return a {@link XYItemRenderer}
 	 */
-	public XYItemRenderer getItemRenderer() {
+	public XYItemRenderer createItemRenderer() {
 		final XYItemRenderer renderer = new XYLineAndShapeRenderer();
 		final Set<Map.Entry<Integer, SeriesStyle>> styleMaps = styles.entrySet();
 		for (final Map.Entry<Integer, SeriesStyle> styleMap : styleMaps) {
@@ -95,13 +98,6 @@ public abstract class ChartGraphic
 		}
 		return renderer;
 	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public abstract JFreeChart createChart();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

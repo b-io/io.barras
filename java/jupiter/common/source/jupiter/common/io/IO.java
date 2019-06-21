@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -43,14 +44,21 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.log.LogHandler;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
-public class IO {
+public class IO
+		implements ICloneable<IO>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The flag specifying whether to exit with success.
@@ -102,15 +110,15 @@ public class IO {
 	/**
 	 * The IO handlers.
 	 */
-	protected List<IOHandler> handlers;
+	protected final List<IOHandler> handlers;
 	/**
 	 * The console handler.
 	 */
-	protected ConsoleHandler consoleHandler;
+	protected volatile ConsoleHandler consoleHandler;
 	/**
 	 * The log handler.
 	 */
-	protected LogHandler logHandler;
+	protected volatile LogHandler logHandler;
 	/**
 	 * The printer.
 	 */
@@ -810,6 +818,20 @@ public class IO {
 	 */
 	public void clear() {
 		printer.clear();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public IO clone() {
+		try {
+			return (IO) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex.getMessage(), ex);
+		}
 	}
 
 

@@ -25,11 +25,21 @@ package jupiter.common.io;
 
 import java.util.List;
 
-import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 
 public class IOPrinter
 		extends IOHandler {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -122,7 +132,26 @@ public class IOPrinter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public Worker<Message, Integer> clone() {
+	public IOPrinter clone() {
 		return new IOPrinter(handlers);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof Content)) {
+			return false;
+		}
+		final IOPrinter otherIOPrinter = (IOPrinter) other;
+		return Objects.equals(handlers, otherIOPrinter.handlers);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, handlers);
 	}
 }

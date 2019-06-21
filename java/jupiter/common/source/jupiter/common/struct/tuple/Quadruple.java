@@ -29,7 +29,7 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Quadruple<T1, T2, T3, T4>
-		implements Serializable {
+		implements Cloneable, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -162,6 +162,20 @@ public class Quadruple<T1, T2, T3, T4>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public Quadruple<T1, T2, T3, T4> clone()
+			throws CloneNotSupportedException {
+		final Quadruple<T1, T2, T3, T4> clone = (Quadruple<T1, T2, T3, T4>) super.clone();
+		clone.first = Objects.clone(first);
+		clone.second = Objects.clone(second);
+		clone.third = Objects.clone(third);
+		clone.fourth = Objects.clone(fourth);
+		return clone;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -180,6 +194,8 @@ public class Quadruple<T1, T2, T3, T4>
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third, fourth);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String toString() {

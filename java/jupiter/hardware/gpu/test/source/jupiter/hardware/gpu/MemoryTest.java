@@ -109,7 +109,7 @@ public class MemoryTest
 	 * The entry point of the memory transfer test.
 	 */
 	public static void test() {
-		if (OpenCL.ACTIVE) {
+		if (OpenCL.IS_ACTIVE) {
 			initialize();
 			for (final MemoryMode memoryMode : MemoryMode.values()) {
 				for (final AccessMode accessMode : AccessMode.values()) {

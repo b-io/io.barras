@@ -2956,6 +2956,6 @@ public class Strings {
 			}
 			return exception.getMessage();
 		}
-		return "null";
+		return NULL;
 	}
 }

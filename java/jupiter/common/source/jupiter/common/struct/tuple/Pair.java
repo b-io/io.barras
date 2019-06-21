@@ -29,7 +29,7 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Pair<T1, T2>
-		implements Serializable {
+		implements Cloneable, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -116,6 +116,18 @@ public class Pair<T1, T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public Pair<T1, T2> clone()
+			throws CloneNotSupportedException {
+		final Pair<T1, T2> clone = (Pair<T1, T2>) super.clone();
+		clone.first = Objects.clone(first);
+		clone.second = Objects.clone(second);
+		return clone;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -131,6 +143,8 @@ public class Pair<T1, T2>
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String toString() {

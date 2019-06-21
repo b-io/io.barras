@@ -70,8 +70,8 @@ public class Display {
 	protected void loadSeries() {
 		try {
 			final StringTable coordinates = new StringTable("test/resources/coordinates.csv", true);
-			graph.loadXY(coordinates, 0, 1, true);
-			graph.loadXY(coordinates, 0, 2, true);
+			graph.load(coordinates, 0, 1, true);
+			graph.load(coordinates, 0, 2, true);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} catch (final ParseException ex) {

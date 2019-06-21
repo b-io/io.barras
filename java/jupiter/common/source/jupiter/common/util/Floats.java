@@ -532,24 +532,6 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code float} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code float} values
-	 * <p>
-	 * @return a clone of the specified array of {@code float} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static float[] clone(final float... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
 	 * {@code 1f}.
 	 * <p>
@@ -979,6 +961,24 @@ public class Floats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code float} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code float} values
+	 * <p>
+	 * @return a clone of the specified array of {@code float} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static float[] clone(final float... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

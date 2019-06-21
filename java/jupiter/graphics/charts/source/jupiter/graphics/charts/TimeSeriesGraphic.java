@@ -35,7 +35,7 @@ import org.jfree.data.xy.XYDataset;
 import jupiter.common.struct.table.StringTable;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Doubles;
-import jupiter.graphics.charts.structure.TimeSeriesList;
+import jupiter.graphics.charts.struct.TimeSeriesList;
 
 public class TimeSeriesGraphic
 		extends ChartGraphic {
@@ -79,7 +79,7 @@ public class TimeSeriesGraphic
 
 	@Override
 	public JFreeChart createChart() {
-		return Charts.createTimeSeriesChart(title, xLabel, yLabel, dataset);
+		return Charts.createTimeSeriesChart(title, labels.getX(), labels.getY(), dataset);
 	}
 
 
@@ -121,7 +121,7 @@ public class TimeSeriesGraphic
 	 * <p>
 	 * @throws ParseException if there is a problem with parsing the x coordinates to {@link Date}
 	 */
-	public void loadXY(final StringTable coordinates, final int xColumnIndex,
+	public void load(final StringTable coordinates, final int xColumnIndex,
 			final int yColumnIndex, final boolean hasTime)
 			throws ParseException {
 		if (coordinates != null) {

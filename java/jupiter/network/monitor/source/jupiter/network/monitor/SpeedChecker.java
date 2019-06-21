@@ -268,6 +268,11 @@ public class SpeedChecker {
 	protected static class Checker
 			extends Worker<String, Report<Double>> {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
 		protected Checker() {
 			super();
 		}

@@ -576,24 +576,6 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code byte} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code byte} values
-	 * <p>
-	 * @return a clone of the specified array of {@code byte} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static byte[] clone(final byte... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code byte} value.
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code byte} value
@@ -997,6 +979,24 @@ public class Bytes {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a clone of the specified array of {@code byte} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code byte} values
+	 * <p>
+	 * @return a clone of the specified array of {@code byte} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static byte[] clone(final byte... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
