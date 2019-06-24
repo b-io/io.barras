@@ -293,7 +293,8 @@ public class Sort<T> {
 	 * stability.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param array      the array of type {@code T} in which a run is to be counted and possibly reversed
+	 * @param array      the array of type {@code T} in which a run is to be counted and possibly
+	 *                   reversed
 	 * @param lo         the index of the first element in the run
 	 * @param hi         the index after the last element that may be contained in the run. It is
 	 *                   required that {@code lo < hi}.

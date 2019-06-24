@@ -148,8 +148,8 @@ public class LogisticRegression
 	 * @param learningRate                     the learning rate
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
-	 * @param tolerance         the tolerance level
-	 * @param maxIterationCount the maximum number of iterations
+	 * @param tolerance                        the tolerance level
+	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */

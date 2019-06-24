@@ -25,11 +25,13 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>, T5 extends Comparable<T5>>
-		implements Cloneable, Comparable<ComparableQuintuple<T1, T2, T3, T4, T5>>, Serializable {
+		implements ICloneable<ComparableQuintuple<T1, T2, T3, T4, T5>>,
+		Comparable<ComparableQuintuple<T1, T2, T3, T4, T5>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -224,15 +226,19 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ComparableQuintuple<T1, T2, T3, T4, T5> clone()
-			throws CloneNotSupportedException {
-		final ComparableQuintuple<T1, T2, T3, T4, T5> clone = (ComparableQuintuple<T1, T2, T3, T4, T5>) super.clone();
-		clone.first = Objects.clone(first);
-		clone.second = Objects.clone(second);
-		clone.third = Objects.clone(third);
-		clone.fourth = Objects.clone(fourth);
-		clone.fifth = Objects.clone(fifth);
-		return clone;
+	public ComparableQuintuple<T1, T2, T3, T4, T5> clone() {
+		try {
+			final ComparableQuintuple<T1, T2, T3, T4, T5> clone = (ComparableQuintuple<T1, T2, T3, T4, T5>) super
+					.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			clone.third = Objects.clone(third);
+			clone.fourth = Objects.clone(fourth);
+			clone.fifth = Objects.clone(fifth);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

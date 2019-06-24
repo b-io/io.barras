@@ -678,7 +678,7 @@ public class EigenvalueDecomposition
 					}
 					if (Math.abs(H[m][m - 1]) * (Math.abs(q) + Math.abs(r)) < eps *
 							(Math.abs(p) * (Math.abs(H[m - 1][m - 1]) + Math.abs(z) +
-									Math.abs(H[m + 1][m + 1])))) {
+							Math.abs(H[m + 1][m + 1])))) {
 						break;
 					}
 					--m;

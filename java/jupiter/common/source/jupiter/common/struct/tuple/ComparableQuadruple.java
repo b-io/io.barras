@@ -25,11 +25,13 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>>
-		implements Cloneable, Comparable<ComparableQuadruple<T1, T2, T3, T4>>, Serializable {
+		implements ICloneable<ComparableQuadruple<T1, T2, T3, T4>>,
+		Comparable<ComparableQuadruple<T1, T2, T3, T4>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -196,14 +198,18 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ComparableQuadruple<T1, T2, T3, T4> clone()
-			throws CloneNotSupportedException {
-		final ComparableQuadruple<T1, T2, T3, T4> clone = (ComparableQuadruple<T1, T2, T3, T4>) super.clone();
-		clone.first = Objects.clone(first);
-		clone.second = Objects.clone(second);
-		clone.third = Objects.clone(third);
-		clone.fourth = Objects.clone(fourth);
-		return clone;
+	public ComparableQuadruple<T1, T2, T3, T4> clone() {
+		try {
+			final ComparableQuadruple<T1, T2, T3, T4> clone = (ComparableQuadruple<T1, T2, T3, T4>) super
+					.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			clone.third = Objects.clone(third);
+			clone.fourth = Objects.clone(fourth);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

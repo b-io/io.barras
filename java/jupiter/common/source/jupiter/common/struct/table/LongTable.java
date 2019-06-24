@@ -143,7 +143,7 @@ public class LongTable
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public LongTable clone() {

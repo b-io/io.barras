@@ -25,11 +25,12 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Quadruple<T1, T2, T3, T4>
-		implements Cloneable, Serializable {
+		implements ICloneable<Quadruple<T1, T2, T3, T4>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -163,14 +164,17 @@ public class Quadruple<T1, T2, T3, T4>
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Quadruple<T1, T2, T3, T4> clone()
-			throws CloneNotSupportedException {
-		final Quadruple<T1, T2, T3, T4> clone = (Quadruple<T1, T2, T3, T4>) super.clone();
-		clone.first = Objects.clone(first);
-		clone.second = Objects.clone(second);
-		clone.third = Objects.clone(third);
-		clone.fourth = Objects.clone(fourth);
-		return clone;
+	public Quadruple<T1, T2, T3, T4> clone() {
+		try {
+			final Quadruple<T1, T2, T3, T4> clone = (Quadruple<T1, T2, T3, T4>) super.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			clone.third = Objects.clone(third);
+			clone.fourth = Objects.clone(fourth);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -69,7 +69,8 @@ public class ChartPanels {
 	 * @return the closest {@link ChartEntity} to the specified mouse event in the specified chart
 	 *         panel
 	 */
-	public static ChartEntity getEntity(final ChartPanel chartPanel, final ChartMouseEvent mouseEvent) {
+	public static ChartEntity getEntity(final ChartPanel chartPanel,
+			final ChartMouseEvent mouseEvent) {
 		ChartEntity entity = mouseEvent.getEntity();
 
 		// Test whether a chart entity is selected
@@ -84,9 +85,11 @@ public class ChartPanels {
 				.getEntities();
 		// - Get the mouse position
 		final int xPosition = Integers
-				.convert((mouseEvent.getTrigger().getX() - chartPanel.getInsets().left) / chartPanel.getScaleX());
+				.convert((mouseEvent.getTrigger().getX() - chartPanel.getInsets().left) / chartPanel
+						.getScaleX());
 		final int yPosition = Integers
-				.convert((mouseEvent.getTrigger().getY() - chartPanel.getInsets().top) / chartPanel.getScaleY());
+				.convert((mouseEvent.getTrigger().getY() - chartPanel.getInsets().top) / chartPanel
+						.getScaleY());
 		final Point2D position = new Point2D.Double(xPosition, yPosition);
 		// - Select the closest chart entity to the mouse position
 		double minDistance = Integer.MAX_VALUE;

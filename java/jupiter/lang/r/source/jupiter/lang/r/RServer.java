@@ -46,7 +46,7 @@ public class RServer
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Worker<String[], Integer> clone() {

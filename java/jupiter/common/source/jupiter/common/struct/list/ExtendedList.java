@@ -183,7 +183,7 @@ public class ExtendedList<T>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

@@ -69,6 +69,6 @@ public class LinearInterpolator {
 		final double intercept = from.getY() - slope * from.getX();
 
 		// Apply the linear interpolation
-		return (intercept + slope * x) ;
+		return (intercept + slope * x);
 	}
 }

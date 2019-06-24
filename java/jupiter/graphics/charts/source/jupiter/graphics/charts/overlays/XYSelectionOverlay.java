@@ -31,6 +31,7 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 
 import jupiter.common.util.Objects;
@@ -47,7 +48,8 @@ import org.jfree.util.PublicCloneable;
  */
 public class XYSelectionOverlay
 		extends AbstractOverlay
-		implements Cloneable, Overlay, PropertyChangeListener, PublicCloneable, Serializable {
+		implements ICloneable<XYSelectionOverlay>, Overlay, PropertyChangeListener, PublicCloneable,
+		Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -175,7 +177,7 @@ public class XYSelectionOverlay
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public XYSelectionOverlay clone() {

@@ -216,7 +216,7 @@ public class ConsoleHandler
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ConsoleHandler clone() {
@@ -230,10 +230,8 @@ public class ConsoleHandler
 
 	public enum Color {
 		RESET,
-
 		BLACK,
 		WHITE,
-
 		BLUE,
 		CYAN,
 		GREEN,

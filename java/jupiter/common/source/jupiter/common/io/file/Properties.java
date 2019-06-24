@@ -104,7 +104,7 @@ public class Properties
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Properties clone() {

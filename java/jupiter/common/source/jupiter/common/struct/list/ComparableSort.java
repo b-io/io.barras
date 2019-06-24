@@ -274,7 +274,8 @@ public class ComparableSort {
 	 * is needed so that the call can safely reverse a descending sequence without violating
 	 * stability.
 	 * <p>
-	 * @param array the array of {@link Object} in which a run is to be counted and possibly reversed
+	 * @param array the array of {@link Object} in which a run is to be counted and possibly
+	 *              reversed
 	 * @param lo    the index of the first element in the run
 	 * @param hi    the index after the last element that may be contained in the run. It is
 	 *              required that {@code lo < hi}.

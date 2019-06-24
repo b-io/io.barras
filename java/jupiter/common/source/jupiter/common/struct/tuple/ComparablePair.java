@@ -25,11 +25,13 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
-		implements Cloneable, Comparable<ComparablePair<T1, T2>>, Serializable {
+		implements ICloneable<ComparablePair<T1, T2>>, Comparable<ComparablePair<T1, T2>>,
+		Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -142,12 +144,15 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ComparablePair<T1, T2> clone()
-			throws CloneNotSupportedException {
-		final ComparablePair<T1, T2> clone = (ComparablePair<T1, T2>) super.clone();
-		clone.first = Objects.clone(first);
-		clone.second = Objects.clone(second);
-		return clone;
+	public ComparablePair<T1, T2> clone() {
+		try {
+			final ComparablePair<T1, T2> clone = (ComparablePair<T1, T2>) super.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

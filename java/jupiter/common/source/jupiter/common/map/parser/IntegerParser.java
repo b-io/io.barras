@@ -130,7 +130,7 @@ public class IntegerParser
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public IntegerParser clone() {

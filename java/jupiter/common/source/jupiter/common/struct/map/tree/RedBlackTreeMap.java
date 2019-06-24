@@ -79,8 +79,8 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified value to the specified key and returns the previous associated
-	 * value of type {@code V}, or {@code null} if it is not present.
+	 * Associates the specified value to the specified key and returns the previous associated value
+	 * of type {@code V}, or {@code null} if it is not present.
 	 * <p>
 	 * @param key   the key of type {@code K} of the key-value mapping to put
 	 * @param value the value of type {@code V} of the key-value mapping to put
@@ -195,7 +195,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after inserting the specified node.
 	 * <p>
-	 * @param node the inserted node
+	 * @param node the inserted {@link RedBlackTreeNode} of type {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterInsertion(RedBlackTreeNode<K, V> node) {
@@ -280,9 +280,9 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Balances after deleting the specified node.
+	 * Balances after deleting the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the deleted node
+	 * @param node the deleted {@link RedBlackTreeNode} of type {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterDeletion(RedBlackTreeNode<K, V> node) {
@@ -365,7 +365,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public RedBlackTreeMap<K, V> clone() {

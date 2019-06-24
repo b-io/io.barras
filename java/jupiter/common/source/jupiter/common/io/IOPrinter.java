@@ -136,7 +136,7 @@ public class IOPrinter
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public IOPrinter clone() {

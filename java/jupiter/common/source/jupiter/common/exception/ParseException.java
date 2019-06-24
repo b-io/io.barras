@@ -48,8 +48,8 @@ public class ParseException
 	}
 
 	/**
-	 * Constructs a {@link ParseException} with the specified message {@link String} which is
-	 * saved for later retrieval by the {@link #getMessage()} method.
+	 * Constructs a {@link ParseException} with the specified message {@link String} which is saved
+	 * for later retrieval by the {@link #getMessage()} method.
 	 * <p>
 	 * @param message the message {@link String}
 	 */

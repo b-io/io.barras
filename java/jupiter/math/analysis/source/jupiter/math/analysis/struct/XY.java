@@ -92,7 +92,7 @@ public class XY<T>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public XY<T> clone() {

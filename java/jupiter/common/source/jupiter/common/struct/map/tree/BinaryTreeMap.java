@@ -83,8 +83,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * Performs the in-order traversal of the specified tree and stores the keys of the visited
 	 * nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree a tree of type {@code N}
-	 * @param keys a {@link List} of type {@code K}
+	 * @param tree the tree of type {@code N} to get the keys from
+	 * @param keys the {@link List} of type {@code K} to store the keys in
 	 */
 	protected void getKeys(final N tree, final List<K> keys) {
 		if (tree != null) {
@@ -93,6 +93,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 			getKeys(tree.right, keys);
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Performs the in-order traversal and returns the values of the visited nodes in an
@@ -307,18 +309,18 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Balances the specified tree after insertion.
+	 * Balances after inserting the specified node.
 	 * <p>
-	 * @param tree a tree of type {@code N}
+	 * @param node the inserted node of type {@code N}
 	 */
-	protected abstract void balanceAfterInsertion(N tree);
+	protected abstract void balanceAfterInsertion(N node);
 
 	/**
-	 * Balances the tree after deletion.
+	 * Balances after deleting the specified node.
 	 * <p>
-	 * @param tree a tree of type {@code N}
+	 * @param node the deleted node of type {@code N}
 	 */
-	protected abstract void balanceAfterDeletion(N tree);
+	protected abstract void balanceAfterDeletion(N node);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

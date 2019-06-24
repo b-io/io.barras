@@ -97,8 +97,8 @@ public class SingularValueDecomposition
 		n = A.getColumnDimension();
 		/*
 		 * @todo apparently the failing cases are only a proper subset of m < n, so let us not throw
-		 * an exception. The fix may come later.
-		 * if (m < n) { throw new UnsupportedOperationException("Work only for m >= n"); }
+		 * an exception. The fix may come later. if (m < n) { throw new
+		 * UnsupportedOperationException("Work only for m >= n"); }
 		 */
 		final int nu = Math.min(m, n);
 		s = new double[Math.min(m + 1, n)];
@@ -278,11 +278,9 @@ public class SingularValueDecomposition
 			// @todo test to avoid too many iterations
 			/*
 			 * This section of the program inspects for negligible elements in the s and e arrays.
-			 * On completion the variables kase and k are set as follows:
-			 * - kase = 1 if s(p) and e[k-1] are negligible and k < p,
-			 * - kase = 2 if s(k) is negligible and k < p,
-			 * - kase = 3 if e[k-1] is negligible, k < p and s(k), ..., s(p) are not negligible (qr
-			 *   step), or
+			 * On completion the variables kase and k are set as follows: - kase = 1 if s(p) and
+			 * e[k-1] are negligible and k < p, - kase = 2 if s(k) is negligible and k < p, - kase =
+			 * 3 if e[k-1] is negligible, k < p and s(k), ..., s(p) are not negligible (qr step), or
 			 * - kase = 4 if e(p-1) is negligible (convergence).
 			 */
 			for (k = p - 2; k >= -1; --k) {

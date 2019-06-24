@@ -30,6 +30,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.text.Format;
+import jupiter.common.model.ICloneable;
 
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -43,7 +44,7 @@ import org.jfree.util.PublicCloneable;
  * A selection to display on a plot.
  */
 public class XYSelection
-		implements Cloneable, PublicCloneable, Serializable {
+		implements ICloneable<XYSelection>, PublicCloneable, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -242,8 +243,10 @@ public class XYSelection
 
 		if (isVisible) {
 			// Draw the selection
-			final double xSelection = ChartPanels.domainValueToJava2D(chartPanel, mousePosition, coordinates);
-			final double ySelection = ChartPanels.rangeValueToJava2D(chartPanel, mousePosition, coordinates);
+			final double xSelection = ChartPanels.domainValueToJava2D(chartPanel, mousePosition,
+					coordinates);
+			final double ySelection = ChartPanels.rangeValueToJava2D(chartPanel, mousePosition,
+					coordinates);
 			final Ellipse2D selection = new Ellipse2D.Double(xSelection - 5, ySelection - 5, 10, 10);
 			g.draw(selection);
 			g.fill(selection);
@@ -274,7 +277,7 @@ public class XYSelection
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public XYSelection clone() {

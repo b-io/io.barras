@@ -143,7 +143,7 @@ public class IntegerTable
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public IntegerTable clone() {

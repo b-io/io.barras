@@ -25,11 +25,12 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Triple<T1, T2, T3>
-		implements Cloneable, Serializable {
+		implements ICloneable<Triple<T1, T2, T3>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -140,13 +141,16 @@ public class Triple<T1, T2, T3>
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Triple<T1, T2, T3> clone()
-			throws CloneNotSupportedException {
-		final Triple<T1, T2, T3> clone = (Triple<T1, T2, T3>) super.clone();
-		clone.first = Objects.clone(first);
-		clone.second = Objects.clone(second);
-		clone.third = Objects.clone(third);
-		return clone;
+	public Triple<T1, T2, T3> clone() {
+		try {
+			final Triple<T1, T2, T3> clone = (Triple<T1, T2, T3>) super.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			clone.third = Objects.clone(third);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -135,18 +135,15 @@ public abstract class Element {
 
 	public enum Type {
 		ENTITY,
-
 		ADDITION,
 		SUBTRACTION,
 		MULTIPLICATION,
 		DIVISION,
 		POWER,
 		SOLUTION,
-
 		FACTORIAL,
 		INVERSE,
 		TRANSPOSE,
-
 		LEFT_PARENTHESIS,
 		RIGHT_PARENTHESIS,
 		LEFT_BRACKET,

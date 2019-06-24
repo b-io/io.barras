@@ -143,7 +143,7 @@ public class DoubleTable
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public DoubleTable clone() {

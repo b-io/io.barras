@@ -2342,7 +2342,7 @@ public class Matrix
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Matrix clone() {
@@ -2490,7 +2490,7 @@ public class Matrix
 		 * <p>
 		 * @return a copy of {@code this}
 		 *
-		 * @see Cloneable
+		 * @see ICloneable
 		 */
 		@Override
 		public DotProduct clone() {

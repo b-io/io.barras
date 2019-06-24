@@ -155,7 +155,7 @@ public class NumberTable<T extends Number>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public NumberTable<T> clone() {

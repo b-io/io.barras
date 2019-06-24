@@ -307,7 +307,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @return a clone of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public SafeDateFormat clone() {

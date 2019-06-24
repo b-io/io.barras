@@ -72,7 +72,7 @@ public class Hasher<I>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Hasher<I> clone() {

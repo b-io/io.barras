@@ -243,7 +243,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after inserting the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param node the inserted {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterInsertion(AvlTreeNode<K, V> node) {
@@ -253,13 +253,18 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after deleting the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param node the deleted {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterDeletion(AvlTreeNode<K, V> node) {
 		balance(node);
 	}
 
+	/**
+	 * Balances the specified {@link AvlTreeNode}.
+	 * <p>
+	 * @param node the {@link AvlTreeNode} of type {@code K} and {@code V} to balance
+	 */
 	protected void balance(AvlTreeNode<K, V> node) {
 		AvlTreeNode<K, V> parent = node;
 		do {
@@ -358,7 +363,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public AvlTreeMap<K, V> clone() {

@@ -56,7 +56,7 @@ public class JSONWrapper
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see Cloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public JSONWrapper clone() {
