@@ -216,7 +216,7 @@ public class ConsoleHandler
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see ICloneable
+	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
 	public ConsoleHandler clone() {

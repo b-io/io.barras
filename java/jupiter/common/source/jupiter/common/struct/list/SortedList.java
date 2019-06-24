@@ -167,7 +167,7 @@ public class SortedList<T extends Comparable<T>>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see ICloneable
+	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

@@ -647,11 +647,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} percentage representation of the specified value.
+	 * Returns the percentage representative {@link String} of the specified value.
 	 * <p>
 	 * @param value a {@code float} value
 	 * <p>
-	 * @return a {@link String} percentage representation of the specified value
+	 * @return the percentage representative {@link String} of the specified value
 	 */
 	public static String toPercentage(final float value) {
 		return value * 100f + "%";

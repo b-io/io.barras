@@ -136,7 +136,7 @@ public class IOPrinter
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see ICloneable
+	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
 	public IOPrinter clone() {

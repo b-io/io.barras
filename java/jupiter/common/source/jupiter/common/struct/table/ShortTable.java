@@ -143,7 +143,7 @@ public class ShortTable
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see ICloneable
+	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
 	public ShortTable clone() {

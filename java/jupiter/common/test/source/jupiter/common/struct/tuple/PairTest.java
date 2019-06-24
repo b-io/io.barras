@@ -25,10 +25,7 @@ package jupiter.common.struct.tuple;
 
 import static jupiter.common.io.IO.IO;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jupiter.common.test.Test;
-import jupiter.common.util.Strings;
 
 public class PairTest
 		extends Test {
@@ -51,15 +48,11 @@ public class PairTest
 		assertEquals("a", pair.getFirst()[0]);
 		assertEquals(new Integer(42), pair.getSecond()[0]);
 
-		try {
-			final Pair<String[], Integer[]> clone = (Pair<String[], Integer[]>) pair.clone();
-			clone.getFirst()[0] = "b";
-			assertEquals("a", pair.getFirst()[0]);
-			assertEquals("b", clone.getFirst()[0]);
-			assertEquals(new Integer(42), pair.getSecond()[0]);
-			assertEquals(new Integer(42), clone.getSecond()[0]);
-		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(Strings.toString(ex), ex);
-		}
+		final Pair<String[], Integer[]> clone = (Pair<String[], Integer[]>) pair.clone();
+		clone.getFirst()[0] = "b";
+		assertEquals("a", pair.getFirst()[0]);
+		assertEquals("b", clone.getFirst()[0]);
+		assertEquals(new Integer(42), pair.getSecond()[0]);
+		assertEquals(new Integer(42), clone.getSecond()[0]);
 	}
 }

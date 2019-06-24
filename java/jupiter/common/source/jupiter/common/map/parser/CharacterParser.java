@@ -128,7 +128,7 @@ public class CharacterParser
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see ICloneable
+	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
 	public CharacterParser clone() {

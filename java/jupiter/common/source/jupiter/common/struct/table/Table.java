@@ -1200,7 +1200,7 @@ public class Table<T>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see ICloneable
+	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
 	public Table<T> clone() {

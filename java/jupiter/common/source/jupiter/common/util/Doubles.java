@@ -635,11 +635,11 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} percentage representation of the specified value.
+	 * Returns the percentage representative {@link String} of the specified value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>
-	 * @return a {@link String} percentage representation of the specified value
+	 * @return the percentage representative {@link String} of the specified value
 	 */
 	public static String toPercentage(final double value) {
 		return DECIMAL_FORMAT.format(value * 100.) + "%";
