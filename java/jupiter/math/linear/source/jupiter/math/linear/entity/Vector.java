@@ -75,8 +75,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a constant {@link Vector} of the specified number of elements from the specified
-	 * value.
+	 * Constructs a constant {@link Vector} of the specified number of elements and value.
 	 * <p>
 	 * @param dimension the number of elements
 	 * @param value     a {@code double} value
@@ -86,8 +85,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a constant {@link Vector} of the specified number of elements from the specified
-	 * value.
+	 * Constructs a constant {@link Vector} of the specified number of elements and value.
 	 * <p>
 	 * @param dimension the number of elements
 	 * @param value     a {@code double} value
@@ -99,7 +97,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} from the specified values.
+	 * Constructs a {@link Vector} of the specified values.
 	 * <p>
 	 * @param values an array of {@code double} values
 	 */
@@ -108,7 +106,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} from the specified values.
+	 * Constructs a {@link Vector} of the specified values.
 	 * <p>
 	 * @param values    an array of {@code double} values
 	 * @param transpose the flag specifying whether to transpose
@@ -119,7 +117,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} from the specified elements.
+	 * Constructs a {@link Vector} of the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@code double} values
 	 * <p>
@@ -292,7 +290,7 @@ public class Vector
 	/**
 	 * Fills {@code this} with the specified value.
 	 * <p>
-	 * @param value the value to fill with
+	 * @param value the {@code double} value to fill with
 	 */
 	@Override
 	public void fill(final double value) {
@@ -347,6 +345,13 @@ public class Vector
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public Vector clone() {
 		return new Vector(elements);

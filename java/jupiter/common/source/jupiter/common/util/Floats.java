@@ -1010,24 +1010,24 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code float} values.
+	 * Returns a representative {@link String} of the specified array of {@code float} values.
 	 * <p>
 	 * @param array an array of {@code float} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code float} values
+	 * @return a representative {@link String} of the specified array of {@code float} values
 	 */
 	public static String toString(final float... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code float} values joined
+	 * Returns a representative {@link String} of the specified array of {@code float} values joined
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code float} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code float} values joined
+	 * @return a representative {@link String} of the specified array of {@code float} values joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final float[] array, final String delimiter) {
@@ -1035,14 +1035,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code float} values joined
+	 * Returns a representative {@link String} of the specified array of {@code float} values joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code float} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code float} values joined
+	 * @return a representative {@link String} of the specified array of {@code float} values joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final float[] array, final String delimiter,
@@ -1053,24 +1053,24 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Float}.
+	 * Returns a representative {@link String} of the specified array of {@link Float}.
 	 * <p>
 	 * @param array an array of {@link Float}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Float}
+	 * @return a representative {@link String} of the specified array of {@link Float}
 	 */
 	public static String toString(final Float... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Float} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Float} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Float}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Float} joined by
+	 * @return a representative {@link String} of the specified array of {@link Float} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Float[] array, final String delimiter) {
@@ -1078,14 +1078,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Float} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Float} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Float}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Float} joined by
+	 * @return a representative {@link String} of the specified array of {@link Float} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Float[] array, final String delimiter,

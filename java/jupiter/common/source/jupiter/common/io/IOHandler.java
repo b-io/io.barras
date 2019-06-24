@@ -70,26 +70,26 @@ public abstract class IOHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content.
+	 * Prints the specified content {@link Object}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
 	public abstract void print(final Object content, final boolean isError);
 
 	/**
-	 * Prints the specified content and then terminates the line.
+	 * Prints the specified content {@link Object} and then terminates the line.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
 	public abstract void println(final Object content, final boolean isError);
 
 	/**
-	 * Prints the specified message (whether in the standard output or in the standard error) and
-	 * then terminates the line.
+	 * Prints the specified {@link Message} (whether in the standard output or in the standard
+	 * error) and then terminates the line.
 	 * <p>
 	 * @param message the {@link Message} to print
 	 */

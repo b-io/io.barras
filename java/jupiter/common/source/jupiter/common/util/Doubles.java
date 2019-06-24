@@ -998,24 +998,24 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code double} values.
+	 * Returns a representative {@link String} of the specified array of {@code double} values.
 	 * <p>
 	 * @param array an array of {@code double} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code double} values
+	 * @return a representative {@link String} of the specified array of {@code double} values
 	 */
 	public static String toString(final double... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code double} values
+	 * Returns a representative {@link String} of the specified array of {@code double} values
 	 * joined by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code double} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code double} values
+	 * @return a representative {@link String} of the specified array of {@code double} values
 	 *         joined by {@code delimiter}
 	 */
 	public static String toString(final double[] array, final String delimiter) {
@@ -1023,14 +1023,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code double} values
+	 * Returns a representative {@link String} of the specified array of {@code double} values
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code double} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code double} values
+	 * @return a representative {@link String} of the specified array of {@code double} values
 	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final double[] array, final String delimiter,
@@ -1041,24 +1041,24 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Double}.
+	 * Returns a representative {@link String} of the specified array of {@link Double}.
 	 * <p>
 	 * @param array an array of {@link Double}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Double}
+	 * @return a representative {@link String} of the specified array of {@link Double}
 	 */
 	public static String toString(final Double... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Double} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Double} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Double}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Double} joined by
+	 * @return a representative {@link String} of the specified array of {@link Double} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Double[] array, final String delimiter) {
@@ -1066,14 +1066,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Double} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Double} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Double}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Double} joined by
+	 * @return a representative {@link String} of the specified array of {@link Double} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Double[] array, final String delimiter,

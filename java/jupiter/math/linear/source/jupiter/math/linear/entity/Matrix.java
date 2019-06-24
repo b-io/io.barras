@@ -198,7 +198,7 @@ public class Matrix
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
-	 * @param value       a {@code double} value
+	 * @param value       the {@code double} value of the elements
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double value) {
 		// Set the numbers of rows and columns
@@ -516,7 +516,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 		return submatrix;
 	}
@@ -543,7 +543,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 		return submatrix;
 	}
@@ -573,7 +573,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 		return submatrix;
 	}
@@ -602,7 +602,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 		return submatrix;
 	}
@@ -613,7 +613,8 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the element at the specified row and column indexes.
+	 * Sets the element at the specified row and column indexes to the specified {@code double}
+	 * value.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -626,7 +627,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets the element at the specified row and column indexes.
+	 * Sets the element at the specified row and column indexes to the specified {@code Object}.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -797,7 +798,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 	}
 
@@ -821,7 +822,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 	}
 
@@ -848,7 +849,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 	}
 
@@ -874,7 +875,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 	}
 
@@ -1226,7 +1227,7 @@ public class Matrix
 	/**
 	 * Fills {@code this} with the specified value.
 	 * <p>
-	 * @param value the value to fill with
+	 * @param value the {@code double} value to fill with
 	 */
 	@Override
 	public void fill(final double value) {
@@ -2336,10 +2337,19 @@ public class Matrix
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public Matrix clone() {
 		return new Matrix(m, Doubles.take(elements));
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public boolean equals(final Object other) {
@@ -2369,7 +2379,16 @@ public class Matrix
 		return true;
 	}
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		int hashCode = Longs.hashCode(serialVersionUID);
 		for (int i = 0; i < m; ++i) {
@@ -2380,6 +2399,13 @@ public class Matrix
 		return hashCode;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return toString(MIN_NUMBER_LENGTH, false);
@@ -2459,6 +2485,13 @@ public class Matrix
 			return new Pair<Matrix, Interval<Integer>>(apply(left, right, interval), interval);
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see Cloneable
+		 */
 		@Override
 		public DotProduct clone() {
 			return new DotProduct();

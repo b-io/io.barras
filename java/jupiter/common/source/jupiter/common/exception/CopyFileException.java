@@ -43,17 +43,17 @@ public class CopyFileException
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link CopyFileException} without an error detail message.
+	 * Constructs a {@link CopyFileException}.
 	 */
 	public CopyFileException() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link CopyFileException} with the specified error detail message.
+	 * Constructs a {@link CopyFileException} with the specified message {@link String} which is
+	 * saved for later retrieval by the {@link #getMessage()} method.
 	 * <p>
-	 * @param message the detail message (which is saved for later retrieval by the
-	 *                {@link #getMessage()} method)
+	 * @param message the message {@link String}
 	 */
 	public CopyFileException(final String message) {
 		super(message);

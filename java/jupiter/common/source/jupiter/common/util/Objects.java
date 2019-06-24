@@ -67,11 +67,11 @@ public class Objects {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code object} is {@code null} or its {@link String} representation is empty.
+	 * Tests whether {@code object} is {@code null} or its representative {@link String} is empty.
 	 * <p>
 	 * @param object the {@link Object} to test
 	 * <p>
-	 * @return {@code true} if {@code object} is {@code null} or its {@link String} representation
+	 * @return {@code true} if {@code object} is {@code null} or its representative {@link String}
 	 *         is empty, {@code false} otherwise
 	 */
 	public static boolean isNullOrEmpty(final Object object) {
@@ -123,15 +123,15 @@ public class Objects {
 			}
 			return (T) c.getMethod("clone").invoke(object);
 		} catch (IllegalAccessException ex) {
-			throw new CloneNotSupportedException(ex.getMessage());
+			throw new CloneNotSupportedException(Strings.toString(ex));
 		} catch (IllegalArgumentException ex) {
-			throw new CloneNotSupportedException(ex.getMessage());
+			throw new CloneNotSupportedException(Strings.toString(ex));
 		} catch (InvocationTargetException ex) {
-			throw new CloneNotSupportedException(ex.getMessage());
+			throw new CloneNotSupportedException(Strings.toString(ex));
 		} catch (NoSuchMethodException ex) {
-			throw new CloneNotSupportedException(ex.getMessage());
+			throw new CloneNotSupportedException(Strings.toString(ex));
 		} catch (SecurityException ex) {
-			throw new CloneNotSupportedException(ex.getMessage());
+			throw new CloneNotSupportedException(Strings.toString(ex));
 		}
 	}
 
@@ -153,25 +153,25 @@ public class Objects {
 	}
 
 	/**
-	 * Returns a hash code value for the specified array of type {@code T}.
+	 * Returns the hash code value for the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param <T>   the component type of the array to hash
+	 * @param array the array of type {@code T} to hash
 	 * <p>
-	 * @return a hash code value for the specified array of type {@code T}
+	 * @return the hash code value for the specified array of type {@code T}
 	 */
 	public static <T> int hashCode(final T... array) {
 		return hashCodeWith(0, array);
 	}
 
 	/**
-	 * Returns a hash code value for the specified array of {@code Object} at the specified depth.
+	 * Returns the hash code value for the specified array of type {@code T} at the specified depth.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param <T>   the component type of the array to hash
+	 * @param array the array of type {@code T} to hash
 	 * @param depth the depth to hash at
 	 * <p>
-	 * @return a hash code value for the specified array of {@code Object} at the specified depth
+	 * @return the hash code value for the specified array of type {@code T} at the specified depth
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> int hashCodeWith(final int depth, final T... array) {

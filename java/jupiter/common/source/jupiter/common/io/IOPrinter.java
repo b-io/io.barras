@@ -73,7 +73,7 @@ public class IOPrinter
 	/**
 	 * Prints the specified content with the IO handlers.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -87,7 +87,7 @@ public class IOPrinter
 	/**
 	 * Prints the specified content and terminates the line with the IO handlers.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -102,7 +102,7 @@ public class IOPrinter
 	 * Prints the specified message (whether in the standard output or in the standard error) and
 	 * then terminates the line.
 	 * <p>
-	 * @param message the {@link Message} to print
+	 * @param message a {@link Message}
 	 */
 	@Override
 	public void println(final Message message) {
@@ -131,6 +131,13 @@ public class IOPrinter
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public IOPrinter clone() {
 		return new IOPrinter(handlers);
@@ -138,6 +145,19 @@ public class IOPrinter
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the {@link Object} to compare with for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
@@ -150,6 +170,14 @@ public class IOPrinter
 		return Objects.equals(handlers, otherIOPrinter.handlers);
 	}
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, handlers);

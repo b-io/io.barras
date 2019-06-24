@@ -24,6 +24,7 @@
 package jupiter.math.analysis.struct;
 
 import jupiter.common.struct.tuple.Pair;
+import jupiter.common.util.Strings;
 
 /**
  * A {@link Pair} of type {@code T}.
@@ -86,12 +87,19 @@ public class XY<T>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public XY<T> clone() {
 		try {
 			return (XY<T>) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(ex.getMessage(), ex);
+			throw new AssertionError(Strings.toString(ex), ex);
 		}
 	}
 }

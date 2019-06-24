@@ -125,6 +125,13 @@ public class FloatParser
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public FloatParser clone() {
 		return new FloatParser();

@@ -306,6 +306,8 @@ public class SafeDateFormat
 	 * Creates a copy of {@code this}. This also clones the date format symbols.
 	 * <p>
 	 * @return a clone of {@code this}
+	 *
+	 * @see Cloneable
 	 */
 	@Override
 	public SafeDateFormat clone() {
@@ -323,9 +325,12 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Returns the hash code value for {@code this}.
+	 * Returns the hash code {@code int} value for {@code this}.
 	 * <p>
-	 * @return the hash code value for {@code this}
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
 	 */
 	@Override
 	public int hashCode() {

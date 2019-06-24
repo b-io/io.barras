@@ -976,24 +976,24 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code int} values.
+	 * Returns a representative {@link String} of the specified array of {@code int} values.
 	 * <p>
 	 * @param array an array of {@code int} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code int} values
+	 * @return a representative {@link String} of the specified array of {@code int} values
 	 */
 	public static String toString(final int... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code int} values joined
+	 * Returns a representative {@link String} of the specified array of {@code int} values joined
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code int} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code int} values joined
+	 * @return a representative {@link String} of the specified array of {@code int} values joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final int[] array, final String delimiter) {
@@ -1001,14 +1001,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code int} values joined
+	 * Returns a representative {@link String} of the specified array of {@code int} values joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code int} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code int} values joined
+	 * @return a representative {@link String} of the specified array of {@code int} values joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final int[] array, final String delimiter,
@@ -1019,24 +1019,24 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Integer}.
+	 * Returns a representative {@link String} of the specified array of {@link Integer}.
 	 * <p>
 	 * @param array an array of {@link Integer}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Integer}
+	 * @return a representative {@link String} of the specified array of {@link Integer}
 	 */
 	public static String toString(final Integer... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Integer} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Integer} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Integer}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Integer} joined by
+	 * @return a representative {@link String} of the specified array of {@link Integer} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Integer[] array, final String delimiter) {
@@ -1044,14 +1044,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Integer} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Integer} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Integer}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Integer} joined by
+	 * @return a representative {@link String} of the specified array of {@link Integer} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Integer[] array, final String delimiter,

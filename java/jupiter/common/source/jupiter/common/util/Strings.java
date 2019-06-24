@@ -379,23 +379,23 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object}.
+	 * Returns a representative {@link String} of the specified array of {@link Object}.
 	 * <p>
 	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object}
+	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
 	public static String join(final Object... array) {
 		return joinWith(array, EMPTY);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of
+	 * Returns a representative {@link String} of the specified {@link Collection} of
 	 * {@link Object}.
 	 * <p>
 	 * @param collection a {@link Collection} of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 */
 	public static String join(final Collection<?> collection) {
 		return joinWith(collection, EMPTY);
@@ -404,13 +404,13 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@code char} value
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object} joined by
+	 * @return a representative {@link String} of the specified array of {@link Object} joined by
 	 *         {@code delimiter}
 	 */
 	public static String joinWith(final Object[] array, final char delimiter) {
@@ -418,13 +418,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object} joined by
+	 * @return a representative {@link String} of the specified array of {@link Object} joined by
 	 *         {@code delimiter}
 	 */
 	public static String joinWith(final Object[] array, final String delimiter) {
@@ -448,14 +448,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@code char} value
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object} joined by
+	 * @return a representative {@link String} of the specified array of {@link Object} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Object[] array, final char delimiter,
@@ -464,14 +464,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object} joined by
+	 * @return a representative {@link String} of the specified array of {@link Object} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Object[] array, final String delimiter,
@@ -498,13 +498,13 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter}.
 	 * <p>
 	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@code char} value
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter}
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter) {
@@ -512,13 +512,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter}.
 	 * <p>
 	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter}
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter) {
@@ -540,14 +540,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@code char} value
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter,
@@ -556,14 +556,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param collection a {@link Collection} of {@link Object}
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Collection} of {@link Object}
+	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
 	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter,
@@ -629,12 +629,12 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the escaped {@link String} representation of the specified unescaped content (i.e.
+	 * Returns the escaped representative {@link String} of the specified unescaped content (i.e.
 	 * without traces of offending characters that can prevent parsing).
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
-	 * @return the escaped {@link String} representation of the specified unescaped content (i.e.
+	 * @return the escaped representative {@link String} of the specified unescaped content (i.e.
 	 *         without traces of offending characters that can prevent parsing)
 	 */
 	public static String escape(final Object content) {
@@ -648,12 +648,12 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the unescaped {@link String} representation of the specified escaped content (i.e.
+	 * Returns the unescaped representative {@link String} of the specified escaped content (i.e.
 	 * with traces of offending characters that can prevent parsing).
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
-	 * @return the unescaped {@link String} representation of the specified escaped content (i.e.
+	 * @return the unescaped representative {@link String} of the specified escaped content (i.e.
 	 *         with traces of offending characters that can prevent parsing)
 	 */
 	public static String unescape(final Object content) {
@@ -671,7 +671,7 @@ public class Strings {
 	/**
 	 * Returns a {@link String} wrapped with {@code left} and {@code right}.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * @param wrapper the {@link String} to wrap with
 	 * <p>
 	 * @return a {@link String} wrapped with {@code left} and {@code right}
@@ -686,7 +686,7 @@ public class Strings {
 	/**
 	 * Returns a {@link String} wrapped with {@code left} and {@code right}.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * @param left    the {@link String} to wrap with on the left
 	 * @param right   right {@link String} to wrap with on the right
 	 * <p>
@@ -704,7 +704,7 @@ public class Strings {
 	/**
 	 * Returns a {@link String} without the specified tokens.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * @param tokens  the tokens to remove
 	 * <p>
 	 * @return a {@link String} without the specified tokens
@@ -733,7 +733,7 @@ public class Strings {
 	/**
 	 * Returns a single quoted {@link String}.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
 	 * @return a single quoted {@link String}
 	 */
@@ -744,7 +744,7 @@ public class Strings {
 	/**
 	 * Returns a double quoted {@link String}.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
 	 * @return a double quoted {@link String}
 	 */
@@ -755,7 +755,7 @@ public class Strings {
 	/**
 	 * Returns a left and right quoted {@link String}.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
 	 * @return a left and right quoted {@link String}
 	 */
@@ -766,7 +766,7 @@ public class Strings {
 	/**
 	 * Returns a {@link String} without quotes.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
 	 * @return a {@link String} without quotes
 	 */
@@ -779,7 +779,7 @@ public class Strings {
 	/**
 	 * Returns a left and right parenthesized {@link String}.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
 	 * @return a left and right parenthesized {@link String}
 	 */
@@ -790,7 +790,7 @@ public class Strings {
 	/**
 	 * Returns a left and right bracketized {@link String}.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
 	 * @return a left and right bracketized {@link String}
 	 */
@@ -2038,15 +2038,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
-	 * forward from {@code fromIndex}.
+	 * Returns the indexes and tokens of {@code string} that are in {@code tokens}, seeking forward
+	 * from {@code fromIndex}.
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param tokens    the array of {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
-	 *         forward from {@code fromIndex}
+	 * @return the indexes and tokens of {@code string} that are in {@code tokens}, seeking forward
+	 *         from {@code fromIndex}
 	 */
 	public static List<Index<String>> getStringIndexes(final String string, final String[] tokens,
 			final int fromIndex) {
@@ -2070,15 +2070,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
-	 * forward to {@code toIndex}.
+	 * Returns the indexes and tokens of {@code string} that are in {@code tokens}, seeking forward
+	 * to {@code toIndex}.
 	 * <p>
 	 * @param string  a {@link String}
 	 * @param tokens  the array of {@link String} to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
-	 *         forward to {@code toIndex}
+	 * @return the indexes and tokens of {@code string} that are in {@code tokens}, seeking forward
+	 *         to {@code toIndex}
 	 */
 	public static List<Index<String>> getStringIndexesTo(final String string, final String[] tokens,
 			final int toIndex) {
@@ -2117,15 +2117,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
-	 * forward from {@code fromIndex}.
+	 * Returns the indexes and tokens of {@code string} that are in {@code tokens}, seeking forward
+	 * from {@code fromIndex}.
 	 * <p>
 	 * @param string    a {@link String}
 	 * @param tokens    the {@link Collection} of {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
-	 *         forward from {@code fromIndex}
+	 * @return the indexes and tokens of {@code string} that are in {@code tokens}, seeking forward
+	 *         from {@code fromIndex}
 	 */
 	public static List<Index<String>> getStringIndexes(final String string,
 			final Collection<String> tokens, final int fromIndex) {
@@ -2149,15 +2149,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
-	 * forward to {@code toIndex}.
+	 * Returns the indexes and tokens of {@code string} that are in {@code tokens}, seeking forward
+	 * to {@code toIndex}.
 	 * <p>
 	 * @param string  a {@link String}
 	 * @param tokens  the {@link Collection} of {@link String} to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the indexes and the tokens of {@code string} that are in {@code tokens}, seeking
-	 *         forward to {@code toIndex}
+	 * @return the indexes and tokens of {@code string} that are in {@code tokens}, seeking forward
+	 *         to {@code toIndex}
 	 */
 	public static List<Index<String>> getStringIndexesTo(final String string,
 			final Collection<String> tokens, final int toIndex) {
@@ -2848,12 +2848,12 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the {@link String} representations of the arguments are equal to each other.
+	 * Tests whether the representative {@link String}s of the arguments are equal to each other.
 	 * <p>
 	 * @param a an {@link Object}
 	 * @param b another {@link Object} to compare with {@code a} for equality
 	 * <p>
-	 * @return {@code true} if the {@link String} representations of the arguments are equal to each
+	 * @return {@code true} if the representative {@link String}s of the arguments are equal to each
 	 *         other, {@code false} otherwise
 	 */
 	public static boolean equals(final Object a, final Object b) {
@@ -2862,13 +2862,17 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static String append(final Object content) {
+		return ": " + Strings.toString(content);
+	}
+
 	/**
-	 * Returns the {@link String} representation of the specified content if not {@code null},
+	 * Returns the representative {@link String} of the specified content if not {@code null},
 	 * {@code "null"} otherwise.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
-	 * @return the {@link String} representation of the specified content if not {@code null},
+	 * @return the representative {@link String} of the specified content if not {@code null},
 	 *         {@code "null"} otherwise
 	 */
 	public static String toString(final Object content) {
@@ -2876,12 +2880,12 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@link String} representation of the specified content if not {@code null} or
+	 * Returns the representative {@link String} of the specified content if not {@code null} or
 	 * {@code "null"}, {@code null} otherwise.
 	 * <p>
-	 * @param content an {@link Object}
+	 * @param content the content {@link Object}
 	 * <p>
-	 * @return the {@link String} representation of the specified content if not {@code null} or
+	 * @return the representative {@link String} of the specified content if not {@code null} or
 	 *         {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object content) {
@@ -2892,14 +2896,16 @@ public class Strings {
 		return value;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns the {@link String} representation of the specified content if not {@code null},
+	 * Returns the representative {@link String} of the specified content if not {@code null},
 	 * {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the {@link String} representation of the specified content if not {@code null},
+	 * @return the representative {@link String} of the specified content if not {@code null},
 	 *         {@code defaultString} otherwise
 	 */
 	public static String toString(final Object content, final String defaultString) {
@@ -2907,13 +2913,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@link String} representation of the specified content if not {@code null} or
+	 * Returns the representative {@link String} of the specified content if not {@code null} or
 	 * {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       an {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the {@link String} representation of the specified content if not {@code null} or
+	 * @return the representative {@link String} of the specified content if not {@code null} or
 	 *         {@code "null"}, {@code defaultString} otherwise
 	 */
 	public static String toStringWithNull(final Object content, final String defaultString) {
@@ -2924,13 +2930,19 @@ public class Strings {
 		return value;
 	}
 
+	//////////////////////////////////////////////
+
+	public static String append(final Exception exception) {
+		return ": " + Strings.toString(exception);
+	}
+
 	/**
-	 * Returns a {@link String} representation of the specified {@link Exception} if not
+	 * Returns a representative {@link String} of the specified {@link Exception} if not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param exception an {@link Exception}
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Exception} if not
+	 * @return a representative {@link String} of the specified {@link Exception} if not
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Exception exception) {
@@ -2938,13 +2950,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Exception} with the specified
+	 * Returns a representative {@link String} of the specified {@link Exception} with the specified
 	 * number of {@link StackTraceElement} if not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param exception              an {@link Exception}
 	 * @param stackTraceElementCount the number of {@link StackTraceElement} to add
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Exception} with the specified
+	 * @return a representative {@link String} of the specified {@link Exception} with the specified
 	 *         number of {@link StackTraceElement} if not {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Exception exception, final int stackTraceElementCount) {
@@ -2952,9 +2964,10 @@ public class Strings {
 			if (stackTraceElementCount > 0) {
 				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
-				return exception.getMessage() + ":" + NEWLINE + joinWith(stackTraces, NEWLINE);
+				return exception.getLocalizedMessage() + ":" + NEWLINE +
+						joinWith(stackTraces, NEWLINE);
 			}
-			return exception.getMessage();
+			return exception.getLocalizedMessage();
 		}
 		return NULL;
 	}

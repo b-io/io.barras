@@ -63,6 +63,13 @@ public class SimpleWorker
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public SimpleWorker clone() {
 		return new SimpleWorker();

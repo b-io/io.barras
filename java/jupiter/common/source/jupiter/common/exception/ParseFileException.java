@@ -41,17 +41,17 @@ public class ParseFileException
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ParseFileException} without an error detail message.
+	 * Constructs a {@link ParseFileException}.
 	 */
 	public ParseFileException() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link ParseFileException} with the specified error detail message.
+	 * Constructs a {@link ParseFileException} with the specified message {@link String} which is
+	 * saved for later retrieval by the {@link #getMessage()} method.
 	 * <p>
-	 * @param message the detail message (which is saved for later retrieval by the
-	 *                {@link #getMessage()} method)
+	 * @param message the message {@link String}
 	 */
 	public ParseFileException(final String message) {
 		super(message);

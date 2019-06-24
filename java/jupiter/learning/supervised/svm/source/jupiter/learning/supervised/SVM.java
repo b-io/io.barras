@@ -401,7 +401,7 @@ public class SVM {
 	 * <p>
 	 * @param trainingExampleIndex the index of the training example
 	 * @param featureIndex         the index of the feature
-	 * @param value                the value at the indexes
+	 * @param value                the {@code double} value at the indexes
 	 */
 	protected void updateValue(final int trainingExampleIndex, final int featureIndex,
 			final double value) {
@@ -424,7 +424,7 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the problem and the parameters and returns it.
+	 * Trains the model with the problem and parameters and returns it.
 	 * <p>
 	 * @return the trained model
 	 */

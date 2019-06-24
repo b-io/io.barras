@@ -24,7 +24,6 @@
 package jupiter.graphics.charts.overlays;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -35,6 +34,7 @@ import java.util.List;
 import jupiter.common.test.Arguments;
 
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.event.OverlayChangeEvent;
@@ -170,6 +170,26 @@ public class XYSelectionOverlay
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
+	@Override
+	public XYSelectionOverlay clone() {
+		try {
+			final XYSelectionOverlay clone = (XYSelectionOverlay) super.clone();
+			clone.selections = Objects.clone(selections);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(Strings.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	@Override
 	public boolean equals(final Object other) {
 		if (other == this) {
@@ -182,19 +202,16 @@ public class XYSelectionOverlay
 		return selections.equals(otherXYSelectionOverlay.selections);
 	}
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, selections);
-	}
-
-	@Override
-	public XYSelectionOverlay clone() {
-		try {
-			final XYSelectionOverlay clone = (XYSelectionOverlay) super.clone();
-			clone.selections = Objects.clone(selections);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(ex.getMessage(), ex);
-		}
 	}
 }

@@ -70,7 +70,7 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} from the specified values.
+	 * Constructs a {@link CharacterTable} of the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code char} values
 	 */
@@ -79,7 +79,7 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} from the specified elements.
+	 * Constructs a {@link CharacterTable} of the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Character}
 	 */
@@ -88,7 +88,7 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} from the specified header and values.
+	 * Constructs a {@link CharacterTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
 	 * @param values a 2D array of {@code char} values
@@ -98,7 +98,7 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} from the specified header and elements.
+	 * Constructs a {@link CharacterTable} of specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Character}
@@ -108,7 +108,7 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} imported from the specified file.
+	 * Constructs a {@link CharacterTable} loaded from the specified file.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
@@ -138,6 +138,13 @@ public class CharacterTable
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public CharacterTable clone() {
 		return new CharacterTable(header, elements);

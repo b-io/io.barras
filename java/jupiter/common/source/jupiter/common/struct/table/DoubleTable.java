@@ -70,7 +70,7 @@ public class DoubleTable
 	}
 
 	/**
-	 * Constructs a {@link DoubleTable} from the specified values.
+	 * Constructs a {@link DoubleTable} of the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code double} values
 	 */
@@ -79,7 +79,7 @@ public class DoubleTable
 	}
 
 	/**
-	 * Constructs a {@link DoubleTable} from the specified elements.
+	 * Constructs a {@link DoubleTable} of the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Double}
 	 */
@@ -88,7 +88,7 @@ public class DoubleTable
 	}
 
 	/**
-	 * Constructs a {@link DoubleTable} from the specified header and values.
+	 * Constructs a {@link DoubleTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
 	 * @param values a 2D array of {@code double} values
@@ -98,7 +98,7 @@ public class DoubleTable
 	}
 
 	/**
-	 * Constructs a {@link DoubleTable} from the specified header and elements.
+	 * Constructs a {@link DoubleTable} of the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Double}
@@ -138,6 +138,13 @@ public class DoubleTable
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public DoubleTable clone() {
 		return new DoubleTable(header, elements);

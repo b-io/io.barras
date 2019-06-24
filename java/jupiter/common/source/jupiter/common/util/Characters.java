@@ -950,24 +950,24 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code char} values.
+	 * Returns a representative {@link String} of the specified array of {@code char} values.
 	 * <p>
 	 * @param array an array of {@code char} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code char} values
+	 * @return a representative {@link String} of the specified array of {@code char} values
 	 */
 	public static String toString(final char... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code char} values joined
+	 * Returns a representative {@link String} of the specified array of {@code char} values joined
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code char} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code char} values joined
+	 * @return a representative {@link String} of the specified array of {@code char} values joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final char[] array, final String delimiter) {
@@ -975,14 +975,14 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code char} values joined
+	 * Returns a representative {@link String} of the specified array of {@code char} values joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code char} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code char} values joined
+	 * @return a representative {@link String} of the specified array of {@code char} values joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final char[] array, final String delimiter,
@@ -993,24 +993,24 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Character}.
+	 * Returns a representative {@link String} of the specified array of {@link Character}.
 	 * <p>
 	 * @param array an array of {@link Character}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Character}
+	 * @return a representative {@link String} of the specified array of {@link Character}
 	 */
 	public static String toString(final Character... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Character} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Character} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Character}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Character} joined by
+	 * @return a representative {@link String} of the specified array of {@link Character} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Character[] array, final String delimiter) {
@@ -1018,14 +1018,14 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Character} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Character} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Character}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Character} joined by
+	 * @return a representative {@link String} of the specified array of {@link Character} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Character[] array, final String delimiter,

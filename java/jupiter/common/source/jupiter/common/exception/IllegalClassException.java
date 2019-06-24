@@ -23,6 +23,8 @@
  */
 package jupiter.common.exception;
 
+import jupiter.common.util.Strings;
+
 public class IllegalClassException
 		extends IllegalStateException {
 
@@ -41,13 +43,12 @@ public class IllegalClassException
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IllegalClassException} with the specified illegal {@link Class} of type
-	 * {@code T}.
+	 * Constructs an {@link IllegalClassException} with the specified illegal {@link Class}.
 	 * <p>
 	 * @param <T> the type of the illegal {@link Class}
 	 * @param c   the illegal {@link Class} of type {@code T}
 	 */
 	public <T> IllegalClassException(final Class<T> c) {
-		super("Illegal class " + c.getCanonicalName());
+		super("Illegal class " + Strings.quote(c.getCanonicalName()));
 	}
 }

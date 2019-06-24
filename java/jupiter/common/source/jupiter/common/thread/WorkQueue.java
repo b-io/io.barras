@@ -342,6 +342,11 @@ public class WorkQueue<I, O> {
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + " of type " + type.getSimpleName();

@@ -958,11 +958,11 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a hash code value for the specified value.
+	 * Returns the hash code value for the specified value.
 	 * <p>
 	 * @param value a {@code long} value
 	 * <p>
-	 * @return a hash code value for the specified value
+	 * @return the hash code value for the specified value
 	 */
 	public static int hashCode(final long value) {
 		return Objects.hashCode((int) value, (int) (value >>> Bits.HALF_LONG_BITS_COUNT));
@@ -971,24 +971,24 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code long} values.
+	 * Returns a representative {@link String} of the specified array of {@code long} values.
 	 * <p>
 	 * @param array an array of {@code long} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code long} values
+	 * @return a representative {@link String} of the specified array of {@code long} values
 	 */
 	public static String toString(final long... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code long} values joined
+	 * Returns a representative {@link String} of the specified array of {@code long} values joined
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code long} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code long} values joined
+	 * @return a representative {@link String} of the specified array of {@code long} values joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final long[] array, final String delimiter) {
@@ -996,14 +996,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code long} values joined
+	 * Returns a representative {@link String} of the specified array of {@code long} values joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code long} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code long} values joined
+	 * @return a representative {@link String} of the specified array of {@code long} values joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final long[] array, final String delimiter,
@@ -1014,24 +1014,24 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Long}.
+	 * Returns a representative {@link String} of the specified array of {@link Long}.
 	 * <p>
 	 * @param array an array of {@link Long}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Long}
+	 * @return a representative {@link String} of the specified array of {@link Long}
 	 */
 	public static String toString(final Long... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Long} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Long} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Long}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Long} joined by
+	 * @return a representative {@link String} of the specified array of {@link Long} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Long[] array, final String delimiter) {
@@ -1039,14 +1039,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Long} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Long} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Long}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Long} joined by
+	 * @return a representative {@link String} of the specified array of {@link Long} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Long[] array, final String delimiter,

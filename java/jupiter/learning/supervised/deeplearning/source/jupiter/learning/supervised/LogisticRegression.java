@@ -202,7 +202,7 @@ public class LogisticRegression
 			final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
 			final Scalar db = dZT.mean().toScalar();
 
-			// Update the weights and the bias
+			// Update the weights and bias
 			W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
 			b.subtract(db.multiply(learningRate)).toScalar();
 		}

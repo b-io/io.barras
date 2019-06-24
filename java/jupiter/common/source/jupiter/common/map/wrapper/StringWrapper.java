@@ -81,6 +81,13 @@ public class StringWrapper
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public StringWrapper clone() {
 		return new StringWrapper(left, right);

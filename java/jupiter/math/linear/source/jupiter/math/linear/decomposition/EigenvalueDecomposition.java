@@ -383,7 +383,7 @@ public class EigenvalueDecomposition
 			e[l] = 0.;
 		}
 
-		// Sort the eigenvalues and the corresponding vectors
+		// Sort the eigenvalues and corresponding vectors
 		for (int i = 0; i < dimension - 1; ++i) {
 			int k = i;
 			double p = d[i];
@@ -689,7 +689,7 @@ public class EigenvalueDecomposition
 						H[i][i - 3] = 0.;
 					}
 				}
-				// Perform the double QR step involving the rows l:dimension and the columns m:dimension
+				// Perform the double QR step involving the rows l:dimension and columns m:dimension
 				for (int k = m; k <= n - 1; ++k) {
 					final boolean isNotLast = k != n - 1;
 					if (k != m) {

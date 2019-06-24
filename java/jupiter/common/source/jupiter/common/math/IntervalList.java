@@ -100,7 +100,7 @@ public class IntervalList<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} contains the value.
 	 * <p>
-	 * @param value the value to test for presence
+	 * @param value the value of type {@code T} to test for presence
 	 * <p>
 	 * @return {@code true} if {@code this} contains the value, {@code false} otherwise
 	 */
@@ -132,6 +132,11 @@ public class IntervalList<T extends Comparable<T>>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Strings.toString(intervals);

@@ -27,9 +27,9 @@ import jupiter.common.reduce.Reducer;
 import jupiter.common.util.Objects;
 
 /**
- * {@link Hasher} is a reduce operator hashing an array of {@code I} objects to an {@code Integer}.
+ * {@link Hasher} is a reduce operator hashing an array of type {@code I} to an {@code Integer}.
  * <p>
- * @param <I> the component type of the array to hash
+ * @param <I> the component type of the array
  */
 public class Hasher<I>
 		extends Reducer<I, Integer> {
@@ -67,6 +67,13 @@ public class Hasher<I>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public Hasher<I> clone() {
 		return new Hasher<I>(c);

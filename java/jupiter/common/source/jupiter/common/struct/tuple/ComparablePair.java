@@ -115,6 +115,18 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Compares {@code this} with {@code pair} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code pair}.
+	 * <p>
+	 * @param pair the {@link ComparablePair} of type {@code T1} and {@code T2} to compare with for
+	 *             order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
+	 *         or greater than {@code pair}
+	 * <p>
+	 * @throws NullPointerException if {@code pair} is {@code null}
+	 */
 	public int compareTo(final ComparablePair<T1, T2> pair) {
 		final int comparison = first.compareTo(pair.first);
 		if (comparison != 0) {
@@ -153,6 +165,14 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 				Objects.equals(second, otherComparablePair.second);
 	}
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public int hashCode() {
@@ -161,6 +181,11 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Arrays.toString(first, second);

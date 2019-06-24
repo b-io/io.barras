@@ -95,7 +95,7 @@ public class JOCL
 	public JOCL(final String sourceCode) {
 		super(sourceCode);
 
-		// Set the platform, the device type and the device number
+		// Set the platform, the device type and number
 		final int platformIndex = 0;
 		final long deviceType = CL_DEVICE_TYPE_ALL;
 
@@ -174,7 +174,7 @@ public class JOCL
 			IS_ACTIVE = false;
 			release();
 			throw new IllegalStateException(
-					"There is a problem with the OpenCL program: " + ex.getMessage());
+					"There is a problem with the OpenCL program" + Strings.append(ex));
 		}
 	}
 

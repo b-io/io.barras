@@ -284,8 +284,7 @@ public class Files {
 		try {
 			return IO.read(new FileInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -319,8 +318,7 @@ public class Files {
 		try {
 			return IO.read(new ZipInputStream(new FileInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -354,8 +352,7 @@ public class Files {
 		try {
 			return IO.read(new GZIPInputStream(new FileInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -417,8 +414,7 @@ public class Files {
 		try {
 			return IO.countLines(new FileInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -495,14 +491,13 @@ public class Files {
 		boolean isWritten = false;
 		BufferedWriter writer = null;
 		try {
-			// Create a new file writer
+			// Create a file writer
 			writer = IO.createWriter(new FileOutputStream(file, append), charset);
 			// Write or append the content to the file
 			writer.write(content + NEWLINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
@@ -1006,6 +1001,13 @@ public class Files {
 			return true;
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see Cloneable
+		 */
 		@Override
 		public Copier clone() {
 			return new Copier();

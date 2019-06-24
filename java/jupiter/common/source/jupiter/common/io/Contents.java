@@ -51,6 +51,14 @@ public class Contents {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether the specified {@link Content} is {@code null} or empty.
+	 * <p>
+	 * @param content a {@link Content}
+	 * <p>
+	 * @return {@code true} if the specified {@link Content} is {@code null} or empty, {@code false}
+	 *         otherwise
+	 */
 	public static boolean isNullOrEmpty(final Content content) {
 		return content == null || content.isNullOrEmpty();
 	}

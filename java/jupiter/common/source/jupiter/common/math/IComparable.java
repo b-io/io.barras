@@ -39,7 +39,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code comparable}
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparable} is {@code null}
 	 */
@@ -52,7 +52,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code comparable}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparable} is {@code null}
 	 */
@@ -66,7 +66,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * @return {@code true} if {@code this} is less or equal to {@code comparable}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparable} is {@code null}
 	 */
@@ -80,7 +80,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * @return {@code true} if {@code this} is greater than {@code comparable}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparable} is {@code null}
 	 */
@@ -94,7 +94,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * @return {@code true} if {@code this} is greater or equal to {@code comparable}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparable} is {@code null}
 	 */
@@ -110,7 +110,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return the smaller of {@code this} and {@code comparable}, or {@code this} if they are equal
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparable} is {@code null}
 	 */
@@ -123,7 +123,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return the larger of {@code this} and {@code comparable}, or {@code this} if they are equal
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparable} is {@code null}
 	 */
@@ -141,7 +141,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code comparable}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparable} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparable} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparable} is {@code null}
 	 */

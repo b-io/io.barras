@@ -77,6 +77,13 @@ public class IOStreamWriter
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public IOStreamWriter clone() {
 		return new IOStreamWriter(printer, isError);

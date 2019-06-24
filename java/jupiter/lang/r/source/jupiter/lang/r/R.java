@@ -250,6 +250,13 @@ public class R {
 			printer.clear();
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see Cloneable
+		 */
 		@Override
 		public RPrinter clone() {
 			return new RPrinter(printer);

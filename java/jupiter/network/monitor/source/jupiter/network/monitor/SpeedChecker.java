@@ -127,8 +127,7 @@ public class SpeedChecker {
 				DATA_FILES.put(urlName,
 						new FileHandler(TEMP_DIR + "/downloading_speeds_of_" + fileName + ".csv"));
 			} catch (final MalformedURLException ex) {
-				IO.error("The URL ", Strings.quote(urlName), " is malformed",
-						IO.appendException(ex));
+				IO.error("The URL ", Strings.quote(urlName), " is malformed", Strings.append(ex));
 			}
 		}
 		// - The work queue
@@ -238,18 +237,18 @@ public class SpeedChecker {
 					return new Report<Double>(0.,
 							IO.error("Unable to transfer the file ", Strings.quote(urlName), " to ",
 									Strings.quote(Files.getCanonicalPath(targetFile)),
-									IO.appendException(ex)));
+									Strings.append(ex)));
 				} finally {
 					Resources.close(channel);
 					Resources.close(tempFile);
 				}
 			} catch (final IOException ex) {
 				IO.error("The URL ", Strings.quote(urlName), " is not reachable",
-						IO.appendException(ex));
+						Strings.append(ex));
 				return new Report<Double>(0., IO.error(ex));
 			}
 		} catch (final MalformedURLException ex) {
-			IO.error("The URL ", Strings.quote(urlName), " is malformed", IO.appendException(ex));
+			IO.error("The URL ", Strings.quote(urlName), " is malformed", Strings.append(ex));
 			return new Report<Double>(0., IO.error(ex));
 		}
 	}
@@ -282,6 +281,13 @@ public class SpeedChecker {
 			return checkURL(input);
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see Cloneable
+		 */
 		@Override
 		public Checker clone() {
 			return new Checker();

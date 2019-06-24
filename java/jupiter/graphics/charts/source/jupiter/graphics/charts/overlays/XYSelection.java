@@ -23,19 +23,16 @@
  */
 package jupiter.graphics.charts.overlays;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.text.Format;
 
-import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.ChartPanels;
 import jupiter.math.analysis.struct.XY;
 
@@ -272,6 +269,13 @@ public class XYSelection
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public XYSelection clone() {
 		try {
@@ -280,7 +284,7 @@ public class XYSelection
 			clone.propertyChangeSupport = Objects.clone(propertyChangeSupport);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(ex.getMessage(), ex);
+			throw new AssertionError(Strings.toString(ex), ex);
 		}
 	}
 
@@ -300,6 +304,14 @@ public class XYSelection
 				Objects.equals(propertyChangeSupport, otherSelection.propertyChangeSupport);
 	}
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, coordinates, isVisible, propertyChangeSupport);

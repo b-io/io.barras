@@ -41,6 +41,13 @@ public class RServer
 		return R.executeScript(script);
 	}
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public Worker<String[], Integer> clone() {
 		return new RServer();

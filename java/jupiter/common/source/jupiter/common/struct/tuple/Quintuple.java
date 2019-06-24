@@ -216,6 +216,14 @@ public class Quintuple<T1, T2, T3, T4, T5>
 				Objects.equals(fifth, otherQuintuple.fifth);
 	}
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third, fourth, fifth);
@@ -223,6 +231,11 @@ public class Quintuple<T1, T2, T3, T4, T5>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Arrays.toString(first, second, third, fourth, fifth);

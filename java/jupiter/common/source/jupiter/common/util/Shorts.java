@@ -987,11 +987,11 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a hash code value for the specified value.
+	 * Returns the hash code value for the specified value.
 	 * <p>
 	 * @param value a {@code short} value
 	 * <p>
-	 * @return a hash code value for the specified value
+	 * @return the hash code value for the specified value
 	 */
 	public static int hashCode(final short value) {
 		return Objects.hashCode((int) value, value >>> Bits.HALF_LONG_BITS_COUNT);
@@ -1000,24 +1000,24 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code short} values.
+	 * Returns a representative {@link String} of the specified array of {@code short} values.
 	 * <p>
 	 * @param array an array of {@code short} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code short} values
+	 * @return a representative {@link String} of the specified array of {@code short} values
 	 */
 	public static String toString(final short... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code short} values joined
+	 * Returns a representative {@link String} of the specified array of {@code short} values joined
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code short} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code short} values joined
+	 * @return a representative {@link String} of the specified array of {@code short} values joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final short[] array, final String delimiter) {
@@ -1025,14 +1025,14 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code short} values joined
+	 * Returns a representative {@link String} of the specified array of {@code short} values joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code short} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code short} values joined
+	 * @return a representative {@link String} of the specified array of {@code short} values joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final short[] array, final String delimiter,
@@ -1043,24 +1043,24 @@ public class Shorts {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Short}.
+	 * Returns a representative {@link String} of the specified array of {@link Short}.
 	 * <p>
 	 * @param array an array of {@link Short}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Short}
+	 * @return a representative {@link String} of the specified array of {@link Short}
 	 */
 	public static String toString(final Short... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Short} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Short} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Short}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Short} joined by
+	 * @return a representative {@link String} of the specified array of {@link Short} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Short[] array, final String delimiter) {
@@ -1068,14 +1068,14 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Short} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Short} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Short}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Short} joined by
+	 * @return a representative {@link String} of the specified array of {@link Short} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Short[] array, final String delimiter,

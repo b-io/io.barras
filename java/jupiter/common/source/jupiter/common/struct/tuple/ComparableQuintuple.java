@@ -185,6 +185,18 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Compares {@code this} with {@code quintuple} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code quintuple}.
+	 * <p>
+	 * @param quintuple the {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3},
+	 *                  {@code T4} and {@code T5} to compare with for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
+	 *         or greater than {@code quintuple}
+	 * <p>
+	 * @throws NullPointerException if {@code quintuple} is {@code null}
+	 */
 	public int compareTo(final ComparableQuintuple<T1, T2, T3, T4, T5> quintuple) {
 		int comparison = first.compareTo(quintuple.first);
 		if (comparison != 0) {
@@ -241,6 +253,14 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 				Objects.equals(fifth, otherQuintuple.fifth);
 	}
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public int hashCode() {
@@ -249,6 +269,11 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Arrays.toString(first, second, third, fourth, fifth);

@@ -80,11 +80,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified tree and returns the keys of the visited
+	 * Performs the in-order traversal of the specified tree and stores the keys of the visited
 	 * nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree the tree to get the keys from
-	 * @param keys the {@link List} to store the keys in
+	 * @param tree a tree of type {@code N}
+	 * @param keys a {@link List} of type {@code K}
 	 */
 	protected void getKeys(final N tree, final List<K> keys) {
 		if (tree != null) {
@@ -110,8 +110,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * Performs the in-order traversal of the specified tree and returns the values of the visited
 	 * nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree   the tree to get the values from
-	 * @param values the {@link List} to store the values in
+	 * @param tree   the tree of type {@code N} to get the values from
+	 * @param values the {@link List} of type {@code V} to store the values in
 	 */
 	protected void getValues(final N tree, final List<V> values) {
 		if (tree != null) {
@@ -124,37 +124,40 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the parent of the specified node, or {@code null} if {@code node} is {@code null}.
+	 * Returns the parent of type {@code N} of the specified node, or {@code null} if it is
+	 * {@code null}.
 	 * <p>
-	 * @param node the node to get the parent from
+	 * @param node the node of type {@code N} to get the parent from
 	 * <p>
-	 * @return the parent of the specified node, or {@code null} if {@code node} is {@code null}
+	 * @return the parent of type {@code N} of the specified node, or {@code null} if it is
+	 *         {@code null}
 	 */
 	protected N getParent(final N node) {
 		return node == null ? null : node.parent;
 	}
 
 	/**
-	 * Returns the node associated to the specified key, or {@code null} if {@code key} is not
-	 * present.
+	 * Returns the node of type {@code N} associated to the specified key {@link Comparable}, or
+	 * {@code null} if it is not present.
 	 * <p>
-	 * @param key the key of the node to get
+	 * @param keyComparable a key {@link Comparable} of super type {@code K}
 	 * <p>
-	 * @return the node associated to the specified key, or {@code null} if {@code key} is not
-	 *         present
+	 * @return the node of type {@code N} associated to the specified key {@link Comparable}, or
+	 *         {@code null} if it is not present
 	 * <p>
-	 * @throws NullPointerException if {@code key} is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
 	@Override
-	protected N getNode(final Comparable<? super K> key) {
+	protected N findNode(final Comparable<? super K> keyComparable) {
 		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
+		Arguments.requireNonNull(keyComparable, "The specified comparable is null");
 
 		// Get the node
 		N node = root;
 		int comparison;
 		while (node != null) {
-			comparison = key.compareTo(node.key);
+			comparison = keyComparable.compareTo(node.key);
 			if (comparison < 0) {
 				node = node.left;
 			} else if (comparison > 0) {
@@ -201,11 +204,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns the predecessor of the specified node.
+	 * Returns the predecessor of type {@code N} of the specified node.
 	 * <p>
-	 * @param node the successor of the node to get
+	 * @param node a node of type {@code N}
 	 * <p>
-	 * @return the predecessor of the specified node
+	 * @return the predecessor of type {@code N} of the specified node
 	 */
 	protected N getPredecessor(final N node) {
 		N predecessor;
@@ -226,11 +229,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns the successor of the specified node.
+	 * Returns the successor of type {@code N} of the specified node.
 	 * <p>
-	 * @param node the predecessor of the node to get
+	 * @param node a node of type {@code N}
 	 * <p>
-	 * @return the successor of the specified node
+	 * @return the successor of type {@code N} of the specified node
 	 */
 	protected N getSuccessor(final N node) {
 		N successor;
@@ -268,12 +271,14 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the key-value mapping of the specified key and returns the previous associated value,
-	 * or {@code null} if {@code key} is not present.
+	 * Removes the key-value mapping of type {@code K} and {@code V} of the specified key and
+	 * returns the previous associated value of type {@code V}, or {@code null} if it is not
+	 * present.
 	 * <p>
-	 * @param key the key of the key-value mapping to remove
+	 * @param key the {@link Object} key of the key-value mapping of type {@code K} and {@code V} to
+	 *            remove
 	 * <p>
-	 * @return the previous associated value, or {@code null} if {@code key} is not present
+	 * @return the previous associated value of type {@code V}, or {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -302,16 +307,16 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Balances the tree after insertion.
+	 * Balances the specified tree after insertion.
 	 * <p>
-	 * @param tree the tree to balance
+	 * @param tree a tree of type {@code N}
 	 */
 	protected abstract void balanceAfterInsertion(N tree);
 
 	/**
 	 * Balances the tree after deletion.
 	 * <p>
-	 * @param tree the tree to balance
+	 * @param tree a tree of type {@code N}
 	 */
 	protected abstract void balanceAfterDeletion(N tree);
 
@@ -320,9 +325,9 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	/**
 	 * Rotates the specified tree to the left. Corrects a RR imbalance.
 	 * <p>
-	 * @param tree the tree to rotate
+	 * @param tree a tree of type {@code N}
 	 * <p>
-	 * @return the rotated tree
+	 * @return the rotated tree of type {@code N}
 	 */
 	protected N rotateLeft(final N tree) {
 		N rotatedTree;
@@ -346,9 +351,9 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	/**
 	 * Rotates the specified tree to the right. Corrects a LL imbalance.
 	 * <p>
-	 * @param tree the tree to rotate
+	 * @param tree a tree of type {@code N}
 	 * <p>
-	 * @return the rotated tree
+	 * @return the rotated tree of type {@code N}
 	 */
 	protected N rotateRight(final N tree) {
 		N rotatedTree;
@@ -373,7 +378,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * Rotates the left part of the specified tree to the left and rotates the specified tree to the
 	 * right. Corrects a LR imbalance.
 	 * <p>
-	 * @param tree the tree to rotate
+	 * @param tree a tree of type {@code N}
 	 * <p>
 	 * @return the rotated tree
 	 */
@@ -386,7 +391,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * Rotates the right part of the specified tree to the right and rotates the specified tree to
 	 * the left. Corrects a RL imbalance.
 	 * <p>
-	 * @param tree the tree to rotate
+	 * @param tree a tree of type {@code N}
 	 * <p>
 	 * @return the rotated tree
 	 */
@@ -411,7 +416,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	/**
 	 * Prints the specified tree.
 	 * <p>
-	 * @param tree the tree to print
+	 * @param tree a tree of type {@code N}
 	 */
 	protected void print(final N tree) {
 		IO.result(tree);
@@ -429,7 +434,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes all the key-value mappings.
+	 * Removes all the key-value mappings of type {@code K} and {@code V}.
 	 */
 	@Override
 	public synchronized void clear() {
@@ -438,9 +443,9 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Tests whether a mapping for the specified key exists.
+	 * Tests whether a mapping of type {@code K} and {@code V} for the specified key exists.
 	 * <p>
-	 * @param key the key of the key-value mapping to test for presence
+	 * @param key the {@link Object} key of the key-value mapping to test for presence
 	 * <p>
 	 * @return {@code true} if a mapping for the specified key exists, {@code false} otherwise
 	 * <p>
@@ -459,7 +464,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	/**
 	 * Tests whether a mapping for the specified value exists.
 	 * <p>
-	 * @param value the value of the key-value mapping to test for presence
+	 * @param value the {@link Object} value of the key-value mapping to test for presence
 	 * <p>
 	 * @return {@code true} if a mapping for the specified value exists, {@code false} otherwise
 	 */
@@ -475,36 +480,40 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns a set view of the key-value mappings. The iterator of the set returns the entries in
-	 * ascending key order. The set is backed by {@code this}, so changes to {@code this} are
-	 * reflected in the set and vice-versa. If {@code this} is modified while an iteration over the
-	 * set is in progress (except through the operations {@code remove} or {@code setValue} of the
-	 * iterator), the results of the iteration are undefined. The set supports element removal,
-	 * which removes the corresponding mapping from {@code this}, via the
-	 * {@link Iterator#remove}, {@link Set#remove}, {@code removeAll}, {@code retainAll} and
-	 * {@code clear} operations. It does not support the {@code add} or {@code addAll} operations.
+	 * Performs the in-order traversal of {@code this} and returns a {@link Set} view of the
+	 * key-value {@link Map.Entry} of type {@code K} and {@code V} of the visited nodes. The
+	 * iterator of the {@link Set} returns the entries in ascending key order. The {@link Set} is
+	 * backed by {@code this}, so changes to {@code this} are reflected in the {@link Set} and
+	 * vice-versa. If {@code this} is modified while an iteration over the {@link Set} is in
+	 * progress (except through the operations {@code remove} or {@code setValue} of the iterator),
+	 * the results of the iteration are undefined. The set supports element removal, which removes
+	 * the corresponding mapping from {@code this}, via the {@link Iterator#remove},
+	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
+	 * does not support the {@code add} or {@code addAll} operations.
 	 * <p>
-	 * @return a {@link Set} view of the key-value mappings
+	 * @return a {@link Set} view of the key-value {@link Map.Entry} of type {@code K} and {@code V}
 	 */
 	@Override
 	public Set<Entry<K, V>> entrySet() {
-		return getEntries(root, new TreeSet<Entry<K, V>>());
+		return entrySet(root, new TreeSet<Entry<K, V>>());
 	}
 
 	/**
-	 * Returns a set view of the key-value mappings. Performs the in-order traversal of the
-	 * specified tree and returns the key-value mappings of the visited nodes in the specified set.
+	 * Performs the in-order traversal of the specified tree and returns a {@link Set} view of the
+	 * key-value {@link Map.Entry} of type {@code K} and {@code V} of the visited nodes added to the
+	 * specified {@link Set}.
 	 * <p>
-	 * @param tree the tree to get the key-value mappings from
-	 * @param set  the {@link Set} to fill with the key-value mappings
+	 * @param tree a tree of type {@code N}
+	 * @param set  a {@link Set} of {@link Map.Entry} of type {@code K} and {@code V}
 	 * <p>
-	 * @return a {@link Set} view of the key-value mappings
+	 * @return a {@link Set} view of the key-value {@link Map.Entry} of type {@code K} and {@code V}
+	 *         of the visited nodes added to the specified {@link Set}
 	 */
-	protected Set<Entry<K, V>> getEntries(final N tree, final Set<Entry<K, V>> set) {
+	protected Set<Entry<K, V>> entrySet(final N tree, final Set<Entry<K, V>> set) {
 		if (tree != null) {
-			getEntries(tree.left, set);
+			entrySet(tree.left, set);
 			set.add(tree);
-			getEntries(tree.right, set);
+			entrySet(tree.right, set);
 		}
 		return set;
 	}
@@ -527,6 +536,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	@Override
 	public abstract BinaryTreeMap<K, V, N> clone();
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		final StringBuilder lineBuilder = Strings.createBuilder();

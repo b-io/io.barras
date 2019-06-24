@@ -204,11 +204,11 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object}.
+	 * Returns a representative {@link String} of the specified array of {@link Object}.
 	 * <p>
 	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object}
+	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
 	public static String join(final Object... array) {
 		return Strings.joinWith(array, DEFAULT_DELIMITER);
@@ -286,7 +286,7 @@ public class Arrays {
 	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
 	 * type {@code T}.
 	 * <p>
-	 * @param <T> the component type of the arrays
+	 * @param <T> the component type of the arrays to merge
 	 * @param a   an array of type {@code T} (may be {@code null})
 	 * @param b   an array of type {@code T} (may be {@code null})
 	 * <p>
@@ -319,7 +319,7 @@ public class Arrays {
 	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
 	 * type {@code T}.
 	 * <p>
-	 * @param <T>    the component type of the arrays
+	 * @param <T>    the component type of the arrays to merge
 	 * @param arrays a 2D array of type {@code T} (may be {@code null})
 	 * <p>
 	 * @return an array of type {@code T} containing all the elements of the specified arrays of
@@ -354,7 +354,7 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sorts the specified array of objects into ascending order, according to the
+	 * Sorts the specified array of {@link Object} into ascending order, according to the
 	 * {@linkplain Comparable natural ordering} of its elements. All elements in the array must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in the array must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
@@ -394,9 +394,9 @@ public class Arrays {
 	}
 
 	/**
-	 * Sorts the specified range of the specified array of objects into ascending order, according
-	 * to the {@linkplain Comparable natural ordering} of its elements. The range to sort extends
-	 * from index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
+	 * Sorts the specified range of the specified array of {@link Object} into ascending order,
+	 * according to the {@linkplain Comparable natural ordering} of its elements. The range to sort
+	 * extends from index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
 	 * {@code fromIndex==toIndex}, the range to sort is empty.) All elements in this range must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in this range must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
@@ -445,7 +445,7 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	/**
-	 * Sorts the specified array of objects according to the order induced by the specified
+	 * Sorts the specified array of {@link Object} according to the order induced by the specified
 	 * comparator. All elements in the array must be
 	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
 	 * must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in the
@@ -472,7 +472,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param array      the array to sort
 	 * @param comparator the comparator to determine the order of the array. A {@code null} value
 	 *                   indicates that {@linkplain Comparable natural ordering} of the elements
@@ -492,10 +492,10 @@ public class Arrays {
 	}
 
 	/**
-	 * Sorts the specified range of the specified array of objects according to the order induced by
-	 * the specified comparator. The range to sort extends from index {@code fromIndex}, inclusive,
-	 * to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to be sorted
-	 * is empty.) All elements in the range must be
+	 * Sorts the specified range of the specified array of {@link Object} according to the order
+	 * induced by the specified comparator. The range to sort extends from index {@code fromIndex},
+	 * inclusive, to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to
+	 * be sorted is empty.) All elements in the range must be
 	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
 	 * must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in the
 	 * range).
@@ -521,7 +521,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param a          the array to sort
 	 * @param fromIndex  the index of the first element (inclusive) to sort
 	 * @param toIndex    the index of the last element (exclusive) to sort
@@ -681,7 +681,7 @@ public class Arrays {
 	/**
 	 * Tests whether the specified array of type {@code T} is empty.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to test
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return {@code true} if the specified array of type {@code T} is empty, {@code false}
@@ -801,24 +801,24 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object}.
+	 * Returns a representative {@link String} of the specified array of {@link Object}.
 	 * <p>
 	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object}
+	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
 	public static String toString(final Object... array) {
 		return Strings.parenthesize(join(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object} joined by
+	 * @return a representative {@link String} of the specified array of {@link Object} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Object[] array, final String delimiter) {
@@ -826,14 +826,14 @@ public class Arrays {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object} joined by
+	 * @return a representative {@link String} of the specified array of {@link Object} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Object[] array, final String delimiter,

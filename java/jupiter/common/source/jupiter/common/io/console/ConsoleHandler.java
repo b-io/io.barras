@@ -57,7 +57,7 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The console to handle.
+	 * The {@link IConsole} to handle.
 	 */
 	protected IConsole console;
 
@@ -134,7 +134,7 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified content in the console.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
 	 */
@@ -154,7 +154,7 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified content in the console and then terminates the line.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
 	 */
@@ -185,7 +185,7 @@ public class ConsoleHandler
 	 * Prints the specified message (whether in the standard output or in the standard error and in
 	 * color if {@code USE_COLORS}) in the console and terminates the line.
 	 * <p>
-	 * @param message the {@link Message} to print
+	 * @param message a {@link Message}
 	 */
 	@Override
 	public void println(final Message message) {
@@ -211,6 +211,13 @@ public class ConsoleHandler
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public ConsoleHandler clone() {
 		return new ConsoleHandler(console);
@@ -245,9 +252,7 @@ public class ConsoleHandler
 		/**
 		 * The color intensity.
 		 * <p>
-		 * - 0: standard
-		 * - 1: light
-		 * - 2: dark
+		 * - 0: standard - 1: light - 2: dark
 		 */
 		public static volatile int INTENSITY = 0;
 
@@ -377,6 +382,11 @@ public class ConsoleHandler
 			}
 		}
 
+		/**
+		 * Returns a representative {@link String} of {@code this}.
+		 * <p>
+		 * @return a representative {@link String} of {@code this}
+		 */
 		@Override
 		public String toString() {
 			switch (this) {

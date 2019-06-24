@@ -131,8 +131,8 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a tree whose nodes and leaves correspond respectively to the operations and numbers
-	 * of the specified expression.
+	 * Returns a tree whose nodes and leaves correspond respectively to the operations and the
+	 * numbers of the specified expression.
 	 * <p>
 	 * @param expression the expression to parse
 	 * @param context    the context containing the values of the variables
@@ -527,6 +527,13 @@ public class ExpressionHandler {
 			return parseExpression(input.getFirst(), input.getSecond(), input.getThird());
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see Cloneable
+		 */
 		@Override
 		public Parser clone() {
 			return new Parser();

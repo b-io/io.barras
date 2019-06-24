@@ -70,7 +70,7 @@ public class ShortTable
 	}
 
 	/**
-	 * Constructs a {@link ShortTable} from the specified values.
+	 * Constructs a {@link ShortTable} of the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code short} values
 	 */
@@ -79,7 +79,7 @@ public class ShortTable
 	}
 
 	/**
-	 * Constructs a {@link ShortTable} from the specified elements.
+	 * Constructs a {@link ShortTable} of the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Short}
 	 */
@@ -88,7 +88,7 @@ public class ShortTable
 	}
 
 	/**
-	 * Constructs a {@link ShortTable} from the specified header and values.
+	 * Constructs a {@link ShortTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
 	 * @param values a 2D array of {@code short} values
@@ -98,7 +98,7 @@ public class ShortTable
 	}
 
 	/**
-	 * Constructs a {@link ShortTable} from the specified header and elements.
+	 * Constructs a {@link ShortTable} of the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Short}
@@ -138,6 +138,13 @@ public class ShortTable
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public ShortTable clone() {
 		return new ShortTable(header, elements);

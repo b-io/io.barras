@@ -79,6 +79,13 @@ public class StringJoiner
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public StringJoiner clone() {
 		return new StringJoiner(delimiter);

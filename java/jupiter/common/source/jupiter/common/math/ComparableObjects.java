@@ -46,7 +46,7 @@ public class ComparableObjects {
 	 * @param <T>        the type of the objects to compare
 	 * @param a          a {@code T} object
 	 * @param b          another {@code T} object to compare with {@code a} for order
-	 * @param comparator the {@link Comparator} to use
+	 * @param comparator the {@link Comparator} of super type {@code T} to use
 	 * <p>
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 *         otherwise

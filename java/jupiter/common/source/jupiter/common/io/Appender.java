@@ -52,9 +52,9 @@ public abstract class Appender
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified message.
+	 * Prints the specified {@link Message}.
 	 * <p>
-	 * @param message the {@link Message} to print
+	 * @param message a {@link Message}
 	 */
 	@Override
 	public void println(final Message message) {
@@ -88,83 +88,99 @@ public abstract class Appender
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Writes the specified content in the log indicating the severity level
+	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#TRACE}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 */
 	public abstract void trace(final Object content);
 
 	/**
-	 * Writes the specified content in the log indicating the severity level
+	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#DEBUG}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 */
 	public abstract void debug(final Object content);
 
 	/**
-	 * Writes the specified content in the log indicating the severity level
+	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#TEST}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 */
 	public abstract void test(final Object content);
 
 	/**
-	 * Writes the specified content in the log indicating the severity level
+	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#INFO}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 */
 	public abstract void info(final Object content);
 
 	/**
-	 * Writes the specified content in the log indicating the severity level
+	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#RESULT}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 */
 	public abstract void result(final Object content);
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Writes the specified content in the log indicating the severity level
+	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#WARNING}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 */
 	public abstract void warn(final Object content);
 
 	/**
-	 * Writes the specified {@link Exception} in the log indicating the severity level
-	 * {@link IO.SeverityLevel#ERROR}.
+	 * Prints the specified {@link Exception} indicating the severity level
+	 * {@link IO.SeverityLevel#WARNING}.
 	 * <p>
-	 * @param exception the {@link Exception} to print
+	 * @param exception an {@link Exception}
 	 */
-	public abstract void error(final Exception exception);
+	public abstract void warn(final Exception exception);
+
+	//////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content in the console and writes it in the error log indicating the
-	 * severity level {@link IO.SeverityLevel#ERROR}.
+	 * Prints the specified content {@link Object} indicating the severity level
+	 * {@link IO.SeverityLevel#ERROR}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 */
 	public abstract void error(final Object content);
 
 	/**
-	 * Prints the message of the specified {@link Exception} in the console and writes it in the
-	 * error log indicating the severity level {@link IO.SeverityLevel#FAILURE}.
+	 * Prints the specified {@link Exception} indicating the severity level
+	 * {@link IO.SeverityLevel#ERROR}.
 	 * <p>
-	 * @param exception the {@link Exception} to print
+	 * @param exception an {@link Exception}
 	 */
-	public abstract void fail(final Exception exception);
+	public abstract void error(final Exception exception);
+
+	//////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content in the console and writes it in the error log indicating the
-	 * severity level {@link IO.SeverityLevel#FAILURE}.
+	 * Prints the specified content {@link Object} indicating the severity level
+	 * {@link IO.SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object}
 	 */
 	public abstract void fail(final Object content);
+
+	/**
+	 * Prints the specified {@link Exception} indicating the severity level
+	 * {@link IO.SeverityLevel#FAILURE}.
+	 * <p>
+	 * @param exception an {@link Exception}
+	 */
+	public abstract void fail(final Exception exception);
 }

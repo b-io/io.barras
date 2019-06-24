@@ -273,9 +273,11 @@ public abstract class ComparableNumber
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
 	@Override
 	public boolean equals(final Object other) {
@@ -347,11 +349,25 @@ public abstract class ComparableNumber
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, doubleValue());
 	}
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Strings.toString(doubleValue());

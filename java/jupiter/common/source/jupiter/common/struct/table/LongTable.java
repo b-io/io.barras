@@ -70,7 +70,7 @@ public class LongTable
 	}
 
 	/**
-	 * Constructs a {@link LongTable} from the specified values.
+	 * Constructs a {@link LongTable} of the specified values.
 	 * <p>
 	 * @param values a 2D array of {@code long} values
 	 */
@@ -79,7 +79,7 @@ public class LongTable
 	}
 
 	/**
-	 * Constructs a {@link LongTable} from the specified elements.
+	 * Constructs a {@link LongTable} of the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Long}
 	 */
@@ -88,7 +88,7 @@ public class LongTable
 	}
 
 	/**
-	 * Constructs a {@link LongTable} from the specified header and values.
+	 * Constructs a {@link LongTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
 	 * @param values a 2D array of {@code long} values
@@ -98,7 +98,7 @@ public class LongTable
 	}
 
 	/**
-	 * Constructs a {@link LongTable} from the specified header and elements.
+	 * Constructs a {@link LongTable} of the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Long}
@@ -138,6 +138,13 @@ public class LongTable
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see Cloneable
+	 */
 	@Override
 	public LongTable clone() {
 		return new LongTable(header, elements);

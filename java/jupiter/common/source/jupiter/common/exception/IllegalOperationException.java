@@ -41,17 +41,17 @@ public class IllegalOperationException
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IllegalOperationException} without an error detail message.
+	 * Constructs an {@link IllegalOperationException}.
 	 */
 	public IllegalOperationException() {
 		super();
 	}
 
 	/**
-	 * Constructs an {@link IllegalOperationException} with the specified error detail message.
+	 * Constructs a {@link IllegalOperationException} with the specified message {@link String}
+	 * which is saved for later retrieval by the {@link #getMessage()} method.
 	 * <p>
-	 * @param message the detail message (which is saved for later retrieval by the
-	 *                {@link #getMessage()} method)
+	 * @param message the message {@link String}
 	 */
 	public IllegalOperationException(final String message) {
 		super(message);

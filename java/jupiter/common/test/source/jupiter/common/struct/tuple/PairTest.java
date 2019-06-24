@@ -28,6 +28,7 @@ import static jupiter.common.io.IO.IO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jupiter.common.test.Test;
+import jupiter.common.util.Strings;
 
 public class PairTest
 		extends Test {
@@ -58,7 +59,7 @@ public class PairTest
 			assertEquals(new Integer(42), pair.getSecond()[0]);
 			assertEquals(new Integer(42), clone.getSecond()[0]);
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(ex.getMessage(), ex);
+			throw new AssertionError(Strings.toString(ex), ex);
 		}
 	}
 }

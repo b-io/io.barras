@@ -53,7 +53,7 @@ public class Sort<T> {
 	protected final T[] array;
 
 	/**
-	 * The comparator for this sort.
+	 * The comparator of super type {@code T} for this sort.
 	 */
 	protected final Comparator<? super T> comparator;
 
@@ -105,7 +105,7 @@ public class Sort<T> {
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
 	 * <p>
 	 * @param array      the array to sort
-	 * @param comparator the comparator to determine the order of the sort
+	 * @param comparator the comparator of super type {@code T} to determine the order of the sort
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLen    the usable size of the work array
@@ -162,7 +162,7 @@ public class Sort<T> {
 	 * @param array      the array to sort
 	 * @param lo         the index of the first element, inclusive, to sort
 	 * @param hi         the index of the last element, exclusive, to sort
-	 * @param comparator the comparator to use
+	 * @param comparator the comparator of super type {@code T} to use
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLen    the usable size of the work array
@@ -230,7 +230,7 @@ public class Sort<T> {
 	 * @param hi         the index after the last element in the range to sort
 	 * @param start      the index of the first element in the range that is not already known to be
 	 *                   sorted ({@code lo <= start <= hi})
-	 * @param comparator the comparator to use
+	 * @param comparator the comparator of super type {@code T} to use
 	 */
 	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
@@ -297,7 +297,7 @@ public class Sort<T> {
 	 * @param lo         the index of the first element in the run
 	 * @param hi         the index after the last element that may be contained in the run. It is
 	 *                   required that {@code lo < hi}.
-	 * @param comparator the comparator to use
+	 * @param comparator the comparator of super type {@code T} to use
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
@@ -498,7 +498,8 @@ public class Sort<T> {
 	 * @param len        the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the comparator used to order the range and to search
+	 * @param comparator the comparator of super type {@code T} used to order the range and to
+	 *                   search
 	 * <p>
 	 * @return the int k, {@code 0 <= k <= n} such that {@code a[b + k - 1] < key <= a[b + k]},
 	 *         pretending that {@code a[b - 1]} is minus infinity and {@code a[b + n]} is infinity;
@@ -587,7 +588,8 @@ public class Sort<T> {
 	 * @param len        the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the comparator used to order the range and to search
+	 * @param comparator the comparator of super type {@code T} used to order the range and to
+	 *                   search
 	 * <p>
 	 * @return the int {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}

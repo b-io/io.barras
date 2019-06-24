@@ -138,6 +138,18 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Compares {@code this} with {@code triple} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code triple}.
+	 * <p>
+	 * @param triple the {@link ComparablePair} of type {@code T1}, {@code T2} and {@code T3} to
+	 *               compare with for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
+	 *         or greater than {@code triple}
+	 * <p>
+	 * @throws NullPointerException if {@code triple} is {@code null}
+	 */
 	public int compareTo(final ComparableTriple<T1, T2, T3> triple) {
 		int comparison = first.compareTo(triple.first);
 		if (comparison != 0) {
@@ -182,6 +194,14 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 				Objects.equals(third, otherTriple.third);
 	}
 
+	/**
+	 * Returns the hash code {@code int} value for {@code this}.
+	 * <p>
+	 * @return the hash code {@code int} value for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public int hashCode() {
@@ -190,6 +210,11 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Arrays.toString(first, second, third);
