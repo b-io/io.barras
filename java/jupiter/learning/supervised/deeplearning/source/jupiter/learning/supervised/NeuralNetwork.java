@@ -298,54 +298,59 @@ public class NeuralNetwork
 		Matrix dA = null;
 
 		// Train
-		for (int i = 0; i < maxIterationCount; ++i) {
-			// Perform the forward propagation step (n -> nh... -> 1)
-			for (int l = 0; l < layerCount - 1; ++l) {
-				// - Compute A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])
-				A[l + 1] = computeForward(l).apply(activationFunction); // (nh x m)
-			}
-			// - Compute A[L + 1] = sigmoid(Z[L + 1]) = sigmoid(W[L] A[L] + b[L])
-			A[layerCount] = computeForward(layerCount - 1).apply(Functions.SIGMOID); // (1 x m)
+		Matrix.parallelize();
+		try {
+			for (int i = 0; i < maxIterationCount; ++i) {
+				// Perform the forward propagation step (n -> nh... -> 1)
+				for (int l = 0; l < layerCount - 1; ++l) {
+					// - Compute A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])
+					A[l + 1] = computeForward(l).apply(activationFunction); // (nh x m)
+				}
+				// - Compute A[L + 1] = sigmoid(Z[L + 1]) = sigmoid(W[L] A[L] + b[L])
+				A[layerCount] = computeForward(layerCount - 1).apply(Functions.SIGMOID); // (1 x m)
 
-			// Test the convergence
-			if (i % convergenceTestFrequency == 0) {
-				// - Compute the cost
-				final double cost = computeCost();
-				IO.debug(i, ") Cost: ", cost);
-				final double delta = Maths.delta(j, cost);
-				IO.debug(i, ") Delta: ", delta);
-				j = cost;
+				// Test the convergence
+				if (i % convergenceTestFrequency == 0) {
+					// - Compute the cost
+					final double cost = computeCost();
+					IO.debug(i, ") Cost: ", cost);
+					final double delta = Maths.delta(j, cost);
+					IO.debug(i, ") Delta: ", delta);
+					j = cost;
 
-				// - Test whether the tolerance level is reached
-				if (delta <= tolerance || j <= tolerance) {
-					IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
-					return i;
+					// - Test whether the tolerance level is reached
+					if (delta <= tolerance || j <= tolerance) {
+						IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
+						return i;
+					}
+				}
+
+				// Perform the backward propagation step (n <- nh... <- 1)
+				for (int l = layerCount - 1; l >= 0; --l) {
+					// - Compute the derivative with respect to Z
+					if (l == layerCount - 1) {
+						dZ = A[l + 1].minus(Y); // (1 x m)
+					} else {
+						dZ = dA.arrayMultiply(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
+					}
+					dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
+
+					// - Compute the derivatives with respect to W and b
+					final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
+					final Matrix dW = A[l].times(dZT)
+							.transpose()
+							.divide(trainingExampleCount)
+							.add(regularizationFunction.derive(trainingExampleCount, W[l]))
+							.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
+					final Vector db = dZT.mean().toVector();
+
+					// - Update the weights and bias
+					W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)
+					b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (1 x 1)
 				}
 			}
-
-			// Perform the backward propagation step (n <- nh... <- 1)
-			for (int l = layerCount - 1; l >= 0; --l) {
-				// - Compute the derivative with respect to Z
-				if (l == layerCount - 1) {
-					dZ = A[l + 1].minus(Y); // (1 x m)
-				} else {
-					dZ = dA.arrayMultiply(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
-				}
-				dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
-
-				// - Compute the derivatives with respect to W and b
-				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
-				final Matrix dW = A[l].times(dZT)
-						.transpose()
-						.divide(trainingExampleCount)
-						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
-						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				final Vector db = dZT.mean().toVector();
-
-				// - Update the weights and bias
-				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (1 x 1)
-			}
+		} finally {
+			Matrix.unparallelize();
 		}
 		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", j, " cost");
 		return maxIterationCount;

@@ -234,6 +234,7 @@ public abstract class OpenCL {
 	 * <p>
 	 * @return {@code A . B + C}
 	 */
+	// @todo chunk the matrices so that they fit into the local memory of the GPU
 	public abstract double[] forward(final double[] A, final double[] B, final double[] C,
 			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension);
 
