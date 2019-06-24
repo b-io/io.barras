@@ -41,7 +41,7 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static volatile int DEFAULT_MIN_THREADS = Runtime.getRuntime().availableProcessors();
-	public static volatile int DEFAULT_MAX_THREADS = 2 * DEFAULT_MIN_THREADS;
+	public static volatile int DEFAULT_MAX_THREADS = DEFAULT_MIN_THREADS;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
