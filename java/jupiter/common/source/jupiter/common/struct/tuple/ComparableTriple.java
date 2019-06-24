@@ -23,15 +23,10 @@
  */
 package jupiter.common.struct.tuple;
 
-import java.io.Serializable;
-
-import jupiter.common.model.ICloneable;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>>
-		implements ICloneable<ComparableTriple<T1, T2, T3>>,
-		Comparable<ComparableTriple<T1, T2, T3>>, Serializable {
+		extends Triple<T1, T2, T3> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -44,95 +39,15 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The first component.
-	 */
-	protected T1 first;
-	/**
-	 * The second component.
-	 */
-	protected T2 second;
-	/**
-	 * The third component.
-	 */
-	protected T3 third;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public ComparableTriple() {
+		super();
 	}
 
 	public ComparableTriple(final T1 first, final T2 second, final T3 third) {
-		this.first = first;
-		this.second = second;
-		this.third = third;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the first component.
-	 * <p>
-	 * @return the first component
-	 */
-	public T1 getFirst() {
-		return first;
-	}
-
-	/**
-	 * Returns the second component.
-	 * <p>
-	 * @return the second component
-	 */
-	public T2 getSecond() {
-		return second;
-	}
-
-	/**
-	 * Returns the third component.
-	 * <p>
-	 * @return the third component
-	 */
-	public T3 getThird() {
-		return third;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Sets the first component.
-	 * <p>
-	 * @param first a {@code T1} object
-	 */
-	public void setFirst(final T1 first) {
-		this.first = first;
-	}
-
-	/**
-	 * Sets the second component.
-	 * <p>
-	 * @param second a {@code T2} object
-	 */
-	public void setSecond(final T2 second) {
-		this.second = second;
-	}
-
-	/**
-	 * Sets the third component.
-	 * <p>
-	 * @param third a {@code T3} object
-	 */
-	public void setThird(final T3 third) {
-		this.third = third;
+		super(first, second, third);
 	}
 
 
@@ -170,7 +85,6 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public ComparableTriple<T1, T2, T3> clone() {
 		try {
 			final ComparableTriple<T1, T2, T3> clone = (ComparableTriple<T1, T2, T3>) super.clone();
@@ -211,17 +125,5 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
-	 * @return a representative {@link String} of {@code this}
-	 */
-	@Override
-	public String toString() {
-		return Arrays.toString(first, second, third);
 	}
 }

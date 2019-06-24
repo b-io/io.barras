@@ -23,15 +23,10 @@
  */
 package jupiter.common.struct.tuple;
 
-import java.io.Serializable;
-
-import jupiter.common.model.ICloneable;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
-		implements ICloneable<ComparablePair<T1, T2>>, Comparable<ComparablePair<T1, T2>>,
-		Serializable {
+		extends Pair<T1, T2> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -44,72 +39,15 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The first component.
-	 */
-	protected T1 first;
-	/**
-	 * The second component.
-	 */
-	protected T2 second;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public ComparablePair() {
+		super();
 	}
 
 	public ComparablePair(final T1 first, final T2 second) {
-		this.first = first;
-		this.second = second;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PAIR
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the first component.
-	 * <p>
-	 * @return the first component
-	 */
-	public T1 getFirst() {
-		return first;
-	}
-
-	/**
-	 * Returns the second component.
-	 * <p>
-	 * @return the second component
-	 */
-	public T2 getSecond() {
-		return second;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Sets the first component.
-	 * <p>
-	 * @param first a {@code T1} object
-	 */
-	public void setFirst(final T1 first) {
-		this.first = first;
-	}
-
-	/**
-	 * Sets the second component.
-	 * <p>
-	 * @param second a {@code T2} object
-	 */
-	public void setSecond(final T2 second) {
-		this.second = second;
+		super(first, second);
 	}
 
 
@@ -143,7 +81,6 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public ComparablePair<T1, T2> clone() {
 		try {
 			final ComparablePair<T1, T2> clone = (ComparablePair<T1, T2>) super.clone();
@@ -182,17 +119,5 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
-	 * @return a representative {@link String} of {@code this}
-	 */
-	@Override
-	public String toString() {
-		return Arrays.toString(first, second);
 	}
 }

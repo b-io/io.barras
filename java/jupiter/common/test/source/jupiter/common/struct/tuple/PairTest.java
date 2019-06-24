@@ -48,7 +48,7 @@ public class PairTest
 		assertEquals("a", pair.getFirst()[0]);
 		assertEquals(new Integer(42), pair.getSecond()[0]);
 
-		final Pair<String[], Integer[]> clone = (Pair<String[], Integer[]>) pair.clone();
+		final Pair<String[], Integer[]> clone = pair.clone();
 		clone.getFirst()[0] = "b";
 		assertEquals("a", pair.getFirst()[0]);
 		assertEquals("b", clone.getFirst()[0]);
