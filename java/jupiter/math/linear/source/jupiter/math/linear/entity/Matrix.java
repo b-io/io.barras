@@ -2447,8 +2447,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class DotProduct
-			extends
-			Worker<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> {
+			extends Worker<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> {
 
 		protected DotProduct() {
 			super();
