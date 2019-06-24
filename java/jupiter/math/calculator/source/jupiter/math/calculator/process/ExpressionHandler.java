@@ -131,8 +131,8 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a tree whose nodes and leaves correspond respectively to the operations and numbers
-	 * of the specified expression.
+	 * Returns a tree whose nodes and leaves correspond respectively to the operations and the
+	 * numbers of the specified expression.
 	 * <p>
 	 * @param expression the expression to parse
 	 * @param context    the context containing the values of the variables
@@ -240,7 +240,8 @@ public class ExpressionHandler {
 			final Element.Type type = getType(unaryOperator);
 			IO.debug("Type: ", type);
 			// Parse the nested expression
-			final String nestedExpression = Strings.removeEmpty(Strings.split(expression, unaryOperator))
+			final String nestedExpression = Strings.removeEmpty(Strings.split(expression,
+					unaryOperator))
 					.get(0);
 			IO.debug("Nested expression: ", nestedExpression);
 			final Report<Element> nodeResult = parseExpression(parent, nestedExpression, context);
@@ -513,6 +514,11 @@ public class ExpressionHandler {
 	protected static class Parser
 			extends Worker<Triple<Element, String, Map<String, Element>>, Report<Element>> {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
 		protected Parser() {
 			super();
 		}
@@ -522,6 +528,13 @@ public class ExpressionHandler {
 			return parseExpression(input.getFirst(), input.getSecond(), input.getThird());
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see jupiter.common.model.ICloneable
+		 */
 		@Override
 		public Parser clone() {
 			return new Parser();

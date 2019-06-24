@@ -97,6 +97,11 @@ public class UnaryOperation
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Strings.toString(type) + SPACE + element;

@@ -23,13 +23,10 @@
  */
 package jupiter.common.struct.tuple;
 
-import java.io.Serializable;
-
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>>
-		implements Comparable<ComparableQuadruple<T1, T2, T3, T4>>, Serializable {
+		extends Quadruple<T1, T2, T3, T4> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -42,118 +39,15 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The first component.
-	 */
-	protected T1 first;
-	/**
-	 * The second component.
-	 */
-	protected T2 second;
-	/**
-	 * The third component.
-	 */
-	protected T3 third;
-	/**
-	 * The fourth component.
-	 */
-	protected T4 fourth;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public ComparableQuadruple() {
+		super();
 	}
 
 	public ComparableQuadruple(final T1 first, final T2 second, final T3 third, final T4 fourth) {
-		this.first = first;
-		this.second = second;
-		this.third = third;
-		this.fourth = fourth;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the first component.
-	 * <p>
-	 * @return the first component
-	 */
-	public T1 getFirst() {
-		return first;
-	}
-
-	/**
-	 * Returns the second component.
-	 * <p>
-	 * @return the second component
-	 */
-	public T2 getSecond() {
-		return second;
-	}
-
-	/**
-	 * Returns the third component.
-	 * <p>
-	 * @return the third component
-	 */
-	public T3 getThird() {
-		return third;
-	}
-
-	/**
-	 * Returns the fourth component.
-	 * <p>
-	 * @return the fourth component
-	 */
-	public T4 getFourth() {
-		return fourth;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Sets the first component.
-	 * <p>
-	 * @param first a {@code T1} object
-	 */
-	public void setFirst(final T1 first) {
-		this.first = first;
-	}
-
-	/**
-	 * Sets the second component.
-	 * <p>
-	 * @param second a {@code T2} object
-	 */
-	public void setSecond(final T2 second) {
-		this.second = second;
-	}
-
-	/**
-	 * Sets the third component.
-	 * <p>
-	 * @param third a {@code T3} object
-	 */
-	public void setThird(final T3 third) {
-		this.third = third;
-	}
-
-	/**
-	 * Sets the fourth component.
-	 * <p>
-	 * @param fourth a {@code T4} object
-	 */
-	public void setFourth(final T4 fourth) {
-		this.fourth = fourth;
+		super(first, second, third, fourth);
 	}
 
 
@@ -161,6 +55,18 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Compares {@code this} with {@code quadruple} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code quadruple}.
+	 * <p>
+	 * @param quadruple the {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3} and
+	 *                  {@code T4} to compare against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
+	 *         or greater than {@code quadruple}
+	 * <p>
+	 * @throws NullPointerException if {@code quadruple} is {@code null}
+	 */
 	public int compareTo(final ComparableQuadruple<T1, T2, T3, T4> quadruple) {
 		int comparison = first.compareTo(quadruple.first);
 		if (comparison != 0) {
@@ -183,6 +89,23 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	public ComparableQuadruple<T1, T2, T3, T4> clone() {
+		try {
+			final ComparableQuadruple<T1, T2, T3, T4> clone = (ComparableQuadruple<T1, T2, T3, T4>) super
+					.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			clone.third = Objects.clone(third);
+			clone.fourth = Objects.clone(fourth);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -197,13 +120,17 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 				Objects.equals(fourth, otherQuadruple.fourth);
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third, fourth);
-	}
-
-	@Override
-	public String toString() {
-		return Arrays.toString(first, second, third, fourth);
 	}
 }

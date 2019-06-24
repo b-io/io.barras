@@ -65,7 +65,6 @@ import jupiter.math.linear.decomposition.LUDecomposition;
 import jupiter.math.linear.decomposition.Norms;
 import jupiter.math.linear.decomposition.QRDecomposition;
 import jupiter.math.linear.decomposition.SingularValueDecomposition;
-import jupiter.math.linear.jni.MatrixOperations;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
@@ -199,7 +198,7 @@ public class Matrix
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
-	 * @param value       a {@code double} value
+	 * @param value       the {@code double} value of the elements
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double value) {
 		// Set the numbers of rows and columns
@@ -517,7 +516,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 		return submatrix;
 	}
@@ -544,7 +543,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 		return submatrix;
 	}
@@ -574,7 +573,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 		return submatrix;
 	}
@@ -603,7 +602,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 		return submatrix;
 	}
@@ -614,7 +613,8 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the element at the specified row and column indexes.
+	 * Sets the element at the specified row and column indexes to the specified {@code double}
+	 * value.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -627,7 +627,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets the element at the specified row and column indexes.
+	 * Sets the element at the specified row and column indexes to the specified {@link Object}.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -798,7 +798,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 	}
 
@@ -822,7 +822,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 	}
 
@@ -849,7 +849,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 	}
 
@@ -875,7 +875,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + IO.appendException(ex));
+					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
 		}
 	}
 
@@ -1193,15 +1193,6 @@ public class Matrix
 		} else {
 			IO.warn("The work queue ", DOT_PRODUCT_QUEUE, " has already started");
 		}
-		if (MatrixOperations.ACTIVE) {
-			if (JNI_DOT_PRODUCT_QUEUE == null) {
-				JNI_DOT_PRODUCT_QUEUE = new LockedWorkQueue<Pair<Matrix, Matrix>, Matrix>(
-						new JNIDotProduct(), 1, 1);
-				USE_JNI = true;
-			} else {
-				IO.warn("The JNI work queue ", JNI_DOT_PRODUCT_QUEUE, " has already started");
-			}
-		}
 	}
 
 	/**
@@ -1236,7 +1227,7 @@ public class Matrix
 	/**
 	 * Fills {@code this} with the specified value.
 	 * <p>
-	 * @param value the value to fill with
+	 * @param value the {@code double} value to fill with
 	 */
 	@Override
 	public void fill(final double value) {
@@ -1929,7 +1920,7 @@ public class Matrix
 	 * @return {@code this * A + B}
 	 */
 	public Entity forward(final Entity A, final Entity B) {
-		if (OpenCL.ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
+		if (OpenCL.IS_ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
 			final Matrix a = A.toMatrix();
 			final Matrix b = B.toMatrix();
 			if (CL.test(n, a.n, b.n)) {
@@ -2346,10 +2337,19 @@ public class Matrix
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public Matrix clone() {
 		return new Matrix(m, Doubles.take(elements));
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public boolean equals(final Object other) {
@@ -2379,7 +2379,16 @@ public class Matrix
 		return true;
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		int hashCode = Longs.hashCode(serialVersionUID);
 		for (int i = 0; i < m; ++i) {
@@ -2390,6 +2399,13 @@ public class Matrix
 		return hashCode;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return toString(MIN_NUMBER_LENGTH, false);
@@ -2431,8 +2447,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class DotProduct
-			extends
-			Worker<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> {
+			extends Worker<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> {
 
 		protected DotProduct() {
 			super();
@@ -2469,36 +2484,16 @@ public class Matrix
 			return new Pair<Matrix, Interval<Integer>>(apply(left, right, interval), interval);
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see jupiter.common.model.ICloneable
+		 */
 		@Override
 		public DotProduct clone() {
 			return new DotProduct();
-		}
-	}
-
-	protected static class JNIDotProduct
-			extends Worker<Pair<Matrix, Matrix>, Matrix> {
-
-		protected JNIDotProduct() {
-			super();
-		}
-
-		public double[] apply(final double[] leftElements, final double[] rightElements,
-				final int leftColumnDimension, final int rightColumnDimension) {
-			return MatrixOperations.dot(leftElements, rightElements, leftColumnDimension,
-					rightColumnDimension);
-		}
-
-		@Override
-		public Matrix call(final Pair<Matrix, Matrix> input) {
-			final Matrix left = input.getFirst();
-			final Matrix right = input.getSecond();
-			return new Matrix(left.getRowDimension(), apply(left.getElements(), right.getElements(),
-					left.getColumnDimension(), right.getColumnDimension()));
-		}
-
-		@Override
-		public JNIDotProduct clone() {
-			return new JNIDotProduct();
 		}
 	}
 }

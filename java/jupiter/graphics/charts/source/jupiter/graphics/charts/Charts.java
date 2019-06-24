@@ -25,7 +25,10 @@ package jupiter.graphics.charts;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.text.DateFormat;
+import java.text.Format;
 import java.util.List;
 
 import org.jfree.chart.ChartFactory;
@@ -33,7 +36,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.CrosshairLabelGenerator;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -42,9 +47,29 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.time.SafeDateFormat;
 import jupiter.common.util.Arrays;
 
 public class Charts {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The minimum size of the chart panels.
+	 */
+	protected static final Dimension MIN_DIMENSION = new Dimension(960, 600); // 13.5"
+	/**
+	 * The preferred size of the chart panels.
+	 */
+	protected static final Dimension DIMENSION = new Dimension(1920, 1200); // 27"
+
+	/**
+	 * The date format.
+	 */
+	public static volatile DateFormat DATE_FORMAT = new SafeDateFormat("dd/MM/YY HH:mm");
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -66,6 +91,25 @@ public class Charts {
 	public static ExtendedList<Color> getColors() {
 		return new ExtendedList<Color>(
 				Arrays.<Color>asList(Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE));
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void setDefaultParameters(final Component component) {
+		setSizes(component);
+	}
+
+	public static void setSizes(final Component component) {
+		setSizes(component, MIN_DIMENSION, DIMENSION);
+	}
+
+	public static void setSizes(final Component component, final Dimension minDimension,
+			final Dimension dimension) {
+		component.setMinimumSize(minDimension);
+		component.setPreferredSize(dimension);
 	}
 
 
@@ -144,7 +188,7 @@ public class Charts {
 	 */
 	public static JFreeChart createTimeSeriesChart(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset) {
-		return createTimeSeriesChart(title, xLabel, yLabel, dataset, null);
+		return createTimeSeriesChart(title, xLabel, yLabel, dataset, DATE_FORMAT);
 	}
 
 	/**
@@ -226,6 +270,27 @@ public class Charts {
 					new StandardXYItemRenderer()));
 		}
 		return new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Crosshair createCrosshair(final boolean showLabel, final Format labelFormat) {
+		// Create the crosshair
+		final Crosshair crosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(
+				1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[] {10f, 5f}, 0f));
+		// Set the label
+		crosshair.setLabelBackgroundPaint(Color.BLACK);
+		crosshair.setLabelGenerator(new CrosshairLabelGenerator() {
+			@Override
+			public String generateLabel(final Crosshair crosshair) {
+				return labelFormat.format(crosshair.getValue());
+			}
+		});
+		crosshair.setLabelOutlinePaint(Color.WHITE);
+		crosshair.setLabelOutlineStroke(new BasicStroke(1f));
+		crosshair.setLabelPaint(Color.WHITE);
+		crosshair.setLabelVisible(showLabel);
+		return crosshair;
 	}
 
 

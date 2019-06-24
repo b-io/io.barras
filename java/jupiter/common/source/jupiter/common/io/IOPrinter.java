@@ -25,11 +25,21 @@ package jupiter.common.io;
 
 import java.util.List;
 
-import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 
 public class IOPrinter
 		extends IOHandler {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -63,7 +73,7 @@ public class IOPrinter
 	/**
 	 * Prints the specified content with the IO handlers.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -77,7 +87,7 @@ public class IOPrinter
 	/**
 	 * Prints the specified content and terminates the line with the IO handlers.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -121,8 +131,55 @@ public class IOPrinter
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
-	public Worker<Message, Integer> clone() {
+	public IOPrinter clone() {
 		return new IOPrinter(handlers);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof Content)) {
+			return false;
+		}
+		final IOPrinter otherIOPrinter = (IOPrinter) other;
+		return Objects.equals(handlers, otherIOPrinter.handlers);
+	}
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, handlers);
 	}
 }

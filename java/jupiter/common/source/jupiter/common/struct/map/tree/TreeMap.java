@@ -78,13 +78,12 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the value associated with the specified key, or {@code null} if {@code key} is not
-	 * present.
+	 * Returns the value of type {@code V} associated to the specified key, or {@code null} if it is
+	 * not present.
 	 * <p>
-	 * @param key the key of the value to get
+	 * @param key the {@link Object} key of the value of type {@code V} to get
 	 * <p>
-	 * @return the value associated with the specified key, or {@code null} if {@code key} is not
-	 *         present
+	 * @return the value associated to the specified key, or {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -100,20 +99,21 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the root {@link java.util.Map.Entry}.
+	 * Returns the root {@link java.util.Map.Entry} of type {@code K} and {@code V}.
 	 * <p>
-	 * @return the root {@link java.util.Map.Entry}
+	 * @return the root {@link java.util.Map.Entry} of type {@code K} and {@code V}
 	 */
 	public Entry<K, V> getRootEntry() {
 		return root;
 	}
 
 	/**
-	 * Returns the node of the specified key, or {@code null} if {@code key} is not present.
+	 * Returns the node of type {@code N} of the specified key, or {@code null} if it is not
+	 * present.
 	 * <p>
-	 * @param key the key of the node to get
+	 * @param key the {@link Object} key of the node of type {@code N} to get
 	 * <p>
-	 * @return the node of the specified key, or {@code null} if {@code key} is not present
+	 * @return the node of type {@code N} of the specified key, or {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -124,20 +124,22 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 		Arguments.requireNonNull(key, "The specified key is null");
 
 		// Get the node
-		return getNode((Comparable<? super K>) key);
+		return findNode((Comparable<? super K>) key);
 	}
 
 	/**
-	 * Returns the node of the specified key, or {@code null} if {@code key} is not present.
+	 * Returns the node of type {@code N} associated to the specified key {@link Comparable}, or
+	 * {@code null} if it is not present.
 	 * <p>
-	 * @param key the key of the node to get
+	 * @param keyComparable a key {@link Comparable} of super type {@code K}
 	 * <p>
-	 * @return the node of the specified key, or {@code null} if {@code key} is not present
+	 * @return the node of type {@code N} associated to the specified key {@link Comparable}, or
+	 *         {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
-	 * @throws NullPointerException if {@code key} is {@code null}
+	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
-	protected abstract N getNode(final Comparable<? super K> key);
+	protected abstract N findNode(final Comparable<? super K> keyComparable);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +152,7 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * <p>
 	 * @param map a {@link Map}
 	 * <p>
-	 * @throws ClassCastException   if the class of a key or value in {@code map} prevents it from
+	 * @throws ClassCastException   if the type of a key or value in {@code map} prevents it from
 	 *                              being stored in {@code this}
 	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a null
 	 *                              key

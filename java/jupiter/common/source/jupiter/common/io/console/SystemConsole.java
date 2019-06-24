@@ -37,7 +37,13 @@ public class SystemConsole
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link Charset}.
+	 */
 	protected final Charset charset;
+	/**
+	 * The {@link Scanner}.
+	 */
 	protected final Scanner scanner;
 
 

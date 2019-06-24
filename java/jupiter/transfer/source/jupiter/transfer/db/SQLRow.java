@@ -73,7 +73,7 @@ public abstract class SQLRow {
 			constructor = getClass().getConstructor(ResultSet.class);
 		} catch (final NoSuchMethodException ex) {
 			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ",
-					getClass().getSimpleName(), " found: ", ex.getMessage());
+					getClass().getSimpleName(), " found", Strings.append(ex));
 		}
 		load(resultSet);
 	}
@@ -84,11 +84,11 @@ public abstract class SQLRow {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the database column name from the specified field name.
+	 * Returns the database column name of the specified field name.
 	 * <p>
 	 * @param fieldName the field name
 	 * <p>
-	 * @return the database column name from the specified field name
+	 * @return the database column name of the specified field name
 	 */
 	protected String getColumnName(final String fieldName) {
 		return fieldName;
@@ -160,6 +160,11 @@ public abstract class SQLRow {
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return JSON.jsonify(this);

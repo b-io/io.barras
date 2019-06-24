@@ -30,11 +30,12 @@ import java.io.Serializable;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Message
-		implements Serializable {
+		implements ICloneable<Message>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -59,10 +60,25 @@ public class Message
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link Type}.
+	 */
 	protected final Type type;
+	/**
+	 * The {@link SeverityLevel}.
+	 */
 	protected final SeverityLevel level;
+	/**
+	 * The prefix {@link String}.
+	 */
 	protected final String prefix;
+	/**
+	 * The content {@link String}.
+	 */
 	protected final String content;
+	/**
+	 * The {@link Exception}.
+	 */
 	protected final Exception exception;
 
 
@@ -168,6 +184,37 @@ public class Message
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public Message clone() {
+		try {
+			return (Message) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(Strings.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
@@ -177,18 +224,33 @@ public class Message
 			return false;
 		}
 		final Message otherMessage = (Message) other;
-		return Objects.equals(type, otherMessage.getType()) &&
-				Objects.equals(level, otherMessage.getLevel()) &&
-				Objects.equals(prefix, otherMessage.getPrefix()) &&
-				Objects.equals(content, otherMessage.getContent()) &&
-				Objects.equals(exception, otherMessage.getException());
+		return Objects.equals(type, otherMessage.type) &&
+				Objects.equals(level, otherMessage.level) &&
+				Objects.equals(prefix, otherMessage.prefix) &&
+				Objects.equals(content, otherMessage.content) &&
+				Objects.equals(exception, otherMessage.exception);
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, type, level, prefix, content, exception);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return (Strings.isNotEmpty(prefix) ? prefix + SPACE : EMPTY) + content;

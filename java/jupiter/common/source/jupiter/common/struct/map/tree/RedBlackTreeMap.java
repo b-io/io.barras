@@ -79,13 +79,13 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified value with the specified key and returns the previous associated
-	 * value, or {@code null} if {@code key} is not present.
+	 * Associates the specified value to the specified key and returns the previous associated value
+	 * of type {@code V}, or {@code null} if it is not present.
 	 * <p>
-	 * @param key   the key of the key-value mapping to put
-	 * @param value the value of the key-value mapping to put
+	 * @param key   the key of type {@code K} of the key-value mapping to put
+	 * @param value the value of type {@code V} of the key-value mapping to put
 	 * <p>
-	 * @return the previous associated value, or {@code null} if {@code key} is not present
+	 * @return the previous associated value of type {@code V}, or {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -116,7 +116,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 					return tree.setValue(value);
 				}
 			} while (tree != null);
-			// Create a new node containing the specified key and value
+			// Create a node containing the specified key and value
 			final RedBlackTreeNode<K, V> newNode = new RedBlackTreeNode<K, V>(key, value);
 			if (comparison < 0) {
 				// The new node is the left node of the parent
@@ -143,7 +143,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	 */
 	@Override
 	protected void removeNode(final RedBlackTreeNode<K, V> node) {
-		// Get the parent and the successor of the specified node
+		// Get the parent and successor of the specified node
 		final RedBlackTreeNode<K, V> parent = node.parent;
 		// Test whether there is 0 or 1 child or there are 2 children
 		if (node.left == null || node.right == null) {
@@ -195,7 +195,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after inserting the specified node.
 	 * <p>
-	 * @param node the inserted node
+	 * @param node the inserted {@link RedBlackTreeNode} of type {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterInsertion(RedBlackTreeNode<K, V> node) {
@@ -280,9 +280,9 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Balances after deleting the specified node.
+	 * Balances after deleting the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the deleted node
+	 * @param node the deleted {@link RedBlackTreeNode} of type {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterDeletion(RedBlackTreeNode<K, V> node) {
@@ -360,6 +360,13 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public RedBlackTreeMap<K, V> clone() {
 		return new RedBlackTreeMap<K, V>(this);

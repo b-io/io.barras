@@ -27,12 +27,22 @@ import jupiter.common.reduce.Reducer;
 import jupiter.common.util.Objects;
 
 /**
- * {@link Hasher} is a reduce operator hashing an array of {@code I} objects to an {@code Integer}.
+ * {@link Hasher} is a reduce operator hashing an array of type {@code I} to an {@link Integer}.
  * <p>
- * @param <I> the component type of the array to hash
+ * @param <I> the component type of the array
  */
 public class Hasher<I>
 		extends Reducer<I, Integer> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -48,7 +58,24 @@ public class Hasher<I>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public Integer call(final I... input) {
+	public Integer call(final I[] input) {
 		return Objects.hashCode(input);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public Hasher<I> clone() {
+		return new Hasher<I>(c);
 	}
 }

@@ -23,36 +23,29 @@
  */
 package jupiter.graphics.charts.panels;
 
-import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Strings.SPACE;
+import jupiter.graphics.charts.overlays.XYSelectionOverlay;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DateFormat;
 import java.text.Format;
-import java.util.Date;
-import java.util.List;
 
+import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.panel.CrosshairOverlay;
+import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.ui.RectangleEdge;
 
 import jupiter.common.math.Maths;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.tuple.Pair;
+import jupiter.common.util.Formats;
 import jupiter.common.util.Integers;
-import jupiter.common.util.Strings;
+import jupiter.graphics.charts.Charts;
+import jupiter.graphics.charts.overlays.XYSelection;
+import jupiter.math.analysis.interpolation.LinearInterpolator;
+import jupiter.math.analysis.struct.XY;
 
 public class DynamicChartPanel
 		extends ChartPanel {
@@ -67,9 +60,9 @@ public class DynamicChartPanel
 	private static final long serialVersionUID = 6804628237598646797L;
 
 	protected static volatile boolean DRAW_X_CROSSHAIR = true;
-	protected static volatile boolean DRAW_Y_CROSSHAIR = false;
+	protected static volatile boolean DRAW_Y_CROSSHAIR = true;
 
-	protected static volatile boolean DRAW_SELECTION = true;
+	protected static volatile boolean DRAW_SELECTION = !DRAW_X_CROSSHAIR && !DRAW_Y_CROSSHAIR;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,48 +70,27 @@ public class DynamicChartPanel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The format of the x coordinate.
+	 * The formats of the x and y coordinates.
 	 */
-	protected final Format xFormat;
-	/**
-	 * The format of the y coordinate.
-	 */
-	protected final Format yFormat;
+	protected final XY<Format> formats;
 
 	/**
 	 * The mouse position.
 	 */
-	protected int xMousePosition, yMousePosition;
+	protected Point mousePosition = new Point();
 	/**
-	 * The x coordinate of the mouse position.
+	 * The x and y coordinates of the mouse position.
 	 */
-	protected double xMouseCoordinate;
-	/**
-	 * The y coordinate of the mouse position.
-	 */
-	protected double yMouseCoordinate;
-
-	/**
-	 * The vertical line of the crosshair.
-	 */
-	protected Line2D xCrosshair;
-	/**
-	 * The horizontal line of the crosshair.
-	 */
-	protected Line2D yCrosshair;
+	protected XY<Double> mouseCoordinates = new XY<Double>();
 
 	/**
 	 * The selection.
 	 */
-	protected Ellipse2D selection;
+	protected XYSelection selection;
 	/**
-	 * The x coordinate of the selection.
+	 * The vertical and horizontal crosshairs.
 	 */
-	protected double xSelectionCoordinate = Double.NaN;
-	/**
-	 * The y coordinate of the selection.
-	 */
-	protected double ySelectionCoordinate = Double.NaN;
+	protected XY<Crosshair> crosshairs;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,20 +99,20 @@ public class DynamicChartPanel
 
 	public DynamicChartPanel(final JFreeChart chart) {
 		super(chart);
-		xFormat = null;
-		yFormat = null;
+		formats = new XY<Format>(Formats.DEFAULT_FORMAT, Formats.DEFAULT_FORMAT);
+		setDefaultParameters();
 	}
 
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat) {
 		super(chart);
-		this.xFormat = xFormat;
-		yFormat = null;
+		formats = new XY<Format>(xFormat, Formats.DEFAULT_FORMAT);
+		setDefaultParameters();
 	}
 
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat, final Format yFormat) {
 		super(chart);
-		this.xFormat = xFormat;
-		this.yFormat = yFormat;
+		formats = new XY<Format>(xFormat, yFormat);
+		setDefaultParameters();
 	}
 
 
@@ -148,15 +120,60 @@ public class DynamicChartPanel
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public XYPlot getXYPlot() {
-		XYPlot plot = (XYPlot) getChart().getPlot();
-		if (plot instanceof CombinedDomainXYPlot) {
-			final CombinedDomainXYPlot combinedDomainPlot = (CombinedDomainXYPlot) plot;
-			final Point2D point = translateScreenToJava2D(
-					new Point(xMousePosition, yMousePosition));
-			plot = combinedDomainPlot.findSubplot(getChartRenderingInfo().getPlotInfo(), point);
-		}
-		return plot;
+	/**
+	 * Returns the closest {@link ChartEntity} to the specified mouse event.
+	 * <p>
+	 * @param mouseEvent a {@link ChartMouseEvent}
+	 * <p>
+	 * @return the closest {@link ChartEntity} to the specified mouse event
+	 */
+	public ChartEntity getEntity(final ChartMouseEvent mouseEvent) {
+		return ChartPanels.getEntity(this, mouseEvent);
+	}
+
+	/**
+	 * Returns the {@link XYPlot} at the specified position.
+	 * <p>
+	 * @param position a {@link Point}
+	 * <p>
+	 * @return the {@link XYPlot} at the specified position
+	 */
+	public XYPlot getPlot(final Point position) {
+		return ChartPanels.getPlot(this, position);
+	}
+
+	/**
+	 * Returns the screen area {@link Rectangle2D} at the specified position.
+	 * <p>
+	 * @param position a {@link Point}
+	 * <p>
+	 * @return the screen area {@link Rectangle2D} at the specified position
+	 */
+	public Rectangle2D getScreenArea(final Point position) {
+		return ChartPanels.getScreenArea(this, position);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void setDefaultParameters() {
+		ChartPanels.setDefaultParameters(this);
+
+		// Add an overlay for the selection
+		selection = new XYSelection(formats);
+		final XYSelectionOverlay selectionOverlay = new XYSelectionOverlay();
+		selectionOverlay.addSelection(selection);
+		addOverlay(selectionOverlay);
+
+		// Add an overlay for the vertical and horizontal crosshairs
+		crosshairs = new XY<Crosshair>(Charts.createCrosshair(true, formats.getX()),
+				Charts.createCrosshair(true, formats.getY()));
+		final CrosshairOverlay crosshairOverlay = new CrosshairOverlay();
+		crosshairOverlay.addDomainCrosshair(crosshairs.getX());
+		crosshairOverlay.addRangeCrosshair(crosshairs.getY());
+		addOverlay(crosshairOverlay);
 	}
 
 
@@ -164,262 +181,108 @@ public class DynamicChartPanel
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Formats the specified x and y coordinates.
-	 * <p>
-	 * @param xCoordinate a {@code double} value
-	 * @param yCoordinate a {@code double} value
-	 * <p>
-	 * @return the formatted x and y coordinates in an {@link ExtendedList}
-	 */
-	public ExtendedList<Pair<String, String>> formatXY(final double xCoordinate,
-			final double yCoordinate) {
-		final ExtendedList<Pair<String, String>> info = new ExtendedList<Pair<String, String>>(2);
-		info.add(new Pair<String, String>("X:", formatX(xCoordinate)));
-		info.add(new Pair<String, String>("Y:", formatY(yCoordinate)));
-		return info;
+	public double java2DToDomainValue(final Point position) {
+		return ChartPanels.java2DToDomainValue(this, position);
 	}
 
-	/**
-	 * Formats the specified x coordinate.
-	 * <p>
-	 * @param xCoordinate a {@code double} value
-	 * <p>
-	 * @return the formatted x coordinate
-	 */
-	public String formatX(final double xCoordinate) {
-		if (xFormat != null) {
-			if (xFormat instanceof DateFormat) {
-				return xFormat.format(new Date((long) xCoordinate));
-			}
-			return xFormat.format(xCoordinate);
-		}
-		return Strings.toString(xCoordinate);
-	}
-
-	/**
-	 * Formats the specified y coordinate.
-	 * <p>
-	 * @param yCoordinate a {@code double} value
-	 * <p>
-	 * @return the formatted y coordinate
-	 */
-	public String formatY(final double yCoordinate) {
-		if (yFormat != null) {
-			if (yFormat instanceof DateFormat) {
-				return yFormat.format(new Date((long) yCoordinate));
-			}
-			return yFormat.format(yCoordinate);
-		}
-		return Strings.toString(yCoordinate);
+	public double java2DToRangeValue(final Point position) {
+		return ChartPanels.java2DToRangeValue(this, position);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public double java2DToDomainValue(final double position, final Rectangle2D screenDataArea) {
-		final XYPlot plot = getXYPlot();
-		final ValueAxis domainAxis = plot.getDomainAxis();
-		final RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
-		return domainAxis.java2DToValue(position, screenDataArea, domainAxisEdge);
+	public double domainValueToJava2D(final Point position, final XY<Double> coordinates) {
+		return ChartPanels.domainValueToJava2D(this, position, coordinates);
 	}
 
-	public double java2DToRangeValue(final double position, final Rectangle2D screenDataArea) {
-		final XYPlot plot = getXYPlot();
-		final ValueAxis rangeAxis = plot.getRangeAxis();
-		final RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
-		return rangeAxis.java2DToValue(position, screenDataArea, rangeAxisEdge);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public double domainValueToJava2D(final double position, final Rectangle2D screenDataArea) {
-		final XYPlot plot = getXYPlot();
-		final ValueAxis domainAxis = plot.getDomainAxis();
-		final RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
-		return domainAxis.valueToJava2D(position, screenDataArea, domainAxisEdge);
-	}
-
-	public double rangeValueToJava2D(final double position, final Rectangle2D screenDataArea) {
-		final XYPlot plot = getXYPlot();
-		final ValueAxis rangeAxis = plot.getRangeAxis();
-		final RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
-		return rangeAxis.valueToJava2D(position, screenDataArea, rangeAxisEdge);
+	public double rangeValueToJava2D(final Point position, final XY<Double> coordinates) {
+		return ChartPanels.rangeValueToJava2D(this, position, coordinates);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Draws the crosshairs.
-	 */
-	protected void drawCrosshair() {
-		if (!DRAW_X_CROSSHAIR && !DRAW_Y_CROSSHAIR) {
-			return;
-		}
-
-		// Get the boundaries
-		final Rectangle2D screenDataArea = getScreenDataArea(xMousePosition, yMousePosition);
-		if (screenDataArea == null) {
-			return;
-		}
-		final int minX = Integers.convert(screenDataArea.getMinX());
-		final int maxX = Integers.convert(screenDataArea.getMaxX());
-		final int minY = Integers.convert(screenDataArea.getMinY());
-		final int maxY = Integers.convert(screenDataArea.getMaxY());
-
-		// Get the graphics
-		final Graphics2D g = (Graphics2D) getGraphics();
-
-		// Clear the previous crosshairs
-		g.setXORMode(new Color(0xFFFF00));
-		if (DRAW_X_CROSSHAIR && xCrosshair != null) {
-			g.draw(xCrosshair);
-		}
-		if (DRAW_Y_CROSSHAIR && yCrosshair != null) {
-			g.draw(yCrosshair);
-		}
-
-		// Draw the crosshairs
-		if (DRAW_X_CROSSHAIR) {
-			xCrosshair = new Line2D.Double(xMousePosition, minY, xMousePosition, maxY);
-			g.draw(xCrosshair);
-		}
-		if (DRAW_Y_CROSSHAIR) {
-			yCrosshair = new Line2D.Double(minX, yMousePosition, maxX, yMousePosition);
-			g.draw(yCrosshair);
-		}
-		g.dispose();
-	}
-
-	/**
-	 * Draws the selection.
-	 */
-	protected void drawSelection() {
-		if (!DRAW_SELECTION) {
-			return;
-		}
-
-		// Get the boundaries
-		final Rectangle2D screenDataArea = getScreenDataArea(xMousePosition, yMousePosition);
-		if (screenDataArea == null) {
-			return;
-		}
-
-		// Get the graphics
-		final Graphics2D g = (Graphics2D) getGraphics();
-
-		// Clear the previous selection
-		g.setXORMode(new Color(0xFFFF00));
-		if (selection != null) {
-			g.draw(selection);
-			g.fill(selection);
-		}
-
-		// Select the closest item
-		final XYPlot plot = getXYPlot();
-		final XYDataset dataset = plot.getDataset();
-		final int seriesCount = dataset.getSeriesCount();
-		double minDistance = Double.POSITIVE_INFINITY;
-		for (int s = 0; s < seriesCount; ++s) {
-			final int itemCount = dataset.getItemCount(s);
-			if (itemCount > 0) {
-				int i = 0;
-				while (i < itemCount - 1 && dataset.getXValue(s, i) < xMouseCoordinate) {
-					++i;
-				}
-				final double distance = Maths.delta(dataset.getYValue(s, i), yMouseCoordinate);
-				if (distance < minDistance) {
-					minDistance = distance;
-					xSelectionCoordinate = dataset.getXValue(s, i);
-					ySelectionCoordinate = dataset.getYValue(s, i);
-				}
-			}
-		}
-		if (xSelectionCoordinate == Double.NaN || ySelectionCoordinate == Double.NaN) {
-			return;
-		}
-
-		// Draw the selection
-		IO.test(xSelectionCoordinate, SPACE, ySelectionCoordinate);
-		final double xSelection = domainValueToJava2D(xSelectionCoordinate, screenDataArea);
-		final double ySelection = rangeValueToJava2D(ySelectionCoordinate, screenDataArea);
-		selection = new Ellipse2D.Double(xSelection - 5, ySelection - 5, 10, 10);
-		g.draw(selection);
-		g.fill(selection);
-		g.dispose();
-	}
-
-	/**
-	 * Draws the formatted coordinates of the selection.
-	 */
-	protected void drawSelectionCoordinates() {
-		if (!DRAW_SELECTION) {
-			return;
-		}
-
-		// Get the boundaries
-		final Rectangle2D screenDataArea = getScreenDataArea(xMousePosition, yMousePosition);
-		if (screenDataArea == null) {
-			return;
-		}
-		final int maxX = Integers.convert(screenDataArea.getMaxX());
-
-		// Format the selection coordinates
-		final List<Pair<String, String>> coordinates = formatXY(xSelectionCoordinate,
-				ySelectionCoordinate);
-		final int coordinateCount = coordinates.size();
-
-		// Draw the selection coordinates
-		final Graphics2D g = (Graphics2D) getGraphics();
-		final FontMetrics fontMetrics = g.getFontMetrics();
-		final int fontHeight = fontMetrics.getHeight();
-		final double stepCount = 8.;
-		final double step = Math.floor(maxX / stepCount);
-		final double fromStepNumber = 0.75 * stepCount;
-		final double fromStep = fromStepNumber * step;
-		g.setColor(Color.WHITE);
-		g.fillRect(Integers.convert(fromStep), 0, Integers.convert(maxX - fromStep),
-				Integers.convert(1.5 * fontHeight));
-		g.setColor(Color.BLACK);
-		for (int i = 0; i < coordinateCount; ++i) {
-			final Pair<String, String> coordinate = coordinates.get(i);
-			final int position = Integers.convert((fromStepNumber + i) * step);
-			g.drawString(coordinate.getFirst() + SPACE + coordinate.getSecond(), position,
-					fontHeight);
-		}
-		g.dispose();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CHART PANEL
+	// MOUSE LISTENER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public void mouseMoved(final MouseEvent event) {
-		// Get the boundaries
-		final Rectangle2D screenDataArea = getScreenDataArea(xMousePosition, yMousePosition);
-		if (screenDataArea == null) {
+		// Get the screen area
+		final Rectangle2D screenArea = getScreenArea(mousePosition);
+		if (screenArea == null) {
 			return;
 		}
-		final int minX = Integers.convert(screenDataArea.getMinX());
-		final int maxX = Integers.convert(screenDataArea.getMaxX());
-		final int minY = Integers.convert(screenDataArea.getMinY());
-		final int maxY = Integers.convert(screenDataArea.getMaxY());
+		final int minX = Integers.convert(screenArea.getMinX());
+		final int maxX = Integers.convert(screenArea.getMaxX());
+		final int minY = Integers.convert(screenArea.getMinY());
+		final int maxY = Integers.convert(screenArea.getMaxY());
 
 		// Set the (bounded) mouse position
-		xMousePosition = Math.max(minX, Math.min(event.getX(), maxX));
-		yMousePosition = Math.max(minY, Math.min(event.getY(), maxY));
+		mousePosition.move(Math.max(minX, Math.min(event.getX(), maxX)),
+				Math.max(minY, Math.min(event.getY(), maxY)));
+		selection.setMousePosition(mousePosition);
 
 		// Set the (bounded) mouse coordinates
-		xMouseCoordinate = java2DToDomainValue(xMousePosition, screenDataArea);
-		yMouseCoordinate = java2DToRangeValue(yMousePosition, screenDataArea);
+		mouseCoordinates.setX(java2DToDomainValue(mousePosition));
+		mouseCoordinates.setY(java2DToRangeValue(mousePosition));
 
-		// Redraw
-		drawCrosshair();
-		drawSelection();
-		drawSelectionCoordinates();
+		// Interpolate between the closest items
+		double x = mouseCoordinates.getX(), y = mouseCoordinates.getY();
+		final XYPlot plot = getPlot(mousePosition);
+		final XYDataset dataset = plot.getDataset();
+		final int seriesCount = dataset.getSeriesCount();
+		if (seriesCount > 0) {
+			// Get the closest items
+			double minDistance = Double.POSITIVE_INFINITY;
+			int seriesIndex = 0, from = 0, to = 0;
+			for (int s = 0; s < seriesCount; ++s) {
+				final int itemCount = dataset.getItemCount(s);
+				if (itemCount > 0) {
+					int i = 0;
+					while (i < itemCount - 1 && dataset.getXValue(s, i) < x) {
+						++i;
+					}
+					final double distance = Maths.delta(dataset.getYValue(s, i), y);
+					if (distance < minDistance) {
+						minDistance = distance;
+						seriesIndex = s;
+						from = i > 0 ? i - 1 : i;
+						to = i;
+					}
+				}
+			}
+
+			// Interpolate between the items
+			final XY<Double> fromItem = new XY<Double>(dataset.getXValue(seriesIndex, from),
+					dataset.getYValue(seriesIndex, from));
+			final XY<Double> toItem = new XY<Double>(dataset.getXValue(seriesIndex, to),
+					dataset.getYValue(seriesIndex, to));
+			y = LinearInterpolator.interpolate(fromItem, toItem, x);
+		}
+		selection.setCoordinates(x, y);
+
+		// Draw the crosshairs
+		drawCrosshairs();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Draws the vertical and horizontal crosshairs.
+	 */
+	protected void drawCrosshairs() {
+		if (!DRAW_X_CROSSHAIR && !DRAW_Y_CROSSHAIR ||
+				selection.getX() == Double.NaN || selection.getY() == Double.NaN) {
+			return;
+		}
+
+		// Update the vertical and horizontal crosshairs
+		// - Vertical crosshair
+		if (DRAW_X_CROSSHAIR) {
+			crosshairs.getX().setValue(selection.getX());
+		}
+		// - Horizontal crosshair
+		if (DRAW_Y_CROSSHAIR) {
+			crosshairs.getY().setValue(selection.getY());
+		}
 	}
 }

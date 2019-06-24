@@ -131,8 +131,8 @@ public class Numbers {
 	 * Compares the specified numbers for order. Returns a negative integer, zero or a positive
 	 * integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a a {@link Number}
-	 * @param b another {@link Number} to compare with for order
+	 * @param a the {@link Number} to compare for order
+	 * @param b the other {@link Number} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
@@ -149,8 +149,8 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is less than {@code b}.
 	 * <p>
-	 * @param a a {@link Number}
-	 * @param b another {@link Number} to compare with
+	 * @param a the {@link Number} to compare
+	 * @param b the other {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
 	 * <p>
@@ -163,8 +163,8 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is less or equal to {@code b}.
 	 * <p>
-	 * @param a a {@link Number}
-	 * @param b another {@link Number} to compare with
+	 * @param a the {@link Number} to compare
+	 * @param b the other {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
 	 * <p>
@@ -177,8 +177,8 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is greater than {@code b}.
 	 * <p>
-	 * @param a a {@link Number}
-	 * @param b another {@link Number} to compare with
+	 * @param a the {@link Number} to compare
+	 * @param b the other {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
 	 * <p>
@@ -191,8 +191,8 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is greater or equal to {@code b}.
 	 * <p>
-	 * @param a a {@link Number}
-	 * @param b another {@link Number} to compare with
+	 * @param a the {@link Number} to compare
+	 * @param b the other {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
 	 * <p>
@@ -209,8 +209,8 @@ public class Numbers {
 	 * {@code a}.
 	 * <p>
 	 * @param <T> the type of the numbers to compare
-	 * @param a   a {@link Number}
-	 * @param b   another {@link Number} to compare with
+	 * @param a   the {@link Number} to compare
+	 * @param b   the other {@link Number} to compare against
 	 * <p>
 	 * @return the smaller of {@code a} and {@code b}
 	 * <p>
@@ -225,8 +225,8 @@ public class Numbers {
 	 * {@code a}.
 	 * <p>
 	 * @param <T> the type of the numbers to compare
-	 * @param a   a {@link Number}
-	 * @param b   another {@link Number} to compare with
+	 * @param a   the {@link Number} to compare
+	 * @param b   the other {@link Number} to compare against
 	 * <p>
 	 * @return the larger of {@code a} and {@code b}
 	 * <p>
@@ -244,8 +244,8 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
-	 * @param a a {@link Number}
-	 * @param b another {@link Number} to compare with for equality
+	 * @param a the {@link Number} to compare for equality
+	 * @param b the other {@link Number} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 * <p>
@@ -264,8 +264,8 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
 	 * <p>
-	 * @param a         a {@link Number}
-	 * @param b         another {@link Number} to compare with for equality
+	 * @param a         the {@link Number} to compare for equality
+	 * @param b         the other {@link Number} to compare against for equality
 	 * @param tolerance the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},

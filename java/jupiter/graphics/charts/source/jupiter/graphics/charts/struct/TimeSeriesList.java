@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.graphics.charts.structure;
+package jupiter.graphics.charts.struct;
 
 import java.util.Date;
 import java.util.List;
@@ -51,7 +51,7 @@ public class TimeSeriesList
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final List<TimeSeries> list;
+	protected final List<TimeSeries> list = new ExtendedList<TimeSeries>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,6 @@ public class TimeSeriesList
 
 	public TimeSeriesList() {
 		super();
-		list = new ExtendedList<TimeSeries>();
 	}
 
 

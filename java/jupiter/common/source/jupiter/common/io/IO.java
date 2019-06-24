@@ -23,7 +23,6 @@
  */
 package jupiter.common.io;
 
-
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
@@ -36,6 +35,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -43,14 +43,21 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.log.LogHandler;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
-public class IO {
+public class IO
+		implements ICloneable<IO>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The flag specifying whether to exit with success.
@@ -62,21 +69,21 @@ public class IO {
 	public static final int EXIT_FAILURE = 1;
 
 	/**
-	 * The default severity level.
+	 * The default {@link SeverityLevel}.
 	 */
 	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
 
 	/**
-	 * The default console handler.
+	 * The default {@link ConsoleHandler}.
 	 */
 	public static final ConsoleHandler DEFAULT_CONSOLE_HANDLER = new ConsoleHandler();
 	/**
-	 * The default log handler.
+	 * The default {@link LogHandler}.
 	 */
 	public static final LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
 
 	/**
-	 * The default IO.
+	 * The default {@link IO}.
 	 */
 	public static final IO IO = new IO();
 
@@ -95,64 +102,113 @@ public class IO {
 	 */
 	protected final int stackIndex;
 	/**
-	 * The severity level.
+	 * The {@link SeverityLevel}.
 	 */
 	protected volatile SeverityLevel severityLevel;
 
 	/**
-	 * The IO handlers.
+	 * The {@link IOPrinter} containing the {@link List} of {@link IOHandler} (containing the
+	 * {@link ConsoleHandler} and {@link LogHandler} by default).
 	 */
-	protected List<IOHandler> handlers;
+	protected final IOPrinter printer;
 	/**
-	 * The console handler.
+	 * The {@link List} of {@link IOHandler} (containing the {@link ConsoleHandler} and
+	 * {@link LogHandler} by default).
 	 */
-	protected ConsoleHandler consoleHandler;
+	protected final List<IOHandler> handlers;
 	/**
-	 * The log handler.
+	 * The {@link ConsoleHandler}.
 	 */
-	protected LogHandler logHandler;
+	protected volatile ConsoleHandler consoleHandler;
 	/**
-	 * The printer.
+	 * The {@link LogHandler}.
 	 */
-	protected final IOHandler printer;
+	protected volatile LogHandler logHandler;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link IO}.
+	 */
 	public IO() {
 		this(Message.DEFAULT_STACK_INDEX);
 	}
 
+	/**
+	 * Constructs an {@link IO} with the specified stack index.
+	 * <p>
+	 * @param stackIndex a stack index
+	 */
 	public IO(final int stackIndex) {
 		this(stackIndex, DEFAULT_SEVERITY_LEVEL);
 	}
 
+	/**
+	 * Constructs an {@link IO} with the specified stack index and {@link SeverityLevel}.
+	 * <p>
+	 * @param stackIndex    the stack index
+	 * @param severityLevel the {@link SeverityLevel}
+	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel) {
 		this(stackIndex, severityLevel, Arrays.<IOHandler>asList(DEFAULT_CONSOLE_HANDLER));
 	}
 
+	/**
+	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
+	 * {@link ConsoleHandler}.
+	 * <p>
+	 * @param stackIndex     the stack index
+	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param consoleHandler the {@link ConsoleHandler}
+	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler) {
 		this(stackIndex, severityLevel,
 				Arrays.<IOHandler>asList(consoleHandler, DEFAULT_LOG_HANDLER));
 	}
 
+	/**
+	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
+	 * {@link LogHandler}.
+	 * <p>
+	 * @param stackIndex    the stack index
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param logHandler    the {@link LogHandler}
+	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final LogHandler logHandler) {
 		this(stackIndex, severityLevel,
 				Arrays.<IOHandler>asList(DEFAULT_CONSOLE_HANDLER, logHandler));
 	}
 
+	/**
+	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel},
+	 * {@link ConsoleHandler} and {@link LogHandler}.
+	 * <p>
+	 * @param stackIndex     the stack index
+	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param consoleHandler the {@link ConsoleHandler}
+	 * @param logHandler     the {@link LogHandler}
+	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
 		this(stackIndex, severityLevel, Arrays.<IOHandler>asList(consoleHandler, logHandler));
 	}
 
+	/**
+	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
+	 * {@link List} of {@link IOHandler}.
+	 * <p>
+	 * @param stackIndex    the stack index
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param handlers      the {@link List} of {@link IOHandler}
+	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final List<IOHandler> handlers) {
-		// Set the stack index and the severity level
+		// Set the stack index and severity level
 		this.stackIndex = stackIndex;
 		this.severityLevel = severityLevel;
 		// Set the IO handlers
@@ -176,27 +232,29 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the severity level.
+	 * Returns the {@link SeverityLevel}.
 	 * <p>
-	 * @return the severity level
+	 * @return the {@link SeverityLevel}
 	 */
 	public SeverityLevel getSeverityLevel() {
 		return severityLevel;
 	}
 
 	/**
-	 * Returns the printer.
+	 * Returns the {@link IOPrinter} containing the {@link List} of {@link IOHandler} (the
+	 * {@link ConsoleHandler} and {@link LogHandler} by default).
 	 * <p>
-	 * @return the printer
+	 * @return the {@link IOPrinter} containing the {@link List} of {@link IOHandler} (the
+	 *         {@link ConsoleHandler} and {@link LogHandler} by default)
 	 */
-	public IOHandler getPrinter() {
+	public IOPrinter getPrinter() {
 		return printer;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the severity level.
+	 * Sets the {@link SeverityLevel}.
 	 * <p>
 	 * @param severityLevel a {@link SeverityLevel}
 	 */
@@ -205,7 +263,7 @@ public class IO {
 	}
 
 	/**
-	 * Sets the console.
+	 * Sets the {@link IConsole} of the {@link ConsoleHandler}.
 	 * <p>
 	 * @param console an {@link IConsole}
 	 */
@@ -214,7 +272,7 @@ public class IO {
 	}
 
 	/**
-	 * Sets the log directory.
+	 * Sets the log directory of the {@link LogHandler}.
 	 * <p>
 	 * @param logDir a {@link String}
 	 */
@@ -223,7 +281,7 @@ public class IO {
 	}
 
 	/**
-	 * Sets the name of the output log.
+	 * Sets the name of the output log of the {@link LogHandler}.
 	 * <p>
 	 * @param outputLogName a {@link String}
 	 */
@@ -232,7 +290,7 @@ public class IO {
 	}
 
 	/**
-	 * Sets the name of the error log.
+	 * Sets the name of the error log of the {@link LogHandler}.
 	 * <p>
 	 * @param errorLogName a {@link String}
 	 */
@@ -245,10 +303,27 @@ public class IO {
 	// READERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a {@link BufferedReader} of the specified {@link InputStream}.
+	 * <p>
+	 * @param input the {@link InputStream} of the data to read
+	 * <p>
+	 * @return a {@link BufferedReader} of the specified {@link InputStream}
+	 */
 	public static BufferedReader createReader(final InputStream input) {
 		return createReader(input, DEFAULT_CHARSET);
 	}
 
+	/**
+	 * Creates a {@link BufferedReader} of the specified {@link InputStream} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param input   the {@link InputStream} of the data to read
+	 * @param charset the {@link Charset} of the data to read
+	 * <p>
+	 * @return a {@link BufferedReader} of the specified {@link InputStream} with the specified
+	 *         {@link Charset}
+	 */
 	public static BufferedReader createReader(final InputStream input, final Charset charset) {
 		return new BufferedReader(new InputStreamReader(input, charset));
 	}
@@ -287,7 +362,7 @@ public class IO {
 		int lineCount = 0;
 		BufferedReader reader = null;
 		try {
-			// Create a new reader
+			// Create a reader
 			reader = createReader(input, charset);
 			// Iterate over the lines
 			String line;
@@ -370,7 +445,7 @@ public class IO {
 		int lineCount = 0;
 		BufferedReader reader = null;
 		try {
-			// Create a new reader
+			// Create a reader
 			reader = createReader(input, charset);
 			// Iterate over the lines
 			while (reader.readLine() != null) {
@@ -387,10 +462,27 @@ public class IO {
 	// WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a {@link BufferedWriter} of the specified {@link OutputStream}.
+	 * <p>
+	 * @param outputStream the {@link OutputStream} to write to
+	 * <p>
+	 * @return a {@link BufferedWriter} of the specified {@link OutputStream}
+	 */
 	public static BufferedWriter createWriter(final OutputStream outputStream) {
 		return createWriter(outputStream, DEFAULT_CHARSET);
 	}
 
+	/**
+	 * Creates a {@link BufferedWriter} of the specified {@link OutputStream} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param outputStream the {@link OutputStream} to write to
+	 * @param charset      the {@link Charset} of the data to write
+	 * <p>
+	 * @return a {@link BufferedWriter} of the specified {@link OutputStream} with the specified
+	 *         {@link Charset}
+	 */
 	public static BufferedWriter createWriter(final OutputStream outputStream,
 			final Charset charset) {
 		return new BufferedWriter(new OutputStreamWriter(outputStream, charset));
@@ -401,6 +493,16 @@ public class IO {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Copies the data of the specified {@link BufferedReader} with the specified
+	 * {@link PrintWriter} from the specified number of lines.
+	 * <p>
+	 * @param reader the {@link BufferedReader} of the data to copy
+	 * @param writer the {@link PrintWriter} to copy with
+	 * @param from   the line index to start copying forward from
+	 * <p>
+	 * @throws IOException if there is a problem with reading
+	 */
 	public static void copy(final BufferedReader reader, final PrintWriter writer, final int from)
 			throws IOException {
 		int i = 0;
@@ -416,10 +518,10 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the input line of the console and prints it with the IO handlers (except to the
-	 * console).
+	 * Returns the input line of the {@link ConsoleHandler} and prints it with all the
+	 * {@link IOHandler} (except the {@link ConsoleHandler}).
 	 * <p>
-	 * @return the input line of the console
+	 * @return the input line of the {@link ConsoleHandler}
 	 */
 	public String input() {
 		final Message message = new Message(Type.INPUT, SeverityLevel.RESULT,
@@ -438,9 +540,9 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content with the IO handlers.
+	 * Prints the specified content {@link Object} with the {@link IOPrinter}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -449,9 +551,9 @@ public class IO {
 	}
 
 	/**
-	 * Prints {@code n} times the specified content with the IO handlers.
+	 * Prints {@code n} times the specified content {@link Object} with the {@link IOPrinter}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
@@ -463,7 +565,7 @@ public class IO {
 	}
 
 	/**
-	 * Prints the indication of an input line in the console.
+	 * Prints the indication of an input line with the {@link ConsoleHandler}.
 	 */
 	public void printInput() {
 		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT, EMPTY,
@@ -473,16 +575,17 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints an empty line with the IO handlers.
+	 * Prints an empty line with the {@link IOPrinter}.
 	 */
 	public void println() {
 		println(EMPTY, false);
 	}
 
 	/**
-	 * Prints the specified content and terminates the line with the IO handlers.
+	 * Prints the specified content {@link Object} and terminates the line with the
+	 * {@link IOPrinter}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -491,9 +594,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints {@code n} times the specified content and terminates the line with the IO handlers.
+	 * Prints {@code n} times the specified content {@link Object} and terminates the line with the
+	 * {@link IOPrinter}.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
@@ -505,7 +609,7 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified message and terminates the line with the IO handlers.
+	 * Prints the specified message and terminates the line with the {@link IOPrinter}.
 	 * <p>
 	 * @param message the {@link Message} to print
 	 */
@@ -516,15 +620,15 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints a bar line and terminates the line with the IO handlers.
+	 * Prints a bar line and terminates the line with the {@link IOPrinter}.
 	 */
 	public void bar() {
 		println(Strings.createBar(), false);
 	}
 
 	/**
-	 * Prints a bar line with the specified progress character and terminates the line with the IO
-	 * handlers.
+	 * Prints a bar line with the specified progress character and terminates the line with the
+	 * {@link IOPrinter}.
 	 * <p>
 	 * @param progressCharacter the {@code char} value of the bar to print
 	 */
@@ -535,10 +639,10 @@ public class IO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#TRACE}.
+	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
+	 * the severity level {@link SeverityLevel#TRACE}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -553,10 +657,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#DEBUG}.
+	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
+	 * the severity level {@link SeverityLevel#DEBUG}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -571,10 +675,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#TEST}.
+	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
+	 * the severity level {@link SeverityLevel#TEST}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -589,10 +693,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#INFO}.
+	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
+	 * the severity level {@link SeverityLevel#INFO}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -607,10 +711,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#RESULT}.
+	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
+	 * the severity level {@link SeverityLevel#RESULT}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -625,10 +729,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#WARNING}.
+	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
+	 * the severity level {@link SeverityLevel#WARNING}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -643,10 +747,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified {@link Exception} with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#WARNING}.
+	 * Prints the specified {@link Exception} with the {@link IOPrinter} indicating the severity
+	 * level {@link SeverityLevel#WARNING}.
 	 * <p>
-	 * @param exception the {@link Exception} to print
+	 * @param exception an {@link Exception}
 	 * <p>
 	 * @return a {@link Message} containing {@code exception}
 	 */
@@ -661,17 +765,17 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content and {@link Exception} with the IO handlers indicating the
-	 * severity level {@link SeverityLevel#WARNING}.
+	 * Prints the specified content array of {@link Object} and {@link Exception} with the
+	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#WARNING}.
 	 * <p>
-	 * @param content   the {@link Object} to print
+	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */
 	public Message warn(final Object content, final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + appendException(exception);
+			final String text = Strings.toString(content) + Strings.append(exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -681,10 +785,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#ERROR}.
+	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
+	 * the severity level {@link SeverityLevel#ERROR}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -699,10 +803,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified {@link Exception} with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#ERROR}.
+	 * Prints the specified {@link Exception} with the {@link IOPrinter} indicating the severity
+	 * level {@link SeverityLevel#ERROR}.
 	 * <p>
-	 * @param exception the {@link Exception} to print
+	 * @param exception an {@link Exception}
 	 * <p>
 	 * @return a {@link Message} containing {@code exception}
 	 */
@@ -717,17 +821,17 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content and {@link Exception} with the IO handlers indicating the
-	 * severity level {@link SeverityLevel#ERROR}.
+	 * Prints the specified content array of {@link Object} and {@link Exception} with the
+	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#ERROR}.
 	 * <p>
-	 * @param content   the {@link Object} to print
+	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */
 	public Message error(final Object content, final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + appendException(exception);
+			final String text = Strings.toString(content) + Strings.append(exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -737,10 +841,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#FAILURE}.
+	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
+	 * the severity level {@link SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -756,10 +860,10 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified {@link Exception} with the IO handlers indicating the severity level
-	 * {@link SeverityLevel#FAILURE}.
+	 * Prints the specified {@link Exception} with the {@link IOPrinter} indicating the severity
+	 * level {@link SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param exception the {@link Exception} to print
+	 * @param exception an {@link Exception}
 	 * <p>
 	 * @return a {@link Message} containing {@code exception}
 	 */
@@ -775,17 +879,17 @@ public class IO {
 	}
 
 	/**
-	 * Prints the specified content and {@link Exception} with the IO handlers indicating the
-	 * severity level {@link SeverityLevel#FAILURE}.
+	 * Prints the specified content array of {@link Object} and {@link Exception} with the
+	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param content   the {@link Object} to print
+	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */
 	public Message fail(final Object content, final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + appendException(exception);
+			final String text = Strings.toString(content) + Strings.append(exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -794,22 +898,37 @@ public class IO {
 		return null;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static String appendException(final Exception ex) {
-		return ": " + ex;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CLEANERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Clears the IO handlers.
+	 * Clears the {@link IOPrinter}.
 	 */
 	public void clear() {
 		printer.clear();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public IO clone() {
+		try {
+			return (IO) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(Strings.toString(ex), ex);
+		}
 	}
 
 
@@ -851,6 +970,11 @@ public class IO {
 			return value;
 		}
 
+		/**
+		 * Returns a representative {@link String} of {@code this}.
+		 * <p>
+		 * @return a representative {@link String} of {@code this}
+		 */
 		@Override
 		public String toString() {
 			switch (value) {

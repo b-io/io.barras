@@ -43,9 +43,9 @@ public class IllegalTypeException
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IllegalTypeException} with the specified illegal type.
+	 * Constructs an {@link IllegalTypeException} with the specified illegal type {@link Object}.
 	 * <p>
-	 * @param type the illegal type
+	 * @param type the illegal type {@link Object}
 	 */
 	public IllegalTypeException(final Object type) {
 		super("Illegal type " + Strings.quote(type));

@@ -31,10 +31,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.io.IOHandler;
-import jupiter.common.io.Message;
 import jupiter.common.io.file.Files;
 import jupiter.common.test.Arguments;
-import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
 
 public class LogHandler
@@ -45,16 +43,21 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default log directory.
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The default {@link String} log directory.
 	 */
 	protected static final String DEFAULT_LOG_DIR = Files.getPath() + "\\" + "logs";
 
 	/**
-	 * The default output log name.
+	 * The default {@link String} output log name.
 	 */
 	protected static final String DEFAULT_OUTPUT_LOG_NAME = "jupiter.out.log";
 	/**
-	 * The default error log name.
+	 * The default {@link String} error log name.
 	 */
 	protected static final String DEFAULT_ERROR_LOG_NAME = "jupiter.err.log";
 
@@ -64,26 +67,26 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The log directory.
+	 * The log directory {@link File}.
 	 */
 	protected volatile File logDir;
 
 	/**
-	 * The output log.
+	 * The output log {@link File}.
 	 */
 	protected volatile File outputLog;
 	/**
-	 * The internal lock of the output log.
+	 * The internal {@link Lock} of the output log {@link File}.
 	 */
 	protected final Lock outputLogLock = new ReentrantLock(true);
 	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
 
 	/**
-	 * The error log.
+	 * The error log {@link File}.
 	 */
 	protected volatile File errorLog;
 	/**
-	 * The internal lock of the error log.
+	 * The internal {@link Lock} of the error log {@link File}.
 	 */
 	protected final Lock errorLogLock = new ReentrantLock(true);
 	protected final StringBuilder errorLineBuilder = Strings.createBuilder();
@@ -115,11 +118,11 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the path to the specified log.
+	 * Returns the {@link String} path to the specified log.
 	 * <p>
 	 * @param logName the name of the log
 	 * <p>
-	 * @return the path to the specified log
+	 * @return the {@link String} path to the specified log
 	 */
 	protected String getPath(final String logName) {
 		return Files.getPath(logDir) + File.separator + logName;
@@ -199,7 +202,7 @@ public class LogHandler
 	 * Appends the specified content to the line buffer with the specified type. Note that the line
 	 * buffer is written to the log when either {@code println} or {@code flush} is called.
 	 * <p>
-	 * @param content the {@link Object} to write
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
 	 */
 	@Override
@@ -214,7 +217,7 @@ public class LogHandler
 	/**
 	 * Writes the specified content to the log with the specified type.
 	 * <p>
-	 * @param content the {@link Object} to write
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
 	 */
 	@Override
@@ -342,8 +345,15 @@ public class LogHandler
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
-	public Worker<Message, Integer> clone() {
+	public LogHandler clone() {
 		return new LogHandler(Files.getPath(logDir), outputLog.getName(), errorLog.getName());
 	}
 }

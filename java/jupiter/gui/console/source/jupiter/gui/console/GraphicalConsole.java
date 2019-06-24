@@ -50,8 +50,17 @@ public class GraphicalConsole {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link JFrame}.
+	 */
 	protected final JFrame frame;
+	/**
+	 * The {@link JConsole}.
+	 */
 	protected final JConsole console;
+	/**
+	 * The {@link PrintStream}.
+	 */
 	protected PrintStream printStream;
 
 
@@ -59,6 +68,9 @@ public class GraphicalConsole {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link GraphicalConsole}.
+	 */
 	public GraphicalConsole() {
 		// Define a frame
 		frame = new JFrame(TITLE);
@@ -95,39 +107,43 @@ public class GraphicalConsole {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * @return the input line of the console
+	 * Returns the input line of the {@link JConsole}.
+	 * <p>
+	 * @return the input line of the {@link JConsole}
 	 */
 	public String input() {
 		return console.input();
 	}
 
 	/**
-	 * @return the last line of the console
+	 * Returns the last line of the {@link JConsole}.
+	 * <p>
+	 * @return the last line of the {@link JConsole}
 	 */
 	public String getLastLine() {
 		return console.getLastLine();
 	}
 
 	/**
-	 * Prints the specified line in the console.
+	 * Prints the specified message {@link String} in the {@link JConsole}.
 	 * <p>
-	 * @param message the line to print
+	 * @param message the message {@link String} to print
 	 */
 	public void println(final String message) {
 		console.println(message);
 	}
 
 	/**
-	 * Exits the console.
+	 * Exits {@code this}.
 	 */
 	public void exit() {
 		exit(IO.EXIT_SUCCESS);
 	}
 
 	/**
-	 * Exits the console with the specified status code.
+	 * Exits {@code this} with the specified status code.
 	 * <p>
-	 * @param status the exit status code
+	 * @param status the status code to exit with
 	 */
 	public void exit(final int status) {
 		frame.setVisible(false);

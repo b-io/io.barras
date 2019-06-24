@@ -26,6 +26,7 @@ package jupiter.common.util;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -85,7 +86,7 @@ public class Arrays {
 
 	//////////////////////////////////////////////
 
-	public static <T> T[] toArray(final Class<T> c, final T... array) {
+	public static <T> T[] toArray(final Class<T> c, final T[] array) {
 		final T[] result = create(c, array.length);
 		System.arraycopy(array, 0, result, 0, array.length);
 		return result;
@@ -137,6 +138,18 @@ public class Arrays {
 		return toExtendedList(array);
 	}
 
+	public static <T> LinkedList<T> toLinkedList(final T[] array) {
+		final LinkedList<T> result = new LinkedList<T>();
+		for (final T element : array) {
+			result.add(element);
+		}
+		return result;
+	}
+
+	public static <T> LinkedList<T> asLinkedList(final T... array) {
+		return toLinkedList(array);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> Set<T> toSet(final T[] array) {
@@ -154,25 +167,6 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
-	 * {@code null}.
-	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T} (may be {@code null})
-	 * <p>
-	 * @return a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
-	 *         {@code null}
-	 */
-	public static <T> T[] clone(final T... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@SuppressWarnings("unchecked")
@@ -210,11 +204,11 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object}.
+	 * Returns a representative {@link String} of the specified array of {@link Object}.
 	 * <p>
 	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object}
+	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
 	public static String join(final Object... array) {
 		return Strings.joinWith(array, DEFAULT_DELIMITER);
@@ -292,7 +286,7 @@ public class Arrays {
 	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
 	 * type {@code T}.
 	 * <p>
-	 * @param <T> the component type of the arrays
+	 * @param <T> the component type of the arrays to merge
 	 * @param a   an array of type {@code T} (may be {@code null})
 	 * @param b   an array of type {@code T} (may be {@code null})
 	 * <p>
@@ -303,7 +297,7 @@ public class Arrays {
 	 *                                  superclass or superinterface of, the type of {@code b}
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T[] merge(final T[] a, final T... b) {
+	public static <T> T[] merge(final T[] a, final T[] b) {
 		if (a == null) {
 			return clone(b);
 		} else if (b == null) {
@@ -325,7 +319,7 @@ public class Arrays {
 	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
 	 * type {@code T}.
 	 * <p>
-	 * @param <T>    the component type of the arrays
+	 * @param <T>    the component type of the arrays to merge
 	 * @param arrays a 2D array of type {@code T} (may be {@code null})
 	 * <p>
 	 * @return an array of type {@code T} containing all the elements of the specified arrays of
@@ -360,11 +354,11 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sorts the specified array of objects into ascending order, according to the
+	 * Sorts the specified array of {@link Object} into ascending order, according to the
 	 * {@linkplain Comparable natural ordering} of its elements. All elements in the array must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in the array must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
-	 * {@code ClassCastException} for any elements {@code e1} and {@code e2} in the array).
+	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -400,13 +394,13 @@ public class Arrays {
 	}
 
 	/**
-	 * Sorts the specified range of the specified array of objects into ascending order, according
-	 * to the {@linkplain Comparable natural ordering} of its elements. The range to sort extends
-	 * from index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
+	 * Sorts the specified range of the specified array of {@link Object} into ascending order,
+	 * according to the {@linkplain Comparable natural ordering} of its elements. The range to sort
+	 * extends from index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
 	 * {@code fromIndex==toIndex}, the range to sort is empty.) All elements in this range must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in this range must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
-	 * {@code ClassCastException} for any elements {@code e1} and {@code e2} in the array).
+	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -451,10 +445,10 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	/**
-	 * Sorts the specified array of objects according to the order induced by the specified
+	 * Sorts the specified array of {@link Object} according to the order induced by the specified
 	 * comparator. All elements in the array must be
 	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
-	 * must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in the
+	 * must not throw a {@link ClassCastException} for any elements {@code e1} and {@code e2} in the
 	 * array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
@@ -478,7 +472,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param array      the array to sort
 	 * @param comparator the comparator to determine the order of the array. A {@code null} value
 	 *                   indicates that {@linkplain Comparable natural ordering} of the elements
@@ -498,12 +492,12 @@ public class Arrays {
 	}
 
 	/**
-	 * Sorts the specified range of the specified array of objects according to the order induced by
-	 * the specified comparator. The range to sort extends from index {@code fromIndex}, inclusive,
-	 * to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to be sorted
-	 * is empty.) All elements in the range must be
+	 * Sorts the specified range of the specified array of {@link Object} according to the order
+	 * induced by the specified comparator. The range to sort extends from index {@code fromIndex},
+	 * inclusive, to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to
+	 * be sorted is empty.) All elements in the range must be
 	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
-	 * must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in the
+	 * must not throw a {@link ClassCastException} for any elements {@code e1} and {@code e2} in the
 	 * range).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
@@ -527,7 +521,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param a          the array to sort
 	 * @param fromIndex  the index of the first element (inclusive) to sort
 	 * @param toIndex    the index of the last element (exclusive) to sort
@@ -687,13 +681,13 @@ public class Arrays {
 	/**
 	 * Tests whether the specified array of type {@code T} is empty.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to test
 	 * @param array an array of type {@code T}
 	 * <p>
 	 * @return {@code true} if the specified array of type {@code T} is empty, {@code false}
 	 *         otherwise
 	 */
-	public static <T> boolean isEmpty(final T... array) {
+	public static <T> boolean isEmpty(final T[] array) {
 		for (final T element : array) {
 			if (element != null) {
 				return false;
@@ -788,24 +782,43 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object}.
+	 * Returns a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
+	 * {@code null}.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array an array of type {@code T} (may be {@code null})
+	 * <p>
+	 * @return a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
+	 *         {@code null}
+	 */
+	public static <T> T[] clone(final T[] array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified array of {@link Object}.
 	 * <p>
 	 * @param array an array of {@link Object}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object}
+	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
 	public static String toString(final Object... array) {
 		return Strings.parenthesize(join(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object} joined by
+	 * @return a representative {@link String} of the specified array of {@link Object} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Object[] array, final String delimiter) {
@@ -813,14 +826,14 @@ public class Arrays {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Object} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Object}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Object} joined by
+	 * @return a representative {@link String} of the specified array of {@link Object} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Object[] array, final String delimiter,

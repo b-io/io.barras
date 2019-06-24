@@ -185,7 +185,7 @@ public class Table<T>
 	/**
 	 * Constructs a {@link Table} of type {@code T} imported from the specified file.
 	 * <p>
-	 * @param parser    a {@link IParser} of type {@code T}
+	 * @param parser    an {@link IParser} of type {@code T}
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -266,12 +266,37 @@ public class Table<T>
 		if (header == null) {
 			throw new IllegalOperationException("There is no header");
 		}
+
+		// Get the column index
 		final int index = Arrays.<String>indexOf(header, name);
 		if (index < 0) {
 			throw new IllegalArgumentException("There is no column " + Strings.quote(name));
 		}
 		return index;
 	}
+
+	/**
+	 * Returns the name of the specified column.
+	 * <p>
+	 * @param j the column index
+	 * <p>
+	 * @return the name of the specified column
+	 */
+	public String getColumnName(final int j) {
+		// Verify the feasibility
+		if (header == null) {
+			throw new IllegalOperationException("There is no header");
+		}
+
+		// Check the arguments
+		IntegerArguments.requireNonNegative(j);
+		IntegerArguments.requireLessThan(j, n);
+
+		// Get the column name
+		return header[j];
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the element at the specified row and column indexes.
@@ -997,7 +1022,7 @@ public class Table<T>
 	/**
 	 * Loads the values from the specified file.
 	 * <p>
-	 * @param parser    a {@link IParser} of type {@code T}
+	 * @param parser    an {@link IParser} of type {@code T}
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -1013,7 +1038,7 @@ public class Table<T>
 	/**
 	 * Loads the values of the specified row length from the specified reader.
 	 * <p>
-	 * @param parser    a {@link IParser} of type {@code T}
+	 * @param parser    an {@link IParser} of type {@code T}
 	 * @param reader    a {@link BufferedReader}
 	 * @param rowCount  the number of lines to load
 	 * @param hasHeader the flag specifying whether the reader has a header
@@ -1084,13 +1109,13 @@ public class Table<T>
 		final FileHandler fileHandler = new FileHandler(path);
 		fileHandler.delete();
 		// Export the header
-		if (!fileHandler.appendLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
+		if (!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
 			fileHandler.closeWriter();
 			return false;
 		}
 		// Export the elements
 		for (int i = 0; i < m; ++i) {
-			if (!fileHandler.appendLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
+			if (!fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
 				fileHandler.closeWriter();
 				return false;
 			}
@@ -1170,6 +1195,13 @@ public class Table<T>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public Table<T> clone() {
 		return new Table<T>(c, header, elements);
@@ -1203,11 +1235,24 @@ public class Table<T>
 		return true;
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, elements);
 	}
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		final StringBuilder builder = Strings.createBuilder(10 * m * n);

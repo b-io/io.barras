@@ -1,5 +1,5 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
  * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
@@ -306,6 +306,8 @@ public class SafeDateFormat
 	 * Creates a copy of {@code this}. This also clones the date format symbols.
 	 * <p>
 	 * @return a clone of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
 	public SafeDateFormat clone() {
@@ -323,9 +325,12 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Returns the hash code value for {@code this}.
+	 * Returns the hash code for {@code this}.
 	 * <p>
-	 * @return the hash code value for {@code this}
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
 	 */
 	@Override
 	public int hashCode() {

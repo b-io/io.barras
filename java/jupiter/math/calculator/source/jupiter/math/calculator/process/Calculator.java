@@ -353,6 +353,11 @@ public class Calculator {
 	protected static class Evaluator
 			extends Worker<Pair<Element, Map<String, Element>>, Report<Entity>> {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
 		protected Evaluator() {
 			super();
 		}
@@ -362,6 +367,13 @@ public class Calculator {
 			return Calculator.evaluateTree(input.getFirst(), input.getSecond());
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see jupiter.common.model.ICloneable
+		 */
 		@Override
 		public Evaluator clone() {
 			return new Evaluator();

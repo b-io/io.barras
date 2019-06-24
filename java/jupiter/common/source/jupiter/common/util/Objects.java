@@ -23,6 +23,7 @@
  */
 package jupiter.common.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class Objects {
@@ -35,15 +36,42 @@ public class Objects {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected Objects() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static boolean isBasic(final Class<?> c) {
+		return isVoid(c) ||
+				Booleans.is(c) ||
+				Characters.is(c) ||
+				Bytes.is(c) ||
+				Shorts.is(c) ||
+				Integers.is(c) ||
+				Longs.is(c) ||
+				Floats.is(c) ||
+				Doubles.is(c) ||
+				Strings.is(c);
+	}
+
+	public static boolean isVoid(final Class<?> c) {
+		return void.class.isAssignableFrom(c);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Tests whether {@code object} is {@code null} or its {@link String} representation is empty.
+	 * Tests whether {@code object} is {@code null} or its representative {@link String} is empty.
 	 * <p>
 	 * @param object the {@link Object} to test
 	 * <p>
-	 * @return {@code true} if {@code object} is {@code null} or its {@link String} representation
+	 * @return {@code true} if {@code object} is {@code null} or its representative {@link String}
 	 *         is empty, {@code false} otherwise
 	 */
 	public static boolean isNullOrEmpty(final Object object) {
@@ -67,11 +95,53 @@ public class Objects {
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@SuppressWarnings("unchecked")
+	public static <T> T clone(final T object)
+			throws CloneNotSupportedException {
+		if (object == null) {
+			return null;
+		}
+		try {
+			final Class<?> c = object.getClass();
+			if (c.isArray()) {
+				if (Bytes.isPrimitiveArray(c)) {
+					return (T) Bytes.clone((byte[]) object);
+				} else if (Shorts.isPrimitiveArray(c)) {
+					return (T) Shorts.clone((short[]) object);
+				} else if (Integers.isPrimitiveArray(c)) {
+					return (T) Integers.clone((int[]) object);
+				} else if (Longs.isPrimitiveArray(c)) {
+					return (T) Longs.clone((long[]) object);
+				} else if (Floats.isPrimitiveArray(c)) {
+					return (T) Floats.clone((float[]) object);
+				} else if (Doubles.isPrimitiveArray(c)) {
+					return (T) Doubles.clone((double[]) object);
+				}
+				return (T) Arrays.clone((Object[]) object);
+			} else if (isBasic(c)) {
+				return object;
+			}
+			return (T) c.getMethod("clone").invoke(object);
+		} catch (IllegalAccessException ex) {
+			throw new CloneNotSupportedException(Strings.toString(ex));
+		} catch (IllegalArgumentException ex) {
+			throw new CloneNotSupportedException(Strings.toString(ex));
+		} catch (InvocationTargetException ex) {
+			throw new CloneNotSupportedException(Strings.toString(ex));
+		} catch (NoSuchMethodException ex) {
+			throw new CloneNotSupportedException(Strings.toString(ex));
+		} catch (SecurityException ex) {
+			throw new CloneNotSupportedException(Strings.toString(ex));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Tests whether the arguments are equal to each other.
 	 * <p>
-	 * @param a an {@link Object}
-	 * @param b another {@link Object} to compare with {@code a} for equality
+	 * @param a the {@link Object} to compare for equality
+	 * @param b the other {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if the arguments are equal to each other, {@code false} otherwise
 	 */
@@ -83,26 +153,27 @@ public class Objects {
 	}
 
 	/**
-	 * Returns a hash code value for the specified array of type {@code T}.
+	 * Returns the hash code value for the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param <T>   the component type of the array to hash
+	 * @param array the array of type {@code T} to hash
 	 * <p>
-	 * @return a hash code value for the specified array of type {@code T}
+	 * @return the hash code value for the specified array of type {@code T}
 	 */
 	public static <T> int hashCode(final T... array) {
 		return hashCodeWith(0, array);
 	}
 
 	/**
-	 * Returns a hash code value for the specified array of {@code Object} at the specified depth.
+	 * Returns the hash code value for the specified array of type {@code T} at the specified depth.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param <T>   the component type of the array to hash
+	 * @param array the array of type {@code T} to hash
 	 * @param depth the depth to hash at
 	 * <p>
-	 * @return a hash code value for the specified array of {@code Object} at the specified depth
+	 * @return the hash code value for the specified array of type {@code T} at the specified depth
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int hashCodeWith(final int depth, final T... array) {
 		if (array == null) {
 			return 0;

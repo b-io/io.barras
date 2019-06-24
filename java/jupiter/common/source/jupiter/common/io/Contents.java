@@ -1,5 +1,5 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
  * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
@@ -51,6 +51,14 @@ public class Contents {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether the specified {@link Content} is {@code null} or empty.
+	 * <p>
+	 * @param content the {@link Content} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Content} is {@code null} or empty, {@code false}
+	 *         otherwise
+	 */
 	public static boolean isNullOrEmpty(final Content content) {
 		return content == null || content.isNullOrEmpty();
 	}

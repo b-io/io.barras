@@ -64,7 +64,7 @@ public class LineChartGraphic
 
 	@Override
 	public JFreeChart createChart() {
-		return Charts.createLineChart(title, xLabel, yLabel, dataset);
+		return Charts.createLineChart(title, labels.getX(), labels.getY(), dataset);
 	}
 
 

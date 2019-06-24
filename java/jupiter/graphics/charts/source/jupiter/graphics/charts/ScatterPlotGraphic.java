@@ -29,7 +29,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import jupiter.common.test.ArrayArguments;
-import jupiter.graphics.charts.structure.SeriesStyle;
+import jupiter.graphics.charts.struct.SeriesStyle;
 
 public class ScatterPlotGraphic
 		extends ChartGraphic {
@@ -78,12 +78,13 @@ public class ScatterPlotGraphic
 
 	@Override
 	public JFreeChart createChart() {
-		final JFreeChart chart = Charts.createScatterPlot(title, xLabel, yLabel, collection);
+		final JFreeChart chart = Charts.createScatterPlot(title, labels.getX(), labels.getY(),
+				collection);
 		final XYPlot plot = chart.getXYPlot();
 		// Set the dataset
 		plot.setDataset(collection);
 		// Set the styles
-		plot.setRenderer(getItemRenderer());
+		plot.setRenderer(createItemRenderer());
 		return chart;
 	}
 

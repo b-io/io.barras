@@ -28,6 +28,11 @@ import jupiter.common.thread.Worker;
 public class RServer
 		extends Worker<String[], Integer> {
 
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public RServer() {
 	}
 
@@ -36,6 +41,13 @@ public class RServer
 		return R.executeScript(script);
 	}
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public Worker<String[], Integer> clone() {
 		return new RServer();

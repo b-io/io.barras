@@ -118,6 +118,11 @@ public abstract class Element {
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Strings.toString(entity);
@@ -130,18 +135,15 @@ public abstract class Element {
 
 	public enum Type {
 		ENTITY,
-
 		ADDITION,
 		SUBTRACTION,
 		MULTIPLICATION,
 		DIVISION,
 		POWER,
 		SOLUTION,
-
 		FACTORIAL,
 		INVERSE,
 		TRANSPOSE,
-
 		LEFT_PARENTHESIS,
 		RIGHT_PARENTHESIS,
 		LEFT_BRACKET,

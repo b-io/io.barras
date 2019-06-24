@@ -32,6 +32,16 @@ public abstract class ObjectToBooleanMapper
 		extends ObjectMapper<Boolean> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,10 +68,6 @@ public abstract class ObjectToBooleanMapper
 		return result;
 	}
 
-	public <I> boolean[] callAsPrimitiveArray(final I... input) {
-		return callToPrimitiveArray(input);
-	}
-
 	public <I> boolean[] callToPrimitiveArray(final I[][] input2D) {
 		final int n = input2D[0].length;
 		final boolean[] result = new boolean[input2D.length * n];
@@ -71,10 +77,6 @@ public abstract class ObjectToBooleanMapper
 			}
 		}
 		return result;
-	}
-
-	public <I> boolean[] callAsPrimitiveArray(final I[]... input2D) {
-		return callToPrimitiveArray(input2D);
 	}
 
 	public <I> boolean[] callToPrimitiveArray(final I[][][] input3D) {
@@ -91,10 +93,6 @@ public abstract class ObjectToBooleanMapper
 		return result;
 	}
 
-	public <I> boolean[] callAsPrimitiveArray(final I[][]... input3D) {
-		return callToPrimitiveArray(input3D);
-	}
-
 	//////////////////////////////////////////////
 
 	public <I> boolean[][] callToPrimitiveArray2D(final I[][] input2D) {
@@ -105,10 +103,6 @@ public abstract class ObjectToBooleanMapper
 		return result;
 	}
 
-	public <I> boolean[][] callAsPrimitiveArray2D(final I[]... input2D) {
-		return callToPrimitiveArray2D(input2D);
-	}
-
 	//////////////////////////////////////////////
 
 	public <I> boolean[][][] callToPrimitiveArray3D(final I[][][] input3D) {
@@ -117,10 +111,6 @@ public abstract class ObjectToBooleanMapper
 			result[i] = callToPrimitiveArray2D(input3D[i]);
 		}
 		return result;
-	}
-
-	public <I> boolean[][][] callAsPrimitiveArray3D(final I[][]... input3D) {
-		return callToPrimitiveArray3D(input3D);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

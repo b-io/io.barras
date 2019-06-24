@@ -23,7 +23,6 @@
  */
 package jupiter.graphics.charts;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +33,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
-import jupiter.graphics.charts.panels.JPanels;
-import jupiter.graphics.charts.structure.SeriesStyle;
+import jupiter.graphics.charts.panels.DynamicChartPanel;
+import jupiter.graphics.charts.struct.SeriesStyle;
+import jupiter.math.analysis.struct.XY;
 
 public abstract class ChartGraphic
 		extends Graphic {
@@ -54,8 +54,7 @@ public abstract class ChartGraphic
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final String xLabel;
-	protected final String yLabel;
+	protected final XY<String> labels;
 	protected final Map<Integer, SeriesStyle> styles = new HashMap<Integer, SeriesStyle>(10);
 
 
@@ -72,8 +71,7 @@ public abstract class ChartGraphic
 	 */
 	protected ChartGraphic(final String title, final String xLabel, final String yLabel) {
 		super(title);
-		this.xLabel = xLabel;
-		this.yLabel = yLabel;
+		labels = new XY<String>(xLabel, yLabel);
 	}
 
 
@@ -81,12 +79,16 @@ public abstract class ChartGraphic
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public abstract JFreeChart createChart();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Returns the item renderer.
+	 * Creates a {@link XYItemRenderer}.
 	 * <p>
-	 * @return the item renderer
+	 * @return a {@link XYItemRenderer}
 	 */
-	public XYItemRenderer getItemRenderer() {
+	public XYItemRenderer createItemRenderer() {
 		final XYItemRenderer renderer = new XYLineAndShapeRenderer();
 		final Set<Map.Entry<Integer, SeriesStyle>> styleMaps = styles.entrySet();
 		for (final Map.Entry<Integer, SeriesStyle> styleMap : styleMaps) {
@@ -99,13 +101,6 @@ public abstract class ChartGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public abstract JFreeChart createChart();
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -115,18 +110,9 @@ public abstract class ChartGraphic
 	public void display() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				// Set the dimension
-				final Dimension minDimension = new Dimension(800, 600);
-				final Dimension dimension = new Dimension(1900, 1200);
-				setMinimumSize(minDimension);
-				setPreferredSize(dimension);
 				// Create the chart panel
 				final JFreeChart chart = createChart();
-				final ChartPanel chartPanel = new ChartPanel(chart);
-				chartPanel.setMinimumSize(minDimension);
-				chartPanel.setPreferredSize(dimension);
-				chartPanel.setMouseZoomable(true, false);
-				JPanels.addScrollZoom(chartPanel);
+				final ChartPanel chartPanel = new DynamicChartPanel(chart);
 				setContentPane(chartPanel);
 				// Display
 				setVisible(true);

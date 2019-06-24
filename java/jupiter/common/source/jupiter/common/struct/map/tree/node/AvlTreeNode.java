@@ -42,9 +42,19 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The reference {@link AvlTreeMap} of type {@code K} and {@code V}.
+	 */
 	protected final AvlTreeMap<K, V> tree;
 
-	public long height, balance;
+	/**
+	 * The height.
+	 */
+	public long height;
+	/**
+	 * The balance.
+	 */
+	public long balance;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,12 +62,12 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link AvlTreeNode} of type {@code K} and {@code V} with the specified key and
-	 * value.
+	 * Constructs an {@link AvlTreeNode} with the specified key and value belonging to the specified
+	 * {@link AvlTreeMap}.
 	 * <p>
-	 * @param key   the key of the node
-	 * @param value the value of the node
-	 * @param tree  the {@link AvlTreeMap} of type {@code K} and {@code V} of the node
+	 * @param key   the key of type {@code K}
+	 * @param value the value of type {@code V}
+	 * @param tree  the reference {@link AvlTreeMap} of type {@code K} and {@code V}
 	 */
 	public AvlTreeNode(final K key, final V value, final AvlTreeMap<K, V> tree) {
 		super(key, value);
@@ -71,10 +81,20 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	// GETTERS & SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the height.
+	 * <p>
+	 * @return the height
+	 */
 	public long getHeight() {
 		return height;
 	}
 
+	/**
+	 * Returns the balance.
+	 * <p>
+	 * @return the balance
+	 */
 	public long getBalance() {
 		return balance;
 	}
@@ -82,19 +102,20 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the parent and updates the parents if required.
+	 * Sets the parent {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if
+	 * required.
 	 * <p>
 	 * @param parentNode an {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
 	protected void setParent(final AvlTreeNode<K, V> parentNode) {
 		parent = parentNode;
 		if (tree.isUpdate()) {
-			updateParents();
+			updateAllParents();
 		}
 	}
 
 	/**
-	 * Sets the left node and updates the parents if required.
+	 * Sets the left {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if required.
 	 * <p>
 	 * @param leftNode an {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
@@ -111,7 +132,8 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Sets the right node and updates the parents if required.
+	 * Sets the right {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if
+	 * required.
 	 * <p>
 	 * @param rightNode an {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
@@ -133,17 +155,18 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Updates {@code this} and if {@code this} is a leaf, updates the parents.
+	 * Updates {@code this} and if {@code this} is a leaf, updates all the parent
+	 * {@link AvlTreeNode}.
 	 */
 	public void updateAll() {
 		update();
 		if (isLeaf()) {
-			updateParents();
+			updateAllParents();
 		}
 	}
 
 	/**
-	 * Updates the height and the balance.
+	 * Updates the height and balance.
 	 */
 	public void update() {
 		if (isLeaf()) {
@@ -172,9 +195,9 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Updates the parents.
+	 * Updates all the parent {@link AvlTreeNode}.
 	 */
-	public void updateParents() {
+	public void updateAllParents() {
 		AvlTreeNode<K, V> node = parent;
 		while (node != null) {
 			node.update();

@@ -23,9 +23,10 @@
  */
 package jupiter.graphics.charts.panels;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import java.text.DateFormat;
+import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 
 import org.jfree.chart.ChartMouseEvent;
@@ -36,20 +37,15 @@ import org.jfree.chart.entity.ContourEntity;
 import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.entity.XYItemEntity;
 
-import jupiter.common.time.SafeDateFormat;
 import jupiter.common.util.Integers;
+import jupiter.graphics.charts.Charts;
+import jupiter.math.analysis.struct.XY;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.ui.RectangleEdge;
 
 public class ChartPanels {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The date format.
-	 */
-	public static volatile DateFormat DATE_FORMAT = new SafeDateFormat("MM-dd HH:mm");
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -60,20 +56,22 @@ public class ChartPanels {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// JPANELS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the closest chart entity of the specified mouse position in the specified chart
+	 * Returns the closest {@link ChartEntity} to the specified mouse event in the specified chart
 	 * panel.
 	 * <p>
-	 * @param panel the chart panel
-	 * @param event the mouse event
+	 * @param chartPanel a {@link ChartPanel}
+	 * @param mouseEvent a {@link ChartMouseEvent}
 	 * <p>
-	 * @return the closest chart entity of the specified mouse position in the specified chart panel
+	 * @return the closest {@link ChartEntity} to the specified mouse event in the specified chart
+	 *         panel
 	 */
-	public static ChartEntity getChartEntity(final ChartPanel panel, final ChartMouseEvent event) {
-		ChartEntity entity = event.getEntity();
+	public static ChartEntity getEntity(final ChartPanel chartPanel,
+			final ChartMouseEvent mouseEvent) {
+		ChartEntity entity = mouseEvent.getEntity();
 
 		// Test whether a chart entity is selected
 		if (entity.getToolTipText() != null) {
@@ -82,14 +80,16 @@ public class ChartPanels {
 
 		// Find the closest chart entity
 		// - Get all the chart entities
-		final Collection<ChartEntity> entities = panel.getChartRenderingInfo()
+		final Collection<ChartEntity> entities = chartPanel.getChartRenderingInfo()
 				.getEntityCollection()
 				.getEntities();
 		// - Get the mouse position
 		final int xPosition = Integers
-				.convert((event.getTrigger().getX() - panel.getInsets().left) / panel.getScaleX());
+				.convert((mouseEvent.getTrigger().getX() - chartPanel.getInsets().left) / chartPanel
+						.getScaleX());
 		final int yPosition = Integers
-				.convert((event.getTrigger().getY() - panel.getInsets().top) / panel.getScaleY());
+				.convert((mouseEvent.getTrigger().getY() - chartPanel.getInsets().top) / chartPanel
+						.getScaleY());
 		final Point2D position = new Point2D.Double(xPosition, yPosition);
 		// - Select the closest chart entity to the mouse position
 		double minDistance = Integer.MAX_VALUE;
@@ -106,5 +106,90 @@ public class ChartPanels {
 			}
 		}
 		return entity;
+	}
+
+	/**
+	 * Returns the {@link XYPlot} at the specified position in the specified chart panel.
+	 * <p>
+	 * @param chartPanel a {@link ChartPanel}
+	 * @param position   a {@link Point}
+	 * <p>
+	 * @return the {@link XYPlot} at the specified position in the specified chart panel
+	 */
+	public static XYPlot getPlot(final ChartPanel chartPanel, final Point position) {
+		XYPlot plot = (XYPlot) chartPanel.getChart().getPlot();
+		if (plot instanceof CombinedDomainXYPlot) {
+			final CombinedDomainXYPlot combinedDomainPlot = (CombinedDomainXYPlot) plot;
+			final Point2D point = chartPanel.translateScreenToJava2D(position);
+			plot = combinedDomainPlot.findSubplot(chartPanel.getChartRenderingInfo().getPlotInfo(),
+					point);
+		}
+		return plot;
+	}
+
+	/**
+	 * Returns the screen area {@link Rectangle2D} at the specified position in the specified chart
+	 * panel.
+	 * <p>
+	 * @param chartPanel a {@link ChartPanel}
+	 * @param position   a {@link Point}
+	 * <p>
+	 * @return the screen area {@link Rectangle2D} at the specified position in the specified chart
+	 *         panel
+	 */
+	public static Rectangle2D getScreenArea(final ChartPanel chartPanel, final Point position) {
+		return chartPanel.getScreenDataArea(position.x, position.y);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void setDefaultParameters(final ChartPanel chartPanel) {
+		Charts.setSizes(chartPanel);
+		JPanels.addScrollZoom(chartPanel);
+		chartPanel.setMouseZoomable(true, false);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static double java2DToDomainValue(final ChartPanel chartPanel, final Point position) {
+		final XYPlot plot = getPlot(chartPanel, position);
+		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
+		final ValueAxis domainAxis = plot.getDomainAxis();
+		final RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
+		return domainAxis.java2DToValue(position.x, screenArea, domainAxisEdge);
+	}
+
+	public static double java2DToRangeValue(final ChartPanel chartPanel, final Point position) {
+		final XYPlot plot = getPlot(chartPanel, position);
+		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
+		final ValueAxis rangeAxis = plot.getRangeAxis();
+		final RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
+		return rangeAxis.java2DToValue(position.y, screenArea, rangeAxisEdge);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static double domainValueToJava2D(final ChartPanel chartPanel, final Point position,
+			final XY<Double> coordinates) {
+		final XYPlot plot = getPlot(chartPanel, position);
+		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
+		final ValueAxis domainAxis = plot.getDomainAxis();
+		final RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
+		return domainAxis.valueToJava2D(coordinates.getX(), screenArea, domainAxisEdge);
+	}
+
+	public static double rangeValueToJava2D(final ChartPanel chartPanel, final Point position,
+			final XY<Double> coordinates) {
+		final XYPlot plot = getPlot(chartPanel, position);
+		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
+		final ValueAxis rangeAxis = plot.getRangeAxis();
+		final RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
+		return rangeAxis.valueToJava2D(coordinates.getY(), screenArea, rangeAxisEdge);
 	}
 }

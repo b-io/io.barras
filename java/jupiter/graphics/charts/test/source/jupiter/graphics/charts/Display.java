@@ -23,27 +23,22 @@
  */
 package jupiter.graphics.charts;
 
+import static jupiter.common.io.IO.IO;
+
 import java.awt.Color;
-import java.awt.Dimension;
-import java.text.DateFormat;
-import java.util.Calendar;
+import java.io.IOException;
+import java.text.ParseException;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.plot.XYPlot;
 
-import jupiter.common.util.Integers;
-import jupiter.graphics.charts.panels.ChartPanels;
+import jupiter.common.struct.table.StringTable;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
-import jupiter.graphics.charts.panels.JPanels;
 
 public class Display {
 
-	protected final DateFormat xFormat = ChartPanels.DATE_FORMAT;
 	protected final TimeSeriesGraphic graph;
-	protected JFreeChart chart = null;
-	protected XYPlot plot = null;
 
 	public Display() {
 		graph = new TimeSeriesGraphic("Test Series", "Time", "Value");
@@ -51,48 +46,36 @@ public class Display {
 
 	public static void main(final String[] args) {
 		final Display display = new Display();
-		display.createSeries(2, 100);
+		display.loadSeries();
 		display.plot();
 	}
 
 	public void plot() {
-		// Set the dimension
-		final Dimension minDimension = new Dimension(640, 400);
-		final Dimension dimension = new Dimension(1920, 1200);
-		graph.setMinimumSize(minDimension);
-		graph.setPreferredSize(dimension);
-
 		// Create the chart
-		chart = graph.createChart();
-		plot = chart.getXYPlot();
-		final DateAxis axis = (DateAxis) plot.getDomainAxis();
+		final JFreeChart chart = graph.createChart();
+		final XYPlot plot = chart.getXYPlot();
 		plot.getRenderer().setSeriesPaint(0, Color.RED);
 		plot.getRenderer().setSeriesPaint(1, Color.GREEN);
 		plot.getRenderer().setSeriesPaint(2, Color.BLUE);
 		plot.getRenderer().setSeriesPaint(3, Color.YELLOW);
-		axis.setDateFormatOverride(xFormat);
 
 		// Create the chart panel
-		final ChartPanel chartPanel = new DynamicChartPanel(chart, xFormat);
-		chartPanel.setMinimumSize(minDimension);
-		chartPanel.setPreferredSize(dimension);
-		chartPanel.setMouseZoomable(true, false);
+		final ChartPanel chartPanel = new DynamicChartPanel(chart, Charts.DATE_FORMAT);
 
 		// Display
-		JPanels.addScrollZoom(chartPanel);
 		graph.setContentPane(chartPanel);
 		graph.setVisible(true);
 	}
 
-	protected void createSeries(final int seriesCount, final int valueCount) {
-		for (int s = 0; s < seriesCount; ++s) {
-			final int series = graph.addSeries("Test " + s);
-			final Calendar calendar = Calendar.getInstance();
-
-			for (int v = 0; v < valueCount; ++v) {
-				graph.addValue(series, calendar.getTime(), Integers.random(0, 10));
-				calendar.add(Calendar.SECOND, 60);
-			}
+	protected void loadSeries() {
+		try {
+			final StringTable coordinates = new StringTable("test/resources/coordinates.csv", true);
+			graph.load(coordinates, 0, 1, true);
+			graph.load(coordinates, 0, 2, true);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} catch (final ParseException ex) {
+			IO.error(ex);
 		}
 	}
 }
