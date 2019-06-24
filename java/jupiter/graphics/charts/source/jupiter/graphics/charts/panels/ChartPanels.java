@@ -40,6 +40,7 @@ import org.jfree.chart.entity.XYItemEntity;
 import jupiter.common.util.Integers;
 import jupiter.graphics.charts.Charts;
 import jupiter.math.analysis.struct.XY;
+
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.XYPlot;
