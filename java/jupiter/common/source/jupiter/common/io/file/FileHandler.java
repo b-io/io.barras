@@ -292,7 +292,7 @@ public class FileHandler {
 	/**
 	 * Closes the writer.
 	 * <p>
-	 * @param message the warning message to print if closed
+	 * @param message the warning message {@link String} to print if closed
 	 */
 	public void closeWriter(final String message) {
 		Resources.close(writer, message);

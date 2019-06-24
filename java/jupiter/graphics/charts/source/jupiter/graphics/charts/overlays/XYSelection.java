@@ -305,9 +305,9 @@ public class XYSelection
 	}
 
 	/**
-	 * Returns the hash code {@code int} value for {@code this}.
+	 * Returns the hash code for {@code this}.
 	 * <p>
-	 * @return the hash code {@code int} value for {@code this}
+	 * @return the hash code for {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode

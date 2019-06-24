@@ -73,7 +73,7 @@ public class IOPrinter
 	/**
 	 * Prints the specified content with the IO handlers.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -87,7 +87,7 @@ public class IOPrinter
 	/**
 	 * Prints the specified content and terminates the line with the IO handlers.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -102,7 +102,7 @@ public class IOPrinter
 	 * Prints the specified message (whether in the standard output or in the standard error) and
 	 * then terminates the line.
 	 * <p>
-	 * @param message a {@link Message}
+	 * @param message the {@link Message} to print
 	 */
 	@Override
 	public void println(final Message message) {
@@ -171,9 +171,9 @@ public class IOPrinter
 	}
 
 	/**
-	 * Returns the hash code {@code int} value for {@code this}.
+	 * Returns the hash code for {@code this}.
 	 * <p>
-	 * @return the hash code {@code int} value for {@code this}
+	 * @return the hash code for {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode

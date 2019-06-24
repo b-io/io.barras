@@ -202,7 +202,7 @@ public class LogHandler
 	 * Appends the specified content to the line buffer with the specified type. Note that the line
 	 * buffer is written to the log when either {@code println} or {@code flush} is called.
 	 * <p>
-	 * @param content the {@link Object} to write
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
 	 */
 	@Override
@@ -217,7 +217,7 @@ public class LogHandler
 	/**
 	 * Writes the specified content to the log with the specified type.
 	 * <p>
-	 * @param content the {@link Object} to write
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
 	 */
 	@Override

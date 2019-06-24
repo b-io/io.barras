@@ -2902,7 +2902,7 @@ public class Strings {
 	 * Returns the representative {@link String} of the specified content if not {@code null},
 	 * {@code defaultString} otherwise.
 	 * <p>
-	 * @param content       an {@link Object}
+	 * @param content       the content {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
 	 * @return the representative {@link String} of the specified content if not {@code null},
@@ -2916,7 +2916,7 @@ public class Strings {
 	 * Returns the representative {@link String} of the specified content if not {@code null} or
 	 * {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
-	 * @param content       an {@link Object}
+	 * @param content       the content {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
 	 * @return the representative {@link String} of the specified content if not {@code null} or

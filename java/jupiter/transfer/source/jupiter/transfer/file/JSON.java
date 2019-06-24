@@ -39,7 +39,8 @@ public class JSON {
 	/**
 	 * Returns a JSON representative {@link String} of the fields of the specified content.
 	 * <p>
-	 * @param content the {@link Object} containing the fields to represent as a JSON {@link String}
+	 * @param content the content {@link Object} containing the fields to represent as a JSON
+	 *                {@link String}
 	 * <p>
 	 * @return a JSON representative {@link String} of the fields of the specified content
 	 */

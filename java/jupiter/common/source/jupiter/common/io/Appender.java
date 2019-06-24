@@ -54,7 +54,7 @@ public abstract class Appender
 	/**
 	 * Prints the specified {@link Message}.
 	 * <p>
-	 * @param message a {@link Message}
+	 * @param message the {@link Message} to print
 	 */
 	@Override
 	public void println(final Message message) {
@@ -94,7 +94,7 @@ public abstract class Appender
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#TRACE}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 */
 	public abstract void trace(final Object content);
 
@@ -102,7 +102,7 @@ public abstract class Appender
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#DEBUG}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 */
 	public abstract void debug(final Object content);
 
@@ -110,7 +110,7 @@ public abstract class Appender
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#TEST}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 */
 	public abstract void test(final Object content);
 
@@ -118,7 +118,7 @@ public abstract class Appender
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#INFO}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 */
 	public abstract void info(final Object content);
 
@@ -126,7 +126,7 @@ public abstract class Appender
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#RESULT}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 */
 	public abstract void result(final Object content);
 
@@ -136,7 +136,7 @@ public abstract class Appender
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#WARNING}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 */
 	public abstract void warn(final Object content);
 
@@ -154,7 +154,7 @@ public abstract class Appender
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#ERROR}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 */
 	public abstract void error(final Object content);
 
@@ -172,7 +172,7 @@ public abstract class Appender
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link IO.SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 */
 	public abstract void fail(final Object content);
 

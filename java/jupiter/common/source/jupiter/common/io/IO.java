@@ -542,7 +542,7 @@ public class IO
 	/**
 	 * Prints the specified content {@link Object} with the {@link IOPrinter}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -553,7 +553,7 @@ public class IO
 	/**
 	 * Prints {@code n} times the specified content {@link Object} with the {@link IOPrinter}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
@@ -585,7 +585,7 @@ public class IO
 	 * Prints the specified content {@link Object} and terminates the line with the
 	 * {@link IOPrinter}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
 	 */
@@ -597,7 +597,7 @@ public class IO
 	 * Prints {@code n} times the specified content {@link Object} and terminates the line with the
 	 * {@link IOPrinter}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
@@ -611,7 +611,7 @@ public class IO
 	/**
 	 * Prints the specified message and terminates the line with the {@link IOPrinter}.
 	 * <p>
-	 * @param message a {@link Message}
+	 * @param message the {@link Message} to print
 	 */
 	public void println(final Message message) {
 		printer.println(message);
@@ -660,7 +660,7 @@ public class IO
 	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
 	 * the severity level {@link SeverityLevel#DEBUG}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -678,7 +678,7 @@ public class IO
 	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
 	 * the severity level {@link SeverityLevel#TEST}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -696,7 +696,7 @@ public class IO
 	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
 	 * the severity level {@link SeverityLevel#INFO}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -714,7 +714,7 @@ public class IO
 	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
 	 * the severity level {@link SeverityLevel#RESULT}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -732,7 +732,7 @@ public class IO
 	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
 	 * the severity level {@link SeverityLevel#WARNING}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -768,8 +768,8 @@ public class IO
 	 * Prints the specified content array of {@link Object} and {@link Exception} with the
 	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#WARNING}.
 	 * <p>
-	 * @param content   an {@link Object}
-	 * @param exception an {@link Exception}
+	 * @param content   the content {@link Object} to print
+	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */
@@ -788,7 +788,7 @@ public class IO
 	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
 	 * the severity level {@link SeverityLevel#ERROR}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -824,8 +824,8 @@ public class IO
 	 * Prints the specified content array of {@link Object} and {@link Exception} with the
 	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#ERROR}.
 	 * <p>
-	 * @param content   an {@link Object}
-	 * @param exception an {@link Exception}
+	 * @param content   the content {@link Object} to print
+	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */
@@ -844,7 +844,7 @@ public class IO
 	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
 	 * the severity level {@link SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param content the array of {@link Object} to print
+	 * @param content the content array of {@link Object} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content}
 	 */
@@ -882,8 +882,8 @@ public class IO
 	 * Prints the specified content array of {@link Object} and {@link Exception} with the
 	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param content   the content {@link Object}
-	 * @param exception an {@link Exception}
+	 * @param content   the content {@link Object} to print
+	 * @param exception the {@link Exception} to print
 	 * <p>
 	 * @return a {@link Message} containing {@code content} and {@code exception}
 	 */

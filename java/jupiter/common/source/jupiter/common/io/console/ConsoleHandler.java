@@ -134,7 +134,7 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified content in the console.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
 	 */
@@ -154,7 +154,7 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified content in the console and then terminates the line.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
 	 */
@@ -185,7 +185,7 @@ public class ConsoleHandler
 	 * Prints the specified message (whether in the standard output or in the standard error and in
 	 * color if {@code USE_COLORS}) in the console and terminates the line.
 	 * <p>
-	 * @param message a {@link Message}
+	 * @param message the {@link Message} to print
 	 */
 	@Override
 	public void println(final Message message) {

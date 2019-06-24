@@ -465,7 +465,7 @@ public class Files {
 	/**
 	 * Writes the specified {@link String} to the specified {@link File}.
 	 * <p>
-	 * @param content the {@link String} to write
+	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * <p>
 	 * @return {@code true} if the specified {@link String} is written to the specified
@@ -478,7 +478,7 @@ public class Files {
 	/**
 	 * Writes or appends the specified {@link String} to the specified {@link File}.
 	 * <p>
-	 * @param content the {@link String} to write
+	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * @param append  the flag specifying whether to append
 	 * @param charset the {@link Charset} of the {@link File} to write to

@@ -51,7 +51,7 @@ public class JPanels {
 	 * Displays the specified message in the specified panel.
 	 * <p>
 	 * @param panel   the panel to modify
-	 * @param message the message to display
+	 * @param message the message {@link String} to display
 	 */
 	public static void displayMessage(final JPanel panel, final String message) {
 		final JPanel p = new JPanel();
