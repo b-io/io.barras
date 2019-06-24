@@ -481,9 +481,9 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Performs the in-order traversal of {@code this} and returns a {@link Set} view of the
-	 * key-value {@link Map.Entry} of type {@code K} and {@code V} of the visited nodes. The
-	 * iterator of the {@link Set} returns the entries in ascending key order. The {@link Set} is
-	 * backed by {@code this}, so changes to {@code this} are reflected in the {@link Set} and
+	 * key-value {@link java.util.Map.Entry} of type {@code K} and {@code V} of the visited nodes.
+	 * The iterator of the {@link Set} returns the entries in ascending key order. The {@link Set}
+	 * is backed by {@code this}, so changes to {@code this} are reflected in the {@link Set} and
 	 * vice-versa. If {@code this} is modified while an iteration over the {@link Set} is in
 	 * progress (except through the operations {@code remove} or {@code setValue} of the iterator),
 	 * the results of the iteration are undefined. The set supports element removal, which removes
@@ -491,7 +491,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
 	 * does not support the {@code add} or {@code addAll} operations.
 	 * <p>
-	 * @return a {@link Set} view of the key-value {@link Map.Entry} of type {@code K} and {@code V}
+	 * @return a {@link Set} view of the key-value {@link java.util.Map.Entry} of type {@code K} and
+	 *         {@code V}
 	 */
 	@Override
 	public Set<Entry<K, V>> entrySet() {
@@ -500,14 +501,14 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Performs the in-order traversal of the specified tree and returns a {@link Set} view of the
-	 * key-value {@link Map.Entry} of type {@code K} and {@code V} of the visited nodes added to the
-	 * specified {@link Set}.
+	 * key-value {@link java.util.Map.Entry} of type {@code K} and {@code V} of the visited nodes
+	 * added to the specified {@link Set}.
 	 * <p>
 	 * @param tree a tree of type {@code N}
-	 * @param set  a {@link Set} of {@link Map.Entry} of type {@code K} and {@code V}
+	 * @param set  a {@link Set} of {@link java.util.Map.Entry} of type {@code K} and {@code V}
 	 * <p>
-	 * @return a {@link Set} view of the key-value {@link Map.Entry} of type {@code K} and {@code V}
-	 *         of the visited nodes added to the specified {@link Set}
+	 * @return a {@link Set} view of the key-value {@link java.util.Map.Entry} of type {@code K} and
+	 *         {@code V} of the visited nodes added to the specified {@link Set}
 	 */
 	protected Set<Entry<K, V>> entrySet(final N tree, final Set<Entry<K, V>> set) {
 		if (tree != null) {

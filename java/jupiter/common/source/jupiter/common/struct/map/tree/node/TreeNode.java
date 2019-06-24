@@ -123,7 +123,8 @@ public class TreeNode<K extends Comparable<K>, V>
 	 * Compares {@code this} with {@code entry} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code entry}.
 	 * <p>
-	 * @param entry the {@link Entry} of type {@code K} and {@code V} to compare with for order
+	 * @param entry the {@link java.util.Map.Entry} of type {@code K} and {@code V} to compare
+	 *              against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code entry}
@@ -142,7 +143,7 @@ public class TreeNode<K extends Comparable<K>, V>
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@link Object} to compare with for equality
+	 * @param other the {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>

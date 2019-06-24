@@ -164,7 +164,7 @@ public class WholeNumber
 	 * zero or a positive integer as {@code this} is less than, equal to or greater than
 	 * {@code comparableNumber}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with for order
+	 * @param comparableNumber the {@link ComparableNumber} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code comparableNumber}
@@ -187,7 +187,7 @@ public class WholeNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@link Object} to compare with for equality
+	 * @param other the {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>

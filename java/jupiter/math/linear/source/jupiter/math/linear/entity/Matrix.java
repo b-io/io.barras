@@ -627,7 +627,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets the element at the specified row and column indexes to the specified {@code Object}.
+	 * Sets the element at the specified row and column indexes to the specified {@link Object}.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index

@@ -190,7 +190,7 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 * positive integer as {@code this} is less than, equal to or greater than {@code quintuple}.
 	 * <p>
 	 * @param quintuple the {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3},
-	 *                  {@code T4} and {@code T5} to compare with for order
+	 *                  {@code T4} and {@code T5} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code quintuple}

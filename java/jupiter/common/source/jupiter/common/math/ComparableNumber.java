@@ -60,7 +60,7 @@ public abstract class ComparableNumber
 	 * zero or a positive integer as {@code this} is less than, equal to or greater than
 	 * {@code comparableNumber}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with for order
+	 * @param comparableNumber the {@link ComparableNumber} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code comparableNumber}
@@ -74,7 +74,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is less than {@code comparableNumber}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with
+	 * @param comparableNumber the {@link ComparableNumber} to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code comparableNumber}, {@code false}
 	 *         otherwise
@@ -88,7 +88,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is less or equal to {@code comparableNumber}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with
+	 * @param comparableNumber the {@link ComparableNumber} to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code comparableNumber},
 	 *         {@code false} otherwise
@@ -102,7 +102,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is greater than {@code comparableNumber}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with
+	 * @param comparableNumber the {@link ComparableNumber} to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code comparableNumber}, {@code false}
 	 *         otherwise
@@ -116,7 +116,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is greater or equal to {@code comparableNumber}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with
+	 * @param comparableNumber the {@link ComparableNumber} to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code comparableNumber},
 	 *         {@code false} otherwise
@@ -133,7 +133,7 @@ public abstract class ComparableNumber
 	 * Returns the smaller of {@code this} and {@code comparableNumber}, or {@code this} if they are
 	 * equal.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with
+	 * @param comparableNumber the {@link ComparableNumber} to compare against
 	 * <p>
 	 * @return the smaller of {@code this} and {@code comparableNumber}, or {@code this} if they are
 	 *         equal
@@ -148,7 +148,7 @@ public abstract class ComparableNumber
 	 * Returns the larger of {@code this} and {@code comparableNumber}, or {@code this} if they are
 	 * equal.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with
+	 * @param comparableNumber the {@link ComparableNumber} to compare against
 	 * <p>
 	 * @return the larger of {@code this} and {@code comparableNumber}, or {@code this} if they are
 	 *         equal
@@ -168,7 +168,7 @@ public abstract class ComparableNumber
 	 * Compares {@code this} with {@code number} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code number}.
 	 * <p>
-	 * @param number the {@link Number} to compare with for order
+	 * @param number the {@link Number} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code number}
@@ -182,7 +182,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is less than {@code number}.
 	 * <p>
-	 * @param number the {@link Number} to compare with
+	 * @param number the {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code number}, {@code false} otherwise
 	 * <p>
@@ -195,7 +195,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is less or equal to {@code number}.
 	 * <p>
-	 * @param number the {@link Number} to compare with
+	 * @param number the {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code number}, {@code false}
 	 *         otherwise
@@ -209,7 +209,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is greater than {@code number}.
 	 * <p>
-	 * @param number the {@link Number} to compare with
+	 * @param number the {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code number}, {@code false} otherwise
 	 * <p>
@@ -222,7 +222,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is greater or equal to {@code number}.
 	 * <p>
-	 * @param number the {@link Number} to compare with
+	 * @param number the {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code number}, {@code false}
 	 *         otherwise
@@ -238,7 +238,7 @@ public abstract class ComparableNumber
 	/**
 	 * Returns the smaller of {@code this} and {@code number}, or {@code this} if they are equal.
 	 * <p>
-	 * @param number the {@link Number} to compare with
+	 * @param number the {@link Number} to compare against
 	 * <p>
 	 * @return the smaller of {@code this} and {@code number}, or {@code this} if they are equal
 	 * <p>
@@ -251,7 +251,7 @@ public abstract class ComparableNumber
 	/**
 	 * Returns the larger of {@code this} and {@code number}, or {@code this} if they are equal.
 	 * <p>
-	 * @param number the {@link Number} to compare with
+	 * @param number the {@link Number} to compare against
 	 * <p>
 	 * @return the larger of {@code this} and {@code number}, or {@code this} if they are equal
 	 * <p>
@@ -269,7 +269,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@link Object} to compare with for equality
+	 * @param other the {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
@@ -293,7 +293,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code number}.
 	 * <p>
-	 * @param number the {@link Number} to compare with for equality
+	 * @param number the {@link Number} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code number}, {@code false} otherwise
 	 * <p>
@@ -306,7 +306,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code number} within {@code tolerance}.
 	 * <p>
-	 * @param number    the {@link Number} to compare with for equality
+	 * @param number    the {@link Number} to compare against for equality
 	 * @param tolerance the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code number} within {@code tolerance},
@@ -321,7 +321,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code comparableNumber}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with for equality
+	 * @param comparableNumber the {@link ComparableNumber} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code comparableNumber}, {@code false}
 	 *         otherwise
@@ -335,7 +335,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code comparableNumber} within {@code tolerance}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with for equality
+	 * @param comparableNumber the {@link ComparableNumber} to compare against for equality
 	 * @param tolerance        the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code comparableNumber} within

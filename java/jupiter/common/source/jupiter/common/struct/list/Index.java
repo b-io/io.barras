@@ -61,7 +61,7 @@ public class Index<T>
 	 * Compares {@code this} with {@code index} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code index}.
 	 * <p>
-	 * @param index the {@link Index} of type {@code T} to compare with for order
+	 * @param index the {@link Index} of type {@code T} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code index}

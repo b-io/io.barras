@@ -119,8 +119,8 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	 * Compares {@code this} with {@code pair} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code pair}.
 	 * <p>
-	 * @param pair the {@link ComparablePair} of type {@code T1} and {@code T2} to compare with for
-	 *             order
+	 * @param pair the {@link ComparablePair} of type {@code T1} and {@code T2} to compare against
+	 *             for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code pair}

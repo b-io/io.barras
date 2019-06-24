@@ -60,7 +60,7 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the specified model of the workers to handle.
+	 * Constructs a {@link LockedWorkQueue} with the specified model of the workers to handle.
 	 * <p>
 	 * @param model the model of the workers to handle
 	 */
@@ -69,7 +69,7 @@ public class LockedWorkQueue<I, O>
 	}
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the specified model and minimum and maximum number
+	 * Constructs a {@link LockedWorkQueue} with the specified model and minimum and maximum number
 	 * of workers to handle.
 	 * <p>
 	 * @param model      the model of the workers to handle
@@ -81,7 +81,7 @@ public class LockedWorkQueue<I, O>
 	}
 
 	/**
-	 * Constructs a {@code LockedWorkQueue} with the specified model, minimum and maximum number of
+	 * Constructs a {@link LockedWorkQueue} with the specified model, minimum and maximum number of
 	 * workers to handle and fairness policy.
 	 * <p>
 	 * @param model      the model of the workers to handle

@@ -54,7 +54,7 @@ public class Contents {
 	/**
 	 * Tests whether the specified {@link Content} is {@code null} or empty.
 	 * <p>
-	 * @param content a {@link Content}
+	 * @param content the {@link Content} to test
 	 * <p>
 	 * @return {@code true} if the specified {@link Content} is {@code null} or empty, {@code false}
 	 *         otherwise

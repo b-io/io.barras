@@ -925,8 +925,8 @@ public class Doubles {
 	 * Compares the specified values for order. Returns a negative integer, zero or a positive
 	 * integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b another {@code double} value to compare with for order
+	 * @param a the {@code double} value to compare for order
+	 * @param b the other {@code double} value to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
@@ -972,8 +972,8 @@ public class Doubles {
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b another {@code double} value to compare with {@code a} for equality
+	 * @param a the {@code double} value to compare for equality
+	 * @param b the other {@code double} value to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
@@ -984,8 +984,8 @@ public class Doubles {
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within the specified tolerance level.
 	 * <p>
-	 * @param a         a {@code double} value
-	 * @param b         another {@code double} value to compare with {@code a} for equality
+	 * @param a         the {@code double} value to compare for equality
+	 * @param b         the other {@code double} value to compare against for equality
 	 * @param tolerance the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within the specified tolerance level,

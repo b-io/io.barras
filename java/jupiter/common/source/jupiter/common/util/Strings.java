@@ -2850,8 +2850,8 @@ public class Strings {
 	/**
 	 * Tests whether the representative {@link String}s of the arguments are equal to each other.
 	 * <p>
-	 * @param a an {@link Object}
-	 * @param b another {@link Object} to compare with {@code a} for equality
+	 * @param a the {@link Object} to compare for equality
+	 * @param b the other {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if the representative {@link String}s of the arguments are equal to each
 	 *         other, {@code false} otherwise

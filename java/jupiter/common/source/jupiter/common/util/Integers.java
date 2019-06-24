@@ -942,8 +942,8 @@ public class Integers {
 	 * Compares the specified values for order. Returns a negative integer, zero or a positive
 	 * integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a an {@code int} value
-	 * @param b another {@code int} value to compare with for order
+	 * @param a the {@code int} value to compare for order
+	 * @param b the other {@code int} value to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}

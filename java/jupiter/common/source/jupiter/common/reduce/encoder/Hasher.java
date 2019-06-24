@@ -27,7 +27,7 @@ import jupiter.common.reduce.Reducer;
 import jupiter.common.util.Objects;
 
 /**
- * {@link Hasher} is a reduce operator hashing an array of type {@code I} to an {@code Integer}.
+ * {@link Hasher} is a reduce operator hashing an array of type {@code I} to an {@link Integer}.
  * <p>
  * @param <I> the component type of the array
  */

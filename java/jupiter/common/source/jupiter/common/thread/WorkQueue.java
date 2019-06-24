@@ -92,7 +92,7 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@code WorkQueue} with the specified model of the workers to handle.
+	 * Constructs a {@link WorkQueue} with the specified model of the workers to handle.
 	 * <p>
 	 * @param model the model of the workers to handle
 	 */
@@ -101,7 +101,7 @@ public class WorkQueue<I, O> {
 	}
 
 	/**
-	 * Constructs a {@code WorkQueue} with the specified model and minimum and maximum number of
+	 * Constructs a {@link WorkQueue} with the specified model and minimum and maximum number of
 	 * workers to handle.
 	 * <p>
 	 * @param model      the model of the workers to handle

@@ -321,7 +321,7 @@ public class Scalar
 	/**
 	 * Returns the addition of the specified {@link Matrix} to {@code this}.
 	 * <p>
-	 * @param matrix a {@code Matrix}
+	 * @param matrix a {@link Matrix}
 	 * <p>
 	 * @return {@code this + matrix}
 	 */
@@ -422,7 +422,7 @@ public class Scalar
 	/**
 	 * Subtracts the specified {@link Matrix} from {@code this}.
 	 * <p>
-	 * @param matrix a {@code Matrix}
+	 * @param matrix a {@link Matrix}
 	 * <p>
 	 * @return {@code this -= matrix}
 	 */

@@ -358,7 +358,7 @@ public class Arrays {
 	 * {@linkplain Comparable natural ordering} of its elements. All elements in the array must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in the array must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
-	 * {@code ClassCastException} for any elements {@code e1} and {@code e2} in the array).
+	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -400,7 +400,7 @@ public class Arrays {
 	 * {@code fromIndex==toIndex}, the range to sort is empty.) All elements in this range must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in this range must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
-	 * {@code ClassCastException} for any elements {@code e1} and {@code e2} in the array).
+	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -448,7 +448,7 @@ public class Arrays {
 	 * Sorts the specified array of {@link Object} according to the order induced by the specified
 	 * comparator. All elements in the array must be
 	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
-	 * must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in the
+	 * must not throw a {@link ClassCastException} for any elements {@code e1} and {@code e2} in the
 	 * array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
@@ -497,7 +497,7 @@ public class Arrays {
 	 * inclusive, to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to
 	 * be sorted is empty.) All elements in the range must be
 	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
-	 * must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in the
+	 * must not throw a {@link ClassCastException} for any elements {@code e1} and {@code e2} in the
 	 * range).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
