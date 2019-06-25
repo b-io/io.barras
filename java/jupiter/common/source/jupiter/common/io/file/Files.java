@@ -522,7 +522,7 @@ public class Files {
 			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
 			PARALLELIZE = true;
 		} else {
-			IO.warn("The copier queue ", COPIER_QUEUE, " has already started");
+			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
 		}
 	}
 
@@ -769,6 +769,20 @@ public class Files {
 			}
 		}
 		return list;
+	}
+
+	/**
+	 * Returns the {@link List} of {@link File} contained in the specified directory and matching
+	 * the specified pattern {@link String}.
+	 * <p>
+	 * @param dir     a {@link File}
+	 * @param pattern a pattern {@link String}
+	 * <p>
+	 * @return the {@link List} of {@link File} contained in the specified directory and matching
+	 *         the specified pattern {@link String}
+	 */
+	public static List<File> listAll(final File dir, final String pattern) {
+		return listAll(dir, Pattern.compile(pattern));
 	}
 
 	/**

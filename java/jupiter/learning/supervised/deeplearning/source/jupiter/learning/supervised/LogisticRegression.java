@@ -165,6 +165,9 @@ public class LogisticRegression
 			return 0;
 		}
 
+		// Parallelize
+		Matrix.parallelize();
+
 		// Initialize
 		// - The weight vector
 		if (W == null) {
@@ -181,37 +184,32 @@ public class LogisticRegression
 		double j = Double.POSITIVE_INFINITY;
 
 		// Train
-		Matrix.parallelize();
-		try {
-			for (int i = 0; i < maxIterationCount; ++i) {
-				// Compute A = sigmoid(Z) = sigmoid(W X + b)
-				A = estimate(X); // (1 x m)
+		for (int i = 0; i < maxIterationCount; ++i) {
+			// Compute A = sigmoid(Z) = sigmoid(W X + b)
+			A = estimate(X); // (1 x m)
 
-				// Test the convergence
-				if (i % convergenceTestFrequency == 0) {
-					// - Compute the cost
-					final double cost = computeCost();
-					final double delta = Maths.delta(j, cost);
-					j = cost;
+			// Test the convergence
+			if (i % convergenceTestFrequency == 0) {
+				// - Compute the cost
+				final double cost = computeCost();
+				final double delta = Maths.delta(j, cost);
+				j = cost;
 
-					// - Test whether the tolerance level is reached
-					if (delta <= tolerance || j <= tolerance) {
-						IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
-						return i;
-					}
+				// - Test whether the tolerance level is reached
+				if (delta <= tolerance || j <= tolerance) {
+					IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
+					return i;
 				}
-
-				// Compute the derivatives
-				final Entity dZT = A.minus(Y).transpose(); // (m x 1)
-				final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
-				final Scalar db = dZT.mean().toScalar();
-
-				// Update the weights and bias
-				W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
-				b.subtract(db.multiply(learningRate)).toScalar();
 			}
-		} finally {
-			Matrix.unparallelize();
+
+			// Compute the derivatives
+			final Entity dZT = A.minus(Y).transpose(); // (m x 1)
+			final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
+			final Scalar db = dZT.mean().toScalar();
+
+			// Update the weights and bias
+			W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
+			b.subtract(db.multiply(learningRate)).toScalar();
 		}
 		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", j, " cost");
 		return maxIterationCount;

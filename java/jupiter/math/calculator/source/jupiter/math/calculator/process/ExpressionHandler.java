@@ -101,7 +101,7 @@ public class ExpressionHandler {
 				WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
 						new Parser());
 			} else {
-				IO.warn("The work queue ", WORK_QUEUE, " has already started");
+				IO.debug("The work queue ", WORK_QUEUE, " has already started");
 			}
 		}
 	}

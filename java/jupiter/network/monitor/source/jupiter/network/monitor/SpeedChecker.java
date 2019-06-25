@@ -135,7 +135,7 @@ public class SpeedChecker {
 			if (WORK_QUEUE == null) {
 				WORK_QUEUE = new LockedWorkQueue<String, Report<Double>>(new Checker());
 			} else {
-				IO.warn("The work queue ", WORK_QUEUE, " has already started");
+				IO.debug("The work queue ", WORK_QUEUE, " has already started");
 			}
 		}
 	}
