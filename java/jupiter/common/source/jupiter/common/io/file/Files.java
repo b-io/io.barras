@@ -522,7 +522,7 @@ public class Files {
 			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
 			PARALLELIZE = true;
 		} else {
-			IO.warn("The copier queue ", COPIER_QUEUE, " has already started");
+			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
 		}
 	}
 
