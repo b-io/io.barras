@@ -511,24 +511,6 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code boolean} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code boolean} values
-	 * <p>
-	 * @return a clone of the specified array of {@code boolean} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static boolean[] clone(final boolean... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code boolean} value.
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code boolean} value
@@ -806,24 +788,42 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code boolean} values.
+	 * Returns a clone of the specified array of {@code boolean} values, or {@code null} if
+	 * {@code array} is {@code null}.
 	 * <p>
 	 * @param array an array of {@code boolean} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code boolean} values
+	 * @return a clone of the specified array of {@code boolean} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static boolean[] clone(final boolean... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified array of {@code boolean} values.
+	 * <p>
+	 * @param array an array of {@code boolean} values
+	 * <p>
+	 * @return a representative {@link String} of the specified array of {@code boolean} values
 	 */
 	public static String toString(final boolean... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code boolean} values
+	 * Returns a representative {@link String} of the specified array of {@code boolean} values
 	 * joined by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code boolean} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code boolean} values
+	 * @return a representative {@link String} of the specified array of {@code boolean} values
 	 *         joined by {@code delimiter}
 	 */
 	public static String toString(final boolean[] array, final String delimiter) {
@@ -831,14 +831,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code boolean} values
+	 * Returns a representative {@link String} of the specified array of {@code boolean} values
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code boolean} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code boolean} values
+	 * @return a representative {@link String} of the specified array of {@code boolean} values
 	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final boolean[] array, final String delimiter,
@@ -849,24 +849,24 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Boolean}.
+	 * Returns a representative {@link String} of the specified array of {@link Boolean}.
 	 * <p>
 	 * @param array an array of {@link Boolean}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Boolean}
+	 * @return a representative {@link String} of the specified array of {@link Boolean}
 	 */
 	public static String toString(final Boolean... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Boolean} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Boolean} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Boolean}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Boolean} joined by
+	 * @return a representative {@link String} of the specified array of {@link Boolean} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Boolean[] array, final String delimiter) {
@@ -874,14 +874,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Boolean} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Boolean} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Boolean}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Boolean} joined by
+	 * @return a representative {@link String} of the specified array of {@link Boolean} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Boolean[] array, final String delimiter,

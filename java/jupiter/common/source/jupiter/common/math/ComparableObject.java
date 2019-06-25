@@ -43,12 +43,12 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	 * zero or a positive integer as {@code this} is less than, equal to or greater than
 	 * {@code comparableObject}.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param comparableObject the {@code T} object to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code comparableObject}
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
 	 */
@@ -57,12 +57,12 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is less than {@code comparableObject}.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param comparableObject the {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code comparableObject}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
 	 */
@@ -73,12 +73,12 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is less or equal to {@code comparableObject}.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param comparableObject the {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code comparableObject},
 	 *         {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
 	 */
@@ -89,12 +89,12 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is greater than {@code comparableObject}.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param comparableObject the {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code comparableObject}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
 	 */
@@ -105,12 +105,12 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is greater or equal to {@code comparableObject}.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param comparableObject the {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code comparableObject},
 	 *         {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
 	 */
@@ -124,12 +124,12 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	 * Returns the smaller of {@code this} and {@code comparableObject}, or {@code this} if they are
 	 * equal.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param comparableObject the {@code T} object to compare against
 	 * <p>
 	 * @return the smaller of {@code this} and {@code comparableObject}, or {@code this} if they are
 	 *         equal
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
 	 */
@@ -141,12 +141,12 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	 * Returns the larger of {@code this} and {@code comparableObject}, or {@code this} if they are
 	 * equal.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param comparableObject the {@code T} object to compare against
 	 * <p>
 	 * @return the larger of {@code this} and {@code comparableObject}, or {@code this} if they are
 	 *         equal
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
 	 */
@@ -162,13 +162,15 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@link Object} to compare with for equality
+	 * @param other the {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -185,11 +187,11 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	/**
 	 * Compares {@code this} with {@code comparableObject} for equivalence.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with for equality
+	 * @param comparableObject the {@code T} object to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code comparableObject}, {@code false}
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
+	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
 	 */

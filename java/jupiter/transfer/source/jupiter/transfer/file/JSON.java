@@ -37,11 +37,12 @@ public class JSON {
 	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
 
 	/**
-	 * Returns a JSON {@link String} representation of the fields of the specified content.
+	 * Returns a JSON representative {@link String} of the fields of the specified content.
 	 * <p>
-	 * @param content the {@link Object} containing the fields to represent as a JSON {@link String}
+	 * @param content the content {@link Object} containing the fields to represent as a JSON
+	 *                {@link String}
 	 * <p>
-	 * @return a JSON {@link String} representation of the fields of the specified content
+	 * @return a JSON representative {@link String} of the fields of the specified content
 	 */
 	public static String jsonify(final Object content) {
 		final StringBuilder builder = Strings.createBuilder();
@@ -64,12 +65,12 @@ public class JSON {
 	}
 
 	/**
-	 * Returns a JSON {@link String} representation of the specified key-value mapping.
+	 * Returns a JSON representative {@link String} of the specified key-value mapping.
 	 * <p>
 	 * @param key   the key of the key-value mapping to represent as a JSON {@link String}
 	 * @param value the value of the key-value mapping to represent as a JSON {@link String}
 	 * <p>
-	 * @return a JSON {@link String} representation of the specified key-value mapping
+	 * @return a JSON representative {@link String} of the specified key-value mapping
 	 */
 	public static String jsonify(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
@@ -80,23 +81,25 @@ public class JSON {
 	}
 
 	/**
-	 * Returns a JSON entry {@link String} representation of the specified value.
+	 * Returns a JSON entry representative {@link String} of the specified value.
 	 * <p>
 	 * @param value the value to represent as a JSON entry {@link String}
 	 * <p>
-	 * @return a JSON entry {@link String} representation of the specified value
+	 * @return a JSON entry representative {@link String} of the specified value
 	 */
 	public static String jsonifyNode(final Object value) {
 		return jsonifyNode(null, value);
 	}
 
 	/**
-	 * Returns a JSON entry {@link String} representation of the specified key-value mapping.
+	 * Returns a JSON entry representative {@link String} of the specified key-value mapping.
 	 * <p>
-	 * @param key   the key of the key-value mapping to represent as a JSON entry {@link String}
-	 * @param value the value of the key-value mapping to represent as a JSON entry {@link String}
+	 * @param key   the {@link String} key of the key-value mapping to represent as a JSON entry
+	 *              {@link String}
+	 * @param value the {@link Object} value of the key-value mapping to represent as a JSON entry
+	 *              {@link String}
 	 * <p>
-	 * @return a JSON entry {@link String} representation of the specified key-value mapping
+	 * @return a JSON entry representative {@link String} of the specified key-value mapping
 	 */
 	public static String jsonifyNode(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();

@@ -48,11 +48,11 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The key.
+	 * The key of type {@code K}.
 	 */
 	public K key;
 	/**
-	 * The value.
+	 * The value of type {@code V}.
 	 */
 	public V value;
 
@@ -64,8 +64,8 @@ public class TreeNode<K extends Comparable<K>, V>
 	/**
 	 * Constructs a {@link TreeNode} with the specified key and value.
 	 * <p>
-	 * @param key   the key of the node
-	 * @param value the value of the node
+	 * @param key   a key of type {@code K}
+	 * @param value a value of type {@code V}
 	 */
 	public TreeNode(final K key, final V value) {
 		// Check the arguments
@@ -82,18 +82,18 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the key.
+	 * Returns the key of type {@code K}.
 	 * <p>
-	 * @return the key
+	 * @return the key of type {@code K}
 	 */
 	public K getKey() {
 		return key;
 	}
 
 	/**
-	 * Returns the value associated with the key.
+	 * Returns the value of type {@code V}.
 	 * <p>
-	 * @return the value associated with the key
+	 * @return the value of type {@code V}
 	 */
 	public V getValue() {
 		return value;
@@ -102,11 +102,11 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the value associated with the key and returns the previous associated value.
+	 * Sets the value and returns the previous associated value of type {@code V}.
 	 * <p>
 	 * @param value a {@code V} object
 	 * <p>
-	 * @return the previous associated value
+	 * @return the previous associated value of type {@code V}
 	 */
 	public V setValue(final V value) {
 		final V previousValue = this.value;
@@ -119,6 +119,18 @@ public class TreeNode<K extends Comparable<K>, V>
 	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Compares {@code this} with {@code entry} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code entry}.
+	 * <p>
+	 * @param entry the {@link java.util.Map.Entry} of type {@code K} and {@code V} to compare
+	 *              against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
+	 *         or greater than {@code entry}
+	 * <p>
+	 * @throws NullPointerException if {@code entry} is {@code null}
+	 */
 	public int compareTo(final Entry<K, V> entry) {
 		return key.compareTo(entry.getKey());
 	}
@@ -128,6 +140,19 @@ public class TreeNode<K extends Comparable<K>, V>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
@@ -140,11 +165,24 @@ public class TreeNode<K extends Comparable<K>, V>
 		return Objects.equals(key, entry.getKey()) && Objects.equals(value, entry.getValue());
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, key, value);
 	}
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Strings.bracketize(key + " => " + value);

@@ -71,22 +71,22 @@ public class Tests {
 		printMinMaxInterval(Maths.minToDouble(values), Maths.maxToDouble(values));
 	}
 
-	public static <T extends Number> void printValues(final String label, final T... times) {
-		final double mean = Statistics.getMean(times);
-		final double stddev = Statistics.getSampleStandardDeviationWith(times, mean);
-		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.length,
+	public static <T extends Number> void printValues(final String label, final T... values) {
+		final double mean = Statistics.getMean(values);
+		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
+		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.length,
 				mean, stddev);
 		printAverageValue(label, mean, confidenceInterval);
-		printMinMaxInterval(Maths.getMin(times), Maths.getMax(times));
+		printMinMaxInterval(Maths.getMin(values), Maths.getMax(values));
 	}
 
-	public static void printValues(final String label, final Collection<Long> times) {
-		final double mean = Statistics.getMean(times);
-		final double stddev = Statistics.getSampleStandardDeviationWith(times, mean);
-		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(times.size(),
+	public static void printValues(final String label, final Collection<Long> values) {
+		final double mean = Statistics.getMean(values);
+		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
+		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.size(),
 				mean, stddev);
 		printAverageValue(label, mean, confidenceInterval);
-		printMinMaxInterval(Maths.getMin(times), Maths.getMax(times));
+		printMinMaxInterval(Maths.getMin(values), Maths.getMax(values));
 	}
 
 	protected static void printAverageValue(final String label, final double mean,

@@ -445,7 +445,7 @@ public class JConsole
 			outPipe.write(line.getBytes(DEFAULT_CHARSET.name()));
 			outPipe.flush();
 		} catch (final IOException ex) {
-			throw new RuntimeException("Unable to write in the console" + IO.appendException(ex));
+			throw new RuntimeException("Unable to write in the console" + Strings.append(ex));
 		}
 		// textPane.repaint();
 	}
@@ -815,6 +815,11 @@ public class JConsole
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return getClass().getSimpleName();
@@ -847,16 +852,18 @@ public class JConsole
 			if (isClosed) {
 				throw new IOException("No console input stream");
 			}
+
 			// While there is no data
 			while (!isClosed && super.in < 0) {
-				// Notify any writers to wake up
+				// Notify all the writers
 				notifyAll();
 				try {
 					wait(750);
 				} catch (final InterruptedException ex) {
-					throw new InterruptedIOException(ex.getMessage());
+					throw new InterruptedIOException(Strings.toString(ex));
 				}
 			}
+
 			// This is what the superclass does
 			final int nextByte = buffer[super.out++] & 0xFF;
 			if (super.out >= buffer.length) {

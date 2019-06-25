@@ -25,11 +25,12 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Triple<T1, T2, T3>
-		implements Serializable {
+		implements ICloneable<Triple<T1, T2, T3>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -139,6 +140,22 @@ public class Triple<T1, T2, T3>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public Triple<T1, T2, T3> clone() {
+		try {
+			final Triple<T1, T2, T3> clone = (Triple<T1, T2, T3>) super.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			clone.third = Objects.clone(third);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -152,11 +169,26 @@ public class Triple<T1, T2, T3>
 				Objects.equals(third, otherTriple.third);
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Arrays.toString(first, second, third);

@@ -258,6 +258,9 @@ public class NeuralNetwork
 			return 0;
 		}
 
+		// Parallelize
+		Matrix.parallelize();
+
 		// Initialize
 		final int layerCount = hiddenLayerCount + 1; // L
 		// - The weight matrices
@@ -342,7 +345,7 @@ public class NeuralNetwork
 						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
 				final Vector db = dZT.mean().toVector();
 
-				// - Update the weights and the bias
+				// - Update the weights and bias
 				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)
 				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (1 x 1)
 			}

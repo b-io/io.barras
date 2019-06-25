@@ -290,22 +290,22 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Date}.
+	 * Returns a representative {@link String} of the specified {@link Date}.
 	 * <p>
 	 * @param date the {@link Date} to format
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Date}
+	 * @return a representative {@link String} of the specified {@link Date}
 	 */
 	public static String format(final Date date) {
 		return DATE_FORMATTER.format(date);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified {@link Date} with time.
+	 * Returns a representative {@link String} of the specified {@link Date} with time.
 	 * <p>
 	 * @param date the {@link Date} to format
 	 * <p>
-	 * @return a {@link String} representation of the specified {@link Date} with time
+	 * @return a representative {@link String} of the specified {@link Date} with time
 	 */
 	public static String formatWithTime(final Date date) {
 		return DATE_TIME_FORMATTER.format(date);

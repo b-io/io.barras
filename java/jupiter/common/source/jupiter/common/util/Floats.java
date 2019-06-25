@@ -532,24 +532,6 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code float} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code float} values
-	 * <p>
-	 * @return a clone of the specified array of {@code float} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static float[] clone(final float... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
 	 * {@code 1f}.
 	 * <p>
@@ -665,11 +647,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} percentage representation of the specified value.
+	 * Returns the percentage representative {@link String} of the specified value.
 	 * <p>
 	 * @param value a {@code float} value
 	 * <p>
-	 * @return a {@link String} percentage representation of the specified value
+	 * @return the percentage representative {@link String} of the specified value
 	 */
 	public static String toPercentage(final float value) {
 		return value * 100f + "%";
@@ -955,8 +937,8 @@ public class Floats {
 	 * Compares the specified values for order. Returns a negative integer, zero or a positive
 	 * integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a a {@code float} value
-	 * @param b another {@code float} value to compare with for order
+	 * @param a the {@code float} value to compare for order
+	 * @param b the other {@code float} value to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
@@ -982,10 +964,28 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns a clone of the specified array of {@code float} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code float} values
+	 * <p>
+	 * @return a clone of the specified array of {@code float} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static float[] clone(final float... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
-	 * @param a a {@code float} value
-	 * @param b another {@code float} value to compare with {@code a} for equality
+	 * @param a the {@code float} value to compare for equality
+	 * @param b the other {@code float} value to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
@@ -996,8 +996,8 @@ public class Floats {
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within the specified tolerance level.
 	 * <p>
-	 * @param a         a {@code float} value
-	 * @param b         another {@code float} value to compare with {@code a} for equality
+	 * @param a         the {@code float} value to compare for equality
+	 * @param b         the other {@code float} value to compare against for equality
 	 * @param tolerance the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within the specified tolerance level,
@@ -1010,24 +1010,24 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code float} values.
+	 * Returns a representative {@link String} of the specified array of {@code float} values.
 	 * <p>
 	 * @param array an array of {@code float} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code float} values
+	 * @return a representative {@link String} of the specified array of {@code float} values
 	 */
 	public static String toString(final float... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code float} values joined
+	 * Returns a representative {@link String} of the specified array of {@code float} values joined
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code float} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code float} values joined
+	 * @return a representative {@link String} of the specified array of {@code float} values joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final float[] array, final String delimiter) {
@@ -1035,14 +1035,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code float} values joined
+	 * Returns a representative {@link String} of the specified array of {@code float} values joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code float} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code float} values joined
+	 * @return a representative {@link String} of the specified array of {@code float} values joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final float[] array, final String delimiter,
@@ -1053,24 +1053,24 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Float}.
+	 * Returns a representative {@link String} of the specified array of {@link Float}.
 	 * <p>
 	 * @param array an array of {@link Float}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Float}
+	 * @return a representative {@link String} of the specified array of {@link Float}
 	 */
 	public static String toString(final Float... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Float} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Float} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Float}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Float} joined by
+	 * @return a representative {@link String} of the specified array of {@link Float} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Float[] array, final String delimiter) {
@@ -1078,14 +1078,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Float} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Float} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Float}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Float} joined by
+	 * @return a representative {@link String} of the specified array of {@link Float} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Float[] array, final String delimiter,

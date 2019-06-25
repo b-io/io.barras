@@ -46,7 +46,7 @@ public class ArrayArguments
 		}
 	}
 
-	public static <T> T[] requireNonEmpty(final T... array) {
+	public static <T> T[] requireNonEmpty(final T[] array) {
 		if (CHECK_ARGS) {
 			requireNonEmpty(requireNonNull(array).length);
 		}

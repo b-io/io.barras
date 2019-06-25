@@ -162,12 +162,24 @@ public class SortedList<T extends Comparable<T>>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public SortedList<T> clone() {
 		return (SortedList<T>) super.clone();
 	}
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Collections.toString(this);

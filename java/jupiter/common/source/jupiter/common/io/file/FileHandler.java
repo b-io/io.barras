@@ -45,8 +45,17 @@ public class FileHandler {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link File} to handle.
+	 */
 	protected final File file;
+	/**
+	 * The {@link Charset} of the {@link File} to handle.
+	 */
 	protected final Charset charset;
+	/**
+	 * The {@link BufferedWriter} of the {@link File} to handle.
+	 */
 	protected BufferedWriter writer;
 
 
@@ -75,18 +84,18 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the path.
+	 * Returns the {@link String} path.
 	 * <p>
-	 * @return the path
+	 * @return the {@link String} path
 	 */
 	public String getPath() {
 		return Files.getPath(file);
 	}
 
 	/**
-	 * Returns the canonical path.
+	 * Returns the {@link String} canonical path.
 	 * <p>
-	 * @return the canonical path
+	 * @return the {@link String} canonical path
 	 * <p>
 	 * @throws IOException       if there is a problem querying the file system
 	 * @throws SecurityException if there is a permission problem
@@ -97,9 +106,9 @@ public class FileHandler {
 	}
 
 	/**
-	 * Returns the name.
+	 * Returns the {@link String} name.
 	 * <p>
-	 * @return the name
+	 * @return the {@link String} name
 	 */
 	public String getName() {
 		return file.getName();
@@ -266,8 +275,7 @@ public class FileHandler {
 			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -284,7 +292,7 @@ public class FileHandler {
 	/**
 	 * Closes the writer.
 	 * <p>
-	 * @param message the warning message to print if closed
+	 * @param message the warning message {@link String} to print if closed
 	 */
 	public void closeWriter(final String message) {
 		Resources.close(writer, message);

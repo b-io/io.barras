@@ -60,7 +60,7 @@ public class Scalar
 	/**
 	 * The flag specifying whether {@code this} is read-only.
 	 */
-	protected final boolean readOnly;
+	protected final boolean isReadOnly;
 
 	/**
 	 * The value.
@@ -78,18 +78,18 @@ public class Scalar
 
 	public Scalar(final double value) {
 		this.value = value;
-		readOnly = false;
+		isReadOnly = false;
 	}
 
 	//////////////////////////////////////////////
 
-	public Scalar(final boolean readOnly) {
-		this(0., readOnly);
+	public Scalar(final boolean isReadOnly) {
+		this(0., isReadOnly);
 	}
 
-	public Scalar(final double value, final boolean readOnly) {
+	public Scalar(final double value, final boolean isReadOnly) {
 		this.value = value;
-		this.readOnly = readOnly;
+		this.isReadOnly = isReadOnly;
 	}
 
 
@@ -134,7 +134,7 @@ public class Scalar
 	 * @param value a {@code double} value
 	 */
 	public void set(final double value) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			this.value = value;
 		} else {
 			throw new IllegalOperationException(
@@ -242,11 +242,11 @@ public class Scalar
 	/**
 	 * Fills {@code this} with the specified value.
 	 * <p>
-	 * @param value the value to fill with
+	 * @param value the {@code double} value to fill with
 	 */
 	@Override
 	public void fill(final double value) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			this.value = value;
 		} else {
 			throw new IllegalOperationException(
@@ -321,7 +321,7 @@ public class Scalar
 	/**
 	 * Returns the addition of the specified {@link Matrix} to {@code this}.
 	 * <p>
-	 * @param matrix a {@code Matrix}
+	 * @param matrix a {@link Matrix}
 	 * <p>
 	 * @return {@code this + matrix}
 	 */
@@ -341,7 +341,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar add(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value += scalar;
 		} else {
 			throw new IllegalOperationException(
@@ -410,7 +410,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar subtract(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value -= scalar;
 		} else {
 			throw new IllegalOperationException(
@@ -422,7 +422,7 @@ public class Scalar
 	/**
 	 * Subtracts the specified {@link Matrix} from {@code this}.
 	 * <p>
-	 * @param matrix a {@code Matrix}
+	 * @param matrix a {@link Matrix}
 	 * <p>
 	 * @return {@code this -= matrix}
 	 */
@@ -486,7 +486,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar multiply(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value *= scalar;
 		} else {
 			throw new IllegalOperationException(
@@ -562,7 +562,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar divide(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value /= scalar;
 		} else {
 			throw new IllegalOperationException(
@@ -634,7 +634,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar arrayRaise(final double scalar) {
-		if (!readOnly) {
+		if (!isReadOnly) {
 			value = Math.pow(value, scalar);
 		} else {
 			throw new IllegalOperationException(
@@ -706,10 +706,19 @@ public class Scalar
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public Scalar clone() {
 		return new Scalar(value);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public boolean equals(final Object other) {
@@ -727,11 +736,27 @@ public class Scalar
 		return Doubles.equals(value, ((Scalar) other).value, tolerance);
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, value);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return toString(MIN_NUMBER_LENGTH);

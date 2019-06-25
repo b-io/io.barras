@@ -32,6 +32,16 @@ public abstract class ObjectToLongMapper
 		extends ObjectMapper<Long> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,10 +68,6 @@ public abstract class ObjectToLongMapper
 		return result;
 	}
 
-	public <I> long[] callAsPrimitiveArray(final I... input) {
-		return callToPrimitiveArray(input);
-	}
-
 	public <I> long[] callToPrimitiveArray(final I[][] input2D) {
 		final int n = input2D[0].length;
 		final long[] result = new long[input2D.length * n];
@@ -71,10 +77,6 @@ public abstract class ObjectToLongMapper
 			}
 		}
 		return result;
-	}
-
-	public <I> long[] callAsPrimitiveArray(final I[]... input2D) {
-		return callToPrimitiveArray(input2D);
 	}
 
 	public <I> long[] callToPrimitiveArray(final I[][][] input3D) {
@@ -91,10 +93,6 @@ public abstract class ObjectToLongMapper
 		return result;
 	}
 
-	public <I> long[] callAsPrimitiveArray(final I[][]... input3D) {
-		return callToPrimitiveArray(input3D);
-	}
-
 	//////////////////////////////////////////////
 
 	public <I> long[][] callToPrimitiveArray2D(final I[][] input2D) {
@@ -105,10 +103,6 @@ public abstract class ObjectToLongMapper
 		return result;
 	}
 
-	public <I> long[][] callAsPrimitiveArray2D(final I[]... input2D) {
-		return callToPrimitiveArray2D(input2D);
-	}
-
 	//////////////////////////////////////////////
 
 	public <I> long[][][] callToPrimitiveArray3D(final I[][][] input3D) {
@@ -117,10 +111,6 @@ public abstract class ObjectToLongMapper
 			result[i] = callToPrimitiveArray2D(input3D[i]);
 		}
 		return result;
-	}
-
-	public <I> long[][][] callAsPrimitiveArray3D(final I[][]... input3D) {
-		return callToPrimitiveArray3D(input3D);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -71,7 +71,7 @@ public class StringTable
 	}
 
 	/**
-	 * Constructs a {@link StringTable} from the specified elements.
+	 * Constructs a {@link StringTable} of the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link String}
 	 */
@@ -80,7 +80,7 @@ public class StringTable
 	}
 
 	/**
-	 * Constructs a {@link StringTable} from the specified header and elements.
+	 * Constructs a {@link StringTable} of the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link String}
@@ -158,6 +158,13 @@ public class StringTable
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public StringTable clone() {
 		return new StringTable(header, elements);

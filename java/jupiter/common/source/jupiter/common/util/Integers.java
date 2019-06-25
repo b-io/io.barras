@@ -552,24 +552,6 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code int} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code int} values
-	 * <p>
-	 * @return a clone of the specified array of {@code int} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static int[] clone(final int... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code int} value.
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code int} value
@@ -960,8 +942,8 @@ public class Integers {
 	 * Compares the specified values for order. Returns a negative integer, zero or a positive
 	 * integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a an {@code int} value
-	 * @param b another {@code int} value to compare with for order
+	 * @param a the {@code int} value to compare for order
+	 * @param b the other {@code int} value to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
@@ -976,24 +958,42 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code int} values.
+	 * Returns a clone of the specified array of {@code int} values, or {@code null} if
+	 * {@code array} is {@code null}.
 	 * <p>
 	 * @param array an array of {@code int} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code int} values
+	 * @return a clone of the specified array of {@code int} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static int[] clone(final int... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified array of {@code int} values.
+	 * <p>
+	 * @param array an array of {@code int} values
+	 * <p>
+	 * @return a representative {@link String} of the specified array of {@code int} values
 	 */
 	public static String toString(final int... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code int} values joined
+	 * Returns a representative {@link String} of the specified array of {@code int} values joined
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code int} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code int} values joined
+	 * @return a representative {@link String} of the specified array of {@code int} values joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final int[] array, final String delimiter) {
@@ -1001,14 +1001,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code int} values joined
+	 * Returns a representative {@link String} of the specified array of {@code int} values joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code int} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code int} values joined
+	 * @return a representative {@link String} of the specified array of {@code int} values joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final int[] array, final String delimiter,
@@ -1019,24 +1019,24 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Integer}.
+	 * Returns a representative {@link String} of the specified array of {@link Integer}.
 	 * <p>
 	 * @param array an array of {@link Integer}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Integer}
+	 * @return a representative {@link String} of the specified array of {@link Integer}
 	 */
 	public static String toString(final Integer... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Integer} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Integer} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Integer}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Integer} joined by
+	 * @return a representative {@link String} of the specified array of {@link Integer} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Integer[] array, final String delimiter) {
@@ -1044,14 +1044,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Integer} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Integer} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Integer}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Integer} joined by
+	 * @return a representative {@link String} of the specified array of {@link Integer} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Integer[] array, final String delimiter,

@@ -284,8 +284,7 @@ public class Files {
 		try {
 			return IO.read(new FileInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -319,8 +318,7 @@ public class Files {
 		try {
 			return IO.read(new ZipInputStream(new FileInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -354,8 +352,7 @@ public class Files {
 		try {
 			return IO.read(new GZIPInputStream(new FileInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -417,8 +414,7 @@ public class Files {
 		try {
 			return IO.countLines(new FileInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -469,7 +465,7 @@ public class Files {
 	/**
 	 * Writes the specified {@link String} to the specified {@link File}.
 	 * <p>
-	 * @param content the {@link String} to write
+	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * <p>
 	 * @return {@code true} if the specified {@link String} is written to the specified
@@ -482,7 +478,7 @@ public class Files {
 	/**
 	 * Writes or appends the specified {@link String} to the specified {@link File}.
 	 * <p>
-	 * @param content the {@link String} to write
+	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * @param append  the flag specifying whether to append
 	 * @param charset the {@link Charset} of the {@link File} to write to
@@ -495,14 +491,13 @@ public class Files {
 		boolean isWritten = false;
 		BufferedWriter writer = null;
 		try {
-			// Create a new file writer
+			// Create a file writer
 			writer = IO.createWriter(new FileOutputStream(file, append), charset);
 			// Write or append the content to the file
 			writer.write(content + NEWLINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file),
-					IO.appendException(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
@@ -778,6 +773,20 @@ public class Files {
 
 	/**
 	 * Returns the {@link List} of {@link File} contained in the specified directory and matching
+	 * the specified pattern {@link String}.
+	 * <p>
+	 * @param dir     a {@link File}
+	 * @param pattern a pattern {@link String}
+	 * <p>
+	 * @return the {@link List} of {@link File} contained in the specified directory and matching
+	 *         the specified pattern {@link String}
+	 */
+	public static List<File> listAll(final File dir, final String pattern) {
+		return listAll(dir, Pattern.compile(pattern));
+	}
+
+	/**
+	 * Returns the {@link List} of {@link File} contained in the specified directory and matching
 	 * the specified {@link Pattern}.
 	 * <p>
 	 * @param dir     a {@link File}
@@ -987,6 +996,11 @@ public class Files {
 	protected static class Copier
 			extends Worker<Triple<File, File, Boolean>, Boolean> {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
 		protected Copier() {
 			super();
 		}
@@ -1001,8 +1015,15 @@ public class Files {
 			return true;
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see jupiter.common.model.ICloneable
+		 */
 		@Override
-		public Worker<Triple<File, File, Boolean>, Boolean> clone() {
+		public Copier clone() {
 			return new Copier();
 		}
 	}

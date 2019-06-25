@@ -25,11 +25,12 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Pair<T1, T2>
-		implements Serializable {
+		implements ICloneable<Pair<T1, T2>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -116,6 +117,21 @@ public class Pair<T1, T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public Pair<T1, T2> clone() {
+		try {
+			final Pair<T1, T2> clone = (Pair<T1, T2>) super.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new AssertionError(ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
@@ -127,11 +143,26 @@ public class Pair<T1, T2>
 		return Objects.equals(first, otherPair.first) && Objects.equals(second, otherPair.second);
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Arrays.toString(first, second);

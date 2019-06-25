@@ -103,7 +103,7 @@ public class NumberTable<T extends Number>
 	/**
 	 * Constructs a {@link NumberTable} of type {@code T} imported from the specified file.
 	 * <p>
-	 * @param parser    a {@link IParser} of type {@code T}
+	 * @param parser    an {@link IParser} of type {@code T}
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -150,16 +150,52 @@ public class NumberTable<T extends Number>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public NumberTable<T> clone() {
 		return new NumberTable<T>(c, header, elements);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		return equals(other, Maths.DEFAULT_TOLERANCE);
 	}
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other} with the specified tolerance level.
+	 * <p>
+	 * @param other     the {@link Object} to compare against for equality
+	 * @param tolerance the tolerance level
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	public boolean equals(final Object other, final double tolerance) {
 		if (this == other) {
 			return true;
@@ -187,6 +223,14 @@ public class NumberTable<T extends Number>
 		return true;
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, elements);

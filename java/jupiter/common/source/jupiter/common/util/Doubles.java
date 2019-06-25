@@ -520,24 +520,6 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code double} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code double} values
-	 * <p>
-	 * @return a clone of the specified array of {@code double} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static double[] clone(final double... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code double} value between {@code 0.} and
 	 * {@code 1.}.
 	 * <p>
@@ -653,11 +635,11 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} percentage representation of the specified value.
+	 * Returns the percentage representative {@link String} of the specified value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>
-	 * @return a {@link String} percentage representation of the specified value
+	 * @return the percentage representative {@link String} of the specified value
 	 */
 	public static String toPercentage(final double value) {
 		return DECIMAL_FORMAT.format(value * 100.) + "%";
@@ -943,8 +925,8 @@ public class Doubles {
 	 * Compares the specified values for order. Returns a negative integer, zero or a positive
 	 * integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b another {@code double} value to compare with for order
+	 * @param a the {@code double} value to compare for order
+	 * @param b the other {@code double} value to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
@@ -970,10 +952,28 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns a clone of the specified array of {@code double} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code double} values
+	 * <p>
+	 * @return a clone of the specified array of {@code double} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static double[] clone(final double... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b another {@code double} value to compare with {@code a} for equality
+	 * @param a the {@code double} value to compare for equality
+	 * @param b the other {@code double} value to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
@@ -984,8 +984,8 @@ public class Doubles {
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within the specified tolerance level.
 	 * <p>
-	 * @param a         a {@code double} value
-	 * @param b         another {@code double} value to compare with {@code a} for equality
+	 * @param a         the {@code double} value to compare for equality
+	 * @param b         the other {@code double} value to compare against for equality
 	 * @param tolerance the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within the specified tolerance level,
@@ -998,24 +998,24 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code double} values.
+	 * Returns a representative {@link String} of the specified array of {@code double} values.
 	 * <p>
 	 * @param array an array of {@code double} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code double} values
+	 * @return a representative {@link String} of the specified array of {@code double} values
 	 */
 	public static String toString(final double... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code double} values
+	 * Returns a representative {@link String} of the specified array of {@code double} values
 	 * joined by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code double} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code double} values
+	 * @return a representative {@link String} of the specified array of {@code double} values
 	 *         joined by {@code delimiter}
 	 */
 	public static String toString(final double[] array, final String delimiter) {
@@ -1023,14 +1023,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code double} values
+	 * Returns a representative {@link String} of the specified array of {@code double} values
 	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code double} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code double} values
+	 * @return a representative {@link String} of the specified array of {@code double} values
 	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final double[] array, final String delimiter,
@@ -1041,24 +1041,24 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Double}.
+	 * Returns a representative {@link String} of the specified array of {@link Double}.
 	 * <p>
 	 * @param array an array of {@link Double}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Double}
+	 * @return a representative {@link String} of the specified array of {@link Double}
 	 */
 	public static String toString(final Double... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Double} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Double} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Double}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Double} joined by
+	 * @return a representative {@link String} of the specified array of {@link Double} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Double[] array, final String delimiter) {
@@ -1066,14 +1066,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Double} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Double} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Double}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Double} joined by
+	 * @return a representative {@link String} of the specified array of {@link Double} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Double[] array, final String delimiter,

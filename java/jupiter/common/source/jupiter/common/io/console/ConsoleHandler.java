@@ -31,7 +31,6 @@ import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
 import jupiter.common.test.Arguments;
-import jupiter.common.thread.Worker;
 import jupiter.common.util.Characters;
 import jupiter.common.util.Strings;
 
@@ -41,6 +40,11 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The flag specifying whether to use colors.
@@ -53,7 +57,7 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The console to handle.
+	 * The {@link IConsole} to handle.
 	 */
 	protected IConsole console;
 
@@ -130,7 +134,7 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified content in the console.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
 	 */
@@ -150,7 +154,7 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified content in the console and then terminates the line.
 	 * <p>
-	 * @param content the {@link Object} to print
+	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
 	 */
@@ -207,8 +211,15 @@ public class ConsoleHandler
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
-	public Worker<Message, Integer> clone() {
+	public ConsoleHandler clone() {
 		return new ConsoleHandler(console);
 	}
 
@@ -241,9 +252,7 @@ public class ConsoleHandler
 		/**
 		 * The color intensity.
 		 * <p>
-		 * - 0: standard
-		 * - 1: light
-		 * - 2: dark
+		 * - 0: standard - 1: light - 2: dark
 		 */
 		public static volatile int INTENSITY = 0;
 
@@ -373,6 +382,11 @@ public class ConsoleHandler
 			}
 		}
 
+		/**
+		 * Returns a representative {@link String} of {@code this}.
+		 * <p>
+		 * @return a representative {@link String} of {@code this}
+		 */
 		@Override
 		public String toString() {
 			switch (this) {

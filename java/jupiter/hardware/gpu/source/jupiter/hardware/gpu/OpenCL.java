@@ -42,22 +42,28 @@ public abstract class OpenCL {
 	/**
 	 * The flag specifying whether OpenCL is active.
 	 */
-	public static volatile boolean ACTIVE = false;
+	public static volatile boolean IS_ACTIVE = false;
 
+	/**
+	 * The kernel prefix.
+	 */
 	protected static final String KERNEL_PREFIX = "__kernel void";
+	/**
+	 * The OpenCL program.
+	 */
 	protected static final String PROGRAM = "#pragma OPENCL EXTENSION cl_khr_fp64: enable" +
 			NEWLINE +
-			"__kernel void plus(__global const double* A, __global const double* B," +
+			KERNEL_PREFIX + " plus(__global const double* A, __global const double* B," +
 			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] + B[index];" +
 			"}" +
-			"__kernel void minus(__global const double* A, __global const double* B," +
+			KERNEL_PREFIX + " minus(__global const double* A, __global const double* B," +
 			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] - B[index];" +
 			"}" +
-			"__kernel void times(__global const double* A, __global const double* B," +
+			KERNEL_PREFIX + " times(__global const double* A, __global const double* B," +
 			"		__global double* C, const int aColumnDimension, const int bColumnDimension) {" +
 			"	const int index = get_global_id(0);" +
 			"	const int aRowOffset = (index / bColumnDimension) * aColumnDimension;" +
@@ -68,22 +74,22 @@ public abstract class OpenCL {
 			"	}" +
 			"	C[index] = sum;" +
 			"}" +
-			"__kernel void arrayTimes(__global const double* A, __global const double* B," +
+			KERNEL_PREFIX + " arrayTimes(__global const double* A, __global const double* B," +
 			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] * B[index];" +
 			"}" +
-			"__kernel void arrayDivision(__global const double* A, __global const double* B," +
+			KERNEL_PREFIX + " arrayDivision(__global const double* A, __global const double* B," +
 			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = A[index] / B[index];" +
 			"}" +
-			"__kernel void arrayLeftDivision(__global const double* A, __global const double* B," +
+			KERNEL_PREFIX + " arrayLeftDivision(__global const double* A, __global const double* B," +
 			"		__global double* C) {" +
 			"	const int index = get_global_id(0);" +
 			"	C[index] = B[index] / A[index];" +
 			"}" +
-			"__kernel void forward(__global const double* A, __global const double* B," +
+			KERNEL_PREFIX + " forward(__global const double* A, __global const double* B," +
 			"		__global double* C, __global double* D, const int aColumnDimension," +
 			"		const int bColumnDimension, const int cColumnDimension) {" +
 			"	const int index = get_global_id(0);" +
@@ -98,11 +104,11 @@ public abstract class OpenCL {
 	public static volatile OpenCL CL = null;
 
 	static {
-		if (ACTIVE) {
+		if (IS_ACTIVE) {
 			try {
 				CL = new JOCL(PROGRAM);
 			} catch (final IllegalStateException ex) {
-				ACTIVE = false;
+				IS_ACTIVE = false;
 				IO.error(ex);
 			}
 		}
@@ -116,7 +122,7 @@ public abstract class OpenCL {
 	/**
 	 * The flag specifying whether {@code this} is active.
 	 */
-	protected volatile boolean active;
+	protected volatile boolean isActive;
 
 	protected final String sourceCode;
 	protected final List<String> kernelNames = new LinkedList<String>();
@@ -127,7 +133,7 @@ public abstract class OpenCL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected OpenCL(final String sourceCode) {
-		if (!ACTIVE) {
+		if (!IS_ACTIVE) {
 			throw new IllegalStateException("OpenCL is not active");
 		}
 
@@ -150,7 +156,7 @@ public abstract class OpenCL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public boolean isActive() {
-		return active;
+		return isActive;
 	}
 
 	public String getSourceCode() {
@@ -178,8 +184,8 @@ public abstract class OpenCL {
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void setActive(final boolean active) {
-		this.active = active;
+	public void setActive(final boolean isActive) {
+		this.isActive = isActive;
 	}
 
 
@@ -228,6 +234,7 @@ public abstract class OpenCL {
 	 * <p>
 	 * @return {@code A . B + C}
 	 */
+	// @todo chunk the matrices so that they fit into the local memory of the GPU
 	public abstract double[] forward(final double[] A, final double[] B, final double[] C,
 			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension);
 
@@ -238,7 +245,7 @@ public abstract class OpenCL {
 
 	public boolean test(final int rowDimension, final int innerDimension,
 			final int columnDimension) {
-		return active && Maths.maxToInt(rowDimension * innerDimension,
+		return isActive && Maths.maxToInt(rowDimension * innerDimension,
 				rowDimension * columnDimension, innerDimension * columnDimension) > 1E5;
 	}
 
@@ -260,6 +267,13 @@ public abstract class OpenCL {
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return getClass().getSimpleName();

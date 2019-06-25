@@ -21,50 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.linear.jni;
+package jupiter.common.struct.tuple;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.VERSION;
 
-import jupiter.common.util.Doubles;
+import jupiter.common.test.Test;
 
-public class MatrixOperations {
+public class PairTest
+		extends Test {
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static final boolean ACTIVE = false;
-
-	static {
-		if (ACTIVE) {
-			System.loadLibrary("jni-" + VERSION);
-		}
+	public PairTest(String name) {
+		super(name);
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected MatrixOperations() {
-	}
+	/**
+	 * Test of clone method, of class Pair.
+	 */
+	public void testClone() {
+		IO.test("clone");
 
+		final String[] header = new String[] {"a"};
+		final Integer[] values = new Integer[] {42};
+		final Pair<String[], Integer[]> pair = new Pair<String[], Integer[]>(header, values);
+		assertEquals("a", pair.getFirst()[0]);
+		assertEquals(new Integer(42), pair.getSecond()[0]);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static native double[] dot(final double[] A, final double[] B,
-			final int aColumnDimension, final int bColumnDimension);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static void main(final String[] args) {
-		final double[] A = new double[] {1., 2., 3., 4., 5., 6.};
-		final double[] B = new double[] {1., 2., 3., 4.};
-		for (int i = 0; i < 100; ++i) {
-			IO.result(Doubles.toString(dot(A, B, 2, 2)));
-		}
+		final Pair<String[], Integer[]> clone = pair.clone();
+		clone.getFirst()[0] = "b";
+		assertEquals("a", pair.getFirst()[0]);
+		assertEquals("b", clone.getFirst()[0]);
+		assertEquals(new Integer(42), pair.getSecond()[0]);
+		assertEquals(new Integer(42), clone.getSecond()[0]);
 	}
 }

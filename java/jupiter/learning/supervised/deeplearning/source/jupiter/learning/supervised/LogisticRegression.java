@@ -31,6 +31,7 @@ import jupiter.common.math.Maths;
 import jupiter.common.test.Arguments;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
+import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 import jupiter.math.linear.entity.Vector;
 
@@ -148,8 +149,8 @@ public class LogisticRegression
 	 * @param learningRate                     the learning rate
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
-	 * @param tolerance         the tolerance level
-	 * @param maxIterationCount the maximum number of iterations
+	 * @param tolerance                        the tolerance level
+	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */
@@ -163,6 +164,9 @@ public class LogisticRegression
 			IO.error("No training examples found");
 			return 0;
 		}
+
+		// Parallelize
+		Matrix.parallelize();
 
 		// Initialize
 		// - The weight vector
@@ -193,6 +197,7 @@ public class LogisticRegression
 
 				// - Test whether the tolerance level is reached
 				if (delta <= tolerance || j <= tolerance) {
+					IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
 					return i;
 				}
 			}
@@ -202,11 +207,11 @@ public class LogisticRegression
 			final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
 			final Scalar db = dZT.mean().toScalar();
 
-			// Update the weights and the bias
+			// Update the weights and bias
 			W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
 			b.subtract(db.multiply(learningRate)).toScalar();
 		}
-
+		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", j, " cost");
 		return maxIterationCount;
 	}
 

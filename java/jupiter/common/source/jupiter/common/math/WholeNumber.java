@@ -47,6 +47,9 @@ public class WholeNumber
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The value.
+	 */
 	protected long value;
 
 
@@ -161,7 +164,7 @@ public class WholeNumber
 	 * zero or a positive integer as {@code this} is less than, equal to or greater than
 	 * {@code comparableNumber}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with for order
+	 * @param comparableNumber the {@link ComparableNumber} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code comparableNumber}
@@ -184,24 +187,41 @@ public class WholeNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@link Object} to compare with for equality
+	 * @param other the {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
 	@Override
 	public boolean equals(final Object other) {
 		return super.equals(other);
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, value);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Strings.toString(value);

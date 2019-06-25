@@ -576,24 +576,6 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code byte} values, or {@code null} if
-	 * {@code array} is {@code null}.
-	 * <p>
-	 * @param array an array of {@code byte} values
-	 * <p>
-	 * @return a clone of the specified array of {@code byte} values, or {@code null} if
-	 *         {@code array} is {@code null}
-	 */
-	public static byte[] clone(final byte... array) {
-		if (array == null) {
-			return null;
-		}
-		return array.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@code byte} value.
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code byte} value
@@ -984,8 +966,8 @@ public class Bytes {
 	 * Compares the specified values for order. Returns a negative integer, zero or a positive
 	 * integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a a {@code byte} value
-	 * @param b another {@code byte} value to compare with for order
+	 * @param a the {@code byte} value to compare for order
+	 * @param b the {@code byte} value to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
@@ -1000,11 +982,29 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a hash code value for the specified value.
+	 * Returns a clone of the specified array of {@code byte} values, or {@code null} if
+	 * {@code array} is {@code null}.
+	 * <p>
+	 * @param array an array of {@code byte} values
+	 * <p>
+	 * @return a clone of the specified array of {@code byte} values, or {@code null} if
+	 *         {@code array} is {@code null}
+	 */
+	public static byte[] clone(final byte... array) {
+		if (array == null) {
+			return null;
+		}
+		return array.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the hash code value for the specified value.
 	 * <p>
 	 * @param value a {@code byte} value
 	 * <p>
-	 * @return a hash code value for the specified value
+	 * @return the hash code value for the specified value
 	 */
 	public static int hashCode(final byte value) {
 		return Objects.hashCode((int) value, value >>> Bits.HALF_LONG_BITS_COUNT);
@@ -1013,24 +1013,24 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code byte} values.
+	 * Returns a representative {@link String} of the specified array of {@code byte} values.
 	 * <p>
 	 * @param array an array of {@code byte} values
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code byte} values
+	 * @return a representative {@link String} of the specified array of {@code byte} values
 	 */
 	public static String toString(final byte... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code byte} values joined
+	 * Returns a representative {@link String} of the specified array of {@code byte} values joined
 	 * by {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@code byte} values
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code byte} values joined
+	 * @return a representative {@link String} of the specified array of {@code byte} values joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final byte[] array, final String delimiter) {
@@ -1038,14 +1038,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@code byte} values joined
+	 * Returns a representative {@link String} of the specified array of {@code byte} values joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@code byte} values
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@code byte} values joined
+	 * @return a representative {@link String} of the specified array of {@code byte} values joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final byte[] array, final String delimiter,
@@ -1056,24 +1056,24 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Byte}.
+	 * Returns a representative {@link String} of the specified array of {@link Byte}.
 	 * <p>
 	 * @param array an array of {@link Byte}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Byte}
+	 * @return a representative {@link String} of the specified array of {@link Byte}
 	 */
 	public static String toString(final Byte... array) {
 		return Arrays.toString(array);
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Byte} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Byte} joined by
 	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an array of {@link Byte}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Byte} joined by
+	 * @return a representative {@link String} of the specified array of {@link Byte} joined by
 	 *         {@code delimiter}
 	 */
 	public static String toString(final Byte[] array, final String delimiter) {
@@ -1081,14 +1081,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@link String} representation of the specified array of {@link Byte} joined by
+	 * Returns a representative {@link String} of the specified array of {@link Byte} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an array of {@link Byte}
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a {@link String} representation of the specified array of {@link Byte} joined by
+	 * @return a representative {@link String} of the specified array of {@link Byte} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Byte[] array, final String delimiter,

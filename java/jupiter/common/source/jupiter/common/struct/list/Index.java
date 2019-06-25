@@ -57,6 +57,17 @@ public class Index<T>
 	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Compares {@code this} with {@code index} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code index}.
+	 * <p>
+	 * @param index the {@link Index} of type {@code T} to compare against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
+	 *         or greater than {@code index}
+	 * <p>
+	 * @throws NullPointerException if {@code index} is {@code null}
+	 */
 	public int compareTo(final Index<T> index) {
 		return Integers.compare(first, index.first);
 	}

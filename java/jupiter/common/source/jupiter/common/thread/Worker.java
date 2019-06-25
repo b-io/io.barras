@@ -25,6 +25,7 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
+import java.io.Serializable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -41,11 +42,16 @@ import jupiter.common.util.Strings;
  */
 public abstract class Worker<I, O>
 		extends Thread
-		implements Callable<O>, ICloneable<Worker<I, O>> {
+		implements Callable<O>, ICloneable<Worker<I, O>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	protected static volatile long CURRENT_ID = 0L;
 	protected static final Lock CURRENT_ID_LOCK = new ReentrantLock(true);
@@ -55,8 +61,17 @@ public abstract class Worker<I, O>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The identifier.
+	 */
 	protected final long id;
+	/**
+	 * The input of type {@code I}.
+	 */
 	protected volatile I input;
+	/**
+	 * The {@link WorkQueue} of type {@code I} and {@code O}.
+	 */
 	protected volatile WorkQueue<I, O> workQueue;
 
 
@@ -95,7 +110,7 @@ public abstract class Worker<I, O>
 	}
 
 	/**
-	 * Sets the work queue.
+	 * Sets the {@link WorkQueue}.
 	 * <p>
 	 * @param workQueue an {@link WorkQueue} of type {@code I} and {@code O}
 	 */
@@ -108,10 +123,22 @@ public abstract class Worker<I, O>
 	// CALLABLE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Processes the input of type {@code I} and returns an output of type {@code O}.
+	 * <p>
+	 * @return an output of type {@code O}
+	 */
 	public O call() {
 		return call(input);
 	}
 
+	/**
+	 * Processes the specified input of type {@code I} and returns an output of type {@code O}.
+	 * <p>
+	 * @param input the input of type {@code I} to process
+	 * <p>
+	 * @return an output of type {@code O}
+	 */
 	public abstract O call(final I input);
 
 
@@ -119,6 +146,12 @@ public abstract class Worker<I, O>
 	// THREAD
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Runs {@code this}.
+	 *
+	 * @see #start()
+	 * @see #stop()
+	 */
 	@Override
 	public void run() {
 		IO.debug("The worker ", this, " has started");
@@ -144,9 +177,24 @@ public abstract class Worker<I, O>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public abstract Worker<I, O> clone();
 
+	/**
+	 * Disposes of system resources and performs a cleanup. Note that this method is called by the
+	 * garbage collector on an {@link Object} when the garbage collection determines that there are
+	 * no more references to the {@link Object}.
+	 *
+	 * @see java.lang.ref.PhantomReference
+	 * @see java.lang.ref.WeakReference
+	 */
 	@Override
 	protected void finalize() {
 		IO.debug(this, " is finalized");
@@ -156,6 +204,13 @@ public abstract class Worker<I, O>
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + Strings.parenthesize(id);

@@ -30,8 +30,18 @@ import jupiter.common.util.Strings;
 /**
  * {@link StringJoiner} is a reduce operator joining an array of {@link Object} to a {@link String}.
  */
-public abstract class StringJoiner
+public class StringJoiner
 		extends ObjectReducer<String> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -60,7 +70,24 @@ public abstract class StringJoiner
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public String call(final Object... input) {
+	public String call(final Object[] input) {
 		return Strings.joinWith(input, delimiter);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public StringJoiner clone() {
+		return new StringJoiner(delimiter);
 	}
 }

@@ -72,7 +72,7 @@ public class CalculatorTest
 				final String e2 = "(" + matrixString + " / " + matrixString + ") + " + "(" +
 						matrixString + " / " + matrixString + ")";
 
-				// Test the parsing and the evaluation of the element and entity 1
+				// Test the parsing and evaluation of the element and entity #1
 				chrono.start();
 				final Report<Element> tree1 = ExpressionHandler.parseExpression(e1, context);
 				final Element element1 = tree1.getOutput();
@@ -88,7 +88,7 @@ public class CalculatorTest
 				IO.debug("Entity1: ", chrono.getMilliseconds(), " [ms]");
 				entityTimes[2 * t] = chrono.getMilliseconds();
 
-				// Test the parsing and the evaluation of the element and entity 2
+				// Test the parsing and evaluation of the element and entity #2
 				chrono.start();
 				final Report<Element> tree2 = ExpressionHandler.parseExpression(e2, context);
 				final Element element2 = tree2.getOutput();

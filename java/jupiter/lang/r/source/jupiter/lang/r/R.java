@@ -211,6 +211,14 @@ public class R {
 	protected static class RPrinter
 			extends IOHandler {
 
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * The message prefix.
+		 */
 		protected static final String PREFIX = "R> ";
 
 		/**
@@ -242,8 +250,15 @@ public class R {
 			printer.clear();
 		}
 
+		/**
+		 * Creates a copy of {@code this}.
+		 * <p>
+		 * @return a copy of {@code this}
+		 *
+		 * @see jupiter.common.model.ICloneable
+		 */
 		@Override
-		public Worker<Message, Integer> clone() {
+		public RPrinter clone() {
 			return new RPrinter(printer);
 		}
 	}

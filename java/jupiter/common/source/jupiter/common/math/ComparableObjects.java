@@ -43,10 +43,10 @@ public class ComparableObjects {
 	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 * otherwise.
 	 * <p>
-	 * @param <T>        the type of the objects to compare
-	 * @param a          a {@code T} object
-	 * @param b          another {@code T} object to compare with {@code a} for order
-	 * @param comparator the {@link Comparator} to use
+	 * @param <T>        the type of the objects to compare for order
+	 * @param a          the {@code T} object to compare for order
+	 * @param b          the other {@code T} object to compare against for order
+	 * @param comparator the {@link Comparator} of super type {@code T} to use
 	 * <p>
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 *         otherwise
@@ -61,8 +61,8 @@ public class ComparableObjects {
 	 * Tests whether {@code a} is less than {@code b}.
 	 * <p>
 	 * @param <T> the type of the comparable objects to compare
-	 * @param a   a comparable {@code T} object
-	 * @param b   another comparable {@code T} object to compare with {@code a}
+	 * @param a   the comparable {@code T} object to compare
+	 * @param b   the other comparable {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
 	 * <p>
@@ -76,8 +76,8 @@ public class ComparableObjects {
 	 * Tests whether {@code a} is less or equal to {@code b}.
 	 * <p>
 	 * @param <T> the type of the comparable objects to compare
-	 * @param a   a comparable {@code T} object
-	 * @param b   another comparable {@code T} object to compare with {@code a}
+	 * @param a   the comparable {@code T} object to compare
+	 * @param b   the other comparable {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
 	 * <p>
@@ -91,8 +91,8 @@ public class ComparableObjects {
 	 * Tests whether {@code a} is greater than {@code b}.
 	 * <p>
 	 * @param <T> the type of the comparable objects to compare
-	 * @param a   a comparable {@code T} object
-	 * @param b   another comparable {@code T} object to compare with {@code a}
+	 * @param a   the comparable {@code T} object to compare
+	 * @param b   the other comparable {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
 	 * <p>
@@ -106,8 +106,8 @@ public class ComparableObjects {
 	 * Tests whether {@code a} is greater or equal to {@code b}.
 	 * <p>
 	 * @param <T> the type of the comparable objects to compare
-	 * @param a   a comparable {@code T} object
-	 * @param b   another comparable {@code T} object to compare with {@code a}
+	 * @param a   the comparable {@code T} object to compare
+	 * @param b   the other comparable {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
 	 * <p>
@@ -123,8 +123,8 @@ public class ComparableObjects {
 	 * Returns the smaller of {@code a} and {@code b}, or {@code a} if they are equal.
 	 * <p>
 	 * @param <T> the type of the comparable objects to compare
-	 * @param a   a comparable {@code T} object
-	 * @param b   another comparable {@code T} object to compare with {@code a}
+	 * @param a   the comparable {@code T} object to compare
+	 * @param b   the other comparable {@code T} object to compare against
 	 * <p>
 	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
 	 * <p>
@@ -138,8 +138,8 @@ public class ComparableObjects {
 	 * Returns the larger of {@code a} and {@code b}, or {@code a} if they are equal.
 	 * <p>
 	 * @param <T> the type of the comparable objects to compare
-	 * @param a   a comparable {@code T} object
-	 * @param b   another comparable {@code T} object to compare with {@code a}
+	 * @param a   the comparable {@code T} object to compare
+	 * @param b   the other comparable {@code T} object to compare against
 	 * <p>
 	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
 	 * <p>
@@ -174,9 +174,9 @@ public class ComparableObjects {
 	/**
 	 * Tests whether {@code a} and {@code b} are equal to each other.
 	 * <p>
-	 * @param <T> the type of the comparable objects to compare
-	 * @param a   a comparable {@code T} object
-	 * @param b   another comparable {@code T} object to compare with {@code a} for equality
+	 * @param <T> the type of the comparable objects to compare for equality
+	 * @param a   the comparable {@code T} object to compare for equality
+	 * @param b   the other comparable {@code T} object to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
 	 *         otherwise

@@ -138,7 +138,7 @@ public abstract class Entity
 	/**
 	 * Fills {@code this} with the specified value.
 	 * <p>
-	 * @param value the value to fill with
+	 * @param value the {@code double} value to fill with
 	 */
 	public abstract void fill(final double value);
 
@@ -626,6 +626,11 @@ public abstract class Entity
 			throw new IllegalTypeException(name);
 		}
 
+		/**
+		 * Returns a representative {@link String} of {@code this}.
+		 * <p>
+		 * @return a representative {@link String} of {@code this}
+		 */
 		@Override
 		public String toString() {
 			return value;
