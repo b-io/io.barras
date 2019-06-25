@@ -773,6 +773,20 @@ public class Files {
 
 	/**
 	 * Returns the {@link List} of {@link File} contained in the specified directory and matching
+	 * the specified pattern {@link String}.
+	 * <p>
+	 * @param dir     a {@link File}
+	 * @param pattern a pattern {@link String}
+	 * <p>
+	 * @return the {@link List} of {@link File} contained in the specified directory and matching
+	 *         the specified pattern {@link String}
+	 */
+	public static List<File> listAll(final File dir, final String pattern) {
+		return listAll(dir, Pattern.compile(pattern));
+	}
+
+	/**
+	 * Returns the {@link List} of {@link File} contained in the specified directory and matching
 	 * the specified {@link Pattern}.
 	 * <p>
 	 * @param dir     a {@link File}
