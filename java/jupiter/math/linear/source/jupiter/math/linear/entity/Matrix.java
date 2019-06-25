@@ -1191,7 +1191,7 @@ public class Matrix
 					new DotProduct());
 			PARALLELIZE = true;
 		} else {
-			IO.warn("The work queue ", DOT_PRODUCT_QUEUE, " has already started");
+			IO.debug("The work queue ", DOT_PRODUCT_QUEUE, " has already started");
 		}
 	}
 

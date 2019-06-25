@@ -105,7 +105,7 @@ public class Calculator {
 				WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
 						new Evaluator());
 			} else {
-				IO.warn("The work queue ", WORK_QUEUE, " has already started");
+				IO.debug("The work queue ", WORK_QUEUE, " has already started");
 			}
 		}
 	}
