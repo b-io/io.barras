@@ -86,27 +86,27 @@ public class Arrays {
 
 	//////////////////////////////////////////////
 
-	public static <T> T[] toArray(final Class<T> c, final T[] array) {
-		final T[] result = create(c, array.length);
+	public static <T> T[] toArray(final Class<?> c, final T[] array) {
+		final T[] result = (T[]) create(c, array.length);
 		System.arraycopy(array, 0, result, 0, array.length);
 		return result;
 	}
 
-	public static <T> T[][] toArray2D(final Class<T> c, final T[][] array2D) {
+	public static <T> T[][] toArray2D(final Class<?> c, final T[][] array2D) {
 		final int rowCount = array2D.length;
 		final int columnCount = array2D[0].length;
-		final T[][] result = create(c, rowCount, columnCount);
+		final T[][] result = (T[][]) create(c, rowCount, columnCount);
 		for (int i = 0; i < rowCount; ++i) {
 			System.arraycopy(array2D[i], 0, result, i * columnCount, columnCount);
 		}
 		return result;
 	}
 
-	public static <T> T[][][] toArray3D(final Class<T> c, final T[][][] array3D) {
+	public static <T> T[][][] toArray3D(final Class<?> c, final T[][][] array3D) {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
 		final int depthCount = array3D[0][0].length;
-		final T[][][] result = create(c, rowCount, columnCount, depthCount);
+		final T[][][] result = (T[][][]) create(c, rowCount, columnCount, depthCount);
 		for (int i = 0; i < rowCount; ++i) {
 			for (int j = 0; j < rowCount; ++j) {
 				System.arraycopy(array3D[i][j], 0, result, (i * columnCount + j) * depthCount,
@@ -299,17 +299,17 @@ public class Arrays {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] merge(final T[] a, final T[] b) {
 		if (a == null) {
-			return clone(b);
+			return b == null ? null : (T[]) toArray(b.getClass().getComponentType(), b);
 		} else if (b == null) {
-			return clone(a);
+			return (T[]) toArray(a.getClass().getComponentType(), a);
 		}
-		final Class<?> type = a.getClass().getComponentType();
-		final T[] result = (T[]) create(type, a.length + b.length);
+		final Class<?> c = a.getClass().getComponentType();
+		final T[] result = (T[]) create(c, a.length + b.length);
 		System.arraycopy(a, 0, result, 0, a.length);
 		try {
 			System.arraycopy(b, 0, result, a.length, b.length);
 		} catch (final ArrayStoreException ex) {
-			ArrayArguments.requireAssignableFrom(type, b.getClass().getComponentType());
+			ArrayArguments.requireAssignableFrom(c, b.getClass().getComponentType());
 			throw ex;
 		}
 		return result;
@@ -333,16 +333,16 @@ public class Arrays {
 		if (arrays == null) {
 			return null;
 		} else if (arrays.length == 1) {
-			return clone(arrays[0]);
+			return toArray(arrays.getClass().getComponentType().getComponentType(), arrays[0]);
 		}
-		final Class<?> type = arrays.getClass().getComponentType().getComponentType();
-		final T[] result = (T[]) create(type, count(arrays));
+		final Class<?> c = arrays.getClass().getComponentType().getComponentType();
+		final T[] result = (T[]) create(c, count(arrays));
 		int offset = 0;
 		for (final T[] array : arrays) {
 			try {
 				System.arraycopy(array, 0, result, offset, array.length);
 			} catch (final ArrayStoreException ex) {
-				ArrayArguments.requireAssignableFrom(type,
+				ArrayArguments.requireAssignableFrom(c,
 						array.getClass().getComponentType().getComponentType());
 				throw ex;
 			}
@@ -782,20 +782,27 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
-	 * {@code null}.
+	 * Creates a copy of the specified array of type {@code T}.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T} (may be {@code null})
+	 * @param <T>   the component type of the array to clone
+	 * @param array the array of type {@code T} to clone (may be {@code null})
 	 * <p>
-	 * @return a clone of the specified array of type {@code T}, or {@code null} if {@code array} is
-	 *         {@code null}
+	 * @return a copy of the specified array of type {@code T}
+	 * <p>
+	 * @throws CloneNotSupportedException if the type {@code T} does not implement {@link Cloneable}
+	 *
+	 * @see jupiter.common.model.ICloneable
 	 */
-	public static <T> T[] clone(final T[] array) {
+	public static <T> T[] clone(final T[] array)
+			throws CloneNotSupportedException {
 		if (array == null) {
 			return null;
 		}
-		return array.clone();
+		final T[] clone = (T[]) create(array.getClass().getComponentType(), array.length);
+		for (int i = 0; i < array.length; ++i) {
+			clone[i] = Objects.clone(array[i]);
+		}
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
