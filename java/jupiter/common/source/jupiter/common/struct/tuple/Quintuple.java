@@ -28,6 +28,7 @@ import java.io.Serializable;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class Quintuple<T1, T2, T3, T4, T5>
 		implements ICloneable<Quintuple<T1, T2, T3, T4, T5>>, Serializable {
@@ -199,7 +200,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 			clone.fifth = Objects.clone(fifth);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(ex);
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 

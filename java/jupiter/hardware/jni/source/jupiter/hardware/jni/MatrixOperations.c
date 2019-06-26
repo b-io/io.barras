@@ -29,17 +29,23 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "jupiter_math_linear_jni_MatrixOperations.h"
+#include "jupiter_hardware_jni_MatrixOperations.h"
 
 
 /***************************************************************************************************
  * OPERATORS
  **************************************************************************************************/
 
-JNIEXPORT jdoubleArray JNICALL Java_jupiter_math_linear_jni_MatrixOperations_dot(JNIEnv* env,
+JNIEXPORT void JNICALL
+Java_jupiter_hardware_jni_MatrixOperations_test(JNIEnv* env, jobject obj)
+{
+	printf("[INFO] Java_jupiter_hardware_jni_MatrixOperations_test\n");
+}
+
+JNIEXPORT jdoubleArray JNICALL Java_jupiter_hardware_jni_MatrixOperations_dot(JNIEnv* env,
 	jobject obj, jdoubleArray A, jdoubleArray B, jint aColumnDimension, jint bColumnDimension)
 {
-	printf("[INFO] Java_jupiter_math_linear_jni_MatrixOperations_dot\n");
+	printf("[INFO] Java_jupiter_hardware_jni_MatrixOperations_dot\n");
 
 	/* Check */
 	if ((*env)->ExceptionCheck(env))

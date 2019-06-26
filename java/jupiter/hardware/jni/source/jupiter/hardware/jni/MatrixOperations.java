@@ -21,11 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.linear.jni;
+package jupiter.hardware.jni;
 
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.util.Doubles;
+import jupiter.math.linear.jni.NarSystem;
 
 public class MatrixOperations {
 
@@ -55,6 +56,8 @@ public class MatrixOperations {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void main(final String[] args) {
+		test();
+
 		final double[] A = new double[] {
 			1., 2., 3., 4., 5., 6.
 		};
@@ -70,6 +73,8 @@ public class MatrixOperations {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static native void test();
 
 	public static native double[] dot(final double[] A, final double[] B,
 			final int aColumnDimension, final int bColumnDimension);

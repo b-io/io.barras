@@ -28,6 +28,7 @@ import java.io.Serializable;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class Triple<T1, T2, T3>
 		implements ICloneable<Triple<T1, T2, T3>>, Serializable {
@@ -149,7 +150,7 @@ public class Triple<T1, T2, T3>
 			clone.third = Objects.clone(third);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(ex);
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 

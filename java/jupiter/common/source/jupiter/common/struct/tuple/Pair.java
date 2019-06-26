@@ -28,6 +28,7 @@ import java.io.Serializable;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class Pair<T1, T2>
 		implements ICloneable<Pair<T1, T2>>, Serializable {
@@ -125,7 +126,7 @@ public class Pair<T1, T2>
 			clone.second = Objects.clone(second);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(ex);
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 

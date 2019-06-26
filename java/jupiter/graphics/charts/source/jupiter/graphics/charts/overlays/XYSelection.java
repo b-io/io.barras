@@ -287,7 +287,7 @@ public class XYSelection
 			clone.propertyChangeSupport = Objects.clone(propertyChangeSupport);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(Strings.toString(ex), ex);
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 

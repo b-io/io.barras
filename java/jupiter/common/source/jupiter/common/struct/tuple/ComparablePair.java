@@ -24,6 +24,7 @@
 package jupiter.common.struct.tuple;
 
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
 		extends Pair<T1, T2> {
@@ -88,7 +89,7 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 			clone.second = Objects.clone(second);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(ex);
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 
