@@ -49,15 +49,15 @@ public class Tests {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void printTimes(final double... times) {
-		printValues("time", times);
+		printValues("time [ms]", times);
 	}
 
 	public static <T extends Number> void printTimes(final T... times) {
-		printValues("time", times);
+		printValues("time [ms]", times);
 	}
 
 	public static void printTimes(final Collection<Long> times) {
-		printValues("time", times);
+		printValues("time [ms]", times);
 	}
 
 	//////////////////////////////////////////////
