@@ -66,10 +66,10 @@
 		<subsystem.option />
 		<standard.option>-std=c99</standard.option>
 		<pedentic.option />
+		<math.option>-ffast-math</math.option>
 		<optimisation.option>-O2</optimisation.option>
 		<debug.option>-g</debug.option>
 		<warning.option />
-		<libdl.name>dl</libdl.name>
 		<!-- SCM -->
 		<scm.url>https://github.com/b-io/io.barras</scm.url>
 	</properties>
@@ -157,6 +157,7 @@
 								<option>${standard.option}</option>
 								<option>${pedentic.option}</option>
 								<option>${optimisation.option}</option>
+								<option>${math.option}</option>
 								<option>${debug.option}</option>
 								<option>${warning.option}</option>
 							</options>
@@ -168,11 +169,6 @@
 								<option>${architecture.option}</option>
 								<option>${subsystem.option}</option>
 							</options>
-							<sysLibs>
-								<sysLib>
-									<name>${libdl.name}</name>
-								</sysLib>
-							</sysLibs>
 						</linker>
 					</configuration>
 				</plugin>

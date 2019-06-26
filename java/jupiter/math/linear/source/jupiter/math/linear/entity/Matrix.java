@@ -132,15 +132,6 @@ public class Matrix
 	 */
 	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> DOT_PRODUCT_QUEUE = null;
 
-	/**
-	 * The flag specifying whether to use a JNI work queue.
-	 */
-	public static volatile boolean USE_JNI = false;
-	/**
-	 * The JNI work queue for computing the dot product.
-	 */
-	protected static volatile WorkQueue<Pair<Matrix, Matrix>, Matrix> JNI_DOT_PRODUCT_QUEUE = null;
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -1202,10 +1193,6 @@ public class Matrix
 		IO.debug(EMPTY);
 
 		// Shutdown
-		if (JNI_DOT_PRODUCT_QUEUE != null) {
-			USE_JNI = false;
-			JNI_DOT_PRODUCT_QUEUE.shutdown();
-		}
 		if (DOT_PRODUCT_QUEUE != null) {
 			PARALLELIZE = false;
 			DOT_PRODUCT_QUEUE.shutdown();
@@ -1551,10 +1538,7 @@ public class Matrix
 		}
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
-		if (USE_JNI) {
-			return JNI_DOT_PRODUCT_QUEUE.get(JNI_DOT_PRODUCT_QUEUE.submit(new Pair<Matrix, Matrix>(
-					this, broadcastedMatrix)));
-		} else if (PARALLELIZE) {
+		if (PARALLELIZE) {
 			// Initialize
 			final int intervalCount = Math.min(m, DOT_PRODUCT_QUEUE.maxThreads);
 			final int rowCountPerInterval = m / intervalCount;
@@ -2453,6 +2437,15 @@ public class Matrix
 			super();
 		}
 
+		@Override
+		public Pair<Matrix, Interval<Integer>> call(
+				final Triple<Matrix, Matrix, Interval<Integer>> input) {
+			final Matrix left = input.getFirst();
+			final Matrix right = input.getSecond();
+			final Interval<Integer> interval = input.getThird();
+			return new Pair<Matrix, Interval<Integer>>(apply(left, right, interval), interval);
+		}
+
 		public static Matrix apply(final Matrix left, final Matrix right,
 				final Interval<Integer> interval) {
 			// Initialize
@@ -2473,15 +2466,6 @@ public class Matrix
 				}
 			}
 			return result;
-		}
-
-		@Override
-		public Pair<Matrix, Interval<Integer>> call(
-				final Triple<Matrix, Matrix, Interval<Integer>> input) {
-			final Matrix left = input.getFirst();
-			final Matrix right = input.getSecond();
-			final Interval<Integer> interval = input.getThird();
-			return new Pair<Matrix, Interval<Integer>>(apply(left, right, interval), interval);
 		}
 
 		/**

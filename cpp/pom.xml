@@ -32,10 +32,10 @@
 		<architecture.option />
 		<subsystem.option />
 		<standard.option>-std=c++11</standard.option>
+		<math.option>-ffast-math</math.option>
 		<optimisation.option>-O2</optimisation.option>
 		<debug.option>-g</debug.option>
 		<warning.option>-Wpadded</warning.option>
-		<libdl.name>dl</libdl.name>
 	</properties>
 
 	<build>
@@ -64,6 +64,7 @@
 								<option>${architecture.option}</option>
 								<option>${subsystem.option}</option>
 								<option>${standard.option}</option>
+								<option>${math.option}</option>
 								<option>${optimisation.option}</option>
 								<option>${debug.option}</option>
 								<option>${warning.option}</option>
@@ -76,11 +77,6 @@
 								<option>${architecture.option}</option>
 								<option>${subsystem.option}</option>
 							</options>
-							<sysLibs>
-								<sysLib>
-									<name>${libdl.name}</name>
-								</sysLib>
-							</sysLibs>
 						</linker>
 					</configuration>
 				</plugin>
