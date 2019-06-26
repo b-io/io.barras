@@ -102,7 +102,7 @@ public class Arrays {
 		return result;
 	}
 
-	public static <T> T[][][] toArray3D(final Class<T> c, final T[][]... array3D) {
+	public static <T> T[][][] toArray3D(final Class<T> c, final T[][][] array3D) {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
 		final int depthCount = array3D[0][0].length;
