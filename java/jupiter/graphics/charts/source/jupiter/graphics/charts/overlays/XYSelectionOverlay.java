@@ -186,7 +186,7 @@ public class XYSelectionOverlay
 			clone.selections = Objects.clone(selections);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(Strings.toString(ex), ex);
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 

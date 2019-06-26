@@ -445,7 +445,7 @@ public class JConsole
 			outPipe.write(line.getBytes(DEFAULT_CHARSET.name()));
 			outPipe.flush();
 		} catch (final IOException ex) {
-			throw new RuntimeException("Unable to write in the console" + Strings.append(ex));
+			throw new RuntimeException("Unable to write in the console", ex);
 		}
 		// textPane.repaint();
 	}

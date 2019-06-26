@@ -196,7 +196,7 @@ public class Message
 		try {
 			return (Message) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new AssertionError(Strings.toString(ex), ex);
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 
