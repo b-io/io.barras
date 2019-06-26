@@ -45,8 +45,6 @@ Java_jupiter_hardware_jni_MatrixOperations_test(JNIEnv* env, jobject obj)
 JNIEXPORT jdoubleArray JNICALL Java_jupiter_hardware_jni_MatrixOperations_dot(JNIEnv* env,
 	jobject obj, jdoubleArray A, jdoubleArray B, jint aColumnDimension, jint bColumnDimension)
 {
-	printf("[INFO] Java_jupiter_hardware_jni_MatrixOperations_dot\n");
-
 	/* Check */
 	if ((*env)->ExceptionCheck(env))
 	{
@@ -72,17 +70,16 @@ JNIEXPORT jdoubleArray JNICALL Java_jupiter_hardware_jni_MatrixOperations_dot(JN
 	jdouble* resultBuffer = (*env)->GetDoubleArrayElements(env, result, &resultCopy);
 
 	/* Process */
-	for (int e = 0; e < resultDimension; ++e)
+	for (int i = 0; i < resultDimension; ++i)
 	{
 		jdouble sum = 0.;
-		jint rowOffset = e / bColumnDimension;
-		jint columnOffset = e % bColumnDimension;
-		for (int i = 0; i < aColumnDimension; ++i)
+		jint rowOffset = i / bColumnDimension * aColumnDimension;
+		jint columnOffset = i % bColumnDimension;
+		for (int j = 0; j < aColumnDimension; ++j)
 		{
-			sum += aBuffer[rowOffset * aColumnDimension + i] *
-				bBuffer[i * bColumnDimension + columnOffset];
+			sum += aBuffer[rowOffset + j] * bBuffer[j * bColumnDimension + columnOffset];
 		}
-		resultBuffer[e] = sum;
+		resultBuffer[i] = sum;
 	}
 
 	/* Release the memory */

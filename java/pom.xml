@@ -69,6 +69,33 @@
 				</configuration>
 			</plugin>
 
+			<!-- Unpackage the JNI library -->
+			<plugin>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>nar-download</id>
+						<goals>
+							<goal>nar-download</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>nar-test-unpack</id>
+						<goals>
+							<goal>nar-test-unpack</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>nar-integration-test</id>
+						<goals>
+							<goal>nar-integration-test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- Attach the source files -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
