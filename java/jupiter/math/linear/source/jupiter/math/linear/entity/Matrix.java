@@ -57,7 +57,6 @@ import jupiter.common.util.Doubles;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
-import jupiter.hardware.jni.MatrixOperations;
 import jupiter.hardware.gpu.OpenCL;
 import jupiter.math.analysis.function.Function;
 import jupiter.math.linear.decomposition.CholeskyDecomposition;
@@ -1568,9 +1567,6 @@ public class Matrix
 				result.setSubmatrix(interval.getLowerBound(),
 						interval.getLowerBound() + submatrix.m, 0, submatrix.n, submatrix);
 			}
-		} else if (MatrixOperations.IS_ACTIVE) {
-			result.elements = MatrixOperations.dot(elements, broadcastedMatrix.elements, n,
-					broadcastedMatrix.n);
 		} else {
 			for (int i = 0; i < m; ++i) {
 				for (int j = 0; j < broadcastedMatrix.n; ++j) {
