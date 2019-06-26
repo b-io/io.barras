@@ -85,7 +85,7 @@ public class NumberTable<T extends Number>
 	 * @param c        the {@link Class} of type {@code T}
 	 * @param elements a 2D array of type {@code T}
 	 */
-	public NumberTable(final Class<T> c, final T[]... elements) {
+	public NumberTable(final Class<T> c, final T[][] elements) {
 		super(c, elements);
 	}
 
@@ -96,7 +96,7 @@ public class NumberTable<T extends Number>
 	 * @param header   an array of type {@code T}
 	 * @param elements a 2D array of type {@code T}
 	 */
-	public NumberTable(final Class<T> c, final String[] header, final T[]... elements) {
+	public NumberTable(final Class<T> c, final String[] header, final T[][] elements) {
 		super(c, header, elements);
 	}
 

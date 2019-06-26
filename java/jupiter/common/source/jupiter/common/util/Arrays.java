@@ -92,7 +92,7 @@ public class Arrays {
 		return result;
 	}
 
-	public static <T> T[][] toArray2D(final Class<T> c, final T[]... array2D) {
+	public static <T> T[][] toArray2D(final Class<T> c, final T[][] array2D) {
 		final int rowCount = array2D.length;
 		final int columnCount = array2D[0].length;
 		final T[][] result = create(c, rowCount, columnCount);
@@ -102,7 +102,7 @@ public class Arrays {
 		return result;
 	}
 
-	public static <T> T[][][] toArray3D(final Class<T> c, final T[][]... array3D) {
+	public static <T> T[][][] toArray3D(final Class<T> c, final T[][][] array3D) {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
 		final int depthCount = array3D[0][0].length;
@@ -219,7 +219,7 @@ public class Arrays {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> int count(final T[]... arrays) {
+	public static <T> int count(final T[][] arrays) {
 		int result = 0;
 		for (final T[] array : arrays) {
 			result += array.length;
@@ -329,7 +329,7 @@ public class Arrays {
 	 *                                  superclass or superinterface of, the type of {@code b}
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T[] merge(final T[]... arrays) {
+	public static <T> T[] merge(final T[][] arrays) {
 		if (arrays == null) {
 			return null;
 		} else if (arrays.length == 1) {
@@ -647,7 +647,7 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> T[][] transpose(final Class<T> c, final T[]... array2D) {
+	public static <T> T[][] transpose(final Class<T> c, final T[][] array2D) {
 		final int m = array2D[0].length;
 		final int n = array2D.length;
 		final T[][] transpose = create(c, m, n);
@@ -705,7 +705,7 @@ public class Arrays {
 	 * @return {@code true} if the specified 2D array of type {@code T} is empty, {@code false}
 	 *         otherwise
 	 */
-	public static <T> boolean isEmpty(final T[]... array2D) {
+	public static <T> boolean isEmpty(final T[][] array2D) {
 		for (final T[] array : array2D) {
 			if (!isEmpty(array)) {
 				return false;
