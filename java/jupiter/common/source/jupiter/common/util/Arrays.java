@@ -329,7 +329,7 @@ public class Arrays {
 	 *                                  superclass or superinterface of, the type of {@code b}
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T[] merge(final T[][] arrays) {
+	public static <T> T[] merge(final T[]... arrays) {
 		if (arrays == null) {
 			return null;
 		} else if (arrays.length == 1) {
@@ -723,7 +723,7 @@ public class Arrays {
 	 * @return {@code true} if the specified 3D array of type {@code T} is empty, {@code false}
 	 *         otherwise
 	 */
-	public static <T> boolean isEmpty(final T[][]... array3D) {
+	public static <T> boolean isEmpty(final T[][][] array3D) {
 		for (final T[][] array2D : array3D) {
 			if (!isEmpty(array2D)) {
 				return false;
