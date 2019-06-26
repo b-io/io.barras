@@ -147,6 +147,6 @@ public class IntegerTable
 	 */
 	@Override
 	public IntegerTable clone() {
-		return new IntegerTable(header, elements);
+		return (IntegerTable) super.clone();
 	}
 }

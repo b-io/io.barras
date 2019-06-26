@@ -76,7 +76,7 @@ public class Table<T>
 	/**
 	 * The class of the elements.
 	 */
-	protected final Class<T> c;
+	protected Class<T> c;
 	/**
 	 * The number of rows.
 	 */
@@ -717,7 +717,7 @@ public class Table<T>
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
-	public void setAll(final T... values) {
+	public void setAll(final T[] values) {
 		for (int i = 0; i < m; ++i) {
 			System.arraycopy(values, i * n, elements[i], 0, n);
 		}
@@ -1203,9 +1203,20 @@ public class Table<T>
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Table<T> clone() {
-		return new Table<T>(c, header, elements);
+		try {
+			final Table<T> clone = (Table<T>) super.clone();
+			clone.c = Objects.clone(c);
+			clone.header = Objects.clone(header);
+			clone.elements = Objects.clone(elements);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -1247,6 +1258,8 @@ public class Table<T>
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.

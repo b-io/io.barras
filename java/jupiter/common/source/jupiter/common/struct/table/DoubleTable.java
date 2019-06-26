@@ -147,6 +147,6 @@ public class DoubleTable
 	 */
 	@Override
 	public DoubleTable clone() {
-		return new DoubleTable(header, elements);
+		return (DoubleTable) super.clone();
 	}
 }

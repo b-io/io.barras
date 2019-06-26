@@ -30,6 +30,8 @@ import java.util.Map;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.map.tree.node.TreeNode;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, V>>
 		extends AbstractMap<K, V>
@@ -177,6 +179,22 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
-	public abstract TreeMap<K, V, N> clone();
+	@SuppressWarnings("unchecked")
+	public TreeMap<K, V, N> clone() {
+		try {
+			final TreeMap<K, V, N> clone = (TreeMap<K, V, N>) super.clone();
+			clone.root = Objects.clone(root);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
 }

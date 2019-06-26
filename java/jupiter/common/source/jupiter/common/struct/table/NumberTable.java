@@ -159,7 +159,7 @@ public class NumberTable<T extends Number>
 	 */
 	@Override
 	public NumberTable<T> clone() {
-		return new NumberTable<T>(c, header, elements);
+		return (NumberTable<T>) super.clone();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

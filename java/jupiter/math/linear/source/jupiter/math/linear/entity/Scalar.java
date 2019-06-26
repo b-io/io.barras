@@ -715,7 +715,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar clone() {
-		return new Scalar(value);
+		return (Scalar) super.clone();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

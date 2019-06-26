@@ -57,6 +57,7 @@ import jupiter.common.util.Doubles;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
+import jupiter.hardware.jni.MatrixOperations;
 import jupiter.hardware.gpu.OpenCL;
 import jupiter.math.analysis.function.Function;
 import jupiter.math.linear.decomposition.CholeskyDecomposition;
@@ -148,11 +149,11 @@ public class Matrix
 	/**
 	 * The dimensions.
 	 */
-	protected final Dimensions size;
+	protected Dimensions size;
 	/**
 	 * The elements.
 	 */
-	protected final double[] elements;
+	protected double[] elements;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1294,10 +1295,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix plus(final double scalar) {
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] + scalar;
+				result.elements[i * result.n + j] += scalar;
 			}
 		}
 		return result;
@@ -1324,11 +1325,10 @@ public class Matrix
 		requireDimensions(broadcastedMatrix);
 
 		// Compute
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] +
-						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] += broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1395,10 +1395,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix minus(final double scalar) {
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] - scalar;
+				result.elements[i * result.n + j] -= scalar;
 			}
 		}
 		return result;
@@ -1425,11 +1425,10 @@ public class Matrix
 		requireDimensions(broadcastedMatrix);
 
 		// Compute
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] -
-						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] -= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1496,10 +1495,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix times(final double scalar) {
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] * scalar;
+				result.elements[i * result.n + j] *= scalar;
 			}
 		}
 		return result;
@@ -1569,6 +1568,9 @@ public class Matrix
 				result.setSubmatrix(interval.getLowerBound(),
 						interval.getLowerBound() + submatrix.m, 0, submatrix.n, submatrix);
 			}
+		} else if (MatrixOperations.IS_ACTIVE) {
+			result.elements = MatrixOperations.dot(elements, broadcastedMatrix.elements, n,
+					broadcastedMatrix.n);
 		} else {
 			for (int i = 0; i < m; ++i) {
 				for (int j = 0; j < broadcastedMatrix.n; ++j) {
@@ -1606,11 +1608,10 @@ public class Matrix
 		requireDimensions(broadcastedMatrix);
 
 		// Compute
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] *
-						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] *= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1677,10 +1678,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix division(final double scalar) {
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] / scalar;
+				result.elements[i * result.n + j] /= scalar;
 			}
 		}
 		return result;
@@ -1728,11 +1729,10 @@ public class Matrix
 		requireDimensions(broadcastedMatrix);
 
 		// Compute
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] /
-						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -2330,7 +2330,14 @@ public class Matrix
 	 */
 	@Override
 	public Matrix clone() {
-		return new Matrix(m, Doubles.take(elements));
+		try {
+			final Matrix clone = (Matrix) super.clone();
+			clone.size = Objects.clone(size);
+			clone.elements = Objects.clone(elements);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
