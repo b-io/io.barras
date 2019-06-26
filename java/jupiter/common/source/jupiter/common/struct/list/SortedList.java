@@ -175,6 +175,8 @@ public class SortedList<T extends Comparable<T>>
 		return (SortedList<T>) super.clone();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Returns a representative {@link String} of {@code this}.
 	 * <p>

@@ -536,8 +536,19 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
-	public abstract BinaryTreeMap<K, V, N> clone();
+	public BinaryTreeMap<K, V, N> clone() {
+		return (BinaryTreeMap<K, V, N>) super.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.

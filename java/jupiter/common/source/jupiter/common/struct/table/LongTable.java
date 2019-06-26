@@ -147,6 +147,6 @@ public class LongTable
 	 */
 	@Override
 	public LongTable clone() {
-		return new LongTable(header, elements);
+		return (LongTable) super.clone();
 	}
 }

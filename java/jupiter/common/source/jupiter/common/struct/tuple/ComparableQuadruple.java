@@ -92,8 +92,7 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	@Override
 	public ComparableQuadruple<T1, T2, T3, T4> clone() {
 		try {
-			final ComparableQuadruple<T1, T2, T3, T4> clone = (ComparableQuadruple<T1, T2, T3, T4>) super
-					.clone();
+			final ComparableQuadruple<T1, T2, T3, T4> clone = (ComparableQuadruple<T1, T2, T3, T4>) super.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			clone.third = Objects.clone(third);

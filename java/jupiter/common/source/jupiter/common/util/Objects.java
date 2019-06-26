@@ -57,7 +57,8 @@ public class Objects {
 				Longs.is(c) ||
 				Floats.is(c) ||
 				Doubles.is(c) ||
-				Strings.is(c);
+				Strings.is(c) ||
+				Class.class.isAssignableFrom(c);
 	}
 
 	public static boolean isVoid(final Class<?> c) {
