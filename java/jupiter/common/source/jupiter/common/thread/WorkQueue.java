@@ -63,7 +63,7 @@ public class WorkQueue<I, O> {
 	/**
 	 * The worker type.
 	 */
-	protected final Class<?> type;
+	protected final Class<?> c;
 	/**
 	 * The workers.
 	 */
@@ -110,7 +110,7 @@ public class WorkQueue<I, O> {
 	 */
 	protected WorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads) {
 		this.model = model;
-		this.type = model.getClass();
+		this.c = model.getClass();
 		this.minThreads = minThreads;
 		this.maxThreads = maxThreads;
 	}
@@ -126,7 +126,7 @@ public class WorkQueue<I, O> {
 	 * @return the type of the workers to handle
 	 */
 	public Class<?> getType() {
-		return type;
+		return c;
 	}
 
 	/**
@@ -211,23 +211,23 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public boolean reserveWorkers(final int n) {
-		IO.debug("Try to reserve ", n, " workers of type ", type);
+		IO.debug("Try to reserve ", n, " workers of type ", c);
 		if (maxThreads - reservedWorkerCount >= n) {
 			// Reserve the workers
 			reservedWorkerCount += n;
 			// Create more workers if required
 			final int workerToCreateCount = reservedWorkerCount - workerCount;
 			if (workerToCreateCount > 0) {
-				IO.debug("OK, create ", workerToCreateCount, " more workers of type ", type,
+				IO.debug("OK, create ", workerToCreateCount, " more workers of type ", c,
 						" (total reserved: ", reservedWorkerCount, "/", maxThreads, ")");
 				return createWorkers(workerToCreateCount) == workerToCreateCount;
 			} else {
-				IO.debug("OK, the workers of type ", type, " are already created (total reserved: ",
+				IO.debug("OK, the workers of type ", c, " are already created (total reserved: ",
 						reservedWorkerCount, "/", maxThreads, ")");
 			}
 			return true;
 		}
-		IO.debug("Cannot reserve ", n, " workers of type ", type, " (total reserved: ",
+		IO.debug("Cannot reserve ", n, " workers of type ", c, " (total reserved: ",
 				reservedWorkerCount, "/", maxThreads, ")");
 		return false;
 	}
@@ -349,6 +349,6 @@ public class WorkQueue<I, O> {
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " of type " + type.getSimpleName();
+		return getClass().getSimpleName() + " of type " + c.getSimpleName();
 	}
 }

@@ -57,6 +57,8 @@ public class NeuralNetworkTest
 		IO.test("classify");
 
 		// Initialize
+		final int testCount = 2;
+		final double[] times = new double[testCount];
 		final int featureCount = 2;
 		final int layerCount = featureCount;
 		final int layerSize = featureCount * featureCount;
@@ -64,11 +66,11 @@ public class NeuralNetworkTest
 		model.setActivationFunction(ActivationFunctions.TANH);
 		model.setRegularizationFunction(RegularizationFunctions.NONE);
 		// - X
-		model.setFeatureVectors(new Matrix(new double[][] {
+		final Matrix featureVectors = new Matrix(new double[][] {
 			new double[] {1.62434536, -0.61175641, -0.52817175},
-			new double[] {-1.07296862, 0.86540763, -2.30153870}})); // (n x m)
+			new double[] {-1.07296862, 0.86540763, -2.30153870}});
 		// - Y
-		model.setClasses(new Vector(1, 0, 1).transpose()); // (1 x m)
+		final Vector classes = new Vector(1, 0, 1).transpose();
 		// - W
 		final Matrix[] weights = new Matrix[layerCount];
 		weights[0] = new Matrix(new double[][] {
@@ -78,21 +80,32 @@ public class NeuralNetworkTest
 			new double[] {0.00502881, -0.01245288}}); // (nh x n)
 		weights[1] = new Matrix(new double[][] {
 			new double[] {-0.01057952, -0.00909008, 0.00551454, 0.02292208}}); // (1 x nh)
-		model.setWeights(weights);
+		final Chronometer chrono = new Chronometer();
 
-		// Train
-		final int iterationCount = model.train(1.2, 1E-8, 10000, layerCount - 1, layerSize);
+		IO.test("Test the classifier");
+		for (int t = 0; t < testCount; ++t) {
+			model.setFeatureVectors(featureVectors); // (n x m)
+			model.setClasses(classes); // (1 x m)
+			model.setWeights(weights);
+			model.setBias(null);
 
-		// Test
-		// - The accuracy
-		final double accuracy = model.computeAccuracy();
-		assertEquals(1., accuracy, BinaryClassifier.DEFAULT_TOLERANCE);
-		// - The cost
-		final double cost = model.computeCost();
-		assertEquals(2.11368793E-5, cost, BinaryClassifier.DEFAULT_TOLERANCE);
+			// Train
+			chrono.start();
+			final int iterationCount = model.train(1.2, 1E-8, 10000, layerCount - 1, layerSize);
+			times[t] = chrono.stop();
 
-		// Report the statistics
-		IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
+			// Test
+			// - The accuracy
+			final double accuracy = model.computeAccuracy();
+			assertEquals(1., accuracy, BinaryClassifier.DEFAULT_TOLERANCE);
+			// - The cost
+			final double cost = model.computeCost();
+			assertEquals(2.11368793E-5, cost, BinaryClassifier.DEFAULT_TOLERANCE);
+
+			// Report the statistics
+			IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
+		}
+		//Tests.printTimes(times);
 	}
 
 	/**
