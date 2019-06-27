@@ -81,15 +81,14 @@ public class Resources {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to a {@link Closeable} or an
-	 * {@link AutoCloseable}.
+	 * Tests whether the specified {@link Class} is assignable to a {@link Closeable}.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Closeable} or
-	 *         an {@link AutoCloseable}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Closeable},
+	 *         {@code false} otherwise
 	 */
 	public static boolean is(final Class<?> c) {
-		return Closeable.class.isAssignableFrom(c) || AutoCloseable.class.isAssignableFrom(c);
+		return Closeable.class.isAssignableFrom(c);
 	}
 }
