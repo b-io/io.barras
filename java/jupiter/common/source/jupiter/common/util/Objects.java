@@ -57,7 +57,8 @@ public class Objects {
 				Longs.is(c) ||
 				Floats.is(c) ||
 				Doubles.is(c) ||
-				Strings.is(c);
+				Strings.is(c) ||
+				Class.class.isAssignableFrom(c);
 	}
 
 	public static boolean isVoid(final Class<?> c) {
@@ -95,7 +96,18 @@ public class Objects {
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Creates a copy of the specified {@code T} object.
+	 * <p>
+	 * @param <T>    the type of the object to clone
+	 * @param object the {@code T} object to clone
+	 * <p>
+	 * @return a copy of the specified {@code T} object
+	 * <p>
+	 * @throws CloneNotSupportedException if the type {@code T} does not implement {@link Cloneable}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	public static <T> T clone(final T object)
 			throws CloneNotSupportedException {
 		if (object == null) {

@@ -25,13 +25,14 @@ package jupiter.common.struct.map.tree.node;
 
 import java.io.Serializable;
 import java.util.Map.Entry;
+import jupiter.common.model.ICloneable;
 
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class TreeNode<K extends Comparable<K>, V>
-		implements Comparable<Entry<K, V>>, Entry<K, V>, Serializable {
+		implements ICloneable<TreeNode<K, V>>, Comparable<Entry<K, V>>, Entry<K, V>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -141,6 +142,28 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public TreeNode<K, V> clone() {
+		try {
+			final TreeNode<K, V> clone = (TreeNode<K, V>) super.clone();
+			clone.key = Objects.clone(key);
+			clone.value = Objects.clone(value);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
 	 * @param other the {@link Object} to compare against for equality
@@ -177,6 +200,8 @@ public class TreeNode<K extends Comparable<K>, V>
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, key, value);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.

@@ -132,15 +132,6 @@ public class Matrix
 	 */
 	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> DOT_PRODUCT_QUEUE = null;
 
-	/**
-	 * The flag specifying whether to use a JNI work queue.
-	 */
-	public static volatile boolean USE_JNI = false;
-	/**
-	 * The JNI work queue for computing the dot product.
-	 */
-	protected static volatile WorkQueue<Pair<Matrix, Matrix>, Matrix> JNI_DOT_PRODUCT_QUEUE = null;
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -157,11 +148,11 @@ public class Matrix
 	/**
 	 * The dimensions.
 	 */
-	protected final Dimensions size;
+	protected Dimensions size;
 	/**
 	 * The elements.
 	 */
-	protected final double[] elements;
+	protected double[] elements;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1202,10 +1193,6 @@ public class Matrix
 		IO.debug(EMPTY);
 
 		// Shutdown
-		if (JNI_DOT_PRODUCT_QUEUE != null) {
-			USE_JNI = false;
-			JNI_DOT_PRODUCT_QUEUE.shutdown();
-		}
 		if (DOT_PRODUCT_QUEUE != null) {
 			PARALLELIZE = false;
 			DOT_PRODUCT_QUEUE.shutdown();
@@ -1307,10 +1294,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix plus(final double scalar) {
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] + scalar;
+				result.elements[i * result.n + j] += scalar;
 			}
 		}
 		return result;
@@ -1337,11 +1324,10 @@ public class Matrix
 		requireDimensions(broadcastedMatrix);
 
 		// Compute
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] +
-						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] += broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1408,10 +1394,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix minus(final double scalar) {
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] - scalar;
+				result.elements[i * result.n + j] -= scalar;
 			}
 		}
 		return result;
@@ -1438,11 +1424,10 @@ public class Matrix
 		requireDimensions(broadcastedMatrix);
 
 		// Compute
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] -
-						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] -= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1509,10 +1494,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix times(final double scalar) {
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] * scalar;
+				result.elements[i * result.n + j] *= scalar;
 			}
 		}
 		return result;
@@ -1551,10 +1536,7 @@ public class Matrix
 		}
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
-		if (USE_JNI) {
-			return JNI_DOT_PRODUCT_QUEUE.get(JNI_DOT_PRODUCT_QUEUE.submit(new Pair<Matrix, Matrix>(
-					this, broadcastedMatrix)));
-		} else if (PARALLELIZE) {
+		if (PARALLELIZE) {
 			// Initialize
 			final int intervalCount = Math.min(m, DOT_PRODUCT_QUEUE.maxThreads);
 			final int rowCountPerInterval = m / intervalCount;
@@ -1622,11 +1604,10 @@ public class Matrix
 		requireDimensions(broadcastedMatrix);
 
 		// Compute
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] *
-						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] *= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1693,10 +1674,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix division(final double scalar) {
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] / scalar;
+				result.elements[i * result.n + j] /= scalar;
 			}
 		}
 		return result;
@@ -1744,11 +1725,10 @@ public class Matrix
 		requireDimensions(broadcastedMatrix);
 
 		// Compute
-		final Matrix result = new Matrix(m, n);
+		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = elements[i * n + j] /
-						broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -2346,7 +2326,14 @@ public class Matrix
 	 */
 	@Override
 	public Matrix clone() {
-		return new Matrix(m, Doubles.take(elements));
+		try {
+			final Matrix clone = (Matrix) super.clone();
+			clone.size = Objects.clone(size);
+			clone.elements = Objects.clone(elements);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2453,6 +2440,15 @@ public class Matrix
 			super();
 		}
 
+		@Override
+		public Pair<Matrix, Interval<Integer>> call(
+				final Triple<Matrix, Matrix, Interval<Integer>> input) {
+			final Matrix left = input.getFirst();
+			final Matrix right = input.getSecond();
+			final Interval<Integer> interval = input.getThird();
+			return new Pair<Matrix, Interval<Integer>>(apply(left, right, interval), interval);
+		}
+
 		public static Matrix apply(final Matrix left, final Matrix right,
 				final Interval<Integer> interval) {
 			// Initialize
@@ -2473,15 +2469,6 @@ public class Matrix
 				}
 			}
 			return result;
-		}
-
-		@Override
-		public Pair<Matrix, Interval<Integer>> call(
-				final Triple<Matrix, Matrix, Interval<Integer>> input) {
-			final Matrix left = input.getFirst();
-			final Matrix right = input.getSecond();
-			final Interval<Integer> interval = input.getThird();
-			return new Pair<Matrix, Interval<Integer>>(apply(left, right, interval), interval);
 		}
 
 		/**

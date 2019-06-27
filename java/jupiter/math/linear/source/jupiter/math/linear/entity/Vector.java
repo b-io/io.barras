@@ -354,6 +354,6 @@ public class Vector
 	 */
 	@Override
 	public Vector clone() {
-		return new Vector(elements);
+		return (Vector) super.clone();
 	}
 }

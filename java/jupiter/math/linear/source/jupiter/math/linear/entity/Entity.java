@@ -582,12 +582,22 @@ public abstract class Entity
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public abstract Entity clone();
+	public Entity clone() {
+		try {
+			return (Entity) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public abstract boolean equals(final Object other);
 
 	public abstract boolean equals(final Object other, final double tolerance);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public abstract String toString();

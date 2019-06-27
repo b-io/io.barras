@@ -76,7 +76,7 @@ public class Table<T>
 	/**
 	 * The class of the elements.
 	 */
-	protected final Class<T> c;
+	protected Class<T> c;
 	/**
 	 * The number of rows.
 	 */
@@ -148,7 +148,7 @@ public class Table<T>
 	 * @param c        the {@link Class} of type {@code T}
 	 * @param elements a 2D array of type {@code T}
 	 */
-	public Table(final Class<T> c, final T[]... elements) {
+	public Table(final Class<T> c, final T[][] elements) {
 		// Set the attributes
 		this.c = c;
 		m = elements.length;
@@ -168,7 +168,7 @@ public class Table<T>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of type {@code T}
 	 */
-	public Table(final Class<T> c, final String[] header, final T[]... elements) {
+	public Table(final Class<T> c, final String[] header, final T[][] elements) {
 		// Check the arguments
 		if (elements.length > 0) {
 			ArrayArguments.requireSameLength(header, elements[0]);
@@ -717,7 +717,7 @@ public class Table<T>
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
-	public void setAll(final T... values) {
+	public void setAll(final T[] values) {
 		for (int i = 0; i < m; ++i) {
 			System.arraycopy(values, i * n, elements[i], 0, n);
 		}
@@ -730,7 +730,7 @@ public class Table<T>
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
-	public void setAll(final T[]... values) {
+	public void setAll(final T[][] values) {
 		for (int i = 0; i < m; ++i) {
 			setRow(i, values[i]);
 		}
@@ -1203,9 +1203,20 @@ public class Table<T>
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Table<T> clone() {
-		return new Table<T>(c, header, elements);
+		try {
+			final Table<T> clone = (Table<T>) super.clone();
+			clone.c = Objects.clone(c);
+			clone.header = Objects.clone(header);
+			clone.elements = Objects.clone(elements);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -1247,6 +1258,8 @@ public class Table<T>
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.

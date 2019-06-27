@@ -147,6 +147,6 @@ public class FloatTable
 	 */
 	@Override
 	public FloatTable clone() {
-		return new FloatTable(header, elements);
+		return (FloatTable) super.clone();
 	}
 }

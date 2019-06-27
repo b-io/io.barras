@@ -29,6 +29,8 @@ import java.io.IOException;
 
 import jupiter.common.math.Maths;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.learning.supervised.function.RegularizationFunction;
@@ -148,18 +150,30 @@ public class NeuralNetwork
 
 	public synchronized void setWeights(final Matrix[] weights) {
 		// Check the arguments
-		Arguments.require(weights[0].getColumnDimension(), featureCount);
+		if (weights != null) {
+			Arguments.require(weights[0].getColumnDimension(), featureCount);
+		}
 
 		// Set the weights
-		W = weights;
+		try {
+			W = Objects.clone(weights);
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 
 	public synchronized void setBias(final Vector[] bias) {
 		// Check the arguments
-		Arguments.require(bias[0].getColumnDimension(), 1);
+		if (bias != null) {
+			Arguments.require(bias[0].getColumnDimension(), 1);
+		}
 
 		// Set the bias
-		b = bias;
+		try {
+			b = Objects.clone(bias);
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 
 	public synchronized void setActivationFunction(final ActivationFunction activationFunction) {

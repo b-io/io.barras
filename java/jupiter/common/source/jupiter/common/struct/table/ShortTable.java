@@ -147,6 +147,6 @@ public class ShortTable
 	 */
 	@Override
 	public ShortTable clone() {
-		return new ShortTable(header, elements);
+		return (ShortTable) super.clone();
 	}
 }

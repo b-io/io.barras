@@ -147,6 +147,6 @@ public class CharacterTable
 	 */
 	@Override
 	public CharacterTable clone() {
-		return new CharacterTable(header, elements);
+		return (CharacterTable) super.clone();
 	}
 }

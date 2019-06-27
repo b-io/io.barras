@@ -167,6 +167,6 @@ public class StringTable
 	 */
 	@Override
 	public StringTable clone() {
-		return new StringTable(header, elements);
+		return (StringTable) super.clone();
 	}
 }

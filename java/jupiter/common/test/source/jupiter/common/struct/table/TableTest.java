@@ -21,14 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.thread;
+package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
 
 import java.io.IOException;
 
-import jupiter.common.struct.table.DoubleTable;
-import jupiter.common.struct.table.StringTable;
 import jupiter.common.test.Test;
 
 public class TableTest
@@ -39,19 +37,6 @@ public class TableTest
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Test of load method, of class Table.
-	 */
-	public void testLoad() {
-		IO.test("load");
-
-		try {
-			new StringTable("test/resources/testFX.csv", true);
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-	}
 
 	/**
 	 * Test of transpose method, of class Table.
@@ -68,6 +53,23 @@ public class TableTest
 		table2.transpose();
 		assertEquals(table1, table2);
 	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Test of load method, of class Table.
+	 */
+	public void testLoad() {
+		IO.test("load");
+
+		try {
+			new StringTable("test/resources/testFX.csv", true);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Test of equals method, of class Table.

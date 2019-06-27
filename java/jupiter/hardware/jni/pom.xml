@@ -42,7 +42,7 @@
 
 	<build>
 		<plugins>
-			<!-- Compile C -->
+			<!-- Compile C and package the JNI library -->
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
@@ -52,7 +52,7 @@
 					<libraries>
 						<library>
 							<type>jni</type>
-							<narSystemPackage>jupiter.math.linear.jni</narSystemPackage>
+							<narSystemPackage>jupiter.hardware.jni</narSystemPackage>
 							<linkCPP>false</linkCPP>
 						</library>
 					</libraries>
