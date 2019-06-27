@@ -301,7 +301,7 @@ public class Arrays {
 		if (a == null) {
 			return b == null ? null : (T[]) toArray(b.getClass().getComponentType(), b);
 		} else if (b == null) {
-			return (T[]) toArray(a.getClass().getComponentType(), a);
+			return toArray(a.getClass().getComponentType(), a);
 		}
 		final Class<?> c = a.getClass().getComponentType();
 		final T[] result = (T[]) create(c, a.length + b.length);

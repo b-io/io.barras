@@ -33,8 +33,25 @@ import jupiter.common.util.Strings;
 
 public class JSON {
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static final char JSON_DELIMITER = ',';
 	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected JSON() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a JSON representative {@link String} of the fields of the specified content.
@@ -81,11 +98,11 @@ public class JSON {
 	}
 
 	/**
-	 * Returns a JSON entry representative {@link String} of the specified value.
+	 * Returns a JSON entry representative {@link String} of the specified value {@link Object}.
 	 * <p>
-	 * @param value the value to represent as a JSON entry {@link String}
+	 * @param value the value {@link Object} to represent as a JSON entry {@link String}
 	 * <p>
-	 * @return a JSON entry representative {@link String} of the specified value
+	 * @return a JSON entry representative {@link String} of the specified value {@link Object}
 	 */
 	public static String jsonifyNode(final Object value) {
 		return jsonifyNode(null, value);
@@ -94,9 +111,9 @@ public class JSON {
 	/**
 	 * Returns a JSON entry representative {@link String} of the specified key-value mapping.
 	 * <p>
-	 * @param key   the {@link String} key of the key-value mapping to represent as a JSON entry
+	 * @param key   the key {@link String} of the key-value mapping to represent as a JSON entry
 	 *              {@link String}
-	 * @param value the {@link Object} value of the key-value mapping to represent as a JSON entry
+	 * @param value the value {@link Object} of the key-value mapping to represent as a JSON entry
 	 *              {@link String}
 	 * <p>
 	 * @return a JSON entry representative {@link String} of the specified key-value mapping
@@ -149,6 +166,13 @@ public class JSON {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether the specified {@link Class} is a leaf.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is a leaf, {@code false} otherwise
+	 */
 	public static boolean isLeaf(final Class<?> c) {
 		return c.isPrimitive() || Objects.hasToString(c);
 	}

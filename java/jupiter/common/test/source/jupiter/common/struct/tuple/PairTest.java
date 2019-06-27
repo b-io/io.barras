@@ -30,7 +30,7 @@ import jupiter.common.test.Test;
 public class PairTest
 		extends Test {
 
-	public PairTest(String name) {
+	public PairTest(final String name) {
 		super(name);
 	}
 

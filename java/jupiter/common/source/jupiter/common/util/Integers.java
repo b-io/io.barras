@@ -59,11 +59,11 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code int} value converted from the specified value.
+	 * Returns an {@code int} value converted from the specified {@code long} value.
 	 * <p>
 	 * @param value a {@code long} value
 	 * <p>
-	 * @return an {@code int} value converted from the specified value
+	 * @return an {@code int} value converted from the specified {@code long} value
 	 */
 	public static int convert(final long value) {
 		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
@@ -73,11 +73,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} value converted from the specified value.
+	 * Returns an {@code int} value converted from the specified {@code float} value.
 	 * <p>
 	 * @param value a {@code float} value
 	 * <p>
-	 * @return an {@code int} value converted from the specified value
+	 * @return an {@code int} value converted from the specified {@code float} value
 	 */
 	public static int convert(final float value) {
 		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
@@ -87,11 +87,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} value converted from the specified value.
+	 * Returns an {@code int} value converted from the specified {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>
-	 * @return an {@code int} value converted from the specified value
+	 * @return an {@code int} value converted from the specified {@code double} value
 	 */
 	public static int convert(final double value) {
 		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
@@ -939,8 +939,8 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified values for order. Returns a negative integer, zero or a positive
-	 * integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code int} values for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code int} value to compare for order
 	 * @param b the other {@code int} value to compare against for order

@@ -70,11 +70,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code float} value converted from the specified value.
+	 * Returns a {@code float} value converted from the specified {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>
-	 * @return a {@code float} value converted from the specified value
+	 * @return a {@code float} value converted from the specified {@code double} value
 	 */
 	public static float convert(final double value) {
 		if (value < Float.MIN_VALUE || value > Float.MAX_VALUE) {
@@ -647,11 +647,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the percentage representative {@link String} of the specified value.
+	 * Returns the percentage representative {@link String} of the specified {@code float} value.
 	 * <p>
 	 * @param value a {@code float} value
 	 * <p>
-	 * @return the percentage representative {@link String} of the specified value
+	 * @return the percentage representative {@link String} of the specified {@code float} value
 	 */
 	public static String toPercentage(final float value) {
 		return value * 100f + "%";
@@ -934,8 +934,8 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified values for order. Returns a negative integer, zero or a positive
-	 * integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code float} values for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code float} value to compare for order
 	 * @param b the other {@code float} value to compare against for order

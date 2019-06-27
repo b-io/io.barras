@@ -70,7 +70,7 @@ public class DoubleTable
 	}
 
 	/**
-	 * Constructs a {@link DoubleTable} of the specified values.
+	 * Constructs a {@link DoubleTable} of the specified {@code double} values.
 	 * <p>
 	 * @param values a 2D array of {@code double} values
 	 */

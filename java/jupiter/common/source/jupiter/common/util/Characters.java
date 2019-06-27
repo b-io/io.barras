@@ -913,8 +913,8 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified values for order. Returns a negative integer, zero or a positive
-	 * integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code char} values for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code char} value to compare for order
 	 * @param b the other {@code char} value to compare against for order

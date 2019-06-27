@@ -106,7 +106,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Tests whether to update the nodes.
+	 * Returns the flag specifying whether to update the nodes.
 	 * <p>
 	 * @return the flag specifying whether to update the nodes
 	 */
@@ -135,13 +135,13 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified value to the specified key and returns the previous associated value
-	 * of type {@code V}, or {@code null} if it is not present.
+	 * Associates the specified value {@code V} to the specified key {@code K} and returns the
+	 * previous associated value {@code V}, or {@code null} if it is not present.
 	 * <p>
-	 * @param key   the key of type {@code K} of the key-value mapping to put
-	 * @param value the value of type {@code V} of the key-value mapping to put
+	 * @param key   the key {@code K} of the key-value mapping to put
+	 * @param value the value {@code V} of the key-value mapping to put
 	 * <p>
-	 * @return the previous associated value of type {@code V}, or {@code null} if it is not present
+	 * @return the previous associated value {@code V}, or {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -306,11 +306,11 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Rotates the specified {@link AvlTreeNode} tree to the left. Corrects a RR imbalance.
+	 * Rotates the specified tree {@link AvlTreeNode} to the left. Corrects a RR imbalance.
 	 * <p>
-	 * @param tree the {@link AvlTreeNode} tree of type {@code K} and {@code V} to rotate
+	 * @param tree the tree {@link AvlTreeNode} of type {@code K} and {@code V} to rotate
 	 * <p>
-	 * @return the rotated {@link AvlTreeNode} tree of type {@code K} and {@code V}
+	 * @return the rotated tree {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
 	@Override
 	protected AvlTreeNode<K, V> rotateLeft(final AvlTreeNode<K, V> tree) {
@@ -323,11 +323,11 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Rotates the specified {@link AvlTreeNode} tree to the right. Corrects a LL imbalance.
+	 * Rotates the specified tree {@link AvlTreeNode} to the right. Corrects a LL imbalance.
 	 * <p>
-	 * @param tree the {@link AvlTreeNode} tree of type {@code K} and {@code V} to rotate
+	 * @param tree the tree {@link AvlTreeNode} of type {@code K} and {@code V} to rotate
 	 * <p>
-	 * @return the rotated {@link AvlTreeNode} tree of type {@code K} and {@code V}
+	 * @return the rotated tree {@link AvlTreeNode} of type {@code K} and {@code V}
 	 */
 	@Override
 	protected AvlTreeNode<K, V> rotateRight(final AvlTreeNode<K, V> tree) {

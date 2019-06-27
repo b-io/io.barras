@@ -155,6 +155,11 @@ public abstract class OpenCL {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the flag specifying whether {@code this} is active.
+	 * <p>
+	 * @return the flag specifying whether {@code this} is active
+	 */
 	public boolean isActive() {
 		return isActive;
 	}

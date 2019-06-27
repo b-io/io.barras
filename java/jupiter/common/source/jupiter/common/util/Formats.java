@@ -73,6 +73,12 @@ public class Formats {
 	 * The default format.
 	 */
 	public static Format DEFAULT_FORMAT = new Format() {
+
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 4733602893042837792L;
+
 		@Override
 		public StringBuffer format(final Object object, final StringBuffer toAppendTo,
 				final FieldPosition position) {

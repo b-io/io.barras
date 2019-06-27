@@ -804,7 +804,7 @@ public class Table<T>
 	/**
 	 * Fills {@code this} with the specified value.
 	 * <p>
-	 * @param value the value to fill with
+	 * @param value the value {@code T} to fill with
 	 */
 	public void fill(final T value) {
 		Arrays.<T>fill(elements, value);
@@ -1149,6 +1149,11 @@ public class Table<T>
 		 */
 		protected int cursor = 0;
 
+		/**
+		 * Tests whether {@code this} has next.
+		 * <p>
+		 * @return {@code true} if {@code this} has next, {@code false} otherwise
+		 */
 		public boolean hasNext() {
 			return cursor != m;
 		}

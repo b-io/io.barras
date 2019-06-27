@@ -958,10 +958,22 @@ public class IO
 			this.value = value;
 		}
 
+		/**
+		 * Tests whether {@code this} is at most {@link SeverityLevel.DEBUG}.
+		 * <p>
+		 * @return {@code true} if {@code this} is at most {@link SeverityLevel.DEBUG},
+		 *         {@code false} otherwise
+		 */
 		public boolean isDebug() {
 			return value <= DEBUG.toInt();
 		}
 
+		/**
+		 * Tests whether {@code this} is at least {@link SeverityLevel.WARNING}.
+		 * <p>
+		 * @return {@code true} if {@code this} is at least {@link SeverityLevel.WARNING},
+		 *         {@code false} otherwise
+		 */
 		public boolean isError() {
 			return value >= WARNING.toInt();
 		}

@@ -148,7 +148,7 @@ public class Content
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is {@code null} or empty, {@code false} otherwise
+	 * Tests whether {@code this} is {@code null} or empty.
 	 * <p>
 	 * @return {@code true} if {@code this} is {@code null} or empty, {@code false} otherwise
 	 */

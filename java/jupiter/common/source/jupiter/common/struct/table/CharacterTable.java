@@ -70,7 +70,7 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} of the specified values.
+	 * Constructs a {@link CharacterTable} of the specified {@code char} values.
 	 * <p>
 	 * @param values a 2D array of {@code char} values
 	 */

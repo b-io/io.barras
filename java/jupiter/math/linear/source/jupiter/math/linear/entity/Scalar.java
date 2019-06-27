@@ -240,7 +240,7 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified value.
+	 * Fills {@code this} with the specified {@code double} value.
 	 * <p>
 	 * @param value the {@code double} value to fill with
 	 */

@@ -978,8 +978,7 @@ public class Files {
 	 * <p>
 	 * @param file the {@link File} to test
 	 * <p>
-	 * @return {@code true} if and only if the specified {@link File} exists, {@code false}
-	 *         otherwise
+	 * @return {@code true} if the specified {@link File} exists, {@code false} otherwise
 	 * <p>
 	 * @throws SecurityException if there is a permission problem
 	 */

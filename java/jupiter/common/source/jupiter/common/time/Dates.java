@@ -418,11 +418,11 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code day} is a week day.
+	 * Tests whether the specified {@link Date} is a week day.
 	 * <p>
-	 * @param day the day to consider
+	 * @param day the {@link Date} to consider
 	 * <p>
-	 * @return {@code true} if {@code day} is a week day, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Date} is a week day, {@code false} otherwise
 	 */
 	public static Boolean isWeekDay(final Date day) {
 		final Calendar calendar = Calendar.getInstance();

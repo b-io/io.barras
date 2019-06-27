@@ -70,7 +70,7 @@ public class ShortTable
 	}
 
 	/**
-	 * Constructs a {@link ShortTable} of the specified values.
+	 * Constructs a {@link ShortTable} of the specified {@code short} values.
 	 * <p>
 	 * @param values a 2D array of {@code short} values
 	 */

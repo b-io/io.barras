@@ -31,7 +31,7 @@ import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Arrays;
 
 /**
- * {@link ObjectMapper} is an operator mapping an {@link Object} to an {@code O} object.
+ * {@link ObjectMapper} is an operator mapping an {@link Object} to an output {@code O}.
  * <p>
  * @param <O> the output type
  */

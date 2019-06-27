@@ -32,6 +32,12 @@ public class JSONWrapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 2090035570533785424L;
+
+
 	public JSONWrapper() {
 		super();
 	}

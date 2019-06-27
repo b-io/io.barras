@@ -30,15 +30,15 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.text.Format;
-import jupiter.common.model.ICloneable;
 
+import org.jfree.chart.ChartPanel;
+import org.jfree.util.PublicCloneable;
+
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.ChartPanels;
 import jupiter.math.analysis.struct.XY;
-
-import org.jfree.chart.ChartPanel;
-import org.jfree.util.PublicCloneable;
 
 /**
  * A selection to display on a plot.
@@ -82,7 +82,8 @@ public class XYSelection
 	/**
 	 * The property change support.
 	 */
-	protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
+			this);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,9 +157,9 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the selection is visible.
+	 * Tests whether {@code this} is visible.
 	 * <p>
-	 * @return {@code true} if the selection is visible, {@code false} otherwise
+	 * @return {@code true} if {@code this} is visible, {@code false} otherwise
 	 */
 	public boolean isSelectionVisible() {
 		return isVisible;
@@ -198,12 +199,12 @@ public class XYSelection
 	/**
 	 * Sets the selection visibility and sends a property change event to all registered listeners.
 	 * <p>
-	 * @param isSelectionVisible the flag specifying whether the selection is visible
+	 * @param isVisible the flag specifying whether the selection is visible
 	 */
-	public void setVisible(final boolean isSelectionVisible) {
+	public void setVisible(final boolean isVisible) {
 		final boolean oldValue = this.isVisible;
-		this.isVisible = isSelectionVisible;
-		propertyChangeSupport.firePropertyChange("isSelectionVisible", oldValue, isSelectionVisible);
+		this.isVisible = isVisible;
+		propertyChangeSupport.firePropertyChange("isSelectionVisible", oldValue, isVisible);
 	}
 
 
@@ -247,7 +248,9 @@ public class XYSelection
 					coordinates);
 			final double ySelection = ChartPanels.rangeValueToJava2D(chartPanel, mousePosition,
 					coordinates);
-			final Ellipse2D selection = new Ellipse2D.Double(xSelection - 5, ySelection - 5, 10, 10);
+			final Ellipse2D selection = new Ellipse2D.Double(
+					xSelection - 5, ySelection - 5,
+					10, 10);
 			g.draw(selection);
 			g.fill(selection);
 		}

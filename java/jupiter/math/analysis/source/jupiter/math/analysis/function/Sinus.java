@@ -33,7 +33,7 @@ public class Sinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the sinus function to the specified value and returns the result.
+	 * Applies the sinus function to the specified {@code double} value and returns the result.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>

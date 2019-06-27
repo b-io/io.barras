@@ -250,10 +250,26 @@ public class SQL {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether the specified {@link Object} is {@code null} or {@code "NULL"}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is {@code null} or {@code "NULL"},
+	 *         {@code false} otherwise
+	 */
 	public static boolean isNull(final Object object) {
 		return object == null || NULL.equals(object.toString());
 	}
 
+	/**
+	 * Tests whether the specified {@link String} is {@code null} or {@code "NULL"}.
+	 * <p>
+	 * @param string the {@link String} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is {@code null} or {@code "NULL"},
+	 *         {@code false} otherwise
+	 */
 	public static boolean isNull(final String string) {
 		return string == null || NULL.equals(string);
 	}

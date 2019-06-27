@@ -51,8 +51,8 @@ public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends Binar
 	/**
 	 * Constructs a {@link BinaryTreeNode} with the specified key and value.
 	 * <p>
-	 * @param key   the key of type {@code K} of the node
-	 * @param value the value of type {@code V} of the node
+	 * @param key   the key {@code K} of the node
+	 * @param value the value {@code V} of the node
 	 */
 	protected BinaryTreeNode(final K key, final V value) {
 		super(key, value);

@@ -59,11 +59,11 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code short} value converted from the specified value.
+	 * Returns a {@code short} value converted from the specified {@code int} value.
 	 * <p>
 	 * @param value an {@code int} value
 	 * <p>
-	 * @return a {@code short} value converted from the specified value
+	 * @return a {@code short} value converted from the specified {@code int} value
 	 */
 	public static short convert(final int value) {
 		if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
@@ -73,11 +73,11 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@code short} value converted from the specified value.
+	 * Returns a {@code short} value converted from the specified {@code long} value.
 	 * <p>
 	 * @param value a {@code long} value
 	 * <p>
-	 * @return a {@code short} value converted from the specified value
+	 * @return a {@code short} value converted from the specified {@code long} value
 	 */
 	public static short convert(final long value) {
 		if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
@@ -87,11 +87,11 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@code short} value converted from the specified value.
+	 * Returns a {@code short} value converted from the specified {@code float} value.
 	 * <p>
 	 * @param value a {@code float} value
 	 * <p>
-	 * @return a {@code short} value converted from the specified value
+	 * @return a {@code short} value converted from the specified {@code float} value
 	 */
 	public static short convert(final float value) {
 		if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
@@ -101,11 +101,11 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@code short} value converted from the specified value.
+	 * Returns a {@code short} value converted from the specified {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>
-	 * @return a {@code short} value converted from the specified value
+	 * @return a {@code short} value converted from the specified {@code double} value
 	 */
 	public static short convert(final double value) {
 		if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
@@ -950,8 +950,8 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified values for order. Returns a negative integer, zero or a positive
-	 * integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code short} values for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code short} value to compare for order
 	 * @param b the other {@code short} value to compare against for order
@@ -987,11 +987,11 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the hash code value for the specified value.
+	 * Returns the hash code value for the specified {@code short} value.
 	 * <p>
 	 * @param value a {@code short} value
 	 * <p>
-	 * @return the hash code value for the specified value
+	 * @return the hash code value for the specified {@code short} value
 	 */
 	public static int hashCode(final short value) {
 		return Objects.hashCode((int) value, value >>> Bits.HALF_LONG_BITS_COUNT);

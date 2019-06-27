@@ -24,7 +24,7 @@
 package jupiter.common.map.parser;
 
 /**
- * {@link IParser} is a map operator parsing an {@link Object} to an {@code O} object.
+ * {@link IParser} is a map operator parsing an {@link Object} to an output {@code O}.
  * <p>
  * @param <O> the output type
  */

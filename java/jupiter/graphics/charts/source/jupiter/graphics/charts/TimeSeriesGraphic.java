@@ -121,8 +121,8 @@ public class TimeSeriesGraphic
 	 * <p>
 	 * @throws ParseException if there is a problem with parsing the x coordinates to {@link Date}
 	 */
-	public void load(final StringTable coordinates, final int xColumnIndex,
-			final int yColumnIndex, final boolean hasTime)
+	public void load(final StringTable coordinates, final int xColumnIndex, final int yColumnIndex,
+			final boolean hasTime)
 			throws ParseException {
 		if (coordinates != null) {
 			final int seriesIndex = addSeries(coordinates.getColumnName(yColumnIndex));

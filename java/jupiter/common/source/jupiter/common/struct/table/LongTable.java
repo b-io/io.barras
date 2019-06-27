@@ -70,7 +70,7 @@ public class LongTable
 	}
 
 	/**
-	 * Constructs a {@link LongTable} of the specified values.
+	 * Constructs a {@link LongTable} of the specified {@code long} values.
 	 * <p>
 	 * @param values a 2D array of {@code long} values
 	 */

@@ -134,15 +134,15 @@ public class Objects {
 				return object;
 			}
 			return (T) c.getMethod("clone").invoke(object);
-		} catch (IllegalAccessException ex) {
+		} catch (final IllegalAccessException ex) {
 			throw new CloneNotSupportedException(Strings.toString(ex));
-		} catch (IllegalArgumentException ex) {
+		} catch (final IllegalArgumentException ex) {
 			throw new CloneNotSupportedException(Strings.toString(ex));
-		} catch (InvocationTargetException ex) {
+		} catch (final InvocationTargetException ex) {
 			throw new CloneNotSupportedException(Strings.toString(ex));
-		} catch (NoSuchMethodException ex) {
+		} catch (final NoSuchMethodException ex) {
 			throw new CloneNotSupportedException(Strings.toString(ex));
-		} catch (SecurityException ex) {
+		} catch (final SecurityException ex) {
 			throw new CloneNotSupportedException(Strings.toString(ex));
 		}
 	}

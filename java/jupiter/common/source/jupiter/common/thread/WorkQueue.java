@@ -57,11 +57,11 @@ public class WorkQueue<I, O> {
 	protected volatile boolean isRunning = true;
 
 	/**
-	 * The worker model.
+	 * The model {@link Worker} of type {@code I} and {@code O}.
 	 */
 	protected final Worker<I, O> model;
 	/**
-	 * The worker type.
+	 * The {@link Worker} type.
 	 */
 	protected final Class<?> c;
 	/**
@@ -92,21 +92,21 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link WorkQueue} with the specified model of the workers to handle.
+	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} to handle.
 	 * <p>
-	 * @param model the model of the workers to handle
+	 * @param model the model {@link Worker} of type {@code I} and {@code O} to handle
 	 */
 	protected WorkQueue(final Worker<I, O> model) {
 		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
 	}
 
 	/**
-	 * Constructs a {@link WorkQueue} with the specified model and minimum and maximum number of
-	 * workers to handle.
+	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} and minimum and
+	 * maximum number of workers to handle.
 	 * <p>
-	 * @param model      the model of the workers to handle
-	 * @param minThreads the minimum number of the workers to handle
-	 * @param maxThreads the maximum number of the workers to handle
+	 * @param model      the model {@link Worker} of type {@code I} and {@code O} to handle
+	 * @param minThreads the minimum number of {@link Worker} to handle
+	 * @param maxThreads the maximum number of {@link Worker} to handle
 	 */
 	protected WorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads) {
 		this.model = model;
@@ -121,9 +121,9 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the type of the workers to handle.
+	 * Returns the type of {@link Worker} to handle.
 	 * <p>
-	 * @return the type of the workers to handle
+	 * @return the type of {@link Worker} to handle
 	 */
 	public Class<?> getType() {
 		return c;
@@ -184,11 +184,11 @@ public class WorkQueue<I, O> {
 	}
 
 	/**
-	 * Instantiates a worker according to the model.
+	 * Instantiates a {@link Worker} according to the model.
 	 * <p>
-	 * @return the number of created workers
+	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
 	 * <p>
-	 * @throws IllegalOperationException if the maximum number of workers has been reached
+	 * @throws IllegalOperationException if the maximum number of {@link Worker} has been reached
 	 */
 	protected int createWorker()
 			throws IllegalOperationException {
@@ -210,6 +210,13 @@ public class WorkQueue<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Reserves the specified number of {@link Worker}.
+	 * <p>
+	 * @param n the number of {@link Worker} to reserve
+	 * <p>
+	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
+	 */
 	public boolean reserveWorkers(final int n) {
 		IO.debug("Try to reserve ", n, " workers of type ", c);
 		if (maxThreads - reservedWorkerCount >= n) {

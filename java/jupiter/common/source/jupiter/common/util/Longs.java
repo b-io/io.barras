@@ -59,11 +59,11 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code long} value converted from the specified value.
+	 * Returns a {@code long} value converted from the specified {@code float} value.
 	 * <p>
 	 * @param value a {@code float} value
 	 * <p>
-	 * @return a {@code long} value converted from the specified value
+	 * @return a {@code long} value converted from the specified {@code float} value
 	 */
 	public static long convert(final float value) {
 		if (value < Long.MIN_VALUE || value > Long.MAX_VALUE) {
@@ -73,11 +73,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} value converted from the specified value.
+	 * Returns a {@code long} value converted from the specified {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>
-	 * @return a {@code long} value converted from the specified value
+	 * @return a {@code long} value converted from the specified {@code double} value
 	 */
 	public static long convert(final double value) {
 		if (value < Long.MIN_VALUE || value > Long.MAX_VALUE) {
@@ -921,8 +921,8 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified values for order. Returns a negative integer, zero or a positive
-	 * integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code long} values for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code long} value to compare for order
 	 * @param b the other {@code long} value to compare against for order
@@ -958,11 +958,11 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the hash code value for the specified value.
+	 * Returns the hash code value for the specified {@code long} value.
 	 * <p>
 	 * @param value a {@code long} value
 	 * <p>
-	 * @return the hash code value for the specified value
+	 * @return the hash code value for the specified {@code long} value
 	 */
 	public static int hashCode(final long value) {
 		return Objects.hashCode((int) value, (int) (value >>> Bits.HALF_LONG_BITS_COUNT));

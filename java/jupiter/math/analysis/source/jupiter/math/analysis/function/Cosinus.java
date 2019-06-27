@@ -33,7 +33,7 @@ public class Cosinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the cosinus function to the specified value and returns the result.
+	 * Applies the cosinus function to the specified {@code double} value and returns the result.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>

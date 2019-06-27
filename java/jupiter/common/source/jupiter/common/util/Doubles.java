@@ -635,11 +635,11 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the percentage representative {@link String} of the specified value.
+	 * Returns the percentage representative {@link String} of the specified {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>
-	 * @return the percentage representative {@link String} of the specified value
+	 * @return the percentage representative {@link String} of the specified {@code double} value
 	 */
 	public static String toPercentage(final double value) {
 		return DECIMAL_FORMAT.format(value * 100.) + "%";
@@ -922,8 +922,8 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified values for order. Returns a negative integer, zero or a positive
-	 * integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code double} values for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code double} value to compare for order
 	 * @param b the other {@code double} value to compare against for order

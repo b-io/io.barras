@@ -59,11 +59,11 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code byte} value converted from the specified value.
+	 * Returns a {@code byte} value converted from the specified {@code short} value.
 	 * <p>
 	 * @param value a {@code short} value
 	 * <p>
-	 * @return a {@code byte} value converted from the specified value
+	 * @return a {@code byte} value converted from the specified {@code short} value
 	 */
 	public static byte convert(final short value) {
 		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
@@ -73,11 +73,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} value converted from the specified value.
+	 * Returns a {@code byte} value converted from the specified {@code int} value.
 	 * <p>
 	 * @param value an {@code int} value
 	 * <p>
-	 * @return a {@code byte} value converted from the specified value
+	 * @return a {@code byte} value converted from the specified {@code int} value
 	 */
 	public static byte convert(final int value) {
 		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
@@ -87,11 +87,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} value converted from the specified value.
+	 * Returns a {@code byte} value converted from the specified {@code long} value.
 	 * <p>
 	 * @param value a {@code long} value
 	 * <p>
-	 * @return a {@code byte} value converted from the specified value
+	 * @return a {@code byte} value converted from the specified {@code long} value
 	 */
 	public static byte convert(final long value) {
 		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
@@ -101,11 +101,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} value converted from the specified value.
+	 * Returns a {@code byte} value converted from the specified {@code float} value.
 	 * <p>
 	 * @param value a {@code float} value
 	 * <p>
-	 * @return a {@code byte} value converted from the specified value
+	 * @return a {@code byte} value converted from the specified {@code float} value
 	 */
 	public static byte convert(final float value) {
 		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
@@ -115,11 +115,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} value converted from the specified value.
+	 * Returns a {@code byte} value converted from the specified {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>
-	 * @return a {@code byte} value converted from the specified value
+	 * @return a {@code byte} value converted from the specified {@code double} value
 	 */
 	public static byte convert(final double value) {
 		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
@@ -963,8 +963,8 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified values for order. Returns a negative integer, zero or a positive
-	 * integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code byte} values for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code byte} value to compare for order
 	 * @param b the {@code byte} value to compare against for order
@@ -1000,11 +1000,11 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the hash code value for the specified value.
+	 * Returns the hash code value for the specified {@code byte} value.
 	 * <p>
 	 * @param value a {@code byte} value
 	 * <p>
-	 * @return the hash code value for the specified value
+	 * @return the hash code value for the specified {@code byte} value
 	 */
 	public static int hashCode(final byte value) {
 		return Objects.hashCode((int) value, value >>> Bits.HALF_LONG_BITS_COUNT);

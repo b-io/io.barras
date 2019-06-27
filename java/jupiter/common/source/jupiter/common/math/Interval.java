@@ -130,7 +130,7 @@ public class Interval<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} contains the value.
 	 * <p>
-	 * @param value the value of type {@code T} to test for presence
+	 * @param value the value {@code T} to test for presence
 	 * <p>
 	 * @return {@code true} if {@code this} contains the value, {@code false} otherwise
 	 */

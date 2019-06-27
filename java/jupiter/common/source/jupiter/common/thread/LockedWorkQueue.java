@@ -60,33 +60,33 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link LockedWorkQueue} with the specified model of the workers to handle.
+	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker}.
 	 * <p>
-	 * @param model the model of the workers to handle
+	 * @param model the model {@link Worker} of type {@code I} and {@code O}
 	 */
 	public LockedWorkQueue(final Worker<I, O> model) {
 		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
 	}
 
 	/**
-	 * Constructs a {@link LockedWorkQueue} with the specified model and minimum and maximum number
-	 * of workers to handle.
+	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker} and minimum and
+	 * maximum number of {@link Worker} to handle.
 	 * <p>
-	 * @param model      the model of the workers to handle
-	 * @param minThreads the minimum number of the workers to handle
-	 * @param maxThreads the maximum number of the workers to handle
+	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
+	 * @param minThreads the minimum number of {@link Worker} to handle
+	 * @param maxThreads the maximum number of {@link Worker} to handle
 	 */
 	public LockedWorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads) {
 		this(model, minThreads, maxThreads, false);
 	}
 
 	/**
-	 * Constructs a {@link LockedWorkQueue} with the specified model, minimum and maximum number of
-	 * workers to handle and fairness policy.
+	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker}, minimum and
+	 * maximum number of {@link Worker} to handle and fairness policy.
 	 * <p>
-	 * @param model      the model of the workers to handle
-	 * @param minThreads the minimum number of the workers to handle
-	 * @param maxThreads the maximum number of the workers to handle
+	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
+	 * @param minThreads the minimum number of {@link Worker} to handle
+	 * @param maxThreads the maximum number of {@link Worker} to handle
 	 * @param isFair     the flag specifying whether to use a fair ordering policy
 	 */
 	public LockedWorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads,
@@ -106,11 +106,11 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Reserves n workers.
+	 * Reserves the specified number of {@link Worker}.
 	 * <p>
-	 * @param n the number of workers to reserve
+	 * @param n the number of {@link Worker} to reserve
 	 * <p>
-	 * @return {@code true} if the workers are reserved, {@code false} otherwise
+	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
 	 */
 	@Override
 	public boolean reserveWorkers(final int n) {
@@ -123,11 +123,11 @@ public class LockedWorkQueue<I, O>
 	}
 
 	/**
-	 * Instantiates a worker according to the model.
+	 * Instantiates a {@link Worker} according to the model.
 	 * <p>
-	 * @return the number of created workers
+	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
 	 * <p>
-	 * @throws IllegalOperationException if the maximum number of workers has been reached
+	 * @throws IllegalOperationException if the maximum number of {@link Worker} has been reached
 	 */
 	@Override
 	protected int createWorker()

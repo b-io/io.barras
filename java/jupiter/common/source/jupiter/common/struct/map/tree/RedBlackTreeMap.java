@@ -80,12 +80,12 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 
 	/**
 	 * Associates the specified value to the specified key and returns the previous associated value
-	 * of type {@code V}, or {@code null} if it is not present.
+	 * {@code V}, or {@code null} if it is not present.
 	 * <p>
-	 * @param key   the key of type {@code K} of the key-value mapping to put
-	 * @param value the value of type {@code V} of the key-value mapping to put
+	 * @param key   the key {@code K} of the key-value mapping to put
+	 * @param value the value {@code V} of the key-value mapping to put
 	 * <p>
-	 * @return the previous associated value of type {@code V}, or {@code null} if it is not present
+	 * @return the previous associated value {@code V}, or {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -137,7 +137,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the specified node.
+	 * Removes the specified {@link RedBlackTreeNode}.
 	 * <p>
 	 * @param node the {@link RedBlackTreeNode} of type {@code K} and {@code V} to remove
 	 */
@@ -193,7 +193,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Balances after inserting the specified node.
+	 * Balances after inserting the specified {@link RedBlackTreeNode}.
 	 * <p>
 	 * @param node the inserted {@link RedBlackTreeNode} of type {@code K} and {@code V}
 	 */

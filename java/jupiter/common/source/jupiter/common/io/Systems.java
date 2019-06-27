@@ -110,10 +110,22 @@ public class Systems {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether the system is {@link OS.LINUX} or {@link OS.MACOS}.
+	 * <p>
+	 * @return {@code true} if the system is {@link OS.LINUX} or {@link OS.MACOS}, {@code false}
+	 *         otherwise
+	 */
 	public static boolean isUnix() {
 		return OS == OS.LINUX || OS == OS.MACOS;
 	}
 
+	/**
+	 * Tests whether the system is {@link OS.WINDOWS}.
+	 * <p>
+	 * @return {@code true} if the system is {@link OS.LINUX} or {@link OS.MACOS}, {@code false}
+	 *         otherwise
+	 */
 	public static boolean isWindows() {
 		return OS == OS.WINDOWS;
 	}

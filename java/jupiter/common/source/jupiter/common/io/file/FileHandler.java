@@ -333,7 +333,7 @@ public class FileHandler {
 	/**
 	 * Tests whether {@code this} exists.
 	 * <p>
-	 * @return {@code true} if and only if {@code this} exists, {@code false} otherwise
+	 * @return {@code true} if {@code this} exists, {@code false} otherwise
 	 * <p>
 	 * @throws SecurityException if there is a permission problem
 	 */

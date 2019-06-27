@@ -70,7 +70,7 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} of the specified values.
+	 * Constructs an {@link IntegerTable} of the specified {@code int} values.
 	 * <p>
 	 * @param values a 2D array of {@code int} values
 	 */

@@ -229,7 +229,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} from the specified values.
+	 * Constructs a {@link Matrix} from the specified {@code double} values.
 	 * <p>
 	 * @param rowCount  the number of rows of the array
 	 * @param values    an array of {@code double} values
@@ -262,7 +262,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} from the specified values.
+	 * Constructs a {@link Matrix} from the specified {@code double} values.
 	 * <p>
 	 * @param values a 2D array of {@code double} values
 	 * <p>
@@ -1212,7 +1212,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified value.
+	 * Fills {@code this} with the specified {@code double} value.
 	 * <p>
 	 * @param value the {@code double} value to fill with
 	 */
@@ -2248,7 +2248,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is square, {@code false} otherwise.
+	 * Tests whether {@code this} is square.
 	 * <p>
 	 * @return {@code true} if {@code this} is square, {@code false} otherwise
 	 */
@@ -2435,6 +2435,11 @@ public class Matrix
 
 	protected static class DotProduct
 			extends Worker<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> {
+
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = -858791928278526608L;
 
 		protected DotProduct() {
 			super();

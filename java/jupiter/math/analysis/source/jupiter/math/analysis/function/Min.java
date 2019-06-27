@@ -42,7 +42,7 @@ public class Min
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the minimum function to the specified value and this value and returns the result.
+	 * Applies the minimum function to the specified {@code double} value and this value and returns the result.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>

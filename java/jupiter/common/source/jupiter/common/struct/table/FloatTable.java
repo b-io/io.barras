@@ -70,7 +70,7 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} of the specified values.
+	 * Constructs a {@link FloatTable} of the specified {@code float} values.
 	 * <p>
 	 * @param values a 2D array of {@code float} values
 	 */

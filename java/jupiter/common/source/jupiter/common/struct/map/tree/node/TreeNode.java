@@ -25,8 +25,8 @@ package jupiter.common.struct.map.tree.node;
 
 import java.io.Serializable;
 import java.util.Map.Entry;
-import jupiter.common.model.ICloneable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -49,11 +49,11 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The key of type {@code K}.
+	 * The key {@code K}.
 	 */
 	public K key;
 	/**
-	 * The value of type {@code V}.
+	 * The value {@code V}.
 	 */
 	public V value;
 
@@ -65,8 +65,8 @@ public class TreeNode<K extends Comparable<K>, V>
 	/**
 	 * Constructs a {@link TreeNode} with the specified key and value.
 	 * <p>
-	 * @param key   a key of type {@code K}
-	 * @param value a value of type {@code V}
+	 * @param key   a key {@code K}
+	 * @param value a value {@code V}
 	 */
 	public TreeNode(final K key, final V value) {
 		// Check the arguments
@@ -83,18 +83,18 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the key of type {@code K}.
+	 * Returns the key {@code K}.
 	 * <p>
-	 * @return the key of type {@code K}
+	 * @return the key {@code K}
 	 */
 	public K getKey() {
 		return key;
 	}
 
 	/**
-	 * Returns the value of type {@code V}.
+	 * Returns the value {@code V}.
 	 * <p>
-	 * @return the value of type {@code V}
+	 * @return the value {@code V}
 	 */
 	public V getValue() {
 		return value;
@@ -103,11 +103,11 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the value and returns the previous associated value of type {@code V}.
+	 * Sets the value and returns the previous associated value {@code V}.
 	 * <p>
 	 * @param value a {@code V} object
 	 * <p>
-	 * @return the previous associated value of type {@code V}
+	 * @return the previous associated value {@code V}
 	 */
 	public V setValue(final V value) {
 		final V previousValue = this.value;

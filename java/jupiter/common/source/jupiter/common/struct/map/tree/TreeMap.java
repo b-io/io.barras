@@ -80,12 +80,13 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the value of type {@code V} associated to the specified key, or {@code null} if it is
-	 * not present.
+	 * Returns the value {@code V} associated to the specified key {@link Object}, or
+	 * {@code null} if it is not present.
 	 * <p>
-	 * @param key the {@link Object} key of the value of type {@code V} to get
+	 * @param key the key {@link Object} of the value {@code V} to get
 	 * <p>
-	 * @return the value associated to the specified key, or {@code null} if it is not present
+	 * @return the value associated to the specified key {@link Object}, or {@code null} if it is
+	 *         not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -110,12 +111,13 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node of type {@code N} of the specified key, or {@code null} if it is not
-	 * present.
+	 * Returns the node {@code N} of the specified key {@link Object}, or {@code null} if it
+	 * is not present.
 	 * <p>
-	 * @param key the {@link Object} key of the node of type {@code N} to get
+	 * @param key the key {@link Object} of the node {@code N} to get
 	 * <p>
-	 * @return the node of type {@code N} of the specified key, or {@code null} if it is not present
+	 * @return the node {@code N} of the specified key {@link Object}, or {@code null} if it
+	 *         is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -130,12 +132,12 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node of type {@code N} associated to the specified key {@link Comparable}, or
+	 * Returns the node {@code N} associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
 	 * @param keyComparable a key {@link Comparable} of super type {@code K}
 	 * <p>
-	 * @return the node of type {@code N} associated to the specified key {@link Comparable}, or
+	 * @return the node {@code N} associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys

@@ -27,7 +27,8 @@ import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
 /**
- * {@link Reducer} is an operator reducing an array of type {@code I} to an {@code O} object.
+ * {@link Reducer} is an operator reducing an array of type {@code I} to an output of type
+ * {@code O}.
  * <p>
  * @param <I> the input type
  * @param <O> the output type

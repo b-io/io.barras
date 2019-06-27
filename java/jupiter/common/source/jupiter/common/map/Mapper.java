@@ -32,7 +32,7 @@ import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
 /**
- * {@link Mapper} is an operator mapping an {@code I} object to an {@code O} object.
+ * {@link Mapper} is an operator mapping an input {@code I} to an output {@code O}.
  * <p>
  * @param <I> the input type
  * @param <O> the output type
@@ -55,7 +55,7 @@ public abstract class Mapper<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The output class.
+	 * The output {@link Class} of type {@code O}.
 	 */
 	protected final Class<O> c;
 
@@ -64,6 +64,12 @@ public abstract class Mapper<I, O>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Mapper} of type {@code I} and {@code O} with the specified output
+	 * {@link Class}.
+	 * <p>
+	 * @param c the output {@link Class} of type {@code O}
+	 */
 	protected Mapper(final Class<O> c) {
 		super();
 
@@ -80,9 +86,9 @@ public abstract class Mapper<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the output class.
+	 * Returns the output {@link Class} of type {@code O}.
 	 * <p>
-	 * @return the output class
+	 * @return the output {@link Class} of type {@code O}
 	 */
 	public Class<O> getOutputClass() {
 		return c;

@@ -97,7 +97,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} of the specified values.
+	 * Constructs a {@link Vector} of the specified {@code double} values.
 	 * <p>
 	 * @param values an array of {@code double} values
 	 */
@@ -106,7 +106,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} of the specified values.
+	 * Constructs a {@link Vector} of the specified {@code double} values.
 	 * <p>
 	 * @param values    an array of {@code double} values
 	 * @param transpose the flag specifying whether to transpose
@@ -288,7 +288,7 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified value.
+	 * Fills {@code this} with the specified {@code double} value.
 	 * <p>
 	 * @param value the {@code double} value to fill with
 	 */

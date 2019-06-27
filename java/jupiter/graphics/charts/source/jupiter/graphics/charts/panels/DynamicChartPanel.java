@@ -23,8 +23,6 @@
  */
 package jupiter.graphics.charts.panels;
 
-import jupiter.graphics.charts.overlays.XYSelectionOverlay;
-
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -32,8 +30,8 @@ import java.text.Format;
 
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.XYPlot;
@@ -44,6 +42,7 @@ import jupiter.common.util.Formats;
 import jupiter.common.util.Integers;
 import jupiter.graphics.charts.Charts;
 import jupiter.graphics.charts.overlays.XYSelection;
+import jupiter.graphics.charts.overlays.XYSelectionOverlay;
 import jupiter.math.analysis.interpolation.LinearInterpolator;
 import jupiter.math.analysis.struct.XY;
 
@@ -226,7 +225,8 @@ public class DynamicChartPanel
 		mouseCoordinates.setY(java2DToRangeValue(mousePosition));
 
 		// Interpolate between the closest items
-		double x = mouseCoordinates.getX(), y = mouseCoordinates.getY();
+		final double x = mouseCoordinates.getX();
+		double y = mouseCoordinates.getY();
 		final XYPlot plot = getPlot(mousePosition);
 		final XYDataset dataset = plot.getDataset();
 		final int seriesCount = dataset.getSeriesCount();

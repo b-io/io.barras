@@ -127,7 +127,7 @@ public class DynamicSample
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Updates the sample mean and variance with the specified value.
+	 * Updates the sample mean and variance with the specified {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 */

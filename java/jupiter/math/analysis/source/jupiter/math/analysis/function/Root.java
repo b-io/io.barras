@@ -33,7 +33,7 @@ public class Root
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the root function to the specified value and returns the result.
+	 * Applies the root function to the specified {@code double} value and returns the result.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>

@@ -37,11 +37,11 @@ public interface IGroup<T extends Comparable<T>> {
 	public boolean isEmpty();
 
 	/**
-	 * Tests whether {@code this} contains the value.
+	 * Tests whether {@code this} contains the value {@code T}.
 	 * <p>
-	 * @param value the value of type {@code T} to test for presence
+	 * @param value the value {@code T} to test for presence
 	 * <p>
-	 * @return {@code true} if {@code this} contains the value, {@code false} otherwise
+	 * @return {@code true} if {@code this} contains the value {@code T}, {@code false} otherwise
 	 */
 	public boolean isInside(final T value);
 

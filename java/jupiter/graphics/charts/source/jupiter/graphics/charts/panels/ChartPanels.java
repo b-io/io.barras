@@ -31,20 +31,19 @@ import java.util.Collection;
 
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.ContourEntity;
 import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.entity.XYItemEntity;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.ui.RectangleEdge;
 
 import jupiter.common.util.Integers;
 import jupiter.graphics.charts.Charts;
 import jupiter.math.analysis.struct.XY;
-
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.plot.CombinedDomainXYPlot;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.ui.RectangleEdge;
 
 public class ChartPanels {
 
@@ -85,12 +84,12 @@ public class ChartPanels {
 				.getEntityCollection()
 				.getEntities();
 		// - Get the mouse position
-		final int xPosition = Integers
-				.convert((mouseEvent.getTrigger().getX() - chartPanel.getInsets().left) / chartPanel
-						.getScaleX());
-		final int yPosition = Integers
-				.convert((mouseEvent.getTrigger().getY() - chartPanel.getInsets().top) / chartPanel
-						.getScaleY());
+		final int xPosition = Integers.convert(
+				(mouseEvent.getTrigger().getX() - chartPanel.getInsets().left) /
+						chartPanel.getScaleX());
+		final int yPosition = Integers.convert(
+				(mouseEvent.getTrigger().getY() - chartPanel.getInsets().top) /
+						chartPanel.getScaleY());
 		final Point2D position = new Point2D.Double(xPosition, yPosition);
 		// - Select the closest chart entity to the mouse position
 		double minDistance = Integer.MAX_VALUE;
