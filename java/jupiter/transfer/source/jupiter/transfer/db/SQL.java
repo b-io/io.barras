@@ -37,7 +37,6 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-import jupiter.common.io.Resources;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Integers;
@@ -97,7 +96,13 @@ public class SQL {
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
-			Resources.autoClose(statement);
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (final SQLException ex) {
+					IO.error(ex);
+				}
+			}
 		}
 		return new ExtendedList<SQLGenericRow>();
 	}
@@ -136,7 +141,13 @@ public class SQL {
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
-			Resources.autoClose(statement);
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (final SQLException ex) {
+					IO.error(ex);
+				}
+			}
 		}
 		return new ExtendedList<T>();
 	}
@@ -192,7 +203,13 @@ public class SQL {
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
-			Resources.autoClose(statement);
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (final SQLException ex) {
+					IO.error(ex);
+				}
+			}
 		}
 		return -1;
 	}
@@ -217,7 +234,13 @@ public class SQL {
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
-			Resources.autoClose(statement);
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (final SQLException ex) {
+					IO.error(ex);
+				}
+			}
 		}
 		return -1;
 	}

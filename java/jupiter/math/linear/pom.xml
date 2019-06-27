@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>io.barras.jupiter</groupId>
 		<artifactId>math</artifactId>
-		<version>1.7.0</version>
+		<version>1.6.0</version>
 	</parent>
 
 	<artifactId>linear</artifactId>
@@ -34,11 +34,14 @@
 			<artifactId>gpu</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- @since 1.7 -->
+		<!--
 		<dependency>
 			<groupId>io.barras.jupiter</groupId>
 			<artifactId>jni</artifactId>
 			<version>${project.version}</version>
 			<type>nar</type>
 		</dependency>
+		-->
 	</dependencies>
 </project>
