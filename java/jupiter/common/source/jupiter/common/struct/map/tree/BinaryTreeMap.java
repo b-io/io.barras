@@ -68,10 +68,10 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Performs the in-order traversal and returns the keys of the visited nodes in an
-	 * {@link ExtendedList}.
+	 * Performs the in-order traversal and returns the {@code K} keys of the visited {@code N} nodes
+	 * in an {@link ExtendedList}.
 	 * <p>
-	 * @return the keys of the visited nodes in an {@link ExtendedList}
+	 * @return the {@code K} keys of the visited {@code N} nodes in an {@link ExtendedList}
 	 */
 	public ExtendedList<K> getKeys() {
 		final ExtendedList<K> keys = new ExtendedList<K>(size);
@@ -80,11 +80,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified tree and stores the keys of the visited
-	 * nodes in the specified {@link List}.
+	 * Performs the in-order traversal of the specified tree and stores the {@code K} keys of the
+	 * visited {@code N} nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree the tree {@code N} to get the keys from
-	 * @param keys the {@link List} of type {@code K} to store the keys in
+	 * @param tree the tree {@code N} to get the {@code K} keys from
+	 * @param keys the {@link List} of type {@code K} to store the {@code K} keys in
 	 */
 	protected void getKeys(final N tree, final List<K> keys) {
 		if (tree != null) {
@@ -126,12 +126,12 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the parent {@code N} of the specified node {@code N}, or {@code null} if it is
+	 * Returns the {@code N} parent of the specified {@code N} node, or {@code null} if it is
 	 * {@code null}.
 	 * <p>
-	 * @param node the node {@code N} to get the parent from
+	 * @param node the {@code N} node to get the parent from
 	 * <p>
-	 * @return the parent {@code N} of the specified node {@code N}, or {@code null} if it is
+	 * @return the {@code N} parent of the specified {@code N} node, or {@code null} if it is
 	 *         {@code null}
 	 */
 	protected N getParent(final N node) {
@@ -139,12 +139,12 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns the node {@code N} associated to the specified key {@link Comparable}, or
+	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
 	 * @param keyComparable a key {@link Comparable} of super type {@code K}
 	 * <p>
-	 * @return the node {@code N} associated to the specified key {@link Comparable}, or
+	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
@@ -206,11 +206,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns the predecessor {@code N} of the specified node {@code N}.
+	 * Returns the {@code N} predecessor of the specified {@code N} node.
 	 * <p>
-	 * @param node a node {@code N}
+	 * @param node a {@code N} node
 	 * <p>
-	 * @return the predecessor {@code N} of the specified node {@code N}
+	 * @return the {@code N} predecessor of the specified {@code N} node
 	 */
 	protected N getPredecessor(final N node) {
 		N predecessor;
@@ -231,11 +231,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns the successor {@code N} of the specified node {@code N}.
+	 * Returns the {@code N} successor of the specified {@code N} node.
 	 * <p>
-	 * @param node a node {@code N}
+	 * @param node a {@code N} node
 	 * <p>
-	 * @return the successor {@code N} of the specified node {@code N}
+	 * @return the {@code N} successor of the specified {@code N} node
 	 */
 	protected N getSuccessor(final N node) {
 		N successor;
@@ -274,13 +274,13 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Removes the key-value mapping of type {@code K} and {@code V} of the specified key
-	 * {@link Object} and returns the previous associated value {@code V}, or {@code null} if it is
+	 * {@link Object} and returns the previous associated {@code V} value, or {@code null} if it is
 	 * not present.
 	 * <p>
 	 * @param key the key {@link Object} of the key-value mapping of type {@code K} and {@code V} to
 	 *            remove
 	 * <p>
-	 * @return the previous associated value {@code V}, or {@code null} if it is not present
+	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
@@ -300,25 +300,25 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Removes the specified node {@code N}.
+	 * Removes the specified {@code N} node.
 	 * <p>
-	 * @param node the node {@code N} to remove
+	 * @param node the {@code N} node to remove
 	 */
 	protected abstract void removeNode(final N node);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Balances after inserting the specified node {@code N}.
+	 * Balances after inserting the specified {@code N} node.
 	 * <p>
-	 * @param node the inserted node {@code N}
+	 * @param node the inserted {@code N} node
 	 */
 	protected abstract void balanceAfterInsertion(N node);
 
 	/**
-	 * Balances after deleting the specified node {@code N}.
+	 * Balances after deleting the specified {@code N} node.
 	 * <p>
-	 * @param node the deleted node {@code N}
+	 * @param node the deleted {@code N} node
 	 */
 	protected abstract void balanceAfterDeletion(N node);
 

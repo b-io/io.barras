@@ -53,7 +53,7 @@ public class Sort<T> {
 	protected final T[] array;
 
 	/**
-	 * The comparator of super type {@code T} for this sort.
+	 * The {@link Comparator} of super type {@code T} for this sort.
 	 */
 	protected final Comparator<? super T> comparator;
 
@@ -105,7 +105,8 @@ public class Sort<T> {
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
 	 * <p>
 	 * @param array      the array of type {@code T} to sort
-	 * @param comparator the comparator of super type {@code T} to determine the order of the sort
+	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order of
+	 *                   the sort
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLen    the usable size of the work array
@@ -162,7 +163,7 @@ public class Sort<T> {
 	 * @param array      the array of type {@code T} to sort
 	 * @param lo         the index of the first element, inclusive, to sort
 	 * @param hi         the index of the last element, exclusive, to sort
-	 * @param comparator the comparator of super type {@code T} to use
+	 * @param comparator the {@link Comparator} of super type {@code T} to use
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLen    the usable size of the work array
@@ -230,7 +231,7 @@ public class Sort<T> {
 	 * @param hi         the index after the last element in the range to sort
 	 * @param start      the index of the first element in the range that is not already known to be
 	 *                   sorted ({@code lo <= start <= hi})
-	 * @param comparator the comparator of super type {@code T} to use
+	 * @param comparator the {@link Comparator} of super type {@code T} to use
 	 */
 	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
@@ -298,7 +299,7 @@ public class Sort<T> {
 	 * @param lo         the index of the first element in the run
 	 * @param hi         the index after the last element that may be contained in the run. It is
 	 *                   required that {@code lo < hi}.
-	 * @param comparator the comparator of super type {@code T} to use
+	 * @param comparator the {@link Comparator} of super type {@code T} to use
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
@@ -488,19 +489,19 @@ public class Sort<T> {
 	}
 
 	/**
-	 * Locates the position at which to insert the specified key {@code T} into the specified sorted
+	 * Locates the position at which to insert the specified {@code T} key into the specified sorted
 	 * range; if the range contains an element equal to {@code key}, returns the index of the
 	 * leftmost equal element.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param key        the key {@code T} whose insertion point to search for
+	 * @param key        the {@code T} key whose insertion point to search for
 	 * @param array      the array of type {@code T} in which to search
 	 * @param base       the index of the first element in the range
 	 * @param len        the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the comparator of super type {@code T} used to order the range and to
-	 *                   search
+	 * @param comparator the {@link Comparator} of super type {@code T} used to order the range and
+	 *                   to search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] < key <= a[b + k]}, pretending that {@code a[b - 1]} is minus
@@ -583,14 +584,14 @@ public class Sort<T> {
 	 * {@link #gallopRight} returns the index after the rightmost equal element.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param key        the key {@code T} whose insertion point to search for
+	 * @param key        the {@code T} key whose insertion point to search for
 	 * @param array      the array of type {@code T} in which to search
 	 * @param base       the index of the first element in the range
 	 * @param len        the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the comparator of super type {@code T} used to order the range and to
-	 *                   search
+	 * @param comparator the {@link Comparator} of super type {@code T} used to order the range and
+	 *                   to search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}

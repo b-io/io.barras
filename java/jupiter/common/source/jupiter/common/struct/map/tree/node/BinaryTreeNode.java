@@ -51,8 +51,8 @@ public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends Binar
 	/**
 	 * Constructs a {@link BinaryTreeNode} with the specified key and value.
 	 * <p>
-	 * @param key   the key {@code K}
-	 * @param value the value {@code V}
+	 * @param key   the {@code K} key
+	 * @param value the {@code V} value
 	 */
 	protected BinaryTreeNode(final K key, final V value) {
 		super(key, value);
@@ -65,16 +65,16 @@ public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends Binar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the left node {@code N}.
+	 * Sets the left {@code N} node.
 	 * <p>
-	 * @param leftNode a node {@code N}
+	 * @param leftNode a {@code N} node
 	 */
 	public abstract void setLeft(final N leftNode);
 
 	/**
-	 * Sets the right node {@code N}.
+	 * Sets the right {@code N} node.
 	 * <p>
-	 * @param rightNode a node {@code N}
+	 * @param rightNode a {@code N} node
 	 */
 	public abstract void setRight(final N rightNode);
 }

@@ -108,7 +108,7 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} imported from the specified file.
+	 * Constructs an {@link IntegerTable} loaded from the specified file.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header

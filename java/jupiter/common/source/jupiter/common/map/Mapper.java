@@ -32,7 +32,7 @@ import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
 /**
- * {@link Mapper} is a {@link Worker} mapping an input {@code I} to an output {@code O}.
+ * {@link Mapper} is a {@link Worker} mapping an {@code I} input to an {@code O} output.
  * <p>
  * @param <I> the input type
  * @param <O> the output type

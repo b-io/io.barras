@@ -132,8 +132,8 @@ public class Files {
 	/**
 	 * Returns the relative path to the specified path against the specified base.
 	 * <p>
-	 * @param base the {@link File} base of the path to relativize
-	 * @param path the {@link File} path to relativize
+	 * @param base the base {@link File} of the path to relativize
+	 * @param path the path {@link File} to relativize
 	 * <p>
 	 * @return the relative path to the specified path against the specified base
 	 */

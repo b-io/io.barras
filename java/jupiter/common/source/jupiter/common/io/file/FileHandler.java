@@ -68,12 +68,22 @@ public class FileHandler {
 	}
 
 	public FileHandler(final String path, final Charset charset) {
+		this(new File(path), charset);
+	}
+
+	//////////////////////////////////////////////
+
+	public FileHandler(final File file) {
+		this(file, DEFAULT_CHARSET);
+	}
+
+	public FileHandler(final File file, final Charset charset) {
 		// Check the arguments
-		Arguments.requireNonNull(path);
+		Arguments.requireNonNull(file);
 		Arguments.requireNonNull(charset);
 
 		// Set the attributes
-		file = new File(path);
+		this.file = file;
 		this.charset = charset;
 		writer = null;
 	}

@@ -65,8 +65,8 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	 * Constructs an {@link AvlTreeNode} with the specified key and value belonging to the specified
 	 * {@link AvlTreeMap}.
 	 * <p>
-	 * @param key   the key {@code K}
-	 * @param value the value {@code V}
+	 * @param key   the {@code K} key
+	 * @param value the {@code V} value
 	 * @param tree  the reference {@link AvlTreeMap} of type {@code K} and {@code V}
 	 */
 	public AvlTreeNode(final K key, final V value, final AvlTreeMap<K, V> tree) {

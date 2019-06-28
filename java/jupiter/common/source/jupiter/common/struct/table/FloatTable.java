@@ -108,7 +108,7 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} imported from the specified file.
+	 * Constructs a {@link FloatTable} loaded from the specified file.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header

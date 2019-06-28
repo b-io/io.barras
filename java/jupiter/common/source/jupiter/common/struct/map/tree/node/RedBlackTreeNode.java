@@ -50,8 +50,8 @@ public class RedBlackTreeNode<K extends Comparable<K>, V>
 	/**
 	 * Constructs a {@link RedBlackTreeNode} with the specified key and value.
 	 * <p>
-	 * @param key   the key {@code K}
-	 * @param value the value {@code V}
+	 * @param key   the {@code K} key
+	 * @param value the {@code V} value
 	 */
 	public RedBlackTreeNode(final K key, final V value) {
 		super(key, value);

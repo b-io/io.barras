@@ -35,7 +35,7 @@ public class Interval<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The lower and upper bounds {@code T}.
+	 * The {@code T} lower and upper bounds.
 	 */
 	protected T lowerBound, upperBound;
 
@@ -53,10 +53,10 @@ public class Interval<T extends Comparable<T>>
 	}
 
 	/**
-	 * Constructs an {@link Interval} with the specified lower and upper bounds {@code T}.
+	 * Constructs an {@link Interval} with the specified {@code T} lower and upper bounds.
 	 * <p>
-	 * @param lowerBound the lower bound {@code T}
-	 * @param upperBound the upper bound {@code T}
+	 * @param lowerBound the {@code T} lower bound
+	 * @param upperBound the {@code T} upper bound
 	 */
 	public Interval(final T lowerBound, final T upperBound) {
 		this.lowerBound = lowerBound;
@@ -79,18 +79,18 @@ public class Interval<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the lower bound {@code T}.
+	 * Returns the {@code T} lower bound.
 	 * <p>
-	 * @return the lower bound {@code T}
+	 * @return the {@code T} lower bound
 	 */
 	public T getLowerBound() {
 		return lowerBound;
 	}
 
 	/**
-	 * Returns the upper bound {@code T}.
+	 * Returns the {@code T} upper bound.
 	 * <p>
-	 * @return the upper bound {@code T}
+	 * @return the {@code T} upper bound
 	 */
 	public T getUpperBound() {
 		return upperBound;
@@ -99,18 +99,18 @@ public class Interval<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the lower bound {@code T}.
+	 * Sets the {@code T} lower bound.
 	 * <p>
-	 * @param lowerBound the lower bound {@code T}
+	 * @param lowerBound the {@code T} lower bound
 	 */
 	public void setLowerBound(final T lowerBound) {
 		this.lowerBound = lowerBound;
 	}
 
 	/**
-	 * Sets the upper bound {@code T}.
+	 * Sets the {@code T} upper bound.
 	 * <p>
-	 * @param upperBound the upper bound {@code T}
+	 * @param upperBound the {@code T} upper bound
 	 */
 	public void setUpperBound(final T upperBound) {
 		this.upperBound = upperBound;

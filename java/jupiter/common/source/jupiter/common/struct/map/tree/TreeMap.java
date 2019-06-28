@@ -80,10 +80,10 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the value {@code V} associated to the specified key {@link Object}, or {@code null}
+	 * Returns the {@code V} value associated to the specified key {@link Object}, or {@code null}
 	 * if it is not present.
 	 * <p>
-	 * @param key the key {@link Object} of the value {@code V} to get
+	 * @param key the key {@link Object} of the {@code V} value to get
 	 * <p>
 	 * @return the value associated to the specified key {@link Object}, or {@code null} if it is
 	 *         not present
@@ -111,12 +111,12 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node {@code N} of the specified key {@link Object}, or {@code null} if it is not
+	 * Returns the {@code N} node of the specified key {@link Object}, or {@code null} if it is not
 	 * present.
 	 * <p>
-	 * @param key the key {@link Object} of the node {@code N} to get
+	 * @param key the key {@link Object} of the {@code N} node to get
 	 * <p>
-	 * @return the node {@code N} of the specified key {@link Object}, or {@code null} if it is not
+	 * @return the {@code N} node of the specified key {@link Object}, or {@code null} if it is not
 	 *         present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
@@ -132,12 +132,12 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node {@code N} associated to the specified key {@link Comparable}, or
+	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
 	 * @param keyComparable a key {@link Comparable} of super type {@code K}
 	 * <p>
-	 * @return the node {@code N} associated to the specified key {@link Comparable}, or
+	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys

@@ -183,7 +183,7 @@ public class Table<T>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} imported from the specified file.
+	 * Constructs a {@link Table} of type {@code T} loaded from the specified file.
 	 * <p>
 	 * @param parser    an {@link IParser} of type {@code T}
 	 * @param path      the path to the file to load
@@ -1105,7 +1105,14 @@ public class Table<T>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public boolean export(final String path) {
+	/**
+	 * Saves the values to the specified file.
+	 * <p>
+	 * @param path the path to the file to save to
+	 * <p>
+	 * @return {@code true} if the values are saved to the specified file, {@code false} otherwise
+	 */
+	public boolean save(final String path) {
 		final FileHandler fileHandler = new FileHandler(path);
 		fileHandler.delete();
 		// Export the header

@@ -101,7 +101,7 @@ public class NumberTable<T extends Number>
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} imported from the specified file.
+	 * Constructs a {@link NumberTable} of type {@code T} loaded from the specified file.
 	 * <p>
 	 * @param parser    an {@link IParser} of type {@code T}
 	 * @param path      the path to the file to load

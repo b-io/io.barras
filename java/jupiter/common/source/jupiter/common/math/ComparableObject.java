@@ -185,20 +185,31 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	}
 
 	/**
-	 * Compares {@code this} with {@code comparableObject} for equivalence.
+	 * Tests whether {@code this} is equal to {@code comparableObject}.
 	 * <p>
 	 * @param comparableObject the {@code T} object to compare against for equality
 	 * <p>
-	 * @return {@code true} if {@code this} is less than {@code comparableObject}, {@code false}
+	 * @return {@code true} if {@code this} is equal to {@code comparableObject}, {@code false}
+	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException   if the type of {@code comparableObject} prevents it from being
 	 *                              compared to {@code this}
 	 * @throws NullPointerException if {@code comparableObject} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
 	public boolean equals(final T comparableObject) {
 		return compareTo(comparableObject) == 0;
 	}
 
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
 	@Override
 	public abstract int hashCode();
 }

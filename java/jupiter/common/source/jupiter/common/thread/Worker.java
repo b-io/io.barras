@@ -66,7 +66,7 @@ public abstract class Worker<I, O>
 	 */
 	protected final long id;
 	/**
-	 * The input {@code I}.
+	 * The {@code I} input.
 	 */
 	protected volatile I input;
 	/**
@@ -103,7 +103,7 @@ public abstract class Worker<I, O>
 	/**
 	 * Sets the input.
 	 * <p>
-	 * @param input an input {@code I}
+	 * @param input an {@code I} input
 	 */
 	public void setInput(final I input) {
 		this.input = input;
@@ -124,20 +124,20 @@ public abstract class Worker<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Processes the input {@code I} and returns an output {@code O}.
+	 * Processes the {@code I} input and returns an {@code O} output.
 	 * <p>
-	 * @return an output {@code O}
+	 * @return an {@code O} output
 	 */
 	public O call() {
 		return call(input);
 	}
 
 	/**
-	 * Processes the specified input {@code I} and returns an output {@code O}.
+	 * Processes the specified {@code I} input and returns an {@code O} output.
 	 * <p>
-	 * @param input the input {@code I} to process
+	 * @param input the {@code I} input to process
 	 * <p>
-	 * @return an output {@code O}
+	 * @return an {@code O} output
 	 */
 	public abstract O call(final I input);
 

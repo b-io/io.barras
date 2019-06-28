@@ -49,11 +49,11 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The key {@code K}.
+	 * The {@code K} key.
 	 */
 	public K key;
 	/**
-	 * The value {@code V}.
+	 * The {@code V} value.
 	 */
 	public V value;
 
@@ -63,10 +63,10 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TreeNode} with the specified key {@code K} and value {@code V}.
+	 * Constructs a {@link TreeNode} with the specified {@code K} key and {@code V} value.
 	 * <p>
-	 * @param key   the key {@code K}
-	 * @param value the value {@code V}
+	 * @param key   the {@code K} key
+	 * @param value the {@code V} value
 	 */
 	public TreeNode(final K key, final V value) {
 		// Check the arguments
@@ -83,18 +83,18 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the key {@code K}.
+	 * Returns the {@code K} key.
 	 * <p>
-	 * @return the key {@code K}
+	 * @return the {@code K} key
 	 */
 	public K getKey() {
 		return key;
 	}
 
 	/**
-	 * Returns the value {@code V}.
+	 * Returns the {@code V} value.
 	 * <p>
-	 * @return the value {@code V}
+	 * @return the {@code V} value
 	 */
 	public V getValue() {
 		return value;
@@ -103,11 +103,11 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the value {@code V} and returns the previous associated value {@code V}.
+	 * Sets the {@code V} value and returns the previous associated {@code V} value.
 	 * <p>
-	 * @param value a value {@code V}
+	 * @param value a {@code V} value
 	 * <p>
-	 * @return the previous associated value {@code V}
+	 * @return the previous associated {@code V} value
 	 */
 	public V setValue(final V value) {
 		final V previousValue = this.value;
