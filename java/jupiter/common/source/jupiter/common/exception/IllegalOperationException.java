@@ -48,7 +48,7 @@ public class IllegalOperationException
 	}
 
 	/**
-	 * Constructs a {@link IllegalOperationException} with the specified message {@link String}
+	 * Constructs an {@link IllegalOperationException} with the specified message {@link String}
 	 * which is saved for later retrieval by the {@link #getMessage()} method.
 	 * <p>
 	 * @param message the message {@link String}

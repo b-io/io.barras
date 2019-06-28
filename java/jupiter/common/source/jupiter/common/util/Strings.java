@@ -2871,26 +2871,26 @@ public class Strings {
 	 * Returns the representative {@link String} of the specified content {@link Object} if not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param object an {@link Object}
 	 * <p>
 	 * @return the representative {@link String} of the specified content {@link Object} if not
 	 *         {@code null}, {@code "null"} otherwise
 	 */
-	public static String toString(final Object content) {
-		return String.valueOf(content);
+	public static String toString(final Object object) {
+		return String.valueOf(object);
 	}
 
 	/**
 	 * Returns the representative {@link String} of the specified content {@link Object} if not
 	 * {@code null} or {@code "null"}, {@code null} otherwise.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param object an {@link Object}
 	 * <p>
 	 * @return the representative {@link String} of the specified content {@link Object} if not
 	 *         {@code null} or {@code "null"}, {@code null} otherwise
 	 */
-	public static String toStringWithNull(final Object content) {
-		final String value = String.valueOf(content);
+	public static String toStringWithNull(final Object object) {
+		final String value = String.valueOf(object);
 		if (NULL.equals(value)) {
 			return null;
 		}

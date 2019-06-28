@@ -263,7 +263,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node a {@code N} object
+	 * @param node a {@code N} node
 	 */
 	protected abstract void setRoot(final N node);
 
@@ -567,6 +567,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Returns a representative {@link String} of the specified {@code N} node.
+	 * <p>
+	 * @param node a {@code N} node
 	 * <p>
 	 * @return a representative {@link String} of the specified {@code N} node.
 	 */

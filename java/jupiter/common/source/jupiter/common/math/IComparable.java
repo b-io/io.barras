@@ -146,4 +146,14 @@ public interface IComparable<T extends Comparable<T>>
 	 * @see #hashCode()
 	 */
 	public boolean equals(final T other);
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	public int hashCode();
 }
