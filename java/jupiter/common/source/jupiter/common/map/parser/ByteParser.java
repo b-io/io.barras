@@ -29,8 +29,8 @@ import jupiter.common.map.ObjectToByteMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link ByteParser} is an {@link ObjectToByteMapper} parsing an input {@link Object} to an
- * output {@link Byte}.
+ * {@link ByteParser} is an {@link ObjectToByteMapper} parsing an input {@link Object} to an output
+ * {@link Byte}.
  */
 public class ByteParser
 		extends ObjectToByteMapper

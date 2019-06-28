@@ -185,7 +185,7 @@ public class Matrix
 
 	/**
 	 * Constructs a constant {@link Matrix} of the specified numbers of rows and columns from the
-	 * specified value.
+	 * specified {@code double} value.
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns

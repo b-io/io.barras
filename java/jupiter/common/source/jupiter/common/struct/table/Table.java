@@ -802,7 +802,7 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified value.
+	 * Fills {@code this} with the specified value {@code T}.
 	 * <p>
 	 * @param value the value {@code T} to fill with
 	 */

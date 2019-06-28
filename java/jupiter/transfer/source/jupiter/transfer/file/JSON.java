@@ -59,16 +59,18 @@ public class JSON {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONVERTERS
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a JSON representative {@link String} of the fields of the specified content {@link Object}.
+	 * Returns a JSON representative {@link String} of the fields of the specified content
+	 * {@link Object}.
 	 * <p>
 	 * @param content the content {@link Object} containing the fields to represent as a JSON
 	 *                {@link String}
 	 * <p>
-	 * @return a JSON representative {@link String} of the fields of the specified content {@link Object}
+	 * @return a JSON representative {@link String} of the fields of the specified content
+	 *         {@link Object}
 	 */
 	public static String jsonify(final Object content) {
 		final StringBuilder builder = Strings.createBuilder();

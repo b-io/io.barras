@@ -29,8 +29,8 @@ import jupiter.common.map.ObjectToLongMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link LongParser} is an {@link ObjectToLongMapper} parsing an input {@link Object} to an
- * output {@link Long}.
+ * {@link LongParser} is an {@link ObjectToLongMapper} parsing an input {@link Object} to an output
+ * {@link Long}.
  */
 public class LongParser
 		extends ObjectToLongMapper

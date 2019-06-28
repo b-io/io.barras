@@ -488,9 +488,9 @@ public class Sort<T> {
 	}
 
 	/**
-	 * Locates the position at which to insert the specified key into the specified sorted range; if
-	 * the range contains an element equal to {@code key}, returns the index of the leftmost equal
-	 * element.
+	 * Locates the position at which to insert the specified key {@code T} into the specified sorted
+	 * range; if the range contains an element equal to {@code key}, returns the index of the
+	 * leftmost equal element.
 	 * <p>
 	 * @param <T>        the component type of the array
 	 * @param key        the key {@code T} whose insertion point to search for
@@ -502,11 +502,11 @@ public class Sort<T> {
 	 * @param comparator the comparator of super type {@code T} used to order the range and to
 	 *                   search
 	 * <p>
-	 * @return the int k, {@code 0 <= k <= n} such that {@code a[b + k - 1] < key <= a[b + k]},
-	 *         pretending that {@code a[b - 1]} is minus infinity and {@code a[b + n]} is infinity;
-	 *         in other words, {@code key} belongs at index {@code b + k}; or in other words, the
-	 *         first {@code k} elements of {@code a} should precede {@code key} and the last
-	 *         {@code n - k} should follow it
+	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
+	 *         {@code a[b + k - 1] < key <= a[b + k]}, pretending that {@code a[b - 1]} is minus
+	 *         infinity and {@code a[b + n]} is infinity; in other words, {@code key} belongs at
+	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code a}
+	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 */
 	protected static <T> int gallopLeft(final T key, final T[] array, final int base, final int len,
 			final int hint, final Comparator<? super T> comparator) {
@@ -592,7 +592,7 @@ public class Sort<T> {
 	 * @param comparator the comparator of super type {@code T} used to order the range and to
 	 *                   search
 	 * <p>
-	 * @return the int {@code k}, {@code 0 <= k <= n} such that
+	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
 	 */
 	protected static <T> int gallopRight(final T key, final T[] array, final int base,

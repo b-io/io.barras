@@ -471,9 +471,9 @@ public class ComparableSort {
 	}
 
 	/**
-	 * Locates the position at which to insert the specified key into the specified sorted range; if
-	 * the range contains an element equal to {@code key}, returns the index of the leftmost equal
-	 * element.
+	 * Locates the position at which to insert the specified key {@link Comparable} into the
+	 * specified sorted range; if the range contains an element equal to {@code key}, returns the
+	 * index of the leftmost equal element.
 	 * <p>
 	 * @param key   the key {@link Comparable} of {@link Object} whose insertion point to search for
 	 * @param array the array of {@link Object} in which to search
@@ -482,11 +482,11 @@ public class ComparableSort {
 	 * @param hint  the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
 	 *              is to the result, the faster this method will run)
 	 * <p>
-	 * @return the int k, {@code 0 <= k <= n} such that {@code a[b + k - 1] < key <= a[b + k]},
-	 *         pretending that {@code a[b - 1]} is minus infinity and {@code a[b + n]} is infinity;
-	 *         in other words, {@code key} belongs at index {@code b + k}; or in other words, the
-	 *         first {@code k} elements of {@code a} should precede {@code key} and the last
-	 *         {@code n - k} should follow it
+	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
+	 *         {@code a[b + k - 1] < key <= a[b + k]}, pretending that {@code a[b - 1]} is minus
+	 *         infinity and {@code a[b + n]} is infinity; in other words, {@code key} belongs at
+	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code a}
+	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 */
 	protected static int gallopLeft(final Comparable<Object> key, final Object[] array,
 			final int base, final int len, final int hint) {
@@ -559,8 +559,9 @@ public class ComparableSort {
 	}
 
 	/**
-	 * Like {@link #gallopLeft}, except that if the range contains an element equal to {@code key},
-	 * {@link #gallopRight} returns the index after the rightmost equal element.
+	 * Like {@link #gallopLeft}, except that if the range contains an element equal to the specified
+	 * key {@link Comparable}, {@link #gallopRight} returns the index after the rightmost equal
+	 * element.
 	 * <p>
 	 * @param key   the key {@link Comparable} of {@link Object} whose insertion point to search for
 	 * @param array the array of {@link Object} in which to search
@@ -569,7 +570,7 @@ public class ComparableSort {
 	 * @param hint  the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
 	 *              is to the result, the faster this method will run)
 	 * <p>
-	 * @return the int {@code k}, {@code 0 <= k <= n} such that
+	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
 	 */
 	protected static int gallopRight(final Comparable<Object> key, final Object[] array,
