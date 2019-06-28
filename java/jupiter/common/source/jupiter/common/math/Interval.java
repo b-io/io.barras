@@ -34,6 +34,9 @@ public class Interval<T extends Comparable<T>>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The lower and upper bounds {@code T}.
+	 */
 	protected T lowerBound, upperBound;
 
 
@@ -42,7 +45,7 @@ public class Interval<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Interval}.
+	 * Constructs an {@link Interval} of type {@code T}.
 	 */
 	public Interval() {
 		lowerBound = null;
@@ -50,10 +53,10 @@ public class Interval<T extends Comparable<T>>
 	}
 
 	/**
-	 * Constructs an {@link Interval} with the specified lower and upper bounds.
+	 * Constructs an {@link Interval} with the specified lower and upper bounds {@code T}.
 	 * <p>
-	 * @param lowerBound the lower bound
-	 * @param upperBound the upper bound
+	 * @param lowerBound the lower bound {@code T}
+	 * @param upperBound the upper bound {@code T}
 	 */
 	public Interval(final T lowerBound, final T upperBound) {
 		this.lowerBound = lowerBound;
@@ -61,9 +64,9 @@ public class Interval<T extends Comparable<T>>
 	}
 
 	/**
-	 * Constructs an {@link Interval} with the specified {@link Pair} of lower and upper bounds.
+	 * Constructs an {@link Interval} with the specified lower and upper bounds {@link Pair}.
 	 * <p>
-	 * @param pair the {@link Pair} of lower and upper bounds
+	 * @param pair the lower and upper bounds {@link Pair} of type {@code T}
 	 */
 	public Interval(final Pair<T, T> pair) {
 		this.lowerBound = pair.getFirst();
@@ -76,18 +79,18 @@ public class Interval<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the lower bound.
+	 * Returns the lower bound {@code T}.
 	 * <p>
-	 * @return the lower bound
+	 * @return the lower bound {@code T}
 	 */
 	public T getLowerBound() {
 		return lowerBound;
 	}
 
 	/**
-	 * Returns the upper bound.
+	 * Returns the upper bound {@code T}.
 	 * <p>
-	 * @return the upper bound
+	 * @return the upper bound {@code T}
 	 */
 	public T getUpperBound() {
 		return upperBound;
@@ -96,18 +99,18 @@ public class Interval<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the lower bound.
+	 * Sets the lower bound {@code T}.
 	 * <p>
-	 * @param lowerBound a {@code T} object
+	 * @param lowerBound the lower bound {@code T}
 	 */
 	public void setLowerBound(final T lowerBound) {
 		this.lowerBound = lowerBound;
 	}
 
 	/**
-	 * Sets the upper bound.
+	 * Sets the upper bound {@code T}.
 	 * <p>
-	 * @param upperBound a {@code T} object
+	 * @param upperBound the upper bound {@code T}
 	 */
 	public void setUpperBound(final T upperBound) {
 		this.upperBound = upperBound;
@@ -128,11 +131,11 @@ public class Interval<T extends Comparable<T>>
 	}
 
 	/**
-	 * Tests whether {@code this} contains the value.
+	 * Tests whether {@code this} contains the value {@code T}.
 	 * <p>
 	 * @param value the value {@code T} to test for presence
 	 * <p>
-	 * @return {@code true} if {@code this} contains the value, {@code false} otherwise
+	 * @return {@code true} if {@code this} contains the value {@code T}, {@code false} otherwise
 	 */
 	public boolean isInside(final T value) {
 		return value.compareTo(lowerBound) >= 0 && value.compareTo(upperBound) <= 0;

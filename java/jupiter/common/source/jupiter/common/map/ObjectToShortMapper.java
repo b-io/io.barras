@@ -26,7 +26,8 @@ package jupiter.common.map;
 import java.util.Collection;
 
 /**
- * {@link ObjectToShortMapper} is an operator mapping an {@link Object} to a {@link Short}.
+ * {@link ObjectToShortMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * output {@link Short}.
  */
 public abstract class ObjectToShortMapper
 		extends ObjectMapper<Short> {

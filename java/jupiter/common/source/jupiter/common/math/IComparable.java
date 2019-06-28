@@ -87,7 +87,7 @@ public interface IComparable<T extends Comparable<T>>
 	public boolean isGreaterThan(final T comparable);
 
 	/**
-	 * Returns @code true} if {@code this} is greater or equal to {@code comparable}.
+	 * Tests whether {@code this} is greater or equal to {@code comparable}.
 	 * <p>
 	 * @param comparable the {@code T} object to compare against
 	 * <p>

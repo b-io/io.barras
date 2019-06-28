@@ -26,7 +26,8 @@ package jupiter.common.map;
 import java.util.Collection;
 
 /**
- * {@link ObjectToFloatMapper} is an operator mapping an {@link Object} to a {@link Float}.
+ * {@link ObjectToFloatMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * output {@link Float}.
  */
 public abstract class ObjectToFloatMapper
 		extends ObjectMapper<Float> {
@@ -45,6 +46,9 @@ public abstract class ObjectToFloatMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ObjectToFloatMapper}.
+	 */
 	protected ObjectToFloatMapper() {
 		super(Float.class);
 	}

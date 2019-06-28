@@ -29,7 +29,8 @@ import jupiter.common.map.ObjectToDoubleMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link DoubleParser} is a map operator parsing an {@link Object} to a {@link Double}.
+ * {@link DoubleParser} is an {@link ObjectToDoubleMapper} parsing an input {@link Object} to an
+ * output {@link Double}.
  */
 public class DoubleParser
 		extends ObjectToDoubleMapper

@@ -27,7 +27,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringWrapper} is a map operator wrapping a {@link String}.
+ * {@link StringWrapper} is an {@link ObjectToStringMapper} wrapping a {@link String}.
  */
 public class StringWrapper
 		extends ObjectToStringMapper {

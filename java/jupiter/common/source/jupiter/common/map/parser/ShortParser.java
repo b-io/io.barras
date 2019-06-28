@@ -29,7 +29,8 @@ import jupiter.common.map.ObjectToShortMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link ShortParser} is a map operator parsing an {@link Object} to a {@link Short}.
+ * {@link ShortParser} is an {@link ObjectToShortMapper} parsing an input {@link Object} to an
+ * output {@link Short}.
  */
 public class ShortParser
 		extends ObjectToShortMapper

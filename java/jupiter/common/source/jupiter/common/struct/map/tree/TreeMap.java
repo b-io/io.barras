@@ -80,8 +80,8 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the value {@code V} associated to the specified key {@link Object}, or
-	 * {@code null} if it is not present.
+	 * Returns the value {@code V} associated to the specified key {@link Object}, or {@code null}
+	 * if it is not present.
 	 * <p>
 	 * @param key the key {@link Object} of the value {@code V} to get
 	 * <p>
@@ -111,13 +111,13 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the node {@code N} of the specified key {@link Object}, or {@code null} if it
-	 * is not present.
+	 * Returns the node {@code N} of the specified key {@link Object}, or {@code null} if it is not
+	 * present.
 	 * <p>
 	 * @param key the key {@link Object} of the node {@code N} to get
 	 * <p>
-	 * @return the node {@code N} of the specified key {@link Object}, or {@code null} if it
-	 *         is not present
+	 * @return the node {@code N} of the specified key {@link Object}, or {@code null} if it is not
+	 *         present
 	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}

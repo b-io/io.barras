@@ -28,7 +28,8 @@ import jupiter.common.test.Arguments;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringJoiner} is a reduce operator joining an array of {@link Object} to a {@link String}.
+ * {@link StringJoiner} is an {@link ObjectReducer} joining an input array of {@link Object} to an
+ * output {@link String}.
  */
 public class StringJoiner
 		extends ObjectReducer<String> {

@@ -29,7 +29,8 @@ import jupiter.common.map.ObjectToFloatMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link FloatParser} is a map operator parsing an {@link Object} to a {@link Float}.
+ * {@link FloatParser} is an {@link ObjectToFloatMapper} parsing an input {@link Object} to an
+ * output {@link Float}.
  */
 public class FloatParser
 		extends ObjectToFloatMapper
@@ -49,6 +50,9 @@ public class FloatParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link FloatParser}.
+	 */
 	public FloatParser() {
 		super();
 	}

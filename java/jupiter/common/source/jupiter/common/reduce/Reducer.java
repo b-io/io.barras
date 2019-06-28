@@ -27,7 +27,7 @@ import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
 /**
- * {@link Reducer} is an operator reducing an array of type {@code I} to an output of type
+ * {@link Reducer} is a {@link Worker} reducing an input array of type {@code I} to an output
  * {@code O}.
  * <p>
  * @param <I> the input type
@@ -51,7 +51,7 @@ public abstract class Reducer<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The output class.
+	 * The output {@link Class} of type {@code O}.
 	 */
 	protected final Class<O> c;
 
@@ -60,6 +60,12 @@ public abstract class Reducer<I, O>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Reducer} of type {@code I} and {@code O} with the specified output
+	 * {@link Class}.
+	 * <p>
+	 * @param c the output {@link Class} of type {@code O}
+	 */
 	protected Reducer(final Class<O> c) {
 		this.c = c;
 	}
@@ -70,9 +76,9 @@ public abstract class Reducer<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the output class.
+	 * Returns the output {@link Class} of type {@code O}.
 	 * <p>
-	 * @return the output class
+	 * @return the output {@link Class} of type {@code O}
 	 */
 	public Class<O> getOutputClass() {
 		return c;

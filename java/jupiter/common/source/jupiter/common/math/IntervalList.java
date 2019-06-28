@@ -35,6 +35,9 @@ public class IntervalList<T extends Comparable<T>>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link List} of {@link Interval} of type {@code T}.
+	 */
 	protected List<Interval<T>> intervals;
 
 
@@ -43,16 +46,17 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IntervalList}.
+	 * Constructs an {@link IntervalList} of type {@code T}.
 	 */
 	public IntervalList() {
 		intervals = new LinkedList<Interval<T>>();
 	}
 
 	/**
-	 * Constructs an {@link IntervalList} with the specified {@link List} of {@link Interval}.
+	 * Constructs an {@link IntervalList} of type {@code T} with the specified {@link List} of
+	 * {@link Interval}.
 	 * <p>
-	 * @param intervals a {@link List} of {@link Interval}
+	 * @param intervals a {@link List} of {@link Interval} of type {@code T}
 	 */
 	public IntervalList(final List<Interval<T>> intervals) {
 		this.intervals = intervals;
@@ -64,9 +68,9 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the intervals.
+	 * Returns the {@link List} of {@link Interval} of type {@code T}.
 	 * <p>
-	 * @return the intervals
+	 * @return the {@link List} of {@link Interval} of type {@code T}
 	 */
 	public List<Interval<T>> getIntervals() {
 		return intervals;
@@ -75,9 +79,9 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the intervals.
+	 * Sets the {@link List} of {@link Interval} of type {@code T}.
 	 * <p>
-	 * @param intervals a {@link List} of {@link Interval}
+	 * @param intervals a {@link List} of {@link Interval} of type {@code T}
 	 */
 	public void setIntervals(final List<Interval<T>> intervals) {
 		this.intervals = intervals;
@@ -98,11 +102,11 @@ public class IntervalList<T extends Comparable<T>>
 	}
 
 	/**
-	 * Tests whether {@code this} contains the value.
+	 * Tests whether {@code this} contains the value {@code T}.
 	 * <p>
 	 * @param value the value {@code T} to test for presence
 	 * <p>
-	 * @return {@code true} if {@code this} contains the value, {@code false} otherwise
+	 * @return {@code true} if {@code this} contains the value {@code T}, {@code false} otherwise
 	 */
 	public boolean isInside(final T value) {
 		for (final Interval<T> interval : intervals) {

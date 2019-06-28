@@ -26,7 +26,8 @@ package jupiter.common.map;
 import java.util.Collection;
 
 /**
- * {@link ObjectToLongMapper} is an operator mapping an {@link Object} to a {@link Long}.
+ * {@link ObjectToLongMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * output {@link Long}.
  */
 public abstract class ObjectToLongMapper
 		extends ObjectMapper<Long> {

@@ -26,7 +26,8 @@ package jupiter.common.map;
 import java.util.Collection;
 
 /**
- * {@link ObjectToByteMapper} is an operator mapping an {@link Object} to a {@link Byte}.
+ * {@link ObjectToByteMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * output {@link Byte}.
  */
 public abstract class ObjectToByteMapper
 		extends ObjectMapper<Byte> {
@@ -45,6 +46,9 @@ public abstract class ObjectToByteMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ObjectToByteMapper}.
+	 */
 	protected ObjectToByteMapper() {
 		super(Byte.class);
 	}
