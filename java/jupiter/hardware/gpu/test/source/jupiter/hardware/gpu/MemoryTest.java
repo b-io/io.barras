@@ -316,8 +316,8 @@ public class MemoryTest
 	 * The memory access modes to test.
 	 */
 	public enum AccessMode {
-		MAPPED,
-		DIRECT
+		DIRECT,
+		MAPPED
 	}
 
 	/**
