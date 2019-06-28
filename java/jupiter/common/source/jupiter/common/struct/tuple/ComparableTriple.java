@@ -60,8 +60,8 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link ComparablePair} of type {@code T1}, {@code T2} and {@code T3} to
-	 *              compare against for order
+	 * @param other the other {@link ComparablePair} of type {@code T1}, {@code T2} and {@code T3}
+	 *              to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other}
