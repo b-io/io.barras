@@ -34,11 +34,11 @@ public class HyperbolicTangent
 
 	/**
 	 * Applies the hyperbolic tangent function to the specified {@code double} value and returns the
-	 *  resulting {@code double} value.
+	 * resulting {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the  resulting {@code double} value
+	 * @return the resulting {@code double} value
 	 */
 	@Override
 	public double apply(final double x) {
