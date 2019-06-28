@@ -565,6 +565,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 		return lineBuilder.toString();
 	}
 
+	/**
+	 * Returns a representative {@link String} of the specified {@code N} node.
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code N} node.
+	 */
 	public String toString(final N node) {
 		final StringBuilder lineBuilder = Strings.createBuilder();
 		lineBuilder.append("<")

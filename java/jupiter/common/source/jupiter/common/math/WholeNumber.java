@@ -23,6 +23,7 @@
  */
 package jupiter.common.math;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Numbers;
@@ -31,7 +32,8 @@ import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
 
 public class WholeNumber
-		extends ComparableNumber {
+		extends ComparableNumber
+		implements ICloneable<WholeNumber> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -181,6 +183,24 @@ public class WholeNumber
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public WholeNumber clone() {
+		try {
+			return (WholeNumber) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

@@ -184,8 +184,9 @@ public class TreeNode<K extends Comparable<K>, V>
 		if (other == null || !(other instanceof Entry)) {
 			return false;
 		}
-		final Entry<?, ?> entry = (Entry<?, ?>) other;
-		return Objects.equals(key, entry.getKey()) && Objects.equals(value, entry.getValue());
+		final Entry<?, ?> otherEntry = (Entry<?, ?>) other;
+		return Objects.equals(key, otherEntry.getKey()) &&
+				Objects.equals(value, otherEntry.getValue());
 	}
 
 	/**

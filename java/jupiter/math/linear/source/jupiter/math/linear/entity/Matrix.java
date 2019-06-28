@@ -2430,9 +2430,19 @@ public class Matrix
 		return toString(MIN_NUMBER_LENGTH, false);
 	}
 
-	public String toString(final int columnWidth, final boolean multiLines) {
+	/**
+	 * Returns a representative {@link String} of {@code this} with the specified column width and
+	 * flag specifying whether to use multiple lines.
+	 * <p>
+	 * @param columnWidth      the width of the representative {@link String} to create
+	 * @param useMultipleLines the flag specifying whether to use multiple lines
+	 * <p>
+	 * @return a representative {@link String} of {@code this} with the specified column width and
+	 *         flag specifying whether to use multiple lines
+	 */
+	public String toString(final int columnWidth, final boolean useMultipleLines) {
 		final StringBuilder builder;
-		if (multiLines) {
+		if (useMultipleLines) {
 			builder = Strings.createBuilder(m + m * n * (DEFAULT_NUMBER_LENGTH + 1));
 		} else {
 			builder = Strings.createBuilder(2 + m + m * n * (DEFAULT_NUMBER_LENGTH + 1));
@@ -2447,14 +2457,14 @@ public class Matrix
 				builder.append(formattedElement);
 			}
 			if (i < m - 1) {
-				if (multiLines) {
+				if (useMultipleLines) {
 					builder.append(NEWLINE);
 				} else {
 					builder.append(ROW_DELIMITER);
 				}
 			}
 		}
-		if (multiLines) {
+		if (useMultipleLines) {
 			return builder.toString();
 		}
 		return Strings.bracketize(builder.toString());

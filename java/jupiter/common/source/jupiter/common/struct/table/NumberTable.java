@@ -183,12 +183,13 @@ public class NumberTable<T extends Number>
 	}
 
 	/**
-	 * Tests whether {@code this} is equal to {@code other} with the specified tolerance level.
+	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
 	 * <p>
 	 * @param other     the other {@link Object} to compare against for equality
 	 * @param tolerance the tolerance level
 	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
+	 *         {@code false} otherwise
 	 * <p>
 	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
 	 *                              {@code this}

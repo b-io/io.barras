@@ -85,6 +85,13 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public ComparableTriple<T1, T2, T3> clone() {
 		try {

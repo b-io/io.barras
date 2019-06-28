@@ -259,6 +259,14 @@ public abstract class OpenCL {
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Disposes of system resources and performs a cleanup. Note that this method is called by the
+	 * garbage collector on an {@link Object} when the garbage collection determines that there are
+	 * no more references to the {@link Object}.
+	 *
+	 * @see java.lang.ref.PhantomReference
+	 * @see java.lang.ref.WeakReference
+	 */
 	@Override
 	protected void finalize() {
 		IO.debug(this, " is finalized");

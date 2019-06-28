@@ -163,6 +163,13 @@ public class Quadruple<T1, T2, T3, T4>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Quadruple<T1, T2, T3, T4> clone() {

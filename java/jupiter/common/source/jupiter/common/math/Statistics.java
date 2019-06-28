@@ -323,14 +323,16 @@ public class Statistics {
 	}
 
 	/**
-	 * Returns {@code z} such that {@code Phi(z) = alpha} via bisection search.
+	 * Returns {@code z} such that {@code Phi(z) = alpha} via bisection search within the specified
+	 * tolerance level.
 	 * <p>
 	 * @param alpha      a {@code double} value
 	 * @param tolerance  the tolerance level
 	 * @param lowerBound the lower bound of the search
 	 * @param upperBound the upper bound of the search
 	 * <p>
-	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search
+	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search within the specified
+	 *         tolerance level
 	 */
 	protected static double normalCdfInverse(final double alpha, final double tolerance,
 			final double lowerBound, final double upperBound) {

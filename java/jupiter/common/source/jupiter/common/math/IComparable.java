@@ -34,7 +34,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the {@code T} object to compare against for order
+	 * @param other the other {@code T} object to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other}
@@ -48,7 +48,7 @@ public interface IComparable<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is less than {@code other}.
 	 * <p>
-	 * @param other the {@code T} object to compare against
+	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
 	 * <p>
@@ -61,7 +61,7 @@ public interface IComparable<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is less or equal to {@code other}.
 	 * <p>
-	 * @param other the {@code T} object to compare against
+	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
@@ -75,7 +75,7 @@ public interface IComparable<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is greater than {@code other}.
 	 * <p>
-	 * @param other the {@code T} object to compare against
+	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 * <p>
@@ -88,7 +88,7 @@ public interface IComparable<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is greater or equal to {@code other}.
 	 * <p>
-	 * @param other the {@code T} object to compare against
+	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
@@ -104,7 +104,7 @@ public interface IComparable<T extends Comparable<T>>
 	/**
 	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal.
 	 * <p>
-	 * @param other the {@code T} object to compare against
+	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
@@ -117,7 +117,7 @@ public interface IComparable<T extends Comparable<T>>
 	/**
 	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal.
 	 * <p>
-	 * @param other the {@code T} object to compare against
+	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
@@ -135,13 +135,15 @@ public interface IComparable<T extends Comparable<T>>
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@code T} object to compare against for equality
+	 * @param other the other {@code T} object to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
 	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
 	public boolean equals(final T other);
 }

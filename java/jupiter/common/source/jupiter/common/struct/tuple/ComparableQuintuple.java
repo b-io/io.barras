@@ -94,6 +94,13 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public ComparableQuintuple<T1, T2, T3, T4, T5> clone() {
 		try {

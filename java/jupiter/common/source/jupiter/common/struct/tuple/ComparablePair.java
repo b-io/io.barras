@@ -81,6 +81,13 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public ComparablePair<T1, T2> clone() {
 		try {

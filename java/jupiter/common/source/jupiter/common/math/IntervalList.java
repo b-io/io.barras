@@ -23,13 +23,28 @@
  */
 package jupiter.common.math;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Collections;
+import jupiter.common.util.Objects;
 
 import jupiter.common.util.Strings;
 
 public class IntervalList<T extends Comparable<T>>
-		implements IGroup<T> {
+		implements ICloneable<IntervalList<T>>, IGroup<T>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -137,12 +152,71 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public IntervalList<T> clone() {
+		try {
+			return (IntervalList<T>) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof IntervalList)) {
+			return false;
+		}
+		final IntervalList<?> otherIntervalList = (IntervalList<?>) other;
+		return Objects.equals(intervals, otherIntervalList.intervals);
+	}
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, intervals);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a representative {@link String} of {@code this}.
 	 * <p>
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override
 	public String toString() {
-		return Strings.toString(intervals);
+		return Collections.toString(intervals);
 	}
 }

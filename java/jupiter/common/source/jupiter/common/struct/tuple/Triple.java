@@ -140,6 +140,13 @@ public class Triple<T1, T2, T3>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Triple<T1, T2, T3> clone() {

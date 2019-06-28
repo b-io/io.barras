@@ -347,8 +347,6 @@ public abstract class ComparableNumber
 		return Numbers.equals(this, other, tolerance);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * Returns the hash code for {@code this}.
 	 * <p>
@@ -362,6 +360,8 @@ public abstract class ComparableNumber
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, doubleValue());
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.

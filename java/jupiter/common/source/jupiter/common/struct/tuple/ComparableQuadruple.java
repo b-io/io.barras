@@ -89,6 +89,13 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
 	@Override
 	public ComparableQuadruple<T1, T2, T3, T4> clone() {
 		try {

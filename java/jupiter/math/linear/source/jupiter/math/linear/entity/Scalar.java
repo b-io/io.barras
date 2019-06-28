@@ -790,6 +790,13 @@ public class Scalar
 		return toString(MIN_NUMBER_LENGTH);
 	}
 
+	/**
+	 * Returns a representative {@link String} of {@code this} of the specified width.
+	 * <p>
+	 * @param width the width of the representative {@link String} to create
+	 * <p>
+	 * @return a representative {@link String} of {@code this} of the specified width
+	 */
 	public String toString(final int width) {
 		final StringBuilder builder = Strings.createBuilder(DEFAULT_NUMBER_LENGTH);
 		final String formattedValue = Formats.format(value);
