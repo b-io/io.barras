@@ -27,7 +27,8 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringRemover} is an {@link ObjectToStringMapper} removing tokens from a {@link String}.
+ * {@link StringRemover} is an {@link ObjectToStringMapper} removing tokens from an input
+ * {@link String}.
  */
 public class StringRemover
 		extends ObjectToStringMapper {
