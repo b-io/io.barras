@@ -111,9 +111,9 @@ public class Systems {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the system is {@link OS.LINUX} or {@link OS.MACOS}.
+	 * Tests whether the system is {@link OS#LINUX} or {@link OS#MACOS}.
 	 * <p>
-	 * @return {@code true} if the system is {@link OS.LINUX} or {@link OS.MACOS}, {@code false}
+	 * @return {@code true} if the system is {@link OS#LINUX} or {@link OS#MACOS}, {@code false}
 	 *         otherwise
 	 */
 	public static boolean isUnix() {
@@ -121,9 +121,9 @@ public class Systems {
 	}
 
 	/**
-	 * Tests whether the system is {@link OS.WINDOWS}.
+	 * Tests whether the system is {@link OS#WINDOWS}.
 	 * <p>
-	 * @return {@code true} if the system is {@link OS.WINDOWS}, {@code false} otherwise
+	 * @return {@code true} if the system is {@link OS#WINDOWS}, {@code false} otherwise
 	 */
 	public static boolean isWindows() {
 		return OS == OS.WINDOWS;
@@ -134,7 +134,7 @@ public class Systems {
 	public static void requireOS() {
 		if (!isUnix() && !isWindows()) {
 			throw new IllegalStateException(
-					"The OS " + Strings.quote(Systems.OS) + " is not yet supported");
+					"The OS " + Strings.quote(OS) + " is not yet supported");
 		}
 	}
 

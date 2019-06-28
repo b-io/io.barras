@@ -961,9 +961,9 @@ public class IO
 		}
 
 		/**
-		 * Tests whether {@code this} is at most {@link SeverityLevel.DEBUG}.
+		 * Tests whether {@code this} is at most {@link SeverityLevel#DEBUG}.
 		 * <p>
-		 * @return {@code true} if {@code this} is at most {@link SeverityLevel.DEBUG},
+		 * @return {@code true} if {@code this} is at most {@link SeverityLevel#DEBUG},
 		 *         {@code false} otherwise
 		 */
 		public boolean isDebug() {
@@ -971,9 +971,9 @@ public class IO
 		}
 
 		/**
-		 * Tests whether {@code this} is at least {@link SeverityLevel.WARNING}.
+		 * Tests whether {@code this} is at least {@link SeverityLevel#WARNING}.
 		 * <p>
-		 * @return {@code true} if {@code this} is at least {@link SeverityLevel.WARNING},
+		 * @return {@code true} if {@code this} is at least {@link SeverityLevel#WARNING},
 		 *         {@code false} otherwise
 		 */
 		public boolean isError() {
