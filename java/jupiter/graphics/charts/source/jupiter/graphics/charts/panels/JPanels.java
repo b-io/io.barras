@@ -48,9 +48,9 @@ public class JPanels {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Displays the specified message in the specified panel.
+	 * Displays the specified message {@link String} in the specified {@link JPanel}.
 	 * <p>
-	 * @param panel   the panel to modify
+	 * @param panel   the {@link JPanel} in which the message {@link String} is displayed
 	 * @param message the message {@link String} to display
 	 */
 	public static void displayMessage(final JPanel panel, final String message) {

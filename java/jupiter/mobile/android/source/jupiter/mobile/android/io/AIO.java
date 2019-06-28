@@ -85,7 +85,7 @@ public class AIO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Shows the specified message on the screen.
+	 * Shows the specified message {@link Object} on the screen.
 	 * <p>
 	 * @param context the {@link Context} of Android
 	 * @param message the message {@link Object} to show
@@ -97,7 +97,7 @@ public class AIO {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Shows the specified message on the screen indicating the severity level
+	 * Shows the specified message {@link Object} on the screen indicating the severity level
 	 * {@link SeverityLevel#TRACE}.
 	 * <p>
 	 * @param context the {@link Context} of Android
@@ -110,7 +110,7 @@ public class AIO {
 	}
 
 	/**
-	 * Shows the specified message on the screen indicating the severity level
+	 * Shows the specified message {@link Object} on the screen indicating the severity level
 	 * {@link SeverityLevel#DEBUG}.
 	 * <p>
 	 * @param context the {@link Context} of Android
@@ -123,7 +123,7 @@ public class AIO {
 	}
 
 	/**
-	 * Shows the specified message on the screen indicating the severity level
+	 * Shows the specified message {@link Object} on the screen indicating the severity level
 	 * {@link SeverityLevel#TEST}.
 	 * <p>
 	 * @param context the {@link Context} of Android
@@ -136,7 +136,7 @@ public class AIO {
 	}
 
 	/**
-	 * Shows the specified message on the screen indicating the severity level
+	 * Shows the specified message {@link Object} on the screen indicating the severity level
 	 * {@link SeverityLevel#INFO}.
 	 * <p>
 	 * @param context the {@link Context} of Android
@@ -149,7 +149,7 @@ public class AIO {
 	}
 
 	/**
-	 * Shows the specified message on the screen indicating the severity level
+	 * Shows the specified message {@link Object} on the screen indicating the severity level
 	 * {@link SeverityLevel#RESULT}.
 	 * <p>
 	 * @param context the {@link Context} of Android
@@ -162,7 +162,7 @@ public class AIO {
 	}
 
 	/**
-	 * Shows the specified message on the screen indicating the severity level
+	 * Shows the specified message {@link Object} on the screen indicating the severity level
 	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param context the {@link Context} of Android
@@ -175,7 +175,7 @@ public class AIO {
 	}
 
 	/**
-	 * Shows the specified message on the screen indicating the severity level
+	 * Shows the specified message {@link Object} on the screen indicating the severity level
 	 * {@link SeverityLevel#ERROR}.
 	 * <p>
 	 * @param context the {@link Context} of Android
@@ -188,7 +188,7 @@ public class AIO {
 	}
 
 	/**
-	 * Shows the specified message on the screen indicating the severity level
+	 * Shows the specified message {@link Object} on the screen indicating the severity level
 	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param context the {@link Context} of Android

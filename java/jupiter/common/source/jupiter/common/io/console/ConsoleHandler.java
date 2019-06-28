@@ -132,7 +132,7 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} in the console.
+	 * Prints the specified content {@link Object} in the console with the specified standard type.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
@@ -152,7 +152,8 @@ public class ConsoleHandler
 	}
 
 	/**
-	 * Prints the specified content {@link Object} in the console and then terminates the line.
+	 * Prints the specified content {@link Object} in the console with the specified standard type
+	 * and terminates the line.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
@@ -182,8 +183,8 @@ public class ConsoleHandler
 	}
 
 	/**
-	 * Prints the specified message (whether in the standard output or in the standard error and in
-	 * color if {@code USE_COLORS}) in the console and terminates the line.
+	 * Prints the specified {@link Message} (in color if {@code USE_COLORS}) and terminates the
+	 * line.
 	 * <p>
 	 * @param message the {@link Message} to print
 	 */
@@ -230,10 +231,8 @@ public class ConsoleHandler
 
 	public enum Color {
 		RESET,
-
 		BLACK,
 		WHITE,
-
 		BLUE,
 		CYAN,
 		GREEN,

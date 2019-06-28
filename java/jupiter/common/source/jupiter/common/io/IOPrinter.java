@@ -71,7 +71,8 @@ public class IOPrinter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} with the {@link List} of {@link IOHandler}.
+	 * Prints the specified content {@link Object} in the specified standard type with the
+	 * {@link List} of {@link IOHandler}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -85,8 +86,8 @@ public class IOPrinter
 	}
 
 	/**
-	 * Prints the specified content {@link Object} and terminates the line with the {@link List} of
-	 * {@link IOHandler}.
+	 * Prints the specified content {@link Object} in the specified standard type and terminates the
+	 * line with the {@link List} of {@link IOHandler}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -100,8 +101,7 @@ public class IOPrinter
 	}
 
 	/**
-	 * Prints the specified message (whether in the standard output or in the standard error) and
-	 * then terminates the line.
+	 * Prints the specified {@link Message} and terminates the line.
 	 * <p>
 	 * @param message the {@link Message} to print
 	 */

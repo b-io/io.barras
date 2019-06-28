@@ -540,7 +540,8 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} with the {@link IOPrinter}.
+	 * Prints the specified content {@link Object} in the specified standard type with the
+	 * {@link IOPrinter}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -551,7 +552,8 @@ public class IO
 	}
 
 	/**
-	 * Prints {@code n} times the specified content {@link Object} with the {@link IOPrinter}.
+	 * Prints {@code n} times the specified content {@link Object} in the specified standard type
+	 * with the {@link IOPrinter}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
@@ -582,8 +584,8 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content {@link Object} and terminates the line with the
-	 * {@link IOPrinter}.
+	 * Prints the specified content {@link Object} in the specified standard type and terminates the
+	 * line with the {@link IOPrinter}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -594,8 +596,8 @@ public class IO
 	}
 
 	/**
-	 * Prints {@code n} times the specified content {@link Object} and terminates the line with the
-	 * {@link IOPrinter}.
+	 * Prints {@code n} times the specified content {@link Object} in the specified standard type
+	 * and terminates the line with the {@link IOPrinter}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
@@ -609,7 +611,7 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified message and terminates the line with the {@link IOPrinter}.
+	 * Prints the specified {@link Message} and terminates the line with the {@link IOPrinter}.
 	 * <p>
 	 * @param message the {@link Message} to print
 	 */

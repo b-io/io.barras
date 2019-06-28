@@ -94,7 +94,7 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Constructs a {@link ProgressBar} of the specified length.
+	 * Constructs a {@link ProgressBar} of the specified length in the specified standard type.
 	 * <p>
 	 * @param length  the maximum number of symbols (excluding the wrapping symbols)
 	 * @param isError the flag specifying whether to print in the standard error or in the standard

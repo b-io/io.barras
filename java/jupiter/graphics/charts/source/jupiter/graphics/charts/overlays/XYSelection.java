@@ -101,7 +101,7 @@ public class XYSelection
 
 	/**
 	 * Constructs a {@link XYSelection} with the specified formats of the x and y coordinates and
-	 * visibility.
+	 * flag specifying whether {@code this} is visible.
 	 * <p>
 	 * @param formats   a {@link XY} of {@link Format}
 	 * @param isVisible the flag specifying whether {@code this} is visible
@@ -157,11 +157,11 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code this} is visible.
+	 * Returns the flag specifying whether {@code this} is visible.
 	 * <p>
-	 * @return {@code true} if {@code this} is visible, {@code false} otherwise
+	 * @return the flag specifying whether {@code this} is visible
 	 */
-	public boolean isSelectionVisible() {
+	public boolean isVisible() {
 		return isVisible;
 	}
 
@@ -197,9 +197,10 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the selection visibility and sends a property change event to all registered listeners.
+	 * Sets the flag specifying whether {@code this} is visible and sends a property change event to
+	 * all registered listeners.
 	 * <p>
-	 * @param isVisible the flag specifying whether the selection is visible
+	 * @param isVisible the flag specifying whether {@code this} is visible
 	 */
 	public void setVisible(final boolean isVisible) {
 		final boolean oldValue = this.isVisible;
