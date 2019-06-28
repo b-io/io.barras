@@ -100,11 +100,11 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} from the specified {@link Object}.
+	 * Returns a {@link String} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object the {@link Object} to convert
 	 * <p>
-	 * @return a {@link String} from the specified {@link Object}
+	 * @return a {@link String} converted from the specified {@link Object}
 	 */
 	public static String convert(final Object object) {
 		return PARSER.call(object);
@@ -2867,26 +2867,26 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified content if not {@code null},
-	 * {@code "null"} otherwise.
+	 * Returns the representative {@link String} of the specified content {@link Object} if not
+	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param content the content {@link Object}
 	 * <p>
-	 * @return the representative {@link String} of the specified content if not {@code null},
-	 *         {@code "null"} otherwise
+	 * @return the representative {@link String} of the specified content {@link Object} if not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Object content) {
 		return String.valueOf(content);
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified content if not {@code null} or
-	 * {@code "null"}, {@code null} otherwise.
+	 * Returns the representative {@link String} of the specified content {@link Object} if not
+	 * {@code null} or {@code "null"}, {@code null} otherwise.
 	 * <p>
 	 * @param content the content {@link Object}
 	 * <p>
-	 * @return the representative {@link String} of the specified content if not {@code null} or
-	 *         {@code "null"}, {@code null} otherwise
+	 * @return the representative {@link String} of the specified content {@link Object} if not
+	 *         {@code null} or {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object content) {
 		final String value = String.valueOf(content);
@@ -2899,28 +2899,28 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified content if not {@code null},
-	 * {@code defaultString} otherwise.
+	 * Returns the representative {@link String} of the specified content {@link Object} if not
+	 * {@code null}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       the content {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the representative {@link String} of the specified content if not {@code null},
-	 *         {@code defaultString} otherwise
+	 * @return the representative {@link String} of the specified content {@link Object} if not
+	 *         {@code null}, {@code defaultString} otherwise
 	 */
 	public static String toString(final Object content, final String defaultString) {
 		return content != null ? String.valueOf(content) : defaultString;
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified content if not {@code null} or
-	 * {@code "null"}, {@code defaultString} otherwise.
+	 * Returns the representative {@link String} of the specified content {@link Object} if not
+	 * {@code null} or {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param content       the content {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the representative {@link String} of the specified content if not {@code null} or
-	 *         {@code "null"}, {@code defaultString} otherwise
+	 * @return the representative {@link String} of the specified content {@link Object} if not
+	 *         {@code null} or {@code "null"}, {@code defaultString} otherwise
 	 */
 	public static String toStringWithNull(final Object content, final String defaultString) {
 		final String value = String.valueOf(content);

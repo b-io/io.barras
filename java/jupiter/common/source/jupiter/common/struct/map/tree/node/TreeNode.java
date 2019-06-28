@@ -63,10 +63,10 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TreeNode} with the specified key and value.
+	 * Constructs a {@link TreeNode} with the specified key {@code K} and value {@code V}.
 	 * <p>
-	 * @param key   a key {@code K}
-	 * @param value a value {@code V}
+	 * @param key   the key {@code K}
+	 * @param value the value {@code V}
 	 */
 	public TreeNode(final K key, final V value) {
 		// Check the arguments
@@ -103,9 +103,9 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the value and returns the previous associated value {@code V}.
+	 * Sets the value {@code V} and returns the previous associated value {@code V}.
 	 * <p>
-	 * @param value a {@code V} object
+	 * @param value a value {@code V}
 	 * <p>
 	 * @return the previous associated value {@code V}
 	 */

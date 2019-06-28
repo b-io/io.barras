@@ -61,7 +61,7 @@ public class Longs {
 	/**
 	 * Returns a {@code long} value converted from the specified {@code float} value.
 	 * <p>
-	 * @param value a {@code float} value
+	 * @param value the {@code float} value to convert
 	 * <p>
 	 * @return a {@code long} value converted from the specified {@code float} value
 	 */
@@ -75,7 +75,7 @@ public class Longs {
 	/**
 	 * Returns a {@code long} value converted from the specified {@code double} value.
 	 * <p>
-	 * @param value a {@code double} value
+	 * @param value the {@code double} value to convert
 	 * <p>
 	 * @return a {@code long} value converted from the specified {@code double} value
 	 */
@@ -87,11 +87,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@link Long} from the specified {@link Object}.
+	 * Returns a {@link Long} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object the {@link Object} to convert
 	 * <p>
-	 * @return a {@link Long} from the specified {@link Object}
+	 * @return a {@link Long} converted from the specified {@link Object}
 	 */
 	public static Long convert(final Object object) {
 		return PARSER.call(object);

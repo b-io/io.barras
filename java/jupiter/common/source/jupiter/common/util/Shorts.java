@@ -61,7 +61,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} value converted from the specified {@code int} value.
 	 * <p>
-	 * @param value an {@code int} value
+	 * @param value the {@code int} value to convert
 	 * <p>
 	 * @return a {@code short} value converted from the specified {@code int} value
 	 */
@@ -75,7 +75,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} value converted from the specified {@code long} value.
 	 * <p>
-	 * @param value a {@code long} value
+	 * @param value the {@code long} value to convert
 	 * <p>
 	 * @return a {@code short} value converted from the specified {@code long} value
 	 */
@@ -89,7 +89,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} value converted from the specified {@code float} value.
 	 * <p>
-	 * @param value a {@code float} value
+	 * @param value the {@code float} value to convert
 	 * <p>
 	 * @return a {@code short} value converted from the specified {@code float} value
 	 */
@@ -103,7 +103,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} value converted from the specified {@code double} value.
 	 * <p>
-	 * @param value a {@code double} value
+	 * @param value the {@code double} value to convert
 	 * <p>
 	 * @return a {@code short} value converted from the specified {@code double} value
 	 */
@@ -115,11 +115,11 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@link Short} from the specified {@link Object}.
+	 * Returns a {@link Short} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object the {@link Object} to convert
 	 * <p>
-	 * @return a {@link Short} from the specified {@link Object}
+	 * @return a {@link Short} converted from the specified {@link Object}
 	 */
 	public static Short convert(final Object object) {
 		return PARSER.call(object);

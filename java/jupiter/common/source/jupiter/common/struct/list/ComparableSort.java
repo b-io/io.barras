@@ -475,7 +475,7 @@ public class ComparableSort {
 	 * the range contains an element equal to {@code key}, returns the index of the leftmost equal
 	 * element.
 	 * <p>
-	 * @param key   the key whose insertion point to search for
+	 * @param key   the key {@link Comparable} of {@link Object} whose insertion point to search for
 	 * @param array the array of {@link Object} in which to search
 	 * @param base  the index of the first element in the range
 	 * @param len   the length of the range (must be greater than 0)
@@ -562,7 +562,7 @@ public class ComparableSort {
 	 * Like {@link #gallopLeft}, except that if the range contains an element equal to {@code key},
 	 * {@link #gallopRight} returns the index after the rightmost equal element.
 	 * <p>
-	 * @param key   the key whose insertion point to search for
+	 * @param key   the key {@link Comparable} of {@link Object} whose insertion point to search for
 	 * @param array the array of {@link Object} in which to search
 	 * @param base  the index of the first element in the range
 	 * @param len   the length of the range (must be greater than 0)

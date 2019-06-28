@@ -61,7 +61,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code short} value.
 	 * <p>
-	 * @param value a {@code short} value
+	 * @param value the {@code short} value to convert
 	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code short} value
 	 */
@@ -75,7 +75,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code int} value.
 	 * <p>
-	 * @param value an {@code int} value
+	 * @param value the {@code int} value to convert
 	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code int} value
 	 */
@@ -89,7 +89,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code long} value.
 	 * <p>
-	 * @param value a {@code long} value
+	 * @param value the {@code long} value to convert
 	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code long} value
 	 */
@@ -103,7 +103,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code float} value.
 	 * <p>
-	 * @param value a {@code float} value
+	 * @param value the {@code float} value to convert
 	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code float} value
 	 */
@@ -117,7 +117,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code double} value.
 	 * <p>
-	 * @param value a {@code double} value
+	 * @param value the {@code double} value to convert
 	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code double} value
 	 */
@@ -129,11 +129,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@link Byte} from the specified {@link Object}.
+	 * Returns a {@link Byte} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object the {@link Object} to convert
 	 * <p>
-	 * @return a {@link Byte} from the specified {@link Object}
+	 * @return a {@link Byte} converted from the specified {@link Object}
 	 */
 	public static Byte convert(final Object object) {
 		return PARSER.call(object);

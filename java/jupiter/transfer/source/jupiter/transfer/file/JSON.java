@@ -37,7 +37,13 @@ public class JSON {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The delimiter.
+	 */
 	public static final char JSON_DELIMITER = ',';
+	/**
+	 * The {@link JSONWrapper}.
+	 */
 	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
 
 
@@ -45,6 +51,9 @@ public class JSON {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link JSON}.
+	 */
 	protected JSON() {
 	}
 
@@ -54,12 +63,12 @@ public class JSON {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a JSON representative {@link String} of the fields of the specified content.
+	 * Returns a JSON representative {@link String} of the fields of the specified content {@link Object}.
 	 * <p>
 	 * @param content the content {@link Object} containing the fields to represent as a JSON
 	 *                {@link String}
 	 * <p>
-	 * @return a JSON representative {@link String} of the fields of the specified content
+	 * @return a JSON representative {@link String} of the fields of the specified content {@link Object}
 	 */
 	public static String jsonify(final Object content) {
 		final StringBuilder builder = Strings.createBuilder();
@@ -84,7 +93,8 @@ public class JSON {
 	/**
 	 * Returns a JSON representative {@link String} of the specified key-value mapping.
 	 * <p>
-	 * @param key   the key of the key-value mapping to represent as a JSON {@link String}
+	 * @param key   the key {@link String} of the key-value mapping to represent as a JSON
+	 *              {@link String}
 	 * @param value the value of the key-value mapping to represent as a JSON {@link String}
 	 * <p>
 	 * @return a JSON representative {@link String} of the specified key-value mapping

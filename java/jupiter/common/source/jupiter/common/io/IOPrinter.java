@@ -46,7 +46,7 @@ public class IOPrinter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The IO handlers.
+	 * The {@link List} of {@link IOHandler}.
 	 */
 	protected final List<IOHandler> handlers;
 
@@ -71,7 +71,7 @@ public class IOPrinter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content with the IO handlers.
+	 * Prints the specified content {@link Object} with the {@link List} of {@link IOHandler}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -85,7 +85,8 @@ public class IOPrinter
 	}
 
 	/**
-	 * Prints the specified content and terminates the line with the IO handlers.
+	 * Prints the specified content {@link Object} and terminates the line with the {@link List} of
+	 * {@link IOHandler}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -117,7 +118,7 @@ public class IOPrinter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Clears the IO handlers.
+	 * Clears the {@link List} of {@link IOHandler}.
 	 */
 	@Override
 	public void clear() {

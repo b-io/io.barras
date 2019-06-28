@@ -64,20 +64,30 @@ public class SQL {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Object convert(final Class<?> c, final String value) {
-		if (isNull(value)) {
+	/**
+	 * Returns an {@link Object} of the specified {@link Class} converted from the specified
+	 * {@link String}.
+	 * <p>
+	 * @param c      the {@link Class} of the {@link Object} to convert to
+	 * @param string the {@link String} to convert
+	 * <p>
+	 * @return an {@link Object} of the specified {@link Class} converted from the specified
+	 *         {@link String}
+	 */
+	public static Object convert(final Class<?> c, final String string) {
+		if (isNull(string)) {
 			return null;
 		}
 		if (Booleans.is(c)) {
-			return Integers.convert(value) == 1;
+			return Integers.convert(string) == 1;
 		} else if (Numbers.is(c)) {
-			return Numbers.toNumber(c, value);
+			return Numbers.toNumber(c, string);
 		} else if (Strings.is(c)) {
-			return value;
+			return string;
 		} else if (Time.class.isAssignableFrom(c)) {
-			return Time.valueOf(value);
+			return Time.valueOf(string);
 		} else if (Timestamp.class.isAssignableFrom(c)) {
-			return Timestamp.valueOf(value);
+			return Timestamp.valueOf(string);
 		}
 		throw new IllegalArgumentException("Unknown class" + Strings.append(c));
 	}

@@ -551,7 +551,7 @@ public class Table<T>
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
-	 * @param value a {@code T} object
+	 * @param value a value {@code T}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */

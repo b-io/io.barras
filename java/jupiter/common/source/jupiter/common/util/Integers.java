@@ -61,7 +61,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} value converted from the specified {@code long} value.
 	 * <p>
-	 * @param value a {@code long} value
+	 * @param value the {@code long} value to convert
 	 * <p>
 	 * @return an {@code int} value converted from the specified {@code long} value
 	 */
@@ -75,7 +75,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} value converted from the specified {@code float} value.
 	 * <p>
-	 * @param value a {@code float} value
+	 * @param value the {@code float} value to convert
 	 * <p>
 	 * @return an {@code int} value converted from the specified {@code float} value
 	 */
@@ -89,7 +89,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} value converted from the specified {@code double} value.
 	 * <p>
-	 * @param value a {@code double} value
+	 * @param value the {@code double} value to convert
 	 * <p>
 	 * @return an {@code int} value converted from the specified {@code double} value
 	 */
@@ -101,11 +101,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@link Integer} from the specified {@link Object}.
+	 * Returns an {@link Integer} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object the {@link Object} to convert
 	 * <p>
-	 * @return an {@link Integer} from the specified {@link Object}
+	 * @return an {@link Integer} converted from the specified {@link Object}
 	 */
 	public static Integer convert(final Object object) {
 		return PARSER.call(object);

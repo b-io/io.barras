@@ -72,11 +72,11 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Character} from the specified {@link Object}.
+	 * Returns a {@link Character} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object the {@link Object} to convert
 	 * <p>
-	 * @return a {@link Character} from the specified {@link Object}
+	 * @return a {@link Character} converted from the specified {@link Object}
 	 */
 	public static Character convert(final Object object) {
 		return PARSER.call(object);

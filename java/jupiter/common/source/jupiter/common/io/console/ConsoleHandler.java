@@ -132,7 +132,7 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content in the console.
+	 * Prints the specified content {@link Object} in the console.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
@@ -152,7 +152,7 @@ public class ConsoleHandler
 	}
 
 	/**
-	 * Prints the specified content in the console and then terminates the line.
+	 * Prints the specified content {@link Object} in the console and then terminates the line.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in

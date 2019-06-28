@@ -493,7 +493,7 @@ public class Sort<T> {
 	 * element.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param key        the key whose insertion point to search for
+	 * @param key        the key {@code T} whose insertion point to search for
 	 * @param array      the array of type {@code T} in which to search
 	 * @param base       the index of the first element in the range
 	 * @param len        the length of the range (must be greater than 0)
@@ -583,7 +583,7 @@ public class Sort<T> {
 	 * {@link #gallopRight} returns the index after the rightmost equal element.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param key        the key whose insertion point to search for
+	 * @param key        the key {@code T} whose insertion point to search for
 	 * @param array      the array of type {@code T} in which to search
 	 * @param base       the index of the first element in the range
 	 * @param len        the length of the range (must be greater than 0)

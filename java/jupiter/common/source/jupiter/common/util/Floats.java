@@ -72,7 +72,7 @@ public class Floats {
 	/**
 	 * Returns a {@code float} value converted from the specified {@code double} value.
 	 * <p>
-	 * @param value a {@code double} value
+	 * @param value the {@code double} value to convert
 	 * <p>
 	 * @return a {@code float} value converted from the specified {@code double} value
 	 */
@@ -84,11 +84,11 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@link Float} from the specified {@link Object}.
+	 * Returns a {@link Float} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object the {@link Object} to convert
 	 * <p>
-	 * @return a {@link Float} from the specified {@link Object}
+	 * @return a {@link Float} converted from the specified {@link Object}
 	 */
 	public static Float convert(final Object object) {
 		return PARSER.call(object);

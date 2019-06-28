@@ -71,11 +71,11 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Double} from the specified {@link Object}.
+	 * Returns a {@link Double} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object the {@link Object} to convert
 	 * <p>
-	 * @return a {@link Double} from the specified {@link Object}
+	 * @return a {@link Double} converted from the specified {@link Object}
 	 */
 	public static Double convert(final Object object) {
 		return PARSER.call(object);
