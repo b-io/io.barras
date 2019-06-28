@@ -231,8 +231,10 @@ public class ConsoleHandler
 
 	public enum Color {
 		RESET,
+
 		BLACK,
 		WHITE,
+
 		BLUE,
 		CYAN,
 		GREEN,

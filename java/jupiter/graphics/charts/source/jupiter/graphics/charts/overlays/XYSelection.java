@@ -205,7 +205,7 @@ public class XYSelection
 	public void setVisible(final boolean isVisible) {
 		final boolean oldValue = this.isVisible;
 		this.isVisible = isVisible;
-		propertyChangeSupport.firePropertyChange("isSelectionVisible", oldValue, isVisible);
+		propertyChangeSupport.firePropertyChange("isVisible", oldValue, isVisible);
 	}
 
 
