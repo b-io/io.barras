@@ -38,11 +38,11 @@ public class ActivationHyperbolicTangent
 
 	/**
 	 * Applies the hyperbolic tangent function to the specified {@code double} value and returns the
-	 * result.
+	 *  resulting {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the result
+	 * @return the  resulting {@code double} value
 	 */
 	@Override
 	public double apply(final double x) {
@@ -51,11 +51,11 @@ public class ActivationHyperbolicTangent
 
 	/**
 	 * Applies the hyperbolic tangent function to the specified {@link Entity} and returns the
-	 * result.
+	 * resulting {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return the resulting {@link Entity}
 	 */
 	@Override
 	public Entity apply(final Entity E) {
@@ -64,11 +64,11 @@ public class ActivationHyperbolicTangent
 
 	/**
 	 * Applies the derivative of the hyperbolic tangent function to the specified {@link Entity} and
-	 * returns the result.
+	 * returns the resulting {@link Entity}.
 	 * <p>
 	 * @param E an array of {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return the resulting {@link Entity}
 	 */
 	@Override
 	public Entity derive(final Entity E) {

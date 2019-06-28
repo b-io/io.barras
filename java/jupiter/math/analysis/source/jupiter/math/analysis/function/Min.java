@@ -43,11 +43,11 @@ public class Min
 
 	/**
 	 * Applies the minimum function to the specified {@code double} value and this value and returns
-	 * the result.
+	 * the  resulting {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the result
+	 * @return the  resulting {@code double} value
 	 */
 	@Override
 	public double apply(final double x) {

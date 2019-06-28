@@ -138,10 +138,10 @@ public class SynchronizedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds the result of the task with the specified identifier.
+	 * Adds the result {@code O} of the task with the specified identifier.
 	 * <p>
 	 * @param id     the identifier of the task
-	 * @param result the result of the task
+	 * @param result the result {@code O} of the task
 	 */
 	@Override
 	public void addResult(final long id, final O result) {
@@ -152,11 +152,11 @@ public class SynchronizedWorkQueue<I, O>
 	}
 
 	/**
-	 * Returns the result of the task with the specified identifier.
+	 * Returns the result {@code O} of the task with the specified identifier.
 	 * <p>
 	 * @param id the identifier of the task
 	 * <p>
-	 * @return the result of the task with the specified identifier
+	 * @return the result {@code O} of the task with the specified identifier
 	 */
 	@Override
 	public O get(final long id) {

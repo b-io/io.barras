@@ -45,11 +45,12 @@ public class Filter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the filter function to the specified {@code double} value and returns the result.
+	 * Applies the filter function to the specified {@code double} value and returns the resulting
+	 * {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the result
+	 * @return the resulting {@code double} value
 	 */
 	@Override
 	public double apply(final double x) {

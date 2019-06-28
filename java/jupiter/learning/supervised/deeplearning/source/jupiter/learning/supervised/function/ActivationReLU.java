@@ -68,11 +68,12 @@ public class ActivationReLU
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the ReLU function to the specified {@code double} value and returns the result.
+	 * Applies the ReLU function to the specified {@code double} value and returns the resulting
+	 * {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the result
+	 * @return the resulting {@code double} value
 	 */
 	@Override
 	public double apply(final double x) {
@@ -80,11 +81,12 @@ public class ActivationReLU
 	}
 
 	/**
-	 * Applies the ReLU function to the specified {@link Entity} and returns the result.
+	 * Applies the ReLU function to the specified {@link Entity} and returns the resulting
+	 * {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return the resulting {@link Entity}
 	 */
 	@Override
 	public Entity apply(final Entity E) {
@@ -93,11 +95,11 @@ public class ActivationReLU
 
 	/**
 	 * Applies the derivative of the ReLU function to the specified {@link Entity} and returns the
-	 * result.
+	 * resulting {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return the resulting {@link Entity}
 	 */
 	@Override
 	public Entity derive(final Entity E) {

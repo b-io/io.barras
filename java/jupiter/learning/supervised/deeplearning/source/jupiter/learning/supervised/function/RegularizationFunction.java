@@ -63,12 +63,12 @@ public abstract class RegularizationFunction
 
 	/**
 	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
-	 * and returns the result.
+	 * and returns the resulting {@link Matrix}.
 	 * <p>
 	 * @param m the number of training examples
 	 * @param W the weight {@link Matrix}
 	 * <p>
-	 * @return the result
+	 * @return the resulting {@link Matrix}
 	 */
 	public abstract Entity derive(final int m, final Matrix W);
 }
