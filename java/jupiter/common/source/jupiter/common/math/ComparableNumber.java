@@ -56,107 +56,100 @@ public abstract class ComparableNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code comparableNumber} for order. Returns a negative integer,
-	 * zero or a positive integer as {@code this} is less than, equal to or greater than
-	 * {@code comparableNumber}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against for order
+	 * @param other the other {@link ComparableNumber} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code comparableNumber}
+	 *         or greater than {@code other}
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparableNumber comparableNumber) {
-		return Doubles.compare(doubleValue(), comparableNumber.doubleValue());
+	public int compareTo(final ComparableNumber other) {
+		return Doubles.compare(doubleValue(), other.doubleValue());
 	}
 
 	/**
-	 * Tests whether {@code this} is less than {@code comparableNumber}.
+	 * Tests whether {@code this} is less than {@code other}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against
 	 * <p>
-	 * @return {@code true} if {@code this} is less than {@code comparableNumber}, {@code false}
+	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 */
+	public boolean isLessThan(final ComparableNumber other) {
+		return compareTo(other) < 0;
+	}
+
+	/**
+	 * Tests whether {@code this} is less or equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link ComparableNumber} to compare against
+	 * <p>
+	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public boolean isLessThan(final ComparableNumber comparableNumber) {
-		return compareTo(comparableNumber) < 0;
+	public boolean isLessOrEqualTo(final ComparableNumber other) {
+		return compareTo(other) <= 0;
 	}
 
 	/**
-	 * Tests whether {@code this} is less or equal to {@code comparableNumber}.
+	 * Tests whether {@code this} is greater than {@code other}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against
 	 * <p>
-	 * @return {@code true} if {@code this} is less or equal to {@code comparableNumber},
-	 *         {@code false} otherwise
+	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public boolean isLessOrEqualTo(final ComparableNumber comparableNumber) {
-		return compareTo(comparableNumber) <= 0;
+	public boolean isGreaterThan(final ComparableNumber other) {
+		return compareTo(other) > 0;
 	}
 
 	/**
-	 * Tests whether {@code this} is greater than {@code comparableNumber}.
+	 * Tests whether {@code this} is greater or equal to {@code other}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against
 	 * <p>
-	 * @return {@code true} if {@code this} is greater than {@code comparableNumber}, {@code false}
+	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public boolean isGreaterThan(final ComparableNumber comparableNumber) {
-		return compareTo(comparableNumber) > 0;
-	}
-
-	/**
-	 * Tests whether {@code this} is greater or equal to {@code comparableNumber}.
-	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against
-	 * <p>
-	 * @return {@code true} if {@code this} is greater or equal to {@code comparableNumber},
-	 *         {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
-	 */
-	public boolean isGreaterOrEqualTo(final ComparableNumber comparableNumber) {
-		return compareTo(comparableNumber) >= 0;
+	public boolean isGreaterOrEqualTo(final ComparableNumber other) {
+		return compareTo(other) >= 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the smaller of {@code this} and {@code comparableNumber}, or {@code this} if they are
-	 * equal.
+	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against
 	 * <p>
-	 * @return the smaller of {@code this} and {@code comparableNumber}, or {@code this} if they are
-	 *         equal
+	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public ComparableNumber getMin(final ComparableNumber comparableNumber) {
-		return isLessOrEqualTo(comparableNumber) ? this : comparableNumber;
+	public ComparableNumber getMin(final ComparableNumber other) {
+		return isLessOrEqualTo(other) ? this : other;
 	}
 
 	/**
-	 * Returns the larger of {@code this} and {@code comparableNumber}, or {@code this} if they are
-	 * equal.
+	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against
 	 * <p>
-	 * @return the larger of {@code this} and {@code comparableNumber}, or {@code this} if they are
-	 *         equal
+	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public ComparableNumber getMax(final ComparableNumber comparableNumber) {
-		return isGreaterOrEqualTo(comparableNumber) ? this : comparableNumber;
+	public ComparableNumber getMax(final ComparableNumber other) {
+		return isGreaterOrEqualTo(other) ? this : other;
 	}
 
 
@@ -165,100 +158,100 @@ public abstract class ComparableNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code number} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code number}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param number the {@link Number} to compare against for order
+	 * @param other the other {@link Number} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code number}
+	 *         or greater than {@code other}
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final Number number) {
-		return Numbers.compare(this, number);
+	public int compareTo(final Number other) {
+		return Numbers.compare(this, other);
 	}
 
 	/**
-	 * Tests whether {@code this} is less than {@code number}.
+	 * Tests whether {@code this} is less than {@code other}.
 	 * <p>
-	 * @param number the {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against
 	 * <p>
-	 * @return {@code true} if {@code this} is less than {@code number}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public boolean isLessThan(final Number number) {
-		return compareTo(number) < 0;
+	public boolean isLessThan(final Number other) {
+		return compareTo(other) < 0;
 	}
 
 	/**
-	 * Tests whether {@code this} is less or equal to {@code number}.
+	 * Tests whether {@code this} is less or equal to {@code other}.
 	 * <p>
-	 * @param number the {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against
 	 * <p>
-	 * @return {@code true} if {@code this} is less or equal to {@code number}, {@code false}
+	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public boolean isLessOrEqualTo(final Number number) {
-		return compareTo(number) <= 0;
+	public boolean isLessOrEqualTo(final Number other) {
+		return compareTo(other) <= 0;
 	}
 
 	/**
-	 * Tests whether {@code this} is greater than {@code number}.
+	 * Tests whether {@code this} is greater than {@code other}.
 	 * <p>
-	 * @param number the {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against
 	 * <p>
-	 * @return {@code true} if {@code this} is greater than {@code number}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public boolean isGreaterThan(final Number number) {
-		return compareTo(number) > 0;
+	public boolean isGreaterThan(final Number other) {
+		return compareTo(other) > 0;
 	}
 
 	/**
-	 * Tests whether {@code this} is greater or equal to {@code number}.
+	 * Tests whether {@code this} is greater or equal to {@code other}.
 	 * <p>
-	 * @param number the {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against
 	 * <p>
-	 * @return {@code true} if {@code this} is greater or equal to {@code number}, {@code false}
+	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public boolean isGreaterOrEqualTo(final Number number) {
-		return compareTo(number) >= 0;
+	public boolean isGreaterOrEqualTo(final Number other) {
+		return compareTo(other) >= 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the smaller of {@code this} and {@code number}, or {@code this} if they are equal.
+	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal.
 	 * <p>
-	 * @param number the {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against
 	 * <p>
-	 * @return the smaller of {@code this} and {@code number}, or {@code this} if they are equal
+	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public Number getMin(final Number number) {
-		return isLessOrEqualTo(number) ? this : number;
+	public Number getMin(final Number other) {
+		return isLessOrEqualTo(other) ? this : other;
 	}
 
 	/**
-	 * Returns the larger of {@code this} and {@code number}, or {@code this} if they are equal.
+	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal.
 	 * <p>
-	 * @param number the {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against
 	 * <p>
-	 * @return the larger of {@code this} and {@code number}, or {@code this} if they are equal
+	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public Number getMax(final Number number) {
-		return isGreaterOrEqualTo(number) ? this : number;
+	public Number getMax(final Number other) {
+		return isGreaterOrEqualTo(other) ? this : other;
 	}
 
 
@@ -269,7 +262,7 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
@@ -291,60 +284,67 @@ public abstract class ComparableNumber
 	}
 
 	/**
-	 * Tests whether {@code this} is equal to {@code number}.
+	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param number the {@link Number} to compare against for equality
+	 * @param other the other {@link Number} to compare against for equality
 	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code number}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
-	public boolean equals(final Number number) {
-		return Numbers.equals(this, number);
+	public boolean equals(final Number other) {
+		return Numbers.equals(this, other);
 	}
 
 	/**
-	 * Tests whether {@code this} is equal to {@code number} within {@code tolerance}.
+	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
 	 * <p>
-	 * @param number    the {@link Number} to compare against for equality
+	 * @param other     the other {@link Number} to compare against for equality
 	 * @param tolerance the tolerance level
 	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code number} within {@code tolerance},
+	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code number} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
-	public boolean equals(final Number number, final double tolerance) {
-		return Numbers.equals(this, number, tolerance);
+	public boolean equals(final Number other, final double tolerance) {
+		return Numbers.equals(this, other, tolerance);
 	}
 
 	/**
-	 * Tests whether {@code this} is equal to {@code comparableNumber}.
+	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against for equality
+	 * @param other the other {@link ComparableNumber} to compare against for equality
 	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code comparableNumber}, {@code false}
-	 *         otherwise
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
-	public boolean equals(final ComparableNumber comparableNumber) {
-		return Numbers.equals(this, comparableNumber);
+	public boolean equals(final ComparableNumber other) {
+		return Numbers.equals(this, other);
 	}
 
 	/**
-	 * Tests whether {@code this} is equal to {@code comparableNumber} within {@code tolerance}.
+	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against for equality
-	 * @param tolerance        the tolerance level
+	 * @param other     the other {@link ComparableNumber} to compare against for equality
+	 * @param tolerance the tolerance level
 	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code comparableNumber} within
-	 *         {@code tolerance}, {@code false} otherwise
+	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
+	 *         {@code false} otherwise
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
-	public boolean equals(final ComparableNumber comparableNumber, final double tolerance) {
-		return Numbers.equals(this, comparableNumber, tolerance);
+	public boolean equals(final ComparableNumber other, final double tolerance) {
+		return Numbers.equals(this, other, tolerance);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

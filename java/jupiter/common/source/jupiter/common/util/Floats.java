@@ -994,13 +994,13 @@ public class Floats {
 	}
 
 	/**
-	 * Tests whether {@code a} is equal to {@code b} within the specified tolerance level.
+	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
 	 * <p>
 	 * @param a         the {@code float} value to compare for equality
 	 * @param b         the other {@code float} value to compare against for equality
 	 * @param tolerance the tolerance level
 	 * <p>
-	 * @return {@code true} if {@code a} is equal to {@code b} within the specified tolerance level,
+	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},
 	 *         {@code false} otherwise
 	 */
 	public static boolean equals(final float a, final float b, final float tolerance) {

@@ -314,14 +314,24 @@ public class SafeDateFormat
 		return (SafeDateFormat) super.clone();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Compares the specified {@link Object} with {@code this} for equality.
+	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @return {@code true} if the specified {@link Object} is equal to {@code this}
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
 	@Override
-	public boolean equals(final Object obj) {
-		return super.equals(obj);
+	public boolean equals(final Object other) {
+		return super.equals(other);
 	}
 
 	/**

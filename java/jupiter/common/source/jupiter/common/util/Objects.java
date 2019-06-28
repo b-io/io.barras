@@ -150,12 +150,12 @@ public class Objects {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the arguments are equal to each other.
+	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
 	 * @param a the {@link Object} to compare for equality
 	 * @param b the other {@link Object} to compare against for equality
 	 * <p>
-	 * @return {@code true} if the arguments are equal to each other, {@code false} otherwise
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Object a, final Object b) {
 		if (a == null) {

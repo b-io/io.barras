@@ -57,27 +57,27 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code triple} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code triple}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param triple the {@link ComparablePair} of type {@code T1}, {@code T2} and {@code T3} to
-	 *               compare against for order
+	 * @param other the other {@link ComparablePair} of type {@code T1}, {@code T2} and {@code T3} to
+	 *              compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code triple}
+	 *         or greater than {@code other}
 	 * <p>
-	 * @throws NullPointerException if {@code triple} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparableTriple<T1, T2, T3> triple) {
-		int comparison = first.compareTo(triple.first);
+	public int compareTo(final ComparableTriple<T1, T2, T3> other) {
+		int comparison = first.compareTo(other.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = second.compareTo(triple.second);
+		comparison = second.compareTo(other.second);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return third.compareTo(triple.third);
+		return third.compareTo(other.third);
 	}
 
 
@@ -100,6 +100,19 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {

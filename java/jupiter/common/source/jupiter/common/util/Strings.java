@@ -2848,13 +2848,14 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the representative {@link String}s of the arguments are equal to each other.
+	 * Tests whether the representative {@link String} of {@code a} and {@code b} are equal to each
+	 * other.
 	 * <p>
 	 * @param a the {@link Object} to compare for equality
 	 * @param b the other {@link Object} to compare against for equality
 	 * <p>
-	 * @return {@code true} if the representative {@link String}s of the arguments are equal to each
-	 *         other, {@code false} otherwise
+	 * @return {@code true} if the representative {@link String} of {@code a} and {@code b} are
+	 *         equal to each other, {@code false} otherwise
 	 */
 	public static boolean equals(final Object a, final Object b) {
 		return toString(a).equals(toString(b));

@@ -592,13 +592,57 @@ public abstract class Entity
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public abstract boolean equals(final Object other);
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
+	 * <p>
+	 * @param other     the other {@link Object} to compare against for equality
+	 * @param tolerance the tolerance level
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
+	 *         {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	public abstract boolean equals(final Object other, final double tolerance);
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	public abstract int hashCode();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public abstract String toString();
 

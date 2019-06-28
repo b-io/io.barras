@@ -976,7 +976,7 @@ public class Files {
 	/**
 	 * Tests whether the specified {@link File} exists.
 	 * <p>
-	 * @param file the {@link File} to test
+	 * @param file the {@link File} to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@link File} exists, {@code false} otherwise
 	 * <p>

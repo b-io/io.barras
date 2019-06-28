@@ -58,35 +58,35 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code quintuple} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code quintuple}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param quintuple the {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3},
-	 *                  {@code T4} and {@code T5} to compare against for order
+	 * @param other the other {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3},
+	 *              {@code T4} and {@code T5} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code quintuple}
+	 *         or greater than {@code other}
 	 * <p>
-	 * @throws NullPointerException if {@code quintuple} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparableQuintuple<T1, T2, T3, T4, T5> quintuple) {
-		int comparison = first.compareTo(quintuple.first);
+	public int compareTo(final ComparableQuintuple<T1, T2, T3, T4, T5> other) {
+		int comparison = first.compareTo(other.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = second.compareTo(quintuple.second);
+		comparison = second.compareTo(other.second);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = third.compareTo(quintuple.third);
+		comparison = third.compareTo(other.third);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = fourth.compareTo(quintuple.fourth);
+		comparison = fourth.compareTo(other.fourth);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return fifth.compareTo(quintuple.fifth);
+		return fifth.compareTo(other.fifth);
 	}
 
 
@@ -97,7 +97,8 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	@Override
 	public ComparableQuintuple<T1, T2, T3, T4, T5> clone() {
 		try {
-			final ComparableQuintuple<T1, T2, T3, T4, T5> clone = (ComparableQuintuple<T1, T2, T3, T4, T5>) super.clone();
+			final ComparableQuintuple<T1, T2, T3, T4, T5> clone = (ComparableQuintuple<T1, T2, T3, T4, T5>) super
+					.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			clone.third = Objects.clone(third);
@@ -111,6 +112,19 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {

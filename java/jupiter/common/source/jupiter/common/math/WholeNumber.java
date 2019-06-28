@@ -160,23 +160,22 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code comparableNumber} for order. Returns a negative integer,
-	 * zero or a positive integer as {@code this} is less than, equal to or greater than
-	 * {@code comparableNumber}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare against for order
+	 * @param other the other {@link ComparableNumber} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code comparableNumber}
+	 *         or greater than {@code other}
 	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
 	@Override
-	public int compareTo(final ComparableNumber comparableNumber) {
-		if (comparableNumber instanceof WholeNumber) {
-			return Longs.compare(value, ((WholeNumber) comparableNumber).value);
+	public int compareTo(final ComparableNumber other) {
+		if (other instanceof WholeNumber) {
+			return Longs.compare(value, ((WholeNumber) other).value);
 		}
-		return Numbers.compare(value, comparableNumber);
+		return Numbers.compare(value, other);
 	}
 
 
@@ -187,7 +186,7 @@ public class WholeNumber
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>

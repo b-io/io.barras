@@ -141,8 +141,8 @@ public class DynamicSample
 	}
 
 	/**
-	 * Resamples if the size of the sample is greater than {@code maxSampleSize} or the precision is
-	 * decreasing, returns {@code false} otherwise.
+	 * Resamples and returns {@code true} if the size of the sample is greater than
+	 * {@code maxSampleSize} or the precision is decreasing, {@code false} otherwise.
 	 * <p>
 	 * @return {@code true} if the size of the sample is greater than {@code maxSampleSize} or the
 	 *         precision is decreasing, {@code false} otherwise

@@ -57,23 +57,23 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code pair} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code pair}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param pair the {@link ComparablePair} of type {@code T1} and {@code T2} to compare against
+	 * @param other the other {@link ComparablePair} of type {@code T1} and {@code T2} to compare against
 	 *             for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code pair}
+	 *         or greater than {@code other}
 	 * <p>
-	 * @throws NullPointerException if {@code pair} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparablePair<T1, T2> pair) {
-		final int comparison = first.compareTo(pair.first);
+	public int compareTo(final ComparablePair<T1, T2> other) {
+		final int comparison = first.compareTo(other.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return second.compareTo(pair.second);
+		return second.compareTo(other.second);
 	}
 
 
@@ -95,6 +95,19 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {

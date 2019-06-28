@@ -121,19 +121,19 @@ public class TreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code entry} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code entry}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param entry the {@link java.util.Map.Entry} of type {@code K} and {@code V} to compare
+	 * @param other the other {@link java.util.Map.Entry} of type {@code K} and {@code V} to compare
 	 *              against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code entry}
+	 *         or greater than {@code other}
 	 * <p>
-	 * @throws NullPointerException if {@code entry} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final Entry<K, V> entry) {
-		return key.compareTo(entry.getKey());
+	public int compareTo(final Entry<K, V> other) {
+		return key.compareTo(other.getKey());
 	}
 
 
@@ -166,7 +166,7 @@ public class TreeNode<K extends Comparable<K>, V>
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>

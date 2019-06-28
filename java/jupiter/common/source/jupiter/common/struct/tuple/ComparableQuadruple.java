@@ -57,31 +57,31 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code quadruple} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code quadruple}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param quadruple the {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3} and
-	 *                  {@code T4} to compare against for order
+	 * @param other the other {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3} and
+	 *              {@code T4} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code quadruple}
+	 *         or greater than {@code other}
 	 * <p>
-	 * @throws NullPointerException if {@code quadruple} is {@code null}
+	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparableQuadruple<T1, T2, T3, T4> quadruple) {
-		int comparison = first.compareTo(quadruple.first);
+	public int compareTo(final ComparableQuadruple<T1, T2, T3, T4> other) {
+		int comparison = first.compareTo(other.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = second.compareTo(quadruple.second);
+		comparison = second.compareTo(other.second);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = third.compareTo(quadruple.third);
+		comparison = third.compareTo(other.third);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return fourth.compareTo(quadruple.fourth);
+		return fourth.compareTo(other.fourth);
 	}
 
 
@@ -92,7 +92,8 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	@Override
 	public ComparableQuadruple<T1, T2, T3, T4> clone() {
 		try {
-			final ComparableQuadruple<T1, T2, T3, T4> clone = (ComparableQuadruple<T1, T2, T3, T4>) super.clone();
+			final ComparableQuadruple<T1, T2, T3, T4> clone = (ComparableQuadruple<T1, T2, T3, T4>) super
+					.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			clone.third = Objects.clone(third);
@@ -105,6 +106,19 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
