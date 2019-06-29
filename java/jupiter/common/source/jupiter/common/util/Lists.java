@@ -38,6 +38,9 @@ public class Lists
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Lists}.
+	 */
 	protected Lists() {
 	}
 

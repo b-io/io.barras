@@ -32,6 +32,9 @@ public class StringArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link StringArguments}.
+	 */
 	protected StringArguments() {
 		super();
 	}

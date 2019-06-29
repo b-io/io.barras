@@ -32,6 +32,9 @@ public class DoubleArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link DoubleArguments}.
+	 */
 	protected DoubleArguments() {
 	}
 

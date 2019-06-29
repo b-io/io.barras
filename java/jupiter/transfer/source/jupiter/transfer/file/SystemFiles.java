@@ -46,6 +46,9 @@ public class SystemFiles {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link SystemFiles}.
+	 */
 	protected SystemFiles() {
 	}
 

@@ -63,6 +63,9 @@ public class Characters {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Characters}.
+	 */
 	protected Characters() {
 	}
 

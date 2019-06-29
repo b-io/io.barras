@@ -39,6 +39,9 @@ public class JPanels {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link JPanels}.
+	 */
 	protected JPanels() {
 	}
 

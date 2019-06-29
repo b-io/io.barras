@@ -38,6 +38,9 @@ public class Arguments {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Arguments}.
+	 */
 	protected Arguments() {
 	}
 

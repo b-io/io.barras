@@ -32,6 +32,9 @@ public class FileArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link FileArguments}.
+	 */
 	protected FileArguments() {
 	}
 

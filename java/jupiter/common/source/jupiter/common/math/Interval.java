@@ -177,6 +177,7 @@ public class Interval<T extends Comparable<T>>
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Interval<T> clone() {
 		try {
 			return (Interval<T>) super.clone();

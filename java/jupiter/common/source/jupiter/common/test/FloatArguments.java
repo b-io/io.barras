@@ -32,6 +32,9 @@ public class FloatArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link FloatArguments}.
+	 */
 	protected FloatArguments() {
 	}
 

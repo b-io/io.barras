@@ -46,6 +46,9 @@ public abstract class ObjectToLongMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ObjectToLongMapper}.
+	 */
 	protected ObjectToLongMapper() {
 		super(Long.class);
 	}
@@ -125,4 +128,19 @@ public abstract class ObjectToLongMapper
 		}
 		return result;
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public abstract ObjectToLongMapper clone();
 }

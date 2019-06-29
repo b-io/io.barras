@@ -40,6 +40,9 @@ public class Threads {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Threads}.
+	 */
 	protected Threads() {
 	}
 

@@ -38,6 +38,9 @@ public abstract class ActivationFunctions {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link ActivationFunctions}.
+	 */
 	protected ActivationFunctions() {
 	}
 }

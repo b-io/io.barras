@@ -50,6 +50,9 @@ public class Longs {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Longs}.
+	 */
 	protected Longs() {
 	}
 

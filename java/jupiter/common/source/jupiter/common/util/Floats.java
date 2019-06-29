@@ -52,6 +52,9 @@ public class Floats {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Floats}.
+	 */
 	protected Floats() {
 	}
 

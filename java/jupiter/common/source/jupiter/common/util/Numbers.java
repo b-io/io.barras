@@ -33,6 +33,9 @@ public class Numbers {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Numbers}.
+	 */
 	protected Numbers() {
 	}
 

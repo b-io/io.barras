@@ -23,6 +23,7 @@
  */
 package jupiter.common.math;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
@@ -30,7 +31,7 @@ import jupiter.common.util.Strings;
 
 public abstract class ComparableNumber
 		extends Number
-		implements IComparable<ComparableNumber> {
+		implements ICloneable<ComparableNumber>, IComparable<ComparableNumber> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -46,6 +47,9 @@ public abstract class ComparableNumber
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ComparableNumber}.
+	 */
 	protected ComparableNumber() {
 		super();
 	}
@@ -257,6 +261,24 @@ public abstract class ComparableNumber
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public ComparableNumber clone() {
+		try {
+			return (ComparableNumber) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

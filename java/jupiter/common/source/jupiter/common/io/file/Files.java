@@ -86,6 +86,9 @@ public class Files {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Files}.
+	 */
 	protected Files() {
 	}
 

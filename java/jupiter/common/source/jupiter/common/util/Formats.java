@@ -159,6 +159,9 @@ public class Formats {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Formats}.
+	 */
 	protected Formats() {
 	}
 

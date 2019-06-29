@@ -32,6 +32,9 @@ public class ArrayArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link ArrayArguments}.
+	 */
 	protected ArrayArguments() {
 	}
 

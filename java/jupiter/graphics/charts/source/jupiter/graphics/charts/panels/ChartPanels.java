@@ -51,6 +51,9 @@ public class ChartPanels {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link ChartPanels}.
+	 */
 	protected ChartPanels() {
 	}
 

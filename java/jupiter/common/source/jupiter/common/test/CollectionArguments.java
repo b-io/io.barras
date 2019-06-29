@@ -32,6 +32,9 @@ public class CollectionArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link CollectionArguments}.
+	 */
 	protected CollectionArguments() {
 	}
 

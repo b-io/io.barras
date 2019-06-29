@@ -48,6 +48,9 @@ public class Dates {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Dates}.
+	 */
 	protected Dates() {
 	}
 

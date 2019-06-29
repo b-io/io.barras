@@ -40,6 +40,9 @@ public class Tests {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Tests}.
+	 */
 	protected Tests() {
 	}
 

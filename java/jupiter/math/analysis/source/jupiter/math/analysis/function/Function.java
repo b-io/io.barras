@@ -23,11 +23,26 @@
  */
 package jupiter.math.analysis.function;
 
+import java.io.Serializable;
+import jupiter.common.model.ICloneable;
+
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Strings;
 
-public abstract class Function {
+public abstract class Function
+		implements ICloneable<Function>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -183,5 +198,26 @@ public abstract class Function {
 			result[i] = applyToFloatPrimitiveArray2D(array3D[i]);
 		}
 		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public Function clone() {
+		try {
+			return (Function) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

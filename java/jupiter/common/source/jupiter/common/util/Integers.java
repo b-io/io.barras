@@ -50,6 +50,9 @@ public class Integers {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Integers}.
+	 */
 	protected Integers() {
 	}
 

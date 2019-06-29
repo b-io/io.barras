@@ -38,6 +38,9 @@ public abstract class RegularizationFunctions {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link RegularizationFunctions}.
+	 */
 	protected RegularizationFunctions() {
 	}
 }

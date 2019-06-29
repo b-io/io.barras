@@ -32,6 +32,8 @@ import java.util.List;
 import jupiter.common.math.Maths;
 import jupiter.common.test.StringArguments;
 import jupiter.common.util.Characters;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public abstract class OpenCL {
 
@@ -125,7 +127,7 @@ public abstract class OpenCL {
 	protected volatile boolean isActive;
 
 	protected final String sourceCode;
-	protected final List<String> kernelNames = new LinkedList<String>();
+	protected volatile List<String> kernelNames = new LinkedList<String>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,6 +260,24 @@ public abstract class OpenCL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public OpenCL clone() {
+		try {
+			final OpenCL clone = (OpenCL) super.clone();
+			clone.kernelNames = Objects.clone(kernelNames);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
 
 	/**
 	 * Disposes of system resources and performs a cleanup. Note that this method is called by the

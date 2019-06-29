@@ -50,6 +50,9 @@ public class Shorts {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Shorts}.
+	 */
 	protected Shorts() {
 	}
 

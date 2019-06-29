@@ -31,6 +31,9 @@ public class ComparableObjects {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link ComparableObjects}.
+	 */
 	protected ComparableObjects() {
 	}
 

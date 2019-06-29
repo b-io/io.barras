@@ -42,6 +42,9 @@ public abstract class Appender
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link Appender}.
+	 */
 	protected Appender() {
 		super();
 	}
@@ -183,4 +186,19 @@ public abstract class Appender
 	 * @param exception an {@link Exception}
 	 */
 	public abstract void fail(final Exception exception);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public abstract Appender clone();
 }

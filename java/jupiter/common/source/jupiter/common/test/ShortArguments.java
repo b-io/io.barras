@@ -30,6 +30,9 @@ public class ShortArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link ShortArguments}.
+	 */
 	protected ShortArguments() {
 	}
 

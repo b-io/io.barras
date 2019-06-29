@@ -34,6 +34,9 @@ public class Resources {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Resources}.
+	 */
 	protected Resources() {
 	}
 

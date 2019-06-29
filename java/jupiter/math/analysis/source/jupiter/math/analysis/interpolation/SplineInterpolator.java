@@ -23,33 +23,71 @@
  */
 package jupiter.math.analysis.interpolation;
 
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * Performs a spline interpolation from a specified set of control points.
+ * {@link SplineInterpolator} performs a spline interpolation from a specified set of control
+ * points.
  */
-public class SplineInterpolator {
+public class SplineInterpolator
+		implements ICloneable<SplineInterpolator>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final double[] X;
-	protected final double[] Y;
-	protected final double[] M;
+	/**
+	 * The X component of the control points, strictly increasing.
+	 */
+	protected double[] X;
+	/**
+	 * The Y component of the control points.
+	 */
+	protected double[] Y;
+	/**
+	 * The tangents.
+	 */
+	protected double[] M;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link SplineInterpolator} from the specified X and Y components of the control
+	 * points and tangents.
+	 * <p>
+	 * @param X the X component of the control points, strictly increasing
+	 * @param Y the Y component of the control points
+	 * @param M the tangents
+	 */
 	protected SplineInterpolator(final double[] X, final double[] Y, final double[] M) {
 		this.X = X;
 		this.Y = Y;
 		this.M = M;
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Creates a monotone cubic spline from the specified set of control points.
@@ -161,6 +199,28 @@ public class SplineInterpolator {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public SplineInterpolator clone() {
+		try {
+			final SplineInterpolator clone = (SplineInterpolator) super.clone();
+			clone.X = Objects.clone(X);
+			clone.Y = Objects.clone(Y);
+			clone.M = Objects.clone(M);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

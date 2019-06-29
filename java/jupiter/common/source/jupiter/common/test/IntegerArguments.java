@@ -30,6 +30,9 @@ public class IntegerArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link IntegerArguments}.
+	 */
 	protected IntegerArguments() {
 	}
 

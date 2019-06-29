@@ -37,6 +37,9 @@ public class Messages {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Messages}.
+	 */
 	protected Messages() {
 	}
 

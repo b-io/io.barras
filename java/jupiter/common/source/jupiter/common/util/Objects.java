@@ -39,6 +39,9 @@ public class Objects {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Objects}.
+	 */
 	protected Objects() {
 	}
 

@@ -50,6 +50,9 @@ public abstract class IOHandler
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link IOHandler}.
+	 */
 	protected IOHandler() {
 	}
 
@@ -142,4 +145,19 @@ public abstract class IOHandler
 	 * Clears the IO handler.
 	 */
 	public abstract void clear();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public abstract IOHandler clone();
 }

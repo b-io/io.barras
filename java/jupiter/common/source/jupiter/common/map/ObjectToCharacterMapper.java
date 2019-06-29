@@ -46,6 +46,9 @@ public abstract class ObjectToCharacterMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ObjectToCharacterMapper}.
+	 */
 	protected ObjectToCharacterMapper() {
 		super(Character.class);
 	}
@@ -125,4 +128,19 @@ public abstract class ObjectToCharacterMapper
 		}
 		return result;
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public abstract ObjectToCharacterMapper clone();
 }

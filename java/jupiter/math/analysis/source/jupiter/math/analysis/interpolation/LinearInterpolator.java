@@ -23,17 +23,36 @@
  */
 package jupiter.math.analysis.interpolation;
 
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
 import jupiter.math.analysis.struct.XY;
 
 /**
- * Performs a linear interpolation from a specified set of control points.
+ * {@link LinearInterpolator} performs a linear interpolation from a specified set of control
+ * points.
  */
-public class LinearInterpolator {
+public class LinearInterpolator
+		implements ICloneable<LinearInterpolator>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link LinearInterpolator}.
+	 */
 	protected LinearInterpolator() {
 	}
 
@@ -70,5 +89,26 @@ public class LinearInterpolator {
 
 		// Apply the linear interpolation
 		return intercept + slope * x;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public LinearInterpolator clone() {
+		try {
+			return (LinearInterpolator) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

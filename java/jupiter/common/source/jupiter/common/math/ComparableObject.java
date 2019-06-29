@@ -23,13 +23,31 @@
  */
 package jupiter.common.math;
 
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
+
 public abstract class ComparableObject<T extends Comparable<T>>
-		implements IComparable<T> {
+		implements ICloneable<ComparableObject<T>>, IComparable<T>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ComparableObject}.
+	 */
 	protected ComparableObject() {
 	}
 
@@ -150,6 +168,25 @@ public abstract class ComparableObject<T extends Comparable<T>>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public ComparableObject<T> clone() {
+		try {
+			return (ComparableObject<T>) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

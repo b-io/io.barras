@@ -23,10 +23,14 @@
  */
 package jupiter.graphics.charts;
 
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
+
 import org.jfree.ui.ApplicationFrame;
 
 public abstract class Graphic
-		extends ApplicationFrame {
+		extends ApplicationFrame
+		implements ICloneable<Graphic> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -67,5 +71,26 @@ public abstract class Graphic
 
 	public void setDefaultParameters() {
 		Charts.setSizes(this);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public Graphic clone() {
+		try {
+			return (Graphic) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

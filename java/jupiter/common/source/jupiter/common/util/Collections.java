@@ -42,6 +42,9 @@ public class Collections {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Collections}.
+	 */
 	protected Collections() {
 	}
 

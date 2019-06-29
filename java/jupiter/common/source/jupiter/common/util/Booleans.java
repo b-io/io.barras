@@ -51,6 +51,9 @@ public class Booleans {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Booleans}.
+	 */
 	protected Booleans() {
 	}
 

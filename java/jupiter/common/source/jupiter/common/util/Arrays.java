@@ -54,6 +54,9 @@ public class Arrays {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Arrays}.
+	 */
 	protected Arrays() {
 	}
 

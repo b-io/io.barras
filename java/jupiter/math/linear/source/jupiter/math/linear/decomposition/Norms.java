@@ -29,6 +29,9 @@ public class Norms {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Norms}.
+	 */
 	protected Norms() {
 	}
 

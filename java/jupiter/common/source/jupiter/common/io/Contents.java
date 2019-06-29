@@ -29,6 +29,9 @@ public class Contents {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Contents}.
+	 */
 	protected Contents() {
 	}
 

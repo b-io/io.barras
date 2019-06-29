@@ -53,6 +53,9 @@ public class Doubles {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Doubles}.
+	 */
 	protected Doubles() {
 	}
 

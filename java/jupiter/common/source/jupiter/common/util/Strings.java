@@ -91,6 +91,9 @@ public class Strings {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Strings}.
+	 */
 	protected Strings() {
 	}
 

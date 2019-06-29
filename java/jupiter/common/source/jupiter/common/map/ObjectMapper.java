@@ -52,6 +52,11 @@ public abstract class ObjectMapper<O>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ObjectMapper} of type {@code O} with the specified output {@link Class}.
+	 * <p>
+	 * @param c the output {@link Class} of type {@code O}
+	 */
 	protected ObjectMapper(final Class<O> c) {
 		super(c);
 	}
@@ -90,4 +95,19 @@ public abstract class ObjectMapper<O>
 		}
 		return result;
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public abstract ObjectMapper<O> clone();
 }

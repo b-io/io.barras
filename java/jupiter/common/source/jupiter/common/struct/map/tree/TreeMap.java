@@ -30,8 +30,6 @@ import java.util.Map;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.map.tree.node.TreeNode;
 import jupiter.common.test.Arguments;
-import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, V>>
 		extends AbstractMap<K, V>
@@ -65,10 +63,19 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link TreeMap}.
+	 */
 	protected TreeMap() {
 		super();
 	}
 
+	/**
+	 * Constructs a {@link TreeMap} with the specified {@link Map} containing the key-value mappings
+	 * to put.
+	 * <p>
+	 * @param map the {@link Map} containing the key-value mappings to put
+	 */
 	protected TreeMap(final Map<? extends K, ? extends V> map) {
 		super();
 		putAll(map);
@@ -154,7 +161,7 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map a {@link Map}
+	 * @param map the {@link Map} containing the key-value mappings to put
 	 * <p>
 	 * @throws ClassCastException   if the type of a key or value in {@code map} prevents it from
 	 *                              being stored in {@code this}
@@ -189,14 +196,5 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	public TreeMap<K, V, N> clone() {
-		try {
-			final TreeMap<K, V, N> clone = (TreeMap<K, V, N>) super.clone();
-			clone.root = Objects.clone(root);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
-		}
-	}
+	public abstract TreeMap<K, V, N> clone();
 }

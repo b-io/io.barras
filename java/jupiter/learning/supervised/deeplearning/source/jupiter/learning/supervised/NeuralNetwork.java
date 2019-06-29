@@ -430,4 +430,31 @@ public class NeuralNetwork
 		}
 		return computeForward(layerCount - 1, estimate).apply(Functions.SIGMOID); // (1 x m)
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public NeuralNetwork clone() {
+		try {
+			final NeuralNetwork clone = (NeuralNetwork) super.clone();
+			clone.W = Objects.clone(W);
+			clone.b = Objects.clone(b);
+			clone.A = Objects.clone(A);
+			clone.activationFunction = Objects.clone(activationFunction);
+			clone.regularizationFunction = Objects.clone(regularizationFunction);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
 }

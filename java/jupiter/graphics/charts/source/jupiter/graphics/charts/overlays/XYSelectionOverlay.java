@@ -66,7 +66,7 @@ public class XYSelectionOverlay
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The selections.
+	 * The {@link List} of {@link XYSelection}.
 	 */
 	protected List<XYSelection> selections = new LinkedList<XYSelection>();
 
@@ -75,6 +75,9 @@ public class XYSelectionOverlay
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link XYSelectionOverlay}.
+	 */
 	public XYSelectionOverlay() {
 	}
 

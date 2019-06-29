@@ -46,6 +46,9 @@ public abstract class ObjectToDoubleMapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ObjectToDoubleMapper}.
+	 */
 	protected ObjectToDoubleMapper() {
 		super(Double.class);
 	}
@@ -125,4 +128,19 @@ public abstract class ObjectToDoubleMapper
 		}
 		return result;
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public abstract ObjectToDoubleMapper clone();
 }

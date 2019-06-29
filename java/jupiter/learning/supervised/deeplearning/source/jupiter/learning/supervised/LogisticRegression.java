@@ -29,6 +29,8 @@ import java.io.IOException;
 
 import jupiter.common.math.Maths;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
@@ -41,6 +43,16 @@ import jupiter.math.linear.entity.Vector;
  */
 public class LogisticRegression
 		extends BinaryClassifier {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -241,5 +253,30 @@ public class LogisticRegression
 	@Override
 	public synchronized Entity estimate(final Entity X) {
 		return W.times(X).add(b).apply(Functions.SIGMOID); // (1 x m)
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public LogisticRegression clone() {
+		try {
+			final LogisticRegression clone = (LogisticRegression) super.clone();
+			clone.W = Objects.clone(W);
+			clone.b = Objects.clone(b);
+			clone.A = Objects.clone(A);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

@@ -36,6 +36,9 @@ public class Statistics {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Statistics}.
+	 */
 	protected Statistics() {
 	}
 

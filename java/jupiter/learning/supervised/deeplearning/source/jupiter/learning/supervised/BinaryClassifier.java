@@ -24,20 +24,30 @@
 package jupiter.learning.supervised;
 
 import java.io.IOException;
+import java.io.Serializable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 import jupiter.math.linear.entity.Vector;
 
-public abstract class BinaryClassifier {
+public abstract class BinaryClassifier
+		implements ICloneable<BinaryClassifier>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The default learning rate α.
@@ -289,5 +299,30 @@ public abstract class BinaryClassifier {
 		// Compute (A Y' + (1 - A) (1 - Y')) / m
 		return A.times(YT).add(Scalar.ONE.minus(A).times(Scalar.ONE.minus(YT))).toScalar().get() /
 				trainingExampleCount;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public BinaryClassifier clone() {
+		try {
+			final BinaryClassifier clone = (BinaryClassifier) super.clone();
+			clone.X = Objects.clone(X);
+			clone.Y = Objects.clone(Y);
+			clone.YT = Objects.clone(YT);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

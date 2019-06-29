@@ -54,10 +54,19 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link BinaryTreeMap}.
+	 */
 	protected BinaryTreeMap() {
 		super();
 	}
 
+	/**
+	 * Constructs a {@link BinaryTreeMap} with the specified {@link Map} containing the key-value
+	 * mappings to put.
+	 * <p>
+	 * @param map the {@link Map} containing the key-value mappings to put
+	 */
 	protected BinaryTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
 	}
@@ -126,52 +135,6 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code N} parent of the specified {@code N} node, or {@code null} if it is
-	 * {@code null}.
-	 * <p>
-	 * @param node the {@code N} node to get the parent from
-	 * <p>
-	 * @return the {@code N} parent of the specified {@code N} node, or {@code null} if it is
-	 *         {@code null}
-	 */
-	protected N getParent(final N node) {
-		return node == null ? null : node.parent;
-	}
-
-	/**
-	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
-	 * {@code null} if it is not present.
-	 * <p>
-	 * @param keyComparable a key {@link Comparable} of super type {@code K}
-	 * <p>
-	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
-	 *         {@code null} if it is not present
-	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
-	 * @throws NullPointerException if {@code keyComparable} is {@code null}
-	 */
-	@Override
-	protected N findNode(final Comparable<? super K> keyComparable) {
-		// Check the arguments
-		Arguments.requireNonNull(keyComparable, "The specified comparable is null");
-
-		// Get the node
-		N node = root;
-		int comparison;
-		while (node != null) {
-			comparison = keyComparable.compareTo(node.key);
-			if (comparison < 0) {
-				node = node.left;
-			} else if (comparison > 0) {
-				node = node.right;
-			} else {
-				return node;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Returns the first node (according to the key-sort function), or {@code null} if {@code this}
 	 * is empty.
 	 * <p>
@@ -203,6 +166,21 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 			}
 		}
 		return node;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code N} parent of the specified {@code N} node, or {@code null} if it is
+	 * {@code null}.
+	 * <p>
+	 * @param node the {@code N} node to get the parent from
+	 * <p>
+	 * @return the {@code N} parent of the specified {@code N} node, or {@code null} if it is
+	 *         {@code null}
+	 */
+	protected N getParent(final N node) {
+		return node == null ? null : node.parent;
 	}
 
 	/**
@@ -253,6 +231,41 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 			}
 		}
 		return successor;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
+	 * {@code null} if it is not present.
+	 * <p>
+	 * @param keyComparable a key {@link Comparable} of super type {@code K}
+	 * <p>
+	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
+	 *         {@code null} if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code keyComparable} is {@code null}
+	 */
+	@Override
+	protected N findNode(final Comparable<? super K> keyComparable) {
+		// Check the arguments
+		Arguments.requireNonNull(keyComparable, "The specified comparable is null");
+
+		// Get the node
+		N node = root;
+		int comparison;
+		while (node != null) {
+			comparison = keyComparable.compareTo(node.key);
+			if (comparison < 0) {
+				node = node.left;
+			} else if (comparison > 0) {
+				node = node.right;
+			} else {
+				return node;
+			}
+		}
+		return null;
 	}
 
 
@@ -547,9 +560,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public BinaryTreeMap<K, V, N> clone() {
-		return (BinaryTreeMap<K, V, N>) super.clone();
-	}
+	public abstract BinaryTreeMap<K, V, N> clone();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

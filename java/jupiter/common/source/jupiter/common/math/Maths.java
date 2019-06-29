@@ -70,6 +70,9 @@ public class Maths {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Maths}.
+	 */
 	protected Maths() {
 	}
 

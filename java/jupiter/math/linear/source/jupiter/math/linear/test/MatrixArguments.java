@@ -32,6 +32,9 @@ public class MatrixArguments {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link MatrixArguments}.
+	 */
 	protected MatrixArguments() {
 	}
 

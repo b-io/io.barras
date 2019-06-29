@@ -46,4 +46,15 @@ public class Functions {
 	public static final Filter FILTER = new Filter();
 	public static final Max MAX = new Max();
 	public static final Min MIN = new Min();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prevents the construction of {@link Functions}.
+	 */
+	protected Functions() {
+	}
 }

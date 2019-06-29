@@ -47,6 +47,9 @@ public class MatrixOperations {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link MatrixOperations}.
+	 */
 	protected MatrixOperations() {
 	}
 

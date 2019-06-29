@@ -119,4 +119,24 @@ public abstract class ChartGraphic
 			}
 		});
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public ChartGraphic clone() {
+		final ChartGraphic clone = (ChartGraphic) super.clone();
+		clone.labels = Objects.clone(labels);
+		clone.styles = Objects.clone(styles);
+		return clone;
+	}
 }

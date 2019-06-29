@@ -30,6 +30,9 @@ public class LongArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link LongArguments}.
+	 */
 	protected LongArguments() {
 	}
 

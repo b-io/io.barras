@@ -50,6 +50,9 @@ public class Bytes {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Bytes}.
+	 */
 	protected Bytes() {
 	}
 

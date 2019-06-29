@@ -75,6 +75,9 @@ public class Charts {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Charts}.
+	 */
 	protected Charts() {
 	}
 
