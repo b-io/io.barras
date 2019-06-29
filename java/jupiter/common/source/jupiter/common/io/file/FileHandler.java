@@ -63,20 +63,42 @@ public class FileHandler {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link FileHandler} with the specified file.
+	 * <p>
+	 * @param path the path to the file to handle
+	 */
 	public FileHandler(final String path) {
 		this(path, DEFAULT_CHARSET);
 	}
 
+	/**
+	 * Constructs a {@link FileHandler} with the specified file and {@link Charset}.
+	 * <p>
+	 * @param path    the path to the file to handle
+	 * @param charset the {@link Charset} of the file to handle
+	 */
 	public FileHandler(final String path, final Charset charset) {
 		this(new File(path), charset);
 	}
 
 	//////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link FileHandler} with the specified {@link File}.
+	 * <p>
+	 * @param file the {@link File} to handle
+	 */
 	public FileHandler(final File file) {
 		this(file, DEFAULT_CHARSET);
 	}
 
+	/**
+	 * Constructs a {@link FileHandler} with the specified {@link File} and {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to handle
+	 * @param charset the {@link Charset} of the {@link File} to handle
+	 */
 	public FileHandler(final File file, final Charset charset) {
 		// Check the arguments
 		Arguments.requireNonNull(file);

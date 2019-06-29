@@ -49,11 +49,11 @@ public class WorkQueue<I, O>
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The default minimum number of {@link Worker} of type {@code I} and {@code O}.
+	 * The default minimum number of {@link Worker} to handle.
 	 */
 	public static volatile int DEFAULT_MIN_THREADS = Runtime.getRuntime().availableProcessors();
 	/**
-	 * The default maximum number of {@link Worker} of type {@code I} and {@code O}.
+	 * The default maximum number of {@link Worker} to handle.
 	 */
 	public static volatile int DEFAULT_MAX_THREADS = 2 * DEFAULT_MIN_THREADS;
 
@@ -63,11 +63,11 @@ public class WorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The minimum number of {@link Worker} of type {@code I} and {@code O}.
+	 * The minimum number of {@link Worker} to handle.
 	 */
 	public volatile int minThreads;
 	/**
-	 * The maximum number of {@link Worker} of type {@code I} and {@code O}.
+	 * The maximum number of {@link Worker} to handle.
 	 */
 	public volatile int maxThreads;
 
@@ -81,11 +81,11 @@ public class WorkQueue<I, O>
 	 */
 	protected final Worker<I, O> model;
 	/**
-	 * The {@link Worker} type.
+	 * The {@link Class} of the model {@link Worker}.
 	 */
 	protected final Class<?> c;
 	/**
-	 * The {@link Stack} of {@link Worker} of type {@code I} and {@code O}.
+	 * The {@link Stack} of {@link Worker}.
 	 */
 	protected final Stack<Worker<I, O>> workers = new Stack<Worker<I, O>>();
 	/**
@@ -102,7 +102,7 @@ public class WorkQueue<I, O>
 	protected volatile int reservedWorkerCount = 0;
 
 	/**
-	 * The {@link LinkedList} containing the {@link Task} of type {@code I}.
+	 * The {@link LinkedList} of {@link Task} of type {@code I}.
 	 */
 	protected final LinkedList<Task<I>> tasks = new LinkedList<Task<I>>();
 	/**
@@ -131,7 +131,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} and minimum and
-	 * maximum number of {@link Worker} to handle.
+	 * maximum number of {@link Worker}.
 	 * <p>
 	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
 	 * @param minThreads the minimum number of {@link Worker} to handle

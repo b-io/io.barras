@@ -55,11 +55,21 @@ public class IOPrinter
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link IOPrinter} with the specified array of {@link IOHandler}.
+	 * <p>
+	 * @param handlers the array of {@link IOHandler}
+	 */
 	public IOPrinter(final IOHandler... handlers) {
 		super();
 		this.handlers = Arrays.<IOHandler>asList(handlers);
 	}
 
+	/**
+	 * Constructs an {@link IOPrinter} with the specified {@link List} of {@link IOHandler}.
+	 * <p>
+	 * @param handlers the {@link List} of {@link IOHandler}
+	 */
 	public IOPrinter(final List<IOHandler> handlers) {
 		super();
 		this.handlers = handlers;

@@ -67,11 +67,19 @@ public class ConsoleHandler
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ConsoleHandler}.
+	 */
 	public ConsoleHandler() {
 		super();
 		console = new SystemConsole();
 	}
 
+	/**
+	 * Constructs a {@link ConsoleHandler} with the specified {@link IConsole}.
+	 * <p>
+	 * @param console the {@link IConsole} to handle
+	 */
 	public ConsoleHandler(final IConsole console) {
 		super();
 		this.console = console;
@@ -82,6 +90,13 @@ public class ConsoleHandler
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the {@link Color} of the specified {@link SeverityLevel}.
+	 * <p>
+	 * @param severityLevel a {@link SeverityLevel}
+	 * <p>
+	 * @return the {@link Color} of the specified {@link SeverityLevel}
+	 */
 	public static Color getColor(final SeverityLevel severityLevel) {
 		switch (severityLevel) {
 			case TRACE:

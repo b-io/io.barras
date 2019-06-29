@@ -59,6 +59,14 @@ public class IOStreamWriter
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link IOStreamWriter} with the specified printer {@link IOHandler} and flag
+	 * specifying whether to print in the standard error or in the standard output.
+	 * <p>
+	 * @param printer the printer {@link IOHandler}
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
+	 */
 	public IOStreamWriter(final IOHandler printer, final boolean isError) {
 		super();
 		this.printer = printer;

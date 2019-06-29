@@ -43,7 +43,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The reference {@link AvlTreeMap} of type {@code K} and {@code V}.
+	 * The {@link AvlTreeMap} of type {@code K} and {@code V}.
 	 */
 	protected final AvlTreeMap<K, V> tree;
 

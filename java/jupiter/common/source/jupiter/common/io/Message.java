@@ -86,18 +86,48 @@ public class Message
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Message} with the specified content {@link Object}.
+	 * <p>
+	 * @param content the content {@link Object}
+	 */
 	public Message(final Object content) {
 		this(Type.OUTPUT, SeverityLevel.INFO, content, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
+	/**
+	 * Constructs a {@link Message} with the specified content {@link Object} and stack index.
+	 * <p>
+	 * @param content    the content {@link Object}
+	 * @param stackIndex the stack index
+	 */
 	public Message(final Object content, final int stackIndex) {
 		this(Type.OUTPUT, SeverityLevel.INFO, content, stackIndex + STACK_INDEX_OFFSET);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Message} with the specified {@link Type}, {@link SeverityLevel} and
+	 * content {@link Object}.
+	 * <p>
+	 * @param type    the {@link Type}
+	 * @param level   the {@link SeverityLevel}
+	 * @param content the content {@link Object}
+	 */
 	public Message(final Type type, final SeverityLevel level, final Object content) {
 		this(type, level, content, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
+	/**
+	 * Constructs a {@link Message} with the specified {@link Type}, {@link SeverityLevel}, content
+	 * {@link Object} and stack index.
+	 * <p>
+	 * @param type       the {@link Type}
+	 * @param level      the {@link SeverityLevel}
+	 * @param content    the content {@link Object}
+	 * @param stackIndex the stack index
+	 */
 	public Message(final Type type, final SeverityLevel level, final Object content,
 			final int stackIndex) {
 		this.type = type;
@@ -109,18 +139,45 @@ public class Message
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Message} with the specified {@link Exception}.
+	 * <p>
+	 * @param exception the {@link Exception}
+	 */
 	public Message(final Exception exception) {
 		this(SeverityLevel.ERROR, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
+	/**
+	 * Constructs a {@link Message} with the specified {@link Exception} and stack index.
+	 * <p>
+	 * @param exception  the {@link Exception}
+	 * @param stackIndex the stack index
+	 */
 	public Message(final Exception exception, final int stackIndex) {
 		this(SeverityLevel.ERROR, exception, stackIndex + STACK_INDEX_OFFSET);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Message} with the specified {@link SeverityLevel} and {@link Exception}.
+	 * <p>
+	 * @param level     the {@link SeverityLevel}
+	 * @param exception the {@link Exception}
+	 */
 	public Message(final SeverityLevel level, final Exception exception) {
 		this(level, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
+	/**
+	 * Constructs a {@link Message} with the specified {@link SeverityLevel}, {@link Exception} and
+	 * stack index.
+	 * <p>
+	 * @param level      the {@link SeverityLevel}
+	 * @param exception  the {@link Exception}
+	 * @param stackIndex the stack index
+	 */
 	public Message(final SeverityLevel level, final Exception exception, final int stackIndex) {
 		type = Type.OUTPUT;
 		this.level = level;
@@ -135,45 +192,45 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the type.
+	 * Returns the {@link Type}.
 	 * <p>
-	 * @return the type
+	 * @return the {@link Type}
 	 */
 	public Type getType() {
 		return type;
 	}
 
 	/**
-	 * Returns the level.
+	 * Returns the {@link SeverityLevel}.
 	 * <p>
-	 * @return the level
+	 * @return the {@link SeverityLevel}
 	 */
 	public SeverityLevel getLevel() {
 		return level;
 	}
 
 	/**
-	 * Returns the prefix.
+	 * Returns the prefix {@link String}.
 	 * <p>
-	 * @return the prefix
+	 * @return the prefix {@link String}
 	 */
 	public String getPrefix() {
 		return prefix;
 	}
 
 	/**
-	 * Returns the content.
+	 * Returns the content {@link String}.
 	 * <p>
-	 * @return the content
+	 * @return the content {@link String}
 	 */
 	public String getContent() {
 		return content;
 	}
 
 	/**
-	 * Returns the exception.
+	 * Returns the {@link Exception}.
 	 * <p>
-	 * @return the exception
+	 * @return the {@link Exception}
 	 */
 	public Exception getException() {
 		return exception;

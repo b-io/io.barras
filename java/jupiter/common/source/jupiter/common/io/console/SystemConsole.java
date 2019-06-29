@@ -51,11 +51,17 @@ public class SystemConsole
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link SystemConsole}.
+	 */
 	public SystemConsole() {
 		charset = Charset.defaultCharset();
 		scanner = new Scanner(getIn(), charset.name());
 	}
 
+	/**
+	 * Constructs a {@link SystemConsole} with the specified {@link Charset}.
+	 */
 	public SystemConsole(final Charset charset) {
 		this.charset = charset;
 		scanner = new Scanner(getIn(), charset.name());
@@ -67,9 +73,9 @@ public class SystemConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the input line.
+	 * Returns the input line {@link String}.
 	 * <p>
-	 * @return the input line
+	 * @return the input line {@link String}
 	 */
 	public String input() {
 		IO.printInput();

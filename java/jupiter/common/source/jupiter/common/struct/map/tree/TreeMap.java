@@ -71,8 +71,8 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Constructs a {@link TreeMap} with the specified {@link Map} containing the key-value mappings
-	 * to put.
+	 * Constructs a {@link TreeMap} with the specified {@link Map} containing the key-value
+	 * mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings to put
 	 */

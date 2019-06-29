@@ -63,7 +63,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Constructs a {@link BinaryTreeMap} with the specified {@link Map} containing the key-value
-	 * mappings to put.
+	 * mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings to put
 	 */
