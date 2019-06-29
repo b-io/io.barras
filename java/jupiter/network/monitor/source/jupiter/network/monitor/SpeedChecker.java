@@ -44,7 +44,7 @@ import jupiter.common.io.file.FileHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.thread.LockedWorkQueue;
-import jupiter.common.thread.Report;
+import jupiter.common.thread.Result;
 import jupiter.common.thread.Threads;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
@@ -83,7 +83,7 @@ public class SpeedChecker {
 	/**
 	 * The work queue for checking the downloading speeds.
 	 */
-	protected static volatile WorkQueue<String, Report<Double>> WORK_QUEUE = null;
+	protected static volatile WorkQueue<String, Result<Double>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ public class SpeedChecker {
 		// - The work queue
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new LockedWorkQueue<String, Report<Double>>(new Checker());
+				WORK_QUEUE = new LockedWorkQueue<String, Result<Double>>(new Checker());
 			} else {
 				IO.debug("The work queue ", WORK_QUEUE, " has already started");
 			}
@@ -182,23 +182,23 @@ public class SpeedChecker {
 			// Collect the results
 			int i = 0;
 			for (final long id : ids) {
-				final Report<Double> report = WORK_QUEUE.get(id);
-				final String result = DECIMAL_FORMAT.format(report.getOutput());
-				IO.info(result, " [Mbits/s]");
-				DATA_FILES.get(URLS.get(i)).writeLine(Dates.getTime() + DEFAULT_DELIMITER + result);
+				final Result<Double> result = WORK_QUEUE.get(id);
+				final String output = DECIMAL_FORMAT.format(result.getOutput());
+				IO.info(output, " [Mbits/s]");
+				DATA_FILES.get(URLS.get(i)).writeLine(Dates.getTime() + DEFAULT_DELIMITER + output);
 				++i;
 			}
 		} else {
 			for (final String urlName : URLS) {
-				final Report<Double> report = checkURL(urlName);
-				final String result = DECIMAL_FORMAT.format(report.getOutput());
-				IO.info(result, " [Mbits/s]");
-				DATA_FILES.get(urlName).writeLine(Dates.getTime() + DEFAULT_DELIMITER + result);
+				final Result<Double> result = checkURL(urlName);
+				final String output = DECIMAL_FORMAT.format(result.getOutput());
+				IO.info(output, " [Mbits/s]");
+				DATA_FILES.get(urlName).writeLine(Dates.getTime() + DEFAULT_DELIMITER + output);
 			}
 		}
 	}
 
-	protected static Report<Double> checkURL(final String urlName) {
+	protected static Result<Double> checkURL(final String urlName) {
 		IO.debug("Check URL ", Strings.quote(urlName));
 
 		// Initialize
@@ -229,12 +229,12 @@ public class SpeedChecker {
 					final double length = targetFile.length() / 1048576. * 8.;
 					final double time = chrono.getSeconds();
 					final double speed = length / time;
-					return new Report<Double>(speed,
+					return new Result<Double>(speed,
 							IO.info("Downloaded ", DECIMAL_FORMAT.format(length), " [Mbits] in ",
 									DECIMAL_FORMAT.format(time), " [s] => ",
 									DECIMAL_FORMAT.format(speed), " [Mbits/s]"));
 				} catch (final IOException ex) {
-					return new Report<Double>(0.,
+					return new Result<Double>(0.,
 							IO.error("Unable to transfer the file ", Strings.quote(urlName), " to ",
 									Strings.quote(Files.getCanonicalPath(targetFile)),
 									Strings.append(ex)));
@@ -245,11 +245,11 @@ public class SpeedChecker {
 			} catch (final IOException ex) {
 				IO.error("The URL ", Strings.quote(urlName), " is not reachable",
 						Strings.append(ex));
-				return new Report<Double>(0., IO.error(ex));
+				return new Result<Double>(0., IO.error(ex));
 			}
 		} catch (final MalformedURLException ex) {
 			IO.error("The URL ", Strings.quote(urlName), " is malformed", Strings.append(ex));
-			return new Report<Double>(0., IO.error(ex));
+			return new Result<Double>(0., IO.error(ex));
 		}
 	}
 
@@ -265,7 +265,7 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class Checker
-			extends Worker<String, Report<Double>> {
+			extends Worker<String, Result<Double>> {
 
 		/**
 		 * The generated serial version ID.
@@ -277,7 +277,7 @@ public class SpeedChecker {
 		}
 
 		@Override
-		public Report<Double> call(final String input) {
+		public Result<Double> call(final String input) {
 			return checkURL(input);
 		}
 

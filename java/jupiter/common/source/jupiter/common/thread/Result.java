@@ -21,17 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.tuple;
+package jupiter.common.thread;
+
+import static jupiter.common.util.Strings.SPACE;
 
 import java.io.Serializable;
-
+import jupiter.common.io.Message;
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class Quadruple<T1, T2, T3, T4>
-		implements ICloneable<Quadruple<T1, T2, T3, T4>>, Serializable {
+/**
+ * {@link Result} is a wrapper around an {@code O} output.
+ * <p>
+ * @param <O> the output type
+ */
+public class Result<O>
+		implements ICloneable<Result<O>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -40,7 +46,12 @@ public class Quadruple<T1, T2, T3, T4>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 3686592427181229383L;
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The stack index offset.
+	 */
+	protected static final int STACK_INDEX_OFFSET = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,114 +59,101 @@ public class Quadruple<T1, T2, T3, T4>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@code T1} component.
+	 * The {@code O} output.
 	 */
-	protected T1 first;
+	protected O output;
 	/**
-	 * The {@code T2} component.
+	 * The {@link Message}.
 	 */
-	protected T2 second;
-	/**
-	 * The {@code T3} component.
-	 */
-	protected T3 third;
-	/**
-	 * The {@code T4} component.
-	 */
-	protected T4 fourth;
+	protected Message message;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Quadruple() {
+	/**
+	 * Constructs a {@link Result} with the specified {@code O} output.
+	 * <p>
+	 * @param output the {@code O} output
+	 */
+	public Result(final O output) {
+		this.output = output;
+		message = null;
 	}
 
-	public Quadruple(final T1 first, final T2 second, final T3 third, final T4 fourth) {
-		this.first = first;
-		this.second = second;
-		this.third = third;
-		this.fourth = fourth;
+	/**
+	 * Constructs a {@link Result} with the specified {@link Message}.
+	 * <p>
+	 * @param message the {@link Message}
+	 */
+	public Result(final Message message) {
+		output = null;
+		this.message = message;
+	}
+
+	/**
+	 * Constructs a {@link Result} with the specified {@code O} output and {@link Message}.
+	 * <p>
+	 * @param output  the {@code O} output
+	 * @param message the {@link Message}
+	 */
+	public Result(final O output, final Message message) {
+		this.output = output;
+		this.message = message;
+	}
+
+	/**
+	 * Constructs a {@link Result} with the specified {@link Exception}.
+	 * <p>
+	 * @param exception the {@link Exception}
+	 */
+	public Result(final Exception exception) {
+		this.output = null;
+		this.message = new Message(exception, Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code T1} component.
+	 * Returns the {@code O} output.
 	 * <p>
-	 * @return the {@code T1} component
+	 * @return the {@code O} output
 	 */
-	public T1 getFirst() {
-		return first;
+	public O getOutput() {
+		return output;
 	}
 
 	/**
-	 * Returns the {@code T2} component.
+	 * Returns the {@link Message}.
 	 * <p>
-	 * @return the {@code T2} component
+	 * @return the {@link Message}
 	 */
-	public T2 getSecond() {
-		return second;
-	}
-
-	/**
-	 * Returns the {@code T3} component.
-	 * <p>
-	 * @return the {@code T3} component
-	 */
-	public T3 getThird() {
-		return third;
-	}
-
-	/**
-	 * Returns the {@code T4} component.
-	 * <p>
-	 * @return the {@code T4} component
-	 */
-	public T4 getFourth() {
-		return fourth;
+	public Message getMessage() {
+		return message;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@code T1} component.
+	 * Sets the {@code O} output.
 	 * <p>
-	 * @param first a {@code T1} object
+	 * @param output an {@code O} output
 	 */
-	public void setFirst(final T1 first) {
-		this.first = first;
+	public void setOutput(final O output) {
+		this.output = output;
 	}
 
 	/**
-	 * Sets the {@code T2} component.
+	 * Sets the {@link Message}.
 	 * <p>
-	 * @param second a {@code T2} object
+	 * @param message a {@link Message}
 	 */
-	public void setSecond(final T2 second) {
-		this.second = second;
-	}
-
-	/**
-	 * Sets the {@code T3} component.
-	 * <p>
-	 * @param third a {@code T3} object
-	 */
-	public void setThird(final T3 third) {
-		this.third = third;
-	}
-
-	/**
-	 * Sets the {@code T4} component.
-	 * <p>
-	 * @param fourth a {@code T4} object
-	 */
-	public void setFourth(final T4 fourth) {
-		this.fourth = fourth;
+	public void setMessage(final Message message) {
+		this.message = message;
 	}
 
 
@@ -171,14 +169,11 @@ public class Quadruple<T1, T2, T3, T4>
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	public Quadruple<T1, T2, T3, T4> clone() {
+	public Result<O> clone() {
 		try {
-			final Quadruple<T1, T2, T3, T4> clone = (Quadruple<T1, T2, T3, T4>) super.clone();
-			clone.first = Objects.clone(first);
-			clone.second = Objects.clone(second);
-			clone.third = Objects.clone(third);
-			clone.fourth = Objects.clone(fourth);
+			final Result<O> clone = (Result<O>) super.clone();
+			clone.output = Objects.clone(output);
+			clone.message = Objects.clone(message);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
 			throw new RuntimeException(Strings.toString(ex), ex);
@@ -205,14 +200,12 @@ public class Quadruple<T1, T2, T3, T4>
 		if (this == other) {
 			return true;
 		}
-		if (other == null || !(other instanceof Quadruple)) {
+		if (other == null || !(other instanceof Result)) {
 			return false;
 		}
-		final Quadruple<?, ?, ?, ?> otherQuadruple = (Quadruple<?, ?, ?, ?>) other;
-		return Objects.equals(first, otherQuadruple.first) &&
-				Objects.equals(second, otherQuadruple.second) &&
-				Objects.equals(third, otherQuadruple.third) &&
-				Objects.equals(fourth, otherQuadruple.fourth);
+		final Result<?> otherResult = (Result<?>) other;
+		return Objects.equals(output, otherResult.output) &&
+				Objects.equals(message, otherResult.message);
 	}
 
 	/**
@@ -225,7 +218,7 @@ public class Quadruple<T1, T2, T3, T4>
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, first, second, third, fourth);
+		return Objects.hashCode(serialVersionUID, output, message);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -237,6 +230,15 @@ public class Quadruple<T1, T2, T3, T4>
 	 */
 	@Override
 	public String toString() {
-		return Arrays.toString(first, second, third, fourth);
+		final StringBuilder builder = Strings.createBuilder();
+		if (output != null) {
+			builder.append(output);
+			if (message != null) {
+				builder.append(SPACE).append(Strings.parenthesize(message.getContent()));
+			}
+		} else if (message != null) {
+			builder.append(message.getContent());
+		}
+		return builder.toString();
 	}
 }

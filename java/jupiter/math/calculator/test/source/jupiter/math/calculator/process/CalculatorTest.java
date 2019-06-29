@@ -30,7 +30,7 @@ import java.util.Map;
 
 import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
-import jupiter.common.thread.Report;
+import jupiter.common.thread.Result;
 import jupiter.common.time.Chronometer;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.Element;
@@ -74,14 +74,14 @@ public class CalculatorTest
 
 				// Test the parsing and evaluation of the element and entity #1
 				chrono.start();
-				final Report<Element> tree1 = ExpressionHandler.parseExpression(e1, context);
+				final Result<Element> tree1 = ExpressionHandler.parseExpression(e1, context);
 				final Element element1 = tree1.getOutput();
 				chrono.stop();
 				IO.debug("Element1: ", tree1);
 				IO.debug("Element1: ", chrono.getMilliseconds(), " [ms]");
 				elementTimes[2 * t] = chrono.getMilliseconds();
 				chrono.start();
-				final Report<Entity> entityResult1 = Calculator.evaluateTree(element1, context);
+				final Result<Entity> entityResult1 = Calculator.evaluateTree(element1, context);
 				final Entity entity1 = entityResult1.getOutput();
 				chrono.stop();
 				IO.debug("Entity1: ", entityResult1);
@@ -90,14 +90,14 @@ public class CalculatorTest
 
 				// Test the parsing and evaluation of the element and entity #2
 				chrono.start();
-				final Report<Element> tree2 = ExpressionHandler.parseExpression(e2, context);
+				final Result<Element> tree2 = ExpressionHandler.parseExpression(e2, context);
 				final Element element2 = tree2.getOutput();
 				chrono.stop();
 				IO.debug("Element2: ", element2);
 				IO.debug("Element2: ", chrono.getMilliseconds(), " [ms]");
 				elementTimes[2 * t + 1] = chrono.getMilliseconds();
 				chrono.start();
-				final Report<Entity> entityResult2 = Calculator.evaluateTree(element2, context);
+				final Result<Entity> entityResult2 = Calculator.evaluateTree(element2, context);
 				final Entity entity2 = entityResult2.getOutput();
 				chrono.stop();
 				IO.debug("Entity2: ", entity2);

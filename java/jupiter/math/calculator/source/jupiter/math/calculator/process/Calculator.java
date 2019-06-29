@@ -32,12 +32,11 @@ import java.util.Map;
 
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.exception.IllegalTypeException;
-import jupiter.common.io.Message;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.thread.LockedWorkQueue;
-import jupiter.common.thread.Report;
+import jupiter.common.thread.Result;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
@@ -45,7 +44,6 @@ import jupiter.math.calculator.model.BinaryOperation;
 import jupiter.math.calculator.model.Element;
 import jupiter.math.calculator.model.Element.Type;
 import jupiter.math.calculator.model.MatrixElement;
-import jupiter.math.calculator.model.Result;
 import jupiter.math.calculator.model.ScalarElement;
 import jupiter.math.calculator.model.UnaryOperation;
 import jupiter.math.linear.entity.Entity;
@@ -65,7 +63,7 @@ public class Calculator {
 	/**
 	 * The work queue for evaluating the elements.
 	 */
-	protected static volatile WorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> WORK_QUEUE = null;
+	protected static volatile WorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +100,7 @@ public class Calculator {
 		// - The work queue
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
+				WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
 						new Evaluator());
 			} else {
 				IO.debug("The work queue ", WORK_QUEUE, " has already started");
@@ -139,20 +137,20 @@ public class Calculator {
 
 	/**
 	 * Parses and evaluates the specified expression (assignment or simple evaluation) and returns
-	 * the result.
+	 * the {@link Result} of {@link Entity}.
 	 * <p>
 	 * @param expression the {@link String} to parse and evaluate
 	 * <p>
-	 * @return the {@link Result} evaluated from the specified expression
+	 * @return the {@link Result} of {@link Entity} evaluated from the specified expression
 	 */
-	public Result process(final String expression) {
+	public Result<Entity> process(final String expression) {
 		try {
 			// Trim the expression
 			String trimmedExpression = expression.trim();
 
 			// Test whether the epression is an assignment
-			final List<String> expressions = Strings
-					.removeEmpty(Strings.split(trimmedExpression, '='));
+			final List<String> expressions = Strings.removeEmpty(
+					Strings.split(trimmedExpression, '='));
 			final int size = expressions.size();
 			if (size > 1) {
 				// - Assignment
@@ -161,10 +159,10 @@ public class Calculator {
 			}
 
 			// Parse and evaluate the (right-hand side) expression
-			final Report<Entity> result = process(trimmedExpression, context);
+			final Result<Entity> result = process(trimmedExpression, context);
 			final Entity entity = result.getOutput();
 			if (entity == null) {
-				return new Result(null, result.getMessage());
+				return result;
 			}
 
 			// Get the corresponding element
@@ -174,7 +172,7 @@ public class Calculator {
 			} else if (entity instanceof Matrix) {
 				element = new MatrixElement(null, trimmedExpression, (Matrix) entity);
 			} else {
-				return new Result(null, new Message(new IllegalClassException(entity.getClass())));
+				return new Result<Entity>(new IllegalClassException(entity.getClass()));
 			}
 
 			// Test whether the epression is an assignment
@@ -187,9 +185,9 @@ public class Calculator {
 			}
 
 			// Return the evaluation of the (right-hand side) expression
-			return new Result(entity, null);
+			return result;
 		} catch (final Exception ex) {
-			return new Result(null, IO.error(ex));
+			return new Result<Entity>(ex);
 		}
 	}
 
@@ -201,11 +199,11 @@ public class Calculator {
 	 * <p>
 	 * @return the {@link Entity} evaluated from the specified expression
 	 */
-	protected Report<Entity> process(final String expression, final Map<String, Element> context) {
-		final Report<Element> result = ExpressionHandler.parseExpression(expression, context);
+	protected Result<Entity> process(final String expression, final Map<String, Element> context) {
+		final Result<Element> result = ExpressionHandler.parseExpression(expression, context);
 		final Element element = result.getOutput();
 		if (element == null) {
-			return new Report<Entity>(result.getMessage());
+			return new Result<Entity>(result.getMessage());
 		}
 		return evaluateTree(element, context);
 	}
@@ -218,18 +216,18 @@ public class Calculator {
 	 * <p>
 	 * @return the {@link Entity} evaluated from the specified tree of operations and numbers
 	 */
-	public static Report<Entity> evaluateTree(final Element tree,
+	public static Result<Entity> evaluateTree(final Element tree,
 			final Map<String, Element> context) {
 		if (tree instanceof ScalarElement || tree instanceof MatrixElement) {
-			final Entity entity = tree.getEntity();
-			IO.debug("Get entity <", entity, ">");
-			return new Report<Entity>(entity);
+			final Entity output = tree.getEntity();
+			IO.debug("Get entity <", output, ">");
+			return new Result<Entity>(output);
 		} else if (tree instanceof BinaryOperation) {
 			return evaluateBinaryOperation((BinaryOperation) tree, context);
 		} else if (tree instanceof UnaryOperation) {
 			return evaluateUnaryOperation((UnaryOperation) tree, context);
 		}
-		return new Report<Entity>(new IllegalClassException(tree.getClass()));
+		return new Result<Entity>(new IllegalClassException(tree.getClass()));
 	}
 
 	/**
@@ -240,10 +238,10 @@ public class Calculator {
 	 * <p>
 	 * @return the {@link Entity} evaluated from the specified {@link BinaryOperation}
 	 */
-	protected static Report<Entity> evaluateBinaryOperation(final BinaryOperation binaryOperation,
+	protected static Result<Entity> evaluateBinaryOperation(final BinaryOperation binaryOperation,
 			final Map<String, Element> context) {
 		// Evaluate the left and right expressions
-		Report<Entity> leftEntityResult, rightEntityResult;
+		Result<Entity> leftResult, rightResult;
 		if (PARALLELIZE && WORK_QUEUE.reserveWorkers(2)) {
 			// Submit the tasks
 			final long leftId = WORK_QUEUE.submit(
@@ -252,24 +250,24 @@ public class Calculator {
 					new Pair<Element, Map<String, Element>>(binaryOperation.getRight(), context));
 
 			// Get the results
-			leftEntityResult = WORK_QUEUE.get(leftId);
-			rightEntityResult = WORK_QUEUE.get(rightId);
+			leftResult = WORK_QUEUE.get(leftId);
+			rightResult = WORK_QUEUE.get(rightId);
 			WORK_QUEUE.freeWorkers(2);
 		} else {
 			// Get the results
-			leftEntityResult = evaluateTree(binaryOperation.getLeft(), context);
-			rightEntityResult = evaluateTree(binaryOperation.getRight(), context);
+			leftResult = evaluateTree(binaryOperation.getLeft(), context);
+			rightResult = evaluateTree(binaryOperation.getRight(), context);
 		}
 		// Get the entities from the results
 		// - Left entity
-		final Entity leftEntity = leftEntityResult.getOutput();
+		final Entity leftEntity = leftResult.getOutput();
 		if (leftEntity == null) {
-			return leftEntityResult;
+			return leftResult;
 		}
 		// - Right entity
-		final Entity rightEntity = rightEntityResult.getOutput();
+		final Entity rightEntity = rightResult.getOutput();
 		if (rightEntity == null) {
-			return rightEntityResult;
+			return rightResult;
 		}
 
 		// Get the type of the binary operation
@@ -277,31 +275,30 @@ public class Calculator {
 		IO.debug(leftEntity, SPACE, type, SPACE, rightEntity);
 
 		// Evaluate the binary operation
-		final Entity result;
+		final Entity output;
 		switch (type) {
 			case ADDITION:
-				result = leftEntity.plus(rightEntity);
+				output = leftEntity.plus(rightEntity);
 				break;
 			case SUBTRACTION:
-				result = leftEntity.minus(rightEntity);
+				output = leftEntity.minus(rightEntity);
 				break;
 			case MULTIPLICATION:
-				result = leftEntity.times(rightEntity);
+				output = leftEntity.times(rightEntity);
 				break;
 			case DIVISION:
-				result = leftEntity.division(rightEntity);
+				output = leftEntity.division(rightEntity);
 				break;
 			case POWER:
-				result = leftEntity.arrayPower(rightEntity);
+				output = leftEntity.arrayPower(rightEntity);
 				break;
 			case SOLUTION:
-				result = leftEntity.solve(rightEntity);
+				output = leftEntity.solve(rightEntity);
 				break;
 			default:
-				return new Report<Entity>(new IllegalTypeException(type));
+				return new Result<Entity>(new IllegalTypeException(type));
 		}
-
-		return new Report<Entity>(result);
+		return new Result<Entity>(output);
 	}
 
 	/**
@@ -312,13 +309,13 @@ public class Calculator {
 	 * <p>
 	 * @return the {@link Entity} evaluated from the specified {@link UnaryOperation}
 	 */
-	protected static Report<Entity> evaluateUnaryOperation(final UnaryOperation unaryOperation,
+	protected static Result<Entity> evaluateUnaryOperation(final UnaryOperation unaryOperation,
 			final Map<String, Element> context) {
 		// Evaluate the nested expression
-		final Report<Entity> entityResult = evaluateTree(unaryOperation.getElement(), context);
-		final Entity entity = entityResult.getOutput();
+		final Result<Entity> result = evaluateTree(unaryOperation.getElement(), context);
+		final Entity entity = result.getOutput();
 		if (entity == null) {
-			return new Report<Entity>(entityResult.getMessage());
+			return result;
 		}
 
 		// Get the type of the unary operation
@@ -326,23 +323,22 @@ public class Calculator {
 		IO.debug(type, SPACE, entity);
 
 		// Evaluate the unary operation
-		final Entity result;
+		final Entity output;
 		switch (type) {
 			case FACTORIAL:
 				final Scalar scalar = (Scalar) entity;
-				result = new Scalar(Maths.factorial(scalar.get()));
+				output = new Scalar(Maths.factorial(scalar.get()));
 				break;
 			case INVERSE:
-				result = entity.inverse();
+				output = entity.inverse();
 				break;
 			case TRANSPOSE:
-				result = entity.transpose();
+				output = entity.transpose();
 				break;
 			default:
-				return new Report<Entity>(new IllegalTypeException(type));
+				return new Result<Entity>(new IllegalTypeException(type));
 		}
-
-		return new Report<Entity>(result);
+		return new Result<Entity>(output);
 	}
 
 
@@ -351,7 +347,7 @@ public class Calculator {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class Evaluator
-			extends Worker<Pair<Element, Map<String, Element>>, Report<Entity>> {
+			extends Worker<Pair<Element, Map<String, Element>>, Result<Entity>> {
 
 		/**
 		 * The generated serial version ID.
@@ -363,7 +359,7 @@ public class Calculator {
 		}
 
 		@Override
-		public Report<Entity> call(final Pair<Element, Map<String, Element>> input) {
+		public Result<Entity> call(final Pair<Element, Map<String, Element>> input) {
 			return Calculator.evaluateTree(input.getFirst(), input.getSecond());
 		}
 

@@ -25,22 +25,36 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Stack;
 
 import jupiter.common.exception.IllegalOperationException;
-import jupiter.common.struct.tuple.Pair;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 
-public class WorkQueue<I, O> {
+public class WorkQueue<I, O>
+		implements ICloneable<WorkQueue<I, O>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The default minimum number of {@link Worker} of type {@code I} and {@code O}.
+	 */
 	public static volatile int DEFAULT_MIN_THREADS = Runtime.getRuntime().availableProcessors();
+	/**
+	 * The default maximum number of {@link Worker} of type {@code I} and {@code O}.
+	 */
 	public static volatile int DEFAULT_MAX_THREADS = 2 * DEFAULT_MIN_THREADS;
 
 
@@ -48,7 +62,13 @@ public class WorkQueue<I, O> {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The minimum number of {@link Worker} of type {@code I} and {@code O}.
+	 */
 	public volatile int minThreads;
+	/**
+	 * The maximum number of {@link Worker} of type {@code I} and {@code O}.
+	 */
 	public volatile int maxThreads;
 
 	/**
@@ -65,24 +85,33 @@ public class WorkQueue<I, O> {
 	 */
 	protected final Class<?> c;
 	/**
-	 * The workers.
+	 * The {@link Stack} of {@link Worker} of type {@code I} and {@code O}.
 	 */
 	protected final Stack<Worker<I, O>> workers = new Stack<Worker<I, O>>();
+	/**
+	 * The number of {@link Worker}.
+	 */
 	protected volatile int workerCount = 0;
+	/**
+	 * The number of available {@link Worker}.
+	 */
 	protected volatile int availableWorkerCount = 0;
+	/**
+	 * The number of reserved {@link Worker}.
+	 */
 	protected volatile int reservedWorkerCount = 0;
 
 	/**
-	 * The tasks.
+	 * The {@link LinkedList} containing the {@link Task} of type {@code I}.
 	 */
-	protected final LinkedList<Pair<Long, I>> tasks = new LinkedList<Pair<Long, I>>();
+	protected final LinkedList<Task<I>> tasks = new LinkedList<Task<I>>();
 	/**
-	 * The current task identifier.
+	 * The current {@link Task} identifier.
 	 */
 	protected volatile long currentTaskId = 0L;
 
 	/**
-	 * The results.
+	 * The {@link Map} containing the {@code O} results.
 	 */
 	protected final Map<Long, O> results = new HashMap<Long, O>(Arrays.DEFAULT_CAPACITY);
 
@@ -92,9 +121,9 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} to handle.
+	 * Constructs a {@link WorkQueue} with the specified model {@link Worker}.
 	 * <p>
-	 * @param model the model {@link Worker} of type {@code I} and {@code O} to handle
+	 * @param model the model {@link Worker} of type {@code I} and {@code O}
 	 */
 	protected WorkQueue(final Worker<I, O> model) {
 		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
@@ -102,9 +131,9 @@ public class WorkQueue<I, O> {
 
 	/**
 	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} and minimum and
-	 * maximum number of workers to handle.
+	 * maximum number of {@link Worker} to handle.
 	 * <p>
-	 * @param model      the model {@link Worker} of type {@code I} and {@code O} to handle
+	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
 	 * @param minThreads the minimum number of {@link Worker} to handle
 	 * @param maxThreads the maximum number of {@link Worker} to handle
 	 */
@@ -121,27 +150,27 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the type of {@link Worker} to handle.
+	 * Returns the type of {@link Worker}.
 	 * <p>
-	 * @return the type of {@link Worker} to handle
+	 * @return the type of {@link Worker}
 	 */
 	public Class<?> getType() {
 		return c;
 	}
 
 	/**
-	 * Returns the number of workers.
+	 * Returns the number of {@link Worker}.
 	 * <p>
-	 * @return the number of workers
+	 * @return the number of {@link Worker}
 	 */
 	public int getWorkerCount() {
 		return workerCount;
 	}
 
 	/**
-	 * Returns the number of available workers.
+	 * Returns the number of available {@link Worker}.
 	 * <p>
-	 * @return the number of available workers
+	 * @return the number of available {@link Worker}
 	 */
 	public int getAvailableWorkerCount() {
 		return availableWorkerCount;
@@ -150,11 +179,11 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Instantiates n workers according to the model.
+	 * Instantiates the specified number of {@link Worker} according to the model.
 	 * <p>
-	 * @param n the number of workers to create
+	 * @param n the number of {@link Worker} to create
 	 * <p>
-	 * @return the number of created workers
+	 * @return the number of created {@link Worker}
 	 */
 	public int createWorkers(final int n) {
 		int createdWorkerCount = 0;
@@ -169,11 +198,11 @@ public class WorkQueue<I, O> {
 	}
 
 	/**
-	 * Instantiates n workers according to the model if required.
+	 * Instantiates the specified number of {@link Worker} according to the model if required.
 	 * <p>
-	 * @param n the number of workers to create if required
+	 * @param n the number of {@link Worker} to create if required
 	 * <p>
-	 * @return the number of created workers
+	 * @return the number of created {@link Worker}
 	 */
 	public int createAvailableWorkers(final int n) {
 		final int workerToCreateCount = n - (availableWorkerCount - tasks.size());
@@ -240,9 +269,9 @@ public class WorkQueue<I, O> {
 	}
 
 	/**
-	 * Frees n workers.
+	 * Frees the specified number of {@link Worker}.
 	 * <p>
-	 * @param n the number of workers to free
+	 * @param n the number of {@link Worker} to free
 	 */
 	public void freeWorkers(final int n) {
 		reservedWorkerCount -= n;
@@ -254,25 +283,27 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds a task with the specified input and returns its identifier.
+	 * Adds a {@link Task} with the specified {@code I} input and returns its identifier.
 	 * <p>
-	 * @param input the input of the task to add
+	 * @param input the {@code I} input of the {@link Task} to add
 	 * <p>
-	 * @return the identifier of the added task
+	 * @return the identifier of the added {@link Task}
 	 */
 	public long submit(final I input) {
 		++currentTaskId;
 		IO.debug("Add task ", currentTaskId);
-		tasks.add(new Pair<Long, I>(currentTaskId, input));
+		tasks.add(new Task<I>(currentTaskId, input));
 		return currentTaskId;
 	}
 
 	/**
-	 * Returns the next task if {@code this} is running, {@code null} otherwise.
+	 * Returns the next {@link Task} of type {@code I} if {@code this} is running, {@code null}
+	 * otherwise.
 	 * <p>
-	 * @return the next task if {@code this} is running, {@code null} otherwise
+	 * @return the next {@link Task} of type {@code I} if {@code this} is running, {@code null}
+	 *         otherwise
 	 */
-	public Pair<Long, I> getNextTask() {
+	public Task<I> getNextTask() {
 		if (isRunning) {
 			IO.debug("Get the next task");
 			--availableWorkerCount;
@@ -287,10 +318,10 @@ public class WorkQueue<I, O> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds the result of the task with the specified identifier.
+	 * Adds the {@code O} result of the {@link Task} with the specified identifier.
 	 * <p>
-	 * @param id     the identifier of the task
-	 * @param result the result of the task
+	 * @param id     the identifier of the {@link Task}
+	 * @param result the {@code O} result of the {@link Task}
 	 */
 	public void addResult(final long id, final O result) {
 		IO.debug("Add the result of task ", id);
@@ -299,11 +330,11 @@ public class WorkQueue<I, O> {
 	}
 
 	/**
-	 * Returns the {@code O} result of the task with the specified identifier.
+	 * Returns the {@code O} result of the {@link Task} with the specified identifier.
 	 * <p>
-	 * @param id the identifier of the task
+	 * @param id the identifier of the {@link Task}
 	 * <p>
-	 * @return the {@code O} result of the task with the specified identifier
+	 * @return the {@code O} result of the {@link Task} with the specified identifier
 	 */
 	public O get(final long id) {
 		IO.debug("Get the result of task ", id);
@@ -311,12 +342,13 @@ public class WorkQueue<I, O> {
 	}
 
 	/**
-	 * Tests whether the result of the task with the specified identifier is ready.
+	 * Tests whether the {@code O} result of the {@link Task} with the specified identifier is
+	 * ready.
 	 * <p>
-	 * @param id the identifier of the task
+	 * @param id the identifier of the {@link Task}
 	 * <p>
-	 * @return {@code true} if the result of the task with the specified identifier is ready,
-	 *         {@code false} otherwise
+	 * @return {@code true} if the {@code O} result of the {@link Task} with the specified
+	 *         identifier is ready, {@code false} otherwise
 	 */
 	public boolean isReady(final long id) {
 		return results.containsKey(id);
@@ -347,6 +379,74 @@ public class WorkQueue<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public WorkQueue<I, O> clone() {
+		return new WorkQueue<I, O>(model, minThreads, maxThreads);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof WorkQueue)) {
+			return false;
+		}
+		final WorkQueue<?, ?> otherWorkQueue = (WorkQueue<?, ?>) other;
+		return Objects.equals(minThreads, otherWorkQueue.minThreads) &&
+				Objects.equals(maxThreads, otherWorkQueue.maxThreads) &&
+				Objects.equals(isRunning, otherWorkQueue.isRunning) &&
+				Objects.equals(model, otherWorkQueue.model) &&
+				Objects.equals(c, otherWorkQueue.c) &&
+				Objects.equals(workers, otherWorkQueue.workers) &&
+				Objects.equals(workerCount, otherWorkQueue.workerCount) &&
+				Objects.equals(availableWorkerCount, otherWorkQueue.availableWorkerCount) &&
+				Objects.equals(reservedWorkerCount, otherWorkQueue.reservedWorkerCount) &&
+				Objects.equals(tasks, otherWorkQueue.tasks) &&
+				Objects.equals(currentTaskId, otherWorkQueue.currentTaskId) &&
+				Objects.equals(results, otherWorkQueue.results);
+	}
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, minThreads, maxThreads, isRunning, model, c,
+				workers, workerCount, availableWorkerCount, reservedWorkerCount, tasks,
+				currentTaskId, results);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

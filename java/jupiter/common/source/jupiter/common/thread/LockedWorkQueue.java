@@ -28,7 +28,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.exception.IllegalOperationException;
-import jupiter.common.struct.tuple.Pair;
 
 public class LockedWorkQueue<I, O>
 		extends WorkQueue<I, O> {
@@ -106,23 +105,6 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Reserves the specified number of {@link Worker}.
-	 * <p>
-	 * @param n the number of {@link Worker} to reserve
-	 * <p>
-	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
-	 */
-	@Override
-	public boolean reserveWorkers(final int n) {
-		workersLock.lock();
-		try {
-			return super.reserveWorkers(n);
-		} finally {
-			workersLock.unlock();
-		}
-	}
-
-	/**
 	 * Instantiates a {@link Worker} according to the model.
 	 * <p>
 	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
@@ -140,17 +122,36 @@ public class LockedWorkQueue<I, O>
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Reserves the specified number of {@link Worker}.
+	 * <p>
+	 * @param n the number of {@link Worker} to reserve
+	 * <p>
+	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
+	 */
+	@Override
+	public boolean reserveWorkers(final int n) {
+		workersLock.lock();
+		try {
+			return super.reserveWorkers(n);
+		} finally {
+			workersLock.unlock();
+		}
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// TASK
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds a task with the specified input and returns its identifier.
+	 * Adds a {@link Task} with the specified {@code I} input and returns its identifier.
 	 * <p>
-	 * @param input the input of the task to add
+	 * @param input the {@code I} input of the {@link Task} to add
 	 * <p>
-	 * @return the identifier of the added task
+	 * @return the identifier of the added {@link Task}
 	 */
 	@Override
 	public long submit(final I input) {
@@ -168,12 +169,14 @@ public class LockedWorkQueue<I, O>
 	}
 
 	/**
-	 * Returns the next task.
+	 * Returns the next {@link Task} of type {@code I} if {@code this} is running, {@code null}
+	 * otherwise.
 	 * <p>
-	 * @return the next task
+	 * @return the next {@link Task} of type {@code I} if {@code this} is running, {@code null}
+	 *         otherwise
 	 */
 	@Override
-	public Pair<Long, I> getNextTask() {
+	public Task<I> getNextTask() {
 		tasksLock.lock();
 		try {
 			while (isRunning && tasks.isEmpty()) {
@@ -194,10 +197,10 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds the result of the task with the specified identifier.
+	 * Adds the {@code O} result of the {@link Task} with the specified identifier.
 	 * <p>
-	 * @param id     the identifier of the task
-	 * @param result the result of the task
+	 * @param id     the identifier of the {@link Task}
+	 * @param result the {@code O} result of the {@link Task}
 	 */
 	@Override
 	public void addResult(final long id, final O result) {
@@ -211,11 +214,11 @@ public class LockedWorkQueue<I, O>
 	}
 
 	/**
-	 * Returns the {@code O} result of the task with the specified identifier.
+	 * Returns the {@code O} result of the {@link Task} with the specified identifier.
 	 * <p>
-	 * @param id the identifier of the task
+	 * @param id the identifier of the {@link Task}
 	 * <p>
-	 * @return the {@code O} result of the task with the specified identifier
+	 * @return the {@code O} result of the {@link Task} with the specified identifier
 	 */
 	@Override
 	public O get(final long id) {

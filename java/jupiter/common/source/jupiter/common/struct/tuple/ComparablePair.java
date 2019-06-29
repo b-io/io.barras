@@ -123,7 +123,7 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 		if (other == null || !(other instanceof ComparablePair)) {
 			return false;
 		}
-		final ComparablePair<?, ?> otherComparablePair = (ComparablePair) other;
+		final ComparablePair<?, ?> otherComparablePair = (ComparablePair<?, ?>) other;
 		return Objects.equals(first, otherComparablePair.first) &&
 				Objects.equals(second, otherComparablePair.second);
 	}

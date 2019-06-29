@@ -45,23 +45,23 @@ public interface IConsole {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the input stream.
+	 * Returns the {@link InputStream}.
 	 * <p>
-	 * @return the input stream
+	 * @return the {@link InputStream}
 	 */
 	public InputStream getIn();
 
 	/**
-	 * Returns the output stream.
+	 * Returns the {@link PrintStream}.
 	 * <p>
-	 * @return the output stream
+	 * @return the {@link PrintStream}
 	 */
 	public PrintStream getOut();
 
 	/**
-	 * Returns the error output stream.
+	 * Returns the error {@link PrintStream}.
 	 * <p>
-	 * @return the error output stream
+	 * @return the error {@link PrintStream}
 	 */
 	public PrintStream getErr();
 }

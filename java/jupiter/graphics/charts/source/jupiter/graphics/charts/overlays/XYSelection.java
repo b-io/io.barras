@@ -287,7 +287,9 @@ public class XYSelection
 	public XYSelection clone() {
 		try {
 			final XYSelection clone = (XYSelection) super.clone();
+			clone.mousePosition = Objects.clone(mousePosition);
 			clone.coordinates = Objects.clone(coordinates);
+			clone.formats = Objects.clone(formats);
 			clone.propertyChangeSupport = Objects.clone(propertyChangeSupport);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
@@ -318,10 +320,12 @@ public class XYSelection
 		if (!(other instanceof XYSelection)) {
 			return false;
 		}
-		final XYSelection otherSelection = (XYSelection) other;
-		return Objects.equals(coordinates, otherSelection.coordinates) &&
-				Objects.equals(isVisible, otherSelection.isVisible) &&
-				Objects.equals(propertyChangeSupport, otherSelection.propertyChangeSupport);
+		final XYSelection otherXYSelection = (XYSelection) other;
+		return Objects.equals(mousePosition, otherXYSelection.mousePosition) &&
+				Objects.equals(coordinates, otherXYSelection.coordinates) &&
+				Objects.equals(formats, otherXYSelection.formats) &&
+				Objects.equals(isVisible, otherXYSelection.isVisible) &&
+				Objects.equals(propertyChangeSupport, otherXYSelection.propertyChangeSupport);
 	}
 
 	/**
@@ -334,6 +338,7 @@ public class XYSelection
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, coordinates, isVisible, propertyChangeSupport);
+		return Objects.hashCode(serialVersionUID, mousePosition, coordinates, formats, isVisible,
+				propertyChangeSupport);
 	}
 }

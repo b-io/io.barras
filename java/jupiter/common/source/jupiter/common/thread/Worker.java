@@ -31,11 +31,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.tuple.Pair;
 import jupiter.common.util.Strings;
 
 /**
- * Working thread.
+ * {@link Worker} is a working {@link Thread} processing an {@code I} input and returning an
+ * {@code O} output.
  * <p>
  * @param <I> the input type
  * @param <O> the output type
@@ -101,7 +101,7 @@ public abstract class Worker<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the input.
+	 * Sets the {@code I} input.
 	 * <p>
 	 * @param input an {@code I} input
 	 */
@@ -156,15 +156,15 @@ public abstract class Worker<I, O>
 	public void run() {
 		IO.debug("The worker ", this, " has started");
 		while (true) {
-			final Pair<Long, I> task = workQueue.getNextTask();
+			final Task<I> task = workQueue.getNextTask();
 			if (workQueue.isRunning()) {
 				O output = null;
 				try {
-					output = call(task.getSecond());
+					output = call(task.getInput());
 				} catch (final RuntimeException ex) {
 					IO.error(ex);
 				}
-				workQueue.addResult(task.getFirst(), output);
+				workQueue.addResult(task.getID(), output);
 			} else {
 				break;
 			}

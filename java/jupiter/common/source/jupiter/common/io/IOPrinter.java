@@ -164,7 +164,7 @@ public class IOPrinter
 		if (this == other) {
 			return true;
 		}
-		if (other == null || !(other instanceof Content)) {
+		if (other == null || !(other instanceof IOPrinter)) {
 			return false;
 		}
 		final IOPrinter otherIOPrinter = (IOPrinter) other;

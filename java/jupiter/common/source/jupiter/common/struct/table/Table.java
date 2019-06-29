@@ -1281,7 +1281,7 @@ public class Table<T>
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, elements);
+		return Objects.hashCode(serialVersionUID, c, m, n, header, elements);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

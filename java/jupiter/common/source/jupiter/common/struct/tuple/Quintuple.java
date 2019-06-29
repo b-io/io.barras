@@ -48,23 +48,23 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The first component.
+	 * The {@code T1} component.
 	 */
 	protected T1 first;
 	/**
-	 * The second component.
+	 * The {@code T2} component.
 	 */
 	protected T2 second;
 	/**
-	 * The third component.
+	 * The {@code T3} component.
 	 */
 	protected T3 third;
 	/**
-	 * The fourth component.
+	 * The {@code T4} component.
 	 */
 	protected T4 fourth;
 	/**
-	 * The fifth component.
+	 * The {@code T5} component.
 	 */
 	protected T5 fifth;
 
@@ -91,45 +91,45 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the first component.
+	 * Returns the {@code T1} component.
 	 * <p>
-	 * @return the first component
+	 * @return the {@code T1} component
 	 */
 	public T1 getFirst() {
 		return first;
 	}
 
 	/**
-	 * Returns the second component.
+	 * Returns the {@code T2} component.
 	 * <p>
-	 * @return the second component
+	 * @return the {@code T2} component
 	 */
 	public T2 getSecond() {
 		return second;
 	}
 
 	/**
-	 * Returns the third component.
+	 * Returns the {@code T3} component.
 	 * <p>
-	 * @return the third component
+	 * @return the {@code T3} component
 	 */
 	public T3 getThird() {
 		return third;
 	}
 
 	/**
-	 * Returns the fourth component.
+	 * Returns the {@code T4} component.
 	 * <p>
-	 * @return the fourth component
+	 * @return the {@code T4} component
 	 */
 	public T4 getFourth() {
 		return fourth;
 	}
 
 	/**
-	 * Returns the fifth component.
+	 * Returns the {@code T5} component.
 	 * <p>
-	 * @return the fifth component
+	 * @return the {@code T5} component
 	 */
 	public T5 getFifth() {
 		return fifth;
@@ -138,7 +138,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the first component.
+	 * Sets the {@code T1} component.
 	 * <p>
 	 * @param first a {@code T1} object
 	 */
@@ -147,7 +147,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	}
 
 	/**
-	 * Sets the second component.
+	 * Sets the {@code T2} component.
 	 * <p>
 	 * @param second a {@code T2} object
 	 */
@@ -156,7 +156,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	}
 
 	/**
-	 * Sets the third component.
+	 * Sets the {@code T3} component.
 	 * <p>
 	 * @param third a {@code T3} object
 	 */
@@ -165,7 +165,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	}
 
 	/**
-	 * Sets the fourth component.
+	 * Sets the {@code T4} component.
 	 * <p>
 	 * @param fourth a {@code T4} object
 	 */
@@ -174,7 +174,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	}
 
 	/**
-	 * Sets the fifth component.
+	 * Sets the {@code T5} component.
 	 * <p>
 	 * @param fifth a {@code T5} object
 	 */
@@ -234,7 +234,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 		if (other == null || !(other instanceof Quintuple)) {
 			return false;
 		}
-		final Quintuple<?, ?, ?, ?, ?> otherQuintuple = (Quintuple) other;
+		final Quintuple<?, ?, ?, ?, ?> otherQuintuple = (Quintuple<?, ?, ?, ?, ?>) other;
 		return Objects.equals(first, otherQuintuple.first) &&
 				Objects.equals(second, otherQuintuple.second) &&
 				Objects.equals(third, otherQuintuple.third) &&

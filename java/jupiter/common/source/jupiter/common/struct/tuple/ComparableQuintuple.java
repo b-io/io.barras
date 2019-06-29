@@ -140,7 +140,7 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 		if (other == null || !(other instanceof ComparableQuintuple)) {
 			return false;
 		}
-		final ComparableQuintuple<?, ?, ?, ?, ?> otherQuintuple = (ComparableQuintuple) other;
+		final ComparableQuintuple<?, ?, ?, ?, ?> otherQuintuple = (ComparableQuintuple<?, ?, ?, ?, ?>) other;
 		return Objects.equals(first, otherQuintuple.first) &&
 				Objects.equals(second, otherQuintuple.second) &&
 				Objects.equals(third, otherQuintuple.third) &&

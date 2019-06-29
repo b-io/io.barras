@@ -45,6 +45,7 @@ import jupiter.common.io.console.IConsole;
 import jupiter.common.io.log.LogHandler;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class IO
@@ -110,12 +111,12 @@ public class IO
 	 * The {@link IOPrinter} containing the {@link List} of {@link IOHandler} (containing the
 	 * {@link ConsoleHandler} and {@link LogHandler} by default).
 	 */
-	protected final IOPrinter printer;
+	protected IOPrinter printer;
 	/**
 	 * The {@link List} of {@link IOHandler} (containing the {@link ConsoleHandler} and
 	 * {@link LogHandler} by default).
 	 */
-	protected final List<IOHandler> handlers;
+	protected List<IOHandler> handlers;
 	/**
 	 * The {@link ConsoleHandler}.
 	 */
@@ -927,10 +928,62 @@ public class IO
 	@Override
 	public IO clone() {
 		try {
-			return (IO) super.clone();
+			final IO clone = (IO) super.clone();
+			clone.printer = Objects.clone(printer);
+			clone.handlers = Objects.clone(handlers);
+			clone.consoleHandler = Objects.clone(consoleHandler);
+			clone.logHandler = Objects.clone(logHandler);
+			return clone;
 		} catch (final CloneNotSupportedException ex) {
 			throw new RuntimeException(Strings.toString(ex), ex);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof IO)) {
+			return false;
+		}
+		final IO otherIO = (IO) other;
+		return Objects.equals(stackIndex, otherIO.stackIndex) &&
+				Objects.equals(severityLevel, otherIO.severityLevel) &&
+				Objects.equals(printer, otherIO.printer) &&
+				Objects.equals(handlers, otherIO.handlers) &&
+				Objects.equals(consoleHandler, otherIO.consoleHandler) &&
+				Objects.equals(logHandler, otherIO.logHandler);
+	}
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, stackIndex, severityLevel, printer, handlers,
+				consoleHandler, logHandler);
 	}
 
 

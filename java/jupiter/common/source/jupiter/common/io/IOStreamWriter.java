@@ -26,6 +26,7 @@ package jupiter.common.io;
 import java.io.InputStream;
 
 import jupiter.common.thread.Worker;
+import jupiter.common.util.Objects;
 
 public class IOStreamWriter
 		extends Worker<InputStream, Integer> {
@@ -45,9 +46,12 @@ public class IOStreamWriter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The printer.
+	 * The printer {@link IOHandler}.
 	 */
 	protected final IOHandler printer;
+	/**
+	 * The flag specifying whether to print in the standard error or in the standard output.
+	 */
 	protected final boolean isError;
 
 
@@ -87,5 +91,47 @@ public class IOStreamWriter
 	@Override
 	public IOStreamWriter clone() {
 		return new IOStreamWriter(printer, isError);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof IOStreamWriter)) {
+			return false;
+		}
+		final IOStreamWriter otherIOStreamWriter = (IOStreamWriter) other;
+		return Objects.equals(printer, otherIOStreamWriter.printer) &&
+				Objects.equals(isError, otherIOStreamWriter.isError);
+	}
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, printer, isError);
 	}
 }

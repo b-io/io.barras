@@ -21,17 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.tuple;
+package jupiter.common.thread;
 
 import java.io.Serializable;
-
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class Quadruple<T1, T2, T3, T4>
-		implements ICloneable<Quadruple<T1, T2, T3, T4>>, Serializable {
+/**
+ * {@link Task} is a wrapper around an {@code I} input.
+ * <p>
+ * @param <I> the input type
+ */
+public class Task<I>
+		implements ICloneable<Task<I>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -40,7 +44,7 @@ public class Quadruple<T1, T2, T3, T4>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 3686592427181229383L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,121 +52,77 @@ public class Quadruple<T1, T2, T3, T4>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@code T1} component.
+	 * The identifier.
 	 */
-	protected T1 first;
+	protected long id;
 	/**
-	 * The {@code T2} component.
+	 * The {@code I} input.
 	 */
-	protected T2 second;
-	/**
-	 * The {@code T3} component.
-	 */
-	protected T3 third;
-	/**
-	 * The {@code T4} component.
-	 */
-	protected T4 fourth;
+	protected I input;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Quadruple() {
-	}
-
-	public Quadruple(final T1 first, final T2 second, final T3 third, final T4 fourth) {
-		this.first = first;
-		this.second = second;
-		this.third = third;
-		this.fourth = fourth;
+	/**
+	 * Constructs a {@link Task} with the specified identifier and {@code I} input.
+	 * <p>
+	 * @param id    the identifier
+	 * @param input the {@code I} input
+	 */
+	public Task(final long id, final I input) {
+		this.id = id;
+		this.input = input;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code T1} component.
+	 * Returns the identifier.
 	 * <p>
-	 * @return the {@code T1} component
+	 * @return the identifier
 	 */
-	public T1 getFirst() {
-		return first;
+	public long getID() {
+		return id;
 	}
 
 	/**
-	 * Returns the {@code T2} component.
+	 * Returns the {@code I} input.
 	 * <p>
-	 * @return the {@code T2} component
+	 * @return the {@code I} input
 	 */
-	public T2 getSecond() {
-		return second;
-	}
-
-	/**
-	 * Returns the {@code T3} component.
-	 * <p>
-	 * @return the {@code T3} component
-	 */
-	public T3 getThird() {
-		return third;
-	}
-
-	/**
-	 * Returns the {@code T4} component.
-	 * <p>
-	 * @return the {@code T4} component
-	 */
-	public T4 getFourth() {
-		return fourth;
+	public I getInput() {
+		return input;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@code T1} component.
+	 * Sets the identifier.
 	 * <p>
-	 * @param first a {@code T1} object
+	 * @param id a {@code long} value
 	 */
-	public void setFirst(final T1 first) {
-		this.first = first;
+	public void setID(final long id) {
+		this.id = id;
 	}
 
 	/**
-	 * Sets the {@code T2} component.
+	 * Sets the {@code I} input.
 	 * <p>
-	 * @param second a {@code T2} object
+	 * @param input an {@code I} input
 	 */
-	public void setSecond(final T2 second) {
-		this.second = second;
-	}
-
-	/**
-	 * Sets the {@code T3} component.
-	 * <p>
-	 * @param third a {@code T3} object
-	 */
-	public void setThird(final T3 third) {
-		this.third = third;
-	}
-
-	/**
-	 * Sets the {@code T4} component.
-	 * <p>
-	 * @param fourth a {@code T4} object
-	 */
-	public void setFourth(final T4 fourth) {
-		this.fourth = fourth;
+	public void setInput(final I input) {
+		this.input = input;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * Creates a copy of {@code this}.
 	 * <p>
@@ -172,13 +132,10 @@ public class Quadruple<T1, T2, T3, T4>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public Quadruple<T1, T2, T3, T4> clone() {
+	public Task<I> clone() {
 		try {
-			final Quadruple<T1, T2, T3, T4> clone = (Quadruple<T1, T2, T3, T4>) super.clone();
-			clone.first = Objects.clone(first);
-			clone.second = Objects.clone(second);
-			clone.third = Objects.clone(third);
-			clone.fourth = Objects.clone(fourth);
+			final Task<I> clone = (Task<I>) super.clone();
+			clone.input = Objects.clone(input);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
 			throw new RuntimeException(Strings.toString(ex), ex);
@@ -205,14 +162,12 @@ public class Quadruple<T1, T2, T3, T4>
 		if (this == other) {
 			return true;
 		}
-		if (other == null || !(other instanceof Quadruple)) {
+		if (other == null || !(other instanceof Task)) {
 			return false;
 		}
-		final Quadruple<?, ?, ?, ?> otherQuadruple = (Quadruple<?, ?, ?, ?>) other;
-		return Objects.equals(first, otherQuadruple.first) &&
-				Objects.equals(second, otherQuadruple.second) &&
-				Objects.equals(third, otherQuadruple.third) &&
-				Objects.equals(fourth, otherQuadruple.fourth);
+		final Task<?> otherTask = (Task<?>) other;
+		return Objects.equals(id, otherTask.id) &&
+				Objects.equals(input, otherTask.input);
 	}
 
 	/**
@@ -225,7 +180,7 @@ public class Quadruple<T1, T2, T3, T4>
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, first, second, third, fourth);
+		return Objects.hashCode(serialVersionUID, id, input);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -237,6 +192,6 @@ public class Quadruple<T1, T2, T3, T4>
 	 */
 	@Override
 	public String toString() {
-		return Arrays.toString(first, second, third, fourth);
+		return Arrays.toString(id, input);
 	}
 }

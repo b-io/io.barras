@@ -33,6 +33,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class LogHandler
@@ -356,5 +357,49 @@ public class LogHandler
 	@Override
 	public LogHandler clone() {
 		return new LogHandler(Files.getPath(logDir), outputLog.getName(), errorLog.getName());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof LogHandler)) {
+			return false;
+		}
+		final LogHandler otherLogHandler = (LogHandler) other;
+		return Objects.equals(logDir, otherLogHandler.logDir) &&
+				Objects.equals(outputLog, otherLogHandler.outputLog) &&
+				Objects.equals(outputLineBuilder, otherLogHandler.outputLineBuilder) &&
+				Objects.equals(errorLog, otherLogHandler.errorLog);
+	}
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, logDir, outputLog, outputLineBuilder, errorLog);
 	}
 }

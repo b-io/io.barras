@@ -36,7 +36,7 @@ import jupiter.common.math.IntervalList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.thread.LockedWorkQueue;
-import jupiter.common.thread.Report;
+import jupiter.common.thread.Result;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
@@ -74,7 +74,7 @@ public class ExpressionHandler {
 	/**
 	 * The work queue for parsing the expressions.
 	 */
-	protected static volatile WorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>> WORK_QUEUE = null;
+	protected static volatile WorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ public class ExpressionHandler {
 		// Initialize
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
+				WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>>(
 						new Parser());
 			} else {
 				IO.debug("The work queue ", WORK_QUEUE, " has already started");
@@ -140,7 +140,7 @@ public class ExpressionHandler {
 	 * @return the root {@link Element} of the tree of operations and numbers corresponding to the
 	 *         specified expression
 	 */
-	public static Report<Element> parseExpression(final String expression,
+	public static Result<Element> parseExpression(final String expression,
 			final Map<String, Element> context) {
 		return parseExpression(null, expression, context);
 	}
@@ -156,7 +156,7 @@ public class ExpressionHandler {
 	 * @return a node or leaf {@link Element} corresponding respectively to an operation or a number
 	 *         parsed from the specified expression
 	 */
-	public static Report<Element> parseExpression(final Element parent, final String expression,
+	public static Result<Element> parseExpression(final Element parent, final String expression,
 			final Map<String, Element> context) {
 		// Trim the expression
 		final String trimmedExpression = expression.trim();
@@ -176,7 +176,7 @@ public class ExpressionHandler {
 		return parseUnaryOperation(parent, trimmedExpression, delimitingIntervals, context);
 	}
 
-	protected static Report<Element> parseBinaryOperation(final Element parent,
+	protected static Result<Element> parseBinaryOperation(final Element parent,
 			final String expression, final int binaryOperatorIndex,
 			final Map<String, Element> context) {
 		// Get the binary operator
@@ -189,7 +189,7 @@ public class ExpressionHandler {
 
 		// Parse the left and right expressions
 		final Element leftNode, rightNode;
-		final Report<Element> leftNodeResult, rightNodeResult;
+		final Result<Element> leftNodeResult, rightNodeResult;
 		if (PARALLELIZE && (leftExpression.length() > 100 || rightExpression.length() > 100) &&
 				WORK_QUEUE.reserveWorkers(2)) {
 			// Submit the tasks
@@ -223,11 +223,11 @@ public class ExpressionHandler {
 		// Return the binary operation
 		IO.debug("Create new ", type, " Node: <", leftNode.getExpression(), "> ", type, " <",
 				rightNode.getExpression(), ">");
-		return new Report<Element>(
+		return new Result<Element>(
 				new BinaryOperation(parent, expression, type, leftNode, rightNode));
 	}
 
-	protected static Report<Element> parseUnaryOperation(final Element parent,
+	protected static Result<Element> parseUnaryOperation(final Element parent,
 			final String expression, final IntervalList<Integer> delimitingIntervals,
 			final Map<String, Element> context) {
 		// Parse an unary operation, a nested expression or a single element
@@ -244,14 +244,14 @@ public class ExpressionHandler {
 					unaryOperator))
 					.get(0);
 			IO.debug("Nested expression: ", nestedExpression);
-			final Report<Element> nodeResult = parseExpression(parent, nestedExpression, context);
+			final Result<Element> nodeResult = parseExpression(parent, nestedExpression, context);
 			final Element node = nodeResult.getOutput();
 			if (node == null) {
 				return nodeResult;
 			}
 			// Return the unary operation
 			IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
-			return new Report<Element>(new UnaryOperation(parent, expression, type, node));
+			return new Result<Element>(new UnaryOperation(parent, expression, type, node));
 		}
 
 		// - Nested expression
@@ -274,24 +274,24 @@ public class ExpressionHandler {
 		// - Single element
 		// Parse the single element
 		IO.debug("Create new Leaf: <", expression, ">");
-		final Element leaf;
+		final Element output;
 		if (context.containsKey(expression)) {
 			// Variable
-			leaf = context.get(expression);
+			output = context.get(expression);
 		} else if (Matrix.is(expression)) {
 			// Matrix
-			leaf = new MatrixElement(parent, expression);
+			output = new MatrixElement(parent, expression);
 		} else if (Strings.isNumeric(expression)) {
 			// Scalar
-			leaf = new ScalarElement(parent, expression);
+			output = new ScalarElement(parent, expression);
 		} else {
-			return new Report<Element>(
+			return new Result<Element>(
 					new ParseException("Unparsable element: <" + expression + ">"));
 		}
 		// Return the single element
-		leaf.setParent(parent);
-		leaf.setExpression(expression);
-		return new Report<Element>(leaf);
+		output.setParent(parent);
+		output.setExpression(expression);
+		return new Result<Element>(output);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -512,7 +512,7 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class Parser
-			extends Worker<Triple<Element, String, Map<String, Element>>, Report<Element>> {
+			extends Worker<Triple<Element, String, Map<String, Element>>, Result<Element>> {
 
 		/**
 		 * The generated serial version ID.
@@ -524,7 +524,7 @@ public class ExpressionHandler {
 		}
 
 		@Override
-		public Report<Element> call(final Triple<Element, String, Map<String, Element>> input) {
+		public Result<Element> call(final Triple<Element, String, Map<String, Element>> input) {
 			return parseExpression(input.getFirst(), input.getSecond(), input.getThird());
 		}
 

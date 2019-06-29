@@ -249,14 +249,29 @@ public class JConsole
 		return input;
 	}
 
+	/**
+	 * Returns the {@link InputStream}.
+	 * <p>
+	 * @return the {@link InputStream}
+	 */
 	public InputStream getIn() {
 		return in;
 	}
 
+	/**
+	 * Returns the {@link PrintStream}.
+	 * <p>
+	 * @return the {@link PrintStream}
+	 */
 	public PrintStream getOut() {
 		return out;
 	}
 
+	/**
+	 * Returns the error {@link PrintStream}.
+	 * <p>
+	 * @return the error {@link PrintStream}
+	 */
 	public PrintStream getErr() {
 		return out;
 	}
@@ -333,7 +348,7 @@ public class JConsole
 	public void print(final Object content, final Font font, final Color color) {
 		final AttributeSet old = getStyle();
 		setStyle(font, color);
-		append(Strings.toString(content));
+		append(content);
 		setStyle(old, true);
 	}
 
@@ -731,9 +746,11 @@ public class JConsole
 	}
 
 	public synchronized void append(final Object content) {
-		if (content instanceof String) {
+		if (content instanceof Icon) {
+			textPane.insertIcon((Icon) content);
+		} else {
 			final StyledDocument document = textPane.getStyledDocument();
-			final String styledText = text + content;
+			final String styledText = text + Strings.toString(content);
 			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
 			final List<String> texts = Strings.splitString(styledText, COLORS);
 
@@ -752,8 +769,6 @@ public class JConsole
 					textColor = ConsoleHandler.Color.parse(delimiters.get(i).getSecond());
 				}
 			}
-		} else if (content instanceof Icon) {
-			textPane.insertIcon((Icon) content);
 		}
 		commandStart = getTextLength();
 		textPane.setCaretPosition(commandStart);

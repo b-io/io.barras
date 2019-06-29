@@ -48,11 +48,11 @@ public class Pair<T1, T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The first component.
+	 * The {@code T1} component.
 	 */
 	protected T1 first;
 	/**
-	 * The second component.
+	 * The {@code T2} component.
 	 */
 	protected T2 second;
 
@@ -75,18 +75,18 @@ public class Pair<T1, T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the first component.
+	 * Returns the {@code T1} component.
 	 * <p>
-	 * @return the first component
+	 * @return the {@code T1} component
 	 */
 	public T1 getFirst() {
 		return first;
 	}
 
 	/**
-	 * Returns the second component.
+	 * Returns the {@code T2} component.
 	 * <p>
-	 * @return the second component
+	 * @return the {@code T2} component
 	 */
 	public T2 getSecond() {
 		return second;
@@ -95,7 +95,7 @@ public class Pair<T1, T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the first component.
+	 * Sets the {@code T1} component.
 	 * <p>
 	 * @param first a {@code T1} object
 	 */
@@ -104,7 +104,7 @@ public class Pair<T1, T2>
 	}
 
 	/**
-	 * Sets the second component.
+	 * Sets the {@code T2} component.
 	 * <p>
 	 * @param second a {@code T2} object
 	 */
@@ -160,7 +160,7 @@ public class Pair<T1, T2>
 		if (other == null || !(other instanceof Pair)) {
 			return false;
 		}
-		final Pair<?, ?> otherPair = (Pair) other;
+		final Pair<?, ?> otherPair = (Pair<?, ?>) other;
 		return Objects.equals(first, otherPair.first) && Objects.equals(second, otherPair.second);
 	}
 

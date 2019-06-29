@@ -32,6 +32,7 @@ import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Characters;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class ConsoleHandler
@@ -222,6 +223,47 @@ public class ConsoleHandler
 	@Override
 	public ConsoleHandler clone() {
 		return new ConsoleHandler(console);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof ConsoleHandler)) {
+			return false;
+		}
+		final ConsoleHandler otherConsoleHandler = (ConsoleHandler) other;
+		return Objects.equals(console, otherConsoleHandler.console);
+	}
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, console);
 	}
 
 
