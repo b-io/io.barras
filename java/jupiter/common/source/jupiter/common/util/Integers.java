@@ -253,14 +253,12 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns an {@code int} array from the specified {@link Collection} of type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an {@code int} array from the specified {@link Collection} of type
-	 *         {@code T}
+	 * @return an {@code int} array from the specified {@link Collection} of type {@code T}
 	 */
 	public static <T> int[] collectionToPrimitiveArray(final Collection<T> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -578,42 +576,42 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an {@code int} array of the specified length containing the sequence of
-	 * numbers starting with zero and spaced by one.
+	 * Creates an {@code int} array of the specified length containing the sequence of numbers
+	 * starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return an {@code int} array of the specified length containing the sequence of
-	 *         numbers starting with zero and spaced by one
+	 * @return an {@code int} array of the specified length containing the sequence of numbers
+	 *         starting with zero and spaced by one
 	 */
 	public static int[] createSequence(final int length) {
 		return createSequence(length, 0, 1);
 	}
 
 	/**
-	 * Creates an {@code int} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by one.
+	 * Creates an {@code int} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return an {@code int} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by one
+	 * @return an {@code int} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by one
 	 */
 	public static int[] createSequence(final int length, final int from) {
 		return createSequence(length, from, 1);
 	}
 
 	/**
-	 * Creates an {@code int} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by {@code step}.
+	 * Creates an {@code int} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return an {@code int} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by {@code step}
+	 * @return an {@code int} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by {@code step}
 	 */
 	public static int[] createSequence(final int length, final int from, final int step) {
 		final int[] array = new int[length];
@@ -642,16 +640,16 @@ public class Integers {
 	}
 
 	/**
-	 * Creates an {@code int} array of the specified length containing pseudorandom,
-	 * uniformly distributed {@code int} values between {@code lowerBound} (inclusive) and
-	 * {@code upperBound} (exclusive).
+	 * Creates an {@code int} array of the specified length containing pseudorandom, uniformly
+	 * distributed {@code int} values between {@code lowerBound} (inclusive) and {@code upperBound}
+	 * (exclusive).
 	 * <p>
 	 * @param length     the length of the random sequence to create
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return an {@code int} array of the specified length containing pseudorandom,
-	 *         uniformly distributed {@code int} values between {@code lowerBound} (inclusive) and
+	 * @return an {@code int} array of the specified length containing pseudorandom, uniformly
+	 *         distributed {@code int} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
 	public static int[] createRandomSequence(final int length, final int lowerBound,
@@ -689,14 +687,14 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code int} array containing the specified {@code int} value and all the
-	 * elements of the specified {@code int} array.
+	 * Returns an {@code int} array containing the specified {@code int} value and all the elements
+	 * of the specified {@code int} array.
 	 * <p>
 	 * @param a an {@code int} value (may be {@code null})
 	 * @param b an {@code int} array (may be {@code null})
 	 * <p>
-	 * @return an {@code int} array containing the specified {@code int} value and all the
-	 *         elements of the specified {@code int} array
+	 * @return an {@code int} array containing the specified {@code int} value and all the elements
+	 *         of the specified {@code int} array
 	 */
 	public static int[] merge(final int a, final int... b) {
 		return merge(asPrimitiveArray(a), b);
@@ -959,13 +957,13 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified {@code int} array, or {@code null} if
-	 * {@code array} is {@code null}.
+	 * Returns a clone of the specified {@code int} array, or {@code null} if {@code array} is
+	 * {@code null}.
 	 * <p>
 	 * @param array an {@code int} array
 	 * <p>
-	 * @return a clone of the specified {@code int} array, or {@code null} if
-	 *         {@code array} is {@code null}
+	 * @return a clone of the specified {@code int} array, or {@code null} if {@code array} is
+	 *         {@code null}
 	 */
 	public static int[] clone(final int... array) {
 		if (array == null) {
@@ -988,29 +986,29 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code int} array joined
-	 * by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code int} array joined by
+	 * {@code delimiter}.
 	 * <p>
 	 * @param array     an {@code int} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code int} array joined
-	 *         by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code int} array joined by
+	 *         {@code delimiter}
 	 */
 	public static String toString(final int[] array, final String delimiter) {
 		return Arrays.toString(toArray(array), delimiter);
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code int} array joined
-	 * by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code int} array joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     an {@code int} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code int} array joined
-	 *         by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code int} array joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final int[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

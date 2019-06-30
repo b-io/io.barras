@@ -48,6 +48,9 @@ public class StringJoiner
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The delimiter {@link String}.
+	 */
 	protected final String delimiter;
 
 
@@ -56,8 +59,9 @@ public class StringJoiner
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link StringJoiner} with
-	 * @param delimiter
+	 * Constructs a {@link StringJoiner} with the specified delimiter {@link String}.
+	 * <p>
+	 * @param delimiter the delimiter {@link String}
 	 */
 	protected StringJoiner(final String delimiter) {
 		super(String.class);

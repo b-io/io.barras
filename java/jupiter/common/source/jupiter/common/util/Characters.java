@@ -655,14 +655,14 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code char} array containing the specified {@code char} value and all the
-	 * elements of the specified {@code char} array.
+	 * Returns a {@code char} array containing the specified {@code char} value and all the elements
+	 * of the specified {@code char} array.
 	 * <p>
 	 * @param a a {@code char} value (may be {@code null})
 	 * @param b a {@code char} array (may be {@code null})
 	 * <p>
-	 * @return a {@code char} array containing the specified {@code char} value and all the
-	 *         elements of the specified {@code char} array
+	 * @return a {@code char} array containing the specified {@code char} value and all the elements
+	 *         of the specified {@code char} array
 	 */
 	public static char[] merge(final char a, final char... b) {
 		return merge(asPrimitiveArray(a), b);
@@ -675,8 +675,7 @@ public class Characters {
 	 * @param a a {@code char} array (may be {@code null})
 	 * @param b a {@code char} array (may be {@code null})
 	 * <p>
-	 * @return a {@code char} array containing all the elements of the specified {@code char}
-	 *         arrays
+	 * @return a {@code char} array containing all the elements of the specified {@code char} arrays
 	 */
 	public static char[] merge(final char[] a, final char... b) {
 		if (a == null) {

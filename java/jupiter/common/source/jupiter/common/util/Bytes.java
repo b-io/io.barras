@@ -281,14 +281,12 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@code byte} array from the specified {@link Collection} of type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return a {@code byte} array from the specified {@link Collection} of type
-	 *         {@code T}
+	 * @return a {@code byte} array from the specified {@link Collection} of type {@code T}
 	 */
 	public static <T> byte[] collectionToPrimitiveArray(final Collection<T> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -604,42 +602,42 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@code byte} array of the specified length containing the sequence of
-	 * numbers starting with zero and spaced by one.
+	 * Creates a {@code byte} array of the specified length containing the sequence of numbers
+	 * starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return a {@code byte} array of the specified length containing the sequence of
-	 *         numbers starting with zero and spaced by one
+	 * @return a {@code byte} array of the specified length containing the sequence of numbers
+	 *         starting with zero and spaced by one
 	 */
 	public static byte[] createSequence(final int length) {
 		return createSequence(length, (byte) 0, (byte) 1);
 	}
 
 	/**
-	 * Creates a {@code byte} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by one.
+	 * Creates a {@code byte} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return a {@code byte} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by one
+	 * @return a {@code byte} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by one
 	 */
 	public static byte[] createSequence(final int length, final byte from) {
 		return createSequence(length, from, (byte) 1);
 	}
 
 	/**
-	 * Creates a {@code byte} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by {@code step}.
+	 * Creates a {@code byte} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return a {@code byte} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by {@code step}
+	 * @return a {@code byte} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by {@code step}
 	 */
 	public static byte[] createSequence(final int length, final byte from, final byte step) {
 		final byte[] array = new byte[length];
@@ -668,16 +666,16 @@ public class Bytes {
 	}
 
 	/**
-	 * Creates a {@code byte} array of the specified length containing pseudorandom,
-	 * uniformly distributed {@code byte} values between {@code lowerBound} (inclusive) and
-	 * {@code upperBound} (exclusive).
+	 * Creates a {@code byte} array of the specified length containing pseudorandom, uniformly
+	 * distributed {@code byte} values between {@code lowerBound} (inclusive) and {@code upperBound}
+	 * (exclusive).
 	 * <p>
 	 * @param length     the length of the random sequence to create
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return a {@code byte} array of the specified length containing pseudorandom,
-	 *         uniformly distributed {@code byte} values between {@code lowerBound} (inclusive) and
+	 * @return a {@code byte} array of the specified length containing pseudorandom, uniformly
+	 *         distributed {@code byte} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
 	public static byte[] createRandomSequence(final int length, final byte lowerBound,
@@ -715,28 +713,28 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code byte} array containing the specified {@code byte} value and all
-	 * the elements of the specified {@code byte} array.
+	 * Returns a {@code byte} array containing the specified {@code byte} value and all the elements
+	 * of the specified {@code byte} array.
 	 * <p>
 	 * @param a a {@code byte} value (may be {@code null})
 	 * @param b a {@code byte} array (may be {@code null})
 	 * <p>
-	 * @return a {@code byte} array containing the specified {@code byte} value and all
-	 *         the elements of the specified {@code byte} array
+	 * @return a {@code byte} array containing the specified {@code byte} value and all the elements
+	 *         of the specified {@code byte} array
 	 */
 	public static byte[] merge(final byte a, final byte... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns a {@code byte} array containing all the elements of the specified arrays
-	 * of {@code byte} values.
+	 * Returns a {@code byte} array containing all the elements of the specified arrays of
+	 * {@code byte} values.
 	 * <p>
 	 * @param a a {@code byte} array (may be {@code null})
 	 * @param b a {@code byte} array (may be {@code null})
 	 * <p>
-	 * @return a {@code byte} array containing all the elements of the specified arrays
-	 *         of {@code byte} values
+	 * @return a {@code byte} array containing all the elements of the specified arrays of
+	 *         {@code byte} values
 	 */
 	public static byte[] merge(final byte[] a, final byte... b) {
 		if (a == null) {
@@ -985,13 +983,13 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified {@code byte} array, or {@code null} if
-	 * {@code array} is {@code null}.
+	 * Returns a clone of the specified {@code byte} array, or {@code null} if {@code array} is
+	 * {@code null}.
 	 * <p>
 	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a clone of the specified {@code byte} array, or {@code null} if
-	 *         {@code array} is {@code null}
+	 * @return a clone of the specified {@code byte} array, or {@code null} if {@code array} is
+	 *         {@code null}
 	 */
 	public static byte[] clone(final byte... array) {
 		if (array == null) {
@@ -1027,29 +1025,29 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code byte} array joined
-	 * by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code byte} array joined by
+	 * {@code delimiter}.
 	 * <p>
 	 * @param array     a {@code byte} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code byte} array joined
-	 *         by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code byte} array joined by
+	 *         {@code delimiter}
 	 */
 	public static String toString(final byte[] array, final String delimiter) {
 		return Arrays.toString(toArray(array), delimiter);
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code byte} array joined
-	 * by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code byte} array joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     a {@code byte} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code byte} array joined
-	 *         by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code byte} array joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final byte[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

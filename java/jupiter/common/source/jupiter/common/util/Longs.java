@@ -239,14 +239,12 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@code long} array from the specified {@link Collection} of type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return a {@code long} array from the specified {@link Collection} of type
-	 *         {@code T}
+	 * @return a {@code long} array from the specified {@link Collection} of type {@code T}
 	 */
 	public static <T> long[] collectionToPrimitiveArray(final Collection<T> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -562,42 +560,42 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@code long} array of the specified length containing the sequence of
-	 * numbers starting with zero and spaced by one.
+	 * Creates a {@code long} array of the specified length containing the sequence of numbers
+	 * starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return a {@code long} array of the specified length containing the sequence of
-	 *         numbers starting with zero and spaced by one
+	 * @return a {@code long} array of the specified length containing the sequence of numbers
+	 *         starting with zero and spaced by one
 	 */
 	public static long[] createSequence(final int length) {
 		return createSequence(length, 0L, 1L);
 	}
 
 	/**
-	 * Creates a {@code long} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by one.
+	 * Creates a {@code long} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return a {@code long} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by one
+	 * @return a {@code long} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by one
 	 */
 	public static long[] createSequence(final int length, final long from) {
 		return createSequence(length, from, 1L);
 	}
 
 	/**
-	 * Creates a {@code long} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by {@code step}.
+	 * Creates a {@code long} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return a {@code long} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by {@code step}
+	 * @return a {@code long} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by {@code step}
 	 */
 	public static long[] createSequence(final int length, final long from, final long step) {
 		final long[] array = new long[length];
@@ -626,16 +624,16 @@ public class Longs {
 	}
 
 	/**
-	 * Creates a {@code long} array of the specified length containing pseudorandom,
-	 * uniformly distributed {@code long} values between {@code lowerBound} (inclusive) and
-	 * {@code upperBound} (exclusive).
+	 * Creates a {@code long} array of the specified length containing pseudorandom, uniformly
+	 * distributed {@code long} values between {@code lowerBound} (inclusive) and {@code upperBound}
+	 * (exclusive).
 	 * <p>
 	 * @param length     the length of the random sequence to create
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return a {@code long} array of the specified length containing pseudorandom,
-	 *         uniformly distributed {@code long} values between {@code lowerBound} (inclusive) and
+	 * @return a {@code long} array of the specified length containing pseudorandom, uniformly
+	 *         distributed {@code long} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
 	public static long[] createRandomSequence(final int length, final long lowerBound,
@@ -673,28 +671,28 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code long} array containing the specified {@code long} value and all
-	 * the elements of the specified {@code long} array.
+	 * Returns a {@code long} array containing the specified {@code long} value and all the elements
+	 * of the specified {@code long} array.
 	 * <p>
 	 * @param a a {@code long} value (may be {@code null})
 	 * @param b a {@code long} array (may be {@code null})
 	 * <p>
-	 * @return a {@code long} array containing the specified {@code long} value and all
-	 *         the elements of the specified {@code long} array
+	 * @return a {@code long} array containing the specified {@code long} value and all the elements
+	 *         of the specified {@code long} array
 	 */
 	public static long[] merge(final long a, final long... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns a {@code long} array containing all the elements of the specified arrays
-	 * of {@code long} values.
+	 * Returns a {@code long} array containing all the elements of the specified arrays of
+	 * {@code long} values.
 	 * <p>
 	 * @param a a {@code long} array (may be {@code null})
 	 * @param b a {@code long} array (may be {@code null})
 	 * <p>
-	 * @return a {@code long} array containing all the elements of the specified arrays
-	 *         of {@code long} values
+	 * @return a {@code long} array containing all the elements of the specified arrays of
+	 *         {@code long} values
 	 */
 	public static long[] merge(final long[] a, final long... b) {
 		if (a == null) {
@@ -943,13 +941,13 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified {@code long} array, or {@code null} if
-	 * {@code array} is {@code null}.
+	 * Returns a clone of the specified {@code long} array, or {@code null} if {@code array} is
+	 * {@code null}.
 	 * <p>
 	 * @param array a {@code long} array
 	 * <p>
-	 * @return a clone of the specified {@code long} array, or {@code null} if
-	 *         {@code array} is {@code null}
+	 * @return a clone of the specified {@code long} array, or {@code null} if {@code array} is
+	 *         {@code null}
 	 */
 	public static long[] clone(final long... array) {
 		if (array == null) {
@@ -985,29 +983,29 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code long} array joined
-	 * by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code long} array joined by
+	 * {@code delimiter}.
 	 * <p>
 	 * @param array     a {@code long} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code long} array joined
-	 *         by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code long} array joined by
+	 *         {@code delimiter}
 	 */
 	public static String toString(final long[] array, final String delimiter) {
 		return Arrays.toString(toArray(array), delimiter);
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code long} array joined
-	 * by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code long} array joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     a {@code long} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code long} array joined
-	 *         by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code long} array joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final long[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

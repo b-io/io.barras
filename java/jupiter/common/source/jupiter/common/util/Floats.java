@@ -236,14 +236,12 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@code float} array from the specified {@link Collection} of type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return a {@code float} array from the specified {@link Collection} of type
-	 *         {@code T}
+	 * @return a {@code float} array from the specified {@link Collection} of type {@code T}
 	 */
 	public static <T> float[] collectionToPrimitiveArray(final Collection<T> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -562,42 +560,42 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@code float} array of the specified length containing the sequence of
-	 * numbers starting with zero and spaced by one.
+	 * Creates a {@code float} array of the specified length containing the sequence of numbers
+	 * starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return a {@code float} array of the specified length containing the sequence of
-	 *         numbers starting with zero and spaced by one
+	 * @return a {@code float} array of the specified length containing the sequence of numbers
+	 *         starting with zero and spaced by one
 	 */
 	public static float[] createSequence(final int length) {
 		return createSequence(length, 0f, 1f);
 	}
 
 	/**
-	 * Creates a {@code float} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by one.
+	 * Creates a {@code float} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return a {@code float} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by one
+	 * @return a {@code float} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by one
 	 */
 	public static float[] createSequence(final int length, final float from) {
 		return createSequence(length, from, 1f);
 	}
 
 	/**
-	 * Creates a {@code float} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by {@code step}.
+	 * Creates a {@code float} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return a {@code float} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by {@code step}
+	 * @return a {@code float} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by {@code step}
 	 */
 	public static float[] createSequence(final int length, final float from, final float step) {
 		final float[] array = new float[length];
@@ -626,16 +624,16 @@ public class Floats {
 	}
 
 	/**
-	 * Creates a {@code float} array of the specified length containing pseudorandom,
-	 * uniformly distributed {@code float} values between {@code lowerBound} (inclusive) and
+	 * Creates a {@code float} array of the specified length containing pseudorandom, uniformly
+	 * distributed {@code float} values between {@code lowerBound} (inclusive) and
 	 * {@code upperBound} (exclusive).
 	 * <p>
 	 * @param length     the length of the random sequence to create
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return a {@code float} array of the specified length containing pseudorandom,
-	 *         uniformly distributed {@code float} values between {@code lowerBound} (inclusive) and
+	 * @return a {@code float} array of the specified length containing pseudorandom, uniformly
+	 *         distributed {@code float} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
 	public static float[] createRandomSequence(final int length, final float lowerBound,
@@ -713,28 +711,28 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code float} array containing the specified {@code float} value and all
-	 * the elements of the specified {@code float} array.
+	 * Returns a {@code float} array containing the specified {@code float} value and all the
+	 * elements of the specified {@code float} array.
 	 * <p>
 	 * @param a a {@code float} value (may be {@code null})
 	 * @param b a {@code float} array (may be {@code null})
 	 * <p>
-	 * @return a {@code float} array containing the specified {@code float} value and all
-	 *         the elements of the specified {@code float} array
+	 * @return a {@code float} array containing the specified {@code float} value and all the
+	 *         elements of the specified {@code float} array
 	 */
 	public static float[] merge(final float a, final float... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns a {@code float} array containing all the elements of the specified arrays
-	 * of {@code float} values.
+	 * Returns a {@code float} array containing all the elements of the specified arrays of
+	 * {@code float} values.
 	 * <p>
 	 * @param a a {@code float} array (may be {@code null})
 	 * @param b a {@code float} array (may be {@code null})
 	 * <p>
-	 * @return a {@code float} array containing all the elements of the specified arrays
-	 *         of {@code float} values
+	 * @return a {@code float} array containing all the elements of the specified arrays of
+	 *         {@code float} values
 	 */
 	public static float[] merge(final float[] a, final float... b) {
 		if (a == null) {
@@ -967,13 +965,13 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified {@code float} array, or {@code null} if
-	 * {@code array} is {@code null}.
+	 * Returns a clone of the specified {@code float} array, or {@code null} if {@code array} is
+	 * {@code null}.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return a clone of the specified {@code float} array, or {@code null} if
-	 *         {@code array} is {@code null}
+	 * @return a clone of the specified {@code float} array, or {@code null} if {@code array} is
+	 *         {@code null}
 	 */
 	public static float[] clone(final float... array) {
 		if (array == null) {
@@ -1024,29 +1022,29 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code float} array joined
-	 * by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code float} array joined by
+	 * {@code delimiter}.
 	 * <p>
 	 * @param array     a {@code float} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code float} array joined
-	 *         by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code float} array joined by
+	 *         {@code delimiter}
 	 */
 	public static String toString(final float[] array, final String delimiter) {
 		return Arrays.toString(toArray(array), delimiter);
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code float} array joined
-	 * by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code float} array joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     a {@code float} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code float} array joined
-	 *         by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code float} array joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final float[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

@@ -223,14 +223,12 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@code double} array from the specified {@link Collection} of type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return a {@code double} array from the specified {@link Collection} of type
-	 *         {@code T}
+	 * @return a {@code double} array from the specified {@link Collection} of type {@code T}
 	 */
 	public static <T> double[] collectionToPrimitiveArray(final Collection<T> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -550,42 +548,42 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@code double} array of the specified length containing the sequence of
-	 * numbers starting with zero and spaced by one.
+	 * Creates a {@code double} array of the specified length containing the sequence of numbers
+	 * starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return a {@code double} array of the specified length containing the sequence of
-	 *         numbers starting with zero and spaced by one
+	 * @return a {@code double} array of the specified length containing the sequence of numbers
+	 *         starting with zero and spaced by one
 	 */
 	public static double[] createSequence(final int length) {
 		return createSequence(length, 0., 1.);
 	}
 
 	/**
-	 * Creates a {@code double} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by one.
+	 * Creates a {@code double} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return a {@code double} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by one
+	 * @return a {@code double} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by one
 	 */
 	public static double[] createSequence(final int length, final double from) {
 		return createSequence(length, from, 1.);
 	}
 
 	/**
-	 * Creates a {@code double} array of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by {@code step}.
+	 * Creates a {@code double} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return a {@code double} array of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by {@code step}
+	 * @return a {@code double} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by {@code step}
 	 */
 	public static double[] createSequence(final int length, final double from, final double step) {
 		final double[] array = new double[length];
@@ -614,17 +612,17 @@ public class Doubles {
 	}
 
 	/**
-	 * Creates a {@code double} array of the specified length containing pseudorandom,
-	 * uniformly distributed {@code double} values between {@code lowerBound} (inclusive) and
+	 * Creates a {@code double} array of the specified length containing pseudorandom, uniformly
+	 * distributed {@code double} values between {@code lowerBound} (inclusive) and
 	 * {@code upperBound} (exclusive).
 	 * <p>
 	 * @param length     the length of the random sequence to create
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return a {@code double} array of the specified length containing pseudorandom,
-	 *         uniformly distributed {@code double} values between {@code lowerBound} (inclusive)
-	 *         and {@code upperBound} (exclusive)
+	 * @return a {@code double} array of the specified length containing pseudorandom, uniformly
+	 *         distributed {@code double} values between {@code lowerBound} (inclusive) and
+	 *         {@code upperBound} (exclusive)
 	 */
 	public static double[] createRandomSequence(final int length, final double lowerBound,
 			final double upperBound) {
@@ -674,28 +672,28 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code double} array containing the specified {@code double} value and
-	 * all the elements of the specified {@code double} array.
+	 * Returns a {@code double} array containing the specified {@code double} value and all the
+	 * elements of the specified {@code double} array.
 	 * <p>
 	 * @param a a {@code double} value (may be {@code null})
 	 * @param b a {@code double} array (may be {@code null})
 	 * <p>
-	 * @return a {@code double} array containing the specified {@code double} value and
-	 *         all the elements of the specified {@code double} array
+	 * @return a {@code double} array containing the specified {@code double} value and all the
+	 *         elements of the specified {@code double} array
 	 */
 	public static double[] merge(final double a, final double... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns a {@code double} array containing all the elements of the specified arrays
-	 * of {@code double} values.
+	 * Returns a {@code double} array containing all the elements of the specified arrays of
+	 * {@code double} values.
 	 * <p>
 	 * @param a a {@code double} array (may be {@code null})
 	 * @param b a {@code double} array (may be {@code null})
 	 * <p>
-	 * @return a {@code double} array containing all the elements of the specified arrays
-	 *         of {@code double} values
+	 * @return a {@code double} array containing all the elements of the specified arrays of
+	 *         {@code double} values
 	 */
 	public static double[] merge(final double[] a, final double... b) {
 		if (a == null) {
@@ -955,13 +953,13 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified {@code double} array, or {@code null} if
-	 * {@code array} is {@code null}.
+	 * Returns a clone of the specified {@code double} array, or {@code null} if {@code array} is
+	 * {@code null}.
 	 * <p>
 	 * @param array a {@code double} array
 	 * <p>
-	 * @return a clone of the specified {@code double} array, or {@code null} if
-	 *         {@code array} is {@code null}
+	 * @return a clone of the specified {@code double} array, or {@code null} if {@code array} is
+	 *         {@code null}
 	 */
 	public static double[] clone(final double... array) {
 		if (array == null) {
@@ -1012,29 +1010,29 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code double} array
-	 * joined by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code double} array joined by
+	 * {@code delimiter}.
 	 * <p>
 	 * @param array     a {@code double} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code double} array
-	 *         joined by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code double} array joined by
+	 *         {@code delimiter}
 	 */
 	public static String toString(final double[] array, final String delimiter) {
 		return Arrays.toString(toArray(array), delimiter);
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code double} array
-	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code double} array joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     a {@code double} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code double} array
-	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code double} array joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final double[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
