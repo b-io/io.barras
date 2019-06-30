@@ -37,7 +37,7 @@ public class Properties
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 3993938553202913923L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -41,7 +41,7 @@ public class ScatterPlotGraphic
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -6584049465169368519L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

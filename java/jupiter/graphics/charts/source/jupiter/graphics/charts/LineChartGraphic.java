@@ -39,7 +39,7 @@ public class LineChartGraphic
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 7528275147125444712L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

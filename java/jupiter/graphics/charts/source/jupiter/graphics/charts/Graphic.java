@@ -39,7 +39,7 @@ public abstract class Graphic
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 1802614073383590035L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -40,7 +40,7 @@ public class Pair<T1, T2>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -4351203214067114498L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

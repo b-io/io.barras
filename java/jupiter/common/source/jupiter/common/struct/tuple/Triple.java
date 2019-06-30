@@ -40,7 +40,7 @@ public class Triple<T1, T2, T3>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 7006401742978894167L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

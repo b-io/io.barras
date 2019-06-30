@@ -98,7 +98,7 @@ public class JConsole
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -4344016972311184815L;
+	private static final long serialVersionUID = 1L;
 
 	protected static final Font FONT = new Font("Monospaced", Font.PLAIN, 14);
 	protected static final String COPY = "Copy";
@@ -174,7 +174,7 @@ public class JConsole
 			/**
 			 * The generated serial version ID.
 			 */
-			private static final long serialVersionUID = -1922769428193312459L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void cut() {

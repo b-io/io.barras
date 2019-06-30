@@ -42,7 +42,7 @@ public class StringTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -2139330278304045885L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

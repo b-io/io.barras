@@ -61,7 +61,7 @@ public class Table<T>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 8387232569215492066L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The column delimiters.

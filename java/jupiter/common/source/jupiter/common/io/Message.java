@@ -44,7 +44,7 @@ public class Message
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 3246094630264042616L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The default stack index.

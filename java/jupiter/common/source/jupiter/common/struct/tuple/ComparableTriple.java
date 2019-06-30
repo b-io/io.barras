@@ -36,7 +36,7 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -8584242699040627590L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

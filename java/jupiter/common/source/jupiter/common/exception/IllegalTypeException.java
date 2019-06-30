@@ -35,7 +35,7 @@ public class IllegalTypeException
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -1334884247432456444L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

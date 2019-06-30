@@ -35,7 +35,7 @@ public class CopyFileException
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -5867406779338418010L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

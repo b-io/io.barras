@@ -40,7 +40,7 @@ public class TreeNode<K extends Comparable<K>, V>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 1216540400306903197L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

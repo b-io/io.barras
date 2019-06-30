@@ -36,7 +36,7 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 980509932686150429L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

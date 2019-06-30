@@ -37,7 +37,7 @@ public class Vector
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -3318967766451663359L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

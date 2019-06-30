@@ -33,7 +33,7 @@ public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends Binar
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 3655357105868982206L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

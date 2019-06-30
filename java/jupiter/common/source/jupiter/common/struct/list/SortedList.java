@@ -43,7 +43,7 @@ public class SortedList<T extends Comparable<T>>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 2736657805943706712L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

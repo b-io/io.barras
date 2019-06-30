@@ -51,7 +51,7 @@ public class CholeskyDecomposition
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -7542402877048324510L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -33,7 +33,7 @@ public class RedBlackTreeNode<K extends Comparable<K>, V>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 2437289030870896552L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -42,7 +42,7 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -7806719664662968650L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

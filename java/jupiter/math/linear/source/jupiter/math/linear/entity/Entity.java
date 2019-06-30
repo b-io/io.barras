@@ -41,7 +41,7 @@ public abstract class Entity
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 2805059315080715833L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

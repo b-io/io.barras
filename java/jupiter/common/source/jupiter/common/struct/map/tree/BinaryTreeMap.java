@@ -47,7 +47,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -5922531484900310242L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

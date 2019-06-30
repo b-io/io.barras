@@ -53,7 +53,7 @@ public class LUDecomposition
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 4573517221084040490L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

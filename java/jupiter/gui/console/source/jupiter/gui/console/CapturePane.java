@@ -38,7 +38,7 @@ public class CapturePane
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 7993224852718454384L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

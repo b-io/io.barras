@@ -33,7 +33,7 @@ public class ParseFileException
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -8232132032703193767L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

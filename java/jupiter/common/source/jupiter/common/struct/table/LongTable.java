@@ -41,7 +41,7 @@ public class LongTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -4612095602803223389L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

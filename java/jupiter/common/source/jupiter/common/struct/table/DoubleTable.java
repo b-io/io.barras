@@ -41,7 +41,7 @@ public class DoubleTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -7614602081772186622L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

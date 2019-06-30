@@ -40,7 +40,7 @@ public abstract class ComparableNumber
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 430434450678720415L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

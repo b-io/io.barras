@@ -40,7 +40,7 @@ public class WholeNumber
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 4962308765948283486L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

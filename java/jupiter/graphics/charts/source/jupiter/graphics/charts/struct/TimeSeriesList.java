@@ -44,7 +44,7 @@ public class TimeSeriesList
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 9081191510467664812L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

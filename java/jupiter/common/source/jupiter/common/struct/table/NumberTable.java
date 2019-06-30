@@ -46,7 +46,7 @@ public class NumberTable<T extends Number>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -5384829682819443700L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

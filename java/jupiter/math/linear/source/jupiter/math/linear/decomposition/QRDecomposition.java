@@ -53,7 +53,7 @@ public class QRDecomposition
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -5830957598032372042L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

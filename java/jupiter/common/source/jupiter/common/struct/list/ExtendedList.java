@@ -44,7 +44,7 @@ public class ExtendedList<T>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -5163759803630476779L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

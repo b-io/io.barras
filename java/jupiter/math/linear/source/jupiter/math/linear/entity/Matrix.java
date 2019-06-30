@@ -112,7 +112,7 @@ public class Matrix
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 2562031458053913335L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The column delimiters.
@@ -2509,7 +2509,7 @@ public class Matrix
 		/**
 		 * The generated serial version ID.
 		 */
-		private static final long serialVersionUID = -858791928278526608L;
+		private static final long serialVersionUID = 1L;
 
 		protected DotProduct() {
 			super();

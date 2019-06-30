@@ -56,7 +56,7 @@ public class DynamicChartPanel
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 6804628237598646797L;
+	private static final long serialVersionUID = 1L;
 
 	protected static volatile boolean DRAW_X_CROSSHAIR = true;
 	protected static volatile boolean DRAW_Y_CROSSHAIR = true;

@@ -77,7 +77,7 @@ public class Formats {
 		/**
 		 * The generated serial version ID.
 		 */
-		private static final long serialVersionUID = 4733602893042837792L;
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public StringBuffer format(final Object object, final StringBuffer toAppendTo,

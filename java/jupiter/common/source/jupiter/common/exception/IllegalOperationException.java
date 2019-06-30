@@ -33,7 +33,7 @@ public class IllegalOperationException
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 1536849343852834443L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

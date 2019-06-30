@@ -40,7 +40,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -9039524907860581818L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

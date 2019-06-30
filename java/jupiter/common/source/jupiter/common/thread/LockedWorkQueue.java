@@ -33,8 +33,23 @@ public class LockedWorkQueue<I, O>
 		extends WorkQueue<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The flag specifying whether {@code this} is fair.
+	 */
+	protected final boolean isFair;
 
 	/**
 	 * The internal lock of the workers.
@@ -91,12 +106,27 @@ public class LockedWorkQueue<I, O>
 	public LockedWorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads,
 			final boolean isFair) {
 		super(model, minThreads, maxThreads);
+		this.isFair = isFair;
 		workersLock = new ReentrantLock(isFair);
 		tasksLock = new ReentrantLock(isFair);
 		tasksLockCondition = tasksLock.newCondition();
 		resultsLock = new ReentrantLock(isFair);
 		resultsLockCondition = resultsLock.newCondition();
 		createWorkers(minThreads);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the flag specifying whether {@code this} is fair.
+	 * <p>
+	 * @return the flag specifying whether {@code this} is fair
+	 */
+	public boolean isFair() {
+		return isFair;
 	}
 
 
@@ -253,5 +283,23 @@ public class LockedWorkQueue<I, O>
 		} finally {
 			tasksLock.unlock();
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public LockedWorkQueue<I, O> clone() {
+		return new LockedWorkQueue<I, O>(model, minThreads, maxThreads, isFair);
 	}
 }

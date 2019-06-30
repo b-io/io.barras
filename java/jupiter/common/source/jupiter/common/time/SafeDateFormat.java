@@ -44,7 +44,7 @@ public class SafeDateFormat
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -5020293094126916960L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -36,7 +36,7 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -3899643258386029273L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

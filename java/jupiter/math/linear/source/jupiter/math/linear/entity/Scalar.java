@@ -44,7 +44,7 @@ public class Scalar
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 4598899924191933856L;
+	private static final long serialVersionUID = 1L;
 
 	public static final Dimensions DIMENSIONS = new Dimensions(1, 1);
 
