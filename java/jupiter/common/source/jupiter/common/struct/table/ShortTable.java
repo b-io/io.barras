@@ -72,7 +72,7 @@ public class ShortTable
 	/**
 	 * Constructs a {@link ShortTable} of the specified {@code short} values.
 	 * <p>
-	 * @param values a 2D array of {@code short} values
+	 * @param values a 2D {@code short} array
 	 */
 	public ShortTable(final short[]... values) {
 		this(Shorts.toArray2D(values));
@@ -91,7 +91,7 @@ public class ShortTable
 	 * Constructs a {@link ShortTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code short} values
+	 * @param values a 2D {@code short} array
 	 */
 	public ShortTable(final String[] header, final short[]... values) {
 		this(header, Shorts.toArray2D(values));

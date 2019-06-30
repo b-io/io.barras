@@ -99,7 +99,7 @@ public class Vector
 	/**
 	 * Constructs a {@link Vector} of the specified {@code double} values.
 	 * <p>
-	 * @param values an array of {@code double} values
+	 * @param values a {@code double} array
 	 */
 	public Vector(final double... values) {
 		this(values, false);
@@ -108,7 +108,7 @@ public class Vector
 	/**
 	 * Constructs a {@link Vector} of the specified {@code double} values.
 	 * <p>
-	 * @param values    an array of {@code double} values
+	 * @param values    a {@code double} array
 	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final double[] values, final boolean transpose) {
@@ -119,7 +119,7 @@ public class Vector
 	/**
 	 * Constructs a {@link Vector} of the specified elements.
 	 * <p>
-	 * @param elements a 2D array of {@code double} values
+	 * @param elements a 2D {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if {@code elements} is not one-dimensional
 	 */

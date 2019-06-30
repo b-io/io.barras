@@ -117,72 +117,72 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code long} values from the specified array of type {@code T}.
+	 * Returns a {@code long} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code long} values from the specified array of type {@code T}
+	 * @return a {@code long} array from the specified {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code long} values from the specified array of type {@code T}.
+	 * Returns a {@code long} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code long} values from the specified array of type {@code T}
+	 * @return a {@code long} array from the specified {@code T} array
 	 */
 	public static <T> long[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code long} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code long} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code long} values from the specified 2D array of type {@code T}
+	 * @return a {@code long} array from the specified 2D {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code long} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code long} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code long} values from the specified 2D array of type {@code T}
+	 * @return a {@code long} array from the specified 2D {@code T} array
 	 */
 	public static <T> long[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code long} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code long} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code long} values from the specified 3D array of type {@code T}
+	 * @return a {@code long} array from the specified 3D {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code long} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code long} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code long} values from the specified 3D array of type {@code T}
+	 * @return a {@code long} array from the specified 3D {@code T} array
 	 */
 	public static <T> long[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
@@ -191,61 +191,61 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@code long} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code long} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code long} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code long} array from the specified 2D {@code T} array
 	 */
 	public static <T> long[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@code long} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code long} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code long} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code long} array from the specified 2D {@code T} array
 	 */
 	public static <T> long[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code long} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code long} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code long} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code long} array from the specified 3D {@code T} array
 	 */
 	public static <T> long[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code long} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code long} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code long} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code long} array from the specified 3D {@code T} array
 	 */
 	public static <T> long[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code long} values from the specified {@link Collection} of type
+	 * Returns a {@code long} array from the specified {@link Collection} of type
 	 * {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an array of {@code long} values from the specified {@link Collection} of type
+	 * @return a {@code long} array from the specified {@link Collection} of type
 	 *         {@code T}
 	 */
 	public static <T> long[] collectionToPrimitiveArray(final Collection<T> collection) {
@@ -255,11 +255,11 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Long} from the specified array of {@code long} values.
+	 * Returns an array of {@link Long} from the specified {@code long} array.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
-	 * @return an array of {@link Long} from the specified array of {@code long} values
+	 * @return an array of {@link Long} from the specified {@code long} array
 	 */
 	public static Long[] toArray(final long[] array) {
 		final Long[] result = new Long[array.length];
@@ -270,22 +270,22 @@ public class Longs {
 	}
 
 	/**
-	 * Returns an array of {@link Long} from the specified array of {@code long} values.
+	 * Returns an array of {@link Long} from the specified {@code long} array.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
-	 * @return an array of {@link Long} from the specified array of {@code long} values
+	 * @return an array of {@link Long} from the specified {@code long} array
 	 */
 	public static Long[] asArray(final long... array) {
 		return toArray(array);
 	}
 
 	/**
-	 * Returns a 2D array of {@link Long} from the specified 2D array of {@code long} values.
+	 * Returns a 2D array of {@link Long} from the specified 2D {@code long} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code long} values
+	 * @param array2D a 2D {@code long} array
 	 * <p>
-	 * @return a 2D array of {@link Long} from the specified 2D array of {@code long} values
+	 * @return a 2D array of {@link Long} from the specified 2D {@code long} array
 	 */
 	public static Long[][] toArray2D(final long[][] array2D) {
 		final Long[][] result = new Long[array2D.length][];
@@ -296,22 +296,22 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Long} from the specified 2D array of {@code long} values.
+	 * Returns a 2D array of {@link Long} from the specified 2D {@code long} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code long} values
+	 * @param array2D a 2D {@code long} array
 	 * <p>
-	 * @return a 2D array of {@link Long} from the specified 2D array of {@code long} values
+	 * @return a 2D array of {@link Long} from the specified 2D {@code long} array
 	 */
 	public static Long[][] asArray2D(final long[]... array2D) {
 		return toArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link Long} from the specified 3D array of {@code long} values.
+	 * Returns a 3D array of {@link Long} from the specified 3D {@code long} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code long} values
+	 * @param array3D a 3D {@code long} array
 	 * <p>
-	 * @return a 3D array of {@link Long} from the specified 3D array of {@code long} values
+	 * @return a 3D array of {@link Long} from the specified 3D {@code long} array
 	 */
 	public static Long[][][] toArray3D(final long[][][] array3D) {
 		final Long[][][] result = new Long[array3D.length][][];
@@ -322,11 +322,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Long} from the specified 3D array of {@code long} values.
+	 * Returns a 3D array of {@link Long} from the specified 3D {@code long} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code long} values
+	 * @param array3D a 3D {@code long} array
 	 * <p>
-	 * @return a 3D array of {@link Long} from the specified 3D array of {@code long} values
+	 * @return a 3D array of {@link Long} from the specified 3D {@code long} array
 	 */
 	public static Long[][][] asArray3D(final long[][]... array3D) {
 		return toArray3D(array3D);
@@ -347,22 +347,22 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Long} from the specified array of {@code long} values.
+	 * Returns a {@link List} of {@link Long} from the specified {@code long} array.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
-	 * @return a {@link List} of {@link Long} from the specified array of {@code long} values
+	 * @return a {@link List} of {@link Long} from the specified {@code long} array
 	 */
 	public static List<Long> toList(final long[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Long} from the specified array of {@code long} values.
+	 * Returns a {@link List} of {@link Long} from the specified {@code long} array.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
-	 * @return a {@link List} of {@link Long} from the specified array of {@code long} values
+	 * @return a {@link List} of {@link Long} from the specified {@code long} array
 	 */
 	public static List<Long> asList(final long... array) {
 		return toList(array);
@@ -372,7 +372,7 @@ public class Longs {
 	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
 	 *         values
@@ -385,7 +385,7 @@ public class Longs {
 	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
 	 *         values
@@ -395,48 +395,48 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Long} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Long} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Long} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Long} from the specified {@code T} array
 	 */
 	public static <T> List<Long> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Long} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Long} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Long} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Long} from the specified {@code T} array
 	 */
 	public static <T> List<Long> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Long> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Long> asExtendedList(final T... array) {
 		return toExtendedList(array);
@@ -473,46 +473,46 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Long} from the specified array of {@code long} values.
+	 * Returns a {@link Set} of {@link Long} from the specified {@code long} array.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
-	 * @return a {@link Set} of {@link Long} from the specified array of {@code long} values
+	 * @return a {@link Set} of {@link Long} from the specified {@code long} array
 	 */
 	public static Set<Long> toSet(final long[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Long} from the specified array of {@code long} values.
+	 * Returns a {@link Set} of {@link Long} from the specified {@code long} array.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
-	 * @return a {@link Set} of {@link Long} from the specified array of {@code long} values
+	 * @return a {@link Set} of {@link Long} from the specified {@code long} array
 	 */
 	public static Set<Long> asSet(final long... array) {
 		return toSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Long} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Long} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Long} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Long} from the specified {@code T} array
 	 */
 	public static <T> Set<Long> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Long} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Long} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Long} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Long} from the specified {@code T} array
 	 */
 	public static <T> Set<Long> asSet(final T... array) {
 		return toSet(array);
@@ -562,12 +562,12 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of {@code long} values of the specified length containing the sequence of
+	 * Creates a {@code long} array of the specified length containing the sequence of
 	 * numbers starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return an array of {@code long} values of the specified length containing the sequence of
+	 * @return a {@code long} array of the specified length containing the sequence of
 	 *         numbers starting with zero and spaced by one
 	 */
 	public static long[] createSequence(final int length) {
@@ -575,13 +575,13 @@ public class Longs {
 	}
 
 	/**
-	 * Creates an array of {@code long} values of the specified length containing the sequence of
+	 * Creates a {@code long} array of the specified length containing the sequence of
 	 * numbers starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return an array of {@code long} values of the specified length containing the sequence of
+	 * @return a {@code long} array of the specified length containing the sequence of
 	 *         numbers starting with {@code from} and spaced by one
 	 */
 	public static long[] createSequence(final int length, final long from) {
@@ -589,14 +589,14 @@ public class Longs {
 	}
 
 	/**
-	 * Creates an array of {@code long} values of the specified length containing the sequence of
+	 * Creates a {@code long} array of the specified length containing the sequence of
 	 * numbers starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return an array of {@code long} values of the specified length containing the sequence of
+	 * @return a {@code long} array of the specified length containing the sequence of
 	 *         numbers starting with {@code from} and spaced by {@code step}
 	 */
 	public static long[] createSequence(final int length, final long from, final long step) {
@@ -626,7 +626,7 @@ public class Longs {
 	}
 
 	/**
-	 * Creates an array of {@code long} values of the specified length containing pseudorandom,
+	 * Creates a {@code long} array of the specified length containing pseudorandom,
 	 * uniformly distributed {@code long} values between {@code lowerBound} (inclusive) and
 	 * {@code upperBound} (exclusive).
 	 * <p>
@@ -634,7 +634,7 @@ public class Longs {
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return an array of {@code long} values of the specified length containing pseudorandom,
+	 * @return a {@code long} array of the specified length containing pseudorandom,
 	 *         uniformly distributed {@code long} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
@@ -673,27 +673,27 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code long} values containing the specified {@code long} value and all
-	 * the elements of the specified array of {@code long} values.
+	 * Returns a {@code long} array containing the specified {@code long} value and all
+	 * the elements of the specified {@code long} array.
 	 * <p>
 	 * @param a a {@code long} value (may be {@code null})
-	 * @param b an array of {@code long} values (may be {@code null})
+	 * @param b a {@code long} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code long} values containing the specified {@code long} value and all
-	 *         the elements of the specified array of {@code long} values
+	 * @return a {@code long} array containing the specified {@code long} value and all
+	 *         the elements of the specified {@code long} array
 	 */
 	public static long[] merge(final long a, final long... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns an array of {@code long} values containing all the elements of the specified arrays
+	 * Returns a {@code long} array containing all the elements of the specified arrays
 	 * of {@code long} values.
 	 * <p>
-	 * @param a an array of {@code long} values (may be {@code null})
-	 * @param b an array of {@code long} values (may be {@code null})
+	 * @param a a {@code long} array (may be {@code null})
+	 * @param b a {@code long} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code long} values containing all the elements of the specified arrays
+	 * @return a {@code long} array containing all the elements of the specified arrays
 	 *         of {@code long} values
 	 */
 	public static long[] merge(final long[] a, final long... b) {
@@ -796,12 +796,12 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the transpose of the specified array of {@code long} values.
+	 * Returns the transpose of the specified {@code long} array.
 	 * <p>
 	 * @param rowCount the number of rows of the array
-	 * @param array    an array of {@code long} values
+	 * @param array    a {@code long} array
 	 * <p>
-	 * @return the transpose of the specified array of {@code long} values
+	 * @return the transpose of the specified {@code long} array
 	 */
 	public static long[] transpose(final int rowCount, final long[] array) {
 		final int n = rowCount;
@@ -816,11 +816,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns the transpose of the specified 2D array of {@code long} values.
+	 * Returns the transpose of the specified 2D {@code long} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code long} values
+	 * @param array2D a 2D {@code long} array
 	 * <p>
-	 * @return the transpose of the specified 2D array of {@code long} values
+	 * @return the transpose of the specified 2D {@code long} array
 	 */
 	public static long[][] transpose(final long[]... array2D) {
 		final int n = array2D.length;
@@ -865,7 +865,7 @@ public class Longs {
 	}
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to an array of {@code long} values.
+	 * Tests whether the specified {@link Class} is assignable to a {@code long} array.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
@@ -881,7 +881,7 @@ public class Longs {
 	/**
 	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * @param token the {@code long} value to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
@@ -901,8 +901,8 @@ public class Longs {
 	/**
 	 * Tests whether {@code array} contains any {@code tokens}.
 	 * <p>
-	 * @param array  an array of {@code long} values
-	 * @param tokens the array of {@code long} values to test for presence
+	 * @param array  a {@code long} array
+	 * @param tokens the {@code long} array to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
 	 */
@@ -943,12 +943,12 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code long} values, or {@code null} if
+	 * Returns a clone of the specified {@code long} array, or {@code null} if
 	 * {@code array} is {@code null}.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
-	 * @return a clone of the specified array of {@code long} values, or {@code null} if
+	 * @return a clone of the specified {@code long} array, or {@code null} if
 	 *         {@code array} is {@code null}
 	 */
 	public static long[] clone(final long... array) {
@@ -974,24 +974,24 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code long} values.
+	 * Returns a representative {@link String} of the specified {@code long} array.
 	 * <p>
-	 * @param array an array of {@code long} values
+	 * @param array a {@code long} array
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code long} values
+	 * @return a representative {@link String} of the specified {@code long} array
 	 */
 	public static String toString(final long... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code long} values joined
+	 * Returns a representative {@link String} of the specified {@code long} array joined
 	 * by {@code delimiter}.
 	 * <p>
-	 * @param array     an array of {@code long} values
+	 * @param array     a {@code long} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code long} values joined
+	 * @return a representative {@link String} of the specified {@code long} array joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final long[] array, final String delimiter) {
@@ -999,14 +999,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code long} values joined
+	 * Returns a representative {@link String} of the specified {@code long} array joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@code long} values
+	 * @param array     a {@code long} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code long} values joined
+	 * @return a representative {@link String} of the specified {@code long} array joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final long[] array, final String delimiter,

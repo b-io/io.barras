@@ -72,7 +72,7 @@ public class LongTable
 	/**
 	 * Constructs a {@link LongTable} of the specified {@code long} values.
 	 * <p>
-	 * @param values a 2D array of {@code long} values
+	 * @param values a 2D {@code long} array
 	 */
 	public LongTable(final long[]... values) {
 		this(Longs.toArray2D(values));
@@ -91,7 +91,7 @@ public class LongTable
 	 * Constructs a {@link LongTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code long} values
+	 * @param values a 2D {@code long} array
 	 */
 	public LongTable(final String[] header, final long[]... values) {
 		this(header, Longs.toArray2D(values));

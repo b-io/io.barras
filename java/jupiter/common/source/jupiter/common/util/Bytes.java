@@ -159,72 +159,72 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code byte} values from the specified array of type {@code T}.
+	 * Returns a {@code byte} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code byte} values from the specified array of type {@code T}
+	 * @return a {@code byte} array from the specified {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code byte} values from the specified array of type {@code T}.
+	 * Returns a {@code byte} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code byte} values from the specified array of type {@code T}
+	 * @return a {@code byte} array from the specified {@code T} array
 	 */
 	public static <T> byte[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code byte} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code byte} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code byte} values from the specified 2D array of type {@code T}
+	 * @return a {@code byte} array from the specified 2D {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code byte} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code byte} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code byte} values from the specified 2D array of type {@code T}
+	 * @return a {@code byte} array from the specified 2D {@code T} array
 	 */
 	public static <T> byte[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code byte} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code byte} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code byte} values from the specified 3D array of type {@code T}
+	 * @return a {@code byte} array from the specified 3D {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code byte} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code byte} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code byte} values from the specified 3D array of type {@code T}
+	 * @return a {@code byte} array from the specified 3D {@code T} array
 	 */
 	public static <T> byte[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
@@ -233,61 +233,61 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@code byte} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code byte} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code byte} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code byte} array from the specified 2D {@code T} array
 	 */
 	public static <T> byte[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@code byte} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code byte} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code byte} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code byte} array from the specified 2D {@code T} array
 	 */
 	public static <T> byte[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code byte} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code byte} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code byte} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code byte} array from the specified 3D {@code T} array
 	 */
 	public static <T> byte[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code byte} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code byte} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code byte} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code byte} array from the specified 3D {@code T} array
 	 */
 	public static <T> byte[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code byte} values from the specified {@link Collection} of type
+	 * Returns a {@code byte} array from the specified {@link Collection} of type
 	 * {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an array of {@code byte} values from the specified {@link Collection} of type
+	 * @return a {@code byte} array from the specified {@link Collection} of type
 	 *         {@code T}
 	 */
 	public static <T> byte[] collectionToPrimitiveArray(final Collection<T> collection) {
@@ -297,11 +297,11 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Byte} from the specified array of {@code byte} values.
+	 * Returns an array of {@link Byte} from the specified {@code byte} array.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
-	 * @return an array of {@link Byte} from the specified array of {@code byte} values
+	 * @return an array of {@link Byte} from the specified {@code byte} array
 	 */
 	public static Byte[] toArray(final byte[] array) {
 		final Byte[] result = new Byte[array.length];
@@ -312,22 +312,22 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns an array of {@link Byte} from the specified array of {@code byte} values.
+	 * Returns an array of {@link Byte} from the specified {@code byte} array.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
-	 * @return an array of {@link Byte} from the specified array of {@code byte} values
+	 * @return an array of {@link Byte} from the specified {@code byte} array
 	 */
 	public static Byte[] asArray(final byte... array) {
 		return toArray(array);
 	}
 
 	/**
-	 * Returns a 2D array of {@link Byte} from the specified 2D array of {@code byte} values.
+	 * Returns a 2D array of {@link Byte} from the specified 2D {@code byte} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code byte} values
+	 * @param array2D a 2D {@code byte} array
 	 * <p>
-	 * @return a 2D array of {@link Byte} from the specified 2D array of {@code byte} values
+	 * @return a 2D array of {@link Byte} from the specified 2D {@code byte} array
 	 */
 	public static Byte[][] toArray2D(final byte[][] array2D) {
 		final Byte[][] result = new Byte[array2D.length][];
@@ -338,22 +338,22 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Byte} from the specified 2D array of {@code byte} values.
+	 * Returns a 2D array of {@link Byte} from the specified 2D {@code byte} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code byte} values
+	 * @param array2D a 2D {@code byte} array
 	 * <p>
-	 * @return a 2D array of {@link Byte} from the specified 2D array of {@code byte} values
+	 * @return a 2D array of {@link Byte} from the specified 2D {@code byte} array
 	 */
 	public static Byte[][] asArray2D(final byte[]... array2D) {
 		return toArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link Byte} from the specified 3D array of {@code byte} values.
+	 * Returns a 3D array of {@link Byte} from the specified 3D {@code byte} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code byte} values
+	 * @param array3D a 3D {@code byte} array
 	 * <p>
-	 * @return a 3D array of {@link Byte} from the specified 3D array of {@code byte} values
+	 * @return a 3D array of {@link Byte} from the specified 3D {@code byte} array
 	 */
 	public static Byte[][][] toArray3D(final byte[][][] array3D) {
 		final Byte[][][] result = new Byte[array3D.length][][];
@@ -364,11 +364,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Byte} from the specified 3D array of {@code byte} values.
+	 * Returns a 3D array of {@link Byte} from the specified 3D {@code byte} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code byte} values
+	 * @param array3D a 3D {@code byte} array
 	 * <p>
-	 * @return a 3D array of {@link Byte} from the specified 3D array of {@code byte} values
+	 * @return a 3D array of {@link Byte} from the specified 3D {@code byte} array
 	 */
 	public static Byte[][][] asArray3D(final byte[][]... array3D) {
 		return toArray3D(array3D);
@@ -389,22 +389,22 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Byte} from the specified array of {@code byte} values.
+	 * Returns a {@link List} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a {@link List} of {@link Byte} from the specified array of {@code byte} values
+	 * @return a {@link List} of {@link Byte} from the specified {@code byte} array
 	 */
 	public static List<Byte> toList(final byte[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Byte} from the specified array of {@code byte} values.
+	 * Returns a {@link List} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a {@link List} of {@link Byte} from the specified array of {@code byte} values
+	 * @return a {@link List} of {@link Byte} from the specified {@code byte} array
 	 */
 	public static List<Byte> asList(final byte... array) {
 		return toList(array);
@@ -414,7 +414,7 @@ public class Bytes {
 	 * Returns an {@link ExtendedList} of {@link Byte} from the specified array of {@code byte}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} from the specified array of {@code byte}
 	 *         values
@@ -427,7 +427,7 @@ public class Bytes {
 	 * Returns an {@link ExtendedList} of {@link Byte} from the specified array of {@code byte}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} from the specified array of {@code byte}
 	 *         values
@@ -437,48 +437,48 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Byte} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Byte} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Byte} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Byte} from the specified {@code T} array
 	 */
 	public static <T> List<Byte> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Byte} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Byte} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Byte} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Byte} from the specified {@code T} array
 	 */
 	public static <T> List<Byte> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Byte> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Byte> asExtendedList(final T... array) {
 		return toExtendedList(array);
@@ -515,46 +515,46 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified array of {@code byte} values.
+	 * Returns a {@link Set} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified array of {@code byte} values
+	 * @return a {@link Set} of {@link Byte} from the specified {@code byte} array
 	 */
 	public static Set<Byte> toSet(final byte[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified array of {@code byte} values.
+	 * Returns a {@link Set} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified array of {@code byte} values
+	 * @return a {@link Set} of {@link Byte} from the specified {@code byte} array
 	 */
 	public static Set<Byte> asSet(final byte... array) {
 		return toSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Byte} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Byte} from the specified {@code T} array
 	 */
 	public static <T> Set<Byte> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Byte} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Byte} from the specified {@code T} array
 	 */
 	public static <T> Set<Byte> asSet(final T... array) {
 		return toSet(array);
@@ -604,12 +604,12 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of {@code byte} values of the specified length containing the sequence of
+	 * Creates a {@code byte} array of the specified length containing the sequence of
 	 * numbers starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return an array of {@code byte} values of the specified length containing the sequence of
+	 * @return a {@code byte} array of the specified length containing the sequence of
 	 *         numbers starting with zero and spaced by one
 	 */
 	public static byte[] createSequence(final int length) {
@@ -617,13 +617,13 @@ public class Bytes {
 	}
 
 	/**
-	 * Creates an array of {@code byte} values of the specified length containing the sequence of
+	 * Creates a {@code byte} array of the specified length containing the sequence of
 	 * numbers starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return an array of {@code byte} values of the specified length containing the sequence of
+	 * @return a {@code byte} array of the specified length containing the sequence of
 	 *         numbers starting with {@code from} and spaced by one
 	 */
 	public static byte[] createSequence(final int length, final byte from) {
@@ -631,14 +631,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Creates an array of {@code byte} values of the specified length containing the sequence of
+	 * Creates a {@code byte} array of the specified length containing the sequence of
 	 * numbers starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return an array of {@code byte} values of the specified length containing the sequence of
+	 * @return a {@code byte} array of the specified length containing the sequence of
 	 *         numbers starting with {@code from} and spaced by {@code step}
 	 */
 	public static byte[] createSequence(final int length, final byte from, final byte step) {
@@ -668,7 +668,7 @@ public class Bytes {
 	}
 
 	/**
-	 * Creates an array of {@code byte} values of the specified length containing pseudorandom,
+	 * Creates a {@code byte} array of the specified length containing pseudorandom,
 	 * uniformly distributed {@code byte} values between {@code lowerBound} (inclusive) and
 	 * {@code upperBound} (exclusive).
 	 * <p>
@@ -676,7 +676,7 @@ public class Bytes {
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return an array of {@code byte} values of the specified length containing pseudorandom,
+	 * @return a {@code byte} array of the specified length containing pseudorandom,
 	 *         uniformly distributed {@code byte} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
@@ -715,27 +715,27 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code byte} values containing the specified {@code byte} value and all
-	 * the elements of the specified array of {@code byte} values.
+	 * Returns a {@code byte} array containing the specified {@code byte} value and all
+	 * the elements of the specified {@code byte} array.
 	 * <p>
 	 * @param a a {@code byte} value (may be {@code null})
-	 * @param b an array of {@code byte} values (may be {@code null})
+	 * @param b a {@code byte} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code byte} values containing the specified {@code byte} value and all
-	 *         the elements of the specified array of {@code byte} values
+	 * @return a {@code byte} array containing the specified {@code byte} value and all
+	 *         the elements of the specified {@code byte} array
 	 */
 	public static byte[] merge(final byte a, final byte... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns an array of {@code byte} values containing all the elements of the specified arrays
+	 * Returns a {@code byte} array containing all the elements of the specified arrays
 	 * of {@code byte} values.
 	 * <p>
-	 * @param a an array of {@code byte} values (may be {@code null})
-	 * @param b an array of {@code byte} values (may be {@code null})
+	 * @param a a {@code byte} array (may be {@code null})
+	 * @param b a {@code byte} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code byte} values containing all the elements of the specified arrays
+	 * @return a {@code byte} array containing all the elements of the specified arrays
 	 *         of {@code byte} values
 	 */
 	public static byte[] merge(final byte[] a, final byte... b) {
@@ -838,12 +838,12 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the transpose of the specified array of {@code byte} values.
+	 * Returns the transpose of the specified {@code byte} array.
 	 * <p>
 	 * @param rowCount the number of rows of the array
-	 * @param array    an array of {@code byte} values
+	 * @param array    a {@code byte} array
 	 * <p>
-	 * @return the transpose of the specified array of {@code byte} values
+	 * @return the transpose of the specified {@code byte} array
 	 */
 	public static byte[] transpose(final int rowCount, final byte[] array) {
 		final int n = rowCount;
@@ -858,11 +858,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns the transpose of the specified 2D array of {@code byte} values.
+	 * Returns the transpose of the specified 2D {@code byte} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code byte} values
+	 * @param array2D a 2D {@code byte} array
 	 * <p>
-	 * @return the transpose of the specified 2D array of {@code byte} values
+	 * @return the transpose of the specified 2D {@code byte} array
 	 */
 	public static byte[][] transpose(final byte[]... array2D) {
 		final int n = array2D.length;
@@ -907,7 +907,7 @@ public class Bytes {
 	}
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to an array of {@code byte} values.
+	 * Tests whether the specified {@link Class} is assignable to a {@code byte} array.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
@@ -923,7 +923,7 @@ public class Bytes {
 	/**
 	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * @param token the {@code byte} value to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
@@ -943,8 +943,8 @@ public class Bytes {
 	/**
 	 * Tests whether {@code array} contains any {@code tokens}.
 	 * <p>
-	 * @param array  an array of {@code byte} values
-	 * @param tokens the array of {@code byte} values to test for presence
+	 * @param array  a {@code byte} array
+	 * @param tokens the {@code byte} array to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
 	 */
@@ -985,12 +985,12 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code byte} values, or {@code null} if
+	 * Returns a clone of the specified {@code byte} array, or {@code null} if
 	 * {@code array} is {@code null}.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a clone of the specified array of {@code byte} values, or {@code null} if
+	 * @return a clone of the specified {@code byte} array, or {@code null} if
 	 *         {@code array} is {@code null}
 	 */
 	public static byte[] clone(final byte... array) {
@@ -1016,24 +1016,24 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code byte} values.
+	 * Returns a representative {@link String} of the specified {@code byte} array.
 	 * <p>
-	 * @param array an array of {@code byte} values
+	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code byte} values
+	 * @return a representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toString(final byte... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code byte} values joined
+	 * Returns a representative {@link String} of the specified {@code byte} array joined
 	 * by {@code delimiter}.
 	 * <p>
-	 * @param array     an array of {@code byte} values
+	 * @param array     a {@code byte} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code byte} values joined
+	 * @return a representative {@link String} of the specified {@code byte} array joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final byte[] array, final String delimiter) {
@@ -1041,14 +1041,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code byte} values joined
+	 * Returns a representative {@link String} of the specified {@code byte} array joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@code byte} values
+	 * @param array     a {@code byte} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code byte} values joined
+	 * @return a representative {@link String} of the specified {@code byte} array joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final byte[] array, final String delimiter,

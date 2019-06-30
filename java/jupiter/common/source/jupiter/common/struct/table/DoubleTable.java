@@ -72,7 +72,7 @@ public class DoubleTable
 	/**
 	 * Constructs a {@link DoubleTable} of the specified {@code double} values.
 	 * <p>
-	 * @param values a 2D array of {@code double} values
+	 * @param values a 2D {@code double} array
 	 */
 	public DoubleTable(final double[]... values) {
 		this(Doubles.toArray2D(values));
@@ -91,7 +91,7 @@ public class DoubleTable
 	 * Constructs a {@link DoubleTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code double} values
+	 * @param values a 2D {@code double} array
 	 */
 	public DoubleTable(final String[] header, final double[]... values) {
 		this(header, Doubles.toArray2D(values));

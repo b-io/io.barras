@@ -209,7 +209,7 @@ public class Matrix
 	 * Constructs a {@link Matrix} with the specified elements.
 	 * <p>
 	 * @param rowCount the number of rows of the array
-	 * @param elements an array of {@code double} values
+	 * @param elements a {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if the length of {@code elements} is not a multiple of
 	 *                                  {@code rowCount}
@@ -232,7 +232,7 @@ public class Matrix
 	 * Constructs a {@link Matrix} with the specified {@code double} values.
 	 * <p>
 	 * @param rowCount  the number of rows of the array
-	 * @param values    an array of {@code double} values
+	 * @param values    a {@code double} array
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @throws IllegalArgumentException if the length of {@code values} is not a multiple of
@@ -264,7 +264,7 @@ public class Matrix
 	/**
 	 * Constructs a {@link Matrix} with the specified {@code double} values.
 	 * <p>
-	 * @param values a 2D array of {@code double} values
+	 * @param values a 2D {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if {@code values} has different row lengths
 	 */
@@ -278,7 +278,7 @@ public class Matrix
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
-	 * @param values      a 2D array of {@code double} values
+	 * @param values      a 2D {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if the rows of {@code values} have not the same length
 	 */
@@ -649,7 +649,7 @@ public class Matrix
 	 * Sets the elements of the specified row.
 	 * <p>
 	 * @param i      the row index
-	 * @param values an array of {@code double} values
+	 * @param values a {@code double} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
@@ -661,7 +661,7 @@ public class Matrix
 	 * Sets the elements of the specified row from the specified column index (inclusive).
 	 * <p>
 	 * @param i      the row index
-	 * @param values an array of {@code double} values
+	 * @param values a {@code double} array
 	 * @param from   the initial column index (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
@@ -675,7 +675,7 @@ public class Matrix
 	 * specified length.
 	 * <p>
 	 * @param i      the row index
-	 * @param values an array of {@code double} values
+	 * @param values a {@code double} array
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
@@ -703,7 +703,7 @@ public class Matrix
 	 * Sets the elements of the specified column.
 	 * <p>
 	 * @param j      the column index
-	 * @param values an array of {@code double} values
+	 * @param values a {@code double} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
@@ -715,7 +715,7 @@ public class Matrix
 	 * Sets the elements of the specified column from the specified row index (inclusive).
 	 * <p>
 	 * @param j      the column index
-	 * @param values an array of {@code double} values
+	 * @param values a {@code double} array
 	 * @param from   the initial row index (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
@@ -729,7 +729,7 @@ public class Matrix
 	 * specified length.
 	 * <p>
 	 * @param j      the column index
-	 * @param values an array of {@code double} values
+	 * @param values a {@code double} array
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
@@ -758,7 +758,7 @@ public class Matrix
 	/**
 	 * Sets all the elements.
 	 * <p>
-	 * @param values an array of {@code double} values
+	 * @param values a {@code double} array
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
@@ -769,7 +769,7 @@ public class Matrix
 	/**
 	 * Sets all the elements.
 	 * <p>
-	 * @param values a 2D array of {@code double} values
+	 * @param values a 2D {@code double} array
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
@@ -889,9 +889,9 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Converts {@code this} to an array of {@code double} values.
+	 * Converts {@code this} to a {@code double} array.
 	 * <p>
-	 * @return an array of {@code double} values
+	 * @return a {@code double} array
 	 */
 	@Override
 	public double[] toPrimitiveArray() {
@@ -899,9 +899,9 @@ public class Matrix
 	}
 
 	/**
-	 * Converts {@code this} to a 2D array of {@code double} values.
+	 * Converts {@code this} to a 2D {@code double} array.
 	 * <p>
-	 * @return a 2D array of {@code double} values
+	 * @return a 2D {@code double} array
 	 */
 	public double[][] toPrimitiveArray2D() {
 		final double[][] values = new double[m][n];

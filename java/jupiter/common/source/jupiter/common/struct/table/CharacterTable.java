@@ -72,7 +72,7 @@ public class CharacterTable
 	/**
 	 * Constructs a {@link CharacterTable} of the specified {@code char} values.
 	 * <p>
-	 * @param values a 2D array of {@code char} values
+	 * @param values a 2D {@code char} array
 	 */
 	public CharacterTable(final char[]... values) {
 		this(Characters.toArray2D(values));
@@ -91,7 +91,7 @@ public class CharacterTable
 	 * Constructs a {@link CharacterTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code char} values
+	 * @param values a 2D {@code char} array
 	 */
 	public CharacterTable(final String[] header, final char[]... values) {
 		this(header, Characters.toArray2D(values));

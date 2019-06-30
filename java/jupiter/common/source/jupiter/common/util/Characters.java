@@ -102,72 +102,72 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code char} values from the specified array of type {@code T}.
+	 * Returns a {@code char} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code char} values from the specified array of type {@code T}
+	 * @return a {@code char} array from the specified {@code T} array
 	 */
 	public static <T> char[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code char} values from the specified array of type {@code T}.
+	 * Returns a {@code char} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code char} values from the specified array of type {@code T}
+	 * @return a {@code char} array from the specified {@code T} array
 	 */
 	public static <T> char[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code char} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code char} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code char} values from the specified 2D array of type {@code T}
+	 * @return a {@code char} array from the specified 2D {@code T} array
 	 */
 	public static <T> char[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code char} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code char} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code char} values from the specified 2D array of type {@code T}
+	 * @return a {@code char} array from the specified 2D {@code T} array
 	 */
 	public static <T> char[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code char} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code char} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code char} values from the specified 3D array of type {@code T}
+	 * @return a {@code char} array from the specified 3D {@code T} array
 	 */
 	public static <T> char[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code char} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code char} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code char} values from the specified 3D array of type {@code T}
+	 * @return a {@code char} array from the specified 3D {@code T} array
 	 */
 	public static <T> char[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
@@ -176,62 +176,60 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@code char} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code char} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code char} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code char} array from the specified 2D {@code T} array
 	 */
 	public static <T> char[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@code char} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code char} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code char} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code char} array from the specified 2D {@code T} array
 	 */
 	public static <T> char[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code char} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code char} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code char} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code char} array from the specified 3D {@code T} array
 	 */
 	public static <T> char[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code char} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code char} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code char} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code char} array from the specified 3D {@code T} array
 	 */
 	public static <T> char[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code char} values from the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@code char} array from the specified {@link Collection} of type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an array of {@code char} values from the specified {@link Collection} of type
-	 *         {@code T}
+	 * @return a {@code char} array from the specified {@link Collection} of type {@code T}
 	 */
 	public static <T> char[] collectionToPrimitiveArray(final Collection<T> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -240,11 +238,11 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Character} from the specified array of {@code char} values.
+	 * Returns an array of {@link Character} from the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return an array of {@link Character} from the specified array of {@code char} values
+	 * @return an array of {@link Character} from the specified {@code char} array
 	 */
 	public static Character[] toArray(final char[] array) {
 		final Character[] result = new Character[array.length];
@@ -255,22 +253,22 @@ public class Characters {
 	}
 
 	/**
-	 * Returns an array of {@link Character} from the specified array of {@code char} values.
+	 * Returns an array of {@link Character} from the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return an array of {@link Character} from the specified array of {@code char} values
+	 * @return an array of {@link Character} from the specified {@code char} array
 	 */
 	public static Character[] asArray(final char... array) {
 		return toArray(array);
 	}
 
 	/**
-	 * Returns a 2D array of {@link Character} from the specified 2D array of {@code char} values.
+	 * Returns a 2D array of {@link Character} from the specified 2D {@code char} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code char} values
+	 * @param array2D a 2D {@code char} array
 	 * <p>
-	 * @return a 2D array of {@link Character} from the specified 2D array of {@code char} values
+	 * @return a 2D array of {@link Character} from the specified 2D {@code char} array
 	 */
 	public static Character[][] toArray2D(final char[][] array2D) {
 		final Character[][] result = new Character[array2D.length][];
@@ -281,22 +279,22 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Character} from the specified 2D array of {@code char} values.
+	 * Returns a 2D array of {@link Character} from the specified 2D {@code char} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code char} values
+	 * @param array2D a 2D {@code char} array
 	 * <p>
-	 * @return a 2D array of {@link Character} from the specified 2D array of {@code char} values
+	 * @return a 2D array of {@link Character} from the specified 2D {@code char} array
 	 */
 	public static Character[][] asArray2D(final char[]... array2D) {
 		return toArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link Character} from the specified 3D array of {@code char} values.
+	 * Returns a 3D array of {@link Character} from the specified 3D {@code char} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code char} values
+	 * @param array3D a 3D {@code char} array
 	 * <p>
-	 * @return a 3D array of {@link Character} from the specified 3D array of {@code char} values
+	 * @return a 3D array of {@link Character} from the specified 3D {@code char} array
 	 */
 	public static Character[][][] toArray3D(final char[][][] array3D) {
 		final Character[][][] result = new Character[array3D.length][][];
@@ -307,11 +305,11 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Character} from the specified 3D array of {@code char} values.
+	 * Returns a 3D array of {@link Character} from the specified 3D {@code char} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code char} values
+	 * @param array3D a 3D {@code char} array
 	 * <p>
-	 * @return a 3D array of {@link Character} from the specified 3D array of {@code char} values
+	 * @return a 3D array of {@link Character} from the specified 3D {@code char} array
 	 */
 	public static Character[][][] asArray3D(final char[][]... array3D) {
 		return toArray3D(array3D);
@@ -333,100 +331,92 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified array of {@code char} values.
+	 * Returns a {@link List} of {@link Character} from the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified array of {@code char} values
+	 * @return a {@link List} of {@link Character} from the specified {@code char} array
 	 */
 	public static List<Character> toList(final char[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified array of {@code char} values.
+	 * Returns a {@link List} of {@link Character} from the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified array of {@code char} values
+	 * @return a {@link List} of {@link Character} from the specified {@code char} array
 	 */
 	public static List<Character> asList(final char... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified array of {@code char}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified array of {@code char}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code char} array
 	 */
 	public static ExtendedList<Character> toExtendedList(final char[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified array of {@code char}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified array of {@code char}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code char} array
 	 */
 	public static ExtendedList<Character> asExtendedList(final char... array) {
 		return toExtendedList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Character} from the specified {@code T} array
 	 */
 	public static <T> List<Character> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Character} from the specified {@code T} array
 	 */
 	public static <T> List<Character> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified array of type
-	 * {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified array of type
-	 *         {@code T}
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Character> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified array of type
-	 * {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified array of type
-	 *         {@code T}
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Character> asExtendedList(final T... array) {
 		return toExtendedList(array);
@@ -464,46 +454,46 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified array of {@code char} values.
+	 * Returns a {@link Set} of {@link Character} from the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified array of {@code char} values
+	 * @return a {@link Set} of {@link Character} from the specified {@code char} array
 	 */
 	public static Set<Character> toSet(final char[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified array of {@code char} values.
+	 * Returns a {@link Set} of {@link Character} from the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified array of {@code char} values
+	 * @return a {@link Set} of {@link Character} from the specified {@code char} array
 	 */
 	public static Set<Character> asSet(final char... array) {
 		return toSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Character} from the specified {@code T} array
 	 */
 	public static <T> Set<Character> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Character} from the specified {@code T} array
 	 */
 	public static <T> Set<Character> asSet(final T... array) {
 		return toSet(array);
@@ -554,42 +544,42 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of {@code char} values of the specified length containing the sequence of
-	 * characters starting with zero and spaced by one.
+	 * Creates a {@code char} array of the specified length containing the sequence of characters
+	 * starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return an array of {@code char} values of the specified length containing the sequence of
-	 *         characters starting with zero and spaced by one
+	 * @return a {@code char} array of the specified length containing the sequence of characters
+	 *         starting with zero and spaced by one
 	 */
 	public static char[] createSequence(final char length) {
 		return createSequence(length, Character.MIN_VALUE, '\u0001');
 	}
 
 	/**
-	 * Creates an array of {@code char} values of the specified length containing the sequence of
-	 * characters starting with {@code from} and spaced by one.
+	 * Creates a {@code char} array of the specified length containing the sequence of characters
+	 * starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return an array of {@code char} values of the specified length containing the sequence of
-	 *         characters starting with {@code from} and spaced by one
+	 * @return a {@code char} array of the specified length containing the sequence of characters
+	 *         starting with {@code from} and spaced by one
 	 */
 	public static char[] createSequence(final char length, final char from) {
 		return createSequence(length, from, '\u0001');
 	}
 
 	/**
-	 * Creates an array of {@code char} values of the specified length containing the sequence of
-	 * characters starting with {@code from} and spaced by {@code step}.
+	 * Creates a {@code char} array of the specified length containing the sequence of characters
+	 * starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return an array of {@code char} values of the specified length containing the sequence of
-	 *         characters starting with {@code from} and spaced by {@code step}
+	 * @return a {@code char} array of the specified length containing the sequence of characters
+	 *         starting with {@code from} and spaced by {@code step}
 	 */
 	public static char[] createSequence(final char length, final char from, final char step) {
 		final char[] array = new char[length];
@@ -618,16 +608,16 @@ public class Characters {
 	}
 
 	/**
-	 * Creates an array of {@code char} values of the specified length containing pseudorandom,
-	 * uniformly distributed {@code char} values between {@code lowerBound} (inclusive) and
-	 * {@code upperBound} (exclusive).
+	 * Creates a {@code char} array of the specified length containing pseudorandom, uniformly
+	 * distributed {@code char} values between {@code lowerBound} (inclusive) and {@code upperBound}
+	 * (exclusive).
 	 * <p>
 	 * @param length     the length of the random sequence to create
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return an array of {@code char} values of the specified length containing pseudorandom,
-	 *         uniformly distributed {@code char} values between {@code lowerBound} (inclusive) and
+	 * @return a {@code char} array of the specified length containing pseudorandom, uniformly
+	 *         distributed {@code char} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
 	public static char[] createRandomSequence(final int length, final char lowerBound,
@@ -665,28 +655,28 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code char} values containing the specified {@code char} value and all
-	 * the elements of the specified array of {@code char} values.
+	 * Returns a {@code char} array containing the specified {@code char} value and all the
+	 * elements of the specified {@code char} array.
 	 * <p>
 	 * @param a a {@code char} value (may be {@code null})
-	 * @param b an array of {@code char} values (may be {@code null})
+	 * @param b a {@code char} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code char} values containing the specified {@code char} value and all
-	 *         the elements of the specified array of {@code char} values
+	 * @return a {@code char} array containing the specified {@code char} value and all the
+	 *         elements of the specified {@code char} array
 	 */
 	public static char[] merge(final char a, final char... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns an array of {@code char} values containing all the elements of the specified arrays
-	 * of {@code char} values.
+	 * Returns a {@code char} array containing all the elements of the specified {@code char}
+	 * arrays.
 	 * <p>
-	 * @param a an array of {@code char} values (may be {@code null})
-	 * @param b an array of {@code char} values (may be {@code null})
+	 * @param a a {@code char} array (may be {@code null})
+	 * @param b a {@code char} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code char} values containing all the elements of the specified arrays
-	 *         of {@code char} values
+	 * @return a {@code char} array containing all the elements of the specified {@code char}
+	 *         arrays
 	 */
 	public static char[] merge(final char[] a, final char... b) {
 		if (a == null) {
@@ -761,12 +751,12 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the transpose of the specified array of {@code char} values.
+	 * Returns the transpose of the specified {@code char} array.
 	 * <p>
 	 * @param rowCount the number of rows of the array
-	 * @param array    an array of {@code char} values
+	 * @param array    a {@code char} array
 	 * <p>
-	 * @return the transpose of the specified array of {@code char} values
+	 * @return the transpose of the specified {@code char} array
 	 */
 	public static char[] transpose(final int rowCount, final char[] array) {
 		final int n = rowCount;
@@ -781,11 +771,11 @@ public class Characters {
 	}
 
 	/**
-	 * Returns the transpose of the specified 2D array of {@code char} values.
+	 * Returns the transpose of the specified 2D {@code char} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code char} values
+	 * @param array2D a 2D {@code char} array
 	 * <p>
-	 * @return the transpose of the specified 2D array of {@code char} values
+	 * @return the transpose of the specified 2D {@code char} array
 	 */
 	public static char[][] transpose(final char[]... array2D) {
 		final int n = array2D.length;
@@ -830,12 +820,12 @@ public class Characters {
 	}
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to an array of {@code char} values.
+	 * Tests whether the specified {@link Class} is assignable to a {@code char} array.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code char}
-	 *         values, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code char} array,
+	 *         {@code false} otherwise
 	 */
 	public static boolean isPrimitiveArray(final Class<?> c) {
 		return char[].class.isAssignableFrom(c);
@@ -873,7 +863,7 @@ public class Characters {
 	/**
 	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * @param token the {@code char} value to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
@@ -893,8 +883,8 @@ public class Characters {
 	/**
 	 * Tests whether {@code array} contains any {@code tokens}.
 	 * <p>
-	 * @param array  an array of {@code char} values
-	 * @param tokens the array of {@code char} values to test for presence
+	 * @param array  a {@code char} array
+	 * @param tokens the {@code char} array to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
 	 */
@@ -935,13 +925,13 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code char} values, or {@code null} if
-	 * {@code array} is {@code null}.
+	 * Returns a clone of the specified {@code char} array, or {@code null} if {@code array} is
+	 * {@code null}.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return a clone of the specified array of {@code char} values, or {@code null} if
-	 *         {@code array} is {@code null}
+	 * @return a clone of the specified {@code char} array, or {@code null} if {@code array} is
+	 *         {@code null}
 	 */
 	public static char[] clone(final char... array) {
 		if (array == null) {
@@ -953,40 +943,40 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code char} values.
+	 * Returns a representative {@link String} of the specified {@code char} array.
 	 * <p>
-	 * @param array an array of {@code char} values
+	 * @param array a {@code char} array
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code char} values
+	 * @return a representative {@link String} of the specified {@code char} array
 	 */
 	public static String toString(final char... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code char} values joined
-	 * by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code char} array joined by
+	 * {@code delimiter}.
 	 * <p>
-	 * @param array     an array of {@code char} values
+	 * @param array     a {@code char} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code char} values joined
-	 *         by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code char} array joined by
+	 *         {@code delimiter}
 	 */
 	public static String toString(final char[] array, final String delimiter) {
 		return Arrays.toString(toArray(array), delimiter);
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code char} values joined
-	 * by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code char} array joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@code char} values
+	 * @param array     a {@code char} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code char} values joined
-	 *         by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code char} array joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final char[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

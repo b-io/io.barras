@@ -89,9 +89,9 @@ public abstract class Entity
 	public abstract Matrix toMatrix();
 
 	/**
-	 * Converts {@code this} to an array of {@code double} values.
+	 * Converts {@code this} to a {@code double} array.
 	 * <p>
-	 * @return an array of {@code double} values
+	 * @return a {@code double} array
 	 */
 	public abstract double[] toPrimitiveArray();
 

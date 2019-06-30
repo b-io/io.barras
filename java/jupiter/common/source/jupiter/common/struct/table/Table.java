@@ -146,7 +146,7 @@ public class Table<T>
 	 * Constructs a {@link Table} of type {@code T} with the specified elements.
 	 * <p>
 	 * @param c        the {@link Class} of type {@code T}
-	 * @param elements a 2D array of type {@code T}
+	 * @param elements a 2D {@code T} array
 	 */
 	public Table(final Class<T> c, final T[][] elements) {
 		// Set the attributes
@@ -166,7 +166,7 @@ public class Table<T>
 	 * <p>
 	 * @param c        the {@link Class} of type {@code T}
 	 * @param header   an array of {@link String}
-	 * @param elements a 2D array of type {@code T}
+	 * @param elements a 2D {@code T} array
 	 */
 	public Table(final Class<T> c, final String[] header, final T[][] elements) {
 		// Check the arguments
@@ -574,7 +574,7 @@ public class Table<T>
 	 * Sets the elements of the specified row.
 	 * <p>
 	 * @param i      the row index
-	 * @param values an array of type {@code T}
+	 * @param values a {@code T} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
@@ -586,7 +586,7 @@ public class Table<T>
 	 * Sets the elements of the specified row from the specified column index (inclusive).
 	 * <p>
 	 * @param i      the row index
-	 * @param values an array of type {@code T}
+	 * @param values a {@code T} array
 	 * @param from   the initial column index (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
@@ -600,7 +600,7 @@ public class Table<T>
 	 * specified length.
 	 * <p>
 	 * @param i      the row index
-	 * @param values an array of type {@code T}
+	 * @param values a {@code T} array
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
@@ -643,7 +643,7 @@ public class Table<T>
 	 * Sets the elements of the specified column.
 	 * <p>
 	 * @param j      the column index
-	 * @param values an array of type {@code T}
+	 * @param values a {@code T} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
@@ -655,7 +655,7 @@ public class Table<T>
 	 * Sets the elements of the specified column from the specified row index (inclusive).
 	 * <p>
 	 * @param j      the column index
-	 * @param values an array of type {@code T}
+	 * @param values a {@code T} array
 	 * @param from   the initial row index (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
@@ -669,7 +669,7 @@ public class Table<T>
 	 * specified length.
 	 * <p>
 	 * @param j      the column index
-	 * @param values an array of type {@code T}
+	 * @param values a {@code T} array
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
@@ -713,7 +713,7 @@ public class Table<T>
 	/**
 	 * Sets all the elements.
 	 * <p>
-	 * @param values an array of type {@code T}
+	 * @param values a {@code T} array
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
@@ -726,7 +726,7 @@ public class Table<T>
 	/**
 	 * Sets all the elements.
 	 * <p>
-	 * @param values a 2D array of type {@code T}
+	 * @param values a 2D {@code T} array
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
@@ -742,9 +742,9 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Converts {@code this} to an array of type {@code T}.
+	 * Converts {@code this} to a {@code T} array.
 	 * <p>
-	 * @return an array of type {@code T}
+	 * @return a {@code T} array
 	 */
 	public T[] toArray() {
 		final T[] array = createArray(m * n);
@@ -774,23 +774,23 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of type {@code T} of the specified length.
+	 * Creates a {@code T} array of the specified length.
 	 * <p>
 	 * @param length the length of the array to create
 	 * <p>
-	 * @return an array of type {@code T} of the specified length
+	 * @return a {@code T} array of the specified length
 	 */
 	protected T[] createArray(final int length) {
 		return Arrays.<T>create(c, length);
 	}
 
 	/**
-	 * Creates a 2D array of type {@code T} of the specified row and column lengths.
+	 * Creates a 2D {@code T} array of the specified row and column lengths.
 	 * <p>
 	 * @param rowCount    the number of rows of the array to create
 	 * @param columnCount the number of columns of the array to create
 	 * <p>
-	 * @return a 2D array of type {@code T} of the specified row and column lengths
+	 * @return a 2D {@code T} array of the specified row and column lengths
 	 */
 	protected T[][] createArray2D(final int rowCount, final int columnCount) {
 		return Arrays.<T>create(c, rowCount, columnCount);

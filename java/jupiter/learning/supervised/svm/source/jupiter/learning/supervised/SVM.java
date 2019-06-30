@@ -282,7 +282,7 @@ public class SVM {
 	/**
 	 * Sets the weights (only for C-SVC).
 	 * <p>
-	 * @param weights an array of {@code double} values
+	 * @param weights a {@code double} array
 	 */
 	public void setWeights(final double[] weights) {
 		// Check the arguments

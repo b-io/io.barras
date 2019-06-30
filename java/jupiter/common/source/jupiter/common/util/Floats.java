@@ -114,72 +114,72 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code float} values from the specified array of type {@code T}.
+	 * Returns a {@code float} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code float} values from the specified array of type {@code T}
+	 * @return a {@code float} array from the specified {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code float} values from the specified array of type {@code T}.
+	 * Returns a {@code float} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code float} values from the specified array of type {@code T}
+	 * @return a {@code float} array from the specified {@code T} array
 	 */
 	public static <T> float[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code float} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code float} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code float} values from the specified 2D array of type {@code T}
+	 * @return a {@code float} array from the specified 2D {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code float} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code float} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code float} values from the specified 2D array of type {@code T}
+	 * @return a {@code float} array from the specified 2D {@code T} array
 	 */
 	public static <T> float[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code float} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code float} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code float} values from the specified 3D array of type {@code T}
+	 * @return a {@code float} array from the specified 3D {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code float} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code float} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code float} values from the specified 3D array of type {@code T}
+	 * @return a {@code float} array from the specified 3D {@code T} array
 	 */
 	public static <T> float[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
@@ -188,61 +188,61 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@code float} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code float} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code float} array from the specified 2D {@code T} array
 	 */
 	public static <T> float[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@code float} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code float} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code float} array from the specified 2D {@code T} array
 	 */
 	public static <T> float[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code float} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code float} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code float} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code float} array from the specified 3D {@code T} array
 	 */
 	public static <T> float[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code float} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code float} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code float} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code float} array from the specified 3D {@code T} array
 	 */
 	public static <T> float[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code float} values from the specified {@link Collection} of type
+	 * Returns a {@code float} array from the specified {@link Collection} of type
 	 * {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an array of {@code float} values from the specified {@link Collection} of type
+	 * @return a {@code float} array from the specified {@link Collection} of type
 	 *         {@code T}
 	 */
 	public static <T> float[] collectionToPrimitiveArray(final Collection<T> collection) {
@@ -252,11 +252,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Float} from the specified array of {@code float} values.
+	 * Returns an array of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
-	 * @return an array of {@link Float} from the specified array of {@code float} values
+	 * @return an array of {@link Float} from the specified {@code float} array
 	 */
 	public static Float[] toArray(final float[] array) {
 		final Float[] result = new Float[array.length];
@@ -267,22 +267,22 @@ public class Floats {
 	}
 
 	/**
-	 * Returns an array of {@link Float} from the specified array of {@code float} values.
+	 * Returns an array of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
-	 * @return an array of {@link Float} from the specified array of {@code float} values
+	 * @return an array of {@link Float} from the specified {@code float} array
 	 */
 	public static Float[] asArray(final float... array) {
 		return toArray(array);
 	}
 
 	/**
-	 * Returns a 2D array of {@link Float} from the specified 2D array of {@code float} values.
+	 * Returns a 2D array of {@link Float} from the specified 2D {@code float} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code float} values
+	 * @param array2D a 2D {@code float} array
 	 * <p>
-	 * @return a 2D array of {@link Float} from the specified 2D array of {@code float} values
+	 * @return a 2D array of {@link Float} from the specified 2D {@code float} array
 	 */
 	public static Float[][] toArray2D(final float[][] array2D) {
 		final Float[][] result = new Float[array2D.length][];
@@ -293,22 +293,22 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Float} from the specified 2D array of {@code float} values.
+	 * Returns a 2D array of {@link Float} from the specified 2D {@code float} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code float} values
+	 * @param array2D a 2D {@code float} array
 	 * <p>
-	 * @return a 2D array of {@link Float} from the specified 2D array of {@code float} values
+	 * @return a 2D array of {@link Float} from the specified 2D {@code float} array
 	 */
 	public static Float[][] asArray2D(final float[]... array2D) {
 		return toArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link Float} from the specified 3D array of {@code float} values.
+	 * Returns a 3D array of {@link Float} from the specified 3D {@code float} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code float} values
+	 * @param array3D a 3D {@code float} array
 	 * <p>
-	 * @return a 3D array of {@link Float} from the specified 3D array of {@code float} values
+	 * @return a 3D array of {@link Float} from the specified 3D {@code float} array
 	 */
 	public static Float[][][] toArray3D(final float[][][] array3D) {
 		final Float[][][] result = new Float[array3D.length][][];
@@ -319,11 +319,11 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Float} from the specified 3D array of {@code float} values.
+	 * Returns a 3D array of {@link Float} from the specified 3D {@code float} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code float} values
+	 * @param array3D a 3D {@code float} array
 	 * <p>
-	 * @return a 3D array of {@link Float} from the specified 3D array of {@code float} values
+	 * @return a 3D array of {@link Float} from the specified 3D {@code float} array
 	 */
 	public static Float[][][] asArray3D(final float[][]... array3D) {
 		return toArray3D(array3D);
@@ -344,22 +344,22 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified array of {@code float} values.
+	 * Returns a {@link List} of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified array of {@code float} values
+	 * @return a {@link List} of {@link Float} from the specified {@code float} array
 	 */
 	public static List<Float> toList(final float[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified array of {@code float} values.
+	 * Returns a {@link List} of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified array of {@code float} values
+	 * @return a {@link List} of {@link Float} from the specified {@code float} array
 	 */
 	public static List<Float> asList(final float... array) {
 		return toList(array);
@@ -369,7 +369,7 @@ public class Floats {
 	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
 	 *         values
@@ -382,7 +382,7 @@ public class Floats {
 	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
 	 *         values
@@ -392,48 +392,48 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Float} from the specified {@code T} array
 	 */
 	public static <T> List<Float> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Float} from the specified {@code T} array
 	 */
 	public static <T> List<Float> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Float> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Float> asExtendedList(final T... array) {
 		return toExtendedList(array);
@@ -470,46 +470,46 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified array of {@code float} values.
+	 * Returns a {@link Set} of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified array of {@code float} values
+	 * @return a {@link Set} of {@link Float} from the specified {@code float} array
 	 */
 	public static Set<Float> toSet(final float[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified array of {@code float} values.
+	 * Returns a {@link Set} of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified array of {@code float} values
+	 * @return a {@link Set} of {@link Float} from the specified {@code float} array
 	 */
 	public static Set<Float> asSet(final float... array) {
 		return toSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
 	 */
 	public static <T> Set<Float> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
 	 */
 	public static <T> Set<Float> asSet(final T... array) {
 		return toSet(array);
@@ -562,12 +562,12 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of {@code float} values of the specified length containing the sequence of
+	 * Creates a {@code float} array of the specified length containing the sequence of
 	 * numbers starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return an array of {@code float} values of the specified length containing the sequence of
+	 * @return a {@code float} array of the specified length containing the sequence of
 	 *         numbers starting with zero and spaced by one
 	 */
 	public static float[] createSequence(final int length) {
@@ -575,13 +575,13 @@ public class Floats {
 	}
 
 	/**
-	 * Creates an array of {@code float} values of the specified length containing the sequence of
+	 * Creates a {@code float} array of the specified length containing the sequence of
 	 * numbers starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return an array of {@code float} values of the specified length containing the sequence of
+	 * @return a {@code float} array of the specified length containing the sequence of
 	 *         numbers starting with {@code from} and spaced by one
 	 */
 	public static float[] createSequence(final int length, final float from) {
@@ -589,14 +589,14 @@ public class Floats {
 	}
 
 	/**
-	 * Creates an array of {@code float} values of the specified length containing the sequence of
+	 * Creates a {@code float} array of the specified length containing the sequence of
 	 * numbers starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return an array of {@code float} values of the specified length containing the sequence of
+	 * @return a {@code float} array of the specified length containing the sequence of
 	 *         numbers starting with {@code from} and spaced by {@code step}
 	 */
 	public static float[] createSequence(final int length, final float from, final float step) {
@@ -626,7 +626,7 @@ public class Floats {
 	}
 
 	/**
-	 * Creates an array of {@code float} values of the specified length containing pseudorandom,
+	 * Creates a {@code float} array of the specified length containing pseudorandom,
 	 * uniformly distributed {@code float} values between {@code lowerBound} (inclusive) and
 	 * {@code upperBound} (exclusive).
 	 * <p>
@@ -634,7 +634,7 @@ public class Floats {
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return an array of {@code float} values of the specified length containing pseudorandom,
+	 * @return a {@code float} array of the specified length containing pseudorandom,
 	 *         uniformly distributed {@code float} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
@@ -713,27 +713,27 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code float} values containing the specified {@code float} value and all
-	 * the elements of the specified array of {@code float} values.
+	 * Returns a {@code float} array containing the specified {@code float} value and all
+	 * the elements of the specified {@code float} array.
 	 * <p>
 	 * @param a a {@code float} value (may be {@code null})
-	 * @param b an array of {@code float} values (may be {@code null})
+	 * @param b a {@code float} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code float} values containing the specified {@code float} value and all
-	 *         the elements of the specified array of {@code float} values
+	 * @return a {@code float} array containing the specified {@code float} value and all
+	 *         the elements of the specified {@code float} array
 	 */
 	public static float[] merge(final float a, final float... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns an array of {@code float} values containing all the elements of the specified arrays
+	 * Returns a {@code float} array containing all the elements of the specified arrays
 	 * of {@code float} values.
 	 * <p>
-	 * @param a an array of {@code float} values (may be {@code null})
-	 * @param b an array of {@code float} values (may be {@code null})
+	 * @param a a {@code float} array (may be {@code null})
+	 * @param b a {@code float} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code float} values containing all the elements of the specified arrays
+	 * @return a {@code float} array containing all the elements of the specified arrays
 	 *         of {@code float} values
 	 */
 	public static float[] merge(final float[] a, final float... b) {
@@ -809,12 +809,12 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the transpose of the specified array of {@code float} values.
+	 * Returns the transpose of the specified {@code float} array.
 	 * <p>
 	 * @param rowCount the number of rows of the array
-	 * @param array    an array of {@code float} values
+	 * @param array    a {@code float} array
 	 * <p>
-	 * @return the transpose of the specified array of {@code float} values
+	 * @return the transpose of the specified {@code float} array
 	 */
 	public static float[] transpose(final int rowCount, final float[] array) {
 		final int n = rowCount;
@@ -829,11 +829,11 @@ public class Floats {
 	}
 
 	/**
-	 * Returns the transpose of the specified 2D array of {@code float} values.
+	 * Returns the transpose of the specified 2D {@code float} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code float} values
+	 * @param array2D a 2D {@code float} array
 	 * <p>
-	 * @return the transpose of the specified 2D array of {@code float} values
+	 * @return the transpose of the specified 2D {@code float} array
 	 */
 	public static float[][] transpose(final float[]... array2D) {
 		final int n = array2D.length;
@@ -878,12 +878,12 @@ public class Floats {
 	}
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to an array of {@code float} values.
+	 * Tests whether the specified {@link Class} is assignable to a {@code float} array.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to an array of
-	 *         {@code float} values, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} array,
+	 *         {@code false} otherwise
 	 */
 	public static boolean isPrimitiveArray(final Class<?> c) {
 		return float[].class.isAssignableFrom(c);
@@ -894,7 +894,7 @@ public class Floats {
 	/**
 	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * @param token the {@code float} value to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
@@ -914,8 +914,8 @@ public class Floats {
 	/**
 	 * Tests whether {@code array} contains any {@code tokens}.
 	 * <p>
-	 * @param array  an array of {@code float} values
-	 * @param tokens the array of {@code float} values to test for presence
+	 * @param array  a {@code float} array
+	 * @param tokens the {@code float} array to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
 	 */
@@ -967,12 +967,12 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code float} values, or {@code null} if
+	 * Returns a clone of the specified {@code float} array, or {@code null} if
 	 * {@code array} is {@code null}.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
-	 * @return a clone of the specified array of {@code float} values, or {@code null} if
+	 * @return a clone of the specified {@code float} array, or {@code null} if
 	 *         {@code array} is {@code null}
 	 */
 	public static float[] clone(final float... array) {
@@ -1013,24 +1013,24 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code float} values.
+	 * Returns a representative {@link String} of the specified {@code float} array.
 	 * <p>
-	 * @param array an array of {@code float} values
+	 * @param array a {@code float} array
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code float} values
+	 * @return a representative {@link String} of the specified {@code float} array
 	 */
 	public static String toString(final float... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code float} values joined
+	 * Returns a representative {@link String} of the specified {@code float} array joined
 	 * by {@code delimiter}.
 	 * <p>
-	 * @param array     an array of {@code float} values
+	 * @param array     a {@code float} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code float} values joined
+	 * @return a representative {@link String} of the specified {@code float} array joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final float[] array, final String delimiter) {
@@ -1038,14 +1038,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code float} values joined
+	 * Returns a representative {@link String} of the specified {@code float} array joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@code float} values
+	 * @param array     a {@code float} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code float} values joined
+	 * @return a representative {@link String} of the specified {@code float} array joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final float[] array, final String delimiter,

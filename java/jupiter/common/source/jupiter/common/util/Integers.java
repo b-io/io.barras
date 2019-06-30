@@ -131,72 +131,72 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code int} values from the specified array of type {@code T}.
+	 * Returns an {@code int} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code int} values from the specified array of type {@code T}
+	 * @return an {@code int} array from the specified {@code T} array
 	 */
 	public static <T> int[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code int} values from the specified array of type {@code T}.
+	 * Returns an {@code int} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code int} values from the specified array of type {@code T}
+	 * @return an {@code int} array from the specified {@code T} array
 	 */
 	public static <T> int[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code int} values from the specified 2D array of type {@code T}.
+	 * Returns an {@code int} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code int} values from the specified 2D array of type {@code T}
+	 * @return an {@code int} array from the specified 2D {@code T} array
 	 */
 	public static <T> int[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code int} values from the specified 2D array of type {@code T}.
+	 * Returns an {@code int} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code int} values from the specified 2D array of type {@code T}
+	 * @return an {@code int} array from the specified 2D {@code T} array
 	 */
 	public static <T> int[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code int} values from the specified 3D array of type {@code T}.
+	 * Returns an {@code int} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code int} values from the specified 3D array of type {@code T}
+	 * @return an {@code int} array from the specified 3D {@code T} array
 	 */
 	public static <T> int[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code int} values from the specified 3D array of type {@code T}.
+	 * Returns an {@code int} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code int} values from the specified 3D array of type {@code T}
+	 * @return an {@code int} array from the specified 3D {@code T} array
 	 */
 	public static <T> int[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
@@ -205,61 +205,61 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@code int} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code int} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code int} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code int} array from the specified 2D {@code T} array
 	 */
 	public static <T> int[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@code int} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code int} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code int} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code int} array from the specified 2D {@code T} array
 	 */
 	public static <T> int[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code int} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code int} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code int} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code int} array from the specified 3D {@code T} array
 	 */
 	public static <T> int[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code int} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code int} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code int} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code int} array from the specified 3D {@code T} array
 	 */
 	public static <T> int[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code int} values from the specified {@link Collection} of type
+	 * Returns an {@code int} array from the specified {@link Collection} of type
 	 * {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an array of {@code int} values from the specified {@link Collection} of type
+	 * @return an {@code int} array from the specified {@link Collection} of type
 	 *         {@code T}
 	 */
 	public static <T> int[] collectionToPrimitiveArray(final Collection<T> collection) {
@@ -269,11 +269,11 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Integer} from the specified array of {@code int} values.
+	 * Returns an array of {@link Integer} from the specified {@code int} array.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
-	 * @return an array of {@link Integer} from the specified array of {@code int} values
+	 * @return an array of {@link Integer} from the specified {@code int} array
 	 */
 	public static Integer[] toArray(final int[] array) {
 		final Integer[] result = new Integer[array.length];
@@ -284,22 +284,22 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an array of {@link Integer} from the specified array of {@code int} values.
+	 * Returns an array of {@link Integer} from the specified {@code int} array.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
-	 * @return an array of {@link Integer} from the specified array of {@code int} values
+	 * @return an array of {@link Integer} from the specified {@code int} array
 	 */
 	public static Integer[] asArray(final int... array) {
 		return toArray(array);
 	}
 
 	/**
-	 * Returns a 2D array of {@link Integer} from the specified 2D array of {@code int} values.
+	 * Returns a 2D array of {@link Integer} from the specified 2D {@code int} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code int} values
+	 * @param array2D a 2D {@code int} array
 	 * <p>
-	 * @return a 2D array of {@link Integer} from the specified 2D array of {@code int} values
+	 * @return a 2D array of {@link Integer} from the specified 2D {@code int} array
 	 */
 	public static Integer[][] toArray2D(final int[][] array2D) {
 		final Integer[][] result = new Integer[array2D.length][];
@@ -310,22 +310,22 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Integer} from the specified 2D array of {@code int} values.
+	 * Returns a 2D array of {@link Integer} from the specified 2D {@code int} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code int} values
+	 * @param array2D a 2D {@code int} array
 	 * <p>
-	 * @return a 2D array of {@link Integer} from the specified 2D array of {@code int} values
+	 * @return a 2D array of {@link Integer} from the specified 2D {@code int} array
 	 */
 	public static Integer[][] asArray2D(final int[]... array2D) {
 		return toArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link Integer} from the specified 3D array of {@code int} values.
+	 * Returns a 3D array of {@link Integer} from the specified 3D {@code int} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code int} values
+	 * @param array3D a 3D {@code int} array
 	 * <p>
-	 * @return a 3D array of {@link Integer} from the specified 3D array of {@code int} values
+	 * @return a 3D array of {@link Integer} from the specified 3D {@code int} array
 	 */
 	public static Integer[][][] toArray3D(final int[][][] array3D) {
 		final Integer[][][] result = new Integer[array3D.length][][];
@@ -336,11 +336,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Integer} from the specified 3D array of {@code int} values.
+	 * Returns a 3D array of {@link Integer} from the specified 3D {@code int} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code int} values
+	 * @param array3D a 3D {@code int} array
 	 * <p>
-	 * @return a 3D array of {@link Integer} from the specified 3D array of {@code int} values
+	 * @return a 3D array of {@link Integer} from the specified 3D {@code int} array
 	 */
 	public static Integer[][][] asArray3D(final int[][]... array3D) {
 		return toArray3D(array3D);
@@ -361,22 +361,22 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Integer} from the specified array of {@code int} values.
+	 * Returns a {@link List} of {@link Integer} from the specified {@code int} array.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
-	 * @return a {@link List} of {@link Integer} from the specified array of {@code int} values
+	 * @return a {@link List} of {@link Integer} from the specified {@code int} array
 	 */
 	public static List<Integer> toList(final int[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Integer} from the specified array of {@code int} values.
+	 * Returns a {@link List} of {@link Integer} from the specified {@code int} array.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
-	 * @return a {@link List} of {@link Integer} from the specified array of {@code int} values
+	 * @return a {@link List} of {@link Integer} from the specified {@code int} array
 	 */
 	public static List<Integer> asList(final int... array) {
 		return toList(array);
@@ -386,7 +386,7 @@ public class Integers {
 	 * Returns an {@link ExtendedList} of {@link Integer} from the specified array of {@code int}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Integer} from the specified array of {@code int}
 	 *         values
@@ -399,7 +399,7 @@ public class Integers {
 	 * Returns an {@link ExtendedList} of {@link Integer} from the specified array of {@code int}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Integer} from the specified array of {@code int}
 	 *         values
@@ -409,50 +409,48 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Integer} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Integer} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Integer} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Integer} from the specified {@code T} array
 	 */
 	public static <T> List<Integer> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Integer} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Integer} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Integer} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Integer} from the specified {@code T} array
 	 */
 	public static <T> List<Integer> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified array of type
-	 * {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Integer> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified array of type
-	 * {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Integer> asExtendedList(final T... array) {
 		return toExtendedList(array);
@@ -490,46 +488,46 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified array of {@code int} values.
+	 * Returns a {@link Set} of {@link Integer} from the specified {@code int} array.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified array of {@code int} values
+	 * @return a {@link Set} of {@link Integer} from the specified {@code int} array
 	 */
 	public static Set<Integer> toSet(final int[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified array of {@code int} values.
+	 * Returns a {@link Set} of {@link Integer} from the specified {@code int} array.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified array of {@code int} values
+	 * @return a {@link Set} of {@link Integer} from the specified {@code int} array
 	 */
 	public static Set<Integer> asSet(final int... array) {
 		return toSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Integer} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Integer} from the specified {@code T} array
 	 */
 	public static <T> Set<Integer> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Integer} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Integer} from the specified {@code T} array
 	 */
 	public static <T> Set<Integer> asSet(final T... array) {
 		return toSet(array);
@@ -580,12 +578,12 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of {@code int} values of the specified length containing the sequence of
+	 * Creates an {@code int} array of the specified length containing the sequence of
 	 * numbers starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return an array of {@code int} values of the specified length containing the sequence of
+	 * @return an {@code int} array of the specified length containing the sequence of
 	 *         numbers starting with zero and spaced by one
 	 */
 	public static int[] createSequence(final int length) {
@@ -593,13 +591,13 @@ public class Integers {
 	}
 
 	/**
-	 * Creates an array of {@code int} values of the specified length containing the sequence of
+	 * Creates an {@code int} array of the specified length containing the sequence of
 	 * numbers starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return an array of {@code int} values of the specified length containing the sequence of
+	 * @return an {@code int} array of the specified length containing the sequence of
 	 *         numbers starting with {@code from} and spaced by one
 	 */
 	public static int[] createSequence(final int length, final int from) {
@@ -607,14 +605,14 @@ public class Integers {
 	}
 
 	/**
-	 * Creates an array of {@code int} values of the specified length containing the sequence of
+	 * Creates an {@code int} array of the specified length containing the sequence of
 	 * numbers starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return an array of {@code int} values of the specified length containing the sequence of
+	 * @return an {@code int} array of the specified length containing the sequence of
 	 *         numbers starting with {@code from} and spaced by {@code step}
 	 */
 	public static int[] createSequence(final int length, final int from, final int step) {
@@ -644,7 +642,7 @@ public class Integers {
 	}
 
 	/**
-	 * Creates an array of {@code int} values of the specified length containing pseudorandom,
+	 * Creates an {@code int} array of the specified length containing pseudorandom,
 	 * uniformly distributed {@code int} values between {@code lowerBound} (inclusive) and
 	 * {@code upperBound} (exclusive).
 	 * <p>
@@ -652,7 +650,7 @@ public class Integers {
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return an array of {@code int} values of the specified length containing pseudorandom,
+	 * @return an {@code int} array of the specified length containing pseudorandom,
 	 *         uniformly distributed {@code int} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
@@ -691,27 +689,27 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code int} values containing the specified {@code int} value and all the
-	 * elements of the specified array of {@code int} values.
+	 * Returns an {@code int} array containing the specified {@code int} value and all the
+	 * elements of the specified {@code int} array.
 	 * <p>
 	 * @param a an {@code int} value (may be {@code null})
-	 * @param b an array of {@code int} values (may be {@code null})
+	 * @param b an {@code int} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code int} values containing the specified {@code int} value and all the
-	 *         elements of the specified array of {@code int} values
+	 * @return an {@code int} array containing the specified {@code int} value and all the
+	 *         elements of the specified {@code int} array
 	 */
 	public static int[] merge(final int a, final int... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns an array of {@code int} values containing all the elements of the specified arrays of
+	 * Returns an {@code int} array containing all the elements of the specified arrays of
 	 * {@code int} values.
 	 * <p>
-	 * @param a an array of {@code int} values (may be {@code null})
-	 * @param b an array of {@code int} values (may be {@code null})
+	 * @param a an {@code int} array (may be {@code null})
+	 * @param b an {@code int} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code int} values containing all the elements of the specified arrays of
+	 * @return an {@code int} array containing all the elements of the specified arrays of
 	 *         {@code int} values
 	 */
 	public static int[] merge(final int[] a, final int... b) {
@@ -814,12 +812,12 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the transpose of the specified array of {@code int} values.
+	 * Returns the transpose of the specified {@code int} array.
 	 * <p>
 	 * @param rowCount the number of rows of the array
-	 * @param array    an array of {@code int} values
+	 * @param array    an {@code int} array
 	 * <p>
-	 * @return the transpose of the specified array of {@code int} values
+	 * @return the transpose of the specified {@code int} array
 	 */
 	public static int[] transpose(final int rowCount, final int[] array) {
 		final int n = rowCount;
@@ -834,11 +832,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns the transpose of the specified 2D array of {@code int} values.
+	 * Returns the transpose of the specified 2D {@code int} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code int} values
+	 * @param array2D a 2D {@code int} array
 	 * <p>
-	 * @return the transpose of the specified 2D array of {@code int} values
+	 * @return the transpose of the specified 2D {@code int} array
 	 */
 	public static int[][] transpose(final int[]... array2D) {
 		final int n = array2D.length;
@@ -883,7 +881,7 @@ public class Integers {
 	}
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to an array of {@code int} values.
+	 * Tests whether the specified {@link Class} is assignable to an {@code int} array.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
@@ -899,7 +897,7 @@ public class Integers {
 	/**
 	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * @param token the {@code int} value to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
@@ -919,8 +917,8 @@ public class Integers {
 	/**
 	 * Tests whether {@code array} contains any {@code tokens}.
 	 * <p>
-	 * @param array  an array of {@code int} values
-	 * @param tokens the array of {@code int} values to test for presence
+	 * @param array  an {@code int} array
+	 * @param tokens the {@code int} array to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
 	 */
@@ -961,12 +959,12 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code int} values, or {@code null} if
+	 * Returns a clone of the specified {@code int} array, or {@code null} if
 	 * {@code array} is {@code null}.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
-	 * @return a clone of the specified array of {@code int} values, or {@code null} if
+	 * @return a clone of the specified {@code int} array, or {@code null} if
 	 *         {@code array} is {@code null}
 	 */
 	public static int[] clone(final int... array) {
@@ -979,24 +977,24 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code int} values.
+	 * Returns a representative {@link String} of the specified {@code int} array.
 	 * <p>
-	 * @param array an array of {@code int} values
+	 * @param array an {@code int} array
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code int} values
+	 * @return a representative {@link String} of the specified {@code int} array
 	 */
 	public static String toString(final int... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code int} values joined
+	 * Returns a representative {@link String} of the specified {@code int} array joined
 	 * by {@code delimiter}.
 	 * <p>
-	 * @param array     an array of {@code int} values
+	 * @param array     an {@code int} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code int} values joined
+	 * @return a representative {@link String} of the specified {@code int} array joined
 	 *         by {@code delimiter}
 	 */
 	public static String toString(final int[] array, final String delimiter) {
@@ -1004,14 +1002,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code int} values joined
+	 * Returns a representative {@link String} of the specified {@code int} array joined
 	 * by {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@code int} values
+	 * @param array     an {@code int} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code int} values joined
+	 * @return a representative {@link String} of the specified {@code int} array joined
 	 *         by {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final int[] array, final String delimiter,

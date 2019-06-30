@@ -286,15 +286,13 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
-	 * type {@code T}.
+	 * Returns a {@code T} array containing all the elements of the specified {@code T} arrays.
 	 * <p>
 	 * @param <T> the component type of the arrays to merge
-	 * @param a   an array of type {@code T} (may be {@code null})
-	 * @param b   an array of type {@code T} (may be {@code null})
+	 * @param a   a {@code T} array (may be {@code null})
+	 * @param b   a {@code T} array (may be {@code null})
 	 * <p>
-	 * @return an array of type {@code T} containing all the elements of the specified arrays of
-	 *         type {@code T}
+	 * @return a {@code T} array containing all the elements of the specified {@code T} arrays
 	 * <p>
 	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
 	 *                                  superclass or superinterface of, the type of {@code b}
@@ -319,14 +317,12 @@ public class Arrays {
 	}
 
 	/**
-	 * Returns an array of type {@code T} containing all the elements of the specified arrays of
-	 * type {@code T}.
+	 * Returns a {@code T} array containing all the elements of the specified {@code T} arrays.
 	 * <p>
 	 * @param <T>    the component type of the arrays to merge
-	 * @param arrays a 2D array of type {@code T} (may be {@code null})
+	 * @param arrays a 2D {@code T} array (may be {@code null})
 	 * <p>
-	 * @return an array of type {@code T} containing all the elements of the specified arrays of
-	 *         type {@code T}
+	 * @return a {@code T} array containing all the elements of the specified {@code T} arrays
 	 * <p>
 	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
 	 *                                  superclass or superinterface of, the type of {@code b}
@@ -682,13 +678,12 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified array of type {@code T} is empty.
+	 * Tests whether the specified {@code T} array is empty.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return {@code true} if the specified array of type {@code T} is empty, {@code false}
-	 *         otherwise
+	 * @return {@code true} if the specified {@code T} array is empty, {@code false} otherwise
 	 */
 	public static <T> boolean isEmpty(final T[] array) {
 		for (final T element : array) {
@@ -700,13 +695,12 @@ public class Arrays {
 	}
 
 	/**
-	 * Tests whether the specified 2D array of type {@code T} is empty.
+	 * Tests whether the specified 2D {@code T} array is empty.
 	 * <p>
 	 * @param <T>     the component type of the 2D array to test
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return {@code true} if the specified 2D array of type {@code T} is empty, {@code false}
-	 *         otherwise
+	 * @return {@code true} if the specified 2D {@code T} array is empty, {@code false} otherwise
 	 */
 	public static <T> boolean isEmpty(final T[][] array2D) {
 		for (final T[] array : array2D) {
@@ -718,13 +712,12 @@ public class Arrays {
 	}
 
 	/**
-	 * Tests whether the specified 3D array of type {@code T} is empty.
+	 * Tests whether the specified 3D {@code T} array is empty.
 	 * <p>
 	 * @param <T>     the component type of the 3D array to test
-	 * @param array3D an 3D array of type {@code T}
+	 * @param array3D an 3D {@code T} array
 	 * <p>
-	 * @return {@code true} if the specified 3D array of type {@code T} is empty, {@code false}
-	 *         otherwise
+	 * @return {@code true} if the specified 3D {@code T} array is empty, {@code false} otherwise
 	 */
 	public static <T> boolean isEmpty(final T[][][] array3D) {
 		for (final T[][] array2D : array3D) {
@@ -741,7 +734,7 @@ public class Arrays {
 	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * @param token the {@code T} object to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
@@ -763,7 +756,7 @@ public class Arrays {
 	 * <p>
 	 * @param <T>    the component type of the array to test
 	 * @param array  an array of {@link String}
-	 * @param tokens the array of type {@code T} to test for presence
+	 * @param tokens the {@code T} array to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
 	 */
@@ -785,12 +778,12 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of the specified array of type {@code T}.
+	 * Creates a copy of the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to clone
-	 * @param array the array of type {@code T} to clone (may be {@code null})
+	 * @param array the {@code T} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified array of type {@code T}
+	 * @return a copy of the specified {@code T} array
 	 * <p>
 	 * @throws CloneNotSupportedException if the type {@code T} does not implement {@link Cloneable}
 	 *

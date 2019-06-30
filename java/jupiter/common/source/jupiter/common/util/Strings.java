@@ -205,48 +205,48 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link String} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link String} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link String} from the specified {@code T} array
 	 */
 	public static <T> List<String> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link String} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link String} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link String} from the specified {@code T} array
 	 */
 	public static <T> List<String> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<String> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<String> asExtendedList(final T... array) {
 		return toExtendedList(array);
@@ -284,24 +284,24 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link String} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link String} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link String} from the specified {@code T} array
 	 */
 	public static <T> Set<String> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link String} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link String} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link String} from the specified {@code T} array
 	 */
 	public static <T> Set<String> asSet(final T... array) {
 		return toSet(array);
@@ -811,7 +811,7 @@ public class Strings {
 	 * if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@code char} values to find
+	 * @param tokens the {@code char} array to find
 	 * <p>
 	 * @return the index of the first token of {@code text} that is in {@code tokens}, or {@code -1}
 	 *         if there is no such occurrence
@@ -825,7 +825,7 @@ public class Strings {
 	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@code char} values to find
+	 * @param tokens    the {@code char} array to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the index of the first token of {@code text} that is in {@code tokens}, seeking
@@ -999,7 +999,7 @@ public class Strings {
 	 * if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@code char} values to find
+	 * @param tokens the {@code char} array to find
 	 * <p>
 	 * @return the index of the last token of {@code text} that is in {@code tokens}, or {@code -1}
 	 *         if there is no such occurrence
@@ -1013,7 +1013,7 @@ public class Strings {
 	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@code char} values to find
+	 * @param tokens    the {@code char} array to find
 	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
 	 * @return the index of the last token of {@code text} that is in {@code tokens}, seeking
@@ -1231,7 +1231,7 @@ public class Strings {
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@code char} values to find
+	 * @param tokens the {@code char} array to find
 	 * <p>
 	 * @return the index of the first token of {@code text} that is not in {@code tokens}, or
 	 *         {@code -1} if there is no such occurrence
@@ -1245,7 +1245,7 @@ public class Strings {
 	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@code char} values to find
+	 * @param tokens    the {@code char} array to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the index of the first token of {@code text} that is not in {@code tokens}, seeking
@@ -1503,7 +1503,7 @@ public class Strings {
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@code char} values to find
+	 * @param tokens the {@code char} array to find
 	 * <p>
 	 * @return the index of the last token of {@code text} that is not in {@code tokens}, or
 	 *         {@code -1} if there is no such occurrence
@@ -1517,7 +1517,7 @@ public class Strings {
 	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@code char} values to find
+	 * @param tokens    the {@code char} array to find
 	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
 	 * @return the index of the last token of {@code text} that is not in {@code tokens}, seeking
@@ -1800,7 +1800,7 @@ public class Strings {
 	 * Returns the indexes of {@code tokens} in {@code text}.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@code char} values to find
+	 * @param tokens the {@code char} array to find
 	 * <p>
 	 * @return the indexes of {@code tokens} in {@code text}
 	 */
@@ -1813,7 +1813,7 @@ public class Strings {
 	 * from {@code fromIndex}.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@code char} values to find
+	 * @param tokens    the {@code char} array to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
@@ -1845,7 +1845,7 @@ public class Strings {
 	 * to {@code toIndex}.
 	 * <p>
 	 * @param text    a {@link String}
-	 * @param tokens  the array of {@code char} values to find
+	 * @param tokens  the {@code char} array to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
@@ -2203,7 +2203,7 @@ public class Strings {
 	 * {@code delimiterIndexes}.
 	 * <p>
 	 * @param text             a {@link String}
-	 * @param delimiterIndexes an array of {@code int} values
+	 * @param delimiterIndexes an {@code int} array
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
 	 *         {@code delimiterIndexes}
@@ -2217,7 +2217,7 @@ public class Strings {
 	 * {@code delimiterIndexes}.
 	 * <p>
 	 * @param text             a {@link String}
-	 * @param delimiterIndexes an array of {@code int} values
+	 * @param delimiterIndexes an {@code int} array
 	 * @param toIndex          the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
@@ -2702,7 +2702,7 @@ public class Strings {
 	 * Tests whether {@code text} contains any {@code tokens}.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@code char} values to test for presence
+	 * @param tokens the {@code char} array to test for presence
 	 * <p>
 	 * @return {@code true} if {@code text} contains any {@code tokens}, {@code false} otherwise
 	 */

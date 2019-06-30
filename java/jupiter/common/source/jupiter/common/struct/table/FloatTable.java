@@ -72,7 +72,7 @@ public class FloatTable
 	/**
 	 * Constructs a {@link FloatTable} of the specified {@code float} values.
 	 * <p>
-	 * @param values a 2D array of {@code float} values
+	 * @param values a 2D {@code float} array
 	 */
 	public FloatTable(final float[]... values) {
 		this(Floats.toArray2D(values));
@@ -91,7 +91,7 @@ public class FloatTable
 	 * Constructs a {@link FloatTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code float} values
+	 * @param values a 2D {@code float} array
 	 */
 	public FloatTable(final String[] header, final float[]... values) {
 		this(header, Floats.toArray2D(values));

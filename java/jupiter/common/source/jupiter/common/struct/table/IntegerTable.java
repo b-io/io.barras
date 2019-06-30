@@ -72,7 +72,7 @@ public class IntegerTable
 	/**
 	 * Constructs an {@link IntegerTable} of the specified {@code int} values.
 	 * <p>
-	 * @param values a 2D array of {@code int} values
+	 * @param values a 2D {@code int} array
 	 */
 	public IntegerTable(final int[]... values) {
 		this(Integers.toArray2D(values));
@@ -91,7 +91,7 @@ public class IntegerTable
 	 * Constructs an {@link IntegerTable} of the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code int} values
+	 * @param values a 2D {@code int} array
 	 */
 	public IntegerTable(final String[] header, final int[]... values) {
 		this(header, Integers.toArray2D(values));

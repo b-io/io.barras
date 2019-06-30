@@ -307,9 +307,9 @@ public class JogAmpl
 	/**
 	 * Returns the multiplication of {@code A} by {@code B} followed by the addition of {@code C}.
 	 * <p>
-	 * @param A                the array of {@code double} values to multiply
-	 * @param B                the array of {@code double} values to multiply
-	 * @param C                the array of {@code double} values to add
+	 * @param A                the {@code double} array to multiply
+	 * @param B                the {@code double} array to multiply
+	 * @param C                the {@code double} array to add
 	 * @param aColumnDimension the column dimension of {@code A}
 	 * @param bColumnDimension the column dimension of {@code B}
 	 * @param cColumnDimension the column dimension of {@code C}

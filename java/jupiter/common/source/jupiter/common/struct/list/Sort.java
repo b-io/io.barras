@@ -104,7 +104,7 @@ public class Sort<T> {
 	/**
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
 	 * <p>
-	 * @param array      the array of type {@code T} to sort
+	 * @param array      the {@code T} array to sort
 	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order of
 	 *                   the sort
 	 * @param work       a workspace array (slice)
@@ -160,7 +160,7 @@ public class Sort<T> {
 	 * expanding parameters into the required forms.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param array      the array of type {@code T} to sort
+	 * @param array      the {@code T} array to sort
 	 * @param lo         the index of the first element, inclusive, to sort
 	 * @param hi         the index of the last element, exclusive, to sort
 	 * @param comparator the {@link Comparator} of super type {@code T} to use
@@ -226,7 +226,7 @@ public class Sort<T> {
 	 * {@code start}, exclusive are already sorted.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param array      the array of type {@code T} in which a range is to be sorted
+	 * @param array      the {@code T} array in which a range is to be sorted
 	 * @param lo         the index of the first element in the range to sort
 	 * @param hi         the index after the last element in the range to sort
 	 * @param start      the index of the first element in the range that is not already known to be
@@ -294,7 +294,7 @@ public class Sort<T> {
 	 * stability.
 	 * <p>
 	 * @param <T>        the component type of the array
-	 * @param array      the array of type {@code T} in which a run is to be counted and possibly
+	 * @param array      the {@code T} array in which a run is to be counted and possibly
 	 *                   reversed
 	 * @param lo         the index of the first element in the run
 	 * @param hi         the index after the last element that may be contained in the run. It is
@@ -495,7 +495,7 @@ public class Sort<T> {
 	 * <p>
 	 * @param <T>        the component type of the array
 	 * @param key        the {@code T} key whose insertion point to search for
-	 * @param array      the array of type {@code T} in which to search
+	 * @param array      the {@code T} array in which to search
 	 * @param base       the index of the first element in the range
 	 * @param len        the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
@@ -585,7 +585,7 @@ public class Sort<T> {
 	 * <p>
 	 * @param <T>        the component type of the array
 	 * @param key        the {@code T} key whose insertion point to search for
-	 * @param array      the array of type {@code T} in which to search
+	 * @param array      the {@code T} array in which to search
 	 * @param base       the index of the first element in the range
 	 * @param len        the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer

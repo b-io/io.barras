@@ -145,72 +145,72 @@ public class Shorts {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code short} values from the specified array of type {@code T}.
+	 * Returns a {@code short} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code short} values from the specified array of type {@code T}
+	 * @return a {@code short} array from the specified {@code T} array
 	 */
 	public static <T> short[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code short} values from the specified array of type {@code T}.
+	 * Returns a {@code short} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an array of {@code short} values from the specified array of type {@code T}
+	 * @return a {@code short} array from the specified {@code T} array
 	 */
 	public static <T> short[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an array of {@code short} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code short} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code short} values from the specified 2D array of type {@code T}
+	 * @return a {@code short} array from the specified 2D {@code T} array
 	 */
 	public static <T> short[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code short} values from the specified 2D array of type {@code T}.
+	 * Returns a {@code short} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return an array of {@code short} values from the specified 2D array of type {@code T}
+	 * @return a {@code short} array from the specified 2D {@code T} array
 	 */
 	public static <T> short[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an array of {@code short} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code short} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code short} values from the specified 3D array of type {@code T}
+	 * @return a {@code short} array from the specified 3D {@code T} array
 	 */
 	public static <T> short[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code short} values from the specified 3D array of type {@code T}.
+	 * Returns a {@code short} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return an array of {@code short} values from the specified 3D array of type {@code T}
+	 * @return a {@code short} array from the specified 3D {@code T} array
 	 */
 	public static <T> short[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
@@ -219,62 +219,60 @@ public class Shorts {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@code short} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code short} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code short} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code short} array from the specified 2D {@code T} array
 	 */
 	public static <T> short[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@code short} values from the specified 2D array of type {@code T}.
+	 * Returns a 2D {@code short} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array2D a 2D array of type {@code T}
+	 * @param array2D a 2D {@code T} array
 	 * <p>
-	 * @return a 2D array of {@code short} values from the specified 2D array of type {@code T}
+	 * @return a 2D {@code short} array from the specified 2D {@code T} array
 	 */
 	public static <T> short[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code short} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code short} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code short} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code short} array from the specified 3D {@code T} array
 	 */
 	public static <T> short[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@code short} values from the specified 3D array of type {@code T}.
+	 * Returns a 3D {@code short} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array
-	 * @param array3D a 3D array of type {@code T}
+	 * @param array3D a 3D {@code T} array
 	 * <p>
-	 * @return a 3D array of {@code short} values from the specified 3D array of type {@code T}
+	 * @return a 3D {@code short} array from the specified 3D {@code T} array
 	 */
 	public static <T> short[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns an array of {@code short} values from the specified {@link Collection} of type
-	 * {@code T}.
+	 * Returns a {@code short} array from the specified {@link Collection} of type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an array of {@code short} values from the specified {@link Collection} of type
-	 *         {@code T}
+	 * @return a {@code short} array from the specified {@link Collection} of type {@code T}
 	 */
 	public static <T> short[] collectionToPrimitiveArray(final Collection<T> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -283,11 +281,11 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Short} from the specified array of {@code short} values.
+	 * Returns an array of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
-	 * @return an array of {@link Short} from the specified array of {@code short} values
+	 * @return an array of {@link Short} from the specified {@code short} array
 	 */
 	public static Short[] toArray(final short[] array) {
 		final Short[] result = new Short[array.length];
@@ -298,22 +296,22 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns an array of {@link Short} from the specified array of {@code short} values.
+	 * Returns an array of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
-	 * @return an array of {@link Short} from the specified array of {@code short} values
+	 * @return an array of {@link Short} from the specified {@code short} array
 	 */
 	public static Short[] asArray(final short... array) {
 		return toArray(array);
 	}
 
 	/**
-	 * Returns a 2D array of {@link Short} from the specified 2D array of {@code short} values.
+	 * Returns a 2D array of {@link Short} from the specified 2D {@code short} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code short} values
+	 * @param array2D a 2D {@code short} array
 	 * <p>
-	 * @return a 2D array of {@link Short} from the specified 2D array of {@code short} values
+	 * @return a 2D array of {@link Short} from the specified 2D {@code short} array
 	 */
 	public static Short[][] toArray2D(final short[][] array2D) {
 		final Short[][] result = new Short[array2D.length][];
@@ -324,22 +322,22 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Short} from the specified 2D array of {@code short} values.
+	 * Returns a 2D array of {@link Short} from the specified 2D {@code short} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code short} values
+	 * @param array2D a 2D {@code short} array
 	 * <p>
-	 * @return a 2D array of {@link Short} from the specified 2D array of {@code short} values
+	 * @return a 2D array of {@link Short} from the specified 2D {@code short} array
 	 */
 	public static Short[][] asArray2D(final short[]... array2D) {
 		return toArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link Short} from the specified 3D array of {@code short} values.
+	 * Returns a 3D array of {@link Short} from the specified 3D {@code short} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code short} values
+	 * @param array3D a 3D {@code short} array
 	 * <p>
-	 * @return a 3D array of {@link Short} from the specified 3D array of {@code short} values
+	 * @return a 3D array of {@link Short} from the specified 3D {@code short} array
 	 */
 	public static Short[][][] toArray3D(final short[][][] array3D) {
 		final Short[][][] result = new Short[array3D.length][][];
@@ -350,11 +348,11 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Short} from the specified 3D array of {@code short} values.
+	 * Returns a 3D array of {@link Short} from the specified 3D {@code short} array.
 	 * <p>
-	 * @param array3D a 3D array of {@code short} values
+	 * @param array3D a 3D {@code short} array
 	 * <p>
-	 * @return a 3D array of {@link Short} from the specified 3D array of {@code short} values
+	 * @return a 3D array of {@link Short} from the specified 3D {@code short} array
 	 */
 	public static Short[][][] asArray3D(final short[][]... array3D) {
 		return toArray3D(array3D);
@@ -375,22 +373,22 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Short} from the specified array of {@code short} values.
+	 * Returns a {@link List} of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
-	 * @return a {@link List} of {@link Short} from the specified array of {@code short} values
+	 * @return a {@link List} of {@link Short} from the specified {@code short} array
 	 */
 	public static List<Short> toList(final short[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Short} from the specified array of {@code short} values.
+	 * Returns a {@link List} of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
-	 * @return a {@link List} of {@link Short} from the specified array of {@code short} values
+	 * @return a {@link List} of {@link Short} from the specified {@code short} array
 	 */
 	public static List<Short> asList(final short... array) {
 		return toList(array);
@@ -400,7 +398,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
 	 *         values
@@ -413,7 +411,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
 	 * values.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
 	 *         values
@@ -423,48 +421,48 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Short} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Short} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Short} from the specified {@code T} array
 	 */
 	public static <T> List<Short> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Short} from the specified array of type {@code T}.
+	 * Returns a {@link List} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Short} from the specified array of type {@code T}
+	 * @return a {@link List} of {@link Short} from the specified {@code T} array
 	 */
 	public static <T> List<Short> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Short> toExtendedList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Short} from the specified array of type {@code T}
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Short> asExtendedList(final T... array) {
 		return toExtendedList(array);
@@ -501,46 +499,46 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified array of {@code short} values.
+	 * Returns a {@link Set} of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified array of {@code short} values
+	 * @return a {@link Set} of {@link Short} from the specified {@code short} array
 	 */
 	public static Set<Short> toSet(final short[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified array of {@code short} values.
+	 * Returns a {@link Set} of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified array of {@code short} values
+	 * @return a {@link Set} of {@link Short} from the specified {@code short} array
 	 */
 	public static Set<Short> asSet(final short... array) {
 		return toSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
 	 */
 	public static <T> Set<Short> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified array of type {@code T}.
+	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
-	 * @param array an array of type {@code T}
+	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified array of type {@code T}
+	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
 	 */
 	public static <T> Set<Short> asSet(final T... array) {
 		return toSet(array);
@@ -591,42 +589,42 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of {@code short} values of the specified length containing the sequence of
-	 * numbers starting with zero and spaced by one.
+	 * Creates a {@code short} array of the specified length containing the sequence of numbers
+	 * starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return an array of {@code short} values of the specified length containing the sequence of
-	 *         numbers starting with zero and spaced by one
+	 * @return a {@code short} array of the specified length containing the sequence of numbers
+	 *         starting with zero and spaced by one
 	 */
 	public static short[] createSequence(final int length) {
 		return createSequence(length, (short) 0, (short) 1);
 	}
 
 	/**
-	 * Creates an array of {@code short} values of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by one.
+	 * Creates a {@code short} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return an array of {@code short} values of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by one
+	 * @return a {@code short} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by one
 	 */
 	public static short[] createSequence(final int length, final short from) {
 		return createSequence(length, from, (short) 1);
 	}
 
 	/**
-	 * Creates an array of {@code short} values of the specified length containing the sequence of
-	 * numbers starting with {@code from} and spaced by {@code step}.
+	 * Creates a {@code short} array of the specified length containing the sequence of numbers
+	 * starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return an array of {@code short} values of the specified length containing the sequence of
-	 *         numbers starting with {@code from} and spaced by {@code step}
+	 * @return a {@code short} array of the specified length containing the sequence of numbers
+	 *         starting with {@code from} and spaced by {@code step}
 	 */
 	public static short[] createSequence(final int length, final short from, final short step) {
 		final short[] array = new short[length];
@@ -655,16 +653,16 @@ public class Shorts {
 	}
 
 	/**
-	 * Creates an array of {@code short} values of the specified length containing pseudorandom,
-	 * uniformly distributed {@code short} values between {@code lowerBound} (inclusive) and
+	 * Creates a {@code short} array of the specified length containing pseudorandom, uniformly
+	 * distributed {@code short} values between {@code lowerBound} (inclusive) and
 	 * {@code upperBound} (exclusive).
 	 * <p>
 	 * @param length     the length of the random sequence to create
 	 * @param lowerBound the lower bound of the random sequence to create
 	 * @param upperBound the upper bound of the random sequence to create
 	 * <p>
-	 * @return an array of {@code short} values of the specified length containing pseudorandom,
-	 *         uniformly distributed {@code short} values between {@code lowerBound} (inclusive) and
+	 * @return a {@code short} array of the specified length containing pseudorandom, uniformly
+	 *         distributed {@code short} values between {@code lowerBound} (inclusive) and
 	 *         {@code upperBound} (exclusive)
 	 */
 	public static short[] createRandomSequence(final int length, final short lowerBound,
@@ -702,28 +700,28 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@code short} values containing the specified {@code short} value and all
-	 * the elements of the specified array of {@code short} values.
+	 * Returns a {@code short} array containing the specified {@code short} value and all the
+	 * elements of the specified {@code short} array.
 	 * <p>
 	 * @param a a {@code short} value (may be {@code null})
-	 * @param b an array of {@code short} values (may be {@code null})
+	 * @param b a {@code short} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code short} values containing the specified {@code short} value and all
-	 *         the elements of the specified array of {@code short} values
+	 * @return a {@code short} array containing the specified {@code short} value and all the
+	 *         elements of the specified {@code short} array
 	 */
 	public static short[] merge(final short a, final short... b) {
 		return merge(asPrimitiveArray(a), b);
 	}
 
 	/**
-	 * Returns an array of {@code short} values containing all the elements of the specified arrays
-	 * of {@code short} values.
+	 * Returns a {@code short} array containing all the elements of the specified arrays of
+	 * {@code short} values.
 	 * <p>
-	 * @param a an array of {@code short} values (may be {@code null})
-	 * @param b an array of {@code short} values (may be {@code null})
+	 * @param a a {@code short} array (may be {@code null})
+	 * @param b a {@code short} array (may be {@code null})
 	 * <p>
-	 * @return an array of {@code short} values containing all the elements of the specified arrays
-	 *         of {@code short} values
+	 * @return a {@code short} array containing all the elements of the specified arrays of
+	 *         {@code short} values
 	 */
 	public static short[] merge(final short[] a, final short... b) {
 		if (a == null) {
@@ -825,12 +823,12 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the transpose of the specified array of {@code short} values.
+	 * Returns the transpose of the specified {@code short} array.
 	 * <p>
 	 * @param rowCount the number of rows of the array
-	 * @param array    an array of {@code short} values
+	 * @param array    a {@code short} array
 	 * <p>
-	 * @return the transpose of the specified array of {@code short} values
+	 * @return the transpose of the specified {@code short} array
 	 */
 	public static short[] transpose(final int rowCount, final short[] array) {
 		final int n = rowCount;
@@ -845,11 +843,11 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns the transpose of the specified 2D array of {@code short} values.
+	 * Returns the transpose of the specified 2D {@code short} array.
 	 * <p>
-	 * @param array2D a 2D array of {@code short} values
+	 * @param array2D a 2D {@code short} array
 	 * <p>
-	 * @return the transpose of the specified 2D array of {@code short} values
+	 * @return the transpose of the specified 2D {@code short} array
 	 */
 	public static short[][] transpose(final short[]... array2D) {
 		final int n = array2D.length;
@@ -894,12 +892,12 @@ public class Shorts {
 	}
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to an array of {@code short} values.
+	 * Tests whether the specified {@link Class} is assignable to a {@code short} array.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to an array of
-	 *         {@code short} values, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code short} array,
+	 *         {@code false} otherwise
 	 */
 	public static boolean isPrimitiveArray(final Class<?> c) {
 		return short[].class.isAssignableFrom(c);
@@ -910,7 +908,7 @@ public class Shorts {
 	/**
 	 * Tests whether {@code array} contains {@code token}.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * @param token the {@code short} value to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
@@ -930,8 +928,8 @@ public class Shorts {
 	/**
 	 * Tests whether {@code array} contains any {@code tokens}.
 	 * <p>
-	 * @param array  an array of {@code short} values
-	 * @param tokens the array of {@code short} values to test for presence
+	 * @param array  a {@code short} array
+	 * @param tokens the {@code short} array to test for presence
 	 * <p>
 	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
 	 */
@@ -972,13 +970,13 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified array of {@code short} values, or {@code null} if
-	 * {@code array} is {@code null}.
+	 * Returns a clone of the specified {@code short} array, or {@code null} if {@code array} is
+	 * {@code null}.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
-	 * @return a clone of the specified array of {@code short} values, or {@code null} if
-	 *         {@code array} is {@code null}
+	 * @return a clone of the specified {@code short} array, or {@code null} if {@code array} is
+	 *         {@code null}
 	 */
 	public static short[] clone(final short... array) {
 		if (array == null) {
@@ -1003,40 +1001,40 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code short} values.
+	 * Returns a representative {@link String} of the specified {@code short} array.
 	 * <p>
-	 * @param array an array of {@code short} values
+	 * @param array a {@code short} array
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code short} values
+	 * @return a representative {@link String} of the specified {@code short} array
 	 */
 	public static String toString(final short... array) {
 		return Arrays.toString(toArray(array));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code short} values joined
-	 * by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code short} array joined by
+	 * {@code delimiter}.
 	 * <p>
-	 * @param array     an array of {@code short} values
+	 * @param array     a {@code short} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code short} values joined
-	 *         by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code short} array joined by
+	 *         {@code delimiter}
 	 */
 	public static String toString(final short[] array, final String delimiter) {
 		return Arrays.toString(toArray(array), delimiter);
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@code short} values joined
-	 * by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code short} array joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@code short} values
+	 * @param array     a {@code short} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@code short} values joined
-	 *         by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code short} array joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final short[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

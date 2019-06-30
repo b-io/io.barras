@@ -168,25 +168,25 @@ public class Objects {
 	}
 
 	/**
-	 * Returns the hash code value for the specified array of type {@code T}.
+	 * Returns the hash code value for the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to hash
-	 * @param array the array of type {@code T} to hash
+	 * @param array the {@code T} array to hash
 	 * <p>
-	 * @return the hash code value for the specified array of type {@code T}
+	 * @return the hash code value for the specified {@code T} array
 	 */
 	public static <T> int hashCode(final T... array) {
 		return hashCodeWith(0, array);
 	}
 
 	/**
-	 * Returns the hash code value for the specified array of type {@code T} at the specified depth.
+	 * Returns the hash code value for the specified {@code T} array at the specified depth.
 	 * <p>
 	 * @param <T>   the component type of the array to hash
-	 * @param array the array of type {@code T} to hash
+	 * @param array the {@code T} array to hash
 	 * @param depth the depth to hash at
 	 * <p>
-	 * @return the hash code value for the specified array of type {@code T} at the specified depth
+	 * @return the hash code value for the specified {@code T} array at the specified depth
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> int hashCodeWith(final int depth, final T... array) {
