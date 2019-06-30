@@ -766,7 +766,7 @@ public class JConsole
 				insertString(document, getTextLength(), t, textColor);
 				// Update the color
 				if (i < delimiters.size()) {
-					textColor = ConsoleHandler.Color.parse(delimiters.get(i).getSecond());
+					textColor = ConsoleHandler.Color.parse(delimiters.get(i).getToken());
 				}
 			}
 		}

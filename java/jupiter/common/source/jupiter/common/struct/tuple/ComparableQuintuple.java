@@ -43,10 +43,23 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ComparableQuintuple}.
+	 */
 	public ComparableQuintuple() {
 		super();
 	}
 
+	/**
+	 * Constructs a {@link ComparableQuintuple} with the specified {@code T1}, {@code T2},
+	 * {@code T3}, {@code T4} and {@code T5} components.
+	 * <p>
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
+	 * @param third  the {@code T3} component
+	 * @param fourth the {@code T4} component
+	 * @param fifth  the {@code T5} component
+	 */
 	public ComparableQuintuple(final T1 first, final T2 second, final T3 third, final T4 fourth,
 			final T5 fifth) {
 		super(first, second, third, fourth, fifth);

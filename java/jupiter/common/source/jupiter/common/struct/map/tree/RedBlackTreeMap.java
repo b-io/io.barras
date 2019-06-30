@@ -46,10 +46,19 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link RedBlackTreeMap}.
+	 */
 	public RedBlackTreeMap() {
 		super();
 	}
 
+	/**
+	 * Constructs a {@link RedBlackTreeMap} with the specified {@link Map} containing the key-value
+	 * mappings.
+	 * <p>
+	 * @param map the {@link Map} containing the key-value mappings to put
+	 */
 	public RedBlackTreeMap(final Map<? extends K, ? extends V> map) {
 		putAll(map);
 	}

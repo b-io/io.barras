@@ -43,10 +43,22 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ComparableQuadruple}.
+	 */
 	public ComparableQuadruple() {
 		super();
 	}
 
+	/**
+	 * Constructs a {@link ComparableQuadruple} with the specified {@code T1}, {@code T2},
+	 * {@code T3} and {@code T4} components.
+	 * <p>
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
+	 * @param third  the {@code T3} component
+	 * @param fourth the {@code T4} component
+	 */
 	public ComparableQuadruple(final T1 first, final T2 second, final T3 third, final T4 fourth) {
 		super(first, second, third, fourth);
 	}

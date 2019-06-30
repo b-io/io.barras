@@ -43,10 +43,21 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ComparableTriple}.
+	 */
 	public ComparableTriple() {
 		super();
 	}
 
+	/**
+	 * Constructs a {@link ComparableTriple} with the specified {@code T1}, {@code T2} and
+	 * {@code T3} components.
+	 * <p>
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
+	 * @param third  the {@code T3} component
+	 */
 	public ComparableTriple(final T1 first, final T2 second, final T3 third) {
 		super(first, second, third);
 	}

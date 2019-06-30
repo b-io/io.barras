@@ -43,10 +43,19 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ComparablePair}.
+	 */
 	public ComparablePair() {
 		super();
 	}
 
+	/**
+	 * Constructs a {@link ComparablePair} with the specified {@code T1} and {@code T2} components.
+	 * <p>
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
+	 */
 	public ComparablePair(final T1 first, final T2 second) {
 		super(first, second);
 	}
