@@ -367,26 +367,22 @@ public class Longs {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code long} array.
 	 * <p>
 	 * @param array a {@code long} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code long} array
 	 */
 	public static ExtendedList<Long> toExtendedList(final long[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code long} array.
 	 * <p>
 	 * @param array a {@code long} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified array of {@code long}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code long} array
 	 */
 	public static ExtendedList<Long> asExtendedList(final long... array) {
 		return toExtendedList(array);
@@ -685,14 +681,13 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} array containing all the elements of the specified arrays of
-	 * {@code long} values.
+	 * Returns a {@code long} array containing all the elements of the specified {@code long}
+	 * arrays.
 	 * <p>
 	 * @param a a {@code long} array (may be {@code null})
 	 * @param b a {@code long} array (may be {@code null})
 	 * <p>
-	 * @return a {@code long} array containing all the elements of the specified arrays of
-	 *         {@code long} values
+	 * @return a {@code long} array containing all the elements of the specified {@code long} arrays
 	 */
 	public static long[] merge(final long[] a, final long... b) {
 		if (a == null) {
@@ -867,8 +862,8 @@ public class Longs {
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code long}
-	 *         values, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} array,
+	 *         {@code false} otherwise
 	 */
 	public static boolean isPrimitiveArray(final Class<?> c) {
 		return long[].class.isAssignableFrom(c);

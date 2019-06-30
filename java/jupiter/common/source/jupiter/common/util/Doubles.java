@@ -351,26 +351,22 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@code double} array.
 	 * <p>
 	 * @param array a {@code double} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Double} from the specified {@code double} array
 	 */
 	public static ExtendedList<Double> toExtendedList(final double[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@code double} array.
 	 * <p>
 	 * @param array a {@code double} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Double} from the specified array of {@code double}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Double} from the specified {@code double} array
 	 */
 	public static ExtendedList<Double> asExtendedList(final double... array) {
 		return toExtendedList(array);
@@ -686,14 +682,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@code double} array containing all the elements of the specified arrays of
-	 * {@code double} values.
+	 * Returns a {@code double} array containing all the elements of the specified {@code double}
+	 * arrays.
 	 * <p>
 	 * @param a a {@code double} array (may be {@code null})
 	 * @param b a {@code double} array (may be {@code null})
 	 * <p>
-	 * @return a {@code double} array containing all the elements of the specified arrays of
-	 *         {@code double} values
+	 * @return a {@code double} array containing all the elements of the specified {@code double}
+	 *         arrays
 	 */
 	public static double[] merge(final double[] a, final double... b) {
 		if (a == null) {

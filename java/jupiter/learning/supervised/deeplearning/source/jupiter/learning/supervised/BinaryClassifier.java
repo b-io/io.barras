@@ -130,10 +130,10 @@ public abstract class BinaryClassifier
 	 */
 	protected BinaryClassifier(final String featureVectorsPath, final String classesPath)
 			throws IOException {
-		X = Matrix.load(featureVectorsPath);
+		X = Matrix.create(featureVectorsPath);
 		featureCount = X.getRowDimension();
 		trainingExampleCount = X.getColumnDimension();
-		Y = Matrix.load(classesPath).toVector();
+		Y = Matrix.create(classesPath).toVector();
 		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
 		YT = Y.transpose();
 	}
@@ -153,10 +153,10 @@ public abstract class BinaryClassifier
 	protected BinaryClassifier(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
 			throws IOException {
-		X = Matrix.load(featureVectorsPath, transpose);
+		X = Matrix.create(featureVectorsPath, transpose);
 		featureCount = X.getRowDimension();
 		trainingExampleCount = X.getColumnDimension();
-		Y = Matrix.load(classesPath, transpose).toVector();
+		Y = Matrix.create(classesPath, transpose).toVector();
 		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
 		YT = Y.transpose();
 	}

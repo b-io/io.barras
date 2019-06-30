@@ -395,26 +395,22 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code short} array.
 	 * <p>
 	 * @param array a {@code short} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code short} array
 	 */
 	public static ExtendedList<Short> toExtendedList(final short[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code short} array.
 	 * <p>
 	 * @param array a {@code short} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Short} from the specified array of {@code short}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code short} array
 	 */
 	public static ExtendedList<Short> asExtendedList(final short... array) {
 		return toExtendedList(array);
@@ -714,14 +710,14 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@code short} array containing all the elements of the specified arrays of
-	 * {@code short} values.
+	 * Returns a {@code short} array containing all the elements of the specified {@code short}
+	 * arrays.
 	 * <p>
 	 * @param a a {@code short} array (may be {@code null})
 	 * @param b a {@code short} array (may be {@code null})
 	 * <p>
-	 * @return a {@code short} array containing all the elements of the specified arrays of
-	 *         {@code short} values
+	 * @return a {@code short} array containing all the elements of the specified {@code short}
+	 *         arrays
 	 */
 	public static short[] merge(final short[] a, final short... b) {
 		if (a == null) {

@@ -161,7 +161,7 @@ public class NeuralNetworkTest
 			final int layerCount = hiddenLayerCount + 1;
 			final Matrix[] weights = new Matrix[layerCount];
 			for (int l = 0; l < layerCount; ++l) {
-				weights[l] = Matrix.load("test/resources/" + example + "/W" + (l + 1) + ".csv");
+				weights[l] = Matrix.create("test/resources/" + example + "/W" + (l + 1) + ".csv");
 				IO.test("W", l + 1, " loaded");
 			}
 			model.setWeights(weights);

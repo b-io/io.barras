@@ -175,14 +175,14 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Prints {@code progress} symbols.
+	 * Prints the {@code progress} symbols.
 	 */
 	protected void printSymbols() {
 		printSymbols(progress);
 	}
 
 	/**
-	 * Prints {@code n} symbols.
+	 * Prints the specified number of symbols.
 	 * <p>
 	 * @param n the number of symbols to print
 	 */
@@ -203,7 +203,7 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Prints {@code n} spaces.
+	 * Prints the specified number of spaces.
 	 * <p>
 	 * @param n the number of spaces to print
 	 */

@@ -571,14 +571,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@code boolean} array containing all the elements of the specified arrays of
-	 * {@code boolean} values.
+	 * Returns a {@code boolean} array containing all the elements of the specified {@code boolean}
+	 * arrays.
 	 * <p>
 	 * @param a a {@code boolean} array (may be {@code null})
 	 * @param b a {@code boolean} array (may be {@code null})
 	 * <p>
-	 * @return a {@code boolean} array containing all the elements of the specified arrays of
-	 *         {@code boolean} values
+	 * @return a {@code boolean} array containing all the elements of the specified {@code boolean}
+	 *         arrays
 	 */
 	public static boolean[] merge(final boolean[] a, final boolean... b) {
 		if (a == null) {

@@ -381,26 +381,22 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified array of {@code int}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code int} array.
 	 * <p>
 	 * @param array an {@code int} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified array of {@code int}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code int} array
 	 */
 	public static ExtendedList<Integer> toExtendedList(final int[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified array of {@code int}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code int} array.
 	 * <p>
 	 * @param array an {@code int} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified array of {@code int}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code int} array
 	 */
 	public static ExtendedList<Integer> asExtendedList(final int... array) {
 		return toExtendedList(array);
@@ -701,14 +697,12 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} array containing all the elements of the specified arrays of
-	 * {@code int} values.
+	 * Returns an {@code int} array containing all the elements of the specified {@code int} arrays.
 	 * <p>
 	 * @param a an {@code int} array (may be {@code null})
 	 * @param b an {@code int} array (may be {@code null})
 	 * <p>
-	 * @return an {@code int} array containing all the elements of the specified arrays of
-	 *         {@code int} values
+	 * @return an {@code int} array containing all the elements of the specified {@code int} arrays
 	 */
 	public static int[] merge(final int[] a, final int... b) {
 		if (a == null) {
@@ -883,8 +877,8 @@ public class Integers {
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code int}
-	 *         values, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to an {@code int} array,
+	 *         {@code false} otherwise
 	 */
 	public static boolean isPrimitiveArray(final Class<?> c) {
 		return int[].class.isAssignableFrom(c);

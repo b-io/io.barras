@@ -364,26 +364,22 @@ public class Floats {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
 	 */
 	public static ExtendedList<Float> toExtendedList(final float[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified array of {@code float}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
 	 */
 	public static ExtendedList<Float> asExtendedList(final float... array) {
 		return toExtendedList(array);
@@ -725,14 +721,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@code float} array containing all the elements of the specified arrays of
-	 * {@code float} values.
+	 * Returns a {@code float} array containing all the elements of the specified {@code float}
+	 * arrays.
 	 * <p>
 	 * @param a a {@code float} array (may be {@code null})
 	 * @param b a {@code float} array (may be {@code null})
 	 * <p>
-	 * @return a {@code float} array containing all the elements of the specified arrays of
-	 *         {@code float} values
+	 * @return a {@code float} array containing all the elements of the specified {@code float}
+	 *         arrays
 	 */
 	public static float[] merge(final float[] a, final float... b) {
 		if (a == null) {

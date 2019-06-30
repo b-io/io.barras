@@ -409,26 +409,22 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified array of {@code byte}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
 	 * @param array a {@code byte} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified array of {@code byte}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array
 	 */
 	public static ExtendedList<Byte> toExtendedList(final byte[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified array of {@code byte}
-	 * values.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
 	 * @param array a {@code byte} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified array of {@code byte}
-	 *         values
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array
 	 */
 	public static ExtendedList<Byte> asExtendedList(final byte... array) {
 		return toExtendedList(array);
@@ -727,14 +723,13 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} array containing all the elements of the specified arrays of
-	 * {@code byte} values.
+	 * Returns a {@code byte} array containing all the elements of the specified {@code byte}
+	 * arrays.
 	 * <p>
 	 * @param a a {@code byte} array (may be {@code null})
 	 * @param b a {@code byte} array (may be {@code null})
 	 * <p>
-	 * @return a {@code byte} array containing all the elements of the specified arrays of
-	 *         {@code byte} values
+	 * @return a {@code byte} array containing all the elements of the specified {@code byte} arrays
 	 */
 	public static byte[] merge(final byte[] a, final byte... b) {
 		if (a == null) {
@@ -909,8 +904,8 @@ public class Bytes {
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to an array of {@code byte}
-	 *         values, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@code byte} array,
+	 *         {@code false} otherwise
 	 */
 	public static boolean isPrimitiveArray(final Class<?> c) {
 		return byte[].class.isAssignableFrom(c);
