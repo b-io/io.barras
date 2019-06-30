@@ -116,18 +116,18 @@ public class FileHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link String} path.
+	 * Returns the path.
 	 * <p>
-	 * @return the {@link String} path
+	 * @return the path
 	 */
 	public String getPath() {
 		return Files.getPath(file);
 	}
 
 	/**
-	 * Returns the {@link String} canonical path.
+	 * Returns the canonical path.
 	 * <p>
-	 * @return the {@link String} canonical path
+	 * @return the canonical path
 	 * <p>
 	 * @throws IOException       if there is a problem querying the file system
 	 * @throws SecurityException if there is a permission problem
@@ -138,9 +138,9 @@ public class FileHandler {
 	}
 
 	/**
-	 * Returns the {@link String} name.
+	 * Returns the name.
 	 * <p>
-	 * @return the {@link String} name
+	 * @return the name
 	 */
 	public String getName() {
 		return file.getName();

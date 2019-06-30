@@ -73,11 +73,11 @@ public class Files {
 	public static final int BUFFER_SIZE = 8192;
 
 	/**
-	 * The flag specifying whether to parallelize using a work queue.
+	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
 	public static volatile boolean PARALLELIZE = false;
 	/**
-	 * The work queue for copying the files (or directories).
+	 * The {@link WorkQueue} for copying the files (or directories).
 	 */
 	protected static volatile WorkQueue<Triple<File, File, Boolean>, Boolean> COPIER_QUEUE = null;
 

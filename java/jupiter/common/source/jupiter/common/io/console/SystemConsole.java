@@ -88,27 +88,27 @@ public class SystemConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the "standard" {@link InputStream}.
+	 * Returns the standard input {@link InputStream}.
 	 * <p>
-	 * @return the "standard" {@link InputStream}
+	 * @return the standard input {@link InputStream}
 	 */
 	public InputStream getIn() {
 		return System.in;
 	}
 
 	/**
-	 * Returns the "standard" {@link PrintStream}.
+	 * Returns the standard output {@link PrintStream}.
 	 * <p>
-	 * @return the "standard" {@link PrintStream}
+	 * @return the standard output {@link PrintStream}
 	 */
 	public PrintStream getOut() {
 		return System.out;
 	}
 
 	/**
-	 * Returns the "standard" error {@link PrintStream}.
+	 * Returns the standard error {@link PrintStream}.
 	 * <p>
-	 * @return the "standard" error {@link PrintStream}
+	 * @return the standard error {@link PrintStream}
 	 */
 	public PrintStream getErr() {
 		return System.err;

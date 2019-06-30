@@ -77,11 +77,11 @@ public class SpeedChecker {
 			URLS.size());
 
 	/**
-	 * The flag specifying whether to parallelize using a work queue.
+	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
 	protected static volatile boolean PARALLELIZE = true;
 	/**
-	 * The work queue for checking the downloading speeds.
+	 * The {@link WorkQueue} for checking the downloading speeds.
 	 */
 	protected static volatile WorkQueue<String, Result<Double>> WORK_QUEUE = null;
 

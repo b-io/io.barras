@@ -134,11 +134,11 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link String} path to the specified log.
+	 * Returns the path to the specified log.
 	 * <p>
 	 * @param logName the name of the log
 	 * <p>
-	 * @return the {@link String} path to the specified log
+	 * @return the path to the specified log
 	 */
 	protected String getPath(final String logName) {
 		return Files.getPath(logDir) + File.separator + logName;

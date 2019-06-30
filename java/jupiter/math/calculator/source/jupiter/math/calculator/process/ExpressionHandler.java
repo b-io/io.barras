@@ -68,11 +68,11 @@ public class ExpressionHandler {
 			Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
 
 	/**
-	 * The flag specifying whether to parallelize using a work queue.
+	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
 	protected static volatile boolean PARALLELIZE = true;
 	/**
-	 * The work queue for parsing the expressions.
+	 * The {@link WorkQueue} for parsing the expressions.
 	 */
 	protected static volatile WorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>> WORK_QUEUE = null;
 

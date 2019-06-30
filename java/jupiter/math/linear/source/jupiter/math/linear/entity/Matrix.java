@@ -124,11 +124,11 @@ public class Matrix
 	public static final char ROW_DELIMITER = ';';
 
 	/**
-	 * The flag specifying whether to parallelize using a work queue.
+	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
 	public static volatile boolean PARALLELIZE = false;
 	/**
-	 * The work queue for computing the dot product.
+	 * The {@link WorkQueue} for computing the dot product.
 	 */
 	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> DOT_PRODUCT_QUEUE = null;
 

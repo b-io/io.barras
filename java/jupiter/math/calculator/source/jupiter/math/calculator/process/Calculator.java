@@ -57,11 +57,11 @@ public class Calculator {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether to parallelize using a work queue.
+	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
 	protected static volatile boolean PARALLELIZE = true;
 	/**
-	 * The work queue for evaluating the elements.
+	 * The {@link WorkQueue} for evaluating the elements.
 	 */
 	protected static volatile WorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>> WORK_QUEUE = null;
 
