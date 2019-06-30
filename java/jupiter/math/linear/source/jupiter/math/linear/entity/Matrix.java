@@ -2087,69 +2087,6 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Parses the {@link Matrix} encoded in the specified expression {@link String}.
-	 * <p>
-	 * @param expression the expression {@link String} to parse
-	 * <p>
-	 * @return the {@link Matrix} encoded in the specified expression {@link String}, or
-	 *         {@code null} if there is a problem with parsing
-	 */
-	public static Matrix parse(final String expression) {
-		try {
-			final char[] delimiters = new char[] {Characters.LEFT_BRACKET,
-				Characters.RIGHT_BRACKET};
-			final List<Integer> indexes = Strings.getIndexes(expression, delimiters);
-			if (indexes.size() == 2) {
-				final int from = indexes.get(0);
-				final int to = indexes.get(1);
-				if (from < to && expression.charAt(from) == delimiters[0] &&
-						expression.charAt(to) == delimiters[1]) {
-					// Get the content
-					final String content = expression.substring(from + 1, to).trim();
-					// Get the rows
-					final List<String> rows = Strings.removeEmpty(
-							Strings.split(content, ROW_DELIMITER));
-					// Count the number of rows
-					final int m = rows.size();
-					// Count the number of columns
-					String row = rows.get(0).trim();
-					final int n = Strings.removeEmpty(Strings.split(row, COLUMN_DELIMITERS)).size();
-					// Create the elements of the matrix
-					final double[] elements = new double[m * n];
-					List<String> rowElements;
-					// Fill the matrix
-					for (int i = 0; i < m; ++i) {
-						// Get the current row
-						row = rows.get(i).trim();
-						// Get the elements of the row
-						rowElements = Strings.removeEmpty(Strings.split(row, COLUMN_DELIMITERS));
-						// Store the elements
-						for (int j = 0; j < n; ++j) {
-							elements[i * n + j] = Doubles.convert(rowElements.get(j));
-						}
-					}
-					return new Matrix(m, elements);
-				}
-			} else {
-				final int size = indexes.size();
-				if (size > 2) {
-					throw new ParseException("There are too many square brackets " +
-							Arguments.expectedButFound(size, 2), indexes.get(2));
-				}
-				throw new ParseException("There are not enough square brackets " +
-						Arguments.expectedButFound(size, 2), 0);
-			}
-		} catch (final NumberFormatException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
-			IO.error(ex);
-		}
-		return null;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates a {@link Matrix} loaded from the specified file.
 	 * <p>
 	 * @param path the path to the file to load
@@ -2254,6 +2191,69 @@ public class Matrix
 				}
 			}
 			return matrix;
+		}
+		return null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parses the {@link Matrix} encoded in the specified expression {@link String}.
+	 * <p>
+	 * @param expression the expression {@link String} to parse
+	 * <p>
+	 * @return the {@link Matrix} encoded in the specified expression {@link String}, or
+	 *         {@code null} if there is a problem with parsing
+	 */
+	public static Matrix parse(final String expression) {
+		try {
+			final char[] delimiters = new char[] {Characters.LEFT_BRACKET,
+				Characters.RIGHT_BRACKET};
+			final List<Integer> indexes = Strings.getIndexes(expression, delimiters);
+			if (indexes.size() == 2) {
+				final int from = indexes.get(0);
+				final int to = indexes.get(1);
+				if (from < to && expression.charAt(from) == delimiters[0] &&
+						expression.charAt(to) == delimiters[1]) {
+					// Get the content
+					final String content = expression.substring(from + 1, to).trim();
+					// Get the rows
+					final List<String> rows = Strings.removeEmpty(
+							Strings.split(content, ROW_DELIMITER));
+					// Count the number of rows
+					final int m = rows.size();
+					// Count the number of columns
+					String row = rows.get(0).trim();
+					final int n = Strings.removeEmpty(Strings.split(row, COLUMN_DELIMITERS)).size();
+					// Create the elements of the matrix
+					final double[] elements = new double[m * n];
+					List<String> rowElements;
+					// Fill the matrix
+					for (int i = 0; i < m; ++i) {
+						// Get the current row
+						row = rows.get(i).trim();
+						// Get the elements of the row
+						rowElements = Strings.removeEmpty(Strings.split(row, COLUMN_DELIMITERS));
+						// Store the elements
+						for (int j = 0; j < n; ++j) {
+							elements[i * n + j] = Doubles.convert(rowElements.get(j));
+						}
+					}
+					return new Matrix(m, elements);
+				}
+			} else {
+				final int size = indexes.size();
+				if (size > 2) {
+					throw new ParseException("There are too many square brackets " +
+							Arguments.expectedButFound(size, 2), indexes.get(2));
+				}
+				throw new ParseException("There are not enough square brackets " +
+						Arguments.expectedButFound(size, 2), 0);
+			}
+		} catch (final NumberFormatException ex) {
+			IO.error(ex);
+		} catch (final ParseException ex) {
+			IO.error(ex);
 		}
 		return null;
 	}

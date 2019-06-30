@@ -74,7 +74,7 @@ public class TimeSeriesGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CHART GRAPHIC
+	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -84,7 +84,7 @@ public class TimeSeriesGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// TIME SERIES GRAPHIC
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int addSeries(final String title) {
@@ -111,12 +111,17 @@ public class TimeSeriesGraphic
 		return dataset;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Loads the x and y coordinates from the specified table.
+	 * Loads the time series from the specified {@link StringTable}.
 	 * <p>
-	 * @param coordinates  the {@link StringTable} of the x and y coordinates
-	 * @param xColumnIndex the index of the column containing the x coordinates in the table
-	 * @param yColumnIndex the index of the column containing the y coordinates in the table
+	 * @param coordinates  the {@link StringTable} of the time series to load
+	 * @param xColumnIndex the index of the column containing the x coordinates
+	 * @param yColumnIndex the index of the column containing the y coordinates
 	 * @param hasTime      the flag specifying whether to parse the x coordinates with time
 	 * <p>
 	 * @throws ParseException if there is a problem with parsing the x coordinates to {@link Date}

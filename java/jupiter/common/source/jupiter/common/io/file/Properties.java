@@ -89,22 +89,6 @@ public class Properties
 		load(Threads.getClassLoader().getResourceAsStream(fileName));
 	}
 
-	/**
-	 * Creates a {@link Properties} loaded from the specified file.
-	 * <p>
-	 * @param fileName the name of the file to load
-	 * <p>
-	 * @return a {@link Properties} loaded from the specified file
-	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
-	 */
-	public static Properties create(final String fileName)
-			throws IOException {
-		final Properties properties = new Properties();
-		properties.load(fileName);
-		return properties;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT

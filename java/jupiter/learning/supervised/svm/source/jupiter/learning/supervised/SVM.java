@@ -303,8 +303,8 @@ public class SVM {
 	 * Loads the training examples from the specified {@code double} arrays of feature vectors and
 	 * classes.
 	 * <p>
-	 * @param featureVectors the 2D array of feature vectors of size (m x n)
-	 * @param classes        the {@code double} array of classes of size m
+	 * @param featureVectors the 2D array of feature vectors of size (m x n) to load
+	 * @param classes        the {@code double} array of classes of size m to load
 	 */
 	public void loadTrainingExamples(final double[][] featureVectors, final int[] classes) {
 		// Check the arguments
@@ -332,9 +332,9 @@ public class SVM {
 	/**
 	 * Loads the training examples from the specified {@link StringTable}.
 	 * <p>
-	 * @param trainingExamples the {@link StringTable} containing the training examples of size (m x
-	 *                         n + 1)
-	 * @param classesIndex     the index of the column containing the classes in the table
+	 * @param trainingExamples the {@link StringTable} containing the training examples of size
+	 *                         (m x n + 1) to load
+	 * @param classesIndex     the index of the column containing the classes
 	 */
 	public void loadTrainingExamples(final StringTable trainingExamples, final int classesIndex) {
 		if (trainingExamples != null) {

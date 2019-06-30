@@ -99,6 +99,11 @@ public abstract class SQLRow {
 	// IMPORTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Loads {@code this} from the specified {@link ResultSet}.
+	 * <p>
+	 * @param resultSet the {@link ResultSet} to load
+	 */
 	protected void load(final ResultSet resultSet) {
 		if (resultSet != null) {
 			final Field[] fields = getClass().getDeclaredFields();

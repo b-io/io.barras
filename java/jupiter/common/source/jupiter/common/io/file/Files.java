@@ -133,12 +133,14 @@ public class Files {
 	}
 
 	/**
-	 * Returns the relative path to the specified path against the specified base.
+	 * Returns the relative path to the specified path {@link File} against the specified base
+	 * {@link File}.
 	 * <p>
 	 * @param base the base {@link File} of the path to relativize
 	 * @param path the path {@link File} to relativize
 	 * <p>
-	 * @return the relative path to the specified path against the specified base
+	 * @return the relative path to the specified path {@link File} against the specified base
+	 *         {@link File}
 	 */
 	public static String getRelativePath(final File base, final File path) {
 		return base.toURI().relativize(path.toURI()).getPath();
