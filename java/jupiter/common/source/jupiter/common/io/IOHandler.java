@@ -142,7 +142,7 @@ public abstract class IOHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Clears the IO handler.
+	 * Clears {@code this}.
 	 */
 	public abstract void clear();
 

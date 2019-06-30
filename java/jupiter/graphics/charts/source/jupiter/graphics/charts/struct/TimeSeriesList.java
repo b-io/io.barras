@@ -33,6 +33,8 @@ import org.jfree.data.time.TimeSeriesCollection;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class TimeSeriesList
 		extends TimeSeriesCollection {
@@ -51,15 +53,31 @@ public class TimeSeriesList
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final List<TimeSeries> list = new ExtendedList<TimeSeries>();
+	/**
+	 * The {@link List} of {@link TimeSeries}.
+	 */
+	protected List<TimeSeries> list;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link TimeSeriesList}.
+	 */
 	public TimeSeriesList() {
+		this(new ExtendedList<TimeSeries>());
+	}
+
+	/**
+	 * Constructs a {@link TimeSeriesList} with the specified {@link List} of {@link TimeSeries}.
+	 * <p>
+	 * @param list the {@link List} of {@link TimeSeries}
+	 */
+	public TimeSeriesList(final List<TimeSeries> list) {
 		super();
+		this.list = list;
 	}
 
 
@@ -105,5 +123,28 @@ public class TimeSeriesList
 
 	public int size() {
 		return list.size();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public TimeSeriesList clone() {
+		try {
+			final TimeSeriesList clone = (TimeSeriesList) super.clone();
+			clone.list = Objects.clone(list);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

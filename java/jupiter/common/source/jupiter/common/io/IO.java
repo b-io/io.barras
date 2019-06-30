@@ -913,7 +913,7 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Clears the {@link IOPrinter}.
+	 * Clears {@code this}.
 	 */
 	public void clear() {
 		printer.clear();

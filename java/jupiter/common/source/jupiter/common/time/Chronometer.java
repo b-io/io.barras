@@ -55,6 +55,9 @@ public class Chronometer {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Chronometer}.
+	 */
 	public Chronometer() {
 	}
 

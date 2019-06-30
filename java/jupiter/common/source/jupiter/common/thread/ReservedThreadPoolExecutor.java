@@ -23,6 +23,7 @@
  */
 package jupiter.common.thread;
 
+import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -32,10 +33,22 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ReservedThreadPoolExecutor
-		extends ThreadPoolExecutor {
+		extends ThreadPoolExecutor
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -47,9 +60,9 @@ public class ReservedThreadPoolExecutor
 	protected final int maxPoolSize;
 
 	/**
-	 * The internal lock for submission.
+	 * The internal {@link Lock} for submission.
 	 */
-	protected final ReentrantLock submitLock = new ReentrantLock(true);
+	protected final Lock submitLock = new ReentrantLock(true);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,7 +130,7 @@ public class ReservedThreadPoolExecutor
 	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
 	 * results if the task is submitted, {@code null} otherwise.
 	 * <p>
-	 * @param task the task to submit
+	 * @param task the task {@link Runnable} to submit
 	 * <p>
 	 * @return a {@link Future} representing the pending results if the task is submitted,
 	 *         {@code null} otherwise
@@ -143,7 +156,8 @@ public class ReservedThreadPoolExecutor
 	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
 	 * results if the task is submitted, {@code null} otherwise.
 	 * <p>
-	 * @param task   the task to submit
+	 * @param <T>    the type of the task {@link Runnable} to submit
+	 * @param task   the task {@link Runnable} to submit
 	 * @param result the default value for the returned future
 	 * <p>
 	 * @return a {@link Future} representing the pending results if the task is submitted,
@@ -170,7 +184,8 @@ public class ReservedThreadPoolExecutor
 	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
 	 * results if the task is submitted, {@code null} otherwise.
 	 * <p>
-	 * @param task the task to submit
+	 * @param <T>  the type of the task {@link Callable} to submit
+	 * @param task the task {@link Callable} of type {@code T} to submit
 	 * <p>
 	 * @return a {@link Future} representing the pending results if the task is submitted,
 	 *         {@code null} otherwise

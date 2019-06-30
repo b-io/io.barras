@@ -40,10 +40,18 @@ public class SimpleWorker
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link SimpleWorker}.
+	 */
 	public SimpleWorker() {
 		super();
 	}
 
+	/**
+	 * Constructs a {@link SimpleWorker} with the specified input {@link Integer}.
+	 * <p>
+	 * @param input the input {@link Integer}
+	 */
 	public SimpleWorker(final Integer input) {
 		super(input);
 	}

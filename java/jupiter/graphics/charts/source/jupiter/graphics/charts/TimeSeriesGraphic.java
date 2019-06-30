@@ -35,6 +35,8 @@ import org.jfree.data.xy.XYDataset;
 import jupiter.common.struct.table.StringTable;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 import jupiter.graphics.charts.struct.TimeSeriesList;
 
 public class TimeSeriesGraphic
@@ -54,22 +56,41 @@ public class TimeSeriesGraphic
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final TimeSeriesList dataset;
+	/**
+	 * The {@link TimeSeriesList}.
+	 */
+	protected TimeSeriesList dataset;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link TimeSeriesGraphic} with the specified title, x-axis label and y-axis
+	 * label.
+	 * <p>
+	 * @param title  the title
+	 * @param xLabel the label of the x-axis
+	 * @param yLabel the label of the y-axis
+	 */
 	public TimeSeriesGraphic(final String title, final String xLabel, final String yLabel) {
-		super(title, xLabel, yLabel);
-		dataset = new TimeSeriesList();
+		this(title, xLabel, yLabel, new TimeSeriesList());
 	}
 
+	/**
+	 * Constructs a {@link TimeSeriesGraphic} with the specified title, x-axis label, y-axis label
+	 * and {@link TimeSeriesList}.
+	 * <p>
+	 * @param title   the title
+	 * @param xLabel  the label of the x-axis
+	 * @param yLabel  the label of the y-axis
+	 * @param dataset the {@link TimeSeriesList}
+	 */
 	public TimeSeriesGraphic(final String title, final String xLabel, final String yLabel,
-			final TimeSeriesList list) {
+			final TimeSeriesList dataset) {
 		super(title, xLabel, yLabel);
-		dataset = list;
+		this.dataset = dataset;
 	}
 
 
@@ -142,6 +163,29 @@ public class TimeSeriesGraphic
 			} else {
 				IO.warn("No coordinates found");
 			}
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public TimeSeriesGraphic clone() {
+		try {
+			final TimeSeriesGraphic clone = (TimeSeriesGraphic) super.clone();
+			clone.dataset = Objects.clone(dataset);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 }

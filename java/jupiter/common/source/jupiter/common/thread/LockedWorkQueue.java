@@ -52,18 +52,18 @@ public class LockedWorkQueue<I, O>
 	protected final boolean isFair;
 
 	/**
-	 * The internal lock of the workers.
+	 * The internal {@link Lock} of the workers.
 	 */
 	protected final Lock workersLock;
 
 	/**
-	 * The internal lock of the tasks.
+	 * The internal {@link Lock} of the tasks.
 	 */
 	protected final Lock tasksLock;
 	protected final Condition tasksLockCondition;
 
 	/**
-	 * The internal lock of the results.
+	 * The internal {@link Lock} of the results.
 	 */
 	protected final Lock resultsLock;
 	protected final Condition resultsLockCondition;

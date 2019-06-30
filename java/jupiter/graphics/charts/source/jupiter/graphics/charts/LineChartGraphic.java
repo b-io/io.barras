@@ -23,6 +23,8 @@
  */
 package jupiter.graphics.charts;
 
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.function.Function2D;
 import org.jfree.data.general.DatasetUtilities;
@@ -46,6 +48,9 @@ public class LineChartGraphic
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link XYDataset}.
+	 */
 	protected XYDataset dataset;
 
 
@@ -53,6 +58,14 @@ public class LineChartGraphic
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link LineChartGraphic} with the specified title, x-axis label and y-axis
+	 * label.
+	 * <p>
+	 * @param title  the title
+	 * @param xLabel the label of the x-axis
+	 * @param yLabel the label of the y-axis
+	 */
 	public LineChartGraphic(final String title, final String xLabel, final String yLabel) {
 		super(title, xLabel, yLabel);
 	}
@@ -113,5 +126,28 @@ public class LineChartGraphic
 	 */
 	public void setDataset(final XYDataset dataset) {
 		this.dataset = dataset;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public LineChartGraphic clone() {
+		try {
+			final LineChartGraphic clone = (LineChartGraphic) super.clone();
+			clone.dataset = Objects.clone(dataset);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

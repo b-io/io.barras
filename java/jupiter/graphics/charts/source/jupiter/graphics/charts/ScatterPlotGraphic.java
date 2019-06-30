@@ -29,6 +29,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import jupiter.common.test.ArrayArguments;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 import jupiter.graphics.charts.struct.SeriesStyle;
 
 public class ScatterPlotGraphic
@@ -48,18 +50,46 @@ public class ScatterPlotGraphic
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final XYSeriesCollection collection;
-	protected int size;
+	/**
+	 * The {@link XYSeriesCollection}.
+	 */
+	protected XYSeriesCollection collection;
+	/**
+	 * The number of series.
+	 */
+	protected int seriesCount;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ScatterPlotGraphic} with the specified title, x-axis label and y-axis
+	 * label.
+	 * <p>
+	 * @param title  the title
+	 * @param xLabel the label of the x-axis
+	 * @param yLabel the label of the y-axis
+	 */
 	public ScatterPlotGraphic(final String title, final String xLabel, final String yLabel) {
+		this(title, xLabel, yLabel, new XYSeriesCollection());
+	}
+
+	/**
+	 * Constructs a {@link ScatterPlotGraphic} with the specified title, x-axis label, y-axis label
+	 * and {@link XYSeriesCollection}.
+	 * <p>
+	 * @param title      the title
+	 * @param xLabel     the label of the x-axis
+	 * @param yLabel     the label of the y-axis
+	 * @param collection the {@link XYSeriesCollection}
+	 */
+	public ScatterPlotGraphic(final String title, final String xLabel, final String yLabel,
+			final XYSeriesCollection collection) {
 		super(title, xLabel, yLabel);
-		collection = new XYSeriesCollection();
-		size = 0;
+		this.collection = collection;
+		seriesCount = collection.getSeriesCount();
 	}
 
 
@@ -67,8 +97,15 @@ public class ScatterPlotGraphic
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public int getSize(final int index) {
-		return collection.getSeries(index).getItemCount();
+	/**
+	 * Returns the size of the specified series.
+	 * <p>
+	 * @param seriesIndex the index of the series to get the size from
+	 * <p>
+	 * @return the size of the specified series
+	 */
+	public int getSeriesSize(final int seriesIndex) {
+		return collection.getSeries(seriesIndex).getItemCount();
 	}
 
 
@@ -94,9 +131,9 @@ public class ScatterPlotGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int addSeries(final String title) {
-		final int seriesIndex = size;
+		final int seriesIndex = seriesCount;
 		collection.addSeries(new XYSeries(title));
-		++size;
+		++seriesCount;
 		return seriesIndex;
 	}
 
@@ -123,5 +160,28 @@ public class ScatterPlotGraphic
 
 	public void addPoint(final int index, final Number x, final Number y) {
 		collection.getSeries(index).add(x, y);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public ScatterPlotGraphic clone() {
+		try {
+			final ScatterPlotGraphic clone = (ScatterPlotGraphic) super.clone();
+			clone.collection = Objects.clone(collection);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

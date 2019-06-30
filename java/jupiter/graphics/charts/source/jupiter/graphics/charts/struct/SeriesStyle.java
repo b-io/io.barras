@@ -27,21 +27,43 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.Stroke;
 
-public class SeriesStyle {
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
+
+public class SeriesStyle
+		implements ICloneable<SeriesStyle> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final Color color;
-	protected final Shape shape;
-	protected final Stroke stroke;
+	/**
+	 * The {@link Color}.
+	 */
+	protected Color color;
+	/**
+	 * The {@link Shape}.
+	 */
+	protected Shape shape;
+	/**
+	 * The {@link Stroke}.
+	 */
+	protected Stroke stroke;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link SeriesStyle} with the specified {@link Color}, {@link Shape} and
+	 * {@link Stroke}.
+	 * <p>
+	 * @param color  the {@link Color}
+	 * @param shape  the {@link Shape}
+	 * @param stroke the {@link Stroke}
+	 */
 	public SeriesStyle(final Color color, final Shape shape, final Stroke stroke) {
 		this.color = color;
 		this.shape = shape;
@@ -54,23 +76,54 @@ public class SeriesStyle {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * @return the color
+	 * Returns the {@link Color}.
+	 * <p>
+	 * @return the {@link Color}
 	 */
 	public Color getColor() {
 		return color;
 	}
 
 	/**
-	 * @return the shape
+	 * Returns the {@link Shape}.
+	 * <p>
+	 * @return the {@link Shape}
 	 */
 	public Shape getShape() {
 		return shape;
 	}
 
 	/**
-	 * @return the stroke
+	 * Returns the {@link Stroke}.
+	 * <p>
+	 * @return the {@link Stroke}
 	 */
 	public Stroke getStroke() {
 		return stroke;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public SeriesStyle clone() {
+		try {
+			final SeriesStyle clone = (SeriesStyle) super.clone();
+			clone.color = Objects.clone(color);
+			clone.shape = Objects.clone(shape);
+			clone.stroke = Objects.clone(stroke);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

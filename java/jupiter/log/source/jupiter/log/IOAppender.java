@@ -56,9 +56,12 @@ public class IOAppender
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link IO}.
+	 */
 	protected final IO io;
 	/**
-	 * The internal lock of the IO.
+	 * The internal {@link Lock} of the {@link IO}.
 	 */
 	protected final Lock ioLock = new ReentrantLock(true);
 
