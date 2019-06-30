@@ -112,7 +112,7 @@ public abstract class Worker<I, O>
 	/**
 	 * Sets the {@link WorkQueue}.
 	 * <p>
-	 * @param workQueue an {@link WorkQueue} of type {@code I} and {@code O}
+	 * @param workQueue a {@link WorkQueue} of type {@code I} and {@code O}
 	 */
 	public void setWorkQueue(final WorkQueue<I, O> workQueue) {
 		this.workQueue = workQueue;

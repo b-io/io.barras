@@ -146,11 +146,11 @@ public class Matrix
 	 */
 	protected final int n;
 	/**
-	 * The dimensions.
+	 * The {@link Dimensions}.
 	 */
 	protected Dimensions size;
 	/**
-	 * The elements.
+	 * The {@code double} values.
 	 */
 	protected double[] elements;
 
@@ -184,7 +184,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a constant {@link Matrix} of the specified numbers of rows and columns from the
+	 * Constructs a constant {@link Matrix} of the specified numbers of rows and columns with the
 	 * specified {@code double} value.
 	 * <p>
 	 * @param rowCount    the number of rows
@@ -206,7 +206,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} from the specified elements.
+	 * Constructs a {@link Matrix} with the specified elements.
 	 * <p>
 	 * @param rowCount the number of rows of the array
 	 * @param elements an array of {@code double} values
@@ -229,7 +229,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} from the specified {@code double} values.
+	 * Constructs a {@link Matrix} with the specified {@code double} values.
 	 * <p>
 	 * @param rowCount  the number of rows of the array
 	 * @param values    an array of {@code double} values
@@ -262,7 +262,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} from the specified {@code double} values.
+	 * Constructs a {@link Matrix} with the specified {@code double} values.
 	 * <p>
 	 * @param values a 2D array of {@code double} values
 	 * <p>
@@ -273,7 +273,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} of the specified numbers of rows and columns from the specified
+	 * Constructs a {@link Matrix} of the specified numbers of rows and columns with the specified
 	 * values.
 	 * <p>
 	 * @param rowCount    the number of rows
@@ -303,12 +303,25 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} from the specified table.
+	 * Constructs a {@link Matrix} with the specified table.
 	 * <p>
 	 * @param table a {@link DoubleTable}
 	 */
 	public Matrix(final DoubleTable table) {
 		this(table.getRowCount(), table.toPrimitiveArray());
+	}
+
+	/**
+	 * Constructs a {@link Matrix} loaded from the specified file.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the specified file
+	 */
+	public Matrix(final String path, final boolean hasHeader)
+			throws IOException {
+		this(new DoubleTable(path, hasHeader));
 	}
 
 
@@ -2074,13 +2087,12 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Matrix} encoded in the specified {@link String}, or {@code null} if the
-	 * specified {@link String} does not contain any {@link Matrix}.
+	 * Parses the {@link Matrix} encoded in the specified expression {@link String}.
 	 * <p>
-	 * @param expression the {@link String} to parse
+	 * @param expression the expression {@link String} to parse
 	 * <p>
-	 * @return a {@link Matrix} encoded in the specified {@link String}, or {@code null} if the
-	 *         specified {@link String} does not contain any {@link Matrix}
+	 * @return the {@link Matrix} encoded in the specified expression {@link String}, or
+	 *         {@code null} if there is a problem with parsing
 	 */
 	public static Matrix parse(final String expression) {
 		try {
@@ -2138,7 +2150,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Matrix} loaded from the specified file.
+	 * Creates a {@link Matrix} loaded from the specified file.
 	 * <p>
 	 * @param path the path to the file to load
 	 * <p>
@@ -2146,14 +2158,14 @@ public class Matrix
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public static Matrix load(final String path)
+	public static Matrix create(final String path)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
-		return load(fileHandler.getReader(), fileHandler.countLines(true), false);
+		return create(fileHandler.getReader(), fileHandler.countLines(true), false);
 	}
 
 	/**
-	 * Returns a {@link Matrix} loaded from the specified file.
+	 * Creates a {@link Matrix} loaded from the specified file.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param transpose the flag specifying whether to transpose
@@ -2162,14 +2174,14 @@ public class Matrix
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public static Matrix load(final String path, final boolean transpose)
+	public static Matrix create(final String path, final boolean transpose)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
-		return load(fileHandler.getReader(), fileHandler.countLines(true), transpose);
+		return create(fileHandler.getReader(), fileHandler.countLines(true), transpose);
 	}
 
 	/**
-	 * Returns a {@link Matrix} loaded from the specified reader.
+	 * Creates a {@link Matrix} loaded from the specified reader.
 	 * <p>
 	 * @param reader    a {@link BufferedReader}
 	 * @param length    the number of lines to load
@@ -2179,7 +2191,7 @@ public class Matrix
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */
-	public static Matrix load(final BufferedReader reader, final int length,
+	public static Matrix create(final BufferedReader reader, final int length,
 			final boolean transpose)
 			throws IOException {
 		final int m = length;
@@ -2248,6 +2260,22 @@ public class Matrix
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// EXPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Saves {@code this} to the specified file.
+	 * <p>
+	 * @param path the path to the file to save to
+	 * <p>
+	 * @return {@code true} if {@code this} is saved to the specified file, {@code false} otherwise
+	 */
+	public boolean save(final String path) {
+		return toTable().save(path);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2297,19 +2325,19 @@ public class Matrix
 	/**
 	 * Tests whether the specified {@link String} is a parsable {@link Matrix}.
 	 * <p>
-	 * @param string a {@link String}
+	 * @param text a {@link String}
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is a parsable
-	 *         {@link Matrix}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is a parsable {@link Matrix},
+	 *         {@code false} otherwise
 	 */
-	public static boolean is(final String string) {
+	public static boolean is(final String text) {
 		final char[] delimiters = new char[] {Characters.LEFT_BRACKET, Characters.RIGHT_BRACKET};
-		final List<Integer> indexes = Strings.getIndexes(string.trim(), delimiters);
+		final List<Integer> indexes = Strings.getIndexes(text.trim(), delimiters);
 		if (indexes.size() == 2) {
 			final int from = indexes.get(0);
 			final int to = indexes.get(1);
-			if (from < to && string.charAt(from) == delimiters[0] &&
-					string.charAt(to) == delimiters[1]) {
+			if (from < to && text.charAt(from) == delimiters[0] &&
+					text.charAt(to) == delimiters[1]) {
 				return true;
 			}
 		}

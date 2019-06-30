@@ -44,10 +44,10 @@ public class StringArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String requireNonEmpty(final String string) {
-		if (CHECK_ARGS && Strings.isEmpty(requireNonNull(string))) {
-			throw new IllegalArgumentException("The specified string is empty");
+	public static String requireNonEmpty(final String text) {
+		if (CHECK_ARGS && Strings.isEmpty(requireNonNull(text))) {
+			throw new IllegalArgumentException("The specified text is empty");
 		}
-		return string;
+		return text;
 	}
 }

@@ -48,6 +48,9 @@ public class StringParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link StringParser}.
+	 */
 	public StringParser() {
 		super();
 	}

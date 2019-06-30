@@ -399,24 +399,32 @@ public class ConsoleHandler
 			return toString() + text + RESET.toString();
 		}
 
-		public static Color parse(final String string) {
-			if (string.startsWith(RESET.toString())) {
+		/**
+		 * Parses the {@link Color} encoded in the specified {@link String}.
+		 * <p>
+		 * @param text the {@link String} to parse
+		 * <p>
+		 * @return the {@link Color} encoded in the specified {@link String}, or {@code null} if
+		 *         there is a problem with parsing
+		 */
+		public static Color parse(final String text) {
+			if (text.startsWith(RESET.toString())) {
 				return RESET;
-			} else if (string.startsWith(BLACK.toString())) {
+			} else if (text.startsWith(BLACK.toString())) {
 				return BLACK;
-			} else if (string.startsWith(WHITE.toString())) {
+			} else if (text.startsWith(WHITE.toString())) {
 				return WHITE;
-			} else if (string.startsWith(BLUE.toString())) {
+			} else if (text.startsWith(BLUE.toString())) {
 				return BLUE;
-			} else if (string.startsWith(CYAN.toString())) {
+			} else if (text.startsWith(CYAN.toString())) {
 				return CYAN;
-			} else if (string.startsWith(GREEN.toString())) {
+			} else if (text.startsWith(GREEN.toString())) {
 				return GREEN;
-			} else if (string.startsWith(MAGENTA.toString())) {
+			} else if (text.startsWith(MAGENTA.toString())) {
 				return MAGENTA;
-			} else if (string.startsWith(RED.toString())) {
+			} else if (text.startsWith(RED.toString())) {
 				return RED;
-			} else if (string.startsWith(YELLOW.toString())) {
+			} else if (text.startsWith(YELLOW.toString())) {
 				return YELLOW;
 			}
 			return null;

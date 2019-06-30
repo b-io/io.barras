@@ -143,7 +143,7 @@ public class Table<T>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} from the specified elements.
+	 * Constructs a {@link Table} of type {@code T} with the specified elements.
 	 * <p>
 	 * @param c        the {@link Class} of type {@code T}
 	 * @param elements a 2D array of type {@code T}
@@ -162,7 +162,7 @@ public class Table<T>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} from the specified header and elements.
+	 * Constructs a {@link Table} of type {@code T} with the specified header and elements.
 	 * <p>
 	 * @param c        the {@link Class} of type {@code T}
 	 * @param header   an array of {@link String}
@@ -1016,13 +1016,13 @@ public class Table<T>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS & EXPORTERS
+	// IMPORTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Loads the values from the specified file.
+	 * Loads {@code this} from the specified file.
 	 * <p>
-	 * @param parser    an {@link IParser} of type {@code T}
+	 * @param parser    the {@link IParser} of type {@code T} of the file to load
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -1036,12 +1036,12 @@ public class Table<T>
 	}
 
 	/**
-	 * Loads the values of the specified row length from the specified reader.
+	 * Loads {@code this} from the specified {@link BufferedReader}.
 	 * <p>
-	 * @param parser    an {@link IParser} of type {@code T}
-	 * @param reader    a {@link BufferedReader}
+	 * @param parser    the {@link IParser} of type {@code T} of the lines to load
+	 * @param reader    the {@link BufferedReader} of the lines to load
 	 * @param rowCount  the number of lines to load
-	 * @param hasHeader the flag specifying whether the reader has a header
+	 * @param hasHeader the flag specifying whether the first line is a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */
@@ -1103,14 +1103,17 @@ public class Table<T>
 		}
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// EXPORTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Saves the values to the specified file.
+	 * Saves {@code this} to the specified file.
 	 * <p>
 	 * @param path the path to the file to save to
 	 * <p>
-	 * @return {@code true} if the values are saved to the specified file, {@code false} otherwise
+	 * @return {@code true} if {@code this} is saved to the specified file, {@code false} otherwise
 	 */
 	public boolean save(final String path) {
 		final FileHandler fileHandler = new FileHandler(path);

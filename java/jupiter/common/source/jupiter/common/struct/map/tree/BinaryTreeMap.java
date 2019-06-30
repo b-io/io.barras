@@ -89,10 +89,10 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified tree and stores the {@code K} keys of the
-	 * visited {@code N} nodes in the specified {@link List}.
+	 * Performs the in-order traversal of the specified {@code N} tree and stores the {@code K} keys
+	 * of the visited {@code N} nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree the tree {@code N} to get the {@code K} keys from
+	 * @param tree the {@code N} tree to get the {@code K} keys from
 	 * @param keys the {@link List} of type {@code K} to store the {@code K} keys in
 	 */
 	protected void getKeys(final N tree, final List<K> keys) {
@@ -118,10 +118,10 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified tree and returns the values of the visited
-	 * nodes in the specified {@link List}.
+	 * Performs the in-order traversal of the specified {@code N} tree and returns the values of the
+	 * visited nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree   the tree {@code N} to get the values from
+	 * @param tree   the {@code N} tree to get the values from
 	 * @param values the {@link List} of type {@code V} to store the values in
 	 */
 	protected void getValues(final N tree, final List<V> values) {
@@ -338,11 +338,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Rotates the specified tree to the left. Corrects a RR imbalance.
+	 * Rotates the specified {@code N} tree to the left. Corrects a RR imbalance.
 	 * <p>
-	 * @param tree a tree {@code N}
+	 * @param tree the {@code N} tree to rotate
 	 * <p>
-	 * @return the rotated tree {@code N}
+	 * @return the rotated {@code N} tree
 	 */
 	protected N rotateLeft(final N tree) {
 		N rotatedTree;
@@ -364,11 +364,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Rotates the specified tree to the right. Corrects a LL imbalance.
+	 * Rotates the specified {@code N} tree to the right. Corrects a LL imbalance.
 	 * <p>
-	 * @param tree a tree {@code N}
+	 * @param tree the {@code N} tree to rotate
 	 * <p>
-	 * @return the rotated tree {@code N}
+	 * @return the rotated {@code N} tree
 	 */
 	protected N rotateRight(final N tree) {
 		N rotatedTree;
@@ -390,10 +390,10 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Rotates the left part of the specified tree to the left and rotates the specified tree to the
+	 * Rotates the left part of the specified {@code N} tree to the left and rotates it to the
 	 * right. Corrects a LR imbalance.
 	 * <p>
-	 * @param tree a tree {@code N}
+	 * @param tree the {@code N} tree to rotate
 	 * <p>
 	 * @return the rotated tree
 	 */
@@ -403,10 +403,10 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Rotates the right part of the specified tree to the right and rotates the specified tree to
-	 * the left. Corrects a RL imbalance.
+	 * Rotates the right part of the specified {@code N} tree to the right and rotates it to the
+	 * left. Corrects a RL imbalance.
 	 * <p>
-	 * @param tree a tree {@code N}
+	 * @param tree the {@code N} tree to rotate
 	 * <p>
 	 * @return the rotated tree
 	 */
@@ -429,9 +429,9 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Prints the specified tree.
+	 * Prints the specified {@code N} tree.
 	 * <p>
-	 * @param tree a tree {@code N}
+	 * @param tree the {@code N} tree to print
 	 */
 	protected void print(final N tree) {
 		IO.result(tree);
@@ -518,11 +518,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified tree and returns a {@link Set} view of the
-	 * key-value {@link java.util.Map.Entry} of type {@code K} and {@code V} of the visited nodes
-	 * added to the specified {@link Set}.
+	 * Performs the in-order traversal of the specified {@code N} tree and returns a {@link Set}
+	 * view of the key-value {@link java.util.Map.Entry} of type {@code K} and {@code V} of the
+	 * visited nodes added to the specified {@link Set}.
 	 * <p>
-	 * @param tree a tree {@code N}
+	 * @param tree a {@code N} tree
 	 * @param set  a {@link Set} of {@link java.util.Map.Entry} of type {@code K} and {@code V}
 	 * <p>
 	 * @return a {@link Set} view of the key-value {@link java.util.Map.Entry} of type {@code K} and

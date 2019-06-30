@@ -73,21 +73,21 @@ public class LogHandler
 	protected volatile File logDir;
 
 	/**
-	 * The output log {@link File}.
+	 * The output log {@link File} to handle.
 	 */
 	protected volatile File outputLog;
 	/**
-	 * The internal {@link Lock} of the output log {@link File}.
+	 * The internal {@link Lock} of the output log {@link File} to handle.
 	 */
 	protected final Lock outputLogLock = new ReentrantLock(true);
 	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
 
 	/**
-	 * The error log {@link File}.
+	 * The error log {@link File} to handle.
 	 */
 	protected volatile File errorLog;
 	/**
-	 * The internal {@link Lock} of the error log {@link File}.
+	 * The internal {@link Lock} of the error log {@link File} to handle.
 	 */
 	protected final Lock errorLogLock = new ReentrantLock(true);
 	protected final StringBuilder errorLineBuilder = Strings.createBuilder();
@@ -97,14 +97,29 @@ public class LogHandler
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link LogHandler}.
+	 */
 	public LogHandler() {
 		this(DEFAULT_LOG_DIR);
 	}
 
+	/**
+	 * Constructs a {@link LogHandler} with the specified log directory.
+	 * <p>
+	 * @param logDirPath the path to the log directory
+	 */
 	public LogHandler(final String logDirPath) {
 		this(logDirPath, DEFAULT_OUTPUT_LOG_NAME, DEFAULT_ERROR_LOG_NAME);
 	}
 
+	/**
+	 * Constructs a {@link LogHandler} with the specified log directory, output log and error log.
+	 * <p>
+	 * @param logDirPath    the path to the log directory
+	 * @param outputLogName the name to the output log to handle
+	 * @param errorLogName  the name to the error log to handle
+	 */
 	public LogHandler(final String logDirPath, final String outputLogName,
 			final String errorLogName) {
 		super();

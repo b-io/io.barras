@@ -67,7 +67,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	 * <p>
 	 * @param key   the {@code K} key
 	 * @param value the {@code V} value
-	 * @param tree  the reference {@link AvlTreeMap} of type {@code K} and {@code V}
+	 * @param tree  the {@link AvlTreeMap} of type {@code K} and {@code V}
 	 */
 	public AvlTreeNode(final K key, final V value, final AvlTreeMap<K, V> tree) {
 		super(key, value);

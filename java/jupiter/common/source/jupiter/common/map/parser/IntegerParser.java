@@ -50,6 +50,9 @@ public class IntegerParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link IntegerParser}.
+	 */
 	public IntegerParser() {
 		super();
 	}

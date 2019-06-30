@@ -120,7 +120,7 @@ public abstract class BinaryClassifier
 	}
 
 	/**
-	 * Constructs a binary classifier from the specified files containing the feature vectors and
+	 * Constructs a binary classifier with the specified files containing the feature vectors and
 	 * the classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
@@ -139,7 +139,7 @@ public abstract class BinaryClassifier
 	}
 
 	/**
-	 * Constructs a binary classifier from the specified files containing the feature vectors and
+	 * Constructs a binary classifier with the specified files containing the feature vectors and
 	 * the classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)

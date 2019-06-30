@@ -62,33 +62,33 @@ public class Numbers {
 	 * Returns a {@link Number} of the specified {@link Class} converted from the specified
 	 * {@link String}.
 	 * <p>
-	 * @param c      a {@link Class}
-	 * @param string a {@link String}
+	 * @param c    a {@link Class}
+	 * @param text a {@link String}
 	 * <p>
 	 * @return a {@link Number} of the specified {@link Class} converted from the specified
 	 *         {@link String}
 	 */
-	public static Number toNumber(final Class<?> c, final String string) {
-		if (string == null) {
+	public static Number toNumber(final Class<?> c, final String text) {
+		if (text == null) {
 			return null;
 		}
 		if (Bytes.is(c)) {
-			return Byte.valueOf(string);
+			return Byte.valueOf(text);
 		} else if (Shorts.is(c)) {
-			return Short.valueOf(string);
+			return Short.valueOf(text);
 		} else if (Integers.is(c)) {
-			return Integer.valueOf(string);
+			return Integer.valueOf(text);
 		} else if (Longs.is(c)) {
-			return Long.valueOf(string);
+			return Long.valueOf(text);
 		} else if (Floats.is(c)) {
-			return Float.valueOf(string);
+			return Float.valueOf(text);
 		} else if (Doubles.is(c)) {
-			return Double.valueOf(string);
+			return Double.valueOf(text);
 		} else if (BigDecimal.class.isAssignableFrom(c)) {
-			return new BigDecimal(string);
+			return new BigDecimal(text);
 		}
 		throw new IllegalOperationException(
-				"Cannot convert " + Strings.quote(string) + " to a " + c.getSimpleName());
+				"Cannot convert " + Strings.quote(text) + " to a " + c.getSimpleName());
 	}
 
 
@@ -111,14 +111,14 @@ public class Numbers {
 	/**
 	 * Tests whether the specified {@link String} is a parsable {@link Number}.
 	 * <p>
-	 * @param string the {@link String} to test
+	 * @param text the {@link String} to test
 	 * <p>
 	 * @return {@code true} if the specified {@link String} is a parsable
 	 *         {@link Number}, {@code false} otherwise
 	 */
-	public static boolean is(final String string) {
+	public static boolean is(final String text) {
 		try {
-			Double.parseDouble(string);
+			Double.parseDouble(text);
 		} catch (final NumberFormatException ignored) {
 			return false;
 		}

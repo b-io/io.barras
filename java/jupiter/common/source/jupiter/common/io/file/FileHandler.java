@@ -281,29 +281,29 @@ public class FileHandler {
 	/**
 	 * Writes the specified {@link String}.
 	 * <p>
-	 * @param string the {@link String} to write
+	 * @param text the {@link String} to write
 	 * <p>
 	 * @return {@code true} if the specified {@link String} is written, {@code false} otherwise
 	 */
-	public boolean writeLine(final String string) {
-		return writeLine(string, true);
+	public boolean writeLine(final String text) {
+		return writeLine(text, true);
 	}
 
 	/**
 	 * Writes the specified {@link String}.
 	 * <p>
-	 * @param string the {@link String} to write
+	 * @param text   the {@link String} to write
 	 * @param append the flag specifying whether to append
 	 * <p>
 	 * @return {@code true} if the specified {@link String} is written, {@code false} otherwise
 	 */
-	public boolean writeLine(final String string, final boolean append) {
+	public boolean writeLine(final String text, final boolean append) {
 		try {
 			// Initialize
 			initWriter(append);
 
-			// Append the string
-			writer.write(string + NEWLINE);
+			// Append the text
+			writer.write(text + NEWLINE);
 			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {

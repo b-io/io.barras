@@ -156,7 +156,7 @@ public class SafeDateFormat
 	 * @param pos        the formatting position. On input: an alignment field, if desired; on
 	 *                   output: the offsets of the alignment field
 	 * <p>
-	 * @return the formatted date-time string
+	 * @return the formatted date-time {@link StringBuffer}
 	 * <p>
 	 * @exception NullPointerException if the specified {@code date} is {@code null}
 	 */
@@ -191,7 +191,7 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Parses the specified {@link String} to produce a {@link Date}.
+	 * Parses the {@link Date} encoded in the specified {@link String}.
 	 * <p>
 	 * The method attempts to parse text starting at the index specified by {@code pos}. If parsing
 	 * succeeds, then the index of {@code pos} is updated to the index after the last character used

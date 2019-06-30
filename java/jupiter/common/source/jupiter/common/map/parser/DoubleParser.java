@@ -50,6 +50,9 @@ public class DoubleParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link DoubleParser}.
+	 */
 	public DoubleParser() {
 		super();
 	}

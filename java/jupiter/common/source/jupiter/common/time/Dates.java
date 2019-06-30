@@ -263,31 +263,31 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Date} from the specified date {@link String}.
+	 * Parses the {@link Date} encoded in the specified {@link String}.
 	 * <p>
-	 * @param date the date {@link String} to parse
+	 * @param text the {@link String} to parse
 	 * <p>
-	 * @return the {@link Date} from the specified date {@link String}
+	 * @return the {@link Date} encoded in the specified {@link String}
 	 * <p>
-	 * @throws ParseException if there is a problem with parsing {@code date}
+	 * @throws ParseException if there is a problem with parsing
 	 */
-	public static Date parse(final String date)
+	public static Date parse(final String text)
 			throws ParseException {
-		return DATE_FORMATTER.parse(date);
+		return DATE_FORMATTER.parse(text);
 	}
 
 	/**
-	 * Returns the {@link Date} from the specified date {@link String} with time.
+	 * Parses the {@link Date} with time encoded in the specified {@link String}.
 	 * <p>
-	 * @param date the date {@link String} to parse
+	 * @param text the {@link String} to parse
 	 * <p>
-	 * @return the {@link Date} from the specified date {@link String} with time
+	 * @return the {@link Date} with time encoded in the specified {@link String}
 	 * <p>
-	 * @throws ParseException if there is a problem with parsing {@code date}
+	 * @throws ParseException if there is a problem with parsing
 	 */
-	public static Date parseWithTime(final String date)
+	public static Date parseWithTime(final String text)
 			throws ParseException {
-		return DATE_TIME_FORMATTER.parse(date);
+		return DATE_TIME_FORMATTER.parse(text);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

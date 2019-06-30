@@ -266,15 +266,15 @@ public class JOCL
 
 	protected String getDeviceInfoHelperString(final cl_device_id device_id,
 			final int parameterName) {
-		// Obtain the length of the string to query
+		// Obtain the length of the info text to query
 		final long size[] = new long[1];
 		clGetDeviceInfo(device_id, parameterName, 0, null, size);
 
-		// Create a buffer of the appropriate size and fill it with the info
+		// Create a buffer of the appropriate size and fill it with the info text
 		final byte buffer[] = new byte[(int) size[0]];
 		clGetDeviceInfo(device_id, parameterName, buffer.length, Pointer.to(buffer), null);
 
-		// Create a string from the buffer (excluding the trailing \0 byte)
+		// Return the info text (create a String from the buffer excluding the trailing \0 byte)
 		return new String(buffer, 0, buffer.length - 1);
 	}
 

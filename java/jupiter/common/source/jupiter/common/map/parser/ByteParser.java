@@ -50,6 +50,9 @@ public class ByteParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ByteParser}.
+	 */
 	public ByteParser() {
 		super();
 	}

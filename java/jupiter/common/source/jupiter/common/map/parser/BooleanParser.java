@@ -47,6 +47,9 @@ public class BooleanParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link BooleanParser}.
+	 */
 	public BooleanParser() {
 		super();
 	}

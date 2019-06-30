@@ -46,7 +46,13 @@ public class StringWrapper
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The left wrapping {@link String}.
+	 */
 	protected final String left;
+	/**
+	 * The right wrapping {@link String}.
+	 */
 	protected final String right;
 
 
@@ -54,12 +60,25 @@ public class StringWrapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link StringWrapper} with the specified left and right wrapping {@code char}
+	 * values.
+	 * <p>
+	 * @param left  the left wrapping {@code char} value
+	 * @param right the right wrapping {@code char} value
+	 */
 	public StringWrapper(final char left, final char right) {
 		super();
 		this.left = Strings.toString(left);
 		this.right = Strings.toString(right);
 	}
 
+	/**
+	 * Constructs a {@link StringWrapper} with the specified left and right wrapping {@link String}.
+	 * <p>
+	 * @param left  the left wrapping {@link String}
+	 * @param right the right wrapping {@link String}
+	 */
 	public StringWrapper(final String left, final String right) {
 		super();
 		this.left = left;

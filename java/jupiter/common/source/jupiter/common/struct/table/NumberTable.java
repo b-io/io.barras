@@ -80,7 +80,7 @@ public class NumberTable<T extends Number>
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} from the specified elements.
+	 * Constructs a {@link NumberTable} of type {@code T} with the specified elements.
 	 * <p>
 	 * @param c        the {@link Class} of type {@code T}
 	 * @param elements a 2D array of type {@code T}
@@ -90,7 +90,7 @@ public class NumberTable<T extends Number>
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} from the specified header and elements.
+	 * Constructs a {@link NumberTable} of type {@code T} with the specified header and elements.
 	 * <p>
 	 * @param c        the {@link Class} of type {@code T}
 	 * @param header   an array of type {@code T}

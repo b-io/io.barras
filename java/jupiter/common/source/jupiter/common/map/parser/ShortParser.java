@@ -50,6 +50,9 @@ public class ShortParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ShortParser}.
+	 */
 	public ShortParser() {
 		super();
 	}

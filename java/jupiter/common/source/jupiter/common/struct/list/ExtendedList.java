@@ -71,7 +71,7 @@ public class ExtendedList<T>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedList} of type {@code T} from the specified {@link Collection} of
+	 * Constructs an {@link ExtendedList} of type {@code T} with the specified {@link Collection} of
 	 * super-type {@code T}.
 	 * <p>
 	 * @param collection a {@link Collection} of super-type {@code T}

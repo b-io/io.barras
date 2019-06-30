@@ -88,7 +88,7 @@ public class LogisticRegression
 	}
 
 	/**
-	 * Constructs a logistic regression model from the specified files containing the feature
+	 * Constructs a logistic regression model with the specified files containing the feature
 	 * vectors and the classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
@@ -102,7 +102,7 @@ public class LogisticRegression
 	}
 
 	/**
-	 * Constructs a logistic regression model from the specified files containing the feature
+	 * Constructs a logistic regression model with the specified files containing the feature
 	 * vectors and the classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)

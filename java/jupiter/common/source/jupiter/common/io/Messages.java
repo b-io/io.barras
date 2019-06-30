@@ -164,8 +164,8 @@ public class Messages {
 		return createLabel(Strings.toString(level).substring(0, 4));
 	}
 
-	protected static String createLabel(final String string) {
-		return Strings.isNotEmpty(string) ? Strings.bracketize(string) : EMPTY;
+	protected static String createLabel(final String text) {
+		return Strings.isNotEmpty(text) ? Strings.bracketize(text) : EMPTY;
 	}
 
 

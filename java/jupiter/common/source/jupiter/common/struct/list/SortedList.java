@@ -58,7 +58,7 @@ public class SortedList<T extends Comparable<T>>
 	}
 
 	/**
-	 * Constructs an {@link SortedList} of type {@code T} from the specified {@link Collection} of
+	 * Constructs a {@link SortedList} of type {@code T} with the specified {@link Collection} of
 	 * super-type {@code T}.
 	 * <p>
 	 * @param collection a {@link Collection} of super-type {@code T}

@@ -71,7 +71,7 @@ public class SplineInterpolator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SplineInterpolator} from the specified X and Y components of the control
+	 * Constructs a {@link SplineInterpolator} with the specified X and Y components of the control
 	 * points and tangents.
 	 * <p>
 	 * @param X the X component of the control points, strictly increasing

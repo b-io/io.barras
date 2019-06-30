@@ -48,6 +48,9 @@ public class CharacterParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link CharacterParser}.
+	 */
 	public CharacterParser() {
 		super();
 	}

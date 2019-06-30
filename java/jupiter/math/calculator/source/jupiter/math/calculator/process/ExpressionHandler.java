@@ -131,14 +131,14 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a tree whose nodes and leaves correspond respectively to the operations and the
-	 * numbers of the specified expression.
+	 * Returns the root {@link Element} of the tree whose nodes and leaves correspond respectively
+	 * to the operations and numbers of the specified expression {@link String}.
 	 * <p>
-	 * @param expression the expression to parse
-	 * @param context    the context containing the values of the variables
+	 * @param expression the expression {@link String} to parse
+	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return the root {@link Element} of the tree of operations and numbers corresponding to the
-	 *         specified expression
+	 * @return the root {@link Element} of the tree whose nodes and leaves correspond respectively
+	 *         to the operations and numbers of the specified expression {@link String}
 	 */
 	public static Result<Element> parseExpression(final String expression,
 			final Map<String, Element> context) {
@@ -146,15 +146,17 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * Returns a node or a leaf with the specified parent node corresponding respectively to an
-	 * operation or a number parsed from the specified expression.
+	 * Returns a node or a leaf {@link Element} with the specified parent {@link Element}
+	 * corresponding respectively to an operation or a number parsed from the specified expression
+	 * {@link String}.
 	 * <p>
-	 * @param parent     the parent node {@link Element} of the expression
-	 * @param expression the expression to parse
-	 * @param context    the context containing the values of the variables
+	 * @param parent     the parent {@link Element} of the expression {@link String} to parse
+	 * @param expression the expression {@link String} to parse
+	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return a node or leaf {@link Element} corresponding respectively to an operation or a number
-	 *         parsed from the specified expression
+	 * @return a node or leaf {@link Element} with the specified parent {@link Element}
+	 *         corresponding respectively to an operation or a number parsed from the specified
+	 *         expression {@link String}
 	 */
 	public static Result<Element> parseExpression(final Element parent, final String expression,
 			final Map<String, Element> context) {
@@ -297,14 +299,14 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the binary operator in the specified expression, or {@code -1} if there
-	 * is no such occurrence.
+	 * Returns the index of the binary operator in the specified expression {@link String}, or
+	 * {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param expression          the expression to parse
-	 * @param delimitingIntervals the delimiting intervals in the expression
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the index of the binary operator in the specified expression, or {@code -1} if there
-	 *         is no such occurrence
+	 * @return the index of the binary operator in the specified expression {@link String}, or
+	 *         {@code -1} if there is no such occurrence
 	 */
 	protected static int getBinaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
@@ -318,14 +320,14 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * Returns the indexes of all the binary operators in the specified expression that are not in
-	 * the specified delimiting intervals.
+	 * Returns the indexes of all the binary operators in the specified expression {@link String}
+	 * that are not in the specified delimiting intervals.
 	 * <p>
-	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the expression
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the indexes of all the binary operators in the specified expression that are not in
-	 *         the specified delimiting intervals
+	 * @return the indexes of all the binary operators in the specified expression {@link String}
+	 *         that are not in the specified delimiting intervals
 	 */
 	protected static ExtendedList<Integer> getBinaryOperatorIndexes(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
@@ -334,14 +336,14 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * Returns the index of the last unary operator in the specified expression that is not in the
-	 * specified delimiting intervals.
+	 * Returns the index of the last unary operator in the specified expression {@link String} that
+	 * is not in the specified delimiting intervals.
 	 * <p>
-	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the expression
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the index of the last unary operator in the specified expression that is not in the
-	 *         specified delimiting intervals
+	 * @return the index of the last unary operator in the specified expression {@link String} that
+	 *         is not in the specified delimiting intervals
 	 */
 	protected static Integer getLastUnaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
@@ -350,16 +352,16 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * Returns the indexes of all the operators in the specified expression that are not in the
-	 * specified delimiting intervals.
+	 * Returns the indexes of all the operators in the specified expression {@link String} that are
+	 * not in the specified delimiting intervals.
 	 * <p>
-	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the expression
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
-	 * @return the indexes of all the operators in the specified expression that are not in the
-	 *         specified delimiting intervals
+	 * @return the indexes of all the operators in the specified expression {@link String} that are
+	 *         not in the specified delimiting intervals
 	 */
 	protected static ExtendedList<Integer> getOperatorIndexes(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
@@ -382,16 +384,16 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * Returns the index of the last operator in the specified expression that is not in the
-	 * specified delimiting intervals.
+	 * Returns the index of the last operator in the specified expression {@link String} that is not
+	 * in the specified delimiting intervals.
 	 * <p>
-	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the expression
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param operators           the {@link List} of operators to find
 	 * <p>
-	 * @return the index of the last operator in the specified expression that is not in the
-	 *         specified delimiting intervals
+	 * @return the index of the last operator in the specified expression {@link String} that is not
+	 *         in the specified delimiting intervals
 	 */
 	protected static int getLastOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
@@ -403,16 +405,16 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * Returns the index of the last operator in the specified expression that is not in the
-	 * specified delimiting intervals.
+	 * Returns the index of the last operator in the specified expression {@link String} that is not
+	 * in the specified delimiting intervals.
 	 * <p>
-	 * @param expression          a {@link String}
-	 * @param delimitingIntervals the delimiting intervals in the expression
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
-	 * @return the index of the last operator in the specified expression that is not in the
-	 *         specified delimiting intervals
+	 * @return the index of the last operator in the specified expression {@link String} that is not
+	 *         in the specified delimiting intervals
 	 */
 	protected static int getLastOperatorIndexFromList(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
@@ -433,11 +435,11 @@ public class ExpressionHandler {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the delimiting intervals in the specified expression.
+	 * Returns the delimiting intervals in the specified expression {@link String}.
 	 * <p>
-	 * @param expression a {@link String}
+	 * @param expression the expression {@link String} to parse
 	 * <p>
-	 * @return the delimiting intervals in the specified expression
+	 * @return the delimiting intervals in the specified expression {@link String}
 	 */
 	protected static IntervalList<Integer> getDelimitingIntervals(final String expression) {
 		final List<Interval<Integer>> delimitingIntervals = new LinkedList<Interval<Integer>>();

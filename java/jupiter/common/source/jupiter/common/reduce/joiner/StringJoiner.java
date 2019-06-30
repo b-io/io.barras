@@ -55,6 +55,10 @@ public class StringJoiner
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link StringJoiner} with
+	 * @param delimiter
+	 */
 	protected StringJoiner(final String delimiter) {
 		super(String.class);
 

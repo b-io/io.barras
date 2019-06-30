@@ -50,6 +50,9 @@ public class LongParser
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link LongParser}.
+	 */
 	public LongParser() {
 		super();
 	}

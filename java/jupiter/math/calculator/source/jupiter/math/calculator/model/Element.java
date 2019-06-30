@@ -32,8 +32,17 @@ public abstract class Element {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The parent {@link Element}.
+	 */
 	protected Element parent;
+	/**
+	 * The expression {@link String}.
+	 */
 	protected String expression;
+	/**
+	 * The {@link Entity}.
+	 */
 	protected Entity entity;
 
 
@@ -41,11 +50,26 @@ public abstract class Element {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link Element} with the specified parent {@link Element} and expression
+	 * {@link String}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 */
 	protected Element(final Element parent, final String expression) {
 		this.parent = parent;
 		this.expression = expression;
 	}
 
+	/**
+	 * Constructs an {@link Element} with the specified parent {@link Element}, expression
+	 * {@link String} and {@link Entity}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 * @param entity     the {@link Entity}
+	 */
 	protected Element(final Element parent, final String expression, final Entity entity) {
 		this.parent = parent;
 		this.expression = expression;
@@ -58,27 +82,27 @@ public abstract class Element {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the parent.
+	 * Returns the parent {@link Element}.
 	 * <p>
-	 * @return the parent
+	 * @return the parent {@link Element}
 	 */
 	public Element getParent() {
 		return parent;
 	}
 
 	/**
-	 * Returns the expression.
+	 * Returns the expression {@link String}.
 	 * <p>
-	 * @return the expression
+	 * @return the expression {@link String}
 	 */
 	public String getExpression() {
 		return expression;
 	}
 
 	/**
-	 * Returns the entity.
+	 * Returns the {@link Entity}.
 	 * <p>
-	 * @return the entity
+	 * @return the {@link Entity}
 	 */
 	public Entity getEntity() {
 		return entity;
@@ -87,7 +111,7 @@ public abstract class Element {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the parent.
+	 * Sets the parent {@link Element}.
 	 * <p>
 	 * @param parent an {@link Element}
 	 */
@@ -96,7 +120,7 @@ public abstract class Element {
 	}
 
 	/**
-	 * Sets the expression.
+	 * Sets the expression {@link String}.
 	 * <p>
 	 * @param expression a {@link String}
 	 */
@@ -105,7 +129,7 @@ public abstract class Element {
 	}
 
 	/**
-	 * Sets the entity.
+	 * Sets the {@link Entity}.
 	 * <p>
 	 * @param entity an {@link Entity}
 	 */

@@ -136,12 +136,12 @@ public class Calculator {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Parses and evaluates the specified expression (assignment or simple evaluation) and returns
-	 * the {@link Result} of {@link Entity}.
+	 * Parses the specified expression {@link String} (assignment or simple evaluation) and
+	 * evaluates it to an {@link Entity}.
 	 * <p>
-	 * @param expression the {@link String} to parse and evaluate
+	 * @param expression the expression {@link String} to parse and evaluate
 	 * <p>
-	 * @return the {@link Result} of {@link Entity} evaluated from the specified expression
+	 * @return the {@link Entity} evaluated from the specified expression {@link String}
 	 */
 	public Result<Entity> process(final String expression) {
 		try {
@@ -192,12 +192,13 @@ public class Calculator {
 	}
 
 	/**
-	 * Parses the specified expression to a tree of operations and numbers and evaluates it.
+	 * Parses the specified expression {@link String} to a tree of operations and numbers and
+	 * evaluates it to an {@link Entity}.
 	 * <p>
-	 * @param expression the {@link String} to parse and evaluate
-	 * @param context    the context containing the values of the variables
+	 * @param expression the expression {@link String} to parse and evaluate
+	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return the {@link Entity} evaluated from the specified expression
+	 * @return the {@link Entity} evaluated from the specified expression {@link String}
 	 */
 	protected Result<Entity> process(final String expression, final Map<String, Element> context) {
 		final Result<Element> result = ExpressionHandler.parseExpression(expression, context);
@@ -209,12 +210,13 @@ public class Calculator {
 	}
 
 	/**
-	 * Evaluates the specified tree of operations and numbers.
+	 * Evaluates the specified tree {@link Element} of operations and numbers to an {@link Entity}.
 	 * <p>
 	 * @param tree    the root {@link Element} of the tree to evaluate
-	 * @param context the context containing the values of the variables
+	 * @param context the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return the {@link Entity} evaluated from the specified tree of operations and numbers
+	 * @return the {@link Entity} evaluated from the specified tree {@link Element} of operations
+	 *         and numbers
 	 */
 	public static Result<Entity> evaluateTree(final Element tree,
 			final Map<String, Element> context) {
@@ -231,10 +233,10 @@ public class Calculator {
 	}
 
 	/**
-	 * Evaluates the specified binary operation.
+	 * Evaluates the specified {@link BinaryOperation} to an {@link Entity}.
 	 * <p>
 	 * @param binaryOperation the {@link BinaryOperation} to evaluate
-	 * @param context         the context containing the values of the variables
+	 * @param context         the context {@link Map} containing the values of the variables
 	 * <p>
 	 * @return the {@link Entity} evaluated from the specified {@link BinaryOperation}
 	 */
@@ -302,10 +304,10 @@ public class Calculator {
 	}
 
 	/**
-	 * Evaluates the specified unary operation.
+	 * Evaluates the specified {@link UnaryOperation} to an {@link Entity}.
 	 * <p>
 	 * @param unaryOperation the {@link UnaryOperation} to evaluate
-	 * @param context        the context containing the values of the variables
+	 * @param context        the context {@link Map} containing the values of the variables
 	 * <p>
 	 * @return the {@link Entity} evaluated from the specified {@link UnaryOperation}
 	 */

@@ -63,7 +63,7 @@ public class SystemFiles {
 				return file.getName().matches(pattern);
 			}
 
-			public boolean accept(final File file, final String string) {
+			public boolean accept(final File file, final String text) {
 				return accept(file);
 			}
 		};

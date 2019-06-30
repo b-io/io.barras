@@ -45,25 +45,25 @@ public class Properties
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an empty property list with no default values.
+	 * Constructs a {@link Properties}.
 	 */
 	public Properties() {
 		super();
 	}
 
 	/**
-	 * Creates an empty property list with the specified defaults.
+	 * Constructs a {@link Properties} with the specified default {@link Properties}.
 	 * <p>
-	 * @param defaults the defaults
+	 * @param defaultProperties the default {@link Properties}
 	 */
-	public Properties(final java.util.Properties defaults) {
-		super(defaults);
+	public Properties(final java.util.Properties defaultProperties) {
+		super(defaultProperties);
 	}
 
 	/**
-	 * Creates a property list loaded from the specified file.
+	 * Constructs a {@link Properties} loaded from the specified file.
 	 * <p>
-	 * @param fileName a {@link String}
+	 * @param fileName the name of the file to load
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
@@ -74,24 +74,35 @@ public class Properties
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
+	// IMPORTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Loads {@code this} from the specified file.
+	 * <p>
+	 * @param fileName the name of the file to load
+	 * <p>
+	 * @throws IOException if there is a problem with reading the specified file
+	 */
+	public synchronized void load(final String fileName)
+			throws IOException {
+		load(Threads.getClassLoader().getResourceAsStream(fileName));
+	}
+
+	/**
+	 * Creates a {@link Properties} loaded from the specified file.
+	 * <p>
+	 * @param fileName the name of the file to load
+	 * <p>
+	 * @return a {@link Properties} loaded from the specified file
+	 * <p>
+	 * @throws IOException if there is a problem with reading the specified file
+	 */
 	public static Properties create(final String fileName)
 			throws IOException {
 		final Properties properties = new Properties();
 		properties.load(fileName);
 		return properties;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public synchronized void load(final String fileName)
-			throws IOException {
-		load(Threads.getClassLoader().getResourceAsStream(fileName));
 	}
 
 

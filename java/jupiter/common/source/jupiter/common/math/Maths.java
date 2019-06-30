@@ -198,7 +198,7 @@ public class Maths {
 	 * Returns {@code number} rounded up to the nearest multiple of {@code unit}.
 	 * <p>
 	 * @param number the {@code long} value to round up
-	 * @param unit   an {@code long} value
+	 * @param unit   a {@code long} value
 	 * <p>
 	 * @return {@code number} rounded up to the nearest multiple of {@code unit}
 	 */

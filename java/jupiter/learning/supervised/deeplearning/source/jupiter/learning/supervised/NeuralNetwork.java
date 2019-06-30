@@ -92,7 +92,7 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Constructs a neural network from the specified files containing the feature vectors and the
+	 * Constructs a neural network with the specified files containing the feature vectors and the
 	 * classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
@@ -107,7 +107,7 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Constructs a neural network from the specified files containing the feature vectors and the
+	 * Constructs a neural network with the specified files containing the feature vectors and the
 	 * classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)

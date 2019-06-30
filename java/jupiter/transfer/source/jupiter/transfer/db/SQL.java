@@ -68,26 +68,26 @@ public class SQL {
 	 * Returns an {@link Object} of the specified {@link Class} converted from the specified
 	 * {@link String}.
 	 * <p>
-	 * @param c      the {@link Class} of the {@link Object} to convert to
-	 * @param string the {@link String} to convert
+	 * @param c    the {@link Class} of the {@link Object} to convert to
+	 * @param text the {@link String} to convert
 	 * <p>
 	 * @return an {@link Object} of the specified {@link Class} converted from the specified
 	 *         {@link String}
 	 */
-	public static Object convert(final Class<?> c, final String string) {
-		if (isNull(string)) {
+	public static Object convert(final Class<?> c, final String text) {
+		if (isNull(text)) {
 			return null;
 		}
 		if (Booleans.is(c)) {
-			return Integers.convert(string) == 1;
+			return Integers.convert(text) == 1;
 		} else if (Numbers.is(c)) {
-			return Numbers.toNumber(c, string);
+			return Numbers.toNumber(c, text);
 		} else if (Strings.is(c)) {
-			return string;
+			return text;
 		} else if (Time.class.isAssignableFrom(c)) {
-			return Time.valueOf(string);
+			return Time.valueOf(text);
 		} else if (Timestamp.class.isAssignableFrom(c)) {
-			return Timestamp.valueOf(string);
+			return Timestamp.valueOf(text);
 		}
 		throw new IllegalArgumentException("Unknown class" + Strings.append(c));
 	}
@@ -195,7 +195,7 @@ public class SQL {
 	 * Returns either any auto-generated keys created as a result of executing the specified SQL
 	 * Data Manipulation Language (DML) statement, or {@code -1} if there is a problem.
 	 * <p>
-	 * @param connection a {@link Connection} (session) with a specific database
+	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) {@code INSERT} statement
 	 * <p>
 	 * @return either any auto-generated keys created as a result of executing the specified SQL
@@ -228,7 +228,7 @@ public class SQL {
 	 * Returns either the row count for SQL Data Manipulation Language (DML) statements, {@code 0}
 	 * for SQL statements that return nothing, or {@code -1} if there is a problem.
 	 * <p>
-	 * @param connection a {@link Connection} (session) with a specific database
+	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) statement, such as {@code INSERT},
 	 *                   {@code UPDATE} or {@code DELETE}; or an SQL statement that returns nothing,
 	 *                   such as a DDL statement
@@ -275,12 +275,12 @@ public class SQL {
 	/**
 	 * Tests whether the specified {@link String} is {@code null} or {@code "NULL"}.
 	 * <p>
-	 * @param string the {@link String} to test
+	 * @param text the {@link String} to test
 	 * <p>
 	 * @return {@code true} if the specified {@link String} is {@code null} or {@code "NULL"},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isNull(final String string) {
-		return string == null || NULL.equals(string);
+	public static boolean isNull(final String text) {
+		return text == null || NULL.equals(text);
 	}
 }
