@@ -23,12 +23,15 @@
  */
 package jupiter.common.struct.list;
 
-import jupiter.common.struct.tuple.Pair;
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class Index<T>
-		extends Pair<Integer, T>
-		implements Comparable<Index<T>> {
+		implements Comparable<Index<T>>, ICloneable<Index<T>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -37,19 +40,59 @@ public class Index<T>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -2861326826389750785L;
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The index of the {@code T} token.
+	 */
+	protected int index;
+	/**
+	 * The {@code T} token.
+	 */
+	protected T token;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Index() {
-		super();
+	/**
+	 * Constructs an {@link Index} with the specified index and {@code T} token.
+	 * <p>
+	 * @param index the index of the {@code T} token
+	 * @param token the {@code T} token
+	 */
+	public Index(final int index, final T token) {
+		this.index = index;
+		this.token = token;
 	}
 
-	public Index(final Integer first, final T second) {
-		super(first, second);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the {@code T} token.
+	 * <p>
+	 * @return the index of the {@code T} token
+	 */
+	public int getIndex() {
+		return index;
+	}
+
+	/**
+	 * Returns the {@code T} token.
+	 * <p>
+	 * @return the {@code T} token
+	 */
+	public T getToken() {
+		return token;
 	}
 
 
@@ -69,6 +112,72 @@ public class Index<T>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
 	public int compareTo(final Index<T> other) {
-		return Integers.compare(first, other.first);
+		return Integers.compare(index, other.index);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public Index<T> clone() {
+		try {
+			final Index<T> clone = (Index<T>) super.clone();
+			clone.token = Objects.clone(token);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof Index)) {
+			return false;
+		}
+		final Index<?> otherIndex = (Index<?>) other;
+		return Objects.equals(index, otherIndex.index) &&
+				Objects.equals(token, otherIndex.token);
+	}
+
+	/**
+	 * Returns the hash code for {@code this}.
+	 * <p>
+	 * @return the hash code for {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, index, token);
 	}
 }

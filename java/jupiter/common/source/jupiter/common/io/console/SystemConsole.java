@@ -38,11 +38,11 @@ public class SystemConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Charset}.
+	 * The {@link Charset} of the input lines to read.
 	 */
 	protected final Charset charset;
 	/**
-	 * The {@link Scanner}.
+	 * The {@link Scanner} of the input lines to read.
 	 */
 	protected final Scanner scanner;
 
@@ -61,6 +61,8 @@ public class SystemConsole
 
 	/**
 	 * Constructs a {@link SystemConsole} with the specified {@link Charset}.
+	 * <p>
+	 * @param charset the {@link Charset} of the input lines to read
 	 */
 	public SystemConsole(final Charset charset) {
 		this.charset = charset;

@@ -69,9 +69,21 @@ public class Quadruple<T1, T2, T3, T4>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Quadruple}.
+	 */
 	public Quadruple() {
 	}
 
+	/**
+	 * Constructs a {@link Quadruple} with the specified {@code T1}, {@code T2}, {@code T3} and
+	 * {@code T4} components.
+	 * <p>
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
+	 * @param third  the {@code T3} component
+	 * @param fourth the {@code T4} component
+	 */
 	public Quadruple(final T1 first, final T2 second, final T3 third, final T4 fourth) {
 		this.first = first;
 		this.second = second;
@@ -81,7 +93,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -120,6 +132,9 @@ public class Quadruple<T1, T2, T3, T4>
 		return fourth;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

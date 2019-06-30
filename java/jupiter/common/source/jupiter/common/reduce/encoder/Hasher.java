@@ -49,7 +49,10 @@ public class Hasher<I>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Hasher(final Class<Integer> c) {
+	/**
+	 * Constructs a {@link Hasher} of type {@code I}.
+	 */
+	public Hasher() {
 		super(Integer.class);
 	}
 
@@ -77,6 +80,6 @@ public class Hasher<I>
 	 */
 	@Override
 	public Hasher<I> clone() {
-		return new Hasher<I>(c);
+		return new Hasher<I>();
 	}
 }

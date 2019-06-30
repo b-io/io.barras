@@ -59,9 +59,9 @@ public class SortedList<T extends Comparable<T>>
 
 	/**
 	 * Constructs a {@link SortedList} of type {@code T} with the specified {@link Collection} of
-	 * super-type {@code T}.
+	 * super type {@code T}.
 	 * <p>
-	 * @param collection a {@link Collection} of super-type {@code T}
+	 * @param collection a {@link Collection} of super type {@code T}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
@@ -71,7 +71,7 @@ public class SortedList<T extends Comparable<T>>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public T getMiddle() {
@@ -82,6 +82,9 @@ public class SortedList<T extends Comparable<T>>
 		return get(Integers.middle(size()));
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override

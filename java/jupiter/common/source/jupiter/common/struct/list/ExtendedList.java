@@ -72,9 +72,9 @@ public class ExtendedList<T>
 
 	/**
 	 * Constructs an {@link ExtendedList} of type {@code T} with the specified {@link Collection} of
-	 * super-type {@code T}.
+	 * super type {@code T}.
 	 * <p>
-	 * @param collection a {@link Collection} of super-type {@code T}
+	 * @param collection a {@link Collection} of super type {@code T}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
@@ -84,7 +84,7 @@ public class ExtendedList<T>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -100,6 +100,9 @@ public class ExtendedList<T>
 		return get(Integers.middle(size()));
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

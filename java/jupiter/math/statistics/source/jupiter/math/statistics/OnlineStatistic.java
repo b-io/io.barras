@@ -29,8 +29,17 @@ public class OnlineStatistic {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected int size;
-	protected double mean, variance;
+	/**
+	 * The sample size.
+	 */
+	protected int sampleSize;
+	/**
+	 * The sample mean and variance.
+	 */
+	protected double sampleMean, sampleVariance;
+	/**
+	 * The sum.
+	 */
 	protected double sum;
 
 
@@ -38,6 +47,9 @@ public class OnlineStatistic {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link OnlineStatistic}.
+	 */
 	public OnlineStatistic() {
 		reset();
 	}
@@ -48,38 +60,48 @@ public class OnlineStatistic {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the sample size.
+	 * <p>
 	 * @return the sample size
 	 */
 	public int getSampleSize() {
-		return size;
+		return sampleSize;
 	}
 
 	/**
+	 * Returns the sample mean.
+	 * <p>
 	 * @return the sample mean
 	 */
 	public double getSampleMean() {
-		return mean;
+		return sampleMean;
 	}
 
 	/**
+	 * Returns the sample variance.
+	 * <p>
 	 * @return the sample variance
 	 */
 	public double getSampleVariance() {
-		return variance;
+		return sampleVariance;
 	}
 
 	/**
+	 * Returns the sample standard deviation.
+	 * <p>
 	 * @return the sample standard deviation
 	 */
 	public double getSampleStandardDeviation() {
-		return Math.sqrt(variance);
+		return Math.sqrt(sampleVariance);
 	}
 
 	/**
+	 * Returns the confidence interval of the sample mean.
+	 * <p>
 	 * @return the confidence interval of the sample mean
 	 */
 	public double getSampleMeanConfidenceInterval() {
-		return getSampleStandardDeviation() / Math.sqrt(size);
+		return getSampleStandardDeviation() / Math.sqrt(sampleSize);
 	}
 
 
@@ -93,20 +115,20 @@ public class OnlineStatistic {
 	 * @param x a {@code double} value
 	 */
 	public void update(final double x) {
-		++size;
-		final double delta = x - mean;
-		mean += delta / size;
-		sum += delta * (x - mean);
-		variance = sum / (size - 1);
+		++sampleSize;
+		final double delta = x - sampleMean;
+		sampleMean += delta / sampleSize;
+		sum += delta * (x - sampleMean);
+		sampleVariance = sum / (sampleSize - 1);
 	}
 
 	/**
 	 * Resets {@code this}.
 	 */
 	public void reset() {
-		size = 0;
-		mean = 0.;
-		variance = 0.;
+		sampleSize = 0;
+		sampleMean = 0.;
+		sampleVariance = 0.;
 		sum = 0.;
 	}
 }

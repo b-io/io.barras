@@ -933,7 +933,7 @@ public class Strings {
 		if (fromIndex >= 0 && fromIndex < text.length()) {
 			for (final String token : tokens) {
 				final int index = text.indexOf(token, fromIndex);
-				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getFirst())) {
+				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getIndex())) {
 					indexAndToken = new Index<String>(index, token);
 				}
 			}
@@ -984,7 +984,7 @@ public class Strings {
 		if (fromIndex >= 0 && fromIndex < text.length()) {
 			for (final String token : tokens) {
 				final int index = text.indexOf(token, fromIndex);
-				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getFirst())) {
+				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getIndex())) {
 					indexAndToken = new Index<String>(index, token);
 				}
 			}
@@ -1121,7 +1121,7 @@ public class Strings {
 		if (fromIndex >= 0 && fromIndex < text.length()) {
 			for (final String token : tokens) {
 				final int index = text.lastIndexOf(token, fromIndex);
-				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getFirst())) {
+				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getIndex())) {
 					indexAndToken = new Index<String>(index, token);
 				}
 			}
@@ -1172,7 +1172,7 @@ public class Strings {
 		if (fromIndex >= 0 && fromIndex < text.length()) {
 			for (final String token : tokens) {
 				final int index = text.lastIndexOf(token, fromIndex);
-				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getFirst())) {
+				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getIndex())) {
 					indexAndToken = new Index<String>(index, token);
 				}
 			}
@@ -2183,7 +2183,7 @@ public class Strings {
 
 	protected static final Comparator<Index<String>> STRING_INDEX_COMPARATOR = new Comparator<Index<String>>() {
 		public int compare(final Index<String> a, final Index<String> b) {
-			return Integers.compare(a.getFirst(), b.getFirst());
+			return Integers.compare(a.getIndex(), b.getIndex());
 		}
 	};
 
@@ -2539,11 +2539,11 @@ public class Strings {
 		// Get the tokens
 		sortStringIndexes(delimiterIndexes);
 		for (final Index<String> delimiterIndexAndToken : delimiterIndexes) {
-			final int delimiterIndex = delimiterIndexAndToken.getFirst();
+			final int delimiterIndex = delimiterIndexAndToken.getIndex();
 			if (index <= delimiterIndex && delimiterIndex < toIndex) {
 				tokens.add(text.substring(index, delimiterIndex));
 			}
-			index = delimiterIndex + delimiterIndexAndToken.getSecond().length();
+			index = delimiterIndex + delimiterIndexAndToken.getToken().length();
 		}
 		if (index <= toIndex) {
 			tokens.add(text.substring(index, toIndex));
@@ -2589,11 +2589,11 @@ public class Strings {
 		// Get the tokens
 		sortStringIndexes(delimiterIndexes);
 		for (final Index<String> delimiterIndexAndToken : delimiterIndexes) {
-			final int delimiterIndex = delimiterIndexAndToken.getFirst();
+			final int delimiterIndex = delimiterIndexAndToken.getIndex();
 			if (index <= delimiterIndex && delimiterIndex < toIndex) {
 				tokens.add(text.substring(index, delimiterIndex));
 			}
-			index = delimiterIndex + delimiterIndexAndToken.getSecond().length();
+			index = delimiterIndex + delimiterIndexAndToken.getToken().length();
 		}
 		if (index <= toIndex) {
 			tokens.add(text.substring(index, toIndex));

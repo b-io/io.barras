@@ -73,9 +73,22 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Quintuple}.
+	 */
 	public Quintuple() {
 	}
 
+	/**
+	 * Constructs a {@link Quintuple} with the specified {@code T1}, {@code T2}, {@code T3},
+	 * {@code T4} and {@code T5} components.
+	 * <p>
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
+	 * @param third  the {@code T3} component
+	 * @param fourth the {@code T4} component
+	 * @param fifth  the {@code T5} component
+	 */
 	public Quintuple(final T1 first, final T2 second, final T3 third, final T4 fourth,
 			final T5 fifth) {
 		this.first = first;
@@ -87,7 +100,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -135,6 +148,9 @@ public class Quintuple<T1, T2, T3, T4, T5>
 		return fifth;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
