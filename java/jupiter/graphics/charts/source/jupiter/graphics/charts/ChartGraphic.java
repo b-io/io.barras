@@ -27,6 +27,8 @@ import java.awt.EventQueue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -54,8 +56,8 @@ public abstract class ChartGraphic
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final XY<String> labels;
-	protected final Map<Integer, SeriesStyle> styles = new HashMap<Integer, SeriesStyle>(10);
+	protected XY<String> labels;
+	protected Map<Integer, SeriesStyle> styles = new HashMap<Integer, SeriesStyle>(10);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,9 +136,13 @@ public abstract class ChartGraphic
 	 */
 	@Override
 	public ChartGraphic clone() {
-		final ChartGraphic clone = (ChartGraphic) super.clone();
-		clone.labels = Objects.clone(labels);
-		clone.styles = Objects.clone(styles);
-		return clone;
+		try {
+			final ChartGraphic clone = (ChartGraphic) super.clone();
+			clone.labels = Objects.clone(labels);
+			clone.styles = Objects.clone(styles);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }
