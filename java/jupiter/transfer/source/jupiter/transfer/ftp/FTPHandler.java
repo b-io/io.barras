@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -50,16 +51,27 @@ import com.jcraft.jsch.SftpException;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.Resources;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class FTPHandler {
+public class FTPHandler
+		implements ICloneable<FTPHandler>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The system-dependent default name-separator {@link String} of the remote file system.
+	 */
 	public static final String REMOTE_SEPARATOR = "/";
 
 
@@ -67,14 +79,41 @@ public class FTPHandler {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link Protocol}.
+	 */
 	protected Protocol protocol;
+	/**
+	 * The host name.
+	 */
 	protected String hostName;
+	/**
+	 * The port.
+	 */
 	protected int port;
+	/**
+	 * The user name.
+	 */
 	protected String userName;
+	/**
+	 * The password.
+	 */
 	protected String password;
-	protected String remoteDir;
-	protected String localDir;
-	protected String filter;
+	/**
+	 * The path to the remote directory.
+	 */
+	protected String remoteDirPath;
+	/**
+	 * The path to the local directory.
+	 */
+	protected String localDirPath;
+	/**
+	 * The file filter {@link String}.
+	 */
+	protected String fileFilter;
+	/**
+	 * The array of file names.
+	 */
 	protected String[] fileNames;
 
 
@@ -82,25 +121,50 @@ public class FTPHandler {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link FTPHandler}.
+	 */
 	public FTPHandler() {
 	}
 
+	/**
+	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, port, user
+	 * name, password, path to the remote directory, path to the local directory, file filter
+	 * {@link String} and array of file names.
+	 * <p>
+	 * @param protocol      the {@link Protocol}
+	 * @param hostName      the host name
+	 * @param port          the port
+	 * @param userName      the user name
+	 * @param password      the password
+	 * @param remoteDirPath the path to the remote directory
+	 * @param localDirPath  the path to the local directory
+	 * @param fileFilter    the file filter {@link String}
+	 * @param fileNames     the array of file names
+	 */
 	public FTPHandler(final Protocol protocol, final String hostName, final int port,
-			final String userName, final String password, final String remoteDir,
-			final String localDir, final String filter, final String[] fileNames) {
+			final String userName, final String password, final String remoteDirPath,
+			final String localDirPath, final String fileFilter, final String[] fileNames) {
 		this.protocol = protocol;
 		this.hostName = hostName;
 		this.port = port;
 		this.userName = userName;
 		this.password = password;
-		this.remoteDir = remoteDir;
-		this.localDir = localDir;
-		this.filter = filter;
+		this.remoteDirPath = remoteDirPath;
+		this.localDirPath = localDirPath;
+		this.fileFilter = fileFilter;
 		this.fileNames = fileNames;
 	}
 
+	/**
+	 * Constructs a {@link FTPHandler} loaded from the specified {@link Properties} containing the
+	 * {@link Protocol}, host name, port, user name, password, path to the remote directory, path to
+	 * the local directory, file filter {@link String} and array of file names.
+	 * <p>
+	 * @param properties the {@link Properties} to load
+	 */
 	public FTPHandler(final Properties properties) {
-		loadProperties(properties);
+		load(properties);
 	}
 
 
@@ -108,32 +172,8 @@ public class FTPHandler {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void loadProperties(final Properties properties) {
-		protocol = Protocol.get(properties.getProperty("protocol"));
-		hostName = properties.getProperty("hostName");
-		switch (protocol) {
-			case FTP:
-			case FTPS:
-				port = Integers.convert(properties.getProperty("port", "21"));
-				break;
-			case SFTP:
-				port = Integers.convert(properties.getProperty("port", "22"));
-				break;
-			default:
-				throw new IllegalTypeException(protocol);
-		}
-		userName = properties.getProperty("userName");
-		password = properties.getProperty("password");
-		remoteDir = properties.getProperty("remoteDir");
-		localDir = properties.getProperty("localDir");
-		filter = properties.getProperty("filter", "*");
-		fileNames = properties.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	public int download(final Properties properties) {
-		loadProperties(properties);
+		load(properties);
 		return download();
 	}
 
@@ -144,11 +184,11 @@ public class FTPHandler {
 				final int downloadedFileCount;
 				switch (protocol) {
 					case FTP:
-						filter = filter.replace("*", ".*");
+						fileFilter = fileFilter.replace("*", ".*");
 						downloadedFileCount = downloadFTP();
 						break;
 					case FTPS:
-						filter = filter.replace("*", ".*");
+						fileFilter = fileFilter.replace("*", ".*");
 						downloadedFileCount = downloadFTPS();
 						break;
 					case SFTP:
@@ -194,15 +234,15 @@ public class FTPHandler {
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.info("Download the files ", Strings.quote(filter), " in ",
-							Strings.quote(remoteDir));
-					final FTPFile[] files = ftp.listFiles(remoteDir);
+					IO.info("Download the files ", Strings.quote(fileFilter), " in ",
+							Strings.quote(remoteDirPath));
+					final FTPFile[] files = ftp.listFiles(remoteDirPath);
 					for (final FTPFile file : files) {
 						final String fileName = file.getName();
-						if (file.isFile() && fileName.matches(filter) &&
+						if (file.isFile() && fileName.matches(fileFilter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDir + REMOTE_SEPARATOR + fileName;
-							final String localPath = localDir + File.separator + fileName;
+							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
+							final String localPath = localDirPath + File.separator + fileName;
 
 							IO.info("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));
@@ -268,15 +308,15 @@ public class FTPHandler {
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftps.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.info("Download the files ", Strings.quote(filter), " in ",
-							Strings.quote(remoteDir));
-					final FTPFile[] files = ftps.listFiles(remoteDir);
+					IO.info("Download the files ", Strings.quote(fileFilter), " in ",
+							Strings.quote(remoteDirPath));
+					final FTPFile[] files = ftps.listFiles(remoteDirPath);
 					for (final FTPFile file : files) {
 						final String fileName = file.getName();
-						if (file.isFile() && fileName.matches(filter) &&
+						if (file.isFile() && fileName.matches(fileFilter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDir + REMOTE_SEPARATOR + fileName;
-							final String localPath = localDir + File.separator + fileName;
+							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
+							final String localPath = localDirPath + File.separator + fileName;
 
 							IO.info("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));
@@ -337,16 +377,17 @@ public class FTPHandler {
 			session.connect();
 
 			// Retrieve the files
-			IO.info("Download the files ", Strings.quote(filter), " in ", Strings.quote(remoteDir));
+			IO.info("Download the files ", Strings.quote(fileFilter), " in ", Strings.quote(
+					remoteDirPath));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
-			sftp.cd(remoteDir);
-			final Vector<ChannelSftp.LsEntry> entries = sftp.ls(filter);
+			sftp.cd(remoteDirPath);
+			final Vector<ChannelSftp.LsEntry> entries = sftp.ls(fileFilter);
 			for (final ChannelSftp.LsEntry entry : entries) {
 				final String fileName = entry.getFilename();
 				if (Strings.matches(fileName, fileNames)) {
-					final String localPath = localDir + File.separator + fileName;
+					final String localPath = localDirPath + File.separator + fileName;
 
 					IO.info("Download the file ", Strings.quote(fileName), " to ",
 							Strings.quote(localPath));
@@ -363,6 +404,61 @@ public class FTPHandler {
 			IO.error(ex);
 		}
 		return downloadedFileCount;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads {@code this} from the specified {@link Properties}.
+	 * <p>
+	 * @param properties the {@link Properties} to load
+	 */
+	public void load(final Properties properties) {
+		protocol = Protocol.get(properties.getProperty("protocol"));
+		hostName = properties.getProperty("hostName");
+		switch (protocol) {
+			case FTP:
+			case FTPS:
+				port = Integers.convert(properties.getProperty("port", "21"));
+				break;
+			case SFTP:
+				port = Integers.convert(properties.getProperty("port", "22"));
+				break;
+			default:
+				throw new IllegalTypeException(protocol);
+		}
+		userName = properties.getProperty("userName");
+		password = properties.getProperty("password");
+		remoteDirPath = properties.getProperty("remoteDir");
+		localDirPath = properties.getProperty("localDir");
+		fileFilter = properties.getProperty("fileFilter", "*");
+		fileNames = properties.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public FTPHandler clone() {
+		try {
+			final FTPHandler clone = (FTPHandler) super.clone();
+			clone.fileNames = Objects.clone(fileNames);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 
 
