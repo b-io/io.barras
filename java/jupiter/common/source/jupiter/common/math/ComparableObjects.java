@@ -179,8 +179,7 @@ public class ComparableObjects {
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare for equality
 	 * @param a   the {@link Comparable} of type {@code T} to compare for equality
-	 * @param b   the other {@link Comparable} of type {@code T} to compare against for
-	 *            equality
+	 * @param b   the other {@link Comparable} of type {@code T} to compare against for equality
 	 * <p>
 	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
 	 *         otherwise

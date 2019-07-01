@@ -59,7 +59,8 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} with the specified header and numbers of rows and columns.
+	 * Constructs a {@link CharacterTable} with the specified header and numbers of rows and
+	 * columns.
 	 * <p>
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
