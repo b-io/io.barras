@@ -41,7 +41,7 @@ import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * {@link NeuralNetwork} is a {@link BinaryClassifier} using a neural network to estimate the
+ * {@link NeuralNetwork} is the {@link BinaryClassifier} using a neural network to estimate the
  * probability of a binary response based on one or more predictor (or independent) variables
  * (features).
  */

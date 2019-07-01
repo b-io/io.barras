@@ -29,7 +29,7 @@ import jupiter.common.map.ObjectToShortMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link ShortParser} is an {@link ObjectToShortMapper} parsing an input {@link Object} to an
+ * {@link ShortParser} is the {@link ObjectToShortMapper} parsing an input {@link Object} to an
  * output {@link Short}.
  */
 public class ShortParser

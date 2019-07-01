@@ -29,7 +29,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Characters;
 
 /**
- * {@link CharacterTable} is a {@link Table} of {@link Character}.
+ * {@link CharacterTable} is the {@link Table} of {@link Character}.
  */
 public class CharacterTable
 		extends Table<Character> {

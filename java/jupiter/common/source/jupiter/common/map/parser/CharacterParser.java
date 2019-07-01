@@ -27,7 +27,7 @@ import jupiter.common.map.ObjectToCharacterMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link CharacterParser} is an {@link ObjectToCharacterMapper} parsing an input {@link Object} to
+ * {@link CharacterParser} is the {@link ObjectToCharacterMapper} parsing an input {@link Object} to
  * an output {@link Character}.
  */
 public class CharacterParser

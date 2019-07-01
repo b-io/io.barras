@@ -29,7 +29,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Doubles;
 
 /**
- * {@link DoubleTable} is a {@link NumberTable} of {@link Double}.
+ * {@link DoubleTable} is the {@link NumberTable} of {@link Double}.
  */
 public class DoubleTable
 		extends NumberTable<Double> {

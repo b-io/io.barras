@@ -26,7 +26,7 @@ package jupiter.common.map;
 import java.util.Collection;
 
 /**
- * {@link ObjectToBooleanMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * {@link ObjectToBooleanMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link Boolean}.
  */
 public abstract class ObjectToBooleanMapper

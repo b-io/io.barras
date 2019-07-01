@@ -27,7 +27,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringParser} is an {@link ObjectToStringMapper} parsing an input {@link Object} to an
+ * {@link StringParser} is the {@link ObjectToStringMapper} parsing an input {@link Object} to an
  * output {@link String}.
  */
 public class StringParser

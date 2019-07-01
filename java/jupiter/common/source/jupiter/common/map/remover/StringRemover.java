@@ -27,7 +27,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringRemover} is an {@link ObjectToStringMapper} removing {@code char} values from an
+ * {@link StringRemover} is the {@link ObjectToStringMapper} removing {@code char} values from an
  * input {@link String}.
  */
 public class StringRemover

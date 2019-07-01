@@ -29,7 +29,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Floats;
 
 /**
- * {@link FloatTable} is a {@link NumberTable} of {@link Float}.
+ * {@link FloatTable} is the {@link NumberTable} of {@link Float}.
  */
 public class FloatTable
 		extends NumberTable<Float> {

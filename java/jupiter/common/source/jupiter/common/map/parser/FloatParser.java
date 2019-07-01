@@ -29,7 +29,7 @@ import jupiter.common.map.ObjectToFloatMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link FloatParser} is an {@link ObjectToFloatMapper} parsing an input {@link Object} to an
+ * {@link FloatParser} is the {@link ObjectToFloatMapper} parsing an input {@link Object} to an
  * output {@link Float}.
  */
 public class FloatParser

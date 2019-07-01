@@ -29,7 +29,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Integers;
 
 /**
- * {@link IntegerTable} is a {@link NumberTable} of {@link Integer}.
+ * {@link IntegerTable} is the {@link NumberTable} of {@link Integer}.
  */
 public class IntegerTable
 		extends NumberTable<Integer> {

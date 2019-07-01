@@ -32,7 +32,7 @@ import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 
 /**
- * {@link NumberTable} is a {@link Table} of type {@code T} extending {@link Number}.
+ * {@link NumberTable} is the {@link Table} of type {@code T} extending {@link Number}.
  * <p>
  * @param <T> the type of the {@link Table} extending {@link Number}
  */

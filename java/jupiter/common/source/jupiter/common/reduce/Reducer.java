@@ -27,7 +27,7 @@ import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
 /**
- * {@link Reducer} is a {@link Worker} reducing an {@code I} input array to an {@code O} output.
+ * {@link Reducer} is the {@link Worker} reducing an {@code I} input array to an {@code O} output.
  * <p>
  * @param <I> the input type
  * @param <O> the output type

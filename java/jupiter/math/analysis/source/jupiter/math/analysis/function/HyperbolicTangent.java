@@ -23,6 +23,10 @@
  */
 package jupiter.math.analysis.function;
 
+/**
+ * {@link HyperbolicTangent} is the hyperbolic tangent {@link Function} with return values
+ * monotonically increasing from -1 to 1.
+ */
 public class HyperbolicTangent
 		extends Function {
 

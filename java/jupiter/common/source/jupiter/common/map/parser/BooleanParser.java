@@ -26,7 +26,7 @@ package jupiter.common.map.parser;
 import jupiter.common.map.ObjectToBooleanMapper;
 
 /**
- * {@link BooleanParser} is an {@link ObjectToBooleanMapper} parsing an input {@link Object} to an
+ * {@link BooleanParser} is the {@link ObjectToBooleanMapper} parsing an input {@link Object} to an
  * output {@link Boolean}.
  */
 public class BooleanParser

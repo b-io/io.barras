@@ -26,7 +26,7 @@ package jupiter.common.map;
 import java.util.Collection;
 
 /**
- * {@link ObjectToDoubleMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * {@link ObjectToDoubleMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link Double}.
  */
 public abstract class ObjectToDoubleMapper

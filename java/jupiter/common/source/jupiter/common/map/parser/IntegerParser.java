@@ -29,7 +29,7 @@ import jupiter.common.map.ObjectToIntegerMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link IntegerParser} is an {@link ObjectToIntegerMapper} parsing an input {@link Object} to an
+ * {@link IntegerParser} is the {@link ObjectToIntegerMapper} parsing an input {@link Object} to an
  * output {@link Integer}.
  */
 public class IntegerParser

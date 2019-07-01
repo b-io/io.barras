@@ -24,7 +24,7 @@
 package jupiter.common.map;
 
 /**
- * {@link ObjectToStringMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * {@link ObjectToStringMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link String}.
  */
 public abstract class ObjectToStringMapper

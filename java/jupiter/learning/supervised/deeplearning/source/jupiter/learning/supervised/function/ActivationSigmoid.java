@@ -27,6 +27,10 @@ import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
 
+/**
+ * {@link ActivationSigmoid} is the logistic {@link ActivationFunction} with return values
+ * monotonically increasing from 0 to 1.
+ */
 public class ActivationSigmoid
 		extends ActivationFunction {
 
@@ -44,6 +48,9 @@ public class ActivationSigmoid
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ActivationSigmoid}.
+	 */
 	protected ActivationSigmoid() {
 		super();
 	}
@@ -54,7 +61,7 @@ public class ActivationSigmoid
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the sigmoid function to the specified {@code double} value and returns the resulting
+	 * Applies the {@link Sigmoid} to the specified {@code double} value and returns the resulting
 	 * {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
@@ -67,7 +74,7 @@ public class ActivationSigmoid
 	}
 
 	/**
-	 * Applies the sigmoid function to the specified {@link Entity} and returns the resulting
+	 * Applies the {@link Sigmoid} to the specified {@link Entity} and returns the resulting
 	 * {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
@@ -80,8 +87,8 @@ public class ActivationSigmoid
 	}
 
 	/**
-	 * Applies the derivative of the sigmoid function to the specified {@link Entity} and returns
-	 * the resulting {@link Entity}.
+	 * Applies the derivative of the {@link Sigmoid} to the specified {@link Entity} and returns the
+	 * resulting {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>

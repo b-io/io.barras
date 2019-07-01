@@ -28,7 +28,7 @@ import jupiter.common.test.Arguments;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringJoiner} is an {@link ObjectReducer} joining an input array of {@link Object} to an
+ * {@link StringJoiner} is the {@link ObjectReducer} joining an input array of {@link Object} to an
  * output {@link String}.
  */
 public class StringJoiner

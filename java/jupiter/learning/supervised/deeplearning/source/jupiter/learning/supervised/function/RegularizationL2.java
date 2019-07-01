@@ -28,7 +28,8 @@ import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Matrix;
 
 /**
- * The L2 regularization function.
+ * {@link RegularizationL2} is the {link RegularizationFunction} adding an L2 penalty equal to the
+ * sum of the squares of all the weights.
  */
 public class RegularizationL2
 		extends RegularizationFunction {

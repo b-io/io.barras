@@ -26,7 +26,7 @@ package jupiter.common.map;
 import java.util.Collection;
 
 /**
- * {@link ObjectToIntegerMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * {@link ObjectToIntegerMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link Integer}.
  */
 public abstract class ObjectToIntegerMapper

@@ -29,7 +29,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Shorts;
 
 /**
- * {@link ShortTable} is a {@link NumberTable} of {@link Short}.
+ * {@link ShortTable} is the {@link NumberTable} of {@link Short}.
  */
 public class ShortTable
 		extends NumberTable<Short> {

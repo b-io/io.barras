@@ -29,7 +29,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.util.Longs;
 
 /**
- * {@link LongTable} is a {@link NumberTable} of {@link Long}.
+ * {@link LongTable} is the {@link NumberTable} of {@link Long}.
  */
 public class LongTable
 		extends NumberTable<Long> {

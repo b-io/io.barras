@@ -23,6 +23,10 @@
  */
 package jupiter.math.analysis.function;
 
+/**
+ * {@link Sigmoid} is the logistic {@link Function} with return values monotonically increasing from
+ * 0 to 1.
+ */
 public class Sigmoid
 		extends Function {
 
@@ -40,6 +44,9 @@ public class Sigmoid
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Sigmoid}.
+	 */
 	protected Sigmoid() {
 		super();
 	}

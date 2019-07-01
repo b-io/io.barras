@@ -24,7 +24,7 @@
 package jupiter.common.math;
 
 /**
- * {@link IGroup} is a group of type {@code T}.
+ * {@link IGroup} is the group of type {@code T}.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link IGroup}
  */

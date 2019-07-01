@@ -27,6 +27,10 @@ import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
 
+/**
+ * {@link ActivationHyperbolicTangent} is the hyperbolic tangent {@link ActivationFunction} with
+ * return values monotonically increasing from -1 to 1.
+ */
 public class ActivationHyperbolicTangent
 		extends ActivationFunction {
 
@@ -54,7 +58,7 @@ public class ActivationHyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the hyperbolic tangent function to the specified {@code double} value and returns the
+	 * Applies the {@link HyperbolicTangent} to the specified {@code double} value and returns the
 	 * resulting {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
@@ -67,7 +71,7 @@ public class ActivationHyperbolicTangent
 	}
 
 	/**
-	 * Applies the hyperbolic tangent function to the specified {@link Entity} and returns the
+	 * Applies the {@link HyperbolicTangent} to the specified {@link Entity} and returns the
 	 * resulting {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
@@ -80,7 +84,7 @@ public class ActivationHyperbolicTangent
 	}
 
 	/**
-	 * Applies the derivative of the hyperbolic tangent function to the specified {@link Entity} and
+	 * Applies the derivative of the {@link HyperbolicTangent} to the specified {@link Entity} and
 	 * returns the resulting {@link Entity}.
 	 * <p>
 	 * @param E an array of {@link Entity}

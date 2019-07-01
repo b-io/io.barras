@@ -32,7 +32,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link Interval} is an {@link IGroup} of type {@code T}.
+ * {@link Interval} is the {@link IGroup} of type {@code T}.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link Interval}
  */

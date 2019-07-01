@@ -26,7 +26,7 @@ package jupiter.common.map;
 import java.util.Collection;
 
 /**
- * {@link ObjectToCharacterMapper} is an {@link ObjectMapper} mapping an input {@link Object} to an
+ * {@link ObjectToCharacterMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link Character}.
  */
 public abstract class ObjectToCharacterMapper

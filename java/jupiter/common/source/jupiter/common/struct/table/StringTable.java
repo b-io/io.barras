@@ -30,7 +30,7 @@ import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 
 /**
- * {@link StringTable} is a {@link Table} of {@link String}.
+ * {@link StringTable} is the {@link Table} of {@link String}.
  */
 public class StringTable
 		extends Table<String> {
