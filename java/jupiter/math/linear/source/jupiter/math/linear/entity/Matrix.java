@@ -160,7 +160,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a square {@link Matrix} of zeros of the specified number of rows and columns.
+	 * Constructs a square {@link Matrix} of zeros with the specified number of rows and columns.
 	 * <p>
 	 * @param size the number of rows and columns
 	 */
@@ -169,7 +169,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} of zeros of the specified numbers of rows and columns.
+	 * Constructs a {@link Matrix} of zeros with the specified numbers of rows and columns.
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -184,7 +184,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a constant {@link Matrix} of the specified numbers of rows and columns with the
+	 * Constructs a constant {@link Matrix} with the specified numbers of rows and columns with the
 	 * specified {@code double} value.
 	 * <p>
 	 * @param rowCount    the number of rows
@@ -273,7 +273,7 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} of the specified numbers of rows and columns with the specified
+	 * Constructs a {@link Matrix} with the specified numbers of rows and columns with the specified
 	 * values.
 	 * <p>
 	 * @param rowCount    the number of rows

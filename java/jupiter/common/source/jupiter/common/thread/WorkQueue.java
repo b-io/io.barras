@@ -150,9 +150,9 @@ public class WorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the type of {@link Worker}.
+	 * Returns the {@link Class} of the model {@link Worker}.
 	 * <p>
-	 * @return the type of {@link Worker}
+	 * @return the {@link Class} of the model {@link Worker}
 	 */
 	public Class<?> getType() {
 		return c;

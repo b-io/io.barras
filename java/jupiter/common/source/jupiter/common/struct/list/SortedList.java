@@ -32,6 +32,11 @@ import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
 
+/**
+ * {@link SortedList} extends {@link LinkedList} of type {@code T}.
+ * <p>
+ * @param <T> the self {@link Comparable} type of the {@link SortedList}
+ */
 public class SortedList<T extends Comparable<T>>
 		extends LinkedList<T>
 		implements ICloneable<SortedList<T>> {
@@ -59,9 +64,9 @@ public class SortedList<T extends Comparable<T>>
 
 	/**
 	 * Constructs a {@link SortedList} of type {@code T} with the specified {@link Collection} of
-	 * super type {@code T}.
+	 * type extending {@code T}.
 	 * <p>
-	 * @param collection a {@link Collection} of super type {@code T}
+	 * @param collection a {@link Collection} of type extending {@code T}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */

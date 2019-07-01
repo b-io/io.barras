@@ -48,14 +48,14 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a L2 regularization function.
+	 * Constructs a {@link RegularizationL2}.
 	 */
 	protected RegularizationL2() {
 		this(0.1);
 	}
 
 	/**
-	 * Constructs a L2 regularization function.
+	 * Constructs a {@link RegularizationL2} with the specified hyper-parameter lambda.
 	 * <p>
 	 * @param lambda the hyper-parameter
 	 */

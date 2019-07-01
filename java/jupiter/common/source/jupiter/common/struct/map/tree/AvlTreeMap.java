@@ -65,10 +65,10 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Constructs an {@link AvlTreeMap} with the specified {@link Map} containing the key-value
-	 * mappings.
+	 * Constructs an {@link AvlTreeMap} loaded from the specified {@link Map} containing the
+	 * key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings to put
+	 * @param map the {@link Map} containing the key-value mappings to load
 	 */
 	public AvlTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);

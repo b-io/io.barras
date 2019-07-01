@@ -722,7 +722,7 @@ public class Strings {
 	/**
 	 * Returns the specified {@link Collection} of {@link String} without the empty {@link String}.
 	 * <p>
-	 * @param <C>        the type of {@link Collection}
+	 * @param <C>        the type extending {@link Collection}
 	 * @param collection a {@link Collection} of {@link String}
 	 * <p>
 	 * @return the specified {@link Collection} of {@link String} without the empty {@link String}

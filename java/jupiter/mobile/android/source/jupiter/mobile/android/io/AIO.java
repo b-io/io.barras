@@ -26,20 +26,31 @@ package jupiter.mobile.android.io;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 import jupiter.common.io.IO;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.Message;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.log.LogHandler;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
-public class AIO {
+public class AIO
+		implements ICloneable<AIO>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default io.
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The default {@link AIO}.
 	 */
 	public static final AIO AIO = new AIO();
 
@@ -53,26 +64,52 @@ public class AIO {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final IO io;
+	/**
+	 * The {@link IO}.
+	 */
+	protected IO io;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link AIO}.
+	 */
 	public AIO() {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
+	/**
+	 * Constructs an {@link AIO} with the specified {@link SeverityLevel}.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 */
 	public AIO(final SeverityLevel severityLevel) {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
+	/**
+	 * Constructs an {@link AIO} with the specified {@link SeverityLevel} and
+	 * {@link ConsoleHandler}.
+	 * <p>
+	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param consoleHandler the {@link ConsoleHandler}
+	 */
 	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
 				consoleHandler);
 	}
 
+	/**
+	 * Constructs an {@link AIO} with the specified {@link SeverityLevel}, {@link ConsoleHandler}
+	 * and {@link LogHandler}.
+	 * <p>
+	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param consoleHandler the {@link ConsoleHandler}
+	 * @param logHandler     the {@link LogHandler}
+	 */
 	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
@@ -197,6 +234,29 @@ public class AIO {
 	public void fail(final Context context, final Object message) {
 		if (SeverityLevel.FAILURE.toInt() >= io.getSeverityLevel().toInt()) {
 			show(context, io.fail(message));
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public AIO clone() {
+		try {
+			final AIO clone = (AIO) super.clone();
+			clone.io = Objects.clone(io);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
 	}
 }

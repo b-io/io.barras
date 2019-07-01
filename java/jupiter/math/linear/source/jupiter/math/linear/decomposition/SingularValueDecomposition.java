@@ -84,11 +84,12 @@ public class SingularValueDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs the singular value decomposition. Sets {@code U}, {@code S} and {@code V}.
+	 * Constructs a {@link SingularValueDecomposition} of the specified rectangular {@link Matrix}.
+	 * Sets the decomposition {@code U} and {@code V} and the singular values {@code s}.
 	 * <p>
 	 * See LINPACK code.
 	 * <p>
-	 * @param A a rectangular {@link Matrix}
+	 * @param A the rectangular {@link Matrix} to decompose
 	 */
 	public SingularValueDecomposition(final Matrix A) {
 		// Initialize
@@ -482,52 +483,52 @@ public class SingularValueDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the left singular vectors {@code U}.
+	 * Returns the {@link Matrix} containing the left singular vectors {@code U}.
 	 * <p>
-	 * @return the left singular vectors {@code U}
+	 * @return the {@link Matrix} containing the left singular vectors {@code U}
 	 */
 	public Matrix getU() {
 		return new Matrix(m, Math.min(m + 1, n), U);
 	}
 
 	/**
-	 * Returns the right singular vectors {@code V}.
+	 * Returns the {@link Matrix} containing the right singular vectors {@code V}.
 	 * <p>
-	 * @return the right singular vectors {@code V}
+	 * @return the {@link Matrix} containing the right singular vectors {@code V}
 	 */
 	public Matrix getV() {
 		return new Matrix(n, n, V);
 	}
 
 	/**
-	 * Returns the one-dimensional array of singular values.
+	 * Returns the one-dimensional array of singular values {@code s}.
 	 * <p>
-	 * @return the diagonal of {@code S}
+	 * @return the one-dimensional array of singular values {@code s}
 	 */
 	public double[] getSingularValues() {
 		return s;
 	}
 
 	/**
-	 * Returns the diagonal matrix of singular values {@code S}.
+	 * Returns the diagonal {@link Matrix} of the singular values {@code s}.
 	 * <p>
-	 * @return the diagonal matrix of singular values {@code S}
+	 * @return the diagonal {@link Matrix} of the singular values {@code s}
 	 */
 	public Matrix getS() {
-		final double[][] S = new double[n][n];
+		final double[][] s = new double[n][n];
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
-				S[i][j] = 0.;
+				s[i][j] = 0.;
 			}
-			S[i][i] = s[i];
+			s[i][i] = this.s[i];
 		}
-		return new Matrix(S);
+		return new Matrix(s);
 	}
 
 	/**
 	 * Returns the two norms.
 	 * <p>
-	 * @return max({@code S})
+	 * @return {@code max(s)}
 	 */
 	public double norm2() {
 		return s[0];
@@ -536,7 +537,7 @@ public class SingularValueDecomposition
 	/**
 	 * Returns the two norms condition number.
 	 * <p>
-	 * @return max({@code S})/min({@code S})
+	 * @return {@code max(s) / min(s)}
 	 */
 	public double cond() {
 		return s[0] / s[Math.min(m, n) - 1];

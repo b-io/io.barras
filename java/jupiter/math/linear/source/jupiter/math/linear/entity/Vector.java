@@ -47,7 +47,7 @@ public class Vector
 	/**
 	 * The flag specifying whether {@code this} is transposed.
 	 */
-	protected volatile boolean isTransposed;
+	protected boolean isTransposed;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a zero {@link Vector} of the specified number of elements.
+	 * Constructs a zero {@link Vector} with the specified number of elements.
 	 * <p>
 	 * @param dimension the number of elements
 	 */
@@ -64,7 +64,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a zero {@link Vector} of the specified number of elements.
+	 * Constructs a zero {@link Vector} with the specified number of elements.
 	 * <p>
 	 * @param dimension the number of elements
 	 * @param transpose the flag specifying whether to transpose
@@ -75,7 +75,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a constant {@link Vector} of the specified number of elements and value.
+	 * Constructs a constant {@link Vector} with the specified number of elements and value.
 	 * <p>
 	 * @param dimension the number of elements
 	 * @param value     a {@code double} value
@@ -85,7 +85,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a constant {@link Vector} of the specified number of elements and value.
+	 * Constructs a constant {@link Vector} with the specified number of elements and value.
 	 * <p>
 	 * @param dimension the number of elements
 	 * @param value     a {@code double} value
@@ -97,7 +97,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} of the specified {@code double} values.
+	 * Constructs a {@link Vector} with the specified {@code double} values.
 	 * <p>
 	 * @param values a {@code double} array
 	 */
@@ -106,7 +106,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} of the specified {@code double} values.
+	 * Constructs a {@link Vector} with the specified {@code double} values.
 	 * <p>
 	 * @param values    a {@code double} array
 	 * @param transpose the flag specifying whether to transpose
@@ -117,7 +117,7 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} of the specified elements.
+	 * Constructs a {@link Vector} with the specified elements.
 	 * <p>
 	 * @param elements a 2D {@code double} array
 	 * <p>

@@ -50,7 +50,7 @@ public class StringTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link StringTable} of the specified numbers of rows and columns.
+	 * Constructs a {@link StringTable} with the specified numbers of rows and columns.
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -60,7 +60,7 @@ public class StringTable
 	}
 
 	/**
-	 * Constructs a {@link StringTable} of the specified header and numbers of rows and columns.
+	 * Constructs a {@link StringTable} with the specified header and numbers of rows and columns.
 	 * <p>
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
@@ -71,7 +71,7 @@ public class StringTable
 	}
 
 	/**
-	 * Constructs a {@link StringTable} of the specified elements.
+	 * Constructs a {@link StringTable} with the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link String}
 	 */
@@ -80,7 +80,7 @@ public class StringTable
 	}
 
 	/**
-	 * Constructs a {@link StringTable} of the specified header and elements.
+	 * Constructs a {@link StringTable} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link String}

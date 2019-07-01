@@ -49,7 +49,7 @@ public class FloatTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FloatTable} of the specified numbers of rows and columns.
+	 * Constructs a {@link FloatTable} with the specified numbers of rows and columns.
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -59,7 +59,7 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} of the specified header and numbers of rows and columns.
+	 * Constructs a {@link FloatTable} with the specified header and numbers of rows and columns.
 	 * <p>
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
@@ -70,7 +70,7 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} of the specified {@code float} values.
+	 * Constructs a {@link FloatTable} with the specified {@code float} values.
 	 * <p>
 	 * @param values a 2D {@code float} array
 	 */
@@ -79,7 +79,7 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} of the specified elements.
+	 * Constructs a {@link FloatTable} with the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Float}
 	 */
@@ -88,7 +88,7 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} of the specified header and values.
+	 * Constructs a {@link FloatTable} with the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
 	 * @param values a 2D {@code float} array
@@ -98,7 +98,7 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} of the specified header and elements.
+	 * Constructs a {@link FloatTable} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Float}

@@ -131,8 +131,8 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified numbers for order. Returns a negative integer, zero or a positive
-	 * integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@link Number} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@link Number} to compare for order
 	 * @param b the other {@link Number} to compare against for order
@@ -211,7 +211,7 @@ public class Numbers {
 	 * Returns the smaller of {@code a} and {@code b}. If they have the same value, the result is
 	 * {@code a}.
 	 * <p>
-	 * @param <T> the type of the numbers to compare
+	 * @param <T> the type of the {@link Number} to compare
 	 * @param a   the {@link Number} to compare
 	 * @param b   the other {@link Number} to compare against
 	 * <p>
@@ -227,7 +227,7 @@ public class Numbers {
 	 * Returns the larger of {@code a} and {@code b}. If they have the same value, the result is
 	 * {@code a}.
 	 * <p>
-	 * @param <T> the type of the numbers to compare
+	 * @param <T> the type of the {@link Number} to compare
 	 * @param a   the {@link Number} to compare
 	 * @param b   the other {@link Number} to compare against
 	 * <p>

@@ -92,6 +92,20 @@ public class Lists
 		}
 	}
 
+	/**
+	 * Sorts the specified {@link List} with the specified {@link Comparator}.
+	 * <p>
+	 * @param <T>        the type of the {@link List} to sort
+	 * @param list       the {@link List} of type {@code T} to sort
+	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
+	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
+	 *                   of the elements should be used)
+	 * <p>
+	 * @throws ClassCastException       if the array contains elements that are not mutually
+	 *                                  comparable using the specified comparator
+	 * @throws IllegalArgumentException (optional) if the comparator is found to violate the
+	 *                                  {@link Comparator} contract
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> void sort(final List<T> list, final Comparator<? super T> comparator) {
 		final T[] array = (T[]) list.toArray();

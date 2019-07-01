@@ -87,20 +87,18 @@ public abstract class BinaryClassifier
 	/**
 	 * The number of features n.
 	 */
-	protected final int featureCount;
-
+	protected int featureCount;
 	/**
 	 * The number of training examples m.
 	 */
 	protected int trainingExampleCount;
 
 	/**
-	 * The matrix of feature vectors X.
+	 * The {@link Matrix} X containing the feature vectors.
 	 */
 	protected Matrix X; // (n x m)
-
 	/**
-	 * The vector of classes Y.
+	 * The {@link Vector} Y containing the classes.
 	 */
 	protected Vector Y, YT; // (1 x m), (m x 1)
 
@@ -110,7 +108,7 @@ public abstract class BinaryClassifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a binary classifier.
+	 * Constructs a {@link BinaryClassifier}.
 	 * <p>
 	 * @param featureCount the number of features
 	 */
@@ -120,45 +118,37 @@ public abstract class BinaryClassifier
 	}
 
 	/**
-	 * Constructs a binary classifier with the specified files containing the feature vectors and
-	 * the classes.
+	 * Constructs a {@link BinaryClassifier} loaded from the specified files containing the training
+	 * examples (feature vectors and classes).
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 * @param classesPath        the path to the file containing the classes of size m
+	 *                           to load
+	 * @param classesPath        the path to the file containing the classes of size m to load
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
 	protected BinaryClassifier(final String featureVectorsPath, final String classesPath)
 			throws IOException {
-		X = Matrix.create(featureVectorsPath);
-		featureCount = X.getRowDimension();
-		trainingExampleCount = X.getColumnDimension();
-		Y = Matrix.create(classesPath).toVector();
-		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
-		YT = Y.transpose();
+		load(featureVectorsPath, classesPath);
 	}
 
 	/**
-	 * Constructs a binary classifier with the specified files containing the feature vectors and
-	 * the classes.
+	 * Constructs a {@link BinaryClassifier} loaded from the specified files containing the training
+	 * examples (feature vectors and classes) and flag specifying whether to transpose the feature
+	 * vectors and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 *                           (or (m x n) if {@code transpose})
-	 * @param classesPath        the path to the file containing the classes of size m
+	 *                           (or (m x n) if {@code transpose}) to load
+	 * @param classesPath        the path to the file containing the classes of size m to load
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
-	 *                           the classes
+	 *                           classes
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
 	protected BinaryClassifier(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
 			throws IOException {
-		X = Matrix.create(featureVectorsPath, transpose);
-		featureCount = X.getRowDimension();
-		trainingExampleCount = X.getColumnDimension();
-		Y = Matrix.create(classesPath, transpose).toVector();
-		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
-		YT = Y.transpose();
+		load(featureVectorsPath, classesPath, transpose);
 	}
 
 
@@ -166,10 +156,20 @@ public abstract class BinaryClassifier
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link Matrix} X containing the feature vectors.
+	 * <p>
+	 * @return the {@link Matrix} X containing the feature vectors
+	 */
 	public synchronized Matrix getFeatureVectors() {
 		return X;
 	}
 
+	/**
+	 * The {@link Vector} Y containing the classes.
+	 * <p>
+	 * @return the {@link Vector} Y containing the classes
+	 */
 	public synchronized Vector getClasses() {
 		return Y;
 	}
@@ -212,7 +212,7 @@ public abstract class BinaryClassifier
 	}
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
 	 * @param learningRate      the learning rate
 	 * @param tolerance         the tolerance level
@@ -227,7 +227,7 @@ public abstract class BinaryClassifier
 	}
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
 	 * @param learningRate                     the learning rate
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
@@ -302,6 +302,53 @@ public abstract class BinaryClassifier
 		// Compute (A Y' + (1 - A) (1 - Y')) / m
 		return A.times(YT).add(Scalar.ONE.minus(A).times(Scalar.ONE.minus(YT))).toScalar().get() /
 				trainingExampleCount;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads the training examples (feature vectors and classes) from the specified files.
+	 * <p>
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
+	 *                           to load
+	 * @param classesPath        the path to the file containing the classes of size m to load
+	 * <p>
+	 * @throws IOException if there is a problem with reading the specified files
+	 */
+	public void load(final String featureVectorsPath, final String classesPath)
+			throws IOException {
+		X = Matrix.create(featureVectorsPath);
+		featureCount = X.getRowDimension();
+		trainingExampleCount = X.getColumnDimension();
+		Y = Matrix.create(classesPath).toVector();
+		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
+		YT = Y.transpose();
+	}
+
+	/**
+	 * Loads the training examples (feature vectors and classes) from the specified files and flag
+	 * specifying whether to transpose the feature vectors and classes.
+	 * <p>
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
+	 *                           (or (m x n) if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size m
+	 * @param transpose          the flag specifying whether to transpose the feature vectors and
+	 *                           classes
+	 * <p>
+	 * @throws IOException if there is a problem with reading the specified files
+	 */
+	public void load(final String featureVectorsPath, final String classesPath,
+			final boolean transpose)
+			throws IOException {
+		X = Matrix.create(featureVectorsPath, transpose);
+		featureCount = X.getRowDimension();
+		trainingExampleCount = X.getColumnDimension();
+		Y = Matrix.create(classesPath, transpose).toVector();
+		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
+		YT = Y.transpose();
 	}
 
 

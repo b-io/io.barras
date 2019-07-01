@@ -71,7 +71,7 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Constructs a {@link TreeMap} with the specified {@link Map} containing the key-value
+	 * Constructs a {@link TreeMap} loaded from the specified {@link Map} containing the key-value
 	 * mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings to put
@@ -142,7 +142,7 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable a key {@link Comparable} of super type {@code K}
+	 * @param keyComparable the key {@link Comparable} of super type {@code K} to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present

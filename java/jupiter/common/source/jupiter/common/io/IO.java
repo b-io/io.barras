@@ -105,7 +105,7 @@ public class IO
 	/**
 	 * The {@link SeverityLevel}.
 	 */
-	protected volatile SeverityLevel severityLevel;
+	protected SeverityLevel severityLevel;
 
 	/**
 	 * The {@link IOPrinter} containing the {@link List} of {@link IOHandler} (containing the
@@ -120,11 +120,11 @@ public class IO
 	/**
 	 * The {@link ConsoleHandler}.
 	 */
-	protected volatile ConsoleHandler consoleHandler;
+	protected ConsoleHandler consoleHandler;
 	/**
 	 * The {@link LogHandler}.
 	 */
-	protected volatile LogHandler logHandler;
+	protected LogHandler logHandler;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -83,10 +83,10 @@ public class QRDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * QR Decomposition, computed by Householder reflections. Sets {@code R} and the Householder
-	 * vectors and computes {@code Q}.
+	 * Constructs a {@link QRDecomposition} of the specified rectangular {@link Matrix}, computed by
+	 * Householder reflections. Sets {@code R} and the Householder vectors and computes {@code Q}.
 	 * <p>
-	 * @param A a rectangular {@link Matrix}
+	 * @param A the rectangular {@link Matrix} to decompose
 	 */
 	public QRDecomposition(final Matrix A) {
 		// Initialize

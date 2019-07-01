@@ -53,7 +53,7 @@ public class Sort<T> {
 	protected final T[] array;
 
 	/**
-	 * The {@link Comparator} of super type {@code T} for this sort.
+	 * The {@link Comparator} of super type {@code T} to determine the order.
 	 */
 	protected final Comparator<? super T> comparator;
 
@@ -105,8 +105,7 @@ public class Sort<T> {
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
 	 * <p>
 	 * @param array      the {@code T} array to sort
-	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order of
-	 *                   the sort
+	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLen    the usable size of the work array
@@ -499,8 +498,8 @@ public class Sort<T> {
 	 * @param len        the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the {@link Comparator} of super type {@code T} used to order the range and
-	 *                   to search
+	 * @param comparator the {@link Comparator} of super type {@code T} to order the range and to
+	 *                   search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] < key <= a[b + k]}, pretending that {@code a[b - 1]} is minus
@@ -589,8 +588,8 @@ public class Sort<T> {
 	 * @param len        the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the {@link Comparator} of super type {@code T} used to order the range and
-	 *                   to search
+	 * @param comparator the {@link Comparator} of super type {@code T} to order the range and to
+	 *                   search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}

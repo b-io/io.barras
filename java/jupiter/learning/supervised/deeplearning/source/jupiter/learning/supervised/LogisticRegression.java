@@ -38,8 +38,9 @@ import jupiter.math.linear.entity.Scalar;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * Binary classifier using the logistic model to estimate the probability of a binary response based
- * on one or more predictor (or independent) variables (features).
+ * {@link LogisticRegression} is a {@link BinaryClassifier} using the logistic model to estimate the
+ * probability of a binary response based on one or more predictor (or independent) variables
+ * (features).
  */
 public class LogisticRegression
 		extends BinaryClassifier {
@@ -59,17 +60,17 @@ public class LogisticRegression
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The weight vector W.
+	 * The {@link Vector} W containing the weights.
 	 */
 	protected Vector W; // (1 x n)
 
 	/**
-	 * The bias b.
+	 * The {@link Scalar} b containing the bias.
 	 */
 	protected Scalar b;
 
 	/**
-	 * The hidden vector A.
+	 * The {@link Vector} A containing the Y estimates.
 	 */
 	protected Entity A;
 
@@ -79,7 +80,7 @@ public class LogisticRegression
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a logistic regression model.
+	 * Constructs a {@link LogisticRegression}.
 	 * <p>
 	 * @param featureCount the number of features
 	 */
@@ -88,8 +89,8 @@ public class LogisticRegression
 	}
 
 	/**
-	 * Constructs a logistic regression model with the specified files containing the feature
-	 * vectors and the classes.
+	 * Constructs a {@link LogisticRegression} with the specified files containing the feature
+	 * vectors and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
 	 * @param classesPath        the path to the file containing the classes of size m
@@ -102,14 +103,14 @@ public class LogisticRegression
 	}
 
 	/**
-	 * Constructs a logistic regression model with the specified files containing the feature
-	 * vectors and the classes.
+	 * Constructs a {@link LogisticRegression} with the specified files containing the feature
+	 * vectors and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
 	 *                           (or (m x n) if {@code transpose})
 	 * @param classesPath        the path to the file containing the classes of size m
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
-	 *                           the classes
+	 *                           classes
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
@@ -156,7 +157,7 @@ public class LogisticRegression
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
 	 * @param learningRate                     the learning rate
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
@@ -214,7 +215,7 @@ public class LogisticRegression
 				}
 			}
 
-			// Compute the derivatives
+			// Compute the derivatives with respect to Z, W and b
 			final Entity dZT = A.minus(Y).transpose(); // (m x 1)
 			final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
 			final Scalar db = dZT.mean().toScalar();

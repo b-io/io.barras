@@ -23,6 +23,11 @@
  */
 package jupiter.common.math;
 
+/**
+ * {@link IComparable} extends {@link Comparable} of type {@code T}.
+ * <p>
+ * @param <T> the self {@link Comparable} type of the {@link IComparable}
+ */
 public interface IComparable<T extends Comparable<T>>
 		extends Comparable<T> {
 

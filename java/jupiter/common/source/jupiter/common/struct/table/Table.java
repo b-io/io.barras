@@ -47,9 +47,9 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link Table} is a 2D array structure of type {@code T}.
+ * {@link Table} is a wrapper around a 2D {@code T} array.
  * <p>
- * @param <T> the type of the elements
+ * @param <T> the component type of the 2D {@code T} array
  */
 public class Table<T>
 		implements ICloneable<Table<T>>, Iterable<T[]>, Serializable {
@@ -100,7 +100,7 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} of the specified numbers of rows and columns.
+	 * Constructs a {@link Table} of type {@code T} with the specified numbers of rows and columns.
 	 * <p>
 	 * @param c           the {@link Class} of type {@code T}
 	 * @param rowCount    the number of rows
@@ -120,8 +120,8 @@ public class Table<T>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} of the specified header and numbers of rows and
-	 * columns.
+	 * Constructs a {@link Table} of type {@code T} with the specified header and numbers of rows
+	 * and columns.
 	 * <p>
 	 * @param c           the {@link Class} of type {@code T}
 	 * @param header      an array of {@link String}
@@ -514,9 +514,9 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns all the elements in a 2D array.
+	 * Returns all the elements in a 2D {@code T} array.
 	 * <p>
-	 * @return all the elements in a 2D array
+	 * @return all the elements in a 2D {@code T} array
 	 */
 	public T[][] getAll() {
 		final T[][] values = createArray2D(m, n);

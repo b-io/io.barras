@@ -77,10 +77,10 @@ public class CholeskyDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs the Cholesky decomposition for the symmetric and positive definite matrix
-	 * {@code A}. Sets {@code L} and {@code isspd}.
+	 * Constructs a {@link CholeskyDecomposition} of the specified symmetric and positive definite
+	 * {@link Matrix}. Sets {@code isSymmetricPositiveDefinite} and the decomposition {@code L}.
 	 * <p>
-	 * @param A a symmetric and positive definite {@link Matrix}
+	 * @param A the symmetric and positive definite {@link Matrix} to decompose
 	 */
 	public CholeskyDecomposition(final Matrix A) {
 		// Verify the feasibility

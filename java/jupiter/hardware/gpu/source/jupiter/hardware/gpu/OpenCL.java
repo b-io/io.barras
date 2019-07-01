@@ -124,10 +124,10 @@ public abstract class OpenCL {
 	/**
 	 * The flag specifying whether {@code this} is active.
 	 */
-	protected volatile boolean isActive;
+	protected boolean isActive;
 
 	protected final String sourceCode;
-	protected volatile List<String> kernelNames = new LinkedList<String>();
+	protected List<String> kernelNames = new LinkedList<String>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

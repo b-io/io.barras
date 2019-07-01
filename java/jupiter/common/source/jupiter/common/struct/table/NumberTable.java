@@ -34,7 +34,7 @@ import jupiter.common.util.Objects;
 /**
  * {@link NumberTable} is a {@link Table} of type {@code T} extending {@link Number}.
  * <p>
- * @param <T> the type of the elements extending {@link Number}
+ * @param <T> the type of the {@link Table} extending {@link Number}
  */
 public class NumberTable<T extends Number>
 		extends Table<T> {
@@ -54,7 +54,7 @@ public class NumberTable<T extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} of the specified numbers of rows and
+	 * Constructs a {@link NumberTable} of type {@code T} with the specified numbers of rows and
 	 * columns.
 	 * <p>
 	 * @param c           the {@link Class} of type {@code T}
@@ -66,7 +66,7 @@ public class NumberTable<T extends Number>
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} of the specified header and numbers of
+	 * Constructs a {@link NumberTable} of type {@code T} with the specified header and numbers of
 	 * rows and columns.
 	 * <p>
 	 * @param c           the {@link Class} of type {@code T}

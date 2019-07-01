@@ -153,7 +153,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @param date       the date-time value to format into a date-time {@link String}
 	 * @param toAppendTo where the new date-time text is to be appended
-	 * @param pos        the formatting position. On input: an alignment field, if desired; on
+	 * @param position   the formatting position. On input: an alignment field, if desired; on
 	 *                   output: the offsets of the alignment field
 	 * <p>
 	 * @return the formatted date-time {@link StringBuffer}
@@ -162,8 +162,8 @@ public class SafeDateFormat
 	 */
 	@Override
 	public synchronized StringBuffer format(final Date date, final StringBuffer toAppendTo,
-			final FieldPosition pos) {
-		return super.format(date, toAppendTo, pos);
+			final FieldPosition position) {
+		return super.format(date, toAppendTo, position);
 	}
 
 	/**
@@ -193,13 +193,13 @@ public class SafeDateFormat
 	/**
 	 * Parses the {@link Date} encoded in the specified {@link String}.
 	 * <p>
-	 * The method attempts to parse text starting at the index specified by {@code pos}. If parsing
-	 * succeeds, then the index of {@code pos} is updated to the index after the last character used
-	 * (parsing does not necessarily use all characters up to the end of the {@link String}), and
-	 * the parsed date is returned. The updated {@code pos} can be used to indicate the starting
-	 * point for the next call to this method. If an error occurs, then the index of {@code pos} is
-	 * not changed, the error index of {@code pos} is set to the index of the character where the
-	 * error occurred, and {@code null} is returned.
+	 * The method attempts to parse text starting at the index specified by {@code position}. If
+	 * parsing succeeds, then the index of {@code position} is updated to the index after the last
+	 * character used (parsing does not necessarily use all characters up to the end of the
+	 * {@link String}), and the parsed date is returned. The updated {@code position} can be used to
+	 * indicate the starting point for the next call to this method. If an error occurs, then the
+	 * index of {@code position} is not changed, the error index of {@code position} is set to the
+	 * index of the character where the error occurred, and {@code null} is returned.
 	 * <p>
 	 * This parsing operation uses the {@link DateFormat#calendar calendar} to produce a
 	 * {@link Date}. All of {@code calendar}'s date-time fields are
@@ -212,17 +212,17 @@ public class SafeDateFormat
 	 * {@link #setTimeZone(java.util.TimeZone) setTimeZone} may need to be restored for further
 	 * operations.
 	 * <p>
-	 * @param text a {@link String}, part of which should be parsed
-	 * @param pos  a {@link ParsePosition} object with index and error index information as
-	 *             described above
+	 * @param text     a {@link String}, part of which should be parsed
+	 * @param position a {@link ParsePosition} object with index and error index information as
+	 *                 described above
 	 * <p>
 	 * @return a {@link Date} parsed from the {@link String}, or {@code null} in case of error
 	 * <p>
-	 * @exception NullPointerException if {@code text} or {@code pos} is {@code null}
+	 * @exception NullPointerException if {@code text} or {@code position} is {@code null}
 	 */
 	@Override
-	public synchronized Date parse(final String text, final ParsePosition pos) {
-		return super.parse(text, pos);
+	public synchronized Date parse(final String text, final ParsePosition position) {
+		return super.parse(text, position);
 	}
 
 	/**

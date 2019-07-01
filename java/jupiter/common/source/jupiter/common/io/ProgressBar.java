@@ -70,7 +70,7 @@ public class ProgressBar {
 	/**
 	 * The current number of symbols in the progress bar (excluding the wrapping symbols).
 	 */
-	protected volatile int progress = 0;
+	protected int progress = 0;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Constructs a {@link ProgressBar} of the specified length.
+	 * Constructs a {@link ProgressBar} with the specified length.
 	 * <p>
 	 * @param length the maximum number of symbols (excluding the wrapping symbols)
 	 */
@@ -94,7 +94,8 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Constructs a {@link ProgressBar} of the specified length in the specified standard type.
+	 * Constructs a {@link ProgressBar} with the specified length and flag specifying whether to
+	 * print in the standard error or in the standard output.
 	 * <p>
 	 * @param length  the maximum number of symbols (excluding the wrapping symbols)
 	 * @param isError the flag specifying whether to print in the standard error or in the standard

@@ -96,10 +96,10 @@ public class EigenvalueDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests for symmetry, then constructs the eigenvalue decomposition. Sets {@code D} and
-	 * {@code V}.
+	 * Constructs a {@link  EigenvalueDecomposition} of the specified square {@link Matrix}. Tests
+	 * for symmetry, then constructs the eigenvalue decomposition. Sets {@code D} and {@code V}.
 	 * <p>
-	 * @param A a square {@link Matrix}
+	 * @param A the square {@link Matrix} to decompose
 	 */
 	public EigenvalueDecomposition(final Matrix A) {
 		// Initialize
@@ -156,7 +156,7 @@ public class EigenvalueDecomposition
 	/**
 	 * Returns the real parts of the eigenvalues.
 	 * <p>
-	 * @return real(diag({@code D}))
+	 * @return {@code real(diag(D))}
 	 */
 	public double[] getRealEigenvalues() {
 		return d;
@@ -165,16 +165,16 @@ public class EigenvalueDecomposition
 	/**
 	 * Returns the imaginary parts of the eigenvalues.
 	 * <p>
-	 * @return imag(diag({@code D}))
+	 * @return {@code imag(diag(D))}
 	 */
-	public double[] getImagEigenvalues() {
+	public double[] getImaginaryEigenvalues() {
 		return e;
 	}
 
 	/**
-	 * Returns the block diagonal eigenvalue matrix {@code D}.
+	 * Returns the block diagonal {@link Matrix} of the eigenvalues.
 	 * <p>
-	 * @return the block diagonal eigenvalue matrix {@code D}
+	 * @return the block diagonal {@link Matrix} of the eigenvalues
 	 */
 	public Matrix getD() {
 		final double[][] D = new double[dimension][dimension];

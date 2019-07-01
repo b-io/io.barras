@@ -37,39 +37,39 @@ public class KalmanFilter {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Estimated state.
+	 * The estimated state {@link Entity}.
 	 */
 	public Entity x;
 	/**
-	 * State transition matrix (model the transitions between states).
+	 * The state transition {@link Matrix} (i.e. model the transitions between the states).
 	 */
 	public Entity F;
 	/**
-	 * Control variables.
+	 * The control variables {@link Entity}.
 	 */
 	public Entity u;
 	/**
-	 * Control matrix (map control variables to state variables).
+	 * The control {@link Matrix} (i.e. map the control variables to the state variables).
 	 */
 	public Entity B;
 	/**
-	 * State variance matrix (error of estimation).
+	 * The state variance {@link Matrix} (i.e. error of estimation).
 	 */
 	public Entity P;
 	/**
-	 * Process variance matrix (error due to process).
+	 * The process variance {@link Matrix} (i.e. error due to process).
 	 */
 	public Entity Q;
 	/**
-	 * Measurement matrix (map measurements onto state).
+	 * The measurement {@link Matrix} (i.e. map measurements onto state).
 	 */
 	public Entity H;
 	/**
-	 * Kalman gain.
+	 * The Kalman gain {@link Entity}.
 	 */
 	public Entity K;
 	/**
-	 * Measurement variance matrix (error from measurements).
+	 * The measurement variance {@link Matrix} (i.e. error from measurements).
 	 */
 	public Entity R;
 
@@ -78,6 +78,9 @@ public class KalmanFilter {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link KalmanFilter}.
+	 */
 	public KalmanFilter() {
 		x = new Scalar(0.);
 		F = new Scalar(1.);
@@ -116,7 +119,7 @@ public class KalmanFilter {
 	 * Corrects the estimation {@code x}, updates the Kalman gain {@code K} and the state variance
 	 * matrix {@code P} (a posteriori).
 	 * <p>
-	 * @param y the measurement
+	 * @param y the measurement {@link Entity}
 	 */
 	public void correct(final Entity y) {
 		// Compute K = P H' inv(H P H' + R),

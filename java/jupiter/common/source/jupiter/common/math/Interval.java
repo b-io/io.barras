@@ -31,6 +31,11 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
+/**
+ * {@link Interval} is an {@link IGroup} of type {@code T}.
+ * <p>
+ * @param <T> the self {@link Comparable} type of the {@link Interval}
+ */
 public class Interval<T extends Comparable<T>>
 		implements ICloneable<Interval<T>>, IGroup<T>, Serializable {
 

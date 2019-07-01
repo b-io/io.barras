@@ -47,7 +47,7 @@ public class RegularizationNone
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a void regularization function.
+	 * Constructs a {@link RegularizationNone}.
 	 */
 	protected RegularizationNone() {
 		super(0.);

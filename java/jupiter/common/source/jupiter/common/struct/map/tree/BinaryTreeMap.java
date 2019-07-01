@@ -62,10 +62,10 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Constructs a {@link BinaryTreeMap} with the specified {@link Map} containing the key-value
-	 * mappings.
+	 * Constructs a {@link BinaryTreeMap} loaded from the specified {@link Map} containing the
+	 * key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings to put
+	 * @param map the {@link Map} containing the key-value mappings to load
 	 */
 	protected BinaryTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -239,7 +239,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable a key {@link Comparable} of super type {@code K}
+	 * @param keyComparable the key {@link Comparable} of super type {@code K} to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present

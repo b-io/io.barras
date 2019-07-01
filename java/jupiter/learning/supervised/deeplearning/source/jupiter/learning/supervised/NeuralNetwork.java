@@ -41,8 +41,9 @@ import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * Binary classifier using a neural network to estimate the probability of a binary response based
- * on one or more predictor (or independent) variables (features).
+ * {@link NeuralNetwork} is a {@link BinaryClassifier} using a neural network to estimate the
+ * probability of a binary response based on one or more predictor (or independent) variables
+ * (features).
  */
 public class NeuralNetwork
 		extends BinaryClassifier {
@@ -52,27 +53,25 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The array of weight matrices W.
+	 * The array of {@link Matrix} W containing the weights.
 	 */
 	protected Matrix[] W; // n -> nh... -> 1: (nh x n) -> (nh x nh)... -> (1 x nh)
-
 	/**
-	 * The array of bias vectors b.
+	 * The array of {@link Vector} b containing the bias.
 	 */
 	protected Vector[] b; // n -> nh... -> 1: (nh x 1) -> (nh x 1)... -> (1 x 1)
-
 	/**
-	 * The array of feature and hidden vectors A (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])).
+	 * The array of {@link Matrix} A containing the feature vectors, hidden vectors and Y estimates
+	 * (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])).
 	 */
 	protected Entity[] A; // n -> nh... -> 1: (n x m) -> (nh x m)... -> (1 x m)
 
 	/**
-	 * The activation function g.
+	 * The {@link ActivationFunction} g.
 	 */
 	protected ActivationFunction activationFunction;
-
 	/**
-	 * The regularization function r.
+	 * The {@link RegularizationFunction} r.
 	 */
 	protected RegularizationFunction regularizationFunction;
 
@@ -82,7 +81,7 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a neural network.
+	 * Constructs a {@link NeuralNetwork}.
 	 * <p>
 	 * @param featureCount the number of features
 	 */
@@ -92,8 +91,8 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Constructs a neural network with the specified files containing the feature vectors and the
-	 * classes.
+	 * Constructs a {@link NeuralNetwork} with the specified files containing the feature vectors
+	 * and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
 	 * @param classesPath        the path to the file containing the classes of size m
@@ -107,14 +106,14 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Constructs a neural network with the specified files containing the feature vectors and the
-	 * classes.
+	 * Constructs a {@link NeuralNetwork} with the specified files containing the feature vectors
+	 * and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
 	 *                           (or (m x n) if {@code transpose})
 	 * @param classesPath        the path to the file containing the classes of size m
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
-	 *                           the classes
+	 *                           classes
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
@@ -199,7 +198,7 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
 	 * @param learningRate                     the learning rate
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
@@ -230,7 +229,7 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
 	 * @param learningRate      the learning rate
 	 * @param tolerance         the tolerance level
@@ -251,7 +250,7 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
 	 * @param learningRate                     the learning rate
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
@@ -352,9 +351,9 @@ public class NeuralNetwork
 					dZ = dA.arrayMultiply(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
 				}
 				dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
+				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 
 				// - Compute the derivatives with respect to W and b
-				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 				final Matrix dW = A[l].times(dZT)
 						.transpose()
 						.divide(trainingExampleCount)

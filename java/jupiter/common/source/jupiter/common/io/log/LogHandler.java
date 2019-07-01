@@ -70,12 +70,12 @@ public class LogHandler
 	/**
 	 * The log directory {@link File}.
 	 */
-	protected volatile File logDir;
+	protected File logDir;
 
 	/**
 	 * The output log {@link File} to handle.
 	 */
-	protected volatile File outputLog;
+	protected File outputLog;
 	/**
 	 * The internal {@link Lock} of the output log {@link File} to handle.
 	 */
@@ -85,7 +85,7 @@ public class LogHandler
 	/**
 	 * The error log {@link File} to handle.
 	 */
-	protected volatile File errorLog;
+	protected File errorLog;
 	/**
 	 * The internal {@link Lock} of the error log {@link File} to handle.
 	 */

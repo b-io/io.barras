@@ -23,31 +23,79 @@
  */
 package jupiter.transfer.db;
 
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class SQLGenericRow {
+public class SQLGenericRow
+		implements ICloneable<SQLGenericRow>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The header.
+	 */
 	public String[] header;
-	public Object[] values;
+	/**
+	 * The elements.
+	 */
+	public Object[] elements;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public SQLGenericRow(final String[] header, final Object[] values) {
+	/**
+	 * Constructs a {@link SQLGenericRow} with the specified header and elements.
+	 * <p>
+	 * @param header   an array of {@link String}
+	 * @param elements an array of {@link Object}
+	 */
+	public SQLGenericRow(final String[] header, final Object[] elements) {
 		this.header = header;
-		this.values = values;
+		this.elements = elements;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public SQLGenericRow clone() {
+		try {
+			final SQLGenericRow clone = (SQLGenericRow) super.clone();
+			clone.header = Objects.clone(header);
+			clone.elements = Objects.clone(elements);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -60,11 +108,11 @@ public class SQLGenericRow {
 		final StringBuilder builder = Strings.createBuilder(10 * header.length);
 		builder.append("{");
 		final int n = header.length;
-		if (n == values.length) {
+		if (n == elements.length) {
 			for (int i = 0; i < n; ++i) {
 				builder.append(Strings.doubleQuote(header[i]));
 				builder.append(": ");
-				builder.append(Strings.doubleQuote(values[i]));
+				builder.append(Strings.doubleQuote(elements[i]));
 				if (i != n - 1) {
 					builder.append(Arrays.DEFAULT_DELIMITER);
 				}

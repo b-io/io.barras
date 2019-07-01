@@ -49,7 +49,7 @@ public class IntegerTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IntegerTable} of the specified numbers of rows and columns.
+	 * Constructs an {@link IntegerTable} with the specified numbers of rows and columns.
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -59,7 +59,7 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} of the specified header and numbers of rows and columns.
+	 * Constructs an {@link IntegerTable} with the specified header and numbers of rows and columns.
 	 * <p>
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
@@ -70,7 +70,7 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} of the specified {@code int} values.
+	 * Constructs an {@link IntegerTable} with the specified {@code int} values.
 	 * <p>
 	 * @param values a 2D {@code int} array
 	 */
@@ -79,7 +79,7 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} of the specified elements.
+	 * Constructs an {@link IntegerTable} with the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Integer}
 	 */
@@ -88,7 +88,7 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} of the specified header and values.
+	 * Constructs an {@link IntegerTable} with the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
 	 * @param values a 2D {@code int} array
@@ -98,7 +98,7 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} of the specified header and elements.
+	 * Constructs an {@link IntegerTable} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Integer}

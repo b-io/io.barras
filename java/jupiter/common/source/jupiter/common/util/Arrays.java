@@ -473,9 +473,9 @@ public class Arrays {
 	 * <p>
 	 * @param <T>        the component type of the array to sort
 	 * @param array      the array to sort
-	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order of
-	 *                   the array (a {@code null} value indicates that
-	 *                   {@linkplain Comparable natural ordering} of the elements should be used)
+	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
+	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
+	 *                   of the elements should be used)
 	 * <p>
 	 * @throws ClassCastException       if the array contains elements that are not mutually
 	 *                                  comparable using the specified comparator
@@ -524,9 +524,9 @@ public class Arrays {
 	 * @param a          the array to sort
 	 * @param fromIndex  the index of the first element (inclusive) to sort
 	 * @param toIndex    the index of the last element (exclusive) to sort
-	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order of
-	 *                   the array (a {@code null} value indicates that
-	 *                   {@linkplain Comparable natural ordering} of the elements should be used)
+	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
+	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
+	 *                   of the elements should be used)
 	 * <p>
 	 * @throws ClassCastException             if the array contains elements that are not mutually
 	 *                                        comparable using the specified comparator

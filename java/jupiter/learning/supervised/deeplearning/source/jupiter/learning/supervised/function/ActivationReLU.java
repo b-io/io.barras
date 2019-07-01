@@ -30,7 +30,7 @@ import jupiter.math.analysis.function.Max;
 import jupiter.math.linear.entity.Entity;
 
 /**
- * The rectified linear unit (ReLU) function.
+ * {@link ActivationReLU} is the rectified linear unit (ReLU) function.
  */
 public class ActivationReLU
 		extends ActivationFunction {
@@ -58,7 +58,7 @@ public class ActivationReLU
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a ReLU function.
+	 * Constructs an {@link ActivationReLU}.
 	 */
 	protected ActivationReLU() {
 		super();
@@ -67,7 +67,7 @@ public class ActivationReLU
 	}
 
 	/**
-	 * Constructs a leaky ReLU function with the specified positive gradient.
+	 * Constructs a leaky {@link ActivationReLU} with the specified positive gradient.
 	 * <p>
 	 * @param gradient a {@code double} value
 	 */

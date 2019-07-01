@@ -33,6 +33,11 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
 
+/**
+ * {@link ExtendedList} extends {@link ArrayList} of type {@code T}.
+ * <p>
+ * @param <T> the type of the {@link ExtendedList}
+ */
 public class ExtendedList<T>
 		extends ArrayList<T>
 		implements ICloneable<ExtendedList<T>> {
@@ -72,9 +77,9 @@ public class ExtendedList<T>
 
 	/**
 	 * Constructs an {@link ExtendedList} of type {@code T} with the specified {@link Collection} of
-	 * super type {@code T}.
+	 * type extending {@code T}.
 	 * <p>
-	 * @param collection a {@link Collection} of super type {@code T}
+	 * @param collection a {@link Collection} of type extending {@code T}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */

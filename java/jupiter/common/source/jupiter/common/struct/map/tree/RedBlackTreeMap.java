@@ -54,10 +54,10 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} with the specified {@link Map} containing the key-value
-	 * mappings.
+	 * Constructs a {@link RedBlackTreeMap} loaded from the specified {@link Map} containing the
+	 * key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings to put
+	 * @param map the {@link Map} containing the key-value mappings to load
 	 */
 	public RedBlackTreeMap(final Map<? extends K, ? extends V> map) {
 		putAll(map);

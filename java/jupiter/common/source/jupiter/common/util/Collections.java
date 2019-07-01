@@ -73,7 +73,7 @@ public class Collections {
 	/**
 	 * Returns the element at the specified index of the elements returned by the iterator.
 	 * <p>
-	 * @param <C>        the type of {@link Collection}
+	 * @param <C>        the type extending {@link Collection}
 	 * @param <T>        the type of the {@link Collection}
 	 * @param collection a {@link Collection} of type {@code T}
 	 * @param index      the index of the element to return
@@ -97,7 +97,7 @@ public class Collections {
 	 * Returns the specified {@link Collection} of type {@code T} without the specified
 	 * {@link Object}.
 	 * <p>
-	 * @param <C>        the type of {@link Collection}
+	 * @param <C>        the type extending {@link Collection}
 	 * @param <T>        the type of the {@link Collection}
 	 * @param collection a {@link Collection} of type {@code T}
 	 * @param object     an {@link Object}
