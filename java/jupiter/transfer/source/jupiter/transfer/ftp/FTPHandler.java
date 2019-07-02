@@ -377,8 +377,8 @@ public class FTPHandler
 			session.connect();
 
 			// Retrieve the files
-			IO.info("Download the files ", Strings.quote(fileFilter), " in ", Strings.quote(
-					remoteDirPath));
+			IO.info("Download the files ", Strings.quote(fileFilter), " in ",
+					Strings.quote(remoteDirPath));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;

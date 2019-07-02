@@ -24,8 +24,8 @@
 package jupiter.math.analysis.function;
 
 import java.io.Serializable;
-import jupiter.common.model.ICloneable;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;

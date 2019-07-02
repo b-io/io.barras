@@ -24,6 +24,7 @@
 package jupiter.learning.supervised.function;
 
 import jupiter.math.analysis.function.Functions;
+import jupiter.math.analysis.function.Sigmoid;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
 

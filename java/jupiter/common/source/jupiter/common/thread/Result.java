@@ -26,6 +26,7 @@ package jupiter.common.thread;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.Serializable;
+
 import jupiter.common.io.Message;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;

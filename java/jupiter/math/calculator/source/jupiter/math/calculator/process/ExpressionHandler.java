@@ -242,8 +242,7 @@ public class ExpressionHandler {
 			final Element.Type type = getType(unaryOperator);
 			IO.debug("Type: ", type);
 			// Parse the nested expression
-			final String nestedExpression = Strings.removeEmpty(Strings.split(expression,
-					unaryOperator))
+			final String nestedExpression = Strings.removeEmpty(Strings.split(expression, unaryOperator))
 					.get(0);
 			IO.debug("Nested expression: ", nestedExpression);
 			final Result<Element> nodeResult = parseExpression(parent, nestedExpression, context);

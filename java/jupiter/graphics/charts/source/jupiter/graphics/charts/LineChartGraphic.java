@@ -23,13 +23,13 @@
  */
 package jupiter.graphics.charts;
 
-import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.function.Function2D;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class LineChartGraphic
 		extends ChartGraphic {

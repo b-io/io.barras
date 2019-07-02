@@ -24,6 +24,7 @@
 package jupiter.common.thread;
 
 import java.io.Serializable;
+
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
@@ -166,8 +167,7 @@ public class Task<I>
 			return false;
 		}
 		final Task<?> otherTask = (Task<?>) other;
-		return Objects.equals(id, otherTask.id) &&
-				Objects.equals(input, otherTask.input);
+		return Objects.equals(id, otherTask.id) && Objects.equals(input, otherTask.input);
 	}
 
 	/**

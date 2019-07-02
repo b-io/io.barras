@@ -72,7 +72,7 @@ public class CollectionArguments
 		if (CHECK_ARGS && requireNonNull(a).size() != requireNonNull(b).size()) {
 			throw new IllegalArgumentException(
 					"The specified collections do not have the same size " +
-					isNotEqualTo(a.size(), b.size()));
+							isNotEqualTo(a.size(), b.size()));
 		}
 	}
 }

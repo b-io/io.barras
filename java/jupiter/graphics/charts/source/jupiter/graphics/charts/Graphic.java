@@ -23,10 +23,10 @@
  */
 package jupiter.graphics.charts;
 
+import org.jfree.ui.ApplicationFrame;
+
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
-
-import org.jfree.ui.ApplicationFrame;
 
 public abstract class Graphic
 		extends ApplicationFrame

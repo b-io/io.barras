@@ -30,7 +30,6 @@ import java.util.List;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Objects;
-
 import jupiter.common.util.Strings;
 
 /**
