@@ -111,7 +111,7 @@ public class SystemFiles {
 			final Set<String> extensions) {
 		final Collection<File> filteredFiles = new LinkedList<File>();
 		for (final File file : files) {
-			if (extensions.contains(Files.getFileExtension(file.getName()).toLowerCase())) {
+			if (extensions.contains(Files.getExtension(file.getName()).toLowerCase())) {
 				filteredFiles.add(file);
 			}
 		}
