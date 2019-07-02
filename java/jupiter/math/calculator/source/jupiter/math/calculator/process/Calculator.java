@@ -149,8 +149,7 @@ public class Calculator {
 			String trimmedExpression = expression.trim();
 
 			// Test whether the epression is an assignment
-			final List<String> expressions = Strings.removeEmpty(
-					Strings.split(trimmedExpression, '='));
+			final List<String> expressions = Strings.removeEmpty(Strings.split(trimmedExpression, '='));
 			final int size = expressions.size();
 			if (size > 1) {
 				// - Assignment
