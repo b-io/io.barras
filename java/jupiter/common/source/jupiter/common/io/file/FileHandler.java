@@ -138,30 +138,30 @@ public class FileHandler {
 	}
 
 	/**
-	 * Returns the name.
+	 * Returns the file name.
 	 * <p>
-	 * @return the name
+	 * @return the file name
 	 */
 	public String getName() {
 		return file.getName();
 	}
 
 	/**
-	 * Returns the name without the extension.
+	 * Returns the file name without the extension.
 	 * <p>
-	 * @return the name without the extension
+	 * @return the file name without the extension
 	 */
 	public String getNameWithoutExtension() {
-		return Files.getFileNameWithoutExtension(file.getName());
+		return Files.getNameWithoutExtension(file.getName());
 	}
 
 	/**
-	 * Returns the extension.
+	 * Returns the file extension.
 	 * <p>
-	 * @return the extension
+	 * @return the file extension
 	 */
 	public String getExtension() {
-		return Files.getFileExtension(file.getName());
+		return Files.getExtension(file.getName());
 	}
 
 

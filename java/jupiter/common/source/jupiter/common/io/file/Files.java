@@ -155,7 +155,7 @@ public class Files {
 	 * <p>
 	 * @return the file name of the specified path
 	 */
-	public static String getFileName(final String path) {
+	public static String getName(final String path) {
 		return path.substring(path.lastIndexOf(File.separator) + 1);
 	}
 
@@ -166,8 +166,8 @@ public class Files {
 	 * <p>
 	 * @return the file name without the extension of the specified path
 	 */
-	public static String getFileNameWithoutExtension(final String path) {
-		final String fileName = getFileName(path);
+	public static String getNameWithoutExtension(final String path) {
+		final String fileName = getName(path);
 		return fileName.substring(0, fileName.lastIndexOf('.'));
 	}
 
@@ -178,8 +178,8 @@ public class Files {
 	 * <p>
 	 * @return the file extension of the specified path
 	 */
-	public static String getFileExtension(final String path) {
-		final String fileName = getFileName(path);
+	public static String getExtension(final String path) {
+		final String fileName = getName(path);
 		return fileName.substring(fileName.lastIndexOf('.') + 1);
 	}
 
@@ -892,7 +892,7 @@ public class Files {
 	 * @return the number of unzipped files
 	 */
 	public static int unzipDir(final File sourceFile) {
-		return unzipDir(sourceFile, new File(getFileNameWithoutExtension(sourceFile.getName())));
+		return unzipDir(sourceFile, new File(getNameWithoutExtension(sourceFile.getName())));
 	}
 
 	/**
