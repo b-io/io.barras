@@ -121,8 +121,8 @@ public class DynamicChartPanel
 	}
 
 	/**
-	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart} and
-	 * {@link Format} of the x and y coordinates.
+	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart}, {@link Format}
+	 * of the x coordinate and {@link Format} of the y coordinate.
 	 * <p>
 	 * @param chart   the {@link JFreeChart}
 	 * @param xFormat the {@link Format} of the x coordinate

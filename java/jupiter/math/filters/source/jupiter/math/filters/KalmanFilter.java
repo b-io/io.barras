@@ -26,11 +26,23 @@ package jupiter.math.filters;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.SPACE;
 
+import java.io.Serializable;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 
-public class KalmanFilter {
+public class KalmanFilter
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES

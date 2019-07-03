@@ -27,7 +27,7 @@ import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 
 /**
- * {@link RegularizationNone} is the void {link RegularizationFunction}.
+ * {@link RegularizationNone} is the void {@link RegularizationFunction}.
  */
 public class RegularizationNone
 		extends RegularizationFunction {

@@ -31,11 +31,30 @@ public class BinaryOperation
 		extends Element {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The operation {@link Type}.
+	 */
 	protected Type type;
+	/**
+	 * The left {@link Element}.
+	 */
 	protected Element left;
+	/**
+	 * The right {@link Element}.
+	 */
 	protected Element right;
 
 
@@ -43,6 +62,16 @@ public class BinaryOperation
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link BinaryOperation} with the specified parent {@link Element}, expression
+	 * {@link String}, operation {@link Type}, left {@link Element} and right {@link Element}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 * @param type       the operation {@link Type}
+	 * @param left       the left {@link Element}
+	 * @param right      the right {@link Element}
+	 */
 	public BinaryOperation(final Element parent, final String expression, final Type type,
 			final Element left, final Element right) {
 		super(parent, expression);
@@ -57,27 +86,27 @@ public class BinaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the type.
+	 * Returns the operation {@link Type}.
 	 * <p>
-	 * @return the type
+	 * @return the operation {@link Type}
 	 */
 	public Type getType() {
 		return type;
 	}
 
 	/**
-	 * Returns the left part.
+	 * Returns the left {@link Element}.
 	 * <p>
-	 * @return the left part
+	 * @return the left {@link Element}
 	 */
 	public Element getLeft() {
 		return left;
 	}
 
 	/**
-	 * Returns the right part.
+	 * Returns the right {@link Element}.
 	 * <p>
-	 * @return the right part
+	 * @return the right {@link Element}
 	 */
 	public Element getRight() {
 		return right;
@@ -89,7 +118,7 @@ public class BinaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the type.
+	 * Sets the operation type.
 	 * <p>
 	 * @param type a {@link jupiter.math.calculator.model.Element.Type}
 	 */
@@ -98,7 +127,7 @@ public class BinaryOperation
 	}
 
 	/**
-	 * Sets the left part.
+	 * Sets the left {@link Element}.
 	 * <p>
 	 * @param left an {@link Element}
 	 */
@@ -107,7 +136,7 @@ public class BinaryOperation
 	}
 
 	/**
-	 * Sets the right part.
+	 * Sets the right {@link Element}.
 	 * <p>
 	 * @param right an {@link Element}
 	 */

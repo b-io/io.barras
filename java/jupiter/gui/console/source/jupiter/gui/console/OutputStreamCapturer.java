@@ -38,8 +38,17 @@ public class OutputStreamCapturer
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link StringBuilder}.
+	 */
 	protected final StringBuilder builder;
+	/**
+	 * The consuming {@link JConsole}.
+	 */
 	protected final JConsole consumer;
+	/**
+	 * The previous {@link PrintStream}.
+	 */
 	protected final PrintStream previousPrintStream;
 
 
@@ -48,7 +57,8 @@ public class OutputStreamCapturer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link OutputStreamCapturer}.
+	 * Constructs an {@link OutputStreamCapturer} with the specified consuming {@link JConsole} and
+	 * previous {@link PrintStream}.
 	 * <p>
 	 * @param consumer            the consuming {@link JConsole}
 	 * @param previousPrintStream the previous {@link PrintStream}

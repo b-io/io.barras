@@ -30,13 +30,38 @@ public class MatrixElement
 		extends Element {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link MatrixElement} with the specified parent {@link Element} and expression
+	 * {@link String}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 */
 	public MatrixElement(final Element parent, final String expression) {
 		super(parent, expression, Matrix.parse(expression));
 	}
 
+	/**
+	 * Constructs a {@link MatrixElement} with the specified parent {@link Element}, expression
+	 * {@link String} and {@link Matrix}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 * @param matrix     the {@link Matrix}
+	 */
 	public MatrixElement(final Element parent, final String expression, final Matrix matrix) {
 		super(parent, expression, matrix);
 	}

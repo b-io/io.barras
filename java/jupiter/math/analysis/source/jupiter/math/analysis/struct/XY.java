@@ -47,12 +47,21 @@ public class XY<T>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link XY}.
+	 */
 	public XY() {
 		super();
 	}
 
-	public XY(final T first, final T second) {
-		super(first, second);
+	/**
+	 * Constructs a {@link XY} with the specified x and y {@code T} objects.
+	 * <p>
+	 * @param x the x {@code T} object
+	 * @param y the y {@code T} object
+	 */
+	public XY(final T x, final T y) {
+		super(x, y);
 	}
 
 

@@ -26,6 +26,7 @@ package jupiter.math.calculator.process;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.EMPTY;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -49,11 +50,17 @@ import jupiter.math.calculator.model.ScalarElement;
 import jupiter.math.calculator.model.UnaryOperation;
 import jupiter.math.linear.entity.Matrix;
 
-public class ExpressionHandler {
+public class ExpressionHandler
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The {@link List} of binary operators.

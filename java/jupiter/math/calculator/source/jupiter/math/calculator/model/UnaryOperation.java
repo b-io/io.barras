@@ -31,10 +31,26 @@ public class UnaryOperation
 		extends Element {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The operation {@link Type}.
+	 */
 	protected Type type;
+	/**
+	 * The {@link Element}.
+	 */
 	protected Element element;
 
 
@@ -42,6 +58,15 @@ public class UnaryOperation
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link UnaryOperation} with the specified parent {@link Element}, expression
+	 * {@link String}, operation {@link Type} and {@link Element}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 * @param type       the operation {@link Type}
+	 * @param element    the {@link Element}
+	 */
 	public UnaryOperation(final Element parent, final String expression, final Type type,
 			final Element element) {
 		super(parent, expression);
@@ -55,18 +80,18 @@ public class UnaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the type.
+	 * Returns the operation {@link Type}.
 	 * <p>
-	 * @return the type
+	 * @return the operation {@link Type}
 	 */
 	public Type getType() {
 		return type;
 	}
 
 	/**
-	 * Returns the element.
+	 * Returns the {@link Element}.
 	 * <p>
-	 * @return the element
+	 * @return the {@link Element}
 	 */
 	public Element getElement() {
 		return element;
@@ -78,7 +103,7 @@ public class UnaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the type.
+	 * Sets the operation {@link Type}.
 	 * <p>
 	 * @param type a {@link jupiter.math.calculator.model.Element.Type}
 	 */
@@ -87,7 +112,7 @@ public class UnaryOperation
 	}
 
 	/**
-	 * Sets the element.
+	 * Sets the {@link Element}.
 	 * <p>
 	 * @param element an {@link Element}
 	 */

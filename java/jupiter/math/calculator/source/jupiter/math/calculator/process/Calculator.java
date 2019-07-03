@@ -27,6 +27,7 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -50,11 +51,17 @@ import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 
-public class Calculator {
+public class Calculator
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
@@ -80,6 +87,9 @@ public class Calculator {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Calculator}.
+	 */
 	public Calculator() {
 	}
 
