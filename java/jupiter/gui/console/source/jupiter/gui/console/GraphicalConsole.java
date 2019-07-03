@@ -29,6 +29,7 @@ import static jupiter.common.util.Formats.VERSION;
 
 import java.awt.BorderLayout;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import javax.swing.JFrame;
@@ -37,11 +38,17 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import jupiter.common.io.Resources;
 
-public class GraphicalConsole {
+public class GraphicalConsole
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	protected static final String TITLE = "Jupiter v" + VERSION;
 

@@ -27,6 +27,7 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
@@ -39,11 +40,17 @@ import jupiter.common.thread.Threads;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
-public class R {
+public class R
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final String R_PATH = "R";
 	public static final String R_SCRIPT_PATH = "RScript";

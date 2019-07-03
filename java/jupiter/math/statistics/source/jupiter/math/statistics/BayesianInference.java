@@ -23,13 +23,24 @@
  */
 package jupiter.math.statistics;
 
+import java.io.Serializable;
 
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Doubles;
 
 public class BayesianInference
-		implements Inference {
+		implements Inference, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES

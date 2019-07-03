@@ -25,14 +25,22 @@ package jupiter.common.time;
 
 import static jupiter.common.util.Strings.EMPTY;
 
+import java.io.Serializable;
+
 import jupiter.common.math.Maths;
 import jupiter.common.util.Longs;
 
-public class Chronometer {
+public class Chronometer
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The number of time units.

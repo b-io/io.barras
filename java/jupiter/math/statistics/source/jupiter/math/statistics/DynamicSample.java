@@ -33,6 +33,11 @@ public class DynamicSample
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * The minimum sample size (2 for the first sample standard deviation and 1 for the second one).
 	 */
 	public static final int DEFAULT_MIN_SAMPLE_SIZE = 3;

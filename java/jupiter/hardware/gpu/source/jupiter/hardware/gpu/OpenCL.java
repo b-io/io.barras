@@ -26,6 +26,7 @@ package jupiter.hardware.gpu;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.NEWLINE;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,11 +36,17 @@ import jupiter.common.util.Characters;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public abstract class OpenCL {
+public abstract class OpenCL
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The flag specifying whether OpenCL is active.
