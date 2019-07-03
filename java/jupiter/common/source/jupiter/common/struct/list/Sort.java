@@ -23,13 +23,25 @@
  */
 package jupiter.common.struct.list;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 
 /**
  * This is a duplicate of {@code TimSort} from Oracle Java 8.
  */
-public class Sort<T> {
+public class Sort<T>
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * This is the minimum sized sequence that will be merged. Shorter sequences will be lengthened
 	 * by calling {@link #binarySort}. If the entire array is less than this length, no merges will
@@ -48,6 +60,26 @@ public class Sort<T> {
 	protected static final int MIN_MERGE = 32;
 
 	/**
+	 * When we get into galloping mode, we stay there until both runs win less often than
+	 * {@code MIN_GALLOP} consecutive times.
+	 */
+	protected static final int MIN_GALLOP = 7;
+
+	/**
+	 * Maximum initial size of {@code tempArray} array, which is used for merging. The array can
+	 * grow to accommodate demand.
+	 * <p>
+	 * Unlike Tim's original C version, we do not allocate this much storage when sorting smaller
+	 * arrays. This change was required for performance.
+	 */
+	protected static final int INITIAL_TEMP_STORAGE_LENGTH = 256;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * The array being sorted.
 	 */
 	protected final T[] array;
@@ -58,26 +90,11 @@ public class Sort<T> {
 	protected final Comparator<? super T> comparator;
 
 	/**
-	 * When we get into galloping mode, we stay there until both runs win less often than
-	 * {@code MIN_GALLOP} consecutive times.
-	 */
-	protected static final int MIN_GALLOP = 7;
-
-	/**
 	 * This controls when we get *into* galloping mode. It is initialized to {@code MIN_GALLOP}. The
 	 * {@link #mergeLo} and {@link #mergeHi} methods nudge it higher for random data and lower for
 	 * highly structured data.
 	 */
 	protected int minGallop = MIN_GALLOP;
-
-	/**
-	 * Maximum initial size of {@code tempArray} array, which is used for merging. The array can
-	 * grow to accommodate demand.
-	 * <p>
-	 * Unlike Tim's original C version, we do not allocate this much storage when sorting smaller
-	 * arrays. This change was required for performance.
-	 */
-	protected static final int INITIAL_TEMP_STORAGE_LENGTH = 256;
 
 	/**
 	 * Temporary storage for merges. A workspace array may optionally be provided in constructor and
@@ -100,6 +117,11 @@ public class Sort<T> {
 	protected int stackSize = 0; // number of pending runs on stack
 	protected final int[] runBase;
 	protected final int[] runLen;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
@@ -148,9 +170,10 @@ public class Sort<T> {
 		runLen = new int[stackLen];
 	}
 
-	/*
-	 * The next method (package protected and static) constitutes the entire API of this class.
-	 */
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Sorts the given range, using the given workspace array slice for temporary storage when

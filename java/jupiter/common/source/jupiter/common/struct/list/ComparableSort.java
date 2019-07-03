@@ -23,10 +23,23 @@
  */
 package jupiter.common.struct.list;
 
+import java.io.Serializable;
+
 /**
  * This is a duplicate of {@code ComparableTimSort} from Oracle Java 8.
  */
-public class ComparableSort {
+public class ComparableSort
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * This is the minimum sized sequence that will be merged. Shorter sequences will be lengthened
 	 * by calling {@link #binarySort}. If the entire array is less than this length, no merges will
@@ -45,22 +58,10 @@ public class ComparableSort {
 	protected static final int MIN_MERGE = 32;
 
 	/**
-	 * The array being sorted.
-	 */
-	protected final Object[] array;
-
-	/**
 	 * When we get into galloping mode, we stay there until both runs win less often than
 	 * {@code MIN_GALLOP} consecutive times.
 	 */
 	protected static final int MIN_GALLOP = 7;
-
-	/**
-	 * This controls when we get *into* galloping mode. It is initialized to {@code MIN_GALLOP}. The
-	 * {@link #mergeLo} and {@link #mergeHi} methods nudge it higher for random data and lower for
-	 * highly structured data.
-	 */
-	protected int minGallop = MIN_GALLOP;
 
 	/**
 	 * Maximum initial size of {@code tempArray} array, which is used for merging. The array can
@@ -70,6 +71,23 @@ public class ComparableSort {
 	 * arrays. This change was required for performance.
 	 */
 	protected static final int INITIAL_TEMP_STORAGE_LENGTH = 256;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The array being sorted.
+	 */
+	protected final Object[] array;
+
+	/**
+	 * This controls when we get *into* galloping mode. It is initialized to {@code MIN_GALLOP}. The
+	 * {@link #mergeLo} and {@link #mergeHi} methods nudge it higher for random data and lower for
+	 * highly structured data.
+	 */
+	protected int minGallop = MIN_GALLOP;
 
 	/**
 	 * Temporary storage for merges. A workspace array may optionally be provided in constructor and
@@ -92,6 +110,11 @@ public class ComparableSort {
 	protected int stackSize = 0; // number of pending runs on stack
 	protected final int[] runBase;
 	protected final int[] runLen;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Creates a {@link ComparableSort} instance to maintain the state of an ongoing sort.
@@ -136,9 +159,10 @@ public class ComparableSort {
 		runLen = new int[stackLen];
 	}
 
-	/*
-	 * The next method (package protected and static) constitutes the entire API of this class.
-	 */
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Sorts the given range, using the given workspace array slice for temporary storage when

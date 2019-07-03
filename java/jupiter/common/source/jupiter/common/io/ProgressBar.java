@@ -26,14 +26,22 @@ package jupiter.common.io;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 
+import java.io.Serializable;
+
 import jupiter.common.util.Characters;
 import jupiter.common.util.Integers;
 
-public class ProgressBar {
+public class ProgressBar
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The start symbol.
