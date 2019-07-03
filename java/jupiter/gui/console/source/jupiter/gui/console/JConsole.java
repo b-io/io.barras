@@ -88,8 +88,8 @@ import jupiter.common.util.Strings;
  */
 public class JConsole
 		extends JScrollPane
-		implements ActionListener, IConsole, KeyListener, MouseListener,
-		PropertyChangeListener, Runnable {
+		implements ActionListener, IConsole, KeyListener, MouseListener, PropertyChangeListener,
+		Runnable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS

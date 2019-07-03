@@ -27,6 +27,7 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.Serializable;
+
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
