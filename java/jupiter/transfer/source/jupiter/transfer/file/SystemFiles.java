@@ -131,10 +131,11 @@ public class SystemFiles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int unzip(final Properties info) {
-		final File localDir = new File(info.getProperty("localDir"));
-		final String filter = info.getProperty("filter", "*").replace("*", ".*");
-		final String[] fileNames = info.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
+	public static int unzip(final Properties properties) {
+		final File localDir = new File(properties.getProperty("localDir"));
+		final String filter = properties.getProperty("filter", "*").replace("*", ".*");
+		final String[] fileNames = properties.getProperty("fileNames")
+				.split(Arrays.DEFAULT_DELIMITER);
 		if (fileNames.length > 0) {
 			if (Strings.isNotEmpty(fileNames[0])) {
 				// Unzip the files

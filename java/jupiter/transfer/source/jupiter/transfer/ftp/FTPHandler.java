@@ -172,11 +172,12 @@ public class FTPHandler
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public int download(final Properties properties) {
-		load(properties);
-		return download();
-	}
-
+	/**
+	 * Downloads the files from the FTP, FTPS or SFTP with {@code this} parameters and returns the
+	 * number of downloaded files.
+	 * <p>
+	 * @return the number of downloaded files
+	 */
 	public int download() {
 		if (fileNames.length > 0) {
 			if (Strings.isNotEmpty(fileNames[0])) {
@@ -211,9 +212,11 @@ public class FTPHandler
 		return 0;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Download the specified files from the specified FTP with the specified parameters and returns
-	 * the number of downloaded files.
+	 * Downloads the files from the FTP with {@code this} parameters and returns the number of
+	 * downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -284,8 +287,8 @@ public class FTPHandler
 	}
 
 	/**
-	 * Download the specified files from the specified FTPS with the specified parameters and
-	 * returns the number of downloaded files.
+	 * Downloads the files from the FTPS with {@code this} parameters and returns the number of
+	 * downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -358,8 +361,8 @@ public class FTPHandler
 	}
 
 	/**
-	 * Download the specified files from the specified SFTP with the specified parameters and
-	 * returns the number of downloaded files.
+	 * Downloads the files from the SFTP with {@code this} parameters and returns the number of
+	 * downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
