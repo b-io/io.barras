@@ -169,6 +169,178 @@ public class FTPHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Protocol}.
+	 * <p>
+	 * @return the {@link Protocol}
+	 */
+	public Protocol getProtocol() {
+		return protocol;
+	}
+
+	/**
+	 * Returns the host name.
+	 * <p>
+	 * @return the host name
+	 */
+	public String getHostName() {
+		return hostName;
+	}
+
+	/**
+	 * Returns the port.
+	 * <p>
+	 * @return the port
+	 */
+	public int getPort() {
+		return port;
+	}
+
+	/**
+	 * Returns the user name.
+	 * <p>
+	 * @return the user name
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * Returns the password.
+	 * <p>
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * Returns the path to the remote directory.
+	 * <p>
+	 * @return the path to the remote directory
+	 */
+	public String getRemoteDirPath() {
+		return remoteDirPath;
+	}
+
+	/**
+	 * Returns the path to the local directory.
+	 * <p>
+	 * @return the path to the local directory
+	 */
+	public String getLocalDirPath() {
+		return localDirPath;
+	}
+
+	/**
+	 * Returns the file filter {@link String}.
+	 * <p>
+	 * @return the file filter {@link String}
+	 */
+	public String getFileFilter() {
+		return fileFilter;
+	}
+
+	/**
+	 * Returns the array of file names.
+	 * <p>
+	 * @return the array of file names
+	 */
+	public String[] getFileNames() {
+		return fileNames;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the {@link Protocol}.
+	 * <p>
+	 * @param protocol a {@link Protocol}
+	 */
+	public void setProtocol(final Protocol protocol) {
+		this.protocol = protocol;
+	}
+
+	/**
+	 * Sets the host name.
+	 * <p>
+	 * @param hostName a {@link String}
+	 */
+	public void setHostName(final String hostName) {
+		this.hostName = hostName;
+	}
+
+	/**
+	 * Sets the port.
+	 * <p>
+	 * @param port an {@code int} value
+	 */
+	public void setPort(final int port) {
+		this.port = port;
+	}
+
+	/**
+	 * Sets the user name.
+	 * <p>
+	 * @param userName a {@link String}
+	 */
+	public void setUserName(final String userName) {
+		this.userName = userName;
+	}
+
+	/**
+	 * Sets the password.
+	 * <p>
+	 * @param password a {@link String}
+	 */
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	/**
+	 * Sets the path to the remote directory.
+	 * <p>
+	 * @param remoteDirPath a {@link String}
+	 */
+	public void setRemoteDirPath(final String remoteDirPath) {
+		this.remoteDirPath = remoteDirPath;
+	}
+
+	/**
+	 * Sets the path to the local directory.
+	 * <p>
+	 * @param localDirPath a {@link String}
+	 */
+	public void setLocalDirPath(final String localDirPath) {
+		this.localDirPath = localDirPath;
+	}
+
+	/**
+	 * Sets the file filter {@link String}.
+	 * <p>
+	 * @param fileFilter a {@link String}
+	 */
+	public void setFileFilter(final String fileFilter) {
+		this.fileFilter = fileFilter;
+	}
+
+	/**
+	 * Sets the array of file names.
+	 * <p>
+	 * @param fileNames an array of {@link String}
+	 */
+	public void setFileNames(final String[] fileNames) {
+		this.fileNames = fileNames;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -385,7 +557,9 @@ public class FTPHandler
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
-			sftp.cd(remoteDirPath);
+			if (!Strings.isNullOrEmpty(remoteDirPath)) {
+				sftp.cd(remoteDirPath);
+			}
 			final Vector<ChannelSftp.LsEntry> entries = sftp.ls(fileFilter);
 			for (final ChannelSftp.LsEntry entry : entries) {
 				final String fileName = entry.getFilename();
