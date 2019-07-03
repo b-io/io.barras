@@ -56,6 +56,14 @@ public abstract class Function
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Applies the function to the specified {@code double} value and returns the resulting
+	 * {@code double} value.
+	 * <p>
+	 * @param x a {@code double} value
+	 * <p>
+	 * @return {@code f(x)}
+	 */
 	public abstract double apply(final double x);
 
 	public double apply(final Number x) {

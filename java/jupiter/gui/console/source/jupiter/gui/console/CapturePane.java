@@ -45,6 +45,9 @@ public class CapturePane
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link JConsole}.
+	 */
 	protected final JConsole output;
 
 
@@ -52,6 +55,9 @@ public class CapturePane
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link CapturePane}.
+	 */
 	public CapturePane() {
 		super(new BorderLayout());
 		output = new JConsole();

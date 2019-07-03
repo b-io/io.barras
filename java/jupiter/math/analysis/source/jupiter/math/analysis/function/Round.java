@@ -40,6 +40,9 @@ public class Round
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Round}.
+	 */
 	protected Round() {
 		super();
 	}
@@ -55,7 +58,7 @@ public class Round
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code round(x)}
 	 */
 	@Override
 	public double apply(final double x) {

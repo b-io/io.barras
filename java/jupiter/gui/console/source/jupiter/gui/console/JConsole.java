@@ -154,13 +154,23 @@ public class JConsole
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link JConsole}.
+	 */
 	public JConsole() {
 		this(null, null);
 	}
 
-	public JConsole(final InputStream cin, final OutputStream cout) {
+	/**
+	 * Constructs a {@link JConsole} with the specified {@link InputStream} and
+	 * {@link OutputStream}.
+	 * <p>
+	 * @param inputStream  the {@link InputStream}
+	 * @param outputStream the {@link OutputStream}
+	 */
+	public JConsole(final InputStream inputStream, final OutputStream outputStream) {
 		super();
-		init(cin, cout);
+		init(inputStream, outputStream);
 	}
 
 
@@ -168,7 +178,7 @@ public class JConsole
 	// JCONSOLE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected void init(final InputStream cin, final OutputStream cout) {
+	protected void init(final InputStream inputStream, final OutputStream outputStream) {
 		// Special TextPane which catches for cut and paste, both L&F keys and programmatic behavior
 		textPane = new JTextPane(new DefaultStyledDocument()) {
 			/**
@@ -205,7 +215,7 @@ public class JConsole
 		// Make sure the popup menu follows the Look & Feel
 		UIManager.addPropertyChangeListener(this);
 		// Set the input
-		outPipe = cout;
+		outPipe = outputStream;
 		if (outPipe == null) {
 			outPipe = new PipedOutputStream();
 			try {
@@ -215,7 +225,7 @@ public class JConsole
 			}
 		}
 		// Set the output
-		inPipe = cin;
+		inPipe = inputStream;
 		if (inPipe == null) {
 			final PipedOutputStream pout = new PipedOutputStream();
 			try {

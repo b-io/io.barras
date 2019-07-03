@@ -69,12 +69,12 @@ public class DynamicChartPanel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The formats of the x and y coordinates.
+	 * The {@link Format} of the x and y coordinates.
 	 */
 	protected final XY<Format> formats;
 
 	/**
-	 * The mouse position.
+	 * The mouse position {@link Point}.
 	 */
 	protected Point mousePosition = new Point();
 	/**
@@ -83,11 +83,11 @@ public class DynamicChartPanel
 	protected XY<Double> mouseCoordinates = new XY<Double>();
 
 	/**
-	 * The selection.
+	 * The {@link XYSelection}.
 	 */
 	protected XYSelection selection;
 	/**
-	 * The vertical and horizontal crosshairs.
+	 * The vertical and horizontal {@link Crosshair}.
 	 */
 	protected XY<Crosshair> crosshairs;
 
@@ -96,18 +96,38 @@ public class DynamicChartPanel
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart}.
+	 * <p>
+	 * @param chart the {@link JFreeChart}
+	 */
 	public DynamicChartPanel(final JFreeChart chart) {
 		super(chart);
 		formats = new XY<Format>(Formats.DEFAULT_FORMAT, Formats.DEFAULT_FORMAT);
 		setDefaultParameters();
 	}
 
+	/**
+	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart} and
+	 * {@link Format} of the x coordinate.
+	 * <p>
+	 * @param chart   the {@link JFreeChart}
+	 * @param xFormat the {@link Format} of the x coordinate
+	 */
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat) {
 		super(chart);
 		formats = new XY<Format>(xFormat, Formats.DEFAULT_FORMAT);
 		setDefaultParameters();
 	}
 
+	/**
+	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart} and
+	 * {@link Format} of the x and y coordinates.
+	 * <p>
+	 * @param chart   the {@link JFreeChart}
+	 * @param xFormat the {@link Format} of the x coordinate
+	 * @param yFormat the {@link Format} of the y coordinate
+	 */
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat, final Format yFormat) {
 		super(chart);
 		formats = new XY<Format>(xFormat, yFormat);

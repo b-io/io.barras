@@ -49,6 +49,9 @@ public class ActivationHyperbolicTangent
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ActivationHyperbolicTangent}.
+	 */
 	protected ActivationHyperbolicTangent() {
 		super();
 	}

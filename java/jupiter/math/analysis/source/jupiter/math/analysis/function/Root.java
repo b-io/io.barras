@@ -40,6 +40,9 @@ public class Root
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Root}.
+	 */
 	protected Root() {
 		super();
 	}
@@ -55,11 +58,11 @@ public class Root
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code sqrt(x)}
 	 */
 	@Override
 	public double apply(final double x) {
-		return Math.pow(x, -2.);
+		return Math.sqrt(x);
 	}
 
 

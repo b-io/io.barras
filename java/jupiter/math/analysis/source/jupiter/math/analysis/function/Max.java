@@ -40,20 +40,31 @@ public class Max
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final double value;
+	/**
+	 * The minimum resulting {@code double} value.
+	 */
+	protected final double minValue;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Max}.
+	 */
 	protected Max() {
 		this(0.);
 	}
 
-	public Max(final double value) {
+	/**
+	 * Constructs a {@link Max} with the specified {@code double} value.
+	 * <p>
+	 * @param minValue the minimum resulting {@code double} value
+	 */
+	public Max(final double minValue) {
 		super();
-		this.value = value;
+		this.minValue = minValue;
 	}
 
 
@@ -67,11 +78,11 @@ public class Max
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code max(minValue, x)}
 	 */
 	@Override
 	public double apply(final double x) {
-		return Math.max(value, x);
+		return Math.max(minValue, x);
 	}
 
 

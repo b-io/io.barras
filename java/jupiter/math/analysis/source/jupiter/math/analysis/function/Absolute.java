@@ -40,6 +40,9 @@ public class Absolute
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link Absolute}.
+	 */
 	protected Absolute() {
 		super();
 	}
@@ -55,7 +58,7 @@ public class Absolute
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code abs(x)}
 	 */
 	@Override
 	public double apply(final double x) {

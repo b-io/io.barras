@@ -48,10 +48,21 @@ public class Filter
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Filter}.
+	 */
 	protected Filter() {
 		this(0., 0., 1.);
 	}
 
+	/**
+	 * Constructs a {@link Filter} with the specified limit and possible resulting {@code double}
+	 * values.
+	 * <p>
+	 * @param limit the limit
+	 * @param a     the resulting {@code double} value if {@code x <= limit}
+	 * @param b     the resulting {@code double} value if {@code x > limit}
+	 */
 	public Filter(final double limit, final double a, final double b) {
 		super();
 		this.limit = limit;
@@ -66,11 +77,11 @@ public class Filter
 
 	/**
 	 * Applies the filter function to the specified {@code double} value and returns the resulting
-	 * {@code double} value.
+	 * value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code a} if {@code x <= limit}, {@code b} otherwise
 	 */
 	@Override
 	public double apply(final double x) {

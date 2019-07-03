@@ -64,6 +64,11 @@ public class JogAmpl
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link JogAmpl} with the specified source code {@link String}.
+	 * <p>
+	 * @param sourceCode the source code {@link String}
+	 */
 	public JogAmpl(final String sourceCode) {
 		super(sourceCode);
 

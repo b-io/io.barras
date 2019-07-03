@@ -35,6 +35,11 @@ public class Test
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Test} with the specified name.
+	 * <p>
+	 * @param name the name
+	 */
 	public Test(final String name) {
 		super(name);
 	}

@@ -40,6 +40,9 @@ public class Cotangent
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Cotangent}.
+	 */
 	protected Cotangent() {
 		super();
 	}
@@ -55,7 +58,7 @@ public class Cotangent
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code cot(x)}
 	 */
 	@Override
 	public double apply(final double x) {

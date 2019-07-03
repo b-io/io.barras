@@ -33,7 +33,7 @@ public class Functions {
 	public static final Logarithm LOG = new Logarithm();
 	public static final Root ROOT = new Root();
 	public static final Round ROUND = new Round();
-	public static final Square SQUARE = new Square();
+	public static final Power SQUARE = new Power();
 
 	public static final Cosinus COS = new Cosinus();
 	public static final Sinus SIN = new Sinus();

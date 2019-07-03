@@ -44,6 +44,9 @@ public class HyperbolicTangent
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link HyperbolicTangent}.
+	 */
 	protected HyperbolicTangent() {
 		super();
 	}
@@ -59,7 +62,7 @@ public class HyperbolicTangent
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code tanh(x)}
 	 */
 	@Override
 	public double apply(final double x) {

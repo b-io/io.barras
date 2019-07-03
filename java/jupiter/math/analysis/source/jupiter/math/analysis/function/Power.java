@@ -23,9 +23,7 @@
  */
 package jupiter.math.analysis.function;
 
-import jupiter.common.math.Maths;
-
-public class Square
+public class Power
 		extends Function {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,11 +37,33 @@ public class Square
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The exponent.
+	 */
+	protected final double exponent;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected Square() {
-		super();
+	/**
+	 * Constructs a {@link Power}.
+	 */
+	protected Power() {
+		this(2);
+	}
+
+	/**
+	 * Constructs a {@link Power} with the specified exponent.
+	 * <p>
+	 * @param exponent the exponent
+	 */
+	protected Power(final double exponent) {
+		this.exponent = exponent;
 	}
 
 
@@ -57,11 +77,11 @@ public class Square
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code x^exponent}
 	 */
 	@Override
 	public double apply(final double x) {
-		return Maths.square(x);
+		return Math.pow(x, exponent);
 	}
 
 
@@ -77,7 +97,7 @@ public class Square
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public Square clone() {
-		return (Square) super.clone();
+	public Power clone() {
+		return (Power) super.clone();
 	}
 }

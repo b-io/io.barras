@@ -41,7 +41,7 @@ public class Sinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link Sinus}.
+	 * Constructs a {@link Sinus}.
 	 */
 	protected Sinus() {
 		super();
@@ -58,7 +58,7 @@ public class Sinus
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code sin(x)}
 	 */
 	@Override
 	public double apply(final double x) {

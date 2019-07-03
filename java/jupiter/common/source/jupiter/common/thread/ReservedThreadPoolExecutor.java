@@ -69,15 +69,32 @@ public class ReservedThreadPoolExecutor
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor}.
+	 */
 	public ReservedThreadPoolExecutor() {
 		this(Runtime.getRuntime().availableProcessors());
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize the pool size
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize) {
 		super(poolSize, poolSize, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 		maxPoolSize = poolSize;
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize      the pool size
+	 * @param maxPoolSize   the maximum pool size
+	 * @param keepAliveTime the keep alive time
+	 * @param unit          the {@link TimeUnit}
+	 * @param workQueue     the {@link BlockingQueue} of {@link Runnable}
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize, final int maxPoolSize,
 			final long keepAliveTime, final TimeUnit unit,
 			final BlockingQueue<Runnable> workQueue) {
@@ -85,6 +102,16 @@ public class ReservedThreadPoolExecutor
 		this.maxPoolSize = maxPoolSize;
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize      the pool size
+	 * @param maxPoolSize   the maximum pool size
+	 * @param keepAliveTime the keep alive time
+	 * @param unit          the {@link TimeUnit}
+	 * @param workQueue     the {@link BlockingQueue} of {@link Runnable}
+	 * @param threadFactory the {@link ThreadFactory}
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize, final int maxPoolSize,
 			final long keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue,
 			final ThreadFactory threadFactory) {
@@ -92,6 +119,16 @@ public class ReservedThreadPoolExecutor
 		this.maxPoolSize = maxPoolSize;
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize      the pool size
+	 * @param maxPoolSize   the maximum pool size
+	 * @param keepAliveTime the keep alive time
+	 * @param unit          the {@link TimeUnit}
+	 * @param workQueue     the {@link BlockingQueue} of {@link Runnable}
+	 * @param handler       the {@link RejectedExecutionHandler}
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize, final int maxPoolSize,
 			final long keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue,
 			final RejectedExecutionHandler handler) {
@@ -99,6 +136,17 @@ public class ReservedThreadPoolExecutor
 		this.maxPoolSize = maxPoolSize;
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize      the pool size
+	 * @param maxPoolSize   the maximum pool size
+	 * @param keepAliveTime the keep alive time
+	 * @param unit          the {@link TimeUnit}
+	 * @param workQueue     the {@link BlockingQueue} of {@link Runnable}
+	 * @param threadFactory the {@link ThreadFactory}
+	 * @param handler       the {@link RejectedExecutionHandler}
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize, final int maxPoolSize,
 			final long keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue,
 			final ThreadFactory threadFactory, final RejectedExecutionHandler handler) {

@@ -41,6 +41,16 @@ public class Sigmoid
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The coefficient.
+	 */
+	protected double coefficient;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,7 +58,17 @@ public class Sigmoid
 	 * Constructs a {@link Sigmoid}.
 	 */
 	protected Sigmoid() {
+		this(1.);
+	}
+
+	/**
+	 * Constructs a {@link Sigmoid} with the specified coefficient.
+	 * <p>
+	 * @param coefficient the coefficient
+	 */
+	protected Sigmoid(final double coefficient) {
 		super();
+		this.coefficient = coefficient;
 	}
 
 
@@ -62,11 +82,11 @@ public class Sigmoid
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code 1. / (1. + exp(-coefficient * x))}
 	 */
 	@Override
 	public double apply(final double x) {
-		return 1. / (1. + Math.exp(-x));
+		return 1. / (1. + Math.exp(-coefficient * x));
 	}
 
 

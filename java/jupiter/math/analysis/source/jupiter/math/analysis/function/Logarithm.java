@@ -40,6 +40,9 @@ public class Logarithm
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Logarithm}.
+	 */
 	protected Logarithm() {
 		super();
 	}
@@ -55,7 +58,7 @@ public class Logarithm
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code log(x)}
 	 */
 	@Override
 	public double apply(final double x) {

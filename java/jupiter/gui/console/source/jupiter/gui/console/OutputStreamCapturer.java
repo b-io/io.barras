@@ -40,17 +40,23 @@ public class OutputStreamCapturer
 
 	protected final StringBuilder builder;
 	protected final JConsole consumer;
-	protected final PrintStream previousOutputStream;
+	protected final PrintStream previousPrintStream;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public OutputStreamCapturer(final JConsole consumer, final PrintStream previousOutputStream) {
+	/**
+	 * Constructs an {@link OutputStreamCapturer}.
+	 * <p>
+	 * @param consumer            the consuming {@link JConsole}
+	 * @param previousPrintStream the previous {@link PrintStream}
+	 */
+	public OutputStreamCapturer(final JConsole consumer, final PrintStream previousPrintStream) {
 		super();
 		this.consumer = consumer;
-		this.previousOutputStream = previousOutputStream;
+		this.previousPrintStream = previousPrintStream;
 		builder = Strings.createBuilder();
 	}
 
@@ -69,6 +75,6 @@ public class OutputStreamCapturer
 			consumer.append(builder.toString());
 			builder.delete(0, builder.length());
 		}
-		previousOutputStream.print(character);
+		previousPrintStream.print(character);
 	}
 }

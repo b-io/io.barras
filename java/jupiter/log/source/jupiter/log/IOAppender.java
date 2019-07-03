@@ -70,22 +70,45 @@ public class IOAppender
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link IOAppender}.
+	 */
 	public IOAppender() {
 		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
+	/**
+	 * Constructs an {@link IOAppender} with the specified {@link SeverityLevel}.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 */
 	public IOAppender(final SeverityLevel severityLevel) {
 		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
+	/**
+	 * Constructs an {@link IOAppender} with the specified {@link SeverityLevel} and
+	 * {@link ConsoleHandler}.
+	 * <p>
+	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param consoleHandler the {@link ConsoleHandler}
+	 */
 	public IOAppender(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
 		super();
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
 				consoleHandler);
 	}
 
+	/**
+	 * Constructs an {@link IOAppender} with the specified {@link SeverityLevel},
+	 * {@link ConsoleHandler} and {@link LogHandler}.
+	 * <p>
+	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param consoleHandler the {@link ConsoleHandler}
+	 * @param logHandler     the {@link LogHandler}
+	 */
 	public IOAppender(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
 		super();

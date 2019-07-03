@@ -96,7 +96,7 @@ public class EigenvalueDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link  EigenvalueDecomposition} of the specified square {@link Matrix}. Tests
+	 * Constructs a {@link EigenvalueDecomposition} of the specified square {@link Matrix}. Tests
 	 * for symmetry, then constructs the eigenvalue decomposition. Sets {@code D} and {@code V}.
 	 * <p>
 	 * @param A the square {@link Matrix} to decompose

@@ -41,7 +41,7 @@ public class Cosinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link Cosinus}.
+	 * Constructs a {@link Cosinus}.
 	 */
 	protected Cosinus() {
 		super();
@@ -58,7 +58,7 @@ public class Cosinus
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return the resulting {@code double} value
+	 * @return {@code cos(x)}
 	 */
 	@Override
 	public double apply(final double x) {

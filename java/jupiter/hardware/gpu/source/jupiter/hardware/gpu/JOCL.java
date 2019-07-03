@@ -92,6 +92,11 @@ public class JOCL
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link JOCL} with the specified source code {@link String}.
+	 * <p>
+	 * @param sourceCode the source code {@link String}
+	 */
 	public JOCL(final String sourceCode) {
 		super(sourceCode);
 
