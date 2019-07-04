@@ -45,7 +45,7 @@ public class BinaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The operation {@link Element.Type}.
+	 * The operation {@link Type}.
 	 */
 	protected Type type;
 	/**
@@ -64,12 +64,11 @@ public class BinaryOperation
 
 	/**
 	 * Constructs a {@link BinaryOperation} with the specified parent {@link Element}, expression
-	 * {@link String}, operation {@link Element.Type}, left {@link Element} and right
-	 * {@link Element}.
+	 * {@link String}, operation {@link Type}, left {@link Element} and right {@link Element}.
 	 * <p>
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
-	 * @param type       the operation {@link Element.Type}
+	 * @param type       the operation {@link Type}
 	 * @param left       the left {@link Element}
 	 * @param right      the right {@link Element}
 	 */
@@ -87,9 +86,9 @@ public class BinaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the operation {@link Element.Type}.
+	 * Returns the operation {@link Type}.
 	 * <p>
-	 * @return the operation {@link Element.Type}
+	 * @return the operation {@link Type}
 	 */
 	public Type getType() {
 		return type;
@@ -119,9 +118,9 @@ public class BinaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the operation {@link Element.Type}.
+	 * Sets the operation {@link Type}.
 	 * <p>
-	 * @param type an {@link Element.Type}
+	 * @param type an {@link Type}
 	 */
 	public void setType(final Type type) {
 		this.type = type;

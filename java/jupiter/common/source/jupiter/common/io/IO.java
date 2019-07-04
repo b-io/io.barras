@@ -70,7 +70,7 @@ public class IO
 	public static final int EXIT_FAILURE = 1;
 
 	/**
-	 * The default {@link IO.SeverityLevel}.
+	 * The default {@link SeverityLevel}.
 	 */
 	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
 
@@ -103,7 +103,7 @@ public class IO
 	 */
 	protected final int stackIndex;
 	/**
-	 * The {@link IO.SeverityLevel}.
+	 * The {@link SeverityLevel}.
 	 */
 	protected SeverityLevel severityLevel;
 
@@ -148,21 +148,21 @@ public class IO
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index and {@link IO.SeverityLevel}.
+	 * Constructs an {@link IO} with the specified stack index and {@link SeverityLevel}.
 	 * <p>
 	 * @param stackIndex    the stack index
-	 * @param severityLevel the {@link IO.SeverityLevel}
+	 * @param severityLevel the {@link SeverityLevel}
 	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel) {
 		this(stackIndex, severityLevel, Arrays.<IOHandler>asList(DEFAULT_CONSOLE_HANDLER));
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index, {@link IO.SeverityLevel} and
+	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
 	 * {@link ConsoleHandler}.
 	 * <p>
 	 * @param stackIndex     the stack index
-	 * @param severityLevel  the {@link IO.SeverityLevel}
+	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
@@ -172,11 +172,11 @@ public class IO
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index, {@link IO.SeverityLevel} and
+	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
 	 * {@link LogHandler}.
 	 * <p>
 	 * @param stackIndex    the stack index
-	 * @param severityLevel the {@link IO.SeverityLevel}
+	 * @param severityLevel the {@link SeverityLevel}
 	 * @param logHandler    the {@link LogHandler}
 	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
@@ -186,11 +186,11 @@ public class IO
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index, {@link IO.SeverityLevel},
+	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel},
 	 * {@link ConsoleHandler} and {@link LogHandler}.
 	 * <p>
 	 * @param stackIndex     the stack index
-	 * @param severityLevel  the {@link IO.SeverityLevel}
+	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 * @param logHandler     the {@link LogHandler}
 	 */
@@ -200,11 +200,11 @@ public class IO
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index, {@link IO.SeverityLevel} and
+	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
 	 * {@link List} of {@link IOHandler}.
 	 * <p>
 	 * @param stackIndex    the stack index
-	 * @param severityLevel the {@link IO.SeverityLevel}
+	 * @param severityLevel the {@link SeverityLevel}
 	 * @param handlers      the {@link List} of {@link IOHandler}
 	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
@@ -233,9 +233,9 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link IO.SeverityLevel}.
+	 * Returns the {@link SeverityLevel}.
 	 * <p>
-	 * @return the {@link IO.SeverityLevel}
+	 * @return the {@link SeverityLevel}
 	 */
 	public SeverityLevel getSeverityLevel() {
 		return severityLevel;
@@ -258,9 +258,9 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@link IO.SeverityLevel}.
+	 * Sets the {@link SeverityLevel}.
 	 * <p>
-	 * @param severityLevel an {@link IO.SeverityLevel}
+	 * @param severityLevel an {@link SeverityLevel}
 	 */
 	public void setSeverityLevel(final SeverityLevel severityLevel) {
 		this.severityLevel = severityLevel;

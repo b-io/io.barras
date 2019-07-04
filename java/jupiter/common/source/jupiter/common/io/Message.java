@@ -61,11 +61,11 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link IO.Type}.
+	 * The {@link Type}.
 	 */
 	protected final Type type;
 	/**
-	 * The {@link IO.SeverityLevel}.
+	 * The {@link SeverityLevel}.
 	 */
 	protected final SeverityLevel level;
 	/**
@@ -108,11 +108,11 @@ public class Message
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Message} with the specified {@link IO.Type}, {@link IO.SeverityLevel} and
+	 * Constructs a {@link Message} with the specified {@link Type}, {@link SeverityLevel} and
 	 * content {@link Object}.
 	 * <p>
-	 * @param type    the {@link IO.Type}
-	 * @param level   the {@link IO.SeverityLevel}
+	 * @param type    the {@link Type}
+	 * @param level   the {@link SeverityLevel}
 	 * @param content the content {@link Object}
 	 */
 	public Message(final Type type, final SeverityLevel level, final Object content) {
@@ -120,11 +120,11 @@ public class Message
 	}
 
 	/**
-	 * Constructs a {@link Message} with the specified {@link IO.Type}, {@link IO.SeverityLevel},
-	 * content {@link Object} and stack index.
+	 * Constructs a {@link Message} with the specified {@link Type}, {@link SeverityLevel}, content
+	 * {@link Object} and stack index.
 	 * <p>
-	 * @param type       the {@link IO.Type}
-	 * @param level      the {@link IO.SeverityLevel}
+	 * @param type       the {@link Type}
+	 * @param level      the {@link SeverityLevel}
 	 * @param content    the content {@link Object}
 	 * @param stackIndex the stack index
 	 */
@@ -161,10 +161,9 @@ public class Message
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Message} with the specified {@link IO.SeverityLevel} and
-	 * {@link Exception}.
+	 * Constructs a {@link Message} with the specified {@link SeverityLevel} and {@link Exception}.
 	 * <p>
-	 * @param level     the {@link IO.SeverityLevel}
+	 * @param level     the {@link SeverityLevel}
 	 * @param exception the {@link Exception}
 	 */
 	public Message(final SeverityLevel level, final Exception exception) {
@@ -172,10 +171,10 @@ public class Message
 	}
 
 	/**
-	 * Constructs a {@link Message} with the specified {@link IO.SeverityLevel}, {@link Exception}
-	 * and stack index.
+	 * Constructs a {@link Message} with the specified {@link SeverityLevel}, {@link Exception} and
+	 * stack index.
 	 * <p>
-	 * @param level      the {@link IO.SeverityLevel}
+	 * @param level      the {@link SeverityLevel}
 	 * @param exception  the {@link Exception}
 	 * @param stackIndex the stack index
 	 */
@@ -193,18 +192,18 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link IO.Type}.
+	 * Returns the {@link Type}.
 	 * <p>
-	 * @return the {@link IO.Type}
+	 * @return the {@link Type}
 	 */
 	public Type getType() {
 		return type;
 	}
 
 	/**
-	 * Returns the {@link IO.SeverityLevel}.
+	 * Returns the {@link SeverityLevel}.
 	 * <p>
-	 * @return the {@link IO.SeverityLevel}
+	 * @return the {@link SeverityLevel}
 	 */
 	public SeverityLevel getLevel() {
 		return level;

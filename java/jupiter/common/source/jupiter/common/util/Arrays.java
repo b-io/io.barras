@@ -392,7 +392,7 @@ public class Arrays {
 	 * @throws IllegalArgumentException (optional) if the natural ordering of the array elements is
 	 *                                  found to violate the {@link Comparable} contract
 	 */
-	public static void sort(final Object[] array) {
+	public static void sort(final Object... array) {
 		ComparableSort.sort(array, 0, array.length, null, 0, 0);
 	}
 
@@ -814,7 +814,7 @@ public class Arrays {
 	 * <p>
 	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
-	public static String toString(final Object[] array) {
+	public static String toString(final Object... array) {
 		return Strings.parenthesize(join(array));
 	}
 

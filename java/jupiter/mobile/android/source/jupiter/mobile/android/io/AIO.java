@@ -82,19 +82,19 @@ public class AIO
 	}
 
 	/**
-	 * Constructs an {@link AIO} with the specified {@link IO.SeverityLevel}.
+	 * Constructs an {@link AIO} with the specified {@link SeverityLevel}.
 	 * <p>
-	 * @param severityLevel the {@link IO.SeverityLevel}
+	 * @param severityLevel the {@link SeverityLevel}
 	 */
 	public AIO(final SeverityLevel severityLevel) {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
 	/**
-	 * Constructs an {@link AIO} with the specified {@link IO.SeverityLevel} and
+	 * Constructs an {@link AIO} with the specified {@link SeverityLevel} and
 	 * {@link ConsoleHandler}.
 	 * <p>
-	 * @param severityLevel  the {@link IO.SeverityLevel}
+	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
 	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
@@ -103,10 +103,10 @@ public class AIO
 	}
 
 	/**
-	 * Constructs an {@link AIO} with the specified {@link IO.SeverityLevel}, {@link ConsoleHandler}
+	 * Constructs an {@link AIO} with the specified {@link SeverityLevel}, {@link ConsoleHandler}
 	 * and {@link LogHandler}.
 	 * <p>
-	 * @param severityLevel  the {@link IO.SeverityLevel}
+	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 * @param logHandler     the {@link LogHandler}
 	 */
