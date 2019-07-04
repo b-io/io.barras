@@ -65,26 +65,30 @@ public class Arrays {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Object[] toArray(final Object array) {
+	public static Object[] toArray(final Object object) {
 		// Check the arguments
-		ArrayArguments.requireArray(array);
+		ArrayArguments.requireArray(object);
 
 		// Convert
-		final Class<?> c = array.getClass();
-		if (Bytes.isPrimitiveArray(c)) {
-			return Bytes.toArray((byte[]) array);
+		final Class<?> c = object.getClass();
+		if (Booleans.isPrimitiveArray(c)) {
+			return Booleans.toArray((boolean[]) object);
+		} else if (Characters.isPrimitiveArray(c)) {
+			return Characters.toArray((char[]) object);
+		} else if (Bytes.isPrimitiveArray(c)) {
+			return Bytes.toArray((byte[]) object);
 		} else if (Shorts.isPrimitiveArray(c)) {
-			return Shorts.toArray((short[]) array);
+			return Shorts.toArray((short[]) object);
 		} else if (Integers.isPrimitiveArray(c)) {
-			return Integers.toArray((int[]) array);
+			return Integers.toArray((int[]) object);
 		} else if (Longs.isPrimitiveArray(c)) {
-			return Longs.toArray((long[]) array);
+			return Longs.toArray((long[]) object);
 		} else if (Floats.isPrimitiveArray(c)) {
-			return Floats.toArray((float[]) array);
+			return Floats.toArray((float[]) object);
 		} else if (Doubles.isPrimitiveArray(c)) {
-			return Doubles.toArray((double[]) array);
+			return Doubles.toArray((double[]) object);
 		}
-		return (Object[]) array;
+		return (Object[]) object;
 	}
 
 	//////////////////////////////////////////////
@@ -810,7 +814,7 @@ public class Arrays {
 	 * <p>
 	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
-	public static String toString(final Object... array) {
+	public static String toString(final Object[] array) {
 		return Strings.parenthesize(join(array));
 	}
 

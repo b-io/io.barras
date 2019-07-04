@@ -128,7 +128,7 @@ public class AIO
 	 * @param message the message {@link Object} to show
 	 */
 	public void show(final Context context, final Object message) {
-		Toast.makeText(context, String.valueOf(message), Toast.LENGTH_LONG).show();
+		Toast.makeText(context, Strings.toString(message), Toast.LENGTH_LONG).show();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

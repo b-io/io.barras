@@ -119,7 +119,11 @@ public class Objects {
 		try {
 			final Class<?> c = object.getClass();
 			if (c.isArray()) {
-				if (Bytes.isPrimitiveArray(c)) {
+				if (Booleans.isPrimitiveArray(c)) {
+					return (T) Booleans.clone((boolean[]) object);
+				} else if (Characters.isPrimitiveArray(c)) {
+					return (T) Characters.clone((char[]) object);
+				} else if (Bytes.isPrimitiveArray(c)) {
 					return (T) Bytes.clone((byte[]) object);
 				} else if (Shorts.isPrimitiveArray(c)) {
 					return (T) Shorts.clone((short[]) object);

@@ -326,6 +326,12 @@ public class Strings {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static String append(final Object content) {
+		return ": " + toString(content);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static StringBuilder createBuilder() {
 		return createBuilder(DEFAULT_INITIAL_CAPACITY);
 	}
@@ -2852,34 +2858,56 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String append(final Object content) {
-		return ": " + Strings.toString(content);
-	}
-
 	/**
-	 * Returns the representative {@link String} of the specified content {@link Object} if not
+	 * Returns the representative {@link String} of the specified {@link Object} if not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param object an {@link Object}
 	 * <p>
-	 * @return the representative {@link String} of the specified content {@link Object} if not
+	 * @return the representative {@link String} of the specified {@link Object} if not
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Object object) {
+		if (object == null) {
+			return NULL;
+		}
+		final Class<?> c = object.getClass();
+		if (c.isArray()) {
+			if (Booleans.isPrimitiveArray(c)) {
+				return Booleans.toString((boolean[]) object);
+			} else if (Characters.isPrimitiveArray(c)) {
+				return Characters.toString((char[]) object);
+			} else if (Bytes.isPrimitiveArray(c)) {
+				return Bytes.toString((byte[]) object);
+			} else if (Shorts.isPrimitiveArray(c)) {
+				return Shorts.toString((short[]) object);
+			} else if (Integers.isPrimitiveArray(c)) {
+				return Integers.toString((int[]) object);
+			} else if (Longs.isPrimitiveArray(c)) {
+				return Longs.toString((long[]) object);
+			} else if (Floats.isPrimitiveArray(c)) {
+				return Floats.toString((float[]) object);
+			} else if (Doubles.isPrimitiveArray(c)) {
+				return Doubles.toString((double[]) object);
+			}
+			return Arrays.toString((Object[]) object);
+		} else if (Collections.is(c)) {
+			Collections.toString((Collection<?>) object);
+		}
 		return String.valueOf(object);
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified content {@link Object} if not
-	 * {@code null} or {@code "null"}, {@code null} otherwise.
+	 * Returns the representative {@link String} of the specified {@link Object} if not {@code null}
+	 * or {@code "null"}, {@code null} otherwise.
 	 * <p>
 	 * @param object an {@link Object}
 	 * <p>
-	 * @return the representative {@link String} of the specified content {@link Object} if not
-	 *         {@code null} or {@code "null"}, {@code null} otherwise
+	 * @return the representative {@link String} of the specified {@link Object} if not {@code null}
+	 *         or {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object object) {
-		final String value = String.valueOf(object);
+		final String value = toString(object);
 		if (NULL.equals(value)) {
 			return null;
 		}
@@ -2889,31 +2917,31 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified content {@link Object} if not
+	 * Returns the representative {@link String} of the specified {@link Object} if not
 	 * {@code null}, {@code defaultString} otherwise.
 	 * <p>
-	 * @param content       the content {@link Object}
+	 * @param object        the {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the representative {@link String} of the specified content {@link Object} if not
+	 * @return the representative {@link String} of the specified {@link Object} if not
 	 *         {@code null}, {@code defaultString} otherwise
 	 */
-	public static String toString(final Object content, final String defaultString) {
-		return content != null ? String.valueOf(content) : defaultString;
+	public static String toString(final Object object, final String defaultString) {
+		return object != null ? toString(object) : defaultString;
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified content {@link Object} if not
-	 * {@code null} or {@code "null"}, {@code defaultString} otherwise.
+	 * Returns the representative {@link String} of the specified {@link Object} if not {@code null}
+	 * or {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
-	 * @param content       the content {@link Object}
+	 * @param object        the {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the representative {@link String} of the specified content {@link Object} if not
-	 *         {@code null} or {@code "null"}, {@code defaultString} otherwise
+	 * @return the representative {@link String} of the specified {@link Object} if not {@code null}
+	 *         or {@code "null"}, {@code defaultString} otherwise
 	 */
-	public static String toStringWithNull(final Object content, final String defaultString) {
-		final String value = String.valueOf(content);
+	public static String toStringWithNull(final Object object, final String defaultString) {
+		final String value = toString(object);
 		if (NULL.equals(value)) {
 			return defaultString;
 		}
@@ -2921,10 +2949,6 @@ public class Strings {
 	}
 
 	//////////////////////////////////////////////
-
-	public static String append(final Exception exception) {
-		return ": " + Strings.toString(exception);
-	}
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Exception} if not
