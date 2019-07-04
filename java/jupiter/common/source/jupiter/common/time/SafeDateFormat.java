@@ -73,7 +73,6 @@ public class SafeDateFormat
 	 * SafeDateFormat(pattern, Locale.getDefault(Category.FORMAT))}.
 	 *
 	 * @see Locale#getDefault
-	 * @see Category#FORMAT
 	 * <p>
 	 * @param pattern the pattern describing the date-time format
 	 * <p>
