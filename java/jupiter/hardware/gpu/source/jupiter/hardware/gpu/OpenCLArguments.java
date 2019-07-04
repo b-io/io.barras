@@ -47,7 +47,7 @@ public class OpenCLArguments {
 		if (aColumnDimension != bRowDimension) {
 			throw new IllegalArgumentException(
 					"The specified arrays do not have the same (inner) row dimensions " +
-							Arguments.isNotEqualTo(aColumnDimension, bRowDimension));
+					Arguments.isNotEqualTo(aColumnDimension, bRowDimension));
 		}
 	}
 }

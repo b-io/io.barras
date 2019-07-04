@@ -260,7 +260,7 @@ public class IO
 	/**
 	 * Sets the {@link SeverityLevel}.
 	 * <p>
-	 * @param severityLevel an {@link SeverityLevel}
+	 * @param severityLevel a {@link SeverityLevel}
 	 */
 	public void setSeverityLevel(final SeverityLevel severityLevel) {
 		this.severityLevel = severityLevel;

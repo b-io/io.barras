@@ -121,7 +121,7 @@ public class BinaryOperation
 	/**
 	 * Sets the operation {@link Type}.
 	 * <p>
-	 * @param type an {@link Type}
+	 * @param type a {@link Type}
 	 */
 	public void setType(final Type type) {
 		this.type = type;

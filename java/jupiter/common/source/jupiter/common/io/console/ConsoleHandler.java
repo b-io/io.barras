@@ -93,7 +93,7 @@ public class ConsoleHandler
 	/**
 	 * Returns the {@link Color} of the specified {@link SeverityLevel}.
 	 * <p>
-	 * @param severityLevel an {@link SeverityLevel}
+	 * @param severityLevel a {@link SeverityLevel}
 	 * <p>
 	 * @return the {@link Color} of the specified {@link SeverityLevel}
 	 */
