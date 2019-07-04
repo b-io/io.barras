@@ -45,7 +45,7 @@ public class BinaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The operation {@link Type}.
+	 * The operation {@link Element.Type}.
 	 */
 	protected Type type;
 	/**
@@ -64,11 +64,12 @@ public class BinaryOperation
 
 	/**
 	 * Constructs a {@link BinaryOperation} with the specified parent {@link Element}, expression
-	 * {@link String}, operation {@link Type}, left {@link Element} and right {@link Element}.
+	 * {@link String}, operation {@link Element.Type}, left {@link Element} and right
+	 * {@link Element}.
 	 * <p>
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
-	 * @param type       the operation {@link Type}
+	 * @param type       the operation {@link Element.Type}
 	 * @param left       the left {@link Element}
 	 * @param right      the right {@link Element}
 	 */
@@ -86,9 +87,9 @@ public class BinaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the operation {@link Type}.
+	 * Returns the operation {@link Element.Type}.
 	 * <p>
-	 * @return the operation {@link Type}
+	 * @return the operation {@link Element.Type}
 	 */
 	public Type getType() {
 		return type;
@@ -118,9 +119,9 @@ public class BinaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the operation type.
+	 * Sets the operation {@link Element.Type}.
 	 * <p>
-	 * @param type a {@link jupiter.math.calculator.model.Element.Type}
+	 * @param type an {@link Element.Type}
 	 */
 	public void setType(final Type type) {
 		this.type = type;

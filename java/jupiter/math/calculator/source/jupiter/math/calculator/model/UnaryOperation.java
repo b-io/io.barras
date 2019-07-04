@@ -45,7 +45,7 @@ public class UnaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The operation {@link Type}.
+	 * The operation {@link Element.Type}.
 	 */
 	protected Type type;
 	/**
@@ -60,11 +60,11 @@ public class UnaryOperation
 
 	/**
 	 * Constructs an {@link UnaryOperation} with the specified parent {@link Element}, expression
-	 * {@link String}, operation {@link Type} and {@link Element}.
+	 * {@link String}, operation {@link Element.Type} and {@link Element}.
 	 * <p>
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
-	 * @param type       the operation {@link Type}
+	 * @param type       the operation {@link Element.Type}
 	 * @param element    the {@link Element}
 	 */
 	public UnaryOperation(final Element parent, final String expression, final Type type,
@@ -80,9 +80,9 @@ public class UnaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the operation {@link Type}.
+	 * Returns the operation {@link Element.Type}.
 	 * <p>
-	 * @return the operation {@link Type}
+	 * @return the operation {@link Element.Type}
 	 */
 	public Type getType() {
 		return type;
@@ -103,9 +103,9 @@ public class UnaryOperation
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the operation {@link Type}.
+	 * Sets the operation {@link Element.Type}.
 	 * <p>
-	 * @param type a {@link jupiter.math.calculator.model.Element.Type}
+	 * @param type an {@link Element.Type}
 	 */
 	public void setType(final Type type) {
 		this.type = type;

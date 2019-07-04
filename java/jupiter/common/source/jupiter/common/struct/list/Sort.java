@@ -27,6 +27,8 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 
+import jupiter.common.util.Arrays;
+
 /**
  * This is a duplicate of {@code TimSort} from Oracle Java 8.
  */
@@ -177,9 +179,9 @@ public class Sort<T>
 
 	/**
 	 * Sorts the given range, using the given workspace array slice for temporary storage when
-	 * possible. This method is designed to be invoked from public methods (in class
-	 * {@link jupiter.common.util.Arrays}) after performing any necessary array bounds checks and
-	 * expanding parameters into the required forms.
+	 * possible. This method is designed to be invoked from public methods (in class {@link Arrays})
+	 * after performing any necessary array bounds checks and expanding parameters into the required
+	 * forms.
 	 * <p>
 	 * @param <T>        the component type of the array
 	 * @param array      the {@code T} array to sort

@@ -91,11 +91,11 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Color} of the specified {@link SeverityLevel}.
+	 * Returns the {@link Color} of the specified {@link IO.SeverityLevel}.
 	 * <p>
-	 * @param severityLevel a {@link SeverityLevel}
+	 * @param severityLevel an {@link IO.SeverityLevel}
 	 * <p>
-	 * @return the {@link Color} of the specified {@link SeverityLevel}
+	 * @return the {@link Color} of the specified {@link IO.SeverityLevel}
 	 */
 	public static Color getColor(final SeverityLevel severityLevel) {
 		switch (severityLevel) {

@@ -25,6 +25,8 @@ package jupiter.common.struct.list;
 
 import java.io.Serializable;
 
+import jupiter.common.util.Arrays;
+
 /**
  * This is a duplicate of {@code ComparableTimSort} from Oracle Java 8.
  */
@@ -166,9 +168,9 @@ public class ComparableSort
 
 	/**
 	 * Sorts the given range, using the given workspace array slice for temporary storage when
-	 * possible. This method is designed to be invoked from public methods (in class
-	 * {@link jupiter.common.util.Arrays}) after performing any necessary array bounds checks and
-	 * expanding parameters into the required forms.
+	 * possible. This method is designed to be invoked from public methods (in class {@link Arrays})
+	 * after performing any necessary array bounds checks and expanding parameters into the required
+	 * forms.
 	 * <p>
 	 * @param array    the array of {@link Object} to sort
 	 * @param lo       the index of the first element, inclusive, to sort

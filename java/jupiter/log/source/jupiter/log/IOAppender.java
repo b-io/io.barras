@@ -79,9 +79,9 @@ public class IOAppender
 	}
 
 	/**
-	 * Constructs an {@link IOAppender} with the specified {@link SeverityLevel}.
+	 * Constructs an {@link IOAppender} with the specified {@link IO.SeverityLevel}.
 	 * <p>
-	 * @param severityLevel the {@link SeverityLevel}
+	 * @param severityLevel the {@link IO.SeverityLevel}
 	 */
 	public IOAppender(final SeverityLevel severityLevel) {
 		super();
@@ -89,10 +89,10 @@ public class IOAppender
 	}
 
 	/**
-	 * Constructs an {@link IOAppender} with the specified {@link SeverityLevel} and
+	 * Constructs an {@link IOAppender} with the specified {@link IO.SeverityLevel} and
 	 * {@link ConsoleHandler}.
 	 * <p>
-	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param severityLevel  the {@link IO.SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
 	public IOAppender(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
@@ -102,10 +102,10 @@ public class IOAppender
 	}
 
 	/**
-	 * Constructs an {@link IOAppender} with the specified {@link SeverityLevel},
+	 * Constructs an {@link IOAppender} with the specified {@link IO.SeverityLevel},
 	 * {@link ConsoleHandler} and {@link LogHandler}.
 	 * <p>
-	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param severityLevel  the {@link IO.SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 * @param logHandler     the {@link LogHandler}
 	 */
