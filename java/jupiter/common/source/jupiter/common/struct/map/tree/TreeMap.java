@@ -26,6 +26,7 @@ package jupiter.common.struct.map.tree;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.map.tree.node.TreeNode;
@@ -109,9 +110,9 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the root {@link java.util.Map.Entry} of type {@code K} and {@code V}.
+	 * Returns the root {@link Entry} of type {@code K} and {@code V}.
 	 * <p>
-	 * @return the root {@link java.util.Map.Entry} of type {@code K} and {@code V}
+	 * @return the root {@link Entry} of type {@code K} and {@code V}
 	 */
 	public Entry<K, V> getRootEntry() {
 		return root;

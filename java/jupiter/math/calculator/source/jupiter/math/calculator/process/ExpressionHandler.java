@@ -45,6 +45,7 @@ import jupiter.common.util.Characters;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.BinaryOperation;
 import jupiter.math.calculator.model.Element;
+import jupiter.math.calculator.model.Element.Type;
 import jupiter.math.calculator.model.MatrixElement;
 import jupiter.math.calculator.model.ScalarElement;
 import jupiter.math.calculator.model.UnaryOperation;

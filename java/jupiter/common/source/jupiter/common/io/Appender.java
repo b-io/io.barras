@@ -24,6 +24,7 @@
 package jupiter.common.io;
 
 import jupiter.common.exception.IllegalTypeException;
+import jupiter.common.io.IO.SeverityLevel;
 
 public abstract class Appender
 		extends IOHandler {
@@ -95,7 +96,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
-	 * {@link IO.SeverityLevel#TRACE}.
+	 * {@link SeverityLevel#TRACE}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 */
@@ -103,7 +104,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
-	 * {@link IO.SeverityLevel#DEBUG}.
+	 * {@link SeverityLevel#DEBUG}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 */
@@ -111,7 +112,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
-	 * {@link IO.SeverityLevel#TEST}.
+	 * {@link SeverityLevel#TEST}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 */
@@ -119,7 +120,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
-	 * {@link IO.SeverityLevel#INFO}.
+	 * {@link SeverityLevel#INFO}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 */
@@ -127,7 +128,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
-	 * {@link IO.SeverityLevel#RESULT}.
+	 * {@link SeverityLevel#RESULT}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 */
@@ -137,7 +138,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
-	 * {@link IO.SeverityLevel#WARNING}.
+	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 */
@@ -145,7 +146,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
-	 * {@link IO.SeverityLevel#WARNING}.
+	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param exception an {@link Exception}
 	 */
@@ -155,7 +156,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
-	 * {@link IO.SeverityLevel#ERROR}.
+	 * {@link SeverityLevel#ERROR}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 */
@@ -163,7 +164,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
-	 * {@link IO.SeverityLevel#ERROR}.
+	 * {@link SeverityLevel#ERROR}.
 	 * <p>
 	 * @param exception an {@link Exception}
 	 */
@@ -173,7 +174,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
-	 * {@link IO.SeverityLevel#FAILURE}.
+	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 */
@@ -181,7 +182,7 @@ public abstract class Appender
 
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
-	 * {@link IO.SeverityLevel#FAILURE}.
+	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param exception an {@link Exception}
 	 */

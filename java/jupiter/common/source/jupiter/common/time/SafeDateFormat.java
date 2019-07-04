@@ -25,6 +25,7 @@ package jupiter.common.time;
 
 import java.text.AttributedCharacterIterator;
 import java.text.DateFormat;
+import java.text.DateFormat.Field;
 import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
@@ -33,6 +34,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Locale.Category;
+import java.util.TimeZone;
 
 public class SafeDateFormat
 		extends SimpleDateFormat {
@@ -53,7 +56,7 @@ public class SafeDateFormat
 
 	/**
 	 * Constructs a {@link SafeDateFormat} using the default pattern and date format symbols for the
-	 * default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
+	 * default {@link Category#FORMAT FORMAT} locale.
 	 * <b>Note:</b> This constructor may not support all locales. For full coverage, use the factory
 	 * methods in the {@link DateFormat} class.
 	 */
@@ -63,15 +66,15 @@ public class SafeDateFormat
 
 	/**
 	 * Constructs a {@link SafeDateFormat} using the specified pattern and the default date format
-	 * symbols for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
+	 * symbols for the default {@link Category#FORMAT FORMAT} locale.
 	 * <b>Note:</b> This constructor may not support all locales. For full coverage, use the factory
 	 * methods in the {@link DateFormat} class.
 	 * <p>
 	 * This is equivalent to calling {@link #SafeDateFormat(String, Locale)
-	 * SafeDateFormat(pattern, Locale.getDefault(java.util.Locale.Category.FORMAT))}.
+	 * SafeDateFormat(pattern, Locale.getDefault(Category.FORMAT))}.
 	 *
 	 * @see java.util.Locale#getDefault
-	 * @see java.util.Locale.Category#FORMAT
+	 * @see Category#FORMAT
 	 * <p>
 	 * @param pattern the pattern describing the date-time format
 	 * <p>
@@ -171,9 +174,8 @@ public class SafeDateFormat
 	 * returned {@link AttributedCharacterIterator} to build the resulting {@link String}, as well
 	 * as to determine information about the resulting {@link String}.
 	 * <p>
-	 * Each attribute key of the {@link AttributedCharacterIterator} will be of type
-	 * {@link java.text.DateFormat.Field}, with the corresponding attribute value being the same as
-	 * the attribute key.
+	 * Each attribute key of the {@link AttributedCharacterIterator} will be of type {@link Field},
+	 * with the corresponding attribute value being the same as the attribute key.
 	 * <p>
 	 * @param object the {@link Object} to format
 	 * <p>
@@ -206,11 +208,10 @@ public class SafeDateFormat
 	 * {@linkplain Calendar#clear() cleared} before parsing, and the {@code calendar}'s default
 	 * values of the date-time fields are used for any missing date-time information. For example,
 	 * the year value of the parsed {@link Date} is 1970 with {@link GregorianCalendar} if no year
-	 * value is specified from the parsing operation. The {@link java.util.TimeZone} value may be
-	 * overwritten, depending on the specified pattern and the time zone value in {@code text}. Any
-	 * {@link java.util.TimeZone} value that has previously been set by a call to
-	 * {@link #setTimeZone(java.util.TimeZone) setTimeZone} may need to be restored for further
-	 * operations.
+	 * value is specified from the parsing operation. The {@link TimeZone} value may be overwritten,
+	 * depending on the specified pattern and the time zone value in {@code text}. Any
+	 * {@link TimeZone} value that has previously been set by a call to
+	 * {@link #setTimeZone(TimeZone) setTimeZone} may need to be restored for further operations.
 	 * <p>
 	 * @param text     a {@link String}, part of which should be parsed
 	 * @param position a {@link ParsePosition} object with index and error index information as

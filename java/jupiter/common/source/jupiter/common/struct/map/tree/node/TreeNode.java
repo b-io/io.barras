@@ -126,8 +126,8 @@ public class TreeNode<K extends Comparable<K>, V>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link java.util.Map.Entry} of type {@code K} and {@code V} to compare
-	 *              against for order
+	 * @param other the other {@link Entry} of type {@code K} and {@code V} to compare against for
+	 *              order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other}
