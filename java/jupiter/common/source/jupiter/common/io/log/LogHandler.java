@@ -150,7 +150,7 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the log directory.
+	 * Sets the log directory {@link File} with the specified path.
 	 * <p>
 	 * @param logDirPath a {@link String}
 	 */
@@ -169,7 +169,7 @@ public class LogHandler
 	}
 
 	/**
-	 * Sets the output log.
+	 * Sets the output log {@link File} with the specified file name.
 	 * <p>
 	 * @param outputLogName a {@link String}
 	 */
@@ -183,7 +183,7 @@ public class LogHandler
 	}
 
 	/**
-	 * Sets the error log.
+	 * Sets the error log {@link File} with the specified file name.
 	 * <p>
 	 * @param errorLogName a {@link String}
 	 */

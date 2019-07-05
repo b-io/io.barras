@@ -125,7 +125,7 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the console.
+	 * Sets the {@link IConsole}.
 	 * <p>
 	 * @param console an {@link IConsole}
 	 */

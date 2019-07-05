@@ -276,16 +276,16 @@ public class IO
 	}
 
 	/**
-	 * Sets the log directory of the {@link LogHandler}.
+	 * Sets the log directory {@link File} of the {@link LogHandler} with the specified path.
 	 * <p>
-	 * @param logDir a {@link String}
+	 * @param logDirPath a {@link String}
 	 */
-	public void setLogDir(final String logDir) {
-		logHandler.setLogDir(logDir);
+	public void setLogDir(final String logDirPath) {
+		logHandler.setLogDir(logDirPath);
 	}
 
 	/**
-	 * Sets the name of the output log of the {@link LogHandler}.
+	 * Sets the output log {@link File} of the {@link LogHandler} with the specified file name.
 	 * <p>
 	 * @param outputLogName a {@link String}
 	 */
@@ -294,7 +294,7 @@ public class IO
 	}
 
 	/**
-	 * Sets the name of the error log of the {@link LogHandler}.
+	 * Sets the error log {@link File} of the {@link LogHandler} with the specified file name.
 	 * <p>
 	 * @param errorLogName a {@link String}
 	 */
