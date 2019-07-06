@@ -129,13 +129,13 @@ public class NeuralNetworkTest
 			Tests.printTimes(times);
 
 			IO.test("B) Test the activation function RELU");
-			testExample("B", 200, 0.05, 1, 0, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.5, 0.5, 0.25);
+			testExample("B", 200, 0.075, 1, 0, ActivationFunctions.RELU,
+						new RegularizationL2(0.9), 0.75, 0.5, 0.25);
 
 			IO.test("C) Test the L2 regularization");
 			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("C", 100, 0.3, 2, 0, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.9, 0.3, 0.1);
+				times[t] = testExample("C", 100, 0.1, 2, 0, ActivationFunctions.RELU,
+						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
 		} catch (final IOException ex) {
