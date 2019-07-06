@@ -189,7 +189,7 @@ public class JOCL
 			IS_ACTIVE = false;
 			release();
 			throw new IllegalStateException(
-					"There is a problem with the OpenCL program: " +ex);
+					"There is a problem with the OpenCL program: " + ex);
 		}
 	}
 
