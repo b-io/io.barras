@@ -23,9 +23,12 @@
  */
 package jupiter.learning.supervised;
 
+import static jupiter.common.io.IO.IO;
+
 import java.io.IOException;
 import java.io.Serializable;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Integers;
@@ -101,6 +104,11 @@ public abstract class BinaryClassifier
 	 * The {@link Vector} Y containing the classes.
 	 */
 	protected Vector Y, YT; // (1 x m), (m x 1)
+
+	/**
+	 * The cost.
+	 */
+	protected double cost;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -266,6 +274,28 @@ public abstract class BinaryClassifier
 				.get() / trainingExampleCount;
 	}
 
+	/**
+	 * Tests whether the tolerance level is reached.
+	 * <p>
+	 * @param tolerance the tolerance level
+	 * <p>
+	 * @return {@code true} if the tolerance level is reached, {@code false} otherwise
+	 */
+	public synchronized boolean testConvergence(final double tolerance) {
+		// Compute the current cost
+		final double currentCost = computeCost();
+		IO.debug("Cost: ", currentCost);
+		// Compute the cost difference
+		final double delta = Maths.delta(cost, currentCost);
+		IO.debug("Delta: ", delta);
+		// Test the convergence
+		if (cost < currentCost) {
+			IO.warn("The cost is increasing by ", delta);
+		}
+		cost = currentCost;
+		return delta <= tolerance || cost <= tolerance;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CLASSIFIER
@@ -291,17 +321,60 @@ public abstract class BinaryClassifier
 		return estimate(example).apply(Functions.ROUND); // (1 x m)
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Computes the accuracy.
 	 * <p>
-	 * @return the accuracy
+	 * @return {@code (A Y' + (1 - A) (1 - Y')) / m}
 	 */
 	public synchronized double computeAccuracy() {
 		// Classify X
 		final Entity A = classify(X); // (1 x m)
 		// Compute (A Y' + (1 - A) (1 - Y')) / m
-		return A.times(YT).add(Scalar.ONE.minus(A).times(Scalar.ONE.minus(YT))).toScalar().get() /
-				trainingExampleCount;
+		final double truePositive = A.times(YT).toScalar().get(); // A Y'
+		final double trueNegative = Scalar.ONE.minus(A).times(Scalar.ONE.minus(YT)).toScalar().get(); // (1 - A) (1 - Y')
+		return (truePositive + trueNegative) / trainingExampleCount;
+	}
+
+	/**
+	 * Computes the precision.
+	 * <p>
+	 * @return {@code A Y' / (A Y' + A (1 - Y'))}
+	 */
+	public synchronized double computePrecision() {
+		// Classify X
+		final Entity A = classify(X); // (1 x m)
+		// Compute A Y' / (A Y' + A (1 - Y'))
+		final double truePositive = A.times(YT).toScalar().get(); // A Y'
+		final double falsePositive = A.times(Scalar.ONE.minus(YT)).toScalar().get(); // A (1 - Y')
+		return truePositive / (truePositive + falsePositive);
+	}
+
+	/**
+	 * Computes the recall.
+	 * <p>
+	 * @return {@code A Y' / (A Y' + (1 - A) Y')}
+	 */
+	public synchronized double computeRecall() {
+		// Classify X
+		final Entity A = classify(X); // (1 x m)
+		// Compute A Y' / (A Y' + (1 - A) Y')
+		final double truePositive = A.times(YT).toScalar().get(); // A Y'
+		final double falseNegative = Scalar.ONE.minus(A).times(YT).toScalar().get(); // (1 - A) Y'
+		return truePositive / (truePositive + falseNegative);
+	}
+
+	/**
+	 * Computes the F1 score.
+	 * <p>
+	 * @return {@code 2. / ((1. / precision) + (1. / recall))}
+	 */
+	public synchronized double computeF1Score() {
+		// Compute 2. / ((1. / precision) + (1. / recall))
+		final double precision = computePrecision(); // A Y' / (A Y' + A (1 - Y'))
+		final double recall = computeRecall(); // A Y' / (A Y' + (1 - A) Y')
+		return 2. / ((1. / precision) + (1. / recall));
 	}
 
 

@@ -520,7 +520,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -547,7 +547,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -577,7 +577,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -606,7 +606,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -802,7 +802,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 	}
 
@@ -826,7 +826,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 	}
 
@@ -853,7 +853,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 	}
 
@@ -879,7 +879,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 	}
 

@@ -289,7 +289,7 @@ public class Files {
 		try {
 			return IO.read(new FileInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -323,7 +323,7 @@ public class Files {
 		try {
 			return IO.read(new ZipInputStream(new FileInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -357,7 +357,7 @@ public class Files {
 		try {
 			return IO.read(new GZIPInputStream(new FileInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -419,7 +419,7 @@ public class Files {
 		try {
 			return IO.countLines(new FileInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -502,7 +502,7 @@ public class Files {
 			writer.write(content + NEWLINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), Strings.append(ex));
+			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {

@@ -57,7 +57,11 @@ public class LogisticRegressionTest
 			// - The accuracy
 			final double accuracy = model.computeAccuracy();
 			IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
-			assertEquals(0.48, accuracy, 0.05);
+			assertEquals(0.5, accuracy, 0.05);
+			// - The F1 score
+			final double f1Score = model.computeF1Score();
+			IO.test(Doubles.toPercentage(f1Score), " F1 score in ", iterationCount, " iterations");
+			assertEquals(0.5, f1Score, 0.05);
 			// - The cost
 			final double cost = model.computeCost();
 			assertEquals(0.67, cost, 0.05);

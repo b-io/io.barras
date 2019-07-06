@@ -782,7 +782,7 @@ public class IO
 	 */
 	public Message warn(final Object content, final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + Strings.append(exception);
+			final String text = Strings.toString(content) + ": " + exception;
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -839,7 +839,7 @@ public class IO
 	 */
 	public Message error(final Object content, final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + Strings.append(exception);
+			final String text = Strings.toString(content) + ": " + exception;
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -898,7 +898,7 @@ public class IO
 	 */
 	public Message fail(final Object content, final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + Strings.append(exception);
+			final String text = Strings.toString(content) + ": " + exception;
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);

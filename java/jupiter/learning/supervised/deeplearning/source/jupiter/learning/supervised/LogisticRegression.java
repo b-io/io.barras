@@ -194,25 +194,17 @@ public class LogisticRegression
 		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
 				Maths.roundToInt(1. / learningRate));
 		// - The cost
-		double j = Double.POSITIVE_INFINITY;
+		cost = Double.POSITIVE_INFINITY;
 
 		// Train
 		for (int i = 0; i < maxIterationCount; ++i) {
 			// Compute A = sigmoid(Z) = sigmoid(W X + b)
 			A = estimate(X); // (1 x m)
 
-			// Test the convergence
-			if (i % convergenceTestFrequency == 0) {
-				// - Compute the cost
-				final double cost = computeCost();
-				final double delta = Maths.delta(j, cost);
-				j = cost;
-
-				// - Test whether the tolerance level is reached
-				if (delta <= tolerance || j <= tolerance) {
-					IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
-					return i;
-				}
+			// Test whether the tolerance level is reached
+			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
+				IO.debug("Stop training after ", i, " iterations and with ", cost, " cost");
+				return i;
 			}
 
 			// Compute the derivatives with respect to Z, W and b
@@ -224,7 +216,7 @@ public class LogisticRegression
 			W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
 			b.subtract(db.multiply(learningRate)).toScalar();
 		}
-		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", j, " cost");
+		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", cost, " cost");
 		return maxIterationCount;
 	}
 

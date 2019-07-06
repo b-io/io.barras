@@ -320,7 +320,7 @@ public class NeuralNetwork
 		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
 				Maths.roundToInt(1. / learningRate));
 		// - The cost
-		double j = Double.POSITIVE_INFINITY;
+		cost = Double.POSITIVE_INFINITY;
 		// - The derivative with respect to Z
 		Entity dZ = null;
 		// - The derivative with respect to A
@@ -336,20 +336,10 @@ public class NeuralNetwork
 			// - Compute A[L + 1] = sigmoid(Z[L + 1]) = sigmoid(W[L] A[L] + b[L])
 			A[layerCount] = computeForward(layerCount - 1).apply(Functions.SIGMOID); // (1 x m)
 
-			// Test the convergence
-			if (i % convergenceTestFrequency == 0) {
-				// - Compute the cost
-				final double cost = computeCost();
-				IO.debug(i, ") Cost: ", cost);
-				final double delta = Maths.delta(j, cost);
-				IO.debug(i, ") Delta: ", delta);
-				j = cost;
-
-				// - Test whether the tolerance level is reached
-				if (delta <= tolerance || j <= tolerance) {
-					IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
-					return i;
-				}
+			// Test whether the tolerance level is reached
+			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
+				IO.debug("Stop training after ", i, " iterations and with ", cost, " cost");
+				return i;
 			}
 
 			// Perform the backward propagation step (n <- nh... <- 1)
@@ -376,7 +366,7 @@ public class NeuralNetwork
 				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (1 x 1)
 			}
 		}
-		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", j, " cost");
+		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", cost, " cost");
 		return maxIterationCount;
 	}
 

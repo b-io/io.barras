@@ -92,7 +92,7 @@ public class SQL {
 		} else if (Timestamp.class.isAssignableFrom(c)) {
 			return Timestamp.valueOf(text);
 		}
-		throw new IllegalArgumentException("Unknown class" + Strings.append(c));
+		throw new IllegalArgumentException("Unknown class: " + c);
 	}
 
 
@@ -185,7 +185,7 @@ public class SQL {
 			IO.error(ex);
 		} catch (final NoSuchMethodException ex) {
 			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ",
-					c.getSimpleName(), " found", Strings.append(ex));
+					c.getSimpleName(), " found: ", ex);
 		} catch (final SecurityException ex) {
 			IO.error(ex);
 		}

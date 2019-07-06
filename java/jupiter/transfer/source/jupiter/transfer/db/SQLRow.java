@@ -76,7 +76,7 @@ public abstract class SQLRow {
 			constructor = getClass().getConstructor(ResultSet.class);
 		} catch (final NoSuchMethodException ex) {
 			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ",
-					getClass().getSimpleName(), " found", Strings.append(ex));
+					getClass().getSimpleName(), " found: ", ex);
 		}
 		load(resultSet);
 	}

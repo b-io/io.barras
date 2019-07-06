@@ -114,8 +114,7 @@ public class JogAmpl
 		} catch (final Exception ex) {
 			IS_ACTIVE = false;
 			release();
-			throw new IllegalStateException(
-					"There is a problem with the OpenCL program" + Strings.append(ex));
+			throw new IllegalStateException("There is a problem with the OpenCL program: " + ex);
 		}
 	}
 

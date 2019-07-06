@@ -105,7 +105,7 @@ public class NeuralNetworkTest
 			// Report the statistics
 			IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
 		}
-		//Tests.printTimes(times);
+		Tests.printTimes(times);
 	}
 
 	/**
@@ -124,21 +124,18 @@ public class NeuralNetworkTest
 			IO.test("A) Test the activation function TANH");
 			for (int t = 0; t < testCount; ++t) {
 				times[t] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
-						RegularizationFunctions.NONE, 0.9, 0.285, 0.5);
+						RegularizationFunctions.NONE, 0.75, 0.5, 0.25);
 			}
 			Tests.printTimes(times);
 
 			IO.test("B) Test the activation function RELU");
-			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("B", 100, 0.0075, 1, 0, ActivationFunctions.RELU,
-						RegularizationFunctions.NONE, 0.65, 0.65, 0.05);
-			}
-			Tests.printTimes(times);
+			testExample("B", 200, 0.05, 1, 0, ActivationFunctions.RELU,
+						new RegularizationL2(0.9), 0.5, 0.5, 0.25);
 
 			IO.test("C) Test the L2 regularization");
 			for (int t = 0; t < testCount; ++t) {
 				times[t] = testExample("C", 100, 0.3, 2, 0, ActivationFunctions.RELU,
-						new RegularizationL2(0.7), 0.91, 0.3, 0.01);
+						new RegularizationL2(0.9), 0.9, 0.3, 0.1);
 			}
 			Tests.printTimes(times);
 		} catch (final IOException ex) {
@@ -146,7 +143,7 @@ public class NeuralNetworkTest
 		}
 	}
 
-	protected static double testExample(final String example, final int maxIterations,
+	protected static double testExample(final String example, final int maxIterationCount,
 			final double learningRate, final int hiddenLayerCount, final int hiddenLayerSize,
 			final ActivationFunction activationFunction,
 			final RegularizationFunction regularizationFunction, final double expectedAccuracy,
@@ -166,27 +163,33 @@ public class NeuralNetworkTest
 			}
 			model.setWeights(weights);
 		} catch (final IOException ignored) {
-			IO.warn("No weights");
+			IO.warn("No weight files; the initial weights will be randomly generated");
 		}
 		final Chronometer chrono = new Chronometer();
 
 		// Train
 		chrono.start();
 		final int iterationCount = model.train(learningRate, BinaryClassifier.DEFAULT_TOLERANCE,
-				maxIterations, hiddenLayerCount, hiddenLayerSize);
+				maxIterationCount, hiddenLayerCount, hiddenLayerSize);
 		chrono.stop();
 
 		// Test
 		// - The accuracy
 		final double accuracy = model.computeAccuracy();
 		assertEquals(expectedAccuracy, accuracy, tolerance);
+		// - The F1 score
+		final double f1Score = model.computeF1Score();
+		assertEquals(expectedAccuracy, f1Score, tolerance);
 		// - The cost
 		final double cost = model.computeCost();
 		assertEquals(expectedCost, cost, tolerance);
 
 		// Report the statistics
-		IO.test(Doubles.toPercentage(accuracy), " accuracy and ", DECIMAL_FORMAT.format(cost),
-				" cost in ", iterationCount, " iterations in ", chrono.getMilliseconds(), " [ms]");
+		IO.test(Doubles.toPercentage(accuracy), " accuracy, ",
+				Doubles.toPercentage(f1Score), " F1 score and ",
+				DECIMAL_FORMAT.format(cost), " cost in ",
+				iterationCount, " iterations in ",
+				chrono.getMilliseconds(), " [ms]");
 		return chrono.getMilliseconds();
 	}
 }
