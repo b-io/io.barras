@@ -359,7 +359,7 @@ public class NeuralNetwork
 						.divide(trainingExampleCount)
 						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
 						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				final Vector db = dZT.mean().toVector();
+				final Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (1 x 1)
 
 				// - Update the weights and bias
 				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)
