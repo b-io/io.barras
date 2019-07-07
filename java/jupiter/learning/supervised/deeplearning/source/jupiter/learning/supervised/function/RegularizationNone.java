@@ -58,11 +58,6 @@ public class RegularizationNone
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public double apply(final double x) {
-		return 0.;
-	}
-
 	/**
 	 * Computes the regularization cost.
 	 * <p>

@@ -23,16 +23,16 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.common.math.Maths;
-import jupiter.math.analysis.function.Functions;
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
+import jupiter.learning.supervised.BinaryClassifier;
+import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
-/**
- * {@link RegularizationL2} is the {@link RegularizationFunction} adding an L2 penalty equal to the
- * sum of the squares of all the weights.
- */
-public class RegularizationL2
-		extends RegularizationFunction {
+public abstract class OptimizationFunction
+		implements ICloneable<OptimizationFunction>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -49,19 +49,10 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RegularizationL2}.
+	 * Constructs an {@link OptimizationFunction}.
 	 */
-	protected RegularizationL2() {
-		this(0.1);
-	}
-
-	/**
-	 * Constructs a {@link RegularizationL2} with the specified hyper-parameter lambda.
-	 * <p>
-	 * @param lambda the hyper-parameter lambda
-	 */
-	public RegularizationL2(final double lambda) {
-		super(lambda);
+	protected OptimizationFunction() {
+		super();
 	}
 
 
@@ -70,35 +61,28 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Computes the regularization cost.
+	 * Optimizes the specified descent gradient {@link Matrix} at the specified layer.
 	 * <p>
-	 * @param m       the number of training examples
-	 * @param weights the array of weight {@link Matrix}
+	 * @param layer    the layer of the descent gradient {@link Matrix} to optimize
+	 * @param gradient the descent gradient {@link Matrix} to optimize
 	 * <p>
-	 * @return the regularization cost
+	 * @return the optimized descent gradient {@link Matrix}
 	 */
-	@Override
-	public double computeCost(final int m, final Matrix[] weights) {
-		double sum = 0.;
-		for (final Matrix W : weights) {
-			sum += W.apply(Functions.SQUARE).sum();
-		}
-		return lambda * sum / (2. * m);
+	public Entity optimize(final int layer, final Matrix gradient) {
+		return optimize(layer, gradient, BinaryClassifier.DEFAULT_TOLERANCE);
 	}
 
 	/**
-	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
-	 * and returns the resulting {@link Matrix}.
+	 * Optimizes the specified descent gradient {@link Matrix} at the specified layer with the
+	 * specified tolerance level.
 	 * <p>
-	 * @param m the number of training examples
-	 * @param W the weight {@link Matrix}
+	 * @param layer     the layer of the descent gradient {@link Matrix} to optimize
+	 * @param gradient  the descent gradient {@link Matrix} to optimize
+	 * @param tolerance the tolerance level
 	 * <p>
-	 * @return the resulting {@link Matrix}
+	 * @return the optimized descent gradient {@link Matrix}
 	 */
-	@Override
-	public Matrix derive(final int m, final Matrix W) {
-		return W.times(lambda / m);
-	}
+	public abstract Entity optimize(final int layer, final Matrix gradient, final double tolerance);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +97,11 @@ public class RegularizationL2
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public RegularizationL2 clone() {
-		return (RegularizationL2) super.clone();
+	public OptimizationFunction clone() {
+		try {
+			return (OptimizationFunction) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

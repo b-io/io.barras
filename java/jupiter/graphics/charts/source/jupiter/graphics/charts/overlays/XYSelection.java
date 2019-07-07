@@ -239,7 +239,7 @@ public class XYSelection
 
 	public void draw(final Graphics2D g, final ChartPanel chartPanel) {
 		if (mousePosition == null ||
-				coordinates.getX() == Double.NaN || coordinates.getY() == Double.NaN) {
+				Double.isNaN(coordinates.getX()) || Double.isNaN(coordinates.getY())) {
 			return;
 		}
 

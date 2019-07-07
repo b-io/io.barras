@@ -33,6 +33,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
+import jupiter.learning.supervised.function.OptimizationAdam;
 import jupiter.learning.supervised.function.RegularizationFunction;
 import jupiter.learning.supervised.function.RegularizationFunctions;
 import jupiter.math.analysis.function.Functions;
@@ -325,6 +326,18 @@ public class NeuralNetwork
 		Entity dZ = null;
 		// - The derivative with respect to A
 		Matrix dA = null;
+		// - The Adam variables
+		OptimizationAdam dwOptimizer = null;
+		OptimizationAdam dbOptimizer = null;
+		if (!Double.isNaN(firstMomentExponentialDecayRate) &&
+				!Double.isNaN(secondMomentExponentialDecayRate)) {
+			dwOptimizer = new OptimizationAdam(layerCount, W);
+			dbOptimizer = new OptimizationAdam(layerCount, b);
+			dwOptimizer.setParameters(firstMomentExponentialDecayRate,
+					secondMomentExponentialDecayRate, 1);
+			dbOptimizer.setParameters(firstMomentExponentialDecayRate,
+					secondMomentExponentialDecayRate, 1);
+		}
 
 		// Train
 		for (int i = 0; i < maxIterationCount; ++i) {
@@ -354,12 +367,16 @@ public class NeuralNetwork
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 
 				// - Compute the derivatives with respect to W and b
-				final Matrix dW = A[l].times(dZT)
+				Matrix dW = A[l].times(dZT)
 						.transpose()
 						.divide(trainingExampleCount)
 						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
 						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				final Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (1 x 1)
+				Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (1 x 1)
+				if (dwOptimizer != null && dbOptimizer != null) {
+					dW = dwOptimizer.optimize(l, dW, tolerance).toMatrix();
+					db = dbOptimizer.optimize(l, db, tolerance).toVector();
+				}
 
 				// - Update the weights and bias
 				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)

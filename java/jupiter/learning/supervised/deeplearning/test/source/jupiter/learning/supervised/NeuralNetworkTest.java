@@ -60,8 +60,9 @@ public class NeuralNetworkTest
 		final int testCount = 2;
 		final double[] times = new double[testCount];
 		final int featureCount = 2;
-		final int layerCount = featureCount;
-		final int layerSize = featureCount * featureCount;
+		final int hiddenLayerCount = featureCount - 1;
+		final int layerCount = hiddenLayerCount + 1; // L
+		final int hiddenLayerSize = featureCount * featureCount;
 		final NeuralNetwork model = new NeuralNetwork(featureCount);
 		model.setActivationFunction(ActivationFunctions.TANH);
 		model.setRegularizationFunction(RegularizationFunctions.NONE);
@@ -91,19 +92,24 @@ public class NeuralNetworkTest
 
 			// Train
 			chrono.start();
-			final int iterationCount = model.train(1.2, 1E-8, 10000, layerCount - 1, layerSize);
+			final int iterationCount = model.train(1.2, 1E-8, 10000, hiddenLayerCount,
+					hiddenLayerSize);
 			times[t] = chrono.stop();
 
-			// Test
-			// - The accuracy
-			final double accuracy = model.computeAccuracy();
-			assertEquals(1., accuracy, BinaryClassifier.DEFAULT_TOLERANCE);
-			// - The cost
-			final double cost = model.computeCost();
-			assertEquals(2.11368793E-5, cost, BinaryClassifier.DEFAULT_TOLERANCE);
-
 			// Report the statistics
-			IO.test(Doubles.toPercentage(accuracy), " accuracy in ", iterationCount, " iterations");
+			final double accuracy = model.computeAccuracy();
+			final double f1Score = model.computeF1Score();
+			final double cost = model.computeCost();
+			IO.test(Doubles.toPercentage(accuracy), " accuracy, ",
+					Doubles.toPercentage(f1Score), " F1 score and ",
+					DECIMAL_FORMAT.format(cost), " cost in ",
+					iterationCount, " iterations in ",
+					chrono.getMilliseconds(), " [ms]");
+
+			// Test
+			assertEquals(1., accuracy, BinaryClassifier.DEFAULT_TOLERANCE);
+			assertEquals(1., f1Score, BinaryClassifier.DEFAULT_TOLERANCE);
+			assertEquals(2.11368793E-5, cost, BinaryClassifier.DEFAULT_TOLERANCE);
 		}
 		Tests.printTimes(times);
 	}
@@ -138,16 +144,43 @@ public class NeuralNetworkTest
 						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
+
+			IO.test("D) Test the Adam optimization");
+			for (int t = 0; t < testCount; ++t) {
+				times[t] = testExample("D", 1000, 0.3, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
+						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
+			}
+			Tests.printTimes(times);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
 	}
 
 	protected static double testExample(final String example, final int maxIterationCount,
-			final double learningRate, final int hiddenLayerCount, final int hiddenLayerSize,
+			final double learningRate,
+			final int hiddenLayerCount, final int hiddenLayerSize,
 			final ActivationFunction activationFunction,
-			final RegularizationFunction regularizationFunction, final double expectedAccuracy,
-			final double expectedCost, final double tolerance)
+			final RegularizationFunction regularizationFunction,
+			final double expectedAccuracy, final double expectedCost, final double tolerance)
+			throws IOException {
+		return testExample(example, maxIterationCount,
+				learningRate,
+				Double.NaN,
+				Double.NaN,
+				hiddenLayerCount, hiddenLayerSize,
+				activationFunction,
+				regularizationFunction,
+				expectedAccuracy, expectedCost, tolerance);
+	}
+
+	protected static double testExample(final String example, final int maxIterationCount,
+			final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final int hiddenLayerCount, final int hiddenLayerSize,
+			final ActivationFunction activationFunction,
+			final RegularizationFunction regularizationFunction,
+			final double expectedAccuracy, final double expectedCost, final double tolerance)
 			throws IOException {
 		// Initialize
 		final NeuralNetwork model = new NeuralNetwork("test/resources/" + example + "/X.csv",
@@ -155,7 +188,7 @@ public class NeuralNetworkTest
 		model.setActivationFunction(activationFunction);
 		model.setRegularizationFunction(regularizationFunction);
 		try {
-			final int layerCount = hiddenLayerCount + 1;
+			final int layerCount = hiddenLayerCount + 1; // L
 			final Matrix[] weights = new Matrix[layerCount];
 			for (int l = 0; l < layerCount; ++l) {
 				weights[l] = Matrix.create("test/resources/" + example + "/W" + (l + 1) + ".csv");
@@ -169,27 +202,26 @@ public class NeuralNetworkTest
 
 		// Train
 		chrono.start();
-		final int iterationCount = model.train(learningRate, BinaryClassifier.DEFAULT_TOLERANCE,
+		final int iterationCount = model.train(learningRate,
+				firstMomentExponentialDecayRate, secondMomentExponentialDecayRate,
+				BinaryClassifier.DEFAULT_TOLERANCE,
 				maxIterationCount, hiddenLayerCount, hiddenLayerSize);
 		chrono.stop();
 
-		// Test
-		// - The accuracy
-		final double accuracy = model.computeAccuracy();
-		assertEquals(expectedAccuracy, accuracy, tolerance);
-		// - The F1 score
-		final double f1Score = model.computeF1Score();
-		assertEquals(expectedAccuracy, f1Score, tolerance);
-		// - The cost
-		final double cost = model.computeCost();
-		assertEquals(expectedCost, cost, tolerance);
-
 		// Report the statistics
+		final double accuracy = model.computeAccuracy();
+		final double f1Score = model.computeF1Score();
+		final double cost = model.computeCost();
 		IO.test(Doubles.toPercentage(accuracy), " accuracy, ",
 				Doubles.toPercentage(f1Score), " F1 score and ",
 				DECIMAL_FORMAT.format(cost), " cost in ",
 				iterationCount, " iterations in ",
 				chrono.getMilliseconds(), " [ms]");
+
+		// Test
+		assertEquals(expectedAccuracy, accuracy, tolerance);
+		assertEquals(expectedAccuracy, f1Score, tolerance);
+		assertEquals(expectedCost, cost, tolerance);
 		return chrono.getMilliseconds();
 	}
 }

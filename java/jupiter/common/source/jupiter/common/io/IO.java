@@ -72,16 +72,16 @@ public class IO
 	/**
 	 * The default {@link SeverityLevel}.
 	 */
-	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
+	public static volatile SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
 
 	/**
 	 * The default {@link ConsoleHandler}.
 	 */
-	public static final ConsoleHandler DEFAULT_CONSOLE_HANDLER = new ConsoleHandler();
+	public static volatile ConsoleHandler DEFAULT_CONSOLE_HANDLER = new ConsoleHandler();
 	/**
 	 * The default {@link LogHandler}.
 	 */
-	public static final LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
+	public static volatile LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
 
 	/**
 	 * The default {@link IO}.

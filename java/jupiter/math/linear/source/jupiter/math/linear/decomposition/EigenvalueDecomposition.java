@@ -106,8 +106,8 @@ public class EigenvalueDecomposition
 		final double[] elements = A.getElements();
 		dimension = A.getColumnDimension();
 		isSymmetric = true;
-		for (int j = 0; j < dimension & isSymmetric; ++j) {
-			for (int i = 0; i < dimension & isSymmetric; ++i) {
+		for (int j = 0; j < dimension && isSymmetric; ++j) {
+			for (int i = 0; i < dimension && isSymmetric; ++i) {
 				isSymmetric = elements[i * dimension + j] == elements[j * dimension + i];
 			}
 		}
@@ -845,7 +845,7 @@ public class EigenvalueDecomposition
 							y = H[i + 1][i];
 							vr = (d[i] - p) * (d[i] - p) + e[i] * e[i] - q * q;
 							vi = (d[i] - p) * 2. * q;
-							if (vr == 0. & vi == 0.) {
+							if (vr == 0. && vi == 0.) {
 								vr = eps * norm * (Math.abs(w) + Math.abs(q) + Math.abs(x) +
 										Math.abs(y) + Math.abs(z));
 							}

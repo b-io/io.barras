@@ -169,6 +169,15 @@ public class Matrix
 	}
 
 	/**
+	 * Constructs a {@link Matrix} of zeros with the specified {@link Dimensions}.
+	 * <p>
+	 * @param dimensions the {@link Dimensions}
+	 */
+	public Matrix(final Dimensions dimensions) {
+		this(dimensions.m, dimensions.n);
+	}
+
+	/**
 	 * Constructs a {@link Matrix} of zeros with the specified numbers of rows and columns.
 	 * <p>
 	 * @param rowCount    the number of rows

@@ -56,23 +56,23 @@ public class Formats {
 	/**
 	 * The default encoding.
 	 */
-	public static final Charset DEFAULT_CHARSET = UTF8_CHARSET;
-	public static final String DEFAULT_CHARSET_NAME = DEFAULT_CHARSET.name();
+	public static volatile Charset DEFAULT_CHARSET = UTF8_CHARSET;
+	public static volatile String DEFAULT_CHARSET_NAME = DEFAULT_CHARSET.name();
 
 	/**
 	 * The default locale.
 	 */
-	public static final Locale DEFAULT_LOCALE = Locale.getDefault();
+	public static volatile Locale DEFAULT_LOCALE = Locale.getDefault();
 
 	/**
 	 * The default length of a line (useful for IO).
 	 */
-	public static final int DEFAULT_LINE_LENGTH = 72;
+	public static volatile int DEFAULT_LINE_LENGTH = 72;
 
 	/**
 	 * The default format.
 	 */
-	public static Format DEFAULT_FORMAT = new Format() {
+	public static volatile Format DEFAULT_FORMAT = new Format() {
 
 		/**
 		 * The generated serial version ID.
@@ -97,39 +97,39 @@ public class Formats {
 	/**
 	 * The default date format.
 	 */
-	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+	public static volatile String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 	/**
 	 * The default date-time format.
 	 */
-	public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static volatile String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The default decimal pattern.
 	 */
-	public static final String DEFAULT_PATTERN = "0.####";
+	public static volatile String DEFAULT_PATTERN = "0.####";
 	/**
 	 * The default scientific pattern.
 	 */
-	public static final String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN + "E0";
+	public static volatile String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN + "E0";
 
 	/**
 	 * The default number length.
 	 */
-	public static final int DEFAULT_NUMBER_LENGTH = DEFAULT_PATTERN.length();
+	public static volatile int DEFAULT_NUMBER_LENGTH = DEFAULT_PATTERN.length();
 	/**
 	 * The default minimum number of digits for integer.
 	 */
-	public static final int DEFAULT_MIN_INTEGER_DIGITS = 1;
+	public static volatile int DEFAULT_MIN_INTEGER_DIGITS = 1;
 	/**
 	 * The default minimum number of fraction digits.
 	 */
-	public static final int DEFAULT_MIN_FRACTION_DIGITS = 0;
+	public static volatile int DEFAULT_MIN_FRACTION_DIGITS = 0;
 	/**
 	 * The default maximum number of fraction digits.
 	 */
-	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_NUMBER_LENGTH - 2;
+	public static volatile int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_NUMBER_LENGTH - 2;
 
 	/**
 	 * The minimum number length.

@@ -150,6 +150,15 @@ public class Vector
 		return m == 1 ? n : m;
 	}
 
+	/**
+	 * Returns the flag specifying whether {@code this} is transposed.
+	 * <p>
+	 * @return the flag specifying whether {@code this} is transposed
+	 */
+	public boolean isTransposed() {
+		return isTransposed;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

@@ -63,8 +63,8 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final char DEFAULT_BAR_CHARACTER = '-';
-	public static final int DEFAULT_INITIAL_CAPACITY = 256;
+	public static volatile char DEFAULT_BAR_CHARACTER = '-';
+	public static volatile int DEFAULT_INITIAL_CAPACITY = 256;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

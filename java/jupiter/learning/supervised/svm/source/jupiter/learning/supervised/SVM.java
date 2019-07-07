@@ -55,12 +55,12 @@ public class SVM {
 	/**
 	 * The default cache size.
 	 */
-	protected static final double DEFAULT_CACHE_SIZE = 100;
+	public static volatile double DEFAULT_CACHE_SIZE = 100;
 
 	/**
 	 * The default tolerance level (or termination criterion) ε.
 	 */
-	protected static final double DEFAULT_TOLERANCE = 1E-6;
+	public static volatile double DEFAULT_TOLERANCE = 1E-8;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

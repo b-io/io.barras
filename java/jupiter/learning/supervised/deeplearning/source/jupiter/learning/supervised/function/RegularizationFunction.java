@@ -23,12 +23,15 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Function;
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
 public abstract class RegularizationFunction
-		extends Function {
+		implements ICloneable<RegularizationFunction>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -44,6 +47,9 @@ public abstract class RegularizationFunction
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The hyper-parameter lambda.
+	 */
 	protected final double lambda;
 
 
@@ -51,6 +57,11 @@ public abstract class RegularizationFunction
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link RegularizationFunction} with the specified hyper-parameter lambda.
+	 * <p>
+	 * @param lambda the hyper-parameter lambda
+	 */
 	protected RegularizationFunction(final double lambda) {
 		super();
 		this.lambda = lambda;
@@ -96,6 +107,10 @@ public abstract class RegularizationFunction
 	 */
 	@Override
 	public RegularizationFunction clone() {
-		return (RegularizationFunction) super.clone();
+		try {
+			return (RegularizationFunction) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

@@ -291,7 +291,7 @@ public class DynamicChartPanel
 	 */
 	protected void drawCrosshairs() {
 		if (!DRAW_X_CROSSHAIR && !DRAW_Y_CROSSHAIR ||
-				selection.getX() == Double.NaN || selection.getY() == Double.NaN) {
+				Double.isNaN(selection.getX()) || Double.isNaN(selection.getY())) {
 			return;
 		}
 
