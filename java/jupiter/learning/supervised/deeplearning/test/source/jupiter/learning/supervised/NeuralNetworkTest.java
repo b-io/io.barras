@@ -147,7 +147,7 @@ public class NeuralNetworkTest
 
 			IO.test("D) Test the Adam optimization");
 			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("D", 1000, 0.3, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
+				times[t] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
 						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
 			}
 			Tests.printTimes(times);

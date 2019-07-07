@@ -33,6 +33,8 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import jupiter.common.test.NumberArguments;
+
 public class Formats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,9 +172,13 @@ public class Formats {
 	// FORMATTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String format(final Number number) {
+	public static String formatNumber(final Object number) {
+		// Check the arguments
+		NumberArguments.requireNumber(number);
+
+		// Format
 		final String formattedNumber;
-		final String numberString = Strings.toString(number);
+		final String numberString = String.valueOf(number);
 		int digitCount = numberString.length();
 		if (numberString.contains("-")) {
 			--digitCount;

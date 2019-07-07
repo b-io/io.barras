@@ -27,7 +27,7 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.NEWLINE;
-import static jupiter.common.util.Formats.format;
+import static jupiter.common.util.Formats.formatNumber;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 import static jupiter.hardware.gpu.OpenCL.CL;
@@ -2481,7 +2481,7 @@ public class Matrix
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				final String formattedElement = format(elements[i * n + j]);
+				final String formattedElement = formatNumber(elements[i * n + j]);
 				final int padding = Math.max(1, columnWidth - formattedElement.length());
 				for (int k = 0; k < padding; ++k) {
 					builder.append(' ');

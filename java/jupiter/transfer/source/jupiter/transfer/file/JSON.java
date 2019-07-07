@@ -170,7 +170,7 @@ public class JSON {
 		if (value != null && Strings.is(value.getClass())) {
 			return Strings.doubleQuote(Strings.escape(value));
 		}
-		return Strings.toString(value);
+		return String.valueOf(value);
 	}
 
 

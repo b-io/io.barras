@@ -2887,6 +2887,8 @@ public class Strings {
 			return Arrays.toString((Object[]) object);
 		} else if (Collections.is(c)) {
 			Collections.toString((Collection<?>) object);
+		} else if (Numbers.is(c)) {
+			return Formats.formatNumber(object);
 		}
 		return String.valueOf(object);
 	}

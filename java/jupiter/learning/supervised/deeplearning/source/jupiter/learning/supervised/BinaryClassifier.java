@@ -31,6 +31,7 @@ import java.io.Serializable;
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -289,12 +290,13 @@ public abstract class BinaryClassifier
 		final double delta = Maths.delta(cost, currentCost);
 		IO.debug("Delta: ", delta);
 		// Test the convergence
-		if (cost < currentCost) {
-			IO.warn("The cost is increasing by ", delta);
+		if (delta > cost) {
+			IO.warn("The cost is increasing by ", delta,
+					" (", Doubles.toPercentage(delta / cost), ")");
 		}
 		cost = currentCost;
 		if (delta <= tolerance) {
-			IO.warn("No improvement");
+			IO.warn("No more improvement");
 		}
 		return delta <= tolerance || cost <= tolerance;
 	}

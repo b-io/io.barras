@@ -97,16 +97,36 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to a {@link Number}.
+	 * Tests whether the specified {@link Class} is assignable to a primitive number or a
+	 * {@link Number}.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Number},
-	 *         {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a primitive number or a
+	 *         {@link Number}, {@code false} otherwise
 	 */
 	public static boolean is(final Class<?> c) {
-		return Number.class.isAssignableFrom(c);
+		return Number.class.isAssignableFrom(c) || isPrimitive(c);
 	}
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a primitive number.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a primitive number,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitive(final Class<?> c) {
+		return Bytes.isPrimitive(c) ||
+				Shorts.isPrimitive(c) ||
+				Integers.isPrimitive(c) ||
+				Longs.isPrimitive(c) ||
+				Floats.isPrimitive(c) ||
+				Doubles.isPrimitive(c);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@link String} is a parsable {@link Number}.
