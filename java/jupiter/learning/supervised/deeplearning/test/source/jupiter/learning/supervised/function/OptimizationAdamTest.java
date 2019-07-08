@@ -25,7 +25,6 @@ package jupiter.learning.supervised.function;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.learning.supervised.BinaryClassifier;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
@@ -90,10 +89,10 @@ public class OptimizationAdamTest
 		dbOptimizer.setT(2);
 
 		// Optimize
-		Entity dW1 = dwOptimizer.optimize(0, dW[0]);
-		Entity db1 = dbOptimizer.optimize(0, db[0]);
-		Entity dW2 = dwOptimizer.optimize(1, dW[1]);
-		Entity db2 = dbOptimizer.optimize(1, db[1]);
+		final Entity dW1 = dwOptimizer.optimize(0, dW[0]);
+		final Entity db1 = dbOptimizer.optimize(0, db[0]);
+		final Entity dW2 = dwOptimizer.optimize(1, dW[1]);
+		final Entity db2 = dbOptimizer.optimize(1, db[1]);
 		IO.test("dW1 = ", dW1);
 		IO.test("db1 = ", db1);
 		IO.test("dW2 = ", dW2);

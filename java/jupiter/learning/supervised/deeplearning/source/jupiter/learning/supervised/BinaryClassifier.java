@@ -379,7 +379,7 @@ public abstract class BinaryClassifier
 		// Compute 2. / ((1. / precision) + (1. / recall))
 		final double precision = computePrecision(); // A Y' / (A Y' + A (1 - Y'))
 		final double recall = computeRecall(); // A Y' / (A Y' + (1 - A) Y')
-		return 2. / ((1. / precision) + (1. / recall));
+		return 2. / (1. / precision + 1. / recall);
 	}
 
 

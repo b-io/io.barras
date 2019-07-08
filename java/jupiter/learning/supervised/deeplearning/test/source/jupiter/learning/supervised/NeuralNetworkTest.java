@@ -135,8 +135,8 @@ public class NeuralNetworkTest
 			Tests.printTimes(times);
 
 			IO.test("B) Test the activation function RELU");
-			testExample("B", 200, 0.075, 1, 0, ActivationFunctions.RELU,
-					new RegularizationL2(0.9), 0.75, 0.5, 0.25);
+			testExample("B", 200, 0.075, 1, 0, ActivationFunctions.RELU, new RegularizationL2(0.9),
+					0.75, 0.5, 0.25);
 
 			IO.test("C) Test the L2 regularization");
 			for (int t = 0; t < testCount; ++t) {
@@ -212,11 +212,9 @@ public class NeuralNetworkTest
 		final double accuracy = model.computeAccuracy();
 		final double f1Score = model.computeF1Score();
 		final double cost = model.computeCost();
-		IO.test(Doubles.toPercentage(accuracy), " accuracy, ",
-				Doubles.toPercentage(f1Score), " F1 score and ",
-				DECIMAL_FORMAT.format(cost), " cost in ",
-				iterationCount, " iterations in ",
-				chrono.getMilliseconds(), " [ms]");
+		IO.test(Doubles.toPercentage(accuracy), " accuracy, ", Doubles.toPercentage(f1Score),
+				" F1 score and ", DECIMAL_FORMAT.format(cost), " cost in ", iterationCount,
+				" iterations in ", chrono.getMilliseconds(), " [ms]");
 
 		// Test
 		assertEquals(expectedAccuracy, accuracy, tolerance);

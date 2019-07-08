@@ -23,6 +23,8 @@
  */
 package jupiter.common.time;
 
+import static jupiter.common.util.Formats.DEFAULT_DATE_PATTERN;
+import static jupiter.common.util.Formats.DEFAULT_DATE_TIME_PATTERN;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -30,9 +32,6 @@ import java.util.Date;
 import java.util.List;
 
 import jupiter.common.struct.list.ExtendedList;
-
-import static jupiter.common.util.Formats.DEFAULT_DATE_TIME_PATTERN;
-import static jupiter.common.util.Formats.DEFAULT_DATE_PATTERN;
 
 public class Dates {
 

@@ -50,7 +50,7 @@ public class Objects {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static boolean isBasic(final Class<?> c) {
+	public static boolean isImmutable(final Class<?> c) {
 		return isVoid(c) ||
 				Booleans.is(c) ||
 				Characters.is(c) ||
@@ -137,7 +137,7 @@ public class Objects {
 					return (T) Doubles.clone((double[]) object);
 				}
 				return (T) Arrays.clone((Object[]) object);
-			} else if (isBasic(c)) {
+			} else if (isImmutable(c)) {
 				return object;
 			}
 			return (T) c.getMethod("clone").invoke(object);
