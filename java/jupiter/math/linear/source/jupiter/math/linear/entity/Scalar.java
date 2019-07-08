@@ -25,11 +25,11 @@ package jupiter.math.linear.entity;
 
 import static jupiter.common.util.Formats.DEFAULT_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
+import static jupiter.common.util.Formats.formatNumber;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.math.Maths;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
@@ -768,9 +768,9 @@ public class Scalar
 	}
 
 	/**
-	 * Returns the hash code for {@code this}.
+	 * Returns the hash code of {@code this}.
 	 * <p>
-	 * @return the hash code for {@code this}
+	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode
@@ -802,7 +802,7 @@ public class Scalar
 	 */
 	public String toString(final int width) {
 		final StringBuilder builder = Strings.createBuilder(DEFAULT_NUMBER_LENGTH);
-		final String formattedValue = Formats.format(value);
+		final String formattedValue = formatNumber(value);
 		final int padding = Math.max(0, width - formattedValue.length());
 		for (int k = 0; k < padding; ++k) {
 			builder.append(' ');

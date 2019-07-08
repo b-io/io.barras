@@ -134,7 +134,7 @@ public class SingularValueDecomposition
 				s[k] = -s[k];
 			}
 			for (int j = k + 1; j < n; ++j) {
-				if (k < nct & s[k] != 0.) {
+				if (k < nct && s[k] != 0.) {
 					// Apply the transformation
 					double t = 0.;
 					for (int i = k; i < m; ++i) {
@@ -149,7 +149,7 @@ public class SingularValueDecomposition
 				// for the subsequent calculation of the row transformation
 				e[j] = elements[k * n + j];
 			}
-			if (requireU & k < nct) {
+			if (requireU && k < nct) {
 				// Store the transformation in U for the subsequent back multiplication
 				for (int i = k; i < m; ++i) {
 					U[i][k] = elements[i * n + k];
@@ -172,7 +172,7 @@ public class SingularValueDecomposition
 					e[k + 1] += 1.;
 				}
 				e[k] = -e[k];
-				if (k + 1 < m & e[k] != 0.) {
+				if (k + 1 < m && e[k] != 0.) {
 					// Apply the transformation
 					for (int i = k + 1; i < m; ++i) {
 						work[i] = 0.;
@@ -250,7 +250,7 @@ public class SingularValueDecomposition
 		// If required, create V
 		if (requireV) {
 			for (int k = n - 1; k >= 0; --k) {
-				if (k < nrt & e[k] != 0.) {
+				if (k < nrt && e[k] != 0.) {
 					for (int j = k + 1; j < nu; ++j) {
 						double t = 0.;
 						for (int i = k + 1; i < n; ++i) {

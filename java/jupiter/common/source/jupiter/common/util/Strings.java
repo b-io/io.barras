@@ -26,6 +26,7 @@ package jupiter.common.util;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 import static jupiter.common.util.Formats.DEFAULT_LOCALE;
 import static jupiter.common.util.Formats.NEWLINE;
+import static jupiter.common.util.Formats.formatNumber;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -63,8 +64,8 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final char DEFAULT_BAR_CHARACTER = '-';
-	public static final int DEFAULT_INITIAL_CAPACITY = 256;
+	public static volatile char DEFAULT_BAR_CHARACTER = '-';
+	public static volatile int DEFAULT_INITIAL_CAPACITY = 256;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -324,12 +325,6 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static String append(final Object content) {
-		return ": " + toString(content);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static StringBuilder createBuilder() {
@@ -2893,6 +2888,8 @@ public class Strings {
 			return Arrays.toString((Object[]) object);
 		} else if (Collections.is(c)) {
 			Collections.toString((Collection<?>) object);
+		} else if (Numbers.is(c)) {
+			return formatNumber(object);
 		}
 		return String.valueOf(object);
 	}

@@ -239,7 +239,7 @@ public class XYSelection
 
 	public void draw(final Graphics2D g, final ChartPanel chartPanel) {
 		if (mousePosition == null ||
-				coordinates.getX() == Double.NaN || coordinates.getY() == Double.NaN) {
+				Double.isNaN(coordinates.getX()) || Double.isNaN(coordinates.getY())) {
 			return;
 		}
 
@@ -329,9 +329,9 @@ public class XYSelection
 	}
 
 	/**
-	 * Returns the hash code for {@code this}.
+	 * Returns the hash code of {@code this}.
 	 * <p>
-	 * @return the hash code for {@code this}
+	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode

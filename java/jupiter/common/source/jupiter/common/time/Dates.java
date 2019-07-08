@@ -23,8 +23,8 @@
  */
 package jupiter.common.time;
 
-import static jupiter.common.util.Formats.DEFAULT_DATE_FORMAT;
-import static jupiter.common.util.Formats.DEFAULT_DATE_TIME_FORMAT;
+import static jupiter.common.util.Formats.DEFAULT_DATE_PATTERN;
+import static jupiter.common.util.Formats.DEFAULT_DATE_TIME_PATTERN;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -39,9 +39,9 @@ public class Dates {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final SafeDateFormat DATE_FORMATTER = new SafeDateFormat(DEFAULT_DATE_FORMAT);
+	protected static final SafeDateFormat DATE_FORMATTER = new SafeDateFormat(DEFAULT_DATE_PATTERN);
 	protected static final SafeDateFormat DATE_TIME_FORMATTER = new SafeDateFormat(
-			DEFAULT_DATE_TIME_FORMAT);
+			DEFAULT_DATE_TIME_PATTERN);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,14 +107,14 @@ public class Dates {
 	}
 
 	/**
-	 * Returns the current date-time {@link String} formatted according to {@code format}.
+	 * Returns the current date-time {@link String} formatted according to {@code pattern}.
 	 * <p>
-	 * @param format the format {@link String} of the date-time
+	 * @param pattern the pattern {@link String} describing the date-time format
 	 * <p>
-	 * @return the current date-time {@link String} formatted according to {@code format}
+	 * @return the current date-time {@link String} formatted according to {@code pattern}
 	 */
-	public static String getDateTime(final String format) {
-		return new SafeDateFormat(format).format(new Date());
+	public static String getDateTime(final String pattern) {
+		return new SafeDateFormat(pattern).format(new Date());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

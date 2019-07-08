@@ -72,16 +72,16 @@ public class IO
 	/**
 	 * The default {@link SeverityLevel}.
 	 */
-	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
+	public static volatile SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
 
 	/**
 	 * The default {@link ConsoleHandler}.
 	 */
-	public static final ConsoleHandler DEFAULT_CONSOLE_HANDLER = new ConsoleHandler();
+	public static volatile ConsoleHandler DEFAULT_CONSOLE_HANDLER = new ConsoleHandler();
 	/**
 	 * The default {@link LogHandler}.
 	 */
-	public static final LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
+	public static volatile LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
 
 	/**
 	 * The default {@link IO}.
@@ -782,7 +782,7 @@ public class IO
 	 */
 	public Message warn(final Object content, final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + Strings.append(exception);
+			final String text = Strings.toString(content) + ": " + exception;
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -839,7 +839,7 @@ public class IO
 	 */
 	public Message error(final Object content, final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + Strings.append(exception);
+			final String text = Strings.toString(content) + ": " + exception;
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -898,7 +898,7 @@ public class IO
 	 */
 	public Message fail(final Object content, final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + Strings.append(exception);
+			final String text = Strings.toString(content) + ": " + exception;
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -978,9 +978,9 @@ public class IO
 	}
 
 	/**
-	 * Returns the hash code for {@code this}.
+	 * Returns the hash code of {@code this}.
 	 * <p>
-	 * @return the hash code for {@code this}
+	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode

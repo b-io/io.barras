@@ -40,11 +40,11 @@ public class DynamicSample
 	/**
 	 * The minimum sample size (2 for the first sample standard deviation and 1 for the second one).
 	 */
-	public static final int DEFAULT_MIN_SAMPLE_SIZE = 3;
+	public static volatile int DEFAULT_MIN_SAMPLE_SIZE = 3;
 	/**
 	 * The maximum sample size.
 	 */
-	public static final int DEFAULT_MAX_SAMPLE_SIZE = Integer.MAX_VALUE;
+	public static volatile int DEFAULT_MAX_SAMPLE_SIZE = Integer.MAX_VALUE;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ public class DynamicSample
 	 */
 	@Override
 	public double getSampleMean() {
-		if (sampleSize < minSampleSize && previousSampleMean != Double.NaN) {
+		if (sampleSize < minSampleSize && !Double.isNaN(previousSampleMean)) {
 			return previousSampleMean;
 		}
 		return sampleMean;
@@ -197,8 +197,9 @@ public class DynamicSample
 	 */
 	public boolean isPrecisionDecreasing() {
 		final double sampleMeanConfidenceInterval = getSampleMeanConfidenceInterval();
-		return sampleSize >= minSampleSize && sampleMeanConfidenceInterval != Double.NaN &&
-				previousConfidenceInterval != Double.NaN &&
+		return sampleSize >= minSampleSize &&
+				!Double.isNaN(sampleMeanConfidenceInterval) &&
+				!Double.isNaN(previousConfidenceInterval) &&
 				sampleMeanConfidenceInterval >= previousConfidenceInterval;
 	}
 

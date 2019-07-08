@@ -21,19 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.thread;
+package jupiter.learning.supervised.function;
 
-import static jupiter.common.io.IO.IO;
+import java.io.Serializable;
 
-import jupiter.common.test.LongArguments;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
+import jupiter.learning.supervised.BinaryClassifier;
+import jupiter.math.linear.entity.Entity;
+import jupiter.math.linear.entity.Matrix;
 
-public class Threads {
+public abstract class OptimizationFunction
+		implements ICloneable<OptimizationFunction>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile long DEFAULT_WAITING_TIME = 1000L; // [ms]
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,18 +49,10 @@ public class Threads {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link Threads}.
+	 * Constructs an {@link OptimizationFunction}.
 	 */
-	protected Threads() {
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static ClassLoader getClassLoader() {
-		return Thread.currentThread().getContextClassLoader();
+	protected OptimizationFunction() {
+		super();
 	}
 
 
@@ -60,45 +60,48 @@ public class Threads {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void sleep() {
-		sleep(DEFAULT_WAITING_TIME);
+	/**
+	 * Optimizes the specified descent gradient {@link Matrix} at the specified layer.
+	 * <p>
+	 * @param layer    the layer of the descent gradient {@link Matrix} to optimize
+	 * @param gradient the descent gradient {@link Matrix} to optimize
+	 * <p>
+	 * @return the optimized descent gradient {@link Matrix}
+	 */
+	public Entity optimize(final int layer, final Matrix gradient) {
+		return optimize(layer, gradient, BinaryClassifier.DEFAULT_TOLERANCE);
 	}
 
 	/**
-	 * Causes the currently executing thread to sleep (temporarily cease execution) for the
-	 * specified number of milliseconds, subject to the precision and accuracy of system timers and
-	 * schedulers. The thread does not lose ownership of any monitors.
+	 * Optimizes the specified descent gradient {@link Matrix} at the specified layer with the
+	 * specified tolerance level.
 	 * <p>
-	 * @param time the length of time to sleep in milliseconds
+	 * @param layer     the layer of the descent gradient {@link Matrix} to optimize
+	 * @param gradient  the descent gradient {@link Matrix} to optimize
+	 * @param tolerance the tolerance level
 	 * <p>
-	 * @throws IllegalArgumentException if {@code time} is negative
+	 * @return the optimized descent gradient {@link Matrix}
 	 */
-	public static void sleep(final long time) {
-		// Check the arguments
-		LongArguments.requireNonNegative(time);
+	public abstract Entity optimize(final int layer, final Matrix gradient, final double tolerance);
 
-		// Sleep
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public OptimizationFunction clone() {
 		try {
-			Thread.sleep(time);
-		} catch (final InterruptedException ex) {
-			IO.warn(ex);
+			return (OptimizationFunction) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
 		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether the specified {@link Class} is assignable to a {@link Thread}.
-	 * <p>
-	 * @param c the {@link Class} to test
-	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Thread},
-	 *         {@code false} otherwise
-	 */
-	public static boolean is(final Class<?> c) {
-		return Thread.class.isAssignableFrom(c);
 	}
 }

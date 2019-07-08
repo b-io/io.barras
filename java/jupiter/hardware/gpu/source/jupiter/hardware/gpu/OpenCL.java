@@ -54,11 +54,11 @@ public abstract class OpenCL
 	public static volatile boolean IS_ACTIVE = false;
 
 	/**
-	 * The kernel prefix.
+	 * The kernel prefix {@link String}.
 	 */
 	protected static final String KERNEL_PREFIX = "__kernel void";
 	/**
-	 * The OpenCL program.
+	 * The OpenCL program {@link String}.
 	 */
 	protected static final String PROGRAM = "#pragma OPENCL EXTENSION cl_khr_fp64: enable" +
 			NEWLINE +
@@ -133,7 +133,13 @@ public abstract class OpenCL
 	 */
 	protected boolean isActive;
 
+	/**
+	 * The source code {@link String}.
+	 */
 	protected final String sourceCode;
+	/**
+	 * The {@link List} of kernel names.
+	 */
 	protected List<String> kernelNames = new LinkedList<String>();
 
 
@@ -141,6 +147,11 @@ public abstract class OpenCL
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link OpenCL} with the specified source code {@link String}.
+	 * <p>
+	 * @param sourceCode the source code {@link String}
+	 */
 	protected OpenCL(final String sourceCode) {
 		if (!IS_ACTIVE) {
 			throw new IllegalStateException("OpenCL is not active");
@@ -173,11 +184,21 @@ public abstract class OpenCL
 		return isActive;
 	}
 
+	/**
+	 * Returns the source code {@link String}.
+	 * <p>
+	 * @return the source code {@link String}
+	 */
 	public String getSourceCode() {
 		return sourceCode;
 	}
 
-	public List<String> getKernels() {
+	/**
+	 * Returns the {@link List} of kernel names.
+	 * <p>
+	 * @return the {@link List} of kernel names
+	 */
+	public List<String> getKernelNames() {
 		return kernelNames;
 	}
 

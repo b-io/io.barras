@@ -138,7 +138,7 @@ public class SpeedChecker {
 				DATA_FILES.put(urlName,
 						new FileHandler(TEMP_DIR + "/downloading_speeds_of_" + fileName + ".csv"));
 			} catch (final MalformedURLException ex) {
-				IO.error("The URL ", Strings.quote(urlName), " is malformed", Strings.append(ex));
+				IO.error("The URL ", Strings.quote(urlName), " is malformed: ", ex);
 			}
 		}
 		// - The work queue
@@ -247,19 +247,17 @@ public class SpeedChecker {
 				} catch (final IOException ex) {
 					return new Result<Double>(0.,
 							IO.error("Unable to transfer the file ", Strings.quote(urlName), " to ",
-									Strings.quote(Files.getCanonicalPath(targetFile)),
-									Strings.append(ex)));
+									Strings.quote(Files.getCanonicalPath(targetFile)), ": ", ex));
 				} finally {
 					Resources.close(channel);
 					Resources.close(tempFile);
 				}
 			} catch (final IOException ex) {
-				IO.error("The URL ", Strings.quote(urlName), " is not reachable",
-						Strings.append(ex));
+				IO.error("The URL ", Strings.quote(urlName), " is not reachable: ", ex);
 				return new Result<Double>(0., IO.error(ex));
 			}
 		} catch (final MalformedURLException ex) {
-			IO.error("The URL ", Strings.quote(urlName), " is malformed", Strings.append(ex));
+			IO.error("The URL ", Strings.quote(urlName), " is malformed: ", ex);
 			return new Result<Double>(0., IO.error(ex));
 		}
 	}

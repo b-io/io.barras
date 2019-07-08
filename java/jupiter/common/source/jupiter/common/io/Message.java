@@ -49,7 +49,7 @@ public class Message
 	/**
 	 * The default stack index.
 	 */
-	public static final int DEFAULT_STACK_INDEX = 3;
+	public static volatile int DEFAULT_STACK_INDEX = 3;
 	/**
 	 * The stack index offset.
 	 */
@@ -289,9 +289,9 @@ public class Message
 	}
 
 	/**
-	 * Returns the hash code for {@code this}.
+	 * Returns the hash code of {@code this}.
 	 * <p>
-	 * @return the hash code for {@code this}
+	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode

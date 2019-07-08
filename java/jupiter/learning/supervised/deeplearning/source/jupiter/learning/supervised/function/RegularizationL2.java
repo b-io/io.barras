@@ -23,7 +23,6 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.common.math.Maths;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Matrix;
 
@@ -58,7 +57,7 @@ public class RegularizationL2
 	/**
 	 * Constructs a {@link RegularizationL2} with the specified hyper-parameter lambda.
 	 * <p>
-	 * @param lambda the hyper-parameter
+	 * @param lambda the hyper-parameter lambda
 	 */
 	public RegularizationL2(final double lambda) {
 		super(lambda);
@@ -68,11 +67,6 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public double apply(final double x) {
-		return Maths.square(x);
-	}
 
 	/**
 	 * Computes the regularization cost.

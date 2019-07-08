@@ -23,6 +23,8 @@
  */
 package jupiter.graphics.charts.panels;
 
+import static jupiter.common.util.Formats.DEFAULT_FORMAT;
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -38,7 +40,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
 
 import jupiter.common.math.Maths;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Integers;
 import jupiter.graphics.charts.Charts;
 import jupiter.graphics.charts.overlays.XYSelection;
@@ -103,7 +104,7 @@ public class DynamicChartPanel
 	 */
 	public DynamicChartPanel(final JFreeChart chart) {
 		super(chart);
-		formats = new XY<Format>(Formats.DEFAULT_FORMAT, Formats.DEFAULT_FORMAT);
+		formats = new XY<Format>(DEFAULT_FORMAT, DEFAULT_FORMAT);
 		setDefaultParameters();
 	}
 
@@ -116,7 +117,7 @@ public class DynamicChartPanel
 	 */
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat) {
 		super(chart);
-		formats = new XY<Format>(xFormat, Formats.DEFAULT_FORMAT);
+		formats = new XY<Format>(xFormat, DEFAULT_FORMAT);
 		setDefaultParameters();
 	}
 
@@ -291,7 +292,7 @@ public class DynamicChartPanel
 	 */
 	protected void drawCrosshairs() {
 		if (!DRAW_X_CROSSHAIR && !DRAW_Y_CROSSHAIR ||
-				selection.getX() == Double.NaN || selection.getY() == Double.NaN) {
+				Double.isNaN(selection.getX()) || Double.isNaN(selection.getY())) {
 			return;
 		}
 

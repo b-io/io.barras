@@ -33,6 +33,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
+import jupiter.learning.supervised.function.OptimizationAdam;
 import jupiter.learning.supervised.function.RegularizationFunction;
 import jupiter.learning.supervised.function.RegularizationFunctions;
 import jupiter.math.analysis.function.Functions;
@@ -320,11 +321,23 @@ public class NeuralNetwork
 		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
 				Maths.roundToInt(1. / learningRate));
 		// - The cost
-		double j = Double.POSITIVE_INFINITY;
+		cost = Double.POSITIVE_INFINITY;
 		// - The derivative with respect to Z
 		Entity dZ = null;
 		// - The derivative with respect to A
 		Matrix dA = null;
+		// - The Adam variables
+		OptimizationAdam dwOptimizer = null;
+		OptimizationAdam dbOptimizer = null;
+		if (!Double.isNaN(firstMomentExponentialDecayRate) &&
+				!Double.isNaN(secondMomentExponentialDecayRate)) {
+			dwOptimizer = new OptimizationAdam(layerCount, W);
+			dbOptimizer = new OptimizationAdam(layerCount, b);
+			dwOptimizer.setParameters(firstMomentExponentialDecayRate,
+					secondMomentExponentialDecayRate, 1);
+			dbOptimizer.setParameters(firstMomentExponentialDecayRate,
+					secondMomentExponentialDecayRate, 1);
+		}
 
 		// Train
 		for (int i = 0; i < maxIterationCount; ++i) {
@@ -336,20 +349,10 @@ public class NeuralNetwork
 			// - Compute A[L + 1] = sigmoid(Z[L + 1]) = sigmoid(W[L] A[L] + b[L])
 			A[layerCount] = computeForward(layerCount - 1).apply(Functions.SIGMOID); // (1 x m)
 
-			// Test the convergence
-			if (i % convergenceTestFrequency == 0) {
-				// - Compute the cost
-				final double cost = computeCost();
-				IO.debug(i, ") Cost: ", cost);
-				final double delta = Maths.delta(j, cost);
-				IO.debug(i, ") Delta: ", delta);
-				j = cost;
-
-				// - Test whether the tolerance level is reached
-				if (delta <= tolerance || j <= tolerance) {
-					IO.debug("Stop training after ", i, " iterations and with ", j, " cost");
-					return i;
-				}
+			// Test whether the tolerance level is reached
+			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
+				IO.debug("Stop training after ", i, " iterations and with ", cost, " cost");
+				return i;
 			}
 
 			// Perform the backward propagation step (n <- nh... <- 1)
@@ -364,19 +367,23 @@ public class NeuralNetwork
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 
 				// - Compute the derivatives with respect to W and b
-				final Matrix dW = A[l].times(dZT)
+				Matrix dW = A[l].times(dZT)
 						.transpose()
 						.divide(trainingExampleCount)
 						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
 						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				final Vector db = dZT.mean().toVector();
+				Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (1 x 1)
+				if (dwOptimizer != null && dbOptimizer != null) {
+					dW = dwOptimizer.optimize(l, dW, tolerance).toMatrix();
+					db = dbOptimizer.optimize(l, db, tolerance).toVector();
+				}
 
 				// - Update the weights and bias
 				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)
 				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (1 x 1)
 			}
 		}
-		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", j, " cost");
+		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", cost, " cost");
 		return maxIterationCount;
 	}
 

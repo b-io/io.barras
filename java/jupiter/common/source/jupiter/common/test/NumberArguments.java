@@ -21,33 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.hardware.gpu;
+package jupiter.common.test;
 
-import jupiter.common.test.Arguments;
+import jupiter.common.util.Numbers;
 
-public class OpenCLArguments {
+public class NumberArguments
+		extends Arguments {
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Prevents the construction of {@link OpenCLArguments}.
-	 */
-	protected OpenCLArguments() {
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static void requireSameInnerDimension(final int aColumnDimension,
-			final int bRowDimension) {
-		if (aColumnDimension != bRowDimension) {
-			throw new IllegalArgumentException(
-					"The specified arrays do not have the same (inner) row dimensions " +
-							Arguments.isNotEqualTo(aColumnDimension, bRowDimension));
+	public static void requireNumber(final Object number) {
+		if (CHECK_ARGS && !Numbers.is(requireNonNull(number).getClass())) {
+			throw new IllegalArgumentException("The specified object is not a number");
 		}
 	}
 }

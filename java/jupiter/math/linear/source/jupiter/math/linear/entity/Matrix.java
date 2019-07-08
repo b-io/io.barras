@@ -27,7 +27,7 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.NEWLINE;
-import static jupiter.common.util.Formats.format;
+import static jupiter.common.util.Formats.formatNumber;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 import static jupiter.hardware.gpu.OpenCL.CL;
@@ -166,6 +166,15 @@ public class Matrix
 	 */
 	public Matrix(final int size) {
 		this(size, size);
+	}
+
+	/**
+	 * Constructs a {@link Matrix} of zeros with the specified {@link Dimensions}.
+	 * <p>
+	 * @param dimensions the {@link Dimensions}
+	 */
+	public Matrix(final Dimensions dimensions) {
+		this(dimensions.m, dimensions.n);
 	}
 
 	/**
@@ -520,7 +529,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -547,7 +556,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -577,7 +586,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -606,7 +615,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -802,7 +811,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 	}
 
@@ -826,7 +835,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 	}
 
@@ -853,7 +862,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 	}
 
@@ -879,7 +888,7 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds" + Strings.append(ex));
+					"The specified submatrix indexes are out of bounds: " + ex);
 		}
 	}
 
@@ -2422,9 +2431,9 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the hash code for {@code this}.
+	 * Returns the hash code of {@code this}.
 	 * <p>
-	 * @return the hash code for {@code this}
+	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode
@@ -2472,7 +2481,7 @@ public class Matrix
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				final String formattedElement = format(elements[i * n + j]);
+				final String formattedElement = formatNumber(elements[i * n + j]);
 				final int padding = Math.max(1, columnWidth - formattedElement.length());
 				for (int k = 0; k < padding; ++k) {
 					builder.append(' ');

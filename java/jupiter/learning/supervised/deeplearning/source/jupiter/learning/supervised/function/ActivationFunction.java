@@ -43,6 +43,9 @@ public abstract class ActivationFunction
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ActivationFunction}.
+	 */
 	protected ActivationFunction() {
 		super();
 	}

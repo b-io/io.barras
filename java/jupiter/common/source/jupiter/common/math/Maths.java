@@ -46,18 +46,18 @@ public class Maths {
 	/**
 	 * The default tolerance level (or termination criterion) ε for float.
 	 */
-	public static final float DEFAULT_FLOAT_TOLERANCE = 1E-6f;
+	public static volatile float DEFAULT_FLOAT_TOLERANCE = 1E-6f;
 	/**
 	 * The default tolerance level (or termination criterion) ε for double.
 	 */
-	public static final double DEFAULT_TOLERANCE = 1E-12;
+	public static volatile double DEFAULT_TOLERANCE = 1E-12;
 	/**
 	 * The default tiny tolerance level for double.
 	 */
-	public static final double DEFAULT_TINY_TOLERANCE = 1E-300;
+	public static volatile double DEFAULT_TINY_TOLERANCE = 1E-300;
 
-	public static final double DEFAULT_CONFIDENCE = 0.975;
-	public static final double DEFAULT_Z = 1.9599639845400536; // 97.5%
+	public static volatile double DEFAULT_CONFIDENCE = 0.975;
+	public static volatile double DEFAULT_Z = 1.9599639845400536; // 97.5%
 
 	public static final double DEGREE_TO_RADIAN = Math.PI / 180.;
 
