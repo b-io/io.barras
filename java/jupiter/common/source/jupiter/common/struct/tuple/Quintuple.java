@@ -258,9 +258,9 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	}
 
 	/**
-	 * Returns the hash code for {@code this}.
+	 * Returns the hash code of {@code this}.
 	 * <p>
-	 * @return the hash code for {@code this}
+	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode

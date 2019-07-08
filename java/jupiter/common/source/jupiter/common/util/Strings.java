@@ -26,6 +26,7 @@ package jupiter.common.util;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 import static jupiter.common.util.Formats.DEFAULT_LOCALE;
 import static jupiter.common.util.Formats.NEWLINE;
+import static jupiter.common.util.Formats.formatNumber;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -2888,7 +2889,7 @@ public class Strings {
 		} else if (Collections.is(c)) {
 			Collections.toString((Collection<?>) object);
 		} else if (Numbers.is(c)) {
-			return Formats.formatNumber(object);
+			return formatNumber(object);
 		}
 		return String.valueOf(object);
 	}

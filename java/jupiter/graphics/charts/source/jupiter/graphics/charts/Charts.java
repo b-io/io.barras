@@ -57,16 +57,16 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The minimum size of the chart panels.
+	 * The minimum {@link Dimension} of the chart panels.
 	 */
 	protected static final Dimension MIN_DIMENSION = new Dimension(960, 600); // 13.5"
 	/**
-	 * The preferred size of the chart panels.
+	 * The preferred {@link Dimension} of the chart panels.
 	 */
 	protected static final Dimension DIMENSION = new Dimension(1920, 1200); // 27"
 
 	/**
-	 * The date format.
+	 * The {@link DateFormat}.
 	 */
 	public static volatile DateFormat DATE_FORMAT = new SafeDateFormat("dd/MM/YY HH:mm");
 
@@ -121,14 +121,14 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a line chart with the specified title, xy-axes labels and dataset.
+	 * Creates a line chart with the specified title, xy-axes labels and {@link XYDataset}.
 	 * <p>
 	 * @param title   the title of the chart to create
 	 * @param xLabel  the label of the x-axis of the chart to create
 	 * @param yLabel  the label of the y-axis of the chart to create
 	 * @param dataset the {@link XYDataset} of the chart to create
 	 * <p>
-	 * @return a line chart with the specified title, xy-axes labels and dataset
+	 * @return a line chart with the specified title, xy-axes labels and {@link XYDataset}
 	 */
 	public static JFreeChart createLineChart(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset) {
@@ -151,14 +151,14 @@ public class Charts {
 	}
 
 	/**
-	 * Creates a scatter chart with the specified title, xy-axes labels and dataset.
+	 * Creates a scatter chart with the specified title, xy-axes labels and {@link XYDataset}.
 	 * <p>
 	 * @param title   the title of the chart to create
 	 * @param xLabel  the label of the x-axis of the chart to create
 	 * @param yLabel  the label of the y-axis of the chart to create
 	 * @param dataset the {@link XYDataset} of the chart to create
 	 * <p>
-	 * @return a scatter chart with the specified title, xy-axes labels and dataset
+	 * @return a scatter chart with the specified title, xy-axes labels and {@link XYDataset}
 	 */
 	public static JFreeChart createScatterPlot(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset) {
@@ -180,14 +180,14 @@ public class Charts {
 	}
 
 	/**
-	 * Creates a time series chart with the specified title, xy-axes labels and dataset.
+	 * Creates a time series chart with the specified title, xy-axes labels and {@link XYDataset}.
 	 * <p>
 	 * @param title   the title of the chart to create
 	 * @param xLabel  the label of the x-axis of the chart to create
 	 * @param yLabel  the label of the y-axis of the chart to create
 	 * @param dataset the {@link XYDataset} of the chart to create
 	 * <p>
-	 * @return a time series chart with the specified title, xy-axes labels and dataset
+	 * @return a time series chart with the specified title, xy-axes labels and {@link XYDataset}
 	 */
 	public static JFreeChart createTimeSeriesChart(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset) {
@@ -195,16 +195,17 @@ public class Charts {
 	}
 
 	/**
-	 * Creates a time series chart with the specified title, xy-axes labels, dataset and date
-	 * format.
+	 * Creates a time series chart with the specified title, xy-axes labels, {@link XYDataset} and
+	 * {@link DateFormat}.
 	 * <p>
 	 * @param title      the title of the chart to create
 	 * @param xLabel     the label of the x-axis of the chart to create
 	 * @param yLabel     the label of the y-axis of the chart to create
 	 * @param dataset    the {@link XYDataset} of the chart to create
-	 * @param dateFormat the date format of the x-axis of the chart to create
+	 * @param dateFormat the {@link DateFormat} of the x-axis of the chart to create
 	 * <p>
-	 * @return a time series chart with the specified title, xy-axes labels, dataset and date format
+	 * @return a time series chart with the specified title, xy-axes labels, {@link XYDataset} and
+	 *         {@link DateFormat}
 	 */
 	public static JFreeChart createTimeSeriesChart(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset, final DateFormat dateFormat) {
@@ -239,14 +240,16 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a combined chart with the specified title, x-axis label, y-axis labels and datasets.
+	 * Creates a combined chart with the specified title, x-axis label, y-axis labels and
+	 * {@link List} of {@link XYDataset}.
 	 * <p>
 	 * @param title    the title of the chart to create
 	 * @param xLabel   the label of the x-axis of the chart to create
 	 * @param yLabels  the labels of the y-axis of the chart to create
 	 * @param datasets the {@link List} of {@link XYDataset} of the chart to create
 	 * <p>
-	 * @return a combined chart
+	 * @return a combined chart with the specified title, x-axis label, y-axis labels and
+	 *         {@link List} of {@link XYDataset}
 	 */
 	public static JFreeChart createCombinedChart(final String title, final String xLabel,
 			final List<String> yLabels, final List<XYDataset> datasets) {
@@ -254,14 +257,16 @@ public class Charts {
 	}
 
 	/**
-	 * Creates a combined chart with the specified title, x-axis, y-axis labels and datasets.
+	 * Creates a combined chart with the specified title, x-axis, y-axis labels and {@link List} of
+	 * {@link XYDataset}.
 	 * <p>
 	 * @param title    the title of the chart to create
 	 * @param xAxis    the x-axis of the chart to create
 	 * @param yLabels  the labels of the y-axis of the chart to create
 	 * @param datasets the {@link List} of {@link XYDataset} of the chart to create
 	 * <p>
-	 * @return a combined chart
+	 * @return a combined chart with the specified title, x-axis, y-axis labels and {@link List} of
+	 *         {@link XYDataset}
 	 */
 	public static JFreeChart createCombinedChart(final String title, final ValueAxis xAxis,
 			final List<String> yLabels, final List<XYDataset> datasets) {
@@ -302,7 +307,7 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets up the specified plot.
+	 * Sets up the specified {@link XYPlot}.
 	 * <p>
 	 * @param plot a {@link XYPlot}
 	 */

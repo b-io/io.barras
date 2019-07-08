@@ -237,9 +237,9 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	}
 
 	/**
-	 * Returns the hash code for {@code this}.
+	 * Returns the hash code of {@code this}.
 	 * <p>
-	 * @return the hash code for {@code this}
+	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode

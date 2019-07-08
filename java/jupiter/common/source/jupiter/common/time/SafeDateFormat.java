@@ -54,8 +54,8 @@ public class SafeDateFormat
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SafeDateFormat} using the default pattern and date format symbols for the
-	 * default {@link Locale}.
+	 * Constructs a {@link SafeDateFormat} using the default pattern and {@link DateFormatSymbols}
+	 * for the default {@link Locale}.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
 	 * factory methods in the class {@link DateFormat}.
 	 */
@@ -64,8 +64,8 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} using the specified pattern and the default date format
-	 * symbols for the default {@link Locale}.
+	 * Constructs a {@link SafeDateFormat} using the specified pattern {@link String} and the
+	 * default {@link DateFormatSymbols} for the default {@link Locale}.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
 	 * factory methods in the class {@link DateFormat}.
 	 * <p>
@@ -74,7 +74,7 @@ public class SafeDateFormat
 	 *
 	 * @see Locale#getDefault
 	 * <p>
-	 * @param pattern the pattern describing the date-time format
+	 * @param pattern the pattern {@link String} describing the date-time format
 	 * <p>
 	 * @exception NullPointerException     if {@code pattern} is {@code null}
 	 * @exception IllegalArgumentException if {@code pattern} is invalid
@@ -84,13 +84,13 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} using the specified pattern and the default date format
-	 * symbols for the specified {@link Locale}.
+	 * Constructs a {@link SafeDateFormat} using the specified pattern {@link String} and the
+	 * default {@link DateFormatSymbols} for the specified {@link Locale}.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
 	 * factory methods in the class {@link DateFormat}.
 	 * <p>
-	 * @param pattern the pattern describing the date-time format
-	 * @param locale  the {@link Locale} whose date format symbols should be used
+	 * @param pattern the pattern {@link String} describing the date-time format
+	 * @param locale  the {@link Locale} whose {@link DateFormatSymbols} should be used
 	 * <p>
 	 * @exception NullPointerException     if {@code pattern} or {@code locale} is {@code null}
 	 * @exception IllegalArgumentException if {@code pattern} is invalid
@@ -100,10 +100,11 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} using the specified pattern and date format symbols.
+	 * Constructs a {@link SafeDateFormat} using the specified pattern {@link String} and
+	 * {@link DateFormatSymbols}.
 	 * <p>
-	 * @param pattern       the pattern describing the date-time format
-	 * @param formatSymbols the date format symbols to be used for formatting
+	 * @param pattern       the pattern {@link String} describing the date-time format
+	 * @param formatSymbols the {@link DateFormatSymbols} to be used for formatting
 	 * <p>
 	 * @exception NullPointerException     if {@code pattern} or {@code formatSymbols} is
 	 *                                     {@code null}
@@ -248,7 +249,7 @@ public class SafeDateFormat
 	/**
 	 * Applies the specified pattern {@link String} to {@code this}.
 	 * <p>
-	 * @param pattern the new date-time pattern for {@code this}
+	 * @param pattern the new date-time pattern {@link String} for {@code this}
 	 * <p>
 	 * @exception NullPointerException     if {@code pattern} is {@code null}
 	 * @exception IllegalArgumentException if {@code pattern} is invalid
@@ -261,7 +262,8 @@ public class SafeDateFormat
 	/**
 	 * Applies the specified localized pattern {@link String} to {@code this}.
 	 * <p>
-	 * @param pattern a {@link String} to map to the new date-time format pattern for this format
+	 * @param pattern a {@link String} to map to the new date-time pattern {@link String} for
+	 *                {@code this}
 	 * <p>
 	 * @exception NullPointerException     if {@code pattern} is {@code null}
 	 * @exception IllegalArgumentException if {@code pattern} is invalid
@@ -272,9 +274,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Gets a copy of the date-time format symbols of {@code this}.
+	 * Gets a copy of the {@link DateFormatSymbols} of {@code this}.
 	 * <p>
-	 * @return the date-time format symbols of {@code this}
+	 * @return the {@link DateFormatSymbols} of {@code this}
 	 *
 	 * @see #setDateFormatSymbols
 	 */
@@ -284,9 +286,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Sets the date-time format symbols of {@code this}.
+	 * Sets the {@link DateFormatSymbols} of {@code this}.
 	 * <p>
-	 * @param newFormatSymbols the new date-time format symbols
+	 * @param newFormatSymbols a {@link DateFormatSymbols}
 	 * <p>
 	 * @exception NullPointerException if {@code newFormatSymbols} is {@code null}
 	 *
@@ -303,7 +305,7 @@ public class SafeDateFormat
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}. This also clones the date format symbols.
+	 * Creates a copy of {@code this}. This also clones the {@link DateFormatSymbols}.
 	 * <p>
 	 * @return a clone of {@code this}
 	 *
@@ -335,9 +337,9 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Returns the hash code for {@code this}.
+	 * Returns the hash code of {@code this}.
 	 * <p>
-	 * @return the hash code for {@code this}
+	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
 	 * @see System#identityHashCode
