@@ -74,7 +74,7 @@ public class RegularizationL2
 	 * @param m       the number of training examples
 	 * @param weights the array of weight {@link Matrix}
 	 * <p>
-	 * @return {@code λ Σ(W .* W) / (2. * m)}
+	 * @return {@code λ sum(sum(W .* W)) / (2. * m)}
 	 */
 	@Override
 	public double computeCost(final int m, final Matrix[] weights) {

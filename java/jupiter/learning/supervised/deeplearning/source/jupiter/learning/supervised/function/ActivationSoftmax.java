@@ -66,7 +66,7 @@ public class ActivationSoftmax
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
-	 * @return {@code exp(E) / Σ(exp(E))}
+	 * @return {@code exp(E) / sum(exp(E))}
 	 */
 	@Override
 	public Entity apply(final Entity E) {
