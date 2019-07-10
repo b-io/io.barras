@@ -68,7 +68,7 @@ public class Calculator
 	 */
 	protected static volatile boolean PARALLELIZE = true;
 	/**
-	 * The {@link WorkQueue} for evaluating the elements.
+	 * The {@link WorkQueue} used for evaluating the elements.
 	 */
 	protected static volatile WorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>> WORK_QUEUE = null;
 

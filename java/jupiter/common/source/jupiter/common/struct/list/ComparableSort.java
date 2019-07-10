@@ -66,8 +66,8 @@ public class ComparableSort
 	protected static final int MIN_GALLOP = 7;
 
 	/**
-	 * Maximum initial size of {@code tempArray} array, which is used for merging. The array can
-	 * grow to accommodate demand.
+	 * Maximum initial size of {@code tempArray} array used for merging. The array can grow to
+	 * accommodate demand.
 	 * <p>
 	 * Unlike Tim's original C version, we do not allocate this much storage when sorting smaller
 	 * arrays. This change was required for performance.

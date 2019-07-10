@@ -81,7 +81,7 @@ public class SpeedChecker {
 	 */
 	protected static volatile boolean PARALLELIZE = true;
 	/**
-	 * The {@link WorkQueue} for checking the downloading speeds.
+	 * The {@link WorkQueue} used for checking the downloading speeds.
 	 */
 	protected static volatile WorkQueue<String, Result<Double>> WORK_QUEUE = null;
 

@@ -71,6 +71,11 @@ public class IO
 	public static final int EXIT_FAILURE = 1;
 
 	/**
+	 * Represents the end-of-file (or stream).
+	 */
+	public static final int EOF = -1;
+
+	/**
 	 * The default {@link SeverityLevel}.
 	 */
 	public static volatile SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
@@ -93,6 +98,11 @@ public class IO
 	 * The stack index offset.
 	 */
 	protected static final int STACK_INDEX_OFFSET = 1;
+
+	/**
+	 * The default buffer size used for copying.
+	 */
+	protected static volatile int DEFAULT_BUFFER_SIZE = 4096; // [byte]
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -311,7 +321,7 @@ public class IO
 	/**
 	 * Creates a {@link BufferedReader} of the specified {@link InputStream}.
 	 * <p>
-	 * @param input the {@link InputStream} of the data to read
+	 * @param input the {@link InputStream} to read from
 	 * <p>
 	 * @return a {@link BufferedReader} of the specified {@link InputStream}
 	 */
@@ -323,7 +333,7 @@ public class IO
 	 * Creates a {@link BufferedReader} of the specified {@link InputStream} with the specified
 	 * {@link Charset}.
 	 * <p>
-	 * @param input   the {@link InputStream} of the data to read
+	 * @param input   the {@link InputStream} to read from
 	 * @param charset the {@link Charset} of the data to read
 	 * <p>
 	 * @return a {@link BufferedReader} of the specified {@link InputStream} with the specified
@@ -338,7 +348,7 @@ public class IO
 	/**
 	 * Returns the {@link Content} of the specified {@link InputStream}.
 	 * <p>
-	 * @param input the {@link InputStream} of the data to read
+	 * @param input the {@link InputStream} to read from
 	 * <p>
 	 * @return the {@link Content} of the specified {@link InputStream}
 	 * <p>
@@ -353,7 +363,7 @@ public class IO
 	 * Returns the number of lines of the specified {@link InputStream} with the specified
 	 * {@link Charset}.
 	 * <p>
-	 * @param input   the {@link InputStream} of the data to read
+	 * @param input   the {@link InputStream} to read from
 	 * @param charset the {@link Charset} of the data to read
 	 * <p>
 	 * @return the number of lines of the specified {@link InputStream} with the specified
@@ -499,10 +509,49 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Reads the data from the specified {@link InputStream}, writes it to the specified
+	 * {@link OutputStream} and returns the number of copied {@code byte}.
+	 * <p>
+	 * @param input  the {@link InputStream} to read from
+	 * @param output the {@link OutputStream} to write to
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading
+	 */
+	public static long copy(final InputStream input, final OutputStream output)
+			throws IOException {
+		return copy(input, output, new byte[DEFAULT_BUFFER_SIZE]);
+	}
+
+	/**
+	 * Reads the data from the specified {@link InputStream}, writes it to the specified
+	 * {@link OutputStream} with the specified buffer and returns the number of copied {@code byte}.
+	 * <p>
+	 * @param input  the {@link InputStream} to read from
+	 * @param output the {@link OutputStream} to write to
+	 * @param buffer the buffer array of {@code byte} used for copying
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading
+	 */
+	public static long copy(final InputStream input, final OutputStream output, final byte[] buffer)
+			throws IOException {
+		long writtenByteCount = 0L;
+		int readByteCount;
+		while ((readByteCount = input.read(buffer)) != EOF) {
+			output.write(buffer, 0, readByteCount);
+			writtenByteCount += readByteCount;
+		}
+		return writtenByteCount;
+	}
+
+	/**
 	 * Copies the data of the specified {@link BufferedReader} with the specified
 	 * {@link PrintWriter} from the specified number of lines.
 	 * <p>
-	 * @param reader the {@link BufferedReader} of the data to copy
+	 * @param reader the {@link BufferedReader} to read from
 	 * @param writer the {@link PrintWriter} to copy with
 	 * @param from   the line index to start copying forward from
 	 * <p>

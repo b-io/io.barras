@@ -128,7 +128,7 @@ public class Matrix
 	 */
 	public static volatile boolean PARALLELIZE = false;
 	/**
-	 * The {@link WorkQueue} for computing the dot product.
+	 * The {@link WorkQueue} used for computing the dot product.
 	 */
 	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> DOT_PRODUCT_QUEUE = null;
 

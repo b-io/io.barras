@@ -104,7 +104,7 @@ public class SafeDateFormat
 	 * {@link DateFormatSymbols}.
 	 * <p>
 	 * @param pattern       the pattern {@link String} describing the date-time format
-	 * @param formatSymbols the {@link DateFormatSymbols} to be used for formatting
+	 * @param formatSymbols the {@link DateFormatSymbols} used for formatting
 	 * <p>
 	 * @exception NullPointerException     if {@code pattern} or {@code formatSymbols} is
 	 *                                     {@code null}

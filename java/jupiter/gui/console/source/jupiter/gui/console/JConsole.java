@@ -165,8 +165,8 @@ public class JConsole
 	 * Constructs a {@link JConsole} with the specified {@link InputStream} and
 	 * {@link OutputStream}.
 	 * <p>
-	 * @param inputStream  the {@link InputStream}
-	 * @param outputStream the {@link OutputStream}
+	 * @param inputStream  the {@link InputStream} to read from
+	 * @param outputStream the {@link OutputStream} to write to
 	 */
 	public JConsole(final InputStream inputStream, final OutputStream outputStream) {
 		super();

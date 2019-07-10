@@ -80,7 +80,7 @@ public class ExpressionHandler
 	 */
 	protected static volatile boolean PARALLELIZE = true;
 	/**
-	 * The {@link WorkQueue} for parsing the expressions.
+	 * The {@link WorkQueue} used for parsing the expressions.
 	 */
 	protected static volatile WorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>> WORK_QUEUE = null;
 

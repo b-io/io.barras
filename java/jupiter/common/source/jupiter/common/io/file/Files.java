@@ -77,7 +77,7 @@ public class Files {
 	 */
 	public static volatile boolean PARALLELIZE = false;
 	/**
-	 * The {@link WorkQueue} for copying the files (or directories).
+	 * The {@link WorkQueue} used for copying the files (or directories).
 	 */
 	protected static volatile WorkQueue<Triple<File, File, Boolean>, Boolean> COPIER_QUEUE = null;
 
