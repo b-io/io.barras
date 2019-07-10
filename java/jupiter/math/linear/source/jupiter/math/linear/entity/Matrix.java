@@ -1279,7 +1279,7 @@ public class Matrix
 	/**
 	 * Returns the sum of the elements.
 	 * <p>
-	 * @return the sum of the elements
+	 * @return {@code sum(sum(this))}
 	 */
 	@Override
 	public double sum() {
@@ -1290,6 +1290,38 @@ public class Matrix
 			}
 		}
 		return sum;
+	}
+
+	/**
+	 * Returns the sum of each row.
+	 * <p>
+	 * @return {@code sum(this')}
+	 */
+	@Override
+	public Entity sumByRow() {
+		final Vector result = new Vector(m);
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				result.elements[i] += elements[i * n + j];
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Returns the sum of each column.
+	 * <p>
+	 * @return {@code sum(this)}
+	 */
+	@Override
+	public Entity sumByColumn() {
+		final Vector result = new Vector(n, true);
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				result.elements[j] += elements[i * n + j];
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -1743,7 +1775,7 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] /= scalar;
+				result.elements[i * result.n + j] /= scalar + Maths.DEFAULT_TOLERANCE;
 			}
 		}
 		return result;
@@ -1794,7 +1826,8 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j] +
+						Maths.DEFAULT_TOLERANCE;
 			}
 		}
 		return result;
@@ -1814,7 +1847,7 @@ public class Matrix
 		if (scalar != 1.) {
 			for (int i = 0; i < m; ++i) {
 				for (int j = 0; j < n; ++j) {
-					elements[i * n + j] /= scalar;
+					elements[i * n + j] /= scalar + Maths.DEFAULT_TOLERANCE;
 				}
 			}
 		}
@@ -1844,7 +1877,8 @@ public class Matrix
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i * n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				elements[i * n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j] +
+						Maths.DEFAULT_TOLERANCE;
 			}
 		}
 		return this;

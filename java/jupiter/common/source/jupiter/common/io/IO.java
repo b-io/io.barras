@@ -71,7 +71,7 @@ public class IO
 	public static final int EXIT_FAILURE = 1;
 
 	/**
-	 * Represents the end-of-file (or stream).
+	 * The end-of-file (or stream).
 	 */
 	public static final int EOF = -1;
 

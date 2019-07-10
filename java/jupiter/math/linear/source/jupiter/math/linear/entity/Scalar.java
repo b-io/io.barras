@@ -287,11 +287,31 @@ public class Scalar
 	/**
 	 * Returns the sum of the elements.
 	 * <p>
-	 * @return the sum of the elements
+	 * @return {@code sum(sum(this))}
 	 */
 	@Override
 	public double sum() {
 		return value;
+	}
+
+	/**
+	 * Returns the sum of each row.
+	 * <p>
+	 * @return {@code sum(this')}
+	 */
+	@Override
+	public Entity sumByRow() {
+		return this;
+	}
+
+	/**
+	 * Returns the sum of each column.
+	 * <p>
+	 * @return {@code sum(this)}
+	 */
+	@Override
+	public Entity sumByColumn() {
+		return this;
 	}
 
 	/**

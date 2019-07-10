@@ -166,9 +166,23 @@ public abstract class Entity
 	/**
 	 * Returns the sum of the elements.
 	 * <p>
-	 * @return the sum of the elements
+	 * @return {@code sum(sum(this))}
 	 */
 	public abstract double sum();
+
+	/**
+	 * Returns the sum of each row.
+	 * <p>
+	 * @return {@code sum(this')}
+	 */
+	public abstract Entity sumByRow();
+
+	/**
+	 * Returns the sum of each column.
+	 * <p>
+	 * @return {@code sum(this)}
+	 */
+	public abstract Entity sumByColumn();
 
 	/**
 	 * Returns the transpose of {@code this}.

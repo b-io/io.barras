@@ -68,21 +68,7 @@ public abstract class OptimizationFunction
 	 * <p>
 	 * @return the optimized descent gradient {@link Matrix}
 	 */
-	public Entity optimize(final int layer, final Matrix gradient) {
-		return optimize(layer, gradient, Classifier.DEFAULT_TOLERANCE);
-	}
-
-	/**
-	 * Optimizes the specified descent gradient {@link Matrix} at the specified layer with the
-	 * specified tolerance level.
-	 * <p>
-	 * @param layer     the layer of the descent gradient {@link Matrix} to optimize
-	 * @param gradient  the descent gradient {@link Matrix} to optimize
-	 * @param tolerance the tolerance level
-	 * <p>
-	 * @return the optimized descent gradient {@link Matrix}
-	 */
-	public abstract Entity optimize(final int layer, final Matrix gradient, final double tolerance);
+	public abstract Entity optimize(final int layer, final Matrix gradient);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

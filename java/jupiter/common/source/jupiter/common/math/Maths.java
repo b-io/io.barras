@@ -130,6 +130,10 @@ public class Maths {
 		return Math.abs(a - b);
 	}
 
+	public static double division(final double a, final double b) {
+		return a / (b + DEFAULT_TOLERANCE);
+	}
+
 	public static double factorial(final double n) {
 		return roundToLong(n * gamma(n));
 	}
@@ -164,6 +168,10 @@ public class Maths {
 			i = t;
 		}
 		return i;
+	}
+
+	public static double inverse(final double x) {
+		return division(1., x);
 	}
 
 	/**

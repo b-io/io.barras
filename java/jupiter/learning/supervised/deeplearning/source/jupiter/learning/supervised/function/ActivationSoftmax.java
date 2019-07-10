@@ -71,7 +71,7 @@ public class ActivationSoftmax
 	@Override
 	public Entity apply(final Entity E) {
 		final Entity entity = E.apply(Functions.EXP);
-		return entity.divide(entity.sum());
+		return entity.arrayDivide(entity.sumByColumn().toMatrix());
 	}
 
 	/**

@@ -127,30 +127,30 @@ public class NeuralNetworkTest
 
 		// Test
 		try {
-			IO.test("A) Test the activation function TANH");
-			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
-						RegularizationFunctions.NONE, 0.75, 0.5, 0.25);
-			}
-			Tests.printTimes(times);
-
-			IO.test("B) Test the activation function RELU");
-			testExample("B", 200, 0.075, 1, 0, ActivationFunctions.RELU, new RegularizationL2(0.9),
-					0.75, 0.5, 0.25);
-
-			IO.test("C) Test the L2 regularization");
-			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("C", 100, 0.1, 2, 0, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
-			}
-			Tests.printTimes(times);
-
-			IO.test("D) Test the Adam optimization");
-			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
-			}
-			Tests.printTimes(times);
+//			IO.test("A) Test the activation function TANH");
+//			for (int t = 0; t < testCount; ++t) {
+//				times[t] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
+//						RegularizationFunctions.NONE, 0.75, 0.5, 0.25);
+//			}
+//			Tests.printTimes(times);
+//
+//			IO.test("B) Test the activation function RELU");
+//			testExample("B", 200, 0.075, 1, 0, ActivationFunctions.RELU, new RegularizationL2(0.9),
+//					0.75, 0.5, 0.25);
+//
+//			IO.test("C) Test the L2 regularization");
+//			for (int t = 0; t < testCount; ++t) {
+//				times[t] = testExample("C", 100, 0.1, 2, 0, ActivationFunctions.RELU,
+//						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
+//			}
+//			Tests.printTimes(times);
+//
+//			IO.test("D) Test the Adam optimization");
+//			for (int t = 0; t < testCount; ++t) {
+//				times[t] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
+//						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
+//			}
+//			Tests.printTimes(times);
 
 			IO.test("E) Test the last activation function SOFTMAX");
 			for (int t = 0; t < testCount; ++t) {

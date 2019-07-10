@@ -373,8 +373,8 @@ public class NeuralNetwork
 						.toMatrix(); // (nh x n) <- (nh x nh)... <- (k x nh)
 				Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (k x 1)
 				if (dwOptimizer != null && dbOptimizer != null) {
-					dW = dwOptimizer.optimize(l, dW, tolerance).toMatrix();
-					db = dbOptimizer.optimize(l, db, tolerance).toVector();
+					dW = dwOptimizer.optimize(l, dW).toMatrix();
+					db = dbOptimizer.optimize(l, db).toVector();
 				}
 
 				// - Update the weights and bias

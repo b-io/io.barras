@@ -210,14 +210,13 @@ public class OptimizationAdam
 	/**
 	 * Optimizes the specified descent gradient {@link Matrix} at the specified layer.
 	 * <p>
-	 * @param layer     the layer of the descent gradient {@link Matrix} to optimize
-	 * @param gradient  the descent gradient {@link Matrix} to optimize
-	 * @param tolerance the tolerance level
+	 * @param layer    the layer of the descent gradient {@link Matrix} to optimize
+	 * @param gradient the descent gradient {@link Matrix} to optimize
 	 * <p>
 	 * @return the optimized descent gradient {@link Matrix}
 	 */
 	@Override
-	public Entity optimize(final int layer, final Matrix gradient, final double tolerance) {
+	public Entity optimize(final int layer, final Matrix gradient) {
 		// Compute the momentum exponentially weighted average
 		V[layer].multiply(beta1).add(gradient.times(1. - beta1));
 		// Compute the RMSprop
@@ -225,7 +224,7 @@ public class OptimizationAdam
 		// Update the weights and bias
 		return V[layer].division(1. - Math.pow(beta1, t)) // bias correction
 				.arrayDivide(S[layer].division(1. - Math.pow(beta2, t)) // bias correction
-						.apply(Functions.ROOT).add(tolerance).toMatrix());
+						.apply(Functions.ROOT).toMatrix());
 	}
 
 

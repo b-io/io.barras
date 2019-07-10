@@ -424,7 +424,7 @@ public abstract class Classifier
 		// Compute A Y' / (A Y' + A (1 - Y'))
 		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
 		final double falsePositive = A.diagonalTimes(Scalar.ONE.minus(YT)).sum(); // A (1 - Y')
-		return truePositive / (truePositive + falsePositive);
+		return Maths.division(truePositive, truePositive + falsePositive);
 	}
 
 	/**
@@ -438,7 +438,7 @@ public abstract class Classifier
 		// Compute A Y' / (A Y' + (1 - A) Y')
 		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
 		final double falseNegative = Scalar.ONE.minus(A).diagonalTimes(YT).sum(); // (1 - A) Y'
-		return truePositive / (truePositive + falseNegative);
+		return Maths.division(truePositive, truePositive + falseNegative);
 	}
 
 	/**
@@ -450,7 +450,7 @@ public abstract class Classifier
 		// Compute 2. / ((1. / precision) + (1. / recall))
 		final double precision = computePrecision(); // A Y' / (A Y' + A (1 - Y'))
 		final double recall = computeRecall(); // A Y' / (A Y' + (1 - A) Y')
-		return 2. / (1. / precision + 1. / recall);
+		return 2. / (Maths.inverse(precision) + Maths.inverse(recall));
 	}
 
 
