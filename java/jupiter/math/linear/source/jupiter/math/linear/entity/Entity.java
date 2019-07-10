@@ -368,6 +368,17 @@ public abstract class Entity
 	public abstract Entity times(final Matrix matrix);
 
 	/**
+	 * Returns the diagonal of the multiplication of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code diag(this * matrix)}
+	 * <p>
+	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
+	 */
+	public abstract Entity diagonalTimes(final Matrix matrix);
+
+	/**
 	 * Returns the element-by-element multiplication of {@code this} by the specified
 	 * {@link Matrix}.
 	 * <p>

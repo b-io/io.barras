@@ -23,15 +23,17 @@
  */
 package jupiter.learning.supervised.function;
 
+import jupiter.learning.supervised.Classifier;
 import jupiter.math.analysis.function.Functions;
-import jupiter.math.linear.entity.Matrix;
+import jupiter.math.linear.entity.Entity;
+import jupiter.math.linear.entity.Scalar;
 
 /**
- * {@link RegularizationL2} is the {@link RegularizationFunction} adding an L2 penalty equal to the
- * sum of the squares of all the weights.
+ * {@link ActivationSoftmax} is the softmax {@link OutputActivationFunction} with multiple
+ * non-negative return values summing up to 0.
  */
-public class RegularizationL2
-		extends RegularizationFunction {
+public class ActivationSoftmax
+		extends OutputActivationFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -48,19 +50,10 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RegularizationL2}.
+	 * Constructs an {@link ActivationSoftmax}.
 	 */
-	protected RegularizationL2() {
-		this(0.1);
-	}
-
-	/**
-	 * Constructs a {@link RegularizationL2} with the specified hyper-parameter λ.
-	 * <p>
-	 * @param lambda the hyper-parameter λ
-	 */
-	public RegularizationL2(final double lambda) {
-		super(lambda);
+	protected ActivationSoftmax() {
+		super();
 	}
 
 
@@ -69,34 +62,46 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Computes the regularization cost.
+	 * Applies the softmax to the specified {@link Entity} and returns the resulting {@link Entity}.
 	 * <p>
-	 * @param m       the number of training examples
-	 * @param weights the array of weight {@link Matrix}
+	 * @param E an {@link Entity}
 	 * <p>
-	 * @return {@code λ Σ(W .* W) / (2. * m)}
+	 * @return {@code exp(E) / Σ(exp(E))}
 	 */
 	@Override
-	public double computeCost(final int m, final Matrix[] weights) {
-		double sum = 0.;
-		for (final Matrix W : weights) {
-			sum += W.apply(Functions.SQUARE).sum();
-		}
-		return lambda * sum / (2. * m);
+	public Entity apply(final Entity E) {
+		final Entity entity = E.apply(Functions.EXP);
+		return entity.divide(entity.sum());
 	}
 
 	/**
-	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
-	 * and returns the resulting {@link Matrix}.
+	 * Applies the derivative of the softmax to the specified {@link Entity} and returns the
+	 * resulting {@link Entity}.
 	 * <p>
-	 * @param m the number of training examples
-	 * @param W the weight {@link Matrix}
+	 * @param E an {@link Entity}
 	 * <p>
-	 * @return  {@code λ W / m}
+	 * @return {@code E (1 - E)}
 	 */
 	@Override
-	public Matrix derive(final int m, final Matrix W) {
-		return W.times(lambda / m);
+	public Entity derive(final Entity E) {
+		return E.times(Scalar.ONE.minus(E));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Computes the cost of {@code A}.
+	 * <p>
+	 * @param classifier a {@link Classifier}
+	 * @param A          an {@link Entity}
+	 * <p>
+	 * @return {@code log(A) Y'}
+	 */
+	@Override
+	public double computeCost(final Classifier classifier, final Entity A) {
+		return -A.apply(Functions.LOG)
+				.diagonalTimes(classifier.getTransposedClasses())
+				.sum() / classifier.getTrainingExampleCount();
 	}
 
 
@@ -112,7 +117,7 @@ public class RegularizationL2
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public RegularizationL2 clone() {
-		return (RegularizationL2) super.clone();
+	public ActivationSoftmax clone() {
+		return (ActivationSoftmax) super.clone();
 	}
 }

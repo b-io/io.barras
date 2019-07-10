@@ -466,6 +466,20 @@ public class Scalar
 	}
 
 	/**
+	 * Returns the diagonal of the multiplication of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code diag(this * matrix)}
+	 * <p>
+	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
+	 */
+	@Override
+	public Entity diagonalTimes(final Matrix matrix) {
+		return matrix.diagonalTimes(matrix);
+	}
+
+	/**
 	 * Returns the element-by-element multiplication of {@code this} by the specified
 	 * {@link Matrix}.
 	 * <p>

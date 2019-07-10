@@ -29,10 +29,10 @@ import java.io.IOException;
 
 import jupiter.common.test.Test;
 
-public class BinaryClassifierTest
+public class ClassifierTest
 		extends Test {
 
-	public BinaryClassifierTest(final String name) {
+	public ClassifierTest(final String name) {
 		super(name);
 	}
 
@@ -43,10 +43,10 @@ public class BinaryClassifierTest
 	 */
 	public void test()
 			throws IOException {
-		IO.test("BinaryClassifier");
+		IO.test("Classifier");
 
 		// Initialize
-		final BinaryClassifier model = new LogisticRegression("test/resources/A/X.csv",
+		final Classifier model = new LogisticRegression("test/resources/A/X.csv",
 				"test/resources/A/Y.csv");
 
 		// Test the construction

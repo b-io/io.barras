@@ -88,25 +88,12 @@ public class ActivationReLU
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the ReLU function to the specified {@code double} value and returns the resulting
-	 * {@code double} value.
-	 * <p>
-	 * @param x a {@code double} value
-	 * <p>
-	 * @return the resulting {@code double} value
-	 */
-	@Override
-	public double apply(final double x) {
-		return max.apply(x);
-	}
-
-	/**
 	 * Applies the ReLU function to the specified {@link Entity} and returns the resulting
 	 * {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the resulting {@link Entity}
+	 * @return {@code max(E)}
 	 */
 	@Override
 	public Entity apply(final Entity E) {
@@ -119,7 +106,7 @@ public class ActivationReLU
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the resulting {@link Entity}
+	 * @return {@code filter(E)}
 	 */
 	@Override
 	public Entity derive(final Entity E) {

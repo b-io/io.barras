@@ -62,25 +62,12 @@ public class ActivationHyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the {@link HyperbolicTangent} to the specified {@code double} value and returns the
-	 * resulting {@code double} value.
-	 * <p>
-	 * @param x a {@code double} value
-	 * <p>
-	 * @return the resulting {@code double} value
-	 */
-	@Override
-	public double apply(final double x) {
-		return Functions.TANH.apply(x);
-	}
-
-	/**
 	 * Applies the {@link HyperbolicTangent} to the specified {@link Entity} and returns the
 	 * resulting {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the resulting {@link Entity}
+	 * @return {@code tanh(E)}
 	 */
 	@Override
 	public Entity apply(final Entity E) {
@@ -93,7 +80,7 @@ public class ActivationHyperbolicTangent
 	 * <p>
 	 * @param E an array of {@link Entity}
 	 * <p>
-	 * @return the resulting {@link Entity}
+	 * @return {@code 1 - E .* E}
 	 */
 	@Override
 	public Entity derive(final Entity E) {

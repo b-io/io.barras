@@ -38,12 +38,12 @@ import jupiter.math.linear.entity.Scalar;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * {@link LogisticRegression} is the {@link BinaryClassifier} using the logistic model to estimate
+ * {@link LogisticRegression} is the {@link Classifier} using the logistic model to estimate
  * the probability of a binary response based on one or more predictor (or independent) variables
  * (features).
  */
 public class LogisticRegression
-		extends BinaryClassifier {
+		extends Classifier {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -82,7 +82,7 @@ public class LogisticRegression
 	/**
 	 * Constructs a {@link LogisticRegression}.
 	 * <p>
-	 * @param featureCount the number of features
+	 * @param featureCount the number of features n
 	 */
 	public LogisticRegression(final int featureCount) {
 		super(featureCount);
@@ -159,7 +159,7 @@ public class LogisticRegression
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate                     the learning rate
+	 * @param learningRate                     the learning rate α
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
 	 * @param tolerance                        the tolerance level

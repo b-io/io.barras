@@ -107,9 +107,9 @@ public class NeuralNetworkTest
 					chrono.getMilliseconds(), " [ms]");
 
 			// Test
-			assertEquals(1., accuracy, BinaryClassifier.DEFAULT_TOLERANCE);
-			assertEquals(1., f1Score, BinaryClassifier.DEFAULT_TOLERANCE);
-			assertEquals(2.11368793E-5, cost, BinaryClassifier.DEFAULT_TOLERANCE);
+			assertEquals(1., accuracy, Classifier.DEFAULT_TOLERANCE);
+			assertEquals(1., f1Score, Classifier.DEFAULT_TOLERANCE);
+			assertEquals(2.11368793E-5, cost, Classifier.DEFAULT_TOLERANCE);
 		}
 		Tests.printTimes(times);
 	}
@@ -148,6 +148,13 @@ public class NeuralNetworkTest
 			IO.test("D) Test the Adam optimization");
 			for (int t = 0; t < testCount; ++t) {
 				times[t] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
+						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
+			}
+			Tests.printTimes(times);
+
+			IO.test("E) Test the last activation function SOFTMAX");
+			for (int t = 0; t < testCount; ++t) {
+				times[t] = testExample("E", 1000, 0.9, 1, 4, ActivationFunctions.RELU,
 						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
@@ -204,7 +211,7 @@ public class NeuralNetworkTest
 		chrono.start();
 		final int iterationCount = model.train(learningRate,
 				firstMomentExponentialDecayRate, secondMomentExponentialDecayRate,
-				BinaryClassifier.DEFAULT_TOLERANCE,
+				Classifier.DEFAULT_TOLERANCE,
 				maxIterationCount, hiddenLayerCount, hiddenLayerSize);
 		chrono.stop();
 

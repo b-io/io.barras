@@ -32,6 +32,7 @@ public abstract class ActivationFunctions {
 	public static final ActivationHyperbolicTangent TANH = new ActivationHyperbolicTangent();
 	public static final ActivationReLU RELU = new ActivationReLU();
 	public static final ActivationSigmoid SIGMOID = new ActivationSigmoid();
+	public static final ActivationSoftmax SOFTMAX = new ActivationSoftmax();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

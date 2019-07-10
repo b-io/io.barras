@@ -35,14 +35,15 @@ import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
+import jupiter.learning.supervised.function.ActivationFunctions;
+import jupiter.learning.supervised.function.OutputActivationFunction;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
-import jupiter.math.linear.entity.Vector;
 
-public abstract class BinaryClassifier
-		implements ICloneable<BinaryClassifier>, Serializable {
+public abstract class Classifier
+		implements ICloneable<Classifier>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -93,6 +94,10 @@ public abstract class BinaryClassifier
 	 */
 	protected int featureCount;
 	/**
+	 * The number of classes k.
+	 */
+	protected int classCount;
+	/**
 	 * The number of training examples m.
 	 */
 	protected int trainingExampleCount;
@@ -102,10 +107,14 @@ public abstract class BinaryClassifier
 	 */
 	protected Matrix X; // (n x m)
 	/**
-	 * The {@link Vector} Y containing the classes.
+	 * The {@link Matrix} Y containing the classes.
 	 */
-	protected Vector Y, YT; // (1 x m), (m x 1)
+	protected Matrix Y, YT; // (k x m), (m x k)
 
+	/**
+	 * The {@link OutputActivationFunction} h for the output layer.
+	 */
+	protected OutputActivationFunction outputActivationFunction;
 	/**
 	 * The cost.
 	 */
@@ -117,17 +126,34 @@ public abstract class BinaryClassifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link BinaryClassifier}.
+	 * Constructs a {@link Classifier} with the specified number of features n.
 	 * <p>
-	 * @param featureCount the number of features
+	 * @param featureCount the number of features n
 	 */
-	protected BinaryClassifier(final int featureCount) {
-		this.featureCount = featureCount;
-		trainingExampleCount = 0;
+	protected Classifier(final int featureCount) {
+		this(featureCount, 1);
 	}
 
 	/**
-	 * Constructs a {@link BinaryClassifier} loaded from the specified files containing the training
+	 * Constructs a {@link Classifier} with the specified number of features n and number of classes
+	 * k.
+	 * <p>
+	 * @param featureCount the number of features n
+	 * @param classCount   the number of classes k
+	 */
+	protected Classifier(final int featureCount, final int classCount) {
+		this.featureCount = featureCount;
+		this.classCount = classCount;
+		trainingExampleCount = 0;
+		if (classCount == 1) {
+			outputActivationFunction = ActivationFunctions.SIGMOID;
+		} else {
+			outputActivationFunction = ActivationFunctions.SOFTMAX;
+		}
+	}
+
+	/**
+	 * Constructs a {@link Classifier} loaded from the specified files containing the training
 	 * examples (feature vectors and classes).
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
@@ -136,13 +162,13 @@ public abstract class BinaryClassifier
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
-	protected BinaryClassifier(final String featureVectorsPath, final String classesPath)
+	protected Classifier(final String featureVectorsPath, final String classesPath)
 			throws IOException {
 		load(featureVectorsPath, classesPath);
 	}
 
 	/**
-	 * Constructs a {@link BinaryClassifier} loaded from the specified files containing the training
+	 * Constructs a {@link Classifier} loaded from the specified files containing the training
 	 * examples (feature vectors and classes) and flag specifying whether to transpose the feature
 	 * vectors and classes.
 	 * <p>
@@ -154,7 +180,7 @@ public abstract class BinaryClassifier
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified files
 	 */
-	protected BinaryClassifier(final String featureVectorsPath, final String classesPath,
+	protected Classifier(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
 			throws IOException {
 		load(featureVectorsPath, classesPath, transpose);
@@ -166,6 +192,35 @@ public abstract class BinaryClassifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The number of feature vectors n.
+	 * <p>
+	 * @return the number of feature vectors n
+	 */
+	public synchronized int getFeatureCount() {
+		return featureCount;
+	}
+
+	/**
+	 * The number of classes k.
+	 * <p>
+	 * @return the number of classes k
+	 */
+	public synchronized int getClassCount() {
+		return classCount;
+	}
+
+	/**
+	 * The number of training examples m.
+	 * <p>
+	 * @return the number of training examples m
+	 */
+	public synchronized int getTrainingExampleCount() {
+		return trainingExampleCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * The {@link Matrix} X containing the feature vectors.
 	 * <p>
 	 * @return the {@link Matrix} X containing the feature vectors
@@ -175,12 +230,21 @@ public abstract class BinaryClassifier
 	}
 
 	/**
-	 * The {@link Vector} Y containing the classes.
+	 * The {@link Matrix} Y containing the classes.
 	 * <p>
-	 * @return the {@link Vector} Y containing the classes
+	 * @return the {@link Matrix} Y containing the classes
 	 */
-	public synchronized Vector getClasses() {
+	public synchronized Matrix getClasses() {
 		return Y;
+	}
+
+	/**
+	 * The transposed {@link Matrix} Y containing the classes.
+	 * <p>
+	 * @return the transposed {@link Matrix} Y containing the classes
+	 */
+	public synchronized Matrix getTransposedClasses() {
+		return YT;
 	}
 
 
@@ -189,21 +253,27 @@ public abstract class BinaryClassifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public synchronized void setFeatureVectors(final Matrix featureVectors) {
-		// Check the arguments
-		Arguments.require(featureVectors.getRowDimension(), featureCount);
-
 		// Set the feature vectors
 		X = featureVectors;
+		featureCount = X.getRowDimension();
 		trainingExampleCount = featureVectors.getColumnDimension();
 	}
 
-	public synchronized void setClasses(final Vector classes) {
+	public synchronized void setClasses(final Matrix classes) {
 		// Check the arguments
 		Arguments.require(classes.getColumnDimension(), trainingExampleCount);
 
 		// Set the classes
 		Y = classes;
 		YT = classes.transpose();
+		classCount = Y.getRowDimension();
+
+		// Set the activation function for the output layer
+		if (classCount == 1) {
+			outputActivationFunction = ActivationFunctions.SIGMOID;
+		} else {
+			outputActivationFunction = ActivationFunctions.SOFTMAX;
+		}
 	}
 
 
@@ -223,7 +293,7 @@ public abstract class BinaryClassifier
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate      the learning rate
+	 * @param learningRate      the learning rate α
 	 * @param tolerance         the tolerance level
 	 * @param maxIterationCount the maximum number of iterations
 	 * <p>
@@ -238,7 +308,7 @@ public abstract class BinaryClassifier
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate                     the learning rate
+	 * @param learningRate                     the learning rate α
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
 	 * @param tolerance                        the tolerance level
@@ -251,6 +321,8 @@ public abstract class BinaryClassifier
 			final double secondMomentExponentialDecayRate,
 			final double tolerance,
 			final int maxIterationCount);
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Computes the cost.
@@ -267,13 +339,10 @@ public abstract class BinaryClassifier
 	 * @return the cost of {@code A}
 	 */
 	public synchronized double computeCost(final Entity A) {
-		// Compute -(log(A) Y' + log(1 - A) (1 - Y')) / m
-		return -A.apply(Functions.LOG)
-				.times(YT)
-				.add(Scalar.ONE.minus(A).apply(Functions.LOG).times(Scalar.ONE.minus(YT)))
-				.toScalar()
-				.get() / trainingExampleCount;
+		return outputActivationFunction.computeCost(this, A);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the tolerance level is reached.
@@ -307,11 +376,13 @@ public abstract class BinaryClassifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the estimated probability of the binary response for all feature vector in {@code X}.
+	 * Returns the estimated probability of the binary (logistic) or multinary (softmax) response
+	 * for all feature vector in {@code X}.
 	 * <p>
 	 * @param X the feature vectors of size (n x m)
 	 * <p>
-	 * @return the estimated probability of the binary response for all feature vector in {@code X}
+	 * @return the estimated probability of the binary (logistic) or multinary (softmax) response
+	 *         for all feature vector in {@code X}
 	 */
 	public abstract Entity estimate(final Entity X);
 
@@ -323,7 +394,7 @@ public abstract class BinaryClassifier
 	 * @return the estimated class
 	 */
 	public synchronized Entity classify(final Entity example) {
-		return estimate(example).apply(Functions.ROUND); // (1 x m)
+		return estimate(example).apply(Functions.ROUND); // (k x m)
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -335,10 +406,10 @@ public abstract class BinaryClassifier
 	 */
 	public synchronized double computeAccuracy() {
 		// Classify X
-		final Entity A = classify(X); // (1 x m)
+		final Entity A = classify(X); // (k x m)
 		// Compute (A Y' + (1 - A) (1 - Y')) / m
-		final double truePositive = A.times(YT).toScalar().get(); // A Y'
-		final double trueNegative = Scalar.ONE.minus(A).times(Scalar.ONE.minus(YT)).toScalar().get(); // (1 - A) (1 - Y')
+		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
+		final double trueNegative = Scalar.ONE.minus(A).diagonalTimes(Scalar.ONE.minus(YT)).sum(); // (1 - A) (1 - Y')
 		return (truePositive + trueNegative) / trainingExampleCount;
 	}
 
@@ -349,10 +420,10 @@ public abstract class BinaryClassifier
 	 */
 	public synchronized double computePrecision() {
 		// Classify X
-		final Entity A = classify(X); // (1 x m)
+		final Entity A = classify(X); // (k x m)
 		// Compute A Y' / (A Y' + A (1 - Y'))
-		final double truePositive = A.times(YT).toScalar().get(); // A Y'
-		final double falsePositive = A.times(Scalar.ONE.minus(YT)).toScalar().get(); // A (1 - Y')
+		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
+		final double falsePositive = A.diagonalTimes(Scalar.ONE.minus(YT)).sum(); // A (1 - Y')
 		return truePositive / (truePositive + falsePositive);
 	}
 
@@ -363,10 +434,10 @@ public abstract class BinaryClassifier
 	 */
 	public synchronized double computeRecall() {
 		// Classify X
-		final Entity A = classify(X); // (1 x m)
+		final Entity A = classify(X); // (k x m)
 		// Compute A Y' / (A Y' + (1 - A) Y')
-		final double truePositive = A.times(YT).toScalar().get(); // A Y'
-		final double falseNegative = Scalar.ONE.minus(A).times(YT).toScalar().get(); // (1 - A) Y'
+		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
+		final double falseNegative = Scalar.ONE.minus(A).diagonalTimes(YT).sum(); // (1 - A) Y'
 		return truePositive / (truePositive + falseNegative);
 	}
 
@@ -398,12 +469,11 @@ public abstract class BinaryClassifier
 	 */
 	public void load(final String featureVectorsPath, final String classesPath)
 			throws IOException {
-		X = Matrix.create(featureVectorsPath);
-		featureCount = X.getRowDimension();
-		trainingExampleCount = X.getColumnDimension();
-		Y = Matrix.create(classesPath).toVector();
-		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
-		YT = Y.transpose();
+		// Load the feature vectors
+		setFeatureVectors(Matrix.create(featureVectorsPath));
+
+		// Load the classes
+		setClasses(Matrix.create(classesPath));
 	}
 
 	/**
@@ -421,12 +491,11 @@ public abstract class BinaryClassifier
 	public void load(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
 			throws IOException {
-		X = Matrix.create(featureVectorsPath, transpose);
-		featureCount = X.getRowDimension();
-		trainingExampleCount = X.getColumnDimension();
-		Y = Matrix.create(classesPath, transpose).toVector();
-		Arguments.requireEquals(Y.getColumnDimension(), trainingExampleCount);
-		YT = Y.transpose();
+		// Load the feature vectors
+		setFeatureVectors(Matrix.create(featureVectorsPath));
+
+		// Load the classes
+		setClasses(Matrix.create(classesPath));
 	}
 
 
@@ -442,9 +511,9 @@ public abstract class BinaryClassifier
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public BinaryClassifier clone() {
+	public Classifier clone() {
 		try {
-			final BinaryClassifier clone = (BinaryClassifier) super.clone();
+			final Classifier clone = (Classifier) super.clone();
 			clone.X = Objects.clone(X);
 			clone.Y = Objects.clone(Y);
 			clone.YT = Objects.clone(YT);

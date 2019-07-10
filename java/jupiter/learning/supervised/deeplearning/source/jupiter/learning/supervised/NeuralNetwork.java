@@ -36,18 +36,17 @@ import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.learning.supervised.function.OptimizationAdam;
 import jupiter.learning.supervised.function.RegularizationFunction;
 import jupiter.learning.supervised.function.RegularizationFunctions;
-import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * {@link NeuralNetwork} is the {@link BinaryClassifier} using a neural network to estimate the
- * probability of a binary response based on one or more predictor (or independent) variables
- * (features).
+ * {@link NeuralNetwork} is the {@link Classifier} using a neural network to estimate the
+ * probability of a binary (logistic) or multinary (softmax) response based on one or more predictor
+ * (or independent) variables (features).
  */
 public class NeuralNetwork
-		extends BinaryClassifier {
+		extends Classifier {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -66,19 +65,19 @@ public class NeuralNetwork
 	/**
 	 * The array of {@link Matrix} W containing the weights.
 	 */
-	protected Matrix[] W; // n -> nh... -> 1: (nh x n) -> (nh x nh)... -> (1 x nh)
+	protected Matrix[] W; // n -> nh... -> 1: (nh x n) -> (nh x nh)... -> (k x nh)
 	/**
 	 * The array of {@link Vector} b containing the bias.
 	 */
-	protected Vector[] b; // n -> nh... -> 1: (nh x 1) -> (nh x 1)... -> (1 x 1)
+	protected Vector[] b; // n -> nh... -> 1: (nh x 1) -> (nh x 1)... -> (k x 1)
 	/**
 	 * The array of {@link Matrix} A containing the feature vectors, hidden vectors and Y estimates
 	 * (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])).
 	 */
-	protected Entity[] A; // n -> nh... -> 1: (n x m) -> (nh x m)... -> (1 x m)
+	protected Entity[] A; // n -> nh... -> 1: (n x m) -> (nh x m)... -> (k x m)
 
 	/**
-	 * The {@link ActivationFunction} g.
+	 * The {@link ActivationFunction} g for all the hidden layers.
 	 */
 	protected ActivationFunction activationFunction;
 	/**
@@ -94,7 +93,7 @@ public class NeuralNetwork
 	/**
 	 * Constructs a {@link NeuralNetwork}.
 	 * <p>
-	 * @param featureCount the number of features
+	 * @param featureCount the number of features n
 	 */
 	public NeuralNetwork(final int featureCount) {
 		super(featureCount);
@@ -211,7 +210,7 @@ public class NeuralNetwork
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate                     the learning rate
+	 * @param learningRate                     the learning rate α
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
 	 * @param tolerance                        the tolerance level
@@ -242,7 +241,7 @@ public class NeuralNetwork
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate      the learning rate
+	 * @param learningRate      the learning rate α
 	 * @param tolerance         the tolerance level
 	 * @param maxIterationCount the maximum number of iterations
 	 * @param hiddenLayerCount  the number of hidden layers
@@ -263,7 +262,7 @@ public class NeuralNetwork
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate                     the learning rate
+	 * @param learningRate                     the learning rate α
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
 	 * @param tolerance                        the tolerance level
@@ -302,9 +301,9 @@ public class NeuralNetwork
 						.subtract(0.5)
 						.multiply(scalingFactor); // (nh x nh)
 			}
-			W[layerCount - 1] = Matrix.random(1, hiddenLayerSize)
+			W[layerCount - 1] = Matrix.random(classCount, hiddenLayerSize)
 					.subtract(0.5)
-					.multiply(scalingFactor); // (1 x nh)
+					.multiply(scalingFactor); // (k x nh)
 		}
 		// - The bias vectors
 		if (b == null) {
@@ -312,7 +311,7 @@ public class NeuralNetwork
 			for (int l = 0; l < layerCount - 1; ++l) {
 				b[l] = new Vector(W[l].getRowDimension()); // (nh x 1)
 			}
-			b[layerCount - 1] = new Vector(1); // (1 x 1)
+			b[layerCount - 1] = new Vector(classCount); // (k x 1)
 		}
 		// - The feature and hidden vectors
 		A = new Matrix[layerCount + 1];
@@ -344,10 +343,10 @@ public class NeuralNetwork
 			// Perform the forward propagation step (n -> nh... -> 1)
 			for (int l = 0; l < layerCount - 1; ++l) {
 				// - Compute A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])
-				A[l + 1] = computeForward(l).apply(activationFunction); // (nh x m)
+				A[l + 1] = activationFunction.apply(computeForward(l)); // (nh x m)
 			}
-			// - Compute A[L + 1] = sigmoid(Z[L + 1]) = sigmoid(W[L] A[L] + b[L])
-			A[layerCount] = computeForward(layerCount - 1).apply(Functions.SIGMOID); // (1 x m)
+			// - Compute A[L + 1] = h(Z[L + 1]) = h(W[L] A[L] + b[L])
+			A[layerCount] = outputActivationFunction.apply(computeForward(layerCount - 1)); // (k x m)
 
 			// Test whether the tolerance level is reached
 			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
@@ -359,7 +358,7 @@ public class NeuralNetwork
 			for (int l = layerCount - 1; l >= 0; --l) {
 				// - Compute the derivative with respect to Z
 				if (l == layerCount - 1) {
-					dZ = A[l + 1].minus(Y); // (1 x m)
+					dZ = A[l + 1].minus(Y); // (k x m)
 				} else {
 					dZ = dA.arrayMultiply(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
 				}
@@ -371,16 +370,16 @@ public class NeuralNetwork
 						.transpose()
 						.divide(trainingExampleCount)
 						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
-						.toMatrix(); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (1 x 1)
+						.toMatrix(); // (nh x n) <- (nh x nh)... <- (k x nh)
+				Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (k x 1)
 				if (dwOptimizer != null && dbOptimizer != null) {
 					dW = dwOptimizer.optimize(l, dW, tolerance).toMatrix();
 					db = dbOptimizer.optimize(l, db, tolerance).toVector();
 				}
 
 				// - Update the weights and bias
-				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (1 x 1)
+				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (k x nh)
+				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (k x 1)
 			}
 		}
 		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", cost, " cost");
@@ -410,7 +409,7 @@ public class NeuralNetwork
 	 */
 	protected Entity computeForward(final int layer, final Entity A) {
 		return W[layer].forward(A, b[layer]); // n -> nh... -> 1: (nh x n) (n x m) + (nh x 1) ->
-		// (nh x nh) (nh x m) + (nh x 1)... -> (1 x nh) (nh x m) + (1 x 1)
+		// (nh x nh) (nh x m) + (nh x 1)... -> (k x nh) (nh x m) + (k x 1)
 	}
 
 	/**
@@ -430,24 +429,26 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the estimated probability of the binary response for all feature vector in {@code X}.
+	 * Returns the estimated probability of the binary (logistic) or multinary (softmax) response
+	 * for all feature vector in {@code X}.
 	 * <p>
 	 * @param X the feature vectors of size (n x m)
 	 * <p>
-	 * @return the estimated probability of the binary response for all feature vector in {@code X}
+	 * @return the estimated probability of the binary (logistic) or multinary (softmax) response
+	 *         for all feature vector in {@code X}
 	 */
 	@Override
 	public synchronized Entity estimate(final Entity X) {
 		// Check the arguments
 		Arguments.requireEquals(W.length, b.length);
 
-		// Estimate the binary response
+		// Estimate the binary (logistic) or multinary (softmax) response
 		final int layerCount = W.length; // or b.length
 		Entity estimate = X; // (n x m)
 		for (int l = 0; l < layerCount - 1; ++l) {
-			estimate = computeForward(l, estimate).apply(activationFunction); // (nh x m)
+			estimate = activationFunction.apply(computeForward(l, estimate)); // (nh x m)
 		}
-		return computeForward(layerCount - 1, estimate).apply(Functions.SIGMOID); // (1 x m)
+		return outputActivationFunction.apply(computeForward(layerCount - 1, estimate)); // (k x m)
 	}
 
 

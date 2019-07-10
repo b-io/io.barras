@@ -48,7 +48,7 @@ public abstract class RegularizationFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The hyper-parameter lambda.
+	 * The hyper-parameter λ.
 	 */
 	protected final double lambda;
 
@@ -58,9 +58,9 @@ public abstract class RegularizationFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RegularizationFunction} with the specified hyper-parameter lambda.
+	 * Constructs a {@link RegularizationFunction} with the specified hyper-parameter λ.
 	 * <p>
-	 * @param lambda the hyper-parameter lambda
+	 * @param lambda the hyper-parameter λ
 	 */
 	protected RegularizationFunction(final double lambda) {
 		super();

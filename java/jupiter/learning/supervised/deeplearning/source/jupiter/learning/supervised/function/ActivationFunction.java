@@ -23,11 +23,13 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Function;
+import java.io.Serializable;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
 import jupiter.math.linear.entity.Entity;
 
 public abstract class ActivationFunction
-		extends Function {
+		implements ICloneable<ActivationFunction>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -89,6 +91,10 @@ public abstract class ActivationFunction
 	 */
 	@Override
 	public ActivationFunction clone() {
-		return (ActivationFunction) super.clone();
+		try {
+			return (ActivationFunction) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new RuntimeException(Strings.toString(ex), ex);
+		}
 	}
 }

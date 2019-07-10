@@ -64,7 +64,7 @@ public class RegularizationNone
 	 * @param m       the number of training examples
 	 * @param weights the array of weight {@link Matrix}
 	 * <p>
-	 * @return the regularization cost
+	 * @return {@code 0.}
 	 */
 	@Override
 	public double computeCost(final int m, final Matrix[] weights) {
@@ -78,7 +78,7 @@ public class RegularizationNone
 	 * @param m the number of training examples
 	 * @param W the weight {@link Matrix}
 	 * <p>
-	 * @return the resulting {@link Scalar}
+	 * @return {@code 0.}
 	 */
 	@Override
 	public Scalar derive(final int m, final Matrix W) {

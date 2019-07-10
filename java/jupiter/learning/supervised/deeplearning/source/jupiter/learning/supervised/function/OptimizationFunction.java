@@ -27,7 +27,7 @@ import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
-import jupiter.learning.supervised.BinaryClassifier;
+import jupiter.learning.supervised.Classifier;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
@@ -69,7 +69,7 @@ public abstract class OptimizationFunction
 	 * @return the optimized descent gradient {@link Matrix}
 	 */
 	public Entity optimize(final int layer, final Matrix gradient) {
-		return optimize(layer, gradient, BinaryClassifier.DEFAULT_TOLERANCE);
+		return optimize(layer, gradient, Classifier.DEFAULT_TOLERANCE);
 	}
 
 	/**

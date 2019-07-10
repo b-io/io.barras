@@ -21,17 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.learning.supervised.function;
+package jupiter.math.analysis.function;
 
-import jupiter.math.analysis.function.Functions;
-import jupiter.math.linear.entity.Matrix;
-
-/**
- * {@link RegularizationL2} is the {@link RegularizationFunction} adding an L2 penalty equal to the
- * sum of the squares of all the weights.
- */
-public class RegularizationL2
-		extends RegularizationFunction {
+public class Exponential
+		extends Function {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -48,19 +41,10 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RegularizationL2}.
+	 * Constructs an {@link Exponential}.
 	 */
-	protected RegularizationL2() {
-		this(0.1);
-	}
-
-	/**
-	 * Constructs a {@link RegularizationL2} with the specified hyper-parameter λ.
-	 * <p>
-	 * @param lambda the hyper-parameter λ
-	 */
-	public RegularizationL2(final double lambda) {
-		super(lambda);
+	protected Exponential() {
+		super();
 	}
 
 
@@ -69,34 +53,16 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Computes the regularization cost.
+	 * Applies the logarithm function to the specified {@code double} value and returns the
+	 * resulting {@code double} value.
 	 * <p>
-	 * @param m       the number of training examples
-	 * @param weights the array of weight {@link Matrix}
+	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code λ Σ(W .* W) / (2. * m)}
+	 * @return {@code exp(x)}
 	 */
 	@Override
-	public double computeCost(final int m, final Matrix[] weights) {
-		double sum = 0.;
-		for (final Matrix W : weights) {
-			sum += W.apply(Functions.SQUARE).sum();
-		}
-		return lambda * sum / (2. * m);
-	}
-
-	/**
-	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
-	 * and returns the resulting {@link Matrix}.
-	 * <p>
-	 * @param m the number of training examples
-	 * @param W the weight {@link Matrix}
-	 * <p>
-	 * @return  {@code λ W / m}
-	 */
-	@Override
-	public Matrix derive(final int m, final Matrix W) {
-		return W.times(lambda / m);
+	public double apply(final double x) {
+		return Math.exp(x);
 	}
 
 
@@ -112,7 +78,7 @@ public class RegularizationL2
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public RegularizationL2 clone() {
-		return (RegularizationL2) super.clone();
+	public Exponential clone() {
+		return (Exponential) super.clone();
 	}
 }

@@ -1605,6 +1605,50 @@ public class Matrix
 	}
 
 	/**
+	 * Returns the diagonal of the multiplication of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code diag(this * matrix)}
+	 * <p>
+	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
+	 */
+	@Override
+	public Entity diagonalTimes(final Matrix matrix) {
+		// Broadcast
+		final Matrix broadcastedMatrix;
+		if (matrix instanceof Vector) {
+			broadcastedMatrix = ((Vector) matrix).toMatrix(n);
+		} else {
+			broadcastedMatrix = matrix;
+		}
+
+		// Check the arguments
+		requireInnerDimension(broadcastedMatrix);
+
+		// Test whether the result is a scalar or a matrix
+		if (m == 1 && broadcastedMatrix.n == 1) {
+			// - Scalar
+			double sum = 0.;
+			for (int k = 0; k < n; ++k) {
+				sum += elements[k] * broadcastedMatrix.elements[k];
+			}
+			return new Scalar(sum);
+		}
+		// - Matrix
+		final Matrix result = new Matrix(m, broadcastedMatrix.n);
+		for (int i = 0; i < Math.min(m, broadcastedMatrix.n); ++i) {
+			double sum = 0.;
+			for (int k = 0; k < n; ++k) {
+				sum += elements[i * n + k] *
+						broadcastedMatrix.elements[k * broadcastedMatrix.n + i];
+			}
+			result.elements[i * result.n + i] = sum;
+		}
+		return result;
+	}
+
+	/**
 	 * Returns the element-by-element multiplication of {@code this} by the specified
 	 * {@link Matrix}.
 	 * <p>
