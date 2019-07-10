@@ -38,8 +38,8 @@ import jupiter.math.linear.entity.Scalar;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * {@link LogisticRegression} is the {@link Classifier} using the logistic model to estimate
- * the probability of a binary response based on one or more predictor (or independent) variables
+ * {@link LogisticRegression} is the {@link Classifier} using the logistic model to estimate the
+ * probability of a binary response based on one or more predictor (or independent) variables
  * (features).
  */
 public class LogisticRegression

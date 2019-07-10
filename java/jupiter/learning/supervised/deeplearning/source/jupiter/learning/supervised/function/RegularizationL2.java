@@ -92,7 +92,7 @@ public class RegularizationL2
 	 * @param m the number of training examples
 	 * @param W the weight {@link Matrix}
 	 * <p>
-	 * @return  {@code λ W / m}
+	 * @return {@code λ W / m}
 	 */
 	@Override
 	public Matrix derive(final int m, final Matrix W) {

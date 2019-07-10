@@ -24,6 +24,7 @@
 package jupiter.learning.supervised.function;
 
 import java.io.Serializable;
+
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
 import jupiter.math.linear.entity.Entity;

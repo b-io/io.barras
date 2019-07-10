@@ -27,7 +27,6 @@ import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
-import jupiter.learning.supervised.Classifier;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
