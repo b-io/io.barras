@@ -41,14 +41,14 @@ public class Addition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Addition}.
+	 * Constructs an {@link Addition}.
 	 */
 	protected Addition() {
 		this(0.);
 	}
 
 	/**
-	 * Constructs a {@link Addition} with the specified initial {@code double} value.
+	 * Constructs an {@link Addition} with the specified initial {@code double} value.
 	 * <p>
 	 * @param initialValue the initial {@code double} value
 	 */
