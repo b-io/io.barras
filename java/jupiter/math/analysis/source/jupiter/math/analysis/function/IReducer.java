@@ -23,42 +23,20 @@
  */
 package jupiter.math.analysis.function;
 
-public class Functions {
+public interface IReducer {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static final Addition ADD = new Addition();
-	public static final Multiplication MULTI = new Multiplication();
-
-	public static final Absolute ABS = new Absolute();
-	public static final Exponential EXP = new Exponential();
-	public static final Logarithm LOG = new Logarithm();
-	public static final Root ROOT = new Root();
-	public static final Round ROUND = new Round();
-	public static final Power SQUARE = new Power();
-
-	public static final Cosinus COS = new Cosinus();
-	public static final Sinus SIN = new Sinus();
-	public static final Tangent TAN = new Tangent();
-	public static final Cotangent COT = new Cotangent();
-	public static final HyperbolicTangent TANH = new HyperbolicTangent();
-
-	public static final Sigmoid SIGMOID = new Sigmoid();
-
-	public static final Filter FILTER = new Filter();
-	public static final Max MAX = new Max();
-	public static final Min MIN = new Min();
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link Functions}.
+	 * Applies the function to the specified {@code double} values and returns the resulting
+	 * {@code double} value.
+	 * <p>
+	 * @param a a {@code double} value
+	 * @param b a {@code double} value
+	 * <p>
+	 * @return {@code f(a, b)}
 	 */
-	protected Functions() {
-	}
+	public double apply(final double a, final double b);
 }

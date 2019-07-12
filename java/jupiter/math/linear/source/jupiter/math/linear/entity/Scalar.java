@@ -33,6 +33,7 @@ import jupiter.common.util.Doubles;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
+import jupiter.math.analysis.function.ReducerFunction;
 
 public class Scalar
 		extends Entity {
@@ -263,7 +264,7 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified function to {@code this}.
+	 * Applies the specified {@link Function} to {@code this}.
 	 * <p>
 	 * @param f the {@link Function} to apply
 	 * <p>
@@ -272,6 +273,30 @@ public class Scalar
 	@Override
 	public Scalar apply(final Function f) {
 		return new Scalar(f.apply(value));
+	}
+
+	/**
+	 * Applies the specified {@link ReducerFunction} to the columns of {@code this}.
+	 * <p>
+	 * @param f the {@link ReducerFunction} to apply column-wise
+	 * <p>
+	 * @return {@code f(this)}
+	 */
+	@Override
+	public Entity applyByColumn(final ReducerFunction f) {
+		return apply(f);
+	}
+
+	/**
+	 * Applies the specified {@link ReducerFunction} to the rows of {@code this}.
+	 * <p>
+	 * @param f the {@link ReducerFunction} to apply row-wise
+	 * <p>
+	 * @return {@code f(this')}
+	 */
+	@Override
+	public Entity applyByRow(final ReducerFunction f) {
+		return apply(f);
 	}
 
 	/**
@@ -292,26 +317,6 @@ public class Scalar
 	@Override
 	public double sum() {
 		return value;
-	}
-
-	/**
-	 * Returns the sum of each row.
-	 * <p>
-	 * @return {@code sum(this')}
-	 */
-	@Override
-	public Entity sumByRow() {
-		return this;
-	}
-
-	/**
-	 * Returns the sum of each column.
-	 * <p>
-	 * @return {@code sum(this)}
-	 */
-	@Override
-	public Entity sumByColumn() {
-		return this;
 	}
 
 	/**

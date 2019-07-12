@@ -23,6 +23,7 @@
  */
 package jupiter.math.analysis.function;
 
+import jupiter.common.math.Maths;
 public class Logarithm
 		extends Function {
 
@@ -62,7 +63,7 @@ public class Logarithm
 	 */
 	@Override
 	public double apply(final double x) {
-		return Math.log(x);
+		return Maths.log(x);
 	}
 
 

@@ -410,7 +410,7 @@ public abstract class Classifier
 		// Compute (A Y' + (1 - A) (1 - Y')) / m
 		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
 		final double trueNegative = Scalar.ONE.minus(A).diagonalTimes(Scalar.ONE.minus(YT)).sum(); // (1 - A) (1 - Y')
-		return (truePositive + trueNegative) / trainingExampleCount;
+		return (truePositive + trueNegative) / (classCount * trainingExampleCount);
 	}
 
 	/**

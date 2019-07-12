@@ -186,6 +186,10 @@ public class Maths {
 		return a * b / gcd(a, b);
 	}
 
+	public static double log(final double x) {
+		return Math.log(x + DEFAULT_TOLERANCE);
+	}
+
 	/**
 	 * Returns {@code number} rounded up to the nearest multiple of {@code unit}.
 	 * <p>
@@ -228,7 +232,7 @@ public class Maths {
 		// Check the arguments
 		ShortArguments.requireNonEmpty(values);
 
-		// Get the maximum
+		// Get the maximum value
 		short max = Short.MIN_VALUE;
 		for (final short value : values) {
 			max = value > max ? value : max;
@@ -240,7 +244,7 @@ public class Maths {
 		// Check the arguments
 		IntegerArguments.requireNonEmpty(values);
 
-		// Get the maximum
+		// Get the maximum value
 		int max = Integer.MIN_VALUE;
 		for (final int value : values) {
 			max = Math.max(max, value);
@@ -252,7 +256,7 @@ public class Maths {
 		// Check the arguments
 		LongArguments.requireNonEmpty(values);
 
-		// Get the maximum
+		// Get the maximum value
 		long max = Long.MIN_VALUE;
 		for (final long value : values) {
 			max = Math.max(max, value);
@@ -264,7 +268,7 @@ public class Maths {
 		// Check the arguments
 		FloatArguments.requireNonEmpty(values);
 
-		// Get the maximum
+		// Get the maximum value
 		float max = Float.MIN_VALUE;
 		for (final float value : values) {
 			max = Math.max(max, value);
@@ -276,7 +280,7 @@ public class Maths {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
-		// Get the maximum
+		// Get the maximum value
 		double max = Double.MIN_VALUE;
 		for (final double value : values) {
 			max = Math.max(max, value);
@@ -290,7 +294,7 @@ public class Maths {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers);
 
-		// Get the maximum
+		// Get the maximum value
 		double max = Double.MIN_VALUE;
 		for (final T number : numbers) {
 			max = Math.max(max, number.doubleValue());
@@ -302,7 +306,7 @@ public class Maths {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers);
 
-		// Get the maximum
+		// Get the maximum value
 		double max = Double.MIN_VALUE;
 		for (final T number : numbers) {
 			max = Math.max(max, number.doubleValue());
@@ -316,7 +320,7 @@ public class Maths {
 		// Check the arguments
 		ShortArguments.requireNonEmpty(values);
 
-		// Get the minimum
+		// Get the minimum value
 		short min = Short.MAX_VALUE;
 		for (final short value : values) {
 			min = value < min ? value : min;
@@ -328,7 +332,7 @@ public class Maths {
 		// Check the arguments
 		IntegerArguments.requireNonEmpty(values);
 
-		// Get the minimum
+		// Get the minimum value
 		int min = Integer.MAX_VALUE;
 		for (final int value : values) {
 			min = Math.min(value, min);
@@ -340,7 +344,7 @@ public class Maths {
 		// Check the arguments
 		LongArguments.requireNonEmpty(values);
 
-		// Get the minimum
+		// Get the minimum value
 		long min = Long.MAX_VALUE;
 		for (final long value : values) {
 			min = Math.min(value, min);
@@ -352,7 +356,7 @@ public class Maths {
 		// Check the arguments
 		FloatArguments.requireNonEmpty(values);
 
-		// Get the minimum
+		// Get the minimum value
 		float min = Float.MAX_VALUE;
 		for (final float value : values) {
 			min = Math.min(value, min);
@@ -364,7 +368,7 @@ public class Maths {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
-		// Get the minimum
+		// Get the minimum value
 		double min = Double.MAX_VALUE;
 		for (final double value : values) {
 			min = Math.min(value, min);
@@ -378,7 +382,7 @@ public class Maths {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers);
 
-		// Get the minimum
+		// Get the minimum value
 		double min = Double.MAX_VALUE;
 		for (final T number : numbers) {
 			min = Math.min(number.doubleValue(), min);
@@ -390,7 +394,7 @@ public class Maths {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers);
 
-		// Get the minimum
+		// Get the minimum value
 		double min = Double.MAX_VALUE;
 		for (final T number : numbers) {
 			min = Math.min(number.doubleValue(), min);

@@ -24,7 +24,7 @@
 package jupiter.math.analysis.function;
 
 public class Max
-		extends Function {
+		extends ReducerFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -37,16 +37,6 @@ public class Max
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The minimum resulting {@code double} value.
-	 */
-	protected final double minValue;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,17 +44,16 @@ public class Max
 	 * Constructs a {@link Max}.
 	 */
 	protected Max() {
-		this(0.);
+		this(Double.NEGATIVE_INFINITY);
 	}
 
 	/**
-	 * Constructs a {@link Max} with the specified {@code double} value.
+	 * Constructs a {@link Max} with the specified initial {@code double} value.
 	 * <p>
-	 * @param minValue the minimum resulting {@code double} value
+	 * @param initialValue the initial {@code double} value
 	 */
-	public Max(final double minValue) {
-		super();
-		this.minValue = minValue;
+	public Max(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -73,16 +62,16 @@ public class Max
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the maximum function to the specified {@code double} value and this value and returns
-	 * the resulting {@code double} value.
+	 * Applies the maximum function to the specified {@code double} values and returns the resulting
+	 * {@code double} value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param a a {@code double} value
+	 * @param b a {@code double} value
 	 * <p>
-	 * @return {@code max(minValue, x)}
+	 * @return {@code max(a, b)}
 	 */
-	@Override
-	public double apply(final double x) {
-		return Math.max(minValue, x);
+	public double apply(final double a, final double b) {
+		return Math.max(a, b);
 	}
 
 

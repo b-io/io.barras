@@ -59,6 +59,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.hardware.gpu.OpenCL;
 import jupiter.math.analysis.function.Function;
+import jupiter.math.analysis.function.ReducerFunction;
 import jupiter.math.linear.decomposition.CholeskyDecomposition;
 import jupiter.math.linear.decomposition.EigenvalueDecomposition;
 import jupiter.math.linear.decomposition.LUDecomposition;
@@ -1249,7 +1250,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified function to {@code this}.
+	 * Applies the specified {@link Function} to {@code this}.
 	 * <p>
 	 * @param f the {@link Function} to apply
 	 * <p>
@@ -1258,6 +1259,66 @@ public class Matrix
 	@Override
 	public Matrix apply(final Function f) {
 		return new Matrix(m, f.applyToPrimitiveArray(elements));
+	}
+
+	/**
+	 * Applies the specified {@link ReducerFunction} to the columns of {@code this}.
+	 * <p>
+	 * @param f the {@link ReducerFunction} to apply column-wise
+	 * <p>
+	 * @return {@code f(this)}
+	 */
+	@Override
+	public Entity applyByColumn(final ReducerFunction f) {
+		if (n == 1) {
+			double result = f.getInitialValue();
+			for (int i = 0; i < m; ++i) {
+				for (int j = 0; j < n; ++j) {
+					result = f.apply(result, elements[i * n + j]);
+				}
+			}
+			return new Scalar(result);
+		}
+		final Vector result = new Vector(n, true);
+		for (int j = 0; j < n; ++j) {
+			result.elements[j] = f.getInitialValue();
+		}
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				result.elements[j] = f.apply(result.elements[j], elements[i * n + j]);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Applies the specified {@link ReducerFunction} to the rows of {@code this}.
+	 * <p>
+	 * @param f the {@link ReducerFunction} to apply row-wise
+	 * <p>
+	 * @return {@code f(this')}
+	 */
+	@Override
+	public Entity applyByRow(final ReducerFunction f) {
+		if (m == 1) {
+			double result = f.getInitialValue();
+			for (int i = 0; i < m; ++i) {
+				for (int j = 0; j < n; ++j) {
+					result = f.apply(result, elements[i * n + j]);
+				}
+			}
+			return new Scalar(result);
+		}
+		final Vector result = new Vector(m);
+		for (int i = 0; i < m; ++i) {
+			result.elements[i] = f.getInitialValue();
+		}
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				result.elements[i] = f.apply(result.elements[i], elements[i * n + j]);
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -1290,38 +1351,6 @@ public class Matrix
 			}
 		}
 		return sum;
-	}
-
-	/**
-	 * Returns the sum of each row.
-	 * <p>
-	 * @return {@code sum(this')}
-	 */
-	@Override
-	public Entity sumByRow() {
-		final Vector result = new Vector(m);
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				result.elements[i] += elements[i * n + j];
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Returns the sum of each column.
-	 * <p>
-	 * @return {@code sum(this)}
-	 */
-	@Override
-	public Entity sumByColumn() {
-		final Vector result = new Vector(n, true);
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				result.elements[j] += elements[i * n + j];
-			}
-		}
-		return result;
 	}
 
 	/**

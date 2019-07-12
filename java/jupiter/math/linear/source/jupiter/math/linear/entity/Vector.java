@@ -312,7 +312,7 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified function to {@code this}.
+	 * Applies the specified {@link Function} to {@code this}.
 	 * <p>
 	 * @param f the {@link Function} to apply
 	 * <p>

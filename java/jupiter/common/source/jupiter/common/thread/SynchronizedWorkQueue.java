@@ -53,7 +53,7 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Constructs a {@link SynchronizedWorkQueue} with the specified model {@link Worker} and
-	 * minimum and maximum number of {@link Worker}.
+	 * minimum and maximum numbers of {@link Worker}.
 	 * <p>
 	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
 	 * @param minThreads the minimum number of {@link Worker} to handle

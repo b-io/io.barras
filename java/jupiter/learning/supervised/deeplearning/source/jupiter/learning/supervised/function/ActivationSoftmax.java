@@ -23,6 +23,7 @@
  */
 package jupiter.learning.supervised.function;
 
+import jupiter.common.math.Maths;
 import jupiter.learning.supervised.Classifier;
 import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
@@ -70,8 +71,10 @@ public class ActivationSoftmax
 	 */
 	@Override
 	public Entity apply(final Entity E) {
-		final Entity entity = E.apply(Functions.EXP);
-		return entity.arrayDivide(entity.sumByColumn().toMatrix());
+		// Subtract the values by the maximum value (to avoid overflow) and apply the exponential
+		final Entity result = E.minus(E.applyByColumn(Functions.MAX)).apply(Functions.EXP);
+		// Divide by the sum of the values
+		return result.arrayDivide(result.applyByColumn(Functions.ADD).toMatrix());
 	}
 
 	/**

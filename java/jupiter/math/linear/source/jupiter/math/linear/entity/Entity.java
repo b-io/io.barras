@@ -30,6 +30,7 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
+import jupiter.math.analysis.function.ReducerFunction;
 
 public abstract class Entity
 		implements ICloneable<Entity>, Serializable {
@@ -148,13 +149,31 @@ public abstract class Entity
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified function to {@code this}.
+	 * Applies the specified {@link Function} to {@code this}.
 	 * <p>
 	 * @param f the {@link Function} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	public abstract Entity apply(final Function f);
+
+	/**
+	 * Applies the specified {@link ReducerFunction} to the columns of {@code this}.
+	 * <p>
+	 * @param f the {@link ReducerFunction} to apply column-wise
+	 * <p>
+	 * @return {@code f(this)}
+	 */
+	public abstract Entity applyByColumn(final ReducerFunction f);
+
+	/**
+	 * Applies the specified {@link ReducerFunction} to the rows of {@code this}.
+	 * <p>
+	 * @param f the {@link ReducerFunction} to apply row-wise
+	 * <p>
+	 * @return {@code f(this')}
+	 */
+	public abstract Entity applyByRow(final ReducerFunction f);
 
 	/**
 	 * Returns the negation of {@code this}.
@@ -169,20 +188,6 @@ public abstract class Entity
 	 * @return {@code sum(sum(this))}
 	 */
 	public abstract double sum();
-
-	/**
-	 * Returns the sum of each row.
-	 * <p>
-	 * @return {@code sum(this')}
-	 */
-	public abstract Entity sumByRow();
-
-	/**
-	 * Returns the sum of each column.
-	 * <p>
-	 * @return {@code sum(this)}
-	 */
-	public abstract Entity sumByColumn();
 
 	/**
 	 * Returns the transpose of {@code this}.

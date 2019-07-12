@@ -84,7 +84,7 @@ public class LockedWorkQueue<I, O>
 
 	/**
 	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker} and minimum and
-	 * maximum number of {@link Worker}.
+	 * maximum numbers of {@link Worker}.
 	 * <p>
 	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
 	 * @param minThreads the minimum number of {@link Worker} to handle
@@ -96,7 +96,7 @@ public class LockedWorkQueue<I, O>
 
 	/**
 	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker}, minimum and
-	 * maximum number of {@link Worker} and fairness policy.
+	 * maximum numbers of {@link Worker} and fairness policy.
 	 * <p>
 	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
 	 * @param minThreads the minimum number of {@link Worker} to handle

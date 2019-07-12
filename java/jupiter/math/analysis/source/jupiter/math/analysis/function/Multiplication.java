@@ -21,19 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.learning.supervised.function;
+package jupiter.math.analysis.function;
 
-import jupiter.common.test.DoubleArguments;
-import jupiter.math.analysis.function.Filter;
-import jupiter.math.analysis.function.Functions;
-import jupiter.math.analysis.function.Max;
-import jupiter.math.linear.entity.Entity;
-
-/**
- * {@link ActivationReLU} is the rectified linear unit (ReLU) function.
- */
-public class ActivationReLU
-		extends ActivationFunction {
+public class Multiplication
+		extends ReducerFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -46,40 +37,23 @@ public class ActivationReLU
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected final Max max;
-	protected final Filter filter;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ActivationReLU}.
+	 * Constructs a {@link Multiplication}.
 	 */
-	protected ActivationReLU() {
-		super();
-		max = new Max(0.);
-		filter = Functions.FILTER;
+	protected Multiplication() {
+		this(1.);
 	}
 
 	/**
-	 * Constructs a leaky {@link ActivationReLU} with the specified positive gradient.
+	 * Constructs a {@link Multiplication} with the specified initial {@code double} value.
 	 * <p>
-	 * @param gradient a {@code double} value
+	 * @param initialValue the initial {@code double} value
 	 */
-	public ActivationReLU(final double gradient) {
-		super();
-
-		// Check the arguments
-		DoubleArguments.requirePositive(gradient);
-
-		// Set the attributes
-		max = new Max(gradient);
-		filter = new Filter(0., gradient, 1.);
+	public Multiplication(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -88,29 +62,16 @@ public class ActivationReLU
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the ReLU function to the specified {@link Entity} and returns the resulting
-	 * {@link Entity}.
+	 * Applies the multiplication function to the specified {@code double} values and returns the
+	 * resulting {@code double} value.
 	 * <p>
-	 * @param E an {@link Entity}
+	 * @param a a {@code double} value
+	 * @param b a {@code double} value
 	 * <p>
-	 * @return {@code max(E)}
+	 * @return {@code a * b}
 	 */
-	@Override
-	public Entity apply(final Entity E) {
-		return E.apply(max);
-	}
-
-	/**
-	 * Applies the derivative of the ReLU function to the specified {@link Entity} and returns the
-	 * resulting {@link Entity}.
-	 * <p>
-	 * @param E an {@link Entity}
-	 * <p>
-	 * @return {@code filter(E)}
-	 */
-	@Override
-	public Entity derive(final Entity E) {
-		return E.apply(filter);
+	public double apply(final double a, final double b) {
+		return a * b;
 	}
 
 
@@ -126,7 +87,7 @@ public class ActivationReLU
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public ActivationReLU clone() {
-		return (ActivationReLU) super.clone();
+	public Multiplication clone() {
+		return (Multiplication) super.clone();
 	}
 }
