@@ -24,6 +24,7 @@
 package jupiter.math.analysis.function;
 
 import jupiter.common.math.Maths;
+
 public class Logarithm
 		extends Function {
 
