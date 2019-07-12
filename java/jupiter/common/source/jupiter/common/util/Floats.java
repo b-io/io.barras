@@ -605,11 +605,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of random {@code float} values of the specified length.
+	 * Creates a random {@code float} array of the specified length.
 	 * <p>
 	 * @param length the length of the random sequence to create
 	 * <p>
-	 * @return an array of random {@code float} values of the specified length
+	 * @return a random {@code float} array of the specified length
 	 */
 	public static float[] createRandomSequence(final int length) {
 		final float[] array = new float[length];

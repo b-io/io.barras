@@ -517,11 +517,11 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of random {@code boolean} values of the specified length.
+	 * Creates a random {@code boolean} array of the specified length.
 	 * <p>
 	 * @param length the length of the random sequence to create
 	 * <p>
-	 * @return an array of random {@code boolean} values of the specified length
+	 * @return a random {@code boolean} array of the specified length
 	 */
 	public static boolean[] createRandomSequence(final int length) {
 		final boolean[] array = new boolean[length];

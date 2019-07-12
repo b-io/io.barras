@@ -530,7 +530,7 @@ public class IO
 	 * <p>
 	 * @param input  the {@link InputStream} to read from
 	 * @param output the {@link OutputStream} to write to
-	 * @param buffer the buffer {@code byte} values used for copying
+	 * @param buffer the buffer {@code byte} array used for copying
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>

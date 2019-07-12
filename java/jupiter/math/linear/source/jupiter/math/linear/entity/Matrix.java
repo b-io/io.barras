@@ -151,7 +151,7 @@ public class Matrix
 	 */
 	protected Dimensions size;
 	/**
-	 * The {@code double} values.
+	 * The elements.
 	 */
 	protected double[] elements;
 

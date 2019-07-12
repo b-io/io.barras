@@ -574,7 +574,6 @@ public class FTPHandler
 			}
 			sftp.exit();
 			session.disconnect();
-			return downloadedFileCount;
 		} catch (final JSchException ex) {
 			IO.error(ex);
 		} catch (final SftpException ex) {

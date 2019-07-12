@@ -57,9 +57,9 @@ public abstract class Entity
 	public abstract String getName();
 
 	/**
-	 * Returns the dimensions of {@code this}.
+	 * Returns the {@link Dimensions} of {@code this}.
 	 * <p>
-	 * @return the dimensions of {@code this}
+	 * @return the {@link Dimensions} of {@code this}
 	 */
 	public abstract Dimensions getDimensions();
 

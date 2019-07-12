@@ -621,11 +621,11 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of random {@code int} values of the specified length.
+	 * Creates a random {@code int} array of the specified length.
 	 * <p>
 	 * @param length the length of the random sequence to create
 	 * <p>
-	 * @return an array of random {@code int} values of the specified length
+	 * @return a random {@code int} array of the specified length
 	 */
 	public static int[] createRandomSequence(final int length) {
 		final int[] array = new int[length];

@@ -605,11 +605,11 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of random {@code long} values of the specified length.
+	 * Creates a random {@code long} array of the specified length.
 	 * <p>
 	 * @param length the length of the random sequence to create
 	 * <p>
-	 * @return an array of random {@code long} values of the specified length
+	 * @return a random {@code long} array of the specified length
 	 */
 	public static long[] createRandomSequence(final int length) {
 		final long[] array = new long[length];

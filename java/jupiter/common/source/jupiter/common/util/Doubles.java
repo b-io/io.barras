@@ -593,11 +593,11 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of random {@code double} values of the specified length.
+	 * Creates a random {@code double} array of the specified length.
 	 * <p>
 	 * @param length the length of the random sequence to create
 	 * <p>
-	 * @return an array of random {@code double} values of the specified length
+	 * @return a random {@code double} array of the specified length
 	 */
 	public static double[] createRandomSequence(final int length) {
 		final double[] array = new double[length];

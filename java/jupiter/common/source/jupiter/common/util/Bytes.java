@@ -647,11 +647,11 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates an array of random {@code byte} values of the specified length.
+	 * Creates a random {@code byte} array of the specified length.
 	 * <p>
 	 * @param length the length of the random sequence to create
 	 * <p>
-	 * @return an array of random {@code byte} values of the specified length
+	 * @return a random {@code byte} array of the specified length
 	 */
 	public static byte[] createRandomSequence(final int length) {
 		final byte[] array = new byte[length];

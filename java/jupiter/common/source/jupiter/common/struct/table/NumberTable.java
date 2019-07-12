@@ -120,9 +120,9 @@ public class NumberTable<T extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the array of means that are computed for each row.
+	 * Returns the means that are computed for each row.
 	 * <p>
-	 * @return the array of means that are computed for each row
+	 * @return the means that are computed for each row
 	 */
 	public double[] getRowMeans() {
 		final double[] means = new double[m];
@@ -133,9 +133,9 @@ public class NumberTable<T extends Number>
 	}
 
 	/**
-	 * Returns the array of means that are computed for each column.
+	 * Returns the means that are computed for each column.
 	 * <p>
-	 * @return the array of means that are computed for each column
+	 * @return the means that are computed for each column
 	 */
 	public double[] getColumnMeans() {
 		final double[] means = new double[n];

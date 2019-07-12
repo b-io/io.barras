@@ -18,15 +18,17 @@
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/transfer</url>
 
 	<properties>
-		<!-- Apache Commons -->
+		<!-- Apache Commons (for the file package) -->
 		<apache.io.version>2.6</apache.io.version>
 		<apache.net.version>3.6</apache.net.version>
-		<!-- JCraft -->
+		<!-- JCraft (for the ftp package) -->
 		<jcraft.jsch.version>0.1.54</jcraft.jsch.version>
+		<!-- JavaMail API (for the mail package) -->
+		<sun.mail.version>1.6.2</sun.mail.version>
 	</properties>
 
 	<dependencies>
-		<!-- Apache Commons -->
+		<!-- Apache Commons (for the file package) -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -38,11 +40,18 @@
 			<version>${apache.net.version}</version>
 		</dependency>
 
-		<!-- JCraft -->
+		<!-- JCraft (for the ftp package) -->
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
 			<version>${jcraft.jsch.version}</version>
+		</dependency>
+
+		<!-- JavaMail API (for the mail package) -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>${sun.mail.version}</version>
 		</dependency>
 
 		<!-- Jupiter -->
