@@ -62,6 +62,8 @@ public class Strings {
 
 	public static final String SPACE = " ";
 
+	public static final String STAR = "*";
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static volatile int DEFAULT_INITIAL_CAPACITY = 255;

@@ -780,8 +780,8 @@ public class Files {
 	 * Returns the {@link List} of {@link File} contained in the specified directory and matching
 	 * the specified pattern {@link String}.
 	 * <p>
-	 * @param dir     a {@link File}
-	 * @param pattern a pattern {@link String}
+	 * @param dir     the directory {@link File} of the {@link File} to list
+	 * @param pattern the pattern {@link String} of the {@link File} to list
 	 * <p>
 	 * @return the {@link List} of {@link File} contained in the specified directory and matching
 	 *         the specified pattern {@link String}
@@ -794,8 +794,8 @@ public class Files {
 	 * Returns the {@link List} of {@link File} contained in the specified directory and matching
 	 * the specified {@link Pattern}.
 	 * <p>
-	 * @param dir     a {@link File}
-	 * @param pattern a {@link Pattern}
+	 * @param dir     the directory {@link File} of the {@link File} to list
+	 * @param pattern the name {@link Pattern} of the {@link File} to list
 	 * <p>
 	 * @return the {@link List} of {@link File} contained in the specified directory and matching
 	 *         the specified {@link Pattern}

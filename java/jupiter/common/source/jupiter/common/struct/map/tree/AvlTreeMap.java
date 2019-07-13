@@ -96,7 +96,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * @return the height of the specified {@link AvlTreeNode}, or {@code 0L} if it is {@code null}
 	 */
 	protected long getHeight(final AvlTreeNode<K, V> node) {
-		return node == null ? 0L : node.height;
+		return node != null ? node.height : 0L;
 	}
 
 	public ExtendedList<Long> getBalances() {

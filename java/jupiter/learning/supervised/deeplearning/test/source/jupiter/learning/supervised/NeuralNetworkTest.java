@@ -109,7 +109,7 @@ public class NeuralNetworkTest
 			// Test
 			assertEquals(1., accuracy, Classifier.DEFAULT_TOLERANCE);
 			assertEquals(1., f1Score, Classifier.DEFAULT_TOLERANCE);
-			assertEquals(2.11368793E-5, cost, Classifier.DEFAULT_TOLERANCE);
+			assertEquals(0., cost, Classifier.DEFAULT_TOLERANCE);
 		}
 		Tests.printTimes(times);
 	}

@@ -106,7 +106,7 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 
 		// Get the value
 		final N node = getNode(key);
-		return node == null ? null : node.value;
+		return node != null ? node.value : null;
 	}
 
 	/**

@@ -25,6 +25,7 @@ package jupiter.transfer.file;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.STAR;
 
 import java.io.File;
 import java.io.IOException;
@@ -133,7 +134,7 @@ public class SystemFiles {
 
 	public static int unzip(final Properties properties) {
 		final File localDir = new File(properties.getProperty("localDir"));
-		final String filter = properties.getProperty("filter", "*").replace("*", ".*");
+		final String filter = properties.getProperty("filter", STAR).replace(STAR, ".*");
 		final String[] fileNames = properties.getProperty("fileNames")
 				.split(Arrays.DEFAULT_DELIMITER);
 		if (fileNames.length > 0) {

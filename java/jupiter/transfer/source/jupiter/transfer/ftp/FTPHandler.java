@@ -24,6 +24,7 @@
 package jupiter.transfer.ftp;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Strings.STAR;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -127,6 +128,109 @@ public class FTPHandler
 	public FTPHandler() {
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
+	 * password, path to the remote directory and path to the local directory.
+	 * <p>
+	 * @param protocol      the {@link Protocol}
+	 * @param hostName      the host name
+	 * @param userName      the user name
+	 * @param password      the password
+	 * @param remoteDirPath the path to the remote directory
+	 * @param localDirPath  the path to the local directory
+	 */
+	public FTPHandler(final Protocol protocol, final String hostName, final String userName,
+			final String password, final String remoteDirPath, final String localDirPath) {
+		this(protocol, hostName, protocol.getPort(), userName, password, remoteDirPath,
+				localDirPath);
+	}
+
+	/**
+	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, port, user
+	 * name, password, path to the remote directory and path to the local directory.
+	 * <p>
+	 * @param protocol      the {@link Protocol}
+	 * @param hostName      the host name
+	 * @param port          the port
+	 * @param userName      the user name
+	 * @param password      the password
+	 * @param remoteDirPath the path to the remote directory
+	 * @param localDirPath  the path to the local directory
+	 */
+	public FTPHandler(final Protocol protocol, final String hostName, final int port,
+			final String userName, final String password, final String remoteDirPath,
+			final String localDirPath) {
+		this(protocol, hostName, port, userName, password, remoteDirPath, localDirPath, STAR);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
+	 * password, path to the remote directory, path to the local directory and file filter
+	 * {@link String}.
+	 * <p>
+	 * @param protocol      the {@link Protocol}
+	 * @param hostName      the host name
+	 * @param userName      the user name
+	 * @param password      the password
+	 * @param remoteDirPath the path to the remote directory
+	 * @param localDirPath  the path to the local directory
+	 * @param fileFilter    the file filter {@link String}
+	 */
+	public FTPHandler(final Protocol protocol, final String hostName, final String userName,
+			final String password, final String remoteDirPath, final String localDirPath,
+			final String fileFilter) {
+		this(protocol, hostName, protocol.getPort(), userName, password, remoteDirPath,
+				localDirPath, fileFilter);
+	}
+
+	/**
+	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, port, user
+	 * name, password, path to the remote directory, path to the local directory and file filter
+	 * {@link String}.
+	 * <p>
+	 * @param protocol      the {@link Protocol}
+	 * @param hostName      the host name
+	 * @param port          the port
+	 * @param userName      the user name
+	 * @param password      the password
+	 * @param remoteDirPath the path to the remote directory
+	 * @param localDirPath  the path to the local directory
+	 * @param fileFilter    the file filter {@link String}
+	 */
+	public FTPHandler(final Protocol protocol, final String hostName, final int port,
+			final String userName, final String password, final String remoteDirPath,
+			final String localDirPath, final String fileFilter) {
+		this(protocol, hostName, port, userName, password, remoteDirPath, localDirPath, fileFilter,
+				new String[] {STAR});
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
+	 * password, path to the remote directory, path to the local directory, file filter
+	 * {@link String} and array of file names.
+	 * <p>
+	 * @param protocol      the {@link Protocol}
+	 * @param hostName      the host name
+	 * @param userName      the user name
+	 * @param password      the password
+	 * @param remoteDirPath the path to the remote directory
+	 * @param localDirPath  the path to the local directory
+	 * @param fileFilter    the file filter {@link String}
+	 * @param fileNames     the array of file names
+	 */
+	public FTPHandler(final Protocol protocol, final String hostName, final String userName,
+			final String password, final String remoteDirPath, final String localDirPath,
+			final String fileFilter, final String[] fileNames) {
+		this(protocol, hostName, protocol.getPort(), userName, password, remoteDirPath,
+				localDirPath, fileFilter, fileNames);
+	}
+
 	/**
 	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, port, user
 	 * name, password, path to the remote directory, path to the local directory, file filter
@@ -155,6 +259,8 @@ public class FTPHandler
 		this.fileFilter = fileFilter;
 		this.fileNames = fileNames;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link FTPHandler} loaded from the specified {@link Properties} containing the
@@ -345,50 +451,53 @@ public class FTPHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Downloads the files from the FTP, FTPS or SFTP with {@code this} parameters and returns the
-	 * number of downloaded files.
+	 * Downloads the files from the {@link Protocol#FTP}, {@link Protocol#FTPS} or
+	 * {@link Protocol#SFTP} with {@code this} parameters and returns the number of downloaded
+	 * files.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
 	public int download() {
-		if (fileNames.length > 0) {
-			if (Strings.isNotEmpty(fileNames[0])) {
-				// Download the files
-				final int downloadedFileCount;
-				switch (protocol) {
-					case FTP:
-						fileFilter = fileFilter.replace("*", ".*");
-						downloadedFileCount = downloadFTP();
-						break;
-					case FTPS:
-						fileFilter = fileFilter.replace("*", ".*");
-						downloadedFileCount = downloadFTPS();
-						break;
-					case SFTP:
-						downloadedFileCount = downloadSFTP();
-						break;
-					default:
-						throw new IllegalTypeException(protocol);
-				}
-				if (downloadedFileCount > 0) {
-					IO.info(downloadedFileCount, " files downloaded");
-				} else {
-					IO.warn("No files downloaded");
-				}
-				return downloadedFileCount;
-			}
-			IO.error("Empty file name");
+		// Check the file names
+		if (fileNames.length == 0) {
+			IO.warn("No file name");
 			return 0;
 		}
-		IO.info("No file name");
-		return 0;
+		if (Strings.isEmpty(fileNames[0])) {
+			IO.warn("Empty file name");
+			return 0;
+		}
+
+		// Download the filtered files
+		final int downloadedFileCount;
+		switch (protocol) {
+			case FTP:
+				fileFilter = fileFilter.replace(STAR, ".*");
+				downloadedFileCount = downloadFTP();
+				break;
+			case FTPS:
+				fileFilter = fileFilter.replace(STAR, ".*");
+				downloadedFileCount = downloadFTPS();
+				break;
+			case SFTP:
+				downloadedFileCount = downloadSFTP();
+				break;
+			default:
+				throw new IllegalTypeException(protocol);
+		}
+		if (downloadedFileCount > 0) {
+			IO.info(downloadedFileCount, " files downloaded");
+		} else {
+			IO.warn("No files downloaded");
+		}
+		return downloadedFileCount;
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Downloads the files from the FTP with {@code this} parameters and returns the number of
-	 * downloaded files.
+	 * Downloads the files from the {@link Protocol#FTP} with {@code this} parameters and returns
+	 * the number of downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -397,13 +506,14 @@ public class FTPHandler
 		final FTPClient ftp = new FTPClient();
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.info("Connect to ", Strings.quote(hostName + ":" + port));
-			ftp.connect(hostName, port);
+			IO.info("Connect to the ", protocol, " server ",
+					Strings.quote(hostName + ":" + (port > 0 ? port : protocol.getPort())));
+			ftp.connect(hostName, port > 0 ? port : protocol.getPort());
 			final int replyCode = ftp.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftp.enterLocalPassiveMode();
 
-				IO.info("Login with ", Strings.quote(userName), " and ", Strings.quote(password));
+				IO.info("Login with ", Strings.quote(userName));
 				if (ftp.login(userName, password)) {
 					ftp.pwd();
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
@@ -437,12 +547,12 @@ public class FTPHandler
 						}
 					}
 				} else {
-					IO.error("Fail to login to ", Strings.quote(hostName), " with ",
-							Strings.quote(userName));
+					IO.error("Fail to login to the ", protocol, " server ", Strings.quote(hostName),
+							" with ", Strings.quote(userName));
 				}
 			} else {
-				IO.error("Fail to connect to ", Strings.quote(hostName), "; reply code: ",
-						replyCode);
+				IO.error("Fail to connect to the ", protocol, " server ", Strings.quote(hostName),
+						"; reply code: ", replyCode);
 			}
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -459,8 +569,8 @@ public class FTPHandler
 	}
 
 	/**
-	 * Downloads the files from the FTPS with {@code this} parameters and returns the number of
-	 * downloaded files.
+	 * Downloads the files from the {@link Protocol#FTPS} with {@code this} parameters and returns
+	 * the number of downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -469,13 +579,14 @@ public class FTPHandler
 		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.info("Connect to ", Strings.quote(hostName + ":" + port));
-			ftps.connect(hostName, port);
+			IO.info("Connect to the ", protocol, " server ",
+					Strings.quote(hostName + ":" + (port > 0 ? port : protocol.getPort())));
+			ftps.connect(hostName, port > 0 ? port : protocol.getPort());
 			final int replyCode = ftps.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftps.enterLocalPassiveMode();
 
-				IO.info("Login with ", Strings.quote(userName), " and ", Strings.quote(password));
+				IO.info("Login with ", Strings.quote(userName));
 				if (ftps.login(userName, password)) {
 					ftps.execPBSZ(0);
 					ftps.execPROT("P");
@@ -511,12 +622,12 @@ public class FTPHandler
 						}
 					}
 				} else {
-					IO.error("Fail to login to ", Strings.quote(hostName), " with ",
-							Strings.quote(userName));
+					IO.error("Fail to login to the ", protocol, " server ", Strings.quote(hostName),
+							" with ", Strings.quote(userName));
 				}
 			} else {
-				IO.error("Fail to connect to ", Strings.quote(hostName), "; reply code: ",
-						replyCode);
+				IO.error("Fail to connect to the ", protocol, " server ", Strings.quote(hostName),
+						"; reply code: ", replyCode);
 			}
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -533,8 +644,8 @@ public class FTPHandler
 	}
 
 	/**
-	 * Downloads the files from the SFTP with {@code this} parameters and returns the number of
-	 * downloaded files.
+	 * Downloads the files from the {@link Protocol#SFTP} with {@code this} parameters and returns
+	 * the number of downloaded files.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -543,15 +654,14 @@ public class FTPHandler
 		final JSch jsch = new JSch();
 		Session session;
 		try {
-			// Connect and login to host
-			IO.info("Connect to ", Strings.quote(hostName + ":" + port), " with ",
-					Strings.quote(userName));
-			session = jsch.getSession(userName, hostName, 22);
+			IO.info("Connect to the ", protocol, " server ",
+					Strings.quote(hostName + ":" + (port > 0 ? port : protocol.getPort())),
+					" with ", Strings.quote(userName));
+			session = jsch.getSession(userName, hostName, port > 0 ? port : protocol.getPort());
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.setPassword(password);
 			session.connect();
 
-			// Retrieve the files
 			IO.info("Download the files ", Strings.quote(fileFilter), " in ",
 					Strings.quote(remoteDirPath));
 			final Channel channel = session.openChannel("sftp");
@@ -595,23 +705,14 @@ public class FTPHandler
 	public void load(final Properties properties) {
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
-		switch (protocol) {
-			case FTP:
-			case FTPS:
-				port = Integers.convert(properties.getProperty("port", "21"));
-				break;
-			case SFTP:
-				port = Integers.convert(properties.getProperty("port", "22"));
-				break;
-			default:
-				throw new IllegalTypeException(protocol);
-		}
+		port = Integers.convert(properties.getProperty("port",
+				Strings.toString(protocol.getPort())));
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 		remoteDirPath = properties.getProperty("remoteDir");
 		localDirPath = properties.getProperty("localDir");
-		fileFilter = properties.getProperty("fileFilter", "*");
-		fileNames = properties.getProperty("fileNames").split(Arrays.DEFAULT_DELIMITER);
+		fileFilter = properties.getProperty("fileFilter", STAR);
+		fileNames = properties.getProperty("fileNames", STAR).split(Arrays.DEFAULT_DELIMITER);
 	}
 
 
@@ -651,6 +752,18 @@ public class FTPHandler
 
 		private Protocol(final String value) {
 			this.value = value;
+		}
+
+		public int getPort() {
+			switch (this) {
+				case FTP:
+				case FTPS:
+					return 21;
+				case SFTP:
+					return 22;
+				default:
+					throw new IllegalTypeException(this);
+			}
 		}
 
 		public static Protocol get(final String name) {

@@ -94,12 +94,14 @@ public class Arrays {
 
 	//////////////////////////////////////////////
 
+	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(final Class<?> c, final T[] array) {
 		final T[] result = (T[]) create(c, array.length);
 		System.arraycopy(array, 0, result, 0, array.length);
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T[][] toArray2D(final Class<?> c, final T[][] array2D) {
 		final int rowCount = array2D.length;
 		final int columnCount = array2D[0].length;
@@ -110,6 +112,7 @@ public class Arrays {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T[][][] toArray3D(final Class<?> c, final T[][][] array3D) {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
@@ -305,7 +308,7 @@ public class Arrays {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] merge(final T[] a, final T[] b) {
 		if (a == null) {
-			return b == null ? null : (T[]) toArray(b.getClass().getComponentType(), b);
+			return b != null ? toArray(b.getClass().getComponentType(), b) : null;
 		} else if (b == null) {
 			return toArray(a.getClass().getComponentType(), a);
 		}
@@ -794,6 +797,7 @@ public class Arrays {
 	 *
 	 * @see jupiter.common.model.ICloneable
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T[] clone(final T[] array)
 			throws CloneNotSupportedException {
 		if (array == null) {

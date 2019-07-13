@@ -217,7 +217,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 		while (parent.isRed) {
 			if (parent.isLeft) {
 				// Get the uncle
-				uncle = grandParent == null ? null : grandParent.right;
+				uncle = grandParent != null ? grandParent.right : null;
 				if (uncle != null && uncle.isRed) {
 					// Update the colors
 					parent.isRed = false;
@@ -251,7 +251,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 				}
 			} else {
 				// Get the uncle
-				uncle = grandParent == null ? null : grandParent.left;
+				uncle = grandParent != null ? grandParent.left : null;
 				if (uncle != null && uncle.isRed) {
 					// Update the colors
 					parent.isRed = false;

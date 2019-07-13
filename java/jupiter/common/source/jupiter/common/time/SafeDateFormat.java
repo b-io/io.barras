@@ -250,7 +250,7 @@ public class SafeDateFormat
 	/**
 	 * Applies the specified pattern {@link String} to {@code this}.
 	 * <p>
-	 * @param pattern the new date-time pattern {@link String} for {@code this}
+	 * @param pattern the pattern {@link String} describing the date-time format
 	 * <p>
 	 * @exception NullPointerException     if {@code pattern} is {@code null}
 	 * @exception IllegalArgumentException if {@code pattern} is invalid
@@ -263,8 +263,7 @@ public class SafeDateFormat
 	/**
 	 * Applies the specified localized pattern {@link String} to {@code this}.
 	 * <p>
-	 * @param pattern a {@link String} to map to the new date-time pattern {@link String} for
-	 *                {@code this}
+	 * @param pattern the pattern {@link String} describing the localized date-time format
 	 * <p>
 	 * @exception NullPointerException     if {@code pattern} is {@code null}
 	 * @exception IllegalArgumentException if {@code pattern} is invalid

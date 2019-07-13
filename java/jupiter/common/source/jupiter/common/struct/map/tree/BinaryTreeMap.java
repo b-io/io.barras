@@ -181,7 +181,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 *         {@code null}
 	 */
 	protected N getParent(final N node) {
-		return node == null ? null : node.parent;
+		return node != null ? node.parent : null;
 	}
 
 	/**
