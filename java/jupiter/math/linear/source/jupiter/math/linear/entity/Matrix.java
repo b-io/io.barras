@@ -24,7 +24,7 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.DEFAULT_NUMBER_LENGTH;
+import static jupiter.common.util.Formats.NUMBER_LENGTH;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Formats.formatNumber;
@@ -116,11 +116,11 @@ public class Matrix
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The column delimiters.
+	 * The column {@code char} delimiters.
 	 */
 	public static final char[] COLUMN_DELIMITERS = new char[] {' ', '\t', ','};
 	/**
-	 * The row delimiter.
+	 * The row {@code char} delimiter.
 	 */
 	public static final char ROW_DELIMITER = ';';
 
@@ -1804,7 +1804,7 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] /= scalar + Maths.DEFAULT_TOLERANCE;
+				result.elements[i * result.n + j] /= scalar + Maths.TOLERANCE;
 			}
 		}
 		return result;
@@ -1856,7 +1856,7 @@ public class Matrix
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j] +
-						Maths.DEFAULT_TOLERANCE;
+						Maths.TOLERANCE;
 			}
 		}
 		return result;
@@ -1876,7 +1876,7 @@ public class Matrix
 		if (scalar != 1.) {
 			for (int i = 0; i < m; ++i) {
 				for (int j = 0; j < n; ++j) {
-					elements[i * n + j] /= scalar + Maths.DEFAULT_TOLERANCE;
+					elements[i * n + j] /= scalar + Maths.TOLERANCE;
 				}
 			}
 		}
@@ -1907,7 +1907,7 @@ public class Matrix
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i * n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j] +
-						Maths.DEFAULT_TOLERANCE;
+						Maths.TOLERANCE;
 			}
 		}
 		return this;
@@ -2496,7 +2496,7 @@ public class Matrix
 	 */
 	@Override
 	public boolean equals(final Object other) {
-		return equals(other, Maths.DEFAULT_TOLERANCE);
+		return equals(other, Maths.TOLERANCE);
 	}
 
 	/**
@@ -2582,9 +2582,9 @@ public class Matrix
 	public String toString(final int columnWidth, final boolean useMultipleLines) {
 		final StringBuilder builder;
 		if (useMultipleLines) {
-			builder = Strings.createBuilder(m + m * n * (DEFAULT_NUMBER_LENGTH + 1));
+			builder = Strings.createBuilder(m + m * n * (NUMBER_LENGTH + 1));
 		} else {
-			builder = Strings.createBuilder(2 + m + m * n * (DEFAULT_NUMBER_LENGTH + 1));
+			builder = Strings.createBuilder(2 + m + m * n * (NUMBER_LENGTH + 1));
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {

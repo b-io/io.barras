@@ -987,7 +987,7 @@ public class Floats {
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final float a, final float b) {
-		return equals(a, b, Maths.DEFAULT_FLOAT_TOLERANCE);
+		return equals(a, b, Maths.FLOAT_TOLERANCE);
 	}
 
 	/**

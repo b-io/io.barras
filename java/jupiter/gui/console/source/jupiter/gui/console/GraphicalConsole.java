@@ -24,7 +24,7 @@
 package jupiter.gui.console;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.DEFAULT_CHARSET_NAME;
+import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.VERSION;
 
 import java.awt.BorderLayout;
@@ -92,7 +92,7 @@ public class GraphicalConsole
 		try {
 			// Redirect the system output to the console
 			printStream = new PrintStream(new OutputStreamCapturer(console, System.out), true,
-					DEFAULT_CHARSET_NAME);
+					DEFAULT_CHARSET.name());
 			System.setOut(printStream);
 			System.setErr(printStream);
 			// Display the frame

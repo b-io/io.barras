@@ -64,7 +64,7 @@ public class Table<T>
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The column delimiters.
+	 * The column {@code char} delimiters.
 	 */
 	public static final char[] COLUMN_DELIMITERS = new char[] {'\t', ',', ';'};
 

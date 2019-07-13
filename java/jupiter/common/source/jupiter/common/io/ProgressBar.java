@@ -44,20 +44,20 @@ public class ProgressBar
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The start symbol.
+	 * The start {@code char} symbol.
 	 */
 	public static volatile char START_SYMBOL = Characters.LEFT_BRACKET;
 	/**
-	 * The end symbol.
+	 * The end {@code char} symbol.
 	 */
 	public static volatile char END_SYMBOL = Characters.RIGHT_BRACKET;
 
 	/**
-	 * The symbol filling the progress bar.
+	 * The symbol {@link String} filling the progress bar.
 	 */
 	public static volatile String SYMBOL = "#";
 	/**
-	 * The space filling the progress bar.
+	 * The space {@link String} filling the progress bar.
 	 */
 	public static volatile String SPACE = "-";
 

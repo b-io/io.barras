@@ -58,11 +58,14 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final int RUNS_COUNT = 1000;
-	protected static final int TIME_INTERVAL = 30000; // [ms]
-	protected static final int TIME_OUT = 10000; // [ms]
-	protected static final String TEMP_DIR = "C:/Temp";
-	protected static final String DEFAULT_DELIMITER = ",";
+	protected static volatile int RUNS_COUNT = 1000;
+	protected static volatile int TIME_INTERVAL = 30000; // [ms]
+	protected static volatile int TIME_OUT = 10000; // [ms]
+	protected static volatile String TEMP_DIR = "C:/Temp";
+	/**
+	 * The delimiting {@link String}.
+	 */
+	protected static volatile String DELIMITER = ",";
 
 	/**
 	 * The {@link List} of URLs to download.
@@ -196,7 +199,7 @@ public class SpeedChecker {
 				final Result<Double> result = WORK_QUEUE.get(id);
 				final String output = DECIMAL_FORMAT.format(result.getOutput());
 				IO.info(output, " [Mbits/s]");
-				DATA_FILES.get(URLS.get(i)).writeLine(Dates.getTime() + DEFAULT_DELIMITER + output);
+				DATA_FILES.get(URLS.get(i)).writeLine(Dates.getTime() + DELIMITER + output);
 				++i;
 			}
 		} else {
@@ -204,7 +207,7 @@ public class SpeedChecker {
 				final Result<Double> result = checkURL(urlName);
 				final String output = DECIMAL_FORMAT.format(result.getOutput());
 				IO.info(output, " [Mbits/s]");
-				DATA_FILES.get(urlName).writeLine(Dates.getTime() + DEFAULT_DELIMITER + output);
+				DATA_FILES.get(urlName).writeLine(Dates.getTime() + DELIMITER + output);
 			}
 		}
 	}

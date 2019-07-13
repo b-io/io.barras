@@ -975,7 +975,7 @@ public class Doubles {
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final double a, final double b) {
-		return equals(a, b, Maths.DEFAULT_TOLERANCE);
+		return equals(a, b, Maths.TOLERANCE);
 	}
 
 	/**

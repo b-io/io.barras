@@ -29,7 +29,6 @@ import java.util.Collection;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
 
@@ -60,7 +59,7 @@ public class ExtendedList<T>
 	 * Constructs an empty {@link ExtendedList} of type {@code T} with the default initial capacity.
 	 */
 	public ExtendedList() {
-		super(Arrays.DEFAULT_CAPACITY);
+		super(Collections.DEFAULT_CAPACITY);
 	}
 
 	/**

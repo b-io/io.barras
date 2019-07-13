@@ -155,7 +155,7 @@ public class SafeDateFormat
 	 * the specified {@link StringBuffer}.
 	 * <p>
 	 * @param date       the date-time value to format into a date-time {@link String}
-	 * @param toAppendTo where the new date-time text is to be appended
+	 * @param toAppendTo where the new date-time {@link String} is to be appended
 	 * @param position   the formatting position. On input: an alignment field, if desired; on
 	 *                   output: the offsets of the alignment field
 	 * <p>
@@ -195,13 +195,14 @@ public class SafeDateFormat
 	/**
 	 * Parses the {@link Date} encoded in the specified {@link String}.
 	 * <p>
-	 * The method attempts to parse text starting at the index specified by {@code position}. If
-	 * parsing succeeds, then the index of {@code position} is updated to the index after the last
-	 * character used (parsing does not necessarily use all characters up to the end of the
-	 * {@link String}), and the parsed date is returned. The updated {@code position} can be used to
-	 * indicate the starting point for the next call to this method. If an error occurs, then the
-	 * index of {@code position} is not changed, the error index of {@code position} is set to the
-	 * index of the character where the error occurred, and {@code null} is returned.
+	 * The method attempts to parse {@code text} starting at the index specified by
+	 * {@code position}. If parsing succeeds, then the index of {@code position} is updated to the
+	 * index after the last {@code char} value used (parsing does not necessarily use all characters
+	 * up to the end of the {@link String}), and the parsed date is returned. The updated
+	 * {@code position} can be used to indicate the starting point for the next call to this method.
+	 * If an error occurs, then the index of {@code position} is not changed, the error index of
+	 * {@code position} is set to the index of the {@code char} value where the error occurred, and
+	 * {@code null} is returned.
 	 * <p>
 	 * This parsing operation uses the {@link DateFormat#calendar calendar} to produce a
 	 * {@link Date}. All of {@code calendar}'s date-time fields are

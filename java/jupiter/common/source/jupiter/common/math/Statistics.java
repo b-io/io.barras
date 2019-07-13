@@ -268,7 +268,7 @@ public class Statistics {
 	 * @return Phi(z) = standard Gaussian CDF using Taylor approximation
 	 */
 	public static double normalCdf(final double z) {
-		return normalCdf(z, Maths.DEFAULT_TOLERANCE);
+		return normalCdf(z, Maths.TOLERANCE);
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class Statistics {
 	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search
 	 */
 	public static double normalCdfInverse(final double alpha) {
-		return normalCdfInverse(alpha, Maths.DEFAULT_TOLERANCE, -10., 10.);
+		return normalCdfInverse(alpha, Maths.TOLERANCE, -10., 10.);
 	}
 
 	/**

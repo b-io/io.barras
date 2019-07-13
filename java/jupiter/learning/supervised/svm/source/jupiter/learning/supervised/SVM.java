@@ -34,8 +34,8 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
+import jupiter.common.util.Collections;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.math.analysis.function.Functions;
@@ -55,7 +55,7 @@ public class SVM {
 	/**
 	 * The default cache size.
 	 */
-	public static volatile double DEFAULT_CACHE_SIZE = 100;
+	public static volatile double DEFAULT_CACHE_SIZE = 128;
 
 	/**
 	 * The default tolerance level (or termination criterion) ε.
@@ -111,7 +111,7 @@ public class SVM {
 		problem = new svm_problem();
 		hyperParameters = new svm_parameter();
 		setDefaultParameters();
-		probabilityEstimates = new HashMap<Integer, Double>(Arrays.DEFAULT_CAPACITY);
+		probabilityEstimates = new HashMap<Integer, Double>(Collections.DEFAULT_CAPACITY);
 	}
 
 

@@ -44,20 +44,20 @@ public class Maths {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default tolerance level (or termination criterion) ε for float.
+	 * The tolerance level (or termination criterion) ε for {@code float} values.
 	 */
-	public static volatile float DEFAULT_FLOAT_TOLERANCE = 1E-6f;
+	public static volatile float FLOAT_TOLERANCE = 1E-6f;
 	/**
-	 * The default tolerance level (or termination criterion) ε for double.
+	 * The tolerance level (or termination criterion) ε for {@code double} values.
 	 */
-	public static volatile double DEFAULT_TOLERANCE = 1E-12;
+	public static volatile double TOLERANCE = 1E-12;
 	/**
-	 * The default tiny tolerance level for double.
+	 * The tiny tolerance level for {@code double} values.
 	 */
-	public static volatile double DEFAULT_TINY_TOLERANCE = 1E-300;
+	public static volatile double TINY_TOLERANCE = 1E-300;
 
-	public static volatile double DEFAULT_CONFIDENCE = 0.975;
-	public static volatile double DEFAULT_Z = 1.9599639845400536; // 97.5%
+	public static final double DEFAULT_CONFIDENCE = 0.975; // 97.5%
+	public static final double DEFAULT_Z = 1.9599639845400536; // 97.5%
 
 	public static final double DEGREE_TO_RADIAN = Math.PI / 180.;
 
@@ -131,7 +131,7 @@ public class Maths {
 	}
 
 	public static double division(final double a, final double b) {
-		return a / (b + DEFAULT_TOLERANCE);
+		return a / (b + TOLERANCE);
 	}
 
 	public static double factorial(final double n) {
@@ -187,7 +187,7 @@ public class Maths {
 	}
 
 	public static double log(final double x) {
-		return Math.log(x + DEFAULT_TOLERANCE);
+		return Math.log(x + TOLERANCE);
 	}
 
 	/**

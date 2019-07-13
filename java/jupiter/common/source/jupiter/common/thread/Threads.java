@@ -33,6 +33,9 @@ public class Threads {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The default waiting time.
+	 */
 	public static volatile long DEFAULT_WAITING_TIME = 1000L; // [ms]
 
 

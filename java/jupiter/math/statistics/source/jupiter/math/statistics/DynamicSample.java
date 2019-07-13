@@ -40,7 +40,7 @@ public class DynamicSample
 	/**
 	 * The minimum sample size (2 for the first sample standard deviation and 1 for the second one).
 	 */
-	public static volatile int DEFAULT_MIN_SAMPLE_SIZE = 3;
+	public static final int DEFAULT_MIN_SAMPLE_SIZE = 3;
 	/**
 	 * The maximum sample size.
 	 */

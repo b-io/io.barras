@@ -317,7 +317,7 @@ public class EigenvalueDecomposition
 		e[dimension - 1] = 0.;
 		double f = 0.;
 		double tst1 = 0.;
-		final double eps = Maths.DEFAULT_TOLERANCE;
+		final double eps = Maths.TOLERANCE;
 
 		// Iterate over the row and column index
 		for (int l = 0; l < dimension; ++l) {
@@ -524,7 +524,7 @@ public class EigenvalueDecomposition
 		int n = nn - 1;
 		final int low = 0;
 		final int high = nn - 1;
-		final double eps = Maths.DEFAULT_TOLERANCE; // the relative accuracy
+		final double eps = Maths.TOLERANCE; // the relative accuracy
 		double exshift = 0.;
 		double p = 0, q = 0, r = 0, s = 0, z = 0, t, w, x, y;
 

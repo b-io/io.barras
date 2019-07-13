@@ -78,16 +78,16 @@ public class IO
 	/**
 	 * The default {@link SeverityLevel}.
 	 */
-	public static volatile SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
+	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
 
 	/**
 	 * The default {@link ConsoleHandler}.
 	 */
-	public static volatile ConsoleHandler DEFAULT_CONSOLE_HANDLER = new ConsoleHandler();
+	public static final ConsoleHandler DEFAULT_CONSOLE_HANDLER = new ConsoleHandler();
 	/**
 	 * The default {@link LogHandler}.
 	 */
-	public static volatile LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
+	public static final LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
 
 	/**
 	 * The default {@link IO}.
@@ -100,9 +100,9 @@ public class IO
 	protected static final int STACK_INDEX_OFFSET = 1;
 
 	/**
-	 * The default buffer size used for copying.
+	 * The buffer size used for copying.
 	 */
-	protected static volatile int DEFAULT_BUFFER_SIZE = 4096; // [byte]
+	protected static volatile int BUFFER_SIZE = 4096; // [byte]
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -521,7 +521,7 @@ public class IO
 	 */
 	public static long copy(final InputStream input, final OutputStream output)
 			throws IOException {
-		return copy(input, output, new byte[DEFAULT_BUFFER_SIZE]);
+		return copy(input, output, new byte[BUFFER_SIZE]);
 	}
 
 	/**
@@ -683,13 +683,13 @@ public class IO
 	}
 
 	/**
-	 * Prints a bar line with the specified progress character and terminates the line with the
-	 * {@link IOPrinter}.
+	 * Prints a bar line with the specified progress {@code char} symbol and terminates the line
+	 * with the {@link IOPrinter}.
 	 * <p>
-	 * @param progressCharacter the {@code char} value of the bar to print
+	 * @param progressSymbol the progress {@code char} symbol of the bar to print
 	 */
-	public void bar(final char progressCharacter) {
-		println(Strings.createBar(progressCharacter), false);
+	public void bar(final char progressSymbol) {
+		println(Strings.createBar(progressSymbol), false);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

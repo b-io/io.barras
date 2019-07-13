@@ -272,8 +272,8 @@ public class SingularValueDecomposition
 		// Compute the singular values
 		final int pp = p - 1;
 		// int iter = 0;
-		final double eps = Maths.DEFAULT_TOLERANCE;
-		final double tiny = Maths.DEFAULT_TINY_TOLERANCE;
+		final double eps = Maths.TOLERANCE;
+		final double tiny = Maths.TINY_TOLERANCE;
 		while (p > 0) {
 			int k, kase;
 			// @todo test to avoid too many iterations
@@ -549,7 +549,7 @@ public class SingularValueDecomposition
 	 * @return the number of non-negligible singular values
 	 */
 	public int rank() {
-		final double eps = Maths.DEFAULT_TOLERANCE;
+		final double eps = Maths.TOLERANCE;
 		final double tolerance = Math.max(m, n) * s[0] * eps;
 		int r = 0;
 		for (final double value : s) {

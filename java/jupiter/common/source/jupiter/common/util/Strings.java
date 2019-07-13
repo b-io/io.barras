@@ -64,8 +64,9 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile char DEFAULT_BAR_CHARACTER = '-';
-	public static volatile int DEFAULT_INITIAL_CAPACITY = 256;
+	public static volatile int DEFAULT_INITIAL_CAPACITY = 255;
+
+	public static volatile char DEFAULT_PROGRESS_CHARACTER = '-';
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -338,46 +339,54 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link String} bar of the default length with the default progress character.
+	 * Creates a {@link String} bar of the default length with the default progress {@code char}
+	 * symbol.
 	 * <p>
-	 * @return a {@link String} bar of the default length with the default progress character
+	 * @return a {@link String} bar of the default length with the default progress {@code char}
+	 *         symbol
 	 */
 	public static String createBar() {
-		return createBar(DEFAULT_LINE_LENGTH, DEFAULT_BAR_CHARACTER);
+		return createBar(DEFAULT_LINE_LENGTH, DEFAULT_PROGRESS_CHARACTER);
 	}
 
 	/**
-	 * Creates a {@link String} bar of the specified length with the default progress character.
+	 * Creates a {@link String} bar of the specified length with the default progress {@code char}
+	 * symbol.
 	 * <p>
 	 * @param length the length of the bar to create
 	 * <p>
-	 * @return a {@link String} bar of the specified length with the default progress character
+	 * @return a {@link String} bar of the specified length with the default progress {@code char}
+	 *         symbol
 	 */
 	public static String createBar(final int length) {
-		return createBar(length, DEFAULT_BAR_CHARACTER);
+		return createBar(length, DEFAULT_PROGRESS_CHARACTER);
 	}
 
 	/**
-	 * Creates a {@link String} bar of the default length with the specified progress character.
+	 * Creates a {@link String} bar of the default length with the specified progress {@code char}
+	 * symbol.
 	 * <p>
-	 * @param progressCharacter the progress {@code char} value of the bar to create
+	 * @param progressSymbol the progress {@code char} symbol of the bar to create
 	 * <p>
-	 * @return a {@link String} bar of the default length with the specified progress character
+	 * @return a {@link String} bar of the default length with the specified progress {@code char}
+	 *         symbol
 	 */
-	public static String createBar(final char progressCharacter) {
-		return createBar(DEFAULT_LINE_LENGTH, progressCharacter);
+	public static String createBar(final char progressSymbol) {
+		return createBar(DEFAULT_LINE_LENGTH, progressSymbol);
 	}
 
 	/**
-	 * Creates a {@link String} bar of the specified length with the specified progress character.
+	 * Creates a {@link String} bar of the specified length with the specified progress {@code char}
+	 * symbol.
 	 * <p>
-	 * @param length            the length of the bar to create
-	 * @param progressCharacter the progress {@code char} value of the bar to create
+	 * @param length         the length of the bar to create
+	 * @param progressSymbol the progress {@code char} symbol of the bar to create
 	 * <p>
-	 * @return a {@link String} bar of the specified length with the specified progress character
+	 * @return a {@link String} bar of the specified length with the specified progress {@code char}
+	 *         symbol
 	 */
-	public static String createBar(final int length, final char progressCharacter) {
-		return repeat(progressCharacter, length);
+	public static String createBar(final int length, final char progressSymbol) {
+		return repeat(progressSymbol, length);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

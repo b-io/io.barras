@@ -25,7 +25,6 @@ package jupiter.gui.console;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.DEFAULT_CHARSET_NAME;
 import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 
@@ -99,6 +98,8 @@ public class JConsole
 	 * The generated serial version ID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static final Font FONT = new Font("Monospaced", Font.PLAIN, 14);
 	protected static final String COPY = "Copy";
@@ -229,7 +230,7 @@ public class JConsole
 		if (inPipe == null) {
 			final PipedOutputStream pout = new PipedOutputStream();
 			try {
-				out = new PrintStream(pout, true, DEFAULT_CHARSET_NAME);
+				out = new PrintStream(pout, true, DEFAULT_CHARSET.name());
 				inPipe = new BlockingPipedInputStream(pout);
 			} catch (final IOException ex) {
 				IO.error(ex);
@@ -472,7 +473,7 @@ public class JConsole
 		} catch (final IOException ex) {
 			throw new RuntimeException("Unable to write in the console", ex);
 		}
-		// textPane.repaint();
+		//textPane.repaint();
 	}
 
 
@@ -565,7 +566,7 @@ public class JConsole
 		int read;
 		while ((read = inPipe.read(ba)) >= 0) {
 			print(new String(ba, 0, read, DEFAULT_CHARSET.name()));
-			// textPane.repaint();
+			//textPane.repaint();
 		}
 	}
 
@@ -582,7 +583,7 @@ public class JConsole
 		final String selection = Strings.toString(content);
 		textPane.select(from, to);
 		textPane.replaceSelection(selection);
-		// textPane.repaint();
+		//textPane.repaint();
 		return selection;
 	}
 

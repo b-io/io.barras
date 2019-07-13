@@ -179,7 +179,7 @@ public class NumberTable<T extends Number>
 	 */
 	@Override
 	public boolean equals(final Object other) {
-		return equals(other, Maths.DEFAULT_TOLERANCE);
+		return equals(other, Maths.TOLERANCE);
 	}
 
 	/**

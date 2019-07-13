@@ -56,7 +56,7 @@ public class SortedList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link SortedList} of type {@code T} with the default initial capacity.
+	 * Constructs an empty {@link SortedList} of type {@code T}.
 	 */
 	public SortedList() {
 		super();

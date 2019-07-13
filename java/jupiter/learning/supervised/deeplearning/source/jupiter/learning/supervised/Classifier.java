@@ -62,12 +62,12 @@ public abstract class Classifier
 	/**
 	 * The default exponential decay rate for the first-moment estimates β1 (Adam algorithm).
 	 */
-	public static volatile double DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE = Double.NaN; // 0.9
+	public static volatile double DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE = 0.9;
 
 	/**
 	 * The default exponential decay rate for the second-moment estimates β2 (Adam algorithm).
 	 */
-	public static volatile double DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE = Double.NaN; // 0.999
+	public static volatile double DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE = 0.999;
 
 	/**
 	 * The default tolerance level (or termination criterion) ε.
@@ -301,8 +301,7 @@ public abstract class Classifier
 	 */
 	public synchronized int train(final double learningRate, final double tolerance,
 			final int maxIterationCount) {
-		return train(learningRate, DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE,
-				DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE, tolerance, maxIterationCount);
+		return train(learningRate, Double.NaN, Double.NaN, tolerance, maxIterationCount);
 	}
 
 	/**

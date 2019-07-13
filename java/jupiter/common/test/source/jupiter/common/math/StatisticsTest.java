@@ -43,7 +43,7 @@ public class StatisticsTest
 		IO.test("normalCdf");
 
 		final double normalCdf = Statistics.normalCdf(0.);
-		assertEquals(0.5, normalCdf, Maths.DEFAULT_TOLERANCE);
+		assertEquals(0.5, normalCdf, Maths.TOLERANCE);
 	}
 
 	/**
@@ -54,6 +54,6 @@ public class StatisticsTest
 
 		final double normalCdfInverse = Statistics.normalCdfInverse(Maths.DEFAULT_CONFIDENCE);
 		IO.test("Accuracy: ", Maths.delta(normalCdfInverse, Maths.DEFAULT_Z));
-		assertEquals(Maths.DEFAULT_Z, normalCdfInverse, Maths.DEFAULT_TOLERANCE);
+		assertEquals(Maths.DEFAULT_Z, normalCdfInverse, Maths.TOLERANCE);
 	}
 }

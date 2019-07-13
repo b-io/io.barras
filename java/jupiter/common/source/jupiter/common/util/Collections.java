@@ -35,7 +35,15 @@ public class Collections {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile String DEFAULT_DELIMITER = ",";
+	/**
+	 * The default delimiting {@link String}.
+	 */
+	public static final String DEFAULT_DELIMITER = ",";
+
+	/**
+	 * The default initial capacity.
+	 */
+	public static volatile int DEFAULT_CAPACITY = 10;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

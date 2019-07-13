@@ -44,7 +44,7 @@ public class Formats {
 	/**
 	 * The current version.
 	 */
-	public static final String VERSION = "1.0.0";
+	public static final String VERSION = "1.6.0";
 
 	/**
 	 * The newline.
@@ -52,22 +52,21 @@ public class Formats {
 	public static final String NEWLINE = "\n";
 
 	/**
-	 * The UTF-8 encoding.
+	 * The UTF-8 {@link Charset}.
 	 */
 	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 	/**
-	 * The default encoding.
+	 * The default {@link Charset}.
 	 */
 	public static volatile Charset DEFAULT_CHARSET = UTF8_CHARSET;
-	public static volatile String DEFAULT_CHARSET_NAME = DEFAULT_CHARSET.name();
 
 	/**
-	 * The default locale.
+	 * The default {@link Locale}.
 	 */
 	public static volatile Locale DEFAULT_LOCALE = Locale.getDefault();
 
 	/**
-	 * The default length of a line (useful for IO).
+	 * The default length of a line (used by IO).
 	 */
 	public static volatile int DEFAULT_LINE_LENGTH = 72;
 
@@ -99,44 +98,35 @@ public class Formats {
 	/**
 	 * The default pattern {@link String} describing the date format.
 	 */
-	public static volatile String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+	public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
 	/**
 	 * The default pattern {@link String} describing the date-time format.
 	 */
-	public static volatile String DEFAULT_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	public static final String DEFAULT_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default pattern {@link String} describing the decimal format.
+	 * The default pattern {@link String} describing the default {@link DecimalFormat}.
 	 */
-	public static volatile String DEFAULT_PATTERN = "0.######";
+	public static final String DEFAULT_PATTERN = "0.######";
 	/**
-	 * The default pattern {@link String} describing the scientific decimal format.
+	 * The default pattern {@link String} describing the default scientific {@link DecimalFormat}.
 	 */
-	public static volatile String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN + "E0";
-
-	/**
-	 * The default number length.
-	 */
-	public static volatile int DEFAULT_NUMBER_LENGTH = DEFAULT_PATTERN.length();
-	/**
-	 * The default minimum number of integer digits.
-	 */
-	public static volatile int DEFAULT_MIN_INTEGER_DIGITS = 1;
-	/**
-	 * The default maximum number of integer digits.
-	 */
-	public static volatile int DEFAULT_MAX_INTEGER_DIGITS = 6;
+	public static final String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN + "E0";
 	/**
 	 * The default minimum number of fraction digits.
 	 */
-	public static volatile int DEFAULT_MIN_FRACTION_DIGITS = 0;
+	public static final int DEFAULT_MIN_FRACTION_DIGITS = 0;
 	/**
 	 * The default maximum number of fraction digits.
 	 */
-	public static volatile int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_PATTERN.length() - 2;
+	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_PATTERN.length() - 2;
 
+	/**
+	 * The number length used for representing numbers as {@link String}.
+	 */
+	public static volatile int NUMBER_LENGTH = DEFAULT_PATTERN.length();
 	/**
 	 * The minimum number length.
 	 */
@@ -144,11 +134,11 @@ public class Formats {
 	/**
 	 * The minimum number of integer digits.
 	 */
-	public static volatile int MIN_INTEGER_DIGITS = DEFAULT_MIN_INTEGER_DIGITS;
+	public static volatile int MIN_INTEGER_DIGITS = 1;
 	/**
-	 * The maximum number of integer digits.
+	 * The maximum number of integer digits before using the scientific {@link DecimalFormat}.
 	 */
-	public static volatile int MAX_INTEGER_DIGITS = DEFAULT_MAX_INTEGER_DIGITS;
+	public static volatile int MAX_INTEGER_DIGITS = 6;
 	/**
 	 * The minimum number of fraction digits.
 	 */
@@ -222,7 +212,7 @@ public class Formats {
 	 *
 	 * Returns the {@link DecimalFormat} with the specified decimal pattern {@link String}.
 	 * <p>
-	 * @param pattern the pattern {@link String} describing the decimal format
+	 * @param pattern the pattern {@link String} describing the {@link DecimalFormat}
 	 * <p>
 	 * @return the {@link DecimalFormat} with the specified decimal pattern {@link String}
 	 *

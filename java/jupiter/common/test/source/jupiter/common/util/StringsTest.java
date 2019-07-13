@@ -31,6 +31,9 @@ import jupiter.common.test.Test;
 public class StringsTest
 		extends Test {
 
+	/**
+	 * The {@code char} delimiters.
+	 */
 	protected static final char[] DELIMITERS = new char[] {'.', ':', ',', ';', '-'};
 	protected static final String[] STRING_DELIMITERS = new String[] {".", ":", ",", ";", "-"};
 	protected static final String STRING = "-AA.BB:CC--DD;EE,FF-";

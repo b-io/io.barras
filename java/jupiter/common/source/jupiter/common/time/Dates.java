@@ -39,9 +39,14 @@ public class Dates {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final SafeDateFormat DATE_FORMATTER = new SafeDateFormat(DEFAULT_DATE_PATTERN);
-	protected static final SafeDateFormat DATE_TIME_FORMATTER = new SafeDateFormat(
-			DEFAULT_DATE_TIME_PATTERN);
+	/**
+	 * The {@link SafeDateFormat}.
+	 */
+	protected static volatile SafeDateFormat DATE_FORMATTER = new SafeDateFormat(DEFAULT_DATE_PATTERN);
+	/**
+	 * The {@link SafeDateFormat} with time.
+	 */
+	protected static volatile SafeDateFormat DATE_TIME_FORMATTER = new SafeDateFormat(DEFAULT_DATE_TIME_PATTERN);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
