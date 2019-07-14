@@ -322,7 +322,7 @@ public class NeuralNetwork
 		// - The cost
 		cost = Double.POSITIVE_INFINITY;
 		// - The derivative with respect to Z
-		Entity dZ = null;
+		Entity dZ;
 		// - The derivative with respect to A
 		Matrix dA = null;
 		// - The Adam variables

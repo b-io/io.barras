@@ -113,6 +113,7 @@ public class Collections {
 	 * @return the specified {@link Collection} of type {@code T} without the specified
 	 *         {@link Object}
 	 */
+	@SuppressWarnings("empty-statement")
 	public static <C extends Collection<T>, T> C removeAll(final C collection,
 			final Object object) {
 		while (collection.remove(object));

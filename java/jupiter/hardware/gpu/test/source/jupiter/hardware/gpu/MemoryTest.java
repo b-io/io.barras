@@ -75,17 +75,17 @@ public class MemoryTest
 	/**
 	 * The index of the OpenCL platform to use.
 	 */
-	protected static final int platformIndex = 0;
+	protected static final int PLATFORM_INDEX = 0;
 
 	/**
 	 * The OpenCL device type to use.
 	 */
-	protected static final long deviceType = CL_DEVICE_TYPE_ALL;
+	protected static final long DEVICE_TYPE = CL_DEVICE_TYPE_ALL;
 
 	/**
 	 * The index of the OpenCL device to use.
 	 */
-	protected static final int deviceIndex = 0;
+	protected static final int DEVICE_INDEX = 0;
 
 	/**
 	 * The OpenCL context.
@@ -163,9 +163,9 @@ public class MemoryTest
 	 */
 	protected static double computeBandwidth(final int memorySize, final MemoryMode memoryMode,
 			final AccessMode accessMode) {
-		ByteBuffer hostBuffer = null;
+		ByteBuffer hostBuffer;
 		cl_mem pinnedHostBuffer = null;
-		cl_mem deviceBuffer = null;
+		cl_mem deviceBuffer;
 
 		if (memoryMode == MemoryMode.PINNED) {
 			// Allocate the pinned host memory
@@ -260,6 +260,7 @@ public class MemoryTest
 	/**
 	 * Performs a default initialization by creating a context and a command queue.
 	 */
+	@SuppressWarnings("deprecation")
 	protected static void initialize() {
 		// Enable exceptions and subsequently omit error checks in this sample
 		CL.setExceptionsEnabled(true);
@@ -272,7 +273,7 @@ public class MemoryTest
 		// Obtain a platform identifier
 		final cl_platform_id platforms[] = new cl_platform_id[numPlatforms];
 		clGetPlatformIDs(platforms.length, platforms, null);
-		final cl_platform_id platform = platforms[platformIndex];
+		final cl_platform_id platform = platforms[PLATFORM_INDEX];
 
 		// Initialize the context properties
 		final cl_context_properties contextProperties = new cl_context_properties();
@@ -280,13 +281,13 @@ public class MemoryTest
 
 		// Obtain the number of devices for the platform
 		final int numDevicesArray[] = new int[1];
-		clGetDeviceIDs(platform, deviceType, 0, null, numDevicesArray);
+		clGetDeviceIDs(platform, DEVICE_TYPE, 0, null, numDevicesArray);
 		final int numDevices = numDevicesArray[0];
 
 		// Obtain a device identifier
 		final cl_device_id devices[] = new cl_device_id[numDevices];
-		clGetDeviceIDs(platform, deviceType, numDevices, devices, null);
-		final cl_device_id device = devices[deviceIndex];
+		clGetDeviceIDs(platform, DEVICE_TYPE, numDevices, devices, null);
+		final cl_device_id device = devices[DEVICE_INDEX];
 
 		// Create a context for the selected device
 		context = clCreateContext(contextProperties, 1, new cl_device_id[] {device}, null, null,

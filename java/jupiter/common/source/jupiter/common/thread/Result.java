@@ -170,6 +170,7 @@ public class Result<O>
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Result<O> clone() {
 		try {
 			final Result<O> clone = (Result<O>) super.clone();

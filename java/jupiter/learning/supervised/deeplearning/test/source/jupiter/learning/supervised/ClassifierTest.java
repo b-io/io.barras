@@ -40,6 +40,8 @@ public class ClassifierTest
 
 	/**
 	 * Tests the constructor.
+	 * <p>
+	 * @throws IOException if there is a problem with reading the specified files
 	 */
 	public void test()
 			throws IOException {

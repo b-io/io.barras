@@ -66,12 +66,14 @@ public class ExpressionHandler
 	/**
 	 * The {@link List} of binary operators.
 	 */
+	@SuppressWarnings("unchecked")
 	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.<List<Character>>asList(
 			Arrays.<Character>asList('+', '-'), Arrays.<Character>asList('*', '/'),
 			Arrays.<Character>asList('^'), Arrays.<Character>asList('~'));
 	/**
 	 * The {@link List} of unary operators.
 	 */
+	@SuppressWarnings("unchecked")
 	protected static final List<List<Character>> UNARY_OPERATORS = Arrays.<List<Character>>asList(
 			Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
 
@@ -402,6 +404,7 @@ public class ExpressionHandler
 	 * @return the index of the last operator in the specified expression {@link String} that is not
 	 *         in the specified delimiting intervals
 	 */
+	@SuppressWarnings("empty-statement")
 	protected static int getLastOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<Character> operators) {

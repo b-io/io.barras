@@ -31,6 +31,8 @@ import jupiter.common.util.Arrays;
 
 /**
  * This is a duplicate of {@code TimSort} from Oracle Java 8.
+ * <p>
+ * @param <T> the type of the {@link Sort}
  */
 public class Sort<T>
 		implements Serializable {

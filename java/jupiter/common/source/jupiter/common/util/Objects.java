@@ -111,6 +111,7 @@ public class Objects {
 	 *
 	 * @see jupiter.common.model.ICloneable
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T clone(final T object)
 			throws CloneNotSupportedException {
 		if (object == null) {

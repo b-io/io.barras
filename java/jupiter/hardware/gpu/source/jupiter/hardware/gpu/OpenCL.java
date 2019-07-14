@@ -31,13 +31,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.StringArguments;
 import jupiter.common.util.Characters;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public abstract class OpenCL
-		implements Serializable {
+		implements ICloneable<OpenCL>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -297,15 +298,7 @@ public abstract class OpenCL
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public OpenCL clone() {
-		try {
-			final OpenCL clone = (OpenCL) super.clone();
-			clone.kernelNames = Objects.clone(kernelNames);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
-		}
-	}
+	public abstract OpenCL clone();
 
 	/**
 	 * Disposes of system resources and performs a cleanup. Note that this method is called by the

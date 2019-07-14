@@ -26,7 +26,6 @@ package jupiter.hardware.jni;
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.util.Doubles;
-import jupiter.hardware.jni.NarSystem;
 
 public class MatrixOperations {
 

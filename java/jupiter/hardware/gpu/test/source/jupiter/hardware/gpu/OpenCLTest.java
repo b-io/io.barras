@@ -26,8 +26,6 @@ package jupiter.hardware.gpu;
 import static jupiter.common.io.IO.IO;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
-import java.io.IOException;
-
 import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 
@@ -43,8 +41,7 @@ public class OpenCLTest
 	/**
 	 * Test of arrayTimes method, of class OpenCL.
 	 */
-	public void testArrayTimes()
-			throws IOException {
+	public void testArrayTimes() {
 		if (OpenCL.IS_ACTIVE) {
 			IO.test("arrayTimes");
 
@@ -79,8 +76,7 @@ public class OpenCLTest
 	/**
 	 * Test of times method, of class OpenCL.
 	 */
-	public void testTimes()
-			throws IOException {
+	public void testTimes() {
 		if (OpenCL.IS_ACTIVE) {
 			IO.test("times");
 
@@ -126,8 +122,7 @@ public class OpenCLTest
 	/**
 	 * Test of forward method, of class OpenCL.
 	 */
-	public void testForward()
-			throws IOException {
+	public void testForward() {
 		if (OpenCL.IS_ACTIVE) {
 			IO.test("forward");
 
