@@ -487,7 +487,7 @@ public class MailHandler
 				return new PasswordAuthentication(userName, password);
 			}
 		};
-		Session session = Session.getDefaultInstance(properties, authenticator);
+		final Session session = Session.getDefaultInstance(properties, authenticator);
 		session.setDebug(true);
 
 		// Compose the mail

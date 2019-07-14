@@ -42,11 +42,13 @@ public class Dates {
 	/**
 	 * The {@link SafeDateFormat}.
 	 */
-	protected static volatile SafeDateFormat DATE_FORMATTER = new SafeDateFormat(DEFAULT_DATE_PATTERN);
+	protected static volatile SafeDateFormat DATE_FORMATTER = new SafeDateFormat(
+			DEFAULT_DATE_PATTERN);
 	/**
 	 * The {@link SafeDateFormat} with time.
 	 */
-	protected static volatile SafeDateFormat DATE_TIME_FORMATTER = new SafeDateFormat(DEFAULT_DATE_TIME_PATTERN);
+	protected static volatile SafeDateFormat DATE_TIME_FORMATTER = new SafeDateFormat(
+			DEFAULT_DATE_TIME_PATTERN);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

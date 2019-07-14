@@ -34,8 +34,6 @@ import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.StringArguments;
 import jupiter.common.util.Characters;
-import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public abstract class OpenCL
 		implements ICloneable<OpenCL>, Serializable {

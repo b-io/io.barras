@@ -24,9 +24,9 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.NUMBER_LENGTH;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.NEWLINE;
+import static jupiter.common.util.Formats.NUMBER_LENGTH;
 import static jupiter.common.util.Formats.formatNumber;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
