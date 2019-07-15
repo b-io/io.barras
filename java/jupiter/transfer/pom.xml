@@ -24,7 +24,7 @@
 		<!-- JCraft (for the ftp package) -->
 		<jcraft.jsch.version>0.1.54</jcraft.jsch.version>
 		<!-- JavaMail API (for the mail package) -->
-		<sun.mail.version>1.6.2</sun.mail.version>
+		<sun.mail.version>1.5.6</sun.mail.version>
 	</properties>
 
 	<dependencies>
