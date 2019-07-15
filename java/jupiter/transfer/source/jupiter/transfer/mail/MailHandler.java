@@ -541,8 +541,6 @@ public class MailHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public enum Protocol {
-		POP("pop"),
-		POPS("pops"),
 		POP3("pop3"),
 		POP3S("pop3s"),
 		IMAP("imap"),
@@ -560,13 +558,11 @@ public class MailHandler
 
 		public boolean isSSL() {
 			switch (this) {
-				case POP:
 				case POP3:
 				case IMAP:
 				case SMTP:
 				case SMTPTLS:
 					return false;
-				case POPS:
 				case POP3S:
 				case IMAPS:
 				case SMTPS:
@@ -578,8 +574,6 @@ public class MailHandler
 
 		public boolean isTLS() {
 			switch (this) {
-				case POP:
-				case POPS:
 				case POP3:
 				case POP3S:
 				case IMAP:
@@ -596,10 +590,8 @@ public class MailHandler
 
 		public int getDefaultPort() {
 			switch (this) {
-				case POP:
 				case POP3:
 					return 110;
-				case POPS:
 				case POP3S:
 					return 995;
 				case IMAP:
@@ -627,11 +619,7 @@ public class MailHandler
 
 		public static Protocol get(final String name) {
 			final String value = Strings.toUpperCase(name);
-			if (POP.value.equals(value)) {
-				return POP;
-			} else if (POPS.value.equals(value)) {
-				return POPS;
-			} else if (POP3.value.equals(value)) {
+			if (POP3.value.equals(value)) {
 				return POP3;
 			} else if (POP3S.value.equals(value)) {
 				return POP3S;
@@ -657,8 +645,6 @@ public class MailHandler
 		@Override
 		public String toString() {
 			switch (this) {
-				case POP:
-				case POPS:
 				case POP3:
 				case POP3S:
 				case IMAP:
