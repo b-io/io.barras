@@ -98,14 +98,6 @@ public class MailHandler
 	 * The password.
 	 */
 	protected String password;
-	/**
-	 * The path to the remote directory.
-	 */
-	protected String remoteDirPath;
-	/**
-	 * The mail filter {@link SearchTerm}.
-	 */
-	protected SearchTerm mailFilter;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,67 +114,21 @@ public class MailHandler
 
 	/**
 	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
-	 * outgoing mail server {@link Protocol}, host name, user name, password and path to the remote
-	 * directory.
+	 * outgoing mail server {@link Protocol}, host name, user name and password.
 	 * <p>
-	 * @param inProtocol    the ingoing mail server {@link Protocol}
-	 * @param outProtocol   the outgoing mail server {@link Protocol}
-	 * @param hostName      the host name
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 */
-	public MailHandler(final Protocol inProtocol, final Protocol outProtocol,
-			final String hostName, final String userName, final String password,
-			final String remoteDirPath) {
-		this(inProtocol, outProtocol, hostName, userName, password, remoteDirPath, STAR);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
-	 * outgoing mail server {@link Protocol}, host name, user name, password, path to the remote
-	 * directory and mail filter {@link String}.
-	 * <p>
-	 * @param inProtocol    the ingoing mail server {@link Protocol}
-	 * @param outProtocol   the outgoing mail server {@link Protocol}
-	 * @param hostName      the host name
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 * @param mailFilter    the mail filter {@link String}
+	 * @param inProtocol  the ingoing mail server {@link Protocol}
+	 * @param outProtocol the outgoing mail server {@link Protocol}
+	 * @param hostName    the host name
+	 * @param userName    the user name
+	 * @param password    the password
 	 */
 	public MailHandler(final Protocol inProtocol, final Protocol outProtocol, final String hostName,
-			final String userName, final String password, final String remoteDirPath,
-			final String mailFilter) {
-		this(inProtocol, outProtocol, hostName, userName, password, remoteDirPath,
-				createSearchTerm(mailFilter));
-	}
-
-	/**
-	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
-	 * outgoing mail server {@link Protocol}, host name, user name, password, path to the remote
-	 * directory and mail filter {@link SearchTerm}.
-	 * <p>
-	 * @param inProtocol    the ingoing mail server {@link Protocol}
-	 * @param outProtocol   the outgoing mail server {@link Protocol}
-	 * @param hostName      the host name
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 * @param mailFilter    the mail filter {@link SearchTerm}
-	 */
-	public MailHandler(final Protocol inProtocol, final Protocol outProtocol, final String hostName,
-			final String userName, final String password, final String remoteDirPath,
-			final SearchTerm mailFilter) {
+			final String userName, final String password) {
 		this.inProtocol = inProtocol;
 		this.outProtocol = outProtocol;
 		this.hostName = hostName;
 		this.userName = userName;
 		this.password = password;
-		this.remoteDirPath = remoteDirPath;
-		this.mailFilter = mailFilter;
 	}
 
 	//////////////////////////////////////////////
@@ -190,8 +136,7 @@ public class MailHandler
 	/**
 	 * Constructs a {@link MailHandler} loaded from the specified {@link Properties} containing the
 	 * ingoing mail server {@link Protocol}, outgoing mail server {@link Protocol}, host name,
-	 * ingoing mail server port, outgoing mail server port, user name, password, path to the remote
-	 * directory and mail filter {@link SearchTerm}.
+	 * ingoing mail server port, outgoing mail server port, user name and password.
 	 * <p>
 	 * @param properties the {@link Properties} to load
 	 */
@@ -267,24 +212,6 @@ public class MailHandler
 		return password;
 	}
 
-	/**
-	 * Returns the path to the remote directory.
-	 * <p>
-	 * @return the path to the remote directory
-	 */
-	public String getRemoteDirPath() {
-		return remoteDirPath;
-	}
-
-	/**
-	 * Returns the mail filter {@link SearchTerm}.
-	 * <p>
-	 * @return the mail filter {@link SearchTerm}
-	 */
-	public SearchTerm getMailFilter() {
-		return mailFilter;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// SETTERS
@@ -353,24 +280,6 @@ public class MailHandler
 		this.password = password;
 	}
 
-	/**
-	 * Sets the path to the remote directory.
-	 * <p>
-	 * @param remoteDirPath a {@link String}
-	 */
-	public void setRemoteDirPath(final String remoteDirPath) {
-		this.remoteDirPath = remoteDirPath;
-	}
-
-	/**
-	 * Sets the mail filter {@link SearchTerm}.
-	 * <p>
-	 * @param mailFilter a {@link SearchTerm}
-	 */
-	public void setMailFilter(final SearchTerm mailFilter) {
-		this.mailFilter = mailFilter;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
@@ -405,7 +314,8 @@ public class MailHandler
 		properties.put("mail." + protocol + ".timeout", Strings.toString(TIMEOUT));
 		properties.put("mail." + protocol + ".connectiontimeout", Strings.toString(TIMEOUT));
 		if (protocol.isSSL()) {
-			properties.put("mail." + protocol + ".socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			properties.put("mail." + protocol + ".socketFactory.class",
+					"javax.net.ssl.SSLSocketFactory");
 			properties.put("mail." + protocol + ".socketFactory.port", protocol.getPort());
 			properties.put("mail." + protocol + ".ssl.checkserveridentity", "false");
 			properties.put("mail." + protocol + ".ssl.trust", STAR);
@@ -431,12 +341,42 @@ public class MailHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Downloads the {@link List} of {@link MimeMessage} from the mail server with {@code this}
-	 * parameters.
+	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the specified
+	 * remote directory.
+	 * <p>
+	 * @param remoteDirPath the path to the remote directory
 	 * <p>
 	 * @return the {@link List} of {@link MimeMessage}
 	 */
-	public List<MimeMessage> download() {
+	public List<MimeMessage> download(final String remoteDirPath) {
+		return download(remoteDirPath, STAR);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the specified
+	 * remote directory filtered by the specified mail filter {@link String}.
+	 * <p>
+	 * @param remoteDirPath the path to the remote directory
+	 * @param mailFilter    the mail filter {@link String}
+	 * <p>
+	 * @return the {@link List} of {@link MimeMessage}
+	 */
+	public List<MimeMessage> download(final String remoteDirPath, final String mailFilter) {
+		return download(remoteDirPath, createSearchTerm(mailFilter));
+	}
+
+	/**
+	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the specified
+	 * remote directory filtered by the specified mail filter {@link SearchTerm}.
+	 * <p>
+	 * @param remoteDirPath the path to the remote directory
+	 * @param mailFilter    the mail filter {@link SearchTerm}
+	 * <p>
+	 * @return the {@link List} of {@link MimeMessage}
+	 */
+	public List<MimeMessage> download(final String remoteDirPath, final SearchTerm mailFilter) {
 		final List<MimeMessage> messages = new LinkedList<MimeMessage>();
 		try {
 			IO.info("Connect to the mail server ",
@@ -543,8 +483,6 @@ public class MailHandler
 				Strings.toString(outProtocol.getPort()))));
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
-		remoteDirPath = properties.getProperty("remoteDir");
-		mailFilter = createSearchTerm(properties.getProperty("mailFilter", STAR));
 	}
 
 
