@@ -401,42 +401,42 @@ public abstract class Classifier
 	/**
 	 * Computes the accuracy.
 	 * <p>
-	 * @return {@code (A Y' + (1 - A) (1 - Y')) / m}
+	 * @return {@code (sum(diag(A Y')) + sum(diag((1 - A) (1 - Y')))) / (k * m)}
 	 */
 	public synchronized double computeAccuracy() {
 		// Classify X
 		final Entity A = classify(X); // (k x m)
-		// Compute (A Y' + (1 - A) (1 - Y')) / m
-		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
-		final double trueNegative = Scalar.ONE.minus(A).diagonalTimes(Scalar.ONE.minus(YT)).sum(); // (1 - A) (1 - Y')
+		// Compute (sum(diag(A Y')) + sum(diag((1 - A) (1 - Y')))) / (k * m)
+		final double truePositive = A.diagonalTimes(YT).sum(); // sum(diag(A Y'))
+		final double trueNegative = Scalar.ONE.minus(A).diagonalTimes(Scalar.ONE.minus(YT)).sum(); // sum(diag((1 - A) (1 - Y')))
 		return (truePositive + trueNegative) / (classCount * trainingExampleCount);
 	}
 
 	/**
 	 * Computes the precision.
 	 * <p>
-	 * @return {@code A Y' / (A Y' + A (1 - Y'))}
+	 * @return {@code sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))}
 	 */
 	public synchronized double computePrecision() {
 		// Classify X
 		final Entity A = classify(X); // (k x m)
-		// Compute A Y' / (A Y' + A (1 - Y'))
-		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
-		final double falsePositive = A.diagonalTimes(Scalar.ONE.minus(YT)).sum(); // A (1 - Y')
+		// Compute sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))
+		final double truePositive = A.diagonalTimes(YT).sum(); // sum(diag(A Y'))
+		final double falsePositive = A.diagonalTimes(Scalar.ONE.minus(YT)).sum(); // sum(diag(A (1 - Y')))
 		return Maths.division(truePositive, truePositive + falsePositive);
 	}
 
 	/**
 	 * Computes the recall.
 	 * <p>
-	 * @return {@code A Y' / (A Y' + (1 - A) Y')}
+	 * @return {@code sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))}
 	 */
 	public synchronized double computeRecall() {
 		// Classify X
 		final Entity A = classify(X); // (k x m)
-		// Compute A Y' / (A Y' + (1 - A) Y')
-		final double truePositive = A.diagonalTimes(YT).sum(); // A Y'
-		final double falseNegative = Scalar.ONE.minus(A).diagonalTimes(YT).sum(); // (1 - A) Y'
+		// Compute sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))
+		final double truePositive = A.diagonalTimes(YT).sum(); // sum(diag(A Y'))
+		final double falseNegative = Scalar.ONE.minus(A).diagonalTimes(YT).sum(); // sum(diag((1 - A) Y'))
 		return Maths.division(truePositive, truePositive + falseNegative);
 	}
 
@@ -447,8 +447,8 @@ public abstract class Classifier
 	 */
 	public synchronized double computeF1Score() {
 		// Compute 2. / ((1. / precision) + (1. / recall))
-		final double precision = computePrecision(); // A Y' / (A Y' + A (1 - Y'))
-		final double recall = computeRecall(); // A Y' / (A Y' + (1 - A) Y')
+		final double precision = computePrecision(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))
+		final double recall = computeRecall(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))
 		return 2. / (Maths.inverse(precision) + Maths.inverse(recall));
 	}
 
