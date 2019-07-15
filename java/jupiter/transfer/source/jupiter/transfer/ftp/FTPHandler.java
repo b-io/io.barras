@@ -89,10 +89,6 @@ public class FTPHandler
 	 */
 	protected String hostName;
 	/**
-	 * The port.
-	 */
-	protected int port;
-	/**
 	 * The user name.
 	 */
 	protected String userName;
@@ -143,26 +139,7 @@ public class FTPHandler
 	 */
 	public FTPHandler(final Protocol protocol, final String hostName, final String userName,
 			final String password, final String remoteDirPath, final String localDirPath) {
-		this(protocol, hostName, protocol.getPort(), userName, password, remoteDirPath,
-				localDirPath);
-	}
-
-	/**
-	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, port, user
-	 * name, password, path to the remote directory and path to the local directory.
-	 * <p>
-	 * @param protocol      the {@link Protocol}
-	 * @param hostName      the host name
-	 * @param port          the port
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 * @param localDirPath  the path to the local directory
-	 */
-	public FTPHandler(final Protocol protocol, final String hostName, final int port,
-			final String userName, final String password, final String remoteDirPath,
-			final String localDirPath) {
-		this(protocol, hostName, port, userName, password, remoteDirPath, localDirPath, STAR);
+		this(protocol, hostName, userName, password, remoteDirPath, localDirPath, STAR);
 	}
 
 	//////////////////////////////////////////////
@@ -183,28 +160,7 @@ public class FTPHandler
 	public FTPHandler(final Protocol protocol, final String hostName, final String userName,
 			final String password, final String remoteDirPath, final String localDirPath,
 			final String fileFilter) {
-		this(protocol, hostName, protocol.getPort(), userName, password, remoteDirPath,
-				localDirPath, fileFilter);
-	}
-
-	/**
-	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, port, user
-	 * name, password, path to the remote directory, path to the local directory and file filter
-	 * {@link String}.
-	 * <p>
-	 * @param protocol      the {@link Protocol}
-	 * @param hostName      the host name
-	 * @param port          the port
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 * @param localDirPath  the path to the local directory
-	 * @param fileFilter    the file filter {@link String}
-	 */
-	public FTPHandler(final Protocol protocol, final String hostName, final int port,
-			final String userName, final String password, final String remoteDirPath,
-			final String localDirPath, final String fileFilter) {
-		this(protocol, hostName, port, userName, password, remoteDirPath, localDirPath, fileFilter,
+		this(protocol, hostName, userName, password, remoteDirPath, localDirPath, fileFilter,
 				new String[] {STAR});
 	}
 
@@ -227,31 +183,8 @@ public class FTPHandler
 	public FTPHandler(final Protocol protocol, final String hostName, final String userName,
 			final String password, final String remoteDirPath, final String localDirPath,
 			final String fileFilter, final String[] fileNames) {
-		this(protocol, hostName, protocol.getPort(), userName, password, remoteDirPath,
-				localDirPath, fileFilter, fileNames);
-	}
-
-	/**
-	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, port, user
-	 * name, password, path to the remote directory, path to the local directory, file filter
-	 * {@link String} and array of file names.
-	 * <p>
-	 * @param protocol      the {@link Protocol}
-	 * @param hostName      the host name
-	 * @param port          the port
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 * @param localDirPath  the path to the local directory
-	 * @param fileFilter    the file filter {@link String}
-	 * @param fileNames     the array of file names
-	 */
-	public FTPHandler(final Protocol protocol, final String hostName, final int port,
-			final String userName, final String password, final String remoteDirPath,
-			final String localDirPath, final String fileFilter, final String[] fileNames) {
 		this.protocol = protocol;
 		this.hostName = hostName;
-		this.port = port;
 		this.userName = userName;
 		this.password = password;
 		this.remoteDirPath = remoteDirPath;
@@ -302,7 +235,7 @@ public class FTPHandler
 	 * @return the port
 	 */
 	public int getPort() {
-		return port;
+		return protocol.getPort();
 	}
 
 	/**
@@ -388,7 +321,7 @@ public class FTPHandler
 	 * @param port an {@code int} value
 	 */
 	public void setPort(final int port) {
-		this.port = port;
+		protocol.setPort(port);
 	}
 
 	/**
@@ -507,8 +440,8 @@ public class FTPHandler
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
 			IO.info("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + (port > 0 ? port : protocol.getPort())));
-			ftp.connect(hostName, port > 0 ? port : protocol.getPort());
+					Strings.quote(hostName + ":" + protocol.getPort()));
+			ftp.connect(hostName, protocol.getPort());
 			final int replyCode = ftp.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftp.enterLocalPassiveMode();
@@ -580,8 +513,8 @@ public class FTPHandler
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
 			IO.info("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + (port > 0 ? port : protocol.getPort())));
-			ftps.connect(hostName, port > 0 ? port : protocol.getPort());
+					Strings.quote(hostName + ":" + protocol.getPort()));
+			ftps.connect(hostName, protocol.getPort());
 			final int replyCode = ftps.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftps.enterLocalPassiveMode();
@@ -655,9 +588,9 @@ public class FTPHandler
 		Session session;
 		try {
 			IO.info("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + (port > 0 ? port : protocol.getPort())),
+					Strings.quote(hostName + ":" + protocol.getPort()),
 					" with ", Strings.quote(userName));
-			session = jsch.getSession(userName, hostName, port > 0 ? port : protocol.getPort());
+			session = jsch.getSession(userName, hostName, protocol.getPort());
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.setPassword(password);
 			session.connect();
@@ -705,8 +638,8 @@ public class FTPHandler
 	public void load(final Properties properties) {
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
-		port = Integers.convert(properties.getProperty("port",
-				Strings.toString(protocol.getPort())));
+		protocol.setPort(Integers.convert(properties.getProperty("port",
+				Strings.toString(protocol.getPort()))));
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 		remoteDirPath = properties.getProperty("remoteDir");
@@ -749,12 +682,13 @@ public class FTPHandler
 		SFTP("SFTP");
 
 		public final String value;
+		public int port = -1;
 
 		private Protocol(final String value) {
 			this.value = value;
 		}
 
-		public int getPort() {
+		public int getDefaultPort() {
 			switch (this) {
 				case FTP:
 				case FTPS:
@@ -764,6 +698,14 @@ public class FTPHandler
 				default:
 					throw new IllegalTypeException(this);
 			}
+		}
+
+		public int getPort() {
+			return port > 0 ? port : getDefaultPort();
+		}
+
+		public void setPort(final int port) {
+			this.port = port > 0 ? port : getDefaultPort();
 		}
 
 		public static Protocol get(final String name) {

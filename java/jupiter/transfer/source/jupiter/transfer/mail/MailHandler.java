@@ -52,6 +52,7 @@ import javax.mail.search.SubjectTerm;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
+import jupiter.common.time.Dates;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
 
@@ -70,7 +71,7 @@ public class MailHandler
 	/**
 	 * Sets the timeout and the connection timeout.
 	 */
-	public static volatile long TIMEOUT = 5000L; // [ms]
+	public static volatile long TIMEOUT = 10000L; // [ms]
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,17 +79,17 @@ public class MailHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Protocol}.
+	 * The ingoing mail server {@link Protocol}.
 	 */
-	protected Protocol protocol;
+	protected Protocol inProtocol;
+	/**
+	 * The outgoing mail server {@link Protocol}.
+	 */
+	protected Protocol outProtocol;
 	/**
 	 * The host name.
 	 */
 	protected String hostName;
-	/**
-	 * The port.
-	 */
-	protected int port;
 	/**
 	 * The user name.
 	 */
@@ -120,107 +121,64 @@ public class MailHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link MailHandler} with the specified {@link Protocol}, host name, user name,
-	 * password and path to the remote directory.
+	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
+	 * outgoing mail server {@link Protocol}, host name, user name, password and path to the remote
+	 * directory.
 	 * <p>
-	 * @param protocol      the {@link Protocol}
+	 * @param inProtocol    the ingoing mail server {@link Protocol}
+	 * @param outProtocol   the outgoing mail server {@link Protocol}
 	 * @param hostName      the host name
 	 * @param userName      the user name
 	 * @param password      the password
 	 * @param remoteDirPath the path to the remote directory
 	 */
-	public MailHandler(final Protocol protocol, final String hostName, final String userName,
-			final String password, final String remoteDirPath) {
-		this(protocol, hostName, -1, userName, password, remoteDirPath);
-	}
-
-	/**
-	 * Constructs a {@link MailHandler} with the specified {@link Protocol}, host name, port, user
-	 * name, password and path to the remote directory.
-	 * <p>
-	 * @param protocol      the {@link Protocol}
-	 * @param hostName      the host name
-	 * @param port          the port
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 */
-	public MailHandler(final Protocol protocol, final String hostName, final int port,
-			final String userName, final String password, final String remoteDirPath) {
-		this(protocol, hostName, port, userName, password, remoteDirPath, STAR);
+	public MailHandler(final Protocol inProtocol, final Protocol outProtocol,
+			final String hostName, final String userName, final String password,
+			final String remoteDirPath) {
+		this(inProtocol, outProtocol, hostName, userName, password, remoteDirPath, STAR);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link MailHandler} with the specified {@link Protocol}, host name, user name,
-	 * password, path to the remote directory and mail filter {@link String}.
+	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
+	 * outgoing mail server {@link Protocol}, host name, user name, password, path to the remote
+	 * directory and mail filter {@link String}.
 	 * <p>
-	 * @param protocol      the {@link Protocol}
+	 * @param inProtocol    the ingoing mail server {@link Protocol}
+	 * @param outProtocol   the outgoing mail server {@link Protocol}
 	 * @param hostName      the host name
 	 * @param userName      the user name
 	 * @param password      the password
 	 * @param remoteDirPath the path to the remote directory
 	 * @param mailFilter    the mail filter {@link String}
 	 */
-	public MailHandler(final Protocol protocol, final String hostName, final String userName,
-			final String password, final String remoteDirPath, final String mailFilter) {
-		this(protocol, hostName, -1, userName, password, remoteDirPath, mailFilter);
-	}
-
-	/**
-	 * Constructs a {@link MailHandler} with the specified {@link Protocol}, host name, user name,
-	 * password, path to the remote directory and mail filter {@link SearchTerm}.
-	 * <p>
-	 * @param protocol      the {@link Protocol}
-	 * @param hostName      the host name
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 * @param mailFilter    the mail filter {@link SearchTerm}
-	 */
-	public MailHandler(final Protocol protocol, final String hostName, final String userName,
-			final String password, final String remoteDirPath, final SearchTerm mailFilter) {
-		this(protocol, hostName, -1, userName, password, remoteDirPath, mailFilter);
-	}
-
-	/**
-	 * Constructs a {@link MailHandler} with the specified {@link Protocol}, host name, port, user
-	 * name, password, path to the remote directory and mail filter {@link String}.
-	 * <p>
-	 * @param protocol      the {@link Protocol}
-	 * @param hostName      the host name
-	 * @param port          the port
-	 * @param userName      the user name
-	 * @param password      the password
-	 * @param remoteDirPath the path to the remote directory
-	 * @param mailFilter    the mail filter {@link String}
-	 */
-	public MailHandler(final Protocol protocol, final String hostName, final int port,
+	public MailHandler(final Protocol inProtocol, final Protocol outProtocol, final String hostName,
 			final String userName, final String password, final String remoteDirPath,
 			final String mailFilter) {
-		this(protocol, hostName, port, userName, password, remoteDirPath,
+		this(inProtocol, outProtocol, hostName, userName, password, remoteDirPath,
 				createSearchTerm(mailFilter));
 	}
 
 	/**
-	 * Constructs a {@link MailHandler} with the specified {@link Protocol}, host name, port, user
-	 * name, password, path to the remote directory and mail filter {@link SearchTerm}.
+	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
+	 * outgoing mail server {@link Protocol}, host name, user name, password, path to the remote
+	 * directory and mail filter {@link SearchTerm}.
 	 * <p>
-	 * @param protocol      the {@link Protocol}
+	 * @param inProtocol    the ingoing mail server {@link Protocol}
+	 * @param outProtocol   the outgoing mail server {@link Protocol}
 	 * @param hostName      the host name
-	 * @param port          the port
 	 * @param userName      the user name
 	 * @param password      the password
 	 * @param remoteDirPath the path to the remote directory
 	 * @param mailFilter    the mail filter {@link SearchTerm}
 	 */
-	public MailHandler(final Protocol protocol, final String hostName, final int port,
+	public MailHandler(final Protocol inProtocol, final Protocol outProtocol, final String hostName,
 			final String userName, final String password, final String remoteDirPath,
 			final SearchTerm mailFilter) {
-		this.protocol = protocol;
+		this.inProtocol = inProtocol;
+		this.outProtocol = outProtocol;
 		this.hostName = hostName;
-		this.port = port;
 		this.userName = userName;
 		this.password = password;
 		this.remoteDirPath = remoteDirPath;
@@ -231,8 +189,9 @@ public class MailHandler
 
 	/**
 	 * Constructs a {@link MailHandler} loaded from the specified {@link Properties} containing the
-	 * {@link Protocol}, host name, port, user name, password, path to the remote directory and mail
-	 * filter {@link SearchTerm}.
+	 * ingoing mail server {@link Protocol}, outgoing mail server {@link Protocol}, host name,
+	 * ingoing mail server port, outgoing mail server port, user name, password, path to the remote
+	 * directory and mail filter {@link SearchTerm}.
 	 * <p>
 	 * @param properties the {@link Properties} to load
 	 */
@@ -246,12 +205,21 @@ public class MailHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Protocol}.
+	 * Returns the ingoing mail server {@link Protocol}.
 	 * <p>
-	 * @return the {@link Protocol}
+	 * @return the ingoing mail server {@link Protocol}
 	 */
-	public Protocol getProtocol() {
-		return protocol;
+	public Protocol getInProtocol() {
+		return inProtocol;
+	}
+
+	/**
+	 * Returns the outgoing mail server {@link Protocol}.
+	 * <p>
+	 * @return the outgoing mail server {@link Protocol}
+	 */
+	public Protocol getOutProtocol() {
+		return outProtocol;
 	}
 
 	/**
@@ -264,12 +232,21 @@ public class MailHandler
 	}
 
 	/**
-	 * Returns the port.
+	 * Returns the ingoing mail server port.
 	 * <p>
-	 * @return the port
+	 * @return the ingoing mail server port
 	 */
-	public int getPort() {
-		return port;
+	public int getInPort() {
+		return inProtocol.getPort();
+	}
+
+	/**
+	 * Returns the outgoing mail server port.
+	 * <p>
+	 * @return the outgoing mail server port
+	 */
+	public int getOutPort() {
+		return outProtocol.getPort();
 	}
 
 	/**
@@ -314,12 +291,21 @@ public class MailHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@link Protocol}.
+	 * Sets the ingoing mail server {@link Protocol}.
 	 * <p>
-	 * @param protocol a {@link Protocol}
+	 * @param inProtocol a {@link Protocol}
 	 */
-	public void setProtocol(final Protocol protocol) {
-		this.protocol = protocol;
+	public void setInProtocol(final Protocol inProtocol) {
+		this.inProtocol = inProtocol;
+	}
+
+	/**
+	 * Sets the outgoing mail server {@link Protocol}.
+	 * <p>
+	 * @param outProtocol a {@link Protocol}
+	 */
+	public void setOutProtocol(final Protocol outProtocol) {
+		this.outProtocol = outProtocol;
 	}
 
 	/**
@@ -332,12 +318,21 @@ public class MailHandler
 	}
 
 	/**
-	 * Sets the port.
+	 * Sets the ingoing mail server port.
 	 * <p>
-	 * @param port an {@code int} value
+	 * @param inPort an {@code int} value
 	 */
-	public void setPort(final int port) {
-		this.port = port;
+	public void setInPort(final int inPort) {
+		inProtocol.setPort(inPort);
+	}
+
+	/**
+	 * Sets the outgoing mail server port.
+	 * <p>
+	 * @param outPort an {@code int} value
+	 */
+	public void setOutPort(final int outPort) {
+		outProtocol.setPort(outPort);
 	}
 
 	/**
@@ -393,6 +388,43 @@ public class MailHandler
 				new OrTerm(new SubjectTerm(pattern), new BodyTerm(pattern)));
 	}
 
+	/**
+	 * Creates a {@link Session} with the specified {@link Protocol} and {@code this} parameters.
+	 * <p>
+	 * @param protocol the {@link Protocol} of the {@link Session} to create
+	 * <p>
+	 * @return a {@link Session} with the specified {@link Protocol} and {@code this} parameters
+	 */
+	public Session createSession(final Protocol protocol) {
+		// Create the properties
+		final Properties properties = new Properties();
+		properties.put("mail.store.protocol", protocol.toString());
+		properties.put("mail." + protocol + ".host", hostName);
+		properties.put("mail." + protocol + ".port", protocol.getPort());
+		properties.put("mail." + protocol + ".auth", "true");
+		properties.put("mail." + protocol + ".timeout", Strings.toString(TIMEOUT));
+		properties.put("mail." + protocol + ".connectiontimeout", Strings.toString(TIMEOUT));
+		if (protocol.isSSL()) {
+			properties.put("mail." + protocol + ".socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			properties.put("mail." + protocol + ".socketFactory.port", protocol.getPort());
+			properties.put("mail." + protocol + ".ssl.checkserveridentity", "false");
+			properties.put("mail." + protocol + ".ssl.trust", STAR);
+		}
+
+		// Create the authenticator
+		final Authenticator authenticator = new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(userName, password);
+			}
+		};
+
+		// Create the session
+		final Session session = Session.getDefaultInstance(properties, authenticator);
+		session.setDebug(IO.getSeverityLevel().isDebug());
+		return session;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
@@ -408,26 +440,13 @@ public class MailHandler
 		final List<MimeMessage> messages = new LinkedList<MimeMessage>();
 		try {
 			IO.info("Connect to the mail server ",
-					Strings.quote(hostName + (port > 0 ? ":" + port : "")),
+					Strings.quote(hostName + ":" + inProtocol.getPort()),
 					" with ", Strings.quote(userName));
-			final Properties properties = new Properties();
-			properties.put("mail.store.protocol", protocol.toString());
-			properties.put("mail." + protocol + ".host", hostName);
-			properties.put("mail." + protocol + ".port", port);
-			properties.put("mail." + protocol + ".timeout", Strings.toString(TIMEOUT));
-			properties.put("mail." + protocol + ".connectiontimeout", Strings.toString(TIMEOUT));
-			final Authenticator authenticator = new Authenticator() {
-				@Override
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(userName, password);
-				}
-			};
-			final Session session = Session.getDefaultInstance(properties, authenticator);
-			session.setDebug(IO.getSeverityLevel().isDebug());
+			final Session session = createSession(inProtocol);
 			Store store = null;
 			try {
-				store = session.getStore(protocol.toString());
-				store.connect(hostName, port, userName, password);
+				store = session.getStore(inProtocol.toString());
+				store.connect(hostName, inProtocol.getPort(), userName, password);
 
 				IO.info("Download the filtered mails in ", Strings.quote(remoteDirPath));
 				Folder folder = null;
@@ -464,6 +483,8 @@ public class MailHandler
 		return messages;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Sends a mail with the specified subject {@link String} and content {@link String} to the
 	 * specified comma-separated recipients {@link String} from the mail server with {@code this}
@@ -477,18 +498,10 @@ public class MailHandler
 	 */
 	public void send(final String recipients, final String subject, final String content)
 			throws MessagingException {
-		// Connect to the mail server
-		final Properties properties = new Properties();
-		properties.put("mail.store.protocol", "smtp");
-		properties.put("mail.smtp.host", hostName);
-		final Authenticator authenticator = new Authenticator() {
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(userName, password);
-			}
-		};
-		final Session session = Session.getDefaultInstance(properties, authenticator);
-		session.setDebug(true);
+		IO.info("Connect to the mail server ",
+				Strings.quote(hostName + ":" + outProtocol.getPort()),
+				" with ", Strings.quote(userName));
+		final Session session = createSession(outProtocol);
 
 		// Compose the mail
 		final MimeMultipart multipart = new MimeMultipart("alternative");
@@ -502,7 +515,11 @@ public class MailHandler
 		mail.addRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
 		mail.setSubject(subject);
 		mail.setContent(multipart);
-		mail.setSentDate(new Date());
+		final Date sentDate = new Date();
+		mail.setSentDate(sentDate);
+		IO.info("Send the mail ", Strings.quote(subject),
+				" to ", Strings.quote(recipients),
+				" at ", Dates.formatWithTime(sentDate));
 		Transport.send(mail);
 	}
 
@@ -517,9 +534,13 @@ public class MailHandler
 	 * @param properties the {@link Properties} to load
 	 */
 	public void load(final Properties properties) {
-		protocol = Protocol.get(properties.getProperty("protocol"));
+		inProtocol = Protocol.get(properties.getProperty("inProtocol"));
+		outProtocol = Protocol.get(properties.getProperty("outProtocol"));
 		hostName = properties.getProperty("hostName");
-		port = Integers.convert(properties.getProperty("port", "-1"));
+		inProtocol.setPort(Integers.convert(properties.getProperty("inPort",
+				Strings.toString(inProtocol.getPort()))));
+		outProtocol.setPort(Integers.convert(properties.getProperty("outPort",
+				Strings.toString(outProtocol.getPort()))));
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 		remoteDirPath = properties.getProperty("remoteDir");
@@ -554,23 +575,109 @@ public class MailHandler
 
 	public enum Protocol {
 		POP("pop"),
+		POPS("pops"),
+		POP3("pop3"),
+		POP3S("pop3s"),
 		IMAP("imap"),
-		SMTP("smtp");
+		IMAPS("imaps"),
+		SMTP("smtp"),
+		SMTPS("smtps"),
+		SMTPTLS("smtptls");
 
 		public final String value;
+		public int port = -1;
 
 		private Protocol(final String value) {
 			this.value = value;
+		}
+
+		public boolean isSSL() {
+			switch (this) {
+				case POP:
+				case POP3:
+				case IMAP:
+				case SMTP:
+				case SMTPTLS:
+					return false;
+				case POPS:
+				case POP3S:
+				case IMAPS:
+				case SMTPS:
+					return true;
+				default:
+					throw new IllegalTypeException(this);
+			}
+		}
+
+		public boolean isTLS() {
+			switch (this) {
+				case POP:
+				case POPS:
+				case POP3:
+				case POP3S:
+				case IMAP:
+				case IMAPS:
+				case SMTP:
+				case SMTPS:
+					return false;
+				case SMTPTLS:
+					return true;
+				default:
+					throw new IllegalTypeException(this);
+			}
+		}
+
+		public int getDefaultPort() {
+			switch (this) {
+				case POP:
+				case POP3:
+					return 110;
+				case POPS:
+				case POP3S:
+					return 995;
+				case IMAP:
+					return 143;
+				case IMAPS:
+					return 993;
+				case SMTP:
+					return 25;
+				case SMTPS:
+					return 465;
+				case SMTPTLS:
+					return 587;
+				default:
+					throw new IllegalTypeException(this);
+			}
+		}
+
+		public int getPort() {
+			return port > 0 ? port : getDefaultPort();
+		}
+
+		public void setPort(final int port) {
+			this.port = port > 0 ? port : getDefaultPort();
 		}
 
 		public static Protocol get(final String name) {
 			final String value = Strings.toUpperCase(name);
 			if (POP.value.equals(value)) {
 				return POP;
+			} else if (POPS.value.equals(value)) {
+				return POPS;
+			} else if (POP3.value.equals(value)) {
+				return POP3;
+			} else if (POP3S.value.equals(value)) {
+				return POP3S;
 			} else if (IMAP.value.equals(value)) {
 				return IMAP;
+			} else if (IMAPS.value.equals(value)) {
+				return IMAPS;
 			} else if (SMTP.value.equals(value)) {
 				return SMTP;
+			} else if (SMTPS.value.equals(value)) {
+				return SMTPS;
+			} else if (SMTPTLS.value.equals(value)) {
+				return SMTPTLS;
 			}
 			throw new IllegalTypeException(name);
 		}
@@ -582,7 +689,21 @@ public class MailHandler
 		 */
 		@Override
 		public String toString() {
-			return value;
+			switch (this) {
+				case POP:
+				case POPS:
+				case POP3:
+				case POP3S:
+				case IMAP:
+				case IMAPS:
+					return value;
+				case SMTP:
+				case SMTPS:
+				case SMTPTLS:
+					return "smtp";
+				default:
+					throw new IllegalTypeException(this);
+			}
 		}
 	}
 }
