@@ -179,7 +179,7 @@ public class WorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Instantiates the specified number of {@link Worker} according to the model.
+	 * Creates the specified number of {@link Worker} according to the model.
 	 * <p>
 	 * @param n the number of {@link Worker} to create
 	 * <p>
@@ -198,7 +198,7 @@ public class WorkQueue<I, O>
 	}
 
 	/**
-	 * Instantiates the specified number of {@link Worker} according to the model if required.
+	 * Creates the specified number of {@link Worker} according to the model if required.
 	 * <p>
 	 * @param n the number of {@link Worker} to create if required
 	 * <p>
@@ -213,7 +213,7 @@ public class WorkQueue<I, O>
 	}
 
 	/**
-	 * Instantiates a {@link Worker} according to the model.
+	 * Creates a {@link Worker} according to the model.
 	 * <p>
 	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
 	 * <p>
@@ -235,6 +235,19 @@ public class WorkQueue<I, O>
 		IO.debug(workerCount, ") Start the worker ", worker);
 		worker.start();
 		return createdWorkerCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Removes the specified {@link Worker}.
+	 * <p>
+	 * @param worker the {@link Worker} of type {@code I} and {@code O} to remove
+	 */
+	public void removeWorker(final Worker<I, O> worker) {
+		workers.remove(worker);
+		--workerCount;
+		--availableWorkerCount;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -374,6 +387,16 @@ public class WorkQueue<I, O>
 	public void shutdown() {
 		IO.debug("Shutdown the work queue ", this);
 		isRunning = false;
+	}
+
+	/**
+	 * Restarts {@code this}.
+	 */
+	public void restart() {
+		shutdown();
+		IO.debug("Restart the work queue ", this);
+		isRunning = true;
+		createWorkers(minThreads);
 	}
 
 

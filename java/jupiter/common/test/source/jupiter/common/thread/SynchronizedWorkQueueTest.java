@@ -45,11 +45,17 @@ public class SynchronizedWorkQueueTest
 		// Initialize
 		final int testCount = 100;
 		final double[] testTimes = new double[testCount];
+		final double[] threadCounts = new double[testCount];
 
 		// Test
+		final WorkQueue<Integer, Integer> workQueue = new SynchronizedWorkQueue<Integer, Integer>(
+				new SimpleWorker());
 		for (int i = 0; i < testCount; ++i) {
-			testTimes[i] = test(new SynchronizedWorkQueue<Integer, Integer>(new SimpleWorker()));
+			testTimes[i] = test(workQueue);
+			threadCounts[i] = workQueue.getWorkerCount();
+			workQueue.restart();
 		}
 		Tests.printTimes(testTimes);
+		Tests.printValues("number of threads", threadCounts);
 	}
 }

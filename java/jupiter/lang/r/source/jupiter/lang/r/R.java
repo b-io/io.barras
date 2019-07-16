@@ -37,6 +37,7 @@ import jupiter.common.io.IOHandler;
 import jupiter.common.io.Systems;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.thread.Threads;
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
@@ -57,7 +58,7 @@ public class R
 	public static final String[] ARGS = new String[] {};
 	public static volatile String REPO = "https://cloud.r-project.org";
 
-	public static final IOHandler PRINTER = new RPrinter();
+	public static final IOHandler DEFAULT_PRINTER = new RPrinter();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,8 +143,21 @@ public class R
 	 * @return the exit value of the specified script executed on the R engine
 	 */
 	public static int executeScript(final String... script) {
+		return executeScript(DEFAULT_PRINTER, script);
+	}
+
+	/**
+	 * Executes the specified script on the R engine with the specified printer {@link IOHandler}
+	 * and returns its exit value.
+	 * <p>
+	 * @param printer the printer {@link IOHandler}
+	 * @param script  the script to execute
+	 * <p>
+	 * @return the exit value of the specified script executed on the R engine
+	 */
+	public static int executeScript(final IOHandler printer, final String... script) {
 		try {
-			return Systems.execute(PRINTER,
+			return Systems.execute(printer,
 					Arrays.<String>merge(new String[] {R_SCRIPT_PATH}, script, ARGS));
 		} catch (final InterruptedException ex) {
 			IO.error("Fail to execute the script", Strings.quote(script[0]), ex);
@@ -153,6 +167,8 @@ public class R
 		return IO.EXIT_FAILURE;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Executes the specified command on the R engine and returns its exit value.
 	 * <p>
@@ -161,6 +177,19 @@ public class R
 	 * @return the exit value of the specified command executed on the R engine
 	 */
 	public static int execute(final String... command) {
+		return execute(DEFAULT_PRINTER, command);
+	}
+
+	/**
+	 * Executes the specified command on the R engine with the specified printer {@link IOHandler}
+	 * and returns its exit value.
+	 * <p>
+	 * @param printer the printer {@link IOHandler}
+	 * @param command the command to execute
+	 * <p>
+	 * @return the exit value of the specified command executed on the R engine
+	 */
+	public static int execute(final IOHandler printer, final String... command) {
 		// Check the system
 		Systems.requireOS();
 		// Check the arguments
@@ -171,11 +200,11 @@ public class R
 			// Test whether the OS is Windows or Unix
 			if (Systems.isWindows()) {
 				// - Execute the command on Windows
-				return Systems.execute(PRINTER,
+				return Systems.execute(printer,
 						Arrays.<String>merge(new String[] {R_PATH, "-e"}, command));
 			} else if (Systems.isUnix()) {
 				// - Execute the command on Unix
-				return Systems.execute(PRINTER,
+				return Systems.execute(printer,
 						Arrays.<String>merge(
 								new String[] {"/bin/sh", "-c", "echo", command[0], "|", R_PATH},
 								Arrays.<String>take(command, 1, command.length)));
@@ -230,9 +259,14 @@ public class R
 		protected static final String PREFIX = "R> ";
 
 		/**
-		 * The printer.
+		 * The printer {@link IOHandler}.
 		 */
 		protected final IOHandler printer;
+
+		/**
+		 * The {@link WorkQueue} to monitor.
+		 */
+		protected WorkQueue<?, ?> workQueueToMonitor;
 
 		protected RPrinter() {
 			this(IO.getPrinter());
@@ -243,14 +277,24 @@ public class R
 			this.printer = printer;
 		}
 
+		public void setWorkQueueToMonitor(final WorkQueue<?, ?> workQueueToMonitor) {
+			this.workQueueToMonitor = workQueueToMonitor;
+		}
+
 		@Override
 		public void print(final Object content, final boolean isError) {
 			printer.print(PREFIX + content, isError);
+			if (workQueueToMonitor != null && Strings.toString(content).contains("invalid")) {
+				workQueueToMonitor.restart();
+			}
 		}
 
 		@Override
 		public void println(final Object content, final boolean isError) {
 			printer.println(PREFIX + content, isError);
+			if (workQueueToMonitor != null && Strings.toString(content).contains("invalid")) {
+				workQueueToMonitor.restart();
+			}
 		}
 
 		@Override

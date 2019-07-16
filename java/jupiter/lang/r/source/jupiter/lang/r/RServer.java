@@ -23,6 +23,7 @@
  */
 package jupiter.lang.r;
 
+import jupiter.common.io.IOHandler;
 import jupiter.common.thread.Worker;
 
 public class RServer
@@ -39,6 +40,16 @@ public class RServer
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The printer {@link IOHandler}.
+	 */
+	protected final IOHandler printer;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -46,6 +57,16 @@ public class RServer
 	 * Constructs a {@link RServer}.
 	 */
 	public RServer() {
+		this(R.DEFAULT_PRINTER);
+	}
+
+	/**
+	 * Constructs a {@link RServer} with the specified printer {@link IOHandler}.
+	 * <p>
+	 * @param printer the printer {@link IOHandler}
+	 */
+	public RServer(final IOHandler printer) {
+		this.printer = printer;
 	}
 
 
@@ -55,7 +76,7 @@ public class RServer
 
 	@Override
 	public Integer call(final String[] script) {
-		return R.executeScript(script);
+		return R.executeScript(printer, script);
 	}
 
 
@@ -71,7 +92,7 @@ public class RServer
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public Worker<String[], Integer> clone() {
-		return new RServer();
+	public RServer clone() {
+		return new RServer(printer);
 	}
 }

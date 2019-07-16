@@ -54,7 +54,7 @@ public class SafeDateFormat
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SafeDateFormat} using the default pattern and {@link DateFormatSymbols}
+	 * Constructs a {@link SafeDateFormat} with the default pattern and {@link DateFormatSymbols}
 	 * for the default {@link Locale}.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
 	 * factory methods in the class {@link DateFormat}.
@@ -64,8 +64,8 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} using the specified pattern {@link String} and the
-	 * default {@link DateFormatSymbols} for the default {@link Locale}.
+	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and the default
+	 * {@link DateFormatSymbols} for the default {@link Locale}.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
 	 * factory methods in the class {@link DateFormat}.
 	 * <p>
@@ -84,8 +84,8 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} using the specified pattern {@link String} and the
-	 * default {@link DateFormatSymbols} for the specified {@link Locale}.
+	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and the default
+	 * {@link DateFormatSymbols} for the specified {@link Locale}.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
 	 * factory methods in the class {@link DateFormat}.
 	 * <p>
@@ -100,7 +100,7 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} using the specified pattern {@link String} and
+	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and
 	 * {@link DateFormatSymbols}.
 	 * <p>
 	 * @param pattern       the pattern {@link String} describing the date-time format

@@ -55,6 +55,7 @@ public class LockedWorkQueue<I, O>
 	 * The internal {@link Lock} of the workers.
 	 */
 	protected final Lock workersLock;
+	protected final Condition workersLockCondition;
 
 	/**
 	 * The internal {@link Lock} of the tasks.
@@ -108,6 +109,7 @@ public class LockedWorkQueue<I, O>
 		super(model, minThreads, maxThreads);
 		this.isFair = isFair;
 		workersLock = new ReentrantLock(isFair);
+		workersLockCondition = workersLock.newCondition();
 		tasksLock = new ReentrantLock(isFair);
 		tasksLockCondition = tasksLock.newCondition();
 		resultsLock = new ReentrantLock(isFair);
@@ -135,7 +137,7 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Instantiates a {@link Worker} according to the model.
+	 * Creates a {@link Worker} according to the model.
 	 * <p>
 	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
 	 * <p>
@@ -166,6 +168,24 @@ public class LockedWorkQueue<I, O>
 		workersLock.lock();
 		try {
 			return super.reserveWorkers(n);
+		} finally {
+			workersLock.unlock();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the specified {@link Worker}.
+	 * <p>
+	 * @param worker the {@link Worker} of type {@code I} and {@code O} to remove
+	 */
+	@Override
+	public void removeWorker(final Worker<I, O> worker) {
+		workersLock.lock();
+		try {
+			super.removeWorker(worker);
+			workersLockCondition.signal();
 		} finally {
 			workersLock.unlock();
 		}
@@ -282,6 +302,18 @@ public class LockedWorkQueue<I, O>
 			tasksLockCondition.signalAll();
 		} finally {
 			tasksLock.unlock();
+		}
+
+		workersLock.lock();
+		try {
+			while (workerCount != 0) {
+				try {
+					workersLockCondition.await();
+				} catch (final InterruptedException ignored) {
+				}
+			}
+		} finally {
+			workersLock.unlock();
 		}
 	}
 

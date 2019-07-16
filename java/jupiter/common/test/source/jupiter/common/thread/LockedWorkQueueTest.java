@@ -48,11 +48,12 @@ public class LockedWorkQueueTest
 		final double[] threadCounts = new double[testCount];
 
 		// Test
+		final LockedWorkQueue<Integer, Integer> workQueue = new LockedWorkQueue<Integer, Integer>(
+				new SimpleWorker());
 		for (int i = 0; i < testCount; ++i) {
-			final LockedWorkQueue<Integer, Integer> workQueue = new LockedWorkQueue<Integer, Integer>(
-					new SimpleWorker());
 			testTimes[i] = test(workQueue);
 			threadCounts[i] = workQueue.getWorkerCount();
+			workQueue.restart();
 		}
 		Tests.printTimes(testTimes);
 		Tests.printValues("number of threads", threadCounts);

@@ -155,20 +155,20 @@ public abstract class Worker<I, O>
 	@Override
 	public void run() {
 		IO.debug("The worker ", this, " has started");
-		while (true) {
+		while (workQueue.isRunning()) {
 			final Task<I> task = workQueue.getNextTask();
-			if (workQueue.isRunning()) {
-				O output = null;
-				try {
-					output = call(task.getInput());
-				} catch (final RuntimeException ex) {
-					IO.error(ex);
-				}
-				workQueue.addResult(task.getID(), output);
-			} else {
+			if (task == null) {
 				break;
 			}
+			O output = null;
+			try {
+				output = call(task.getInput());
+			} catch (final RuntimeException ex) {
+				IO.error(ex);
+			}
+			workQueue.addResult(task.getID(), output);
 		}
+		workQueue.removeWorker(this);
 		finalize();
 	}
 

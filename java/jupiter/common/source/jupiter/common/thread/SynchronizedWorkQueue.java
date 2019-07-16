@@ -71,7 +71,7 @@ public class SynchronizedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Instantiates a {@link Worker} according to the model.
+	 * Creates a {@link Worker} according to the model.
 	 * <p>
 	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
 	 * <p>
@@ -101,6 +101,21 @@ public class SynchronizedWorkQueue<I, O>
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the specified {@link Worker}.
+	 * <p>
+	 * @param worker the {@link Worker} of type {@code I} and {@code O} to remove
+	 */
+	@Override
+	public void removeWorker(final Worker<I, O> worker) {
+		synchronized (workers) {
+			super.removeWorker(worker);
+			workers.notify();
+		}
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// TASK
@@ -120,7 +135,7 @@ public class SynchronizedWorkQueue<I, O>
 		// Add the task
 		synchronized (tasks) {
 			final long taskId = super.submit(input);
-			tasks.notifyAll();
+			tasks.notify();
 			return taskId;
 		}
 	}
@@ -197,6 +212,15 @@ public class SynchronizedWorkQueue<I, O>
 		synchronized (tasks) {
 			super.shutdown();
 			tasks.notifyAll();
+		}
+
+		synchronized (workers) {
+			while (workerCount != 0) {
+				try {
+					workers.wait();
+				} catch (final InterruptedException ignored) {
+				}
+			}
 		}
 	}
 
