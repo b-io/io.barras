@@ -821,13 +821,13 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} and {@link Exception} with the
-	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#WARNING}.
+	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
+	 * indicating the severity level {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object} and
+	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
 	public Message warn(final Object content, final Exception exception) {
@@ -878,13 +878,13 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} and {@link Exception} with the
-	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#ERROR}.
+	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
+	 * indicating the severity level {@link SeverityLevel#ERROR}.
 	 * <p>
 	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object} and
+	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
 	public Message error(final Object content, final Exception exception) {
@@ -937,13 +937,13 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} and {@link Exception} with the
-	 * {@link IOPrinter} indicating the severity level {@link SeverityLevel#FAILURE}.
+	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
+	 * indicating the severity level {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object} and
+	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
 	public Message fail(final Object content, final Exception exception) {

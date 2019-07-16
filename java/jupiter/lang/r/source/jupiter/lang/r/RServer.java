@@ -23,6 +23,7 @@
  */
 package jupiter.lang.r;
 
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.lang.r.R.RPrinter;
 
@@ -67,7 +68,22 @@ public class RServer
 	 */
 	public RServer(final RPrinter printer) {
 		this.printer = printer;
-		this.printer.setWorkQueueToMonitor(workQueue);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the {@link WorkQueue}.
+	 * <p>
+	 * @param workQueue a {@link WorkQueue} of array of {@link String} and {@link Integer}
+	 */
+	@Override
+	public void setWorkQueue(final WorkQueue<String[], Integer> workQueue) {
+		super.setWorkQueue(workQueue);
+		printer.setWorkQueueToMonitor(workQueue);
 	}
 
 
