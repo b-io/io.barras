@@ -206,15 +206,22 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Shutdowns {@code this}.
+	 * <p>
+	 * @param force the flag specifying whether to force shutdowning
 	 */
 	@Override
-	public void shutdown() {
+	@SuppressWarnings("deprecation")
+	public void shutdown(final boolean force) {
 		synchronized (tasks) {
-			super.shutdown();
+			super.shutdown(force);
 			tasks.notifyAll();
 		}
 
 		synchronized (workers) {
+			if (force) {
+				killAllWorkers();
+			}
+
 			while (workerCount != 0) {
 				try {
 					workers.wait();

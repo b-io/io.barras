@@ -91,21 +91,35 @@ public class Systems {
 	public static int execute(final IOHandler printer, final String... command)
 			throws InterruptedException, IOException {
 		IO.info(Strings.joinWith(command, SPACE, SINGLE_QUOTER));
-		final Process process = Runtime.getRuntime().exec(command);
-		// Read the input stream from the process and print it
-		final WorkQueue<InputStream, Integer> printerQueue = new LockedWorkQueue<InputStream, Integer>(
-				new IOStreamWriter(printer, false), 1, 1);
-		printerQueue.submit(process.getInputStream());
-		// Read the error stream from the process and print it
-		final WorkQueue<InputStream, Integer> errorPrinterQueue = new LockedWorkQueue<InputStream, Integer>(
-				new IOStreamWriter(printer, true), 1, 1);
-		errorPrinterQueue.submit(process.getErrorStream());
-		// Wait until the process has terminated
-		process.waitFor();
-		// Clear
-		printerQueue.shutdown();
-		errorPrinterQueue.shutdown();
-		return process.exitValue();
+		Process process = null;
+		try {
+			process = Runtime.getRuntime().exec(command);
+			// Read the input stream from the process and print it
+			final WorkQueue<InputStream, Integer> printerQueue = new LockedWorkQueue<InputStream, Integer>(
+					new IOStreamWriter(printer, false), 1, 1);
+			printerQueue.submit(process.getInputStream());
+			// Read the error stream from the process and print it
+			final WorkQueue<InputStream, Integer> errorPrinterQueue = new LockedWorkQueue<InputStream, Integer>(
+					new IOStreamWriter(printer, true), 1, 1);
+			errorPrinterQueue.submit(process.getErrorStream());
+			// Wait until the process has terminated
+			process.waitFor();
+			// Clear
+			printerQueue.shutdown();
+			errorPrinterQueue.shutdown();
+			return process.exitValue();
+		} catch (final InterruptedException ex) {
+			IO.error(ex);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			if (process != null) {
+				IO.debug("Destroy the process executing the command ",
+						Strings.joinWith(command, SPACE, SINGLE_QUOTER));
+				process.destroy();
+			}
+		}
+		return IO.EXIT_FAILURE;
 	}
 
 

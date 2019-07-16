@@ -250,6 +250,15 @@ public class WorkQueue<I, O>
 		--availableWorkerCount;
 	}
 
+	/**
+	 * Removes all the specified {@link Worker}.
+	 */
+	public void removeAllWorkers() {
+		workers.clear();
+		workerCount = 0;
+		availableWorkerCount = 0;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -281,6 +290,8 @@ public class WorkQueue<I, O>
 		return false;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Frees the specified number of {@link Worker}.
 	 * <p>
@@ -288,6 +299,29 @@ public class WorkQueue<I, O>
 	 */
 	public void freeWorkers(final int n) {
 		reservedWorkerCount -= n;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Kills the specified {@link Worker}.
+	 * <p>
+	 * @param worker the {@link Worker} of type {@code I} and {@code O} to kill
+	 */
+	public void killWorker(final Worker<I, O> worker) {
+		worker.stop();
+		removeWorker(worker);
+	}
+
+	/**
+	 * Kills all the {@link Worker}.
+	 */
+	public void killAllWorkers() {
+		Threads.sleep();
+		for (final Worker<I, O> worker : workers) {
+			worker.stop();
+		}
+		removeAllWorkers();
 	}
 
 
@@ -381,19 +415,41 @@ public class WorkQueue<I, O>
 		return isRunning;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Shutdowns {@code this}.
 	 */
 	public void shutdown() {
+		shutdown(false);
+	}
+
+	/**
+	 * Shutdowns {@code this}.
+	 * <p>
+	 * @param force the flag specifying whether to force shutdowning
+	 */
+	public void shutdown(final boolean force) {
 		IO.debug("Shutdown the work queue ", this);
 		isRunning = false;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Restarts {@code this}.
 	 */
 	public void restart() {
-		shutdown();
+		restart(false);
+	}
+
+	/**
+	 * Restarts {@code this}.
+	 * <p>
+	 * @param force the flag specifying whether to force restarting
+	 */
+	public void restart(final boolean force) {
+		shutdown(force);
 		IO.debug("Restart the work queue ", this);
 		isRunning = true;
 		createWorkers(minThreads);

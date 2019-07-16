@@ -293,12 +293,14 @@ public class LockedWorkQueue<I, O>
 
 	/**
 	 * Shutdowns {@code this}.
+	 * <p>
+	 * @param force the flag specifying whether to force shutdowning
 	 */
 	@Override
-	public void shutdown() {
+	public void shutdown(final boolean force) {
 		tasksLock.lock();
 		try {
-			super.shutdown();
+			super.shutdown(force);
 			tasksLockCondition.signalAll();
 		} finally {
 			tasksLock.unlock();
@@ -306,6 +308,10 @@ public class LockedWorkQueue<I, O>
 
 		workersLock.lock();
 		try {
+			if (force) {
+				killAllWorkers();
+			}
+
 			while (workerCount != 0) {
 				try {
 					workersLockCondition.await();

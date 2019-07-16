@@ -27,7 +27,7 @@ import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.lang.r.R.RPrinter;
 
-public class RServer
+public class RWorker
 		extends Worker<String[], Integer> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,18 +55,18 @@ public class RServer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RServer}.
+	 * Constructs a {@link RWorker}.
 	 */
-	public RServer() {
+	public RWorker() {
 		this(R.DEFAULT_PRINTER);
 	}
 
 	/**
-	 * Constructs a {@link RServer} with the specified {@link RPrinter}.
+	 * Constructs a {@link RWorker} with the specified {@link RPrinter}.
 	 * <p>
 	 * @param printer the {@link RPrinter}
 	 */
-	public RServer(final RPrinter printer) {
+	public RWorker(final RPrinter printer) {
 		this.printer = printer;
 	}
 
@@ -109,7 +109,7 @@ public class RServer
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public RServer clone() {
-		return new RServer(printer);
+	public RWorker clone() {
+		return new RWorker(printer);
 	}
 }

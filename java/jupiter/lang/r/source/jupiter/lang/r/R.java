@@ -306,7 +306,8 @@ public class R
 			final String lowerCaseText = text.toLowerCase();
 			if (workQueueToMonitor != null &&
 					(lowerCaseText.contains("error") || lowerCaseText.contains("invalid"))) {
-				workQueueToMonitor.restart();
+				IO.error(text);
+				workQueueToMonitor.restart(true);
 			}
 		}
 
