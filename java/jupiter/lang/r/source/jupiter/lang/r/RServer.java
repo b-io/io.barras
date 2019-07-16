@@ -23,8 +23,8 @@
  */
 package jupiter.lang.r;
 
-import jupiter.common.io.IOHandler;
 import jupiter.common.thread.Worker;
+import jupiter.lang.r.R.RPrinter;
 
 public class RServer
 		extends Worker<String[], Integer> {
@@ -44,9 +44,9 @@ public class RServer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The printer {@link IOHandler}.
+	 * The {@link RPrinter}.
 	 */
-	protected final IOHandler printer;
+	protected final RPrinter printer;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,12 +61,13 @@ public class RServer
 	}
 
 	/**
-	 * Constructs a {@link RServer} with the specified printer {@link IOHandler}.
+	 * Constructs a {@link RServer} with the specified {@link RPrinter}.
 	 * <p>
-	 * @param printer the printer {@link IOHandler}
+	 * @param printer the {@link RPrinter}
 	 */
-	public RServer(final IOHandler printer) {
+	public RServer(final RPrinter printer) {
 		this.printer = printer;
+		this.printer.setWorkQueueToMonitor(workQueue);
 	}
 
 

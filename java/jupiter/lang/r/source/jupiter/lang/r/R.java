@@ -58,7 +58,10 @@ public class R
 	public static final String[] ARGS = new String[] {};
 	public static volatile String REPO = "https://cloud.r-project.org";
 
-	public static final IOHandler DEFAULT_PRINTER = new RPrinter();
+	/**
+	 * The default {@link RPrinter}.
+	 */
+	public static final RPrinter DEFAULT_PRINTER = new RPrinter();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -283,16 +286,26 @@ public class R
 
 		@Override
 		public void print(final Object content, final boolean isError) {
-			printer.print(PREFIX + content, isError);
-			if (workQueueToMonitor != null && Strings.toString(content).contains("invalid")) {
-				workQueueToMonitor.restart();
+			final String text = Strings.toString(content);
+			printer.print(PREFIX + text, isError);
+			if (isError) {
+				check(text);
 			}
 		}
 
 		@Override
 		public void println(final Object content, final boolean isError) {
-			printer.println(PREFIX + content, isError);
-			if (workQueueToMonitor != null && Strings.toString(content).contains("invalid")) {
+			final String text = Strings.toString(content);
+			printer.println(PREFIX + text, isError);
+			if (isError) {
+				check(text);
+			}
+		}
+
+		protected void check(final String text) {
+			final String lowerCaseText = text.toLowerCase();
+			if (workQueueToMonitor != null &&
+					(lowerCaseText.contains("error") || lowerCaseText.contains("invalid"))) {
 				workQueueToMonitor.restart();
 			}
 		}

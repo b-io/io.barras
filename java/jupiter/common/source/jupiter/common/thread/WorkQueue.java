@@ -397,6 +397,9 @@ public class WorkQueue<I, O>
 		IO.debug("Restart the work queue ", this);
 		isRunning = true;
 		createWorkers(minThreads);
+		synchronized (this) {
+			notifyAll();
+		}
 	}
 
 
