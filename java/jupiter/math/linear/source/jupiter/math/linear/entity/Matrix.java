@@ -2032,7 +2032,7 @@ public class Matrix
 		if (OpenCL.IS_ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
 			final Matrix a = A.toMatrix();
 			final Matrix b = B.toMatrix();
-			if (CL.test(n, a.n, b.n)) {
+			if (a.n == b.m && CL.test(n, a.n, b.n)) {
 				return new Matrix(m, CL.forward(elements, a.elements, b.elements, n, a.n, b.n));
 			}
 		}
