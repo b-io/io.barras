@@ -329,7 +329,7 @@ public class MailHandler
 		properties.put("mail.store.protocol", protocol.toString());
 		properties.put("mail." + protocol + ".host", hostName);
 		properties.put("mail." + protocol + ".port", protocol.getPort());
-		properties.put("mail." + protocol + ".auth", "true");
+		properties.put("mail." + protocol + ".auth", Strings.toString(password != null));
 		properties.put("mail." + protocol + ".timeout", Strings.toString(TIMEOUT));
 		properties.put("mail." + protocol + ".connectiontimeout", Strings.toString(TIMEOUT));
 		if (protocol.isSSL()) {
@@ -338,6 +338,8 @@ public class MailHandler
 			properties.put("mail." + protocol + ".socketFactory.port", protocol.getPort());
 			properties.put("mail." + protocol + ".ssl.checkserveridentity", "false");
 			properties.put("mail." + protocol + ".ssl.trust", STAR);
+		} else if (protocol.isTLS()) {
+			properties.put("mail." + protocol + ".starttls.required", "true");
 		}
 
 		// Create the authenticator
