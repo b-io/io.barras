@@ -70,6 +70,11 @@ public class MailHandler
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * The system-dependent default name-separator {@link String} of the remote file system.
+	 */
+	public static final String REMOTE_SEPARATOR = "/";
+
+	/**
 	 * Sets the timeout and the connection timeout.
 	 */
 	public static volatile long TIMEOUT = 10000L; // [ms]
