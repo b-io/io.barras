@@ -171,9 +171,9 @@ public class ACrypto
 	public void generateKey(final int size) {
 		try {
 			setKeySize(size);
-			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(method.value);
+			final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(method.value);
 			keyPairGenerator.initialize(publicKeySize);
-			KeyPair keyPair = keyPairGenerator.generateKeyPair();
+			final KeyPair keyPair = keyPairGenerator.generateKeyPair();
 			privateKey = keyPair.getPrivate();
 			publicKey = keyPair.getPublic();
 		} catch (final NoSuchAlgorithmException ex) {

@@ -120,7 +120,7 @@ public class SCrypto
 		return iv.getIV();
 	}
 
-	public IvParameterSpec getIV(byte[] iv) {
+	public IvParameterSpec getIV(final byte[] iv) {
 		return new IvParameterSpec(iv);
 	}
 
@@ -167,9 +167,11 @@ public class SCrypto
 	public byte[] combine() {
 		switch (mode) {
 			// Secret key
-			case ECB: return secretKey.getEncoded();
+			case ECB:
+				return secretKey.getEncoded();
 			// Secret key + IV
-			case CBC: return Bytes.merge(secretKey.getEncoded(), iv.getIV());
+			case CBC:
+				return Bytes.merge(secretKey.getEncoded(), iv.getIV());
 			default:
 				throw new IllegalTypeException(mode);
 		}
@@ -233,9 +235,11 @@ public class SCrypto
 		try {
 			final Cipher cipher = Cipher.getInstance(toString());
 			switch (mode) {
-				case ECB: cipher.init(Cipher.DECRYPT_MODE, secretKey);
+				case ECB:
+					cipher.init(Cipher.DECRYPT_MODE, secretKey);
 					break;
-				case CBC: cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
+				case CBC:
+					cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
 					break;
 				default:
 					throw new IllegalTypeException(mode);
