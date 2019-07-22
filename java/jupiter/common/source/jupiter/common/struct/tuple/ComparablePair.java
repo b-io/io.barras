@@ -105,7 +105,7 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 			clone.second = Objects.clone(second);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

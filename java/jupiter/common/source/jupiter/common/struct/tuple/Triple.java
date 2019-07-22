@@ -171,7 +171,7 @@ public class Triple<T1, T2, T3>
 			clone.third = Objects.clone(third);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

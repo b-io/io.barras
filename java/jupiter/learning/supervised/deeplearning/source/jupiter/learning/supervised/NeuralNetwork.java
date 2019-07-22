@@ -170,7 +170,7 @@ public class NeuralNetwork
 		try {
 			W = Objects.clone(weights);
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 
@@ -184,7 +184,7 @@ public class NeuralNetwork
 		try {
 			b = Objects.clone(bias);
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 
@@ -474,7 +474,7 @@ public class NeuralNetwork
 			clone.regularizationFunction = Objects.clone(regularizationFunction);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 }

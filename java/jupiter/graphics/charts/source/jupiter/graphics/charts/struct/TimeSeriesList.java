@@ -144,7 +144,7 @@ public class TimeSeriesList
 			clone.list = Objects.clone(list);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 }

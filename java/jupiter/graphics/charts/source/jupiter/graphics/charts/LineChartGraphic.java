@@ -147,7 +147,7 @@ public class LineChartGraphic
 			clone.dataset = Objects.clone(dataset);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 }

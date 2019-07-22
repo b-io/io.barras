@@ -217,7 +217,7 @@ public class SplineInterpolator
 			clone.M = Objects.clone(M);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

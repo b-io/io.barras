@@ -2475,7 +2475,7 @@ public class Matrix
 			clone.elements = Objects.clone(elements);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

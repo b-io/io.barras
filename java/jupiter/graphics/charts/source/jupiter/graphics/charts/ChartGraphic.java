@@ -142,7 +142,7 @@ public abstract class ChartGraphic
 			clone.styles = Objects.clone(styles);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 }

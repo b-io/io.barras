@@ -61,7 +61,7 @@ case class SCrypto(method: CipherMethod, mode: CipherMode, padding: CipherPaddin
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////
 
-	var secretKeySize: Int = 0 // bits
+	var secretKeySize: Int = 0 // [bit]
 	var secretKey: SecretKey = null
 	var iv: IvParameterSpec = null
 
@@ -133,19 +133,19 @@ case class SCrypto(method: CipherMethod, mode: CipherMode, padding: CipherPaddin
 	override def uncombine(combination: Array[Byte]): Unit = mode match {
 		// Secret key
 		case ECB => {
-			secretKeySize = combination.length * Bytes.SIZE // bits
+			secretKeySize = combination.length * Bytes.SIZE // [bit]
 			secretKey = getSecretKey(combination)
 		}
 		// Secret key + IV
 		case CBC => {
 			if (secretKeySize == 0) setDefaultKeySize()
 			// - Get the secret key
-			val secretKeyLength: Int = secretKeySize / Bytes.SIZE // bytes
+			val secretKeyLength: Int = secretKeySize / Bytes.SIZE // [byte]
 			val secretKeyBytes = new Array[Byte](secretKeyLength)
 			Array.copy(combination, 0, secretKeyBytes, 0, secretKeyLength)
 			secretKey = getSecretKey(secretKeyBytes)
 			// - Get the initialization vector
-			val ivLength = combination.length - secretKeyLength // bytes
+			val ivLength = combination.length - secretKeyLength // [byte]
 			val ivBytes = new Array[Byte](ivLength)
 			Array.copy(combination, secretKeyLength, ivBytes, 0, ivLength)
 			iv = getIV(ivBytes)

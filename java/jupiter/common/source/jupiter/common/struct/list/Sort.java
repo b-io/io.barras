@@ -95,7 +95,7 @@ public class Sort<T>
 
 	/**
 	 * This controls when we get *into* galloping mode. It is initialized to {@code MIN_GALLOP}. The
-	 * {@link #mergeLo} and {@link #mergeHi} methods nudge it higher for random data and lower for
+	 * methods {@link #mergeLo} and {@link #mergeHi} nudge it higher for random data and lower for
 	 * highly structured data.
 	 */
 	protected int minGallop = MIN_GALLOP;

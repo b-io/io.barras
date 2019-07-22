@@ -50,4 +50,17 @@ public class IllegalTypeException
 	public IllegalTypeException(final Object type) {
 		super("Illegal type " + Strings.quote(type));
 	}
+
+	/**
+	 * Constructs an {@link IllegalTypeException} with the specified illegal type {@link Object} and
+	 * cause {@link Throwable} (which is saved for later retrieval by the method
+	 * {@link #getCause()}).
+	 * <p>
+	 * @param type  the illegal type {@link Object}
+	 * @param cause the cause {@link Throwable} (which is saved for later retrieval by the method
+	 *              {@link #getCause()})
+	 */
+	public IllegalTypeException(final Object type, final Throwable cause) {
+		super("Illegal type " + Strings.quote(type), cause);
+	}
 }

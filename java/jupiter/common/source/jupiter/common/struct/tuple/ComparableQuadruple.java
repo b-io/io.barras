@@ -118,7 +118,7 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 			clone.fourth = Objects.clone(fourth);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

@@ -256,7 +256,7 @@ public class AIO
 			clone.io = Objects.clone(io);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 }

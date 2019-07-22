@@ -471,7 +471,7 @@ public class JConsole
 			outPipe.write(line.getBytes(DEFAULT_CHARSET.name()));
 			outPipe.flush();
 		} catch (final IOException ex) {
-			throw new RuntimeException("Unable to write in the console", ex);
+			throw new IllegalStateException("Unable to write in the console", ex);
 		}
 		//textPane.repaint();
 	}
@@ -857,9 +857,10 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The overridden method {@code read} does not throw an {@link IOException}; it simply waits for
-	 * new writers and data. This is used by the JConsole internal read thread to allow writers in
-	 * different (and in particular ephemeral) threads to write to the pipe.
+	 * The overridden method {@link BlockingPipedInputStream#read} does not throw an
+	 * {@link IOException} (except if the pipe is closed); it simply waits for new writers and data.
+	 * This is used by {@code this} internal read thread to allow writers in different (and in
+	 * particular ephemeral) threads to write to the pipe.
 	 */
 	protected static class BlockingPipedInputStream
 			extends PipedInputStream {

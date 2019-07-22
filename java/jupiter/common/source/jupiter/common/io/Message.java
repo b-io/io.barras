@@ -253,7 +253,7 @@ public class Message
 		try {
 			return (Message) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

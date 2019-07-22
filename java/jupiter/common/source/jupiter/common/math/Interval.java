@@ -190,7 +190,7 @@ public class Interval<T extends Comparable<T>>
 		try {
 			return (Interval<T>) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

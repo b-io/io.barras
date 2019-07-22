@@ -196,7 +196,7 @@ public class Quadruple<T1, T2, T3, T4>
 			clone.fourth = Objects.clone(fourth);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

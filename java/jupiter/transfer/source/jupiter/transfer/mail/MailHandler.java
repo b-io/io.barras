@@ -331,7 +331,7 @@ public class MailHandler
 	public Session createSession(final Protocol protocol) {
 		// Create the properties
 		final Properties properties = new Properties();
-		properties.put("mail.store.protocol", protocol.toString());
+		properties.put("mail.store.protocol", protocol.value);
 		properties.put("mail." + protocol + ".host", hostName);
 		properties.put("mail." + protocol + ".port", protocol.getPort());
 		properties.put("mail." + protocol + ".auth", Strings.toString(password != null));
@@ -411,7 +411,7 @@ public class MailHandler
 			final Session session = createSession(inProtocol);
 			Store store = null;
 			try {
-				store = session.getStore(inProtocol.toString());
+				store = session.getStore(inProtocol.value);
 				store.connect(hostName, inProtocol.getPort(), userName, password);
 
 				IO.info("Download the filtered mails in ", Strings.quote(remoteDirPath));
@@ -538,7 +538,7 @@ public class MailHandler
 		try {
 			return (MailHandler) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

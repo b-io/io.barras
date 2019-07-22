@@ -181,7 +181,7 @@ public class ScatterPlotGraphic
 			clone.collection = Objects.clone(collection);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 }

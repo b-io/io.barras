@@ -15,7 +15,7 @@
 
 	<name>Security</name>
 	<description>Security library</description>
-	<url>https://github.com/b-io/io.barras/tree/master/scala/seo/security</url>
+	<url>https://github.com/b-io/io.barras/tree/master/scala/saturn/security</url>
 
 	<modules>
 		<module>crypto</module>

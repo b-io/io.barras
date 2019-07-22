@@ -52,7 +52,7 @@ case class ACrypto(method: CipherMethod, mode: CipherMode, padding: CipherPaddin
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////
 
-	var publicKeySize: Int = 0 // bits
+	var publicKeySize: Int = 0 // [bit]
 	var privateKey: PrivateKey = null
 	var publicKey: PublicKey = null
 
@@ -111,7 +111,7 @@ case class ACrypto(method: CipherMethod, mode: CipherMode, padding: CipherPaddin
 
 	override def combine(): Array[Byte] = publicKey.getEncoded()
 	override def uncombine(combination: Array[Byte]): Unit = {
-		publicKeySize = combination.length * Bytes.SIZE // bits
+		publicKeySize = combination.length * Bytes.SIZE // [bit]
 		publicKey = getPublicKey(combination)
 	}
 

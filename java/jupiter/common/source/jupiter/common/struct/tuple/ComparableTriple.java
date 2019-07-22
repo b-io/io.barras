@@ -112,7 +112,7 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 			clone.third = Objects.clone(third);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new RuntimeException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
 	}
 

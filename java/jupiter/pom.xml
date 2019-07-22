@@ -29,6 +29,7 @@
 		<module>math</module>
 		<module>mobile</module>
 		<module>network</module>
+		<module>security</module>
 		<module>transfer</module>
 	</modules>
 </project>
