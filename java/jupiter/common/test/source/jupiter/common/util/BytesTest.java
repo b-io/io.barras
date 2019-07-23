@@ -21,77 +21,66 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.table;
+package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
 
-import java.io.IOException;
-
 import jupiter.common.test.Test;
 
-public class TableTest
+public class BytesTest
 		extends Test {
 
-	public TableTest(final String name) {
+	public BytesTest(final String name) {
 		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of transpose method, of class Table.
+	 * Test of toBinary method, of class Bytes.
 	 */
-	public void testTranspose() {
-		IO.test("transpose");
+	public void testToBinary() {
+		IO.test("toBinary");
 
-		final DoubleTable table1 = new DoubleTable(1, 2);
-		table1.fill(5.);
-		final DoubleTable table2 = table1.clone();
-		assertEquals(table1, table2);
-		table2.transpose();
-		assertNotSame(table1, table2);
-		table2.transpose();
-		assertEquals(table1, table2);
+		final String text = "Hello world!";
+		assertEquals(
+				"010010000110010101101100011011000110111100100000011101110110111101110010011011000110010000100001",
+				Bytes.toBinaryString(text.getBytes()));
+	}
+
+	/**
+	 * Test of toHex method, of class Bytes.
+	 */
+	public void testToHex() {
+		IO.test("toHex");
+
+		final String text = "Hello world!";
+		assertEquals(
+				"48656C6C6F20776F726C6421",
+				Bytes.toHexString(text.getBytes()));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of load method, of class Table.
+	 * Test of parseBinaryString method, of class Bytes.
 	 */
-	public void testLoad() {
-		IO.test("load");
+	public void testParseBinaryString() {
+		IO.test("parseBinaryString");
 
-		try {
-			new StringTable("test/resources/testFX.csv", true);
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Test of equals method, of class Table.
-	 */
-	public void testEquals() {
-		IO.test("equals");
-
-		final DoubleTable table1 = new DoubleTable(1, 2);
-		table1.fill(5.);
-		final DoubleTable table2 = table1.clone();
-		assertEquals(table1, table2);
+		final String text = "Hello world!";
+		assertEquals(text,
+				new String(Bytes.parseBinaryString(Bytes.toBinaryString(text.getBytes()))));
 	}
 
 	/**
-	 * Test of hashCode method, of class Table.
+	 * Test of parseHexString method, of class Bytes.
 	 */
-	public void testHashCode() {
-		IO.test("hashCode");
+	public void testParseHexString() {
+		IO.test("parseHexString");
 
-		final DoubleTable table1 = new DoubleTable(1, 2);
-		table1.fill(5.);
-		final DoubleTable table2 = table1.clone();
-		assertEquals(table1.hashCode(), table2.hashCode());
+		final String text = "Hello world!";
+		assertEquals(text,
+				new String(Bytes.parseHexString(Bytes.toHexString(text.getBytes()))));
 	}
 }

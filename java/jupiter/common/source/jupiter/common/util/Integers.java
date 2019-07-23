@@ -117,6 +117,110 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Formats the specified source {@code int} value into the specified target {@code char} buffer.
+	 * <p>
+	 * @param source the source {@code int} value
+	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
+	 * @param target the target {@code char} buffer
+	 * @param offset the offset in the target {@code char} buffer to start at
+	 * @param length the number of digits to write
+	 * <p>
+	 * @return the lowest index of the specified target {@code char} buffer used
+	 */
+	public static int toUnsignedInt(final int source, final int shift, final char[] target,
+			final int offset, final int length) {
+		return toUnsignedInt(source, shift, target, offset, length, false);
+	}
+
+	/**
+	 * Formats the specified source {@code int} value into the specified target {@code char} buffer.
+	 * <p>
+	 * @param source       the source {@code int} value
+	 * @param shift        the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
+	 * @param target       the target {@code char} buffer
+	 * @param offset       the offset in the target {@code char} buffer to start at
+	 * @param length       the number of digits to write
+	 * @param useLowerCase the flag specifying whether to use lower or upper case digits
+	 * <p>
+	 * @return the lowest index of the specified target {@code char} buffer used
+	 */
+	public static int toUnsignedInt(final int source, final int shift, final char[] target,
+			final int offset, final int length, final boolean useLowerCase) {
+		return toUnsignedInt(source, shift, target, offset, length,
+				useLowerCase ? Characters.LOWER_CASE_DIGITS : Characters.UPPER_CASE_DIGITS);
+	}
+
+	/**
+	 * Formats the specified source {@code int} value into the specified target {@code char} buffer
+	 * using the specified digits.
+	 * <p>
+	 * @param source the source {@code int} value
+	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
+	 * @param target the target {@code char} buffer
+	 * @param offset the offset in the target {@code char} buffer to start at
+	 * @param length the number of digits to write
+	 * @param digits the digits to use
+	 * <p>
+	 * @return the lowest index of the specified target {@code char} buffer used
+	 */
+	public static int toUnsignedInt(final int source, final int shift, final char[] target,
+			final int offset, final int length, final char[] digits) {
+		int value = source;
+		int index = length;
+		final int radix = 1 << shift;
+		final int mask = radix - 1;
+		do {
+			target[offset + --index] = digits[value & mask];
+			value >>>= shift;
+		} while (value != 0 && index > 0);
+		return index;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns an {@code int} value converted from the specified representative {@link String} of
+	 * the specified radix.
+	 * <p>
+	 * @param hexString the representative {@link String} to convert
+	 * @param radix     the radix of the representative {@link String} to convert
+	 * <p>
+	 * @return an {@code int} value converted from the specified representative {@link String} of
+	 *         the specified radix
+	 */
+	public static int parseUnsignedInt(final String source, final int radix)
+			throws NumberFormatException {
+		if (source == null) {
+			throw new NumberFormatException(Strings.NULL);
+		}
+
+		final int length = source.length();
+		if (length > 0) {
+			if (source.charAt(0) == '-') {
+				throw new NumberFormatException(String.format(
+						"Illegal leading minus sign on unsigned string %s", source));
+			} else {
+				if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
+						(radix == 10 && length <= 9)) { // Integer.MAX_VALUE in base 10 is 10 digits
+					return Integer.parseInt(source, radix);
+				} else {
+					final long value = Long.parseLong(source, radix);
+					if ((value & 0xffffffff00000000L) == 0) {
+						return (int) value;
+					} else {
+						throw new NumberFormatException(String.format(
+								"String value %s exceeds range of unsigned int", source));
+					}
+				}
+			}
+		} else {
+			throw new NumberFormatException("For input string: " + Strings.quote(source));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns an {@code int} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert

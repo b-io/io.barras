@@ -145,6 +145,227 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Formats the specified source {@code byte} value into the specified target {@code char}
+	 * buffer.
+	 * <p>
+	 * @param source the source {@code byte} value
+	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
+	 * @param target the target {@code char} buffer
+	 * @param offset the offset in the target {@code char} buffer to start at
+	 * @param length the number of digits to write
+	 * <p>
+	 * @return the lowest index of the specified target {@code char} buffer used
+	 */
+	public static int toUnsignedInt(final byte source, final int shift, final char[] target,
+			final int offset, final int length) {
+		return toUnsignedInt(source, shift, target, offset, length, false);
+	}
+
+	/**
+	 * Formats the specified source {@code byte} value into the specified target {@code char}
+	 * buffer.
+	 * <p>
+	 * @param source       the source {@code byte} value
+	 * @param shift        the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
+	 * @param target       the target {@code char} buffer
+	 * @param offset       the offset in the target {@code char} buffer to start at
+	 * @param length       the number of digits to write
+	 * @param useLowerCase the flag specifying whether to use lower or upper case digits
+	 * <p>
+	 * @return the lowest index of the specified target {@code char} buffer used
+	 */
+	public static int toUnsignedInt(final byte source, final int shift, final char[] target,
+			final int offset, final int length, final boolean useLowerCase) {
+		return toUnsignedInt(source, shift, target, offset, length,
+				useLowerCase ? Characters.LOWER_CASE_DIGITS : Characters.UPPER_CASE_DIGITS);
+	}
+
+	/**
+	 * Formats the specified source {@code byte} value into the specified target {@code char} buffer
+	 * using the specified digits.
+	 * <p>
+	 * @param source the source {@code byte} value
+	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
+	 * @param target the target {@code char} buffer
+	 * @param offset the offset in the target {@code char} buffer to start at
+	 * @param length the number of digits to write
+	 * @param digits the digits to use
+	 * <p>
+	 * @return the lowest index of the specified target {@code char} buffer used
+	 */
+	public static int toUnsignedInt(final byte source, final int shift, final char[] target,
+			final int offset, final int length, final char[] digits) {
+		return Integers.toUnsignedInt(source & 0xFF, shift, target, offset, length, digits);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a binary representative {@link String} of the specified {@code byte} array.
+	 * <p>
+	 * @param array the {@code byte} array to convert
+	 * <p>
+	 * @return a binary representative {@link String} of the specified {@code byte} array
+	 */
+	public static String toBinaryString(final byte... array) {
+		final char[] buffer = new char[array.length << 3];
+		for (int i = 0; i < array.length; ++i) {
+			final int offset = i * 8;
+			final int index = toUnsignedInt(array[i], 1, buffer, offset, 8);
+			for (int j = offset; j < offset + index; ++j) {
+				buffer[j] = '0';
+			}
+		}
+		return new String(buffer);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a hexadecimal representative {@link String} of the specified {@code byte} array.
+	 * <p>
+	 * @param array the {@code byte} array to convert
+	 * <p>
+	 * @return a hexadecimal representative {@link String} of the specified {@code byte} array
+	 */
+	public static String toHexString(final byte... array) {
+		return toHexString(array, false);
+	}
+
+	/**
+	 * Returns a hexadecimal representative {@link String} of the specified {@code byte} array.
+	 * <p>
+	 * @param array        the {@code byte} array to convert
+	 * @param useLowerCase the flag specifying whether to use lower or upper case digits
+	 * <p>
+	 * @return a hexadecimal representative {@link String} of the specified {@code byte} array
+	 */
+	public static String toHexString(final byte[] array, final boolean useLowerCase) {
+		return toHexString(array, useLowerCase ? Characters.LOWER_CASE_DIGITS :
+				Characters.UPPER_CASE_DIGITS);
+	}
+
+	/**
+	 * Returns a hexadecimal representative {@link String} of the specified {@code byte} array using
+	 * the specified digits.
+	 * <p>
+	 * @param array  the {@code byte} array to convert
+	 * @param digits the digits to use
+	 * <p>
+	 * @return a hexadecimal representative {@link String} of the specified {@code byte} array using
+	 *         the specified digits
+	 */
+	public static String toHexString(final byte[] array, final char[] digits) {
+		final char[] buffer = new char[array.length << 1];
+		for (int i = 0; i < array.length; ++i) {
+			final int offset = i * 2;
+			final int index = toUnsignedInt(array[i], 4, buffer, offset, 2);
+			for (int j = offset; j < offset + index; ++j) {
+				buffer[j] = '0';
+			}
+		}
+		return new String(buffer);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a {@code byte} array converted from the specified binary representative
+	 * {@link String}.
+	 * <p>
+	 * @param binaryString the binary representative {@link String} to convert
+	 * <p>
+	 * @return a {@code byte} array converted from the specified binary representative
+	 *         {@link String}
+	 */
+	public static byte[] parseBinaryString(final String binaryString) {
+		return parseBinaryString(binaryString, false);
+	}
+
+	/**
+	 * Returns a {@code byte} array converted from the specified binary representative
+	 * {@link String}.
+	 * <p>
+	 * @param binaryString the binary representative {@link String} to convert
+	 * @param useLowerCase the flag specifying whether to use lower or upper case digits
+	 * <p>
+	 * @return a {@code byte} array converted from the specified binary representative
+	 *         {@link String}
+	 */
+	public static byte[] parseBinaryString(final String binaryString, final boolean useLowerCase) {
+		return parseBinaryString(binaryString, useLowerCase ? Characters.LOWER_CASE_DIGITS :
+				Characters.UPPER_CASE_DIGITS);
+	}
+
+	/**
+	 * Returns a {@code byte} array converted from the specified binary representative
+	 * {@link String} using the specified digits.
+	 * <p>
+	 * @param binaryString the binary representative {@link String} to convert
+	 * @param digits       the digits to use
+	 * <p>
+	 * @return a {@code byte} array converted from the specified binary representative
+	 *         {@link String} using the specified digits
+	 */
+	public static byte[] parseBinaryString(final String binaryString, final char[] digits) {
+		final byte[] array = new byte[binaryString.length() >> 3];
+		for (int i = 0; i < binaryString.length(); i += 8) {
+			array[i >> 3] = (byte) Integers.parseUnsignedInt(binaryString.substring(i, i + 8), 2);
+		}
+		return array;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a {@code byte} array converted from the specified hexadecimal representative
+	 * {@link String}.
+	 * <p>
+	 * @param hexString the hexadecimal representative {@link String} to convert
+	 * <p>
+	 * @return a {@code byte} array converted from the specified hexadecimal representative
+	 *         {@link String}
+	 */
+	public static byte[] parseHexString(final String hexString) {
+		return parseHexString(hexString, false);
+	}
+
+	/**
+	 * Returns a {@code byte} array converted from the specified hexadecimal representative
+	 * {@link String}.
+	 * <p>
+	 * @param hexString    the hexadecimal representative {@link String} to convert
+	 * @param useLowerCase the flag specifying whether to use lower or upper case digits
+	 * <p>
+	 * @return a {@code byte} array converted from the specified hexadecimal representative
+	 *         {@link String}
+	 */
+	public static byte[] parseHexString(final String hexString, final boolean useLowerCase) {
+		return parseHexString(hexString, useLowerCase ? Characters.LOWER_CASE_DIGITS :
+				Characters.UPPER_CASE_DIGITS);
+	}
+
+	/**
+	 * Returns a {@code byte} array converted from the specified hexadecimal representative
+	 * {@link String} using the specified digits.
+	 * <p>
+	 * @param hexString the hexadecimal representative {@link String} to convert
+	 * @param digits    the digits to use
+	 * <p>
+	 * @return a {@code byte} array converted from the specified hexadecimal representative
+	 *         {@link String} using the specified digits
+	 */
+	public static byte[] parseHexString(final String hexString, final char[] digits) {
+		final byte[] array = new byte[hexString.length() >> 1];
+		for (int i = 0; i < hexString.length(); i += 2) {
+			array[i >> 1] = (byte) Integers.parseUnsignedInt(hexString.substring(i, i + 2), 16);
+		}
+		return array;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a {@code byte} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert

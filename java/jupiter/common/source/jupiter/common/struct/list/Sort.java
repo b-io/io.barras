@@ -166,7 +166,7 @@ public class Sort<T>
 		 * if {@code MIN_MERGE} is decreased. See the {@code MIN_MERGE} declaration above for more
 		 * information. The maximum value of 49 allows for an array up to length {@code
 		 * Integer.MAX_VALUE - 4}, if array is filled by the worst case stack size increasing
-		 * scenario. More explanations are given in section 4 of:
+		 * scenario. More explanations are specified in section 4 of:
 		 * http://envisage-project.eu/wp-content/uploads/2015/02/sorting.pdf
 		 */
 		final int stackLen = len < 120 ? 5 : len < 1542 ? 10 : len < 119151 ? 24 : 49;
@@ -180,10 +180,10 @@ public class Sort<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sorts the given range, using the given workspace array slice for temporary storage when
-	 * possible. This method is designed to be invoked from public methods (in class {@link Arrays})
-	 * after performing any necessary array bounds checks and expanding parameters into the required
-	 * forms.
+	 * Sorts the specified range, using the specified workspace array slice for temporary storage
+	 * when possible. This method is designed to be invoked from public methods (in class
+	 * {@link Arrays}) after performing any necessary array bounds checks and expanding parameters
+	 * into the required forms.
 	 * <p>
 	 * @param <T>        the component type of the array
 	 * @param array      the {@code T} array to sort
