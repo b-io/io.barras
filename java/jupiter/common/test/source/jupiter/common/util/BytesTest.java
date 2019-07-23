@@ -49,6 +49,18 @@ public class BytesTest
 	}
 
 	/**
+	 * Test of toOctal method, of class Bytes.
+	 */
+	public void testToOctal() {
+		IO.test("toOctal");
+
+		final String text = "Hello world!";
+		assertEquals(
+				"011001450154015401570040016701570162015401440041",
+				Bytes.toOctalString(text.getBytes()));
+	}
+
+	/**
 	 * Test of toHex method, of class Bytes.
 	 */
 	public void testToHex() {
@@ -71,6 +83,17 @@ public class BytesTest
 		final String text = "Hello world!";
 		assertEquals(text,
 				new String(Bytes.parseBinaryString(Bytes.toBinaryString(text.getBytes()))));
+	}
+
+	/**
+	 * Test of parseOctalString method, of class Bytes.
+	 */
+	public void testParseOctalString() {
+		IO.test("parseOctalString");
+
+		final String text = "Hello world!";
+		assertEquals(text,
+				new String(Bytes.parseOctalString(Bytes.toOctalString(text.getBytes()))));
 	}
 
 	/**
