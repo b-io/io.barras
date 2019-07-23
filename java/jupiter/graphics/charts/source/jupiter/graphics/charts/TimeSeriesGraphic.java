@@ -28,16 +28,16 @@ import static jupiter.common.io.IO.IO;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.xy.XYDataset;
-
 import jupiter.common.struct.table.StringTable;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.struct.TimeSeriesList;
+
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.xy.XYDataset;
 
 public class TimeSeriesGraphic
 		extends ChartGraphic {

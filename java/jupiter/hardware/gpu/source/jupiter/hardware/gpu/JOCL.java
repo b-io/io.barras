@@ -57,6 +57,11 @@ import static org.jocl.CL.setExceptionsEnabled;
 
 import java.util.Map;
 
+import jupiter.common.struct.map.tree.RedBlackTreeMap;
+import jupiter.common.test.Arguments;
+import jupiter.common.test.DoubleArguments;
+import jupiter.common.util.Strings;
+
 import org.jocl.Pointer;
 import org.jocl.Sizeof;
 import org.jocl.cl_command_queue;
@@ -67,11 +72,6 @@ import org.jocl.cl_kernel;
 import org.jocl.cl_mem;
 import org.jocl.cl_platform_id;
 import org.jocl.cl_program;
-
-import jupiter.common.struct.map.tree.RedBlackTreeMap;
-import jupiter.common.test.Arguments;
-import jupiter.common.test.DoubleArguments;
-import jupiter.common.util.Strings;
 
 public class JOCL
 		extends OpenCL {

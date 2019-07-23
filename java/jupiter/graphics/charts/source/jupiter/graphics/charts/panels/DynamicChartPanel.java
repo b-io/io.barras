@@ -30,6 +30,14 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.text.Format;
 
+import jupiter.common.math.Maths;
+import jupiter.common.util.Integers;
+import jupiter.graphics.charts.Charts;
+import jupiter.graphics.charts.overlays.XYSelection;
+import jupiter.graphics.charts.overlays.XYSelectionOverlay;
+import jupiter.math.analysis.interpolation.LinearInterpolator;
+import jupiter.math.analysis.struct.XY;
+
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -38,14 +46,6 @@ import org.jfree.chart.panel.CrosshairOverlay;
 import org.jfree.chart.plot.Crosshair;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
-
-import jupiter.common.math.Maths;
-import jupiter.common.util.Integers;
-import jupiter.graphics.charts.Charts;
-import jupiter.graphics.charts.overlays.XYSelection;
-import jupiter.graphics.charts.overlays.XYSelectionOverlay;
-import jupiter.math.analysis.interpolation.LinearInterpolator;
-import jupiter.math.analysis.struct.XY;
 
 public class DynamicChartPanel
 		extends ChartPanel {

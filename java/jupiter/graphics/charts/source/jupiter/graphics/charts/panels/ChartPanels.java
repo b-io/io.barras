@@ -29,6 +29,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 
+import jupiter.common.util.Integers;
+import jupiter.graphics.charts.Charts;
+import jupiter.math.analysis.struct.XY;
+
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.axis.ValueAxis;
@@ -40,10 +44,6 @@ import org.jfree.chart.entity.XYItemEntity;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.ui.RectangleEdge;
-
-import jupiter.common.util.Integers;
-import jupiter.graphics.charts.Charts;
-import jupiter.math.analysis.struct.XY;
 
 public class ChartPanels {
 

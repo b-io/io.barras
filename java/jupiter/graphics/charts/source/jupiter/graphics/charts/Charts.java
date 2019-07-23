@@ -31,6 +31,10 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.util.List;
 
+import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.time.SafeDateFormat;
+import jupiter.common.util.Arrays;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -45,10 +49,6 @@ import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
-
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.time.SafeDateFormat;
-import jupiter.common.util.Arrays;
 
 public class Charts {
 

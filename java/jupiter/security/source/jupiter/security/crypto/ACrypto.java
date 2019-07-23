@@ -66,18 +66,40 @@ public class ACrypto
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ACrypto}.
+	 */
 	public ACrypto() {
 		this(CipherMethod.RSA);
 	}
 
+	/**
+	 * Constructs an {@link ACrypto} with the specified {@link CipherMethod}.
+	 * <p>
+	 * @param method the {@link CipherMethod}
+	 */
 	public ACrypto(final CipherMethod method) {
 		this(method, CipherMode.ECB);
 	}
 
+	/**
+	 * Constructs an {@link ACrypto} with the specified {@link CipherMethod} and {@link CipherMode}.
+	 * <p>
+	 * @param method the {@link CipherMethod}
+	 * @param mode   the {@link CipherMode}
+	 */
 	public ACrypto(final CipherMethod method, final CipherMode mode) {
 		this(method, mode, CipherPadding.OAEPWithSHA256AndMGF1Padding);
 	}
 
+	/**
+	 * Constructs an {@link ACrypto} with the specified {@link CipherMethod}, {@link CipherMode} and
+	 * {@link CipherPadding}.
+	 * <p>
+	 * @param method  the {@link CipherMethod}
+	 * @param mode    the {@link CipherMode}
+	 * @param padding the {@link CipherPadding}
+	 */
 	public ACrypto(final CipherMethod method, final CipherMode mode, final CipherPadding padding) {
 		super(method, mode, padding);
 	}
@@ -87,11 +109,21 @@ public class ACrypto
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the default size of the {@link PublicKey}.
+	 * <p>
+	 * @return the default size of the {@link PublicKey}
+	 */
 	@Override
 	public int getDefaultKeySize() {
-		return checkKeySize(4096) ? 4096 : 2024;
+		return isValidKeySize(4096) ? 4096 : 2024;
 	}
 
+	/**
+	 * Returns the size of the {@link PublicKey}.
+	 * <p>
+	 * @return the size of the {@link PublicKey}
+	 */
 	@Override
 	public int getKeySize() {
 		return publicKeySize;
@@ -99,35 +131,26 @@ public class ACrypto
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the primary encoded key of the {@link PrivateKey}, or {@code null} if the
+	 * {@link PrivateKey} does not support encoding.
+	 * <p>
+	 * @return the primary encoded key of the {@link PrivateKey}, or {@code null} if the
+	 *         {@link PrivateKey} does not support encoding
+	 */
 	public byte[] getPrivateKey() {
 		return privateKey != null ? privateKey.getEncoded() : null;
 	}
 
-	public PrivateKey getPrivateKey(final byte[] key) {
-		try {
-			return KeyFactory.getInstance(method.value)
-					.generatePrivate(new PKCS8EncodedKeySpec(key));
-		} catch (final InvalidKeySpecException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		} catch (final NoSuchAlgorithmException ex) {
-			throw new IllegalTypeException(method, ex);
-		}
-	}
-
-	//////////////////////////////////////////////
-
+	/**
+	 * Returns the primary encoded key of the {@link PublicKey}, or {@code null} if the
+	 * {@link PublicKey} does not support encoding.
+	 * <p>
+	 * @return the primary encoded key of the {@link PublicKey}, or {@code null} if the
+	 *         {@link PublicKey} does not support encoding
+	 */
 	public byte[] getPublicKey() {
 		return publicKey != null ? publicKey.getEncoded() : null;
-	}
-
-	public PublicKey getPublicKey(final byte[] key) {
-		try {
-			return KeyFactory.getInstance(method.value).generatePublic(new X509EncodedKeySpec(key));
-		} catch (final InvalidKeySpecException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		} catch (final NoSuchAlgorithmException ex) {
-			throw new IllegalTypeException(method, ex);
-		}
 	}
 
 
@@ -135,11 +158,19 @@ public class ACrypto
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the default size of the {@link PublicKey}.
+	 */
 	@Override
 	public void setDefaultKeySize() {
 		publicKeySize = getDefaultKeySize();
 	}
 
+	/**
+	 * Sets the size of the {@link PublicKey}.
+	 * <p>
+	 * @param publicKeySize a size of the {@link PublicKey}
+	 */
 	@Override
 	public void setKeySize(final int publicKeySize) {
 		this.publicKeySize = publicKeySize;
@@ -147,14 +178,50 @@ public class ACrypto
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void setPrivateKey(final byte[] key) {
-		privateKey = getPrivateKey(key);
+	/**
+	 * Sets the {@link PrivateKey} with the specified primary encoded key.
+	 * <p>
+	 * @param privateKey a primary encoded key
+	 */
+	public void setPrivateKey(final byte[] privateKey) {
+		this.privateKey = createPrivateKey(privateKey);
+	}
+
+	/**
+	 * Sets the {@link PublicKey} with the specified primary encoded key.
+	 * <p>
+	 * @param publicKey a primary encoded key
+	 */
+	public void setPublicKey(final byte[] publicKey) {
+		this.publicKey = createPublicKey(publicKey);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Combines the primary encoded data.
+	 * <p>
+	 * @return the primary encoded combination
+	 */
+	@Override
+	public byte[] combine() {
+		return publicKey.getEncoded();
 	}
 
 	//////////////////////////////////////////////
 
-	public void setPublicKey(final byte[] key) {
-		publicKey = getPublicKey(key);
+	/**
+	 * Uncombines the specified primary encoded combination.
+	 * <p>
+	 * @param combination the primary encoded combination to uncombine
+	 */
+	@Override
+	public void uncombine(final byte[] combination) {
+		publicKeySize = combination.length * Byte.SIZE; // [bit]
+		publicKey = createPublicKey(combination);
 	}
 
 
@@ -162,15 +229,15 @@ public class ACrypto
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a {@link PrivateKey} and a {@link PublicKey} of the specified size.
+	 * <p>
+	 * @param publicKeySize the size of the {@link PublicKey} to create
+	 */
 	@Override
-	public void generateKey() {
-		generateKey(getDefaultKeySize());
-	}
-
-	@Override
-	public void generateKey(final int size) {
+	public void createKey(final int publicKeySize) {
 		try {
-			setKeySize(size);
+			setKeySize(publicKeySize);
 			final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(method.value);
 			keyPairGenerator.initialize(publicKeySize);
 			final KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -181,30 +248,57 @@ public class ACrypto
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
-	@Override
-	public byte[] combine() {
-		return publicKey.getEncoded();
+	/**
+	 * Creates a {@link PrivateKey} with the specified primary encoded key.
+	 * <p>
+	 * @param privateKey the primary encoded key of the {@link PrivateKey} to create
+	 * <p>
+	 * @return a {@link PrivateKey} with the specified primary encoded key
+	 */
+	public PrivateKey createPrivateKey(final byte[] privateKey) {
+		try {
+			return KeyFactory.getInstance(method.value)
+					.generatePrivate(new PKCS8EncodedKeySpec(privateKey));
+		} catch (final InvalidKeySpecException ex) {
+			throw new IllegalStateException(Strings.toString(ex), ex);
+		} catch (final NoSuchAlgorithmException ex) {
+			throw new IllegalTypeException(method, ex);
+		}
 	}
 
-	@Override
-	public void uncombine(final byte[] combination) {
-		publicKeySize = combination.length * Byte.SIZE; // [bit]
-		publicKey = getPublicKey(combination);
+	/**
+	 * Creates a {@link PublicKey} with the specified primary encoded key.
+	 * <p>
+	 * @param publicKey the primary encoded key of the {@link PublicKey} to create
+	 * <p>
+	 * @return a {@link PublicKey} with the specified primary encoded key
+	 */
+	public PublicKey createPublicKey(final byte[] publicKey) {
+		try {
+			return KeyFactory.getInstance(method.value)
+					.generatePublic(new X509EncodedKeySpec(publicKey));
+		} catch (final InvalidKeySpecException ex) {
+			throw new IllegalStateException(Strings.toString(ex), ex);
+		} catch (final NoSuchAlgorithmException ex) {
+			throw new IllegalTypeException(method, ex);
+		}
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates an encrypting {@link Cipher}.
+	 * <p>
+	 * @return an encrypting {@link Cipher}
+	 */
 	@Override
-	public Cipher getEncryptCipher() {
+	public Cipher createEncryptingCipher() {
 		try {
 			final Cipher cipher = Cipher.getInstance(toString());
 			if (publicKeySize == 0) {
-				generateKey();
+				createKey();
 			}
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 			return cipher;
@@ -217,10 +311,15 @@ public class ACrypto
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
+	/**
+	 * Creates a decrypting {@link Cipher}.
+	 * <p>
+	 * @return a decrypting {@link Cipher}
+	 */
 	@Override
-	public Cipher getDecryptCipher() {
+	public Cipher createDecryptingCipher() {
 		try {
 			final Cipher cipher = Cipher.getInstance(toString());
 			cipher.init(Cipher.DECRYPT_MODE, privateKey);

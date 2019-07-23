@@ -28,16 +28,16 @@ import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.Level;
-import org.apache.log4j.spi.LoggingEvent;
-
 import jupiter.common.io.IO;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.Message;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.io.log.LogHandler;
+
+import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.Level;
+import org.apache.log4j.spi.LoggingEvent;
 
 public class IOAppender
 		extends AppenderSkeleton {

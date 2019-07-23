@@ -23,13 +23,13 @@
  */
 package jupiter.graphics.charts;
 
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.function.Function2D;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
-
-import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class LineChartGraphic
 		extends ChartGraphic {
@@ -72,36 +72,6 @@ public class LineChartGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CHART GRAPHIC
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public JFreeChart createChart() {
-		return Charts.createLineChart(title, labels.getX(), labels.getY(), dataset);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// LINE CHART GRAPHIC
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a {@link XYDataset} from the specified {@link Function2D}.
-	 * <p>
-	 * @param f           a {@link Function2D} {@code f: R -{@literal >} R}
-	 * @param lowerBound  the lowerbound of the domain
-	 * @param upperBound  the upperbound of the domain
-	 * @param sampleCount the number of samples
-	 * @param seriesKey   the identifier of the {@link XYDataset} to create
-	 */
-	public void createDataset(final Function2D f, final double lowerBound, final double upperBound,
-			final int sampleCount, final Comparable<?> seriesKey) {
-		dataset = DatasetUtilities.sampleFunction2D(f, lowerBound, upperBound, sampleCount,
-				seriesKey);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -126,6 +96,33 @@ public class LineChartGraphic
 	 */
 	public void setDataset(final XYDataset dataset) {
 		this.dataset = dataset;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public JFreeChart createChart() {
+		return Charts.createLineChart(title, labels.getX(), labels.getY(), dataset);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link XYDataset} from the specified {@link Function2D}.
+	 * <p>
+	 * @param f           a {@link Function2D} {@code f: R -{@literal >} R}
+	 * @param lowerBound  the lowerbound of the domain
+	 * @param upperBound  the upperbound of the domain
+	 * @param sampleCount the number of samples
+	 * @param seriesKey   the identifier of the {@link XYDataset} to create
+	 */
+	public void createDataset(final Function2D f, final double lowerBound, final double upperBound,
+			final int sampleCount, final Comparable<?> seriesKey) {
+		dataset = DatasetUtilities.sampleFunction2D(f, lowerBound, upperBound, sampleCount,
+				seriesKey);
 	}
 
 

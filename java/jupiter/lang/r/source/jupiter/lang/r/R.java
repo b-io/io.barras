@@ -29,9 +29,6 @@ import static jupiter.common.util.Strings.SPACE;
 import java.io.IOException;
 import java.io.Serializable;
 
-import org.rosuda.REngine.Rserve.RConnection;
-import org.rosuda.REngine.Rserve.RserveException;
-
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Systems;
@@ -40,6 +37,9 @@ import jupiter.common.thread.Threads;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
+
+import org.rosuda.REngine.Rserve.RConnection;
+import org.rosuda.REngine.Rserve.RserveException;
 
 public class R
 		implements Serializable {

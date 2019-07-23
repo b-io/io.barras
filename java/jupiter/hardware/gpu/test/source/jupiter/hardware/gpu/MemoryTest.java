@@ -48,6 +48,10 @@ import static org.jocl.CL.clReleaseMemObject;
 import java.nio.ByteBuffer;
 import java.util.Locale;
 
+import jupiter.common.io.ProgressBar;
+import jupiter.common.test.Test;
+import jupiter.common.time.Chronometer;
+
 import org.jocl.CL;
 import org.jocl.Pointer;
 import org.jocl.cl_command_queue;
@@ -56,10 +60,6 @@ import org.jocl.cl_context_properties;
 import org.jocl.cl_device_id;
 import org.jocl.cl_mem;
 import org.jocl.cl_platform_id;
-
-import jupiter.common.io.ProgressBar;
-import jupiter.common.test.Test;
-import jupiter.common.time.Chronometer;
 
 /**
  * A test for the bandwidth of the data transfer from the host to the device.

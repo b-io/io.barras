@@ -55,7 +55,7 @@ public class SCrypto
 	 */
 	public SecretKey secretKey = null;
 	/**
-	 * The parameters of the initialization vector (IV).
+	 * The {@link IvParameterSpec} specifying an initialization vector (IV).
 	 */
 	public IvParameterSpec iv = null;
 
@@ -64,18 +64,40 @@ public class SCrypto
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link SCrypto}.
+	 */
 	public SCrypto() {
 		this(CipherMethod.AES);
 	}
 
+	/**
+	 * Constructs a {@link SCrypto} with the specified {@link CipherMethod}.
+	 * <p>
+	 * @param method the {@link CipherMethod}
+	 */
 	public SCrypto(final CipherMethod method) {
 		this(method, CipherMode.CBC);
 	}
 
+	/**
+	 * Constructs a {@link SCrypto} with the specified {@link CipherMethod} and {@link CipherMode}.
+	 * <p>
+	 * @param method the {@link CipherMethod}
+	 * @param mode   the {@link CipherMode}
+	 */
 	public SCrypto(final CipherMethod method, final CipherMode mode) {
 		this(method, mode, CipherPadding.PKCS5Padding);
 	}
 
+	/**
+	 * Constructs a {@link SCrypto} with the specified {@link CipherMethod}, {@link CipherMode} and
+	 * {@link CipherPadding}.
+	 * <p>
+	 * @param method  the {@link CipherMethod}
+	 * @param mode    the {@link CipherMode}
+	 * @param padding the {@link CipherPadding}
+	 */
 	public SCrypto(final CipherMethod method, final CipherMode mode, final CipherPadding padding) {
 		super(method, mode, padding);
 	}
@@ -85,11 +107,16 @@ public class SCrypto
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the default size of the {@link SecretKey}.
+	 * <p>
+	 * @return the default size of the {@link SecretKey}
+	 */
 	@Override
 	public int getDefaultKeySize() {
 		switch (method) {
 			case AES:
-				return checkKeySize(256) ? 256 : 128;
+				return isValidKeySize(256) ? 256 : 128;
 			case DES:
 				return 56;
 			case DESede:
@@ -98,6 +125,11 @@ public class SCrypto
 		throw new IllegalTypeException(method);
 	}
 
+	/**
+	 * Returns the size of the {@link SecretKey}.
+	 * <p>
+	 * @return the size of the {@link SecretKey}
+	 */
 	@Override
 	public int getKeySize() {
 		return secretKeySize;
@@ -105,23 +137,24 @@ public class SCrypto
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+	/**
+	 * Returns the primary encoded key of the {@link SecretKey}, or {@code null} if the
+	 * {@link SecretKey} does not support encoding.
+	 * <p>
+	 * @return the primary encoded key of the {@link SecretKey}, or {@code null} if the
+	 *         {@link SecretKey} does not support encoding
+	 */
 	public byte[] getSecretKey() {
 		return secretKey.getEncoded();
 	}
 
-	public SecretKey getSecretKey(final byte[] key) {
-		return new SecretKeySpec(key, method.value);
-	}
-
-	//////////////////////////////////////////////
-
+	/**
+	 * Returns the primary encoded initialization vector of the {@link IvParameterSpec}.
+	 * <p>
+	 * @return the primary encoded initialization vector of the {@link IvParameterSpec}
+	 */
 	public byte[] getIV() {
 		return iv.getIV();
-	}
-
-	public IvParameterSpec getIV(final byte[] iv) {
-		return new IvParameterSpec(iv);
 	}
 
 
@@ -129,40 +162,54 @@ public class SCrypto
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the default size of the {@link SecretKey}.
+	 */
 	@Override
 	public void setDefaultKeySize() {
 		secretKeySize = getDefaultKeySize();
 	}
 
+	/**
+	 * Sets the size of the {@link SecretKey}.
+	 * <p>
+	 * @param secretKeySize a size of the {@link SecretKey}
+	 */
 	@Override
 	public void setKeySize(final int secretKeySize) {
 		this.secretKeySize = secretKeySize;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public void generateKey() {
-		generateKey(getDefaultKeySize());
+	/**
+	 * Sets the {@link SecretKey} with the specified primary encoded key.
+	 * <p>
+	 * @param secretKey a primary encoded key
+	 */
+	public void setSecretKey(final byte[] secretKey) {
+		this.secretKey = createSecretKey(secretKey);
 	}
 
-	@Override
-	public void generateKey(final int size) {
-		try {
-			setKeySize(size);
-			final KeyGenerator keyGenerator = KeyGenerator.getInstance(method.value);
-			keyGenerator.init(secretKeySize);
-			secretKey = keyGenerator.generateKey();
-		} catch (final NoSuchAlgorithmException ex) {
-			throw new IllegalTypeException(method, ex);
-		}
+	/**
+	 * Sets the {@link IvParameterSpec} with the specified primary encoded initialization vector.
+	 * <p>
+	 * @param iv a primary encoded initialization vector
+	 */
+	public void setIV(final byte[] iv) {
+		this.iv = createIV(iv);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Combines the primary encoded data.
+	 * <p>
+	 * @return the primary encoded combination
+	 */
 	@Override
 	public byte[] combine() {
 		switch (mode) {
@@ -177,41 +224,98 @@ public class SCrypto
 		}
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Uncombines the specified primary encoded combination.
+	 * <p>
+	 * @param combination the primary encoded combination to uncombine
+	 */
 	@Override
 	public void uncombine(final byte[] combination) {
 		switch (mode) {
 			// Secret key
 			case ECB:
 				secretKeySize = combination.length * Byte.SIZE; // [bit]
-				secretKey = getSecretKey(combination);
+				secretKey = createSecretKey(combination);
 				break;
 			// Secret key + IV
 			case CBC:
 				if (secretKeySize == 0) {
 					setDefaultKeySize();
 				}
-				// - Get the secret key
+				// - Create the secret key
 				final int secretKeyLength = secretKeySize / Byte.SIZE; // [byte]
 				final byte[] secretKeyBytes = new byte[secretKeyLength];
 				System.arraycopy(combination, 0, secretKeyBytes, 0, secretKeyLength);
-				secretKey = getSecretKey(secretKeyBytes);
-				// - Get the initialization vector (IV)
+				secretKey = createSecretKey(secretKeyBytes);
+				// - Create the initialization vector
 				final int ivLength = combination.length - secretKeyLength; // [byte]
 				final byte[] ivBytes = new byte[ivLength];
 				System.arraycopy(combination, secretKeyLength, ivBytes, 0, ivLength);
-				iv = getIV(ivBytes);
+				iv = createIV(ivBytes);
 		}
 	}
+
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a {@link SecretKey} of the specified size.
+	 * <p>
+	 * @param secretKeySize the size of the {@link SecretKey} to create
+	 */
 	@Override
-	public Cipher getEncryptCipher() {
+	public void createKey(final int secretKeySize) {
+		try {
+			setKeySize(secretKeySize);
+			final KeyGenerator keyGenerator = KeyGenerator.getInstance(method.value);
+			keyGenerator.init(secretKeySize);
+			secretKey = keyGenerator.generateKey();
+		} catch (final NoSuchAlgorithmException ex) {
+			throw new IllegalTypeException(method, ex);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link SecretKey} with the specified primary encoded key.
+	 * <p>
+	 * @param secretKey the primary encoded key of the {@link SecretKey} to create
+	 * <p>
+	 * @return a {@link SecretKey} with the specified primary encoded key
+	 */
+	public SecretKey createSecretKey(final byte[] secretKey) {
+		return new SecretKeySpec(secretKey, method.value);
+	}
+
+	/**
+	 * Creates a {@link IvParameterSpec} with the specified primary encoded initialization vector.
+	 * <p>
+	 * @param iv the primary encoded initialization vector of the {@link IvParameterSpec} to create
+	 * <p>
+	 * @return a {@link IvParameterSpec} with the specified primary encoded initialization vector
+	 */
+	public IvParameterSpec createIV(final byte[] iv) {
+		return new IvParameterSpec(iv);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates an encrypting {@link Cipher}.
+	 * <p>
+	 * @return an encrypting {@link Cipher}
+	 */
+	@Override
+	public Cipher createEncryptingCipher() {
 		try {
 			final Cipher cipher = Cipher.getInstance(toString());
 			if (secretKeySize == 0) {
-				generateKey();
+				createKey();
 			}
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			if (CipherMode.CBC.equals(mode)) {
@@ -228,10 +332,15 @@ public class SCrypto
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
+	/**
+	 * Creates a decrypting {@link Cipher}.
+	 * <p>
+	 * @return a decrypting {@link Cipher}
+	 */
 	@Override
-	public Cipher getDecryptCipher() {
+	public Cipher createDecryptingCipher() {
 		try {
 			final Cipher cipher = Cipher.getInstance(toString());
 			switch (mode) {

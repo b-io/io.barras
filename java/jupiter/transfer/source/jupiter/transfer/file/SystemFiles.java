@@ -34,12 +34,12 @@ import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
-
 import jupiter.common.io.file.Files;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
 
 public class SystemFiles {
 

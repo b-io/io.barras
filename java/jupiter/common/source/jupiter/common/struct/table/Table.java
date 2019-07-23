@@ -760,13 +760,13 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates the header.
+	 * Creates a header of the specified length.
 	 * <p>
-	 * @param n the number of header values
+	 * @param length the length of the header
 	 */
-	protected void createHeader(final int n) {
-		header = new String[n];
-		for (int i = 1; i <= n; ++i) {
+	protected void createHeader(final int length) {
+		header = new String[length];
+		for (int i = 1; i <= length; ++i) {
 			header[i - 1] = Strings.toString(i);
 		}
 	}

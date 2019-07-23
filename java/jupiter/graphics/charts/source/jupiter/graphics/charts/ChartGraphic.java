@@ -28,16 +28,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.graphics.charts.struct.SeriesStyle;
 import jupiter.math.analysis.struct.XY;
+
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 public abstract class ChartGraphic
 		extends Graphic {
@@ -78,7 +78,7 @@ public abstract class ChartGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public abstract JFreeChart createChart();

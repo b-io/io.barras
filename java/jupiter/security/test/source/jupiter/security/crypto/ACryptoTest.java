@@ -25,6 +25,9 @@ package jupiter.security.crypto;
 
 import static jupiter.common.io.IO.IO;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+
 import jupiter.common.test.Test;
 
 public class ACryptoTest
@@ -41,6 +44,19 @@ public class ACryptoTest
 	 */
 	public void testEncrypt() {
 		IO.test("encrypt");
+
+		try {
+			final String text = "Hello world!";
+			final ACrypto aCrypto = new ACrypto();
+			final byte[] encryptedData = aCrypto.encrypt(text.getBytes());
+			final String encryptedText = new String(encryptedData);
+			IO.test(encryptedText);
+			assertNotSame(text, encryptedText);
+		} catch (BadPaddingException ex) {
+			IO.error(ex);
+		} catch (IllegalBlockSizeException ex) {
+			IO.error(ex);
+		}
 	}
 
 	/**
@@ -48,5 +64,19 @@ public class ACryptoTest
 	 */
 	public void testDecrypt() {
 		IO.test("decrypt");
+
+		try {
+			final String text = "Hello world!";
+			final ACrypto aCrypto = new ACrypto();
+			final byte[] encryptedData = aCrypto.encrypt(text.getBytes());
+			final byte[] decryptedData = aCrypto.decrypt(encryptedData);
+			final String decryptedText = new String(decryptedData);
+			IO.test(decryptedText);
+			assertEquals(text, new String(decryptedData));
+		} catch (BadPaddingException ex) {
+			IO.error(ex);
+		} catch (IllegalBlockSizeException ex) {
+			IO.error(ex);
+		}
 	}
 }

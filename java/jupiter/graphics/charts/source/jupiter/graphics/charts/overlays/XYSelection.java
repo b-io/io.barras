@@ -31,14 +31,14 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.text.Format;
 
-import org.jfree.chart.ChartPanel;
-import org.jfree.util.PublicCloneable;
-
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.ChartPanels;
 import jupiter.math.analysis.struct.XY;
+
+import org.jfree.chart.ChartPanel;
+import org.jfree.util.PublicCloneable;
 
 /**
  * A selection to display on a plot.

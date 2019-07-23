@@ -26,15 +26,15 @@ package jupiter.graphics.charts.struct;
 import java.util.Date;
 import java.util.List;
 
-import org.jfree.data.time.Millisecond;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
+
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
 
 public class TimeSeriesList
 		extends TimeSeriesCollection {

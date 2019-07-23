@@ -29,12 +29,12 @@ import java.awt.Color;
 import java.io.IOException;
 import java.text.ParseException;
 
+import jupiter.common.struct.table.StringTable;
+import jupiter.graphics.charts.panels.DynamicChartPanel;
+
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
-
-import jupiter.common.struct.table.StringTable;
-import jupiter.graphics.charts.panels.DynamicChartPanel;
 
 public class Display {
 
