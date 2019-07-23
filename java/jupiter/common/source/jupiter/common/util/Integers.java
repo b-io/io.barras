@@ -182,39 +182,37 @@ public class Integers {
 	 * Returns an {@code int} value converted from the specified representative {@link String} of
 	 * the specified radix.
 	 * <p>
-	 * @param hexString the representative {@link String} to convert
-	 * @param radix     the radix of the representative {@link String} to convert
+	 * @param string the representative {@link String} to convert
+	 * @param radix  the radix of the representative {@link String} to convert
 	 * <p>
 	 * @return an {@code int} value converted from the specified representative {@link String} of
 	 *         the specified radix
 	 */
-	public static int parseUnsignedInt(final String source, final int radix)
+	public static int parseUnsignedInt(final String string, final int radix)
 			throws NumberFormatException {
-		if (source == null) {
+		if (string == null) {
 			throw new NumberFormatException(Strings.NULL);
 		}
 
-		final int length = source.length();
+		final int length = string.length();
 		if (length > 0) {
-			if (source.charAt(0) == '-') {
+			if (string.charAt(0) == '-') {
 				throw new NumberFormatException(String.format(
-						"Illegal leading minus sign on unsigned string %s", source));
+						"Illegal leading minus sign on unsigned string %s", string));
+			} else if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
+					(radix == 10 && length <= 9)) { // Integer.MAX_VALUE in base 10 is 10 digits
+				return Integer.parseInt(string, radix);
 			} else {
-				if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
-						(radix == 10 && length <= 9)) { // Integer.MAX_VALUE in base 10 is 10 digits
-					return Integer.parseInt(source, radix);
+				final long value = Long.parseLong(string, radix);
+				if ((value & 0xffffffff00000000L) == 0) {
+					return (int) value;
 				} else {
-					final long value = Long.parseLong(source, radix);
-					if ((value & 0xffffffff00000000L) == 0) {
-						return (int) value;
-					} else {
-						throw new NumberFormatException(String.format(
-								"String value %s exceeds range of unsigned int", source));
-					}
+					throw new NumberFormatException(String.format(
+							"String value %s exceeds range of unsigned int", string));
 				}
 			}
 		} else {
-			throw new NumberFormatException("For input string: " + Strings.quote(source));
+			throw new NumberFormatException("For input string: " + Strings.quote(string));
 		}
 	}
 
