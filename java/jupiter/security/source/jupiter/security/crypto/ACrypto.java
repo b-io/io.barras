@@ -39,6 +39,9 @@ import javax.crypto.NoSuchPaddingException;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.util.Strings;
+import jupiter.security.crypto.Crypto.CipherMethod;
+import jupiter.security.crypto.Crypto.CipherMode;
+import jupiter.security.crypto.Crypto.CipherPadding;
 
 public class ACrypto
 		extends Crypto {
