@@ -90,12 +90,12 @@ public class MemoryTest
 	/**
 	 * The OpenCL context.
 	 */
-	protected static cl_context context;
+	protected static volatile cl_context context;
 
 	/**
 	 * The OpenCL command queue.
 	 */
-	protected static cl_command_queue commandQueue;
+	protected static volatile cl_command_queue commandQueue;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
