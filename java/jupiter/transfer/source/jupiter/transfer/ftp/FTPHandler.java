@@ -73,7 +73,7 @@ public class FTPHandler
 	/**
 	 * The system-dependent default name-separator {@link String} of the remote file system.
 	 */
-	public static final String REMOTE_SEPARATOR = "/";
+	public static volatile String REMOTE_SEPARATOR = "/";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
