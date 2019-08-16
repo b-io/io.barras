@@ -29,6 +29,7 @@ import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
@@ -1073,7 +1074,7 @@ public class Table<T>
 			reset();
 			// Scan the file line by line
 			int i = 0;
-			String[] values = line.split(delimiter);
+			String[] values = delimiter == null ? new String[] {line} : line.split(delimiter);
 			if (hasHeader) {
 				header = values;
 			} else {
@@ -1081,7 +1082,7 @@ public class Table<T>
 				++i;
 			}
 			while ((line = reader.readLine()) != null) {
-				values = line.split(delimiter);
+				values = delimiter == null ? new String[] {line} : line.split(delimiter);
 				if (values == null || values.length == 0 || values[0] == null ||
 						EMPTY.equals(values[0])) {
 					IO.warn("There is no element at line ", i, SPACE,
@@ -1111,15 +1112,20 @@ public class Table<T>
 	/**
 	 * Saves {@code this} to the specified file.
 	 * <p>
-	 * @param path the path to the file to save to
+	 * @param path       the path to the file to save to
+	 * @param saveHeader the flag specifying whether to save the header
 	 * <p>
 	 * @return {@code true} if {@code this} is saved to the specified file, {@code false} otherwise
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
 	 */
-	public boolean save(final String path) {
+	public boolean save(final String path, final boolean saveHeader)
+			throws FileNotFoundException {
 		final FileHandler fileHandler = new FileHandler(path);
-		fileHandler.delete();
+		fileHandler.initWriter(false);
 		// Export the header
-		if (!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
+		if (saveHeader &&
+				!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
 			fileHandler.closeWriter();
 			return false;
 		}

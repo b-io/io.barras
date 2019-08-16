@@ -213,7 +213,7 @@ public class FileHandler
 	 * <p>
 	 * @return a {@link BufferedReader}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code this}
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public BufferedReader getReader()
 			throws FileNotFoundException {
@@ -281,7 +281,7 @@ public class FileHandler
 	 * <p>
 	 * @param append the flag specifying whether to append
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code this}
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public void initWriter(final boolean append)
 			throws FileNotFoundException {

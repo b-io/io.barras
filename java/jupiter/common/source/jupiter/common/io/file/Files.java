@@ -240,7 +240,7 @@ public class Files {
 	 * <p>
 	 * @return a {@link BufferedReader} of the specified {@link File}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code file}
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static BufferedReader createReader(final File file)
 			throws FileNotFoundException {
@@ -257,7 +257,7 @@ public class Files {
 	 * @return a {@link BufferedReader} of the specified {@link File} with the specified
 	 *         {@link Charset}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code file}
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static BufferedReader createReader(final File file, final Charset charset)
 			throws FileNotFoundException {
@@ -439,7 +439,7 @@ public class Files {
 	 * <p>
 	 * @return a {@link BufferedWriter} of the specified {@link File}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code file}
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static BufferedWriter createWriter(final File file, final boolean append)
 			throws FileNotFoundException {
@@ -457,7 +457,7 @@ public class Files {
 	 * @return a {@link BufferedWriter} of the specified {@link File} with the specified
 	 *         {@link Charset}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code file}
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static BufferedWriter createWriter(final File file, final Charset charset,
 			final boolean append)
