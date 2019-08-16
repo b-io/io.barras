@@ -26,6 +26,8 @@ package jupiter.math.linear.entity;
 import static jupiter.common.io.IO.IO;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
+import java.io.FileNotFoundException;
+
 import jupiter.common.math.Statistics;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.test.Test;
@@ -38,6 +40,8 @@ import jupiter.hardware.gpu.OpenCL;
 
 public class MatrixTest
 		extends Test {
+
+	protected static final boolean SAVE = false;
 
 	public MatrixTest(final String name) {
 		super(name);
@@ -163,12 +167,15 @@ public class MatrixTest
 		}
 
 		// Export the statistics
-		final boolean save = false;
-		if (save) {
-			normalStats.save("normal.stats.csv");
-			parallelStats.save("parallel.stats.csv");
-			gpuStats.save("gpu.stats.csv");
-			hybridStats.save("hybrid.stats.csv");
+		if (SAVE) {
+			try {
+				normalStats.save("normal.stats.csv", true);
+				parallelStats.save("parallel.stats.csv", true);
+				gpuStats.save("gpu.stats.csv", true);
+				hybridStats.save("hybrid.stats.csv", true);
+			} catch (final FileNotFoundException ex) {
+				IO.error(ex);
+			}
 		}
 	}
 
@@ -305,12 +312,15 @@ public class MatrixTest
 		}
 
 		// Export the statistics
-		final boolean save = false;
-		if (save) {
-			normalStats.save("normal.stats.csv");
-			parallelStats.save("parallel.stats.csv");
-			gpuStats.save("gpu.stats.csv");
-			hybridStats.save("hybrid.stats.csv");
+		if (SAVE) {
+			try {
+				normalStats.save("normal.stats.csv", true);
+				parallelStats.save("parallel.stats.csv", true);
+				gpuStats.save("gpu.stats.csv", true);
+				hybridStats.save("hybrid.stats.csv", true);
+			} catch (final FileNotFoundException ex) {
+				IO.error(ex);
+			}
 		}
 	}
 }

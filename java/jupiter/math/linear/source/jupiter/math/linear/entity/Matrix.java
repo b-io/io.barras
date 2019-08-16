@@ -33,6 +33,7 @@ import static jupiter.common.util.Strings.SPACE;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Collection;
@@ -2380,9 +2381,12 @@ public class Matrix
 	 * @param path the path to the file to save to
 	 * <p>
 	 * @return {@code true} if {@code this} is saved to the specified file, {@code false} otherwise
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
 	 */
-	public boolean save(final String path) {
-		return toTable().save(path);
+	public boolean save(final String path)
+			throws FileNotFoundException {
+		return toTable().save(path, false);
 	}
 
 
