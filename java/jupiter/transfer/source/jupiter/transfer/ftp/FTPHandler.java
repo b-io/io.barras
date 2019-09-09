@@ -656,13 +656,12 @@ public class FTPHandler
 
 		// Upload the filtered files
 		final int uploadedFileCount;
+		fileFilter = fileFilter.replace(STAR, ".*");
 		switch (protocol) {
 			case FTP:
-				fileFilter = fileFilter.replace(STAR, ".*");
 				uploadedFileCount = uploadFTP();
 				break;
 			case FTPS:
-				fileFilter = fileFilter.replace(STAR, ".*");
 				uploadedFileCount = uploadFTPS();
 				break;
 			case SFTP:

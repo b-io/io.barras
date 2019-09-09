@@ -128,6 +128,26 @@ public class FileHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the {@link File}.
+	 * <p>
+	 * @return the {@link File}
+	 */
+	public File getFile() {
+		return file;
+	}
+
+	/**
+	 * Returns the {@link Charset}.
+	 * <p>
+	 * @return the {@link Charset}
+	 */
+	public Charset getCharset() {
+		return charset;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the path.
 	 * <p>
 	 * @return the path
