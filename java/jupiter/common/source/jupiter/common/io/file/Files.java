@@ -299,24 +299,24 @@ public class Files {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the unzipped {@link Content} of the specified {@link File}.
+	 * Returns the unzipped {@link Content} of the specified ZIP {@link File}.
 	 * <p>
 	 * @param file the {@link File} to unzip
 	 * <p>
-	 * @return the unzipped {@link Content} of the specified {@link File}
+	 * @return the unzipped {@link Content} of the specified ZIP {@link File}
 	 */
 	public static Content unzip(final File file) {
 		return unzip(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Returns the unzipped {@link Content} of the specified {@link File} with the specified
+	 * Returns the unzipped {@link Content} of the specified ZIP {@link File} with the specified
 	 * {@link Charset}.
 	 * <p>
 	 * @param file    the {@link File} to unzip
 	 * @param charset the {@link Charset} of the {@link File} to unzip
 	 * <p>
-	 * @return the unzipped {@link Content} of the specified {@link File} with the specified
+	 * @return the unzipped {@link Content} of the specified ZIP {@link File} with the specified
 	 *         {@link Charset}
 	 */
 	public static Content unzip(final File file, final Charset charset) {
@@ -333,24 +333,24 @@ public class Files {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the ungzipped {@link Content} of the specified {@link File}.
+	 * Returns the ungzipped {@link Content} of the specified GZIP {@link File}.
 	 * <p>
 	 * @param file the {@link File} to ungzip
 	 * <p>
-	 * @return the ungzipped {@link Content} of the specified {@link File}
+	 * @return the ungzipped {@link Content} of the specified GZIP {@link File}
 	 */
 	public static Content ungzip(final File file) {
 		return ungzip(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Returns the ungzipped {@link Content} of the specified {@link File} with the specified
+	 * Returns the ungzipped {@link Content} of the specified GZIP {@link File} with the specified
 	 * {@link Charset}.
 	 * <p>
 	 * @param file    the {@link File} to ungzip
 	 * @param charset the {@link Charset} of the {@link File} to ungzip
 	 * <p>
-	 * @return the ungzipped {@link Content} of the specified {@link File} with the specified
+	 * @return the ungzipped {@link Content} of the specified GZIP {@link File} with the specified
 	 *         {@link Charset}
 	 */
 	public static Content ungzip(final File file, final Charset charset) {
@@ -884,8 +884,8 @@ public class Files {
 	//////////////////////////////////////////////
 
 	/**
-	 * Unzips the specified file (preserving the file dates) and returns the number of unzipped
-	 * files.
+	 * Unzips the specified ZIP {@link File} (preserving the file dates) and returns the number of
+	 * unzipped files.
 	 * <p>
 	 * @param sourceFile the source ZIP {@link File}
 	 * <p>
@@ -896,8 +896,8 @@ public class Files {
 	}
 
 	/**
-	 * Unzips the specified file (preserving the file dates) to the specified directory and returns
-	 * the number of unzipped files.
+	 * Unzips the specified ZIP {@link File} (preserving the file dates) to the specified directory
+	 * and returns the number of unzipped files.
 	 * <p>
 	 * @param sourceFile the source ZIP {@link File}
 	 * @param targetDir  the target directory {@link File}

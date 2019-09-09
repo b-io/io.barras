@@ -137,29 +137,32 @@ public class SystemFiles {
 		final String filter = properties.getProperty("filter", STAR).replace(STAR, ".*");
 		final String[] fileNames = properties.getProperty("fileNames")
 				.split(Arrays.DEFAULT_DELIMITER);
-		if (fileNames.length > 0) {
-			if (Strings.isNotEmpty(fileNames[0])) {
-				// Unzip the files
-				int unzippedFileCount = 0;
-				for (final String fileName : fileNames) {
-					final Collection<File> files = find(localDir, fileName, "zip");
-					for (final File file : files) {
-						if (file.isFile() && fileName.matches(filter)) {
-							unzippedFileCount += Files.unzipDir(file, localDir);
-						}
-					}
-				}
-				if (unzippedFileCount > 0) {
-					IO.info(unzippedFileCount, " files unzipped");
-				} else {
-					IO.warn("No files unzipped");
-				}
-				return unzippedFileCount;
-			}
-			IO.error("Empty file name");
+
+		// Check the file names
+		if (fileNames.length == 0) {
+			IO.warn("No file names");
 			return 0;
 		}
-		IO.info("No file name");
-		return 0;
+		if (Strings.isEmpty(fileNames[0])) {
+			IO.warn("Empty file name");
+			return 0;
+		}
+
+		// Unzip the files
+		int unzippedFileCount = 0;
+		for (final String fileName : fileNames) {
+			final Collection<File> files = find(localDir, fileName, "zip");
+			for (final File file : files) {
+				if (file.isFile() && fileName.matches(filter)) {
+					unzippedFileCount += Files.unzipDir(file, localDir);
+				}
+			}
+		}
+		if (unzippedFileCount > 0) {
+			IO.info(unzippedFileCount, " files unzipped");
+		} else {
+			IO.warn("No files unzipped");
+		}
+		return unzippedFileCount;
 	}
 }

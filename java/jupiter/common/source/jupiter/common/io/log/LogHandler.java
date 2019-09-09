@@ -169,7 +169,7 @@ public class LogHandler
 	}
 
 	/**
-	 * Sets the output log {@link File} with the specified file name.
+	 * Sets the output log {@link File} with the specified name.
 	 * <p>
 	 * @param outputLogName a {@link String}
 	 */
@@ -183,7 +183,7 @@ public class LogHandler
 	}
 
 	/**
-	 * Sets the error log {@link File} with the specified file name.
+	 * Sets the error log {@link File} with the specified name.
 	 * <p>
 	 * @param errorLogName a {@link String}
 	 */

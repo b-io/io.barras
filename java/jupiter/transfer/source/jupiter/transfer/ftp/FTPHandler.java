@@ -26,14 +26,18 @@ package jupiter.transfer.ftp;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.STAR;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Properties;
+import java.util.List;
 import java.util.Vector;
 
 import com.jcraft.jsch.Channel;
@@ -42,9 +46,11 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
+import java.io.FileNotFoundException;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.Resources;
+import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
@@ -380,7 +386,7 @@ public class FTPHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// DOWNLOADERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -393,7 +399,7 @@ public class FTPHandler
 	public int download() {
 		// Check the file names
 		if (fileNames.length == 0) {
-			IO.warn("No file name");
+			IO.warn("No file names");
 			return 0;
 		}
 		if (Strings.isEmpty(fileNames[0])) {
@@ -607,9 +613,10 @@ public class FTPHandler
 			for (final ChannelSftp.LsEntry entry : entries) {
 				final String fileName = entry.getFilename();
 				if (Strings.matches(fileName, fileNames)) {
+					final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 					final String localPath = localDirPath + File.separator + fileName;
 
-					IO.info("Download the file ", Strings.quote(fileName), " to ",
+					IO.info("Download the file ", Strings.quote(remotePath), " to ",
 							Strings.quote(localPath));
 					sftp.get(fileName, localPath);
 					++downloadedFileCount;
@@ -623,6 +630,255 @@ public class FTPHandler
 			IO.error(ex);
 		}
 		return downloadedFileCount;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// UPLOADERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Uploads the files to the {@link Protocol#FTP}, {@link Protocol#FTPS} or {@link Protocol#SFTP}
+	 * with {@code this} parameters and returns the number of uploaded files.
+	 * <p>
+	 * @return the number of uploaded files
+	 */
+	public int upload() {
+		// Check the file names
+		if (fileNames.length == 0) {
+			IO.warn("No file names");
+			return 0;
+		}
+		if (Strings.isEmpty(fileNames[0])) {
+			IO.warn("Empty file name");
+			return 0;
+		}
+
+		// Upload the filtered files
+		final int uploadedFileCount;
+		switch (protocol) {
+			case FTP:
+				fileFilter = fileFilter.replace(STAR, ".*");
+				uploadedFileCount = uploadFTP();
+				break;
+			case FTPS:
+				fileFilter = fileFilter.replace(STAR, ".*");
+				uploadedFileCount = uploadFTPS();
+				break;
+			case SFTP:
+				uploadedFileCount = uploadSFTP();
+				break;
+			default:
+				throw new IllegalTypeException(protocol);
+		}
+		if (uploadedFileCount > 0) {
+			IO.info(uploadedFileCount, " files uploaded");
+		} else {
+			IO.warn("No files uploaded");
+		}
+		return uploadedFileCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Uploads the files to the {@link Protocol#FTP} with {@code this} parameters and returns the
+	 * number of uploaded files.
+	 * <p>
+	 * @return the number of uploaded files
+	 */
+	protected int uploadFTP() {
+		int uploadedFileCount = 0;
+		final FTPClient ftp = new FTPClient();
+		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
+		try {
+			IO.info("Connect to the ", protocol, " server ",
+					Strings.quote(hostName + ":" + protocol.getPort()));
+			ftp.connect(hostName, protocol.getPort());
+			final int replyCode = ftp.getReplyCode();
+			if (FTPReply.isPositiveCompletion(replyCode)) {
+				ftp.enterLocalPassiveMode();
+
+				IO.info("Login with ", Strings.quote(userName));
+				if (ftp.login(userName, password)) {
+					ftp.pwd();
+					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
+					ftp.setFileType(FTP.BINARY_FILE_TYPE);
+
+					IO.info("Upload the files ", Strings.quote(fileFilter), " in ",
+							Strings.quote(localDirPath));
+					final List<File> files = Files.listAll(new File(localDirPath), fileFilter);
+					for (final File file : files) {
+						final String fileName = file.getName();
+						if (Strings.matches(fileName, fileNames)) {
+							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
+
+							IO.info("Upload the file ", Strings.quote(file), " to ",
+									Strings.quote(remotePath));
+							InputStream input = null;
+							try {
+								input = new BufferedInputStream(new FileInputStream(file));
+								if (ftp.storeFile(remotePath, input)) {
+									++uploadedFileCount;
+								} else {
+									IO.error("Unable to upload the file ", Strings.quote(file),
+											" to ", Strings.quote(remotePath));
+								}
+							} finally {
+								Resources.close(input);
+							}
+						}
+					}
+				} else {
+					IO.error("Fail to login to the ", protocol, " server ", Strings.quote(hostName),
+							" with ", Strings.quote(userName));
+				}
+			} else {
+				IO.error("Fail to connect to the ", protocol, " server ", Strings.quote(hostName),
+						"; reply code: ", replyCode);
+			}
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			try {
+				if (ftp.isConnected()) {
+					ftp.logout();
+					ftp.disconnect();
+				}
+			} catch (final IOException ignored) {
+			}
+		}
+		return uploadedFileCount;
+	}
+
+	/**
+	 * Uploads the files to the {@link Protocol#FTPS} with {@code this} parameters and returns the
+	 * number of uploaded files.
+	 * <p>
+	 * @return the number of uploaded files
+	 */
+	protected int uploadFTPS() {
+		int uploadedFileCount = 0;
+		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
+		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
+		try {
+			IO.info("Connect to the ", protocol, " server ",
+					Strings.quote(hostName + ":" + protocol.getPort()));
+			ftps.connect(hostName, protocol.getPort());
+			final int replyCode = ftps.getReplyCode();
+			if (FTPReply.isPositiveCompletion(replyCode)) {
+				ftps.enterLocalPassiveMode();
+
+				IO.info("Login with ", Strings.quote(userName));
+				if (ftps.login(userName, password)) {
+					ftps.execPBSZ(0);
+					ftps.execPROT("P");
+					ftps.pwd();
+					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
+					ftps.setFileType(FTP.BINARY_FILE_TYPE);
+
+					IO.info("Upload the files ", Strings.quote(fileFilter), " in ",
+							Strings.quote(localDirPath));
+					final List<File> files = Files.listAll(new File(localDirPath), fileFilter);
+					for (final File file : files) {
+						final String fileName = file.getName();
+						if (Strings.matches(fileName, fileNames)) {
+							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
+
+							IO.info("Upload the file ", Strings.quote(file), " to ",
+									Strings.quote(remotePath));
+							InputStream input = null;
+							try {
+								input = new BufferedInputStream(new FileInputStream(file));
+								if (ftps.storeFile(remotePath, input)) {
+									++uploadedFileCount;
+								} else {
+									IO.error("Unable to upload the file ", Strings.quote(file),
+											" to ", Strings.quote(remotePath));
+								}
+							} finally {
+								Resources.close(input);
+							}
+						}
+					}
+				} else {
+					IO.error("Fail to login to the ", protocol, " server ", Strings.quote(hostName),
+							" with ", Strings.quote(userName));
+				}
+			} else {
+				IO.error("Fail to connect to the ", protocol, " server ", Strings.quote(hostName),
+						"; reply code: ", replyCode);
+			}
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			try {
+				if (ftps.isConnected()) {
+					ftps.logout();
+					ftps.disconnect();
+				}
+			} catch (final IOException ignored) {
+			}
+		}
+		return uploadedFileCount;
+	}
+
+	/**
+	 * Uploads the files to the {@link Protocol#SFTP} with {@code this} parameters and returns the
+	 * number of uploaded files.
+	 * <p>
+	 * @return the number of uploaded files
+	 */
+	protected int uploadSFTP() {
+		int uploadedFileCount = 0;
+		final JSch jsch = new JSch();
+		Session session;
+		try {
+			IO.info("Connect to the ", protocol, " server ",
+					Strings.quote(hostName + ":" + protocol.getPort()),
+					" with ", Strings.quote(userName));
+			session = jsch.getSession(userName, hostName, protocol.getPort());
+			session.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(password);
+			session.connect();
+
+			IO.info("Upload the files ", Strings.quote(fileFilter), " in ",
+					Strings.quote(localDirPath));
+			final Channel channel = session.openChannel("sftp");
+			channel.connect();
+			final ChannelSftp sftp = (ChannelSftp) channel;
+			if (!Strings.isNullOrEmpty(remoteDirPath)) {
+				sftp.cd(remoteDirPath);
+			}
+			final List<File> files = Files.listAll(new File(localDirPath), fileFilter);
+			for (final File file : files) {
+				final String fileName = file.getName();
+				if (Strings.matches(fileName, fileNames)) {
+					final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
+
+					IO.info("Upload the file ", Strings.quote(file), " to ",
+							Strings.quote(remotePath));
+					InputStream input = null;
+					try {
+						input = new BufferedInputStream(new FileInputStream(file));
+						sftp.put(input, fileName);
+						++uploadedFileCount;
+					} catch (final FileNotFoundException ex) {
+						IO.error("Unable to upload the file ", Strings.quote(file), " to ",
+								Strings.quote(remotePath), ": ", ex);
+					} finally {
+						Resources.close(input);
+					}
+				}
+			}
+			sftp.exit();
+			session.disconnect();
+		} catch (final JSchException ex) {
+			IO.error(ex);
+		} catch (final SftpException ex) {
+			IO.error(ex);
+		}
+		return uploadedFileCount;
 	}
 
 

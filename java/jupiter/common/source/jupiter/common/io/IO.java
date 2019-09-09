@@ -296,7 +296,7 @@ public class IO
 	}
 
 	/**
-	 * Sets the output log {@link File} of the {@link LogHandler} with the specified file name.
+	 * Sets the output log {@link File} of the {@link LogHandler} with the specified name.
 	 * <p>
 	 * @param outputLogName a {@link String}
 	 */
@@ -305,7 +305,7 @@ public class IO
 	}
 
 	/**
-	 * Sets the error log {@link File} of the {@link LogHandler} with the specified file name.
+	 * Sets the error log {@link File} of the {@link LogHandler} with the specified name.
 	 * <p>
 	 * @param errorLogName a {@link String}
 	 */
