@@ -25,6 +25,8 @@ package jupiter.common.io.console;
 
 import static jupiter.common.util.Strings.EMPTY;
 
+import java.io.PrintStream;
+
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
@@ -181,21 +183,12 @@ public class ConsoleHandler
 		Arguments.requireNonNull(content);
 
 		// Print the content
-		if (isError) {
-			if (USE_COLORS) {
-				final String text = Strings.toString(content);
-				final Color color = Color.parse(text);
-				if (color == null) {
-					console.getErr().println(Color.RED.getStyledText(text));
-				} else {
-					console.getErr().println(text);
-				}
-			} else {
-				console.getErr().println(content);
-			}
-		} else {
-			console.getOut().println(content);
+		final PrintStream printStream = isError ? console.getErr() : console.getOut();
+		String text = Strings.toString(content);
+		if (USE_COLORS && isError && Color.parse(text) == null) {
+			text = Color.RED.getStyledText(text);
 		}
+		printStream.println(text);
 	}
 
 	/**

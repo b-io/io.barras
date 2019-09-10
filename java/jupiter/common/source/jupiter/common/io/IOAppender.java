@@ -26,7 +26,7 @@ package jupiter.common.io;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
 
-public abstract class Appender
+public abstract class IOAppender
 		extends IOHandler {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +44,9 @@ public abstract class Appender
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Appender}.
+	 * Constructs an {@link IOAppender}.
 	 */
-	protected Appender() {
+	protected IOAppender() {
 		super();
 	}
 
@@ -201,5 +201,5 @@ public abstract class Appender
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public abstract Appender clone();
+	public abstract IOAppender clone();
 }
