@@ -50,8 +50,8 @@ public class Characters {
 
 	public static final char SINGLE_QUOTE = '\'';
 	public static final char DOUBLE_QUOTE = '"';
-	public static final char LEFT_QUOTE = '`';
-	public static final char RIGHT_QUOTE = '´';
+	public static final char LEFT_QUOTE = '‘'; // "\u2018"
+	public static final char RIGHT_QUOTE = '’'; // "\u2019"
 
 	public static final char LEFT_PARENTHESIS = '(';
 	public static final char RIGHT_PARENTHESIS = ')';
