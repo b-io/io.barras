@@ -25,8 +25,6 @@ package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.test.LongArguments;
-
 public class Threads {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,10 +75,6 @@ public class Threads {
 	 * @throws IllegalArgumentException if {@code time} is negative
 	 */
 	public static void sleep(final long time) {
-		// Check the arguments
-		LongArguments.requireNonNegative(time);
-
-		// Sleep
 		try {
 			Thread.sleep(time);
 		} catch (final InterruptedException ex) {
