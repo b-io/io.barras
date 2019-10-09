@@ -644,6 +644,29 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the {@link String} constructed by replacing each matching subsequence by the
+	 * specified replacement {@link String}, substituting captured subsequences as needed where the
+	 * characters identified by the specified regular expression.
+	 * <p>
+	 * @param content     the content {@link Object}
+	 * @param regex       the regular expression {@link String} to identify and replace
+	 * @param replacement the {@link String} to replace with
+	 * <p>
+	 * @return the {@link String} constructed by replacing each matching subsequence by the
+	 *         specified replacement {@link String}, substituting captured subsequences as needed
+	 *         where the characters identified by the specified regular expression
+	 */
+	public static String replaceAll(final Object content, final String regex,
+			final String replacement) {
+		if (content == null) {
+			return null;
+		}
+		return toString(content).replaceAll(regex, replacement);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the escaped representative {@link String} of the specified unescaped content (i.e.
 	 * without traces of offending characters that can prevent parsing).
 	 * <p>
