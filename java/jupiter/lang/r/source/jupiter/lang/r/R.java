@@ -304,7 +304,7 @@ public class R
 
 		protected void check(final String text) {
 			final String lowerCaseText = text.toLowerCase();
-			if (workQueueToMonitor != null &&
+			if (workQueueToMonitor != null && !lowerCaseText.contains("warning") &&
 					(lowerCaseText.contains("error") || lowerCaseText.contains("invalid"))) {
 				IO.error(text);
 				workQueueToMonitor.restart(true);
