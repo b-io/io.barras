@@ -31,6 +31,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Lists;
 
 /**
  * {@link SortedList} extends {@link LinkedList} of type {@code T}.
@@ -119,6 +120,10 @@ public class SortedList<T extends Comparable<T>>
 	@Override
 	public synchronized void add(final int index, final T element) {
 		super.add(index, element);
+	}
+
+	public synchronized boolean addAll(final T[] array) {
+		return Lists.addAll(this, array);
 	}
 
 	@Override

@@ -596,11 +596,11 @@ public class Files {
 								force)));
 					}
 					for (final long id : ids) {
-						status = status && COPIER_QUEUE.get(id);
+						status &= COPIER_QUEUE.get(id);
 					}
 				} else {
 					for (final File file : files) {
-						status = status && copy(file, new File(
+						status &= copy(file, new File(
 								targetDirPath + File.separator + getRelativePath(source, file)),
 								force);
 					}

@@ -69,6 +69,16 @@ public class Lists
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static <T> boolean addAll(final List<T> list, final T[] array) {
+		boolean status = true;
+		for (final T element : array) {
+			status &= list.add(element);
+		}
+		return status;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static <T extends Number> ExtendedList<T> getMinElements(final List<T> a,
 			final List<T> b) {
 		// Check the arguments
