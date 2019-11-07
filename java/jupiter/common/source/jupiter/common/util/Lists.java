@@ -46,6 +46,26 @@ public class Lists
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a {@code T} array containing all of the elements in the specified {@link List} of
+	 * type {@code T} in proper sequence (from first to last element).
+	 * <p>
+	 * @param list a {@link List} of type {@code T}
+	 * <p>
+	 * @return a {@code T} array containing all of the elements in the specified {@link List} of
+	 *         type {@code T} in proper sequence (from first to last element)
+	 *
+	 * @see List#toArray
+	 */
+	public static <T> T[] toArray(final List<T> list) {
+		return (T[]) list.toArray();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
