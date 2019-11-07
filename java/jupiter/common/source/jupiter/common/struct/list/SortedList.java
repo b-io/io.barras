@@ -31,7 +31,6 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
-import jupiter.common.util.Lists;
 
 /**
  * {@link SortedList} extends {@link LinkedList} of type {@code E}.
@@ -113,8 +112,9 @@ public class SortedList<E extends Comparable<E>>
 	 * @see LinkedList#toArray
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public E[] toArray() {
-		return Lists.toArray(this);
+		return (E[]) super.toArray();
 	}
 
 

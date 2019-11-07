@@ -140,8 +140,9 @@ public class ExtendedList<E>
 	 * @see ArrayList#toArray
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public E[] toArray() {
-		return Lists.toArray(this);
+		return (E[]) super.toArray();
 	}
 
 
