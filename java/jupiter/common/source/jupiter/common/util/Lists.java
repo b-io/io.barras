@@ -69,12 +69,8 @@ public class Lists
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> boolean addAll(final List<T> list, final T[] array) {
-		boolean status = true;
-		for (final T element : array) {
-			status &= list.add(element);
-		}
-		return status;
+	public static <E, T extends E> boolean addAll(final List<E> list, final T[] array) {
+		return list.addAll(java.util.Arrays.asList(array));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

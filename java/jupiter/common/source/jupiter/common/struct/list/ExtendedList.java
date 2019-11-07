@@ -36,11 +36,11 @@ import jupiter.common.util.Lists;
 /**
  * {@link ExtendedList} extends {@link ArrayList} of type {@code T}.
  * <p>
- * @param <T> the type of the {@link ExtendedList}
+ * @param <E> the type of the {@link ExtendedList}
  */
-public class ExtendedList<T>
-		extends ArrayList<T>
-		implements ICloneable<ExtendedList<T>> {
+public class ExtendedList<E>
+		extends ArrayList<E>
+		implements ICloneable<ExtendedList<E>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -83,7 +83,7 @@ public class ExtendedList<T>
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
-	public ExtendedList(final Collection<? extends T> collection) {
+	public ExtendedList(final Collection<? extends E> collection) {
 		super(collection);
 	}
 
@@ -97,7 +97,7 @@ public class ExtendedList<T>
 	 * <p>
 	 * @return the middle
 	 */
-	public T getMiddle() {
+	public E getMiddle() {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(this);
 
@@ -121,7 +121,7 @@ public class ExtendedList<T>
 	 * @throws IndexOutOfBoundsException if {@code index} is out of bounds
 	 */
 	@Override
-	public synchronized T set(final int index, final T element) {
+	public synchronized E set(final int index, final E element) {
 		return super.set(index, element);
 	}
 
@@ -131,33 +131,33 @@ public class ExtendedList<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public synchronized boolean add(final T element) {
+	public synchronized boolean add(final E element) {
 		return super.add(element);
 	}
 
 	@Override
-	public synchronized void add(final int index, final T element) {
+	public synchronized void add(final int index, final E element) {
 		super.add(index, element);
 	}
 
-	public synchronized boolean addAll(final T[] array) {
+	public synchronized <T extends E> boolean addAll(final T[] array) {
 		return Lists.addAll(this, array);
 	}
 
 	@Override
-	public synchronized boolean addAll(final Collection<? extends T> collection) {
+	public synchronized boolean addAll(final Collection<? extends E> collection) {
 		return super.addAll(collection);
 	}
 
 	@Override
-	public synchronized boolean addAll(final int index, final Collection<? extends T> collection) {
+	public synchronized boolean addAll(final int index, final Collection<? extends E> collection) {
 		return super.addAll(index, collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public synchronized T remove(final int index) {
+	public synchronized E remove(final int index) {
 		return super.remove(index);
 	}
 
@@ -199,8 +199,8 @@ public class ExtendedList<T>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public ExtendedList<T> clone() {
-		return (ExtendedList<T>) super.clone();
+	public ExtendedList<E> clone() {
+		return (ExtendedList<E>) super.clone();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -78,6 +78,16 @@ public class Collections {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static <E, T extends E> boolean addAll(final Collection<E> collection, final T[] array) {
+		boolean status = true;
+		for (final E element : array) {
+			status &= collection.add(element);
+		}
+		return status;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Returns the element at the specified index of the elements returned by the iterator.
 	 * <p>

@@ -139,9 +139,7 @@ public class Arrays {
 
 	public static <T> ExtendedList<T> toExtendedList(final T[] array) {
 		final ExtendedList<T> result = new ExtendedList<T>(array.length);
-		for (final T element : array) {
-			result.add(element);
-		}
+		result.addAll(array);
 		return result;
 	}
 

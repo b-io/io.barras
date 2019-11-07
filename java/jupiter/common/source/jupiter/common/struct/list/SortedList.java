@@ -31,16 +31,15 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
-import jupiter.common.util.Lists;
 
 /**
  * {@link SortedList} extends {@link LinkedList} of type {@code T}.
  * <p>
- * @param <T> the self {@link Comparable} type of the {@link SortedList}
+ * @param <E> the self {@link Comparable} type of the {@link SortedList}
  */
-public class SortedList<T extends Comparable<T>>
-		extends LinkedList<T>
-		implements ICloneable<SortedList<T>> {
+public class SortedList<E extends Comparable<E>>
+		extends LinkedList<E>
+		implements ICloneable<SortedList<E>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -71,7 +70,7 @@ public class SortedList<T extends Comparable<T>>
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
-	public SortedList(final Collection<? extends T> collection) {
+	public SortedList(final Collection<? extends E> collection) {
 		super(collection);
 	}
 
@@ -80,7 +79,7 @@ public class SortedList<T extends Comparable<T>>
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public T getMiddle() {
+	public E getMiddle() {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(this);
 
@@ -94,7 +93,7 @@ public class SortedList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public synchronized T set(final int index, final T element) {
+	public synchronized E set(final int index, final E element) {
 		return super.set(index, element);
 	}
 
@@ -104,9 +103,9 @@ public class SortedList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public synchronized boolean add(final T element) {
+	public synchronized boolean add(final E element) {
 		int i = 0;
-		for (final T e : this) {
+		for (final E e : this) {
 			if (e.compareTo(element) > 0) {
 				add(i, element);
 				return true;
@@ -118,31 +117,34 @@ public class SortedList<T extends Comparable<T>>
 	}
 
 	@Override
-	public synchronized void add(final int index, final T element) {
+	public synchronized void add(final int index, final E element) {
 		super.add(index, element);
 	}
 
-	public synchronized boolean addAll(final T[] array) {
-		return Lists.addAll(this, array);
-	}
-
-	@Override
-	public synchronized boolean addAll(final Collection<? extends T> collection) {
-		for (final T e : collection) {
-			add(e);
+	public synchronized <T extends E> boolean addAll(final T[] array) {
+		for (final E element : array) {
+			add(element);
 		}
 		return true;
 	}
 
 	@Override
-	public synchronized boolean addAll(final int index, final Collection<? extends T> collection) {
+	public synchronized boolean addAll(final Collection<? extends E> collection) {
+		for (final E element : collection) {
+			add(element);
+		}
+		return true;
+	}
+
+	@Override
+	public synchronized boolean addAll(final int index, final Collection<? extends E> collection) {
 		return addAll(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public synchronized T remove(final int index) {
+	public synchronized E remove(final int index) {
 		return super.remove(index);
 	}
 
@@ -184,8 +186,8 @@ public class SortedList<T extends Comparable<T>>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public SortedList<T> clone() {
-		return (SortedList<T>) super.clone();
+	public SortedList<E> clone() {
+		return (SortedList<E>) super.clone();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
