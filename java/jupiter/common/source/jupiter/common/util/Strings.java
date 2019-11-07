@@ -751,7 +751,7 @@ public class Strings {
 		if (content == null) {
 			return null;
 		}
-		return toString(content).replaceAll(bracketize(tokens), EMPTY);
+		return replaceAll(content, bracketize(tokens), EMPTY);
 	}
 
 	/**
