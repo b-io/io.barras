@@ -31,9 +31,10 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Lists;
 
 /**
- * {@link SortedList} extends {@link LinkedList} of type {@code T}.
+ * {@link SortedList} extends {@link LinkedList} of type {@code E}.
  * <p>
  * @param <E> the self {@link Comparable} type of the {@link SortedList}
  */
@@ -56,17 +57,17 @@ public class SortedList<E extends Comparable<E>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link SortedList} of type {@code T}.
+	 * Constructs an empty {@link SortedList} of type {@code E}.
 	 */
 	public SortedList() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link SortedList} of type {@code T} with the specified {@link Collection} of
-	 * type extending {@code T}.
+	 * Constructs a {@link SortedList} of type {@code E} with the specified {@link Collection} of
+	 * type extending {@code E}.
 	 * <p>
-	 * @param collection a {@link Collection} of type extending {@code T}
+	 * @param collection a {@link Collection} of type extending {@code E}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
@@ -95,6 +96,25 @@ public class SortedList<E extends Comparable<E>>
 	@Override
 	public synchronized E set(final int index, final E element) {
 		return super.set(index, element);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns an {@code E} array containing all of the elements in {@code this} in proper sequence
+	 * (from first to last element).
+	 * <p>
+	 * @return an {@code E} array containing all of the elements in {@code this} in proper sequence
+	 *         (from first to last element)
+	 *
+	 * @see LinkedList#toArray
+	 */
+	@Override
+	public E[] toArray() {
+		return Lists.toArray(this);
 	}
 
 

@@ -34,7 +34,7 @@ import jupiter.common.util.Integers;
 import jupiter.common.util.Lists;
 
 /**
- * {@link ExtendedList} extends {@link ArrayList} of type {@code T}.
+ * {@link ExtendedList} extends {@link ArrayList} of type {@code E}.
  * <p>
  * @param <E> the type of the {@link ExtendedList}
  */
@@ -57,14 +57,14 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of type {@code T} with the default initial capacity.
+	 * Constructs an empty {@link ExtendedList} of type {@code E} with the default initial capacity.
 	 */
 	public ExtendedList() {
 		super(Collections.DEFAULT_CAPACITY);
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of type {@code T} with the specified initial
+	 * Constructs an empty {@link ExtendedList} of type {@code E} with the specified initial
 	 * capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
@@ -76,10 +76,10 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedList} of type {@code T} with the specified {@link Collection} of
-	 * type extending {@code T}.
+	 * Constructs an {@link ExtendedList} of type {@code E} with the specified {@link Collection} of
+	 * type extending {@code E}.
 	 * <p>
-	 * @param collection a {@link Collection} of type extending {@code T}
+	 * @param collection a {@link Collection} of type extending {@code E}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
@@ -123,6 +123,25 @@ public class ExtendedList<E>
 	@Override
 	public synchronized E set(final int index, final E element) {
 		return super.set(index, element);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns an {@code E} array containing all of the elements in {@code this} in proper sequence
+	 * (from first to last element).
+	 * <p>
+	 * @return an {@code E} array containing all of the elements in {@code this} in proper sequence
+	 *         (from first to last element)
+	 *
+	 * @see ArrayList#toArray
+	 */
+	@Override
+	public E[] toArray() {
+		return Lists.toArray(this);
 	}
 
 
