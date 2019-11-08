@@ -27,11 +27,11 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.NEWLINE;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.StringArguments;
 import jupiter.common.util.Characters;
 
@@ -139,7 +139,7 @@ public abstract class OpenCL
 	/**
 	 * The {@link List} of kernel names.
 	 */
-	protected List<String> kernelNames = new LinkedList<String>();
+	protected List<String> kernelNames = new ExtendedLinkedList<String>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

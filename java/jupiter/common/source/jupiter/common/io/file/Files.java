@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
@@ -52,6 +51,7 @@ import java.util.zip.ZipOutputStream;
 import jupiter.common.exception.CopyFileException;
 import jupiter.common.io.Content;
 import jupiter.common.io.Resources;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
@@ -768,7 +768,7 @@ public class Files {
 	 *         subdirectories
 	 */
 	public static List<File> listAll(final File dir) {
-		final List<File> list = new LinkedList<File>();
+		final List<File> list = new ExtendedLinkedList<File>();
 		for (final File file : dir.listFiles()) {
 			list.add(file);
 			if (file.isDirectory()) {
@@ -803,7 +803,7 @@ public class Files {
 	 *         subdirectories and matching the specified {@link Pattern}
 	 */
 	public static List<File> listAll(final File dir, final Pattern pattern) {
-		final List<File> list = new LinkedList<File>();
+		final List<File> list = new ExtendedLinkedList<File>();
 		for (final File file : dir.listFiles()) {
 			if (pattern.matcher(file.getName()).matches()) {
 				list.add(file);
@@ -827,7 +827,7 @@ public class Files {
 	 *         subdirectories and matching the specified {@link Pattern} until the specified depth
 	 */
 	public static List<File> listAll(final File dir, final Pattern pattern, final int depth) {
-		final List<File> list = new LinkedList<File>();
+		final List<File> list = new ExtendedLinkedList<File>();
 		for (final File file : dir.listFiles()) {
 			if (pattern.matcher(file.getName()).matches()) {
 				list.add(file);

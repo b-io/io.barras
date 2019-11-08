@@ -27,12 +27,12 @@ import static jupiter.common.io.IO.IO;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Stack;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Objects;
 
@@ -102,9 +102,9 @@ public class WorkQueue<I, O>
 	protected volatile int reservedWorkerCount = 0;
 
 	/**
-	 * The {@link LinkedList} of {@link Task} of type {@code I}.
+	 * The {@link ExtendedLinkedList} of {@link Task} of type {@code I}.
 	 */
-	protected final LinkedList<Task<I>> tasks = new LinkedList<Task<I>>();
+	protected final ExtendedLinkedList<Task<I>> tasks = new ExtendedLinkedList<Task<I>>();
 	/**
 	 * The current {@link Task} identifier.
 	 */

@@ -29,10 +29,10 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -68,7 +68,7 @@ public class XYSelectionOverlay
 	/**
 	 * The {@link List} of {@link XYSelection}.
 	 */
-	protected List<XYSelection> selections = new LinkedList<XYSelection>();
+	protected List<XYSelection> selections = new ExtendedLinkedList<XYSelection>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

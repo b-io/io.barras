@@ -24,10 +24,10 @@
 package jupiter.common.math;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -69,7 +69,7 @@ public class IntervalList<T extends Comparable<T>>
 	 * Constructs an {@link IntervalList} of type {@code T}.
 	 */
 	public IntervalList() {
-		intervals = new LinkedList<Interval<T>>();
+		intervals = new ExtendedLinkedList<Interval<T>>();
 	}
 
 	/**

@@ -52,7 +52,6 @@ import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +75,7 @@ import javax.swing.text.StyledDocument;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.Index;
 import jupiter.common.util.Characters;
 import jupiter.common.util.Strings;
@@ -134,8 +134,8 @@ public class JConsole
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final List<String> history = new LinkedList<String>();
-	protected final LinkedList<String> inputLines = new LinkedList<String>();
+	protected final List<String> history = new ExtendedLinkedList<String>();
+	protected final ExtendedLinkedList<String> inputLines = new ExtendedLinkedList<String>();
 	protected volatile OutputStream outPipe;
 	protected volatile InputStream inPipe;
 	protected volatile InputStream in;

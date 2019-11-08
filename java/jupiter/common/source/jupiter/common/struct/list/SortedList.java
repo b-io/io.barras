@@ -23,14 +23,15 @@
  */
 package jupiter.common.struct.list;
 
-
 import java.util.Collection;
 import java.util.LinkedList;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
 
 /**
  * {@link SortedList} extends {@link LinkedList} of type {@code E}.
@@ -79,6 +80,14 @@ public class SortedList<E extends Comparable<E>>
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@SuppressWarnings("unchecked")
+	public Class<E> getElementClass() {
+		if (isEmpty()) {
+			return null;
+		}
+		return (Class<E>) get(0).getClass();
+	}
+
 	public E getMiddle() {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(this);
@@ -95,6 +104,28 @@ public class SortedList<E extends Comparable<E>>
 	@Override
 	public synchronized E set(final int index, final E element) {
 		return super.set(index, element);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns an {@code E} array containing all of the elements in {@code this} in proper sequence
+	 * (from first to last element).
+	 * <p>
+	 * @return an {@code E} array containing all of the elements in {@code this} in proper sequence
+	 *         (from first to last element)
+	 *
+	 * @see LinkedList#toArray
+	 */
+	@Override
+	public Object[] toArray() {
+		if (isEmpty()) {
+			return Objects.EMPTY_ARRAY;
+		}
+		return super.toArray(Arrays.create(getElementClass(), size()));
 	}
 
 

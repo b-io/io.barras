@@ -28,7 +28,6 @@ import static jupiter.common.util.Strings.STAR;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -53,6 +52,7 @@ import javax.mail.search.SubjectTerm;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
@@ -403,7 +403,7 @@ public class MailHandler
 	 * @return the {@link List} of {@link MimeMessage}
 	 */
 	public List<MimeMessage> download(final String remoteDirPath, final SearchTerm mailFilter) {
-		final List<MimeMessage> messages = new LinkedList<MimeMessage>();
+		final List<MimeMessage> messages = new ExtendedLinkedList<MimeMessage>();
 		try {
 			IO.info("Connect to the mail server ",
 					Strings.quote(hostName + ":" + inProtocol.getPort()),

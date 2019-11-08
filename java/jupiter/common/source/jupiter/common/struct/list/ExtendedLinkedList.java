@@ -23,8 +23,8 @@
  */
 package jupiter.common.struct.list;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
@@ -35,13 +35,13 @@ import jupiter.common.util.Lists;
 import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedList} extends {@link ArrayList} of type {@code E}.
+ * {@link ExtendedLinkedList} extends {@link LinkedList} of type {@code E}.
  * <p>
- * @param <E> the type of the {@link ExtendedList}
+ * @param <E> the type of the {@link ExtendedLinkedList}
  */
-public class ExtendedList<E>
-		extends ArrayList<E>
-		implements ICloneable<ExtendedList<E>> {
+public class ExtendedLinkedList<E>
+		extends LinkedList<E>
+		implements ICloneable<ExtendedLinkedList<E>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -58,33 +58,20 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of type {@code E} with the default initial capacity.
+	 * Constructs an empty {@link ExtendedLinkedList} of type {@code E} with the default initial capacity.
 	 */
-	public ExtendedList() {
-		super(Collections.DEFAULT_CAPACITY);
+	public ExtendedLinkedList() {
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of type {@code E} with the specified initial
-	 * capacity.
-	 * <p>
-	 * @param initialCapacity the initial capacity
-	 * <p>
-	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
-	 */
-	public ExtendedList(final int initialCapacity) {
-		super(initialCapacity);
-	}
-
-	/**
-	 * Constructs an {@link ExtendedList} of type {@code E} with the specified {@link Collection} of
+	 * Constructs an {@link ExtendedLinkedList} of type {@code E} with the specified {@link Collection} of
 	 * type extending {@code E}.
 	 * <p>
 	 * @param collection a {@link Collection} of type extending {@code E}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
-	public ExtendedList(final Collection<? extends E> collection) {
+	public ExtendedLinkedList(final Collection<? extends E> collection) {
 		super(collection);
 	}
 
@@ -98,7 +85,7 @@ public class ExtendedList<E>
 		if (isEmpty()) {
 			return null;
 		}
-		return (Class<E>) get(0).getClass();
+		return (Class<E>) getFirst().getClass();
 	}
 
 	/**
@@ -146,7 +133,7 @@ public class ExtendedList<E>
 	 * @return an {@code E} array containing all of the elements in {@code this} in proper sequence
 	 *         (from first to last element)
 	 *
-	 * @see ArrayList#toArray
+	 * @see LinkedList#toArray
 	 */
 	@Override
 	public Object[] toArray() {
@@ -230,8 +217,8 @@ public class ExtendedList<E>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public ExtendedList<E> clone() {
-		return (ExtendedList<E>) super.clone();
+	public ExtendedLinkedList<E> clone() {
+		return (ExtendedLinkedList<E>) super.clone();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -27,13 +27,13 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import jupiter.common.exception.ParseException;
 import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.thread.LockedWorkQueue;
@@ -452,7 +452,7 @@ public class ExpressionHandler
 	 * @return the delimiting intervals in the specified expression {@link String}
 	 */
 	protected static IntervalList<Integer> getDelimitingIntervals(final String expression) {
-		final List<Interval<Integer>> delimitingIntervals = new LinkedList<Interval<Integer>>();
+		final List<Interval<Integer>> delimitingIntervals = new ExtendedLinkedList<Interval<Integer>>();
 		int counter = 0;
 		int lowerBound, upperBound = -1;
 

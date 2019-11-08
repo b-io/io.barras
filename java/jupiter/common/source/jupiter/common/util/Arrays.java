@@ -26,12 +26,12 @@ package jupiter.common.util;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.struct.list.ComparableSort;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Sort;
 import jupiter.common.struct.tuple.Pair;
@@ -147,16 +147,16 @@ public class Arrays {
 		return toExtendedList(array);
 	}
 
-	public static <T> LinkedList<T> toLinkedList(final T[] array) {
-		final LinkedList<T> result = new LinkedList<T>();
+	public static <T> ExtendedLinkedList<T> toExtendedLinkedList(final T[] array) {
+		final ExtendedLinkedList<T> result = new ExtendedLinkedList<T>();
 		for (final T element : array) {
 			result.add(element);
 		}
 		return result;
 	}
 
-	public static <T> LinkedList<T> asLinkedList(final T... array) {
-		return toLinkedList(array);
+	public static <T> ExtendedLinkedList<T> asExtendedLinkedList(final T... array) {
+		return toExtendedLinkedList(array);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

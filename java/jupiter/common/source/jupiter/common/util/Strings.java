@@ -33,7 +33,6 @@ import java.text.ParsePosition;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -43,6 +42,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
 import jupiter.common.map.wrapper.StringWrapper;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Index;
 import jupiter.common.struct.list.SortedList;
@@ -1785,7 +1785,7 @@ public class Strings {
 		Arguments.requireNonNull(token);
 
 		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
+		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
@@ -1815,7 +1815,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
+		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
 		int index = text.indexOf(token);
 
 		// Get the indexes
@@ -1858,7 +1858,7 @@ public class Strings {
 		Arguments.requireNonNull(tokens);
 
 		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
+		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
@@ -1892,7 +1892,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
+		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
 		final char[] array = text.toCharArray();
 
 		// Get the indexes
@@ -1936,7 +1936,7 @@ public class Strings {
 		Arguments.requireNonNull(tokens);
 
 		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
+		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
@@ -1970,7 +1970,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
+		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
 		final char[] array = text.toCharArray();
 
 		// Get the indexes
@@ -2012,7 +2012,7 @@ public class Strings {
 		Arguments.requireNonNull(token);
 
 		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
+		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
@@ -2042,7 +2042,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Integer> indexes = new LinkedList<Integer>();
+		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
 		int index = text.indexOf(token);
 
 		// Get the indexes
@@ -2261,7 +2261,7 @@ public class Strings {
 		Arguments.requireNonNull(delimiterIndexes);
 
 		// Initialize
-		final List<String> tokens = new LinkedList<String>();
+		final List<String> tokens = new ExtendedLinkedList<String>();
 		int index = 0;
 
 		// Get the tokens
@@ -2312,7 +2312,7 @@ public class Strings {
 		Arguments.requireNonNull(delimiterIndexes);
 
 		// Initialize
-		final List<String> tokens = new LinkedList<String>();
+		final List<String> tokens = new ExtendedLinkedList<String>();
 		int index = 0;
 
 		// Get the tokens
@@ -2506,7 +2506,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<String> tokens = new LinkedList<String>();
+		final List<String> tokens = new ExtendedLinkedList<String>();
 		final List<Integer> delimiterIndexes = getStringIndexesTo(text, delimiter, toIndex);
 		int index = 0;
 
@@ -2559,7 +2559,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<String> tokens = new LinkedList<String>();
+		final List<String> tokens = new ExtendedLinkedList<String>();
 		final List<Index<String>> delimiterIndexes = getStringIndexesTo(text, delimiters, toIndex);
 		int index = 0;
 
@@ -2608,7 +2608,7 @@ public class Strings {
 	public static List<String> splitStringTo(final String text, final List<String> delimiters,
 			final int toIndex) {
 		// Initialize
-		final List<String> tokens = new LinkedList<String>();
+		final List<String> tokens = new ExtendedLinkedList<String>();
 		final List<Index<String>> delimiterIndexes = getStringIndexesTo(text, delimiters, toIndex);
 		int index = 0;
 

@@ -30,11 +30,11 @@ import static jupiter.common.util.Strings.STAR;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Set;
 
 import jupiter.common.io.file.Files;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
@@ -99,7 +99,7 @@ public class SystemFiles {
 
 	public static Collection<File> find(final File dir, final String[] fileFilters,
 			final String dirFilter) {
-		final Collection<File> files = new LinkedList<File>();
+		final Collection<File> files = new ExtendedLinkedList<File>();
 		for (final String fileFilter : fileFilters) {
 			files.addAll(find(dir, fileFilter, dirFilter));
 		}
@@ -110,7 +110,7 @@ public class SystemFiles {
 
 	public static Collection<File> filterByExtensions(final Collection<File> files,
 			final Set<String> extensions) {
-		final Collection<File> filteredFiles = new LinkedList<File>();
+		final Collection<File> filteredFiles = new ExtendedLinkedList<File>();
 		for (final File file : files) {
 			if (extensions.contains(Files.getExtension(file.getName()).toLowerCase())) {
 				filteredFiles.add(file);
@@ -121,7 +121,7 @@ public class SystemFiles {
 
 	public static Collection<File> filterByKeyword(final Collection<File> files,
 			final String keyword) {
-		final Collection<File> filteredFiles = new LinkedList<File>();
+		final Collection<File> filteredFiles = new ExtendedLinkedList<File>();
 		for (final File file : files) {
 			if (file.getName().contains(keyword)) {
 				filteredFiles.add(file);
