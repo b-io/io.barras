@@ -27,7 +27,8 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>, T5 extends Comparable<T5>>
-		extends Quintuple<T1, T2, T3, T4, T5> {
+		extends Quintuple<T1, T2, T3, T4, T5>
+		implements Comparable<ComparableQuintuple<T1, T2, T3, T4, T5>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
