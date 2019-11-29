@@ -30,6 +30,7 @@
 		<!-- Maven -->
 		<maven.compiler.version>2.5.1</maven.compiler.version>
 		<maven.source.version>2.4</maven.source.version>
+		<maven.surefire.version>2.22.2</maven.surefire.version>
 		<maven.javadoc.version>2.9.1</maven.javadoc.version>
 		<!-- JUnit -->
 		<junit.verison>4.12</junit.verison>
@@ -63,6 +64,7 @@
 					<compilerArgs>
 						<arg>-Xlint:deprecation</arg>
 						<arg>-Xlint:unchecked</arg>
+						<!--<arg>&#x002d;&#x002d;add-modules=jdk.incubator.vector</arg>-->
 					</compilerArgs>
 
 					<encoding>${project.build.sourceEncoding}</encoding>
@@ -111,6 +113,19 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Add the vector incubator (see https://openjdk.java.net/jeps/338) -->
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.version}</version>
+
+				<configuration>
+					<argLine>&#x002d;&#x002d;add-modules=jdk.incubator.vector</argLine>
+				</configuration>
+			</plugin>
+			-->
 
 			<!-- Generate the Javadoc -->
 			<plugin>

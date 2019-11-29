@@ -26,7 +26,7 @@
 
 	<build>
 		<plugins>
-			<!-- Compile C -->
+			<!-- Compile C to a shared library -->
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>

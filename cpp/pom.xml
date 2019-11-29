@@ -41,7 +41,7 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- Maven NAR -->
+				<!-- Compile C++ -->
 				<plugin>
 					<groupId>com.github.maven-nar</groupId>
 					<artifactId>nar-maven-plugin</artifactId>

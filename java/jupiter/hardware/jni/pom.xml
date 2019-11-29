@@ -42,7 +42,7 @@
 
 	<build>
 		<plugins>
-			<!-- Compile C and package the JNI library -->
+			<!-- Package the JNI library -->
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
