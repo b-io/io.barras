@@ -1598,10 +1598,13 @@ public class Matrix
 	 */
 	@Override
 	public Entity times(final Matrix matrix) {
+		// Initialize
+		final int innerDimension = n;
+
 		// Broadcast
 		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			broadcastedMatrix = ((Vector) matrix).toMatrix(n);
+			broadcastedMatrix = ((Vector) matrix).toMatrix(innerDimension);
 		} else {
 			broadcastedMatrix = matrix;
 		}
@@ -1613,7 +1616,7 @@ public class Matrix
 		if (m == 1 && broadcastedMatrix.n == 1) {
 			// - Scalar
 			double sum = 0.;
-			for (int k = 0; k < n; ++k) {
+			for (int k = 0; k < innerDimension; ++k) {
 				sum += elements[k] * broadcastedMatrix.elements[k];
 			}
 			return new Scalar(sum);
@@ -1652,14 +1655,11 @@ public class Matrix
 						interval.getLowerBound() + submatrix.m, 0, submatrix.n, submatrix);
 			}
 		} else {
-			for (int i = 0; i < m; ++i) {
-				for (int j = 0; j < broadcastedMatrix.n; ++j) {
-					double sum = 0.;
-					for (int k = 0; k < n; ++k) {
-						sum += elements[i * n + k] *
-								broadcastedMatrix.elements[k * broadcastedMatrix.n + j];
-					}
-					result.elements[i * result.n + j] = sum;
+			for (int i = 0; i < result.m; ++i) {
+				for (int k = 0; k < innerDimension; ++k) {
+					result.weightedSum(i * result.n,
+							elements[i * n + k],
+							broadcastedMatrix.elements, k * broadcastedMatrix.n);
 				}
 			}
 		}
@@ -1677,10 +1677,13 @@ public class Matrix
 	 */
 	@Override
 	public Entity diagonalTimes(final Matrix matrix) {
+		// Initialize
+		final int innerDimension = n;
+
 		// Broadcast
 		final Matrix broadcastedMatrix;
 		if (matrix instanceof Vector) {
-			broadcastedMatrix = ((Vector) matrix).toMatrix(n);
+			broadcastedMatrix = ((Vector) matrix).toMatrix(innerDimension);
 		} else {
 			broadcastedMatrix = matrix;
 		}
@@ -1692,7 +1695,7 @@ public class Matrix
 		if (m == 1 && broadcastedMatrix.n == 1) {
 			// - Scalar
 			double sum = 0.;
-			for (int k = 0; k < n; ++k) {
+			for (int k = 0; k < innerDimension; ++k) {
 				sum += elements[k] * broadcastedMatrix.elements[k];
 			}
 			return new Scalar(sum);
@@ -1701,7 +1704,7 @@ public class Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		for (int i = 0; i < Math.min(m, broadcastedMatrix.n); ++i) {
 			double sum = 0.;
-			for (int k = 0; k < n; ++k) {
+			for (int k = 0; k < innerDimension; ++k) {
 				sum += elements[i * n + k] *
 						broadcastedMatrix.elements[k * broadcastedMatrix.n + i];
 			}
@@ -2038,6 +2041,29 @@ public class Matrix
 			}
 		}
 		return times(A).plus(B);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void weightedSum(final int offset,
+			final double weight, final double[] vector, final int vectorOffset) {
+		weightedSum(elements, offset, weight, vector, vectorOffset, 0, n);
+	}
+
+	public void weightedSum(final int offset,
+			final double weight, final double[] vector, final int vectorOffset,
+			final int fromColumn, final int toColumn) {
+		weightedSum(elements, offset, weight, vector, vectorOffset, fromColumn, toColumn);
+	}
+
+	//////////////////////////////////////////////
+
+	public static void weightedSum(final double[] result, final int resultOffset,
+			final double weight, final double[] vector, final int vectorOffset,
+			final int from, final int to) {
+		for (int j = from; j < to; ++j) {
+			result[resultOffset + j] += weight * vector[vectorOffset + j];
+		}
 	}
 
 
@@ -2642,20 +2668,16 @@ public class Matrix
 		public static Matrix apply(final Matrix left, final Matrix right,
 				final Interval<Integer> interval) {
 			// Initialize
-			final int m = interval.getUpperBound() - interval.getLowerBound();
 			final int innerDimension = left.n; // or right.m
-			final int n = right.n;
-			final Matrix result = new Matrix(m, n);
+			final Matrix result = new Matrix(interval.getUpperBound() - interval.getLowerBound(), right.n);
 
 			// Compute
-			for (int i = 0; i < m; ++i) {
+			for (int i = 0; i < result.m; ++i) {
 				final int leftRowIndex = (interval.getLowerBound() + i) * left.n;
-				for (int j = 0; j < n; ++j) {
-					double sum = 0.;
-					for (int k = 0; k < innerDimension; ++k) {
-						sum += left.elements[leftRowIndex + k] * right.elements[k * right.n + j];
-					}
-					result.elements[i * result.n + j] = sum;
+				for (int k = 0; k < innerDimension; ++k) {
+					result.weightedSum(i * result.n,
+							left.elements[leftRowIndex + k],
+							right.elements, k * right.n);
 				}
 			}
 			return result;
