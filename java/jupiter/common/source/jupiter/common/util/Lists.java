@@ -53,6 +53,7 @@ public class Lists
 	 * Returns a {@code T} array containing all of the elements in the specified {@link List} of
 	 * type {@code T} in proper sequence (from first to last element).
 	 * <p>
+	 * @param <T>  the component type of the array
 	 * @param list a {@link List} of type {@code T}
 	 * <p>
 	 * @return a {@code T} array containing all of the elements in the specified {@link List} of
@@ -60,6 +61,7 @@ public class Lists
 	 *
 	 * @see List#toArray
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(final List<T> list) {
 		return (T[]) list.toArray();
 	}
