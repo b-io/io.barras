@@ -1657,9 +1657,9 @@ public class Matrix
 		} else {
 			for (int i = 0; i < result.m; ++i) {
 				for (int k = 0; k < innerDimension; ++k) {
-					result.weightedSum(i * result.n,
+					result.arraySum(broadcastedMatrix.elements,
 							elements[i * n + k],
-							broadcastedMatrix.elements, k * broadcastedMatrix.n);
+							i * result.n, k * broadcastedMatrix.n);
 				}
 			}
 		}
@@ -2045,24 +2045,57 @@ public class Matrix
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void weightedSum(final int offset,
-			final double weight, final double[] vector, final int vectorOffset) {
-		weightedSum(elements, offset, weight, vector, vectorOffset, 0, n);
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets.
+	 * <p>
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 */
+	public void arraySum(final double[] B, final double c, final int aOffset, final int bOffset) {
+		arraySum(elements, B, c, aOffset, bOffset, n);
 	}
 
-	public void weightedSum(final int offset,
-			final double weight, final double[] vector, final int vectorOffset,
-			final int fromColumn, final int toColumn) {
-		weightedSum(elements, offset, weight, vector, vectorOffset, fromColumn, toColumn);
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets
+	 * to the specified length.
+	 * <p>
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param length  the length of the iteration
+	 */
+	public void arraySum(final double[] B, final double c, final int aOffset, final int bOffset,
+			final int length) {
+		arraySum(elements, B, c, aOffset, bOffset, length);
 	}
 
 	//////////////////////////////////////////////
 
-	public static void weightedSum(final double[] result, final int resultOffset,
-			final double weight, final double[] vector, final int vectorOffset,
-			final int from, final int to) {
-		for (int j = from; j < to; ++j) {
-			result[resultOffset + j] += weight * vector[vectorOffset + j];
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
+	 * the specified length.
+	 * <p>
+	 * @param A       the {@code double} array to add
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param length  the length of the iteration
+	 */
+	public static void arraySum(final double[] A, final double[] B, final double c,
+			final int aOffset, final int bOffset, final int length) {
+		if (c == 0.) {
+			return;
+		}
+		if (CL.test(length, length)) {
+			CL.arraySum(A, B, c, aOffset, bOffset, length);
+		} else {
+			for (int i = 0; i < length; ++i) {
+				A[aOffset + i] += c * B[bOffset + i];
+			}
 		}
 	}
 
@@ -2675,9 +2708,9 @@ public class Matrix
 			for (int i = 0; i < result.m; ++i) {
 				final int leftRowIndex = (interval.getLowerBound() + i) * left.n;
 				for (int k = 0; k < innerDimension; ++k) {
-					result.weightedSum(i * result.n,
+					result.arraySum(right.elements,
 							left.elements[leftRowIndex + k],
-							right.elements, k * right.n);
+							i * result.n, k * right.n);
 				}
 			}
 			return result;

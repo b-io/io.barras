@@ -24,6 +24,7 @@
 package jupiter.hardware.gpu;
 
 import static com.jogamp.opencl.CLMemory.Mem.READ_ONLY;
+import static com.jogamp.opencl.CLMemory.Mem.READ_WRITE;
 import static com.jogamp.opencl.CLMemory.Mem.WRITE_ONLY;
 import static jupiter.common.io.IO.IO;
 
@@ -67,8 +68,6 @@ public class JogAmpl
 	protected CLProgram program;
 	protected final Map<String, CLKernel> kernels = new RedBlackTreeMap<String, CLKernel>();
 
-	protected final int localWorkGroupSize;
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -87,11 +86,7 @@ public class JogAmpl
 		try {
 			// Select the fastest device
 			device = context.getMaxFlopsDevice();
-			IO.debug("Device name: ", getDeviceName());
-			IO.debug("Max compute units: ", getMaxComputeUnits());
-			IO.debug("Max work item dimensions: ", getMaxWorkItemDimensions());
-			IO.debug("Max work group size: ", getMaxWorkGroupSize());
-			IO.debug("Global memory size: ", getGlobalMemorySize());
+			setDeviceInfo();
 
 			// Create a command-queue for the selected device
 			commandQueue = device.createCommandQueue();
@@ -105,10 +100,6 @@ public class JogAmpl
 				IO.debug("Build the kernel ", Strings.quote(kernelName));
 				kernels.put(kernelName, program.createCLKernel(kernelName));
 			}
-
-			// Set the local work group size
-			localWorkGroupSize = Math.min(device.getMaxWorkGroupSize(), 256);
-			IO.debug("Local work group size: ", localWorkGroupSize);
 
 			isActive = true;
 		} catch (final Exception ex) {
@@ -174,13 +165,18 @@ public class JogAmpl
 	}
 
 	@Override
-	public long getMaxWorkItemDimensions() {
+	public int getMaxWorkItemDimensions() {
 		return device.getMaxWorkItemDimensions();
 	}
 
 	@Override
 	public long getMaxWorkGroupSize() {
 		return device.getMaxWorkGroupSize();
+	}
+
+	@Override
+	public long getLocalMemorySize() {
+		return device.getLocalMemSize();
 	}
 
 	@Override
@@ -194,18 +190,25 @@ public class JogAmpl
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public CLBuffer<DoubleBuffer> createReadBuffer(final int length) {
-		return context.createDoubleBuffer(Maths.roundUp(length, localWorkGroupSize), READ_ONLY);
+		return context.createDoubleBuffer(length, READ_ONLY);
 	}
 
 	public CLBuffer<DoubleBuffer> createReadBuffer(final double[] array) {
 		final CLBuffer<DoubleBuffer> buffer = context
-				.createDoubleBuffer(Maths.roundUp(array.length, localWorkGroupSize), READ_ONLY);
+				.createDoubleBuffer(array.length, READ_ONLY);
 		fill(buffer.getBuffer(), array);
 		return buffer;
 	}
 
 	public CLBuffer<DoubleBuffer> createWriteBuffer(final int length) {
-		return context.createDoubleBuffer(Maths.roundUp(length, localWorkGroupSize), WRITE_ONLY);
+		return context.createDoubleBuffer(length, WRITE_ONLY);
+	}
+
+	public CLBuffer<DoubleBuffer> createReadWriteBuffer(final double[] array) {
+		final CLBuffer<DoubleBuffer> buffer = context
+				.createDoubleBuffer(array.length, READ_WRITE);
+		fill(buffer.getBuffer(), array);
+		return buffer;
 	}
 
 
@@ -255,21 +258,20 @@ public class JogAmpl
 		DoubleArguments.requireSameLength(A, B);
 
 		// Initialize
-		final int resultLength = A.length;
-		final double[] result = new double[resultLength];
+		final double[] result = new double[A.length];
 		final CLBuffer<DoubleBuffer> aBuffer = createReadBuffer(A);
 		final CLBuffer<DoubleBuffer> bBuffer = createReadBuffer(B);
-		final CLBuffer<DoubleBuffer> resultBuffer = createWriteBuffer(resultLength);
+		final CLBuffer<DoubleBuffer> resultBuffer = createWriteBuffer(result.length);
 
 		// Get the kernel
 		final CLKernel kernel = getKernel(name);
 		// Set the kernel arguments
 		kernel.putArgs(aBuffer, bBuffer, resultBuffer);
 		// Execute the kernel
-		final int globalWorkGroupSize = Maths.roundUp(resultLength, localWorkGroupSize);
 		commandQueue.putWriteBuffer(aBuffer, false)
 				.putWriteBuffer(bBuffer, false)
-				.put1DRangeKernel(kernel, 0, globalWorkGroupSize, localWorkGroupSize)
+				.put1DRangeKernel(kernel, 0, Maths.roundUp(result.length, localWorkGroupSize),
+						localWorkGroupSize)
 				.putReadBuffer(resultBuffer, true);
 		// Read the result
 		resultBuffer.getBuffer().get(result);
@@ -290,11 +292,10 @@ public class JogAmpl
 
 		// Initialize
 		final int aRowDimension = A.length / aColumnDimension;
-		final int resultLength = aRowDimension * bColumnDimension;
-		final double[] result = new double[resultLength];
+		final double[] result = new double[aRowDimension * bColumnDimension];
 		final CLBuffer<DoubleBuffer> aBuffer = createReadBuffer(A);
 		final CLBuffer<DoubleBuffer> bBuffer = createReadBuffer(B);
-		final CLBuffer<DoubleBuffer> resultBuffer = createWriteBuffer(resultLength);
+		final CLBuffer<DoubleBuffer> resultBuffer = createWriteBuffer(result.length);
 
 		// Get the kernel
 		final CLKernel kernel = getKernel("times");
@@ -303,11 +304,10 @@ public class JogAmpl
 				.putArg(aColumnDimension)
 				.putArg(bColumnDimension);
 		// Execute the kernel
-		final int globalWorkGroupSize = Maths.roundUp(Maths.maxToInt(A.length, B.length),
-				localWorkGroupSize);
 		commandQueue.putWriteBuffer(aBuffer, false)
 				.putWriteBuffer(bBuffer, false)
-				.put1DRangeKernel(kernel, 0, globalWorkGroupSize, localWorkGroupSize)
+				.put1DRangeKernel(kernel, 0, Maths.roundUp(result.length, localWorkGroupSize),
+						localWorkGroupSize)
 				.putReadBuffer(resultBuffer, true);
 		// Read the result
 		resultBuffer.getBuffer().get(result);
@@ -341,8 +341,7 @@ public class JogAmpl
 
 		// Initialize
 		final int aRowDimension = A.length / aColumnDimension;
-		final int resultLength = aRowDimension * bColumnDimension;
-		final double[] result = new double[resultLength];
+		final double[] result = new double[aRowDimension * bColumnDimension];
 		final CLBuffer<DoubleBuffer> aBuffer = createReadBuffer(A);
 		final CLBuffer<DoubleBuffer> bBuffer = createReadBuffer(B);
 		final CLBuffer<DoubleBuffer> cBuffer = createReadBuffer(C);
@@ -357,12 +356,11 @@ public class JogAmpl
 				.putArg(bColumnDimension)
 				.putArg(cColumnDimension);
 		// Execute the kernel
-		final int globalWorkGroupSize = Maths.roundUp(Maths.maxToInt(A.length, B.length),
-				localWorkGroupSize);
 		commandQueue.putWriteBuffer(aBuffer, false)
 				.putWriteBuffer(bBuffer, false)
 				.putWriteBuffer(cBuffer, false)
-				.put1DRangeKernel(kernel, 0, globalWorkGroupSize, localWorkGroupSize)
+				.put1DRangeKernel(kernel, 0, Maths.roundUp(result.length, localWorkGroupSize),
+						localWorkGroupSize)
 				.putReadBuffer(resultBuffer, true);
 		// Read the result
 		resultBuffer.getBuffer().get(result);
@@ -372,6 +370,60 @@ public class JogAmpl
 		cBuffer.release();
 		resultBuffer.release();
 		return result;
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A       the {@code double} array to add
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param length  the length of the iteration
+	 * <p>
+	 * @return {@code A += c * B}
+	 */
+	@Override
+	public synchronized double[] arraySum(final double[] A, final double[] B, final double c,
+			final int aOffset, final int bOffset, final int length) {
+		if (c == 0.) {
+			return A;
+		}
+
+		// Check the arguments
+		Arguments.requireNonNull(A);
+		Arguments.requireNonNull(B);
+		DoubleArguments.requireMinLength(A.length - aOffset, length);
+		DoubleArguments.requireMinLength(B.length - bOffset, length);
+
+		// Initialize
+		final double[] aSlice = new double[length];
+		System.arraycopy(A, aOffset, aSlice, 0, length);
+		final double[] bSlice = new double[length];
+		System.arraycopy(B, bOffset, bSlice, 0, length);
+		final CLBuffer<DoubleBuffer> aBuffer = createReadWriteBuffer(aSlice);
+		final CLBuffer<DoubleBuffer> bBuffer = createReadBuffer(bSlice);
+
+		// Get the kernel
+		final CLKernel kernel = getKernel("arraySum");
+		// Set the kernel arguments
+		kernel.putArgs(aBuffer, bBuffer)
+				.putArg(c);
+		// Execute the kernel
+		commandQueue.putWriteBuffer(aBuffer, false)
+				.putWriteBuffer(bBuffer, false)
+				.put1DRangeKernel(kernel, 0, Maths.roundUp(length, localWorkGroupSize),
+						localWorkGroupSize)
+				.putReadBuffer(aBuffer, true);
+		// Read the result
+		aBuffer.getBuffer().get(aSlice);
+		// Release the memory
+		aBuffer.release();
+		bBuffer.release();
+		// Copy the slice back into the array
+		System.arraycopy(aSlice, 0, A, aOffset, length);
+		return A;
 	}
 
 

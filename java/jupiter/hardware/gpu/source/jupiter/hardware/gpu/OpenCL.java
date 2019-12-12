@@ -98,7 +98,7 @@ public abstract class OpenCL
 			"	C[index] = B[index] / A[index];" +
 			"}" +
 			KERNEL_PREFIX + " forward(__global const double* A, __global const double* B," +
-			"		__global double* C, __global double* D, const int aColumnDimension," +
+			"		__global const double* C, __global double* D, const int aColumnDimension," +
 			"		const int bColumnDimension, const int cColumnDimension) {" +
 			"	const int index = get_global_id(0);" +
 			"	const int aRowOffset = (index / bColumnDimension) * aColumnDimension;" +
@@ -108,13 +108,18 @@ public abstract class OpenCL
 			"		sum += A[aRowOffset + k] * B[k * bColumnDimension + bColumnOffset];" +
 			"	}" +
 			"	D[index] = sum + C[index % cColumnDimension];" +
+			"}" +
+			KERNEL_PREFIX + " arraySum(__global double* A, __global const double* B," +
+			"		const double c) {" +
+			"	const int index = get_global_id(0);" +
+			"	A[index] += c * B[index];" +
 			"}";
 	public static volatile OpenCL CL = null;
 
 	static {
 		if (IS_ACTIVE) {
 			try {
-				CL = new JOCL(PROGRAM);
+				CL = new JogAmpl(PROGRAM);
 			} catch (final IllegalStateException ex) {
 				IS_ACTIVE = false;
 				IO.error(ex);
@@ -140,6 +145,11 @@ public abstract class OpenCL
 	 * The {@link List} of kernel names.
 	 */
 	protected List<String> kernelNames = new ExtendedLinkedList<String>();
+
+	/**
+	 * The device local work group size.
+	 */
+	protected long localWorkGroupSize;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,9 +217,11 @@ public abstract class OpenCL
 
 	public abstract int getMaxComputeUnits();
 
-	public abstract long getMaxWorkItemDimensions();
+	public abstract int getMaxWorkItemDimensions();
 
 	public abstract long getMaxWorkGroupSize();
+
+	public abstract long getLocalMemorySize();
 
 	public abstract long getGlobalMemorySize();
 
@@ -220,6 +232,17 @@ public abstract class OpenCL
 
 	public void setActive(final boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public void setDeviceInfo() {
+		IO.debug("Device name: ", getDeviceName());
+		IO.debug("Max compute units: ", getMaxComputeUnits());
+		IO.debug("Max work item dimensions: ", getMaxWorkItemDimensions());
+		IO.debug("Max work group size: ", getMaxWorkGroupSize());
+		IO.debug("Local memory size: ", getLocalMemorySize());
+		IO.debug("Global memory size: ", getGlobalMemorySize());
+
+		localWorkGroupSize = Math.min(getMaxWorkGroupSize(), 256L);
 	}
 
 
@@ -272,10 +295,29 @@ public abstract class OpenCL
 	public abstract double[] forward(final double[] A, final double[] B, final double[] C,
 			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension);
 
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A       the {@code double} array to add
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param length  the length of the iteration
+	 * <p>
+	 * @return {@code A += c * B}
+	 */
+	public abstract double[] arraySum(final double[] A, final double[] B, final double c,
+			final int aOffset, final int bOffset, final int length);
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean test(final int aDimension, final int bDimension) {
+		return isActive && aDimension * bDimension > 1E5;
+	}
 
 	public boolean test(final int rowDimension, final int innerDimension,
 			final int columnDimension) {

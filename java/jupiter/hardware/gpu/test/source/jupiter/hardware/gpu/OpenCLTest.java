@@ -171,4 +171,41 @@ public class OpenCLTest
 			assertEquals(true, isPassed);
 		}
 	}
+
+	/**
+	 * Test of arraySum method, of class OpenCL.
+	 */
+	public void testArraySum() {
+		if (OpenCL.IS_ACTIVE) {
+			IO.test("arraySum");
+
+			// Create the input and output data
+			final int dimension = 1000;
+			final double[] A = new double[dimension];
+			final double[] B = new double[dimension];
+			final double c = 10;
+			for (int i = 0; i < A.length; ++i) {
+				A[i] = i - dimension / 2.;
+			}
+			for (int i = 0; i < B.length; ++i) {
+				B[i] = i - dimension / 2.;
+			}
+
+			// Execute the operation
+			final double[] result = CL.arraySum(A.clone(), B, c, 0, 0, dimension);
+
+			// Verify the result
+			IO.test("Result: ", Doubles.toString(A));
+			boolean isPassed = true;
+			for (int i = 0; i < dimension; ++i) {
+				final double x = result[i];
+				final double y = A[i] + c * B[i];
+				if (!Doubles.equals(x, y)) {
+					isPassed = false;
+				}
+			}
+			IO.test(isPassed ? "PASSED" : "FAILED");
+			assertEquals(true, isPassed);
+		}
+	}
 }

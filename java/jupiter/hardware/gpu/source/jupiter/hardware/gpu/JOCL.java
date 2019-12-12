@@ -26,6 +26,7 @@ package jupiter.hardware.gpu;
 import static jupiter.common.io.IO.IO;
 import static org.jocl.CL.CL_CONTEXT_PLATFORM;
 import static org.jocl.CL.CL_DEVICE_GLOBAL_MEM_SIZE;
+import static org.jocl.CL.CL_DEVICE_LOCAL_MEM_SIZE;
 import static org.jocl.CL.CL_DEVICE_MAX_COMPUTE_UNITS;
 import static org.jocl.CL.CL_DEVICE_MAX_WORK_GROUP_SIZE;
 import static org.jocl.CL.CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS;
@@ -57,6 +58,7 @@ import static org.jocl.CL.setExceptionsEnabled;
 
 import java.util.Map;
 
+import jupiter.common.math.Maths;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
@@ -157,11 +159,7 @@ public class JOCL
 				device = d;
 			}
 		}
-		IO.debug("Device name: ", getDeviceName());
-		IO.debug("Max compute units: ", getMaxComputeUnits());
-		IO.debug("Max work item dimensions: ", getMaxWorkItemDimensions());
-		IO.debug("Max work group size: ", getMaxWorkGroupSize());
-		IO.debug("Global memory size: ", getGlobalMemorySize());
+		setDeviceInfo();
 
 		try {
 			// Create a context for the selected device
@@ -248,13 +246,18 @@ public class JOCL
 	}
 
 	@Override
-	public long getMaxWorkItemDimensions() {
-		return getDeviceInfoHelperLong(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS);
+	public int getMaxWorkItemDimensions() {
+		return getDeviceInfoHelperInt(device, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS);
 	}
 
 	@Override
 	public long getMaxWorkGroupSize() {
 		return getDeviceInfoHelperLong(device, CL_DEVICE_MAX_WORK_GROUP_SIZE);
+	}
+
+	@Override
+	public long getLocalMemorySize() {
+		return getDeviceInfoHelperLong(device, CL_DEVICE_LOCAL_MEM_SIZE);
 	}
 
 	@Override
@@ -307,6 +310,11 @@ public class JOCL
 				array.length * Sizeof.cl_double, Pointer.to(array), null);
 	}
 
+	public cl_mem createReadWriteBuffer(final double[] array) {
+		return clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR,
+				array.length * Sizeof.cl_double, Pointer.to(array), null);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
@@ -316,7 +324,7 @@ public class JOCL
 		return clCreateKernel(program, name, null);
 	}
 
-	public int execute(final cl_kernel kernel, final int globalWorkSize, final int localWorkSize) {
+	public int execute(final cl_kernel kernel, final long globalWorkSize, final long localWorkSize) {
 		return clEnqueueNDRangeKernel(commandQueue, kernel, 1, null, new long[] {globalWorkSize},
 				new long[] {localWorkSize}, 0, null, null);
 	}
@@ -373,7 +381,7 @@ public class JOCL
 		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
 		clSetKernelArg(kernel, 2, Sizeof.cl_mem, Pointer.to(buffers[2]));
 		// Execute the kernel
-		execute(kernel, result.length, 1);
+		execute(kernel, Maths.roundUp(result.length, localWorkGroupSize), localWorkGroupSize);
 		// Read the result
 		read(buffers[2], result);
 		// Release the memory
@@ -406,7 +414,7 @@ public class JOCL
 		clSetKernelArg(kernel, 3, Sizeof.cl_int, Pointer.to(new int[] {aColumnDimension}));
 		clSetKernelArg(kernel, 4, Sizeof.cl_int, Pointer.to(new int[] {bColumnDimension}));
 		// Execute the kernel
-		execute(kernel, result.length, 1);
+		execute(kernel, Maths.roundUp(result.length, localWorkGroupSize), localWorkGroupSize);
 		// Read the result
 		read(buffers[2], result);
 		// Release the memory
@@ -455,12 +463,63 @@ public class JOCL
 		clSetKernelArg(kernel, 5, Sizeof.cl_int, Pointer.to(new int[] {bColumnDimension}));
 		clSetKernelArg(kernel, 6, Sizeof.cl_int, Pointer.to(new int[] {cColumnDimension}));
 		// Execute the kernel
-		execute(kernel, result.length, 1);
+		execute(kernel, Maths.roundUp(result.length, localWorkGroupSize), localWorkGroupSize);
 		// Read the result
 		read(buffers[3], result);
 		// Release the memory
 		release(buffers);
 		return result;
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A       the {@code double} array to add
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param length  the length of the iteration
+	 * <p>
+	 * @return {@code A += c * B}
+	 */
+	@Override
+	public double[] arraySum(final double[] A, final double[] B, final double c,
+			final int aOffset, final int bOffset, final int length) {
+		if (c == 0.) {
+			return A;
+		}
+
+		// Check the arguments
+		Arguments.requireNonNull(A);
+		Arguments.requireNonNull(B);
+		DoubleArguments.requireMinLength(A.length - aOffset, length);
+		DoubleArguments.requireMinLength(B.length - bOffset, length);
+
+		// Initialize
+		final double[] aSlice = new double[length];
+		System.arraycopy(A, aOffset, aSlice, 0, length);
+		final double[] bSlice = new double[length];
+		System.arraycopy(B, bOffset, bSlice, 0, length);
+		final cl_mem[] buffers = new cl_mem[2];
+		buffers[0] = createReadWriteBuffer(aSlice);
+		buffers[1] = createReadBuffer(bSlice);
+
+		// Get the kernel
+		final cl_kernel kernel = getKernel("arraySum");
+		// Set the kernel arguments
+		clSetKernelArg(kernel, 0, Sizeof.cl_mem, Pointer.to(buffers[0]));
+		clSetKernelArg(kernel, 1, Sizeof.cl_mem, Pointer.to(buffers[1]));
+		clSetKernelArg(kernel, 2, Sizeof.cl_double, Pointer.to(new double[] {c}));
+		// Execute the kernel
+		execute(kernel, Maths.roundUp(length, localWorkGroupSize), localWorkGroupSize);
+		// Read the result
+		read(buffers[0], aSlice);
+		// Release the memory
+		release(buffers);
+		// Copy the slice back into the array
+		System.arraycopy(aSlice, 0, A, aOffset, length);
+		return A;
 	}
 
 
