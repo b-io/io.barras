@@ -2090,7 +2090,7 @@ public class Matrix
 		if (c == 0.) {
 			return;
 		}
-		if (CL.test(length, length)) {
+		if (OpenCL.IS_ACTIVE && CL.test(length, length)) {
 			CL.arraySum(A, B, c, aOffset, bOffset, length);
 		} else {
 			for (int i = 0; i < length; ++i) {
