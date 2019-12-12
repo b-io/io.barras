@@ -119,7 +119,7 @@ public abstract class OpenCL
 	static {
 		if (IS_ACTIVE) {
 			try {
-				CL = new JogAmpl(PROGRAM);
+				CL = new JOCL(PROGRAM);
 			} catch (final IllegalStateException ex) {
 				IS_ACTIVE = false;
 				IO.error(ex);
