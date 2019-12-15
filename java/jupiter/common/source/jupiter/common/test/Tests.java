@@ -24,6 +24,7 @@
 package jupiter.common.test;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 
 import java.util.Collection;
 
@@ -94,7 +95,8 @@ public class Tests {
 
 	protected static void printAverageValue(final String label, final double mean,
 			final Interval<Double> confidenceInterval) {
-		IO.test("Average ", label, ": ", mean, " +- ", confidenceInterval.getUpperBound() - mean,
+		IO.test("Average ", label, ": ", Doubles.format(mean),
+				" +- ", Doubles.format(confidenceInterval.getUpperBound() - mean),
 				" (" + Doubles.toPercentage(Maths.DEFAULT_CONFIDENCE) + ")");
 	}
 

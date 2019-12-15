@@ -291,7 +291,7 @@ public abstract class OpenCL
 	 * <p>
 	 * @return {@code A . B + C}
 	 */
-	// @todo chunk the matrices so that they fit into the local memory of the GPU
+	// @todo slice the matrices so that they fit into the local memory of the GPU
 	public abstract double[] forward(final double[] A, final double[] B, final double[] C,
 			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension);
 
@@ -316,13 +316,13 @@ public abstract class OpenCL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public boolean test(final int aDimension, final int bDimension) {
-		return isActive && aDimension * bDimension > 1E5;
+		return isActive && aDimension * bDimension > 1E6;
 	}
 
 	public boolean test(final int rowDimension, final int innerDimension,
 			final int columnDimension) {
 		return isActive && Maths.maxToInt(rowDimension * innerDimension,
-				rowDimension * columnDimension, innerDimension * columnDimension) > 1E5;
+				rowDimension * columnDimension, innerDimension * columnDimension) > 1E6;
 	}
 
 

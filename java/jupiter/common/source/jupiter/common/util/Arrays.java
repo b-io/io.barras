@@ -429,8 +429,8 @@ public class Arrays {
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
 	 * @param array     the array to sort
-	 * @param fromIndex the index of the first element (inclusive) to sort
-	 * @param toIndex   the index of the last element (exclusive) to sort
+	 * @param fromIndex the index of the first element to sort (inclusive)
+	 * @param toIndex   the index of the last element to sort (exclusive)
 	 * <p>
 	 * @throws IllegalArgumentException       if {@code fromIndex > toIndex} or (optional) if the
 	 *                                        natural ordering of the array elements is found to

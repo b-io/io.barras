@@ -284,6 +284,9 @@ public class SpeedChecker {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructs a {@link Checker}.
+		 */
 		protected Checker() {
 			super();
 		}

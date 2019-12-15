@@ -58,14 +58,15 @@ public class ExtendedLinkedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedLinkedList} of type {@code E} with the default initial capacity.
+	 * Constructs an empty {@link ExtendedLinkedList} of type {@code E} with the default initial
+	 * capacity.
 	 */
 	public ExtendedLinkedList() {
 	}
 
 	/**
-	 * Constructs an {@link ExtendedLinkedList} of type {@code E} with the specified {@link Collection} of
-	 * type extending {@code E}.
+	 * Constructs an {@link ExtendedLinkedList} of type {@code E} with the specified
+	 * {@link Collection} of type extending {@code E}.
 	 * <p>
 	 * @param collection a {@link Collection} of type extending {@code E}
 	 * <p>

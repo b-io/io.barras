@@ -365,6 +365,9 @@ public class Calculator
 		 */
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructs an {@link Evaluator}.
+		 */
 		protected Evaluator() {
 			super();
 		}

@@ -531,6 +531,9 @@ public class ExpressionHandler
 		 */
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructs a {@link Parser}.
+		 */
 		protected Parser() {
 			super();
 		}

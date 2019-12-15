@@ -1031,6 +1031,9 @@ public class Files {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructs a {@link Copier}.
+		 */
 		protected Copier() {
 			super();
 		}

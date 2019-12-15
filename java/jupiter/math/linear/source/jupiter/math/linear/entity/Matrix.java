@@ -1625,7 +1625,7 @@ public class Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (PARALLELIZE) {
 			// Initialize
-			final int intervalCount = Math.min(m, DOT_PRODUCT_QUEUE.maxThreads);
+			final int intervalCount = Math.min(m, DOT_PRODUCT_QUEUE.maxThreadCount);
 			final int rowCountPerInterval = m / intervalCount;
 			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
 			final List<Long> ids = new ExtendedList<Long>(intervalCount);
@@ -2054,7 +2054,7 @@ public class Matrix
 	 * @param bOffset the offset of {@code B}
 	 */
 	public void arraySum(final double[] B, final double c, final int aOffset, final int bOffset) {
-		arraySum(elements, B, c, aOffset, bOffset, n);
+		arraySum(elements, B, c, aOffset, bOffset, 0, n);
 	}
 
 	/**
@@ -2065,11 +2065,12 @@ public class Matrix
 	 * @param c       the constant {@code c} to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * @param length  the length of the iteration
+	 * @param from    the index to start from (inclusive)
+	 * @param to      the index to finish at (exclusive)
 	 */
 	public void arraySum(final double[] B, final double c, final int aOffset, final int bOffset,
-			final int length) {
-		arraySum(elements, B, c, aOffset, bOffset, length);
+			final int from, final int to) {
+		arraySum(elements, B, c, aOffset, bOffset, from, to);
 	}
 
 	//////////////////////////////////////////////
@@ -2083,19 +2084,16 @@ public class Matrix
 	 * @param c       the constant {@code c} to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * @param length  the length of the iteration
+	 * @param from    the index to start from (inclusive)
+	 * @param to      the index to finish at (exclusive)
 	 */
 	public static void arraySum(final double[] A, final double[] B, final double c,
-			final int aOffset, final int bOffset, final int length) {
+			final int aOffset, final int bOffset, final int from, final int to) {
 		if (c == 0.) {
 			return;
 		}
-		if (OpenCL.IS_ACTIVE && CL.test(length, length)) {
-			CL.arraySum(A, B, c, aOffset, bOffset, length);
-		} else {
-			for (int i = 0; i < length; ++i) {
-				A[aOffset + i] += c * B[bOffset + i];
-			}
+		for (int i = from; i < to; ++i) {
+			A[aOffset + i] += c * B[bOffset + i];
 		}
 	}
 
@@ -2685,6 +2683,9 @@ public class Matrix
 		 */
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructs a {@link DotProduct}.
+		 */
 		protected DotProduct() {
 			super();
 		}

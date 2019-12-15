@@ -55,14 +55,14 @@ public class SynchronizedWorkQueue<I, O>
 	 * Constructs a {@link SynchronizedWorkQueue} with the specified model {@link Worker} and
 	 * minimum and maximum numbers of {@link Worker}.
 	 * <p>
-	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
-	 * @param minThreads the minimum number of {@link Worker} to handle
-	 * @param maxThreads the maximum number of {@link Worker} to handle
+	 * @param model          the model {@link Worker} of type {@code I} and {@code O}
+	 * @param minThreadCount the minimum number of {@link Worker} to handle
+	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
-	public SynchronizedWorkQueue(final Worker<I, O> model, final int minThreads,
-			final int maxThreads) {
-		super(model, minThreads, maxThreads);
-		createWorkers(minThreads);
+	public SynchronizedWorkQueue(final Worker<I, O> model, final int minThreadCount,
+			final int maxThreadCount) {
+		super(model, minThreadCount, maxThreadCount);
+		createWorkers(minThreadCount);
 	}
 
 
@@ -90,14 +90,28 @@ public class SynchronizedWorkQueue<I, O>
 	/**
 	 * Reserves the specified number of {@link Worker}.
 	 * <p>
-	 * @param n the number of {@link Worker} to reserve
+	 * @param workerToReserveCount the number of {@link Worker} to reserve
 	 * <p>
 	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
 	 */
 	@Override
-	public boolean reserveWorkers(final int n) {
+	public boolean reserveWorkers(final int workerToReserveCount) {
 		synchronized (workers) {
-			return super.reserveWorkers(n);
+			return super.reserveWorkers(workerToReserveCount);
+		}
+	}
+
+	/**
+	 * Reserves the specified maximum number of {@link Worker}.
+	 * <p>
+	 * @param maxWorkerToReserveCount the maximum number of {@link Worker} to reserve
+	 * <p>
+	 * @return the number of reserved {@link Worker}
+	 */
+	@Override
+	public int reserveMaxWorkers(final int maxWorkerToReserveCount) {
+		synchronized (workers) {
+			return super.reserveMaxWorkers(maxWorkerToReserveCount);
 		}
 	}
 
@@ -245,6 +259,6 @@ public class SynchronizedWorkQueue<I, O>
 	 */
 	@Override
 	public SynchronizedWorkQueue<I, O> clone() {
-		return new SynchronizedWorkQueue<I, O>(model, minThreads, maxThreads);
+		return new SynchronizedWorkQueue<I, O>(model, minThreadCount, maxThreadCount);
 	}
 }

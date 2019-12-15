@@ -87,26 +87,26 @@ public class LockedWorkQueue<I, O>
 	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker} and minimum and
 	 * maximum numbers of {@link Worker}.
 	 * <p>
-	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
-	 * @param minThreads the minimum number of {@link Worker} to handle
-	 * @param maxThreads the maximum number of {@link Worker} to handle
+	 * @param model          the model {@link Worker} of type {@code I} and {@code O}
+	 * @param minThreadCount the minimum number of {@link Worker} to handle
+	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
-	public LockedWorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads) {
-		this(model, minThreads, maxThreads, false);
+	public LockedWorkQueue(final Worker<I, O> model, final int minThreadCount, final int maxThreadCount) {
+		this(model, minThreadCount, maxThreadCount, false);
 	}
 
 	/**
 	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker}, minimum and
 	 * maximum numbers of {@link Worker} and fairness policy.
 	 * <p>
-	 * @param model      the model {@link Worker} of type {@code I} and {@code O}
-	 * @param minThreads the minimum number of {@link Worker} to handle
-	 * @param maxThreads the maximum number of {@link Worker} to handle
-	 * @param isFair     the flag specifying whether to use a fair ordering policy
+	 * @param model          the model {@link Worker} of type {@code I} and {@code O}
+	 * @param minThreadCount the minimum number of {@link Worker} to handle
+	 * @param maxThreadCount the maximum number of {@link Worker} to handle
+	 * @param isFair         the flag specifying whether to use a fair ordering policy
 	 */
-	public LockedWorkQueue(final Worker<I, O> model, final int minThreads, final int maxThreads,
+	public LockedWorkQueue(final Worker<I, O> model, final int minThreadCount, final int maxThreadCount,
 			final boolean isFair) {
-		super(model, minThreads, maxThreads);
+		super(model, minThreadCount, maxThreadCount);
 		this.isFair = isFair;
 		workersLock = new ReentrantLock(isFair);
 		workersLockCondition = workersLock.newCondition();
@@ -114,7 +114,7 @@ public class LockedWorkQueue<I, O>
 		tasksLockCondition = tasksLock.newCondition();
 		resultsLock = new ReentrantLock(isFair);
 		resultsLockCondition = resultsLock.newCondition();
-		createWorkers(minThreads);
+		createWorkers(minThreadCount);
 	}
 
 
@@ -159,15 +159,32 @@ public class LockedWorkQueue<I, O>
 	/**
 	 * Reserves the specified number of {@link Worker}.
 	 * <p>
-	 * @param n the number of {@link Worker} to reserve
+	 * @param workerToReserveCount the number of {@link Worker} to reserve
 	 * <p>
 	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
 	 */
 	@Override
-	public boolean reserveWorkers(final int n) {
+	public boolean reserveWorkers(final int workerToReserveCount) {
 		workersLock.lock();
 		try {
-			return super.reserveWorkers(n);
+			return super.reserveWorkers(workerToReserveCount);
+		} finally {
+			workersLock.unlock();
+		}
+	}
+
+	/**
+	 * Reserves the specified maximum number of {@link Worker}.
+	 * <p>
+	 * @param maxWorkerToReserveCount the maximum number of {@link Worker} to reserve
+	 * <p>
+	 * @return the number of reserved {@link Worker}
+	 */
+	@Override
+	public int reserveMaxWorkers(final int maxWorkerToReserveCount) {
+		workersLock.lock();
+		try {
+			return super.reserveMaxWorkers(maxWorkerToReserveCount);
 		} finally {
 			workersLock.unlock();
 		}
@@ -338,6 +355,6 @@ public class LockedWorkQueue<I, O>
 	@Override
 	@SuppressWarnings("unchecked")
 	public LockedWorkQueue<I, O> clone() {
-		return new LockedWorkQueue<I, O>(model, minThreads, maxThreads, isFair);
+		return new LockedWorkQueue<I, O>(model, minThreadCount, maxThreadCount, isFair);
 	}
 }

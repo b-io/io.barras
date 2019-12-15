@@ -1166,6 +1166,12 @@ public class Table<T>
 		protected int cursor = 0;
 
 		/**
+		 * Constructs a {@link TableIterator}.
+		 */
+		protected TableIterator() {
+		}
+
+		/**
 		 * Tests whether {@code this} has next.
 		 * <p>
 		 * @return {@code true} if {@code this} has next, {@code false} otherwise

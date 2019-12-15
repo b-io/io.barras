@@ -72,7 +72,8 @@ public class Interval<T extends Comparable<T>>
 	}
 
 	/**
-	 * Constructs an {@link Interval} with the specified {@code T} lower and upper bounds.
+	 * Constructs an {@link Interval} of type {@code T} with the specified {@code T} lower and upper
+	 * bounds.
 	 * <p>
 	 * @param lowerBound the {@code T} lower bound
 	 * @param upperBound the {@code T} upper bound
@@ -83,7 +84,8 @@ public class Interval<T extends Comparable<T>>
 	}
 
 	/**
-	 * Constructs an {@link Interval} with the specified lower and upper bounds {@link Pair}.
+	 * Constructs an {@link Interval} of type {@code T} with the specified lower and upper bounds
+	 * {@link Pair}.
 	 * <p>
 	 * @param pair the lower and upper bounds {@link Pair} of type {@code T}
 	 */
