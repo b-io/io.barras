@@ -56,17 +56,17 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link BinaryTreeMap}.
+	 * Constructs a {@link BinaryTreeMap} of type {@code K}, {@code V} and {@code N}.
 	 */
 	protected BinaryTreeMap() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link BinaryTreeMap} loaded from the specified {@link Map} containing the
-	 * key-value mappings.
+	 * Constructs a {@link BinaryTreeMap} of type {@code K}, {@code V} and {@code N} loaded from the
+	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings to load
+	 * @param map the {@link Map} containing the key-value {@code K} and {@code V} mappings to load
 	 */
 	protected BinaryTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -287,12 +287,10 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the key-value mapping of type {@code K} and {@code V} of the specified key
-	 * {@link Object} and returns the previous associated {@code V} value, or {@code null} if it is
-	 * not present.
+	 * Removes the key-value mapping of the specified key {@link Object} and returns the previous
+	 * associated {@code V} value, or {@code null} if it is not present.
 	 * <p>
-	 * @param key the key {@link Object} of the key-value mapping of type {@code K} and {@code V} to
-	 *            remove
+	 * @param key the key {@link Object} of the key-value mapping to remove
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
@@ -450,7 +448,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes all the key-value mappings of type {@code K} and {@code V}.
+	 * Removes all the key-value mappings.
 	 */
 	@Override
 	public synchronized void clear() {
@@ -459,8 +457,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Tests whether a mapping of type {@code K} and {@code V} for the specified key {@link Object}
-	 * exists.
+	 * Tests whether a key-value mapping for the specified key {@link Object} exists.
 	 * <p>
 	 * @param key the key {@link Object} of the key-value mapping to test for presence
 	 * <p>
@@ -506,7 +503,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * {@code this} is modified while an iteration over the {@link Set} is in progress (except
 	 * through the operations {@code remove} or {@code setValue} of the iterator), the results of
 	 * the iteration are undefined. The set supports element removal, which removes the
-	 * corresponding mapping from {@code this}, via the {@link Iterator#remove},
+	 * corresponding key-value mapping from {@code this}, via the {@link Iterator#remove},
 	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
 	 * does not support the {@code add} or {@code addAll} operations.
 	 * <p>

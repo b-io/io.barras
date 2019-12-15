@@ -131,6 +131,13 @@ public abstract class Entity
 	 */
 	public abstract Entity random();
 
+	/**
+	 * Returns the sequence of {@code size(this)}.
+	 * <p>
+	 * @return {@code reshape(1:prod(size(this)), size(this))'}
+	 */
+	public abstract Entity sequence();
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS

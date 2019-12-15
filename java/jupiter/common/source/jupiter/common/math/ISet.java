@@ -24,11 +24,11 @@
 package jupiter.common.math;
 
 /**
- * {@link IGroup} is the group of type {@code T}.
+ * {@link ISet} is the well-defined collection of distinct {@code T} elements.
  * <p>
- * @param <T> the self {@link Comparable} type of the {@link IGroup}
+ * @param <T> the self {@link Comparable} type of the {@link ISet}
  */
-public interface IGroup<T extends Comparable<T>> {
+public interface ISet<T extends Comparable<T>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS

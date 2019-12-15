@@ -23,16 +23,18 @@
  */
 package jupiter.common.thread;
 
-import static jupiter.common.io.IO.IO;
-
 import java.io.Serializable;
 
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.IntegerArguments;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
-public abstract class DivideAndConquer
-		implements Serializable {
+public abstract class DivideAndConquer<I>
+		implements ICloneable<DivideAndConquer<I>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -49,9 +51,9 @@ public abstract class DivideAndConquer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link WorkQueue} of {@link Interval} of {@link Integer} and {@link Integer}.
+	 * The {@link LockedWorkQueue} used for dividing and conquering the execution.
 	 */
-	protected final WorkQueue<Interval<Integer>, Integer> workQueue;
+	protected final LockedWorkQueue<Pair<I, Interval<Integer>>, Integer> workQueue;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,34 +61,35 @@ public abstract class DivideAndConquer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link DivideAndConquer}.
+	 * Constructs a {@link DivideAndConquer} of type {@code I}.
 	 */
 	public DivideAndConquer() {
-		this.workQueue = new LockedWorkQueue<Interval<Integer>, Integer>(new Conqueror());
+		this.workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror());
 	}
 
 	/**
-	 * Constructs a {@link DivideAndConquer} with the specified minimum and maximum numbers of
-	 * {@link Worker}.
+	 * Constructs a {@link DivideAndConquer} of type {@code I} with the specified minimum and
+	 * maximum numbers of {@link Worker}.
 	 * <p>
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
 	public DivideAndConquer(final int minThreadCount, final int maxThreadCount) {
-		this.workQueue = new LockedWorkQueue<Interval<Integer>, Integer>(new Conqueror(),
+		this.workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror(),
 				minThreadCount, maxThreadCount);
 	}
 
 	/**
-	 * Constructs a {@link DivideAndConquer} with the specified minimum and maximum numbers of
-	 * {@link Worker} and fairness policy.
+	 * Constructs a {@link DivideAndConquer} of type {@code I} with the specified minimum and
+	 * maximum numbers of {@link Worker} and fairness policy.
 	 * <p>
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 * @param isFair         the flag specifying whether to use a fair ordering policy
 	 */
-	public DivideAndConquer(final int minThreadCount, final int maxThreadCount, final boolean isFair) {
-		this.workQueue = new LockedWorkQueue<Interval<Integer>, Integer>(new Conqueror(),
+	public DivideAndConquer(final int minThreadCount, final int maxThreadCount,
+			final boolean isFair) {
+		this.workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror(),
 				minThreadCount, maxThreadCount, isFair);
 	}
 
@@ -99,24 +102,26 @@ public abstract class DivideAndConquer
 	 * Divides the execution from the specified index to the specified index into execution slices
 	 * and conquers them. Returns the result of each execution slice.
 	 * <p>
+	 * @param input        the {@code I} input to process
 	 * @param from         the index to start dividing from (inclusive)
 	 * @param to           the index to finish dividing at (exclusive)
 	 * @param minSliceSize the minimum execution slice size
 	 * <p>
 	 * @return the result of each execution slice
 	 */
-	public int[] divideAndConquer(final int from, final int to, final int minSliceSize) {
+	public int[] divideAndConquer(final I input, final int from, final int to,
+			final int minSliceSize) {
 		// Check the arguments
 		IntegerArguments.requirePositive(minSliceSize);
 
 		// Divide and conquer
 		final int sliceCount = workQueue.reserveMaxWorkers(
 				Maths.ceilToInt(Maths.division(to - from, minSliceSize)));
-		if (sliceCount == 0) {
-			return new int[] {conquer(new Interval<Integer>(from, to))};
+		if (sliceCount <= 1) {
+			return new int[] {conquer(input, new Interval<Integer>(from, to))};
 		}
 		try {
-			return conquer(divide(from, to, sliceCount));
+			return conquer(divide(input, from, to, sliceCount));
 		} finally {
 			workQueue.freeWorkers(sliceCount);
 		}
@@ -128,22 +133,25 @@ public abstract class DivideAndConquer
 	 * Divides the execution from the specified index to the specified index into the specified
 	 * number of execution slices and returns the identifier of each of them.
 	 * <p>
+	 * @param input      the {@code I} input to process
 	 * @param from       the index to start dividing from (inclusive)
 	 * @param to         the index to finish dividing at (exclusive)
 	 * @param sliceCount the number of execution slices to create
 	 * <p>
 	 * @return the identifier of each execution slice
 	 */
-	protected long[] divide(final int from, final int to, final int sliceCount) {
+	protected long[] divide(final I input, final int from, final int to, final int sliceCount) {
 		final int count = to - from;
 		final int sliceSize = count / sliceCount;
 		final long[] ids = new long[sliceCount];
 		for (int i = 0; i < sliceCount - 1; ++i) {
 			ids[i] = workQueue.submit(
-					new Interval<Integer>(i * sliceSize, (i + 1) * sliceSize - 1));
+					new Pair<I, Interval<Integer>>(input,
+							new Interval<Integer>(i * sliceSize, (i + 1) * sliceSize)));
 		}
 		ids[sliceCount - 1] = workQueue.submit(
-				new Interval<Integer>((sliceCount - 1) * sliceSize, to - 1));
+				new Pair<I, Interval<Integer>>(input,
+						new Interval<Integer>((sliceCount - 1) * sliceSize, to)));
 		return ids;
 	}
 
@@ -166,13 +174,15 @@ public abstract class DivideAndConquer
 	}
 
 	/**
-	 * Conquers the execution slice with the specified {@link Interval} and returns its result.
+	 * Conquers the execution slice with the specified {@code I} input and {@link Interval} and
+	 * returns its result.
 	 * <p>
+	 * @param input    the {@code I} input to process
 	 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
 	 * <p>
 	 * @return the result of the execution slice
 	 */
-	protected abstract int conquer(final Interval<Integer> interval);
+	protected abstract int conquer(final I input, final Interval<Integer> interval);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,9 +190,9 @@ public abstract class DivideAndConquer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the {@link WorkQueue} is running.
+	 * Tests whether the {@link LockedWorkQueue} is running.
 	 * <p>
-	 * @return {@code true} if the {@link WorkQueue} is running, {@code false} otherwise
+	 * @return {@code true} if the {@link LockedWorkQueue} is running, {@code false} otherwise
 	 */
 	public boolean isRunning() {
 		return workQueue.isRunning();
@@ -191,14 +201,14 @@ public abstract class DivideAndConquer
 	//////////////////////////////////////////////
 
 	/**
-	 * Shutdowns the {@link WorkQueue}.
+	 * Shutdowns the {@link LockedWorkQueue}.
 	 */
 	public void shutdown() {
 		workQueue.shutdown();
 	}
 
 	/**
-	 * Shutdowns the {@link WorkQueue}.
+	 * Shutdowns the {@link LockedWorkQueue}.
 	 * <p>
 	 * @param force the flag specifying whether to force shutdowning
 	 */
@@ -209,14 +219,14 @@ public abstract class DivideAndConquer
 	//////////////////////////////////////////////
 
 	/**
-	 * Restarts the {@link WorkQueue}.
+	 * Restarts the {@link LockedWorkQueue}.
 	 */
 	public void restart() {
 		workQueue.restart();
 	}
 
 	/**
-	 * Restarts the {@link WorkQueue}.
+	 * Restarts the {@link LockedWorkQueue}.
 	 * <p>
 	 * @param force the flag specifying whether to force restarting
 	 */
@@ -226,25 +236,90 @@ public abstract class DivideAndConquer
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public DivideAndConquer<I> clone() {
+		try {
+			return (DivideAndConquer<I>) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Strings.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof DivideAndConquer)) {
+			return false;
+		}
+		final DivideAndConquer<?> otherDivideAndConquer = (DivideAndConquer<?>) other;
+		return Objects.equals(workQueue, otherDivideAndConquer.workQueue);
+	}
+
+	/**
+	 * Returns the hash code of {@code this}.
+	 * <p>
+	 * @return the hash code of {@code this}
+	 *
+	 * @see Object#equals(Object)
+	 * @see System#identityHashCode
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, workQueue);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected class Conqueror
-			extends Worker<Interval<Integer>, Integer> {
-
-		////////////////////////////////////////////////////////////////////////////////////////////////
-		// CONSTANTS
-		////////////////////////////////////////////////////////////////////////////////////////////////
+			extends Worker<Pair<I, Interval<Integer>>, Integer> {
 
 		/**
 		 * The generated serial version ID.
 		 */
 		private static final long serialVersionUID = 1L;
-
-
-		////////////////////////////////////////////////////////////////////////////////////////////////
-		// CONSTRUCTORS
-		////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
 		 * Constructs a {@link Conqueror}.
@@ -253,29 +328,10 @@ public abstract class DivideAndConquer
 			super();
 		}
 
-		/**
-		 * Constructs a {@link Conqueror} with the specified input {@link Interval}.
-		 * <p>
-		 * @param interval the input {@link Interval} of {@link Integer}
-		 */
-		protected Conqueror(final Interval<Integer> interval) {
-			super(interval);
-		}
-
-
-		////////////////////////////////////////////////////////////////////////////////////////////////
-		// WORKER
-		////////////////////////////////////////////////////////////////////////////////////////////////
-
 		@Override
-		public Integer call(final Interval<Integer> interval) {
-			return conquer(interval);
+		public Integer call(final Pair<I, Interval<Integer>> input) {
+			return conquer(input.getFirst(), input.getSecond());
 		}
-
-
-		////////////////////////////////////////////////////////////////////////////////////////////////
-		// OBJECT
-		////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
 		 * Creates a copy of {@code this}.

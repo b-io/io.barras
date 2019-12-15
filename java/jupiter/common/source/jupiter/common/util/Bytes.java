@@ -23,6 +23,9 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Characters.LOWER_CASE_DIGITS;
+import static jupiter.common.util.Characters.UPPER_CASE_DIGITS;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -177,7 +180,7 @@ public class Bytes {
 	public static int toUnsignedInt(final byte source, final int shift, final char[] target,
 			final int offset, final int length, final boolean useLowerCase) {
 		return toUnsignedInt(source, shift, target, offset, length,
-				useLowerCase ? Characters.LOWER_CASE_DIGITS : Characters.UPPER_CASE_DIGITS);
+				useLowerCase ? LOWER_CASE_DIGITS : UPPER_CASE_DIGITS);
 	}
 
 	/**
@@ -208,7 +211,7 @@ public class Bytes {
 	 * @return a binary representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toBinaryString(final byte... array) {
-		return toBinaryString(array, Characters.UPPER_CASE_DIGITS);
+		return toBinaryString(array, UPPER_CASE_DIGITS);
 	}
 
 	/**
@@ -243,7 +246,7 @@ public class Bytes {
 	 * @return an octal representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toOctalString(final byte... array) {
-		return toOctalString(array, Characters.UPPER_CASE_DIGITS);
+		return toOctalString(array, UPPER_CASE_DIGITS);
 	}
 
 	/**
@@ -290,8 +293,7 @@ public class Bytes {
 	 * @return a hexadecimal representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toHexString(final byte[] array, final boolean useLowerCase) {
-		return toHexString(array, useLowerCase ? Characters.LOWER_CASE_DIGITS :
-				Characters.UPPER_CASE_DIGITS);
+		return toHexString(array, useLowerCase ? LOWER_CASE_DIGITS : UPPER_CASE_DIGITS);
 	}
 
 	/**

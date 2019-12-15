@@ -24,6 +24,8 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
+import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.util.HashMap;
@@ -34,7 +36,6 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
-import jupiter.common.util.Characters;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
@@ -467,7 +468,7 @@ public class SVM {
 	protected void updateValue(final int trainingExampleIndex, final int featureIndex,
 			final double value) {
 		if (featureIndex == 0) {
-			IO.debug(Characters.LEFT_PARENTHESIS, SPACE);
+			IO.debug(LEFT_PARENTHESIS, SPACE);
 		}
 		final svm_node node = new svm_node();
 		node.index = featureIndex;
@@ -475,7 +476,7 @@ public class SVM {
 		problem.x[trainingExampleIndex][featureIndex] = node;
 		IO.debug(node.value, SPACE);
 		if (featureIndex == featureCount - 1) {
-			IO.debug(Characters.RIGHT_PARENTHESIS);
+			IO.debug(RIGHT_PARENTHESIS);
 		}
 	}
 }

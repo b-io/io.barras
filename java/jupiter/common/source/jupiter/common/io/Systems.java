@@ -83,11 +83,33 @@ public class Systems {
 	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Executes the specified command on the system and returns its exit value.
+	 * <p>
+	 * @param command the command to execute
+	 * <p>
+	 * @return the exit value of the specified command executed on the system
+	 * <p>
+	 * @throws InterruptedException if the command is interrupted
+	 * @throws IOException          if there is a problem with querying the system
+	 */
 	public static int execute(final String... command)
 			throws InterruptedException, IOException {
 		return execute(IO.getPrinter(), command);
 	}
 
+	/**
+	 * Executes the specified command on the system, prints the output with the specified printer
+	 * {@link IOHandler} and returns its exit value.
+	 * <p>
+	 * @param printer the printer {@link IOHandler}
+	 * @param command the command to execute
+	 * <p>
+	 * @return the exit value of the specified command executed on the system
+	 * <p>
+	 * @throws InterruptedException if the command is interrupted
+	 * @throws IOException          if there is a problem with querying the system
+	 */
 	public static int execute(final IOHandler printer, final String... command)
 			throws InterruptedException, IOException {
 		IO.info(Strings.joinWith(command, SPACE, SINGLE_QUOTER));
@@ -108,10 +130,6 @@ public class Systems {
 			printerQueue.shutdown();
 			errorPrinterQueue.shutdown();
 			return process.exitValue();
-		} catch (final InterruptedException ex) {
-			IO.error(ex);
-		} catch (final IOException ex) {
-			IO.error(ex);
 		} finally {
 			if (process != null) {
 				IO.debug("Destroy the process executing the command ",
@@ -119,7 +137,6 @@ public class Systems {
 				process.destroy();
 			}
 		}
-		return IO.EXIT_FAILURE;
 	}
 
 

@@ -47,17 +47,17 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap}.
+	 * Constructs a {@link RedBlackTreeMap} of type {@code K} and {@code V}.
 	 */
 	public RedBlackTreeMap() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} loaded from the specified {@link Map} containing the
-	 * key-value mappings.
+	 * Constructs a {@link RedBlackTreeMap} of type {@code K} and {@code V} loaded from the
+	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings to load
+	 * @param map the {@link Map} containing the key-value {@code K} and {@code V} mappings to load
 	 */
 	public RedBlackTreeMap(final Map<? extends K, ? extends V> map) {
 		putAll(map);

@@ -33,13 +33,13 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link IntervalList} is the {@link IGroup} of type {@code T} containing a {@link List} of
+ * {@link IntervalList} is the {@link ISet} of type {@code T} containing a {@link List} of
  * {@link Interval}.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link IntervalList}
  */
 public class IntervalList<T extends Comparable<T>>
-		implements ICloneable<IntervalList<T>>, IGroup<T>, Serializable {
+		implements ICloneable<IntervalList<T>>, ISet<T>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS

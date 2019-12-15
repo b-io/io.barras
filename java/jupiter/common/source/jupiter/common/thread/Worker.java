@@ -79,10 +79,19 @@ public abstract class Worker<I, O>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Worker} of type {@code I} and {@code O}.
+	 */
 	protected Worker() {
 		this(null);
 	}
 
+	/**
+	 * Constructs a {@link Worker} of type {@code I} and {@code O} with the specified {@code I}
+	 * input.
+	 * <p>
+	 * @param input the {@code I} input
+	 */
 	protected Worker(final I input) {
 		super();
 		CURRENT_ID_LOCK.lock();

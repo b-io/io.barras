@@ -25,6 +25,10 @@ package jupiter.math.calculator.process;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Characters.LEFT_BRACKET;
+import static jupiter.common.util.Characters.RIGHT_BRACKET;
+import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
+import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 
 import java.io.Serializable;
 import java.util.List;
@@ -506,13 +510,13 @@ public class ExpressionHandler
 			case '\'':
 				return Element.Type.TRANSPOSE;
 
-			case Characters.LEFT_PARENTHESIS:
+			case LEFT_PARENTHESIS:
 				return Element.Type.LEFT_PARENTHESIS;
-			case Characters.RIGHT_PARENTHESIS:
+			case RIGHT_PARENTHESIS:
 				return Element.Type.RIGHT_PARENTHESIS;
-			case Characters.LEFT_BRACKET:
+			case LEFT_BRACKET:
 				return Element.Type.LEFT_BRACKET;
-			case Characters.RIGHT_BRACKET:
+			case RIGHT_BRACKET:
 				return Element.Type.RIGHT_BRACKET;
 		}
 		return Element.Type.ENTITY;

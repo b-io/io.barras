@@ -101,7 +101,7 @@ public class Tests {
 	}
 
 	protected static void printMinMaxInterval(final double min, final double max) {
-		IO.test("Min/max interval: ", new Interval<Double>(min, max));
+		IO.test("Min/max interval: ", new Interval<Double>(min, max, true, true));
 	}
 
 

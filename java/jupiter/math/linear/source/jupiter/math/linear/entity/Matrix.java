@@ -24,6 +24,8 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.LEFT_BRACKET;
+import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Formats.NUMBER_LENGTH;
@@ -44,16 +46,12 @@ import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
-import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.Table;
-import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
-import jupiter.common.thread.LockedWorkQueue;
+import jupiter.common.thread.DivideAndConquer;
 import jupiter.common.thread.WorkQueue;
-import jupiter.common.thread.Worker;
-import jupiter.common.util.Characters;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
@@ -130,9 +128,9 @@ public class Matrix
 	 */
 	public static volatile boolean PARALLELIZE = false;
 	/**
-	 * The {@link WorkQueue} used for computing the dot product.
+	 * The {@link DotProduct} used for computing the dot product.
 	 */
-	protected static volatile WorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> DOT_PRODUCT_QUEUE = null;
+	protected static volatile DotProduct DOT_PRODUCT = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1007,6 +1005,8 @@ public class Matrix
 		return new Vector(mean);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the size of {@code this}.
 	 * <p>
@@ -1058,6 +1058,8 @@ public class Matrix
 		return identity;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the randomization of {@code size(this)}.
 	 * <p>
@@ -1095,6 +1097,43 @@ public class Matrix
 			}
 		}
 		return random;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the sequence of {@code size(this)}.
+	 * <p>
+	 * @return {@code reshape(1:prod(size(this)), size(this))'}
+	 */
+	@Override
+	public Matrix sequence() {
+		return sequence(m, n);
+	}
+
+	/**
+	 * Returns a sequence {@link Matrix} of the specified number of rows and columns.
+	 * <p>
+	 * @param size the number of rows and columns
+	 * <p>
+	 * @return {@code reshape(1:(size * size), size, size)'}
+	 */
+	public static Matrix sequence(final int size) {
+		return sequence(size, size);
+	}
+
+	/**
+	 * Returns a sequence {@link Matrix} of the specified numbers of rows and columns.
+	 * <p>
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 * <p>
+	 * @return {@code reshape(1:(m * n), m, n)'}
+	 */
+	public static Matrix sequence(final int rowCount, final int columnCount) {
+		final Matrix sequence = new Matrix(rowCount, columnCount);
+		sequence.elements = Doubles.createSequence(rowCount * columnCount, 1);
+		return sequence;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1201,12 +1240,11 @@ public class Matrix
 		IO.debug(EMPTY);
 
 		// Initialize
-		if (DOT_PRODUCT_QUEUE == null) {
-			DOT_PRODUCT_QUEUE = new LockedWorkQueue<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>>(
-					new DotProduct());
+		if (DOT_PRODUCT == null) {
+			DOT_PRODUCT = new DotProduct();
 			PARALLELIZE = true;
 		} else {
-			IO.debug("The work queue ", DOT_PRODUCT_QUEUE, " has already started");
+			IO.debug("The work queue ", DOT_PRODUCT, " has already started");
 		}
 	}
 
@@ -1217,9 +1255,9 @@ public class Matrix
 		IO.debug(EMPTY);
 
 		// Shutdown
-		if (DOT_PRODUCT_QUEUE != null) {
+		if (DOT_PRODUCT != null) {
 			PARALLELIZE = false;
-			DOT_PRODUCT_QUEUE.shutdown();
+			DOT_PRODUCT.shutdown();
 		}
 	}
 
@@ -1624,41 +1662,12 @@ public class Matrix
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (PARALLELIZE) {
-			// Initialize
-			final int intervalCount = Math.min(m, DOT_PRODUCT_QUEUE.maxThreadCount);
-			final int rowCountPerInterval = m / intervalCount;
-			final int remainingRowCount = m - intervalCount * rowCountPerInterval;
-			final List<Long> ids = new ExtendedList<Long>(intervalCount);
-
-			// Distribute the tasks
-			for (int i = 0; i < intervalCount; ++i) {
-				final Interval<Integer> interval = new Interval<Integer>(i * rowCountPerInterval,
-						(i + 1) * rowCountPerInterval);
-				ids.add(DOT_PRODUCT_QUEUE.submit(new Triple<Matrix, Matrix, Interval<Integer>>(
-						this, broadcastedMatrix, interval)));
-			}
-
-			// Process the remaining rows
-			if (remainingRowCount > 0) {
-				final Interval<Integer> interval = new Interval<Integer>(
-						intervalCount * rowCountPerInterval, m);
-				final Matrix submatrix = DotProduct.apply(this, broadcastedMatrix, interval);
-				result.setSubmatrix(interval.getLowerBound(), result.m, 0, submatrix.n, submatrix);
-			}
-
-			// Collect the results
-			for (final long id : ids) {
-				final Pair<Matrix, Interval<Integer>> pair = DOT_PRODUCT_QUEUE.get(id);
-				final Matrix submatrix = pair.getFirst();
-				final Interval<Integer> interval = pair.getSecond();
-				result.setSubmatrix(interval.getLowerBound(),
-						interval.getLowerBound() + submatrix.m, 0, submatrix.n, submatrix);
-			}
+			DOT_PRODUCT.divideAndConquer(
+					new Triple<Matrix, Matrix, Matrix>(result, this, broadcastedMatrix));
 		} else {
 			for (int i = 0; i < result.m; ++i) {
 				for (int k = 0; k < innerDimension; ++k) {
-					result.arraySum(broadcastedMatrix.elements,
-							elements[i * n + k],
+					result.arraySum(broadcastedMatrix.elements, elements[i * n + k],
 							i * result.n, k * broadcastedMatrix.n);
 				}
 			}
@@ -2024,37 +2033,15 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the multiplication of {@code this} by {@code A} followed by the addition of
-	 * {@code B}.
-	 * <p>
-	 * @param A the {@link Entity} to multiply
-	 * @param B the {@link Entity} to add
-	 * <p>
-	 * @return {@code this * A + B}
-	 */
-	public Entity forward(final Entity A, final Entity B) {
-		if (OpenCL.IS_ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
-			final Matrix a = A.toMatrix();
-			final Matrix b = B.toMatrix();
-			if (a.n == b.m && CL.test(n, a.n, b.n)) {
-				return new Matrix(m, CL.forward(elements, a.elements, b.elements, n, a.n, b.n));
-			}
-		}
-		return times(A).plus(B);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets.
 	 * <p>
 	 * @param B       the {@code double} array to multiply
 	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
+	 * @param offset  the offset of {@code this}
 	 * @param bOffset the offset of {@code B}
 	 */
-	public void arraySum(final double[] B, final double c, final int aOffset, final int bOffset) {
-		arraySum(elements, B, c, aOffset, bOffset, 0, n);
+	public void arraySum(final double[] B, final double c, final int offset, final int bOffset) {
+		arraySum(elements, B, c, offset, bOffset, 0, n);
 	}
 
 	/**
@@ -2063,14 +2050,14 @@ public class Matrix
 	 * <p>
 	 * @param B       the {@code double} array to multiply
 	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
+	 * @param offset  the offset of {@code this}
 	 * @param bOffset the offset of {@code B}
 	 * @param from    the index to start from (inclusive)
 	 * @param to      the index to finish at (exclusive)
 	 */
-	public void arraySum(final double[] B, final double c, final int aOffset, final int bOffset,
+	public void arraySum(final double[] B, final double c, final int offset, final int bOffset,
 			final int from, final int to) {
-		arraySum(elements, B, c, aOffset, bOffset, from, to);
+		arraySum(elements, B, c, offset, bOffset, from, to);
 	}
 
 	//////////////////////////////////////////////
@@ -2095,6 +2082,28 @@ public class Matrix
 		for (int i = from; i < to; ++i) {
 			A[aOffset + i] += c * B[bOffset + i];
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the multiplication of {@code this} by {@code A} followed by the addition of
+	 * {@code B}.
+	 * <p>
+	 * @param A the {@link Entity} to multiply
+	 * @param B the {@link Entity} to add
+	 * <p>
+	 * @return {@code this * A + B}
+	 */
+	public Entity forward(final Entity A, final Entity B) {
+		if (OpenCL.IS_ACTIVE && !(A instanceof Scalar) && !(B instanceof Scalar)) {
+			final Matrix a = A.toMatrix();
+			final Matrix b = B.toMatrix();
+			if (a.n == b.m && CL.test(n, a.n, b.n)) {
+				return new Matrix(m, CL.forward(elements, a.elements, b.elements, n, a.n, b.n));
+			}
+		}
+		return times(A).plus(B);
 	}
 
 
@@ -2377,8 +2386,7 @@ public class Matrix
 	 */
 	public static Matrix parse(final String expression) {
 		try {
-			final char[] delimiters = new char[] {Characters.LEFT_BRACKET,
-				Characters.RIGHT_BRACKET};
+			final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
 			final List<Integer> indexes = Strings.getIndexes(expression, delimiters);
 			if (indexes.size() == 2) {
 				final int from = indexes.get(0);
@@ -2503,7 +2511,7 @@ public class Matrix
 	 *         {@code false} otherwise
 	 */
 	public static boolean is(final String text) {
-		final char[] delimiters = new char[] {Characters.LEFT_BRACKET, Characters.RIGHT_BRACKET};
+		final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
 		final List<Integer> indexes = Strings.getIndexes(text.trim(), delimiters);
 		if (indexes.size() == 2) {
 			final int from = indexes.get(0);
@@ -2676,7 +2684,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class DotProduct
-			extends Worker<Triple<Matrix, Matrix, Interval<Integer>>, Pair<Matrix, Interval<Integer>>> {
+			extends DivideAndConquer<Triple<Matrix, Matrix, Matrix>> {
 
 		/**
 		 * The generated serial version ID.
@@ -2690,31 +2698,32 @@ public class Matrix
 			super();
 		}
 
-		@Override
-		public Pair<Matrix, Interval<Integer>> call(
-				final Triple<Matrix, Matrix, Interval<Integer>> input) {
-			final Matrix left = input.getFirst();
-			final Matrix right = input.getSecond();
-			final Interval<Integer> interval = input.getThird();
-			return new Pair<Matrix, Interval<Integer>>(apply(left, right, interval), interval);
+		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
+			return divideAndConquer(input, 100);
 		}
 
-		public static Matrix apply(final Matrix left, final Matrix right,
+		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input,
+				final int minSliceSize) {
+			return divideAndConquer(input, 0, input.getFirst().m, minSliceSize);
+		}
+
+		@Override
+		protected int conquer(final Triple<Matrix, Matrix, Matrix> input,
 				final Interval<Integer> interval) {
 			// Initialize
+			final Matrix result = input.getFirst();
+			final Matrix left = input.getSecond();
+			final Matrix right = input.getThird();
 			final int innerDimension = left.n; // or right.m
-			final Matrix result = new Matrix(interval.getUpperBound() - interval.getLowerBound(), right.n);
 
-			// Compute
-			for (int i = 0; i < result.m; ++i) {
-				final int leftRowIndex = (interval.getLowerBound() + i) * left.n;
+			// Process
+			for (int i = interval.getLowerBound(); i < interval.getUpperBound(); ++i) {
 				for (int k = 0; k < innerDimension; ++k) {
-					result.arraySum(right.elements,
-							left.elements[leftRowIndex + k],
+					result.arraySum(right.elements, left.elements[i * left.n + k],
 							i * result.n, k * right.n);
 				}
 			}
-			return result;
+			return 0;
 		}
 
 		/**

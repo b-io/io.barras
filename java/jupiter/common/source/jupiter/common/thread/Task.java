@@ -67,7 +67,8 @@ public class Task<I>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Task} with the specified identifier and {@code I} input.
+	 * Constructs a {@link Task} of type {@code I} with the specified identifier and {@code I}
+	 * input.
 	 * <p>
 	 * @param id    the identifier
 	 * @param input the {@code I} input

@@ -24,6 +24,7 @@
 package jupiter.gui.console;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.ESCAPE;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
@@ -77,7 +78,6 @@ import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.Index;
-import jupiter.common.util.Characters;
 import jupiter.common.util.Strings;
 
 /**
@@ -769,7 +769,7 @@ public class JConsole
 			for (int i = 0; i < texts.size(); ++i) {
 				String t = texts.get(i);
 				// Store the text if required (if the text contains a part of the next delimiter)
-				if (i == texts.size() - 1 && t.indexOf(Characters.ESCAPE) >= 0) {
+				if (i == texts.size() - 1 && t.indexOf(ESCAPE) >= 0) {
 					text = t;
 					t = EMPTY;
 				}

@@ -23,6 +23,9 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Characters.LOWER_CASE_DIGITS;
+import static jupiter.common.util.Characters.UPPER_CASE_DIGITS;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -147,7 +150,7 @@ public class Integers {
 	public static int toUnsignedInt(final int source, final int shift, final char[] target,
 			final int offset, final int length, final boolean useLowerCase) {
 		return toUnsignedInt(source, shift, target, offset, length,
-				useLowerCase ? Characters.LOWER_CASE_DIGITS : Characters.UPPER_CASE_DIGITS);
+				useLowerCase ? LOWER_CASE_DIGITS : UPPER_CASE_DIGITS);
 	}
 
 	/**

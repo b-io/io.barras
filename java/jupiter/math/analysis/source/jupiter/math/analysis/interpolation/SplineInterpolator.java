@@ -23,11 +23,13 @@
  */
 package jupiter.math.analysis.interpolation;
 
+import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
+import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
+
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
-import jupiter.common.util.Characters;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -236,13 +238,13 @@ public class SplineInterpolator
 			if (i > 0) {
 				builder.append(Arrays.DEFAULT_DELIMITER);
 			}
-			builder.append(Characters.LEFT_PARENTHESIS)
+			builder.append(LEFT_PARENTHESIS)
 					.append(X[i])
 					.append(Arrays.DEFAULT_DELIMITER)
 					.append(Y[i])
 					.append(": ")
 					.append(M[i])
-					.append(Characters.RIGHT_PARENTHESIS);
+					.append(RIGHT_PARENTHESIS);
 		}
 		return Strings.bracketize(builder.toString());
 	}

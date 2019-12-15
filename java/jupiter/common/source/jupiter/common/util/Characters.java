@@ -854,8 +854,7 @@ public class Characters {
 	 *         otherwise
 	 */
 	public static boolean isParenthesis(final char character) {
-		return character == Characters.LEFT_PARENTHESIS ||
-				character == Characters.RIGHT_PARENTHESIS;
+		return character == LEFT_PARENTHESIS || character == RIGHT_PARENTHESIS;
 	}
 
 	/**
@@ -867,7 +866,7 @@ public class Characters {
 	 *         otherwise
 	 */
 	public static boolean isBracket(final char character) {
-		return character == Characters.LEFT_BRACKET || character == Characters.RIGHT_BRACKET;
+		return character == LEFT_BRACKET || character == RIGHT_BRACKET;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

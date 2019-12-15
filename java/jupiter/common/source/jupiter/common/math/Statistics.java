@@ -223,13 +223,13 @@ public class Statistics {
 	public static Interval<Double> confidenceInterval(final long sampleSize, final double mean,
 			final double standardDeviation) {
 		final double variation = variation(sampleSize, standardDeviation);
-		return new Interval<Double>(mean - variation, mean + variation);
+		return new Interval<Double>(mean - variation, mean + variation, true, true);
 	}
 
 	public static Interval<Double> confidenceInterval(final long sampleSize, final double mean,
 			final double standardDeviation, final double alpha) {
 		final double variation = variation(sampleSize, standardDeviation, alpha);
-		return new Interval<Double>(mean - variation, mean + variation);
+		return new Interval<Double>(mean - variation, mean + variation, true, true);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

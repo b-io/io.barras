@@ -150,8 +150,8 @@ public class R
 	}
 
 	/**
-	 * Executes the specified script on the R engine with the specified printer {@link IOHandler}
-	 * and returns its exit value.
+	 * Executes the specified script on the R engine, prints the output with the specified printer
+	 * {@link IOHandler} and returns its exit value.
 	 * <p>
 	 * @param printer the printer {@link IOHandler}
 	 * @param script  the script to execute
@@ -184,8 +184,8 @@ public class R
 	}
 
 	/**
-	 * Executes the specified command on the R engine with the specified printer {@link IOHandler}
-	 * and returns its exit value.
+	 * Executes the specified command on the R engine, prints the output with the specified printer
+	 * {@link IOHandler} and returns its exit value.
 	 * <p>
 	 * @param printer the printer {@link IOHandler}
 	 * @param command the command to execute
@@ -198,7 +198,7 @@ public class R
 		// Check the arguments
 		ArrayArguments.requireMinLength(command, 1);
 
-		// Process
+		// Execute the command and print the output with the printer
 		try {
 			// Test whether the OS is Windows or Unix
 			if (Systems.isWindows()) {
@@ -267,7 +267,7 @@ public class R
 		protected final IOHandler printer;
 
 		/**
-		 * The {@link WorkQueue} to monitor.
+		 * The {@link WorkQueue} used for monitoring.
 		 */
 		protected WorkQueue<?, ?> workQueueToMonitor;
 

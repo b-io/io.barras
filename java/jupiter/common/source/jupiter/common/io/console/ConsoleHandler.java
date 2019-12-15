@@ -23,6 +23,7 @@
  */
 package jupiter.common.io.console;
 
+import static jupiter.common.util.Characters.ESCAPE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.PrintStream;
@@ -33,7 +34,6 @@ import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
 import jupiter.common.test.Arguments;
-import jupiter.common.util.Characters;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -293,7 +293,7 @@ public class ConsoleHandler
 		/**
 		 * The color prefix.
 		 */
-		public static final String PREFIX = Characters.ESCAPE + "[";
+		public static final String PREFIX = ESCAPE + "[";
 		/**
 		 * The color saturation.
 		 */

@@ -24,6 +24,7 @@
 package jupiter.hardware.gpu;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Formats.NEWLINE;
 
 import java.io.Serializable;
@@ -33,7 +34,6 @@ import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.StringArguments;
-import jupiter.common.util.Characters;
 
 public abstract class OpenCL
 		implements ICloneable<OpenCL>, Serializable {
@@ -174,7 +174,7 @@ public abstract class OpenCL
 		int index = -1;
 		while ((index = sourceCode.indexOf(KERNEL_PREFIX, index + 1)) >= 0) {
 			final int fromIndex = index + KERNEL_PREFIX.length() + 1;
-			final int toIndex = sourceCode.indexOf(Characters.LEFT_PARENTHESIS, index);
+			final int toIndex = sourceCode.indexOf(LEFT_PARENTHESIS, index);
 			kernelNames.add(sourceCode.substring(fromIndex, toIndex).trim());
 		}
 	}

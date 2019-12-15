@@ -23,6 +23,14 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Characters.DOUBLE_QUOTE;
+import static jupiter.common.util.Characters.LEFT_BRACKET;
+import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
+import static jupiter.common.util.Characters.LEFT_QUOTE;
+import static jupiter.common.util.Characters.RIGHT_BRACKET;
+import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
+import static jupiter.common.util.Characters.RIGHT_QUOTE;
+import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 import static jupiter.common.util.Formats.DEFAULT_LOCALE;
 import static jupiter.common.util.Formats.NEWLINE;
@@ -76,19 +84,15 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final StringWrapper SINGLE_QUOTER = new StringWrapper(Characters.SINGLE_QUOTE,
-			Characters.SINGLE_QUOTE);
-	public static final StringWrapper DOUBLE_QUOTER = new StringWrapper(Characters.DOUBLE_QUOTE,
-			Characters.DOUBLE_QUOTE);
-	public static final StringWrapper QUOTER = new StringWrapper(Characters.LEFT_QUOTE,
-			Characters.RIGHT_QUOTE);
-	public static final StringRemover UNQUOTER = new StringRemover(join(Characters.SINGLE_QUOTE,
-			Characters.DOUBLE_QUOTE, Characters.LEFT_QUOTE, Characters.RIGHT_QUOTE));
+	public static final StringWrapper SINGLE_QUOTER = new StringWrapper(SINGLE_QUOTE, SINGLE_QUOTE);
+	public static final StringWrapper DOUBLE_QUOTER = new StringWrapper(DOUBLE_QUOTE, DOUBLE_QUOTE);
+	public static final StringWrapper QUOTER = new StringWrapper(LEFT_QUOTE, RIGHT_QUOTE);
+	public static final StringRemover UNQUOTER = new StringRemover(join(SINGLE_QUOTE, DOUBLE_QUOTE,
+			LEFT_QUOTE, RIGHT_QUOTE));
 
-	public static final StringWrapper PARENTHESER = new StringWrapper(Characters.LEFT_PARENTHESIS,
-			Characters.RIGHT_PARENTHESIS);
-	public static final StringWrapper BRACKETER = new StringWrapper(Characters.LEFT_BRACKET,
-			Characters.RIGHT_BRACKET);
+	public static final StringWrapper PARENTHESER = new StringWrapper(LEFT_PARENTHESIS,
+			RIGHT_PARENTHESIS);
+	public static final StringWrapper BRACKETER = new StringWrapper(LEFT_BRACKET, RIGHT_BRACKET);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

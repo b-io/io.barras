@@ -24,11 +24,12 @@
 package jupiter.common.io;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.LEFT_BRACKET;
+import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 
 import java.io.Serializable;
 
-import jupiter.common.util.Characters;
 import jupiter.common.util.Integers;
 
 public class ProgressBar
@@ -46,11 +47,11 @@ public class ProgressBar
 	/**
 	 * The start {@code char} symbol.
 	 */
-	public static volatile char START_SYMBOL = Characters.LEFT_BRACKET;
+	public static volatile char START_SYMBOL = LEFT_BRACKET;
 	/**
 	 * The end {@code char} symbol.
 	 */
-	public static volatile char END_SYMBOL = Characters.RIGHT_BRACKET;
+	public static volatile char END_SYMBOL = RIGHT_BRACKET;
 
 	/**
 	 * The symbol {@link String} filling the progress bar.

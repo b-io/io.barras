@@ -238,6 +238,16 @@ public class Scalar
 		return new Scalar(Doubles.random());
 	}
 
+	/**
+	 * Returns the sequence of {@code size(this)}.
+	 * <p>
+	 * @return {@code reshape(1:prod(size(this)), size(this))'}
+	 */
+	@Override
+	public Scalar sequence() {
+		return ONE;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OPERATORS
