@@ -2699,7 +2699,7 @@ public class Matrix
 		}
 
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
-			return divideAndConquer(input, 1);
+			return divideAndConquer(input, 100);
 		}
 
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input,

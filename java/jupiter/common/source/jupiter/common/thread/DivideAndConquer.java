@@ -115,10 +115,13 @@ public abstract class DivideAndConquer<I>
 		IntegerArguments.requirePositive(minSliceSize);
 
 		// Divide and conquer
-		final int sliceCount = workQueue.reserveMaxWorkers(
-				Maths.ceilToInt(Maths.division(to - from, minSliceSize)));
-		if (sliceCount <= 1) {
-			return new int[] {conquer(input, new Interval<Integer>(from, to))};
+		final int maxWorkerToReserveCount = Maths.ceilToInt(Maths.division(to - from, minSliceSize));
+		if (maxWorkerToReserveCount == 1) {
+			return new int[] {conquer(input, from, to)};
+		}
+		final int sliceCount = workQueue.reserveMaxWorkers(maxWorkerToReserveCount);
+		if (sliceCount == 0) {
+			return new int[] {conquer(input, from, to)};
 		}
 		try {
 			return conquer(divide(input, from, to, sliceCount));
@@ -171,6 +174,20 @@ public abstract class DivideAndConquer<I>
 			results[i] = workQueue.get(ids[i]);
 		}
 		return results;
+	}
+
+	/**
+	 * Conquers the execution slice from the specified index to the specified index with the
+	 * specified {@code I} input and returns its result.
+	 * <p>
+	 * @param input the {@code I} input to process
+	 * @param from  the index to start conquering from (inclusive)
+	 * @param to    the index to finish conquering at (exclusive)
+	 * <p>
+	 * @return the result of the execution slice
+	 */
+	protected int conquer(final I input, final int from, final int to) {
+		return conquer(input, new Interval<Integer>(from, to));
 	}
 
 	/**
