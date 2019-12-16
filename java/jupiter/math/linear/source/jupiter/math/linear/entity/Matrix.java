@@ -2703,15 +2703,27 @@ public class Matrix
 			super();
 		}
 
+		/**
+		 * Divides the execution into execution slices and conquers them. Returns the result of each
+		 * execution slice.
+		 * <p>
+		 * @param input the input {@link Triple} of {@link Matrix} to process
+		 * <p>
+		 * @return the result of each execution slice
+		 */
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
 			return divideAndConquer(input, 0, input.getFirst().m);
 		}
 
-		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input,
-				final int minSliceSize) {
-			return divideAndConquer(input, 0, input.getFirst().m, minSliceSize);
-		}
-
+		/**
+		 * Conquers the execution slice with the specified input {@link Triple} and {@link Interval}
+		 * and returns its result.
+		 * <p>
+		 * @param input    the input {@link Triple} of {@link Matrix} to process
+		 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
+		 * <p>
+		 * @return the result of the execution slice
+		 */
 		@Override
 		protected int conquer(final Triple<Matrix, Matrix, Matrix> input,
 				final Interval<Integer> interval) {
