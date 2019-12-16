@@ -102,6 +102,20 @@ public abstract class DivideAndConquer<I>
 	 * Divides the execution from the specified index to the specified index into execution slices
 	 * and conquers them. Returns the result of each execution slice.
 	 * <p>
+	 * @param input the {@code I} input to process
+	 * @param from  the index to start dividing from (inclusive)
+	 * @param to    the index to finish dividing at (exclusive)
+	 * <p>
+	 * @return the result of each execution slice
+	 */
+	public int[] divideAndConquer(final I input, final int from, final int to) {
+		return divideAndConquer(input, from, to, 1);
+	}
+
+	/**
+	 * Divides the execution from the specified index to the specified index into execution slices
+	 * and conquers them. Returns the result of each execution slice.
+	 * <p>
 	 * @param input        the {@code I} input to process
 	 * @param from         the index to start dividing from (inclusive)
 	 * @param to           the index to finish dividing at (exclusive)

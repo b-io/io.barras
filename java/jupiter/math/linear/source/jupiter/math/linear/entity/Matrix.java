@@ -2704,7 +2704,7 @@ public class Matrix
 		}
 
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
-			return divideAndConquer(input, 1);
+			return divideAndConquer(input, 0, input.getFirst().m);
 		}
 
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input,
@@ -2721,7 +2721,7 @@ public class Matrix
 			final Matrix right = input.getThird();
 			final int innerDimension = left.n; // or right.m
 
-			// Process
+			// Conquer
 			for (int i = interval.getLowerBound(); i < interval.getUpperBound(); ++i) {
 				for (int k = 0; k < innerDimension; ++k) {
 					result.arraySum(right.elements, left.elements[i * left.n + k],
