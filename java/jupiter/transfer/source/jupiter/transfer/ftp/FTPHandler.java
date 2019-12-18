@@ -425,7 +425,7 @@ public class FTPHandler
 				throw new IllegalTypeException(protocol);
 		}
 		if (downloadedFileCount > 0) {
-			IO.info(downloadedFileCount, " files downloaded");
+			IO.debug(downloadedFileCount, " files downloaded");
 		} else {
 			IO.warn("No files downloaded");
 		}
@@ -445,20 +445,20 @@ public class FTPHandler
 		final FTPClient ftp = new FTPClient();
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.info("Connect to the ", protocol, " server ",
+			IO.debug("Connect to the ", protocol, " server ",
 					Strings.quote(hostName + ":" + protocol.getPort()));
 			ftp.connect(hostName, protocol.getPort());
 			final int replyCode = ftp.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftp.enterLocalPassiveMode();
 
-				IO.info("Login with ", Strings.quote(userName));
+				IO.debug("Login with ", Strings.quote(userName));
 				if (ftp.login(userName, password)) {
 					ftp.pwd();
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.info("Download the files ", Strings.quote(fileFilter), " in ",
+					IO.debug("Download the files ", Strings.quote(fileFilter), " in ",
 							Strings.quote(remoteDirPath));
 					final FTPFile[] files = ftp.listFiles(remoteDirPath);
 					for (final FTPFile file : files) {
@@ -468,7 +468,7 @@ public class FTPHandler
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 							final String localPath = localDirPath + File.separator + fileName;
 
-							IO.info("Download the file ", Strings.quote(remotePath), " to ",
+							IO.debug("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));
 							OutputStream output = null;
 							try {
@@ -518,14 +518,14 @@ public class FTPHandler
 		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.info("Connect to the ", protocol, " server ",
+			IO.debug("Connect to the ", protocol, " server ",
 					Strings.quote(hostName + ":" + protocol.getPort()));
 			ftps.connect(hostName, protocol.getPort());
 			final int replyCode = ftps.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftps.enterLocalPassiveMode();
 
-				IO.info("Login with ", Strings.quote(userName));
+				IO.debug("Login with ", Strings.quote(userName));
 				if (ftps.login(userName, password)) {
 					ftps.execPBSZ(0);
 					ftps.execPROT("P");
@@ -533,7 +533,7 @@ public class FTPHandler
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftps.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.info("Download the files ", Strings.quote(fileFilter), " in ",
+					IO.debug("Download the files ", Strings.quote(fileFilter), " in ",
 							Strings.quote(remoteDirPath));
 					final FTPFile[] files = ftps.listFiles(remoteDirPath);
 					for (final FTPFile file : files) {
@@ -543,7 +543,7 @@ public class FTPHandler
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 							final String localPath = localDirPath + File.separator + fileName;
 
-							IO.info("Download the file ", Strings.quote(remotePath), " to ",
+							IO.debug("Download the file ", Strings.quote(remotePath), " to ",
 									Strings.quote(localPath));
 							OutputStream output = null;
 							try {
@@ -593,7 +593,7 @@ public class FTPHandler
 		final JSch jsch = new JSch();
 		Session session;
 		try {
-			IO.info("Connect to the ", protocol, " server ",
+			IO.debug("Connect to the ", protocol, " server ",
 					Strings.quote(hostName + ":" + protocol.getPort()),
 					" with ", Strings.quote(userName));
 			session = jsch.getSession(userName, hostName, protocol.getPort());
@@ -601,7 +601,7 @@ public class FTPHandler
 			session.setPassword(password);
 			session.connect();
 
-			IO.info("Download the files ", Strings.quote(fileFilter), " in ",
+			IO.debug("Download the files ", Strings.quote(fileFilter), " in ",
 					Strings.quote(remoteDirPath));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
@@ -616,7 +616,7 @@ public class FTPHandler
 					final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 					final String localPath = localDirPath + File.separator + fileName;
 
-					IO.info("Download the file ", Strings.quote(remotePath), " to ",
+					IO.debug("Download the file ", Strings.quote(remotePath), " to ",
 							Strings.quote(localPath));
 					sftp.get(fileName, localPath);
 					++downloadedFileCount;
@@ -671,7 +671,7 @@ public class FTPHandler
 				throw new IllegalTypeException(protocol);
 		}
 		if (uploadedFileCount > 0) {
-			IO.info(uploadedFileCount, " files uploaded");
+			IO.debug(uploadedFileCount, " files uploaded");
 		} else {
 			IO.warn("No files uploaded");
 		}
@@ -691,20 +691,20 @@ public class FTPHandler
 		final FTPClient ftp = new FTPClient();
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.info("Connect to the ", protocol, " server ",
+			IO.debug("Connect to the ", protocol, " server ",
 					Strings.quote(hostName + ":" + protocol.getPort()));
 			ftp.connect(hostName, protocol.getPort());
 			final int replyCode = ftp.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftp.enterLocalPassiveMode();
 
-				IO.info("Login with ", Strings.quote(userName));
+				IO.debug("Login with ", Strings.quote(userName));
 				if (ftp.login(userName, password)) {
 					ftp.pwd();
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.info("Upload the files ", Strings.quote(fileFilter), " in ",
+					IO.debug("Upload the files ", Strings.quote(fileFilter), " in ",
 							Strings.quote(localDirPath));
 					final List<File> files = Files.listAll(new File(localDirPath), fileFilter);
 					for (final File file : files) {
@@ -712,7 +712,7 @@ public class FTPHandler
 						if (Strings.matches(fileName, fileNames)) {
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-							IO.info("Upload the file ", Strings.quote(file), " to ",
+							IO.debug("Upload the file ", Strings.quote(file), " to ",
 									Strings.quote(remotePath));
 							InputStream input = null;
 							try {
@@ -761,14 +761,14 @@ public class FTPHandler
 		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.info("Connect to the ", protocol, " server ",
+			IO.debug("Connect to the ", protocol, " server ",
 					Strings.quote(hostName + ":" + protocol.getPort()));
 			ftps.connect(hostName, protocol.getPort());
 			final int replyCode = ftps.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftps.enterLocalPassiveMode();
 
-				IO.info("Login with ", Strings.quote(userName));
+				IO.debug("Login with ", Strings.quote(userName));
 				if (ftps.login(userName, password)) {
 					ftps.execPBSZ(0);
 					ftps.execPROT("P");
@@ -776,7 +776,7 @@ public class FTPHandler
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftps.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.info("Upload the files ", Strings.quote(fileFilter), " in ",
+					IO.debug("Upload the files ", Strings.quote(fileFilter), " in ",
 							Strings.quote(localDirPath));
 					final List<File> files = Files.listAll(new File(localDirPath), fileFilter);
 					for (final File file : files) {
@@ -784,7 +784,7 @@ public class FTPHandler
 						if (Strings.matches(fileName, fileNames)) {
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-							IO.info("Upload the file ", Strings.quote(file), " to ",
+							IO.debug("Upload the file ", Strings.quote(file), " to ",
 									Strings.quote(remotePath));
 							InputStream input = null;
 							try {
@@ -833,7 +833,7 @@ public class FTPHandler
 		final JSch jsch = new JSch();
 		Session session;
 		try {
-			IO.info("Connect to the ", protocol, " server ",
+			IO.debug("Connect to the ", protocol, " server ",
 					Strings.quote(hostName + ":" + protocol.getPort()),
 					" with ", Strings.quote(userName));
 			session = jsch.getSession(userName, hostName, protocol.getPort());
@@ -841,7 +841,7 @@ public class FTPHandler
 			session.setPassword(password);
 			session.connect();
 
-			IO.info("Upload the files ", Strings.quote(fileFilter), " in ",
+			IO.debug("Upload the files ", Strings.quote(fileFilter), " in ",
 					Strings.quote(localDirPath));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
@@ -855,7 +855,7 @@ public class FTPHandler
 				if (Strings.matches(fileName, fileNames)) {
 					final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-					IO.info("Upload the file ", Strings.quote(file), " to ",
+					IO.debug("Upload the file ", Strings.quote(file), " to ",
 							Strings.quote(remotePath));
 					InputStream input = null;
 					try {

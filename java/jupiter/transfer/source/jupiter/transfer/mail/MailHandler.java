@@ -405,7 +405,7 @@ public class MailHandler
 	public List<MimeMessage> download(final String remoteDirPath, final SearchTerm mailFilter) {
 		final List<MimeMessage> messages = new ExtendedLinkedList<MimeMessage>();
 		try {
-			IO.info("Connect to the mail server ",
+			IO.debug("Connect to the mail server ",
 					Strings.quote(hostName + ":" + inProtocol.getPort()),
 					" with ", Strings.quote(userName));
 			final Session session = createSession(inProtocol);
@@ -414,14 +414,14 @@ public class MailHandler
 				store = session.getStore(inProtocol.value);
 				store.connect(hostName, inProtocol.getPort(), userName, password);
 
-				IO.info("Download the filtered mails in ", Strings.quote(remoteDirPath));
+				IO.debug("Download the filtered mails in ", Strings.quote(remoteDirPath));
 				Folder folder = null;
 				try {
 					folder = store.getFolder(remoteDirPath);
 					folder.open(Folder.READ_ONLY);
 					for (final Message message : folder.getMessages()) {
 						if (message.match(mailFilter)) {
-							IO.info("Download the mail ", Strings.quote(message.getSubject()));
+							IO.debug("Download the mail ", Strings.quote(message.getSubject()));
 							messages.add(new MimeMessage((MimeMessage) message));
 						}
 					}
@@ -480,7 +480,7 @@ public class MailHandler
 	 */
 	public void send(final String recipients, final String subject, final Multipart content)
 			throws MessagingException {
-		IO.info("Connect to the mail server ",
+		IO.debug("Connect to the mail server ",
 				Strings.quote(hostName + ":" + outProtocol.getPort()),
 				" with ", Strings.quote(userName));
 		final Session session = createSession(outProtocol);
@@ -493,7 +493,7 @@ public class MailHandler
 		mail.setContent(content);
 		final Date sentDate = new Date();
 		mail.setSentDate(sentDate);
-		IO.info("Send the mail ", Strings.quote(subject),
+		IO.debug("Send the mail ", Strings.quote(subject),
 				" to ", Strings.quote(recipients),
 				" at ", Dates.formatWithTime(sentDate));
 		Transport.send(mail);

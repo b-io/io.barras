@@ -159,7 +159,7 @@ public class SystemFiles {
 			}
 		}
 		if (unzippedFileCount > 0) {
-			IO.info(unzippedFileCount, " files unzipped");
+			IO.debug(unzippedFileCount, " files unzipped");
 		} else {
 			IO.warn("No files unzipped");
 		}
