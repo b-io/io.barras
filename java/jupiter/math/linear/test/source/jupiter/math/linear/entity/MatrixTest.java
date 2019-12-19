@@ -50,10 +50,10 @@ public class MatrixTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of dot method, of class Matrix.
+	 * Test of multiply method, of class Matrix.
 	 */
-	public void testDot() {
-		IO.test("dot");
+	public void testMultiply() {
+		IO.test("multiply");
 
 		// Initialize
 		final int testCount = 10;

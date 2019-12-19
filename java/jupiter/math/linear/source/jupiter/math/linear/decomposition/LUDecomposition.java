@@ -89,7 +89,7 @@ public class LUDecomposition
 
 	/**
 	 * Constructs a {@link LUDecomposition} of the specified rectangular {@link Matrix}. Performs
-	 * the "left-looking", dot-product, Crout/Doolittle algorithm and sets {@code LU} and
+	 * the "left-looking", dot product, Crout/Doolittle algorithm and sets {@code LU} and
 	 * {@code pivot}.
 	 * <p>
 	 * @param A the rectangular {@link Matrix} to decompose

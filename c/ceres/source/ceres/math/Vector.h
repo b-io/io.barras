@@ -234,8 +234,7 @@ extern "C"
 	void Vector_set_from(Vector* vector, const natural from, const real* values, const natural size);
 
 	/**
-	 * Sets the values of {@code first} to the values of
-	 * {@code second}.
+	 * Sets the values of {@code first} to the values of {@code second}.
 	 * <p>
 	 * @param first  the Vector to be set
 	 * @param second the Vector to set
@@ -314,20 +313,18 @@ extern "C"
 	/**********************************************************************************************/
 
 	/**
-	 * Returns the dot value between {@code first} and
-	 * {@code second}.
+	 * Returns the dot value between {@code first} and {@code second}.
 	 * <p>
 	 * @param first  the first Vector
 	 * @param second the second Vector
 	 * <p>
-	 * @return the dot value between {@code first} and
-	 *         {@code second}
+	 * @return the dot value between {@code first} and {@code second}
 	 */
 	real Vector_dot(const Vector* first, const Vector* second);
 
 	/**
-	 * Computes the cross value between {@code first} and
-	 * {@code second} and stores the result in {@code result}.
+	 * Computes the cross value between {@code first} and {@code second} and
+	 * stores the result in {@code result}.
 	 * <p>
 	 * @param first  the first Vector
 	 * @param second the second Vector

@@ -67,7 +67,7 @@ public class MatrixOperations {
 			1., 2., 3., 4.
 		};
 		for (int i = 0; i < 100; ++i) {
-			IO.result(Doubles.toString(dot(A, B, 2, 2)));
+			IO.result(Doubles.toString(multiply(A, B, 2, 2)));
 		}
 	}
 
@@ -78,6 +78,6 @@ public class MatrixOperations {
 
 	public static native void test();
 
-	public static native double[] dot(final double[] A, final double[] B,
+	public static native double[] multiply(final double[] A, final double[] B,
 			final int aColumnDimension, final int bColumnDimension);
 }

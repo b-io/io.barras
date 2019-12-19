@@ -128,9 +128,9 @@ public class Matrix
 	 */
 	public static volatile boolean PARALLELIZE = false;
 	/**
-	 * The {@link DotProduct} used for computing the dot product.
+	 * The {@link Multiplication} used for computing the multiplication.
 	 */
-	protected static volatile DotProduct DOT_PRODUCT = null;
+	protected static volatile Multiplication MULTIPLICATION = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1240,11 +1240,11 @@ public class Matrix
 		IO.debug(EMPTY);
 
 		// Initialize
-		if (DOT_PRODUCT == null) {
-			DOT_PRODUCT = new DotProduct();
+		if (MULTIPLICATION == null) {
+			MULTIPLICATION = new Multiplication();
 			PARALLELIZE = true;
 		} else {
-			IO.debug("The work queue ", DOT_PRODUCT, " has already started");
+			IO.debug("The work queue ", MULTIPLICATION, " has already started");
 		}
 	}
 
@@ -1255,9 +1255,9 @@ public class Matrix
 		IO.debug(EMPTY);
 
 		// Shutdown
-		if (DOT_PRODUCT != null) {
+		if (MULTIPLICATION != null) {
 			PARALLELIZE = false;
-			DOT_PRODUCT.shutdown();
+			MULTIPLICATION.shutdown();
 		}
 	}
 
@@ -1664,15 +1664,10 @@ public class Matrix
 		// - Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (PARALLELIZE) {
-			DOT_PRODUCT.divideAndConquer(
+			MULTIPLICATION.divideAndConquer(
 					new Triple<Matrix, Matrix, Matrix>(result, this, broadcastedMatrix));
 		} else {
-			for (int i = 0; i < result.m; ++i) {
-				for (int k = 0; k < innerDimension; ++k) {
-					result.arraySum(broadcastedMatrix.elements, elements[i * n + k],
-							i * result.n, k * broadcastedMatrix.n);
-				}
-			}
+			Multiplication.process(result, this, broadcastedMatrix);
 		}
 		return result;
 	}
@@ -2688,7 +2683,7 @@ public class Matrix
 	// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static class DotProduct
+	protected static class Multiplication
 			extends DivideAndConquer<Triple<Matrix, Matrix, Matrix>> {
 
 		/**
@@ -2697,19 +2692,20 @@ public class Matrix
 		private static final long serialVersionUID = 1L;
 
 		/**
-		 * Constructs a {@link DotProduct}.
+		 * Constructs a {@link Multiplication}.
 		 */
-		protected DotProduct() {
+		protected Multiplication() {
 			super();
 		}
 
 		/**
-		 * Divides the execution into execution slices and conquers them. Returns the result of each
-		 * execution slice.
+		 * Divides the multiplication of the specified input {@link Triple} into execution slices
+		 * and conquers them. Returns {@code IO.EXIT_SUCCESS} if it succeeds for each of them.
 		 * <p>
-		 * @param input the input {@link Triple} of {@link Matrix} to process
+		 * @param input the input {@link Triple} of result, left-hand side operand and right-hand
+		 *              side operand {@link Matrix} to process
 		 * <p>
-		 * @return the result of each execution slice
+		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds for each execution slice
 		 */
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
 			return divideAndConquer(input, 0, input.getFirst().m);
@@ -2717,24 +2713,53 @@ public class Matrix
 
 		/**
 		 * Conquers the execution slice with the specified input {@link Triple} and {@link Interval}
-		 * and returns its result.
+		 * and returns {@code IO.EXIT_SUCCESS} if it succeeds.
 		 * <p>
-		 * @param input    the input {@link Triple} of {@link Matrix} to process
+		 * @param input    the input {@link Triple} of result, left-hand side operand and right-hand
+		 *                 side operand {@link Matrix} to process
 		 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
 		 * <p>
-		 * @return the result of the execution slice
+		 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds
 		 */
 		@Override
 		protected int conquer(final Triple<Matrix, Matrix, Matrix> input,
 				final Interval<Integer> interval) {
-			// Initialize
-			final Matrix result = input.getFirst();
-			final Matrix left = input.getSecond();
-			final Matrix right = input.getThird();
-			final int innerDimension = left.n; // or right.m
+			return process(input.getFirst(), input.getSecond(), input.getThird(),
+					interval.getLowerBound(), interval.getUpperBound());
+		}
 
-			// Conquer
-			for (int i = interval.getLowerBound(); i < interval.getUpperBound(); ++i) {
+		/**
+		 * Processes the multiplication with the specified result, left-hand side operand and
+		 * right-hand side operand {@link Matrix} and returns {@code IO.EXIT_SUCCESS} if it
+		 * succeeds.
+		 * <p>
+		 * @param result the result {@link Matrix}
+		 * @param left   the left-hand side operand {@link Matrix}
+		 * @param right  the right-hand side operand {@link Matrix}
+		 * <p>
+		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds
+		 */
+		protected static int process(final Matrix result, final Matrix left, final Matrix right) {
+			return process(result, left, right, 0, left.m);
+		}
+
+		/**
+		 * Processes the multiplication with the specified result, left-hand side operand and
+		 * right-hand side operand {@link Matrix} from the specified index to the specified index
+		 * and returns {@code IO.EXIT_SUCCESS} if it succeeds.
+		 * <p>
+		 * @param result the result {@link Matrix}
+		 * @param left   the left-hand side operand {@link Matrix}
+		 * @param right  the right-hand side operand {@link Matrix}
+		 * @param from   the index to start multiplying from (inclusive)
+		 * @param to     the index to finish multiplying at (exclusive)
+		 * <p>
+		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds
+		 */
+		protected static int process(final Matrix result, final Matrix left, final Matrix right,
+				final int from, final int to) {
+			final int innerDimension = left.n; // or right.m
+			for (int i = from; i < to; ++i) {
 				for (int k = 0; k < innerDimension; ++k) {
 					result.arraySum(right.elements, left.elements[i * left.n + k],
 							i * result.n, k * right.n);
@@ -2751,8 +2776,8 @@ public class Matrix
 		 * @see jupiter.common.model.ICloneable
 		 */
 		@Override
-		public DotProduct clone() {
-			return (DotProduct) super.clone();
+		public Multiplication clone() {
+			return (Multiplication) super.clone();
 		}
 	}
 }

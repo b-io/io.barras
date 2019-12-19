@@ -42,7 +42,7 @@ Java_jupiter_hardware_jni_MatrixOperations_test(JNIEnv* env, jobject obj)
 	printf("[INFO] Java_jupiter_hardware_jni_MatrixOperations_test\n");
 }
 
-JNIEXPORT jdoubleArray JNICALL Java_jupiter_hardware_jni_MatrixOperations_dot(JNIEnv* env,
+JNIEXPORT jdoubleArray JNICALL Java_jupiter_hardware_jni_MatrixOperations_multiply(JNIEnv* env,
 	jobject obj, jdoubleArray A, jdoubleArray B, jint aColumnDimension, jint bColumnDimension)
 {
 	/* Check */
