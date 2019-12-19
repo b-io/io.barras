@@ -56,9 +56,9 @@ public class OpenCLTest
 
 			// Execute the operation
 			final double[] result = CL.arrayTimes(A, B);
+			//IO.test("Result: ", Doubles.toString(result));
 
 			// Verify the result
-			IO.test("Result: ", Doubles.toString(result));
 			boolean isPassed = true;
 			for (int i = 0; i < dimension; ++i) {
 				final double x = result[i];
@@ -95,9 +95,9 @@ public class OpenCLTest
 
 			// Execute the operation
 			final double[] result = CL.times(A, B, aColumnDimension, bColumnDimension);
+			//IO.test("Result: ", Doubles.toString(result));
 
 			// Verify the result
-			IO.test("Result: ", Doubles.toString(result));
 			boolean isPassed = true;
 			for (int e = 0; e < result.length; ++e) {
 				final double x = result[e];
@@ -147,9 +147,9 @@ public class OpenCLTest
 			// Execute the operation
 			final double[] result = CL.forward(A, B, C, aColumnDimension, bColumnDimension,
 					cColumnDimension);
+			//IO.test("Result: ", Doubles.toString(result));
 
 			// Verify the result
-			IO.test("Result: ", Doubles.toString(result));
 			boolean isPassed = true;
 			for (int e = 0; e < result.length; ++e) {
 				final double x = result[e];
@@ -193,9 +193,9 @@ public class OpenCLTest
 
 			// Execute the operation
 			final double[] result = CL.arraySum(A.clone(), B, c, 0, 0, dimension);
+			//IO.test("Result: ", Doubles.toString(A));
 
 			// Verify the result
-			IO.test("Result: ", Doubles.toString(A));
 			boolean isPassed = true;
 			for (int i = 0; i < dimension; ++i) {
 				final double x = result[i];
