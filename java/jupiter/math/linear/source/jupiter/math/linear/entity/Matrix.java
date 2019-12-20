@@ -2700,12 +2700,13 @@ public class Matrix
 
 		/**
 		 * Divides the multiplication of the specified input {@link Triple} into execution slices
-		 * and conquers them. Returns {@code IO.EXIT_SUCCESS} if it succeeds for each of them.
+		 * and conquers them. Returns the exit code for each of them.
 		 * <p>
-		 * @param input the input {@link Triple} of result, left-hand side operand and right-hand
-		 *              side operand {@link Matrix} to process
+		 * @param input the input {@link Triple} of result {@link Matrix}, left-hand side operand
+		 *              {@link Matrix} and right-hand side operand {@link Matrix} to process
 		 * <p>
-		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds for each execution slice
+		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
+		 *         otherwise for each execution slice
 		 */
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
 			return divideAndConquer(input, 0, input.getFirst().m);
@@ -2713,13 +2714,14 @@ public class Matrix
 
 		/**
 		 * Conquers the execution slice with the specified input {@link Triple} and {@link Interval}
-		 * and returns {@code IO.EXIT_SUCCESS} if it succeeds.
+		 * and returns the exit code.
 		 * <p>
-		 * @param input    the input {@link Triple} of result, left-hand side operand and right-hand
-		 *                 side operand {@link Matrix} to process
+		 * @param input    the input {@link Triple} of result {@link Matrix}, left-hand side operand
+		 *                 {@link Matrix} and right-hand side operand {@link Matrix} to process
 		 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
 		 * <p>
-		 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds
+		 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
+		 *         {@code IO.EXIT_FAILURE} otherwise
 		 */
 		@Override
 		protected int conquer(final Triple<Matrix, Matrix, Matrix> input,
@@ -2729,24 +2731,25 @@ public class Matrix
 		}
 
 		/**
-		 * Processes the multiplication with the specified result, left-hand side operand and
-		 * right-hand side operand {@link Matrix} and returns {@code IO.EXIT_SUCCESS} if it
-		 * succeeds.
+		 * Processes the multiplication with the specified result {@link Matrix}, left-hand side
+		 * operand {@link Matrix} and right-hand side operand {@link Matrix} and returns the exit
+		 * code.
 		 * <p>
 		 * @param result the result {@link Matrix}
 		 * @param left   the left-hand side operand {@link Matrix}
 		 * @param right  the right-hand side operand {@link Matrix}
 		 * <p>
-		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds
+		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
+		 *         otherwise
 		 */
 		protected static int process(final Matrix result, final Matrix left, final Matrix right) {
 			return process(result, left, right, 0, left.m);
 		}
 
 		/**
-		 * Processes the multiplication with the specified result, left-hand side operand and
-		 * right-hand side operand {@link Matrix} from the specified index to the specified index
-		 * and returns {@code IO.EXIT_SUCCESS} if it succeeds.
+		 * Processes the multiplication with the specified result {@link Matrix}, left-hand side
+		 * operand {@link Matrix} and right-hand side operand {@link Matrix} from the specified
+		 * index to the specified index and returns the exit code.
 		 * <p>
 		 * @param result the result {@link Matrix}
 		 * @param left   the left-hand side operand {@link Matrix}
@@ -2754,7 +2757,8 @@ public class Matrix
 		 * @param from   the index to start multiplying from (inclusive)
 		 * @param to     the index to finish multiplying at (exclusive)
 		 * <p>
-		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds
+		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
+		 *         otherwise
 		 */
 		protected static int process(final Matrix result, final Matrix left, final Matrix right,
 				final int from, final int to) {

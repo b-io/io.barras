@@ -100,13 +100,14 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Divides the execution from the specified index to the specified index into execution slices
-	 * and conquers them. Returns the result of each execution slice.
+	 * and conquers them. Returns the exit code for each of them.
 	 * <p>
 	 * @param input the {@code I} input to process
 	 * @param from  the index to start dividing from (inclusive)
 	 * @param to    the index to finish dividing at (exclusive)
 	 * <p>
-	 * @return the result of each execution slice
+	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@code IO.EXIT_FAILURE} otherwise for each of them
 	 */
 	public int[] divideAndConquer(final I input, final int from, final int to) {
 		return divideAndConquer(input, from, to, 1);
@@ -114,14 +115,15 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Divides the execution from the specified index to the specified index into execution slices
-	 * and conquers them. Returns the result of each execution slice.
+	 * and conquers them. Returns the exit code for each of them.
 	 * <p>
 	 * @param input        the {@code I} input to process
 	 * @param from         the index to start dividing from (inclusive)
 	 * @param to           the index to finish dividing at (exclusive)
 	 * @param minSliceSize the minimum execution slice size
 	 * <p>
-	 * @return the result of each execution slice
+	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@code IO.EXIT_FAILURE} otherwise for each of them
 	 */
 	public int[] divideAndConquer(final I input, final int from, final int to,
 			final int minSliceSize) {
@@ -175,12 +177,13 @@ public abstract class DivideAndConquer<I>
 	//////////////////////////////////////////////
 
 	/**
-	 * Conquers the execution slices with the specified identifiers and returns the result of each
-	 * of them.
+	 * Conquers the execution slices with the specified identifiers and returns the exit code for
+	 * each of them.
 	 * <p>
 	 * @param ids the identifiers of the execution slices to conquer
 	 * <p>
-	 * @return the result of each execution slice
+	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@code IO.EXIT_FAILURE} otherwise for each of them
 	 */
 	protected int[] conquer(final long[] ids) {
 		final int[] results = new int[ids.length];
@@ -192,13 +195,14 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Conquers the execution slice from the specified index to the specified index with the
-	 * specified {@code I} input and returns its result.
+	 * specified {@code I} input and returns the exit code.
 	 * <p>
 	 * @param input the {@code I} input to process
 	 * @param from  the index to start conquering from (inclusive)
 	 * @param to    the index to finish conquering at (exclusive)
 	 * <p>
-	 * @return the result of the execution slice
+	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@code IO.EXIT_FAILURE} otherwise
 	 */
 	protected int conquer(final I input, final int from, final int to) {
 		return conquer(input, new Interval<Integer>(from, to));
@@ -206,12 +210,13 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Conquers the execution slice with the specified {@code I} input and {@link Interval} and
-	 * returns its result.
+	 * returns the exit code.
 	 * <p>
 	 * @param input    the {@code I} input to process
 	 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
 	 * <p>
-	 * @return the result of the execution slice
+	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@code IO.EXIT_FAILURE} otherwise
 	 */
 	protected abstract int conquer(final I input, final Interval<Integer> interval);
 
