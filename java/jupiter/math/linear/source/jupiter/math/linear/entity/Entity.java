@@ -503,16 +503,16 @@ public abstract class Entity
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the value of {@code this} raised to the power of the specified scalar.
+	 * Returns the value of {@code this} raised to the power of the specified exponent.
 	 * <p>
-	 * @param scalar an {@code int} value
+	 * @param exponent an {@code int} value
 	 * <p>
-	 * @return {@code this ^ scalar}
+	 * @return {@code this ^ exponent}
 	 */
-	public Entity power(final int scalar) {
-		Entity result = this;
-		for (int i = 1; i < scalar; ++i) {
-			result = times(result);
+	public Entity power(final int exponent) {
+		Entity result = identity();
+		for (int i = 0; i < exponent; ++i) {
+			result = times(this);
 		}
 		return result;
 	}

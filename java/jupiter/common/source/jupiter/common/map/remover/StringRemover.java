@@ -27,8 +27,8 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringRemover} is the {@link ObjectToStringMapper} removing {@code char} values from an
- * input {@link String}.
+ * {@link StringRemover} is the {@link ObjectToStringMapper} removing the specified characters from
+ * an input {@link String}.
  */
 public class StringRemover
 		extends ObjectToStringMapper {
@@ -48,7 +48,7 @@ public class StringRemover
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link String} containing the {@code char} values to remove.
+	 * The {@link String} containing the characters to remove.
 	 */
 	protected final String tokens;
 
@@ -69,9 +69,9 @@ public class StringRemover
 
 	/**
 	 * Constructs a {@link StringRemover} with the specified {@link String} containing the
-	 * {@code char} values.
+	 * characters.
 	 * <p>
-	 * @param tokens the {@link String} containing the {@code char} values to remove
+	 * @param tokens the {@link String} containing the characters to remove
 	 */
 	public StringRemover(final String tokens) {
 		super();
@@ -85,7 +85,10 @@ public class StringRemover
 
 	@Override
 	public String call(final Object input) {
-		return Strings.remove(input, tokens);
+		if (input == null) {
+			return null;
+		}
+		return Strings.removeAll(Strings.toString(input), tokens);
 	}
 
 

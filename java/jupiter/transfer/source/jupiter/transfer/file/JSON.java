@@ -42,9 +42,9 @@ public class JSON {
 	 */
 	public static final char JSON_DELIMITER = ',';
 	/**
-	 * The {@link JSONWrapper}.
+	 * The {@link JSONGenerator}.
 	 */
-	public static final JSONWrapper JSON_WRAPPER = new JSONWrapper();
+	public static final JSONGenerator JSON_WRAPPER = new JSONGenerator();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,6 +106,8 @@ public class JSON {
 		builder.append('}');
 		return builder.toString();
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a JSON entry {@link String} of the specified value {@link Object}.

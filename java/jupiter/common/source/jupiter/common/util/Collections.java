@@ -112,7 +112,7 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the specified {@link Collection} of type {@code T} without the specified
+	 * Returns the specified {@link Collection} of type {@code T} without all the specified
 	 * {@link Object}.
 	 * <p>
 	 * @param <C>        the type extending {@link Collection}
@@ -120,7 +120,7 @@ public class Collections {
 	 * @param collection a {@link Collection} of type {@code T}
 	 * @param object     an {@link Object}
 	 * <p>
-	 * @return the specified {@link Collection} of type {@code T} without the specified
+	 * @return the specified {@link Collection} of type {@code T} without all the specified
 	 *         {@link Object}
 	 */
 	@SuppressWarnings("empty-statement")

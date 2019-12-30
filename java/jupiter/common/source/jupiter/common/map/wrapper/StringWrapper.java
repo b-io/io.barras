@@ -27,7 +27,8 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringWrapper} is the {@link ObjectToStringMapper} wrapping an input {@link String}.
+ * {@link StringWrapper} is the {@link ObjectToStringMapper} wrapping an input {@link String} with
+ * the specified left and right {@code char} values.
  */
 public class StringWrapper
 		extends ObjectToStringMapper {

@@ -25,7 +25,11 @@ package jupiter.transfer.file;
 
 import jupiter.common.map.ObjectToStringMapper;
 
-public class JSONWrapper
+/**
+ * {@link JSONGenerator} is the {@link ObjectToStringMapper} generating a JSON {@link String} from
+ * the fields of the input {@link Object}.
+ */
+public class JSONGenerator
 		extends ObjectToStringMapper {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,9 +47,9 @@ public class JSONWrapper
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link JSONWrapper}.
+	 * Constructs a {@link JSONGenerator}.
 	 */
-	public JSONWrapper() {
+	public JSONGenerator() {
 		super();
 	}
 
@@ -72,7 +76,7 @@ public class JSONWrapper
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public JSONWrapper clone() {
-		return new JSONWrapper();
+	public JSONGenerator clone() {
+		return new JSONGenerator();
 	}
 }

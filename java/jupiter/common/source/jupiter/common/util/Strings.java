@@ -55,6 +55,7 @@ import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Index;
 import jupiter.common.struct.list.SortedList;
 import jupiter.common.test.Arguments;
+import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 
 public class Strings {
@@ -648,24 +649,189 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link String} constructed by replacing each matching subsequence by the
-	 * specified replacement {@link String}, substituting captured subsequences as needed where the
-	 * characters identified by the specified regular expression.
+	 * Returns the {@link String} constructed by reversing the specified {@link String}.
 	 * <p>
-	 * @param content     the content {@link Object}
-	 * @param regex       the regular expression {@link String} to identify and replace
-	 * @param replacement the {@link String} to replace with
+	 * @param text a {@link String}
 	 * <p>
-	 * @return the {@link String} constructed by replacing each matching subsequence by the
-	 *         specified replacement {@link String}, substituting captured subsequences as needed
-	 *         where the characters identified by the specified regular expression
+	 * @return the {@link String} constructed by reversing the specified {@link String}
 	 */
-	public static String replaceAll(final Object content, final String regex,
-			final String replacement) {
-		if (content == null) {
+	public static String reverse(final String text) {
+		if (text == null) {
 			return null;
 		}
-		return toString(content).replaceAll(regex, replacement);
+		return createBuilder(text.length()).append(text).reverse().toString();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by removing the character at the specified index in
+	 * the specified {@link String}.
+	 * <p>
+	 * @param text  a {@link String}
+	 * @param index the index of the character to remove
+	 * <p>
+	 * @return the {@link String} constructed by removing the character at the specified index in
+	 *         the specified {@link String}
+	 */
+	public static String remove(final String text, final int index) {
+		// Check the arguments
+		IntegerArguments.requireNonNegative(index);
+
+		// Remove the character
+		if (text == null) {
+			return null;
+		}
+		return text.substring(0, index) + text.substring(index + 1);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by removing the characters at the specified indexes in
+	 * the specified {@link String}.
+	 * <p>
+	 * @param text    a {@link String}
+	 * @param indexes the indexes of the characters to remove
+	 * <p>
+	 * @return the {@link String} constructed by removing the characters at the specified indexes in
+	 *         the specified {@link String}
+	 */
+	public static String remove(final String text, final int[] indexes) {
+		// Check the arguments
+		ArrayArguments.requireMaxLength(indexes.length, text.length());
+
+		// Remove the characters
+		if (text == null) {
+			return null;
+		}
+		if (indexes.length == 0) {
+			return text;
+		}
+		final StringBuilder builder = createBuilder(text.length() - indexes.length);
+		int previousIndex = -1;
+		for (int i = 0; i < indexes.length; ++i) {
+			builder.append(text.substring(previousIndex + 1, indexes[i]));
+			previousIndex = indexes[i];
+		}
+		if (previousIndex + 1 < indexes.length) {
+			builder.append(text.substring(previousIndex + 1));
+		}
+		return builder.toString();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by removing all the specified tokens from the
+	 * specified {@link String}.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param tokens the tokens to remove
+	 * <p>
+	 * @return the {@link String} constructed by removing all the specified tokens from the
+	 *         specified {@link String}
+	 */
+	public static String removeAll(final String text, final String tokens) {
+		if (text == null) {
+			return null;
+		}
+		return replaceAll(text, bracketize(tokens), EMPTY);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the specified {@link Collection} of {@link String} without the empty {@link String}.
+	 * <p>
+	 * @param <C>        the type extending {@link Collection}
+	 * @param collection a {@link Collection} of {@link String}
+	 * <p>
+	 * @return the specified {@link Collection} of {@link String} without the empty {@link String}
+	 */
+	public static <C extends Collection<String>> C removeEmpty(final C collection) {
+		return Collections.<C, String>removeAll(collection, EMPTY);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by replacing the character at the specified index in
+	 * the specified {@link String} by the specified replacement {@code char} value.
+	 * <p>
+	 * @param text        a {@link String}
+	 * @param index       the index of the character to replace
+	 * @param replacement the {@code char} value to replace by
+	 * <p>
+	 * @return the {@link String} constructed by replacing the character at the specified index in
+	 *         the specified {@link String} by the specified replacement {@code char} value
+	 */
+	public static String replace(final String text, final int index, final char replacement) {
+		// Check the arguments
+		IntegerArguments.requireNonNegative(index);
+
+		// Replace the character
+		if (text == null) {
+			return null;
+		}
+		final StringBuilder builder = createBuilder(text.length()).append(text);
+		builder.setCharAt(index, replacement);
+		return builder.toString();
+	}
+
+	/**
+	 * Returns the {@link String} constructed by replacing the characters at the specified indexes
+	 * in the specified {@link String} respectively by the specified replacement {@code char}
+	 * values.
+	 * <p>
+	 * @param text         a {@link String}
+	 * @param indexes      the indexes of the characters to replace
+	 * @param replacements the {@code char} values to replace by
+	 * <p>
+	 * @return the {@link String} constructed by replacing the characters at the specified indexes
+	 *         in the specified {@link String} respectively by the specified replacement
+	 *         {@code char} values
+	 */
+	public static String replace(final String text, final int[] indexes,
+			final char[] replacements) {
+		// Check the arguments
+		ArrayArguments.requireMaxLength(indexes.length, text.length());
+		ArrayArguments.requireSameLength(indexes.length, replacements.length);
+
+		// Replace the characters
+		if (text == null) {
+			return null;
+		}
+		if (indexes.length == 0) {
+			return text;
+		}
+		final StringBuilder builder = createBuilder(text.length()).append(text);
+		for (int i = 0; i < indexes.length; ++i) {
+			builder.setCharAt(indexes[i], replacements[i]);
+		}
+		return builder.toString();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by replacing all matching subsequence in the specified
+	 * {@link String} by the specified replacement {@link String}, substituting captured
+	 * subsequences as needed where the characters identified by the specified regular expression.
+	 * <p>
+	 * @param text        a {@link String}
+	 * @param regex       the regular expression {@link String} to identify and replace
+	 * @param replacement the {@link String} to replace by
+	 * <p>
+	 * @return the {@link String} constructed by replacing all matching subsequence in the specified
+	 *         {@link String} by the specified replacement {@link String}, substituting captured
+	 *         subsequences as needed where the characters identified by the specified regular
+	 *         expression
+	 */
+	public static String replaceAll(final String text, final String regex,
+			final String replacement) {
+		if (text == null) {
+			return null;
+		}
+		return text.replaceAll(regex, replacement);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -711,12 +877,14 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} wrapped with {@code left} and {@code right}.
+	 * Returns the representative {@link String} of the specified content wrapped with
+	 * {@code wrapper}.
 	 * <p>
 	 * @param content the content {@link Object}
 	 * @param wrapper the {@link String} to wrap with
 	 * <p>
-	 * @return a {@link String} wrapped with {@code left} and {@code right}
+	 * @return the representative {@link String} of the specified content wrapped with
+	 *         {@code wrapper}
 	 */
 	public static String wrap(final Object content, final String wrapper) {
 		if (content == null) {
@@ -726,13 +894,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link String} wrapped with {@code left} and {@code right}.
+	 * Returns the representative {@link String} of the specified content wrapped with {@code left}
+	 * and {@code right}.
 	 * <p>
 	 * @param content the content {@link Object}
 	 * @param left    the {@link String} to wrap with on the left
 	 * @param right   right {@link String} to wrap with on the right
 	 * <p>
-	 * @return a {@link String} wrapped with {@code left} and {@code right}
+	 * @return the representative {@link String} of the specified content wrapped with {@code left}
+	 *         and {@code right}
 	 */
 	public static String wrap(final Object content, final String left, final String right) {
 		if (content == null) {
@@ -741,100 +911,75 @@ public class Strings {
 		return left + toString(content) + right;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} without the specified tokens.
-	 * <p>
-	 * @param content the content {@link Object}
-	 * @param tokens  the tokens to remove
-	 * <p>
-	 * @return a {@link String} without the specified tokens
-	 */
-	public static String remove(final Object content, final String tokens) {
-		if (content == null) {
-			return null;
-		}
-		return replaceAll(content, bracketize(tokens), EMPTY);
-	}
-
-	/**
-	 * Returns the specified {@link Collection} of {@link String} without the empty {@link String}.
-	 * <p>
-	 * @param <C>        the type extending {@link Collection}
-	 * @param collection a {@link Collection} of {@link String}
-	 * <p>
-	 * @return the specified {@link Collection} of {@link String} without the empty {@link String}
-	 */
-	public static <C extends Collection<String>> C removeEmpty(final C collection) {
-		return Collections.<C, String>removeAll(collection, EMPTY);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a single quoted {@link String}.
+	 * Returns the quoted representative {@link String} of the specified content.
 	 * <p>
 	 * @param content the content {@link Object}
 	 * <p>
-	 * @return a single quoted {@link String}
-	 */
-	public static String singleQuote(final Object content) {
-		return SINGLE_QUOTER.call(content);
-	}
-
-	/**
-	 * Returns a double quoted {@link String}.
-	 * <p>
-	 * @param content the content {@link Object}
-	 * <p>
-	 * @return a double quoted {@link String}
-	 */
-	public static String doubleQuote(final Object content) {
-		return DOUBLE_QUOTER.call(content);
-	}
-
-	/**
-	 * Returns a left and right quoted {@link String}.
-	 * <p>
-	 * @param content the content {@link Object}
-	 * <p>
-	 * @return a left and right quoted {@link String}
+	 * @return the quoted representative {@link String} of the specified content
 	 */
 	public static String quote(final Object content) {
 		return QUOTER.call(content);
 	}
 
 	/**
-	 * Returns a {@link String} without quotes.
+	 * Returns the unquoted representative {@link String} of the specified content.
 	 * <p>
 	 * @param content the content {@link Object}
 	 * <p>
-	 * @return a {@link String} without quotes
+	 * @return the unquoted representative {@link String} of the specified content
 	 */
 	public static String unquote(final Object content) {
 		return UNQUOTER.call(content);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Returns a left and right parenthesized {@link String}.
+	 * Returns the single-quoted representative {@link String} of the specified content.
 	 * <p>
 	 * @param content the content {@link Object}
 	 * <p>
-	 * @return a left and right parenthesized {@link String}
+	 * @return the single-quoted representative {@link String} of the specified content
+	 */
+	public static String singleQuote(final Object content) {
+		return SINGLE_QUOTER.call(content);
+	}
+
+	/**
+	 * Returns the double-quoted representative {@link String} of the specified content.
+	 * <p>
+	 * @param content the content {@link Object}
+	 * <p>
+	 * @return the double-quoted representative {@link String} of the specified content
+	 */
+	public static String doubleQuote(final Object content) {
+		return DOUBLE_QUOTER.call(content);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the parenthesized representative {@link String} of the specified content.
+	 * <p>
+	 * @param content the content {@link Object}
+	 * <p>
+	 * @return the parenthesized representative {@link String} of the specified content
 	 */
 	public static String parenthesize(final Object content) {
 		return PARENTHESER.call(content);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns a left and right bracketized {@link String}.
+	 * Returns the bracketized representative {@link String} of the specified content.
 	 * <p>
 	 * @param content the content {@link Object}
 	 * <p>
-	 * @return a left and right bracketized {@link String}
+	 * @return the bracketized representative {@link String} of the specified content
 	 */
 	public static String bracketize(final Object content) {
 		return BRACKETER.call(content);

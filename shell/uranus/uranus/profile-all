@@ -1,2 +1,5 @@
 #!/bin/sh
-
+. "/etc/profile.d/uranus.sh"
+. "/etc/profile.d/uranus-pms.sh"
+. "/etc/profile.d/uranus-sms.sh"
+. "/etc/profile.d/uranus-vms.sh"
