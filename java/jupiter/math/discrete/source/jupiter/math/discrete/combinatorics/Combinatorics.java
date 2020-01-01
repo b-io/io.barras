@@ -28,9 +28,10 @@ import jupiter.common.math.Maths;
 /**
  * {@link Combinatorics} is a collection of combinatorial functions.
  * <p>
- * Definitions: - A set is a collection of elements that is unordered and has no duplicate elements.
- * - A tuple is a collection of elements that is ordered and may have duplicate elements. - A
- * multiset is a collection of elements that is unordered and may have duplicate elements.
+ * Definitions:
+ * - A set is a collection of elements that is unordered and has no duplicate elements.
+ * - A tuple is a collection of elements that is ordered and may have duplicate elements.
+ * - A multiset is a collection of elements that is unordered and may have duplicate elements.
  */
 public class Combinatorics {
 
