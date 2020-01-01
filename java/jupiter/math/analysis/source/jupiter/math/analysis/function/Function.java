@@ -53,7 +53,7 @@ public abstract class Function
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -69,6 +69,8 @@ public abstract class Function
 	public double apply(final Number x) {
 		return apply(x.doubleValue());
 	}
+
+	//////////////////////////////////////////////
 
 	public int applyToInt(final double x) {
 		return Integers.convert(apply(x));
@@ -99,6 +101,8 @@ public abstract class Function
 		}
 		return result;
 	}
+
+	//////////////////////////////////////////////
 
 	public int[] applyToIntPrimitiveArray(final double... array) {
 		final int[] result = new int[array.length];
@@ -142,6 +146,8 @@ public abstract class Function
 		return result;
 	}
 
+	//////////////////////////////////////////////
+
 	public int[][] applyToIntPrimitiveArray2D(final double[]... array2D) {
 		final int[][] result = new int[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
@@ -183,6 +189,8 @@ public abstract class Function
 		}
 		return result;
 	}
+
+	//////////////////////////////////////////////
 
 	public int[][][] applyToIntPrimitiveArray3D(final double[][]... array3D) {
 		final int[][][] result = new int[array3D.length][][];

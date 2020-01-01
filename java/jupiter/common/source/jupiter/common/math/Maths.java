@@ -23,7 +23,6 @@
  */
 package jupiter.common.math;
 
-import java.math.BigInteger;
 import java.util.Collection;
 
 import jupiter.common.test.ArrayArguments;
@@ -123,26 +122,290 @@ public class Maths {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// BASIC FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static byte sum(final byte... values) {
+		byte sum = 0;
+		for (final byte value : values) {
+			sum += value;
+		}
+		return sum;
+	}
+
+	public static short sum(final short... values) {
+		short sum = 0;
+		for (final short value : values) {
+			sum += value;
+		}
+		return sum;
+	}
+
+	public static int sum(final int... values) {
+		int sum = 0;
+		for (final int value : values) {
+			sum += value;
+		}
+		return sum;
+	}
+
+	public static long sum(final long... values) {
+		long sum = 0L;
+		for (final long value : values) {
+			sum += value;
+		}
+		return sum;
+	}
+
+	public static float sum(final float... values) {
+		float sum = 0f;
+		for (final float value : values) {
+			sum += value;
+		}
+		return sum;
+	}
+
+	public static double sum(final double... values) {
+		double sum = 0.;
+		for (final double value : values) {
+			sum += value;
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double sum(final T... numbers) {
+		double sum = 0.;
+		for (final T number : numbers) {
+			if (number != null) {
+				sum += number.doubleValue();
+			}
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double sum(final Collection<T> numbers) {
+		double sum = 0.;
+		for (final T number : numbers) {
+			if (number != null) {
+				sum += number.doubleValue();
+			}
+		}
+		return sum;
+	}
+
+	//////////////////////////////////////////////
+
+	public static long sumSeries(final long n) {
+		return n * (n + 1) / 2L;
+	}
+
+	public static long sumSeries(final long from, final long to) {
+		return sumSeries(to) - sumSeries(from);
+	}
+
+	//////////////////////////////////////////////
+
+	public static double sumWithoutNaN(final double... values) {
+		double sum = 0.;
+		for (final double value : values) {
+			if (!Double.isNaN(value)) {
+				sum += value;
+			}
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double sumWithoutNaN(final T... numbers) {
+		double sum = 0.;
+		for (final T number : numbers) {
+			if (number != null) {
+				final double elementValue = number.doubleValue();
+				if (!Double.isNaN(elementValue)) {
+					sum += elementValue;
+				}
+			}
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double sumWithoutNaN(final Collection<T> numbers) {
+		double sum = 0.;
+		for (final T number : numbers) {
+			if (number != null) {
+				final double elementValue = number.doubleValue();
+				if (!Double.isNaN(elementValue)) {
+					sum += elementValue;
+				}
+			}
+		}
+		return sum;
+	}
+
+	//////////////////////////////////////////////
+
+	public static double sumOfSquares(final double[] values, final double mean) {
+		double sum = 0.;
+		for (final double value : values) {
+			sum += square(value - mean);
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double sumOfSquares(final T[] values, final double mean) {
+		double sum = 0.;
+		for (final T value : values) {
+			if (value != null) {
+				sum += square(value.doubleValue() - mean);
+			}
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double sumOfSquares(final Collection<T> numbers,
+			final double mean) {
+		double sum = 0.;
+		for (final T number : numbers) {
+			if (number != null) {
+				sum += square(number.doubleValue() - mean);
+			}
+		}
+		return sum;
+	}
+
+	//////////////////////////////////////////////
+
+	public static double sumOfSquaresWithoutNaN(final double[] values, final double mean) {
+		double sum = 0.;
+		for (final double value : values) {
+			if (!Double.isNaN(value)) {
+				sum += square(value - mean);
+			}
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double sumOfSquaresWithoutNaN(final T[] numbers,
+			final double mean) {
+		double sum = 0.;
+		for (final T number : numbers) {
+			if (number != null) {
+				final double elementValue = number.doubleValue();
+				if (!Double.isNaN(elementValue)) {
+					sum += square(elementValue - mean);
+				}
+			}
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double sumOfSquaresWithoutNaN(final Collection<T> numbers,
+			final double mean) {
+		double sum = 0.;
+		for (final T number : numbers) {
+			if (number != null) {
+				final double elementValue = number.doubleValue();
+				if (!Double.isNaN(elementValue)) {
+					sum += square(elementValue - mean);
+				}
+			}
+		}
+		return sum;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double delta(final double a, final double b) {
 		return Math.abs(a - b);
 	}
 
-	public static double division(final double a, final double b) {
-		return a / (b + TOLERANCE);
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static byte product(final byte... values) {
+		byte product = 1;
+		for (final byte value : values) {
+			product *= value;
+		}
+		return product;
+	}
+
+	public static short product(final short... values) {
+		short product = 1;
+		for (final short value : values) {
+			product *= value;
+		}
+		return product;
+	}
+
+	public static int product(final int... values) {
+		int product = 1;
+		for (final int value : values) {
+			product *= value;
+		}
+		return product;
+	}
+
+	public static long product(final long... values) {
+		long product = 1L;
+		for (final long value : values) {
+			product *= value;
+		}
+		return product;
+	}
+
+	public static float product(final float... values) {
+		float product = 1f;
+		for (final float value : values) {
+			product *= value;
+		}
+		return product;
+	}
+
+	public static double product(final double... values) {
+		double product = 1.;
+		for (final double value : values) {
+			product *= value;
+		}
+		return product;
+	}
+
+	//////////////////////////////////////////////
+
+	public static long productSeries(final long n) {
+		return productSeries(1L, n);
+	}
+
+	public static long productSeries(final long from, final long to) {
+		if (from == 0L || to == 0L) {
+			return 0L;
+		}
+		long product = 1L;
+		for (long value = from; value <= to; ++value) {
+			product *= value;
+		}
+		return product;
+	}
+
+	//////////////////////////////////////////////
+
+	public static double square(final double x) {
+		return x * x;
+	}
+
+	public static double cube(final double x) {
+		return x * x * x;
+	}
+
+	//////////////////////////////////////////////
+
+	public static long factorial(final long n) {
+		if (n == 0L) {
+			return 1L;
+		}
+		return Maths.productSeries(n);
 	}
 
 	public static double factorial(final double n) {
 		return roundToLong(n * gamma(n));
-	}
-
-	public static BigInteger factorial(final long n) {
-		if (n == 0) {
-			return BigInteger.ONE;
-		}
-		return BigInteger.valueOf(n).multiply(factorial(n - 1));
 	}
 
 	public static double gamma(final double z) {
@@ -151,6 +414,38 @@ public class Maths {
 		b = Math.pow(b / Math.E, z);
 		return a * b;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static double safeDivision(final double a, final double b) {
+		return a / (b + TOLERANCE);
+	}
+
+	//////////////////////////////////////////////
+
+	public static double inverse(final double x) {
+		return safeDivision(1., x);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ANALYTIC FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static double safeLog(final double x) {
+		return Math.log(x + TOLERANCE);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// DISCRETE FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static long countPoints(final double min, final double max, final double increment) {
+		return min <= max ? 1L + floorToLong((max - min) / increment) : 0L;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the greatest common divisor (GCD) of {@code a} and {@code b}.
@@ -170,10 +465,6 @@ public class Maths {
 		return i;
 	}
 
-	public static double inverse(final double x) {
-		return division(1., x);
-	}
-
 	/**
 	 * Returns the least common multiple (LCM) of {@code a} and {@code b}.
 	 * <p>
@@ -186,9 +477,7 @@ public class Maths {
 		return a * b / gcd(a, b);
 	}
 
-	public static double log(final double x) {
-		return Math.log(x + TOLERANCE);
-	}
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns {@code number} rounded up to the nearest multiple of {@code unit}.
@@ -220,98 +509,6 @@ public class Maths {
 			return number;
 		}
 		return number + unit - remainder;
-	}
-
-	public static double square(final double x) {
-		return x * x;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static short maxToShort(final short... values) {
-		// Check the arguments
-		ShortArguments.requireNonEmpty(values);
-
-		// Get the maximum value
-		short max = Short.MIN_VALUE;
-		for (final short value : values) {
-			max = value > max ? value : max;
-		}
-		return max;
-	}
-
-	public static int maxToInt(final int... values) {
-		// Check the arguments
-		IntegerArguments.requireNonEmpty(values);
-
-		// Get the maximum value
-		int max = Integer.MIN_VALUE;
-		for (final int value : values) {
-			max = Math.max(max, value);
-		}
-		return max;
-	}
-
-	public static long maxToLong(final long... values) {
-		// Check the arguments
-		LongArguments.requireNonEmpty(values);
-
-		// Get the maximum value
-		long max = Long.MIN_VALUE;
-		for (final long value : values) {
-			max = Math.max(max, value);
-		}
-		return max;
-	}
-
-	public static float maxToFloat(final float... values) {
-		// Check the arguments
-		FloatArguments.requireNonEmpty(values);
-
-		// Get the maximum value
-		float max = Float.MIN_VALUE;
-		for (final float value : values) {
-			max = Math.max(max, value);
-		}
-		return max;
-	}
-
-	public static double maxToDouble(final double... values) {
-		// Check the arguments
-		DoubleArguments.requireNonEmpty(values);
-
-		// Get the maximum value
-		double max = Double.MIN_VALUE;
-		for (final double value : values) {
-			max = Math.max(max, value);
-		}
-		return max;
-	}
-
-	//////////////////////////////////////////////
-
-	public static <T extends Number> double getMax(final T... numbers) {
-		// Check the arguments
-		ArrayArguments.requireNonEmpty(numbers);
-
-		// Get the maximum value
-		double max = Double.MIN_VALUE;
-		for (final T number : numbers) {
-			max = Math.max(max, number.doubleValue());
-		}
-		return max;
-	}
-
-	public static <T extends Number> double getMax(final Collection<T> numbers) {
-		// Check the arguments
-		CollectionArguments.requireNonEmpty(numbers);
-
-		// Get the maximum value
-		double max = Double.MIN_VALUE;
-		for (final T number : numbers) {
-			max = Math.max(max, number.doubleValue());
-		}
-		return max;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -402,18 +599,97 @@ public class Maths {
 		return min;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ALGORITHMIC
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static long countPoints(final double min, final double max, final double increment) {
-		return min <= max ? 1L + floorToLong((max - min) / increment) : 0L;
+	public static short maxToShort(final short... values) {
+		// Check the arguments
+		ShortArguments.requireNonEmpty(values);
+
+		// Get the maximum value
+		short max = Short.MIN_VALUE;
+		for (final short value : values) {
+			max = value > max ? value : max;
+		}
+		return max;
+	}
+
+	public static int maxToInt(final int... values) {
+		// Check the arguments
+		IntegerArguments.requireNonEmpty(values);
+
+		// Get the maximum value
+		int max = Integer.MIN_VALUE;
+		for (final int value : values) {
+			max = Math.max(max, value);
+		}
+		return max;
+	}
+
+	public static long maxToLong(final long... values) {
+		// Check the arguments
+		LongArguments.requireNonEmpty(values);
+
+		// Get the maximum value
+		long max = Long.MIN_VALUE;
+		for (final long value : values) {
+			max = Math.max(max, value);
+		}
+		return max;
+	}
+
+	public static float maxToFloat(final float... values) {
+		// Check the arguments
+		FloatArguments.requireNonEmpty(values);
+
+		// Get the maximum value
+		float max = Float.MIN_VALUE;
+		for (final float value : values) {
+			max = Math.max(max, value);
+		}
+		return max;
+	}
+
+	public static double maxToDouble(final double... values) {
+		// Check the arguments
+		DoubleArguments.requireNonEmpty(values);
+
+		// Get the maximum value
+		double max = Double.MIN_VALUE;
+		for (final double value : values) {
+			max = Math.max(max, value);
+		}
+		return max;
+	}
+
+	//////////////////////////////////////////////
+
+	public static <T extends Number> double getMax(final T... numbers) {
+		// Check the arguments
+		ArrayArguments.requireNonEmpty(numbers);
+
+		// Get the maximum value
+		double max = Double.MIN_VALUE;
+		for (final T number : numbers) {
+			max = Math.max(max, number.doubleValue());
+		}
+		return max;
+	}
+
+	public static <T extends Number> double getMax(final Collection<T> numbers) {
+		// Check the arguments
+		CollectionArguments.requireNonEmpty(numbers);
+
+		// Get the maximum value
+		double max = Double.MIN_VALUE;
+		for (final T number : numbers) {
+			max = Math.max(max, number.doubleValue());
+		}
+		return max;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GEOMETRY
+	// GEOMETRIC FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -457,158 +733,18 @@ public class Maths {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SUM
+	// TRIGONOMETRIC FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double sum(final double... values) {
-		double sum = 0.;
-		for (final double value : values) {
-			sum += value;
-		}
-		return sum;
+	public static double cos(final double angle) {
+		return Math.cos(angle * DEGREE_TO_RADIAN);
 	}
-
-	public static <T extends Number> double sum(final T... numbers) {
-		double sum = 0.;
-		for (final T number : numbers) {
-			if (number != null) {
-				sum += number.doubleValue();
-			}
-		}
-		return sum;
-	}
-
-	public static <T extends Number> double sum(final Collection<T> numbers) {
-		double sum = 0.;
-		for (final T number : numbers) {
-			if (number != null) {
-				sum += number.doubleValue();
-			}
-		}
-		return sum;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static double sumWithoutNaN(final double... values) {
-		double sum = 0.;
-		for (final double value : values) {
-			if (!Double.isNaN(value)) {
-				sum += value;
-			}
-		}
-		return sum;
-	}
-
-	public static <T extends Number> double sumWithoutNaN(final T... numbers) {
-		double sum = 0.;
-		for (final T number : numbers) {
-			if (number != null) {
-				final double elementValue = number.doubleValue();
-				if (!Double.isNaN(elementValue)) {
-					sum += elementValue;
-				}
-			}
-		}
-		return sum;
-	}
-
-	public static <T extends Number> double sumWithoutNaN(final Collection<T> numbers) {
-		double sum = 0.;
-		for (final T number : numbers) {
-			if (number != null) {
-				final double elementValue = number.doubleValue();
-				if (!Double.isNaN(elementValue)) {
-					sum += elementValue;
-				}
-			}
-		}
-		return sum;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static double sumOfSquares(final double[] values, final double mean) {
-		double sum = 0.;
-		for (final double value : values) {
-			sum += square(value - mean);
-		}
-		return sum;
-	}
-
-	public static <T extends Number> double sumOfSquares(final T[] values, final double mean) {
-		double sum = 0.;
-		for (final T value : values) {
-			if (value != null) {
-				sum += square(value.doubleValue() - mean);
-			}
-		}
-		return sum;
-	}
-
-	public static <T extends Number> double sumOfSquares(final Collection<T> numbers,
-			final double mean) {
-		double sum = 0.;
-		for (final T number : numbers) {
-			if (number != null) {
-				sum += square(number.doubleValue() - mean);
-			}
-		}
-		return sum;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static double sumOfSquaresWithoutNaN(final double[] values, final double mean) {
-		double sum = 0.;
-		for (final double value : values) {
-			if (!Double.isNaN(value)) {
-				sum += square(value - mean);
-			}
-		}
-		return sum;
-	}
-
-	public static <T extends Number> double sumOfSquaresWithoutNaN(final T[] numbers,
-			final double mean) {
-		double sum = 0.;
-		for (final T number : numbers) {
-			if (number != null) {
-				final double elementValue = number.doubleValue();
-				if (!Double.isNaN(elementValue)) {
-					sum += square(elementValue - mean);
-				}
-			}
-		}
-		return sum;
-	}
-
-	public static <T extends Number> double sumOfSquaresWithoutNaN(final Collection<T> numbers,
-			final double mean) {
-		double sum = 0.;
-		for (final T number : numbers) {
-			if (number != null) {
-				final double elementValue = number.doubleValue();
-				if (!Double.isNaN(elementValue)) {
-					sum += square(elementValue - mean);
-				}
-			}
-		}
-		return sum;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// TRIGONOMETRY
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double sin(final double angle) {
 		return Math.sin(angle * DEGREE_TO_RADIAN);
 	}
 
-	public static double cos(final double angle) {
-		return Math.cos(angle * DEGREE_TO_RADIAN);
-	}
+	//////////////////////////////////////////////
 
 	public static double tan(final double angle) {
 		return Math.tan(angle * DEGREE_TO_RADIAN);
@@ -617,6 +753,8 @@ public class Maths {
 	public static double cot(final double angle) {
 		return 1. / Math.tan(angle * DEGREE_TO_RADIAN);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the haversine of the specified angle.

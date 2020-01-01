@@ -96,20 +96,20 @@ public class Arrays {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(final Class<?> c, final T[] array) {
-		final T[] result = (T[]) create(c, array.length);
-		System.arraycopy(array, 0, result, 0, array.length);
-		return result;
+		final T[] output = (T[]) create(c, array.length);
+		System.arraycopy(array, 0, output, 0, array.length);
+		return output;
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> T[][] toArray2D(final Class<?> c, final T[][] array2D) {
 		final int rowCount = array2D.length;
 		final int columnCount = array2D[0].length;
-		final T[][] result = (T[][]) create(c, rowCount, columnCount);
+		final T[][] output2D = (T[][]) create(c, rowCount, columnCount);
 		for (int i = 0; i < rowCount; ++i) {
-			System.arraycopy(array2D[i], 0, result, i * columnCount, columnCount);
+			System.arraycopy(array2D[i], 0, output2D, i * columnCount, columnCount);
 		}
-		return result;
+		return output2D;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -117,14 +117,14 @@ public class Arrays {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
 		final int depthCount = array3D[0][0].length;
-		final T[][][] result = (T[][][]) create(c, rowCount, columnCount, depthCount);
+		final T[][][] output3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
 		for (int i = 0; i < rowCount; ++i) {
 			for (int j = 0; j < rowCount; ++j) {
-				System.arraycopy(array3D[i][j], 0, result, (i * columnCount + j) * depthCount,
+				System.arraycopy(array3D[i][j], 0, output3D, (i * columnCount + j) * depthCount,
 						depthCount);
 			}
 		}
-		return result;
+		return output3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,9 +138,9 @@ public class Arrays {
 	}
 
 	public static <T> ExtendedList<T> toExtendedList(final T[] array) {
-		final ExtendedList<T> result = new ExtendedList<T>(array.length);
-		result.addAll(array);
-		return result;
+		final ExtendedList<T> list = new ExtendedList<T>(array.length);
+		list.addAll(array);
+		return list;
 	}
 
 	public static <T> ExtendedList<T> asExtendedList(final T... array) {
@@ -148,11 +148,11 @@ public class Arrays {
 	}
 
 	public static <T> ExtendedLinkedList<T> toExtendedLinkedList(final T[] array) {
-		final ExtendedLinkedList<T> result = new ExtendedLinkedList<T>();
+		final ExtendedLinkedList<T> list = new ExtendedLinkedList<T>();
 		for (final T element : array) {
-			result.add(element);
+			list.add(element);
 		}
-		return result;
+		return list;
 	}
 
 	public static <T> ExtendedLinkedList<T> asExtendedLinkedList(final T... array) {
@@ -162,11 +162,11 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> Set<T> toSet(final T[] array) {
-		final Set<T> result = new HashSet<T>(array.length);
+		final Set<T> set = new HashSet<T>(array.length);
 		for (final T element : array) {
-			result.add(element);
+			set.add(element);
 		}
-		return result;
+		return set;
 	}
 
 	public static <T> Set<T> asSet(final T... array) {
@@ -225,15 +225,15 @@ public class Arrays {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> int count(final T[][] arrays) {
-		int result = 0;
+		int count = 0;
 		for (final T[] array : arrays) {
-			result += array.length;
+			count += array.length;
 		}
-		return result;
+		return count;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -311,15 +311,15 @@ public class Arrays {
 			return toArray(a.getClass().getComponentType(), a);
 		}
 		final Class<?> c = a.getClass().getComponentType();
-		final T[] result = (T[]) create(c, a.length + b.length);
-		System.arraycopy(a, 0, result, 0, a.length);
+		final T[] mergedArray = (T[]) create(c, a.length + b.length);
+		System.arraycopy(a, 0, mergedArray, 0, a.length);
 		try {
-			System.arraycopy(b, 0, result, a.length, b.length);
+			System.arraycopy(b, 0, mergedArray, a.length, b.length);
 		} catch (final ArrayStoreException ex) {
 			ArrayArguments.requireAssignableFrom(c, b.getClass().getComponentType());
 			throw ex;
 		}
-		return result;
+		return mergedArray;
 	}
 
 	/**
@@ -341,11 +341,11 @@ public class Arrays {
 			return toArray(arrays.getClass().getComponentType().getComponentType(), arrays[0]);
 		}
 		final Class<?> c = arrays.getClass().getComponentType().getComponentType();
-		final T[] result = (T[]) create(c, count(arrays));
+		final T[] mergedArray = (T[]) create(c, count(arrays));
 		int offset = 0;
 		for (final T[] array : arrays) {
 			try {
-				System.arraycopy(array, 0, result, offset, array.length);
+				System.arraycopy(array, 0, mergedArray, offset, array.length);
 			} catch (final ArrayStoreException ex) {
 				ArrayArguments.requireAssignableFrom(c,
 						array.getClass().getComponentType().getComponentType());
@@ -353,7 +353,7 @@ public class Arrays {
 			}
 			offset += array.length;
 		}
-		return result;
+		return mergedArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -563,9 +563,9 @@ public class Arrays {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] take(final T[] array, final int from, final int length) {
 		final int maxLength = Math.min(length, array.length - from);
-		final T[] result = (T[]) create(array.getClass().getComponentType(), maxLength);
-		System.arraycopy(array, from, result, 0, maxLength);
-		return result;
+		final T[] subarray = (T[]) create(array.getClass().getComponentType(), maxLength);
+		System.arraycopy(array, from, subarray, 0, maxLength);
+		return subarray;
 	}
 
 	//////////////////////////////////////////////
@@ -592,13 +592,13 @@ public class Arrays {
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array2D[0].length - fromColumn);
-		final T[] result = (T[]) create(array2D.getClass().getComponentType().getComponentType(),
+		final T[] subarray = (T[]) create(array2D.getClass().getComponentType().getComponentType(),
 				maxRowCount * maxColumnCount);
 		for (int i = 0; i < maxRowCount; ++i) {
-			System.arraycopy(array2D[fromRow + i], fromColumn, result, i * maxColumnCount,
+			System.arraycopy(array2D[fromRow + i], fromColumn, subarray, i * maxColumnCount,
 					maxColumnCount);
 		}
-		return result;
+		return subarray;
 	}
 
 	//////////////////////////////////////////////
@@ -638,16 +638,16 @@ public class Arrays {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array3D[0].length - fromColumn);
 		final int maxDepthCount = Math.min(depthCount, array3D[0][0].length - fromDepth);
-		final T[] result = (T[]) create(
+		final T[] subarray = (T[]) create(
 				array3D.getClass().getComponentType().getComponentType().getComponentType(),
 				maxRowCount * maxColumnCount * maxDepthCount);
 		for (int i = 0; i < maxRowCount; ++i) {
 			for (int j = 0; j < maxColumnCount; ++j) {
-				System.arraycopy(array3D[fromRow + i][fromColumn + j], fromDepth, result,
+				System.arraycopy(array3D[fromRow + i][fromColumn + j], fromDepth, subarray,
 						(i * maxColumnCount + j) * maxDepthCount, maxDepthCount);
 			}
 		}
-		return result;
+		return subarray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

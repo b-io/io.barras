@@ -55,7 +55,7 @@ public abstract class ObjectToIntegerMapper
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> int callToPrimitive(final I input) {
@@ -65,68 +65,68 @@ public abstract class ObjectToIntegerMapper
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> int[] callToPrimitiveArray(final I[] input) {
-		final int[] result = new int[input.length];
+		final int[] output = new int[input.length];
 		for (int i = 0; i < input.length; ++i) {
-			result[i] = call(input[i]);
+			output[i] = call(input[i]);
 		}
-		return result;
+		return output;
 	}
 
 	public <I> int[] callToPrimitiveArray(final I[][] input2D) {
 		final int n = input2D[0].length;
-		final int[] result = new int[input2D.length * n];
+		final int[] output = new int[input2D.length * n];
 		for (int i = 0; i < input2D.length; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result[i * n + j] = call(input2D[i][j]);
+				output[i * n + j] = call(input2D[i][j]);
 			}
 		}
-		return result;
+		return output;
 	}
 
 	public <I> int[] callToPrimitiveArray(final I[][][] input3D) {
 		final int n = input3D[0].length;
 		final int o = input3D[0][0].length;
-		final int[] result = new int[input3D.length * n * o];
+		final int[] output = new int[input3D.length * n * o];
 		for (int i = 0; i < input3D.length; ++i) {
 			for (int j = 0; j < n; ++j) {
 				for (int k = 0; k < o; ++k) {
-					result[i * n + j * o + k] = call(input3D[i][j][k]);
+					output[i * n + j * o + k] = call(input3D[i][j][k]);
 				}
 			}
 		}
-		return result;
+		return output;
 	}
 
 	//////////////////////////////////////////////
 
 	public <I> int[][] callToPrimitiveArray2D(final I[][] input2D) {
-		final int[][] result = new int[input2D.length][];
+		final int[][] output2D = new int[input2D.length][];
 		for (int i = 0; i < input2D.length; ++i) {
-			result[i] = callToPrimitiveArray(input2D[i]);
+			output2D[i] = callToPrimitiveArray(input2D[i]);
 		}
-		return result;
+		return output2D;
 	}
 
 	//////////////////////////////////////////////
 
 	public <I> int[][][] callToPrimitiveArray3D(final I[][][] input3D) {
-		final int[][][] result = new int[input3D.length][][];
+		final int[][][] output3D = new int[input3D.length][][];
 		for (int i = 0; i < input3D.length; ++i) {
-			result[i] = callToPrimitiveArray2D(input3D[i]);
+			output3D[i] = callToPrimitiveArray2D(input3D[i]);
 		}
-		return result;
+		return output3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> int[] callCollectionToPrimitiveArray(final Collection<I> input) {
-		final int[] result = new int[input.size()];
+		final int[] output = new int[input.size()];
 		int i = 0;
 		for (final I element : input) {
-			result[i] = call(element);
+			output[i] = call(element);
 			++i;
 		}
-		return result;
+		return output;
 	}
 
 

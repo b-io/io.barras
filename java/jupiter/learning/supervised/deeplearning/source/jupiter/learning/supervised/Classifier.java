@@ -423,7 +423,7 @@ public abstract class Classifier
 		// Compute sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))
 		final double truePositive = A.diagonalTimes(YT).sum(); // sum(diag(A Y'))
 		final double falsePositive = A.diagonalTimes(Scalar.ONE.minus(YT)).sum(); // sum(diag(A (1 - Y')))
-		return Maths.division(truePositive, truePositive + falsePositive);
+		return Maths.safeDivision(truePositive, truePositive + falsePositive);
 	}
 
 	/**
@@ -437,7 +437,7 @@ public abstract class Classifier
 		// Compute sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))
 		final double truePositive = A.diagonalTimes(YT).sum(); // sum(diag(A Y'))
 		final double falseNegative = Scalar.ONE.minus(A).diagonalTimes(YT).sum(); // sum(diag((1 - A) Y'))
-		return Maths.division(truePositive, truePositive + falseNegative);
+		return Maths.safeDivision(truePositive, truePositive + falseNegative);
 	}
 
 	/**

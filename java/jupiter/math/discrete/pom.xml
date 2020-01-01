@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.barras.jupiter</groupId>
+		<artifactId>math</artifactId>
+		<version>1.6.0</version>
+	</parent>
+
+	<artifactId>discrete</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Discrete</name>
+	<description>Discrete</description>
+	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/math/discrete</url>
+
+	<dependencies>
+		<!-- Jupiter -->
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

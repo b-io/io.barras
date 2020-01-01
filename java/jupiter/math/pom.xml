@@ -20,6 +20,7 @@
 	<modules>
 		<module>analysis</module>
 		<module>calculator</module>
+		<module>discrete</module>
 		<module>filters</module>
 		<module>linear</module>
 		<module>statistics</module>

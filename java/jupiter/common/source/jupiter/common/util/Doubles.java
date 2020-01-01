@@ -244,11 +244,11 @@ public class Doubles {
 	 * @return an array of {@link Double} from the specified {@code double} array
 	 */
 	public static Double[] toArray(final double[] array) {
-		final Double[] result = new Double[array.length];
+		final Double[] convertedArray = new Double[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			result[i] = array[i];
+			convertedArray[i] = array[i];
 		}
-		return result;
+		return convertedArray;
 	}
 
 	/**
@@ -270,11 +270,11 @@ public class Doubles {
 	 * @return a 2D array of {@link Double} from the specified 2D {@code double} array
 	 */
 	public static Double[][] toArray2D(final double[][] array2D) {
-		final Double[][] result = new Double[array2D.length][];
+		final Double[][] convertedArray2D = new Double[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = toArray(array2D[i]);
+			convertedArray2D[i] = toArray(array2D[i]);
 		}
-		return result;
+		return convertedArray2D;
 	}
 
 	/**
@@ -296,11 +296,11 @@ public class Doubles {
 	 * @return a 3D array of {@link Double} from the specified 3D {@code double} array
 	 */
 	public static Double[][][] toArray3D(final double[][][] array3D) {
-		final Double[][][] result = new Double[array3D.length][][];
+		final Double[][][] convertedArray3D = new Double[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = toArray2D(array3D[i]);
+			convertedArray3D[i] = toArray2D(array3D[i]);
 		}
-		return result;
+		return convertedArray3D;
 	}
 
 	/**
@@ -655,7 +655,7 @@ public class Doubles {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void fill(final double[] array, final double value) {
@@ -708,10 +708,10 @@ public class Doubles {
 		} else if (b == null) {
 			return clone(a);
 		}
-		final double[] result = new double[a.length + b.length];
-		System.arraycopy(a, 0, result, 0, a.length);
-		System.arraycopy(b, 0, result, a.length, b.length);
-		return result;
+		final double[] mergedArray = new double[a.length + b.length];
+		System.arraycopy(a, 0, mergedArray, 0, a.length);
+		System.arraycopy(b, 0, mergedArray, a.length, b.length);
+		return mergedArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -749,9 +749,9 @@ public class Doubles {
 
 	public static double[] take(final double[] array, final int from, final int length) {
 		final int maxLength = Math.min(length, array.length - from);
-		final double[] result = new double[maxLength];
-		System.arraycopy(array, from, result, 0, maxLength);
-		return result;
+		final double[] subarray = new double[maxLength];
+		System.arraycopy(array, from, subarray, 0, maxLength);
+		return subarray;
 	}
 
 	public static double[] take(final double[]... array2D) {
@@ -765,12 +765,12 @@ public class Doubles {
 	public static double[] take(final double[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
-		final double[] result = new double[maxRowCount * columnCount];
+		final double[] subarray = new double[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, result, i * columnCount,
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
 					columnCount);
 		}
-		return result;
+		return subarray;
 	}
 
 	public static double[] take(final double[][]... array3D) {
@@ -791,12 +791,12 @@ public class Doubles {
 			final int depthCount) {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int length = columnCount * depthCount;
-		final double[] result = new double[maxRowCount * length];
+		final double[] subarray = new double[maxRowCount * length];
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			System.arraycopy(take(array3D[i], fromColumn, columnCount, fromDepth, depthCount), 0,
-					result, i * length, length);
+					subarray, i * length, length);
 		}
-		return result;
+		return subarray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

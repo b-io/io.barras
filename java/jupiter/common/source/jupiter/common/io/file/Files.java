@@ -513,7 +513,7 @@ public class Files {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -620,7 +620,7 @@ public class Files {
 				input = new FileInputStream(source).getChannel();
 				output = new FileOutputStream(target).getChannel();
 				final long size = input.size();
-				long position = 0;
+				long position = 0L;
 				long byteCount;
 				while (position < size) {
 					final long remain = size - position;
@@ -628,7 +628,7 @@ public class Files {
 							remain > BUFFER_SIZE ? BUFFER_SIZE : remain);
 					// Exit if there are no more bytes to transfer
 					// (e.g. if the file is truncated after caching the size)
-					if (byteCount == 0) {
+					if (byteCount == 0L) {
 						break;
 					}
 					position += byteCount;

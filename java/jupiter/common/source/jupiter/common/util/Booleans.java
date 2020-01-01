@@ -233,11 +233,11 @@ public class Booleans {
 	 * @return an array of {@link Boolean} from the specified {@code boolean} array
 	 */
 	public static Boolean[] toArray(final boolean[] array) {
-		final Boolean[] result = new Boolean[array.length];
+		final Boolean[] convertedArray = new Boolean[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			result[i] = array[i];
+			convertedArray[i] = array[i];
 		}
-		return result;
+		return convertedArray;
 	}
 
 	/**
@@ -259,11 +259,11 @@ public class Booleans {
 	 * @return a 2D array of {@link Boolean} from the specified 2D {@code boolean} array
 	 */
 	public static Boolean[][] toArray2D(final boolean[][] array2D) {
-		final Boolean[][] result = new Boolean[array2D.length][];
+		final Boolean[][] convertedArray2D = new Boolean[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = toArray(array2D[i]);
+			convertedArray2D[i] = toArray(array2D[i]);
 		}
-		return result;
+		return convertedArray2D;
 	}
 
 	/**
@@ -285,11 +285,11 @@ public class Booleans {
 	 * @return a 3D array of {@link Boolean} from the specified 3D {@code boolean} array
 	 */
 	public static Boolean[][][] toArray3D(final boolean[][][] array3D) {
-		final Boolean[][][] result = new Boolean[array3D.length][][];
+		final Boolean[][][] convertedArray3D = new Boolean[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = toArray2D(array3D[i]);
+			convertedArray3D[i] = toArray2D(array3D[i]);
 		}
-		return result;
+		return convertedArray3D;
 	}
 
 	/**
@@ -533,7 +533,7 @@ public class Booleans {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void fill(final boolean[] array, final boolean value) {
@@ -586,10 +586,10 @@ public class Booleans {
 		} else if (b == null) {
 			return clone(a);
 		}
-		final boolean[] result = new boolean[a.length + b.length];
-		System.arraycopy(a, 0, result, 0, a.length);
-		System.arraycopy(b, 0, result, a.length, b.length);
-		return result;
+		final boolean[] mergedArray = new boolean[a.length + b.length];
+		System.arraycopy(a, 0, mergedArray, 0, a.length);
+		System.arraycopy(b, 0, mergedArray, a.length, b.length);
+		return mergedArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -600,9 +600,9 @@ public class Booleans {
 
 	public static boolean[] take(final boolean[] array, final int from, final int length) {
 		final int maxLength = Math.min(length, array.length - from);
-		final boolean[] result = new boolean[maxLength];
-		System.arraycopy(array, from, result, 0, maxLength);
-		return result;
+		final boolean[] subarray = new boolean[maxLength];
+		System.arraycopy(array, from, subarray, 0, maxLength);
+		return subarray;
 	}
 
 	public static boolean[] take(final boolean[]... array2D) {
@@ -616,12 +616,12 @@ public class Booleans {
 	public static boolean[] take(final boolean[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
-		final boolean[] result = new boolean[maxRowCount * columnCount];
+		final boolean[] subarray = new boolean[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, result, i * columnCount,
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
 					columnCount);
 		}
-		return result;
+		return subarray;
 	}
 
 	public static boolean[] take(final boolean[][]... array3D) {
@@ -643,12 +643,12 @@ public class Booleans {
 			final int depthCount) {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int length = columnCount * depthCount;
-		final boolean[] result = new boolean[maxRowCount * length];
+		final boolean[] subarray = new boolean[maxRowCount * length];
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			System.arraycopy(take(array3D[i], fromColumn, columnCount, fromDepth, depthCount), 0,
-					result, i * length, length);
+					subarray, i * length, length);
 		}
-		return result;
+		return subarray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -64,37 +64,37 @@ public abstract class ObjectMapper<O>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> O[] callCollectionToArray(final Collection<I> input) {
-		final O[] result = Arrays.<O>create(c, input.size());
+		final O[] output = Arrays.<O>create(c, input.size());
 		int i = 0;
 		for (final I element : input) {
-			result[i] = call(element);
+			output[i] = call(element);
 			++i;
 		}
-		return result;
+		return output;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> ExtendedList<O> callCollectionToList(final Collection<I> input) {
-		final ExtendedList<O> result = new ExtendedList<O>(input.size());
+		final ExtendedList<O> output = new ExtendedList<O>(input.size());
 		for (final I element : input) {
-			result.add(call(element));
+			output.add(call(element));
 		}
-		return result;
+		return output;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> Set<O> callCollectionToSet(final Collection<I> input) {
-		final Set<O> result = new HashSet<O>(input.size());
+		final Set<O> output = new HashSet<O>(input.size());
 		for (final I element : input) {
-			result.add(call(element));
+			output.add(call(element));
 		}
-		return result;
+		return output;
 	}
 
 

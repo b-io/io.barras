@@ -257,11 +257,11 @@ public class Floats {
 	 * @return an array of {@link Float} from the specified {@code float} array
 	 */
 	public static Float[] toArray(final float[] array) {
-		final Float[] result = new Float[array.length];
+		final Float[] convertedArray = new Float[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			result[i] = array[i];
+			convertedArray[i] = array[i];
 		}
-		return result;
+		return convertedArray;
 	}
 
 	/**
@@ -283,11 +283,11 @@ public class Floats {
 	 * @return a 2D array of {@link Float} from the specified 2D {@code float} array
 	 */
 	public static Float[][] toArray2D(final float[][] array2D) {
-		final Float[][] result = new Float[array2D.length][];
+		final Float[][] convertedArray2D = new Float[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = toArray(array2D[i]);
+			convertedArray2D[i] = toArray(array2D[i]);
 		}
-		return result;
+		return convertedArray2D;
 	}
 
 	/**
@@ -309,11 +309,11 @@ public class Floats {
 	 * @return a 3D array of {@link Float} from the specified 3D {@code float} array
 	 */
 	public static Float[][][] toArray3D(final float[][][] array3D) {
-		final Float[][][] result = new Float[array3D.length][][];
+		final Float[][][] convertedArray3D = new Float[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = toArray2D(array3D[i]);
+			convertedArray3D[i] = toArray2D(array3D[i]);
 		}
-		return result;
+		return convertedArray3D;
 	}
 
 	/**
@@ -656,7 +656,7 @@ public class Floats {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void fill(final float[] array, final float value) {
@@ -736,10 +736,10 @@ public class Floats {
 		} else if (b == null) {
 			return clone(a);
 		}
-		final float[] result = new float[a.length + b.length];
-		System.arraycopy(a, 0, result, 0, a.length);
-		System.arraycopy(b, 0, result, a.length, b.length);
-		return result;
+		final float[] mergedArray = new float[a.length + b.length];
+		System.arraycopy(a, 0, mergedArray, 0, a.length);
+		System.arraycopy(b, 0, mergedArray, a.length, b.length);
+		return mergedArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -750,9 +750,9 @@ public class Floats {
 
 	public static float[] take(final float[] array, final int from, final int length) {
 		final int maxLength = Math.min(length, array.length - from);
-		final float[] result = new float[maxLength];
-		System.arraycopy(array, from, result, 0, maxLength);
-		return result;
+		final float[] subarray = new float[maxLength];
+		System.arraycopy(array, from, subarray, 0, maxLength);
+		return subarray;
 	}
 
 	public static float[] take(final float[]... array2D) {
@@ -766,12 +766,12 @@ public class Floats {
 	public static float[] take(final float[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
-		final float[] result = new float[maxRowCount * columnCount];
+		final float[] subarray = new float[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, result, i * columnCount,
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
 					columnCount);
 		}
-		return result;
+		return subarray;
 	}
 
 	public static float[] take(final float[][]... array3D) {
@@ -792,12 +792,12 @@ public class Floats {
 			final int depthCount) {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int length = columnCount * depthCount;
-		final float[] result = new float[maxRowCount * length];
+		final float[] subarray = new float[maxRowCount * length];
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			System.arraycopy(take(array3D[i], fromColumn, columnCount, fromDepth, depthCount), 0,
-					result, i * length, length);
+					subarray, i * length, length);
 		}
-		return result;
+		return subarray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

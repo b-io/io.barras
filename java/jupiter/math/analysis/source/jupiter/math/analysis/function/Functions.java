@@ -23,6 +23,9 @@
  */
 package jupiter.math.analysis.function;
 
+/**
+ * {@link Functions} is a collection of analytical functions.
+ */
 public class Functions {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

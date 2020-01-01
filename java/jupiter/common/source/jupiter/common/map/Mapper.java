@@ -96,7 +96,7 @@ public abstract class Mapper<I, O>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -107,76 +107,76 @@ public abstract class Mapper<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public O[] callToArray(final I[] input) {
-		final O[] result = Arrays.<O>create(c, input.length);
+		final O[] output = Arrays.<O>create(c, input.length);
 		for (int i = 0; i < input.length; ++i) {
-			result[i] = call(input[i]);
+			output[i] = call(input[i]);
 		}
-		return result;
+		return output;
 	}
 
 	public O[] callToArray(final I[][] input2D) {
 		final int n = input2D[0].length;
-		final O[] result = Arrays.<O>create(c, input2D.length * n);
+		final O[] output = Arrays.<O>create(c, input2D.length * n);
 		for (int i = 0; i < input2D.length; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result[i * n + j] = call(input2D[i][j]);
+				output[i * n + j] = call(input2D[i][j]);
 			}
 		}
-		return result;
+		return output;
 	}
 
 	public O[] callToArray(final I[][][] input3D) {
 		final int n = input3D[0].length;
 		final int o = input3D[0][0].length;
-		final O[] result = Arrays.<O>create(c, input3D.length * n * o);
+		final O[] output = Arrays.<O>create(c, input3D.length * n * o);
 		for (int i = 0; i < input3D.length; ++i) {
 			for (int j = 0; j < n; ++j) {
 				for (int k = 0; k < o; ++k) {
-					result[i * n + j * o + k] = call(input3D[i][j][k]);
+					output[i * n + j * o + k] = call(input3D[i][j][k]);
 				}
 			}
 		}
-		return result;
+		return output;
 	}
 
 	//////////////////////////////////////////////
 
 	public O[][] callToArray2D(final I[][] input2D) {
-		final O[][] result = Arrays.<O>create(c, input2D.length, 0);
+		final O[][] output2D = Arrays.<O>create(c, input2D.length, 0);
 		for (int i = 0; i < input2D.length; ++i) {
-			result[i] = callToArray(input2D[i]);
+			output2D[i] = callToArray(input2D[i]);
 		}
-		return result;
+		return output2D;
 	}
 
 	//////////////////////////////////////////////
 
 	public O[][][] callToArray3D(final I[][][] input3D) {
-		final O[][][] result = Arrays.<O>create(c, input3D.length, 0, 0);
+		final O[][][] output3D = Arrays.<O>create(c, input3D.length, 0, 0);
 		for (int i = 0; i < input3D.length; ++i) {
-			result[i] = callToArray2D(input3D[i]);
+			output3D[i] = callToArray2D(input3D[i]);
 		}
-		return result;
+		return output3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public ExtendedList<O> callToList(final I[] input) {
-		final ExtendedList<O> result = new ExtendedList<O>();
+		final ExtendedList<O> output = new ExtendedList<O>();
 		for (final I element : input) {
-			result.add(call(element));
+			output.add(call(element));
 		}
-		return result;
+		return output;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Set<O> callToSet(final I[] input) {
-		final Set<O> result = new HashSet<O>(input.length);
+		final Set<O> output = new HashSet<O>(input.length);
 		for (final I element : input) {
-			result.add(call(element));
+			output.add(call(element));
 		}
-		return result;
+		return output;
 	}
 
 

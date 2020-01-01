@@ -95,7 +95,7 @@ public abstract class DivideAndConquer<I>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -131,7 +131,7 @@ public abstract class DivideAndConquer<I>
 		IntegerArguments.requirePositive(minSliceSize);
 
 		// Divide and conquer
-		final int maxWorkerToReserveCount = Maths.ceilToInt(Maths.division(to - from, minSliceSize));
+		final int maxWorkerToReserveCount = Maths.ceilToInt(Maths.safeDivision(to - from, minSliceSize));
 		if (maxWorkerToReserveCount == 1) {
 			return new int[] {conquer(input, from, to)};
 		}
@@ -186,11 +186,11 @@ public abstract class DivideAndConquer<I>
 	 *         {@code IO.EXIT_FAILURE} otherwise for each of them
 	 */
 	protected int[] conquer(final long[] ids) {
-		final int[] results = new int[ids.length];
+		final int[] outputs = new int[ids.length];
 		for (int i = 0; i < ids.length; ++i) {
-			results[i] = workQueue.get(ids[i]);
+			outputs[i] = workQueue.get(ids[i]);
 		}
-		return results;
+		return outputs;
 	}
 
 	/**

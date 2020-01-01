@@ -71,14 +71,14 @@ public class ExpressionHandler
 	 * The {@link List} of binary operators.
 	 */
 	@SuppressWarnings("unchecked")
-	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.<List<Character>>asList(
+	protected static final List<List<Character>> BINARY_FUNCTIONS = Arrays.<List<Character>>asList(
 			Arrays.<Character>asList('+', '-'), Arrays.<Character>asList('*', '/'),
 			Arrays.<Character>asList('^'), Arrays.<Character>asList('~'));
 	/**
 	 * The {@link List} of unary operators.
 	 */
 	@SuppressWarnings("unchecked")
-	protected static final List<List<Character>> UNARY_OPERATORS = Arrays.<List<Character>>asList(
+	protected static final List<List<Character>> UNARY_FUNCTIONS = Arrays.<List<Character>>asList(
 			Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
 
 	/**
@@ -100,7 +100,7 @@ public class ExpressionHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -345,7 +345,7 @@ public class ExpressionHandler
 	protected static ExtendedList<Integer> getBinaryOperatorIndexes(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		return getOperatorIndexes(expression, delimitingIntervals, expression.length() - 1,
-				BINARY_OPERATORS);
+				BINARY_FUNCTIONS);
 	}
 
 	/**
@@ -361,7 +361,7 @@ public class ExpressionHandler
 	protected static Integer getLastUnaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		return getLastOperatorIndexFromList(expression, delimitingIntervals,
-				expression.length() - 1, UNARY_OPERATORS);
+				expression.length() - 1, UNARY_FUNCTIONS);
 	}
 
 	/**

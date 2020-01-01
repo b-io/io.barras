@@ -260,11 +260,11 @@ public class Longs {
 	 * @return an array of {@link Long} from the specified {@code long} array
 	 */
 	public static Long[] toArray(final long[] array) {
-		final Long[] result = new Long[array.length];
+		final Long[] convertedArray = new Long[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			result[i] = array[i];
+			convertedArray[i] = array[i];
 		}
-		return result;
+		return convertedArray;
 	}
 
 	/**
@@ -286,11 +286,11 @@ public class Longs {
 	 * @return a 2D array of {@link Long} from the specified 2D {@code long} array
 	 */
 	public static Long[][] toArray2D(final long[][] array2D) {
-		final Long[][] result = new Long[array2D.length][];
+		final Long[][] convertedArray2D = new Long[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = toArray(array2D[i]);
+			convertedArray2D[i] = toArray(array2D[i]);
 		}
-		return result;
+		return convertedArray2D;
 	}
 
 	/**
@@ -312,11 +312,11 @@ public class Longs {
 	 * @return a 3D array of {@link Long} from the specified 3D {@code long} array
 	 */
 	public static Long[][][] toArray3D(final long[][][] array3D) {
-		final Long[][][] result = new Long[array3D.length][][];
+		final Long[][][] convertedArray3D = new Long[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = toArray2D(array3D[i]);
+			convertedArray3D[i] = toArray2D(array3D[i]);
 		}
-		return result;
+		return convertedArray3D;
 	}
 
 	/**
@@ -643,7 +643,7 @@ public class Longs {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void fill(final long[] array, final long value) {
@@ -695,10 +695,10 @@ public class Longs {
 		} else if (b == null) {
 			return clone(a);
 		}
-		final long[] result = new long[a.length + b.length];
-		System.arraycopy(a, 0, result, 0, a.length);
-		System.arraycopy(b, 0, result, a.length, b.length);
-		return result;
+		final long[] mergedArray = new long[a.length + b.length];
+		System.arraycopy(a, 0, mergedArray, 0, a.length);
+		System.arraycopy(b, 0, mergedArray, a.length, b.length);
+		return mergedArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -736,9 +736,9 @@ public class Longs {
 
 	public static long[] take(final long[] array, final int from, final int length) {
 		final int maxLength = Math.min(length, array.length - from);
-		final long[] result = new long[maxLength];
-		System.arraycopy(array, from, result, 0, maxLength);
-		return result;
+		final long[] subarray = new long[maxLength];
+		System.arraycopy(array, from, subarray, 0, maxLength);
+		return subarray;
 	}
 
 	public static long[] take(final long[]... array2D) {
@@ -752,12 +752,12 @@ public class Longs {
 	public static long[] take(final long[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
-		final long[] result = new long[maxRowCount * columnCount];
+		final long[] subarray = new long[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, result, i * columnCount,
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
 					columnCount);
 		}
-		return result;
+		return subarray;
 	}
 
 	public static long[] take(final long[][]... array3D) {
@@ -778,12 +778,12 @@ public class Longs {
 			final int depthCount) {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int length = columnCount * depthCount;
-		final long[] result = new long[maxRowCount * length];
+		final long[] subarray = new long[maxRowCount * length];
 		for (int i = fromRow; i < maxRowCount; ++i) {
 			System.arraycopy(take(array3D[i], fromColumn, columnCount, fromDepth, depthCount), 0,
-					result, i * length, length);
+					subarray, i * length, length);
 		}
-		return result;
+		return subarray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
