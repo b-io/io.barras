@@ -25,13 +25,14 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.math.ITuple;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Pair<T1, T2>
-		implements ICloneable<Pair<T1, T2>>, Serializable {
+		implements ICloneable<Pair<T1, T2>>, ITuple, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -122,6 +123,21 @@ public class Pair<T1, T2>
 	 */
 	public void setSecond(final T2 second) {
 		this.second = second;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the size of {@code this}.
+	 * <p>
+	 * @return the size of {@code this}
+	 */
+	@Override
+	public int size() {
+		return 2;
 	}
 
 

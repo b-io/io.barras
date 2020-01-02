@@ -23,37 +23,36 @@
  */
 package jupiter.common.math;
 
+import java.util.List;
+
+import jupiter.common.struct.tuple.Pair;
+
 /**
- * {@link ISet} is the well-defined collection of distinct {@code T} objects (called elements).
+ * {@link IMultiSet} is the collection of {@code T} objects (called elements) in which elements may
+ * occur more than once.
  * <p>
- * @param <T> the self {@link Comparable} type of the {@link ISet}
+ * @param <T> the self {@link Comparable} type of the {@link IMultiSet}
  */
-public interface ISet<T extends Comparable<T>> {
+public interface IMultiSet<T extends Comparable<T>>
+		extends ISet<T> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code this} is empty.
+	 * Returns the underlying {@link ISet} of type {@code T}.
 	 * <p>
-	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
+	 * @return the underlying {@link ISet} of type {@code T}
 	 */
-	public boolean isEmpty();
+	public ISet<T> getUnderlyingSet();
 
 	/**
-	 * Tests whether {@code this} contains the value {@code T}.
+	 * Returns the multiplicity of the specified {@code T} object.
 	 * <p>
-	 * @param value the value {@code T} to test for presence
+	 * @param object a {@code T} object
 	 * <p>
-	 * @return {@code true} if {@code this} contains the value {@code T}, {@code false} otherwise
+	 * @return the multiplicity of the specified {@code T} object
 	 */
-	public boolean isInside(final T value);
-
-	/**
-	 * Tests whether {@code this} is valid.
-	 * <p>
-	 * @return {@code true} if {@code this} is valid, {@code false} otherwise
-	 */
-	public boolean isValid();
+	public int getMultiplicity(final T object);
 }

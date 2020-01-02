@@ -25,13 +25,14 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.math.ITuple;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Quadruple<T1, T2, T3, T4>
-		implements ICloneable<Quadruple<T1, T2, T3, T4>>, Serializable {
+		implements ICloneable<Quadruple<T1, T2, T3, T4>>, ITuple, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -171,6 +172,21 @@ public class Quadruple<T1, T2, T3, T4>
 	 */
 	public void setFourth(final T4 fourth) {
 		this.fourth = fourth;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the size of {@code this}.
+	 * <p>
+	 * @return the size of {@code this}
+	 */
+	@Override
+	public int size() {
+		return 4;
 	}
 
 
