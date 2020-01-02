@@ -50,7 +50,7 @@ public class Combinatorics {
 	 * i.e. the number of distinct ordered {@code k}-element subsets of an {@code n}-element set.
 	 * <p>
 	 * @param n the number of elements in the set
-	 * @param k the number of elements in the subset
+	 * @param k the number of elements in the subsets
 	 * <p>
 	 * @return the number of {@code k}-permutations {@code P(n, k)} of an {@code n}-element set,
 	 *         i.e. the number of distinct ordered {@code k}-element subsets of an {@code n}-element
@@ -93,7 +93,7 @@ public class Combinatorics {
 	 * i.e. the number of distinct {@code k}-element subsets of an {@code n}-element set.
 	 * <p>
 	 * @param n the number of elements in the set
-	 * @param k the number of elements in the subset
+	 * @param k the number of elements in the subsets
 	 * <p>
 	 * @return the number of {@code k}-combinations {@code C(n, k)} of an {@code n}-element set,
 	 *         i.e. the number of distinct {@code k}-element subsets of an {@code n}-element set
@@ -113,7 +113,7 @@ public class Combinatorics {
 	 * multiset.
 	 * <p>
 	 * @param n the number of distinct elements in the multiset
-	 * @param k the number of elements in the multisubset
+	 * @param k the number of elements in the multisubsets
 	 * <p>
 	 * @return the number of {@code k}-multicombinations {@code C(n, k...)} of an {@code n}-element
 	 *         multiset, i.e. the number of distinct {@code k}-element multisubsets of an
@@ -130,8 +130,8 @@ public class Combinatorics {
 	 * element with multiplicity at least {@code m}.
 	 * <p>
 	 * @param n the number of distinct elements in the multiset
-	 * @param k the number of elements in the multisubset
-	 * @param m the minimum multiplicity of a distinct element in the multisubset
+	 * @param k the number of elements in the multisubsets
+	 * @param m the minimum multiplicity of a distinct element in the multisubsets
 	 * <p>
 	 * @return the number of {@code k}-multicombinations {@code C(n, k...)} of an {@code n}-element
 	 *         multiset having a distinct element with multiplicity at least {@code m}, i.e. the
