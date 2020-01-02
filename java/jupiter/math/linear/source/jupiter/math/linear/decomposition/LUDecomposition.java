@@ -244,11 +244,11 @@ public class LUDecomposition
 	 * @return the pivot permutation vector as a one-dimensional double array
 	 */
 	public double[] getDoublePivot() {
-		final double[] vals = new double[m];
+		final double[] p = new double[m];
 		for (int i = 0; i < m; ++i) {
-			vals[i] = pivot[i];
+			p[i] = pivot[i];
 		}
-		return vals;
+		return p;
 	}
 
 	/**

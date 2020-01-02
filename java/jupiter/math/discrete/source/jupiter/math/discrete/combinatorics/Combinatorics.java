@@ -46,15 +46,14 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of {@code k}-permutations {@code P(n, k)} of an {@code n}-element set,
-	 * i.e. the number of distinct ordered {@code k}-element subsets of an {@code n}-element set.
+	 * Returns the number {@code P(n, k)} of distinct ordered {@code k}-element subsets (i.e.
+	 * {@code k}-permutations) of a {@code n}-element set.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the subsets
 	 * <p>
-	 * @return the number of {@code k}-permutations {@code P(n, k)} of an {@code n}-element set,
-	 *         i.e. the number of distinct ordered {@code k}-element subsets of an {@code n}-element
-	 *         set
+	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets (i.e.
+	 *         {@code k}-permutations) of a {@code n}-element set
 	 */
 	public static long P(final long n, final long k) {
 		if (k == 0L || n == 0L || k >= n) {
@@ -66,22 +65,22 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number of permutations {@code P(n, m...)} of an {@code n}-element tuple with the
-	 * specified element multiplicities {@code m}.
+	 * Returns the number of permutations {@code PR(ms)} of a {@code n}-element tuple with the
+	 * specified element multiplicities {@code ms} where {@code n = sum(ms)}.
 	 * <p>
-	 * @param m the multiplicity of each distinct element in the tuple
+	 * @param ms the multiplicity of each distinct element in the tuple
 	 * <p>
-	 * @return the number of permutations {@code P(n, m...)} of an {@code n}-element tuple with the
-	 *         specified element multiplicities {@code m}
+	 * @return the number of permutations {@code PR(ms)} of a {@code n}-element tuple with the
+	 *         specified element multiplicities {@code ms} where {@code n = sum(ms)}
 	 */
-	public static long PR(final long... m) {
-		final long n = Maths.sum(m);
+	public static long PR(final long... ms) {
+		final long n = Maths.sum(ms);
 		if (n == 0L) {
 			return 1L;
 		}
-		long result = Maths.productSeries(m[0] + 1L, n);
-		for (int i = 1; i < m.length; ++i) {
-			result /= Maths.factorial(m[i]);
+		long result = Maths.productSeries(ms[0] + 1L, n);
+		for (final long m : ms) {
+			result /= Maths.factorial(m);
 		}
 		return result;
 	}
@@ -89,14 +88,14 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of {@code k}-combinations {@code C(n, k)} of an {@code n}-element set,
-	 * i.e. the number of distinct {@code k}-element subsets of an {@code n}-element set.
+	 * Returns the number {@code C(n, k)} of distinct {@code k}-element subsets (i.e.
+	 * {@code k}-combinations) of a {@code n}-element set.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the subsets
 	 * <p>
-	 * @return the number of {@code k}-combinations {@code C(n, k)} of an {@code n}-element set,
-	 *         i.e. the number of distinct {@code k}-element subsets of an {@code n}-element set
+	 * @return the number {@code C(n, k)} of distinct {@code k}-element subsets (i.e.
+	 *         {@code k}-combinations) of a {@code n}-element set
 	 */
 	public static long C(final long n, final long k) {
 		if (k == 0L || n == 0L || k >= n) {
@@ -108,37 +107,50 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number of {@code k}-multicombinations {@code C(n, k...)} of an {@code n}-element
-	 * multiset, i.e. the number of distinct {@code k}-element multisubsets of an {@code n}-element
-	 * multiset.
+	 * Returns the number {@code CR(n, k)} of distinct {@code k}-element multisubsets (i.e.
+	 * {@code k}-multicombinations) of a {@code n}-element multiset.
 	 * <p>
 	 * @param n the number of distinct elements in the multiset
 	 * @param k the number of elements in the multisubsets
 	 * <p>
-	 * @return the number of {@code k}-multicombinations {@code C(n, k...)} of an {@code n}-element
-	 *         multiset, i.e. the number of distinct {@code k}-element multisubsets of an
-	 *         {@code n}-element multiset
+	 * @return the number {@code CR(n, k)} of distinct {@code k}-element multisubsets (i.e.
+	 *         {@code k}-multicombinations) of a {@code n}-element multiset
 	 */
 	public static long CR(final long n, final long k) {
 		return C(n + k - 1, k);
 	}
 
 	/**
-	 * Returns the number of {@code k}-multicombinations {@code C(n, k...)} of an {@code n}-element
-	 * multiset having a distinct element with multiplicity at least {@code m}, i.e. the number of
-	 * distinct {@code k}-element multisubsets of an {@code n}-element multiset having a distinct
-	 * element with multiplicity at least {@code m}.
+	 * Returns the number {@code CR(n, k, m)} of distinct {@code k}-element multisubsets (i.e.
+	 * {@code k}-multicombinations) having a distinct element with multiplicity at least {@code m}
+	 * of a {@code n}-element multiset.
 	 * <p>
 	 * @param n the number of distinct elements in the multiset
 	 * @param k the number of elements in the multisubsets
 	 * @param m the minimum multiplicity of a distinct element in the multisubsets
 	 * <p>
-	 * @return the number of {@code k}-multicombinations {@code C(n, k...)} of an {@code n}-element
-	 *         multiset having a distinct element with multiplicity at least {@code m}, i.e. the
-	 *         number of distinct {@code k}-element multisubsets of an {@code n}-element multiset
-	 *         having a distinct element with multiplicity at least {@code m}
+	 * @return the number {@code CR(n, k, m)} of distinct {@code k}-element multisubsets (i.e.
+	 *         {@code k}-multicombinations) having a distinct element with multiplicity at least
+	 *         {@code m} of a {@code n}-element multiset
 	 */
 	public static long CR(final long n, final long k, final long m) {
 		return CR(n - m, k);
+	}
+
+	/**
+	 * Returns the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets (i.e.
+	 * {@code k}-multicombinations) of a finite {@code n}-element multiset with the specified
+	 * element multiplicities {@code ms} where {@code n = sum(ms)}.
+	 * <p>
+	 * @param k  the number of elements in the multisubsets
+	 * @param ms the multiplicity of each distinct element in the multiset
+	 * <p>
+	 * @return the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets (i.e.
+	 *         {@code k}-multicombinations) of a finite {@code n}-element multiset with the
+	 *         specified element multiplicities {@code ms} where {@code n = sum(ms)}
+	 */
+	public static long CR(final long k, final long ms[]) {
+		final long n = Maths.sum(ms);
+		return 1L;
 	}
 }
