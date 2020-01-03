@@ -110,7 +110,7 @@ public class Sort<T>
 
 	/**
 	 * A stack of pending runs yet to be merged. Run {@code i} starts at address {@code base[i]} and
-	 * extends for {@code len[i]} elements. It is always true (so long as the indices are in bounds)
+	 * extends for {@code len[i]} elements. It is always true (so long as the indexes are in bounds)
 	 * that:
 	 * <p>
 	 * {@code runBase[i] + runLen[i] == runBase[i + 1]}
@@ -450,7 +450,7 @@ public class Sort<T>
 	}
 
 	/**
-	 * Merges the two runs at stack indices {@code i} and {@code i + 1}. Run {@code i} must be the
+	 * Merges the two runs at stack indexes {@code i} and {@code i + 1}. Run {@code i} must be the
 	 * penultimate or antepenultimate run on the stack. In other words, {@code i} must be equal to
 	 * {@code stackSize - 2} or {@code stackSize - 3}.
 	 * <p>

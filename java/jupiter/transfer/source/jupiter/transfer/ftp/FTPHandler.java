@@ -527,7 +527,7 @@ public class FTPHandler
 
 				IO.debug("Login with ", Strings.quote(userName));
 				if (ftps.login(userName, password)) {
-					ftps.execPBSZ(0);
+					ftps.execPBSZ(0L);
 					ftps.execPROT("P");
 					ftps.pwd();
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
@@ -770,7 +770,7 @@ public class FTPHandler
 
 				IO.debug("Login with ", Strings.quote(userName));
 				if (ftps.login(userName, password)) {
-					ftps.execPBSZ(0);
+					ftps.execPBSZ(0L);
 					ftps.execPROT("P");
 					ftps.pwd();
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);

@@ -416,6 +416,18 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	/**
+	 * Returns the value of the specified base raised to the power of the specified exponent.
+	 * <p>
+	 * @param base     an {@code int} value
+	 * @param exponent an {@code int} value
+	 * <p>
+	 * @return the value of the specified base raised to the power of the specified exponent
+	 */
+	public static int pow(final int base, final int exponent) {
+		return Integers.convert(Math.pow(base, exponent));
+	}
+
 	public static double square(final double x) {
 		return x * x;
 	}

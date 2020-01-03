@@ -77,7 +77,7 @@ public class Dates {
 	 */
 	public static Date createDate(final int day, final int month, final int year) {
 		final Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(0);
+		cal.setTimeInMillis(0L);
 		cal.set(year, month - 1, day, 0, 0, 0);
 		return cal.getTime();
 	}

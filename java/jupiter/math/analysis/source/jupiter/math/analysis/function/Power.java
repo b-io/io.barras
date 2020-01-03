@@ -54,7 +54,7 @@ public class Power
 	 * Constructs a {@link Power}.
 	 */
 	protected Power() {
-		this(2);
+		this(2.);
 	}
 
 	/**

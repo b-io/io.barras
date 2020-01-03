@@ -46,16 +46,63 @@ public class Combinatorics {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns all the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
+	 * {@code n}-element set.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the subsets
+	 * <p>
+	 * @return all the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
+	 *         {@code n}-element set
+	 */
 	public static int[][] getAllPermutations(final int n, final int k) {
-		return null;
+		final int permutationCount = P(n, k);
+		final int[][] permutations = new int[permutationCount][k];
+		final int[] permutation = Integers.createSequence(k);
+
+		// Generate all the permutations in lexicographical order
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	//////////////////////////////////////////////
 
+	/**
+	 * Returns all the distinct subsets (i.e. combinations) of a {@code n}-element set.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * <p>
+	 * @return all the distinct subsets (i.e. combinations) of a {@code n}-element set
+	 */
 	public static int[][] getAllCombinations(final int n) {
-		return getAllCombinations(n, n);
+		// Initialize
+		final int combinationCount = 1 << n;
+		final int[][] combinations = new int[combinationCount][];
+
+		// Generate all the combinations
+		for (int c = 0; c < combinationCount; ++c) {
+			combinations[c] = new int[Integer.bitCount(c)];
+			int index = 0;
+			for (int i = 0; i < n; ++i) {
+				// Use the binary representation of c as a mask to select the elements
+				if ((c & (1 << i)) != 0) {
+					combinations[c][index++] = i;
+				}
+			}
+		}
+		return combinations;
 	}
 
+	/**
+	 * Returns all the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
+	 * {@code n}-element set in lexicographical order.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the subsets
+	 * <p>
+	 * @return all the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
+	 *         {@code n}-element set in lexicographical order
+	 */
 	public static int[][] getAllCombinations(final int n, final int k) {
 		// Initialize
 		final int combinationCount = C(n, k);
@@ -274,7 +321,7 @@ public class Combinatorics {
 	 */
 	public static int CR(final int k, final int ms[]) {
 		final int n = Maths.sum(ms);
-		return 1;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	/**
@@ -291,6 +338,6 @@ public class Combinatorics {
 	 */
 	public static long CR(final long k, final long ms[]) {
 		final long n = Maths.sum(ms);
-		return 1L;
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }
