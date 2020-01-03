@@ -280,11 +280,11 @@ public class SingularValueDecomposition
 			/*
 			 * This section of the program inspects for negligible elements in the s and e arrays.
 			 * On completion the variables kase and k are set as follows:
-			 * - kase = 1 if s(p) and e[k-1] are negligible and k < p,
-			 * - kase = 2 if s(k) is negligible and k < p,
-			 * - kase = 3 if e[k-1] is negligible, k < p and s(k), ..., s(p) are not negligible (qr
+			 * • kase = 1 if s(p) and e[k-1] are negligible and k < p,
+			 * • kase = 2 if s(k) is negligible and k < p,
+			 * • kase = 3 if e[k-1] is negligible, k < p and s(k), ..., s(p) are not negligible (qr
 			 *   step), or
-			 * - kase = 4 if e(p-1) is negligible (convergence).
+			 * • kase = 4 if e(p-1) is negligible (convergence).
 			 */
 			for (k = p - 2; k >= -1; --k) {
 				if (k == -1) {

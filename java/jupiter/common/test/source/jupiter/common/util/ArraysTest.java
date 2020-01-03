@@ -30,12 +30,12 @@ import jupiter.common.test.Test;
 public class ArraysTest
 		extends Test {
 
-	// - 1D
+	// • 1D
 	protected static final String[] ARRAY = new String[] {"a", "b", "c", "d", "e", "f"};
-	// - 2D
+	// • 2D
 	protected static final String[][] ARRAY_2D = new String[][] {ARRAY, ARRAY};
 	protected static final String[] FLAT_ARRAY_2D = Arrays.<String>merge(ARRAY, ARRAY);
-	// - 3D
+	// • 3D
 	protected static final String[][][] ARRAY_3D = new String[][][] {ARRAY_2D, ARRAY_2D};
 	protected static final String[] FLAT_ARRAY_3D = Arrays.<String>merge(FLAT_ARRAY_2D,
 			FLAT_ARRAY_2D);
@@ -68,7 +68,7 @@ public class ArraysTest
 	public void testTake() {
 		IO.test("testTake");
 
-		// - 1D
+		// • 1D
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY)), Objects.hashCode(ARRAY));
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY, 4)),
 				Objects.hashCode(new String[] {"e", "f"}));
@@ -79,7 +79,7 @@ public class ArraysTest
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY, 4, 0)),
 				Objects.hashCode(Strings.EMPTY_ARRAY));
 
-		// - 2D
+		// • 2D
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_2D)),
 				Objects.hashCode(FLAT_ARRAY_2D));
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1)), Objects.hashCode(ARRAY));
@@ -90,7 +90,7 @@ public class ArraysTest
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 0)),
 				Objects.hashCode(Strings.EMPTY_ARRAY));
 
-		// - 3D
+		// • 3D
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_3D)),
 				Objects.hashCode(FLAT_ARRAY_3D));
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1)),

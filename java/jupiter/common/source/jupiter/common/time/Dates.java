@@ -391,15 +391,15 @@ public class Dates {
 		int workDays = 0;
 		int year = start.get(Calendar.YEAR);
 		do {
-			// - Update the number of business days
+			// • Update the number of business days
 			if (start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&
 					start.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
 					!publicHolidays.contains(start.getTime())) {
 				++workDays;
 			}
-			// - Increment the current day
+			// • Increment the current day
 			start.add(Calendar.DAY_OF_MONTH, 1);
-			// - Update the public holidays if required
+			// • Update the public holidays if required
 			if (year != start.get(Calendar.YEAR)) {
 				year = start.get(Calendar.YEAR);
 				publicHolidays = getSwissPublicHolidays(year);

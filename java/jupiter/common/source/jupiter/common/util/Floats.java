@@ -744,6 +744,14 @@ public class Floats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void swap(final float[] array, final int i, final int j) {
+		final float element = array[i];
+		array[i] = array[j];
+		array[j] = element;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static float[] take(final float... array) {
 		return take(array, 0, array.length);
 	}

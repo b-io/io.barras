@@ -37,6 +37,18 @@ public class CombinatoricsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of getAllCombinations method, of class Combinatorics.
+	 */
+	public void testGetAllCombinations() {
+		IO.test("getAllCombinations");
+
+		// Generate all the combinations in lexicographical order
+		Combinatorics.getAllCombinations(5, 3);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Test of P method, of class Combinatorics.
 	 */
 	public void testP() {

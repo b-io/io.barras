@@ -1004,6 +1004,14 @@ public class Bytes {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void swap(final byte[] array, final int i, final int j) {
+		final byte element = array[i];
+		array[i] = array[j];
+		array[j] = element;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static byte[] take(final byte... array) {
 		return take(array, 0, array.length);
 	}

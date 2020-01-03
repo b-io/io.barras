@@ -44,57 +44,57 @@ public class JSONTest
 		IO.test("jsonify");
 
 		String result;
-		// - Boolean
+		// • Boolean
 		final boolean primitiveBoolean = true;
 		result = JSON.jsonifyNode(primitiveBoolean);
 		IO.test(result);
 		assertEquals("true", result);
-		// - Character
+		// • Character
 		final char primitiveCharacter = 'c';
 		result = JSON.jsonifyNode(primitiveCharacter);
 		IO.test(result);
 		assertEquals("c", result);
-		// - Byte
+		// • Byte
 		final byte primitiveByte = (byte) 42;
 		result = JSON.jsonifyNode(primitiveByte);
 		IO.test(result);
 		assertEquals("42", result);
-		// - Short
+		// • Short
 		final short primitiveShort = (short) 42;
 		result = JSON.jsonifyNode(primitiveShort);
 		IO.test(result);
 		assertEquals("42", result);
-		// - Integer
+		// • Integer
 		final int primitiveInteger = 42;
 		result = JSON.jsonifyNode(primitiveInteger);
 		IO.test(result);
 		assertEquals("42", result);
-		// - Long
+		// • Long
 		final long primitiveLong = 42L;
 		result = JSON.jsonifyNode(primitiveLong);
 		IO.test(result);
 		assertEquals("42", result);
-		// - Float
+		// • Float
 		final float primitiveFloat = 42f;
 		result = JSON.jsonifyNode(primitiveFloat);
 		IO.test(result);
 		assertEquals("42.0", result);
-		// - Double
+		// • Double
 		final double primitiveDouble = 42.;
 		result = JSON.jsonifyNode(primitiveDouble);
 		IO.test(result);
 		assertEquals("42.0", result);
-		// - Primitive array
+		// • Primitive array
 		final int[] primitiveSequence = Integers.createSequence(5);
 		result = JSON.jsonifyNode(primitiveSequence);
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
-		// - Array
+		// • Array
 		final Integer[] sequence = (Integer[]) Arrays.toArray(primitiveSequence);
 		result = JSON.jsonifyNode(sequence);
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
-		// - Object
+		// • Object
 		final Node object = new Node();
 		result = JSON.jsonifyNode(object);
 		IO.test(result);

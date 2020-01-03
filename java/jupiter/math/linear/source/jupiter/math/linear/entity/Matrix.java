@@ -1654,14 +1654,14 @@ public class Matrix
 
 		// Test whether the result is a scalar or a matrix
 		if (m == 1 && broadcastedMatrix.n == 1) {
-			// - Scalar
+			// • Scalar
 			double sum = 0.;
 			for (int k = 0; k < innerDimension; ++k) {
 				sum += elements[k] * broadcastedMatrix.elements[k];
 			}
 			return new Scalar(sum);
 		}
-		// - Matrix
+		// • Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		if (PARALLELIZE) {
 			MULTIPLICATION.divideAndConquer(
@@ -1699,14 +1699,14 @@ public class Matrix
 
 		// Test whether the result is a scalar or a matrix
 		if (m == 1 && broadcastedMatrix.n == 1) {
-			// - Scalar
+			// • Scalar
 			double sum = 0.;
 			for (int k = 0; k < innerDimension; ++k) {
 				sum += elements[k] * broadcastedMatrix.elements[k];
 			}
 			return new Scalar(sum);
 		}
-		// - Matrix
+		// • Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
 		for (int i = 0; i < Math.min(m, broadcastedMatrix.n); ++i) {
 			double sum = 0.;
@@ -2388,12 +2388,12 @@ public class Matrix
 			final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
 			final List<Integer> indexes = Strings.getIndexes(expression, delimiters);
 			if (indexes.size() == 2) {
-				final int from = indexes.get(0);
-				final int to = indexes.get(1);
-				if (from < to && expression.charAt(from) == delimiters[0] &&
-						expression.charAt(to) == delimiters[1]) {
+				final int fromIndex = indexes.get(0);
+				final int toIndex = indexes.get(1);
+				if (fromIndex < toIndex && expression.charAt(fromIndex) == delimiters[0] &&
+						expression.charAt(toIndex) == delimiters[1]) {
 					// Get the content
-					final String content = expression.substring(from + 1, to).trim();
+					final String content = expression.substring(fromIndex + 1, toIndex).trim();
 					// Get the rows
 					final List<String> rows = Strings.removeEmpty(Strings.split(content,
 							ROW_DELIMITER));
@@ -2514,10 +2514,10 @@ public class Matrix
 		final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
 		final List<Integer> indexes = Strings.getIndexes(text.trim(), delimiters);
 		if (indexes.size() == 2) {
-			final int from = indexes.get(0);
-			final int to = indexes.get(1);
-			if (from < to && text.charAt(from) == delimiters[0] &&
-					text.charAt(to) == delimiters[1]) {
+			final int fromIndex = indexes.get(0);
+			final int toIndex = indexes.get(1);
+			if (fromIndex < toIndex && text.charAt(fromIndex) == delimiters[0] &&
+					text.charAt(toIndex) == delimiters[1]) {
 				return true;
 			}
 		}

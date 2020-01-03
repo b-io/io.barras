@@ -728,7 +728,7 @@ public class Files {
 			if (file.canWrite()) {
 				// Test whether it is a directory
 				if (file.isDirectory()) {
-					// - Directory
+					// • Directory
 					final File[] files = file.listFiles();
 					// Test whether the directory contains files
 					if (files.length > 0) {

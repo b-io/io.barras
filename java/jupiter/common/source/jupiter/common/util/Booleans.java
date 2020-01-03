@@ -594,6 +594,14 @@ public class Booleans {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void swap(final boolean[] array, final int i, final int j) {
+		final boolean element = array[i];
+		array[i] = array[j];
+		array[j] = element;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static boolean[] take(final boolean... array) {
 		return take(array, 0, array.length);
 	}

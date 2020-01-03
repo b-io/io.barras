@@ -225,12 +225,12 @@ public class ExpressionHandler
 			rightNodeResult = parseExpression(parent, rightExpression, context);
 		}
 		// Get the elements from the results
-		// - Left node
+		// • Left node
 		leftNode = leftNodeResult.getOutput();
 		if (leftNode == null) {
 			return leftNodeResult;
 		}
-		// - Right node
+		// • Right node
 		rightNode = rightNodeResult.getOutput();
 		if (rightNode == null) {
 			return rightNodeResult;
@@ -249,7 +249,7 @@ public class ExpressionHandler
 		// Parse an unary operation, a nested expression or a single element
 		final int unaryOperatorIndex = getLastUnaryOperatorIndex(expression, delimitingIntervals);
 
-		// - Unary operation
+		// • Unary operation
 		if (unaryOperatorIndex >= 0) {
 			// Parse the unary operator
 			final char unaryOperator = expression.charAt(unaryOperatorIndex);
@@ -269,7 +269,7 @@ public class ExpressionHandler
 			return new Result<Element>(new UnaryOperation(parent, expression, type, node));
 		}
 
-		// - Nested expression
+		// • Nested expression
 		if (delimitingIntervals.isValid()) {
 			// Parse the nested expression
 			final List<Interval<Integer>> intervals = delimitingIntervals.getIntervals();
@@ -286,7 +286,7 @@ public class ExpressionHandler
 			}
 		}
 
-		// - Single element
+		// • Single element
 		// Parse the single element
 		IO.debug("Create new Leaf: <", expression, ">");
 		final Element output;

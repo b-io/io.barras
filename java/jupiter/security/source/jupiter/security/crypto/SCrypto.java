@@ -247,12 +247,12 @@ public class SCrypto
 				if (secretKeySize == 0) {
 					setDefaultKeySize();
 				}
-				// - Create the secret key
+				// • Create the secret key
 				final int secretKeyLength = secretKeySize / Byte.SIZE; // [byte]
 				final byte[] secretKeyBytes = new byte[secretKeyLength];
 				System.arraycopy(combination, 0, secretKeyBytes, 0, secretKeyLength);
 				secretKey = createSecretKey(secretKeyBytes);
-				// - Create the initialization vector
+				// • Create the initialization vector
 				final int ivLength = combination.length - secretKeyLength; // [byte]
 				final byte[] ivBytes = new byte[ivLength];
 				System.arraycopy(combination, secretKeyLength, ivBytes, 0, ivLength);

@@ -23,10 +23,6 @@
  */
 package jupiter.common.math;
 
-import java.util.List;
-
-import jupiter.common.struct.tuple.Pair;
-
 /**
  * {@link IMultiSet} is the collection of {@code T} objects (called elements) in which elements may
  * occur more than once.

@@ -327,10 +327,10 @@ public class Table<T>
 	 */
 	public T get(final int i, final int j) {
 		// Check the arguments
-		// - i
+		// • i
 		IntegerArguments.requireNonNegative(i);
 		IntegerArguments.requireLessThan(i, m);
-		// - j
+		// • j
 		IntegerArguments.requireNonNegative(j);
 		IntegerArguments.requireLessThan(j, n);
 
@@ -384,13 +384,13 @@ public class Table<T>
 	 */
 	public T[] getRow(final int i, final int from, final int length) {
 		// Check the arguments
-		// - i
+		// • i
 		IntegerArguments.requireNonNegative(i);
 		IntegerArguments.requireLessThan(i, m);
-		// - from
+		// • from
 		IntegerArguments.requireNonNegative(from);
 		IntegerArguments.requireLessThan(from, n);
-		// - length
+		// • length
 		IntegerArguments.requirePositive(length);
 		IntegerArguments.requireLessOrEqualTo(length, n - from);
 
@@ -494,13 +494,13 @@ public class Table<T>
 	 */
 	public T[] getColumn(final int j, final int from, final int length) {
 		// Check the arguments
-		// - j
+		// • j
 		IntegerArguments.requireNonNegative(j);
 		IntegerArguments.requireLessThan(j, n);
-		// - from
+		// • from
 		IntegerArguments.requireNonNegative(from);
 		IntegerArguments.requireLessThan(from, m);
-		// - length
+		// • length
 		IntegerArguments.requirePositive(length);
 		IntegerArguments.requireLessOrEqualTo(length, m - from);
 
@@ -558,10 +558,10 @@ public class Table<T>
 	 */
 	public void set(final int i, final int j, final T value) {
 		// Check the arguments
-		// - i
+		// • i
 		IntegerArguments.requireNonNegative(i);
 		IntegerArguments.requireLessThan(i, m);
-		// - j
+		// • j
 		IntegerArguments.requireNonNegative(j);
 		IntegerArguments.requireLessThan(j, n);
 
@@ -609,16 +609,16 @@ public class Table<T>
 	 */
 	public void setRow(final int i, final T[] values, final int from, final int length) {
 		// Check the arguments
-		// - i
+		// • i
 		IntegerArguments.requireNonNegative(i);
 		IntegerArguments.requireLessThan(i, m);
-		// - values
+		// • values
 		ArrayArguments.requireNonEmpty(values);
 		ArrayArguments.requireMinLength(values, length);
-		// - from
+		// • from
 		IntegerArguments.requireNonNegative(from);
 		IntegerArguments.requireLessThan(from, n);
-		// - length
+		// • length
 		IntegerArguments.requirePositive(length);
 		IntegerArguments.requireLessOrEqualTo(length, n - from);
 
@@ -678,16 +678,16 @@ public class Table<T>
 	 */
 	public void setColumn(final int j, final T[] values, final int from, final int length) {
 		// Check the arguments
-		// - j
+		// • j
 		IntegerArguments.requireNonNegative(j);
 		IntegerArguments.requireLessThan(j, n);
-		// - values
+		// • values
 		ArrayArguments.requireNonEmpty(values);
 		ArrayArguments.requireMinLength(values, length);
-		// - from
+		// • from
 		IntegerArguments.requireNonNegative(from);
 		IntegerArguments.requireLessThan(from, m);
-		// - length
+		// • length
 		IntegerArguments.requirePositive(length);
 		IntegerArguments.requireLessOrEqualTo(length, m - from);
 

@@ -297,11 +297,11 @@ public class DynamicChartPanel
 		}
 
 		// Update the vertical and horizontal crosshairs
-		// - Vertical crosshair
+		// • Vertical crosshair
 		if (DRAW_X_CROSSHAIR) {
 			crosshairs.getX().setValue(selection.getX());
 		}
-		// - Horizontal crosshair
+		// • Horizontal crosshair
 		if (DRAW_Y_CROSSHAIR) {
 			crosshairs.getY().setValue(selection.getY());
 		}

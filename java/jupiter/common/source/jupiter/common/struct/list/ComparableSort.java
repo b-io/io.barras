@@ -218,7 +218,7 @@ public class ComparableSort
 			// Advance to find next run
 			lo += runLen;
 			nRemaining -= runLen;
-		} while (nRemaining != 0);
+		} while (nRemaining > 0);
 
 		// Merge all remaining runs to complete sort
 		assert lo == hi;

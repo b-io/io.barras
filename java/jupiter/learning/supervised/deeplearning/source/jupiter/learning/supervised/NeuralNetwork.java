@@ -289,7 +289,7 @@ public class NeuralNetwork
 
 		// Initialize
 		final int layerCount = hiddenLayerCount + 1; // L
-		// - The weight matrices
+		// • The weight matrices
 		if (W == null) {
 			W = new Matrix[layerCount];
 			W[0] = Matrix.random(hiddenLayerSize, featureCount)
@@ -305,7 +305,7 @@ public class NeuralNetwork
 					.subtract(0.5)
 					.multiply(scalingFactor); // (k x nh)
 		}
-		// - The bias vectors
+		// • The bias vectors
 		if (b == null) {
 			b = new Vector[layerCount];
 			for (int l = 0; l < layerCount - 1; ++l) {
@@ -313,19 +313,19 @@ public class NeuralNetwork
 			}
 			b[layerCount - 1] = new Vector(classCount); // (k x 1)
 		}
-		// - The feature and hidden vectors
+		// • The feature and hidden vectors
 		A = new Matrix[layerCount + 1];
 		A[0] = X; // (n x m)
-		// - The frequency of the convergence test
+		// • The frequency of the convergence test
 		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
 				Maths.roundToInt(1. / learningRate));
-		// - The cost
+		// • The cost
 		cost = Double.POSITIVE_INFINITY;
-		// - The derivative with respect to Z
+		// • The derivative with respect to Z
 		Entity dZ;
-		// - The derivative with respect to A
+		// • The derivative with respect to A
 		Matrix dA = null;
-		// - The Adam variables
+		// • The Adam variables
 		OptimizationAdam dwOptimizer = null;
 		OptimizationAdam dbOptimizer = null;
 		if (!Double.isNaN(firstMomentExponentialDecayRate) &&
@@ -342,10 +342,10 @@ public class NeuralNetwork
 		for (int i = 0; i < maxIterationCount; ++i) {
 			// Perform the forward propagation step (n -> nh... -> 1)
 			for (int l = 0; l < layerCount - 1; ++l) {
-				// - Compute A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])
+				// • Compute A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])
 				A[l + 1] = activationFunction.apply(computeForward(l)); // (nh x m)
 			}
-			// - Compute A[L + 1] = h(Z[L + 1]) = h(W[L] A[L] + b[L])
+			// • Compute A[L + 1] = h(Z[L + 1]) = h(W[L] A[L] + b[L])
 			A[layerCount] = outputActivationFunction.apply(computeForward(layerCount - 1)); // (k x m)
 
 			// Test whether the tolerance level is reached
@@ -356,7 +356,7 @@ public class NeuralNetwork
 
 			// Perform the backward propagation step (n <- nh... <- 1)
 			for (int l = layerCount - 1; l >= 0; --l) {
-				// - Compute the derivative with respect to Z
+				// • Compute the derivative with respect to Z
 				if (l == layerCount - 1) {
 					dZ = A[l + 1].minus(Y); // (k x m)
 				} else {
@@ -365,7 +365,7 @@ public class NeuralNetwork
 				dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 
-				// - Compute the derivatives with respect to W and b
+				// • Compute the derivatives with respect to W and b
 				Matrix dW = A[l].times(dZT)
 						.transpose()
 						.divide(trainingExampleCount)
@@ -377,7 +377,7 @@ public class NeuralNetwork
 					db = dbOptimizer.optimize(l, db).toVector();
 				}
 
-				// - Update the weights and bias
+				// • Update the weights and bias
 				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (k x nh)
 				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (k x 1)
 			}

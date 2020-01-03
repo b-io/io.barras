@@ -760,6 +760,14 @@ public class Shorts {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void swap(final short[] array, final int i, final int j) {
+		final short element = array[i];
+		array[i] = array[j];
+		array[j] = element;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static short[] take(final short... array) {
 		return take(array, 0, array.length);
 	}

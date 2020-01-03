@@ -116,12 +116,12 @@ public class R
 
 		// Try up to 5 times before giving up; we can be conservative here, because at this point
 		// the process execution itself was successful and the start up is usually asynchronous
-		int attempts = 5;
+		int attemptCount = 5;
 		do {
 			// Sleep in case the start up is delayed or asynchronous
 			Threads.sleep();
-			--attempts;
-		} while (attempts > 0 && !isRunning());
+			--attemptCount;
+		} while (attemptCount > 0 && !isRunning());
 		return false;
 	}
 
@@ -202,11 +202,11 @@ public class R
 		try {
 			// Test whether the OS is Windows or Unix
 			if (Systems.isWindows()) {
-				// - Execute the command on Windows
+				// • Execute the command on Windows
 				return Systems.execute(printer,
 						Arrays.<String>merge(new String[] {R_PATH, "-e"}, command));
 			} else if (Systems.isUnix()) {
-				// - Execute the command on Unix
+				// • Execute the command on Unix
 				return Systems.execute(printer,
 						Arrays.<String>merge(
 								new String[] {"/bin/sh", "-c", "echo", command[0], "|", R_PATH},

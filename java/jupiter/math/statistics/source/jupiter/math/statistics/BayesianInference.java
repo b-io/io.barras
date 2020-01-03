@@ -51,11 +51,11 @@ public class BayesianInference
 	 */
 	protected final int hypothesisCount;
 	/**
-	 * The array of probabilities P(E | H) for all hypothesis H (the likelihood).
+	 * The array of probabilities P(E|H) for all hypothesis H (the likelihood).
 	 */
 	protected final double[] likelihoods;
 	/**
-	 * The array of probabilities P(H | E) for all hypothesis H (the posterior probability).
+	 * The array of probabilities P(H|E) for all hypothesis H (the posterior probability).
 	 */
 	protected final double[] hypothesesProbabilities;
 
@@ -84,13 +84,13 @@ public class BayesianInference
 		// Get the marginal likelihood P(E)
 		double marginalLikelihood = 0.;
 		for (int i = 0; i < hypothesisCount; ++i) {
-			// Compute P(E) = SUM[P(H) * P(E | H), H] (chain rule)
+			// Compute P(E) = Σ[P(H) * P(E|H)] over H (chain rule)
 			marginalLikelihood += hypothesesProbabilities[i] * likelihoods[i];
 		}
 		// Update the probabilities of the hypotheses
 		for (int i = 0; i < hypothesisCount; ++i) {
-			// Using the previous posterior probability P(H | E) as the current prior P(H),
-			// compute P(H | E) = P(H) * P(E | H) / P(E) (Bayes' rule)
+			// Using the previous posterior probability P(H|E) as the current prior P(H),
+			// compute P(H|E) = P(H) * P(E|H) / P(E) (Bayes' rule)
 			hypothesesProbabilities[i] *= likelihoods[i] / marginalLikelihood;
 		}
 	}

@@ -130,7 +130,7 @@ public class SpeedChecker {
 		IO.debug(EMPTY);
 
 		// Initialize
-		// - The file handlers of the data files storing the downloading speeds
+		// • The file handlers of the data files storing the downloading speeds
 		for (final String urlName : URLS) {
 			try {
 				// Get the URL
@@ -144,7 +144,7 @@ public class SpeedChecker {
 				IO.error("The URL ", Strings.quote(urlName), " is malformed: ", ex);
 			}
 		}
-		// - The work queue
+		// • The work queue
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
 				WORK_QUEUE = new LockedWorkQueue<String, Result<Double>>(new Checker());
@@ -161,11 +161,11 @@ public class SpeedChecker {
 		IO.debug(EMPTY);
 
 		// Shutdown
-		// - The work queue
+		// • The work queue
 		if (WORK_QUEUE != null) {
 			WORK_QUEUE.shutdown();
 		}
-		// - The file handlers of the data files storing the downloading speeds
+		// • The file handlers of the data files storing the downloading speeds
 		for (final FileHandler fileHandler : DATA_FILES.values()) {
 			fileHandler.closeWriter();
 		}

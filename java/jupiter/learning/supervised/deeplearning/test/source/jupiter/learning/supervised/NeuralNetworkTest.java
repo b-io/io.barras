@@ -66,13 +66,13 @@ public class NeuralNetworkTest
 		final NeuralNetwork model = new NeuralNetwork(featureCount);
 		model.setActivationFunction(ActivationFunctions.TANH);
 		model.setRegularizationFunction(RegularizationFunctions.NONE);
-		// - X
+		// • X
 		final Matrix featureVectors = new Matrix(new double[][] {
 			new double[] {1.62434536, -0.61175641, -0.52817175},
 			new double[] {-1.07296862, 0.86540763, -2.30153870}});
-		// - Y
+		// • Y
 		final Vector classes = new Vector(1, 0, 1).transpose();
-		// - W
+		// • W
 		final Matrix[] weights = new Matrix[layerCount];
 		weights[0] = new Matrix(new double[][] {
 			new double[] {-0.00416758, -0.00056267},

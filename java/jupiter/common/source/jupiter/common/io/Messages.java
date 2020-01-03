@@ -48,7 +48,7 @@ public class Messages {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// - ALL
+	// • ALL
 	public static String getPrefix(final Type type, final SeverityLevel level,
 			final int stackIndex) {
 		switch (type) {
@@ -61,12 +61,12 @@ public class Messages {
 		}
 	}
 
-	// - INPUT
+	// • INPUT
 	public static String getInputPrefix() {
 		return createInputPrefix();
 	}
 
-	// - OUTPUT
+	// • OUTPUT
 	public static String getOutputPrefix(final SeverityLevel level, final int stackIndex) {
 		// Get information about the call (class name, method name and Message number)
 		final StackTraceElement stackTraceElement = new Throwable().fillInStackTrace()
@@ -104,7 +104,7 @@ public class Messages {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// - ALL
+	// • ALL
 	protected static String createPrefix() {
 		return createLabel(Dates.getDateTime());
 	}
@@ -113,12 +113,12 @@ public class Messages {
 		return createPrefix() + createLabel(type);
 	}
 
-	// - INPUT
+	// • INPUT
 	protected static String createInputPrefix() {
 		return createPrefix(Type.INPUT);
 	}
 
-	// - OUTPUT
+	// • OUTPUT
 	protected static String createOutputPrefix() {
 		return createPrefix();
 	}
@@ -144,7 +144,7 @@ public class Messages {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// - ALL
+	// • ALL
 	protected static String createLabel(final Type type) {
 		final String content;
 		switch (type) {

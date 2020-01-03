@@ -118,10 +118,10 @@ public class StringTable
 	@Override
 	public void setRow(final int i, final String[] values) {
 		// Check the arguments
-		// - i
+		// • i
 		IntegerArguments.requireNonNegative(i);
 		IntegerArguments.requireLessThan(i, m);
-		// - values
+		// • values
 		ArrayArguments.requireMinLength(values, n);
 
 		// Set the corresponding row
@@ -141,10 +141,10 @@ public class StringTable
 	@Override
 	public void setColumn(final int j, final String[] values) {
 		// Check the arguments
-		// - j
+		// • j
 		IntegerArguments.requireNonNegative(j);
 		IntegerArguments.requireLessThan(j, n);
-		// - values
+		// • values
 		ArrayArguments.requireMinLength(values, m);
 
 		// Set the corresponding column

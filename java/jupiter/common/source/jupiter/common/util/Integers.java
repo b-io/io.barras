@@ -850,6 +850,14 @@ public class Integers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void swap(final int[] array, final int i, final int j) {
+		final int element = array[i];
+		array[i] = array[j];
+		array[j] = element;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static int[] take(final int... array) {
 		return take(array, 0, array.length);
 	}

@@ -46,7 +46,7 @@ public class OptimizationAdamTest
 
 		// Initialize
 		final int layerCount = 2; // L
-		// - W
+		// • W
 		final Matrix[] weights = new Matrix[layerCount];
 		weights[0] = new Matrix(new double[][] {
 			new double[] {1.63178673, -0.61919778, -0.53561312},
@@ -55,7 +55,7 @@ public class OptimizationAdamTest
 			new double[] {0.32648046, -0.25681174, 1.46954931},
 			new double[] {-2.05269934, -0.31497584, -0.37661299},
 			new double[] {-2.05269934, -0.31497584, -0.37661299}});
-		// - b
+		// • b
 		final Vector[] bias = new Vector[layerCount];
 		bias[0] = new Vector(new double[][] {
 			new double[] {1.74394258},
@@ -64,7 +64,7 @@ public class OptimizationAdamTest
 			new double[] {-0.8795164},
 			new double[] {0.03047424},
 			new double[] {0.57756686}});
-		// - dW
+		// • dW
 		final Matrix[] dW = new Matrix[layerCount];
 		dW[0] = new Matrix(new double[][] {
 			new double[] {-1.10061918, 1.14472371, 0.90159072},
@@ -73,7 +73,7 @@ public class OptimizationAdamTest
 			new double[] {-0.26788808, 0.53035547, -0.69166075},
 			new double[] {-0.39675353, -0.6871727, -0.84520564},
 			new double[] {-0.67124613, -0.0126646, -1.11731035}});
-		// - db
+		// • db
 		final Vector[] db = new Vector[layerCount];
 		db[0] = new Vector(new double[][] {
 			new double[] {-0.12289023},
@@ -82,7 +82,7 @@ public class OptimizationAdamTest
 			new double[] {0.2344157},
 			new double[] {1.65980218},
 			new double[] {0.74204416}});
-		// - Adam optimization
+		// • Adam optimization
 		final OptimizationAdam dwOptimizer = new OptimizationAdam(layerCount, weights);
 		final OptimizationAdam dbOptimizer = new OptimizationAdam(layerCount, bias);
 		dwOptimizer.setT(2);

@@ -105,9 +105,9 @@ public class Calculator
 		IO.debug(EMPTY);
 
 		// Initialize
-		// - The expression handler
+		// • The expression handler
 		ExpressionHandler.parallelize();
-		// - The work queue
+		// • The work queue
 		if (PARALLELIZE) {
 			if (WORK_QUEUE == null) {
 				WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
@@ -125,11 +125,11 @@ public class Calculator
 		IO.debug(EMPTY);
 
 		// Shutdown
-		// - The work queue
+		// • The work queue
 		if (WORK_QUEUE != null) {
 			WORK_QUEUE.shutdown();
 		}
-		// - The expression handler
+		// • The expression handler
 		ExpressionHandler.unparallelize();
 	}
 
@@ -162,7 +162,7 @@ public class Calculator
 			final List<String> expressions = Strings.removeEmpty(Strings.split(trimmedExpression, '='));
 			final int size = expressions.size();
 			if (size > 1) {
-				// - Assignment
+				// • Assignment
 				// Extract the right-hand side of the expression
 				trimmedExpression = expressions.get(size - 1).trim();
 			}
@@ -186,7 +186,7 @@ public class Calculator
 
 			// Test whether the epression is an assignment
 			if (size > 1) {
-				// - Assignment
+				// • Assignment
 				// Set the corresponding variables
 				for (int i = 0; i < size - 1; ++i) {
 					context.put(expressions.get(i).trim(), element);
@@ -270,12 +270,12 @@ public class Calculator
 			rightResult = evaluateTree(binaryOperation.getRight(), context);
 		}
 		// Get the entities from the results
-		// - Left entity
+		// • Left entity
 		final Entity leftEntity = leftResult.getOutput();
 		if (leftEntity == null) {
 			return leftResult;
 		}
-		// - Right entity
+		// • Right entity
 		final Entity rightEntity = rightResult.getOutput();
 		if (rightEntity == null) {
 			return rightResult;

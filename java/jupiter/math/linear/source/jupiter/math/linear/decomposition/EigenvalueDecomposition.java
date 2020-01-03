@@ -558,14 +558,14 @@ public class EigenvalueDecomposition
 
 			// Test the convergence
 			if (l == n) {
-				// - 1 root found
+				// • 1 root found
 				H[n][n] += exshift;
 				d[n] = H[n][n];
 				e[n] = 0.;
 				--n;
 				iter = 0;
 			} else if (l == n - 1) {
-				// - 2 roots found
+				// • 2 roots found
 				w = H[n][n - 1] * H[n - 1][n];
 				p = (H[n - 1][n - 1] - H[n][n]) / 2.;
 				q = p * p + w;
@@ -575,7 +575,7 @@ public class EigenvalueDecomposition
 				x = H[n][n];
 				// Test whether the pair is real or complex
 				if (q >= 0) {
-					// - Real pair
+					// • Real pair
 					if (p >= 0) {
 						z = p + z;
 					} else {
@@ -614,7 +614,7 @@ public class EigenvalueDecomposition
 						V[i][n] = q * V[i][n] - p * z;
 					}
 				} else {
-					// - Complex pair
+					// • Complex pair
 					d[n - 1] = x + p;
 					d[n] = x + p;
 					e[n - 1] = z;
@@ -623,7 +623,7 @@ public class EigenvalueDecomposition
 				n -= 2;
 				iter = 0;
 			} else {
-				// - No convergence yet
+				// • No convergence yet
 				// Apply form shift
 				x = H[n][n];
 				y = 0.;
@@ -764,7 +764,7 @@ public class EigenvalueDecomposition
 			q = e[n];
 			// Test whether the vector is real or complex
 			if (q == 0) {
-				// - Real vector
+				// • Real vector
 				int l = n;
 				H[n][n] = 1.;
 				for (int i = n - 1; i >= 0; --i) {
@@ -807,7 +807,7 @@ public class EigenvalueDecomposition
 					}
 				}
 			} else if (q < 0) {
-				// - Complex vector
+				// • Complex vector
 				int l = n - 1;
 				// @note the last vector element is imaginary so the matrix is triangular
 				if (Math.abs(H[n][n - 1]) > Math.abs(H[n - 1][n])) {

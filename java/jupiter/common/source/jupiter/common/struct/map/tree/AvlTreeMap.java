@@ -216,7 +216,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 		final AvlTreeNode<K, V> parent = node.parent;
 		// Test whether there is 0 or 1 child or there are 2 children
 		if (node.left == null || node.right == null) {
-			// - There is 0 or 1 child (so the tree is guaranteed to be balanced)
+			// • There is 0 or 1 child (so the tree is guaranteed to be balanced)
 			// Get the child (if it exists)
 			AvlTreeNode<K, V> child;
 			if (node.left != null) {
@@ -237,7 +237,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 			// Decrement the number of nodes
 			--size;
 		} else {
-			// - There are 2 children (so the tree is not guaranteed to be balanced)
+			// • There are 2 children (so the tree is not guaranteed to be balanced)
 			// Get the successor of the node to remove
 			// @note the successor cannot be null since the node has a right node
 			final AvlTreeNode<K, V> successor = getSuccessor(node);

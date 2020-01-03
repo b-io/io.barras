@@ -82,11 +82,11 @@ public class ChartPanels {
 		}
 
 		// Find the closest chart entity
-		// - Get all the chart entities
+		// • Get all the chart entities
 		final Collection<ChartEntity> entities = chartPanel.getChartRenderingInfo()
 				.getEntityCollection()
 				.getEntities();
-		// - Get the mouse position
+		// • Get the mouse position
 		final int xPosition = Integers.convert(
 				(mouseEvent.getTrigger().getX() - chartPanel.getInsets().left) /
 				chartPanel.getScaleX());
@@ -94,7 +94,7 @@ public class ChartPanels {
 				(mouseEvent.getTrigger().getY() - chartPanel.getInsets().top) /
 				chartPanel.getScaleY());
 		final Point2D position = new Point2D.Double(xPosition, yPosition);
-		// - Select the closest chart entity to the mouse position
+		// • Select the closest chart entity to the mouse position
 		double minDistance = Integer.MAX_VALUE;
 		for (final ChartEntity e : entities) {
 			if (e instanceof CategoryItemEntity || e instanceof ContourEntity ||

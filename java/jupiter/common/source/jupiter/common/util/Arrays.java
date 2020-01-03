@@ -552,6 +552,14 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static <T> void swap(final T[] array, final int i, final int j) {
+		final T element = array[i];
+		array[i] = array[j];
+		array[j] = element;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static <T> T[] take(final T[] array) {
 		return take(array, 0);
 	}

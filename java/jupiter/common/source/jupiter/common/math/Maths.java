@@ -312,6 +312,20 @@ public class Maths {
 		return sum;
 	}
 
+	//////////////////////////////////////////////
+
+	public static double weightedSum(final double[] values, final double[] weights) {
+		// Check the arguments
+		DoubleArguments.requireSameLength(values, weights);
+
+		// Sum
+		double sum = 0.;
+		for (int i = 0; i < values.length; ++i) {
+			sum += weights[i] * values[i];
+		}
+		return sum;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double delta(final double a, final double b) {
@@ -370,8 +384,23 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static int productSeries(final int n) {
+		return productSeries(1, n);
+	}
+
 	public static long productSeries(final long n) {
 		return productSeries(1L, n);
+	}
+
+	public static int productSeries(final int from, final int to) {
+		if (from == 0 || to == 0) {
+			return 0;
+		}
+		int product = 1;
+		for (int value = from; value <= to; ++value) {
+			product *= value;
+		}
+		return product;
 	}
 
 	public static long productSeries(final long from, final long to) {
@@ -396,6 +425,13 @@ public class Maths {
 	}
 
 	//////////////////////////////////////////////
+
+	public static int factorial(final int n) {
+		if (n == 0) {
+			return 1;
+		}
+		return Maths.productSeries(n);
+	}
 
 	public static long factorial(final long n) {
 		if (n == 0L) {

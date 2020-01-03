@@ -730,6 +730,14 @@ public class Longs {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void swap(final long[] array, final int i, final int j) {
+		final long element = array[i];
+		array[i] = array[j];
+		array[j] = element;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static long[] take(final long... array) {
 		return take(array, 0, array.length);
 	}

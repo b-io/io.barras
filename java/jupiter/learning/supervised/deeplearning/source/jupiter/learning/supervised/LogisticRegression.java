@@ -182,18 +182,18 @@ public class LogisticRegression
 		Matrix.parallelize();
 
 		// Initialize
-		// - The weight vector
+		// • The weight vector
 		if (W == null) {
 			W = new Vector(featureCount, true); // (1 x n)
 		}
-		// - The bias
+		// • The bias
 		if (b == null) {
 			b = new Scalar(0.);
 		}
-		// - The frequency of the convergence test
+		// • The frequency of the convergence test
 		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
 				Maths.roundToInt(1. / learningRate));
-		// - The cost
+		// • The cost
 		cost = Double.POSITIVE_INFINITY;
 
 		// Train
