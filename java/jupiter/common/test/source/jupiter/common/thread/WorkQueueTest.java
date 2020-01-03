@@ -46,7 +46,7 @@ public class WorkQueueTest
 	 * Test of constants, of class WorkQueue.
 	 */
 	public void testConstants() {
-		IO.test("constants");
+		IO.test("• constants");
 
 		// Initialize
 		final WorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(

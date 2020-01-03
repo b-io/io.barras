@@ -49,7 +49,7 @@ public class ReservedThreadPoolExecutorTest
 	 * Test of addTask method, of class ReservedThreadPoolExecutor.
 	 */
 	public void testSubmit() {
-		IO.test("submit");
+		IO.test("• submit");
 
 		// Initialize
 		final int taskCount = 100000;

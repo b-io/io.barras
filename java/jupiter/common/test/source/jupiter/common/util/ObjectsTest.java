@@ -40,7 +40,7 @@ public class ObjectsTest
 	 * Test of hashCode method, of class Objects.
 	 */
 	public void testHashCode() {
-		IO.test("hashCode");
+		IO.test("• hashCode");
 
 		assertEquals(Objects.hashCode(Integers.EMPTY_ARRAY),
 				Objects.hashCode(Integers.EMPTY_ARRAY));

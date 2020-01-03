@@ -52,7 +52,7 @@ public class ArraysTest
 	 * Test of merge method, of class Arrays.
 	 */
 	public void testMerge() {
-		IO.test("testMerge");
+		IO.test("• testMerge");
 
 		assertEquals(Objects.hashCode(Arrays.<String>merge(new String[] {"a"}, ARRAY)),
 				Objects.hashCode(new String[] {"a", "a", "b", "c", "d", "e", "f"}));
@@ -66,7 +66,7 @@ public class ArraysTest
 	 * Test of take method, of class Arrays.
 	 */
 	public void testTake() {
-		IO.test("testTake");
+		IO.test("• testTake");
 
 		// • 1D
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY)), Objects.hashCode(ARRAY));

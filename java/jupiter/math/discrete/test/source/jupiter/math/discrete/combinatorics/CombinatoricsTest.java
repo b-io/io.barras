@@ -41,7 +41,7 @@ public class CombinatoricsTest
 	 * Test of getAllCombinations method, of class Combinatorics.
 	 */
 	public void testGetAllCombinations() {
-		IO.test("getAllCombinations");
+		IO.test("• getAllCombinations");
 
 		// Generate all the combinations in lexicographical order
 		int[][] combinations;
@@ -50,8 +50,18 @@ public class CombinatoricsTest
 		for (final int[] combination : combinations) {
 			IO.test(Arrays.toString(combination));
 		}
+	}
+
+	/**
+	 * Test of getCombinations method, of class Combinatorics.
+	 */
+	public void testGetCombinations() {
+		IO.test("• testGetCombinations");
+
+		// Generate all the combinations in lexicographical order
+		int[][] combinations;
 		IO.test("3-combinations of a 5-element set");
-		combinations = Combinatorics.getAllCombinations(5, 3);
+		combinations = Combinatorics.getCombinations(5, 3);
 		for (final int[] combination : combinations) {
 			IO.test(Arrays.toString(combination));
 		}
@@ -63,7 +73,7 @@ public class CombinatoricsTest
 	 * Test of P method, of class Combinatorics.
 	 */
 	public void testP() {
-		IO.test("P");
+		IO.test("• P");
 
 		// Count the number of permutations of an 10-element set
 		assertEquals(1L, Combinatorics.P(10L, 0L));
@@ -79,7 +89,7 @@ public class CombinatoricsTest
 	 * Test of C method, of class Combinatorics.
 	 */
 	public void testC() {
-		IO.test("C");
+		IO.test("• C");
 
 		// Count the number of combinations of an 10-element set
 		assertEquals(1L, Combinatorics.C(10L, 0L));

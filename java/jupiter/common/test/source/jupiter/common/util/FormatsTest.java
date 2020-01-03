@@ -41,7 +41,7 @@ public class FormatsTest
 	 * Test of formatNumber method, of class Formats.
 	 */
 	public void testFormatNumber() {
-		IO.test("formatNumber");
+		IO.test("• formatNumber");
 
 		IO.test(formatNumber(0.0000001));
 		assertEquals("1E-7", formatNumber(0.0000001));

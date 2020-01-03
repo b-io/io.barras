@@ -51,7 +51,7 @@ public class CalculatorTest
 	 * Test of process method, of class Calculator.
 	 */
 	public void testProcess() {
-		IO.test("process");
+		IO.test("• process");
 
 		// Initialize
 		final int testCount = 20;

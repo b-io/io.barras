@@ -47,16 +47,29 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns all the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 * {@code n}-element set.
+	 * Returns all the distinct ordered subsets (i.e. permutations) of a {@code n}-element set.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * <p>
+	 * @return all the distinct ordered subsets (i.e. permutations) of a {@code n}-element set
+	 */
+	public static int[][] getAllPermutations(final int n) {
+		// Generate all the permutations
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	/**
+	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
+	 * {@code n}-element set in lexicographical order.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the subsets
 	 * <p>
-	 * @return all the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 *         {@code n}-element set
+	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
+	 *         {@code n}-element set in lexicographical order
 	 */
-	public static int[][] getAllPermutations(final int n, final int k) {
+	public static int[][] getPermutations(final int n, final int k) {
+		// Initialize
 		final int permutationCount = P(n, k);
 		final int[][] permutations = new int[permutationCount][k];
 		final int[] permutation = Integers.createSequence(k);
@@ -94,16 +107,16 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns all the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
+	 * Returns the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
 	 * {@code n}-element set in lexicographical order.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the subsets
 	 * <p>
-	 * @return all the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
+	 * @return the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
 	 *         {@code n}-element set in lexicographical order
 	 */
-	public static int[][] getAllCombinations(final int n, final int k) {
+	public static int[][] getCombinations(final int n, final int k) {
 		// Initialize
 		final int combinationCount = C(n, k);
 		final int[][] combinations = new int[combinationCount][k];

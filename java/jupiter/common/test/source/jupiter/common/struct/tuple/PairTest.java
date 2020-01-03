@@ -40,7 +40,7 @@ public class PairTest
 	 * Test of clone method, of class Pair.
 	 */
 	public void testClone() {
-		IO.test("clone");
+		IO.test("• clone");
 
 		final String[] header = new String[] {"a"};
 		final Integer[] values = new Integer[] {42};

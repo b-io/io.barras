@@ -41,7 +41,7 @@ public class JSONTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void testJsonify() {
-		IO.test("jsonify");
+		IO.test("• jsonify");
 
 		String result;
 		// • Boolean

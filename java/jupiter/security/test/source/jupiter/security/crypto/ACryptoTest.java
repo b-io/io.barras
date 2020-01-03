@@ -43,7 +43,7 @@ public class ACryptoTest
 	 * Test of {@link ACrypto#encrypt}.
 	 */
 	public void testEncrypt() {
-		IO.test("encrypt");
+		IO.test("• encrypt");
 
 		try {
 			final String text = "Hello world!";
@@ -63,7 +63,7 @@ public class ACryptoTest
 	 * Test of {@link ACrypto#decrypt}.
 	 */
 	public void testDecrypt() {
-		IO.test("decrypt");
+		IO.test("• decrypt");
 
 		try {
 			final String text = "Hello world!";

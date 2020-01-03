@@ -42,7 +42,7 @@ public class AvlTreeMapTest
 	 * Test of getHeight method, of class AvlTreeMap.
 	 */
 	public void testGetHeight() {
-		IO.test("getHeight");
+		IO.test("• getHeight");
 
 		AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
 		fill(instance, 7);
@@ -56,7 +56,7 @@ public class AvlTreeMapTest
 	 * Test of put method, of class AvlTreeMap.
 	 */
 	public void testPut() {
-		IO.test("put");
+		IO.test("• put");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
 		fill(instance);
@@ -68,7 +68,7 @@ public class AvlTreeMapTest
 	 * Test of remove method, of class AvlTreeMap.
 	 */
 	public void testRemove() {
-		IO.test("removeNode");
+		IO.test("• removeNode");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
 		fill(instance);
@@ -81,7 +81,7 @@ public class AvlTreeMapTest
 	 * Test of clone method, of class AvlTreeMap.
 	 */
 	public void testClone() {
-		IO.test("clone");
+		IO.test("• clone");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
 		fill(instance);

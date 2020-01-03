@@ -42,7 +42,7 @@ public class ListsTest
 	 * Test of sort method, of class Lists.
 	 */
 	public void testSort() {
-		IO.test("sort");
+		IO.test("• sort");
 		final List<Integer> integers = Integers.asList(Integers.createRandomSequence(100));
 		IO.test(integers);
 		Lists.sort(integers);

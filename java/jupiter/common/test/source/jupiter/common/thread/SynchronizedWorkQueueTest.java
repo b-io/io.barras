@@ -40,7 +40,7 @@ public class SynchronizedWorkQueueTest
 	 * Test of addTask method, of class SynchronizedWorkQueue.
 	 */
 	public void testAddTask() {
-		IO.test("addTask");
+		IO.test("• addTask");
 
 		// Initialize
 		final int testCount = 100;

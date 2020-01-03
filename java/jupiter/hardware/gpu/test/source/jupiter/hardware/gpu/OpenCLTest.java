@@ -43,7 +43,7 @@ public class OpenCLTest
 	 */
 	public void testArrayTimes() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test("arrayTimes");
+			IO.test("• arrayTimes");
 
 			// Create the input and output data
 			final int dimension = 1000;
@@ -56,7 +56,7 @@ public class OpenCLTest
 
 			// Execute the operation
 			final double[] result = CL.arrayTimes(A, B);
-			//IO.test("Result: ", Doubles.toString(result));
+			//IO.result(Doubles.toString(result));
 
 			// Verify the result
 			boolean isPassed = true;
@@ -78,7 +78,7 @@ public class OpenCLTest
 	 */
 	public void testTimes() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test("times");
+			IO.test("• times");
 
 			// Create the input and output data
 			final int n = 100;
@@ -95,7 +95,7 @@ public class OpenCLTest
 
 			// Execute the operation
 			final double[] result = CL.times(A, B, aColumnDimension, bColumnDimension);
-			//IO.test("Result: ", Doubles.toString(result));
+			//IO.result(Doubles.toString(result));
 
 			// Verify the result
 			boolean isPassed = true;
@@ -124,7 +124,7 @@ public class OpenCLTest
 	 */
 	public void testForward() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test("forward");
+			IO.test("• forward");
 
 			// Create the input and output data
 			final int n = 100;
@@ -147,7 +147,7 @@ public class OpenCLTest
 			// Execute the operation
 			final double[] result = CL.forward(A, B, C, aColumnDimension, bColumnDimension,
 					cColumnDimension);
-			//IO.test("Result: ", Doubles.toString(result));
+			//IO.result(Doubles.toString(result));
 
 			// Verify the result
 			boolean isPassed = true;
@@ -177,7 +177,7 @@ public class OpenCLTest
 	 */
 	public void testArraySum() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test("arraySum");
+			IO.test("• arraySum");
 
 			// Create the input and output data
 			final int dimension = 1000;
@@ -193,7 +193,7 @@ public class OpenCLTest
 
 			// Execute the operation
 			final double[] result = CL.arraySum(A.clone(), B, c, 0, 0, dimension);
-			//IO.test("Result: ", Doubles.toString(A));
+			//IO.result(Doubles.toString(A));
 
 			// Verify the result
 			boolean isPassed = true;

@@ -53,7 +53,7 @@ public class MatrixTest
 	 * Test of multiply method, of class Matrix.
 	 */
 	public void testMultiply() {
-		IO.test("multiply");
+		IO.test("• multiply");
 
 		// Initialize
 		final int testCount = 10;
@@ -183,7 +183,7 @@ public class MatrixTest
 	 * Test of division method, of class Matrix.
 	 */
 	public void testDivision() {
-		IO.test("division");
+		IO.test("• division");
 
 		// Initialize
 		final int size = 10;
@@ -197,7 +197,7 @@ public class MatrixTest
 	 * Test of forward method, of class Matrix.
 	 */
 	public void testForward() {
-		IO.test("forward");
+		IO.test("• forward");
 
 		// Initialize
 		final int testCount = 10;

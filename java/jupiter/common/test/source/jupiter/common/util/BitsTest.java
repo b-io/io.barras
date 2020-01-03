@@ -40,7 +40,7 @@ public class BitsTest
 	 * Test of rotateLeft method, of class Bits.
 	 */
 	public void testRotateLeft_long() {
-		IO.test("rotateLeft");
+		IO.test("• rotateLeft");
 
 		assertEquals(0, Bits.rotateLeft(0L));
 	}
@@ -49,7 +49,7 @@ public class BitsTest
 	 * Test of rotateLeft method, of class Bits.
 	 */
 	public void testRotateLeft_long_long() {
-		IO.test("rotateLeft");
+		IO.test("• rotateLeft");
 
 		assertEquals(0, Bits.rotateLeft(0L, 0L));
 	}
@@ -58,7 +58,7 @@ public class BitsTest
 	 * Test of rotateLeft method, of class Bits.
 	 */
 	public void testRotateLeft_int() {
-		IO.test("rotateLeft");
+		IO.test("• rotateLeft");
 
 		assertEquals(0, Bits.rotateLeft(0));
 	}
@@ -67,7 +67,7 @@ public class BitsTest
 	 * Test of rotateLeft method, of class Bits.
 	 */
 	public void testRotateLeft_int_int() {
-		IO.test("rotateLeft");
+		IO.test("• rotateLeft");
 
 		assertEquals(0, Bits.rotateLeft(0, 0));
 	}
@@ -76,7 +76,7 @@ public class BitsTest
 	 * Test of rotateRight method, of class Bits.
 	 */
 	public void testRotateRight_long() {
-		IO.test("rotateRight");
+		IO.test("• rotateRight");
 
 		assertEquals(0, Bits.rotateRight(0L));
 	}
@@ -85,7 +85,7 @@ public class BitsTest
 	 * Test of rotateRight method, of class Bits.
 	 */
 	public void testRotateRight_long_long() {
-		IO.test("rotateRight");
+		IO.test("• rotateRight");
 
 		assertEquals(0, Bits.rotateRight(0L, 0L));
 	}
@@ -94,7 +94,7 @@ public class BitsTest
 	 * Test of rotateRight method, of class Bits.
 	 */
 	public void testRotateRight_int() {
-		IO.test("rotateRight");
+		IO.test("• rotateRight");
 
 		assertEquals(0, Bits.rotateRight(0));
 	}
@@ -103,7 +103,7 @@ public class BitsTest
 	 * Test of rotateRight method, of class Bits.
 	 */
 	public void testRotateRight_int_int() {
-		IO.test("rotateRight");
+		IO.test("• rotateRight");
 
 		assertEquals(0, Bits.rotateRight(0, 0));
 	}

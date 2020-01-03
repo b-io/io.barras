@@ -40,7 +40,7 @@ public class BytesTest
 	 * Test of toBinary method, of class Bytes.
 	 */
 	public void testToBinary() {
-		IO.test("toBinary");
+		IO.test("• toBinary");
 
 		final String text = "Hello world!";
 		assertEquals(
@@ -52,7 +52,7 @@ public class BytesTest
 	 * Test of toOctal method, of class Bytes.
 	 */
 	public void testToOctal() {
-		IO.test("toOctal");
+		IO.test("• toOctal");
 
 		final String text = "Hello world!";
 		assertEquals(
@@ -64,7 +64,7 @@ public class BytesTest
 	 * Test of toHex method, of class Bytes.
 	 */
 	public void testToHex() {
-		IO.test("toHex");
+		IO.test("• toHex");
 
 		final String text = "Hello world!";
 		assertEquals(
@@ -78,7 +78,7 @@ public class BytesTest
 	 * Test of parseBinaryString method, of class Bytes.
 	 */
 	public void testParseBinaryString() {
-		IO.test("parseBinaryString");
+		IO.test("• parseBinaryString");
 
 		final String text = "Hello world!";
 		assertEquals(text,
@@ -89,7 +89,7 @@ public class BytesTest
 	 * Test of parseOctalString method, of class Bytes.
 	 */
 	public void testParseOctalString() {
-		IO.test("parseOctalString");
+		IO.test("• parseOctalString");
 
 		final String text = "Hello world!";
 		assertEquals(text,
@@ -100,7 +100,7 @@ public class BytesTest
 	 * Test of parseHexString method, of class Bytes.
 	 */
 	public void testParseHexString() {
-		IO.test("parseHexString");
+		IO.test("• parseHexString");
 
 		final String text = "Hello world!";
 		assertEquals(text,

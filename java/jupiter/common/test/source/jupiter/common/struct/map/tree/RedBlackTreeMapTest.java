@@ -42,7 +42,7 @@ public class RedBlackTreeMapTest
 	 * Test of put method, of class RedBlackTreeMap.
 	 */
 	public void testPut() {
-		IO.test("put");
+		IO.test("• put");
 
 		final int n = 100;
 
@@ -58,7 +58,7 @@ public class RedBlackTreeMapTest
 	 * Test of remove method, of class RedBlackTreeMap.
 	 */
 	public void testRemove() {
-		IO.test("remove");
+		IO.test("• remove");
 
 		final int n = 100;
 
@@ -73,7 +73,7 @@ public class RedBlackTreeMapTest
 	 * Test of clone method, of class RedBlackTreeMap.
 	 */
 	public void testClone() {
-		IO.test("clone");
+		IO.test("• clone");
 
 		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>();
 		fill(instance);

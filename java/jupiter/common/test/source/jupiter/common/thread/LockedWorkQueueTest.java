@@ -40,7 +40,7 @@ public class LockedWorkQueueTest
 	 * Test of addTask method, of class LockedWorkQueue.
 	 */
 	public void testAddTask() {
-		IO.test("addTask");
+		IO.test("• addTask");
 
 		// Initialize
 		final int testCount = 100;

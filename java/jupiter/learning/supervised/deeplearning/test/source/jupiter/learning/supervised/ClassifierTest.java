@@ -45,10 +45,11 @@ public class ClassifierTest
 	 */
 	public void test()
 			throws IOException {
-		IO.test("Classifier");
+		IO.test("• Classifier");
 
 		// Initialize
-		final Classifier model = new LogisticRegression("test/resources/A/X.csv",
+		final Classifier model = new LogisticRegression(
+				"test/resources/A/X.csv",
 				"test/resources/A/Y.csv");
 
 		// Test the construction

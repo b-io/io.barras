@@ -38,7 +38,7 @@ public class StatisticsTest
 	 * Test of getConditionalProbability method, of class Statistics.
 	 */
 	public void testGetConditionalProbability() {
-		IO.test("getConditionalProbability");
+		IO.test("• getConditionalProbability");
 
 		// Calculate the conditional probability of cheating given 3 consecutive victories (12.5%)
 		final double peh = 0.5; // probability of winning if cheating
