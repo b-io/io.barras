@@ -557,6 +557,57 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the filtered {@code boolean} array from the specified {@code boolean} array and
+	 * indexes.
+	 * <p>
+	 * @param array   a {@code boolean} array
+	 * @param indexes the indexes to filter
+	 * <p>
+	 * @return the filtered {@code boolean} array from the specified {@code boolean} array and
+	 *         indexes
+	 */
+	public static boolean[] filter(final boolean[] array, final int... indexes) {
+		final boolean[] filteredArray = new boolean[indexes.length];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArray[i] = array[indexes[i]];
+		}
+		return filteredArray;
+	}
+
+	/**
+	 * Returns all the filtered {@code boolean} arrays from the specified {@code boolean} array and
+	 * indexes.
+	 * <p>
+	 * @param array   a {@code boolean} array
+	 * @param indexes the array of indexes to filter
+	 * <p>
+	 * @return all the filtered {@code boolean} arrays from the specified {@code boolean} array and
+	 *         indexes
+	 */
+	public static boolean[][] filterAll(final boolean[] array, final int[]... indexes) {
+		final boolean[][] filteredArrays = new boolean[indexes.length][];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArrays[i] = filter(array, indexes[i]);
+		}
+		return filteredArrays;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int indexOf(final boolean[] array, final boolean token) {
+		if (array != null) {
+			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a {@code boolean} array containing the specified {@code boolean} value and all the
 	 * elements of the specified {@code boolean} array.
 	 * <p>
@@ -753,15 +804,7 @@ public class Booleans {
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
 	public static boolean contains(final boolean[] array, final boolean token) {
-		if (array == null) {
-			return false;
-		}
-		for (final boolean element : array) {
-			if (element == token) {
-				return true;
-			}
-		}
-		return false;
+		return indexOf(array, token) >= 0;
 	}
 
 	/**

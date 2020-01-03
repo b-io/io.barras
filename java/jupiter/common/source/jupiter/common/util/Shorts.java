@@ -696,6 +696,55 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the filtered {@code short} array from the specified {@code short} array and indexes.
+	 * <p>
+	 * @param array   a {@code short} array
+	 * @param indexes the indexes to filter
+	 * <p>
+	 * @return the filtered {@code short} array from the specified {@code short} array and indexes
+	 */
+	public static short[] filter(final short[] array, final int... indexes) {
+		final short[] filteredArray = new short[indexes.length];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArray[i] = array[indexes[i]];
+		}
+		return filteredArray;
+	}
+
+	/**
+	 * Returns all the filtered {@code short} arrays from the specified {@code short} array and
+	 * indexes.
+	 * <p>
+	 * @param array   a {@code short} array
+	 * @param indexes the array of indexes to filter
+	 * <p>
+	 * @return all the filtered {@code short} arrays from the specified {@code short} array and
+	 *         indexes
+	 */
+	public static short[][] filterAll(final short[] array, final int[]... indexes) {
+		final short[][] filteredArrays = new short[indexes.length][];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArrays[i] = filter(array, indexes[i]);
+		}
+		return filteredArrays;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int indexOf(final short[] array, final short token) {
+		if (array != null) {
+			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a {@code short} array containing the specified {@code short} value and all the
 	 * elements of the specified {@code short} array.
 	 * <p>
@@ -918,15 +967,7 @@ public class Shorts {
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
 	public static boolean contains(final short[] array, final short token) {
-		if (array == null) {
-			return false;
-		}
-		for (final short element : array) {
-			if (element == token) {
-				return true;
-			}
-		}
-		return false;
+		return indexOf(array, token) >= 0;
 	}
 
 	/**

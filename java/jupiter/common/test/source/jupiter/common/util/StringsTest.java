@@ -50,7 +50,7 @@ public class StringsTest
 	 * Test of split method, of class Strings.
 	 */
 	public void testSplit() {
-		IO.test("• testSplit");
+		IO.test("• split");
 
 		assertEquals(Objects.hashCode(Strings.split(EMPTY, DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {EMPTY}));
@@ -64,7 +64,7 @@ public class StringsTest
 	 * Test of splitString method, of class Strings.
 	 */
 	public void testSplitString() {
-		IO.test("• testSplitString");
+		IO.test("• splitString");
 
 		assertEquals(Objects.hashCode(Strings.splitString(EMPTY, STRING_DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {EMPTY}));

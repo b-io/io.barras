@@ -24,7 +24,6 @@
 package jupiter.common.struct.list;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.Comparator;
 
 import jupiter.common.util.Arrays;
@@ -56,7 +55,7 @@ public class Sort<T>
 	 * set this constant to be a number that is not a power of two, you'll need to change the
 	 * {@link #minRunLength} computation.
 	 * <p>
-	 * If you decrease this constant, you must change the {@code stackLen} computation in the
+	 * If you decrease this constant, you must change the {@code stackLength} computation in the
 	 * {@link Sort} constructor, or you risk an {@link ArrayIndexOutOfBoundsException}. See
 	 * listsort.txt for a discussion of the minimum stack length required as a function of the
 	 * length of the array being sorted and the minimum merge sequence length.
@@ -106,21 +105,21 @@ public class Sort<T>
 	 */
 	protected T[] tempArray;
 	protected int tempArrayBase; // base of temp array slice
-	protected int tempArrayLen; // length of temp array slice
+	protected int tempArrayLength; // length of temp array slice
 
 	/**
 	 * A stack of pending runs yet to be merged. Run {@code i} starts at address {@code base[i]} and
-	 * extends for {@code len[i]} elements. It is always true (so long as the indexes are in bounds)
-	 * that:
+	 * extends for {@code length[i]} elements. It is always true (so long as the indexes are in
+	 * bounds) that:
 	 * <p>
-	 * {@code runBase[i] + runLen[i] == runBase[i + 1]}
+	 * {@code runBase[i] + runLength[i] == runBase[i + 1]}
 	 * <p>
 	 * so we could cut the storage for this, but it is a minor amount and keeping all the info
 	 * explicit simplifies the code.
 	 */
 	protected int stackSize = 0; // number of pending runs on stack
 	protected final int[] runBase;
-	protected final int[] runLen;
+	protected final int[] runLength;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,27 +133,27 @@ public class Sort<T>
 	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
-	 * @param workLen    the usable size of the work array
+	 * @param workLength the usable size of the work array
 	 */
 	protected Sort(final T[] array, final Comparator<? super T> comparator, final T[] work,
-			final int workBase, final int workLen) {
+			final int workBase, final int workLength) {
 		this.array = array;
 		this.comparator = comparator;
 
 		// Allocate temporary storage (which may be increased later if necessary)
-		final int len = array.length;
-		final int tlen = len < 2 * INITIAL_TEMP_STORAGE_LENGTH ? len >>> 1 :
+		final int length = array.length;
+		final int tempLength = length < 2 * INITIAL_TEMP_STORAGE_LENGTH ? length >>> 1 :
 				INITIAL_TEMP_STORAGE_LENGTH;
-		if (work == null || workLen < tlen || workBase + tlen > work.length) {
+		if (work == null || workLength < tempLength || workBase + tempLength > work.length) {
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-			final T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(), tlen);
+			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentType(array), tempLength);
 			tempArray = newArray;
 			tempArrayBase = 0;
-			tempArrayLen = tlen;
+			tempArrayLength = tempLength;
 		} else {
 			tempArray = work;
 			tempArrayBase = workBase;
-			tempArrayLen = workLen;
+			tempArrayLength = workLength;
 		}
 
 		/*
@@ -169,9 +168,9 @@ public class Sort<T>
 		 * scenario. More explanations are specified in section 4 of:
 		 * http://envisage-project.eu/wp-content/uploads/2015/02/sorting.pdf
 		 */
-		final int stackLen = len < 120 ? 5 : len < 1542 ? 10 : len < 119151 ? 24 : 49;
-		runBase = new int[stackLen];
-		runLen = new int[stackLen];
+		final int stackLength = length < 120 ? 5 : length < 1542 ? 10 : length < 119151 ? 24 : 49;
+		runBase = new int[stackLength];
+		runLength = new int[stackLength];
 	}
 
 
@@ -192,11 +191,11 @@ public class Sort<T>
 	 * @param comparator the {@link Comparator} of super type {@code T} to use
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
-	 * @param workLen    the usable size of the work array
+	 * @param workLength the usable size of the work array
 	 */
 	public static <T> void sort(final T[] array, int lo, final int hi,
 			final Comparator<? super T> comparator, final T[] work, final int workBase,
-			final int workLen) {
+			final int workLength) {
 		assert comparator != null && array != null && lo >= 0 && lo <= hi && hi <= array.length;
 
 		int nRemaining = hi - lo;
@@ -205,8 +204,8 @@ public class Sort<T>
 		}
 		// If array is small, do a "mini-TimSort" with no merges
 		if (nRemaining < MIN_MERGE) {
-			final int initRunLen = countRunAndMakeAscending(array, lo, hi, comparator);
-			binarySort(array, lo, hi, lo + initRunLen, comparator);
+			final int initRunLength = countRunAndMakeAscending(array, lo, hi, comparator);
+			binarySort(array, lo, hi, lo + initRunLength, comparator);
 			return;
 		}
 
@@ -214,26 +213,26 @@ public class Sort<T>
 		 * March over the array once, left to right, finding natural runs, extending short natural
 		 * runs to minRun elements and merging runs to maintain stack invariant.
 		 */
-		final Sort<T> ts = new Sort<T>(array, comparator, work, workBase, workLen);
+		final Sort<T> ts = new Sort<T>(array, comparator, work, workBase, workLength);
 		final int minRun = minRunLength(nRemaining);
 		do {
 			// Identify next run
-			int runLen = countRunAndMakeAscending(array, lo, hi, comparator);
+			int runLength = countRunAndMakeAscending(array, lo, hi, comparator);
 
 			// If run is short, extend to min(minRun, nRemaining)
-			if (runLen < minRun) {
+			if (runLength < minRun) {
 				final int force = nRemaining <= minRun ? nRemaining : minRun;
-				binarySort(array, lo, lo + force, lo + runLen, comparator);
-				runLen = force;
+				binarySort(array, lo, lo + force, lo + runLength, comparator);
+				runLength = force;
 			}
 
 			// Push run onto pending-run stack and maybe merge
-			ts.pushRun(lo, runLen);
+			ts.pushRun(lo, runLength);
 			ts.mergeCollapse();
 
 			// Advance to find next run
-			lo += runLen;
-			nRemaining -= runLen;
+			lo += runLength;
+			nRemaining -= runLength;
 		} while (nRemaining > 0);
 
 		// Merge all remaining runs to complete sort
@@ -399,12 +398,12 @@ public class Sort<T>
 	/**
 	 * Pushes the specified run onto the pending-run stack.
 	 * <p>
-	 * @param runBase the index of the first element in the run
-	 * @param runLen  the number of elements in the run
+	 * @param runBase   the index of the first element in the run
+	 * @param runLength the number of elements in the run
 	 */
-	protected void pushRun(final int runBase, final int runLen) {
+	protected void pushRun(final int runBase, final int runLength) {
 		this.runBase[stackSize] = runBase;
-		this.runLen[stackSize] = runLen;
+		this.runLength[stackSize] = runLength;
 		stackSize++;
 	}
 
@@ -412,9 +411,9 @@ public class Sort<T>
 	 * Examines the stack of runs waiting to be merged and merges adjacent runs until the stack
 	 * invariants are reestablished:
 	 * <p>
-	 * 1. {@code runLen[i - 3] > runLen[i - 2] + runLen[i - 1]}
+	 * 1. {@code runLength[i - 3] > runLength[i - 2] + runLength[i - 1]}
 	 * <p>
-	 * 2. {@code runLen[i - 2] > runLen[i - 1]}
+	 * 2. {@code runLength[i - 2] > runLength[i - 1]}
 	 * <p>
 	 * This method is called each time a new run is pushed onto the stack, so the invariants are
 	 * guaranteed to hold for {@code i < stackSize} upon entry to the method.
@@ -422,12 +421,12 @@ public class Sort<T>
 	protected void mergeCollapse() {
 		while (stackSize > 1) {
 			int n = stackSize - 2;
-			if (n > 0 && runLen[n - 1] <= runLen[n] + runLen[n + 1]) {
-				if (runLen[n - 1] < runLen[n + 1]) {
+			if (n > 0 && runLength[n - 1] <= runLength[n] + runLength[n + 1]) {
+				if (runLength[n - 1] < runLength[n + 1]) {
 					n--;
 				}
 				mergeAt(n);
-			} else if (runLen[n] <= runLen[n + 1]) {
+			} else if (runLength[n] <= runLength[n + 1]) {
 				mergeAt(n);
 			} else {
 				break; // invariant is established
@@ -442,7 +441,7 @@ public class Sort<T>
 	protected void mergeForceCollapse() {
 		while (stackSize > 1) {
 			int n = stackSize - 2;
-			if (n > 0 && runLen[n - 1] < runLen[n + 1]) {
+			if (n > 0 && runLength[n - 1] < runLength[n + 1]) {
 				n--;
 			}
 			mergeAt(n);
@@ -462,9 +461,9 @@ public class Sort<T>
 		assert i == stackSize - 2 || i == stackSize - 3;
 
 		int base1 = runBase[i];
-		int len1 = runLen[i];
+		int len1 = runLength[i];
 		final int base2 = runBase[i + 1];
-		int len2 = runLen[i + 1];
+		int len2 = runLength[i + 1];
 		assert len1 > 0 && len2 > 0;
 		assert base1 + len1 == base2;
 
@@ -473,10 +472,10 @@ public class Sort<T>
 		 * last run (which isn't involved in this merge). The current run ({@code i + 1}) goes away
 		 * in any case.
 		 */
-		runLen[i] = len1 + len2;
+		runLength[i] = len1 + len2;
 		if (i == stackSize - 3) {
 			runBase[i + 1] = runBase[i + 2];
-			runLen[i + 1] = runLen[i + 2];
+			runLength[i + 1] = runLength[i + 2];
 		}
 		stackSize--;
 
@@ -522,7 +521,7 @@ public class Sort<T>
 	 * @param key        the {@code T} key whose insertion point to search for
 	 * @param array      the {@code T} array in which to search
 	 * @param base       the index of the first element in the range
-	 * @param len        the length of the range (must be greater than 0)
+	 * @param length     the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
 	 * @param comparator the {@link Comparator} of super type {@code T} to order the range and to
@@ -534,9 +533,9 @@ public class Sort<T>
 	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code a}
 	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 */
-	protected static <T> int gallopLeft(final T key, final T[] array, final int base, final int len,
+	protected static <T> int gallopLeft(final T key, final T[] array, final int base, final int length,
 			final int hint, final Comparator<? super T> comparator) {
-		assert len > 0 && hint >= 0 && hint < len;
+		assert length > 0 && hint >= 0 && hint < length;
 
 		int lastOfs = 0;
 		int ofs = 1;
@@ -544,7 +543,7 @@ public class Sort<T>
 			/*
 			 * Gallop right until {@code a[base + hint + lastOfs] < key <= a[base + hint + ofs]}.
 			 */
-			final int maxOfs = len - hint;
+			final int maxOfs = length - hint;
 			while (ofs < maxOfs && comparator.compare(key, array[base + hint + ofs]) > 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
@@ -583,7 +582,7 @@ public class Sort<T>
 			lastOfs = hint - ofs;
 			ofs = hint - tempArray;
 		}
-		assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
+		assert -1 <= lastOfs && lastOfs < ofs && ofs <= length;
 
 		/*
 		 * Now {@code a[base + lastOfs] < key <= a[base + ofs]}, so key belongs somewhere to the
@@ -612,7 +611,7 @@ public class Sort<T>
 	 * @param key        the {@code T} key whose insertion point to search for
 	 * @param array      the {@code T} array in which to search
 	 * @param base       the index of the first element in the range
-	 * @param len        the length of the range (must be greater than 0)
+	 * @param length     the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
 	 * @param comparator the {@link Comparator} of super type {@code T} to order the range and to
@@ -622,8 +621,8 @@ public class Sort<T>
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
 	 */
 	protected static <T> int gallopRight(final T key, final T[] array, final int base,
-			final int len, final int hint, final Comparator<? super T> comparator) {
-		assert len > 0 && hint >= 0 && hint < len;
+			final int length, final int hint, final Comparator<? super T> comparator) {
+		assert length > 0 && hint >= 0 && hint < length;
 
 		int ofs = 1;
 		int lastOfs = 0;
@@ -653,7 +652,7 @@ public class Sort<T>
 			/*
 			 * Gallop right until {@code a[b + hint + lastOfs] <= key < a[b + hint + ofs]}.
 			 */
-			final int maxOfs = len - hint;
+			final int maxOfs = length - hint;
 			while (ofs < maxOfs && comparator.compare(key, array[base + hint + ofs]) >= 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
@@ -670,7 +669,7 @@ public class Sort<T>
 			lastOfs += hint;
 			ofs += hint;
 		}
-		assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
+		assert -1 <= lastOfs && lastOfs < ofs && ofs <= length;
 
 		/*
 		 * Now {@code a[b + lastOfs] <= key < a[b + ofs]}, so key belongs somewhere to the right of
@@ -703,7 +702,8 @@ public class Sort<T>
 	 * <p>
 	 * @param base1 index of first element in first run to be merged
 	 * @param len1  length of first run to be merged (must be greater than 0)
-	 * @param base2 index of first element in second run to be merged (must be {@code aBase + aLen})
+	 * @param base2 index of first element in second run to be merged (must be
+	 *              {@code aBase + aLength})
 	 * @param len2  length of second run to be merged (must be greater than 0)
 	 */
 	protected void mergeLo(final int base1, int len1, final int base2, int len2) {
@@ -828,7 +828,8 @@ outer:  while (true) {
 	 * <p>
 	 * @param base1 index of first element in first run to be merged
 	 * @param len1  length of first run to be merged (must be greater than 0)
-	 * @param base2 index of first element in second run to be merged (must be {@code aBase + aLen})
+	 * @param base2 index of first element in second run to be merged (must be
+	 *              {@code aBase + aLength})
 	 * @param len2  length of second run to be merged (must be greater than 0)
 	 */
 	protected void mergeHi(final int base1, int len1, final int base2, int len2) {
@@ -962,7 +963,7 @@ outer:  while (true) {
 	 * @return {@code tempArray}, whether or not it grew
 	 */
 	protected T[] ensureCapacity(final int minCapacity) {
-		if (tempArrayLen < minCapacity) {
+		if (tempArrayLength < minCapacity) {
 			// Compute smallest power of 2 > minCapacity
 			int newSize = minCapacity;
 			newSize |= newSize >> 1;
@@ -980,10 +981,9 @@ outer:  while (true) {
 			}
 
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-			final T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(),
-					newSize);
+			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentType(array), newSize);
 			tempArray = newArray;
-			tempArrayLen = newSize;
+			tempArrayLength = newSize;
 			tempArrayBase = 0;
 		}
 		return tempArray;

@@ -49,10 +49,22 @@ public class ArraysTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of filterAll method, of class Arrays.
+	 */
+	public void testFilterAll() {
+		IO.test("• filterAll");
+
+		assertEquals(Objects.hashCode(
+				Arrays.<String>filterAll(ARRAY, new int[][] {new int[] {0, 0, 1, 2, 2, 3, 4, 5}})),
+				Objects.hashCode(
+						new String[][] {new String[] {"a", "a", "b", "c", "c", "d", "e", "f"}}));
+	}
+
+	/**
 	 * Test of merge method, of class Arrays.
 	 */
 	public void testMerge() {
-		IO.test("• testMerge");
+		IO.test("• merge");
 
 		assertEquals(Objects.hashCode(Arrays.<String>merge(new String[] {"a"}, ARRAY)),
 				Objects.hashCode(new String[] {"a", "a", "b", "c", "d", "e", "f"}));
@@ -66,7 +78,7 @@ public class ArraysTest
 	 * Test of take method, of class Arrays.
 	 */
 	public void testTake() {
-		IO.test("• testTake");
+		IO.test("• take");
 
 		// • 1D
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY)), Objects.hashCode(ARRAY));

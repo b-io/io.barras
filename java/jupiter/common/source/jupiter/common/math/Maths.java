@@ -24,8 +24,10 @@
 package jupiter.common.math;
 
 import java.util.Collection;
+import java.util.List;
 
 import jupiter.common.test.ArrayArguments;
+import jupiter.common.test.ByteArguments;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.FloatArguments;
@@ -195,8 +197,16 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static int sumSeries(final int n) {
+		return n * (n + 1) / 2;
+	}
+
 	public static long sumSeries(final long n) {
 		return n * (n + 1) / 2L;
+	}
+
+	public static int sumSeries(final int from, final int to) {
+		return sumSeries(to) - sumSeries(from);
 	}
 
 	public static long sumSeries(final long from, final long to) {
@@ -314,6 +324,66 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static byte weightedSum(final byte[] values, final byte[] weights) {
+		// Check the arguments
+		ByteArguments.requireSameLength(values, weights);
+
+		// Sum
+		byte sum = 0;
+		for (int i = 0; i < values.length; ++i) {
+			sum += weights[i] * values[i];
+		}
+		return sum;
+	}
+
+	public static short weightedSum(final short[] values, final short[] weights) {
+		// Check the arguments
+		ShortArguments.requireSameLength(values, weights);
+
+		// Sum
+		short sum = 0;
+		for (int i = 0; i < values.length; ++i) {
+			sum += weights[i] * values[i];
+		}
+		return sum;
+	}
+
+	public static int weightedSum(final int[] values, final int[] weights) {
+		// Check the arguments
+		IntegerArguments.requireSameLength(values, weights);
+
+		// Sum
+		int sum = 0;
+		for (int i = 0; i < values.length; ++i) {
+			sum += weights[i] * values[i];
+		}
+		return sum;
+	}
+
+	public static long weightedSum(final long[] values, final long[] weights) {
+		// Check the arguments
+		LongArguments.requireSameLength(values, weights);
+
+		// Sum
+		long sum = 0L;
+		for (int i = 0; i < values.length; ++i) {
+			sum += weights[i] * values[i];
+		}
+		return sum;
+	}
+
+	public static float weightedSum(final float[] values, final float[] weights) {
+		// Check the arguments
+		FloatArguments.requireSameLength(values, weights);
+
+		// Sum
+		float sum = 0f;
+		for (int i = 0; i < values.length; ++i) {
+			sum += weights[i] * values[i];
+		}
+		return sum;
+	}
+
 	public static double weightedSum(final double[] values, final double[] weights) {
 		// Check the arguments
 		DoubleArguments.requireSameLength(values, weights);
@@ -322,6 +392,31 @@ public class Maths {
 		double sum = 0.;
 		for (int i = 0; i < values.length; ++i) {
 			sum += weights[i] * values[i];
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double weightedSum(final T[] numbers, final T[] weights) {
+		// Check the arguments
+		ArrayArguments.requireSameLength(numbers, weights);
+
+		// Sum
+		double sum = 0.;
+		for (int i = 0; i < numbers.length; ++i) {
+			sum += weights[i].doubleValue() * numbers[i].doubleValue();
+		}
+		return sum;
+	}
+
+	public static <T extends Number> double weightedSum(final List<T> numbers,
+			final List<T> weights) {
+		// Check the arguments
+		CollectionArguments.requireSameSize(numbers, weights);
+
+		// Sum
+		double sum = 0.;
+		for (int i = 0; i < numbers.size(); ++i) {
+			sum += weights.get(i).doubleValue() * numbers.get(i).doubleValue();
 		}
 		return sum;
 	}

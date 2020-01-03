@@ -63,6 +63,23 @@ public class Arrays {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> Class<?> getComponentType(final T[] array) {
+		return array.getClass().getComponentType();
+	}
+
+	public static <T> Class<?> getComponentType2D(final T[] array) {
+		return array.getClass().getComponentType().getComponentType();
+	}
+
+	public static <T> Class<?> getComponentType3D(final T[] array) {
+		return array.getClass().getComponentType().getComponentType().getComponentType();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -95,10 +112,20 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	@SuppressWarnings("unchecked")
+	public static <T> T[] toArray(final T[] array) {
+		return toArray(getComponentType(array), array);
+	}
+
+	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(final Class<?> c, final T[] array) {
 		final T[] output = (T[]) create(c, array.length);
 		System.arraycopy(array, 0, output, 0, array.length);
 		return output;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[][] toArray2D(final T[][] array2D) {
+		return toArray2D(getComponentType2D(array2D), array2D);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -110,6 +137,11 @@ public class Arrays {
 			System.arraycopy(array2D[i], 0, output2D, i * columnCount, columnCount);
 		}
 		return output2D;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[][][] toArray3D(final T[][][] array3D) {
+		return toArray3D(getComponentType3D(array3D), array3D);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -258,18 +290,58 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> int indexOf(final T[] array, final T element) {
-		for (int i = 0; i < array.length; ++i) {
-			if (array[i].equals(element)) {
-				return i;
+	/**
+	 * Returns the filtered {@code T} array from the specified {@code T} array and indexes.
+	 * <p>
+	 * @param <T>     the component type of the arrays to filter
+	 * @param array   a {@code T} array
+	 * @param indexes the indexes to filter
+	 * <p>
+	 * @return the filtered {@code T} array from the specified {@code T} array and indexes
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T[] filter(final T[] array, final int... indexes) {
+		final T[] filteredArray = (T[]) create(getComponentType(array), indexes.length);
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArray[i] = array[indexes[i]];
+		}
+		return filteredArray;
+	}
+
+	/**
+	 * Returns all the filtered {@code T} arrays from the specified {@code T} array and indexes.
+	 * <p>
+	 * @param <T>     the component type of the arrays to filter
+	 * @param array   a {@code T} array
+	 * @param indexes the array of indexes to filter
+	 * <p>
+	 * @return all the filtered {@code T} arrays from the specified {@code T} array and indexes
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T[][] filterAll(final T[] array, final int[]... indexes) {
+		final T[][] filteredArrays = (T[][]) create(array.getClass(), indexes.length);
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArrays[i] = filter(array, indexes[i]);
+		}
+		return filteredArrays;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> int indexOf(final T[] array, final T token) {
+		if (array != null) {
+			for (int i = 0; i < array.length; ++i) {
+				if (Objects.equals(array[i], token)) {
+					return i;
+				}
 			}
 		}
 		return -1;
 	}
 
-	public static <T> Pair<Integer, Integer> indexOf(final T[][] array2D, final T element) {
+	public static <T> Pair<Integer, Integer> indexOf(final T[][] array2D, final T token) {
 		for (int i = 0; i < array2D.length; ++i) {
-			final int index = indexOf(array2D[i], element);
+			final int index = indexOf(array2D[i], token);
 			if (index > 0) {
 				return new Pair<Integer, Integer>(i, index);
 			}
@@ -278,9 +350,9 @@ public class Arrays {
 	}
 
 	public static <T> Triple<Integer, Integer, Integer> indexOf(final T[][][] array3D,
-			final T element) {
+			final T token) {
 		for (int i = 0; i < array3D.length; ++i) {
-			final Pair<Integer, Integer> index = indexOf(array3D[i], element);
+			final Pair<Integer, Integer> index = indexOf(array3D[i], token);
 			if (index != null) {
 				return new Triple<Integer, Integer, Integer>(i, index.getFirst(),
 						index.getSecond());
@@ -306,17 +378,17 @@ public class Arrays {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] merge(final T[] a, final T[] b) {
 		if (a == null) {
-			return b != null ? toArray(b.getClass().getComponentType(), b) : null;
+			return b != null ? toArray(b) : null;
 		} else if (b == null) {
-			return toArray(a.getClass().getComponentType(), a);
+			return toArray(a);
 		}
-		final Class<?> c = a.getClass().getComponentType();
+		final Class<?> c = getComponentType(a);
 		final T[] mergedArray = (T[]) create(c, a.length + b.length);
 		System.arraycopy(a, 0, mergedArray, 0, a.length);
 		try {
 			System.arraycopy(b, 0, mergedArray, a.length, b.length);
 		} catch (final ArrayStoreException ex) {
-			ArrayArguments.requireAssignableFrom(c, b.getClass().getComponentType());
+			ArrayArguments.requireAssignableFrom(c, getComponentType(b));
 			throw ex;
 		}
 		return mergedArray;
@@ -338,17 +410,16 @@ public class Arrays {
 		if (arrays == null) {
 			return null;
 		} else if (arrays.length == 1) {
-			return toArray(arrays.getClass().getComponentType().getComponentType(), arrays[0]);
+			return toArray(getComponentType2D(arrays), arrays[0]);
 		}
-		final Class<?> c = arrays.getClass().getComponentType().getComponentType();
+		final Class<?> c = getComponentType2D(arrays);
 		final T[] mergedArray = (T[]) create(c, count(arrays));
 		int offset = 0;
 		for (final T[] array : arrays) {
 			try {
 				System.arraycopy(array, 0, mergedArray, offset, array.length);
 			} catch (final ArrayStoreException ex) {
-				ArrayArguments.requireAssignableFrom(c,
-						array.getClass().getComponentType().getComponentType());
+				ArrayArguments.requireAssignableFrom(c, getComponentType2D(array));
 				throw ex;
 			}
 			offset += array.length;
@@ -571,7 +642,7 @@ public class Arrays {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] take(final T[] array, final int from, final int length) {
 		final int maxLength = Math.min(length, array.length - from);
-		final T[] subarray = (T[]) create(array.getClass().getComponentType(), maxLength);
+		final T[] subarray = (T[]) create(getComponentType(array), maxLength);
 		System.arraycopy(array, from, subarray, 0, maxLength);
 		return subarray;
 	}
@@ -600,7 +671,7 @@ public class Arrays {
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array2D[0].length - fromColumn);
-		final T[] subarray = (T[]) create(array2D.getClass().getComponentType().getComponentType(),
+		final T[] subarray = (T[]) create(getComponentType2D(array2D),
 				maxRowCount * maxColumnCount);
 		for (int i = 0; i < maxRowCount; ++i) {
 			System.arraycopy(array2D[fromRow + i], fromColumn, subarray, i * maxColumnCount,
@@ -646,8 +717,7 @@ public class Arrays {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array3D[0].length - fromColumn);
 		final int maxDepthCount = Math.min(depthCount, array3D[0][0].length - fromDepth);
-		final T[] subarray = (T[]) create(
-				array3D.getClass().getComponentType().getComponentType().getComponentType(),
+		final T[] subarray = (T[]) create(getComponentType3D(array3D),
 				maxRowCount * maxColumnCount * maxDepthCount);
 		for (int i = 0; i < maxRowCount; ++i) {
 			for (int j = 0; j < maxColumnCount; ++j) {
@@ -754,15 +824,7 @@ public class Arrays {
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
 	public static <T> boolean contains(final T[] array, final T token) {
-		if (array == null) {
-			return false;
-		}
-		for (final T element : array) {
-			if (Objects.equals(element, token)) {
-				return true;
-			}
-		}
-		return false;
+		return indexOf(array, token) >= 0;
 	}
 
 	/**
@@ -809,7 +871,7 @@ public class Arrays {
 		if (array == null) {
 			return null;
 		}
-		final T[] clone = (T[]) create(array.getClass().getComponentType(), array.length);
+		final T[] clone = (T[]) create(getComponentType(array), array.length);
 		for (int i = 0; i < array.length; ++i) {
 			clone[i] = Objects.clone(array[i]);
 		}

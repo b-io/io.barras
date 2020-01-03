@@ -52,6 +52,21 @@ public class CombinatoricsTest
 		}
 	}
 
+	/**
+	 * Test of getKPermutations method, of class Combinatorics.
+	 */
+	public void testGetKPermutations() {
+		IO.test("• getKPermutations");
+
+		// Generate the permutations in lexicographical order
+		int[][] permutations;
+		IO.test("3-permutations of a 5-element set");
+		permutations = Combinatorics.getKPermutations(5, 3);
+		for (final int[] permutation : permutations) {
+			IO.test(Arrays.toString(permutation));
+		}
+	}
+
 	//////////////////////////////////////////////
 
 	/**

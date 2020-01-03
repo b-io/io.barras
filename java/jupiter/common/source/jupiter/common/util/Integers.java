@@ -789,6 +789,53 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the filtered {@code int} array from the specified {@code int} array and indexes.
+	 * <p>
+	 * @param array   an {@code int} array
+	 * @param indexes the indexes to filter
+	 * <p>
+	 * @return the filtered {@code int} array from the specified {@code int} array and indexes
+	 */
+	public static int[] filter(final int[] array, final int... indexes) {
+		final int[] filteredArray = new int[indexes.length];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArray[i] = array[indexes[i]];
+		}
+		return filteredArray;
+	}
+
+	/**
+	 * Returns all the filtered {@code int} arrays from the specified {@code int} array and indexes.
+	 * <p>
+	 * @param array   an {@code int} array
+	 * @param indexes the array of indexes to filter
+	 * <p>
+	 * @return all the filtered {@code int} arrays from the specified {@code int} array and indexes
+	 */
+	public static int[][] filterAll(final int[] array, final int[]... indexes) {
+		final int[][] filteredArrays = new int[indexes.length][];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArrays[i] = filter(array, indexes[i]);
+		}
+		return filteredArrays;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int indexOf(final int[] array, final int token) {
+		if (array != null) {
+			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns an {@code int} array containing the specified {@code int} value and all the elements
 	 * of the specified {@code int} array.
 	 * <p>
@@ -1030,15 +1077,7 @@ public class Integers {
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
 	public static boolean contains(final int[] array, final int token) {
-		if (array == null) {
-			return false;
-		}
-		for (final int element : array) {
-			if (element == token) {
-				return true;
-			}
-		}
-		return false;
+		return indexOf(array, token) >= 0;
 	}
 
 	/**

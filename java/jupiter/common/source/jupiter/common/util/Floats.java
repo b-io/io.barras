@@ -680,6 +680,55 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the filtered {@code float} array from the specified {@code float} array and indexes.
+	 * <p>
+	 * @param array   a {@code float} array
+	 * @param indexes the indexes to filter
+	 * <p>
+	 * @return the filtered {@code float} array from the specified {@code float} array and indexes
+	 */
+	public static float[] filter(final float[] array, final int... indexes) {
+		final float[] filteredArray = new float[indexes.length];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArray[i] = array[indexes[i]];
+		}
+		return filteredArray;
+	}
+
+	/**
+	 * Returns all the filtered {@code float} arrays from the specified {@code float} array and
+	 * indexes.
+	 * <p>
+	 * @param array   a {@code float} array
+	 * @param indexes the array of indexes to filter
+	 * <p>
+	 * @return all the filtered {@code float} arrays from the specified {@code float} array and
+	 *         indexes
+	 */
+	public static float[][] filterAll(final float[] array, final int[]... indexes) {
+		final float[][] filteredArrays = new float[indexes.length][];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArrays[i] = filter(array, indexes[i]);
+		}
+		return filteredArrays;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int indexOf(final float[] array, final float token) {
+		if (array != null) {
+			for (int i = 0; i < array.length; ++i) {
+				if (equals(array[i], token)) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the middle of the specified {@code float} value.
 	 * <p>
 	 * @param value a {@code float} value
@@ -902,15 +951,7 @@ public class Floats {
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
 	public static boolean contains(final float[] array, final float token) {
-		if (array == null) {
-			return false;
-		}
-		for (final float element : array) {
-			if (element == token) {
-				return true;
-			}
-		}
-		return false;
+		return indexOf(array, token) >= 0;
 	}
 
 	/**

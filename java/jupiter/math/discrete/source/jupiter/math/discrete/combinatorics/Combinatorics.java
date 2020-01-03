@@ -92,6 +92,10 @@ public class Combinatorics {
 		return permutations;
 	}
 
+	public static int[][] getArrayPermutations(final int[] array) {
+		return Integers.filterAll(array, getPermutations(array.length));
+	}
+
 	/**
 	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
 	 * {@code n}-element set in lexicographical order.
@@ -103,13 +107,44 @@ public class Combinatorics {
 	 *         {@code n}-element set in lexicographical order
 	 */
 	public static int[][] getKPermutations(final int n, final int k) {
+		return getKPermutations(n, k, true);
+	}
+
+	/**
+	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
+	 * {@code n}-element set in lexicographical order.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the ordered subsets
+	 * <p>
+	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
+	 *         {@code n}-element set in lexicographical order
+	 */
+	public static int[][] getKPermutations(final int n, final int k, final boolean sort) {
 		// Initialize
 		final int permutationCount = P(n, k);
 		final int[][] permutations = new int[permutationCount][k];
-		final int[] permutation = Integers.createSequence(k);
+		final int[][] combinations = getKCombinations(n, k);
+		final int[] offsets = new int[k];
 
 		// Generate the k-permutations in lexicographical order
-		throw new UnsupportedOperationException("Not yet implemented!");
+		if (sort) {
+			for (int i = 0; i < k; ++i) {
+				offsets[i] = P(n - 1 - i, k - 1 - i);
+			}
+		}
+		int p = 0;
+		for (final int[] combination : combinations) {
+			final int[][] subpermutations = getArrayPermutations(combination);
+			for (final int[] subpermutation : subpermutations) {
+				if (sort) {
+					permutations[Maths.weightedSum(subpermutation, offsets)] = subpermutation;
+				} else {
+					permutations[p++] = subpermutation;
+				}
+			}
+		}
+		return permutations;
 	}
 
 	//////////////////////////////////////////////

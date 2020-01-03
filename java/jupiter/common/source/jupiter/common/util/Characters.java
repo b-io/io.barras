@@ -668,6 +668,55 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the filtered {@code char} array from the specified {@code char} array and indexes.
+	 * <p>
+	 * @param array   a {@code char} array
+	 * @param indexes the indexes to filter
+	 * <p>
+	 * @return the filtered {@code char} array from the specified {@code char} array and indexes
+	 */
+	public static char[] filter(final char[] array, final int... indexes) {
+		final char[] filteredArray = new char[indexes.length];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArray[i] = array[indexes[i]];
+		}
+		return filteredArray;
+	}
+
+	/**
+	 * Returns all the filtered {@code char} arrays from the specified {@code char} array and
+	 * indexes.
+	 * <p>
+	 * @param array   a {@code char} array
+	 * @param indexes the array of indexes to filter
+	 * <p>
+	 * @return all the filtered {@code char} arrays from the specified {@code char} array and
+	 *         indexes
+	 */
+	public static char[][] filterAll(final char[] array, final int[]... indexes) {
+		final char[][] filteredArrays = new char[indexes.length][];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArrays[i] = filter(array, indexes[i]);
+		}
+		return filteredArrays;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int indexOf(final char[] array, final char token) {
+		if (array != null) {
+			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a {@code char} array containing the specified {@code char} value and all the elements
 	 * of the specified {@code char} array.
 	 * <p>
@@ -888,15 +937,7 @@ public class Characters {
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
 	public static boolean contains(final char[] array, final char token) {
-		if (array == null) {
-			return false;
-		}
-		for (final char element : array) {
-			if (element == token) {
-				return true;
-			}
-		}
-		return false;
+		return indexOf(array, token) >= 0;
 	}
 
 	/**

@@ -52,7 +52,7 @@ public class ComparableSort
 	 * set this constant to be a number that is not a power of two, you'll need to change the
 	 * {@link #minRunLength} computation.
 	 * <p>
-	 * If you decrease this constant, you must change the {@code stackLen} computation in the
+	 * If you decrease this constant, you must change the {@code stackLength} computation in the
 	 * {@link ComparableSort} constructor, or you risk an {@link ArrayIndexOutOfBoundsException}.
 	 * See listsort.txt for a discussion of the minimum stack length required as a function of the
 	 * length of the array being sorted and the minimum merge sequence length.
@@ -97,21 +97,21 @@ public class ComparableSort
 	 */
 	protected Object[] tempArray;
 	protected int tempArrayBase; // base of temp array slice
-	protected int tempArrayLen; // length of temp array slice
+	protected int tempArrayLength; // length of temp array slice
 
 	/**
 	 * A stack of pending runs yet to merge. Run {@code i} starts at address {@code base[i]} and
-	 * extends for {@code len[i]} elements. It is always true (so long as the indexes are in bounds)
-	 * that:
+	 * extends for {@code length[i]} elements. It is always true (so long as the indexes are in
+	 * bounds) that:
 	 * <p>
-	 * {@code runBase[i] + runLen[i] == runBase[i + 1]}
+	 * {@code runBase[i] + runLength[i] == runBase[i + 1]}
 	 * <p>
 	 * so we could cut the storage for this, but it is a minor amount and keeping all the info
 	 * explicit simplifies the code.
 	 */
 	protected int stackSize = 0; // number of pending runs on stack
 	protected final int[] runBase;
-	protected final int[] runLen;
+	protected final int[] runLength;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,27 +121,27 @@ public class ComparableSort
 	/**
 	 * Creates a {@link ComparableSort} instance to maintain the state of an ongoing sort.
 	 * <p>
-	 * @param array    the array of {@link Object} to sort
-	 * @param work     a workspace array (slice)
-	 * @param workBase the origin of the usable space in the work array
-	 * @param workLen  the usable size of the work array
+	 * @param array      the array of {@link Object} to sort
+	 * @param work       a workspace array (slice)
+	 * @param workBase   the origin of the usable space in the work array
+	 * @param workLength the usable size of the work array
 	 */
 	protected ComparableSort(final Object[] array, final Object[] work, final int workBase,
-			final int workLen) {
+			final int workLength) {
 		this.array = array;
 
 		// Allocate temporary storage (which may be increased later if necessary)
-		final int len = array.length;
-		final int tlen = len < 2 * INITIAL_TEMP_STORAGE_LENGTH ? len >>> 1 :
+		final int length = array.length;
+		final int tempLength = length < 2 * INITIAL_TEMP_STORAGE_LENGTH ? length >>> 1 :
 				INITIAL_TEMP_STORAGE_LENGTH;
-		if (work == null || workLen < tlen || workBase + tlen > work.length) {
-			tempArray = new Object[tlen];
+		if (work == null || workLength < tempLength || workBase + tempLength > work.length) {
+			tempArray = new Object[tempLength];
 			tempArrayBase = 0;
-			tempArrayLen = tlen;
+			tempArrayLength = tempLength;
 		} else {
 			tempArray = work;
 			tempArrayBase = workBase;
-			tempArrayLen = workLen;
+			tempArrayLength = workLength;
 		}
 
 		/*
@@ -156,9 +156,9 @@ public class ComparableSort
 		 * scenario. More explanations are specified in section 4 of:
 		 * http://envisage-project.eu/wp-content/uploads/2015/02/sorting.pdf
 		 */
-		final int stackLen = len < 120 ? 5 : len < 1542 ? 10 : len < 119151 ? 24 : 49;
-		runBase = new int[stackLen];
-		runLen = new int[stackLen];
+		final int stackLength = length < 120 ? 5 : length < 1542 ? 10 : length < 119151 ? 24 : 49;
+		runBase = new int[stackLength];
+		runLength = new int[stackLength];
 	}
 
 
@@ -172,15 +172,15 @@ public class ComparableSort
 	 * {@link Arrays}) after performing any necessary array bounds checks and expanding parameters
 	 * into the required forms.
 	 * <p>
-	 * @param array    the array of {@link Object} to sort
-	 * @param lo       the index of the first element, inclusive, to sort
-	 * @param hi       the index of the last element, exclusive, to sort
-	 * @param work     a workspace array (slice)
-	 * @param workBase the origin of the usable space in the work array
-	 * @param workLen  the usable size of the work array
+	 * @param array      the array of {@link Object} to sort
+	 * @param lo         the index of the first element, inclusive, to sort
+	 * @param hi         the index of the last element, exclusive, to sort
+	 * @param work       a workspace array (slice)
+	 * @param workBase   the origin of the usable space in the work array
+	 * @param workLength the usable size of the work array
 	 */
 	public static void sort(final Object[] array, int lo, final int hi, final Object[] work,
-			final int workBase, final int workLen) {
+			final int workBase, final int workLength) {
 		assert array != null && lo >= 0 && lo <= hi && hi <= array.length;
 
 		int nRemaining = hi - lo;
@@ -189,8 +189,8 @@ public class ComparableSort
 		}
 		// If array is small, do a "mini-TimSort" with no merges
 		if (nRemaining < MIN_MERGE) {
-			final int initRunLen = countRunAndMakeAscending(array, lo, hi);
-			binarySort(array, lo, hi, lo + initRunLen);
+			final int initRunLength = countRunAndMakeAscending(array, lo, hi);
+			binarySort(array, lo, hi, lo + initRunLength);
 			return;
 		}
 
@@ -198,26 +198,26 @@ public class ComparableSort
 		 * March over the array once, left to right, finding natural runs, extending short natural
 		 * runs to minRun elements and merging runs to maintain stack invariant.
 		 */
-		final ComparableSort ts = new ComparableSort(array, work, workBase, workLen);
+		final ComparableSort ts = new ComparableSort(array, work, workBase, workLength);
 		final int minRun = minRunLength(nRemaining);
 		do {
 			// Identify next run
-			int runLen = countRunAndMakeAscending(array, lo, hi);
+			int runLength = countRunAndMakeAscending(array, lo, hi);
 
 			// If run is short, extend to min(minRun, nRemaining)
-			if (runLen < minRun) {
+			if (runLength < minRun) {
 				final int force = nRemaining <= minRun ? nRemaining : minRun;
-				binarySort(array, lo, lo + force, lo + runLen);
-				runLen = force;
+				binarySort(array, lo, lo + force, lo + runLength);
+				runLength = force;
 			}
 
 			// Push run onto pending-run stack and maybe merge
-			ts.pushRun(lo, runLen);
+			ts.pushRun(lo, runLength);
 			ts.mergeCollapse();
 
 			// Advance to find next run
-			lo += runLen;
-			nRemaining -= runLen;
+			lo += runLength;
+			nRemaining -= runLength;
 		} while (nRemaining > 0);
 
 		// Merge all remaining runs to complete sort
@@ -380,12 +380,12 @@ public class ComparableSort
 	/**
 	 * Pushes the specified run onto the pending-run stack.
 	 * <p>
-	 * @param runBase the index of the first element in the run
-	 * @param runLen  the number of elements in the run
+	 * @param runBase   the index of the first element in the run
+	 * @param runLength the number of elements in the run
 	 */
-	protected void pushRun(final int runBase, final int runLen) {
+	protected void pushRun(final int runBase, final int runLength) {
 		this.runBase[stackSize] = runBase;
-		this.runLen[stackSize] = runLen;
+		this.runLength[stackSize] = runLength;
 		stackSize++;
 	}
 
@@ -393,9 +393,9 @@ public class ComparableSort
 	 * Examines the stack of runs waiting to merge and merges adjacent runs until the stack
 	 * invariants are reestablished:
 	 * <p>
-	 * 1. {@code runLen[i - 3] > runLen[i - 2] + runLen[i - 1]}
+	 * 1. {@code runLength[i - 3] > runLength[i - 2] + runLength[i - 1]}
 	 * <p>
-	 * 2. {@code runLen[i - 2] > runLen[i - 1]}
+	 * 2. {@code runLength[i - 2] > runLength[i - 1]}
 	 * <p>
 	 * This method is called each time a new run is pushed onto the stack, so the invariants are
 	 * guaranteed to hold for {@code i < stackSize} upon entry to the method.
@@ -403,12 +403,12 @@ public class ComparableSort
 	protected void mergeCollapse() {
 		while (stackSize > 1) {
 			int n = stackSize - 2;
-			if (n > 0 && runLen[n - 1] <= runLen[n] + runLen[n + 1]) {
-				if (runLen[n - 1] < runLen[n + 1]) {
+			if (n > 0 && runLength[n - 1] <= runLength[n] + runLength[n + 1]) {
+				if (runLength[n - 1] < runLength[n + 1]) {
 					n--;
 				}
 				mergeAt(n);
-			} else if (runLen[n] <= runLen[n + 1]) {
+			} else if (runLength[n] <= runLength[n + 1]) {
 				mergeAt(n);
 			} else {
 				break; // invariant is established
@@ -423,7 +423,7 @@ public class ComparableSort
 	protected void mergeForceCollapse() {
 		while (stackSize > 1) {
 			int n = stackSize - 2;
-			if (n > 0 && runLen[n - 1] < runLen[n + 1]) {
+			if (n > 0 && runLength[n - 1] < runLength[n + 1]) {
 				n--;
 			}
 			mergeAt(n);
@@ -444,21 +444,21 @@ public class ComparableSort
 		assert i == stackSize - 2 || i == stackSize - 3;
 
 		int base1 = runBase[i];
-		int len1 = runLen[i];
+		int length1 = runLength[i];
 		final int base2 = runBase[i + 1];
-		int len2 = runLen[i + 1];
-		assert len1 > 0 && len2 > 0;
-		assert base1 + len1 == base2;
+		int length2 = runLength[i + 1];
+		assert length1 > 0 && length2 > 0;
+		assert base1 + length1 == base2;
 
 		/*
 		 * Record the length of the combined runs; if i is the 3rd-last run now, also slide over the
 		 * last run (which isn't involved in this merge). The current run ({@code i + 1}) goes away
 		 * in any case.
 		 */
-		runLen[i] = len1 + len2;
+		runLength[i] = length1 + length2;
 		if (i == stackSize - 3) {
 			runBase[i + 1] = runBase[i + 2];
-			runLen[i + 1] = runLen[i + 2];
+			runLength[i + 1] = runLength[i + 2];
 		}
 		stackSize--;
 
@@ -466,11 +466,11 @@ public class ComparableSort
 		 * Find where the first element of run2 goes in run1. Prior elements in run1 can be ignored
 		 * (because they're already in place).
 		 */
-		final int k = gallopRight((Comparable<Object>) array[base2], array, base1, len1, 0);
+		final int k = gallopRight((Comparable<Object>) array[base2], array, base1, length1, 0);
 		assert k >= 0;
 		base1 += k;
-		len1 -= k;
-		if (len1 == 0) {
+		length1 -= k;
+		if (length1 == 0) {
 			return;
 		}
 
@@ -478,21 +478,21 @@ public class ComparableSort
 		 * Find where the last element of run1 goes in run2. Subsequent elements in run2 can be
 		 * ignored (because they're already in place).
 		 */
-		len2 = gallopLeft((Comparable<Object>) array[base1 + len1 - 1], array, base2, len2,
-				len2 - 1);
-		assert len2 >= 0;
-		if (len2 == 0) {
+		length2 = gallopLeft((Comparable<Object>) array[base1 + length1 - 1], array, base2, length2,
+				length2 - 1);
+		assert length2 >= 0;
+		if (length2 == 0) {
 			return;
 		}
 
 		/*
-		 * Merge remaining runs, using {@code tempArray} array with {@code min(len1, len2)}
+		 * Merge remaining runs, using {@code tempArray} array with {@code min(length1, length2)}
 		 * elements.
 		 */
-		if (len1 <= len2) {
-			mergeLo(base1, len1, base2, len2);
+		if (length1 <= length2) {
+			mergeLo(base1, length1, base2, length2);
 		} else {
-			mergeHi(base1, len1, base2, len2);
+			mergeHi(base1, length1, base2, length2);
 		}
 	}
 
@@ -501,12 +501,13 @@ public class ComparableSort
 	 * specified sorted range; if the range contains an element equal to {@code key}, returns the
 	 * index of the leftmost equal element.
 	 * <p>
-	 * @param key   the key {@link Comparable} of {@link Object} whose insertion point to search for
-	 * @param array the array of {@link Object} in which to search
-	 * @param base  the index of the first element in the range
-	 * @param len   the length of the range (must be greater than 0)
-	 * @param hint  the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
-	 *              is to the result, the faster this method will run)
+	 * @param key    the key {@link Comparable} of {@link Object} whose insertion point to search
+	 *               for
+	 * @param array  the array of {@link Object} in which to search
+	 * @param base   the index of the first element in the range
+	 * @param length the length of the range (must be greater than 0)
+	 * @param hint   the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
+	 *               is to the result, the faster this method will run)
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] < key <= a[b + k]}, pretending that {@code a[b - 1]} is minus
@@ -515,8 +516,8 @@ public class ComparableSort
 	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 */
 	protected static int gallopLeft(final Comparable<Object> key, final Object[] array,
-			final int base, final int len, final int hint) {
-		assert len > 0 && hint >= 0 && hint < len;
+			final int base, final int length, final int hint) {
+		assert length > 0 && hint >= 0 && hint < length;
 
 		int lastOfs = 0;
 		int ofs = 1;
@@ -524,7 +525,7 @@ public class ComparableSort
 			/*
 			 * Gallop right until {@code a[base + hint + lastOfs] < key <= a[base + hint + ofs]}.
 			 */
-			final int maxOfs = len - hint;
+			final int maxOfs = length - hint;
 			while (ofs < maxOfs && key.compareTo(array[base + hint + ofs]) > 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
@@ -563,7 +564,7 @@ public class ComparableSort
 			lastOfs = hint - ofs;
 			ofs = hint - tempArray;
 		}
-		assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
+		assert -1 <= lastOfs && lastOfs < ofs && ofs <= length;
 
 		/*
 		 * Now {@code a[base + lastOfs] < key <= a[base + ofs]}, so key belongs somewhere to the
@@ -589,19 +590,20 @@ public class ComparableSort
 	 * key {@link Comparable}, {@link #gallopRight} returns the index after the rightmost equal
 	 * element.
 	 * <p>
-	 * @param key   the key {@link Comparable} of {@link Object} whose insertion point to search for
-	 * @param array the array of {@link Object} in which to search
-	 * @param base  the index of the first element in the range
-	 * @param len   the length of the range (must be greater than 0)
-	 * @param hint  the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
-	 *              is to the result, the faster this method will run)
+	 * @param key    the key {@link Comparable} of {@link Object} whose insertion point to search
+	 *               for
+	 * @param array  the array of {@link Object} in which to search
+	 * @param base   the index of the first element in the range
+	 * @param length the length of the range (must be greater than 0)
+	 * @param hint   the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
+	 *               is to the result, the faster this method will run)
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
 	 */
 	protected static int gallopRight(final Comparable<Object> key, final Object[] array,
-			final int base, final int len, final int hint) {
-		assert len > 0 && hint >= 0 && hint < len;
+			final int base, final int length, final int hint) {
+		assert length > 0 && hint >= 0 && hint < length;
 
 		int ofs = 1;
 		int lastOfs = 0;
@@ -631,7 +633,7 @@ public class ComparableSort
 			/*
 			 * Gallop right until {@code a[b + hint + lastOfs] <= key < a[b + hint + ofs]}.
 			 */
-			final int maxOfs = len - hint;
+			final int maxOfs = length - hint;
 			while (ofs < maxOfs && key.compareTo(array[base + hint + ofs]) >= 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
@@ -648,7 +650,7 @@ public class ComparableSort
 			lastOfs += hint;
 			ofs += hint;
 		}
-		assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
+		assert -1 <= lastOfs && lastOfs < ofs && ofs <= length;
 
 		/*
 		 * Now {@code a[b + lastOfs] <= key < a[b + ofs]}, so key belongs somewhere to the right of
@@ -672,40 +674,41 @@ public class ComparableSort
 	/**
 	 * Merges two adjacent runs in place, in a stable fashion. The first element of the first run
 	 * must be greater than the first element of the second run ({@code a[base1] > a[base2]}) and
-	 * the last element of the first run ({@code a[base1 + len1 - 1]}) must be greater than all
+	 * the last element of the first run ({@code a[base1 + length1 - 1]}) must be greater than all
 	 * elements of the second run.
 	 * <p>
-	 * For performance, this method should be called only when {@code len1 <= len2}; its twin,
-	 * {@link #mergeHi} should be called if {@code len1 >= len2}. (Either method may be called if
-	 * {@code len1 == len2}.)
+	 * For performance, this method should be called only when {@code length1 <= length2}; its twin,
+	 * {@link #mergeHi} should be called if {@code length1 >= length2}. (Either method may be called
+	 * if {@code length1 == length2}.)
 	 * <p>
-	 * @param base1 index of first element in first run to merge
-	 * @param len1  length of first run to merge (must be greater than 0)
-	 * @param base2 index of first element in second run to merge (must be {@code aBase + aLen})
-	 * @param len2  length of second run to merge (must be greater than 0)
+	 * @param base1   index of first element in first run to merge
+	 * @param length1 length of first run to merge (must be greater than 0)
+	 * @param base2   index of first element in second run to merge (must be
+	 *                {@code aBase + aLength})
+	 * @param length2 length of second run to merge (must be greater than 0)
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	protected void mergeLo(final int base1, int len1, final int base2, int len2) {
-		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
+	protected void mergeLo(final int base1, int length1, final int base2, int length2) {
+		assert length1 > 0 && length2 > 0 && base1 + length1 == base2;
 
 		// Copy first run into temporary array
 		final Object[] array = this.array; // for performance
-		final Object[] tempArray = ensureCapacity(len1);
+		final Object[] tempArray = ensureCapacity(length1);
 
 		int cursor1 = tempArrayBase; // indexes into temp array
 		int cursor2 = base2; // indexes int a
 		int dest = base1; // indexes int a
-		System.arraycopy(array, base1, tempArray, cursor1, len1);
+		System.arraycopy(array, base1, tempArray, cursor1, length1);
 
 		// Move first element of second run and deal with degenerate cases
 		array[dest++] = array[cursor2++];
-		if (--len2 == 0) {
-			System.arraycopy(tempArray, cursor1, array, dest, len1);
+		if (--length2 == 0) {
+			System.arraycopy(tempArray, cursor1, array, dest, length1);
 			return;
 		}
-		if (len1 == 1) {
-			System.arraycopy(array, cursor2, array, dest, len2);
-			array[dest + len2] = tempArray[cursor1]; // last elt of run 1 to end of merge
+		if (length1 == 1) {
+			System.arraycopy(array, cursor2, array, dest, length2);
+			array[dest + length2] = tempArray[cursor1]; // last elt of run 1 to end of merge
 			return;
 		}
 
@@ -719,19 +722,19 @@ outer:  while (true) {
 			 * Do the straightforward thing until (if ever) one run starts winning consistently.
 			 */
 			do {
-				assert len1 > 1 && len2 > 0;
+				assert length1 > 1 && length2 > 0;
 				if (((Comparable) array[cursor2]).compareTo(tempArray[cursor1]) < 0) {
 					array[dest++] = array[cursor2++];
 					count2++;
 					count1 = 0;
-					if (--len2 == 0) {
+					if (--length2 == 0) {
 						break outer;
 					}
 				} else {
 					array[dest++] = tempArray[cursor1++];
 					count1++;
 					count2 = 0;
-					if (--len1 == 1) {
+					if (--length1 == 1) {
 						break outer;
 					}
 				}
@@ -743,35 +746,35 @@ outer:  while (true) {
 			 * anymore.
 			 */
 			do {
-				assert len1 > 1 && len2 > 0;
-				count1 = gallopRight((Comparable) array[cursor2], tempArray, cursor1, len1, 0);
+				assert length1 > 1 && length2 > 0;
+				count1 = gallopRight((Comparable) array[cursor2], tempArray, cursor1, length1, 0);
 				if (count1 != 0) {
 					System.arraycopy(tempArray, cursor1, array, dest, count1);
 					dest += count1;
 					cursor1 += count1;
-					len1 -= count1;
-					if (len1 <= 1) // len1 == 1 || len1 == 0
+					length1 -= count1;
+					if (length1 <= 1) // length1 == 1 || length1 == 0
 					{
 						break outer;
 					}
 				}
 				array[dest++] = array[cursor2++];
-				if (--len2 == 0) {
+				if (--length2 == 0) {
 					break outer;
 				}
 
-				count2 = gallopLeft((Comparable) tempArray[cursor1], array, cursor2, len2, 0);
+				count2 = gallopLeft((Comparable) tempArray[cursor1], array, cursor2, length2, 0);
 				if (count2 != 0) {
 					System.arraycopy(array, cursor2, array, dest, count2);
 					dest += count2;
 					cursor2 += count2;
-					len2 -= count2;
-					if (len2 == 0) {
+					length2 -= count2;
+					if (length2 == 0) {
 						break outer;
 					}
 				}
 				array[dest++] = tempArray[cursor1++];
-				if (--len1 == 1) {
+				if (--length1 == 1) {
 					break outer;
 				}
 				minGallop--;
@@ -783,56 +786,57 @@ outer:  while (true) {
 		} // end of "outer" loop
 		this.minGallop = minGallop < 1 ? 1 : minGallop; // write back to field
 
-		switch (len1) {
+		switch (length1) {
 			case 1:
-				assert len2 > 0;
-				System.arraycopy(array, cursor2, array, dest, len2);
-				array[dest + len2] = tempArray[cursor1]; //  Last elt of run 1 to end of merge
+				assert length2 > 0;
+				System.arraycopy(array, cursor2, array, dest, length2);
+				array[dest + length2] = tempArray[cursor1]; //  Last elt of run 1 to end of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
 						"Comparison method violates its general contract");
 			default:
-				assert len2 == 0;
-				assert len1 > 1;
-				System.arraycopy(tempArray, cursor1, array, dest, len1);
+				assert length2 == 0;
+				assert length1 > 1;
+				System.arraycopy(tempArray, cursor1, array, dest, length1);
 		}
 	}
 
 	/**
-	 * Like {@link #mergeLo}, except that this method should be called only if {@code len1 >= len2};
-	 * {@link #mergeLo} should be called if {@code len1 <= len2}. (Either method may be called if
-	 * {@code len1 == len2}.)
+	 * Like {@link #mergeLo}, except that this method should be called only if
+	 * {@code length1 >= length2}; {@link #mergeLo} should be called if {@code length1 <= length2}.
+	 * (Either method may be called if {@code length1 == length2}.)
 	 * <p>
-	 * @param base1 index of first element in first run to merge
-	 * @param len1  length of first run to merge (must be greater than 0)
-	 * @param base2 index of first element in second run to merge (must be {@code aBase + aLen})
-	 * @param len2  length of second run to merge (must be greater than 0)
+	 * @param base1   index of first element in first run to merge
+	 * @param length1 length of first run to merge (must be greater than 0)
+	 * @param base2   index of first element in second run to merge (must be
+	 *                {@code aBase + aLength})
+	 * @param length2 length of second run to merge (must be greater than 0)
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	protected void mergeHi(final int base1, int len1, final int base2, int len2) {
-		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
+	protected void mergeHi(final int base1, int length1, final int base2, int length2) {
+		assert length1 > 0 && length2 > 0 && base1 + length1 == base2;
 
 		// Copy second run into temporary array
 		final Object[] array = this.array; // for performance
-		final Object[] tempArray = ensureCapacity(len2);
+		final Object[] tempArray = ensureCapacity(length2);
 		final int tempArrayBase = this.tempArrayBase;
-		System.arraycopy(array, base2, tempArray, tempArrayBase, len2);
+		System.arraycopy(array, base2, tempArray, tempArrayBase, length2);
 
-		int cursor1 = base1 + len1 - 1; // indexes into a
-		int cursor2 = tempArrayBase + len2 - 1; // indexes into temp array
-		int dest = base2 + len2 - 1; // indexes into a
+		int cursor1 = base1 + length1 - 1; // indexes into a
+		int cursor2 = tempArrayBase + length2 - 1; // indexes into temp array
+		int dest = base2 + length2 - 1; // indexes into a
 
 		// Move last element of first run and deal with degenerate cases
 		array[dest--] = array[cursor1--];
-		if (--len1 == 0) {
-			System.arraycopy(tempArray, tempArrayBase, array, dest - (len2 - 1), len2);
+		if (--length1 == 0) {
+			System.arraycopy(tempArray, tempArrayBase, array, dest - (length2 - 1), length2);
 			return;
 		}
-		if (len2 == 1) {
-			dest -= len1;
-			cursor1 -= len1;
-			System.arraycopy(array, cursor1 + 1, array, dest + 1, len1);
+		if (length2 == 1) {
+			dest -= length1;
+			cursor1 -= length1;
+			System.arraycopy(array, cursor1 + 1, array, dest + 1, length1);
 			array[dest] = tempArray[cursor2];
 			return;
 		}
@@ -847,19 +851,19 @@ outer:  while (true) {
 			 * Do the straightforward thing until (if ever) one run appears to win consistently.
 			 */
 			do {
-				assert len1 > 0 && len2 > 1;
+				assert length1 > 0 && length2 > 1;
 				if (((Comparable) tempArray[cursor2]).compareTo(array[cursor1]) < 0) {
 					array[dest--] = array[cursor1--];
 					count1++;
 					count2 = 0;
-					if (--len1 == 0) {
+					if (--length1 == 0) {
 						break outer;
 					}
 				} else {
 					array[dest--] = tempArray[cursor2--];
 					count2++;
 					count1 = 0;
-					if (--len2 == 1) {
+					if (--length2 == 1) {
 						break outer;
 					}
 				}
@@ -871,36 +875,36 @@ outer:  while (true) {
 			 * anymore.
 			 */
 			do {
-				assert len1 > 0 && len2 > 1;
-				count1 = len1 -
-						gallopRight((Comparable) tempArray[cursor2], array, base1, len1, len1 - 1);
+				assert length1 > 0 && length2 > 1;
+				count1 = length1 -
+						gallopRight((Comparable) tempArray[cursor2], array, base1, length1, length1 - 1);
 				if (count1 != 0) {
 					dest -= count1;
 					cursor1 -= count1;
-					len1 -= count1;
+					length1 -= count1;
 					System.arraycopy(array, cursor1 + 1, array, dest + 1, count1);
-					if (len1 == 0) {
+					if (length1 == 0) {
 						break outer;
 					}
 				}
 				array[dest--] = tempArray[cursor2--];
-				if (--len2 == 1) {
+				if (--length2 == 1) {
 					break outer;
 				}
 
-				count2 = len2 - gallopLeft((Comparable) array[cursor1], tempArray, tempArrayBase,
-						len2, len2 - 1);
+				count2 = length2 - gallopLeft((Comparable) array[cursor1], tempArray, tempArrayBase,
+						length2, length2 - 1);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;
-					len2 -= count2;
+					length2 -= count2;
 					System.arraycopy(tempArray, cursor2 + 1, array, dest + 1, count2);
-					if (len2 <= 1) {
-						break outer; // len2 == 1 || len2 == 0
+					if (length2 <= 1) {
+						break outer; // length2 == 1 || length2 == 0
 					}
 				}
 				array[dest--] = array[cursor1--];
-				if (--len1 == 0) {
+				if (--length1 == 0) {
 					break outer;
 				}
 				minGallop--;
@@ -912,21 +916,21 @@ outer:  while (true) {
 		} // end of "outer" loop
 		this.minGallop = minGallop < 1 ? 1 : minGallop; // write back to field
 
-		switch (len2) {
+		switch (length2) {
 			case 1:
-				assert len1 > 0;
-				dest -= len1;
-				cursor1 -= len1;
-				System.arraycopy(array, cursor1 + 1, array, dest + 1, len1);
+				assert length1 > 0;
+				dest -= length1;
+				cursor1 -= length1;
+				System.arraycopy(array, cursor1 + 1, array, dest + 1, length1);
 				array[dest] = tempArray[cursor2]; // move first elt of run2 to front of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
 						"Comparison method violates its general contract");
 			default:
-				assert len1 == 0;
-				assert len2 > 0;
-				System.arraycopy(tempArray, tempArrayBase, array, dest - (len2 - 1), len2);
+				assert length1 == 0;
+				assert length2 > 0;
+				System.arraycopy(tempArray, tempArrayBase, array, dest - (length2 - 1), length2);
 		}
 	}
 
@@ -940,7 +944,7 @@ outer:  while (true) {
 	 * @return {@code tempArray}, whether or not it grew
 	 */
 	protected Object[] ensureCapacity(final int minCapacity) {
-		if (tempArrayLen < minCapacity) {
+		if (tempArrayLength < minCapacity) {
 			// Compute smallest power of 2 > minCapacity
 			int newSize = minCapacity;
 			newSize |= newSize >> 1;
@@ -960,7 +964,7 @@ outer:  while (true) {
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 			final Object[] newArray = new Object[newSize];
 			tempArray = newArray;
-			tempArrayLen = newSize;
+			tempArrayLength = newSize;
 			tempArrayBase = 0;
 		}
 		return tempArray;

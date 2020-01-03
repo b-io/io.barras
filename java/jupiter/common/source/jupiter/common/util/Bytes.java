@@ -941,6 +941,55 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the filtered {@code byte} array from the specified {@code byte} array and indexes.
+	 * <p>
+	 * @param array   a {@code byte} array
+	 * @param indexes the indexes to filter
+	 * <p>
+	 * @return the filtered {@code byte} array from the specified {@code byte} array and indexes
+	 */
+	public static byte[] filter(final byte[] array, final int... indexes) {
+		final byte[] filteredArray = new byte[indexes.length];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArray[i] = array[indexes[i]];
+		}
+		return filteredArray;
+	}
+
+	/**
+	 * Returns all the filtered {@code byte} arrays from the specified {@code byte} array and
+	 * indexes.
+	 * <p>
+	 * @param array   a {@code byte} array
+	 * @param indexes the array of indexes to filter
+	 * <p>
+	 * @return all the filtered {@code byte} arrays from the specified {@code byte} array and
+	 *         indexes
+	 */
+	public static byte[][] filterAll(final byte[] array, final int[]... indexes) {
+		final byte[][] filteredArrays = new byte[indexes.length][];
+		for (int i = 0; i < indexes.length; ++i) {
+			filteredArrays[i] = filter(array, indexes[i]);
+		}
+		return filteredArrays;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int indexOf(final byte[] array, final byte token) {
+		if (array != null) {
+			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a {@code byte} array containing the specified {@code byte} value and all the elements
 	 * of the specified {@code byte} array.
 	 * <p>
@@ -1162,15 +1211,7 @@ public class Bytes {
 	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
 	 */
 	public static boolean contains(final byte[] array, final byte token) {
-		if (array == null) {
-			return false;
-		}
-		for (final byte element : array) {
-			if (element == token) {
-				return true;
-			}
-		}
-		return false;
+		return indexOf(array, token) >= 0;
 	}
 
 	/**
