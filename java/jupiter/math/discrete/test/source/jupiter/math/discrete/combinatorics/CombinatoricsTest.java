@@ -38,6 +38,23 @@ public class CombinatoricsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of getPermutations method, of class Combinatorics.
+	 */
+	public void testGetPermutations() {
+		IO.test("• getPermutations");
+
+		// Generate the permutations in lexicographical order
+		int[][] permutations;
+		IO.test("5-permutations of a 5-element set");
+		permutations = Combinatorics.getPermutations(5);
+		for (final int[] permutation : permutations) {
+			IO.test(Arrays.toString(permutation));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Test of getAllCombinations method, of class Combinatorics.
 	 */
 	public void testGetAllCombinations() {
@@ -53,15 +70,15 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of getCombinations method, of class Combinatorics.
+	 * Test of getKCombinations method, of class Combinatorics.
 	 */
-	public void testGetCombinations() {
-		IO.test("• testGetCombinations");
+	public void testGetKCombinations() {
+		IO.test("• getKCombinations");
 
-		// Generate all the combinations in lexicographical order
+		// Generate the k-combinations in lexicographical order
 		int[][] combinations;
 		IO.test("3-combinations of a 5-element set");
-		combinations = Combinatorics.getCombinations(5, 3);
+		combinations = Combinatorics.getKCombinations(5, 3);
 		for (final int[] combination : combinations) {
 			IO.test(Arrays.toString(combination));
 		}
@@ -79,11 +96,20 @@ public class CombinatoricsTest
 		assertEquals(1L, Combinatorics.P(10L, 0L));
 		assertEquals(10L, Combinatorics.P(10L, 1L));
 		assertEquals(30240L, Combinatorics.P(10L, 5L));
-		assertEquals(1L, Combinatorics.P(10L, 10L));
+		assertEquals(3628800L, Combinatorics.P(10L, 10L));
+	}
+
+	/**
+	 * Test of PR method, of class Combinatorics.
+	 */
+	public void testPR() {
+		IO.test("• PR");
 
 		// Count the number of anagrams of the word "MISSISSIPPI"
 		assertEquals(34650L, Combinatorics.PR(1L, 4L, 4L, 2L));
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Test of C method, of class Combinatorics.
@@ -96,6 +122,13 @@ public class CombinatoricsTest
 		assertEquals(10L, Combinatorics.C(10L, 1L));
 		assertEquals(252L, Combinatorics.C(10L, 5L));
 		assertEquals(1L, Combinatorics.C(10L, 10L));
+	}
+
+	/**
+	 * Test of CR method, of class Combinatorics.
+	 */
+	public void testCR() {
+		IO.test("• CR");
 
 		// Count the number of ways to choose 3 donuts from 4 distinct types with repetition
 		assertEquals(20L, Combinatorics.CR(4L, 3L));

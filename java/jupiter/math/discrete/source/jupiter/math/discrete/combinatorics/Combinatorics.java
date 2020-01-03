@@ -59,22 +59,56 @@ public class Combinatorics {
 	}
 
 	/**
+	 * Returns the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
+	 * {@code n}-element set in lexicographical order.
+	 * <p>
+	 * @param n the number of elements in the set and in the ordered subsets
+	 * <p>
+	 * @return the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
+	 *         {@code n}-element set in lexicographical order
+	 */
+	public static int[][] getPermutations(final int n) {
+		// Initialize
+		final int permutationCount = P(n, n);
+		final int[][] permutations = new int[permutationCount][n];
+		final int[] permutation = Integers.createSequence(n);
+
+		// Generate the n-permutations in lexicographical order
+		permutations[0] = permutation.clone();
+		for (int p = 1; p < permutationCount; ++p) {
+			int fromIndex = n - 1;
+			while (permutation[fromIndex - 1] >= permutation[fromIndex]) {
+				--fromIndex;
+			}
+			int toIndex = n - 1;
+			final int pivot = permutation[fromIndex - 1];
+			while (toIndex > fromIndex && permutation[toIndex] <= pivot) {
+				--toIndex;
+			}
+			Integers.swap(permutation, fromIndex - 1, toIndex);
+			Integers.reverse(permutation, fromIndex);
+			permutations[p] = permutation.clone();
+		}
+		return permutations;
+	}
+
+	/**
 	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
 	 * {@code n}-element set in lexicographical order.
 	 * <p>
 	 * @param n the number of elements in the set
-	 * @param k the number of elements in the subsets
+	 * @param k the number of elements in the ordered subsets
 	 * <p>
 	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
 	 *         {@code n}-element set in lexicographical order
 	 */
-	public static int[][] getPermutations(final int n, final int k) {
+	public static int[][] getKPermutations(final int n, final int k) {
 		// Initialize
 		final int permutationCount = P(n, k);
 		final int[][] permutations = new int[permutationCount][k];
 		final int[] permutation = Integers.createSequence(k);
 
-		// Generate all the permutations in lexicographical order
+		// Generate the k-permutations in lexicographical order
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
@@ -116,15 +150,15 @@ public class Combinatorics {
 	 * @return the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
 	 *         {@code n}-element set in lexicographical order
 	 */
-	public static int[][] getCombinations(final int n, final int k) {
+	public static int[][] getKCombinations(final int n, final int k) {
 		// Initialize
 		final int combinationCount = C(n, k);
 		final int[][] combinations = new int[combinationCount][k];
 		final int[] combination = Integers.createSequence(k);
 
-		// Generate all the combinations in lexicographical order
-		for (int c = 0; c < combinationCount; ++c) {
-			combinations[c] = combination.clone();
+		// Generate the k-combinations in lexicographical order
+		combinations[0] = combination.clone();
+		for (int c = 1; c < combinationCount; ++c) {
 			int fromIndex = k - 1;
 			while (fromIndex > 0 && combination[fromIndex] == n - k + fromIndex) {
 				--fromIndex;
@@ -133,6 +167,7 @@ public class Combinatorics {
 			for (int i = fromIndex + 1; i < k; ++i) {
 				combination[i] = combination[i - 1] + 1;
 			}
+			combinations[c] = combination.clone();
 		}
 		return combinations;
 	}
@@ -147,13 +182,13 @@ public class Combinatorics {
 	 * {@code k}-permutations) of a {@code n}-element set.
 	 * <p>
 	 * @param n the number of elements in the set
-	 * @param k the number of elements in the subsets
+	 * @param k the number of elements in the ordered subsets
 	 * <p>
 	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets (i.e.
 	 *         {@code k}-permutations) of a {@code n}-element set
 	 */
 	public static int P(final int n, final int k) {
-		if (k == 0 || n == 0 || k >= n) {
+		if (k == 0 || n == 0) {
 			return 1;
 		}
 		return Maths.productSeries(n - k + 1, n);
@@ -164,13 +199,13 @@ public class Combinatorics {
 	 * {@code k}-permutations) of a {@code n}-element set.
 	 * <p>
 	 * @param n the number of elements in the set
-	 * @param k the number of elements in the subsets
+	 * @param k the number of elements in the ordered subsets
 	 * <p>
 	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets (i.e.
 	 *         {@code k}-permutations) of a {@code n}-element set
 	 */
 	public static long P(final long n, final long k) {
-		if (k == 0L || n == 0L || k >= n) {
+		if (k == 0L || n == 0L) {
 			return 1L;
 		}
 		return Maths.productSeries(n - k + 1L, n);

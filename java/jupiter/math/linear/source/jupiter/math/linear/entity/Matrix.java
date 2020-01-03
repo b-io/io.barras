@@ -745,7 +745,8 @@ public class Matrix
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int from, final int length) {
-		for (int i = 0; i < Math.min(length, m - from); ++i) {
+		final int limit = Math.min(length, m - from);
+		for (int i = 0; i < limit; ++i) {
 			elements[i * n + j] = values[from + i];
 		}
 	}
@@ -1708,7 +1709,8 @@ public class Matrix
 		}
 		// • Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
-		for (int i = 0; i < Math.min(m, broadcastedMatrix.n); ++i) {
+		final int limit = Math.min(m, broadcastedMatrix.n);
+		for (int i = 0; i < limit; ++i) {
 			double sum = 0.;
 			for (int k = 0; k < innerDimension; ++k) {
 				sum += elements[i * n + k] *
@@ -2253,7 +2255,8 @@ public class Matrix
 	 */
 	public double trace() {
 		double t = 0.;
-		for (int i = 0; i < Math.min(m, n); ++i) {
+		final int limit = Math.min(m, n);
+		for (int i = 0; i < limit; ++i) {
 			t += elements[i * n + i];
 		}
 		return t;

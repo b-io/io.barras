@@ -731,7 +731,8 @@ public class EigenvalueDecomposition
 							H[k + 1][j] -= p * y;
 						}
 						// Modify the columns
-						for (int i = 0; i <= Math.min(k + 3, n); ++i) {
+						final int limit = Math.min(k + 3, n);
+						for (int i = 0; i <= limit; ++i) {
 							p = x * H[i][k] + y * H[i][k + 1];
 							if (isNotLast) {
 								p += z * H[i][k + 2];
@@ -885,7 +886,8 @@ public class EigenvalueDecomposition
 		for (int j = nn - 1; j >= low; --j) {
 			for (int i = low; i <= high; ++i) {
 				z = 0.;
-				for (int k = low; k <= Math.min(j, high); ++k) {
+				final int limit = Math.min(j, high);
+				for (int k = low; k <= limit; ++k) {
 					z += V[i][k] * H[k][j];
 				}
 				V[i][j] = z;

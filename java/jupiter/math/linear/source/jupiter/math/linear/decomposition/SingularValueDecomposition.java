@@ -114,7 +114,8 @@ public class SingularValueDecomposition
 		// storing the diagonal elements in s and the super-diagonal elements in e
 		final int nct = Math.min(m - 1, n);
 		final int nrt = Math.max(0, Math.min(m, n - 2));
-		for (int k = 0; k < Math.max(nct, nrt); ++k) {
+		final int limit = Math.max(nct, nrt);
+		for (int k = 0; k < limit; ++k) {
 			if (k < nct) {
 				// Apply the transformation for the k-th column and place the k-th diagonal in s[k]
 				// Compute the 2-norm of the k-th column without under/overflow

@@ -33,6 +33,7 @@ import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.IntegerParser;
+import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedList;
 
 public class Integers {
@@ -850,6 +851,23 @@ public class Integers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void reverse(final int[] array) {
+		reverse(array, 0, array.length - 1);
+	}
+
+	public static void reverse(final int[] array, final int fromIndex) {
+		reverse(array, fromIndex, array.length - 1);
+	}
+
+	public static void reverse(final int[] array, final int fromIndex, final int toIndex) {
+		final int limit = Maths.ceilToInt((toIndex - fromIndex) / 2.);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - i);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void swap(final int[] array, final int i, final int j) {
 		final int element = array[i];
 		array[i] = array[j];
@@ -869,6 +887,8 @@ public class Integers {
 		return subarray;
 	}
 
+	//////////////////////////////////////////////
+
 	public static int[] take(final int[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
@@ -887,6 +907,8 @@ public class Integers {
 		}
 		return subarray;
 	}
+
+	//////////////////////////////////////////////
 
 	public static int[] take(final int[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
