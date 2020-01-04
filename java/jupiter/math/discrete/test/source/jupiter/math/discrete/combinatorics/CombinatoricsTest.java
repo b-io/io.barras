@@ -25,8 +25,8 @@ package jupiter.math.discrete.combinatorics;
 
 import static jupiter.common.io.IO.IO;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import jupiter.common.test.Test;
+import jupiter.common.util.Arrays;
 
 public class CombinatoricsTest
 		extends Test {
@@ -38,30 +38,40 @@ public class CombinatoricsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getPermutations method, of class Combinatorics.
+	 * Test of getFactorialRepresentation method, of class Combinatorics.
 	 */
-	public void testGetPermutations() {
-		IO.test("• getPermutations");
+	public void testGetFactorialRepresentation() {
+		IO.test("• getFactorialRepresentation");
 
-		// Generate the permutations in lexicographical order
+		IO.test("Get Factorial representation of 463");
+		assertEquals(341010, Combinatorics.getFactorialRepresentation(463));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Test of createPermutations method, of class Combinatorics.
+	 */
+	public void testCreatePermutations() {
+		IO.test("• createPermutations");
+
 		int[][] permutations;
-		IO.test("5-permutations of a 5-element set");
-		permutations = Combinatorics.getPermutations(5);
+		IO.test("5-permutations of a 5-element set in lexicographical order");
+		permutations = Combinatorics.createPermutations(5);
 		for (final int[] permutation : permutations) {
 			IO.test(Arrays.toString(permutation));
 		}
 	}
 
 	/**
-	 * Test of getKPermutations method, of class Combinatorics.
+	 * Test of createKPermutations method, of class Combinatorics.
 	 */
-	public void testGetKPermutations() {
-		IO.test("• getKPermutations");
+	public void testCreateKPermutations() {
+		IO.test("• createKPermutations");
 
-		// Generate the permutations in lexicographical order
 		int[][] permutations;
-		IO.test("3-permutations of a 5-element set");
-		permutations = Combinatorics.getKPermutations(5, 3);
+		IO.test("3-permutations of a 5-element set in lexicographical order");
+		permutations = Combinatorics.createKPermutations(5, 3);
 		for (final int[] permutation : permutations) {
 			IO.test(Arrays.toString(permutation));
 		}
@@ -70,30 +80,28 @@ public class CombinatoricsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Test of getAllCombinations method, of class Combinatorics.
+	 * Test of createAllCombinations method, of class Combinatorics.
 	 */
-	public void testGetAllCombinations() {
-		IO.test("• getAllCombinations");
+	public void testCreateAllCombinations() {
+		IO.test("• createAllCombinations");
 
-		// Generate all the combinations in lexicographical order
 		int[][] combinations;
-		IO.test("All combinations of a 3-element set");
-		combinations = Combinatorics.getAllCombinations(3);
+		IO.test("All combinations of a 3-element set in lexicographical order");
+		combinations = Combinatorics.createAllCombinations(3);
 		for (final int[] combination : combinations) {
 			IO.test(Arrays.toString(combination));
 		}
 	}
 
 	/**
-	 * Test of getKCombinations method, of class Combinatorics.
+	 * Test of createKCombinations method, of class Combinatorics.
 	 */
-	public void testGetKCombinations() {
-		IO.test("• getKCombinations");
+	public void testCreateKCombinations() {
+		IO.test("• createKCombinations");
 
-		// Generate the k-combinations in lexicographical order
 		int[][] combinations;
-		IO.test("3-combinations of a 5-element set");
-		combinations = Combinatorics.getKCombinations(5, 3);
+		IO.test("3-combinations of a 5-element set in lexicographical order");
+		combinations = Combinatorics.createKCombinations(5, 3);
 		for (final int[] combination : combinations) {
 			IO.test(Arrays.toString(combination));
 		}

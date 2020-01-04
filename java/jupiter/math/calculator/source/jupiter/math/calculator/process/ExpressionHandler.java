@@ -379,10 +379,12 @@ public class ExpressionHandler
 	protected static ExtendedList<Integer> getOperatorIndexes(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<List<Character>> allOperators) {
+		// Initialize
 		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
 		final int size = allOperators.size();
 		int binaryOperatorsIndex = 0;
 
+		// Get the operator indexes
 		do {
 			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
 			int index = fromIndex + 1;
@@ -392,7 +394,6 @@ public class ExpressionHandler
 			}
 			++binaryOperatorsIndex;
 		} while (binaryOperatorsIndex < size && indexes.isEmpty());
-
 		return indexes;
 	}
 
@@ -433,16 +434,16 @@ public class ExpressionHandler
 	protected static int getLastOperatorIndexFromList(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<List<Character>> allOperators) {
+		// Initialize
 		final int size = allOperators.size();
-		int index;
-		int binaryOperatorsIndex = 0;
+		int index, binaryOperatorsIndex = 0;
 
+		// Get the last operator index
 		do {
-			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
-			index = getLastOperatorIndex(expression, delimitingIntervals, fromIndex, operators);
+			index = getLastOperatorIndex(expression, delimitingIntervals, fromIndex,
+					allOperators.get(binaryOperatorsIndex));
 			++binaryOperatorsIndex;
 		} while (index < 0 && binaryOperatorsIndex < size);
-
 		return index;
 	}
 
@@ -456,10 +457,12 @@ public class ExpressionHandler
 	 * @return the delimiting intervals in the specified expression {@link String}
 	 */
 	protected static IntervalList<Integer> getDelimitingIntervals(final String expression) {
+		// Initialize
 		final List<Interval<Integer>> delimitingIntervals = new ExtendedLinkedList<Interval<Integer>>();
 		int counter = 0;
 		int lowerBound, upperBound = -1;
 
+		// Get the delimiting intervals
 		for (int index = expression.length() - 1; index >= 0; --index) {
 			final Element.Type type = getType(expression.charAt(index));
 			if (type == Element.Type.RIGHT_PARENTHESIS || type == Element.Type.RIGHT_BRACKET) {
@@ -475,7 +478,6 @@ public class ExpressionHandler
 				}
 			}
 		}
-
 		return new IntervalList<Integer>(delimitingIntervals);
 	}
 

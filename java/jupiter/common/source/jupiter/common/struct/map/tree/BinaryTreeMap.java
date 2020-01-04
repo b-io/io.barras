@@ -255,9 +255,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 		// Get the node
 		N node = root;
-		int comparison;
 		while (node != null) {
-			comparison = keyComparable.compareTo(node.key);
+			final int comparison = keyComparable.compareTo(node.key);
 			if (comparison < 0) {
 				node = node.left;
 			} else if (comparison > 0) {

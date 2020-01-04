@@ -51,6 +51,30 @@ public class Combinatorics {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the factorial representation of the specified {@code int} value.
+	 * <p>
+	 * @param value an {@code int} value
+	 * <p>
+	 * @return the factorial representation of the specified {@code int} value
+	 */
+	public static int getFactorialRepresentation(final int value) {
+		int result = 0;
+		int remainder, quotient = value, radix = 1;
+		do {
+			remainder = quotient % radix;
+			quotient = quotient / radix;
+			result += remainder * Maths.pow(10, radix - 1);
+			++radix;
+		} while (quotient != 0);
+		return result;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -61,7 +85,7 @@ public class Combinatorics {
 	 * <p>
 	 * @return all the distinct ordered subsets (i.e. permutations) of a {@code n}-element set
 	 */
-	public static int[][] getAllPermutations(final int n) {
+	public static int[][] createAllPermutations(final int n) {
 		// Generate all the permutations
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
@@ -77,7 +101,7 @@ public class Combinatorics {
 	 * @return the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
 	 *         {@code n}-element set in lexicographical order
 	 */
-	public static int[][] getPermutations(final int n) {
+	public static int[][] createPermutations(final int n) {
 		// Initialize
 		final int permutationCount = P(n, n);
 		final int[][] permutations = new int[permutationCount][n];
@@ -103,39 +127,39 @@ public class Combinatorics {
 	}
 
 	public static boolean[][] createPermutations(final boolean[] array) {
-		return Booleans.filterAll(array, getPermutations(array.length));
+		return Booleans.filterAll(array, createPermutations(array.length));
 	}
 
 	public static char[][] createPermutations(final char[] array) {
-		return Characters.filterAll(array, getPermutations(array.length));
+		return Characters.filterAll(array, createPermutations(array.length));
 	}
 
 	public static byte[][] createPermutations(final byte[] array) {
-		return Bytes.filterAll(array, getPermutations(array.length));
+		return Bytes.filterAll(array, createPermutations(array.length));
 	}
 
 	public static short[][] createPermutations(final short[] array) {
-		return Shorts.filterAll(array, getPermutations(array.length));
+		return Shorts.filterAll(array, createPermutations(array.length));
 	}
 
 	public static int[][] createPermutations(final int[] array) {
-		return Integers.filterAll(array, getPermutations(array.length));
+		return Integers.filterAll(array, createPermutations(array.length));
 	}
 
 	public static long[][] createPermutations(final long[] array) {
-		return Longs.filterAll(array, getPermutations(array.length));
+		return Longs.filterAll(array, createPermutations(array.length));
 	}
 
 	public static float[][] createPermutations(final float[] array) {
-		return Floats.filterAll(array, getPermutations(array.length));
+		return Floats.filterAll(array, createPermutations(array.length));
 	}
 
 	public static double[][] createPermutations(final double[] array) {
-		return Doubles.filterAll(array, getPermutations(array.length));
+		return Doubles.filterAll(array, createPermutations(array.length));
 	}
 
 	public static <T> T[][] createPermutations(final T[] array) {
-		return Arrays.<T>filterAll(array, getPermutations(array.length));
+		return Arrays.<T>filterAll(array, createPermutations(array.length));
 	}
 
 	//////////////////////////////////////////////
@@ -150,8 +174,8 @@ public class Combinatorics {
 	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
 	 *         {@code n}-element set in lexicographical order
 	 */
-	public static int[][] getKPermutations(final int n, final int k) {
-		return getKPermutations(n, k, true);
+	public static int[][] createKPermutations(final int n, final int k) {
+		return createKPermutations(n, k, true);
 	}
 
 	/**
@@ -165,11 +189,11 @@ public class Combinatorics {
 	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
 	 *         {@code n}-element set (in lexicographical order if {@code sort})
 	 */
-	public static int[][] getKPermutations(final int n, final int k, final boolean sort) {
+	public static int[][] createKPermutations(final int n, final int k, final boolean sort) {
 		// Initialize
 		final int permutationCount = P(n, k);
 		final int[][] permutations = new int[permutationCount][k];
-		final int[][] combinations = getKCombinations(n, k);
+		final int[][] combinations = createKCombinations(n, k);
 
 		// Generate the k-permutations (in lexicographical order if sort)
 		int p = 0;
@@ -191,7 +215,7 @@ public class Combinatorics {
 	 * <p>
 	 * @return all the distinct subsets (i.e. combinations) of a {@code n}-element set
 	 */
-	public static int[][] getAllCombinations(final int n) {
+	public static int[][] createAllCombinations(final int n) {
 		// Initialize
 		final int combinationCount = 1 << n;
 		final int[][] combinations = new int[combinationCount][];
@@ -222,7 +246,7 @@ public class Combinatorics {
 	 * @return the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
 	 *         {@code n}-element set in lexicographical order
 	 */
-	public static int[][] getKCombinations(final int n, final int k) {
+	public static int[][] createKCombinations(final int n, final int k) {
 		// Initialize
 		final int combinationCount = C(n, k);
 		final int[][] combinations = new int[combinationCount][k];
