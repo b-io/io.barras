@@ -1009,6 +1009,29 @@ public class Shorts {
 		return a < b ? -1 : a == b ? 0 : 1;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@code short} arrays for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param a the {@code short} array to compare for order
+	 * @param b the other {@code short} array to compare against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 */
+	public static int compare(final short[] a, final short[] b) {
+		final int limit = Math.min(a.length, b.length);
+		for (int i = 0; i < limit; ++i) {
+			final int comparison = compare(a[i], b[i]);
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+		return Integers.compare(a.length, b.length);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT

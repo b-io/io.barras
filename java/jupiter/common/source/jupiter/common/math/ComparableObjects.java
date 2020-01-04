@@ -39,6 +39,23 @@ public class ComparableObjects {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Class} is assignable to a {@link Comparable}.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Comparable},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Class<?> c) {
+		return Comparable.class.isAssignableFrom(c);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -150,23 +167,6 @@ public class ComparableObjects {
 	 */
 	public static <T extends Comparable<T>> T getMax(final T a, final T b) {
 		return ComparableObjects.<T>isGreaterOrEqualTo(a, b) ? a : b;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether the specified {@link Class} is assignable to a {@link Comparable}.
-	 * <p>
-	 * @param c the {@link Class} to test
-	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Comparable},
-	 *         {@code false} otherwise
-	 */
-	public static boolean is(final Class<?> c) {
-		return Comparable.class.isAssignableFrom(c);
 	}
 
 

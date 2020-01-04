@@ -291,19 +291,16 @@ public class DynamicChartPanel
 	 * Draws the vertical and horizontal crosshairs.
 	 */
 	protected void drawCrosshairs() {
-		if (!DRAW_X_CROSSHAIR && !DRAW_Y_CROSSHAIR ||
-				Double.isNaN(selection.getX()) || Double.isNaN(selection.getY())) {
-			return;
-		}
-
-		// Update the vertical and horizontal crosshairs
-		// • Vertical crosshair
-		if (DRAW_X_CROSSHAIR) {
-			crosshairs.getX().setValue(selection.getX());
-		}
-		// • Horizontal crosshair
-		if (DRAW_Y_CROSSHAIR) {
-			crosshairs.getY().setValue(selection.getY());
+		if (!Double.isNaN(selection.getX()) && !Double.isNaN(selection.getY())) {
+			// Update the vertical and horizontal crosshairs
+			// • Vertical crosshair
+			if (DRAW_X_CROSSHAIR) {
+				crosshairs.getX().setValue(selection.getX());
+			}
+			// • Horizontal crosshair
+			if (DRAW_Y_CROSSHAIR) {
+				crosshairs.getY().setValue(selection.getY());
+			}
 		}
 	}
 }

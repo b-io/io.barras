@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Longs.compare;
+
 import java.math.BigDecimal;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -223,6 +225,32 @@ public class Numbers {
 	 */
 	public static boolean isGreaterOrEqualTo(final Number a, final Number b) {
 		return compare(a, b) >= 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Compares the specified arrays of {@link Number} for order. Returns a negative integer, zero
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param <T> the component type of the arrays to compare for order
+	 * @param a   the array of {@link Number} to compare for order
+	 * @param b   the other array of {@link Number} to compare against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 */
+	public static <T extends Number> int compare(final T[] a, final T[] b) {
+		final int limit = Math.min(a.length, b.length);
+		for (int i = 0; i < limit; ++i) {
+			final int comparison = compare(a[i], b[i]);
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+		return Integers.compare(a.length, b.length);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -238,12 +238,9 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void draw(final Graphics2D g, final ChartPanel chartPanel) {
-		if (mousePosition == null ||
-				Double.isNaN(coordinates.getX()) || Double.isNaN(coordinates.getY())) {
-			return;
-		}
-
-		if (isVisible) {
+		if (mousePosition != null &&
+				!Double.isNaN(coordinates.getX()) && !Double.isNaN(coordinates.getY()) &&
+				isVisible) {
 			// Draw the selection
 			final double xSelection = ChartPanels.domainValueToJava2D(chartPanel, mousePosition,
 					coordinates);

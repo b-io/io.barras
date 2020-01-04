@@ -201,12 +201,12 @@ public class Maths {
 		return n * (n + 1) / 2;
 	}
 
-	public static long sumSeries(final long n) {
-		return n * (n + 1) / 2L;
-	}
-
 	public static int sumSeries(final int from, final int to) {
 		return sumSeries(to) - sumSeries(from);
+	}
+
+	public static long sumSeries(final long n) {
+		return n * (n + 1) / 2L;
 	}
 
 	public static long sumSeries(final long from, final long to) {
@@ -261,11 +261,11 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquares(final T[] values, final double mean) {
+	public static <T extends Number> double sumOfSquares(final T[] numbers, final double mean) {
 		double sum = 0.;
-		for (final T value : values) {
-			if (value != null) {
-				sum += square(value.doubleValue() - mean);
+		for (final T number : numbers) {
+			if (number != null) {
+				sum += square(number.doubleValue() - mean);
 			}
 		}
 		return sum;
@@ -421,6 +421,284 @@ public class Maths {
 		return sum;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A the {@code byte} array to add
+	 * @param B the {@code byte} array to multiply
+	 * @param c the constant {@code c} to multiply
+	 */
+	public static void arraySum(final byte[] A, final byte[] B, final byte c) {
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
+	 * <p>
+	 * @param A       the {@code byte} array to add
+	 * @param B       the {@code byte} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 */
+	public static void arraySum(final byte[] A, final byte[] B, final byte c,
+			final int aOffset, final int bOffset) {
+		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
+	 * the specified length.
+	 * <p>
+	 * @param A       the {@code byte} array to add
+	 * @param B       the {@code byte} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param from    the index to start from (inclusive)
+	 * @param to      the index to finish at (exclusive)
+	 */
+	public static void arraySum(final byte[] A, final byte[] B, final byte c,
+			final int aOffset, final int bOffset, final int from, final int to) {
+		if (c != 0) {
+			for (int i = from; i < to; ++i) {
+				A[aOffset + i] += c * B[bOffset + i];
+			}
+		}
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A the {@code short} array to add
+	 * @param B the {@code short} array to multiply
+	 * @param c the constant {@code c} to multiply
+	 */
+	public static void arraySum(final short[] A, final short[] B, final short c) {
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
+	 * <p>
+	 * @param A       the {@code short} array to add
+	 * @param B       the {@code short} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 */
+	public static void arraySum(final short[] A, final short[] B, final short c,
+			final int aOffset, final int bOffset) {
+		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
+	 * the specified length.
+	 * <p>
+	 * @param A       the {@code short} array to add
+	 * @param B       the {@code short} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param from    the index to start from (inclusive)
+	 * @param to      the index to finish at (exclusive)
+	 */
+	public static void arraySum(final short[] A, final short[] B, final short c,
+			final int aOffset, final int bOffset, final int from, final int to) {
+		if (c != 0) {
+			for (int i = from; i < to; ++i) {
+				A[aOffset + i] += c * B[bOffset + i];
+			}
+		}
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A the {@code int} array to add
+	 * @param B the {@code int} array to multiply
+	 * @param c the constant {@code c} to multiply
+	 */
+	public static void arraySum(final int[] A, final int[] B, final int c) {
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
+	 * <p>
+	 * @param A       the {@code int} array to add
+	 * @param B       the {@code int} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 */
+	public static void arraySum(final int[] A, final int[] B, final int c,
+			final int aOffset, final int bOffset) {
+		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
+	 * the specified length.
+	 * <p>
+	 * @param A       the {@code int} array to add
+	 * @param B       the {@code int} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param from    the index to start from (inclusive)
+	 * @param to      the index to finish at (exclusive)
+	 */
+	public static void arraySum(final int[] A, final int[] B, final int c,
+			final int aOffset, final int bOffset, final int from, final int to) {
+		if (c != 0) {
+			for (int i = from; i < to; ++i) {
+				A[aOffset + i] += c * B[bOffset + i];
+			}
+		}
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A the {@code long} array to add
+	 * @param B the {@code long} array to multiply
+	 * @param c the constant {@code c} to multiply
+	 */
+	public static void arraySum(final long[] A, final long[] B, final long c) {
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
+	 * <p>
+	 * @param A       the {@code long} array to add
+	 * @param B       the {@code long} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 */
+	public static void arraySum(final long[] A, final long[] B, final long c,
+			final int aOffset, final int bOffset) {
+		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
+	 * the specified length.
+	 * <p>
+	 * @param A       the {@code long} array to add
+	 * @param B       the {@code long} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param from    the index to start from (inclusive)
+	 * @param to      the index to finish at (exclusive)
+	 */
+	public static void arraySum(final long[] A, final long[] B, final long c,
+			final int aOffset, final int bOffset, final int from, final int to) {
+		if (c != 0L) {
+			for (int i = from; i < to; ++i) {
+				A[aOffset + i] += c * B[bOffset + i];
+			}
+		}
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A the {@code float} array to add
+	 * @param B the {@code float} array to multiply
+	 * @param c the constant {@code c} to multiply
+	 */
+	public static void arraySum(final float[] A, final float[] B, final float c) {
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
+	 * <p>
+	 * @param A       the {@code float} array to add
+	 * @param B       the {@code float} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 */
+	public static void arraySum(final float[] A, final float[] B, final float c,
+			final int aOffset, final int bOffset) {
+		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
+	 * the specified length.
+	 * <p>
+	 * @param A       the {@code float} array to add
+	 * @param B       the {@code float} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param from    the index to start from (inclusive)
+	 * @param to      the index to finish at (exclusive)
+	 */
+	public static void arraySum(final float[] A, final float[] B, final float c,
+			final int aOffset, final int bOffset, final int from, final int to) {
+		if (c != 0f) {
+			for (int i = from; i < to; ++i) {
+				A[aOffset + i] += c * B[bOffset + i];
+			}
+		}
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
+	 * <p>
+	 * @param A the {@code double} array to add
+	 * @param B the {@code double} array to multiply
+	 * @param c the constant {@code c} to multiply
+	 */
+	public static void arraySum(final double[] A, final double[] B, final double c) {
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
+	 * <p>
+	 * @param A       the {@code double} array to add
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 */
+	public static void arraySum(final double[] A, final double[] B, final double c,
+			final int aOffset, final int bOffset) {
+		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
+	 * the specified length.
+	 * <p>
+	 * @param A       the {@code double} array to add
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param aOffset the offset of {@code A}
+	 * @param bOffset the offset of {@code B}
+	 * @param from    the index to start from (inclusive)
+	 * @param to      the index to finish at (exclusive)
+	 */
+	public static void arraySum(final double[] A, final double[] B, final double c,
+			final int aOffset, final int bOffset, final int from, final int to) {
+		if (c != 0.) {
+			for (int i = from; i < to; ++i) {
+				A[aOffset + i] += c * B[bOffset + i];
+			}
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double delta(final double a, final double b) {
@@ -483,10 +761,6 @@ public class Maths {
 		return productSeries(1, n);
 	}
 
-	public static long productSeries(final long n) {
-		return productSeries(1L, n);
-	}
-
 	public static int productSeries(final int from, final int to) {
 		if (from == 0 || to == 0) {
 			return 0;
@@ -496,6 +770,10 @@ public class Maths {
 			product *= value;
 		}
 		return product;
+	}
+
+	public static long productSeries(final long n) {
+		return productSeries(1L, n);
 	}
 
 	public static long productSeries(final long from, final long to) {
@@ -584,11 +862,29 @@ public class Maths {
 	// DISCRETE FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static long countPoints(final double min, final double max, final double increment) {
-		return min <= max ? 1L + floorToLong((max - min) / increment) : 0L;
+	public static int countIncrements(final double min, final double max, final double increment) {
+		return min <= max ? 1 + floorToInt((max - min) / increment) : 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the greatest common divisor (GCD) of {@code a} and {@code b}.
+	 * <p>
+	 * @param a an {@code int} value
+	 * @param b another {@code int} value
+	 * <p>
+	 * @return the greatest common divisor (GCD) of {@code a} and {@code b}
+	 */
+	public static int gcd(final int a, final int b) {
+		int i = a, j = b, t;
+		while (j > 0) {
+			t = j;
+			j = i % t;
+			i = t;
+		}
+		return i;
+	}
 
 	/**
 	 * Returns the greatest common divisor (GCD) of {@code a} and {@code b}.
@@ -600,12 +896,26 @@ public class Maths {
 	 */
 	public static long gcd(final long a, final long b) {
 		long i = a, j = b, t;
-		while (j > 0) {
+		while (j > 0L) {
 			t = j;
 			j = i % t;
 			i = t;
 		}
 		return i;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the least common multiple (LCM) of {@code a} and {@code b}.
+	 * <p>
+	 * @param a an {@code int} value
+	 * @param b another {@code int} value
+	 * <p>
+	 * @return the least common multiple (LCM) of {@code a} and {@code b}
+	 */
+	public static int lcm(final int a, final int b) {
+		return a * b / gcd(a, b);
 	}
 
 	/**
@@ -716,9 +1026,7 @@ public class Maths {
 		return min;
 	}
 
-	//////////////////////////////////////////////
-
-	public static <T extends Number> double getMin(final T... numbers) {
+	public static <T extends Number> double minToDouble(final T... numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers);
 
@@ -730,7 +1038,7 @@ public class Maths {
 		return min;
 	}
 
-	public static <T extends Number> double getMin(final Collection<T> numbers) {
+	public static <T extends Number> double minToDouble(final Collection<T> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers);
 
@@ -804,9 +1112,7 @@ public class Maths {
 		return max;
 	}
 
-	//////////////////////////////////////////////
-
-	public static <T extends Number> double getMax(final T... numbers) {
+	public static <T extends Number> double maxToDouble(final T... numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers);
 
@@ -818,7 +1124,7 @@ public class Maths {
 		return max;
 	}
 
-	public static <T extends Number> double getMax(final Collection<T> numbers) {
+	public static <T extends Number> double maxToDouble(final Collection<T> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers);
 

@@ -1004,6 +1004,29 @@ public class Floats {
 						1; // (0f, -0f) or (NaN, !NaN)
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@code float} arrays for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param a the {@code float} array to compare for order
+	 * @param b the other {@code float} array to compare against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 */
+	public static int compare(final float[] a, final float[] b) {
+		final int limit = Math.min(a.length, b.length);
+		for (int i = 0; i < limit; ++i) {
+			final int comparison = compare(a[i], b[i]);
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+		return Integers.compare(a.length, b.length);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT

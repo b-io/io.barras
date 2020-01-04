@@ -342,10 +342,9 @@ public class JConsole
 	}
 
 	public void print(final Icon icon) {
-		if (icon == null) {
-			return;
+		if (icon != null) {
+			append(icon);
 		}
-		append(icon);
 	}
 
 	public void print(final Object s, final Font font) {
@@ -416,25 +415,23 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void historyUp() {
-		if (history.isEmpty()) {
-			return;
-		}
-		// Save the current line
-		if (historicalLineIndex == 0) {
-			currentLine = getCommand();
-		}
-		if (historicalLineIndex < history.size()) {
-			++historicalLineIndex;
-			showHistoryLine();
+		if (!history.isEmpty()) {
+			// Save the current line
+			if (historicalLineIndex == 0) {
+				currentLine = getCommand();
+			}
+			if (historicalLineIndex < history.size()) {
+				++historicalLineIndex;
+				showHistoryLine();
+			}
 		}
 	}
 
 	protected void historyDown() {
-		if (historicalLineIndex == 0) {
-			return;
+		if (historicalLineIndex != 0) {
+			historicalLineIndex--;
+			showHistoryLine();
 		}
-		historicalLineIndex--;
-		showHistoryLine();
 	}
 
 	protected void showHistoryLine() {

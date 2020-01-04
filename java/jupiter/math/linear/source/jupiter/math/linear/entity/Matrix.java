@@ -2058,31 +2058,7 @@ public class Matrix
 	 */
 	public void arraySum(final double[] B, final double c, final int offset, final int bOffset,
 			final int from, final int to) {
-		arraySum(elements, B, c, offset, bOffset, from, to);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
-	 * the specified length.
-	 * <p>
-	 * @param A       the {@code double} array to add
-	 * @param B       the {@code double} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
-	 * @param bOffset the offset of {@code B}
-	 * @param from    the index to start from (inclusive)
-	 * @param to      the index to finish at (exclusive)
-	 */
-	public static void arraySum(final double[] A, final double[] B, final double c,
-			final int aOffset, final int bOffset, final int from, final int to) {
-		if (c == 0.) {
-			return;
-		}
-		for (int i = from; i < to; ++i) {
-			A[aOffset + i] += c * B[bOffset + i];
-		}
+		Maths.arraySum(elements, B, c, offset, bOffset, from, to);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -81,7 +81,7 @@ public class Tests {
 		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.length,
 				mean, stddev);
 		printAverageValue(label, mean, confidenceInterval);
-		printMinMaxInterval(Maths.getMin(values), Maths.getMax(values));
+		printMinMaxInterval(Maths.minToDouble(values), Maths.maxToDouble(values));
 	}
 
 	public static void printValues(final String label, final Collection<Long> values) {
@@ -90,7 +90,7 @@ public class Tests {
 		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.size(),
 				mean, stddev);
 		printAverageValue(label, mean, confidenceInterval);
-		printMinMaxInterval(Maths.getMin(values), Maths.getMax(values));
+		printMinMaxInterval(Maths.minToDouble(values), Maths.maxToDouble(values));
 	}
 
 	protected static void printAverageValue(final String label, final double mean,

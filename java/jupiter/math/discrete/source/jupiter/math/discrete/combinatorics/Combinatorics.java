@@ -24,7 +24,15 @@
 package jupiter.math.discrete.combinatorics;
 
 import jupiter.common.math.Maths;
+import jupiter.common.util.Arrays;
+import jupiter.common.util.Booleans;
+import jupiter.common.util.Bytes;
+import jupiter.common.util.Characters;
+import jupiter.common.util.Doubles;
+import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
+import jupiter.common.util.Shorts;
 
 /**
  * {@link Combinatorics} is a collection of combinatorial functions.
@@ -57,6 +65,8 @@ public class Combinatorics {
 		// Generate all the permutations
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
@@ -92,9 +102,43 @@ public class Combinatorics {
 		return permutations;
 	}
 
-	public static int[][] getArrayPermutations(final int[] array) {
+	public static boolean[][] createPermutations(final boolean[] array) {
+		return Booleans.filterAll(array, getPermutations(array.length));
+	}
+
+	public static char[][] createPermutations(final char[] array) {
+		return Characters.filterAll(array, getPermutations(array.length));
+	}
+
+	public static byte[][] createPermutations(final byte[] array) {
+		return Bytes.filterAll(array, getPermutations(array.length));
+	}
+
+	public static short[][] createPermutations(final short[] array) {
+		return Shorts.filterAll(array, getPermutations(array.length));
+	}
+
+	public static int[][] createPermutations(final int[] array) {
 		return Integers.filterAll(array, getPermutations(array.length));
 	}
+
+	public static long[][] createPermutations(final long[] array) {
+		return Longs.filterAll(array, getPermutations(array.length));
+	}
+
+	public static float[][] createPermutations(final float[] array) {
+		return Floats.filterAll(array, getPermutations(array.length));
+	}
+
+	public static double[][] createPermutations(final double[] array) {
+		return Doubles.filterAll(array, getPermutations(array.length));
+	}
+
+	public static <T> T[][] createPermutations(final T[] array) {
+		return Arrays.<T>filterAll(array, getPermutations(array.length));
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
@@ -112,42 +156,34 @@ public class Combinatorics {
 
 	/**
 	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 * {@code n}-element set in lexicographical order.
+	 * {@code n}-element set (in lexicographical order if {@code sort}).
 	 * <p>
-	 * @param n the number of elements in the set
-	 * @param k the number of elements in the ordered subsets
+	 * @param n    the number of elements in the set
+	 * @param k    the number of elements in the ordered subsets
+	 * @param sort the flag specifying whether to sort in lexicographical order
 	 * <p>
 	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 *         {@code n}-element set in lexicographical order
+	 *         {@code n}-element set in lexicographical order (in lexicographical order if
+	 *         {@code sort})
 	 */
 	public static int[][] getKPermutations(final int n, final int k, final boolean sort) {
 		// Initialize
 		final int permutationCount = P(n, k);
 		final int[][] permutations = new int[permutationCount][k];
 		final int[][] combinations = getKCombinations(n, k);
-		final int[] offsets = new int[k];
 
 		// Generate the k-permutations in lexicographical order
-		if (sort) {
-			for (int i = 0; i < k; ++i) {
-				offsets[i] = P(n - 1 - i, k - 1 - i);
-			}
-		}
 		int p = 0;
 		for (final int[] combination : combinations) {
-			final int[][] subpermutations = getArrayPermutations(combination);
+			final int[][] subpermutations = createPermutations(combination);
 			for (final int[] subpermutation : subpermutations) {
-				if (sort) {
-					permutations[Maths.weightedSum(subpermutation, offsets)] = subpermutation;
-				} else {
-					permutations[p++] = subpermutation;
-				}
+				permutations[p++] = subpermutation;
 			}
 		}
 		return permutations;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns all the distinct subsets (i.e. combinations) of a {@code n}-element set.
@@ -174,6 +210,8 @@ public class Combinatorics {
 		}
 		return combinations;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a

@@ -123,14 +123,13 @@ public class XYSelectionOverlay
 	 * {@link OverlayChangeEvent} to all registered listeners.
 	 */
 	public void clearSelectionList() {
-		if (selections.isEmpty()) {
-			return;
+		if (!selections.isEmpty()) {
+			for (final XYSelection selection : selections) {
+				selections.remove(selection);
+				selection.removePropertyChangeListener(this);
+			}
+			fireOverlayChanged();
 		}
-		for (final XYSelection selection : selections) {
-			selections.remove(selection);
-			selection.removePropertyChangeListener(this);
-		}
-		fireOverlayChanged();
 	}
 
 	//////////////////////////////////////////////
