@@ -163,8 +163,7 @@ public class Combinatorics {
 	 * @param sort the flag specifying whether to sort in lexicographical order
 	 * <p>
 	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 *         {@code n}-element set in lexicographical order (in lexicographical order if
-	 *         {@code sort})
+	 *         {@code n}-element set (in lexicographical order if {@code sort})
 	 */
 	public static int[][] getKPermutations(final int n, final int k, final boolean sort) {
 		// Initialize
@@ -172,7 +171,7 @@ public class Combinatorics {
 		final int[][] permutations = new int[permutationCount][k];
 		final int[][] combinations = getKCombinations(n, k);
 
-		// Generate the k-permutations in lexicographical order
+		// Generate the k-permutations (in lexicographical order if sort)
 		int p = 0;
 		for (final int[] combination : combinations) {
 			final int[][] subpermutations = createPermutations(combination);

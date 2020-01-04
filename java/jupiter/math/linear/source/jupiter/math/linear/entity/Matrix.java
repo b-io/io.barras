@@ -2042,7 +2042,7 @@ public class Matrix
 	 * @param bOffset the offset of {@code B}
 	 */
 	public void arraySum(final double[] B, final double c, final int offset, final int bOffset) {
-		arraySum(elements, B, c, offset, bOffset, 0, n);
+		Maths.arraySum(elements, B, c, offset, bOffset, 0, n);
 	}
 
 	/**

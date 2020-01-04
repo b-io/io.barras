@@ -431,7 +431,7 @@ public class Maths {
 	 * @param c the constant {@code c} to multiply
 	 */
 	public static void arraySum(final byte[] A, final byte[] B, final byte c) {
-		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length - 1, B.length - 1));
 	}
 
 	/**
@@ -445,7 +445,8 @@ public class Maths {
 	 */
 	public static void arraySum(final byte[] A, final byte[] B, final byte c,
 			final int aOffset, final int bOffset) {
-		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, aOffset, bOffset, 0,
+				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
 
 	/**
@@ -477,7 +478,7 @@ public class Maths {
 	 * @param c the constant {@code c} to multiply
 	 */
 	public static void arraySum(final short[] A, final short[] B, final short c) {
-		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length - 1, B.length - 1));
 	}
 
 	/**
@@ -491,7 +492,8 @@ public class Maths {
 	 */
 	public static void arraySum(final short[] A, final short[] B, final short c,
 			final int aOffset, final int bOffset) {
-		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, aOffset, bOffset, 0,
+				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
 
 	/**
@@ -523,7 +525,7 @@ public class Maths {
 	 * @param c the constant {@code c} to multiply
 	 */
 	public static void arraySum(final int[] A, final int[] B, final int c) {
-		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length - 1, B.length - 1));
 	}
 
 	/**
@@ -537,7 +539,8 @@ public class Maths {
 	 */
 	public static void arraySum(final int[] A, final int[] B, final int c,
 			final int aOffset, final int bOffset) {
-		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, aOffset, bOffset, 0,
+				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
 
 	/**
@@ -569,7 +572,7 @@ public class Maths {
 	 * @param c the constant {@code c} to multiply
 	 */
 	public static void arraySum(final long[] A, final long[] B, final long c) {
-		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length - 1, B.length - 1));
 	}
 
 	/**
@@ -583,7 +586,8 @@ public class Maths {
 	 */
 	public static void arraySum(final long[] A, final long[] B, final long c,
 			final int aOffset, final int bOffset) {
-		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, aOffset, bOffset, 0,
+				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
 
 	/**
@@ -615,7 +619,7 @@ public class Maths {
 	 * @param c the constant {@code c} to multiply
 	 */
 	public static void arraySum(final float[] A, final float[] B, final float c) {
-		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length - 1, B.length - 1));
 	}
 
 	/**
@@ -629,7 +633,8 @@ public class Maths {
 	 */
 	public static void arraySum(final float[] A, final float[] B, final float c,
 			final int aOffset, final int bOffset) {
-		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, aOffset, bOffset, 0,
+				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
 
 	/**
@@ -661,7 +666,7 @@ public class Maths {
 	 * @param c the constant {@code c} to multiply
 	 */
 	public static void arraySum(final double[] A, final double[] B, final double c) {
-		arraySum(A, B, c, 0, 0, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, 0, 0, 0, Math.min(A.length - 1, B.length - 1));
 	}
 
 	/**
@@ -675,7 +680,8 @@ public class Maths {
 	 */
 	public static void arraySum(final double[] A, final double[] B, final double c,
 			final int aOffset, final int bOffset) {
-		arraySum(A, B, c, aOffset, bOffset, 0, Math.min(A.length, B.length));
+		arraySum(A, B, c, aOffset, bOffset, 0,
+				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
 
 	/**
