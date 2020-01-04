@@ -424,6 +424,166 @@ public class Maths {
 	//////////////////////////////////////////////
 
 	/**
+	 * Increments the specified {@code byte} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code byte} array to increment
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void increment(final byte[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Increments the specified {@code short} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code short} array to increment
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void increment(final short[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Increments the specified {@code int} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code int} array to increment
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void increment(final int[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Increments the specified {@code long} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code long} array to increment
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void increment(final long[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Increments the specified {@code float} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code float} array to increment
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void increment(final float[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Increments the specified {@code double} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code double} array to increment
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void increment(final double[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Decrements the specified {@code byte} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code byte} array to decrement
+	 * @param fromIndex the index to start decrementing from (inclusive)
+	 * @param toIndex   the index to finish decrementing at (exclusive)
+	 */
+	public static void decrement(final byte[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			--values[i];
+		}
+	}
+
+	/**
+	 * Decrements the specified {@code short} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code short} array to decrement
+	 * @param fromIndex the index to start decrementing from (inclusive)
+	 * @param toIndex   the index to finish decrementing at (exclusive)
+	 */
+	public static void decrement(final short[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			--values[i];
+		}
+	}
+
+	/**
+	 * Decrements the specified {@code int} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code int} array to decrement
+	 * @param fromIndex the index to start decrementing from (inclusive)
+	 * @param toIndex   the index to finish decrementing at (exclusive)
+	 */
+	public static void decrement(final int[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			--values[i];
+		}
+	}
+
+	/**
+	 * Decrements the specified {@code long} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code long} array to decrement
+	 * @param fromIndex the index to start decrementing from (inclusive)
+	 * @param toIndex   the index to finish decrementing at (exclusive)
+	 */
+	public static void decrement(final long[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			--values[i];
+		}
+	}
+
+	/**
+	 * Decrements the specified {@code float} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code float} array to decrement
+	 * @param fromIndex the index to start decrementing from (inclusive)
+	 * @param toIndex   the index to finish decrementing at (exclusive)
+	 */
+	public static void decrement(final float[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			--values[i];
+		}
+	}
+
+	/**
+	 * Decrements the specified {@code double} array between the specified indexes.
+	 * <p>
+	 * @param values    the {@code double} array to decrement
+	 * @param fromIndex the index to start decrementing from (inclusive)
+	 * @param toIndex   the index to finish decrementing at (exclusive)
+	 */
+	public static void decrement(final double[] values, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			--values[i];
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
 	 * <p>
 	 * @param A the {@code byte} array to add
@@ -450,21 +610,21 @@ public class Maths {
 	}
 
 	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
-	 * the specified length.
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
+	 * between the specified indexes.
 	 * <p>
-	 * @param A       the {@code byte} array to add
-	 * @param B       the {@code byte} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
-	 * @param bOffset the offset of {@code B}
-	 * @param from    the index to start from (inclusive)
-	 * @param to      the index to finish at (exclusive)
+	 * @param A         the {@code byte} array to add
+	 * @param B         the {@code byte} array to multiply
+	 * @param c         the constant {@code c} to multiply
+	 * @param aOffset   the offset of {@code A}
+	 * @param bOffset   the offset of {@code B}
+	 * @param fromIndex the index to start summing from (inclusive)
+	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
 	public static void arraySum(final byte[] A, final byte[] B, final byte c,
-			final int aOffset, final int bOffset, final int from, final int to) {
+			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0) {
-			for (int i = from; i < to; ++i) {
+			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
 			}
 		}
@@ -497,21 +657,21 @@ public class Maths {
 	}
 
 	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
-	 * the specified length.
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
+	 * between the specified indexes.
 	 * <p>
-	 * @param A       the {@code short} array to add
-	 * @param B       the {@code short} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
-	 * @param bOffset the offset of {@code B}
-	 * @param from    the index to start from (inclusive)
-	 * @param to      the index to finish at (exclusive)
+	 * @param A         the {@code short} array to add
+	 * @param B         the {@code short} array to multiply
+	 * @param c         the constant {@code c} to multiply
+	 * @param aOffset   the offset of {@code A}
+	 * @param bOffset   the offset of {@code B}
+	 * @param fromIndex the index to start summing from (inclusive)
+	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
 	public static void arraySum(final short[] A, final short[] B, final short c,
-			final int aOffset, final int bOffset, final int from, final int to) {
+			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0) {
-			for (int i = from; i < to; ++i) {
+			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
 			}
 		}
@@ -544,21 +704,21 @@ public class Maths {
 	}
 
 	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
-	 * the specified length.
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
+	 * between the specified indexes.
 	 * <p>
-	 * @param A       the {@code int} array to add
-	 * @param B       the {@code int} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
-	 * @param bOffset the offset of {@code B}
-	 * @param from    the index to start from (inclusive)
-	 * @param to      the index to finish at (exclusive)
+	 * @param A         the {@code int} array to add
+	 * @param B         the {@code int} array to multiply
+	 * @param c         the constant {@code c} to multiply
+	 * @param aOffset   the offset of {@code A}
+	 * @param bOffset   the offset of {@code B}
+	 * @param fromIndex the index to start summing from (inclusive)
+	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
 	public static void arraySum(final int[] A, final int[] B, final int c,
-			final int aOffset, final int bOffset, final int from, final int to) {
+			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0) {
-			for (int i = from; i < to; ++i) {
+			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
 			}
 		}
@@ -591,21 +751,21 @@ public class Maths {
 	}
 
 	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
-	 * the specified length.
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
+	 * between the specified indexes.
 	 * <p>
-	 * @param A       the {@code long} array to add
-	 * @param B       the {@code long} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
-	 * @param bOffset the offset of {@code B}
-	 * @param from    the index to start from (inclusive)
-	 * @param to      the index to finish at (exclusive)
+	 * @param A         the {@code long} array to add
+	 * @param B         the {@code long} array to multiply
+	 * @param c         the constant {@code c} to multiply
+	 * @param aOffset   the offset of {@code A}
+	 * @param bOffset   the offset of {@code B}
+	 * @param fromIndex the index to start summing from (inclusive)
+	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
 	public static void arraySum(final long[] A, final long[] B, final long c,
-			final int aOffset, final int bOffset, final int from, final int to) {
+			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0L) {
-			for (int i = from; i < to; ++i) {
+			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
 			}
 		}
@@ -638,21 +798,21 @@ public class Maths {
 	}
 
 	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
-	 * the specified length.
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
+	 * between the specified indexes.
 	 * <p>
-	 * @param A       the {@code float} array to add
-	 * @param B       the {@code float} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
-	 * @param bOffset the offset of {@code B}
-	 * @param from    the index to start from (inclusive)
-	 * @param to      the index to finish at (exclusive)
+	 * @param A         the {@code float} array to add
+	 * @param B         the {@code float} array to multiply
+	 * @param c         the constant {@code c} to multiply
+	 * @param aOffset   the offset of {@code A}
+	 * @param bOffset   the offset of {@code B}
+	 * @param fromIndex the index to start summing from (inclusive)
+	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
 	public static void arraySum(final float[] A, final float[] B, final float c,
-			final int aOffset, final int bOffset, final int from, final int to) {
+			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0f) {
-			for (int i = from; i < to; ++i) {
+			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
 			}
 		}
@@ -685,21 +845,21 @@ public class Maths {
 	}
 
 	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets to
-	 * the specified length.
+	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
+	 * between the specified indexes.
 	 * <p>
-	 * @param A       the {@code double} array to add
-	 * @param B       the {@code double} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param aOffset the offset of {@code A}
-	 * @param bOffset the offset of {@code B}
-	 * @param from    the index to start from (inclusive)
-	 * @param to      the index to finish at (exclusive)
+	 * @param A         the {@code double} array to add
+	 * @param B         the {@code double} array to multiply
+	 * @param c         the constant {@code c} to multiply
+	 * @param aOffset   the offset of {@code A}
+	 * @param bOffset   the offset of {@code B}
+	 * @param fromIndex the index to start summing from (inclusive)
+	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
 	public static void arraySum(final double[] A, final double[] B, final double c,
-			final int aOffset, final int bOffset, final int from, final int to) {
+			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0.) {
-			for (int i = from; i < to; ++i) {
+			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
 			}
 		}
@@ -807,12 +967,12 @@ public class Maths {
 		return Integers.convert(Math.pow(base, exponent));
 	}
 
-	public static double square(final double x) {
-		return x * x;
+	public static double square(final double value) {
+		return value * value;
 	}
 
-	public static double cube(final double x) {
-		return x * x * x;
+	public static double cube(final double value) {
+		return value * value * value;
 	}
 
 	//////////////////////////////////////////////
@@ -832,6 +992,9 @@ public class Maths {
 	}
 
 	public static double factorial(final double n) {
+		if (n == 0.0) {
+			return 1.;
+		}
 		return roundToLong(n * gamma(n));
 	}
 
@@ -844,14 +1007,14 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double safeDivision(final double a, final double b) {
-		return a / (b + TOLERANCE);
+	public static double safeDivision(final double dividend, final double divisor) {
+		return dividend / (divisor + TOLERANCE);
 	}
 
 	//////////////////////////////////////////////
 
-	public static double inverse(final double x) {
-		return safeDivision(1., x);
+	public static double safeInverse(final double value) {
+		return safeDivision(1., value);
 	}
 
 
@@ -859,8 +1022,8 @@ public class Maths {
 	// ANALYTIC FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double safeLog(final double x) {
-		return Math.log(x + TOLERANCE);
+	public static double safeLog(final double value) {
+		return Math.log(value + TOLERANCE);
 	}
 
 
@@ -1191,32 +1354,60 @@ public class Maths {
 	// TRIGONOMETRIC FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the cosinus of the specified angle in degrees.
+	 * <p>
+	 * @param angle an angle in degrees
+	 * <p>
+	 * @return the cosinus of the specified angle in degrees
+	 */
 	public static double cos(final double angle) {
 		return Math.cos(angle * DEGREE_TO_RADIAN);
 	}
 
+	/**
+	 * Returns the sinus of the specified angle in degrees.
+	 * <p>
+	 * @param angle an angle in degrees
+	 * <p>
+	 * @return the sinus of the specified angle in degrees
+	 */
 	public static double sin(final double angle) {
 		return Math.sin(angle * DEGREE_TO_RADIAN);
 	}
 
 	//////////////////////////////////////////////
 
+	/**
+	 * Returns the sinus of the specified angle in degrees.
+	 * <p>
+	 * @param angle an angle in degrees
+	 * <p>
+	 * @return the sinus of the specified angle in degrees
+	 */
 	public static double tan(final double angle) {
 		return Math.tan(angle * DEGREE_TO_RADIAN);
 	}
 
+	/**
+	 * Returns the cotangent of the specified angle in degrees.
+	 * <p>
+	 * @param angle a {@code double} angle in degrees
+	 * <p>
+	 * @return the cotangent of the specified angle in degrees
+	 */
 	public static double cot(final double angle) {
-		return 1. / Math.tan(angle * DEGREE_TO_RADIAN);
+		return 1. / tan(angle);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the haversine of the specified angle.
+	 * Returns the haversine of the specified angle in degrees.
 	 * <p>
-	 * @param angle a {@code double} value
+	 * @param angle a {@code double} angle in degrees
 	 * <p>
-	 * @return the haversine of the specified angle
+	 * @return the haversine of the specified angle in degrees
 	 */
 	public static double hav(final double angle) {
 		return (1. - cos(angle)) / 2.;

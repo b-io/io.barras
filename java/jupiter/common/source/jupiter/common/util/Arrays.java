@@ -599,8 +599,8 @@ public class Arrays {
 	 * <p>
 	 * @param <T>        the component type of the array to sort
 	 * @param a          the array to sort
-	 * @param fromIndex  the index of the first element (inclusive) to sort
-	 * @param toIndex    the index of the last element (exclusive) to sort
+	 * @param fromIndex  the index of the first element to sort (inclusive)
+	 * @param toIndex    the index of the last element to sort (exclusive)
 	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
 	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
 	 *                   of the elements should be used)

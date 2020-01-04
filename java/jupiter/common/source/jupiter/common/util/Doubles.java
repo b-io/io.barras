@@ -528,14 +528,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code double} value between {@code lowerBound}
-	 * (inclusive) and {@code upperBound} (exclusive).
+	 * Returns a pseudorandom, uniformly distributed {@code double} value between the specified
+	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code double} value to create
-	 * @param upperBound the upper bound of the {@code double} value to create
+	 * @param lowerBound the lower bound of the {@code double} value to create (inclusive)
+	 * @param upperBound the upper bound of the {@code double} value to create (exclusive)
 	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code double} value between {@code lowerBound}
-	 *         (inclusive) and {@code upperBound} (exclusive)
+	 * @return a pseudorandom, uniformly distributed {@code double} value between the specified
+	 *         bounds
 	 */
 	public static double random(final double lowerBound, final double upperBound) {
 		return lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound);
@@ -609,16 +609,14 @@ public class Doubles {
 
 	/**
 	 * Creates a {@code double} array of the specified length containing pseudorandom, uniformly
-	 * distributed {@code double} values between {@code lowerBound} (inclusive) and
-	 * {@code upperBound} (exclusive).
+	 * distributed {@code double} values between the specified bounds.
 	 * <p>
 	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the lower bound of the random sequence to create
-	 * @param upperBound the upper bound of the random sequence to create
+	 * @param lowerBound the lower bound of the random sequence to create (inclusive)
+	 * @param upperBound the upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code double} array of the specified length containing pseudorandom, uniformly
-	 *         distributed {@code double} values between {@code lowerBound} (inclusive) and
-	 *         {@code upperBound} (exclusive)
+	 *         distributed {@code double} values between the specified bounds
 	 */
 	public static double[] createRandomSequence(final int length, final double lowerBound,
 			final double upperBound) {

@@ -2047,18 +2047,18 @@ public class Matrix
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets
-	 * to the specified length.
+	 * between the specified indexes.
 	 * <p>
-	 * @param B       the {@code double} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param offset  the offset of {@code this}
-	 * @param bOffset the offset of {@code B}
-	 * @param from    the index to start from (inclusive)
-	 * @param to      the index to finish at (exclusive)
+	 * @param B         the {@code double} array to multiply
+	 * @param c         the constant {@code c} to multiply
+	 * @param offset    the offset of {@code this}
+	 * @param bOffset   the offset of {@code B}
+	 * @param fromIndex the index to start summing from (inclusive)
+	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
 	public void arraySum(final double[] B, final double c, final int offset, final int bOffset,
-			final int from, final int to) {
-		Maths.arraySum(elements, B, c, offset, bOffset, from, to);
+			final int fromIndex, final int toIndex) {
+		Maths.arraySum(elements, B, c, offset, bOffset, fromIndex, toIndex);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -131,7 +131,7 @@ public abstract class DivideAndConquer<I>
 		IntegerArguments.requirePositive(minSliceSize);
 
 		// Divide and conquer
-		final int maxWorkerToReserveCount = Maths.ceilToInt(Maths.safeDivision(to - from, minSliceSize));
+		final int maxWorkerToReserveCount = Maths.ceilToInt((to - from) / minSliceSize);
 		if (maxWorkerToReserveCount == 1) {
 			return new int[] {conquer(input, from, to)};
 		}

@@ -814,14 +814,13 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code byte} value between {@code lowerBound}
-	 * (inclusive) and {@code upperBound} (exclusive).
+	 * Returns a pseudorandom, uniformly distributed {@code byte} value between the specified
+	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code byte} value to create
-	 * @param upperBound the upper bound of the {@code byte} value to create
+	 * @param lowerBound the lower bound of the {@code byte} value to create (inclusive)
+	 * @param upperBound the upper bound of the {@code byte} value to create (exclusive)
 	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code byte} value between {@code lowerBound}
-	 *         (inclusive) and {@code upperBound} (exclusive)
+	 * @return a pseudorandom, uniformly distributed {@code byte} value between the specified bounds
 	 */
 	public static byte random(final byte lowerBound, final byte upperBound) {
 		return convert(lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound));
@@ -895,16 +894,14 @@ public class Bytes {
 
 	/**
 	 * Creates a {@code byte} array of the specified length containing pseudorandom, uniformly
-	 * distributed {@code byte} values between {@code lowerBound} (inclusive) and {@code upperBound}
-	 * (exclusive).
+	 * distributed {@code byte} values between the specified bounds.
 	 * <p>
 	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the lower bound of the random sequence to create
-	 * @param upperBound the upper bound of the random sequence to create
+	 * @param lowerBound the lower bound of the random sequence to create (inclusive)
+	 * @param upperBound the upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code byte} array of the specified length containing pseudorandom, uniformly
-	 *         distributed {@code byte} values between {@code lowerBound} (inclusive) and
-	 *         {@code upperBound} (exclusive)
+	 *         distributed {@code byte} values between the specified bounds
 	 */
 	public static byte[] createRandomSequence(final int length, final byte lowerBound,
 			final byte upperBound) {

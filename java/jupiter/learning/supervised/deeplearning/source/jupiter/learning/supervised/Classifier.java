@@ -401,7 +401,7 @@ public abstract class Classifier
 	/**
 	 * Computes the accuracy.
 	 * <p>
-	 * @return {@code (sum(diag(A Y')) + sum(diag((1 - A) (1 - Y')))) / (k * m)}
+	 * @return {@code (sum(diag(A Y')) + sum(diag((1. - A) (1. - Y')))) / (k * m)}
 	 */
 	public synchronized double computeAccuracy() {
 		// Classify X
@@ -415,7 +415,7 @@ public abstract class Classifier
 	/**
 	 * Computes the precision.
 	 * <p>
-	 * @return {@code sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))}
+	 * @return {@code sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1. - Y'))))}
 	 */
 	public synchronized double computePrecision() {
 		// Classify X
@@ -429,7 +429,7 @@ public abstract class Classifier
 	/**
 	 * Computes the recall.
 	 * <p>
-	 * @return {@code sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))}
+	 * @return {@code sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1. - A) Y')))}
 	 */
 	public synchronized double computeRecall() {
 		// Classify X
@@ -449,7 +449,7 @@ public abstract class Classifier
 		// Compute 2. / ((1. / precision) + (1. / recall))
 		final double precision = computePrecision(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))
 		final double recall = computeRecall(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))
-		return 2. / (Maths.inverse(precision) + Maths.inverse(recall));
+		return Maths.safeDivision(2., (Maths.safeInverse(precision) + Maths.safeInverse(recall)));
 	}
 
 

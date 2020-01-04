@@ -173,8 +173,8 @@ public class ComparableSort
 	 * into the required forms.
 	 * <p>
 	 * @param array      the array of {@link Object} to sort
-	 * @param lo         the index of the first element, inclusive, to sort
-	 * @param hi         the index of the last element, exclusive, to sort
+	 * @param lo         the index of the first element to sort (inclusive)
+	 * @param hi         the index of the last element to sort (exclusive)
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array

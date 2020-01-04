@@ -45,6 +45,9 @@ public class CombinatoricsTest
 
 		IO.test("Get Factorial representation of 463");
 		assertEquals(341010, Combinatorics.getFactorialRepresentation(463));
+
+		IO.test("Get Factorial representation of 1234");
+		assertEquals(1413010, Combinatorics.getFactorialRepresentation(1234));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

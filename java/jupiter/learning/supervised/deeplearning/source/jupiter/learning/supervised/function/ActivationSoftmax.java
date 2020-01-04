@@ -82,7 +82,7 @@ public class ActivationSoftmax
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
-	 * @return {@code E (1 - E)}
+	 * @return {@code E (1. - E)}
 	 */
 	@Override
 	public Entity derive(final Entity E) {

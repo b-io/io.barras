@@ -354,14 +354,12 @@ public class Table<T>
 	}
 
 	/**
-	 * Returns the elements of the specified row truncated from the specified column index
-	 * (inclusive).
+	 * Returns the elements of the specified row truncated from the specified column index.
 	 * <p>
 	 * @param i    the row index
 	 * @param from the initial column index (inclusive)
 	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index
-	 *         (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
@@ -370,15 +368,15 @@ public class Table<T>
 	}
 
 	/**
-	 * Returns the elements of the specified row truncated from the specified column index
-	 * (inclusive) to the specified length.
+	 * Returns the elements of the specified row truncated from the specified column index to the
+	 * specified length.
 	 * <p>
 	 * @param i      the row index
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to get
 	 * <p>
-	 * @return the elements of the specified row truncated from the specified column index
-	 *         (inclusive) to the specified length
+	 * @return the elements of the specified row truncated from the specified column index to the
+	 *         specified length
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
@@ -427,14 +425,12 @@ public class Table<T>
 	}
 
 	/**
-	 * Returns the elements of the specified column truncated from the specified row index
-	 * (inclusive).
+	 * Returns the elements of the specified column truncated from the specified row index.
 	 * <p>
 	 * @param name the column name
 	 * @param from the initial row index (inclusive)
 	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index
-	 *         (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code from} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present

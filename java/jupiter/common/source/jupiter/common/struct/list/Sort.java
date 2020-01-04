@@ -186,8 +186,8 @@ public class Sort<T>
 	 * <p>
 	 * @param <T>        the component type of the array
 	 * @param array      the {@code T} array to sort
-	 * @param lo         the index of the first element, inclusive, to sort
-	 * @param hi         the index of the last element, exclusive, to sort
+	 * @param lo         the index of the first element to sort (inclusive)
+	 * @param hi         the index of the last element to sort (exclusive)
 	 * @param comparator the {@link Comparator} of super type {@code T} to use
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array

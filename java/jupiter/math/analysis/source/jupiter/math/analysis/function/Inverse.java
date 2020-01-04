@@ -21,20 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.learning.supervised.function;
+package jupiter.math.analysis.function;
 
-import jupiter.learning.supervised.Classifier;
-import jupiter.math.analysis.function.Functions;
-import jupiter.math.analysis.function.Sigmoid;
-import jupiter.math.linear.entity.Entity;
-import jupiter.math.linear.entity.Scalar;
+import jupiter.common.math.Maths;
 
-/**
- * {@link ActivationSigmoid} is the logistic {@link OutputActivationFunction} with return values
- * monotonically increasing from 0 to 1.
- */
-public class ActivationSigmoid
-		extends OutputActivationFunction {
+public class Inverse
+		extends Function {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -51,9 +43,9 @@ public class ActivationSigmoid
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ActivationSigmoid}.
+	 * Constructs a {@link Inverse}.
 	 */
-	protected ActivationSigmoid() {
+	protected Inverse() {
 		super();
 	}
 
@@ -63,48 +55,16 @@ public class ActivationSigmoid
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the {@link Sigmoid} to the specified {@link Entity} and returns the resulting
-	 * {@link Entity}.
+	 * Applies the inverse function to the specified {@code double} value and returns the resulting
+	 * {@code double} value.
 	 * <p>
-	 * @param E an {@link Entity}
+	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code 1. / (1. + exp(E))}
+	 * @return {@code 1. / x}
 	 */
 	@Override
-	public Entity apply(final Entity E) {
-		return E.apply(Functions.SIGMOID);
-	}
-
-	/**
-	 * Applies the derivative of the {@link Sigmoid} to the specified {@link Entity} and returns the
-	 * resulting {@link Entity}.
-	 * <p>
-	 * @param E an {@link Entity}
-	 * <p>
-	 * @return {@code E (1. - E)}
-	 */
-	@Override
-	public Entity derive(final Entity E) {
-		return E.times(Scalar.ONE.minus(E));
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Computes the cost of {@code A}.
-	 * <p>
-	 * @param classifier a {@link Classifier}
-	 * @param A          an {@link Entity}
-	 * <p>
-	 * @return {@code -(log(A) Y' + log(1. - A) (1. - Y')) / m}
-	 */
-	@Override
-	public double computeCost(final Classifier classifier, final Entity A) {
-		return -A.apply(Functions.LOG)
-						.diagonalTimes(classifier.getTransposedClasses())
-				.add(Scalar.ONE.minus(A).apply(Functions.LOG)
-						.diagonalTimes(Scalar.ONE.minus(classifier.getTransposedClasses())))
-				.toScalar().get() / classifier.getTrainingExampleCount();
+	public double apply(final double x) {
+		return Maths.safeInverse(x);
 	}
 
 
@@ -120,7 +80,7 @@ public class ActivationSigmoid
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public ActivationSigmoid clone() {
-		return (ActivationSigmoid) super.clone();
+	public Inverse clone() {
+		return (Inverse) super.clone();
 	}
 }

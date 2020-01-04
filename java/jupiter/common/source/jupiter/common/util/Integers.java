@@ -662,14 +662,12 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code int} value between {@code lowerBound}
-	 * (inclusive) and {@code upperBound} (exclusive).
+	 * Returns a pseudorandom, uniformly distributed {@code int} value between the specified bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code int} value to create
-	 * @param upperBound the upper bound of the {@code int} value to create
+	 * @param lowerBound the lower bound of the {@code int} value to create (inclusive)
+	 * @param upperBound the upper bound of the {@code int} value to create (exclusive)
 	 * <p>
-	 * @return the next pseudorandom, uniformly distributed {@code int} value between
-	 *         {@code lowerBound} (inclusive) and {@code upperBound} (exclusive)
+	 * @return a pseudorandom, uniformly distributed {@code int} value between the specified bounds
 	 */
 	public static int random(final int lowerBound, final int upperBound) {
 		return lowerBound + RANDOM.nextInt(upperBound - lowerBound);
@@ -743,16 +741,14 @@ public class Integers {
 
 	/**
 	 * Creates an {@code int} array of the specified length containing pseudorandom, uniformly
-	 * distributed {@code int} values between {@code lowerBound} (inclusive) and {@code upperBound}
-	 * (exclusive).
+	 * distributed {@code int} values between the specified bounds.
 	 * <p>
 	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the lower bound of the random sequence to create
-	 * @param upperBound the upper bound of the random sequence to create
+	 * @param lowerBound the lower bound of the random sequence to create (inclusive)
+	 * @param upperBound the upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return an {@code int} array of the specified length containing pseudorandom, uniformly
-	 *         distributed {@code int} values between {@code lowerBound} (inclusive) and
-	 *         {@code upperBound} (exclusive)
+	 *         distributed {@code int} values between the specified bounds
 	 */
 	public static int[] createRandomSequence(final int length, final int lowerBound,
 			final int upperBound) {

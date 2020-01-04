@@ -540,14 +540,13 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code long} value between {@code lowerBound}
-	 * (inclusive) and {@code upperBound} (exclusive).
+	 * Returns a pseudorandom, uniformly distributed {@code long} value between the specified
+	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code long} value to create
-	 * @param upperBound the upper bound of the {@code long} value to create
+	 * @param lowerBound the lower bound of the {@code long} value to create (inclusive)
+	 * @param upperBound the upper bound of the {@code long} value to create (exclusive)
 	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code long} value between {@code lowerBound}
-	 *         (inclusive) and {@code upperBound} (exclusive)
+	 * @return a pseudorandom, uniformly distributed {@code long} value between the specified bounds
 	 */
 	public static long random(final long lowerBound, final long upperBound) {
 		return lowerBound + convert(RANDOM.nextDouble() * (upperBound - lowerBound));
@@ -621,16 +620,14 @@ public class Longs {
 
 	/**
 	 * Creates a {@code long} array of the specified length containing pseudorandom, uniformly
-	 * distributed {@code long} values between {@code lowerBound} (inclusive) and {@code upperBound}
-	 * (exclusive).
+	 * distributed {@code long} values between the specified bounds.
 	 * <p>
 	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the lower bound of the random sequence to create
-	 * @param upperBound the upper bound of the random sequence to create
+	 * @param lowerBound the lower bound of the random sequence to create (inclusive)
+	 * @param upperBound the upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code long} array of the specified length containing pseudorandom, uniformly
-	 *         distributed {@code long} values between {@code lowerBound} (inclusive) and
-	 *         {@code upperBound} (exclusive)
+	 *         distributed {@code long} values between the specified bounds
 	 */
 	public static long[] createRandomSequence(final int length, final long lowerBound,
 			final long upperBound) {

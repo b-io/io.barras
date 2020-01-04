@@ -80,7 +80,7 @@ public class ActivationHyperbolicTangent
 	 * <p>
 	 * @param E an array of {@link Entity}
 	 * <p>
-	 * @return {@code 1 - E .* E}
+	 * @return {@code 1. - E .* E}
 	 */
 	@Override
 	public Entity derive(final Entity E) {
