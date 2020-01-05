@@ -48,12 +48,12 @@ public class CombinatoricsTest
 		IO.test("Get Factorial representation of 463");
 		assertEquals(Objects.hashCode(new int[] {3, 4, 1, 0, 1, 0}),
 				Objects.hashCode(Integers.collectionToPrimitiveArray(
-						Combinatorics.getFactorialRepresentation(463))));
+						Combinatorics.toFactoradic(463))));
 
 		IO.test("Get Factorial representation of 1234");
 		assertEquals(Objects.hashCode(new int[] {1, 4, 1, 1, 2, 0, 0}),
 				Objects.hashCode(Integers.collectionToPrimitiveArray(
-						Combinatorics.getFactorialRepresentation(1234))));
+						Combinatorics.toFactoradic(1234))));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
