@@ -77,11 +77,12 @@ public class Combinatorics {
 	 * @return the decimal representation of the specified factoradic {@code int} value
 	 */
 	public static int toDecimal(final ExtendedLinkedList<Integer> factoradicValue) {
-		int result = 0;
+		int decimalValue = 0;
 		for (int i = 0; i < factoradicValue.size(); ++i) {
-			result += factoradicValue.get(i) * Maths.factorial(factoradicValue.size() - 1 - i);
+			decimalValue += factoradicValue.get(i) *
+					Maths.factorial(factoradicValue.size() - 1 - i);
 		}
-		return result;
+		return decimalValue;
 	}
 
 	/**
@@ -94,15 +95,15 @@ public class Combinatorics {
 	 *         {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<Integer> toFactoradic(final int decimalValue) {
-		final ExtendedLinkedList<Integer> result = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
 		int remainder, quotient = decimalValue, radix = 1;
 		do {
 			remainder = quotient % radix;
 			quotient = quotient / radix;
-			result.push(remainder);
+			factoradicValue.push(remainder);
 			++radix;
 		} while (quotient != 0);
-		return result;
+		return factoradicValue;
 	}
 
 
