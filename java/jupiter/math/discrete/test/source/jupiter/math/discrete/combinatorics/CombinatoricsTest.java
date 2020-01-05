@@ -40,10 +40,10 @@ public class CombinatoricsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getFactorialRepresentation method, of class Combinatorics.
+	 * Test of toFactoradic method, of class Combinatorics.
 	 */
-	public void testGetFactorialRepresentation() {
-		IO.test("• getFactorialRepresentation");
+	public void testToFactoradic() {
+		IO.test("• toFactoradic");
 
 		IO.test("Get Factorial representation of 463");
 		assertEquals(Objects.hashCode(new int[] {3, 4, 1, 0, 1, 0}),
