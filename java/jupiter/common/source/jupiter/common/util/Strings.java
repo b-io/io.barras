@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jupiter.common.exception.IllegalClassException;
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
@@ -3051,22 +3052,25 @@ public class Strings {
 		}
 		final Class<?> c = object.getClass();
 		if (c.isArray()) {
-			if (Booleans.isPrimitiveArray(c)) {
-				return Booleans.toString((boolean[]) object);
-			} else if (Characters.isPrimitiveArray(c)) {
-				return Characters.toString((char[]) object);
-			} else if (Bytes.isPrimitiveArray(c)) {
-				return Bytes.toString((byte[]) object);
-			} else if (Shorts.isPrimitiveArray(c)) {
-				return Shorts.toString((short[]) object);
-			} else if (Integers.isPrimitiveArray(c)) {
-				return Integers.toString((int[]) object);
-			} else if (Longs.isPrimitiveArray(c)) {
-				return Longs.toString((long[]) object);
-			} else if (Floats.isPrimitiveArray(c)) {
-				return Floats.toString((float[]) object);
-			} else if (Doubles.isPrimitiveArray(c)) {
-				return Doubles.toString((double[]) object);
+			if (c.getComponentType().isPrimitive()) {
+				if (Booleans.isPrimitiveArray(c)) {
+					return Booleans.toString((boolean[]) object);
+				} else if (Characters.isPrimitiveArray(c)) {
+					return Characters.toString((char[]) object);
+				} else if (Bytes.isPrimitiveArray(c)) {
+					return Bytes.toString((byte[]) object);
+				} else if (Shorts.isPrimitiveArray(c)) {
+					return Shorts.toString((short[]) object);
+				} else if (Integers.isPrimitiveArray(c)) {
+					return Integers.toString((int[]) object);
+				} else if (Longs.isPrimitiveArray(c)) {
+					return Longs.toString((long[]) object);
+				} else if (Floats.isPrimitiveArray(c)) {
+					return Floats.toString((float[]) object);
+				} else if (Doubles.isPrimitiveArray(c)) {
+					return Doubles.toString((double[]) object);
+				}
+				throw new IllegalClassException(c);
 			}
 			return Arrays.toString((Object[]) object);
 		} else if (Collections.is(c)) {

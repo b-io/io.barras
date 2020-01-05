@@ -851,6 +851,50 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the hash code value for the specified {@code boolean} array.
+	 * <p>
+	 * @param array the {@code boolean} array to hash
+	 * <p>
+	 * @return the hash code value for the specified {@code boolean} array
+	 */
+	public static int hashCode(final boolean... array) {
+		return hashCodeWith(0, array);
+	}
+
+	/**
+	 * Returns the hash code value for the specified {@code boolean} array at the specified depth.
+	 * <p>
+	 * @param array the {@code boolean} array to hash
+	 * @param depth the depth to hash at
+	 * <p>
+	 * @return the hash code value for the specified {@code boolean} array at the specified depth
+	 */
+	@SuppressWarnings("unchecked")
+	public static int hashCodeWith(final int depth, final boolean... array) {
+		if (array == null) {
+			return 0;
+		}
+		switch (array.length) {
+			case 0:
+				return Bits.SEEDS[depth % Bits.SEEDS.length];
+			case 1:
+				return array[0] ? 1231 : 1237;
+			default:
+				int hashCode = Bits.SEEDS[depth % Bits.SEEDS.length];
+				for (int i = 0; i < array.length; ++i) {
+					if (i % 2 == 0) {
+						hashCode = Bits.rotateLeft(hashCode) ^ hashCodeWith(depth, array[i]);
+					} else {
+						hashCode = Bits.rotateRight(hashCode) ^ hashCodeWith(depth, array[i]);
+					}
+				}
+				return hashCode;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a representative {@link String} of the specified {@code boolean} array.
 	 * <p>
 	 * @param array a {@code boolean} array

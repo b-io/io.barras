@@ -1162,6 +1162,50 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the hash code value for the specified {@code int} array.
+	 * <p>
+	 * @param array the {@code int} array to hash
+	 * <p>
+	 * @return the hash code value for the specified {@code int} array
+	 */
+	public static int hashCode(final int... array) {
+		return hashCodeWith(0, array);
+	}
+
+	/**
+	 * Returns the hash code value for the specified {@code int} array at the specified depth.
+	 * <p>
+	 * @param array the {@code int} array to hash
+	 * @param depth the depth to hash at
+	 * <p>
+	 * @return the hash code value for the specified {@code int} array at the specified depth
+	 */
+	@SuppressWarnings("unchecked")
+	public static int hashCodeWith(final int depth, final int... array) {
+		if (array == null) {
+			return 0;
+		}
+		switch (array.length) {
+			case 0:
+				return Bits.SEEDS[depth % Bits.SEEDS.length];
+			case 1:
+				return array[0];
+			default:
+				int hashCode = Bits.SEEDS[depth % Bits.SEEDS.length];
+				for (int i = 0; i < array.length; ++i) {
+					if (i % 2 == 0) {
+						hashCode = Bits.rotateLeft(hashCode) ^ hashCodeWith(depth, array[i]);
+					} else {
+						hashCode = Bits.rotateRight(hashCode) ^ hashCodeWith(depth, array[i]);
+					}
+				}
+				return hashCode;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a representative {@link String} of the specified {@code int} array.
 	 * <p>
 	 * @param array an {@code int} array

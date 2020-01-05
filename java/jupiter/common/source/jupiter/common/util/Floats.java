@@ -1074,6 +1074,50 @@ public class Floats {
 		return Maths.delta(a, b) <= tolerance;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the hash code value for the specified {@code float} array.
+	 * <p>
+	 * @param array the {@code float} array to hash
+	 * <p>
+	 * @return the hash code value for the specified {@code float} array
+	 */
+	public static int hashCode(final float... array) {
+		return hashCodeWith(0, array);
+	}
+
+	/**
+	 * Returns the hash code value for the specified {@code float} array at the specified depth.
+	 * <p>
+	 * @param array the {@code float} array to hash
+	 * @param depth the depth to hash at
+	 * <p>
+	 * @return the hash code value for the specified {@code float} array at the specified depth
+	 */
+	@SuppressWarnings("unchecked")
+	public static int hashCodeWith(final int depth, final float... array) {
+		if (array == null) {
+			return 0;
+		}
+		switch (array.length) {
+			case 0:
+				return Bits.SEEDS[depth % Bits.SEEDS.length];
+			case 1:
+				return Float.floatToIntBits(array[0]);
+			default:
+				int hashCode = Bits.SEEDS[depth % Bits.SEEDS.length];
+				for (int i = 0; i < array.length; ++i) {
+					if (i % 2 == 0) {
+						hashCode = Bits.rotateLeft(hashCode) ^ hashCodeWith(depth, array[i]);
+					} else {
+						hashCode = Bits.rotateRight(hashCode) ^ hashCodeWith(depth, array[i]);
+					}
+				}
+				return hashCode;
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

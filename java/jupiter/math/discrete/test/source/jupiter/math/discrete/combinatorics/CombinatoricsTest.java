@@ -27,6 +27,8 @@ import static jupiter.common.io.IO.IO;
 
 import jupiter.common.test.Test;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
 
 public class CombinatoricsTest
 		extends Test {
@@ -44,10 +46,14 @@ public class CombinatoricsTest
 		IO.test("• getFactorialRepresentation");
 
 		IO.test("Get Factorial representation of 463");
-		assertEquals(341010, Combinatorics.getFactorialRepresentation(463));
+		assertEquals(Objects.hashCode(new int[] {3, 4, 1, 0, 1, 0}),
+				Objects.hashCode(Integers.collectionToPrimitiveArray(
+						Combinatorics.getFactorialRepresentation(463))));
 
 		IO.test("Get Factorial representation of 1234");
-		assertEquals(1413010, Combinatorics.getFactorialRepresentation(1234));
+		assertEquals(Objects.hashCode(new int[] {1, 4, 1, 3, 0, 1, 0}),
+				Objects.hashCode(Integers.collectionToPrimitiveArray(
+						Combinatorics.getFactorialRepresentation(1234))));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

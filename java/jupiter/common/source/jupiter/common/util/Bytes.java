@@ -1297,14 +1297,45 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the hash code value for the specified {@code byte} value.
+	 * Returns the hash code value for the specified {@code byte} array.
 	 * <p>
-	 * @param value a {@code byte} value
+	 * @param array the {@code byte} array to hash
 	 * <p>
-	 * @return the hash code value for the specified {@code byte} value
+	 * @return the hash code value for the specified {@code byte} array
 	 */
-	public static int hashCode(final byte value) {
-		return Objects.hashCode((int) value, value >>> Bits.HALF_LONG_BITS_COUNT);
+	public static int hashCode(final byte... array) {
+		return hashCodeWith(0, array);
+	}
+
+	/**
+	 * Returns the hash code value for the specified {@code byte} array at the specified depth.
+	 * <p>
+	 * @param array the {@code byte} array to hash
+	 * @param depth the depth to hash at
+	 * <p>
+	 * @return the hash code value for the specified {@code byte} array at the specified depth
+	 */
+	@SuppressWarnings("unchecked")
+	public static int hashCodeWith(final int depth, final byte... array) {
+		if (array == null) {
+			return 0;
+		}
+		switch (array.length) {
+			case 0:
+				return Bits.SEEDS[depth % Bits.SEEDS.length];
+			case 1:
+				return array[0];
+			default:
+				int hashCode = Bits.SEEDS[depth % Bits.SEEDS.length];
+				for (int i = 0; i < array.length; ++i) {
+					if (i % 2 == 0) {
+						hashCode = Bits.rotateLeft(hashCode) ^ hashCodeWith(depth, array[i]);
+					} else {
+						hashCode = Bits.rotateRight(hashCode) ^ hashCodeWith(depth, array[i]);
+					}
+				}
+				return hashCode;
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

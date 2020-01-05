@@ -37,6 +37,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+import jupiter.common.exception.IllegalClassException;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Integers;
@@ -92,7 +93,7 @@ public class SQL {
 		} else if (Timestamp.class.isAssignableFrom(c)) {
 			return Timestamp.valueOf(text);
 		}
-		throw new IllegalArgumentException("Unknown class: " + c);
+		throw new IllegalClassException(c);
 	}
 
 

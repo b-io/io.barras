@@ -24,6 +24,7 @@
 package jupiter.math.discrete.combinatorics;
 
 import jupiter.common.math.Maths;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
@@ -55,22 +56,32 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the factorial representation of the specified {@code int} value.
+	 * Returns the factorial representation of the specified {@code int} value in an
+	 * {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param value an {@code int} value
 	 * <p>
-	 * @return the factorial representation of the specified {@code int} value
+	 * @return the factorial representation of the specified {@code int} value in an
+	 *         {@link ExtendedLinkedList}
 	 */
-	public static int getFactorialRepresentation(final int value) {
-		int result = 0;
+	public static ExtendedLinkedList<Integer> getFactorialRepresentation(final int value) {
+		final ExtendedLinkedList<Integer> result = new ExtendedLinkedList<Integer>();
 		int remainder, quotient = value, radix = 1;
 		do {
 			remainder = quotient % radix;
 			quotient = quotient / radix;
-			result += remainder * Maths.pow(10, radix - 1);
+			result.push(remainder);
 			++radix;
 		} while (quotient != 0);
 		return result;
+	}
+
+	public static int getPermutationIndex(final int index, final int k, final int n) {
+		return getKPermutationIndex(index, n, n);
+	}
+
+	public static int getKPermutationIndex(final int index, final int k, final int n) {
+		return 0;
 	}
 
 
@@ -196,11 +207,15 @@ public class Combinatorics {
 		final int[][] combinations = createKCombinations(n, k);
 
 		// Generate the k-permutations (in lexicographical order if sort)
-		int p = 0;
-		for (final int[] combination : combinations) {
-			final int[][] subpermutations = createPermutations(combination);
-			for (final int[] subpermutation : subpermutations) {
-				permutations[p++] = subpermutation;
+		if (sort) {
+
+		} else {
+			int p = 0;
+			for (final int[] combination : combinations) {
+				final int[][] subpermutations = createPermutations(combination);
+				for (final int[] subpermutation : subpermutations) {
+					permutations[p++] = subpermutation;
+				}
 			}
 		}
 		return permutations;

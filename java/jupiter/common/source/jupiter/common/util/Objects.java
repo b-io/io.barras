@@ -26,6 +26,8 @@ package jupiter.common.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import jupiter.common.exception.IllegalClassException;
+
 public class Objects {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,22 +122,25 @@ public class Objects {
 		try {
 			final Class<?> c = object.getClass();
 			if (c.isArray()) {
-				if (Booleans.isPrimitiveArray(c)) {
-					return (T) Booleans.clone((boolean[]) object);
-				} else if (Characters.isPrimitiveArray(c)) {
-					return (T) Characters.clone((char[]) object);
-				} else if (Bytes.isPrimitiveArray(c)) {
-					return (T) Bytes.clone((byte[]) object);
-				} else if (Shorts.isPrimitiveArray(c)) {
-					return (T) Shorts.clone((short[]) object);
-				} else if (Integers.isPrimitiveArray(c)) {
-					return (T) Integers.clone((int[]) object);
-				} else if (Longs.isPrimitiveArray(c)) {
-					return (T) Longs.clone((long[]) object);
-				} else if (Floats.isPrimitiveArray(c)) {
-					return (T) Floats.clone((float[]) object);
-				} else if (Doubles.isPrimitiveArray(c)) {
-					return (T) Doubles.clone((double[]) object);
+				if (c.getComponentType().isPrimitive()) {
+					if (Booleans.isPrimitiveArray(c)) {
+						return (T) Booleans.clone((boolean[]) object);
+					} else if (Characters.isPrimitiveArray(c)) {
+						return (T) Characters.clone((char[]) object);
+					} else if (Bytes.isPrimitiveArray(c)) {
+						return (T) Bytes.clone((byte[]) object);
+					} else if (Shorts.isPrimitiveArray(c)) {
+						return (T) Shorts.clone((short[]) object);
+					} else if (Integers.isPrimitiveArray(c)) {
+						return (T) Integers.clone((int[]) object);
+					} else if (Longs.isPrimitiveArray(c)) {
+						return (T) Longs.clone((long[]) object);
+					} else if (Floats.isPrimitiveArray(c)) {
+						return (T) Floats.clone((float[]) object);
+					} else if (Doubles.isPrimitiveArray(c)) {
+						return (T) Doubles.clone((double[]) object);
+					}
+					throw new IllegalClassException(c);
 				}
 				return (T) Arrays.clone((Object[]) object);
 			} else if (isImmutable(c)) {
@@ -172,6 +177,8 @@ public class Objects {
 		return b != null && a.equals(b);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the hash code value for the specified {@code T} array.
 	 * <p>
@@ -202,14 +209,38 @@ public class Objects {
 			case 0:
 				return Bits.SEEDS[depth % Bits.SEEDS.length];
 			case 1:
-				final T element = array[0];
-				if (element instanceof Object[]) {
-					return hashCodeWith(depth + 1, Bits.SEEDS[depth % Bits.SEEDS.length],
-							hashCodeWith(depth + 1, (Object[]) element));
-				} else if (element != null) {
-					return element.hashCode();
+				final T object = array[0];
+				if (object == null) {
+					return Bits.SEEDS[(depth + 1) % Bits.SEEDS.length];
 				}
-				return Bits.SEEDS[(depth + 1) % Bits.SEEDS.length];
+				final Class<?> c = object.getClass();
+				if (c.isArray()) {
+					final int hashCode;
+					if (c.getComponentType().isPrimitive()) {
+						if (Booleans.isPrimitiveArray(c)) {
+							hashCode = Booleans.hashCode((boolean[]) object);
+						} else if (Characters.isPrimitiveArray(c)) {
+							hashCode = Characters.hashCode((char[]) object);
+						} else if (Bytes.isPrimitiveArray(c)) {
+							hashCode = Bytes.hashCode((byte[]) object);
+						} else if (Shorts.isPrimitiveArray(c)) {
+							hashCode = Shorts.hashCode((short[]) object);
+						} else if (Integers.isPrimitiveArray(c)) {
+							hashCode = Integers.hashCode((int[]) object);
+						} else if (Longs.isPrimitiveArray(c)) {
+							hashCode = Longs.hashCode((long[]) object);
+						} else if (Floats.isPrimitiveArray(c)) {
+							hashCode = Floats.hashCode((float[]) object);
+						} else if (Doubles.isPrimitiveArray(c)) {
+							hashCode = Doubles.hashCode((double[]) object);
+						}
+						throw new IllegalClassException(c);
+					} else {
+						hashCode = hashCodeWith(depth + 1, (Object[]) object);
+					}
+					return hashCodeWith(depth + 1, Bits.SEEDS[depth % Bits.SEEDS.length], hashCode);
+				}
+				return object.hashCode();
 			default:
 				int hashCode = Bits.SEEDS[depth % Bits.SEEDS.length];
 				for (int i = 0; i < array.length; ++i) {

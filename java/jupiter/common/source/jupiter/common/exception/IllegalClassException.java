@@ -49,7 +49,7 @@ public class IllegalClassException
 	 * @param c   the illegal {@link Class} of type {@code T}
 	 */
 	public <T> IllegalClassException(final Class<T> c) {
-		super("Illegal class " + Strings.quote(c.getCanonicalName()));
+		super("Illegal " + c);
 	}
 
 	/**
@@ -63,6 +63,6 @@ public class IllegalClassException
 	 *              {@link #getCause()})
 	 */
 	public <T> IllegalClassException(final Class<T> c, final Throwable cause) {
-		super("Illegal class " + Strings.quote(c.getCanonicalName()), cause);
+		super("Illegal " + c, cause);
 	}
 }
