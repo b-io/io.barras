@@ -24,6 +24,7 @@
 package jupiter.common.math;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import jupiter.common.test.ArrayArguments;
@@ -415,8 +416,10 @@ public class Maths {
 
 		// Sum
 		double sum = 0.;
-		for (int i = 0; i < numbers.size(); ++i) {
-			sum += weights.get(i).doubleValue() * numbers.get(i).doubleValue();
+		final Iterator<T> weight = weights.iterator();
+		final Iterator<T> number = numbers.iterator();
+		while (weight.hasNext() && number.hasNext()) {
+			sum += weight.next().doubleValue() * number.next().doubleValue();
 		}
 		return sum;
 	}

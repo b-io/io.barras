@@ -55,18 +55,47 @@ public class Combinatorics {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static int getPermutationIndex(final int[] permutation, final int n) {
+		return getKPermutationIndex(permutation, permutation.length);
+	}
+
+	public static int getKPermutationIndex(final int[] permutation, final int n) {
+		final ExtendedLinkedList<Integer> factoradicValue = toFactoradic(n);
+		return 0;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Returns the factorial representation of the specified {@code int} value in an
+	 * Returns the decimal representation of the specified factoradic {@code int} value.
+	 * <p>
+	 * @param factoradicValue the factoradic {@code int} value to convert
+	 * <p>
+	 * @return the decimal representation of the specified factoradic {@code int} value
+	 */
+	public static int toDecimal(final ExtendedLinkedList<Integer> factoradicValue) {
+		int result = 0;
+		for (int i = 0; i < factoradicValue.size(); ++i) {
+			result += factoradicValue.get(i) * Maths.factorial(factoradicValue.size() - 1 - i);
+		}
+		return result;
+	}
+
+	/**
+	 * Returns the factoradic representation of the specified decimal {@code int} value in an
 	 * {@link ExtendedLinkedList}.
 	 * <p>
-	 * @param value an {@code int} value
+	 * @param decimalValue the decimal {@code int} value to convert
 	 * <p>
-	 * @return the factorial representation of the specified {@code int} value in an
+	 * @return the factoradic representation of the specified decimal {@code int} value in an
 	 *         {@link ExtendedLinkedList}
 	 */
-	public static ExtendedLinkedList<Integer> getFactorialRepresentation(final int value) {
+	public static ExtendedLinkedList<Integer> toFactoradic(final int decimalValue) {
 		final ExtendedLinkedList<Integer> result = new ExtendedLinkedList<Integer>();
-		int remainder, quotient = value, radix = 1;
+		int remainder, quotient = decimalValue, radix = 1;
 		do {
 			remainder = quotient % radix;
 			quotient = quotient / radix;
@@ -74,14 +103,6 @@ public class Combinatorics {
 			++radix;
 		} while (quotient != 0);
 		return result;
-	}
-
-	public static int getPermutationIndex(final int index, final int k, final int n) {
-		return getKPermutationIndex(index, n, n);
-	}
-
-	public static int getKPermutationIndex(final int index, final int k, final int n) {
-		return 0;
 	}
 
 

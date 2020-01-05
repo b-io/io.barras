@@ -53,6 +53,7 @@ import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -757,24 +758,28 @@ public class JConsole
 		if (content instanceof Icon) {
 			textPane.insertIcon((Icon) content);
 		} else {
+			// Initialize
 			final StyledDocument document = textPane.getStyledDocument();
 			final String styledText = text + Strings.toString(content);
 			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
+			final Iterator<Index<String>> dIterator = delimiters.iterator();
 			final List<String> texts = Strings.splitString(styledText, COLORS);
+			final Iterator<String> tIterator = texts.iterator();
 
+			// Append
 			text = EMPTY;
-			for (int i = 0; i < texts.size(); ++i) {
-				String t = texts.get(i);
+			while (tIterator.hasNext()) {
+				String t = tIterator.next();
 				// Store the text if required (if the text contains a part of the next delimiter)
-				if (i == texts.size() - 1 && t.indexOf(ESCAPE) >= 0) {
+				if (!tIterator.hasNext() && t.indexOf(ESCAPE) >= 0) {
 					text = t;
 					t = EMPTY;
 				}
 				// Insert the text
 				insertString(document, getTextLength(), t, textColor);
 				// Update the color
-				if (i < delimiters.size()) {
-					textColor = ConsoleHandler.Color.parse(delimiters.get(i).getToken());
+				if (dIterator.hasNext()) {
+					textColor = ConsoleHandler.Color.parse(dIterator.next().getToken());
 				}
 			}
 		}

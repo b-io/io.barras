@@ -186,8 +186,7 @@ public class MatrixTest
 		IO.test("• division");
 
 		// Initialize
-		final int size = 10;
-		final Matrix A = Matrix.random(size);
+		final Matrix A = Matrix.random(10);
 
 		// Test
 		assertTrue(A.equals(A.times(A).division(A)));

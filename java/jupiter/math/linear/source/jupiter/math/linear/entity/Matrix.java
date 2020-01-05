@@ -2394,13 +2394,13 @@ public class Matrix
 					return new Matrix(m, elements);
 				}
 			} else {
-				final int size = indexes.size();
-				if (size > 2) {
+				final int indexCount = indexes.size();
+				if (indexCount > 2) {
 					throw new ParseException("There are too many square brackets " +
-							Arguments.expectedButFound(size, 2), indexes.get(2));
+							Arguments.expectedButFound(indexCount, 2), indexes.get(2));
 				}
 				throw new ParseException("There are not enough square brackets " +
-						Arguments.expectedButFound(size, 2), 0);
+						Arguments.expectedButFound(indexCount, 2), 0);
 			}
 		} catch (final NumberFormatException ex) {
 			IO.error(ex);

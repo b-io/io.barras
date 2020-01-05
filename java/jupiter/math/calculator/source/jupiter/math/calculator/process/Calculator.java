@@ -28,6 +28,7 @@ import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -160,11 +161,11 @@ public class Calculator
 
 			// Test whether the epression is an assignment
 			final List<String> expressions = Strings.removeEmpty(Strings.split(trimmedExpression, '='));
-			final int size = expressions.size();
-			if (size > 1) {
+			final int expressionCount = expressions.size();
+			if (expressionCount > 1) {
 				// • Assignment
 				// Extract the right-hand side of the expression
-				trimmedExpression = expressions.get(size - 1).trim();
+				trimmedExpression = expressions.get(expressionCount - 1).trim();
 			}
 
 			// Parse and evaluate the (right-hand side) expression
@@ -185,11 +186,15 @@ public class Calculator
 			}
 
 			// Test whether the epression is an assignment
-			if (size > 1) {
+			if (expressionCount > 1) {
 				// • Assignment
 				// Set the corresponding variables
-				for (int i = 0; i < size - 1; ++i) {
-					context.put(expressions.get(i).trim(), element);
+				final Iterator<String> eIterator = expressions.iterator();
+				while (eIterator.hasNext()) {
+					final String e = eIterator.next();
+					if (eIterator.hasNext()) {
+						context.put(e.trim(), element);
+					}
 				}
 			}
 

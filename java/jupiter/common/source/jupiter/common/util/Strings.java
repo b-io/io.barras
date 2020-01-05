@@ -2504,19 +2504,28 @@ public class Strings {
 
 	public static int getToken(final String text, final int fromIndex, final List<String> tokens) {
 		if (fromIndex >= 0 && fromIndex < text.length()) {
-			for (int i = 0; i < tokens.size(); ++i) {
-				if (isToken(text, fromIndex, tokens.get(i))) {
+			final Iterator<String> token = tokens.iterator();
+			int i = 0;
+			while (token.hasNext()) {
+				if (isToken(text, fromIndex, token.next())) {
 					return i;
 				}
+				++i;
 			}
 		}
 		return -1;
 	}
 
 	public static int getTokenTo(final String text, final int toIndex, final List<String> tokens) {
-		for (int i = 0; i < tokens.size(); ++i) {
-			if (isToken(text, toIndex - tokens.get(i).length(), tokens.get(i))) {
-				return i;
+		if (toIndex > 0 && toIndex <= text.length()) {
+			final Iterator<String> token = tokens.iterator();
+			int i = 0;
+			while (token.hasNext()) {
+				final String t = token.next();
+				if (isToken(text, toIndex - t.length(), t)) {
+					return i;
+				}
+				++i;
 			}
 		}
 		return -1;

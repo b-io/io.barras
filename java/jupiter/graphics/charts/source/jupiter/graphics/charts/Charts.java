@@ -29,6 +29,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.text.DateFormat;
 import java.text.Format;
+import java.util.Iterator;
 import java.util.List;
 
 import jupiter.common.struct.list.ExtendedList;
@@ -272,9 +273,10 @@ public class Charts {
 			final List<String> yLabels, final List<XYDataset> datasets) {
 		final CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
 		setUpPlot(plot);
-		final int datasetCount = datasets.size();
-		for (int i = 0; i < datasetCount; ++i) {
-			plot.add(new XYPlot(datasets.get(i), null, new NumberAxis(yLabels.get(i)),
+		final Iterator<XYDataset> dataset = datasets.iterator();
+		final Iterator<String> yLabel = yLabels.iterator();
+		while (dataset.hasNext() && yLabel.hasNext()) {
+			plot.add(new XYPlot(dataset.next(), null, new NumberAxis(yLabel.next()),
 					new StandardXYItemRenderer()));
 		}
 		return new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, true);

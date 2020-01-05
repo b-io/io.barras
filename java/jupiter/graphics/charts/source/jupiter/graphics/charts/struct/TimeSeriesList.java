@@ -24,6 +24,7 @@
 package jupiter.graphics.charts.struct;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import jupiter.common.struct.list.ExtendedList;
@@ -114,10 +115,12 @@ public class TimeSeriesList
 		ArrayArguments.requireMinLength(values, list.size());
 
 		// Add or update the values
-		final int size = list.size();
 		final Millisecond time = new Millisecond();
-		for (int i = 0; i < size; ++i) {
-			list.get(i).addOrUpdate(time, Arguments.requireNonNull(values[i]));
+		final Iterator<TimeSeries> timeSeries = list.iterator();
+		int i = 0;
+		while (timeSeries.hasNext()) {
+			timeSeries.next().addOrUpdate(time, Arguments.requireNonNull(values[i]));
+			++i;
 		}
 	}
 

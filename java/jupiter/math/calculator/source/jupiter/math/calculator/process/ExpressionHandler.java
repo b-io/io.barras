@@ -381,7 +381,7 @@ public class ExpressionHandler
 			final List<List<Character>> allOperators) {
 		// Initialize
 		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
-		final int size = allOperators.size();
+		final int allOperatorCount = allOperators.size();
 		int binaryOperatorsIndex = 0;
 
 		// Get the operator indexes
@@ -393,7 +393,7 @@ public class ExpressionHandler
 				indexes.add(index);
 			}
 			++binaryOperatorsIndex;
-		} while (binaryOperatorsIndex < size && indexes.isEmpty());
+		} while (binaryOperatorsIndex < allOperatorCount && indexes.isEmpty());
 		return indexes;
 	}
 
@@ -435,7 +435,7 @@ public class ExpressionHandler
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<List<Character>> allOperators) {
 		// Initialize
-		final int size = allOperators.size();
+		final int allOperatorCount = allOperators.size();
 		int index, binaryOperatorsIndex = 0;
 
 		// Get the last operator index
@@ -443,7 +443,7 @@ public class ExpressionHandler
 			index = getLastOperatorIndex(expression, delimitingIntervals, fromIndex,
 					allOperators.get(binaryOperatorsIndex));
 			++binaryOperatorsIndex;
-		} while (index < 0 && binaryOperatorsIndex < size);
+		} while (index < 0 && binaryOperatorsIndex < allOperatorCount);
 		return index;
 	}
 

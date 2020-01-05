@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -82,12 +83,12 @@ public class Lists
 		// Check the arguments
 		CollectionArguments.<List<T>>requireSameSize(a, b);
 
-		// Get the size
-		final int size = a.size();
 		// For each index, get the minimum number
-		final ExtendedList<T> minElements = new ExtendedList<T>(size);
-		for (int i = 0; i < size; ++i) {
-			minElements.add(Numbers.<T>getMin(a.get(i), b.get(i)));
+		final ExtendedList<T> minElements = new ExtendedList<T>(a.size());
+		final Iterator<T> aIterator = a.iterator();
+		final Iterator<T> bIterator = b.iterator();
+		while (aIterator.hasNext() && bIterator.hasNext()) {
+			minElements.add(Numbers.<T>getMin(aIterator.next(), bIterator.next()));
 		}
 		return minElements;
 	}
@@ -97,12 +98,12 @@ public class Lists
 		// Check the arguments
 		CollectionArguments.<List<T>>requireSameSize(a, b);
 
-		// Get the size
-		final int size = a.size();
 		// For each index, get the maximum number
-		final ExtendedList<T> maxElements = new ExtendedList<T>(size);
-		for (int i = 0; i < size; ++i) {
-			maxElements.add(Numbers.<T>getMax(a.get(i), b.get(i)));
+		final ExtendedList<T> maxElements = new ExtendedList<T>(a.size());
+		final Iterator<T> aIterator = a.iterator();
+		final Iterator<T> bIterator = b.iterator();
+		while (aIterator.hasNext() && bIterator.hasNext()) {
+			maxElements.add(Numbers.<T>getMax(aIterator.next(), bIterator.next()));
 		}
 		return maxElements;
 	}
