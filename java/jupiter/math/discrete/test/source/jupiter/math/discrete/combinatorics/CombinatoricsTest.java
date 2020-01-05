@@ -51,7 +51,7 @@ public class CombinatoricsTest
 						Combinatorics.getFactorialRepresentation(463))));
 
 		IO.test("Get Factorial representation of 1234");
-		assertEquals(Objects.hashCode(new int[] {1, 4, 1, 3, 0, 1, 0}),
+		assertEquals(Objects.hashCode(new int[] {1, 4, 1, 1, 2, 0, 0}),
 				Objects.hashCode(Integers.collectionToPrimitiveArray(
 						Combinatorics.getFactorialRepresentation(1234))));
 	}

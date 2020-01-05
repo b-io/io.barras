@@ -218,23 +218,24 @@ public class Objects {
 					final int hashCode;
 					if (c.getComponentType().isPrimitive()) {
 						if (Booleans.isPrimitiveArray(c)) {
-							hashCode = Booleans.hashCode((boolean[]) object);
+							hashCode = Booleans.hashCodeWith(depth + 1, (boolean[]) object);
 						} else if (Characters.isPrimitiveArray(c)) {
-							hashCode = Characters.hashCode((char[]) object);
+							hashCode = Characters.hashCodeWith(depth + 1, (char[]) object);
 						} else if (Bytes.isPrimitiveArray(c)) {
-							hashCode = Bytes.hashCode((byte[]) object);
+							hashCode = Bytes.hashCodeWith(depth + 1, (byte[]) object);
 						} else if (Shorts.isPrimitiveArray(c)) {
-							hashCode = Shorts.hashCode((short[]) object);
+							hashCode = Shorts.hashCodeWith(depth + 1, (short[]) object);
 						} else if (Integers.isPrimitiveArray(c)) {
-							hashCode = Integers.hashCode((int[]) object);
+							hashCode = Integers.hashCodeWith(depth + 1, (int[]) object);
 						} else if (Longs.isPrimitiveArray(c)) {
-							hashCode = Longs.hashCode((long[]) object);
+							hashCode = Longs.hashCodeWith(depth + 1, (long[]) object);
 						} else if (Floats.isPrimitiveArray(c)) {
-							hashCode = Floats.hashCode((float[]) object);
+							hashCode = Floats.hashCodeWith(depth + 1, (float[]) object);
 						} else if (Doubles.isPrimitiveArray(c)) {
-							hashCode = Doubles.hashCode((double[]) object);
+							hashCode = Doubles.hashCodeWith(depth + 1, (double[]) object);
+						} else {
+							throw new IllegalClassException(c);
 						}
-						throw new IllegalClassException(c);
 					} else {
 						hashCode = hashCodeWith(depth + 1, (Object[]) object);
 					}
