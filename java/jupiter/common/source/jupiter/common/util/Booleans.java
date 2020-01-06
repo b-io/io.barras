@@ -24,13 +24,13 @@
 package jupiter.common.util;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.BooleanParser;
 import jupiter.common.map.parser.IParsers;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 
 public class Booleans {
@@ -318,124 +318,130 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
 	 * @param array a {@code boolean} array
 	 * <p>
-	 * @return a {@link List} of {@link Boolean} from the specified {@code boolean} array
+	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
 	 */
-	public static List<Boolean> toList(final boolean[] array) {
+	public static ExtendedList<Boolean> toList(final boolean[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
 	 * @param array a {@code boolean} array
 	 * <p>
-	 * @return a {@link List} of {@link Boolean} from the specified {@code boolean} array
+	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
 	 */
-	public static List<Boolean> asList(final boolean... array) {
+	public static ExtendedList<Boolean> asList(final boolean... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
+	 * array.
 	 * <p>
 	 * @param array a {@code boolean} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
+	 *         array
 	 */
-	public static ExtendedList<Boolean> toExtendedList(final boolean[] array) {
-		return PARSER.callToList(toArray(array));
+	public static ExtendedLinkedList<Boolean> toLinkedList(final boolean[] array) {
+		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
+	 * array.
 	 * <p>
 	 * @param array a {@code boolean} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
+	 *         array
 	 */
-	public static ExtendedList<Boolean> asExtendedList(final boolean... array) {
-		return toExtendedList(array);
+	public static ExtendedLinkedList<Boolean> asLinkedList(final boolean... array) {
+		return toLinkedList(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns a {@link List} of {@link Boolean} from the specified {@code T} array.
+	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Boolean} from the specified {@code T} array
+	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
 	 */
-	public static <T> List<Boolean> toList(final T[] array) {
+	public static <T> ExtendedList<Boolean> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Boolean} from the specified {@code T} array.
+	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Boolean} from the specified {@code T} array
+	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
 	 */
-	public static <T> List<Boolean> asList(final T... array) {
+	public static <T> ExtendedList<Boolean> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
 	 */
-	public static <T> ExtendedList<Boolean> toExtendedList(final T[] array) {
-		return PARSER.callToList(array);
+	public static <T> ExtendedLinkedList<Boolean> toLinkedList(final T[] array) {
+		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
 	 */
-	public static <T> ExtendedList<Boolean> asExtendedList(final T... array) {
-		return toExtendedList(array);
+	public static <T> ExtendedLinkedList<Boolean> asLinkedList(final T... array) {
+		return toLinkedList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Boolean} from the specified {@link Collection} of type
-	 * {@code T}.
-	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
-	 * <p>
-	 * @return a {@link List} of {@link Boolean} from the specified {@link Collection} of type
-	 *         {@code T}
-	 */
-	public static <T> List<Boolean> collectionToList(final Collection<T> collection) {
-		return PARSER.callCollectionToList(collection);
-	}
-
-	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
+	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
 	 * type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
+	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
 	 *         type {@code T}
 	 */
-	public static <T> ExtendedList<Boolean> collectionToExtendedList(
-			final Collection<T> collection) {
+	public static <T> ExtendedList<Boolean> collectionToList(final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
+	}
+
+	/**
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified
+	 * {@link Collection} of type {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified
+	 *         {@link Collection} of type {@code T}
+	 */
+	public static <T> ExtendedLinkedList<Boolean> collectionToLinkedList(
+			final Collection<T> collection) {
+		return PARSER.callCollectionToLinkedList(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

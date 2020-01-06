@@ -39,6 +39,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -46,6 +47,7 @@ import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.Table;
 import jupiter.common.struct.tuple.Triple;
@@ -2367,28 +2369,22 @@ public class Matrix
 				final int toIndex = indexes.get(1);
 				if (fromIndex < toIndex && expression.charAt(fromIndex) == delimiters[0] &&
 						expression.charAt(toIndex) == delimiters[1]) {
-					// Get the content
-					final String content = expression.substring(fromIndex + 1, toIndex).trim();
 					// Get the rows
-					final List<String> rows = Strings.removeEmpty(Strings.split(content,
-							ROW_DELIMITER));
-					// Count the number of rows
+					final String content = expression.substring(fromIndex + 1, toIndex).trim();
+					final ExtendedLinkedList<String> rows = Strings.removeEmpty(
+							Strings.split(content, ROW_DELIMITER));
+					// Count the numbers of rows and columns
 					final int m = rows.size();
-					// Count the number of columns
-					String row = rows.get(0).trim();
-					final int n = Strings.removeEmpty(Strings.split(row, COLUMN_DELIMITERS)).size();
-					// Create the elements of the matrix
+					final int n = Strings.removeEmpty(
+							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS)).size();
+					// Fill the matrix row by row
 					final double[] elements = new double[m * n];
-					List<String> rowElements;
-					// Fill the matrix
+					final Iterator<String> row = rows.iterator();
 					for (int i = 0; i < m; ++i) {
-						// Get the current row
-						row = rows.get(i).trim();
-						// Get the elements of the row
-						rowElements = Strings.removeEmpty(Strings.split(row, COLUMN_DELIMITERS));
-						// Store the elements
+						final Iterator<String> element = Strings.removeEmpty(
+								Strings.split(row.next().trim(), COLUMN_DELIMITERS)).iterator();
 						for (int j = 0; j < n; ++j) {
-							elements[i * n + j] = Doubles.convert(rowElements.get(j));
+							elements[i * n + j] = Doubles.convert(element.next());
 						}
 					}
 					return new Matrix(m, elements);

@@ -215,80 +215,80 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link String} from the specified {@code T} array.
+	 * Returns a {@link ExtendedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link String} from the specified {@code T} array
+	 * @return a {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
-	public static <T> List<String> toList(final T[] array) {
+	public static <T> ExtendedList<String> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link String} from the specified {@code T} array.
+	 * Returns a {@link ExtendedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link String} from the specified {@code T} array
+	 * @return a {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
-	public static <T> List<String> asList(final T... array) {
+	public static <T> ExtendedList<String> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
 	 */
-	public static <T> ExtendedList<String> toExtendedList(final T[] array) {
-		return PARSER.callToList(array);
+	public static <T> ExtendedLinkedList<String> toLinkedList(final T[] array) {
+		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
 	 */
-	public static <T> ExtendedList<String> asExtendedList(final T... array) {
-		return toExtendedList(array);
+	public static <T> ExtendedLinkedList<String> asLinkedList(final T... array) {
+		return toLinkedList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link String} from the specified {@link Collection} of type
-	 * {@code T}.
-	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
-	 * <p>
-	 * @return a {@link List} of {@link String} from the specified {@link Collection} of type
-	 *         {@code T}
-	 */
-	public static <T> List<String> collectionToList(final Collection<T> collection) {
-		return PARSER.callCollectionToList(collection);
-	}
-
-	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
+	 * Returns a {@link ExtendedList} of {@link String} from the specified {@link Collection} of
 	 * type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
+	 * @return a {@link ExtendedList} of {@link String} from the specified {@link Collection} of
 	 *         type {@code T}
 	 */
-	public static <T> ExtendedList<String> collectionToExtendedList(
-			final Collection<T> collection) {
+	public static <T> ExtendedList<String> collectionToList(final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
+	}
+
+	/**
+	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
+	 * of type {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
+	 *         of type {@code T}
+	 */
+	public static <T> ExtendedLinkedList<String> collectionToLinkedList(
+			final Collection<T> collection) {
+		return PARSER.callCollectionToLinkedList(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1915,7 +1915,7 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}
 	 */
-	public static List<Integer> getIndexes(final String text, final char token) {
+	public static ExtendedLinkedList<Integer> getIndexes(final String text, final char token) {
 		return getIndexes(text, token, 0);
 	}
 
@@ -1928,14 +1928,14 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}, seeking forward from {@code fromIndex}
 	 */
-	public static List<Integer> getIndexes(final String text, final char token,
+	public static ExtendedLinkedList<Integer> getIndexes(final String text, final char token,
 			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(token);
 
 		// Initialize
-		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
@@ -1956,7 +1956,7 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}, seeking forward to {@code toIndex}
 	 */
-	public static List<Integer> getIndexesTo(final String text, final char token,
+	public static ExtendedLinkedList<Integer> getIndexesTo(final String text, final char token,
 			final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
@@ -1965,7 +1965,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 		int index = text.indexOf(token);
 
 		// Get the indexes
@@ -1986,7 +1986,7 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code tokens} in {@code text}
 	 */
-	public static List<Integer> getIndexes(final String text, final char[] tokens) {
+	public static ExtendedLinkedList<Integer> getIndexes(final String text, final char[] tokens) {
 		return getIndexes(text, tokens, 0);
 	}
 
@@ -2001,14 +2001,14 @@ public class Strings {
 	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
 	 *         from {@code fromIndex}
 	 */
-	public static List<Integer> getIndexes(final String text, final char[] tokens,
+	public static ExtendedLinkedList<Integer> getIndexes(final String text, final char[] tokens,
 			final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
 
 		// Initialize
-		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
@@ -2033,7 +2033,7 @@ public class Strings {
 	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
 	 *         to {@code toIndex}
 	 */
-	public static List<Integer> getIndexesTo(final String text, final char[] tokens,
+	public static ExtendedLinkedList<Integer> getIndexesTo(final String text, final char[] tokens,
 			final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
@@ -2042,7 +2042,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 		final char[] array = text.toCharArray();
 
 		// Get the indexes
@@ -2064,7 +2064,8 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code tokens} in {@code text}
 	 */
-	public static List<Integer> getIndexes(final String text, final Collection<Character> tokens) {
+	public static ExtendedLinkedList<Integer> getIndexes(final String text,
+			final Collection<Character> tokens) {
 		return getIndexes(text, tokens, 0);
 	}
 
@@ -2079,14 +2080,14 @@ public class Strings {
 	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
 	 *         from {@code fromIndex}
 	 */
-	public static List<Integer> getIndexes(final String text, final Collection<Character> tokens,
-			final int fromIndex) {
+	public static ExtendedLinkedList<Integer> getIndexes(final String text,
+			final Collection<Character> tokens, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
 
 		// Initialize
-		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
@@ -2111,8 +2112,8 @@ public class Strings {
 	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
 	 *         to {@code toIndex}
 	 */
-	public static List<Integer> getIndexesTo(final String text, final Collection<Character> tokens,
-			final int toIndex) {
+	public static ExtendedLinkedList<Integer> getIndexesTo(final String text,
+			final Collection<Character> tokens, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
@@ -2120,7 +2121,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 		final char[] array = text.toCharArray();
 
 		// Get the indexes
@@ -2142,7 +2143,8 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}
 	 */
-	public static List<Integer> getStringIndexes(final String text, final String token) {
+	public static ExtendedLinkedList<Integer> getStringIndexes(final String text,
+			final String token) {
 		return getStringIndexes(text, token, 0);
 	}
 
@@ -2155,14 +2157,14 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}, seeking forward from {@code fromIndex}
 	 */
-	public static List<Integer> getStringIndexes(final String text, final String token,
-			final int fromIndex) {
+	public static ExtendedLinkedList<Integer> getStringIndexes(final String text,
+			final String token, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(token);
 
 		// Initialize
-		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
@@ -2183,8 +2185,8 @@ public class Strings {
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}, seeking forward to {@code toIndex}
 	 */
-	public static List<Integer> getStringIndexesTo(final String text, final String token,
-			final int toIndex) {
+	public static ExtendedLinkedList<Integer> getStringIndexesTo(final String text,
+			final String token, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(token);
@@ -2192,7 +2194,7 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Integer> indexes = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 		int index = text.indexOf(token);
 
 		// Get the indexes
@@ -2213,7 +2215,8 @@ public class Strings {
 	 * <p>
 	 * @return the indexes and {@code tokens} in {@code text}
 	 */
-	public static List<Index<String>> getStringIndexes(final String text, final String[] tokens) {
+	public static SortedList<Index<String>> getStringIndexes(final String text,
+			final String[] tokens) {
 		return getStringIndexes(text, tokens, 0);
 	}
 
@@ -2228,19 +2231,20 @@ public class Strings {
 	 * @return the indexes and tokens of {@code text} that are in {@code tokens}, seeking forward
 	 *         from {@code fromIndex}
 	 */
-	public static List<Index<String>> getStringIndexes(final String text, final String[] tokens,
-			final int fromIndex) {
+	public static SortedList<Index<String>> getStringIndexes(final String text,
+			final String[] tokens, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
 
 		// Initialize
-		final List<Index<String>> indexes = new SortedList<Index<String>>();
+		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
 			for (final String token : tokens) {
-				final List<Integer> tokenIndexes = getStringIndexes(text, token, fromIndex);
+				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexes(text, token,
+						fromIndex);
 				for (final int tokenIndex : tokenIndexes) {
 					indexes.add(new Index<String>(tokenIndex, token));
 				}
@@ -2260,8 +2264,8 @@ public class Strings {
 	 * @return the indexes and tokens of {@code text} that are in {@code tokens}, seeking forward to
 	 *         {@code toIndex}
 	 */
-	public static List<Index<String>> getStringIndexesTo(final String text, final String[] tokens,
-			final int toIndex) {
+	public static SortedList<Index<String>> getStringIndexesTo(final String text,
+			final String[] tokens, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
@@ -2269,11 +2273,12 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Index<String>> indexes = new SortedList<Index<String>>();
+		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
 		for (final String token : tokens) {
-			final List<Integer> tokenIndexes = getStringIndexesTo(text, token, toIndex);
+			final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
+					toIndex);
 			for (final int tokenIndex : tokenIndexes) {
 				indexes.add(new Index<String>(tokenIndex, token));
 			}
@@ -2291,7 +2296,7 @@ public class Strings {
 	 * <p>
 	 * @return the indexes and {@code tokens} in {@code text}
 	 */
-	public static List<Index<String>> getStringIndexes(final String text,
+	public static SortedList<Index<String>> getStringIndexes(final String text,
 			final Collection<String> tokens) {
 		return getStringIndexes(text, tokens, 0);
 	}
@@ -2307,19 +2312,20 @@ public class Strings {
 	 * @return the indexes and tokens of {@code text} that are in {@code tokens}, seeking forward
 	 *         from {@code fromIndex}
 	 */
-	public static List<Index<String>> getStringIndexes(final String text,
+	public static SortedList<Index<String>> getStringIndexes(final String text,
 			final Collection<String> tokens, final int fromIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
 
 		// Initialize
-		final List<Index<String>> indexes = new SortedList<Index<String>>();
+		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
 		if (fromIndex >= 0 && fromIndex < text.length()) {
 			for (final String token : tokens) {
-				final List<Integer> tokenIndexes = getStringIndexes(text, token, fromIndex);
+				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexes(text, token,
+						fromIndex);
 				for (final int tokenIndex : tokenIndexes) {
 					indexes.add(new Index<String>(tokenIndex, token));
 				}
@@ -2339,7 +2345,7 @@ public class Strings {
 	 * @return the indexes and tokens of {@code text} that are in {@code tokens}, seeking forward to
 	 *         {@code toIndex}
 	 */
-	public static List<Index<String>> getStringIndexesTo(final String text,
+	public static SortedList<Index<String>> getStringIndexesTo(final String text,
 			final Collection<String> tokens, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
@@ -2348,11 +2354,12 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<Index<String>> indexes = new SortedList<Index<String>>();
+		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
 		for (final String token : tokens) {
-			final List<Integer> tokenIndexes = getStringIndexesTo(text, token, toIndex);
+			final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
+					toIndex);
 			for (final int tokenIndex : tokenIndexes) {
 				indexes.add(new Index<String>(tokenIndex, token));
 			}
@@ -2369,7 +2376,7 @@ public class Strings {
 	};
 
 	/**
-	 * Sorts the specified {@link List} of {@link Index} of {@link String}.
+	 * Sorts the specified {@link List} of {@link Index}.
 	 * <p>
 	 * @param indexes a {@link List} of {@link Index} of {@link String}
 	 */
@@ -2380,38 +2387,39 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiterIndexes}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiterIndexes}.
 	 * <p>
 	 * @param text             a {@link String}
 	 * @param delimiterIndexes an {@code int} array
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiterIndexes}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiterIndexes}
 	 */
-	public static List<String> getTokens(final String text, final int[] delimiterIndexes) {
+	public static ExtendedLinkedList<String> getTokens(final String text,
+			final int[] delimiterIndexes) {
 		return getTokensTo(text, delimiterIndexes, text.length());
 	}
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiterIndexes}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiterIndexes}.
 	 * <p>
 	 * @param text             a {@link String}
 	 * @param delimiterIndexes an {@code int} array
 	 * @param toIndex          the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiterIndexes}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiterIndexes}
 	 */
-	public static List<String> getTokensTo(final String text, final int[] delimiterIndexes,
-			final int toIndex) {
+	public static ExtendedLinkedList<String> getTokensTo(final String text,
+			final int[] delimiterIndexes, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiterIndexes);
 
 		// Initialize
-		final List<String> tokens = new ExtendedLinkedList<String>();
+		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
 		int index = 0;
 
 		// Get the tokens
@@ -2430,39 +2438,39 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiterIndexes}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiterIndexes}.
 	 * <p>
 	 * @param text             a {@link String}
 	 * @param delimiterIndexes a {@link Collection} of {@link Integer}
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiterIndexes}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiterIndexes}
 	 */
-	public static List<String> getTokens(final String text,
+	public static ExtendedLinkedList<String> getTokens(final String text,
 			final Collection<Integer> delimiterIndexes) {
 		return getTokensTo(text, delimiterIndexes, text.length());
 	}
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiterIndexes}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiterIndexes}.
 	 * <p>
 	 * @param text             a {@link String}
 	 * @param delimiterIndexes a {@link Collection} of {@link Integer}
 	 * @param toIndex          the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiterIndexes}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiterIndexes}
 	 */
-	public static List<String> getTokensTo(final String text,
+	public static ExtendedLinkedList<String> getTokensTo(final String text,
 			final Collection<Integer> delimiterIndexes, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiterIndexes);
 
 		// Initialize
-		final List<String> tokens = new ExtendedLinkedList<String>();
+		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
 		int index = 0;
 
 		// Get the tokens
@@ -2537,62 +2545,63 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiter}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiter}.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@code char} value
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiter}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiter}
 	 */
-	public static List<String> split(final String text, final char delimiter) {
+	public static ExtendedLinkedList<String> split(final String text, final char delimiter) {
 		return splitTo(text, delimiter, text.length());
 	}
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiter}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiter}.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@code char} value
 	 * @param toIndex   the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiter}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiter}
 	 */
-	public static List<String> splitTo(final String text, final char delimiter, final int toIndex) {
+	public static ExtendedLinkedList<String> splitTo(final String text, final char delimiter,
+			final int toIndex) {
 		return getTokensTo(text, getIndexesTo(text, delimiter, toIndex), toIndex);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiters}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiters}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the array of delimiting {@code char} values
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiters}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiters}
 	 */
-	public static List<String> split(final String text, final char[] delimiters) {
+	public static ExtendedLinkedList<String> split(final String text, final char[] delimiters) {
 		return splitTo(text, delimiters, text.length());
 	}
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiters} to {@code toIndex}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the array of delimiting {@code char} values
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiters} to {@code toIndex}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitTo(final String text, final char[] delimiters,
+	public static ExtendedLinkedList<String> splitTo(final String text, final char[] delimiters,
 			final int toIndex) {
 		return getTokensTo(text, getIndexesTo(text, delimiters, toIndex), toIndex);
 	}
@@ -2600,64 +2609,66 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiters}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiters}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link Collection} of delimiting {@link Character}
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiters}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiters}
 	 */
-	public static List<String> split(final String text, final Collection<Character> delimiters) {
+	public static ExtendedLinkedList<String> split(final String text,
+			final Collection<Character> delimiters) {
 		return splitTo(text, delimiters, text.length());
 	}
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiters} to {@code toIndex}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link Collection} of delimiting {@link Character}
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiters} to {@code toIndex}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitTo(final String text, final Collection<Character> delimiters,
-			final int toIndex) {
+	public static ExtendedLinkedList<String> splitTo(final String text,
+			final Collection<Character> delimiters, final int toIndex) {
 		return getTokensTo(text, getIndexesTo(text, delimiters, toIndex), toIndex);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiter}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiter}.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiter}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiter}
 	 */
-	public static List<String> splitString(final String text, final String delimiter) {
+	public static ExtendedLinkedList<String> splitString(final String text,
+			final String delimiter) {
 		return splitStringTo(text, delimiter, text.length());
 	}
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiter}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiter}.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link String}
 	 * @param toIndex   the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiter}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiter}
 	 */
-	public static List<String> splitStringTo(final String text, final String delimiter,
-			final int toIndex) {
+	public static ExtendedLinkedList<String> splitStringTo(final String text,
+			final String delimiter, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiter);
@@ -2665,8 +2676,9 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<String> tokens = new ExtendedLinkedList<String>();
-		final List<Integer> delimiterIndexes = getStringIndexesTo(text, delimiter, toIndex);
+		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
+		final ExtendedLinkedList<Integer> delimiterIndexes = getStringIndexesTo(text, delimiter,
+				toIndex);
 		int index = 0;
 
 		// Get the tokens
@@ -2685,32 +2697,33 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiters}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiters}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the array of delimiting {@link String}
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiters}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiters}
 	 */
-	public static List<String> splitString(final String text, final String[] delimiters) {
+	public static ExtendedLinkedList<String> splitString(final String text,
+			final String[] delimiters) {
 		return splitStringTo(text, delimiters, text.length());
 	}
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiters} to {@code toIndex}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the array of delimiting {@link String}
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiters} to {@code toIndex}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitStringTo(final String text, final String[] delimiters,
-			final int toIndex) {
+	public static ExtendedLinkedList<String> splitStringTo(final String text,
+			final String[] delimiters, final int toIndex) {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiters);
@@ -2718,8 +2731,9 @@ public class Strings {
 		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
 
 		// Initialize
-		final List<String> tokens = new ExtendedLinkedList<String>();
-		final List<Index<String>> delimiterIndexes = getStringIndexesTo(text, delimiters, toIndex);
+		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
+		final SortedList<Index<String>> delimiterIndexes = getStringIndexesTo(text, delimiters,
+				toIndex);
 		int index = 0;
 
 		// Get the tokens
@@ -2740,35 +2754,37 @@ public class Strings {
 	///////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiters}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiters}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link List} of delimiting {@link String}
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiters}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiters}
 	 */
-	public static List<String> splitString(final String text, final List<String> delimiters) {
+	public static ExtendedLinkedList<String> splitString(final String text,
+			final List<String> delimiters) {
 		return splitStringTo(text, delimiters, text.length());
 	}
 
 	/**
-	 * Returns the {@link List} of {@link String} computed by splitting {@code text} around
-	 * {@code delimiters} to {@code toIndex}.
+	 * Returns the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 * around {@code delimiters} to {@code toIndex}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link List} of delimiting {@link String}
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link List} of {@link String} computed by splitting {@code text} around
-	 *         {@code delimiters} to {@code toIndex}
+	 * @return the {@link ExtendedLinkedList} of {@link String} computed by splitting {@code text}
+	 *         around {@code delimiters} to {@code toIndex}
 	 */
-	public static List<String> splitStringTo(final String text, final List<String> delimiters,
-			final int toIndex) {
+	public static ExtendedLinkedList<String> splitStringTo(final String text,
+			final List<String> delimiters, final int toIndex) {
 		// Initialize
-		final List<String> tokens = new ExtendedLinkedList<String>();
-		final List<Index<String>> delimiterIndexes = getStringIndexesTo(text, delimiters, toIndex);
+		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
+		final SortedList<Index<String>> delimiterIndexes = getStringIndexesTo(text, delimiters,
+				toIndex);
 		int index = 0;
 
 		// Get the tokens

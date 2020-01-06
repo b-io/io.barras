@@ -26,7 +26,6 @@ package jupiter.common.util;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
@@ -161,25 +160,17 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> List<T> toList(final T[] array) {
-		return toExtendedList(array);
-	}
-
-	public static <T> List<T> asList(final T... array) {
-		return toList(array);
-	}
-
-	public static <T> ExtendedList<T> toExtendedList(final T[] array) {
+	public static <T> ExtendedList<T> toList(final T[] array) {
 		final ExtendedList<T> list = new ExtendedList<T>(array.length);
 		list.addAll(array);
 		return list;
 	}
 
-	public static <T> ExtendedList<T> asExtendedList(final T... array) {
-		return toExtendedList(array);
+	public static <T> ExtendedList<T> asList(final T... array) {
+		return toList(array);
 	}
 
-	public static <T> ExtendedLinkedList<T> toExtendedLinkedList(final T[] array) {
+	public static <T> ExtendedLinkedList<T> toLinkedList(final T[] array) {
 		final ExtendedLinkedList<T> list = new ExtendedLinkedList<T>();
 		for (final T element : array) {
 			list.add(element);
@@ -187,8 +178,8 @@ public class Arrays {
 		return list;
 	}
 
-	public static <T> ExtendedLinkedList<T> asExtendedLinkedList(final T... array) {
-		return toExtendedLinkedList(array);
+	public static <T> ExtendedLinkedList<T> asLinkedList(final T... array) {
+		return toLinkedList(array);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

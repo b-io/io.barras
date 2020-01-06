@@ -24,13 +24,13 @@
 package jupiter.common.util;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.CharacterParser;
 import jupiter.common.map.parser.IParsers;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 
 public class Characters {
@@ -344,124 +344,132 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified {@code char} array.
+	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@code char} array.
 	 * <p>
 	 * @param array a {@code char} array
 	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified {@code char} array
+	 * @return a {@link ExtendedList} of {@link Character} from the specified {@code char} array
 	 */
-	public static List<Character> toList(final char[] array) {
+	public static ExtendedList<Character> toList(final char[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified {@code char} array.
+	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@code char} array.
 	 * <p>
 	 * @param array a {@code char} array
 	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified {@code char} array
+	 * @return a {@link ExtendedList} of {@link Character} from the specified {@code char} array
 	 */
-	public static List<Character> asList(final char... array) {
+	public static ExtendedList<Character> asList(final char... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code char} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code char}
+	 * array.
 	 * <p>
 	 * @param array a {@code char} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code char}
+	 *         array
 	 */
-	public static ExtendedList<Character> toExtendedList(final char[] array) {
-		return PARSER.callToList(toArray(array));
+	public static ExtendedLinkedList<Character> toLinkedList(final char[] array) {
+		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code char} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code char}
+	 * array.
 	 * <p>
 	 * @param array a {@code char} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code char}
+	 *         array
 	 */
-	public static ExtendedList<Character> asExtendedList(final char... array) {
-		return toExtendedList(array);
+	public static ExtendedLinkedList<Character> asLinkedList(final char... array) {
+		return toLinkedList(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified {@code T} array.
+	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified {@code T} array
+	 * @return a {@link ExtendedList} of {@link Character} from the specified {@code T} array
 	 */
-	public static <T> List<Character> toList(final T[] array) {
+	public static <T> ExtendedList<Character> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified {@code T} array.
+	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified {@code T} array
+	 * @return a {@link ExtendedList} of {@link Character} from the specified {@code T} array
 	 */
-	public static <T> List<Character> asList(final T... array) {
+	public static <T> ExtendedList<Character> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T} array
 	 */
-	public static <T> ExtendedList<Character> toExtendedList(final T[] array) {
-		return PARSER.callToList(array);
+	public static <T> ExtendedLinkedList<Character> toLinkedList(final T[] array) {
+		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T} array
 	 */
-	public static <T> ExtendedList<Character> asExtendedList(final T... array) {
-		return toExtendedList(array);
+	public static <T> ExtendedLinkedList<Character> asLinkedList(final T... array) {
+		return toLinkedList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Character} from the specified {@link Collection} of type
-	 * {@code T}.
-	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
-	 * <p>
-	 * @return a {@link List} of {@link Character} from the specified {@link Collection} of type
-	 *         {@code T}
-	 */
-	public static <T> List<Character> collectionToList(final Collection<T> collection) {
-		return PARSER.callCollectionToList(collection);
-	}
-
-	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
+	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
 	 * type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
+	 * @return a {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
 	 *         type {@code T}
 	 */
-	public static <T> ExtendedList<Character> collectionToExtendedList(
-			final Collection<T> collection) {
+	public static <T> ExtendedList<Character> collectionToList(final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
+	}
+
+	/**
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified
+	 * {@link Collection} of type {@code T}.
+	 * <p>
+	 * @param <T>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code T}
+	 * <p>
+	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified
+	 *         {@link Collection} of type {@code T}
+	 */
+	public static <T> ExtendedLinkedList<Character> collectionToLinkedList(
+			final Collection<T> collection) {
+		return PARSER.callCollectionToLinkedList(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

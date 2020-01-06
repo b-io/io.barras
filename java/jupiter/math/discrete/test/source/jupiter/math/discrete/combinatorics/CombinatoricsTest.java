@@ -25,8 +25,8 @@ package jupiter.math.discrete.combinatorics;
 
 import static jupiter.common.io.IO.IO;
 
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Test;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 
@@ -39,18 +39,62 @@ public class CombinatoricsTest
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+	/**
+	 * Test of getPermutationIndex method, of class Combinatorics.
+	 */
+	public void testGetPermutationIndex() {
+		IO.test("• getPermutationIndex");
+
+		// Initialize
+		final int n = 5;
+		final ExtendedLinkedList<Integer> sequence = Integers.toLinkedList(
+				Integers.createSequence(n));
+
+		IO.test("- List the permutations of a ", n, "-element set:");
+		final int[][] permutations = Combinatorics.createPermutations(n);
+		for (final int[] permutation : permutations) {
+			IO.test(Combinatorics.getPermutationIndex(permutation, sequence), ": ",
+					Integers.toString(permutation));
+		}
+	}
+
+	/**
+	 * Test of getKPermutationIndex method, of class Combinatorics.
+	 */
+	public void testGetKPermutationIndex() {
+		IO.test("• getKPermutationIndex");
+
+		// Initialize
+		final int n = 5;
+		final int[] ks = new int[] {2, 3};
+		final ExtendedLinkedList<Integer> sequence = Integers.toLinkedList(
+				Integers.createSequence(n));
+
+		for (final int k : ks) {
+			IO.test("- List the ", k, "-permutations of a ", n, "-element set in lexicographical order:");
+			final int[][] permutations = Combinatorics.createKPermutations(n, k, true);
+			for (final int[] permutation : permutations) {
+				IO.test(Combinatorics.getKPermutationIndex(permutation, sequence), ": ",
+						Integers.toString(permutation));
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Test of toFactoradic method, of class Combinatorics.
 	 */
 	public void testToFactoradic() {
 		IO.test("• toFactoradic");
 
-		IO.test("Get Factorial representation of 463");
+		IO.test("Get the factoradic representation of 463");
 		assertEquals(Objects.hashCode(new int[] {3, 4, 1, 0, 1, 0}),
 				Objects.hashCode(Integers.collectionToPrimitiveArray(
 						Combinatorics.toFactoradic(463))));
 
-		IO.test("Get Factorial representation of 1234");
+		IO.test("Get the factoradic representation of 1234");
 		assertEquals(Objects.hashCode(new int[] {1, 4, 1, 1, 2, 0, 0}),
 				Objects.hashCode(Integers.collectionToPrimitiveArray(
 						Combinatorics.toFactoradic(1234))));
@@ -64,11 +108,13 @@ public class CombinatoricsTest
 	public void testCreatePermutations() {
 		IO.test("• createPermutations");
 
-		int[][] permutations;
-		IO.test("5-permutations of a 5-element set in lexicographical order");
-		permutations = Combinatorics.createPermutations(5);
+		// Initialize
+		final int n = 5;
+
+		IO.test("- List the permutations of a ", n, "-element set in lexicographical order:");
+		final int[][] permutations = Combinatorics.createPermutations(n);
 		for (final int[] permutation : permutations) {
-			IO.test(Arrays.toString(permutation));
+			IO.test(Integers.toString(permutation));
 		}
 	}
 
@@ -78,11 +124,16 @@ public class CombinatoricsTest
 	public void testCreateKPermutations() {
 		IO.test("• createKPermutations");
 
-		int[][] permutations;
-		IO.test("3-permutations of a 5-element set in lexicographical order");
-		permutations = Combinatorics.createKPermutations(5, 3);
-		for (final int[] permutation : permutations) {
-			IO.test(Arrays.toString(permutation));
+		// Initialize
+		final int n = 5;
+		final int[] ks = new int[] {2, 3};
+
+		for (final int k : ks) {
+			IO.test("- List the ", k, "-permutations of a ", n, "-element set:");
+			final int[][] permutations = Combinatorics.createKPermutations(n, k);
+			for (final int[] permutation : permutations) {
+				IO.test(Integers.toString(permutation));
+			}
 		}
 	}
 
@@ -94,11 +145,13 @@ public class CombinatoricsTest
 	public void testCreateAllCombinations() {
 		IO.test("• createAllCombinations");
 
-		int[][] combinations;
-		IO.test("All combinations of a 3-element set in lexicographical order");
-		combinations = Combinatorics.createAllCombinations(3);
+		// Initialize
+		final int n = 3;
+
+		IO.test("- List all the combinations of a ", n, "-element set in lexicographical order:");
+		final int[][] combinations = Combinatorics.createAllCombinations(n);
 		for (final int[] combination : combinations) {
-			IO.test(Arrays.toString(combination));
+			IO.test(Integers.toString(combination));
 		}
 	}
 
@@ -108,11 +161,16 @@ public class CombinatoricsTest
 	public void testCreateKCombinations() {
 		IO.test("• createKCombinations");
 
-		int[][] combinations;
-		IO.test("3-combinations of a 5-element set in lexicographical order");
-		combinations = Combinatorics.createKCombinations(5, 3);
-		for (final int[] combination : combinations) {
-			IO.test(Arrays.toString(combination));
+		// Initialize
+		final int n = 5;
+		final int[] ks = new int[] {2, 3};
+
+		for (final int k : ks) {
+			IO.test("- List the ", k, "-combinations of a ", n, "-element set in lexicographical order:");
+			final int[][] combinations = Combinatorics.createKCombinations(n, k);
+			for (final int[] combination : combinations) {
+				IO.test(Integers.toString(combination));
+			}
 		}
 	}
 

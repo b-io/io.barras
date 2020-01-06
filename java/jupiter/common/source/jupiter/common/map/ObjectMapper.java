@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Arrays;
 
@@ -81,6 +82,14 @@ public abstract class ObjectMapper<O>
 
 	public <I> ExtendedList<O> callCollectionToList(final Collection<I> input) {
 		final ExtendedList<O> output = new ExtendedList<O>(input.size());
+		for (final I element : input) {
+			output.add(call(element));
+		}
+		return output;
+	}
+
+	public <I> ExtendedLinkedList<O> callCollectionToLinkedList(final Collection<I> input) {
+		final ExtendedLinkedList<O> output = new ExtendedLinkedList<O>();
 		for (final I element : input) {
 			output.add(call(element));
 		}

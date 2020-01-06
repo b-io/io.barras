@@ -23,6 +23,9 @@
  */
 package jupiter.math.discrete.combinatorics;
 
+import java.util.Iterator;
+import java.util.List;
+
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.util.Arrays;
@@ -55,13 +58,36 @@ public class Combinatorics {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int getPermutationIndex(final int[] permutation, final int n) {
-		return getKPermutationIndex(permutation, permutation.length);
+	public static int getPermutationIndex(final int[] permutation,
+			final ExtendedLinkedList<Integer> sequence) {
+		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> s = sequence.clone();
+		for (final int p : permutation) {
+			factoradicValue.add(s.removeElement(p));
+		}
+		return toDecimal(factoradicValue);
 	}
 
-	public static int getKPermutationIndex(final int[] permutation, final int n) {
-		final ExtendedLinkedList<Integer> factoradicValue = toFactoradic(n);
-		return 0;
+	public static int getKPermutationIndex(final int[] permutation,
+			final ExtendedLinkedList<Integer> sequence) {
+		final int n = sequence.size();
+		final int k = permutation.length;
+		return getKPermutationIndex(permutation, sequence, P(n, n) / P(n, k));
+	}
+
+	public static int getKPermutationIndex(final int[] permutation,
+			final ExtendedLinkedList<Integer> sequence, final int divisor) {
+		final int n = sequence.size();
+		final int k = permutation.length;
+		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
+		final ExtendedLinkedList<Integer> s = sequence.clone();
+		for (final int p : permutation) {
+			factoradicValue.add(s.removeElement(p));
+		}
+		for (int i = 0; i < n - k; ++i) {
+			factoradicValue.add(0);
+		}
+		return toDecimal(factoradicValue) / divisor;
 	}
 
 
@@ -70,29 +96,30 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the decimal representation of the specified factoradic {@code int} value.
+	 * Returns the decimal representation of the specified factoradic representation.
 	 * <p>
-	 * @param factoradicValue the factoradic {@code int} value to convert
+	 * @param factoradicValue the factoradic {@link List} of {@link Integer} to convert
 	 * <p>
-	 * @return the decimal representation of the specified factoradic {@code int} value
+	 * @return the decimal representation of the specified factoradic representation
 	 */
-	public static int toDecimal(final ExtendedLinkedList<Integer> factoradicValue) {
+	public static int toDecimal(final List<Integer> factoradicValue) {
 		int decimalValue = 0;
-		for (int i = 0; i < factoradicValue.size(); ++i) {
-			decimalValue += factoradicValue.get(i) *
-					Maths.factorial(factoradicValue.size() - 1 - i);
+		final int n = factoradicValue.size();
+		final Iterator<Integer> fIterator = factoradicValue.iterator();
+		int i = 0;
+		while (fIterator.hasNext()) {
+			decimalValue += fIterator.next() * Maths.factorial(n - 1 - i);
+			++i;
 		}
 		return decimalValue;
 	}
 
 	/**
-	 * Returns the factoradic representation of the specified decimal {@code int} value in an
-	 * {@link ExtendedLinkedList}.
+	 * Returns the factoradic representation of the specified decimal representation.
 	 * <p>
 	 * @param decimalValue the decimal {@code int} value to convert
 	 * <p>
-	 * @return the factoradic representation of the specified decimal {@code int} value in an
-	 *         {@link ExtendedLinkedList}
+	 * @return the factoradic representation of the specified decimal representation
 	 */
 	public static ExtendedLinkedList<Integer> toFactoradic(final int decimalValue) {
 		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
@@ -199,16 +226,16 @@ public class Combinatorics {
 
 	/**
 	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 * {@code n}-element set in lexicographical order.
+	 * {@code n}-element set.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the ordered subsets
 	 * <p>
 	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 *         {@code n}-element set in lexicographical order
+	 *         {@code n}-element set
 	 */
 	public static int[][] createKPermutations(final int n, final int k) {
-		return createKPermutations(n, k, true);
+		return createKPermutations(n, k, false);
 	}
 
 	/**
@@ -230,7 +257,15 @@ public class Combinatorics {
 
 		// Generate the k-permutations (in lexicographical order if sort)
 		if (sort) {
-
+			final ExtendedLinkedList<Integer> sequence = Integers.toLinkedList(
+					Integers.createSequence(n));
+			final int divisor = P(n, n) / P(n, k);
+			for (final int[] combination : combinations) {
+				final int[][] subpermutations = createPermutations(combination);
+				for (final int[] subpermutation : subpermutations) {
+					permutations[getKPermutationIndex(subpermutation, sequence, divisor)] = subpermutation;
+				}
+			}
 		} else {
 			int p = 0;
 			for (final int[] combination : combinations) {

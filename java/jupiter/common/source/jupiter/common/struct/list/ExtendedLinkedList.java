@@ -24,6 +24,7 @@
 package jupiter.common.struct.list;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import jupiter.common.model.ICloneable;
@@ -188,6 +189,21 @@ public class ExtendedLinkedList<E>
 	@Override
 	public synchronized boolean removeAll(final Collection<?> collection) {
 		return super.removeAll(collection);
+	}
+
+	//////////////////////////////////////////////
+
+	public synchronized int removeElement(final Object object) {
+		final Iterator<E> iterator = iterator();
+		int i = 0;
+		while (iterator.hasNext()) {
+			if (Objects.equals(iterator.next(), object)) {
+				iterator.remove();
+				return i;
+			}
+			++i;
+		}
+		return -1;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

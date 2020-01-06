@@ -102,7 +102,7 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@link List} of {@link Interval} of type {@code T}.
+	 * Sets the {@link List} of {@link Interval}.
 	 * <p>
 	 * @param intervals a {@link List} of {@link Interval} of type {@code T}
 	 */

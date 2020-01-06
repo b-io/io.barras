@@ -29,12 +29,12 @@ import static jupiter.common.util.Strings.SPACE;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.math.Maths;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.map.tree.RedBlackTreeMap;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.thread.LockedWorkQueue;
@@ -160,12 +160,13 @@ public class Calculator
 			String trimmedExpression = expression.trim();
 
 			// Test whether the epression is an assignment
-			final List<String> expressions = Strings.removeEmpty(Strings.split(trimmedExpression, '='));
+			final ExtendedLinkedList<String> expressions = Strings.removeEmpty(
+					Strings.split(trimmedExpression, '='));
 			final int expressionCount = expressions.size();
 			if (expressionCount > 1) {
 				// • Assignment
 				// Extract the right-hand side of the expression
-				trimmedExpression = expressions.get(expressionCount - 1).trim();
+				trimmedExpression = expressions.getLast().trim();
 			}
 
 			// Parse and evaluate the (right-hand side) expression

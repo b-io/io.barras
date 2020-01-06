@@ -26,6 +26,7 @@ package jupiter.common.map;
 import java.util.HashSet;
 import java.util.Set;
 
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.thread.Worker;
@@ -163,6 +164,14 @@ public abstract class Mapper<I, O>
 
 	public ExtendedList<O> callToList(final I[] input) {
 		final ExtendedList<O> output = new ExtendedList<O>();
+		for (final I element : input) {
+			output.add(call(element));
+		}
+		return output;
+	}
+
+	public ExtendedLinkedList<O> callToLinkedList(final I[] input) {
+		final ExtendedLinkedList<O> output = new ExtendedLinkedList<O>();
 		for (final I element : input) {
 			output.add(call(element));
 		}

@@ -24,7 +24,6 @@
 package jupiter.common.util;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -32,6 +31,7 @@ import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.FloatParser;
 import jupiter.common.map.parser.IParsers;
 import jupiter.common.math.Maths;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 
 public class Floats {
@@ -342,123 +342,128 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified {@code float} array.
+	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@code float} array.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified {@code float} array
+	 * @return a {@link ExtendedList} of {@link Float} from the specified {@code float} array
 	 */
-	public static List<Float> toList(final float[] array) {
+	public static ExtendedList<Float> toList(final float[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified {@code float} array.
+	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@code float} array.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified {@code float} array
+	 * @return a {@link ExtendedList} of {@link Float} from the specified {@code float} array
 	 */
-	public static List<Float> asList(final float... array) {
+	public static ExtendedList<Float> asList(final float... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float}
+	 * array.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float} array
 	 */
-	public static ExtendedList<Float> toExtendedList(final float[] array) {
-		return PARSER.callToList(toArray(array));
+	public static ExtendedLinkedList<Float> toLinkedList(final float[] array) {
+		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float}
+	 * array.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float} array
 	 */
-	public static ExtendedList<Float> asExtendedList(final float... array) {
-		return toExtendedList(array);
+	public static ExtendedLinkedList<Float> asLinkedList(final float... array) {
+		return toLinkedList(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified {@code T} array.
+	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified {@code T} array
+	 * @return a {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
-	public static <T> List<Float> toList(final T[] array) {
+	public static <T> ExtendedList<Float> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified {@code T} array.
+	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified {@code T} array
+	 * @return a {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
-	public static <T> List<Float> asList(final T... array) {
+	public static <T> ExtendedList<Float> asList(final T... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
 	 */
-	public static <T> ExtendedList<Float> toExtendedList(final T[] array) {
-		return PARSER.callToList(array);
+	public static <T> ExtendedLinkedList<Float> toLinkedList(final T[] array) {
+		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
 	 */
-	public static <T> ExtendedList<Float> asExtendedList(final T... array) {
-		return toExtendedList(array);
+	public static <T> ExtendedLinkedList<Float> asLinkedList(final T... array) {
+		return toLinkedList(array);
 	}
 
 	/**
-	 * Returns a {@link List} of {@link Float} from the specified {@link Collection} of type
+	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@link Collection} of type
 	 * {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return a {@link List} of {@link Float} from the specified {@link Collection} of type
+	 * @return a {@link ExtendedList} of {@link Float} from the specified {@link Collection} of type
 	 *         {@code T}
 	 */
-	public static <T> List<Float> collectionToList(final Collection<T> collection) {
+	public static <T> ExtendedList<Float> collectionToList(final Collection<T> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
-	 * type {@code T}.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
+	 * of type {@code T}.
 	 * <p>
 	 * @param <T>        the type of the {@link Collection} to convert
 	 * @param collection a {@link Collection} of type {@code T}
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
-	 *         type {@code T}
+	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
+	 *         of type {@code T}
 	 */
-	public static <T> ExtendedList<Float> collectionToExtendedList(final Collection<T> collection) {
-		return PARSER.callCollectionToList(collection);
+	public static <T> ExtendedLinkedList<Float> collectionToLinkedList(
+			final Collection<T> collection) {
+		return PARSER.callCollectionToLinkedList(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
