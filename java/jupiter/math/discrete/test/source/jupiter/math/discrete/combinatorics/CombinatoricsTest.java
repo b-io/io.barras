@@ -27,7 +27,9 @@ import static jupiter.common.io.IO.IO;
 
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Test;
+import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -215,11 +217,11 @@ public class CombinatoricsTest
 		{
 			final double n = 30.;
 			IO.test("- Count the number of k-permutations of a ", n, "-element set");
-			assertEquals(1., Combinatorics.PToDouble(n, 0.));
-			assertEquals(n, Combinatorics.PToDouble(n, 1.));
-			assertEquals(1.710072E7, Combinatorics.PToDouble(n, 5.));
-			assertEquals(1.09027350432E14, Combinatorics.PToDouble(n, 10.));
-			assertEquals(2.6525285981219103E32, Combinatorics.PToDouble(n, n));
+			assertEquals(1., Combinatorics.P(n, 0.));
+			assertEquals(n, Combinatorics.P(n, 1.));
+			assertEquals(1.710072E7, Combinatorics.P(n, 5.));
+			assertEquals(1.09027350432E14, Combinatorics.P(n, 10.));
+			assertEquals(2.6525285981219103E32, Combinatorics.P(n, n));
 		}
 	}
 
@@ -230,9 +232,9 @@ public class CombinatoricsTest
 		IO.test("• PRF");
 
 		IO.test("- Count the number of anagrams of the word ", Strings.quote("MISSISSIPI"));
-		assertEquals(34650, Combinatorics.PRF(1, 4, 4, 2));
-		assertEquals(34650L, Combinatorics.PRF(1L, 4L, 4L, 2L));
-		assertEquals(34650., Combinatorics.PRFToDouble(1., 4., 4., 2.));
+		assertEquals(34650, Combinatorics.PRF(Integers.asPrimitiveArray(1, 4, 4, 2)));
+		assertEquals(34650L, Combinatorics.PRF(Longs.asPrimitiveArray(1L, 4L, 4L, 2L)));
+		assertEquals(34650., Combinatorics.PRF(Doubles.asPrimitiveArray(1., 4., 4., 2.)));
 	}
 
 	//////////////////////////////////////////////
@@ -264,10 +266,10 @@ public class CombinatoricsTest
 		{
 			final double n = 30.;
 			IO.test("- Count the number of k-combinations of a ", n, "-element set");
-			assertEquals(1., Combinatorics.CToDouble(n, 0.));
-			assertEquals(n, Combinatorics.CToDouble(n, 1.));
-			assertEquals(1.5511752E8, Combinatorics.CToDouble(n, n / 2.));
-			assertEquals(1., Combinatorics.CToDouble(n, n));
+			assertEquals(1., Combinatorics.C(n, 0.));
+			assertEquals(n, Combinatorics.C(n, 1.));
+			assertEquals(1.5511752E8, Combinatorics.C(n, n / 2.));
+			assertEquals(1., Combinatorics.C(n, n));
 		}
 	}
 
