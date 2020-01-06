@@ -89,7 +89,7 @@ public class Maths {
 
 	public static final double F_1_2 = 1. / 2.;
 	public static final double F_1_3 = 1. / 3.;
-	public static final double F_1_4 = 1. / 3.;
+	public static final double F_1_4 = 1. / 4.;
 	public static final double F_1_5 = 1. / 5.;
 	public static final double F_1_6 = 1. / 6.;
 	public static final double F_1_7 = 1. / 7.;
