@@ -242,7 +242,7 @@ public class Statistics {
 	 * @return phi(x) = standard Gaussian PDF
 	 */
 	public static double normalPdf(final double x) {
-		return Math.exp(-Maths.square(x) / 2.) / Maths.SQUARE_ROOT_OF_TWO_PI;
+		return Math.exp(-Maths.square(x) / 2.) / Maths.SQUARE_ROOT_OF_2_PI;
 	}
 
 	/**

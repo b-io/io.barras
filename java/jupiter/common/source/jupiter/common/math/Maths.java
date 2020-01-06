@@ -58,14 +58,70 @@ public class Maths {
 	 */
 	public static volatile double TINY_TOLERANCE = 1E-300;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static final double DEFAULT_CONFIDENCE = 0.975; // 97.5%
 	public static final double DEFAULT_Z = 1.9599639845400536; // 97.5%
 
-	public static final double DEGREE_TO_RADIAN = Math.PI / 180.;
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final double SQUARE_ROOT_OF_TWO = Math.sqrt(2.);
-	public static final double SQUARE_ROOT_OF_PI = Math.sqrt(Math.PI);
-	public static final double SQUARE_ROOT_OF_TWO_PI = Math.sqrt(2. * Math.PI);
+	public static final double SQUARE_ROOT_OF_2 = Math.sqrt(2.);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * The Napier constant e, the base of the natural logarithm.
+	 */
+	public static final double E = 2850325. / 1048576. + 8.254840070411028747E-8;
+	public static final double SQUARE_ROOT_OF_E = Math.sqrt(E);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * The Archimede constant PI, the ratio of the circumference of a circle to its diameter.
+	 */
+	public static final double PI = 105414357. / 33554432. + 1.984187159361080883E-9;
+	public static final double SQUARE_ROOT_OF_PI = Math.sqrt(PI);
+	public static final double SQUARE_ROOT_OF_2_PI = Math.sqrt(2. * PI);
+	public static final double DEGREE_TO_RADIAN = PI / 180.;
+
+	//////////////////////////////////////////////
+
+	public static final double F_1_2 = 1. / 2.;
+	public static final double F_1_3 = 1. / 3.;
+	public static final double F_1_4 = 1. / 3.;
+	public static final double F_1_5 = 1. / 5.;
+	public static final double F_1_6 = 1. / 6.;
+	public static final double F_1_7 = 1. / 7.;
+	public static final double F_1_8 = 1. / 8.;
+	public static final double F_1_9 = 1. / 9.;
+	public static final double F_1_10 = 1. / 10.;
+	public static final double F_1_11 = 1. / 11.;
+	public static final double F_1_12 = 1. / 12.;
+	public static final double F_1_13 = 1. / 13.;
+	public static final double F_1_14 = 1. / 14.;
+	public static final double F_1_15 = 1. / 15.;
+	public static final double F_1_16 = 1. / 16.;
+	public static final double F_1_17 = 1. / 17.;
+	public static final double F_1_18 = 1. / 18.;
+	public static final double F_1_19 = 1. / 19.;
+	public static final double F_1_20 = 1. / 20.;
+	public static final double F_2_3 = 2. / 3.;
+	public static final double F_3_2 = 3. / 2.;
+	public static final double F_3_4 = 3. / 4.;
+	public static final double F_4_5 = 4. / 5.;
+	public static final double F_5_6 = 5. / 6.;
+
+	//////////////////////////////////////////////
+
+	protected static final int[] INT_FACTORIALS = new int[] {
+		1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600
+	};
+	protected static final long[] LONG_FACTORIALS = new long[] {
+		1L, 1L, 2L, 6L, 24L, 120L, 720L, 5040L, 40320L, 362880L, 3628800L, 39916800L, 479001600L,
+		6227020800L, 87178291200L, 1307674368000L, 20922789888000L, 355687428096000L,
+		6402373705728000L, 121645100408832000L, 2432902008176640000L
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -993,31 +1049,59 @@ public class Maths {
 	//////////////////////////////////////////////
 
 	public static int factorial(final int n) {
-		if (n == 0) {
-			return 1;
+		if (n >= INT_FACTORIALS.length) {
+			throw new ArithmeticException("The factorial of " + n +
+					" cannot be represented as an int");
 		}
-		return Maths.productSeries(n);
+		return INT_FACTORIALS[n];
 	}
 
 	public static long factorial(final long n) {
-		if (n == 0L) {
-			return 1L;
+		if (n >= LONG_FACTORIALS.length) {
+			throw new ArithmeticException("The factorial of " + n +
+					" cannot be represented as a long");
 		}
-		return Maths.productSeries(n);
+		return LONG_FACTORIALS[Integers.convert(n)];
 	}
 
 	public static double factorial(final double n) {
-		if (n == 0.0) {
-			return 1.;
+		if (n < LONG_FACTORIALS.length) {
+			return LONG_FACTORIALS[Integers.convert(n)];
 		}
-		return roundToLong(n * gamma(n));
+		return Math.floor(Math.exp(factorialLog(Integers.convert(n))) + 0.5);
 	}
 
-	public static double gamma(final double z) {
-		final double a = Math.sqrt(2 * Math.PI / z);
-		double b = z + 1. / (12. * z - 1. / (10. * z));
-		b = Math.pow(b / Math.E, z);
-		return a * b;
+	/**
+	 * Returns the natural logarithm of the factorial of {@code n}.
+	 * <p>
+	 * @param n an {@code int} value
+	 * <p>
+	 * @return the natural logarithm of the factorial of {@code n}
+	 */
+	public static double factorialLog(final int n) {
+		if (n < LONG_FACTORIALS.length) {
+			return Math.log(LONG_FACTORIALS[Integers.convert(n)]);
+		}
+		double factorialLog = 0.;
+		for (int i = 2; i <= n; ++i) {
+			factorialLog += Math.log(i);
+		}
+		return factorialLog;
+	}
+
+	/**
+	 * Returns the Ramanujan approximation of the factorial of the specified {@code int} value.
+	 * <p>
+	 * @param n an {@code int} value
+	 * <p>
+	 * @return the Ramanujan approximation of the factorial of the specified {@code int} value
+	 */
+	public static double factorialLimit(final int n) {
+		if (n < LONG_FACTORIALS.length) {
+			return Math.log(LONG_FACTORIALS[Integers.convert(n)]);
+		}
+		return SQUARE_ROOT_OF_PI * Math.pow(n / E, n) *
+				Math.pow(((8 * n + 4) * n + 1) * n + 1 / 30., F_1_6);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1348,7 +1432,7 @@ public class Maths {
 	 *         radius
 	 */
 	public static double getInscribedSquare(final double radius) {
-		return SQUARE_ROOT_OF_TWO * radius;
+		return SQUARE_ROOT_OF_2 * radius;
 	}
 
 	/**

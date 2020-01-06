@@ -53,12 +53,15 @@ class Maths
 
 public:
 
-	static constexpr double DEFAULT_EPSILON = 1E-16;
-	static constexpr double DEFAULT_Z = 1.959964; //< 95%
-	static constexpr double SQUARE_ROOT_OF_TWO = sqrt(2.);
-	static constexpr double E = 2.71828182845904523536028747135266249775724709369995; //< Euler's number
-	static constexpr double PI = acos(-1.);
+	static constexpr double TOLERANCE = 1E-16;
+	static constexpr double DEFAULT_CONFIDENCE = 0.975; //< 97.5%
+	static constexpr double DEFAULT_Z = 1.9599639845400536; //< 97.5%
+	static constexpr double SQUARE_ROOT_OF_2 = sqrt(2.);
+	static constexpr double E = 2850325. / 1048576. + 8.254840070411028747E-8; //< Euler's number
+	static constexpr double SQUARE_ROOT_OF_E = sqrt(E);
+	static constexpr double PI = 105414357. / 33554432. + 1.984187159361080883E-9;
 	static constexpr double SQUARE_ROOT_OF_PI = sqrt(PI);
+	static constexpr double SQUARE_ROOT_OF_2_PI = sqrt(2. * PI);
 	static constexpr double DEGREE_TO_RADIAN = PI / 180.;
 
 
