@@ -24,6 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.math.analysis.function.Functions.ROUND;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -37,7 +38,6 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.learning.supervised.function.OutputActivationFunction;
-import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
@@ -393,7 +393,7 @@ public abstract class Classifier
 	 * @return the estimated class
 	 */
 	public synchronized Entity classify(final Entity example) {
-		return estimate(example).apply(Functions.ROUND); // (k x m)
+		return estimate(example).apply(ROUND); // (k x m)
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

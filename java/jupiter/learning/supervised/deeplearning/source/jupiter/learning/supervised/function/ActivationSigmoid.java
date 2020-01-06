@@ -23,8 +23,10 @@
  */
 package jupiter.learning.supervised.function;
 
+import static jupiter.math.analysis.function.Functions.LOG;
+import static jupiter.math.analysis.function.Functions.SIGMOID;
+
 import jupiter.learning.supervised.Classifier;
-import jupiter.math.analysis.function.Functions;
 import jupiter.math.analysis.function.Sigmoid;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
@@ -72,7 +74,7 @@ public class ActivationSigmoid
 	 */
 	@Override
 	public Entity apply(final Entity E) {
-		return E.apply(Functions.SIGMOID);
+		return E.apply(SIGMOID);
 	}
 
 	/**
@@ -100,9 +102,8 @@ public class ActivationSigmoid
 	 */
 	@Override
 	public double computeCost(final Classifier classifier, final Entity A) {
-		return -A.apply(Functions.LOG)
-						.diagonalTimes(classifier.getTransposedClasses())
-				.add(Scalar.ONE.minus(A).apply(Functions.LOG)
+		return -A.apply(LOG).diagonalTimes(classifier.getTransposedClasses())
+				.add(Scalar.ONE.minus(A).apply(LOG)
 						.diagonalTimes(Scalar.ONE.minus(classifier.getTransposedClasses())))
 				.toScalar().get() / classifier.getTrainingExampleCount();
 	}

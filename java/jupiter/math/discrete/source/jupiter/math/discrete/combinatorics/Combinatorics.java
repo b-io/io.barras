@@ -23,6 +23,8 @@
  */
 package jupiter.math.discrete.combinatorics;
 
+import static jupiter.math.analysis.function.Functions.FACTORIAL;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -482,6 +484,9 @@ public class Combinatorics {
 		if (k == 0 || n == 0) {
 			return 1;
 		}
+		if (Maths.isFactorialInt(n)) {
+			return Maths.factorial(n) / Maths.factorial(n - k);
+		}
 		return Maths.productSeries(n - k + 1, n);
 	}
 
@@ -499,7 +504,30 @@ public class Combinatorics {
 		if (k == 0L || n == 0L) {
 			return 1L;
 		}
+		if (Maths.isFactorialLong(n)) {
+			return Maths.factorial(n) / Maths.factorial(n - k);
+		}
 		return Maths.productSeries(n - k + 1L, n);
+	}
+
+	/**
+	 * Returns the number {@code P(n, k)} of distinct ordered {@code k}-element subsets of a
+	 * {@code n}-element set, i.e. {@code k}-permutations without repetition.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the ordered subsets
+	 * <p>
+	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets of a
+	 *         {@code n}-element set, i.e. {@code k}-permutations without repetition
+	 */
+	public static double P(final double n, final double k) {
+		if (k == 0. || n == 0.) {
+			return 1.;
+		}
+		if (Maths.isFactorialLong(n)) {
+			return Maths.factorial(n) / Maths.factorial(n - k);
+		}
+		return Maths.productSeries(n - k + 1., n);
 	}
 
 	//////////////////////////////////////////////
@@ -533,17 +561,31 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the number {@code PR(ms)} of distinct {@code n}-element tuples of objects from a
+	 * Returns the number {@code PR(n, k)} of distinct {@code k}-element tuples of objects from a
+	 * {@code n}-element set, {@code k}-permutations with repetition.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the tuples
+	 * <p>
+	 * @return the number {@code PR(n, k)} of distinct {@code k}-element tuples of objects from a
+	 *         {@code n}-element set, {@code k}-permutations with repetition
+	 */
+	public static double PR(final double n, final double k) {
+		return Math.pow(n, k);
+	}
+
+	/**
+	 * Returns the number {@code PRF(ms)} of distinct {@code n}-element tuples of objects from a
 	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 * {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition.
 	 * <p>
 	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code PR(ms)} of distinct {@code n}-element tuples of objects from a
+	 * @return the number {@code PRF(ms)} of distinct {@code n}-element tuples of objects from a
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
 	 */
-	public static int PR(final int... ms) {
+	public static int PRF(final int... ms) {
 		final int n = Maths.sum(ms);
 		if (n == 0) {
 			return 1;
@@ -556,17 +598,17 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the number {@code PR(ms)} of distinct {@code n}-element tuples of objects from a
+	 * Returns the number {@code PRF(ms)} of distinct {@code n}-element tuples of objects from a
 	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 * {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition.
 	 * <p>
 	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code PR(ms)} of distinct {@code n}-element tuples of objects from a
+	 * @return the number {@code PRF(ms)} of distinct {@code n}-element tuples of objects from a
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
 	 */
-	public static long PR(final long... ms) {
+	public static long PRF(final long... ms) {
 		final long n = Maths.sum(ms);
 		if (n == 0L) {
 			return 1L;
@@ -579,36 +621,79 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the number {@code PR(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 * Returns the number {@code PRF(ms)} of distinct {@code n}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition.
+	 * <p>
+	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * <p>
+	 * @return the number {@code PRF(ms)} of distinct {@code n}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
+	 */
+	public static double PRF(final double... ms) {
+		final double n = Maths.sum(ms);
+		if (n == 0.) {
+			return 1.;
+		}
+		if (Maths.isFactorialLong(n)) {
+			return Maths.factorial(n) / Maths.product(FACTORIAL.applyToPrimitiveArray(ms));
+		}
+		double result = Maths.productSeries(ms[0] + 1., n);
+		for (int i = 1; i < ms.length; ++i) {
+			result /= Maths.factorial(ms[i]);
+		}
+		return result;
+	}
+
+	/**
+	 * Returns the number {@code PRFK(k, ms)} of distinct {@code k}-element tuples of objects from a
 	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 * {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition.
 	 * <p>
 	 * @param k  the number of elements in the tuples
 	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code PR(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 * @return the number {@code PRFK(k, ms)} of distinct {@code k}-element tuples of objects from a
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
 	 */
-	public static int PR(final int k, final int... ms) {
+	public static int PRFK(final int k, final int... ms) {
 		final long n = Maths.sum(ms);
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	/**
-	 * Returns the number {@code PR(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 * Returns the number {@code PRFK(k, ms)} of distinct {@code k}-element tuples of objects from a
 	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 * {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition.
 	 * <p>
 	 * @param k  the number of elements in the tuples
 	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code PR(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 * @return the number {@code PRFK(k, ms)} of distinct {@code k}-element tuples of objects from a
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
 	 */
-	public static long PR(final int k, final long... ms) {
+	public static long PRFK(final long k, final long... ms) {
 		final long n = Maths.sum(ms);
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	/**
+	 * Returns the number {@code PRFK(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition.
+	 * <p>
+	 * @param k  the number of elements in the tuples
+	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * <p>
+	 * @return the number {@code PRFK(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
+	 */
+	public static double PRFK(final double k, final double... ms) {
+		final double n = Maths.sum(ms);
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
@@ -648,6 +733,23 @@ public class Combinatorics {
 		return P(n, k) / Maths.factorial(k);
 	}
 
+	/**
+	 * Returns the number {@code C(n, k)} of distinct {@code k}-element subsets of a
+	 * {@code n}-element set, i.e. {@code k}-combinations without repetition.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the subsets
+	 * <p>
+	 * @return the number {@code C(n, k)} of distinct {@code k}-element subsets of a
+	 *         {@code n}-element set, i.e. {@code k}-combinations without repetition
+	 */
+	public static double C(final double n, final double k) {
+		if (k == 0. || n == 0. || k >= n) {
+			return 1.;
+		}
+		return P(n, k) / Maths.factorial(k);
+	}
+
 	//////////////////////////////////////////////
 
 	/**
@@ -675,40 +777,71 @@ public class Combinatorics {
 	 *         {@code n}-element set, i.e. {@code k}-combinations with repetition
 	 */
 	public static long CR(final long n, final long k) {
-		return C(n + k - 1, k);
+		return C(n + k - 1L, k);
 	}
 
 	/**
-	 * Returns the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets of a
+	 * Returns the number {@code CR(n, k)} of distinct {@code k}-element multisets of objects from a
+	 * {@code n}-element set, i.e. {@code k}-combinations with repetition.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the tuples
+	 * <p>
+	 * @return the number {@code CR(n, k)} of distinct {@code k}-element multisets of objects from a
+	 *         {@code n}-element set, i.e. {@code k}-combinations with repetition
+	 */
+	public static double CR(final double n, final double k) {
+		return C(n + k - 1., k);
+	}
+
+	/**
+	 * Returns the number {@code CRFK(k, ms)} of distinct {@code k}-element multisubsets of a
 	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 * {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition.
 	 * <p>
 	 * @param k  the number of elements in the multisubsets
 	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets of a
+	 * @return the number {@code CRFK(k, ms)} of distinct {@code k}-element multisubsets of a
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
 	 */
-	public static int CR(final int k, final int ms[]) {
+	public static int CRFK(final int k, final int ms[]) {
 		final int n = Maths.sum(ms);
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 	/**
-	 * Returns the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets of a
+	 * Returns the number {@code CRFK(k, ms)} of distinct {@code k}-element multisubsets of a
 	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 * {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition.
 	 * <p>
 	 * @param k  the number of elements in the multisubsets
 	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets of a
+	 * @return the number {@code CRFK(k, ms)} of distinct {@code k}-element multisubsets of a
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
 	 */
-	public static long CR(final long k, final long ms[]) {
+	public static long CRFK(final long k, final long ms[]) {
 		final long n = Maths.sum(ms);
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	/**
+	 * Returns the number {@code CRFK(k, ms)} of distinct {@code k}-element multisubsets of a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition.
+	 * <p>
+	 * @param k  the number of elements in the multisubsets
+	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * <p>
+	 * @return the number {@code CRFK(k, ms)} of distinct {@code k}-element multisubsets of a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
+	 */
+	public static double CRFK(final double k, final double ms[]) {
+		final double n = Maths.sum(ms);
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 }

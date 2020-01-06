@@ -23,7 +23,9 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Functions;
+import static jupiter.math.analysis.function.Functions.SQUARE;
+import static jupiter.math.analysis.function.Functions.TANH;
+
 import jupiter.math.analysis.function.HyperbolicTangent;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
@@ -71,7 +73,7 @@ public class ActivationHyperbolicTangent
 	 */
 	@Override
 	public Entity apply(final Entity E) {
-		return E.apply(Functions.TANH);
+		return E.apply(TANH);
 	}
 
 	/**
@@ -84,7 +86,7 @@ public class ActivationHyperbolicTangent
 	 */
 	@Override
 	public Entity derive(final Entity E) {
-		return Scalar.ONE.minus(E.apply(Functions.SQUARE));
+		return Scalar.ONE.minus(E.apply(SQUARE));
 	}
 
 

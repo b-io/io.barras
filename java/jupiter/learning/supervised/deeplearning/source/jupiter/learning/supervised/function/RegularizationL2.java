@@ -23,7 +23,8 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Functions;
+import static jupiter.math.analysis.function.Functions.SQUARE;
+
 import jupiter.math.linear.entity.Matrix;
 
 /**
@@ -80,7 +81,7 @@ public class RegularizationL2
 	public double computeCost(final int m, final Matrix[] weights) {
 		double sum = 0.;
 		for (final Matrix W : weights) {
-			sum += W.apply(Functions.SQUARE).sum();
+			sum += W.apply(SQUARE).sum();
 		}
 		return lambda * sum / (2. * m);
 	}

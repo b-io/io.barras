@@ -23,7 +23,8 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Functions;
+import static jupiter.math.analysis.function.Functions.ROOT;
+
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
@@ -224,7 +225,7 @@ public class OptimizationAdam
 		// Update the weights and bias
 		return V[layer].division(1. - Math.pow(beta1, t)) // bias correction
 				.arrayDivide(S[layer].division(1. - Math.pow(beta2, t)) // bias correction
-						.apply(Functions.ROOT).toMatrix());
+						.apply(ROOT).toMatrix());
 	}
 
 

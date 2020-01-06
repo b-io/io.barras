@@ -24,6 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.math.analysis.function.Functions.SIGMOID;
 
 import java.io.IOException;
 
@@ -31,7 +32,6 @@ import jupiter.common.math.Maths;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
-import jupiter.math.analysis.function.Functions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
@@ -245,7 +245,7 @@ public class LogisticRegression
 	 */
 	@Override
 	public synchronized Entity estimate(final Entity X) {
-		return W.times(X).add(b).apply(Functions.SIGMOID); // (1 x m)
+		return W.times(X).add(b).apply(SIGMOID); // (1 x m)
 	}
 
 

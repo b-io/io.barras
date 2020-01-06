@@ -29,6 +29,7 @@ import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Test;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class CombinatoricsTest
 		extends Test {
@@ -90,13 +91,13 @@ public class CombinatoricsTest
 	public void testToFactoradic() {
 		IO.test("• toFactoradic");
 
-		IO.test("Get the factoradic representation of 463");
+		IO.test("- Get the factoradic representation of 463");
 		ExtendedLinkedList<Integer> factoradicValue = Combinatorics.toFactoradic(463);
 		IO.test(factoradicValue);
 		assertEquals(Objects.hashCode(new int[] {3, 4, 1, 0, 1, 0}),
 				Objects.hashCode(Integers.collectionToPrimitiveArray(factoradicValue)));
 
-		IO.test("Get the factoradic representation of 1234");
+		IO.test("- Get the factoradic representation of 1234");
 		factoradicValue = Combinatorics.toFactoradic(1234);
 		IO.test(factoradicValue);
 		assertEquals(Objects.hashCode(new int[] {1, 4, 1, 1, 2, 0, 0}),
@@ -192,21 +193,46 @@ public class CombinatoricsTest
 	public void testP() {
 		IO.test("• P");
 
-		// Count the number of permutations of an 10-element set
-		assertEquals(1L, Combinatorics.P(10L, 0L));
-		assertEquals(10L, Combinatorics.P(10L, 1L));
-		assertEquals(30240L, Combinatorics.P(10L, 5L));
-		assertEquals(3628800L, Combinatorics.P(10L, 10L));
+		{
+			final int n = 10;
+			IO.test("- Count the number of k-permutations of a ", n, "-element set");
+			assertEquals(1, Combinatorics.P(n, 0));
+			assertEquals(n, Combinatorics.P(n, 1));
+			assertEquals(30240, Combinatorics.P(n, 5));
+			assertEquals(3628800, Combinatorics.P(n, n));
+		}
+
+		{
+			final long n = 20L;
+			IO.test("- Count the number of k-permutations of a ", n, "-element set");
+			assertEquals(1L, Combinatorics.P(n, 0L));
+			assertEquals(n, Combinatorics.P(n, 1L));
+			assertEquals(1860480L, Combinatorics.P(n, 5L));
+			assertEquals(670442572800L, Combinatorics.P(n, 10L));
+			assertEquals(2432902008176640000L, Combinatorics.P(n, n));
+		}
+
+		{
+			final double n = 30.;
+			IO.test("- Count the number of k-permutations of a ", n, "-element set");
+			assertEquals(1., Combinatorics.P(n, 0.));
+			assertEquals(n, Combinatorics.P(n, 1.));
+			assertEquals(1.710072E7, Combinatorics.P(n, 5.));
+			assertEquals(1.09027350432E14, Combinatorics.P(n, 10.));
+			assertEquals(2.6525285981219103E32, Combinatorics.P(n, n));
+		}
 	}
 
 	/**
-	 * Test of PR method, of class Combinatorics.
+	 * Test of PRF method, of class Combinatorics.
 	 */
-	public void testPR() {
-		IO.test("• PR");
+	public void testPRF() {
+		IO.test("• PRF");
 
-		// Count the number of anagrams of the word "MISSISSIPPI"
-		assertEquals(34650L, Combinatorics.PR(1L, 4L, 4L, 2L));
+		IO.test("- Count the number of anagrams of the word ", Strings.quote("MISSISSIPI"));
+		assertEquals(34650, Combinatorics.PRF(1, 4, 4, 2));
+		assertEquals(34650L, Combinatorics.PRF(1L, 4L, 4L, 2L));
+		assertEquals(34650., Combinatorics.PRF(1., 4., 4., 2.));
 	}
 
 	//////////////////////////////////////////////
@@ -217,11 +243,32 @@ public class CombinatoricsTest
 	public void testC() {
 		IO.test("• C");
 
-		// Count the number of combinations of an 10-element set
-		assertEquals(1L, Combinatorics.C(10L, 0L));
-		assertEquals(10L, Combinatorics.C(10L, 1L));
-		assertEquals(252L, Combinatorics.C(10L, 5L));
-		assertEquals(1L, Combinatorics.C(10L, 10L));
+		{
+			final int n = 10;
+			IO.test("- Count the number of k-combinations of a ", n, "-element set");
+			assertEquals(1, Combinatorics.C(n, 0));
+			assertEquals(n, Combinatorics.C(n, 1));
+			assertEquals(252, Combinatorics.C(n, n / 2));
+			assertEquals(1, Combinatorics.C(n, n));
+		}
+
+		{
+			final long n = 20L;
+			IO.test("- Count the number of k-combinations of a ", n, "-element set");
+			assertEquals(1L, Combinatorics.C(n, 0L));
+			assertEquals(n, Combinatorics.C(n, 1L));
+			assertEquals(184756L, Combinatorics.C(n, n / 2L));
+			assertEquals(1L, Combinatorics.C(n, n));
+		}
+
+		{
+			final double n = 30.;
+			IO.test("- Count the number of k-combinations of a ", n, "-element set");
+			assertEquals(1., Combinatorics.C(n, 0.));
+			assertEquals(n, Combinatorics.C(n, 1.));
+			assertEquals(1.5511752E8, Combinatorics.C(n, n / 2.));
+			assertEquals(1., Combinatorics.C(n, n));
+		}
 	}
 
 	/**

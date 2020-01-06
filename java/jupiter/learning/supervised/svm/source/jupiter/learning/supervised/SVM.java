@@ -27,6 +27,7 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 import static jupiter.common.util.Strings.SPACE;
+import static jupiter.math.analysis.function.Functions.ROUND;
 
 import java.util.HashMap;
 
@@ -39,7 +40,6 @@ import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
-import jupiter.math.analysis.function.Functions;
 
 import libsvm.svm;
 import libsvm.svm_model;
@@ -295,7 +295,7 @@ public class SVM {
 		// Set the hyper-parameters
 		hyperParameters.weight = weights;
 		hyperParameters.nr_weight = weights.length;
-		hyperParameters.weight_label = Functions.ROUND.applyToIntPrimitiveArray(problem.y);
+		hyperParameters.weight_label = ROUND.applyToIntPrimitiveArray(problem.y);
 	}
 
 

@@ -163,9 +163,9 @@ public class R
 			return Systems.execute(printer,
 					Arrays.<String>merge(new String[] {R_SCRIPT_PATH}, script, ARGS));
 		} catch (final InterruptedException ex) {
-			IO.error("Fail to execute the script", Strings.quote(script[0]), ex);
+			IO.error("Fail to execute the script ", Strings.quote(script[0]), ex);
 		} catch (final IOException ex) {
-			IO.error("Fail to execute the script", Strings.quote(script[0]), ex);
+			IO.error("Fail to execute the script ", Strings.quote(script[0]), ex);
 		}
 		return IO.EXIT_FAILURE;
 	}
@@ -213,9 +213,9 @@ public class R
 								Arrays.<String>take(command, 1, command.length)));
 			}
 		} catch (final InterruptedException ex) {
-			IO.error("Fail to execute the command", Strings.quote(command[0]), ex);
+			IO.error("Fail to execute the command ", Strings.quote(command[0]), ex);
 		} catch (final IOException ex) {
-			IO.error("Fail to execute the command", Strings.quote(command[0]), ex);
+			IO.error("Fail to execute the command ", Strings.quote(command[0]), ex);
 		}
 		return IO.EXIT_FAILURE;
 	}

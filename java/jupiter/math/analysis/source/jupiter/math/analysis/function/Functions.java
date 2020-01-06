@@ -37,6 +37,7 @@ public class Functions {
 
 	public static final Absolute ABS = new Absolute();
 	public static final Exponential EXP = new Exponential();
+	public static final Factorial FACTORIAL = new Factorial();
 	public static final Logarithm LOG = new Logarithm();
 	public static final Inverse INVERSE = new Inverse();
 	public static final Root ROOT = new Root();

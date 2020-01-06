@@ -1012,6 +1012,21 @@ public class Maths {
 		return product;
 	}
 
+	public static double productSeries(final double n) {
+		return productSeries(1., n);
+	}
+
+	public static double productSeries(final double from, final double to) {
+		if (from == 0. || to == 0.) {
+			return 0.;
+		}
+		double product = 1.;
+		for (double value = from; value <= to; ++value) {
+			product *= value;
+		}
+		return product;
+	}
+
 	//////////////////////////////////////////////
 
 	/**
@@ -1048,16 +1063,24 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static boolean isFactorialInt(final double n) {
+		return n < INT_FACTORIALS.length;
+	}
+
 	public static int factorial(final int n) {
-		if (n >= INT_FACTORIALS.length) {
+		if (!isFactorialInt(n)) {
 			throw new ArithmeticException("The factorial of " + n +
 					" cannot be represented as an int");
 		}
 		return INT_FACTORIALS[n];
 	}
 
+	public static boolean isFactorialLong(final double n) {
+		return n < LONG_FACTORIALS.length;
+	}
+
 	public static long factorial(final long n) {
-		if (n >= LONG_FACTORIALS.length) {
+		if (!isFactorialLong(n)) {
 			throw new ArithmeticException("The factorial of " + n +
 					" cannot be represented as a long");
 		}
@@ -1065,7 +1088,7 @@ public class Maths {
 	}
 
 	public static double factorial(final double n) {
-		if (n < LONG_FACTORIALS.length) {
+		if (isFactorialLong(n)) {
 			return LONG_FACTORIALS[Integers.convert(n)];
 		}
 		return Math.floor(Math.exp(factorialLog(Integers.convert(n))) + 0.5);
