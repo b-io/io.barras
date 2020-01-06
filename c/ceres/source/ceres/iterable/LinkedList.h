@@ -62,10 +62,10 @@ extern "C"
 	/**
 	 * Defines the type of the Linked Nodes.
 	 */
-#if defined(_32_BITS)
+#if __STDC__
 #define _LINKED_NODE_TYPE			-958821868L /* 32 bits */
-#elif defined(_64_BITS)
-#define _LINKED_NODE_TYPE			-5273095345972366597L /* 64 bits */
+#else
+#define _LINKED_NODE_TYPE			-5273095345972366597LL /* 64 bits */
 #endif
 
 

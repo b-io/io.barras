@@ -48,10 +48,10 @@ extern "C"
 	/**
 	 * Defines the type of the Formatted Times.
 	 */
-#if defined(_32_BITS)
+#if __STDC__
 #define _FORMATTED_TIME_TYPE		731609567L /* 32 bits */
-#elif defined(_64_BITS)
-#define _FORMATTED_TIME_TYPE		-8194824287521670209L /* 64 bits */
+#else
+#define _FORMATTED_TIME_TYPE		-8194824287521670209LL /* 64 bits */
 #endif
 
 

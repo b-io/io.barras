@@ -50,10 +50,10 @@ extern "C"
 	/**
 	 * Defines the type of the Hash Maps.
 	 */
-#if defined(_32_BITS)
+#if __STDC__
 #define _HASH_MAP_TYPE    294707382L /* 32 bits */
-#elif defined(_64_BITS)
-#define _HASH_MAP_TYPE    6989640109620831344L /* 64 bits */
+#else
+#define _HASH_MAP_TYPE    6989640109620831344LL /* 64 bits */
 #endif /* TODO */
 
 

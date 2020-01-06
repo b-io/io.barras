@@ -491,7 +491,7 @@ extern "C"
 	/**
 	 * Converts the specified number.
 	 */
-#define _CONVERT(TYPE, VALUE, TO_TYPE, MIN, MAX)	if (VALUE > (TYPE) MAX) { return MAX; } else if (VALUE < (TYPE) MIN) { return MIN; } else { return (TO_TYPE) number; }
+#define _CONVERT(TYPE, VALUE, TO_TYPE, MIN, MAX)	if (VALUE < (TYPE) MIN) { return MIN; } else if (VALUE > (TYPE) MAX) { return MAX; } else { return (TO_TYPE) number; }
 
 	/**
 	 * Prints the error for negative number.

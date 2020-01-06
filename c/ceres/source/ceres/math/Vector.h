@@ -48,10 +48,10 @@ extern "C"
 	/**
 	 * Defines the type of the Vectors.
 	 */
-#if defined(_32_BITS)
+#if __STDC__
 #define _VECTOR_TYPE				-268035336L /* 32 bits */
-#elif defined(_64_BITS)
-#define _VECTOR_TYPE				7998392945010445330L /* 64 bits */
+#else
+#define _VECTOR_TYPE				7998392945010445330LL /* 64 bits */
 #endif
 
 
