@@ -23,7 +23,6 @@
  */
 package jupiter.math.discrete.combinatorics;
 
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -74,12 +73,14 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the factorial representation of the specified permutation of the specified sequence.
+	 * Returns the factorial representation of the specified permutation without repetition of the
+	 * specified sequence.
 	 * <p>
 	 * @param permutation an {@code int} array containing the permutation indexes of the sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
-	 * @return the factorial representation of the specified permutation of the specified sequence
+	 * @return the factorial representation of the specified permutation without repetition of the
+	 *         specified sequence
 	 */
 	public static ExtendedLinkedList<Integer> getPermutationFactoradic(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence) {
@@ -102,12 +103,12 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the specified permutation of the specified sequence.
+	 * Returns the index of the specified permutation without repetition of the specified sequence.
 	 * <p>
 	 * @param permutation an {@code int} array containing the permutation indexes of the sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
-	 * @return the index of the specified permutation of the specified sequence
+	 * @return the index of the specified permutation without repetition of the specified sequence
 	 */
 	public static int getPermutationIndex(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence) {
@@ -115,12 +116,13 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the index of the specified k-permutation of the specified sequence.
+	 * Returns the index of the specified k-permutation without repetition of the specified
+	 * sequence.
 	 * <p>
 	 * @param permutation an {@code int} array containing the k-permutation indexes of the sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
-	 * @return the index of the specified k-permutation of the specified sequence
+	 * @return the index of the specified k-permutation without repetition of the specified sequence
 	 */
 	public static int getKPermutationIndex(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence) {
@@ -134,15 +136,15 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the index of the specified k-permutation of the specified sequence with the specified
-	 * divisor.
+	 * Returns the index of the specified k-permutation without repetition of the specified sequence
+	 * with the specified divisor.
 	 * <p>
 	 * @param permutation an {@code int} array containing the k-permutation indexes of the sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * @param divisor     an {@code int} value
 	 * <p>
-	 * @return the index of the specified k-permutation of the specified sequence with the specified
-	 *         divisor
+	 * @return the index of the specified k-permutation without repetition of the specified sequence
+	 *         with the specified divisor
 	 */
 	public static int getKPermutationIndex(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence, final int divisor) {
@@ -204,11 +206,13 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns all the distinct ordered subsets (i.e. permutations) of a {@code n}-element set.
+	 * Returns all the distinct ordered subsets of a {@code n}-element set, i.e. permutations
+	 * without repetition.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * <p>
-	 * @return all the distinct ordered subsets (i.e. permutations) of a {@code n}-element set
+	 * @return all the distinct ordered subsets of a {@code n}-element set, i.e. permutations
+	 *         without repetition
 	 */
 	public static int[][] createAllPermutations(final int n) {
 		// Initialize
@@ -222,27 +226,27 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
-	 * {@code n}-element set in lexicographic order.
+	 * Returns the distinct ordered {@code n}-element subsets of a {@code n}-element set, i.e.
+	 * {@code n}-permutations without repetition.
 	 * <p>
 	 * @param n the number of elements in the set and in the ordered subsets
 	 * <p>
-	 * @return the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
-	 *         {@code n}-element set in lexicographic order
+	 * @return the distinct ordered {@code n}-element subsets of a {@code n}-element set, i.e.
+	 *         {@code n}-permutations without repetition
 	 */
 	public static int[][] createPermutations(final int n) {
 		return createPermutations(n, false);
 	}
 
 	/**
-	 * Returns the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
-	 * {@code n}-element set (in lexicographic order if {@code sort}).
+	 * Returns the distinct ordered {@code n}-element subsets of a {@code n}-element set (in
+	 * lexicographic order if {@code sort}), i.e. {@code n}-permutations without repetition.
 	 * <p>
 	 * @param n    the number of elements in the set and in the ordered subsets
 	 * @param sort the flag specifying whether to sort in lexicographic order
 	 * <p>
-	 * @return the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
-	 *         {@code n}-element set (in lexicographic order if {@code sort})
+	 * @return the distinct ordered {@code n}-element subsets of a {@code n}-element set (in
+	 *         lexicographic order if {@code sort}), i.e. {@code n}-permutations without repetition
 	 */
 	public static int[][] createPermutations(final int n, final boolean sort) {
 		// Initialize
@@ -342,29 +346,29 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 * {@code n}-element set.
+	 * Returns the distinct ordered {@code k}-element subsets of a {@code n}-element set, i.e.
+	 * {@code k}-permutations without repetition.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the ordered subsets
 	 * <p>
-	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 *         {@code n}-element set
+	 * @return the distinct ordered {@code k}-element subsets of a {@code n}-element set, i.e.
+	 *         {@code k}-permutations without repetition
 	 */
 	public static int[][] createKPermutations(final int n, final int k) {
 		return createKPermutations(n, k, false);
 	}
 
 	/**
-	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 * {@code n}-element set (in lexicographic order if {@code sort}).
+	 * Returns the distinct ordered {@code k}-element subsets of a {@code n}-element set (in
+	 * lexicographic order if {@code sort}), i.e. {@code k}-permutations without repetition.
 	 * <p>
 	 * @param n    the number of elements in the set
 	 * @param k    the number of elements in the ordered subsets
 	 * @param sort the flag specifying whether to sort in lexicographic order
 	 * <p>
-	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 *         {@code n}-element set (in lexicographic order if {@code sort})
+	 * @return the distinct ordered {@code k}-element subsets of a {@code n}-element set (in
+	 *         lexicographic order if {@code sort}), i.e. {@code k}-permutations without repetition
 	 */
 	public static int[][] createKPermutations(final int n, final int k, final boolean sort) {
 		// Initialize
@@ -398,11 +402,13 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns all the distinct subsets (i.e. combinations) of a {@code n}-element set.
+	 * Returns all the distinct subsets of a {@code n}-element set, i.e. combinations without
+	 * repetition.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * <p>
-	 * @return all the distinct subsets (i.e. combinations) of a {@code n}-element set
+	 * @return all the distinct subsets of a {@code n}-element set, i.e. combinations without
+	 *         repetition
 	 */
 	public static int[][] createAllCombinations(final int n) {
 		// Initialize
@@ -426,14 +432,14 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
-	 * {@code n}-element set in lexicographic order.
+	 * Returns the distinct {@code k}-element subsets of a {@code n}-element set in lexicographic
+	 * order, i.e. {@code k}-combinations without repetition.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the subsets
 	 * <p>
-	 * @return the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
-	 *         {@code n}-element set in lexicographic order
+	 * @return the distinct {@code k}-element subsets of a {@code n}-element set in lexicographic
+	 *         order, i.e. {@code k}-combinations without repetition
 	 */
 	public static int[][] createKCombinations(final int n, final int k) {
 		// Initialize
@@ -463,14 +469,14 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number {@code P(n, k)} of distinct ordered {@code k}-element subsets (i.e.
-	 * {@code k}-permutations) of a {@code n}-element set.
+	 * Returns the number {@code P(n, k)} of distinct ordered {@code k}-element subsets of a
+	 * {@code n}-element set, i.e. {@code k}-permutations without repetition.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the ordered subsets
 	 * <p>
-	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets (i.e.
-	 *         {@code k}-permutations) of a {@code n}-element set
+	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets of a
+	 *         {@code n}-element set, i.e. {@code k}-permutations without repetition
 	 */
 	public static int P(final int n, final int k) {
 		if (k == 0 || n == 0) {
@@ -480,14 +486,14 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the number {@code P(n, k)} of distinct ordered {@code k}-element subsets (i.e.
-	 * {@code k}-permutations) of a {@code n}-element set.
+	 * Returns the number {@code P(n, k)} of distinct ordered {@code k}-element subsets of a
+	 * {@code n}-element set, i.e. {@code k}-permutations without repetition.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the ordered subsets
 	 * <p>
-	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets (i.e.
-	 *         {@code k}-permutations) of a {@code n}-element set
+	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets of a
+	 *         {@code n}-element set, i.e. {@code k}-permutations without repetition
 	 */
 	public static long P(final long n, final long k) {
 		if (k == 0L || n == 0L) {
@@ -499,13 +505,43 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number of permutations {@code PR(ms)} of a {@code n}-element tuple with the
-	 * specified element multiplicities {@code ms} where {@code n = sum(ms)}.
+	 * Returns the number {@code PR(n, k)} of distinct {@code k}-element tuples of objects from a
+	 * {@code n}-element set, {@code k}-permutations with repetition.
 	 * <p>
-	 * @param ms the multiplicity of each distinct element in the tuple
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the tuples
 	 * <p>
-	 * @return the number of permutations {@code PR(ms)} of a {@code n}-element tuple with the
-	 *         specified element multiplicities {@code ms} where {@code n = sum(ms)}
+	 * @return the number {@code PR(n, k)} of distinct {@code k}-element tuples of objects from a
+	 *         {@code n}-element set, {@code k}-permutations with repetition
+	 */
+	public static int PR(final int n, final int k) {
+		return Maths.pow(n, k);
+	}
+
+	/**
+	 * Returns the number {@code PR(n, k)} of distinct {@code k}-element tuples of objects from a
+	 * {@code n}-element set, {@code k}-permutations with repetition.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the tuples
+	 * <p>
+	 * @return the number {@code PR(n, k)} of distinct {@code k}-element tuples of objects from a
+	 *         {@code n}-element set, {@code k}-permutations with repetition
+	 */
+	public static long PR(final long n, final long k) {
+		return Maths.pow(n, k);
+	}
+
+	/**
+	 * Returns the number {@code PR(ms)} of distinct {@code n}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition.
+	 * <p>
+	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * <p>
+	 * @return the number {@code PR(ms)} of distinct {@code n}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
 	 */
 	public static int PR(final int... ms) {
 		final int n = Maths.sum(ms);
@@ -520,13 +556,15 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the number of permutations {@code PR(ms)} of a {@code n}-element tuple with the
-	 * specified element multiplicities {@code ms} where {@code n = sum(ms)}.
+	 * Returns the number {@code PR(ms)} of distinct {@code n}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition.
 	 * <p>
-	 * @param ms the multiplicity of each distinct element in the tuple
+	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number of permutations {@code PR(ms)} of a {@code n}-element tuple with the
-	 *         specified element multiplicities {@code ms} where {@code n = sum(ms)}
+	 * @return the number {@code PR(ms)} of distinct {@code n}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
 	 */
 	public static long PR(final long... ms) {
 		final long n = Maths.sum(ms);
@@ -540,17 +578,51 @@ public class Combinatorics {
 		return result;
 	}
 
+	/**
+	 * Returns the number {@code PR(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition.
+	 * <p>
+	 * @param k  the number of elements in the tuples
+	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * <p>
+	 * @return the number {@code PR(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
+	 */
+	public static int PR(final int k, final int... ms) {
+		final long n = Maths.sum(ms);
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	/**
+	 * Returns the number {@code PR(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition.
+	 * <p>
+	 * @param k  the number of elements in the tuples
+	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * <p>
+	 * @return the number {@code PR(k, ms)} of distinct {@code k}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
+	 */
+	public static long PR(final int k, final long... ms) {
+		final long n = Maths.sum(ms);
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number {@code C(n, k)} of distinct {@code k}-element subsets (i.e.
-	 * {@code k}-combinations) of a {@code n}-element set.
+	 * Returns the number {@code C(n, k)} of distinct {@code k}-element subsets of a
+	 * {@code n}-element set, i.e. {@code k}-combinations without repetition.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the subsets
 	 * <p>
-	 * @return the number {@code C(n, k)} of distinct {@code k}-element subsets (i.e.
-	 *         {@code k}-combinations) of a {@code n}-element set
+	 * @return the number {@code C(n, k)} of distinct {@code k}-element subsets of a
+	 *         {@code n}-element set, i.e. {@code k}-combinations without repetition
 	 */
 	public static int C(final int n, final int k) {
 		if (k == 0 || n == 0 || k >= n) {
@@ -560,14 +632,14 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the number {@code C(n, k)} of distinct {@code k}-element subsets (i.e.
-	 * {@code k}-combinations) of a {@code n}-element set.
+	 * Returns the number {@code C(n, k)} of distinct {@code k}-element subsets of a
+	 * {@code n}-element set, i.e. {@code k}-combinations without repetition.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the subsets
 	 * <p>
-	 * @return the number {@code C(n, k)} of distinct {@code k}-element subsets (i.e.
-	 *         {@code k}-combinations) of a {@code n}-element set
+	 * @return the number {@code C(n, k)} of distinct {@code k}-element subsets of a
+	 *         {@code n}-element set, i.e. {@code k}-combinations without repetition
 	 */
 	public static long C(final long n, final long k) {
 		if (k == 0L || n == 0L || k >= n) {
@@ -579,78 +651,44 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number {@code CR(n, k)} of distinct {@code k}-element multisubsets (i.e.
-	 * {@code k}-multicombinations) of a {@code n}-element multiset.
+	 * Returns the number {@code CR(n, k)} of distinct {@code k}-element multisets of objects from a
+	 * {@code n}-element set, i.e. {@code k}-combinations with repetition.
 	 * <p>
-	 * @param n the number of distinct elements in the multiset
-	 * @param k the number of elements in the multisubsets
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the tuples
 	 * <p>
-	 * @return the number {@code CR(n, k)} of distinct {@code k}-element multisubsets (i.e.
-	 *         {@code k}-multicombinations) of a {@code n}-element multiset
+	 * @return the number {@code CR(n, k)} of distinct {@code k}-element multisets of objects from a
+	 *         {@code n}-element set, i.e. {@code k}-combinations with repetition
 	 */
 	public static int CR(final int n, final int k) {
 		return C(n + k - 1, k);
 	}
 
 	/**
-	 * Returns the number {@code CR(n, k)} of distinct {@code k}-element multisubsets (i.e.
-	 * {@code k}-multicombinations) of a {@code n}-element multiset.
+	 * Returns the number {@code CR(n, k)} of distinct {@code k}-element multisets of objects from a
+	 * {@code n}-element set, i.e. {@code k}-combinations with repetition.
 	 * <p>
-	 * @param n the number of distinct elements in the multiset
-	 * @param k the number of elements in the multisubsets
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the tuples
 	 * <p>
-	 * @return the number {@code CR(n, k)} of distinct {@code k}-element multisubsets (i.e.
-	 *         {@code k}-multicombinations) of a {@code n}-element multiset
+	 * @return the number {@code CR(n, k)} of distinct {@code k}-element multisets of objects from a
+	 *         {@code n}-element set, i.e. {@code k}-combinations with repetition
 	 */
 	public static long CR(final long n, final long k) {
 		return C(n + k - 1, k);
 	}
 
 	/**
-	 * Returns the number {@code CR(n, k, m)} of distinct {@code k}-element multisubsets (i.e.
-	 * {@code k}-multicombinations) having a distinct element with multiplicity at least {@code m}
-	 * of a {@code n}-element multiset.
-	 * <p>
-	 * @param n the number of distinct elements in the multiset
-	 * @param k the number of elements in the multisubsets
-	 * @param m the minimum multiplicity of a distinct element in the multisubsets
-	 * <p>
-	 * @return the number {@code CR(n, k, m)} of distinct {@code k}-element multisubsets (i.e.
-	 *         {@code k}-multicombinations) having a distinct element with multiplicity at least
-	 *         {@code m} of a {@code n}-element multiset
-	 */
-	public static int CR(final int n, final int k, final int m) {
-		return CR(n - m, k);
-	}
-
-	/**
-	 * Returns the number {@code CR(n, k, m)} of distinct {@code k}-element multisubsets (i.e.
-	 * {@code k}-multicombinations) having a distinct element with multiplicity at least {@code m}
-	 * of a {@code n}-element multiset.
-	 * <p>
-	 * @param n the number of distinct elements in the multiset
-	 * @param k the number of elements in the multisubsets
-	 * @param m the minimum multiplicity of a distinct element in the multisubsets
-	 * <p>
-	 * @return the number {@code CR(n, k, m)} of distinct {@code k}-element multisubsets (i.e.
-	 *         {@code k}-multicombinations) having a distinct element with multiplicity at least
-	 *         {@code m} of a {@code n}-element multiset
-	 */
-	public static long CR(final long n, final long k, final long m) {
-		return CR(n - m, k);
-	}
-
-	/**
-	 * Returns the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets (i.e.
-	 * {@code k}-multicombinations) of a finite {@code n}-element multiset with the specified
-	 * element multiplicities {@code ms} where {@code n = sum(ms)}.
+	 * Returns the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets of a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition.
 	 * <p>
 	 * @param k  the number of elements in the multisubsets
-	 * @param ms the multiplicity of each distinct element in the multiset
+	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets (i.e.
-	 *         {@code k}-multicombinations) of a finite {@code n}-element multiset with the
-	 *         specified element multiplicities {@code ms} where {@code n = sum(ms)}
+	 * @return the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets of a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
 	 */
 	public static int CR(final int k, final int ms[]) {
 		final int n = Maths.sum(ms);
@@ -658,16 +696,16 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets (i.e.
-	 * {@code k}-multicombinations) of a finite {@code n}-element multiset with the specified
-	 * element multiplicities {@code ms} where {@code n = sum(ms)}.
+	 * Returns the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets of a
+	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 * {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition.
 	 * <p>
 	 * @param k  the number of elements in the multisubsets
-	 * @param ms the multiplicity of each distinct element in the multiset
+	 * @param ms the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets (i.e.
-	 *         {@code k}-multicombinations) of a finite {@code n}-element multiset with the
-	 *         specified element multiplicities {@code ms} where {@code n = sum(ms)}
+	 * @return the number {@code CR(k, ms)} of distinct {@code k}-element multisubsets of a
+	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
+	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
 	 */
 	public static long CR(final long k, final long ms[]) {
 		final long n = Maths.sum(ms);

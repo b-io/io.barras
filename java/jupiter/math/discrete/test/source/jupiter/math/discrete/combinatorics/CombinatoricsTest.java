@@ -232,9 +232,5 @@ public class CombinatoricsTest
 
 		// Count the number of ways to choose 3 donuts from 4 distinct types with repetition
 		assertEquals(20L, Combinatorics.CR(4L, 3L));
-
-		// Count the number of ways to choose 3 donuts from 4 distinct types with repetition having
-		// at least 1 of them from the first type
-		assertEquals(10L, Combinatorics.CR(4L, 3L, 1L));
 	}
 }

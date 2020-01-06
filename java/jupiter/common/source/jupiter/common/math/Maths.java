@@ -970,6 +970,18 @@ public class Maths {
 		return Integers.convert(Math.pow(base, exponent));
 	}
 
+	/**
+	 * Returns the value of the specified base raised to the power of the specified exponent.
+	 * <p>
+	 * @param base     a {@code long} value
+	 * @param exponent a {@code long} value
+	 * <p>
+	 * @return the value of the specified base raised to the power of the specified exponent
+	 */
+	public static long pow(final long base, final long exponent) {
+		return Longs.convert(Math.pow(base, exponent));
+	}
+
 	public static double square(final double value) {
 		return value * value;
 	}
