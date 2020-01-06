@@ -520,7 +520,7 @@ public class Combinatorics {
 	 * @return the number {@code P(n, k)} of distinct ordered {@code k}-element subsets of a
 	 *         {@code n}-element set, i.e. {@code k}-permutations without repetition
 	 */
-	public static double P(final double n, final double k) {
+	public static double PToDouble(final double n, final double k) {
 		if (k == 0. || n == 0.) {
 			return 1.;
 		}
@@ -570,7 +570,7 @@ public class Combinatorics {
 	 * @return the number {@code PR(n, k)} of distinct {@code k}-element tuples of objects from a
 	 *         {@code n}-element set, {@code k}-permutations with repetition
 	 */
-	public static double PR(final double n, final double k) {
+	public static double PRToDouble(final double n, final double k) {
 		return Math.pow(n, k);
 	}
 
@@ -631,7 +631,7 @@ public class Combinatorics {
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
 	 */
-	public static double PRF(final double... ms) {
+	public static double PRFToDouble(final double... ms) {
 		final double n = Maths.sum(ms);
 		if (n == 0.) {
 			return 1.;
@@ -692,7 +692,7 @@ public class Combinatorics {
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
 	 */
-	public static double PRFK(final double k, final double... ms) {
+	public static double PRFKToDouble(final double k, final double... ms) {
 		final double n = Maths.sum(ms);
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
@@ -743,11 +743,11 @@ public class Combinatorics {
 	 * @return the number {@code C(n, k)} of distinct {@code k}-element subsets of a
 	 *         {@code n}-element set, i.e. {@code k}-combinations without repetition
 	 */
-	public static double C(final double n, final double k) {
+	public static double CToDouble(final double n, final double k) {
 		if (k == 0. || n == 0. || k >= n) {
 			return 1.;
 		}
-		return P(n, k) / Maths.factorial(k);
+		return PToDouble(n, k) / Maths.factorial(k);
 	}
 
 	//////////////////////////////////////////////
@@ -790,8 +790,8 @@ public class Combinatorics {
 	 * @return the number {@code CR(n, k)} of distinct {@code k}-element multisets of objects from a
 	 *         {@code n}-element set, i.e. {@code k}-combinations with repetition
 	 */
-	public static double CR(final double n, final double k) {
-		return C(n + k - 1., k);
+	public static double CRToDouble(final double n, final double k) {
+		return CToDouble(n + k - 1., k);
 	}
 
 	/**
@@ -840,7 +840,7 @@ public class Combinatorics {
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
 	 */
-	public static double CRFK(final double k, final double ms[]) {
+	public static double CRFKToDouble(final double k, final double ms[]) {
 		final double n = Maths.sum(ms);
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
