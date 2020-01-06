@@ -23,6 +23,7 @@
  */
 package jupiter.math.discrete.combinatorics;
 
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,6 +43,20 @@ import jupiter.common.util.Shorts;
  * {@link Combinatorics} is a collection of combinatorial functions.
  */
 public class Combinatorics {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The left direction.
+	 */
+	protected final static boolean LEFT = false;
+	/**
+	 * The right direction.
+	 */
+	protected final static boolean RIGHT = true;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -83,6 +98,8 @@ public class Combinatorics {
 		}
 		return factoradicValue;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the index of the specified permutation of the specified sequence.
@@ -129,7 +146,6 @@ public class Combinatorics {
 	 */
 	public static int getKPermutationIndex(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence, final int divisor) {
-		// Get the index of the k-permutation
 		return getPermutationIndex(permutation, sequence) / divisor;
 	}
 
@@ -195,6 +211,10 @@ public class Combinatorics {
 	 * @return all the distinct ordered subsets (i.e. permutations) of a {@code n}-element set
 	 */
 	public static int[][] createAllPermutations(final int n) {
+		// Initialize
+		final int permutationCount = 0;
+		final int[][] permutations = new int[permutationCount][];
+
 		// Generate all the permutations
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
@@ -203,33 +223,81 @@ public class Combinatorics {
 
 	/**
 	 * Returns the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
-	 * {@code n}-element set in lexicographical order.
+	 * {@code n}-element set in lexicographic order.
 	 * <p>
 	 * @param n the number of elements in the set and in the ordered subsets
 	 * <p>
 	 * @return the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
-	 *         {@code n}-element set in lexicographical order
+	 *         {@code n}-element set in lexicographic order
 	 */
 	public static int[][] createPermutations(final int n) {
+		return createPermutations(n, false);
+	}
+
+	/**
+	 * Returns the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
+	 * {@code n}-element set (in lexicographic order if {@code sort}).
+	 * <p>
+	 * @param n    the number of elements in the set and in the ordered subsets
+	 * @param sort the flag specifying whether to sort in lexicographic order
+	 * <p>
+	 * @return the distinct ordered {@code n}-element subsets (i.e. {@code n}-permutations) of a
+	 *         {@code n}-element set (in lexicographic order if {@code sort})
+	 */
+	public static int[][] createPermutations(final int n, final boolean sort) {
 		// Initialize
 		final int permutationCount = P(n, n);
 		final int[][] permutations = new int[permutationCount][n];
 		final int[] permutation = Integers.createSequence(n);
+		final boolean[] directions = new boolean[n];
 
-		// Generate the n-permutations in lexicographical order
+		// Generate the n-permutations (in lexicographic order if sort)
+		if (sort) {
+			Booleans.fill(directions, LEFT);
+		}
 		permutations[0] = permutation.clone();
 		for (int p = 1; p < permutationCount; ++p) {
-			int fromIndex = n - 1;
-			while (permutation[fromIndex - 1] >= permutation[fromIndex]) {
-				--fromIndex;
+			if (sort) {
+				// Generate in lexicographic order
+				int fromIndex = n - 1;
+				while (permutation[fromIndex - 1] >= permutation[fromIndex]) {
+					--fromIndex;
+				}
+				int toIndex = n - 1;
+				final int pivot = permutation[fromIndex - 1];
+				while (toIndex > fromIndex && permutation[toIndex] <= pivot) {
+					--toIndex;
+				}
+				Integers.swap(permutation, fromIndex - 1, toIndex);
+				Integers.reverse(permutation, fromIndex);
+			} else {
+				// Generate with minimal changes (use the Steinhaus-Johnson-Trotter algorithm)
+				// - Find the largest mobile index
+				int largestMobileIndex = -1;
+				int largestIndex = -1;
+				for (int i = 0; i < n; ++i) {
+					if (directions[i] == LEFT && i > 0 && permutation[i] > permutation[i - 1] ||
+							directions[i] == RIGHT && i < n - 1 && permutation[i] > permutation[i +
+							1]) {
+						if (permutation[i] > largestIndex) {
+							largestIndex = permutation[i];
+							largestMobileIndex = i;
+						}
+					}
+				}
+				// - Swap the largest mobile index and the adjacent index (on the left or right)
+				final int offset = directions[largestMobileIndex] == LEFT ? -1 : 1;
+				Integers.swap(permutation, largestMobileIndex, largestMobileIndex + offset);
+				Booleans.swap(directions, largestMobileIndex, largestMobileIndex + offset);
+				// - Reverse the direction of all the integers larger than the largest index
+				for (int i = 0; i < permutation.length; i++) {
+					if (permutation[i] > largestIndex) {
+						directions[i] = !directions[i];
+					}
+				}
 			}
-			int toIndex = n - 1;
-			final int pivot = permutation[fromIndex - 1];
-			while (toIndex > fromIndex && permutation[toIndex] <= pivot) {
-				--toIndex;
-			}
-			Integers.swap(permutation, fromIndex - 1, toIndex);
-			Integers.reverse(permutation, fromIndex);
+
+			// Clone the permutation
 			permutations[p] = permutation.clone();
 		}
 		return permutations;
@@ -289,14 +357,14 @@ public class Combinatorics {
 
 	/**
 	 * Returns the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 * {@code n}-element set (in lexicographical order if {@code sort}).
+	 * {@code n}-element set (in lexicographic order if {@code sort}).
 	 * <p>
 	 * @param n    the number of elements in the set
 	 * @param k    the number of elements in the ordered subsets
-	 * @param sort the flag specifying whether to sort in lexicographical order
+	 * @param sort the flag specifying whether to sort in lexicographic order
 	 * <p>
 	 * @return the distinct ordered {@code k}-element subsets (i.e. {@code k}-permutations) of a
-	 *         {@code n}-element set (in lexicographical order if {@code sort})
+	 *         {@code n}-element set (in lexicographic order if {@code sort})
 	 */
 	public static int[][] createKPermutations(final int n, final int k, final boolean sort) {
 		// Initialize
@@ -304,7 +372,7 @@ public class Combinatorics {
 		final int[][] permutations = new int[permutationCount][k];
 		final int[][] combinations = createKCombinations(n, k);
 
-		// Generate the k-permutations (in lexicographical order if sort)
+		// Generate the k-permutations (in lexicographic order if sort)
 		if (sort) {
 			final ExtendedLinkedList<Integer> sequence = Integers.toLinkedList(
 					Integers.createSequence(n));
@@ -359,13 +427,13 @@ public class Combinatorics {
 
 	/**
 	 * Returns the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
-	 * {@code n}-element set in lexicographical order.
+	 * {@code n}-element set in lexicographic order.
 	 * <p>
 	 * @param n the number of elements in the set
 	 * @param k the number of elements in the subsets
 	 * <p>
 	 * @return the distinct {@code k}-element subsets (i.e. {@code k}-combinations) of a
-	 *         {@code n}-element set in lexicographical order
+	 *         {@code n}-element set in lexicographic order
 	 */
 	public static int[][] createKCombinations(final int n, final int k) {
 		// Initialize
@@ -373,7 +441,7 @@ public class Combinatorics {
 		final int[][] combinations = new int[combinationCount][k];
 		final int[] combination = Integers.createSequence(k);
 
-		// Generate the k-combinations in lexicographical order
+		// Generate the k-combinations in lexicographic order
 		combinations[0] = combination.clone();
 		for (int c = 1; c < combinationCount; ++c) {
 			int fromIndex = k - 1;

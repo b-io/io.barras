@@ -759,12 +759,12 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of all {@link File} contained in the specified directory or
+	 * Returns the {@link List} of all the {@link File} contained in the specified directory or
 	 * subdirectories.
 	 * <p>
 	 * @param dir a {@link File}
 	 * <p>
-	 * @return the {@link List} of all {@link File} contained in the specified directory or
+	 * @return the {@link List} of all the {@link File} contained in the specified directory or
 	 *         subdirectories
 	 */
 	public static List<File> listAll(final File dir) {
@@ -779,13 +779,13 @@ public class Files {
 	}
 
 	/**
-	 * Returns the {@link List} of all {@link File} contained in the specified directory or
+	 * Returns the {@link List} of all the {@link File} contained in the specified directory or
 	 * subdirectories and matching the specified pattern {@link String}.
 	 * <p>
 	 * @param dir     the directory {@link File} of the {@link File} to list
 	 * @param pattern the pattern {@link String} of the {@link File} to list
 	 * <p>
-	 * @return the {@link List} of all {@link File} contained in the specified directory or
+	 * @return the {@link List} of all the {@link File} contained in the specified directory or
 	 *         subdirectories and matching the specified pattern {@link String}
 	 */
 	public static List<File> listAll(final File dir, final String pattern) {
@@ -793,13 +793,13 @@ public class Files {
 	}
 
 	/**
-	 * Returns the {@link List} of all {@link File} contained in the specified directory or
+	 * Returns the {@link List} of all the {@link File} contained in the specified directory or
 	 * subdirectories and matching the specified {@link Pattern}.
 	 * <p>
 	 * @param dir     the directory {@link File} of the {@link File} to list
 	 * @param pattern the name {@link Pattern} of the {@link File} to list
 	 * <p>
-	 * @return the {@link List} of all {@link File} contained in the specified directory or
+	 * @return the {@link List} of all the {@link File} contained in the specified directory or
 	 *         subdirectories and matching the specified {@link Pattern}
 	 */
 	public static List<File> listAll(final File dir, final Pattern pattern) {
@@ -816,14 +816,14 @@ public class Files {
 	}
 
 	/**
-	 * Returns the {@link List} of all {@link File} contained in the specified directory or
+	 * Returns the {@link List} of all the {@link File} contained in the specified directory or
 	 * subdirectories and matching the specified {@link Pattern} until the specified depth.
 	 * <p>
 	 * @param dir     the directory {@link File} of the {@link File} to list
 	 * @param pattern the name {@link Pattern} of the {@link File} to list
 	 * @param depth   the number of subdirectories under the specified directory to search in
 	 * <p>
-	 * @return the {@link List} of all {@link File} contained in the specified directory or
+	 * @return the {@link List} of all the {@link File} contained in the specified directory or
 	 *         subdirectories and matching the specified {@link Pattern} until the specified depth
 	 */
 	public static List<File> listAll(final File dir, final Pattern pattern, final int depth) {

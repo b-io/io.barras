@@ -47,12 +47,12 @@ public class CombinatoricsTest
 		IO.test("• getPermutationIndex");
 
 		// Initialize
-		final int n = 5;
+		final int n = 4;
 		final ExtendedLinkedList<Integer> sequence = Integers.toLinkedList(
 				Integers.createSequence(n));
 
-		IO.test("- List the permutations of a ", n, "-element set:");
-		final int[][] permutations = Combinatorics.createPermutations(n);
+		IO.test("- List the permutations of a ", n, "-element set in lexicographic order:");
+		final int[][] permutations = Combinatorics.createPermutations(n, true);
 		for (final int[] permutation : permutations) {
 			IO.test(Combinatorics.getPermutationIndex(permutation, sequence), ": ",
 					Integers.toString(permutation));
@@ -66,13 +66,14 @@ public class CombinatoricsTest
 		IO.test("• getKPermutationIndex");
 
 		// Initialize
-		final int n = 5;
+		final int n = 4;
 		final int[] ks = new int[] {2, 3};
 		final ExtendedLinkedList<Integer> sequence = Integers.toLinkedList(
 				Integers.createSequence(n));
 
 		for (final int k : ks) {
-			IO.test("- List the ", k, "-permutations of a ", n, "-element set in lexicographical order:");
+			IO.test("- List the ", k, "-permutations of a ", n,
+					"-element set in lexicographic order:");
 			final int[][] permutations = Combinatorics.createKPermutations(n, k, true);
 			for (final int[] permutation : permutations) {
 				IO.test(Combinatorics.getKPermutationIndex(permutation, sequence), ": ",
@@ -90,14 +91,16 @@ public class CombinatoricsTest
 		IO.test("• toFactoradic");
 
 		IO.test("Get the factoradic representation of 463");
+		ExtendedLinkedList<Integer> factoradicValue = Combinatorics.toFactoradic(463);
+		IO.test(factoradicValue);
 		assertEquals(Objects.hashCode(new int[] {3, 4, 1, 0, 1, 0}),
-				Objects.hashCode(Integers.collectionToPrimitiveArray(
-						Combinatorics.toFactoradic(463))));
+				Objects.hashCode(Integers.collectionToPrimitiveArray(factoradicValue)));
 
 		IO.test("Get the factoradic representation of 1234");
+		factoradicValue = Combinatorics.toFactoradic(1234);
+		IO.test(factoradicValue);
 		assertEquals(Objects.hashCode(new int[] {1, 4, 1, 1, 2, 0, 0}),
-				Objects.hashCode(Integers.collectionToPrimitiveArray(
-						Combinatorics.toFactoradic(1234))));
+				Objects.hashCode(Integers.collectionToPrimitiveArray(factoradicValue)));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,10 +112,16 @@ public class CombinatoricsTest
 		IO.test("• createPermutations");
 
 		// Initialize
-		final int n = 5;
+		final int n = 4;
 
-		IO.test("- List the permutations of a ", n, "-element set in lexicographical order:");
-		final int[][] permutations = Combinatorics.createPermutations(n);
+		IO.test("- List the permutations of a ", n, "-element set:");
+		int[][] permutations = Combinatorics.createPermutations(n);
+		for (final int[] permutation : permutations) {
+			IO.test(Integers.toString(permutation));
+		}
+
+		IO.test("- List the permutations of a ", n, "-element set in lexicographic order:");
+		permutations = Combinatorics.createPermutations(n, true);
 		for (final int[] permutation : permutations) {
 			IO.test(Integers.toString(permutation));
 		}
@@ -125,7 +134,7 @@ public class CombinatoricsTest
 		IO.test("• createKPermutations");
 
 		// Initialize
-		final int n = 5;
+		final int n = 4;
 		final int[] ks = new int[] {2, 3};
 
 		for (final int k : ks) {
@@ -146,9 +155,9 @@ public class CombinatoricsTest
 		IO.test("• createAllCombinations");
 
 		// Initialize
-		final int n = 3;
+		final int n = 4;
 
-		IO.test("- List all the combinations of a ", n, "-element set in lexicographical order:");
+		IO.test("- List all the combinations of a ", n, "-element set in lexicographic order:");
 		final int[][] combinations = Combinatorics.createAllCombinations(n);
 		for (final int[] combination : combinations) {
 			IO.test(Integers.toString(combination));
@@ -162,11 +171,12 @@ public class CombinatoricsTest
 		IO.test("• createKCombinations");
 
 		// Initialize
-		final int n = 5;
+		final int n = 4;
 		final int[] ks = new int[] {2, 3};
 
 		for (final int k : ks) {
-			IO.test("- List the ", k, "-combinations of a ", n, "-element set in lexicographical order:");
+			IO.test("- List the ", k, "-combinations of a ", n,
+					"-element set in lexicographic order:");
 			final int[][] combinations = Combinatorics.createKCombinations(n, k);
 			for (final int[] combination : combinations) {
 				IO.test(Integers.toString(combination));
