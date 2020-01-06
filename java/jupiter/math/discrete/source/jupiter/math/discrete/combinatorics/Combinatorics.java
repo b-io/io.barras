@@ -58,36 +58,79 @@ public class Combinatorics {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int getPermutationIndex(final int[] permutation,
+	/**
+	 * Returns the factorial representation of the specified permutation of the specified sequence.
+	 * <p>
+	 * @param permutation an {@code int} array containing the permutation indexes of the sequence
+	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
+	 * <p>
+	 * @return the factorial representation of the specified permutation of the specified sequence
+	 */
+	public static ExtendedLinkedList<Integer> getPermutationFactoradic(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence) {
-		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
-		final ExtendedLinkedList<Integer> s = sequence.clone();
-		for (final int p : permutation) {
-			factoradicValue.add(s.removeElement(p));
-		}
-		return toDecimal(factoradicValue);
-	}
-
-	public static int getKPermutationIndex(final int[] permutation,
-			final ExtendedLinkedList<Integer> sequence) {
+		// Initialize
 		final int n = sequence.size();
 		final int k = permutation.length;
-		return getKPermutationIndex(permutation, sequence, P(n, n) / P(n, k));
-	}
-
-	public static int getKPermutationIndex(final int[] permutation,
-			final ExtendedLinkedList<Integer> sequence, final int divisor) {
-		final int n = sequence.size();
-		final int k = permutation.length;
-		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
 		final ExtendedLinkedList<Integer> s = sequence.clone();
+		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
+
+		// Get the factoradic of the permutation
 		for (final int p : permutation) {
 			factoradicValue.add(s.removeElement(p));
 		}
 		for (int i = 0; i < n - k; ++i) {
 			factoradicValue.add(0);
 		}
-		return toDecimal(factoradicValue) / divisor;
+		return factoradicValue;
+	}
+
+	/**
+	 * Returns the index of the specified permutation of the specified sequence.
+	 * <p>
+	 * @param permutation an {@code int} array containing the permutation indexes of the sequence
+	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
+	 * <p>
+	 * @return the index of the specified permutation of the specified sequence
+	 */
+	public static int getPermutationIndex(final int[] permutation,
+			final ExtendedLinkedList<Integer> sequence) {
+		return toDecimal(getPermutationFactoradic(permutation, sequence));
+	}
+
+	/**
+	 * Returns the index of the specified k-permutation of the specified sequence.
+	 * <p>
+	 * @param permutation an {@code int} array containing the k-permutation indexes of the sequence
+	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
+	 * <p>
+	 * @return the index of the specified k-permutation of the specified sequence
+	 */
+	public static int getKPermutationIndex(final int[] permutation,
+			final ExtendedLinkedList<Integer> sequence) {
+		// Initialize
+		final int n = sequence.size();
+		final int k = permutation.length;
+		final int divisor = P(n, n) / P(n, k);
+
+		// Get the index of the k-permutation
+		return getKPermutationIndex(permutation, sequence, divisor);
+	}
+
+	/**
+	 * Returns the index of the specified k-permutation of the specified sequence with the specified
+	 * divisor.
+	 * <p>
+	 * @param permutation an {@code int} array containing the k-permutation indexes of the sequence
+	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
+	 * @param divisor     an {@code int} value
+	 * <p>
+	 * @return the index of the specified k-permutation of the specified sequence with the specified
+	 *         divisor
+	 */
+	public static int getKPermutationIndex(final int[] permutation,
+			final ExtendedLinkedList<Integer> sequence, final int divisor) {
+		// Get the index of the k-permutation
+		return getPermutationIndex(permutation, sequence) / divisor;
 	}
 
 
@@ -96,16 +139,19 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the decimal representation of the specified factoradic representation.
+	 * Returns the decimal representation of the specified factorial representation.
 	 * <p>
-	 * @param factoradicValue the factoradic {@link List} of {@link Integer} to convert
+	 * @param factoradicValue the factorial {@link List} of {@link Integer} to convert
 	 * <p>
-	 * @return the decimal representation of the specified factoradic representation
+	 * @return the decimal representation of the specified factorial representation
 	 */
 	public static int toDecimal(final List<Integer> factoradicValue) {
-		int decimalValue = 0;
+		// Initialize
 		final int n = factoradicValue.size();
 		final Iterator<Integer> fIterator = factoradicValue.iterator();
+
+		// Convert to the decimal representation
+		int decimalValue = 0;
 		int i = 0;
 		while (fIterator.hasNext()) {
 			decimalValue += fIterator.next() * Maths.factorial(n - 1 - i);
@@ -115,18 +161,21 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the factoradic representation of the specified decimal representation.
+	 * Returns the factorial representation of the specified decimal representation.
 	 * <p>
 	 * @param decimalValue the decimal {@code int} value to convert
 	 * <p>
-	 * @return the factoradic representation of the specified decimal representation
+	 * @return the factorial representation of the specified decimal representation
 	 */
 	public static ExtendedLinkedList<Integer> toFactoradic(final int decimalValue) {
+		// Initialize
 		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
+
+		// Convert to the factorial representation
 		int remainder, quotient = decimalValue, radix = 1;
 		do {
 			remainder = quotient % radix;
-			quotient = quotient / radix;
+			quotient /= radix;
 			factoradicValue.push(remainder);
 			++radix;
 		} while (quotient != 0);
