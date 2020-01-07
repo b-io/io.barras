@@ -93,7 +93,7 @@ public class NumberTable<E extends Number>
 	 * Constructs a {@link NumberTable} of type {@code E} with the specified header and elements.
 	 * <p>
 	 * @param c        the {@link Class} of type {@code E}
-	 * @param header   a {@code E} array
+	 * @param header   an {@code E} array
 	 * @param elements a 2D {@code E} array
 	 */
 	public NumberTable(final Class<E> c, final String[] header, final E[][] elements) {

@@ -51,13 +51,13 @@ public class Lists
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code E} array containing all of the elements in the specified {@link List} in
+	 * Returns an {@code E} array containing all of the elements in the specified {@link List} in
 	 * proper sequence (from first to last element).
 	 * <p>
 	 * @param <E>  the component type of the array
 	 * @param list a {@link List} of type {@code E}
 	 * <p>
-	 * @return a {@code E} array containing all of the elements in the specified {@link List} in
+	 * @return an {@code E} array containing all of the elements in the specified {@link List} in
 	 *         proper sequence (from first to last element)
 	 *
 	 * @see List#toArray

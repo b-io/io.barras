@@ -569,7 +569,7 @@ public class Table<E>
 	 * Sets the elements of the specified row.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@code E} array
+	 * @param values an {@code E} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
@@ -581,7 +581,7 @@ public class Table<E>
 	 * Sets the elements of the specified row from the specified column index.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@code E} array
+	 * @param values an {@code E} array
 	 * @param from   the initial column index (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
@@ -595,7 +595,7 @@ public class Table<E>
 	 * length.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@code E} array
+	 * @param values an {@code E} array
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
@@ -638,7 +638,7 @@ public class Table<E>
 	 * Sets the elements of the specified column.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@code E} array
+	 * @param values an {@code E} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
@@ -650,7 +650,7 @@ public class Table<E>
 	 * Sets the elements of the specified column from the specified row index.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@code E} array
+	 * @param values an {@code E} array
 	 * @param from   the initial row index (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
@@ -664,7 +664,7 @@ public class Table<E>
 	 * length.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@code E} array
+	 * @param values an {@code E} array
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
@@ -708,7 +708,7 @@ public class Table<E>
 	/**
 	 * Sets all the elements.
 	 * <p>
-	 * @param values a {@code E} array
+	 * @param values an {@code E} array
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
@@ -737,9 +737,9 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Converts {@code this} to a {@code E} array.
+	 * Converts {@code this} to an {@code E} array.
 	 * <p>
-	 * @return a {@code E} array
+	 * @return an {@code E} array
 	 */
 	public E[] toArray() {
 		final E[] array = createArray(m * n);
@@ -769,11 +769,11 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@code E} array of the specified length.
+	 * Creates an {@code E} array of the specified length.
 	 * <p>
 	 * @param length the length of the array to create
 	 * <p>
-	 * @return a {@code E} array of the specified length
+	 * @return an {@code E} array of the specified length
 	 */
 	protected E[] createArray(final int length) {
 		return Arrays.<E>create(c, length);
