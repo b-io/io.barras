@@ -258,16 +258,16 @@ public class DynamicChartPanel
 			for (int s = 0; s < seriesCount; ++s) {
 				final int itemCount = dataset.getItemCount(s);
 				if (itemCount > 0) {
-					int i = 0;
-					while (i < itemCount - 1 && dataset.getXValue(s, i) < x) {
-						++i;
+					int index = 0;
+					while (index < itemCount - 1 && dataset.getXValue(s, index) < x) {
+						++index;
 					}
-					final double distance = Maths.delta(dataset.getYValue(s, i), y);
+					final double distance = Maths.delta(dataset.getYValue(s, index), y);
 					if (distance < minDistance) {
 						minDistance = distance;
 						seriesIndex = s;
-						from = i > 0 ? i - 1 : i;
-						to = i;
+						from = index > 0 ? index - 1 : index;
+						to = index;
 					}
 				}
 			}

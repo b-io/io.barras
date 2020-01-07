@@ -217,20 +217,19 @@ public class JogAmpl
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int count(final DoubleBuffer buffer) {
-		int i = 0;
+		int count = 0;
 		while (buffer.remaining() > 0) {
 			buffer.get();
-			++i;
+			++count;
 		}
 		buffer.rewind();
-		return i;
+		return count;
 	}
 
 	public static void fill(final DoubleBuffer buffer, final double[] array) {
 		int i = 0;
 		while (i < array.length && buffer.remaining() > 0) {
-			buffer.put(array[i]);
-			++i;
+			buffer.put(array[i++]);
 		}
 		buffer.rewind();
 	}

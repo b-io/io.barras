@@ -51,20 +51,20 @@ public class Lists
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code T} array containing all of the elements in the specified {@link List} in
+	 * Returns a {@code E} array containing all of the elements in the specified {@link List} in
 	 * proper sequence (from first to last element).
 	 * <p>
-	 * @param <T>  the component type of the array
-	 * @param list a {@link List} of type {@code T}
+	 * @param <E>  the component type of the array
+	 * @param list a {@link List} of type {@code E}
 	 * <p>
-	 * @return a {@code T} array containing all of the elements in the specified {@link List} in
+	 * @return a {@code E} array containing all of the elements in the specified {@link List} in
 	 *         proper sequence (from first to last element)
 	 *
 	 * @see List#toArray
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T[] toArray(final List<T> list) {
-		return (T[]) list.toArray();
+	public static <E> E[] toArray(final List<E> list) {
+		return (E[]) list.toArray();
 	}
 
 
@@ -78,44 +78,96 @@ public class Lists
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T extends Number> ExtendedList<T> getMinElements(final List<T> a,
-			final List<T> b) {
+	public static <E extends Number> ExtendedList<E> getMinElements(final List<E> a,
+			final List<E> b) {
 		// Check the arguments
-		CollectionArguments.<List<T>>requireSameSize(a, b);
+		CollectionArguments.<List<E>>requireSameSize(a, b);
 
 		// For each index, get the minimum number
-		final ExtendedList<T> minElements = new ExtendedList<T>(a.size());
-		final Iterator<T> aIterator = a.iterator();
-		final Iterator<T> bIterator = b.iterator();
+		final ExtendedList<E> minElements = new ExtendedList<E>(a.size());
+		final Iterator<E> aIterator = a.iterator();
+		final Iterator<E> bIterator = b.iterator();
 		while (aIterator.hasNext() && bIterator.hasNext()) {
-			minElements.add(Numbers.<T>getMin(aIterator.next(), bIterator.next()));
+			minElements.add(Numbers.<E>getMin(aIterator.next(), bIterator.next()));
 		}
 		return minElements;
 	}
 
-	public static <T extends Number> ExtendedList<T> getMaxElements(final List<T> a,
-			final List<T> b) {
+	public static <E extends Number> ExtendedList<E> getMaxElements(final List<E> a,
+			final List<E> b) {
 		// Check the arguments
-		CollectionArguments.<List<T>>requireSameSize(a, b);
+		CollectionArguments.<List<E>>requireSameSize(a, b);
 
 		// For each index, get the maximum number
-		final ExtendedList<T> maxElements = new ExtendedList<T>(a.size());
-		final Iterator<T> aIterator = a.iterator();
-		final Iterator<T> bIterator = b.iterator();
+		final ExtendedList<E> maxElements = new ExtendedList<E>(a.size());
+		final Iterator<E> aIterator = a.iterator();
+		final Iterator<E> bIterator = b.iterator();
 		while (aIterator.hasNext() && bIterator.hasNext()) {
-			maxElements.add(Numbers.<T>getMax(aIterator.next(), bIterator.next()));
+			maxElements.add(Numbers.<E>getMax(aIterator.next(), bIterator.next()));
 		}
 		return maxElements;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the first occurrence of the specified {@link Object} from the specified {@link List}
+	 * and returns the index of the removed element, or {@code -1} if it is not present.
+	 * <p>
+	 * @param <L>    the type extending {@link List}
+	 * @param <E>    the type of the {@link List}
+	 * @param list   a {@link List} of type {@code E}
+	 * @param object the {@link Object} to remove
+	 * <p>
+	 * @return the index of the removed element, or {@code -1} if it is not present
+	 */
+	public static <L extends List<E>, E> int removeFirst(final L list, final Object object) {
+		final Iterator<E> iterator = list.iterator();
+		int index = 0;
+		while (iterator.hasNext()) {
+			if (Objects.equals(iterator.next(), object)) {
+				iterator.remove();
+				return index;
+			}
+			++index;
+		}
+		return -1;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@link Object} from the specified {@link List}
+	 * and returns the indexes of the removed elements.
+	 * <p>
+	 * @param <L>    the type extending {@link List}
+	 * @param <E>    the type of the {@link List}
+	 * @param list   a {@link List} of type {@code E}
+	 * @param object the {@link Object} to remove
+	 * <p>
+	 * @return the number of removed elements
+	 */
+	public static <L extends List<E>, E> int[] removeAll(final L list,
+			final Object object) {
+		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
+		final Iterator<E> iterator = list.iterator();
+		int index = 0;
+		while (iterator.hasNext()) {
+			if (Objects.equals(iterator.next(), object)) {
+				iterator.remove();
+				indexes.add(index);
+				++index;
+			}
+		}
+		return Integers.collectionToPrimitiveArray(indexes);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	@SuppressWarnings("unchecked")
-	public static <T> void sort(final List<T> list) {
-		final T[] array = (T[]) list.toArray();
+	public static <E> void sort(final List<E> list) {
+		final E[] array = (E[]) list.toArray();
 		Arrays.sort(array);
-		final ListIterator<T> iterator = list.listIterator();
-		for (final T element : array) {
+		final ListIterator<E> iterator = list.listIterator();
+		for (final E element : array) {
 			iterator.next();
 			iterator.set(element);
 		}
@@ -124,9 +176,9 @@ public class Lists
 	/**
 	 * Sorts the specified {@link List} with the specified {@link Comparator}.
 	 * <p>
-	 * @param <T>        the type of the {@link List} to sort
-	 * @param list       the {@link List} of type {@code T} to sort
-	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
+	 * @param <E>        the type of the {@link List} to sort
+	 * @param list       the {@link List} of type {@code E} to sort
+	 * @param comparator the {@link Comparator} of super type {@code E} to determine the order (a
 	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
 	 *                   of the elements should be used)
 	 * <p>
@@ -136,11 +188,11 @@ public class Lists
 	 *                                  {@link Comparator} contract
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> void sort(final List<T> list, final Comparator<? super T> comparator) {
-		final T[] array = (T[]) list.toArray();
-		Arrays.<T>sort(array, comparator);
-		final ListIterator<T> iterator = list.listIterator();
-		for (final T element : array) {
+	public static <E> void sort(final List<E> list, final Comparator<? super E> comparator) {
+		final E[] array = (E[]) list.toArray();
+		Arrays.<E>sort(array, comparator);
+		final ListIterator<E> iterator = list.listIterator();
+		for (final E element : array) {
 			iterator.next();
 			iterator.set(element);
 		}

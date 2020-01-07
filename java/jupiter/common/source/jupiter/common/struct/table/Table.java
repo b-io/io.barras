@@ -48,12 +48,12 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link Table} is a wrapper around a 2D {@code T} array.
+ * {@link Table} is a wrapper around a 2D {@code E} array.
  * <p>
- * @param <T> the component type of the 2D {@code T} array
+ * @param <E> the component type of the 2D {@code E} array
  */
-public class Table<T>
-		implements ICloneable<Table<T>>, Iterable<T[]>, Serializable {
+public class Table<E>
+		implements ICloneable<Table<E>>, Iterable<E[]>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -77,7 +77,7 @@ public class Table<T>
 	/**
 	 * The class of the elements.
 	 */
-	protected Class<T> c;
+	protected Class<E> c;
 	/**
 	 * The number of rows.
 	 */
@@ -93,7 +93,7 @@ public class Table<T>
 	/**
 	 * The elements.
 	 */
-	protected T[][] elements;
+	protected E[][] elements;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,13 +101,13 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} with the specified numbers of rows and columns.
+	 * Constructs a {@link Table} of type {@code E} with the specified numbers of rows and columns.
 	 * <p>
-	 * @param c           the {@link Class} of type {@code T}
+	 * @param c           the {@link Class} of type {@code E}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public Table(final Class<T> c, final int rowCount, final int columnCount) {
+	public Table(final Class<E> c, final int rowCount, final int columnCount) {
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
@@ -121,15 +121,15 @@ public class Table<T>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} with the specified header and numbers of rows
+	 * Constructs a {@link Table} of type {@code E} with the specified header and numbers of rows
 	 * and columns.
 	 * <p>
-	 * @param c           the {@link Class} of type {@code T}
+	 * @param c           the {@link Class} of type {@code E}
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public Table(final Class<T> c, final String[] header, final int rowCount,
+	public Table(final Class<E> c, final String[] header, final int rowCount,
 			final int columnCount) {
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
@@ -144,12 +144,12 @@ public class Table<T>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} with the specified elements.
+	 * Constructs a {@link Table} of type {@code E} with the specified elements.
 	 * <p>
-	 * @param c        the {@link Class} of type {@code T}
-	 * @param elements a 2D {@code T} array
+	 * @param c        the {@link Class} of type {@code E}
+	 * @param elements a 2D {@code E} array
 	 */
-	public Table(final Class<T> c, final T[][] elements) {
+	public Table(final Class<E> c, final E[][] elements) {
 		// Set the attributes
 		this.c = c;
 		m = elements.length;
@@ -163,13 +163,13 @@ public class Table<T>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} with the specified header and elements.
+	 * Constructs a {@link Table} of type {@code E} with the specified header and elements.
 	 * <p>
-	 * @param c        the {@link Class} of type {@code T}
+	 * @param c        the {@link Class} of type {@code E}
 	 * @param header   an array of {@link String}
-	 * @param elements a 2D {@code T} array
+	 * @param elements a 2D {@code E} array
 	 */
-	public Table(final Class<T> c, final String[] header, final T[][] elements) {
+	public Table(final Class<E> c, final String[] header, final E[][] elements) {
 		// Check the arguments
 		if (elements.length > 0) {
 			ArrayArguments.requireSameLength(header, elements[0]);
@@ -184,15 +184,15 @@ public class Table<T>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code T} loaded from the specified file.
+	 * Constructs a {@link Table} of type {@code E} loaded from the specified file.
 	 * <p>
-	 * @param parser    an {@link IParser} of type {@code T}
+	 * @param parser    an {@link IParser} of type {@code E}
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public Table(final IParser<T> parser, final String path, final boolean hasHeader)
+	public Table(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		// Set the attributes
 		this.c = parser.getOutputClass();
@@ -210,7 +210,7 @@ public class Table<T>
 	 * <p>
 	 * @return the {@link Class} of the elements
 	 */
-	public Class<T> getElementClass() {
+	public Class<E> getElementClass() {
 		return c;
 	}
 
@@ -246,7 +246,7 @@ public class Table<T>
 	 * <p>
 	 * @return the elements
 	 */
-	public T[][] getElements() {
+	public E[][] getElements() {
 		return elements;
 	}
 
@@ -311,7 +311,7 @@ public class Table<T>
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
 	 */
-	public T get(final int i, final String name) {
+	public E get(final int i, final String name) {
 		return get(i, getColumnIndex(name));
 	}
 
@@ -325,7 +325,7 @@ public class Table<T>
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
-	public T get(final int i, final int j) {
+	public E get(final int i, final int j) {
 		// Check the arguments
 		// • i
 		IntegerArguments.requireNonNegative(i);
@@ -349,7 +349,7 @@ public class Table<T>
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
-	public T[] getRow(final int i) {
+	public E[] getRow(final int i) {
 		return getRow(i, 0, n);
 	}
 
@@ -363,7 +363,7 @@ public class Table<T>
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
-	public T[] getRow(final int i, final int from) {
+	public E[] getRow(final int i, final int from) {
 		return getRow(i, from, n - from);
 	}
 
@@ -380,7 +380,7 @@ public class Table<T>
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
-	public T[] getRow(final int i, final int from, final int length) {
+	public E[] getRow(final int i, final int from, final int length) {
 		// Check the arguments
 		// • i
 		IntegerArguments.requireNonNegative(i);
@@ -393,7 +393,7 @@ public class Table<T>
 		IntegerArguments.requireLessOrEqualTo(length, n - from);
 
 		// Get the corresponding row
-		final T[] row = createArray(length);
+		final E[] row = createArray(length);
 		System.arraycopy(elements[i], from, row, 0, length);
 		return row;
 	}
@@ -407,7 +407,7 @@ public class Table<T>
 	 * <p>
 	 * @return the elements of the specified column
 	 */
-	public T[] getColumn(final String name) {
+	public E[] getColumn(final String name) {
 		return getColumn(name, 0, m);
 	}
 
@@ -420,7 +420,7 @@ public class Table<T>
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
-	public T[] getColumn(final int j) {
+	public E[] getColumn(final int j) {
 		return getColumn(j, 0, m);
 	}
 
@@ -436,7 +436,7 @@ public class Table<T>
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
 	 */
-	public T[] getColumn(final String name, final int from) {
+	public E[] getColumn(final String name, final int from) {
 		return getColumn(name, from, m - from);
 	}
 
@@ -450,7 +450,7 @@ public class Table<T>
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
-	public T[] getColumn(final int j, final int from) {
+	public E[] getColumn(final int j, final int from) {
 		return getColumn(j, from, m - from);
 	}
 
@@ -469,7 +469,7 @@ public class Table<T>
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
 	 */
-	public T[] getColumn(final String name, final int from, final int length) {
+	public E[] getColumn(final String name, final int from, final int length) {
 		return getColumn(getColumnIndex(name), from, length);
 	}
 
@@ -486,7 +486,7 @@ public class Table<T>
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
-	public T[] getColumn(final int j, final int from, final int length) {
+	public E[] getColumn(final int j, final int from, final int length) {
 		// Check the arguments
 		// • j
 		IntegerArguments.requireNonNegative(j);
@@ -499,7 +499,7 @@ public class Table<T>
 		IntegerArguments.requireLessOrEqualTo(length, m - from);
 
 		// Get the corresponding column
-		final T[] column = createArray(length);
+		final E[] column = createArray(length);
 		for (int i = 0; i < column.length; ++i) {
 			column[i] = elements[from + i][j];
 		}
@@ -509,12 +509,12 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns all the elements in a 2D {@code T} array.
+	 * Returns all the elements in a 2D {@code E} array.
 	 * <p>
-	 * @return all the elements in a 2D {@code T} array
+	 * @return all the elements in a 2D {@code E} array
 	 */
-	public T[][] getAll() {
-		final T[][] values = createArray2D(m, n);
+	public E[][] getAll() {
+		final E[][] values = createArray2D(m, n);
 		for (int i = 0; i < m; ++i) {
 			System.arraycopy(elements[i], 0, values[i], 0, n);
 		}
@@ -546,11 +546,11 @@ public class Table<T>
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
-	 * @param value a value {@code T}
+	 * @param value a value {@code E}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
-	public void set(final int i, final int j, final T value) {
+	public void set(final int i, final int j, final E value) {
 		// Check the arguments
 		// • i
 		IntegerArguments.requireNonNegative(i);
@@ -569,11 +569,11 @@ public class Table<T>
 	 * Sets the elements of the specified row.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@code T} array
+	 * @param values a {@code E} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
-	public void setRow(final int i, final T[] values) {
+	public void setRow(final int i, final E[] values) {
 		setRow(i, values, 0, values.length);
 	}
 
@@ -581,12 +581,12 @@ public class Table<T>
 	 * Sets the elements of the specified row from the specified column index.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@code T} array
+	 * @param values a {@code E} array
 	 * @param from   the initial column index (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
-	public void setRow(final int i, final T[] values, final int from) {
+	public void setRow(final int i, final E[] values, final int from) {
 		setRow(i, values, from, values.length);
 	}
 
@@ -595,13 +595,13 @@ public class Table<T>
 	 * length.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@code T} array
+	 * @param values a {@code E} array
 	 * @param from   the initial column index (inclusive)
 	 * @param length the number of row elements to set
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
 	 */
-	public void setRow(final int i, final T[] values, final int from, final int length) {
+	public void setRow(final int i, final E[] values, final int from, final int length) {
 		// Check the arguments
 		// • i
 		IntegerArguments.requireNonNegative(i);
@@ -624,11 +624,11 @@ public class Table<T>
 	 * Sets the elements of the specified row.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@link Collection} of type {@code T}
+	 * @param values a {@link Collection} of type {@code E}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
-	public void setRow(final int i, final Collection<T> values) {
+	public void setRow(final int i, final Collection<E> values) {
 		setRow(i, values.toArray(createArray(n)));
 	}
 
@@ -638,11 +638,11 @@ public class Table<T>
 	 * Sets the elements of the specified column.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@code T} array
+	 * @param values a {@code E} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
-	public void setColumn(final int j, final T[] values) {
+	public void setColumn(final int j, final E[] values) {
 		setColumn(j, values, 0, values.length);
 	}
 
@@ -650,12 +650,12 @@ public class Table<T>
 	 * Sets the elements of the specified column from the specified row index.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@code T} array
+	 * @param values a {@code E} array
 	 * @param from   the initial row index (inclusive)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
-	public void setColumn(final int j, final T[] values, final int from) {
+	public void setColumn(final int j, final E[] values, final int from) {
 		setColumn(j, values, from, values.length);
 	}
 
@@ -664,13 +664,13 @@ public class Table<T>
 	 * length.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@code T} array
+	 * @param values a {@code E} array
 	 * @param from   the initial row index (inclusive)
 	 * @param length the number of column elements to set
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
 	 */
-	public void setColumn(final int j, final T[] values, final int from, final int length) {
+	public void setColumn(final int j, final E[] values, final int from, final int length) {
 		// Check the arguments
 		// • j
 		IntegerArguments.requireNonNegative(j);
@@ -695,11 +695,11 @@ public class Table<T>
 	 * Sets the elements of the specified column.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@link Collection} of type {@code T}
+	 * @param values a {@link Collection} of type {@code E}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
-	public void setColumn(final int j, final Collection<T> values) {
+	public void setColumn(final int j, final Collection<E> values) {
 		setColumn(j, values.toArray(createArray(m)));
 	}
 
@@ -708,11 +708,11 @@ public class Table<T>
 	/**
 	 * Sets all the elements.
 	 * <p>
-	 * @param values a {@code T} array
+	 * @param values a {@code E} array
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
-	public void setAll(final T[] values) {
+	public void setAll(final E[] values) {
 		for (int i = 0; i < m; ++i) {
 			System.arraycopy(values, i * n, elements[i], 0, n);
 		}
@@ -721,11 +721,11 @@ public class Table<T>
 	/**
 	 * Sets all the elements.
 	 * <p>
-	 * @param values a 2D {@code T} array
+	 * @param values a 2D {@code E} array
 	 * <p>
 	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
 	 */
-	public void setAll(final T[][] values) {
+	public void setAll(final E[][] values) {
 		for (int i = 0; i < m; ++i) {
 			setRow(i, values[i]);
 		}
@@ -737,12 +737,12 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Converts {@code this} to a {@code T} array.
+	 * Converts {@code this} to a {@code E} array.
 	 * <p>
-	 * @return a {@code T} array
+	 * @return a {@code E} array
 	 */
-	public T[] toArray() {
-		final T[] array = createArray(m * n);
+	public E[] toArray() {
+		final E[] array = createArray(m * n);
 		for (int i = 0; i < m; ++i) {
 			System.arraycopy(elements[i], 0, array, i * n, n);
 		}
@@ -769,26 +769,26 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@code T} array of the specified length.
+	 * Creates a {@code E} array of the specified length.
 	 * <p>
 	 * @param length the length of the array to create
 	 * <p>
-	 * @return a {@code T} array of the specified length
+	 * @return a {@code E} array of the specified length
 	 */
-	protected T[] createArray(final int length) {
-		return Arrays.<T>create(c, length);
+	protected E[] createArray(final int length) {
+		return Arrays.<E>create(c, length);
 	}
 
 	/**
-	 * Creates a 2D {@code T} array of the specified row and column lengths.
+	 * Creates a 2D {@code E} array of the specified row and column lengths.
 	 * <p>
 	 * @param rowCount    the number of rows of the array to create
 	 * @param columnCount the number of columns of the array to create
 	 * <p>
-	 * @return a 2D {@code T} array of the specified row and column lengths
+	 * @return a 2D {@code E} array of the specified row and column lengths
 	 */
-	protected T[][] createArray2D(final int rowCount, final int columnCount) {
-		return Arrays.<T>create(c, rowCount, columnCount);
+	protected E[][] createArray2D(final int rowCount, final int columnCount) {
+		return Arrays.<E>create(c, rowCount, columnCount);
 	}
 
 
@@ -797,30 +797,30 @@ public class Table<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified value {@code T}.
+	 * Fills {@code this} with the specified value {@code E}.
 	 * <p>
-	 * @param value the value {@code T} to fill with
+	 * @param value the value {@code E} to fill with
 	 */
-	public void fill(final T value) {
-		Arrays.<T>fill(elements, value);
+	public void fill(final E value) {
+		Arrays.<E>fill(elements, value);
 	}
 
 	/**
-	 * Merges with the specified {@link Table} of type {@code T}.
+	 * Merges with the specified {@link Table} of type {@code E}.
 	 * <p>
-	 * @param table the {@link Table} of type {@code T} to merge with
+	 * @param table the {@link Table} of type {@code E} to merge with
 	 */
-	public void merge(final Table<T> table) {
+	public void merge(final Table<E> table) {
 		merge(table, true);
 	}
 
 	/**
-	 * Merges with the specified {@link Table} of type {@code T}.
+	 * Merges with the specified {@link Table} of type {@code E}.
 	 * <p>
-	 * @param table     the {@link Table} of type {@code T} to merge with
+	 * @param table     the {@link Table} of type {@code E} to merge with
 	 * @param mergeRows the flag specifying whether to merge the rows or the columns
 	 */
-	public void merge(final Table<T> table, final boolean mergeRows) {
+	public void merge(final Table<E> table, final boolean mergeRows) {
 		if (mergeRows) {
 			// Initialize
 			final int rowOffset = m;
@@ -870,7 +870,7 @@ public class Table<T>
 	 */
 	public void resizeRows() {
 		int i = m - 1;
-		while (i > 0 && Arrays.<T>isEmpty(elements[i])) {
+		while (i > 0 && Arrays.<E>isEmpty(elements[i])) {
 			--i;
 		}
 		resize(i + 1, n);
@@ -917,7 +917,7 @@ public class Table<T>
 			}
 
 			// Resize the table
-			final T[][] resizedTable = createArray2D(rowCount, columnCount);
+			final E[][] resizedTable = createArray2D(rowCount, columnCount);
 			for (int i = 0; i < minRowCount; ++i) {
 				System.arraycopy(elements[i], 0, resizedTable[i], 0, minColumnCount);
 			}
@@ -975,12 +975,12 @@ public class Table<T>
 			}
 
 			// Shift the table
-			final T[][] shiftedTable = createArray2D(rowCount, columnCount);
+			final E[][] shiftedTable = createArray2D(rowCount, columnCount);
 			for (int i = 0; i < rowCount; ++i) {
 				if (i < rowOffset) {
-					Arrays.<T>fill(elements[i], null);
+					Arrays.<E>fill(elements[i], null);
 				} else {
-					final T[] source;
+					final E[] source;
 					if (rowOffset < 0) {
 						source = elements[i - rowOffset];
 					} else {
@@ -1004,7 +1004,7 @@ public class Table<T>
 	 */
 	public void transpose() {
 		createHeader(m);
-		elements = Arrays.<T>transpose(c, elements);
+		elements = Arrays.<E>transpose(c, elements);
 		n = m;
 		m = elements.length;
 	}
@@ -1017,13 +1017,13 @@ public class Table<T>
 	/**
 	 * Loads {@code this} from the specified file.
 	 * <p>
-	 * @param parser    the {@link IParser} of type {@code T} of the file to load
+	 * @param parser    the {@link IParser} of type {@code E} of the file to load
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public void load(final IParser<T> parser, final String path, final boolean hasHeader)
+	public void load(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
 		load(parser, fileHandler.getReader(), fileHandler.countLines(true) - (hasHeader ? 1 : 0),
@@ -1033,14 +1033,14 @@ public class Table<T>
 	/**
 	 * Loads {@code this} from the specified {@link BufferedReader}.
 	 * <p>
-	 * @param parser    the {@link IParser} of type {@code T} of the lines to load
+	 * @param parser    the {@link IParser} of type {@code E} of the lines to load
 	 * @param reader    the {@link BufferedReader} of the lines to load
 	 * @param rowCount  the number of lines to load
 	 * @param hasHeader the flag specifying whether the first line is a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */
-	public void load(final IParser<T> parser, final BufferedReader reader, final int rowCount,
+	public void load(final IParser<E> parser, final BufferedReader reader, final int rowCount,
 			final boolean hasHeader)
 			throws ClassCastException, IOException {
 		m = rowCount;
@@ -1072,8 +1072,7 @@ public class Table<T>
 			if (hasHeader) {
 				header = values;
 			} else {
-				setRow(i, parser.parseToArray(values));
-				++i;
+				setRow(i++, parser.parseToArray(values));
 			}
 			while ((line = reader.readLine()) != null) {
 				values = delimiter == null ? new String[] {line} : line.split(delimiter);
@@ -1089,8 +1088,7 @@ public class Table<T>
 						IO.warn("There are too many elements at line ", i, SPACE,
 								Arguments.expectedButFound(values.length, n));
 					}
-					setRow(i, parser.parseToArray(values));
-					++i;
+					setRow(i++, parser.parseToArray(values));
 				}
 			}
 			// Resize if there are any empty rows or columns
@@ -1144,7 +1142,7 @@ public class Table<T>
 	 * <p>
 	 * @return an {@link Iterator} over the rows of {@code this}
 	 */
-	public Iterator<T[]> iterator() {
+	public Iterator<E[]> iterator() {
 		return new TableIterator();
 	}
 
@@ -1152,7 +1150,7 @@ public class Table<T>
 	 * An {@link Iterator} over the rows of {@code this}.
 	 */
 	protected class TableIterator
-			implements Iterator<T[]> {
+			implements Iterator<E[]> {
 
 		/**
 		 * The index of the next row.
@@ -1174,7 +1172,7 @@ public class Table<T>
 			return cursor != m;
 		}
 
-		public T[] next() {
+		public E[] next() {
 			final int i = cursor;
 			if (i >= m) {
 				throw new NoSuchElementException();
@@ -1191,7 +1189,7 @@ public class Table<T>
 				}
 
 				// Remove the element pointed by the cursor
-				final T[][] resizedTable = createArray2D(m - 1, n);
+				final E[][] resizedTable = createArray2D(m - 1, n);
 				final int rowIndex = cursor - 1;
 				for (int i = 0; i < m; ++i) {
 					if (i < rowIndex) {
@@ -1225,9 +1223,9 @@ public class Table<T>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public Table<T> clone() {
+	public Table<E> clone() {
 		try {
-			final Table<T> clone = (Table<T>) super.clone();
+			final Table<E> clone = (Table<E>) super.clone();
 			clone.c = Objects.clone(c);
 			clone.header = Objects.clone(header);
 			clone.elements = Objects.clone(elements);

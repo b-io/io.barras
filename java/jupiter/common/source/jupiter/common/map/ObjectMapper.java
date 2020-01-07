@@ -72,8 +72,7 @@ public abstract class ObjectMapper<O>
 		final O[] output = Arrays.<O>create(c, input.size());
 		int i = 0;
 		for (final I element : input) {
-			output[i] = call(element);
-			++i;
+			output[i++] = call(element);
 		}
 		return output;
 	}

@@ -226,7 +226,7 @@ public class Integers {
 	 * Returns an {@code int} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
-	 * @param object a {@code T} object
+	 * @param object the {@code T} object to convert
 	 * <p>
 	 * @return an {@code int} value from the specified {@code T} object
 	 */
@@ -359,14 +359,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified {@link Collection} of type {@code T}.
+	 * Returns an {@code int} array from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return an {@code int} array from the specified {@link Collection} of type {@code T}
+	 * @return an {@code int} array from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> int[] collectionToPrimitiveArray(final Collection<T> collection) {
+	public static <E> int[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -451,14 +451,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an array of {@link Integer} from the specified {@link Collection} of type {@code T}.
+	 * Returns an array of {@link Integer} from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return an array of {@link Integer} from the specified {@link Collection} of type {@code T}
+	 * @return an array of {@link Integer} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Integer[] collectionToArray(final Collection<T> collection) {
+	public static <E> Integer[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -562,30 +562,30 @@ public class Integers {
 
 	/**
 	 * Returns a {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
-	 * type {@code T}.
+	 * type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
-	 *         type {@code T}
+	 *         type {@code E}
 	 */
-	public static <T> ExtendedList<Integer> collectionToList(final Collection<T> collection) {
+	public static <E> ExtendedList<Integer> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified
-	 * {@link Collection} of type {@code T}.
+	 * {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified
-	 *         {@link Collection} of type {@code T}
+	 *         {@link Collection} of type {@code E}
 	 */
-	public static <T> ExtendedLinkedList<Integer> collectionToLinkedList(
-			final Collection<T> collection) {
+	public static <E> ExtendedLinkedList<Integer> collectionToLinkedList(
+			final Collection<E> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -639,15 +639,15 @@ public class Integers {
 
 	/**
 	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> Set<Integer> collectionToSet(final Collection<T> collection) {
+	public static <E> Set<Integer> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

@@ -135,13 +135,13 @@ public class SortedList<E extends Comparable<E>>
 
 	@Override
 	public synchronized boolean add(final E element) {
-		int i = 0;
+		int index = 0;
 		for (final E e : this) {
 			if (e.compareTo(element) > 0) {
-				add(i, element);
+				add(index, element);
 				return true;
 			}
-			++i;
+			++index;
 		}
 		super.add(element);
 		return true;

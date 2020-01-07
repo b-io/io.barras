@@ -119,8 +119,7 @@ public class TimeSeriesList
 		final Iterator<TimeSeries> timeSeries = list.iterator();
 		int i = 0;
 		while (timeSeries.hasNext()) {
-			timeSeries.next().addOrUpdate(time, Arguments.requireNonNull(values[i]));
-			++i;
+			timeSeries.next().addOrUpdate(time, Arguments.requireNonNull(values[i++]));
 		}
 	}
 

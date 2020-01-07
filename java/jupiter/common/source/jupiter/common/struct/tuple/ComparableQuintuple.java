@@ -26,9 +26,9 @@ package jupiter.common.struct.tuple;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>, T5 extends Comparable<T5>>
-		extends Quintuple<T1, T2, T3, T4, T5>
-		implements Comparable<ComparableQuintuple<T1, T2, T3, T4, T5>> {
+public class ComparableQuintuple<E1 extends Comparable<E1>, E2 extends Comparable<E2>, E3 extends Comparable<E3>, E4 extends Comparable<E4>, E5 extends Comparable<E5>>
+		extends Quintuple<E1, E2, E3, E4, E5>
+		implements Comparable<ComparableQuintuple<E1, E2, E3, E4, E5>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -52,17 +52,17 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	}
 
 	/**
-	 * Constructs a {@link ComparableQuintuple} with the specified {@code T1}, {@code T2},
-	 * {@code T3}, {@code T4} and {@code T5} components.
+	 * Constructs a {@link ComparableQuintuple} with the specified {@code E1}, {@code E2},
+	 * {@code E3}, {@code E4} and {@code E5} components.
 	 * <p>
-	 * @param first  the {@code T1} component
-	 * @param second the {@code T2} component
-	 * @param third  the {@code T3} component
-	 * @param fourth the {@code T4} component
-	 * @param fifth  the {@code T5} component
+	 * @param first  the {@code E1} component
+	 * @param second the {@code E2} component
+	 * @param third  the {@code E3} component
+	 * @param fourth the {@code E4} component
+	 * @param fifth  the {@code E5} component
 	 */
-	public ComparableQuintuple(final T1 first, final T2 second, final T3 third, final T4 fourth,
-			final T5 fifth) {
+	public ComparableQuintuple(final E1 first, final E2 second, final E3 third, final E4 fourth,
+			final E5 fifth) {
 		super(first, second, third, fourth, fifth);
 	}
 
@@ -75,15 +75,15 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3},
-	 *              {@code T4} and {@code T5} to compare against for order
+	 * @param other the other {@link ComparablePair} of type {@code E1}, {@code E2}, {@code E3},
+	 *              {@code E4} and {@code E5} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other}
 	 * <p>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparableQuintuple<T1, T2, T3, T4, T5> other) {
+	public int compareTo(final ComparableQuintuple<E1, E2, E3, E4, E5> other) {
 		int comparison = first.compareTo(other.first);
 		if (comparison != 0) {
 			return comparison;
@@ -116,9 +116,9 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public ComparableQuintuple<T1, T2, T3, T4, T5> clone() {
+	public ComparableQuintuple<E1, E2, E3, E4, E5> clone() {
 		try {
-			final ComparableQuintuple<T1, T2, T3, T4, T5> clone = (ComparableQuintuple<T1, T2, T3, T4, T5>) super.clone();
+			final ComparableQuintuple<E1, E2, E3, E4, E5> clone = (ComparableQuintuple<E1, E2, E3, E4, E5>) super.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			clone.third = Objects.clone(third);

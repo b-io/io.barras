@@ -2318,11 +2318,10 @@ public class Matrix
 			int i = 0;
 			String[] values = line.split(delimiter);
 			if (transpose) {
-				matrix.setColumn(i, Doubles.toPrimitiveArray(values));
+				matrix.setColumn(i++, Doubles.toPrimitiveArray(values));
 			} else {
-				matrix.setRow(i, Doubles.toPrimitiveArray(values));
+				matrix.setRow(i++, Doubles.toPrimitiveArray(values));
 			}
-			++i;
 			while ((line = reader.readLine()) != null) {
 				values = line.split(delimiter);
 				if (values == null || values.length == 0 || values[0] == null ||
@@ -2338,11 +2337,10 @@ public class Matrix
 								Arguments.expectedButFound(values.length, n));
 					}
 					if (transpose) {
-						matrix.setColumn(i, Doubles.toPrimitiveArray(values));
+						matrix.setColumn(i++, Doubles.toPrimitiveArray(values));
 					} else {
-						matrix.setRow(i, Doubles.toPrimitiveArray(values));
+						matrix.setRow(i++, Doubles.toPrimitiveArray(values));
 					}
-					++i;
 				}
 			}
 			return matrix;

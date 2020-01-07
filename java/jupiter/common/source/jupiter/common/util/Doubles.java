@@ -90,7 +90,7 @@ public class Doubles {
 	 * Returns a {@code double} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
-	 * @param object a {@code T} object
+	 * @param object the {@code T} object to convert
 	 * <p>
 	 * @return a {@code double} value from the specified {@code T} object
 	 */
@@ -223,14 +223,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified {@link Collection} of type {@code T}.
+	 * Returns a {@code double} array from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return a {@code double} array from the specified {@link Collection} of type {@code T}
+	 * @return a {@code double} array from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> double[] collectionToPrimitiveArray(final Collection<T> collection) {
+	public static <E> double[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -315,14 +315,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns an array of {@link Double} from the specified {@link Collection} of type {@code T}.
+	 * Returns an array of {@link Double} from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return an array of {@link Double} from the specified {@link Collection} of type {@code T}
+	 * @return an array of {@link Double} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Double[] collectionToArray(final Collection<T> collection) {
+	public static <E> Double[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -428,30 +428,30 @@ public class Doubles {
 
 	/**
 	 * Returns a {@link ExtendedList} of {@link Double} from the specified {@link Collection} of
-	 * type {@code T}.
+	 * type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link ExtendedList} of {@link Double} from the specified {@link Collection} of
-	 *         type {@code T}
+	 *         type {@code E}
 	 */
-	public static <T> ExtendedList<Double> collectionToList(final Collection<T> collection) {
+	public static <E> ExtendedList<Double> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Double} from the specified {@link Collection}
-	 * of type {@code T}.
+	 * of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@link Collection}
-	 *         of type {@code T}
+	 *         of type {@code E}
 	 */
-	public static <T> ExtendedLinkedList<Double> collectionToLinkedList(
-			final Collection<T> collection) {
+	public static <E> ExtendedLinkedList<Double> collectionToLinkedList(
+			final Collection<E> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -505,15 +505,15 @@ public class Doubles {
 
 	/**
 	 * Returns a {@link Set} of {@link Double} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link Set} of {@link Double} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> Set<Double> collectionToSet(final Collection<T> collection) {
+	public static <E> Set<Double> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

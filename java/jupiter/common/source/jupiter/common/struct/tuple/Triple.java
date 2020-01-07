@@ -31,8 +31,8 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class Triple<T1, T2, T3>
-		implements ICloneable<Triple<T1, T2, T3>>, ITuple, Serializable {
+public class Triple<E1, E2, E3>
+		implements ICloneable<Triple<E1, E2, E3>>, ITuple, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -49,17 +49,17 @@ public class Triple<T1, T2, T3>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@code T1} component.
+	 * The {@code E1} component.
 	 */
-	protected T1 first;
+	protected E1 first;
 	/**
-	 * The {@code T2} component.
+	 * The {@code E2} component.
 	 */
-	protected T2 second;
+	protected E2 second;
 	/**
-	 * The {@code T3} component.
+	 * The {@code E3} component.
 	 */
-	protected T3 third;
+	protected E3 third;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,14 +73,14 @@ public class Triple<T1, T2, T3>
 	}
 
 	/**
-	 * Constructs a {@link Triple} with the specified {@code T1}, {@code T2} and {@code T3}
+	 * Constructs a {@link Triple} with the specified {@code E1}, {@code E2} and {@code E3}
 	 * components.
 	 * <p>
-	 * @param first  the {@code T1} component
-	 * @param second the {@code T2} component
-	 * @param third  the {@code T3} component
+	 * @param first  the {@code E1} component
+	 * @param second the {@code E2} component
+	 * @param third  the {@code E3} component
 	 */
-	public Triple(final T1 first, final T2 second, final T3 third) {
+	public Triple(final E1 first, final E2 second, final E3 third) {
 		this.first = first;
 		this.second = second;
 		this.third = third;
@@ -92,29 +92,29 @@ public class Triple<T1, T2, T3>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code T1} component.
+	 * Returns the {@code E1} component.
 	 * <p>
-	 * @return the {@code T1} component
+	 * @return the {@code E1} component
 	 */
-	public T1 getFirst() {
+	public E1 getFirst() {
 		return first;
 	}
 
 	/**
-	 * Returns the {@code T2} component.
+	 * Returns the {@code E2} component.
 	 * <p>
-	 * @return the {@code T2} component
+	 * @return the {@code E2} component
 	 */
-	public T2 getSecond() {
+	public E2 getSecond() {
 		return second;
 	}
 
 	/**
-	 * Returns the {@code T3} component.
+	 * Returns the {@code E3} component.
 	 * <p>
-	 * @return the {@code T3} component
+	 * @return the {@code E3} component
 	 */
-	public T3 getThird() {
+	public E3 getThird() {
 		return third;
 	}
 
@@ -124,29 +124,29 @@ public class Triple<T1, T2, T3>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@code T1} component.
+	 * Sets the {@code E1} component.
 	 * <p>
-	 * @param first a {@code T1} object
+	 * @param first a {@code E1} object
 	 */
-	public void setFirst(final T1 first) {
+	public void setFirst(final E1 first) {
 		this.first = first;
 	}
 
 	/**
-	 * Sets the {@code T2} component.
+	 * Sets the {@code E2} component.
 	 * <p>
-	 * @param second a {@code T2} object
+	 * @param second a {@code E2} object
 	 */
-	public void setSecond(final T2 second) {
+	public void setSecond(final E2 second) {
 		this.second = second;
 	}
 
 	/**
-	 * Sets the {@code T3} component.
+	 * Sets the {@code E3} component.
 	 * <p>
-	 * @param third a {@code T3} object
+	 * @param third a {@code E3} object
 	 */
-	public void setThird(final T3 third) {
+	public void setThird(final E3 third) {
 		this.third = third;
 	}
 
@@ -179,9 +179,9 @@ public class Triple<T1, T2, T3>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public Triple<T1, T2, T3> clone() {
+	public Triple<E1, E2, E3> clone() {
 		try {
-			final Triple<T1, T2, T3> clone = (Triple<T1, T2, T3>) super.clone();
+			final Triple<E1, E2, E3> clone = (Triple<E1, E2, E3>) super.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			clone.third = Objects.clone(third);

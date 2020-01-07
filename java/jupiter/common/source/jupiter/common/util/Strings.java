@@ -264,30 +264,30 @@ public class Strings {
 
 	/**
 	 * Returns a {@link ExtendedList} of {@link String} from the specified {@link Collection} of
-	 * type {@code T}.
+	 * type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link ExtendedList} of {@link String} from the specified {@link Collection} of
-	 *         type {@code T}
+	 *         type {@code E}
 	 */
-	public static <T> ExtendedList<String> collectionToList(final Collection<T> collection) {
+	public static <E> ExtendedList<String> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
-	 * of type {@code T}.
+	 * of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
-	 *         of type {@code T}
+	 *         of type {@code E}
 	 */
-	public static <T> ExtendedLinkedList<String> collectionToLinkedList(
-			final Collection<T> collection) {
+	public static <E> ExtendedLinkedList<String> collectionToLinkedList(
+			final Collection<E> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -319,15 +319,15 @@ public class Strings {
 
 	/**
 	 * Returns a {@link Set} of {@link String} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> Set<String> collectionToSet(final Collection<T> collection) {
+	public static <E> Set<String> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 
@@ -458,11 +458,9 @@ public class Strings {
 
 		// Join the array
 		if (array.length > 0) {
-			builder.append(toString(array[i]));
-			++i;
+			builder.append(toString(array[i++]));
 			while (i < array.length) {
-				builder.append(delimiter).append(toString(array[i]));
-				++i;
+				builder.append(delimiter).append(toString(array[i++]));
 			}
 		}
 		return builder.toString();
@@ -506,11 +504,9 @@ public class Strings {
 
 		// Join the array
 		if (array.length > 0) {
-			builder.append(wrapper.call(array[i]));
-			++i;
+			builder.append(wrapper.call(array[i++]));
 			while (i < array.length) {
-				builder.append(delimiter).append(wrapper.call(array[i]));
-				++i;
+				builder.append(delimiter).append(wrapper.call(array[i++]));
 			}
 		}
 		return builder.toString();
@@ -722,14 +718,31 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link String} constructed by removing all the specified tokens from the
-	 * specified {@link String}.
+	 * Returns the {@link String} constructed by removing the first occurrence of any of the
+	 * specified tokens from the specified {@link String}.
 	 * <p>
 	 * @param text   a {@link String}
 	 * @param tokens the tokens to remove
 	 * <p>
-	 * @return the {@link String} constructed by removing all the specified tokens from the
-	 *         specified {@link String}
+	 * @return the {@link String} constructed by removing the first occurrence of any of the
+	 *         specified tokens from the specified {@link String}
+	 */
+	public static String removeFirst(final String text, final String tokens) {
+		if (text == null) {
+			return null;
+		}
+		return replaceFirst(text, bracketize(tokens), EMPTY);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by removing all the occurrences of the specified
+	 * tokens from the specified {@link String}.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param tokens the tokens to remove
+	 * <p>
+	 * @return the {@link String} constructed by removing all the occurrences of the specified
+	 *         tokens from the specified {@link String}
 	 */
 	public static String removeAll(final String text, final String tokens) {
 		if (text == null) {
@@ -746,10 +759,11 @@ public class Strings {
 	 * @param <C>        the type extending {@link Collection}
 	 * @param collection a {@link Collection} of {@link String}
 	 * <p>
-	 * @return the specified {@link Collection} of {@link String} without the empty {@link String}
+	 * @return the number of removed elements
 	 */
 	public static <C extends Collection<String>> C removeEmpty(final C collection) {
-		return Collections.<C, String>removeAll(collection, EMPTY);
+		Collections.<C, String>removeAll(collection, EMPTY);
+		return collection;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -814,18 +828,38 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link String} constructed by replacing all matching subsequence in the specified
-	 * {@link String} by the specified replacement {@link String}, substituting captured
-	 * subsequences as needed where the characters identified by the specified regular expression.
+	 * Returns the {@link String} constructed by replacing the first matching subsequence in the
+	 * specified regular expression {@link String} by the specified replacement {@link String},
+	 * substituting the captured subsequence as needed.
 	 * <p>
 	 * @param text        a {@link String}
 	 * @param regex       the regular expression {@link String} to identify and replace
-	 * @param replacement the {@link String} to replace by
+	 * @param replacement the replacement {@link String}
 	 * <p>
-	 * @return the {@link String} constructed by replacing all matching subsequence in the specified
-	 *         {@link String} by the specified replacement {@link String}, substituting captured
-	 *         subsequences as needed where the characters identified by the specified regular
-	 *         expression
+	 * @return the {@link String} constructed by replacing the first matching subsequence in the
+	 *         specified regular expression {@link String} by the specified replacement
+	 *         {@link String}, substituting the captured subsequence as needed
+	 */
+	public static String replaceFirst(final String text, final String regex,
+			final String replacement) {
+		if (text == null) {
+			return null;
+		}
+		return text.replaceFirst(regex, replacement);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by replacing all the matching subsequences in the
+	 * specified regular expression {@link String} by the specified replacement {@link String},
+	 * substituting the captured subsequences as needed.
+	 * <p>
+	 * @param text        a {@link String}
+	 * @param regex       the regular expression {@link String} to identify and replace
+	 * @param replacement the replacement {@link String}
+	 * <p>
+	 * @return the {@link String} constructed by replacing all the matching subsequences in the
+	 *         specified regular expression {@link String} by the specified replacement
+	 *         {@link String}, substituting the captured subsequences as needed
 	 */
 	public static String replaceAll(final String text, final String regex,
 			final String replacement) {
@@ -2513,12 +2547,12 @@ public class Strings {
 	public static int getToken(final String text, final int fromIndex, final List<String> tokens) {
 		if (fromIndex >= 0 && fromIndex < text.length()) {
 			final Iterator<String> token = tokens.iterator();
-			int i = 0;
+			int index = 0;
 			while (token.hasNext()) {
 				if (isToken(text, fromIndex, token.next())) {
-					return i;
+					return index;
 				}
-				++i;
+				++index;
 			}
 		}
 		return -1;
@@ -2527,13 +2561,13 @@ public class Strings {
 	public static int getTokenTo(final String text, final int toIndex, final List<String> tokens) {
 		if (toIndex > 0 && toIndex <= text.length()) {
 			final Iterator<String> token = tokens.iterator();
-			int i = 0;
+			int index = 0;
 			while (token.hasNext()) {
 				final String t = token.next();
 				if (isToken(text, toIndex - t.length(), t)) {
-					return i;
+					return index;
 				}
-				++i;
+				++index;
 			}
 		}
 		return -1;

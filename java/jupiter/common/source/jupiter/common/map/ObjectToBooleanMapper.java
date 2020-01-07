@@ -123,8 +123,7 @@ public abstract class ObjectToBooleanMapper
 		final boolean[] output = new boolean[input.size()];
 		int i = 0;
 		for (final I element : input) {
-			output[i] = call(element);
-			++i;
+			output[i++] = call(element);
 		}
 		return output;
 	}

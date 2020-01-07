@@ -94,7 +94,7 @@ public class Combinatorics {
 
 		// Get the factoradic of the permutation
 		for (final int p : permutation) {
-			factoradicValue.add(s.removeElement(p));
+			factoradicValue.add(s.removeFirst(p));
 		}
 		for (int i = 0; i < n - k; ++i) {
 			factoradicValue.add(0);
@@ -174,8 +174,7 @@ public class Combinatorics {
 		int decimalValue = 0;
 		int i = 0;
 		while (fIterator.hasNext()) {
-			decimalValue += fIterator.next() * Maths.factorial(n - 1 - i);
-			++i;
+			decimalValue += fIterator.next() * Maths.factorial(n - 1 - i++);
 		}
 		return decimalValue;
 	}

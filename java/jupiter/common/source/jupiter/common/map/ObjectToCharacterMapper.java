@@ -123,8 +123,7 @@ public abstract class ObjectToCharacterMapper
 		final char[] output = new char[input.size()];
 		int i = 0;
 		for (final I element : input) {
-			output[i] = call(element);
-			++i;
+			output[i++] = call(element);
 		}
 		return output;
 	}

@@ -92,17 +92,17 @@ public class Collections {
 	 * Returns the element at the specified index of the elements returned by the iterator.
 	 * <p>
 	 * @param <C>        the type extending {@link Collection}
-	 * @param <T>        the type of the {@link Collection}
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection}
+	 * @param collection a {@link Collection} of type {@code E}
 	 * @param index      the index of the element to return
 	 * <p>
 	 * @return the element at the specified index of the elements returned by the iterator
 	 * <p>
 	 * @throws NoSuchElementException if the iteration has no more elements
 	 */
-	public static <C extends Collection<T>, T> T get(final C collection, final int index)
+	public static <C extends Collection<E>, E> E get(final C collection, final int index)
 			throws NoSuchElementException {
-		final Iterator<T> iterator = collection.iterator();
+		final Iterator<E> iterator = collection.iterator();
 		for (int i = 0; i < index; ++i) {
 			iterator.next();
 		}
@@ -112,22 +112,49 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the specified {@link Collection} of type {@code T} without all the specified
-	 * {@link Object}.
+	 * Removes the first occurrence of the specified {@link Object} from the specified
+	 * {@link Collection} and returns the number of removed elements.
+	 * <p>
+	 * @param <C>    the type extending {@link Collection}
+	 * @param <E>    the type of the {@link Collection}
+	 * @param list   a {@link Collection} of type {@code E}
+	 * @param object the {@link Object} to remove
+	 * <p>
+	 * @return the number of removed elements
+	 */
+	public static <C extends Collection<E>, E> int removeFirst(final C list, final Object object) {
+		final Iterator<E> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			if (Objects.equals(iterator.next(), object)) {
+				iterator.remove();
+				return 1;
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@link Object} from the specified
+	 * {@link Collection} and returns the number of removed elements.
 	 * <p>
 	 * @param <C>        the type extending {@link Collection}
-	 * @param <T>        the type of the {@link Collection}
-	 * @param collection a {@link Collection} of type {@code T}
-	 * @param object     an {@link Object}
+	 * @param <E>        the type of the {@link Collection}
+	 * @param collection a {@link Collection} of type {@code E}
+	 * @param object     the {@link Object} to remove
 	 * <p>
-	 * @return the specified {@link Collection} of type {@code T} without all the specified
-	 *         {@link Object}
+	 * @return the number of removed elements
 	 */
-	@SuppressWarnings("empty-statement")
-	public static <C extends Collection<T>, T> C removeAll(final C collection,
+	public static <C extends Collection<E>, E> int removeAll(final C collection,
 			final Object object) {
-		while (collection.remove(object));
-		return collection;
+		final Iterator<E> iterator = collection.iterator();
+		int count = 0;
+		while (iterator.hasNext()) {
+			if (Objects.equals(iterator.next(), object)) {
+				iterator.remove();
+				++count;
+			}
+		}
+		return count;
 	}
 
 

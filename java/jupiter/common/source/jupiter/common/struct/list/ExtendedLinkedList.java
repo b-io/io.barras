@@ -24,7 +24,6 @@
 package jupiter.common.struct.list;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import jupiter.common.model.ICloneable;
@@ -63,6 +62,17 @@ public class ExtendedLinkedList<E>
 	 * capacity.
 	 */
 	public ExtendedLinkedList() {
+	}
+
+	/**
+	 * Constructs an {@link ExtendedLinkedList} of type {@code E} with the specified elements.
+	 * <p>
+	 * @param elements an {@code E} array
+	 * <p>
+	 * @throws NullPointerException if {@code collection} is {@code null}
+	 */
+	public ExtendedLinkedList(final E... elements) {
+		addAll(elements);
 	}
 
 	/**
@@ -193,17 +203,28 @@ public class ExtendedLinkedList<E>
 
 	//////////////////////////////////////////////
 
-	public synchronized int removeElement(final Object object) {
-		final Iterator<E> iterator = iterator();
-		int i = 0;
-		while (iterator.hasNext()) {
-			if (Objects.equals(iterator.next(), object)) {
-				iterator.remove();
-				return i;
-			}
-			++i;
-		}
-		return -1;
+	/**
+	 * Removes the first occurrence of the specified {@link Object} from {@code this} and returns
+	 * the index of the removed element, or {@code -1} if it is not present.
+	 * <p>
+	 * @param object the {@link Object} to remove
+	 * <p>
+	 * @return the index of the removed element, or {@code -1} if it is not present
+	 */
+	public synchronized int removeFirst(final Object object) {
+		return Lists.removeFirst(this, object);
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@link Object} from {@code this} and returns the
+	 * number of removed elements.
+	 * <p>
+	 * @param object the {@link Object} to remove
+	 * <p>
+	 * @return the number of removed elements
+	 */
+	public synchronized int removeAll(final Object object) {
+		return Collections.removeAll(this, object);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -31,8 +31,8 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class Quintuple<T1, T2, T3, T4, T5>
-		implements ICloneable<Quintuple<T1, T2, T3, T4, T5>>, ITuple, Serializable {
+public class Quintuple<E1, E2, E3, E4, E5>
+		implements ICloneable<Quintuple<E1, E2, E3, E4, E5>>, ITuple, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -49,25 +49,25 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@code T1} component.
+	 * The {@code E1} component.
 	 */
-	protected T1 first;
+	protected E1 first;
 	/**
-	 * The {@code T2} component.
+	 * The {@code E2} component.
 	 */
-	protected T2 second;
+	protected E2 second;
 	/**
-	 * The {@code T3} component.
+	 * The {@code E3} component.
 	 */
-	protected T3 third;
+	protected E3 third;
 	/**
-	 * The {@code T4} component.
+	 * The {@code E4} component.
 	 */
-	protected T4 fourth;
+	protected E4 fourth;
 	/**
-	 * The {@code T5} component.
+	 * The {@code E5} component.
 	 */
-	protected T5 fifth;
+	protected E5 fifth;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,17 +81,17 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	}
 
 	/**
-	 * Constructs a {@link Quintuple} with the specified {@code T1}, {@code T2}, {@code T3},
-	 * {@code T4} and {@code T5} components.
+	 * Constructs a {@link Quintuple} with the specified {@code E1}, {@code E2}, {@code E3},
+	 * {@code E4} and {@code E5} components.
 	 * <p>
-	 * @param first  the {@code T1} component
-	 * @param second the {@code T2} component
-	 * @param third  the {@code T3} component
-	 * @param fourth the {@code T4} component
-	 * @param fifth  the {@code T5} component
+	 * @param first  the {@code E1} component
+	 * @param second the {@code E2} component
+	 * @param third  the {@code E3} component
+	 * @param fourth the {@code E4} component
+	 * @param fifth  the {@code E5} component
 	 */
-	public Quintuple(final T1 first, final T2 second, final T3 third, final T4 fourth,
-			final T5 fifth) {
+	public Quintuple(final E1 first, final E2 second, final E3 third, final E4 fourth,
+			final E5 fifth) {
 		this.first = first;
 		this.second = second;
 		this.third = third;
@@ -105,47 +105,47 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code T1} component.
+	 * Returns the {@code E1} component.
 	 * <p>
-	 * @return the {@code T1} component
+	 * @return the {@code E1} component
 	 */
-	public T1 getFirst() {
+	public E1 getFirst() {
 		return first;
 	}
 
 	/**
-	 * Returns the {@code T2} component.
+	 * Returns the {@code E2} component.
 	 * <p>
-	 * @return the {@code T2} component
+	 * @return the {@code E2} component
 	 */
-	public T2 getSecond() {
+	public E2 getSecond() {
 		return second;
 	}
 
 	/**
-	 * Returns the {@code T3} component.
+	 * Returns the {@code E3} component.
 	 * <p>
-	 * @return the {@code T3} component
+	 * @return the {@code E3} component
 	 */
-	public T3 getThird() {
+	public E3 getThird() {
 		return third;
 	}
 
 	/**
-	 * Returns the {@code T4} component.
+	 * Returns the {@code E4} component.
 	 * <p>
-	 * @return the {@code T4} component
+	 * @return the {@code E4} component
 	 */
-	public T4 getFourth() {
+	public E4 getFourth() {
 		return fourth;
 	}
 
 	/**
-	 * Returns the {@code T5} component.
+	 * Returns the {@code E5} component.
 	 * <p>
-	 * @return the {@code T5} component
+	 * @return the {@code E5} component
 	 */
-	public T5 getFifth() {
+	public E5 getFifth() {
 		return fifth;
 	}
 
@@ -155,47 +155,47 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@code T1} component.
+	 * Sets the {@code E1} component.
 	 * <p>
-	 * @param first a {@code T1} object
+	 * @param first a {@code E1} object
 	 */
-	public void setFirst(final T1 first) {
+	public void setFirst(final E1 first) {
 		this.first = first;
 	}
 
 	/**
-	 * Sets the {@code T2} component.
+	 * Sets the {@code E2} component.
 	 * <p>
-	 * @param second a {@code T2} object
+	 * @param second a {@code E2} object
 	 */
-	public void setSecond(final T2 second) {
+	public void setSecond(final E2 second) {
 		this.second = second;
 	}
 
 	/**
-	 * Sets the {@code T3} component.
+	 * Sets the {@code E3} component.
 	 * <p>
-	 * @param third a {@code T3} object
+	 * @param third a {@code E3} object
 	 */
-	public void setThird(final T3 third) {
+	public void setThird(final E3 third) {
 		this.third = third;
 	}
 
 	/**
-	 * Sets the {@code T4} component.
+	 * Sets the {@code E4} component.
 	 * <p>
-	 * @param fourth a {@code T4} object
+	 * @param fourth a {@code E4} object
 	 */
-	public void setFourth(final T4 fourth) {
+	public void setFourth(final E4 fourth) {
 		this.fourth = fourth;
 	}
 
 	/**
-	 * Sets the {@code T5} component.
+	 * Sets the {@code E5} component.
 	 * <p>
-	 * @param fifth a {@code T5} object
+	 * @param fifth a {@code E5} object
 	 */
-	public void setFifth(final T5 fifth) {
+	public void setFifth(final E5 fifth) {
 		this.fifth = fifth;
 	}
 
@@ -228,9 +228,9 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public Quintuple<T1, T2, T3, T4, T5> clone() {
+	public Quintuple<E1, E2, E3, E4, E5> clone() {
 		try {
-			final Quintuple<T1, T2, T3, T4, T5> clone = (Quintuple<T1, T2, T3, T4, T5>) super.clone();
+			final Quintuple<E1, E2, E3, E4, E5> clone = (Quintuple<E1, E2, E3, E4, E5>) super.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			clone.third = Objects.clone(third);

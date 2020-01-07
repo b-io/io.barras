@@ -43,14 +43,14 @@ public class CollectionArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T extends Collection<?>> T requireNonEmpty(final T collection) {
+	public static <C extends Collection<?>> C requireNonEmpty(final C collection) {
 		if (CHECK_ARGS && requireNonNull(collection).isEmpty()) {
 			throw new IllegalArgumentException("The specified collection is empty");
 		}
 		return collection;
 	}
 
-	public static <T extends Collection<?>> T requireMinSize(final T collection,
+	public static <C extends Collection<?>> C requireMinSize(final C collection,
 			final int minExpectedSize) {
 		if (CHECK_ARGS && requireNonNull(collection).size() < minExpectedSize) {
 			throw new IllegalArgumentException("The specified collection has a size " +
@@ -59,7 +59,7 @@ public class CollectionArguments
 		return collection;
 	}
 
-	public static <T extends Collection<?>> T requireMaxSize(final T collection,
+	public static <C extends Collection<?>> C requireMaxSize(final C collection,
 			final int maxExpectedSize) {
 		if (CHECK_ARGS && requireNonNull(collection).size() > maxExpectedSize) {
 			throw new IllegalArgumentException("The specified collection has a size " +
@@ -68,7 +68,7 @@ public class CollectionArguments
 		return collection;
 	}
 
-	public static <T extends Collection<?>> void requireSameSize(final T a, final T b) {
+	public static <C extends Collection<?>> void requireSameSize(final C a, final C b) {
 		if (CHECK_ARGS && requireNonNull(a).size() != requireNonNull(b).size()) {
 			throw new IllegalArgumentException(
 					"The specified collections do not have the same size " +

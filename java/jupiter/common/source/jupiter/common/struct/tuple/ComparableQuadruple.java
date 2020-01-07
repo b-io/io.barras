@@ -26,9 +26,9 @@ package jupiter.common.struct.tuple;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>, T4 extends Comparable<T4>>
-		extends Quadruple<T1, T2, T3, T4>
-		implements Comparable<ComparableQuadruple<T1, T2, T3, T4>> {
+public class ComparableQuadruple<E1 extends Comparable<E1>, E2 extends Comparable<E2>, E3 extends Comparable<E3>, E4 extends Comparable<E4>>
+		extends Quadruple<E1, E2, E3, E4>
+		implements Comparable<ComparableQuadruple<E1, E2, E3, E4>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -52,15 +52,15 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	}
 
 	/**
-	 * Constructs a {@link ComparableQuadruple} with the specified {@code T1}, {@code T2},
-	 * {@code T3} and {@code T4} components.
+	 * Constructs a {@link ComparableQuadruple} with the specified {@code E1}, {@code E2},
+	 * {@code E3} and {@code E4} components.
 	 * <p>
-	 * @param first  the {@code T1} component
-	 * @param second the {@code T2} component
-	 * @param third  the {@code T3} component
-	 * @param fourth the {@code T4} component
+	 * @param first  the {@code E1} component
+	 * @param second the {@code E2} component
+	 * @param third  the {@code E3} component
+	 * @param fourth the {@code E4} component
 	 */
-	public ComparableQuadruple(final T1 first, final T2 second, final T3 third, final T4 fourth) {
+	public ComparableQuadruple(final E1 first, final E2 second, final E3 third, final E4 fourth) {
 		super(first, second, third, fourth);
 	}
 
@@ -73,15 +73,15 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link ComparablePair} of type {@code T1}, {@code T2}, {@code T3} and
-	 *              {@code T4} to compare against for order
+	 * @param other the other {@link ComparablePair} of type {@code E1}, {@code E2}, {@code E3} and
+	 *              {@code E4} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other}
 	 * <p>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparableQuadruple<T1, T2, T3, T4> other) {
+	public int compareTo(final ComparableQuadruple<E1, E2, E3, E4> other) {
 		int comparison = first.compareTo(other.first);
 		if (comparison != 0) {
 			return comparison;
@@ -110,9 +110,9 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public ComparableQuadruple<T1, T2, T3, T4> clone() {
+	public ComparableQuadruple<E1, E2, E3, E4> clone() {
 		try {
-			final ComparableQuadruple<T1, T2, T3, T4> clone = (ComparableQuadruple<T1, T2, T3, T4>) super.clone();
+			final ComparableQuadruple<E1, E2, E3, E4> clone = (ComparableQuadruple<E1, E2, E3, E4>) super.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			clone.third = Objects.clone(third);

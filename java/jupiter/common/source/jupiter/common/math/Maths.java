@@ -242,9 +242,9 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sum(final Collection<T> numbers) {
+	public static <E extends Number> double sum(final Collection<E> numbers) {
 		double sum = 0.;
-		for (final T number : numbers) {
+		for (final E number : numbers) {
 			if (number != null) {
 				sum += number.doubleValue();
 			}
@@ -295,9 +295,9 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumWithoutNaN(final Collection<T> numbers) {
+	public static <E extends Number> double sumWithoutNaN(final Collection<E> numbers) {
 		double sum = 0.;
-		for (final T number : numbers) {
+		for (final E number : numbers) {
 			if (number != null) {
 				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
@@ -328,10 +328,10 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquares(final Collection<T> numbers,
+	public static <E extends Number> double sumOfSquares(final Collection<E> numbers,
 			final double mean) {
 		double sum = 0.;
-		for (final T number : numbers) {
+		for (final E number : numbers) {
 			if (number != null) {
 				sum += square(number.doubleValue() - mean);
 			}
@@ -365,10 +365,10 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquaresWithoutNaN(final Collection<T> numbers,
+	public static <E extends Number> double sumOfSquaresWithoutNaN(final Collection<E> numbers,
 			final double mean) {
 		double sum = 0.;
-		for (final T number : numbers) {
+		for (final E number : numbers) {
 			if (number != null) {
 				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
@@ -465,15 +465,15 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double weightedSum(final List<T> numbers,
-			final List<T> weights) {
+	public static <E extends Number> double weightedSum(final List<E> numbers,
+			final List<E> weights) {
 		// Check the arguments
 		CollectionArguments.requireSameSize(numbers, weights);
 
 		// Sum
 		double sum = 0.;
-		final Iterator<T> weight = weights.iterator();
-		final Iterator<T> number = numbers.iterator();
+		final Iterator<E> weight = weights.iterator();
+		final Iterator<E> number = numbers.iterator();
 		while (weight.hasNext() && number.hasNext()) {
 			sum += weight.next().doubleValue() * number.next().doubleValue();
 		}
@@ -1329,13 +1329,13 @@ public class Maths {
 		return min;
 	}
 
-	public static <T extends Number> double minToDouble(final Collection<T> numbers) {
+	public static <E extends Number> double minToDouble(final Collection<E> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers);
 
 		// Get the minimum value
 		double min = Double.MAX_VALUE;
-		for (final T number : numbers) {
+		for (final E number : numbers) {
 			min = Math.min(number.doubleValue(), min);
 		}
 		return min;
@@ -1415,13 +1415,13 @@ public class Maths {
 		return max;
 	}
 
-	public static <T extends Number> double maxToDouble(final Collection<T> numbers) {
+	public static <E extends Number> double maxToDouble(final Collection<E> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers);
 
 		// Get the maximum value
 		double max = Double.MIN_VALUE;
-		for (final T number : numbers) {
+		for (final E number : numbers) {
 			max = Math.max(max, number.doubleValue());
 		}
 		return max;

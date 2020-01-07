@@ -103,7 +103,7 @@ public class Floats {
 	 * Returns a {@code float} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
-	 * @param object a {@code T} object
+	 * @param object the {@code T} object to convert
 	 * <p>
 	 * @return a {@code float} value from the specified {@code T} object
 	 */
@@ -236,14 +236,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified {@link Collection} of type {@code T}.
+	 * Returns a {@code float} array from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return a {@code float} array from the specified {@link Collection} of type {@code T}
+	 * @return a {@code float} array from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> float[] collectionToPrimitiveArray(final Collection<T> collection) {
+	public static <E> float[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -328,14 +328,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns an array of {@link Float} from the specified {@link Collection} of type {@code T}.
+	 * Returns an array of {@link Float} from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return an array of {@link Float} from the specified {@link Collection} of type {@code T}
+	 * @return an array of {@link Float} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Float[] collectionToArray(final Collection<T> collection) {
+	public static <E> Float[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -439,30 +439,30 @@ public class Floats {
 
 	/**
 	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link ExtendedList} of {@link Float} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> ExtendedList<Float> collectionToList(final Collection<T> collection) {
+	public static <E> ExtendedList<Float> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
-	 * of type {@code T}.
+	 * of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
-	 *         of type {@code T}
+	 *         of type {@code E}
 	 */
-	public static <T> ExtendedLinkedList<Float> collectionToLinkedList(
-			final Collection<T> collection) {
+	public static <E> ExtendedLinkedList<Float> collectionToLinkedList(
+			final Collection<E> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -516,15 +516,15 @@ public class Floats {
 
 	/**
 	 * Returns a {@link Set} of {@link Float} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> Set<Float> collectionToSet(final Collection<T> collection) {
+	public static <E> Set<Float> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 
@@ -828,8 +828,10 @@ public class Floats {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final float[] subarray = new float[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
-					columnCount);
+			System
+					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
+							columnCount,
+							columnCount);
 		}
 		return subarray;
 	}

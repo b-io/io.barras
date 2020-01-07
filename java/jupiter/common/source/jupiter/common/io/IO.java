@@ -562,10 +562,9 @@ public class IO
 		int i = 0;
 		String line;
 		while ((line = reader.readLine()) != null) {
-			if (i >= from) {
+			if (i++ >= from) {
 				writer.println(line);
 			}
-			++i;
 		}
 	}
 

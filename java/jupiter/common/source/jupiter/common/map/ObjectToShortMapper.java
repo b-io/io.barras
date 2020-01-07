@@ -123,8 +123,7 @@ public abstract class ObjectToShortMapper
 		final short[] output = new short[input.size()];
 		int i = 0;
 		for (final I element : input) {
-			output[i] = call(element);
-			++i;
+			output[i++] = call(element);
 		}
 		return output;
 	}

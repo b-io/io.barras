@@ -104,7 +104,7 @@ public class Characters {
 	 * Returns a {@code char} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
-	 * @param object a {@code T} object
+	 * @param object the {@code T} object to convert
 	 * <p>
 	 * @return a {@code char} value from the specified {@code T} object
 	 */
@@ -237,14 +237,14 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified {@link Collection} of type {@code T}.
+	 * Returns a {@code char} array from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return a {@code char} array from the specified {@link Collection} of type {@code T}
+	 * @return a {@code char} array from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> char[] collectionToPrimitiveArray(final Collection<T> collection) {
+	public static <E> char[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -330,14 +330,14 @@ public class Characters {
 
 	/**
 	 * Returns an array of {@link Character} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return an array of {@link Character} from the specified {@link Collection} of type {@code T}
+	 * @return an array of {@link Character} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Character[] collectionToArray(final Collection<T> collection) {
+	public static <E> Character[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -445,30 +445,30 @@ public class Characters {
 
 	/**
 	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
-	 * type {@code T}.
+	 * type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
-	 *         type {@code T}
+	 *         type {@code E}
 	 */
-	public static <T> ExtendedList<Character> collectionToList(final Collection<T> collection) {
+	public static <E> ExtendedList<Character> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified
-	 * {@link Collection} of type {@code T}.
+	 * {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified
-	 *         {@link Collection} of type {@code T}
+	 *         {@link Collection} of type {@code E}
 	 */
-	public static <T> ExtendedLinkedList<Character> collectionToLinkedList(
-			final Collection<T> collection) {
+	public static <E> ExtendedLinkedList<Character> collectionToLinkedList(
+			final Collection<E> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -522,15 +522,15 @@ public class Characters {
 
 	/**
 	 * Returns a {@link Set} of {@link Character} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link Set} of {@link Character} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> Set<Character> collectionToSet(final Collection<T> collection) {
+	public static <E> Set<Character> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

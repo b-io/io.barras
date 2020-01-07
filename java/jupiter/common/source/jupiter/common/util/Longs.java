@@ -239,14 +239,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified {@link Collection} of type {@code T}.
+	 * Returns a {@code long} array from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return a {@code long} array from the specified {@link Collection} of type {@code T}
+	 * @return a {@code long} array from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> long[] collectionToPrimitiveArray(final Collection<T> collection) {
+	public static <E> long[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -331,14 +331,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns an array of {@link Long} from the specified {@link Collection} of type {@code T}.
+	 * Returns an array of {@link Long} from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return an array of {@link Long} from the specified {@link Collection} of type {@code T}
+	 * @return an array of {@link Long} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Long[] collectionToArray(final Collection<T> collection) {
+	public static <E> Long[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -440,30 +440,30 @@ public class Longs {
 
 	/**
 	 * Returns a {@link ExtendedList} of {@link Long} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link ExtendedList} of {@link Long} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> ExtendedList<Long> collectionToList(final Collection<T> collection) {
+	public static <E> ExtendedList<Long> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}
-	 * of type {@code T}.
+	 * of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}
-	 *         of type {@code T}
+	 *         of type {@code E}
 	 */
-	public static <T> ExtendedLinkedList<Long> collectionToLinkedList(
-			final Collection<T> collection) {
+	public static <E> ExtendedLinkedList<Long> collectionToLinkedList(
+			final Collection<E> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -517,14 +517,14 @@ public class Longs {
 
 	/**
 	 * Returns a {@link Set} of {@link Long} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Long} from the specified {@link Collection} of type {@code T}
+	 * @return a {@link Set} of {@link Long} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Set<Long> collectionToSet(final Collection<T> collection) {
+	public static <E> Set<Long> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

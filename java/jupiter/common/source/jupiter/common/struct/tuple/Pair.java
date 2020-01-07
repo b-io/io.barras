@@ -31,8 +31,8 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class Pair<T1, T2>
-		implements ICloneable<Pair<T1, T2>>, ITuple, Serializable {
+public class Pair<E1, E2>
+		implements ICloneable<Pair<E1, E2>>, ITuple, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -49,13 +49,13 @@ public class Pair<T1, T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@code T1} component.
+	 * The {@code E1} component.
 	 */
-	protected T1 first;
+	protected E1 first;
 	/**
-	 * The {@code T2} component.
+	 * The {@code E2} component.
 	 */
-	protected T2 second;
+	protected E2 second;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,12 +69,12 @@ public class Pair<T1, T2>
 	}
 
 	/**
-	 * Constructs a {@link Pair} with the specified {@code T1} and {@code T2} components.
+	 * Constructs a {@link Pair} with the specified {@code E1} and {@code E2} components.
 	 * <p>
-	 * @param first  the {@code T1} component
-	 * @param second the {@code T2} component
+	 * @param first  the {@code E1} component
+	 * @param second the {@code E2} component
 	 */
-	public Pair(final T1 first, final T2 second) {
+	public Pair(final E1 first, final E2 second) {
 		this.first = first;
 		this.second = second;
 	}
@@ -85,20 +85,20 @@ public class Pair<T1, T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code T1} component.
+	 * Returns the {@code E1} component.
 	 * <p>
-	 * @return the {@code T1} component
+	 * @return the {@code E1} component
 	 */
-	public T1 getFirst() {
+	public E1 getFirst() {
 		return first;
 	}
 
 	/**
-	 * Returns the {@code T2} component.
+	 * Returns the {@code E2} component.
 	 * <p>
-	 * @return the {@code T2} component
+	 * @return the {@code E2} component
 	 */
-	public T2 getSecond() {
+	public E2 getSecond() {
 		return second;
 	}
 
@@ -108,20 +108,20 @@ public class Pair<T1, T2>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@code T1} component.
+	 * Sets the {@code E1} component.
 	 * <p>
-	 * @param first a {@code T1} object
+	 * @param first a {@code E1} object
 	 */
-	public void setFirst(final T1 first) {
+	public void setFirst(final E1 first) {
 		this.first = first;
 	}
 
 	/**
-	 * Sets the {@code T2} component.
+	 * Sets the {@code E2} component.
 	 * <p>
-	 * @param second a {@code T2} object
+	 * @param second a {@code E2} object
 	 */
-	public void setSecond(final T2 second) {
+	public void setSecond(final E2 second) {
 		this.second = second;
 	}
 
@@ -154,9 +154,9 @@ public class Pair<T1, T2>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public Pair<T1, T2> clone() {
+	public Pair<E1, E2> clone() {
 		try {
-			final Pair<T1, T2> clone = (Pair<T1, T2>) super.clone();
+			final Pair<E1, E2> clone = (Pair<E1, E2>) super.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			return clone;

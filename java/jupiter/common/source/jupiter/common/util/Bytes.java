@@ -380,7 +380,7 @@ public class Bytes {
 	 * Returns a {@code byte} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
-	 * @param object a {@code T} object
+	 * @param object the {@code T} object to convert
 	 * <p>
 	 * @return a {@code byte} value from the specified {@code T} object
 	 */
@@ -513,14 +513,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified {@link Collection} of type {@code T}.
+	 * Returns a {@code byte} array from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return a {@code byte} array from the specified {@link Collection} of type {@code T}
+	 * @return a {@code byte} array from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> byte[] collectionToPrimitiveArray(final Collection<T> collection) {
+	public static <E> byte[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -605,14 +605,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns an array of {@link Byte} from the specified {@link Collection} of type {@code T}.
+	 * Returns an array of {@link Byte} from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return an array of {@link Byte} from the specified {@link Collection} of type {@code T}
+	 * @return an array of {@link Byte} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Byte[] collectionToArray(final Collection<T> collection) {
+	public static <E> Byte[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -714,30 +714,30 @@ public class Bytes {
 
 	/**
 	 * Returns a {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> ExtendedList<Byte> collectionToList(final Collection<T> collection) {
+	public static <E> ExtendedList<Byte> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
-	 * of type {@code T}.
+	 * of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
-	 *         of type {@code T}
+	 *         of type {@code E}
 	 */
-	public static <T> ExtendedLinkedList<Byte> collectionToLinkedList(
-			final Collection<T> collection) {
+	public static <E> ExtendedLinkedList<Byte> collectionToLinkedList(
+			final Collection<E> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -791,14 +791,14 @@ public class Bytes {
 
 	/**
 	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection} of type {@code T}
+	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Set<Byte> collectionToSet(final Collection<T> collection) {
+	public static <E> Set<Byte> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

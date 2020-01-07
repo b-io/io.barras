@@ -123,8 +123,7 @@ public abstract class ObjectToDoubleMapper
 		final double[] output = new double[input.size()];
 		int i = 0;
 		for (final I element : input) {
-			output[i] = call(element);
-			++i;
+			output[i++] = call(element);
 		}
 		return output;
 	}

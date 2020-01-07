@@ -69,9 +69,9 @@ public class MatrixTest
 				columnCounts.length);
 
 		// Test
-		int i = 0;
+		int rowIndex = 0;
 		for (final int m : rowCounts) {
-			int j = 0;
+			int columnIndex = 0;
 			for (final int n : columnCounts) {
 				IO.test(m, " rows and ", n, " columns");
 
@@ -90,7 +90,7 @@ public class MatrixTest
 					times[t] = chrono.getMilliseconds();
 				}
 				Tests.printTimes(times);
-				normalStats.set(i, j, Statistics.mean(times));
+				normalStats.set(rowIndex, columnIndex, Statistics.mean(times));
 				//expected.toTable().save("normal.values.csv");
 
 				// Test the parallel version
@@ -108,7 +108,7 @@ public class MatrixTest
 						times[t] = chrono.getMilliseconds();
 					}
 					Tests.printTimes(times);
-					parallelStats.set(i, j, Statistics.mean(times));
+					parallelStats.set(rowIndex, columnIndex, Statistics.mean(times));
 					//found.toTable().save("parallel.values.csv");
 					assertEquals(expected, found);
 				} finally {
@@ -129,7 +129,7 @@ public class MatrixTest
 						}
 						Tests.printTimes(times);
 						//found.toTable().save("gpu.values.csv");
-						gpuStats.set(i, j, Statistics.mean(times));
+						gpuStats.set(rowIndex, columnIndex, Statistics.mean(times));
 						assertEquals(expected, found);
 					} finally {
 						CL.setActive(false);
@@ -151,7 +151,7 @@ public class MatrixTest
 						times[t] = chrono.getMilliseconds();
 					}
 					Tests.printTimes(times);
-					hybridStats.set(i, j, Statistics.mean(times));
+					hybridStats.set(rowIndex, columnIndex, Statistics.mean(times));
 					//found.toTable().save("hybrid.values.csv");
 					assertEquals(expected, found);
 				} finally {
@@ -161,9 +161,9 @@ public class MatrixTest
 					}
 				}
 
-				++j;
+				++columnIndex;
 			}
-			++i;
+			++rowIndex;
 		}
 
 		// Export the statistics
@@ -212,9 +212,9 @@ public class MatrixTest
 				columnCounts.length);
 
 		// Test
-		int i = 0;
+		int rowIndex = 0;
 		for (final int m : rowCounts) {
-			int j = 0;
+			int columnIndex = 0;
 			for (final int n : columnCounts) {
 				IO.test(m, " rows and ", n, " columns");
 
@@ -234,7 +234,7 @@ public class MatrixTest
 					times[t] = chrono.getMilliseconds();
 				}
 				Tests.printTimes(times);
-				normalStats.set(i, j, Statistics.mean(times));
+				normalStats.set(rowIndex, columnIndex, Statistics.mean(times));
 				//expected.toTable().save("normal.values.csv");
 
 				// Test the parallel version
@@ -252,7 +252,7 @@ public class MatrixTest
 						times[t] = chrono.getMilliseconds();
 					}
 					Tests.printTimes(times);
-					parallelStats.set(i, j, Statistics.mean(times));
+					parallelStats.set(rowIndex, columnIndex, Statistics.mean(times));
 					//found.toTable().save("parallel.values.csv");
 					assertEquals(expected, found);
 				} finally {
@@ -273,7 +273,7 @@ public class MatrixTest
 						}
 						Tests.printTimes(times);
 						//found.toTable().save("gpu.values.csv");
-						gpuStats.set(i, j, Statistics.mean(times));
+						gpuStats.set(rowIndex, columnIndex, Statistics.mean(times));
 						assertEquals(expected, found);
 					} finally {
 						CL.setActive(false);
@@ -295,7 +295,7 @@ public class MatrixTest
 						times[t] = chrono.getMilliseconds();
 					}
 					Tests.printTimes(times);
-					hybridStats.set(i, j, Statistics.mean(times));
+					hybridStats.set(rowIndex, columnIndex, Statistics.mean(times));
 					//found.toTable().save("hybrid.values.csv");
 					assertEquals(expected, found);
 				} finally {
@@ -305,9 +305,9 @@ public class MatrixTest
 					}
 				}
 
-				++j;
+				++columnIndex;
 			}
-			++i;
+			++rowIndex;
 		}
 
 		// Export the statistics

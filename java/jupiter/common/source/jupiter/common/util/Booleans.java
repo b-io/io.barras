@@ -79,7 +79,7 @@ public class Booleans {
 	 * Returns a {@code boolean} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
-	 * @param object a {@code T} object
+	 * @param object the {@code T} object to convert
 	 * <p>
 	 * @return a {@code boolean} value from the specified {@code T} object
 	 */
@@ -212,14 +212,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified {@link Collection} of type {@code T}.
+	 * Returns a {@code boolean} array from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return a {@code boolean} array from the specified {@link Collection} of type {@code T}
+	 * @return a {@code boolean} array from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> boolean[] collectionToPrimitiveArray(final Collection<T> collection) {
+	public static <E> boolean[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -304,14 +304,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns an array of {@link Boolean} from the specified {@link Collection} of type {@code T}.
+	 * Returns an array of {@link Boolean} from the specified {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
-	 * @return an array of {@link Boolean} from the specified {@link Collection} of type {@code T}
+	 * @return an array of {@link Boolean} from the specified {@link Collection} of type {@code E}
 	 */
-	public static <T> Boolean[] collectionToArray(final Collection<T> collection) {
+	public static <E> Boolean[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -417,30 +417,30 @@ public class Booleans {
 
 	/**
 	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
-	 * type {@code T}.
+	 * type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
-	 *         type {@code T}
+	 *         type {@code E}
 	 */
-	public static <T> ExtendedList<Boolean> collectionToList(final Collection<T> collection) {
+	public static <E> ExtendedList<Boolean> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified
-	 * {@link Collection} of type {@code T}.
+	 * {@link Collection} of type {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified
-	 *         {@link Collection} of type {@code T}
+	 *         {@link Collection} of type {@code E}
 	 */
-	public static <T> ExtendedLinkedList<Boolean> collectionToLinkedList(
-			final Collection<T> collection) {
+	public static <E> ExtendedLinkedList<Boolean> collectionToLinkedList(
+			final Collection<E> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -494,15 +494,15 @@ public class Booleans {
 
 	/**
 	 * Returns a {@link Set} of {@link Boolean} from the specified {@link Collection} of type
-	 * {@code T}.
+	 * {@code E}.
 	 * <p>
-	 * @param <T>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code T}
+	 * @param <E>        the type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of type {@code E}
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@link Collection} of type
-	 *         {@code T}
+	 *         {@code E}
 	 */
-	public static <T> Set<Boolean> collectionToSet(final Collection<T> collection) {
+	public static <E> Set<Boolean> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 
@@ -683,8 +683,10 @@ public class Booleans {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final boolean[] subarray = new boolean[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
-					columnCount);
+			System
+					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
+							columnCount,
+							columnCount);
 		}
 		return subarray;
 	}

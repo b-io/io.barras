@@ -32,12 +32,12 @@ import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 
 /**
- * {@link NumberTable} is the {@link Table} of type {@code T} extending {@link Number}.
+ * {@link NumberTable} is the {@link Table} of type {@code E} extending {@link Number}.
  * <p>
- * @param <T> the type of the {@link Table} extending {@link Number}
+ * @param <E> the type of the {@link Table} extending {@link Number}
  */
-public class NumberTable<T extends Number>
-		extends Table<T> {
+public class NumberTable<E extends Number>
+		extends Table<E> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -54,62 +54,62 @@ public class NumberTable<T extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} with the specified numbers of rows and
+	 * Constructs a {@link NumberTable} of type {@code E} with the specified numbers of rows and
 	 * columns.
 	 * <p>
-	 * @param c           the {@link Class} of type {@code T}
+	 * @param c           the {@link Class} of type {@code E}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public NumberTable(final Class<T> c, final int rowCount, final int columnCount) {
+	public NumberTable(final Class<E> c, final int rowCount, final int columnCount) {
 		super(c, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} with the specified header and numbers of
+	 * Constructs a {@link NumberTable} of type {@code E} with the specified header and numbers of
 	 * rows and columns.
 	 * <p>
-	 * @param c           the {@link Class} of type {@code T}
+	 * @param c           the {@link Class} of type {@code E}
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public NumberTable(final Class<T> c, final String[] header, final int rowCount,
+	public NumberTable(final Class<E> c, final String[] header, final int rowCount,
 			final int columnCount) {
 		super(c, header, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} with the specified elements.
+	 * Constructs a {@link NumberTable} of type {@code E} with the specified elements.
 	 * <p>
-	 * @param c        the {@link Class} of type {@code T}
-	 * @param elements a 2D {@code T} array
+	 * @param c        the {@link Class} of type {@code E}
+	 * @param elements a 2D {@code E} array
 	 */
-	public NumberTable(final Class<T> c, final T[][] elements) {
+	public NumberTable(final Class<E> c, final E[][] elements) {
 		super(c, elements);
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} with the specified header and elements.
+	 * Constructs a {@link NumberTable} of type {@code E} with the specified header and elements.
 	 * <p>
-	 * @param c        the {@link Class} of type {@code T}
-	 * @param header   a {@code T} array
-	 * @param elements a 2D {@code T} array
+	 * @param c        the {@link Class} of type {@code E}
+	 * @param header   a {@code E} array
+	 * @param elements a 2D {@code E} array
 	 */
-	public NumberTable(final Class<T> c, final String[] header, final T[][] elements) {
+	public NumberTable(final Class<E> c, final String[] header, final E[][] elements) {
 		super(c, header, elements);
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of type {@code T} loaded from the specified file.
+	 * Constructs a {@link NumberTable} of type {@code E} loaded from the specified file.
 	 * <p>
-	 * @param parser    an {@link IParser} of type {@code T}
+	 * @param parser    an {@link IParser} of type {@code E}
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the specified file
 	 */
-	public NumberTable(final IParser<T> parser, final String path, final boolean hasHeader)
+	public NumberTable(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		super(parser, path, hasHeader);
 	}
@@ -127,7 +127,7 @@ public class NumberTable<T extends Number>
 	public double[] getRowMeans() {
 		final double[] means = new double[m];
 		for (int i = 0; i < m; ++i) {
-			means[i] = Statistics.<T>getMean(getRow(i));
+			means[i] = Statistics.<E>getMean(getRow(i));
 		}
 		return means;
 	}
@@ -140,7 +140,7 @@ public class NumberTable<T extends Number>
 	public double[] getColumnMeans() {
 		final double[] means = new double[n];
 		for (int i = 0; i < n; ++i) {
-			means[i] = Statistics.<T>getMean(getColumn(i));
+			means[i] = Statistics.<E>getMean(getColumn(i));
 		}
 		return means;
 	}
@@ -158,8 +158,8 @@ public class NumberTable<T extends Number>
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public NumberTable<T> clone() {
-		return (NumberTable<T>) super.clone();
+	public NumberTable<E> clone() {
+		return (NumberTable<E>) super.clone();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
