@@ -119,7 +119,7 @@ _RELEASE(a);
 const tick t = chrono_start();
 
 /* Construct a Number */
-#if __STDC__
+#if _64_BITS
 const natural number = real_to_natural(1E18);
 #else
 const natural number = real_to_natural(1E9);

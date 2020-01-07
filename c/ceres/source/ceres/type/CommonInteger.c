@@ -202,7 +202,7 @@ boolean integer_to_string(const void* source, string target)
 		/* Get the integer */
 		const integer* i = (integer*) source;
 
-#if __STDC__
+#if _64_BITS
 		_SPRINTF(target, _STRING_SIZE, _S("%ld"), *i);
 #else
 		_SPRINTF(target, _STRING_SIZE, _S("%lld"), *i);

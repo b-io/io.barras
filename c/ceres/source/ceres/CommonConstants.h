@@ -70,9 +70,11 @@ extern "C"
 	 */
 #if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_X64) || defined(_M_AMD64) ||\
 	defined(__ia64__) || defined(_IA64) || defined(__IA64__) || defined(__ia64) || defined(_M_IA64) || defined(__itanium__)
-#define _64_BITS
+#define _32_BITS							0
+#define _64_BITS							1
 #else
-#define _32_BITS
+#define _32_BITS							1
+#define _64_BITS							0
 #endif
 
 	/**********************************************************************************************/
@@ -138,7 +140,7 @@ extern "C"
 	/**
 	 * Defines the type of the unknown structures.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _UNKNOWN_TYPE						0L /* 32 bits */
 #else
 #define _UNKNOWN_TYPE						0LL /* 64 bits */
@@ -159,7 +161,7 @@ extern "C"
 	/**
 	 * Defines the type of the Structures.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _STRUCTURE_TYPE						268166434L /* 32 bits */
 #else
 #define _STRUCTURE_TYPE						4974991948358000738LL /* 64 bits */
@@ -180,7 +182,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of Structures.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _STRUCTURES_TYPE					-1689498303L /* 32 bits */
 #else
 #define _STRUCTURES_TYPE					7723893632854730298LL /* 64 bits */
@@ -196,7 +198,7 @@ extern "C"
 	/**
 	 * Defines the type of the Basic structures.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _BASIC_TYPE							-270351478L /* 32 bits */
 #else
 #define _BASIC_TYPE							5119110478015111332LL /* 64 bits */
@@ -221,7 +223,7 @@ extern "C"
 	/**
 	 * Defines the type of the Comparable structures.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _COMPARABLE_TYPE					-1167564821L /* 32 bits */
 #else
 #define _COMPARABLE_TYPE					-6856122037152631185LL /* 64 bits */
@@ -266,7 +268,7 @@ extern "C"
 	/**
 	 * Defines the type of the I/O Messages.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _IO_MESSAGE_TYPE					385987721L /* 32 bits */
 #else
 #define _IO_MESSAGE_TYPE					343020474024623861LL /* 64 bits */
@@ -282,7 +284,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of I/O Messages.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _IO_MESSAGES_TYPE					-1479357451L /* 32 bits */
 #else
 #define _IO_MESSAGES_TYPE					-262957866591864927LL /* 64 bits */
@@ -309,7 +311,7 @@ extern "C"
 	/**
 	 * Defines the type of the Iterators.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _ITERATOR_TYPE						-238741008L /* 32 bits */
 #else
 #define _ITERATOR_TYPE						7998456870033067090LL /* 64 bits */
@@ -330,7 +332,7 @@ extern "C"
 	/**
 	 * Defines the type of the Iterable structures.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _ITERABLE_TYPE						-1599987989L /* 32 bits */
 #else
 #define _ITERABLE_TYPE						-5966621408067176849LL /* 64 bits */
@@ -346,7 +348,7 @@ extern "C"
 	/**
 	 * Defines the type of the Collections.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _COLLECTION_TYPE					-1700966664L /* 32 bits */
 #else
 #define _COLLECTION_TYPE					7634734103968427758LL /* 64 bits */
@@ -367,7 +369,7 @@ extern "C"
 	/**
 	 * Defines the type of the Lists.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _LIST_TYPE							805313283L /* 32 bits */
 #else
 #define _LIST_TYPE							8286623314362575348LL /* 64 bits */
@@ -388,7 +390,7 @@ extern "C"
 	/**
 	 * Defines the type of the Arrays.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _ARRAY_TYPE							7833849L /* 32 bits */
 #else
 #define _ARRAY_TYPE							1962937303161LL /* 64 bits */
@@ -409,7 +411,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of Arrays.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _ARRAYS_TYPE						1604959883L /* 32 bits */
 #else
 #define _ARRAYS_TYPE						7408582305883676807LL /* 64 bits */
@@ -442,7 +444,7 @@ extern "C"
 	/**
 	 * Defines the type of the Times.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _TIME_TYPE							-805299341L /* 32 bits */
 #else
 #define _TIME_TYPE							7854277750135007973LL /* 64 bits */
@@ -480,7 +482,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of Times.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _TIMES_TYPE							-32064055L /* 32 bits */
 #else
 #define _TIMES_TYPE							-9005049474081278511LL /* 64 bits */
@@ -499,7 +501,7 @@ extern "C"
 	/**
 	 * Defines the type of the booleans.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _BOOLEAN_TYPE						438529326L /* 32 bits */
 #else
 #define _BOOLEAN_TYPE						15675400930500718LL /* 64 bits */
@@ -540,7 +542,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of booleans.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _BOOLEANS_TYPE						-582562266L /* 32 bits */
 #else
 #define _BOOLEANS_TYPE						2469613196631256235LL /* 64 bits */
@@ -556,7 +558,7 @@ extern "C"
 	/**
 	 * Defines the type of the characters.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _CHARACTER_TYPE						-27223692L /* 32 bits */
 #else
 #define _CHARACTER_TYPE						-8788439263639338892LL /* 64 bits */
@@ -595,7 +597,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of characters.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _CHARACTERS_TYPE					-1211079616L /* 32 bits */
 #else
 #define _CHARACTERS_TYPE					6553243037010994747LL /* 64 bits */
@@ -616,7 +618,7 @@ extern "C"
 	/**
 	 * Defines the type of the digits.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _DIGIT_TYPE							7273908L /* 32 bits */
 #else
 #define _DIGIT_TYPE							1810818195572LL /* 64 bits */
@@ -647,7 +649,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of digits.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _DIGITS_TYPE						1459435659L /* 32 bits */
 #else
 #define _DIGITS_TYPE						7404500591823675527LL /* 64 bits */
@@ -663,7 +665,7 @@ extern "C"
 	/**
 	 * Defines the type of the integers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _INTEGER_TYPE						440913330L /* 32 bits */
 #else
 #define _INTEGER_TYPE						15539491731988594LL /* 64 bits */
@@ -677,7 +679,7 @@ extern "C"
 	/**
 	 * Defines the minimum value of the integers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _INTEGER_MIN						LONG_MIN
 #else
 #define _INTEGER_MIN						LLONG_MIN
@@ -686,7 +688,7 @@ extern "C"
 	/**
 	 * Defines the maximum value of the integers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _INTEGER_MAX						LONG_MAX
 #else
 #define _INTEGER_MAX						LLONG_MAX
@@ -702,7 +704,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of integers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _INTEGERS_TYPE						1803562790L /* 32 bits */
 #else
 #define _INTEGERS_TYPE						-7905976142588138325LL /* 64 bits */
@@ -718,7 +720,7 @@ extern "C"
 	/**
 	 * Defines the type of the natural numbers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _NATURAL_TYPE						-1497620190L /* 32 bits */
 #else
 #define _NATURAL_TYPE						-8424211561607063880LL /* 64 bits */
@@ -748,7 +750,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of natural numbers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _NATURALS_TYPE						874773334L /* 32 bits */
 #else
 #define _NATURALS_TYPE						5965406374232622482LL /* 64 bits */
@@ -764,7 +766,7 @@ extern "C"
 	/**
 	 * Defines the type of the real numbers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _REAL_TYPE							980147580L /* 32 bits */
 #else
 #define _REAL_TYPE							-4168343457386165616LL /* 64 bits */
@@ -805,7 +807,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of real numbers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _REALS_TYPE							-1166258983L /* 32 bits */
 #else
 #define _REALS_TYPE							2925876010904038195LL /* 64 bits */
@@ -821,7 +823,7 @@ extern "C"
 	/**
 	 * Defines the type of the strings.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _STRING_TYPE						-536401687L /* 32 bits */
 #else
 #define _STRING_TYPE						7926335351986138663LL /* 64 bits */
@@ -861,7 +863,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of strings.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _STRINGS_TYPE						-181233542L /* 32 bits */
 #else
 #define _STRINGS_TYPE						-7825345672083828333LL /* 64 bits */
@@ -877,7 +879,7 @@ extern "C"
 	/**
 	 * Defines the type of the Numbers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _NUMBER_TYPE						1342637888L /* 32 bits */
 #else
 #define _NUMBER_TYPE						7277817005702663634LL /* 64 bits */
@@ -891,7 +893,7 @@ extern "C"
 	/**
 	 * Defines the maximum length of the Numbers (arrays of digits).
 	 */
-#if __STDC__
+#if _64_BITS
 #define _NUMBER_LENGTH_MAX					32
 #else
 #define _NUMBER_LENGTH_MAX					64
@@ -912,7 +914,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of Numbers.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _NUMBERS_TYPE						-1513657449L /* 32 bits */
 #else
 #define _NUMBERS_TYPE						-8762079552042635021LL /* 64 bits */
@@ -928,7 +930,7 @@ extern "C"
 	/**
 	 * Defines the type of the Objects.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _OBJECT_TYPE						805730202L /* 32 bits */
 #else
 #define _OBJECT_TYPE						7133701816351501620LL /* 64 bits */
@@ -949,7 +951,7 @@ extern "C"
 	/**
 	 * Defines the type of the arrays of Objects.
 	 */
-#if __STDC__
+#if _64_BITS
 #define _OBJECTS_TYPE						-977072885L /* 32 bits */
 #else
 #define _OBJECTS_TYPE						-9194424566182301677LL /* 64 bits */

@@ -70,7 +70,7 @@ extern "C"
 	/**
 	 * Defines the integers ([_INTEGER_MIN, _INTEGER_MAX]).
 	 */
-#if __STDC__
+#if _64_BITS
 	typedef signed long int integer;
 #else
 	typedef signed long long int integer;
@@ -79,7 +79,7 @@ extern "C"
 	/**
 	 * Defines the natural numbers ([_NATURAL_MIN, _NATURAL_MAX]).
 	 */
-#if __STDC__
+#if _64_BITS
 	typedef unsigned long int natural;
 #else
 	typedef unsigned long long int natural;

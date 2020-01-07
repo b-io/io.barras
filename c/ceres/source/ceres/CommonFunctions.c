@@ -49,7 +49,7 @@ boolean format_specifier_to_string(const character* source, va_list* args, strin
 				}
 				case _C('b'):
 				{
-#if __STDC__
+#if _64_BITS
 					const boolean value = (boolean) va_arg(*args, integer);
 #else
 					const boolean value = va_arg(*args, boolean);
@@ -67,7 +67,7 @@ boolean format_specifier_to_string(const character* source, va_list* args, strin
 				}
 				case _C('c'):
 				{
-#if __STDC__
+#if _64_BITS
 					const character value = (character) va_arg(*args, integer);
 #else
 					const character value = va_arg(*args, character);
@@ -78,7 +78,7 @@ boolean format_specifier_to_string(const character* source, va_list* args, strin
 				}
 				case _C('d'):
 				{
-#if __STDC__
+#if _64_BITS
 					const digit value = (digit) va_arg(*args, integer);
 #else
 					const digit value = va_arg(*args, digit);
@@ -96,7 +96,7 @@ boolean format_specifier_to_string(const character* source, va_list* args, strin
 				}
 				case _C('n'):
 				{
-#if __STDC__
+#if _64_BITS
 					const natural value = (natural) va_arg(*args, integer);
 #else
 					const natural value = va_arg(*args, natural);
@@ -150,7 +150,7 @@ boolean format_specifier_to_string(const character* source, va_list* args, strin
 				}
 				case _C('t'):
 				{
-#if __STDC__
+#if _64_BITS
 					const type value = (type) va_arg(*args, integer);
 #else
 					const type value = va_arg(*args, type);
