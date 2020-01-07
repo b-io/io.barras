@@ -119,10 +119,10 @@ _RELEASE(a);
 const tick t = chrono_start();
 
 /* Construct a Number */
-#if _64_BITS
-const natural number = real_to_natural(1E18);
-#else
+#if _32_BITS
 const natural number = real_to_natural(1E9);
+#else
+const natural number = real_to_natural(1E18);
 #endif
 const natural base = 10;
 Number n = Number_create(number, base);
