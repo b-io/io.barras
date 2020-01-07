@@ -80,9 +80,9 @@ extern "C"
 	 * Defines the natural numbers ([_NATURAL_MIN, _NATURAL_MAX]).
 	 */
 #if __STDC__
-	typedef unsigned long int natural;
+	typedef size_t natural;
 #else
-	typedef unsigned long long int natural;
+	typedef size_t natural;
 #endif
 
 	/**
@@ -93,7 +93,7 @@ extern "C"
 	/**
 	 * Defines the sizes.
 	 */
-	typedef size_t size;
+	typedef natural size;
 
 	/**
 	 * Defines the status.
