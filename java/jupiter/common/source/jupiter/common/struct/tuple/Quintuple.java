@@ -157,7 +157,7 @@ public class Quintuple<E1, E2, E3, E4, E5>
 	/**
 	 * Sets the {@code E1} component.
 	 * <p>
-	 * @param first a {@code E1} object
+	 * @param first an {@code E1} object
 	 */
 	public void setFirst(final E1 first) {
 		this.first = first;
@@ -166,7 +166,7 @@ public class Quintuple<E1, E2, E3, E4, E5>
 	/**
 	 * Sets the {@code E2} component.
 	 * <p>
-	 * @param second a {@code E2} object
+	 * @param second an {@code E2} object
 	 */
 	public void setSecond(final E2 second) {
 		this.second = second;
@@ -175,7 +175,7 @@ public class Quintuple<E1, E2, E3, E4, E5>
 	/**
 	 * Sets the {@code E3} component.
 	 * <p>
-	 * @param third a {@code E3} object
+	 * @param third an {@code E3} object
 	 */
 	public void setThird(final E3 third) {
 		this.third = third;
@@ -184,7 +184,7 @@ public class Quintuple<E1, E2, E3, E4, E5>
 	/**
 	 * Sets the {@code E4} component.
 	 * <p>
-	 * @param fourth a {@code E4} object
+	 * @param fourth an {@code E4} object
 	 */
 	public void setFourth(final E4 fourth) {
 		this.fourth = fourth;
@@ -193,7 +193,7 @@ public class Quintuple<E1, E2, E3, E4, E5>
 	/**
 	 * Sets the {@code E5} component.
 	 * <p>
-	 * @param fifth a {@code E5} object
+	 * @param fifth an {@code E5} object
 	 */
 	public void setFifth(final E5 fifth) {
 		this.fifth = fifth;

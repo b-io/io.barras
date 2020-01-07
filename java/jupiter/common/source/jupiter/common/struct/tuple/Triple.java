@@ -126,7 +126,7 @@ public class Triple<E1, E2, E3>
 	/**
 	 * Sets the {@code E1} component.
 	 * <p>
-	 * @param first a {@code E1} object
+	 * @param first an {@code E1} object
 	 */
 	public void setFirst(final E1 first) {
 		this.first = first;
@@ -135,7 +135,7 @@ public class Triple<E1, E2, E3>
 	/**
 	 * Sets the {@code E2} component.
 	 * <p>
-	 * @param second a {@code E2} object
+	 * @param second an {@code E2} object
 	 */
 	public void setSecond(final E2 second) {
 		this.second = second;
@@ -144,7 +144,7 @@ public class Triple<E1, E2, E3>
 	/**
 	 * Sets the {@code E3} component.
 	 * <p>
-	 * @param third a {@code E3} object
+	 * @param third an {@code E3} object
 	 */
 	public void setThird(final E3 third) {
 		this.third = third;

@@ -110,7 +110,7 @@ public class Pair<E1, E2>
 	/**
 	 * Sets the {@code E1} component.
 	 * <p>
-	 * @param first a {@code E1} object
+	 * @param first an {@code E1} object
 	 */
 	public void setFirst(final E1 first) {
 		this.first = first;
@@ -119,7 +119,7 @@ public class Pair<E1, E2>
 	/**
 	 * Sets the {@code E2} component.
 	 * <p>
-	 * @param second a {@code E2} object
+	 * @param second an {@code E2} object
 	 */
 	public void setSecond(final E2 second) {
 		this.second = second;
