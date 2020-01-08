@@ -42,7 +42,6 @@ public class CombinatoricsTest
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 	/**
 	 * Test of getPermutationIndex method, of class Combinatorics.
 	 */
@@ -107,6 +106,28 @@ public class CombinatoricsTest
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Test of createAllPermutations method, of class Combinatorics.
+	 */
+	public void testCreateAllPermutations() {
+		IO.test("• createAllPermutations");
+
+		// Initialize
+		final int n = 4;
+
+		IO.test("- List all the permutations of a ", n, "-element set:");
+		int[][] permutations = Combinatorics.createAllPermutations(n);
+		for (final int[] permutation : permutations) {
+			IO.test(Integers.toString(permutation));
+		}
+
+		IO.test("- List all the permutations of a ", n, "-element set in lexicographic order:");
+		permutations = Combinatorics.createAllPermutations(n, true);
+		for (final int[] permutation : permutations) {
+			IO.test(Integers.toString(permutation));
+		}
+	}
 
 	/**
 	 * Test of createPermutations method, of class Combinatorics.
@@ -226,15 +247,15 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of PRF method, of class Combinatorics.
+	 * Test of PFR method, of class Combinatorics.
 	 */
 	public void testPRF() {
-		IO.test("• PRF");
+		IO.test("• PFR");
 
 		IO.test("- Count the number of anagrams of the word ", Strings.quote("MISSISSIPI"));
-		assertEquals(34650, Combinatorics.PRF(Integers.asPrimitiveArray(1, 4, 4, 2)));
-		assertEquals(34650L, Combinatorics.PRF(Longs.asPrimitiveArray(1L, 4L, 4L, 2L)));
-		assertEquals(34650., Combinatorics.PRF(Doubles.asPrimitiveArray(1., 4., 4., 2.)));
+		assertEquals(34650, Combinatorics.PFR(Integers.asPrimitiveArray(1, 4, 4, 2)));
+		assertEquals(34650L, Combinatorics.PFR(Longs.asPrimitiveArray(1L, 4L, 4L, 2L)));
+		assertEquals(34650., Combinatorics.PFR(Doubles.asPrimitiveArray(1., 4., 4., 2.)));
 	}
 
 	//////////////////////////////////////////////
