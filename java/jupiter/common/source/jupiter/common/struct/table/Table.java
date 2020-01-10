@@ -290,8 +290,7 @@ public class Table<E>
 		}
 
 		// Check the arguments
-		IntegerArguments.requireNonNegative(j);
-		IntegerArguments.requireLessThan(j, n);
+		ArrayArguments.requireIndex(j, n);
 
 		// Get the column name
 		return header[j];
@@ -328,11 +327,9 @@ public class Table<E>
 	public E get(final int i, final int j) {
 		// Check the arguments
 		// • i
-		IntegerArguments.requireNonNegative(i);
-		IntegerArguments.requireLessThan(i, m);
+		ArrayArguments.requireIndex(i, m);
 		// • j
-		IntegerArguments.requireNonNegative(j);
-		IntegerArguments.requireLessThan(j, n);
+		ArrayArguments.requireIndex(j, n);
 
 		// Get the corresponding element
 		return elements[i][j];
@@ -383,11 +380,9 @@ public class Table<E>
 	public E[] getRow(final int i, final int fromColumn, final int length) {
 		// Check the arguments
 		// • i
-		IntegerArguments.requireNonNegative(i);
-		IntegerArguments.requireLessThan(i, m);
+		ArrayArguments.requireIndex(i, m);
 		// • from
-		IntegerArguments.requireNonNegative(fromColumn);
-		IntegerArguments.requireLessThan(fromColumn, n);
+		ArrayArguments.requireIndex(fromColumn, n);
 		// • length
 		IntegerArguments.requirePositive(length);
 		IntegerArguments.requireLessOrEqualTo(length, n - fromColumn);
@@ -489,11 +484,9 @@ public class Table<E>
 	public E[] getColumn(final int j, final int fromRow, final int length) {
 		// Check the arguments
 		// • j
-		IntegerArguments.requireNonNegative(j);
-		IntegerArguments.requireLessThan(j, n);
+		ArrayArguments.requireIndex(j, n);
 		// • from
-		IntegerArguments.requireNonNegative(fromRow);
-		IntegerArguments.requireLessThan(fromRow, m);
+		ArrayArguments.requireIndex(fromRow, m);
 		// • length
 		IntegerArguments.requirePositive(length);
 		IntegerArguments.requireLessOrEqualTo(length, m - fromRow);
@@ -553,11 +546,9 @@ public class Table<E>
 	public void set(final int i, final int j, final E value) {
 		// Check the arguments
 		// • i
-		IntegerArguments.requireNonNegative(i);
-		IntegerArguments.requireLessThan(i, m);
+		ArrayArguments.requireIndex(i, m);
 		// • j
-		IntegerArguments.requireNonNegative(j);
-		IntegerArguments.requireLessThan(j, n);
+		ArrayArguments.requireIndex(j, n);
 
 		// Set the corresponding element
 		elements[i][j] = value;
@@ -604,14 +595,12 @@ public class Table<E>
 	public void setRow(final int i, final E[] values, final int fromColumn, final int length) {
 		// Check the arguments
 		// • i
-		IntegerArguments.requireNonNegative(i);
-		IntegerArguments.requireLessThan(i, m);
+		ArrayArguments.requireIndex(i, m);
 		// • values
 		ArrayArguments.requireNonEmpty(values);
 		ArrayArguments.requireMinLength(values, length);
 		// • from
-		IntegerArguments.requireNonNegative(fromColumn);
-		IntegerArguments.requireLessThan(fromColumn, n);
+		ArrayArguments.requireIndex(fromColumn, n);
 		// • length
 		IntegerArguments.requirePositive(length);
 		IntegerArguments.requireLessOrEqualTo(length, n - fromColumn);
@@ -673,14 +662,12 @@ public class Table<E>
 	public void setColumn(final int j, final E[] values, final int fromRow, final int length) {
 		// Check the arguments
 		// • j
-		IntegerArguments.requireNonNegative(j);
-		IntegerArguments.requireLessThan(j, n);
+		ArrayArguments.requireIndex(j, n);
 		// • values
 		ArrayArguments.requireNonEmpty(values);
 		ArrayArguments.requireMinLength(values, length);
 		// • from
-		IntegerArguments.requireNonNegative(fromRow);
-		IntegerArguments.requireLessThan(fromRow, m);
+		ArrayArguments.requireIndex(fromRow, m);
 		// • length
 		IntegerArguments.requirePositive(length);
 		IntegerArguments.requireLessOrEqualTo(length, m - fromRow);

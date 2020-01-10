@@ -63,7 +63,7 @@ public class Interval<T extends Comparable<T>>
 	/**
 	 * The flags specifying whether the lower and upper bound are respectively inclusive.
 	 */
-	protected boolean lowerInclusive, upperInclusive;
+	protected boolean isLowerInclusive, isUpperInclusive;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,8 +76,8 @@ public class Interval<T extends Comparable<T>>
 	public Interval() {
 		lowerBound = null;
 		upperBound = null;
-		lowerInclusive = true;
-		upperInclusive = false;
+		isLowerInclusive = true;
+		isUpperInclusive = false;
 	}
 
 	/**
@@ -90,25 +90,25 @@ public class Interval<T extends Comparable<T>>
 	public Interval(final T lowerBound, final T upperBound) {
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
-		lowerInclusive = true;
-		upperInclusive = false;
+		isLowerInclusive = true;
+		isUpperInclusive = false;
 	}
 
 	/**
 	 * Constructs an {@link Interval} of type {@code T} with the specified {@code T} lower and upper
 	 * bounds.
 	 * <p>
-	 * @param lowerBound     the {@code T} lower bound
-	 * @param upperBound     the {@code T} upper bound
-	 * @param lowerInclusive the flag specifying whether the lower bound is inclusive
-	 * @param upperInclusive the flag specifying whether the upper bound is inclusive
+	 * @param lowerBound       the {@code T} lower bound
+	 * @param upperBound       the {@code T} upper bound
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
 	 */
 	public Interval(final T lowerBound, final T upperBound,
-			final boolean lowerInclusive, final boolean upperInclusive) {
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
-		this.lowerInclusive = lowerInclusive;
-		this.upperInclusive = upperInclusive;
+		this.isLowerInclusive = isLowerInclusive;
+		this.isUpperInclusive = isUpperInclusive;
 	}
 
 	/**
@@ -125,13 +125,13 @@ public class Interval<T extends Comparable<T>>
 	 * Constructs an {@link Interval} of type {@code T} with the specified lower and upper bounds
 	 * {@link Pair}.
 	 * <p>
-	 * @param pair           the lower and upper bounds {@link Pair} of type {@code T}
-	 * @param lowerInclusive the flag specifying whether the lower bound is inclusive
-	 * @param upperInclusive the flag specifying whether the upper bound is inclusive
+	 * @param pair             the lower and upper bounds {@link Pair} of type {@code T}
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
 	 */
 	public Interval(final Pair<T, T> pair,
-			final boolean lowerInclusive, final boolean upperInclusive) {
-		this(pair.getFirst(), pair.getSecond(), lowerInclusive, upperInclusive);
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		this(pair.getFirst(), pair.getSecond(), isLowerInclusive, isUpperInclusive);
 	}
 
 
@@ -202,8 +202,8 @@ public class Interval<T extends Comparable<T>>
 	 * @return {@code true} if {@code this} contains the value {@code T}, {@code false} otherwise
 	 */
 	public boolean isInside(final T value) {
-		return (lowerInclusive ? value.compareTo(lowerBound) >= 0 : value.compareTo(lowerBound) > 0) &&
-				(upperInclusive ? value.compareTo(upperBound) <= 0 : value.compareTo(upperBound) < 0);
+		return (isLowerInclusive ? value.compareTo(lowerBound) >= 0 : value.compareTo(lowerBound) > 0) &&
+				(isUpperInclusive ? value.compareTo(upperBound) <= 0 : value.compareTo(upperBound) < 0);
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class Interval<T extends Comparable<T>>
 	 * @return {@code true} if {@code this} is valid, {@code false} otherwise
 	 */
 	public boolean isValid() {
-		return !isEmpty() && (lowerInclusive && upperInclusive ?
+		return !isEmpty() && (isLowerInclusive && isUpperInclusive ?
 				lowerBound.compareTo(upperBound) <= 0 :
 				lowerBound.compareTo(upperBound) < 0);
 	}
@@ -265,8 +265,8 @@ public class Interval<T extends Comparable<T>>
 		final Interval<?> otherInterval = (Interval<?>) other;
 		return Objects.equals(lowerBound, otherInterval.lowerBound) &&
 				Objects.equals(upperBound, otherInterval.upperBound) &&
-				Objects.equals(lowerInclusive, otherInterval.lowerInclusive) &&
-				Objects.equals(upperInclusive, otherInterval.upperInclusive);
+				Objects.equals(isLowerInclusive, otherInterval.isLowerInclusive) &&
+				Objects.equals(isUpperInclusive, otherInterval.isUpperInclusive);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class Interval<T extends Comparable<T>>
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID,
 				lowerBound, upperBound,
-				lowerInclusive, upperInclusive);
+				isLowerInclusive, isUpperInclusive);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,8 +294,8 @@ public class Interval<T extends Comparable<T>>
 	 */
 	@Override
 	public String toString() {
-		return (lowerInclusive ? LEFT_BRACKET : RIGHT_BRACKET) +
+		return (isLowerInclusive ? LEFT_BRACKET : RIGHT_BRACKET) +
 				Arrays.join(lowerBound, upperBound) +
-				(upperInclusive ? RIGHT_BRACKET : LEFT_BRACKET);
+				(isUpperInclusive ? RIGHT_BRACKET : LEFT_BRACKET);
 	}
 }

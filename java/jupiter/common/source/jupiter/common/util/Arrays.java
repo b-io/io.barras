@@ -36,7 +36,6 @@ import jupiter.common.struct.list.Sort;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.ArrayArguments;
-import jupiter.common.test.IntegerArguments;
 
 public class Arrays {
 
@@ -431,6 +430,17 @@ public class Arrays {
 	}
 
 	/**
+	 * Shuffles the specified {@code T} array from the specified index.
+	 * <p>
+	 * @param <T>       the component type of the array to shuffle
+	 * @param array     the {@code T} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 */
+	public static <T> void shuffle(final T[] array, final int fromIndex) {
+		shuffle(array, fromIndex, array.length);
+	}
+
+	/**
 	 * Shuffles the specified {@code T} array between the specified indexes.
 	 * <p>
 	 * @param <T>       the component type of the array to shuffle
@@ -487,6 +497,52 @@ public class Arrays {
 	}
 
 	/**
+	 * Sorts the specified array of {@link Object} into ascending order, according to the
+	 * {@linkplain Comparable natural ordering} of its elements from index {@code fromIndex},
+	 * inclusive. All elements in the array must implement the {@link Comparable} interface.
+	 * Furthermore, all elements in the array must be <i>mutually comparable</i> (that is,
+	 * {@code e1.compareTo(e2)} must not throw a {@link ClassCastException} for any elements
+	 * {@code e1} and {@code e2} in the array).
+	 * <p>
+	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
+	 * of the sort.
+	 * <p>
+	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
+	 * requires far fewer than n lg(n) comparisons when the input array is partially sorted, while
+	 * offering the performance of a traditional merge sort when the input array is randomly
+	 * ordered. If the input array is nearly sorted, the implementation requires approximately n
+	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
+	 * input arrays to n/2 object references for randomly ordered input arrays.
+	 * <p>
+	 * The implementation takes equal advantage of ascending and descending order in its input array
+	 * and can take advantage of ascending and descending order in different parts of the same input
+	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
+	 * and sort the resulting array.
+	 * <p>
+	 * The implementation was adapted from Tim Peters's list sort for Python
+	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
+	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
+	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
+	 * Algorithms, pp 467-474, January 1993.
+	 * <p>
+	 * @param array     the array of {@link Object} to sort
+	 * @param fromIndex the index of the first element to sort (inclusive)
+	 * <p>
+	 * @throws ClassCastException       if the array contains elements that are not mutually
+	 *                                  comparable (for example, a {@link String} and an
+	 *                                  {@link Integer})
+	 * @throws IllegalArgumentException if {@code fromIndex} is out of bounds or (optional) if the
+	 *                                  natural ordering of the array elements is found to violate
+	 *                                  the {@link Comparable} contract
+	 */
+	public static void sort(final Object[] array, final int fromIndex) {
+		// Check the arguments
+		ArrayArguments.requireIndex(fromIndex, array.length);
+
+		ComparableSort.sort(array, fromIndex, array.length, null, 0, 0);
+	}
+
+	/**
 	 * Sorts the specified range of the specified array of {@link Object} into ascending order,
 	 * according to the {@linkplain Comparable natural ordering} of its elements. The range to sort
 	 * extends from index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
@@ -520,17 +576,17 @@ public class Arrays {
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * @param toIndex   the index of the last element to sort (exclusive)
 	 * <p>
-	 * @throws IllegalArgumentException       if {@code fromIndex > toIndex} or (optional) if the
-	 *                                        natural ordering of the array elements is found to
-	 *                                        violate the {@link Comparable} contract
-	 * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or {@code toIndex > a.length}
-	 * @throws ClassCastException             if the array contains elements that are not mutually
-	 *                                        comparable (for example, a {@link String} and an
-	 *                                        {@link Integer})
+	 * @throws ClassCastException       if the array contains elements that are not mutually
+	 *                                  comparable (for example, a {@link String} and an
+	 *                                  {@link Integer})
+	 * @throws IllegalArgumentException if {@code fromIndex} or {@code toIndex} is out of bounds or
+	 *                                  (optional) if the natural ordering of the array elements is
+	 *                                  found to violate the {@link Comparable} contract
 	 */
 	public static void sort(final Object[] array, final int fromIndex, final int toIndex) {
 		// Check the arguments
-		IntegerArguments.requireNonNegative(toIndex);
+		ArrayArguments.requireIndex(fromIndex, array.length);
+		ArrayArguments.requireIndex(toIndex, array.length, true);
 
 		ComparableSort.sort(array, fromIndex, toIndex, null, 0, 0);
 	}
@@ -622,12 +678,12 @@ public class Arrays {
 	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
 	 *                   of the elements should be used)
 	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or {@code toIndex > a.length}
 	 * @throws ClassCastException             if the array contains elements that are not mutually
 	 *                                        comparable using the specified comparator
 	 * @throws IllegalArgumentException       if {@code fromIndex > toIndex} or (optional) if the
 	 *                                        comparator is found to violate the {@link Comparator}
 	 *                                        contract
-	 * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or {@code toIndex > a.length}
 	 */
 	public static <T> void sort(final T[] a, final int fromIndex, final int toIndex,
 			final Comparator<? super T> comparator) {

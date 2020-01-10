@@ -64,6 +64,13 @@ public class Arguments {
 				Strings.quote(found) + " found");
 	}
 
+	public static String betweenExpectedButFound(final Object found, final Object expectedFrom,
+			final Object expectedTo, final boolean isInclusive) {
+		return Strings.parenthesize("between " + Strings.quote(expectedFrom) + " and " +
+				Strings.quote(expectedTo) + " " + (isInclusive ? "inclusive" : "exclusive") +
+				" expected but " + Strings.quote(found) + " found");
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String isNotEqualTo(final Object a, final Object b) {

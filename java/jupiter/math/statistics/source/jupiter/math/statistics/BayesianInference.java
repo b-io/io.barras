@@ -25,8 +25,7 @@ package jupiter.math.statistics;
 
 import java.io.Serializable;
 
-import jupiter.common.test.DoubleArguments;
-import jupiter.common.test.IntegerArguments;
+import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Doubles;
 
 public class BayesianInference
@@ -116,8 +115,7 @@ public class BayesianInference
 
 	public void setLikelihood(final int i, final double likelihood) {
 		// Check the arguments
-		IntegerArguments.requireNonNegative(i);
-		DoubleArguments.requireLessThan(i, hypothesisCount);
+		ArrayArguments.requireIndex(i, hypothesisCount);
 
 		// Set the likelihood
 		likelihoods[i] = likelihood;

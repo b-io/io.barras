@@ -407,7 +407,7 @@ public class SVM {
 							Arguments.atLeastExpectedButFound(n, featureCount + 1));
 				}
 				if (classesIndex < n - 1) {
-					throw new IllegalArgumentException("The classes index is out of bound " +
+					throw new IllegalArgumentException("The classes index is out of bounds " +
 							Arguments.atLeastExpectedButFound(classesIndex, n - 1));
 				}
 				trainingExampleCount = m;

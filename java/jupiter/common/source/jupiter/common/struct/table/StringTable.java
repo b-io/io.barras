@@ -27,7 +27,6 @@ import java.io.IOException;
 
 import jupiter.common.map.parser.IParsers;
 import jupiter.common.test.ArrayArguments;
-import jupiter.common.test.IntegerArguments;
 
 /**
  * {@link StringTable} is the {@link Table} of {@link String}.
@@ -119,8 +118,7 @@ public class StringTable
 	public void setRow(final int i, final String[] values) {
 		// Check the arguments
 		// • i
-		IntegerArguments.requireNonNegative(i);
-		IntegerArguments.requireLessThan(i, m);
+		ArrayArguments.requireIndex(i, m);
 		// • values
 		ArrayArguments.requireMinLength(values, n);
 
@@ -142,8 +140,7 @@ public class StringTable
 	public void setColumn(final int j, final String[] values) {
 		// Check the arguments
 		// • j
-		IntegerArguments.requireNonNegative(j);
-		IntegerArguments.requireLessThan(j, n);
+		ArrayArguments.requireIndex(j, n);
 		// • values
 		ArrayArguments.requireMinLength(values, m);
 

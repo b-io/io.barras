@@ -24,7 +24,7 @@
 package jupiter.math.statistics;
 
 import jupiter.common.test.Arguments;
-import jupiter.common.test.IntegerArguments;
+import jupiter.common.test.ArrayArguments;
 
 public class BayesianInferenceWithModel
 		extends BayesianInference {
@@ -77,8 +77,7 @@ public class BayesianInferenceWithModel
 	 */
 	public void setStatisticalModel(final int i, final StatisticalModel model) {
 		// Check the arguments
-		IntegerArguments.requireNonNegative(i);
-		IntegerArguments.requireLessThan(i, hypothesisCount);
+		ArrayArguments.requireIndex(i, hypothesisCount);
 		Arguments.requireNonNull(model);
 
 		// Set the statistical model

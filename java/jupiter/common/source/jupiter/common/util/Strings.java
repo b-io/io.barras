@@ -673,7 +673,7 @@ public class Strings {
 	 */
 	public static String remove(final String text, final int index) {
 		// Check the arguments
-		IntegerArguments.requireNonNegative(index);
+		ArrayArguments.requireIndex(index, text.length());
 
 		// Remove the character
 		if (text == null) {
@@ -781,7 +781,7 @@ public class Strings {
 	 */
 	public static String replace(final String text, final int index, final char replacement) {
 		// Check the arguments
-		IntegerArguments.requireNonNegative(index);
+		ArrayArguments.requireIndex(index, text.length());
 
 		// Replace the character
 		if (text == null) {
@@ -1995,8 +1995,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(token);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
@@ -2072,8 +2071,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
@@ -2151,8 +2149,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
@@ -2224,8 +2221,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(token);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
@@ -2303,8 +2299,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
@@ -2384,8 +2379,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(tokens);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
@@ -2706,8 +2700,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiter);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
@@ -2761,8 +2754,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiters);
-		IntegerArguments.requireNonNegative(toIndex);
-		IntegerArguments.requireLessOrEqualTo(toIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();

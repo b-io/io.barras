@@ -117,6 +117,19 @@ public class ArrayArguments
 		}
 	}
 
+	public static void requireIndex(final int foundIndex, final int maxExpectedLength) {
+		requireIndex(foundIndex, maxExpectedLength, false);
+	}
+
+	public static void requireIndex(final int foundIndex, final int maxExpectedLength,
+			final boolean isInclusive) {
+		if (CHECK_ARGS && foundIndex < 0 ||
+				isInclusive ? foundIndex > maxExpectedLength : foundIndex >= maxExpectedLength) {
+			throw new IllegalArgumentException("The specified index is out of bounds " +
+					betweenExpectedButFound(foundIndex, 0, maxExpectedLength, isInclusive));
+		}
+	}
+
 	/**
 	 * Checks if {@code aType} is either the same as, or is a superclass or superinterface of, the
 	 * class or interface represented by {@code bType}.
