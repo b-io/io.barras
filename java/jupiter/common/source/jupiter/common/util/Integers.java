@@ -927,10 +927,10 @@ public class Integers {
 		return take(array, 0, array.length);
 	}
 
-	public static int[] take(final int[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length - from);
+	public static int[] take(final int[] array, final int fromIndex, final int length) {
+		final int maxLength = Math.min(length, array.length - fromIndex);
 		final int[] subarray = new int[maxLength];
-		System.arraycopy(array, from, subarray, 0, maxLength);
+		System.arraycopy(array, fromIndex, subarray, 0, maxLength);
 		return subarray;
 	}
 

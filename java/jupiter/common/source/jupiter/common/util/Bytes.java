@@ -1065,10 +1065,10 @@ public class Bytes {
 		return take(array, 0, array.length);
 	}
 
-	public static byte[] take(final byte[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length - from);
+	public static byte[] take(final byte[] array, final int fromIndex, final int length) {
+		final int maxLength = Math.min(length, array.length - fromIndex);
 		final byte[] subarray = new byte[maxLength];
-		System.arraycopy(array, from, subarray, 0, maxLength);
+		System.arraycopy(array, fromIndex, subarray, 0, maxLength);
 		return subarray;
 	}
 

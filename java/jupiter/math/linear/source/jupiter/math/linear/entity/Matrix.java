@@ -421,33 +421,33 @@ public class Matrix
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index.
 	 * <p>
-	 * @param i    the row index
-	 * @param from the initial column index (inclusive)
+	 * @param i          the row index
+	 * @param fromColumn the initial column index (inclusive)
 	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
-	public double[] getRow(final int i, final int from) {
-		return getRow(i, from, n - from);
+	public double[] getRow(final int i, final int fromColumn) {
+		return getRow(i, fromColumn, n - fromColumn);
 	}
 
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index to the
 	 * specified length.
 	 * <p>
-	 * @param i      the row index
-	 * @param from   the initial column index (inclusive)
-	 * @param length the number of row elements to get
+	 * @param i          the row index
+	 * @param fromColumn the initial column index (inclusive)
+	 * @param length     the number of row elements to get
 	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index to the
 	 *         specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
-	public double[] getRow(final int i, final int from, final int length) {
-		final double[] row = new double[Math.min(length, n - from)];
-		System.arraycopy(elements, i * n + from, row, 0, row.length);
+	public double[] getRow(final int i, final int fromColumn, final int length) {
+		final double[] row = new double[Math.min(length, n - fromColumn)];
+		System.arraycopy(elements, i * n + fromColumn, row, 0, row.length);
 		return row;
 	}
 
@@ -469,34 +469,34 @@ public class Matrix
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index.
 	 * <p>
-	 * @param j    the column index
-	 * @param from the initial row index (inclusive)
+	 * @param j       the column index
+	 * @param fromRow the initial row index (inclusive)
 	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public double[] getColumn(final int j, final int from) {
-		return getColumn(j, from, m - from);
+	public double[] getColumn(final int j, final int fromRow) {
+		return getColumn(j, fromRow, m - fromRow);
 	}
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index to the
 	 * specified length.
 	 * <p>
-	 * @param j      the column index
-	 * @param from   the initial row index (inclusive)
-	 * @param length the number of column elements to get
+	 * @param j       the column index
+	 * @param fromRow the initial row index (inclusive)
+	 * @param length  the number of column elements to get
 	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index to the
 	 *         specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public double[] getColumn(final int j, final int from, final int length) {
-		final double[] column = new double[Math.min(length, m - from)];
+	public double[] getColumn(final int j, final int fromRow, final int length) {
+		final double[] column = new double[Math.min(length, m - fromRow)];
 		for (int i = 0; i < column.length; ++i) {
-			column[i] = elements[(from + i) * n + j];
+			column[i] = elements[(fromRow + i) * n + j];
 		}
 		return column;
 	}
@@ -667,29 +667,29 @@ public class Matrix
 	/**
 	 * Sets the elements of the specified row from the specified column index.
 	 * <p>
-	 * @param i      the row index
-	 * @param values a {@code double} array
-	 * @param from   the initial column index (inclusive)
+	 * @param i          the row index
+	 * @param values     a {@code double} array
+	 * @param fromColumn the initial column index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
-	public void setRow(final int i, final double[] values, final int from) {
-		setRow(i, values, from, values.length);
+	public void setRow(final int i, final double[] values, final int fromColumn) {
+		setRow(i, values, fromColumn, values.length);
 	}
 
 	/**
 	 * Sets the elements of the specified row from the specified column index to the specified
 	 * length.
 	 * <p>
-	 * @param i      the row index
-	 * @param values a {@code double} array
-	 * @param from   the initial column index (inclusive)
-	 * @param length the number of row elements to set
+	 * @param i          the row index
+	 * @param values     a {@code double} array
+	 * @param fromColumn the initial column index (inclusive)
+	 * @param length     the number of row elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
-	public void setRow(final int i, final double[] values, final int from, final int length) {
-		System.arraycopy(values, 0, elements, i * n + from, Math.min(length, n - from));
+	public void setRow(final int i, final double[] values, final int fromColumn, final int length) {
+		System.arraycopy(values, 0, elements, i * n + fromColumn, Math.min(length, n - fromColumn));
 	}
 
 	/**
@@ -721,13 +721,13 @@ public class Matrix
 	/**
 	 * Sets the elements of the specified column from the specified row index.
 	 * <p>
-	 * @param j      the column index
-	 * @param values a {@code double} array
-	 * @param from   the initial row index (inclusive)
+	 * @param j       the column index
+	 * @param values  a {@code double} array
+	 * @param fromRow the initial row index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public void setColumn(final int j, final double[] values, final int from) {
+	public void setColumn(final int j, final double[] values, final int fromRow) {
 		setColumn(j, values, 0, values.length);
 	}
 
@@ -735,17 +735,17 @@ public class Matrix
 	 * Sets the elements of the specified column from the specified row index to the specified
 	 * length.
 	 * <p>
-	 * @param j      the column index
-	 * @param values a {@code double} array
-	 * @param from   the initial row index (inclusive)
-	 * @param length the number of column elements to set
+	 * @param j       the column index
+	 * @param values  a {@code double} array
+	 * @param fromRow the initial row index (inclusive)
+	 * @param length  the number of column elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public void setColumn(final int j, final double[] values, final int from, final int length) {
-		final int limit = Math.min(length, m - from);
+	public void setColumn(final int j, final double[] values, final int fromRow, final int length) {
+		final int limit = Math.min(length, m - fromRow);
 		for (int i = 0; i < limit; ++i) {
-			elements[i * n + j] = values[from + i];
+			elements[i * n + j] = values[fromRow + i];
 		}
 	}
 
@@ -2276,17 +2276,17 @@ public class Matrix
 	 * Creates a {@link Matrix} loaded from the specified reader.
 	 * <p>
 	 * @param reader    a {@link BufferedReader}
-	 * @param length    the number of lines to load
+	 * @param lineCount the number of lines to load
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified reader
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */
-	public static Matrix create(final BufferedReader reader, final int length,
+	public static Matrix create(final BufferedReader reader, final int lineCount,
 			final boolean transpose)
 			throws IOException {
-		final int m = length;
+		final int m = lineCount;
 		int n = 0;
 		// Parse the file
 		String line;
@@ -2720,19 +2720,19 @@ public class Matrix
 		 * operand {@link Matrix} and right-hand side operand {@link Matrix} from the specified
 		 * index to the specified index and returns the exit code.
 		 * <p>
-		 * @param result the result {@link Matrix}
-		 * @param left   the left-hand side operand {@link Matrix}
-		 * @param right  the right-hand side operand {@link Matrix}
-		 * @param from   the index to start multiplying from (inclusive)
-		 * @param to     the index to finish multiplying at (exclusive)
+		 * @param result    the result {@link Matrix}
+		 * @param left      the left-hand side operand {@link Matrix}
+		 * @param right     the right-hand side operand {@link Matrix}
+		 * @param fromIndex the index to start multiplying from (inclusive)
+		 * @param toIndex   the index to finish multiplying at (exclusive)
 		 * <p>
 		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
 		 *         otherwise
 		 */
 		protected static int process(final Matrix result, final Matrix left, final Matrix right,
-				final int from, final int to) {
+				final int fromIndex, final int toIndex) {
 			final int innerDimension = left.n; // or right.m
-			for (int i = from; i < to; ++i) {
+			for (int i = fromIndex; i < toIndex; ++i) {
 				for (int k = 0; k < innerDimension; ++k) {
 					result.arraySum(right.elements, left.elements[i * left.n + k],
 							i * result.n, k * right.n);

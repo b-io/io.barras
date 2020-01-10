@@ -651,23 +651,23 @@ public class Files {
 
 	/**
 	 * Copies the specified source {@link File} to the specified target {@link File} from the
-	 * specified number of lines (without necessary preserving the file dates).
+	 * specified line index (without necessary preserving the file dates).
 	 * <p>
-	 * @param source the source {@link File}
-	 * @param target the target {@link File}
-	 * @param force  the flag specifying whether to delete the target {@link File} before copying
-	 * @param from   the line index to start copying forward from
+	 * @param source   the source {@link File}
+	 * @param target   the target {@link File}
+	 * @param force    the flag specifying whether to delete the target {@link File} before copying
+	 * @param fromLine the line index to start copying forward from
 	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
-	 *         {@link File} from the specified number of lines (without necessary preserving the
-	 *         file dates), {@code false} otherwise
+	 *         {@link File} from the specified line index (without necessary preserving the file
+	 *         dates), {@code false} otherwise
 	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code source}
 	 */
 	public static boolean copy(final File source, final File target, final boolean force,
-			final int from)
+			final int fromLine)
 			throws CopyFileException {
-		if (from == 0) {
+		if (fromLine == 0) {
 			return copy(source, target, force);
 		}
 		if (exists(target)) {
@@ -687,7 +687,7 @@ public class Files {
 			createParentDirs(target);
 			reader = new BufferedReader(new FileReader(source));
 			writer = new PrintWriter(new FileWriter(target));
-			IO.copy(reader, writer, from);
+			IO.copy(reader, writer, fromLine);
 			return true;
 		} catch (final IOException ex) {
 			IO.error(ex);

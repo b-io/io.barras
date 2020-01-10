@@ -421,6 +421,32 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Shuffles the specified {@code T} array.
+	 * <p>
+	 * @param <T>   the component type of the array to shuffle
+	 * @param array the {@code T} array to shuffle
+	 */
+	public static <T> void shuffle(final T[] array) {
+		shuffle(array, 0, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code T} array between the specified indexes.
+	 * <p>
+	 * @param <T>       the component type of the array to shuffle
+	 * @param array     the {@code T} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 * @param toIndex   the index to finish shuffling at (exclusive)
+	 */
+	public static <T> void shuffle(final T[] array, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			swap(array, i, Integers.random(fromIndex, toIndex));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Sorts the specified array of {@link Object} into ascending order, according to the
 	 * {@linkplain Comparable natural ordering} of its elements. All elements in the array must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in the array must be
@@ -448,7 +474,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param array the array to sort
+	 * @param array the array of {@link Object} to sort
 	 * <p>
 	 * @throws ClassCastException       if the array contains elements that are not mutually
 	 *                                  comparable (for example, a {@link String} and an
@@ -490,7 +516,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param array     the array to sort
+	 * @param array     the array of {@link Object} to sort
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * @param toIndex   the index of the last element to sort (exclusive)
 	 * <p>
@@ -540,7 +566,7 @@ public class Arrays {
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
 	 * @param <T>        the component type of the array to sort
-	 * @param array      the array to sort
+	 * @param array      the {@code T} array to sort
 	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
 	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
 	 *                   of the elements should be used)
@@ -589,7 +615,7 @@ public class Arrays {
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
 	 * @param <T>        the component type of the array to sort
-	 * @param a          the array to sort
+	 * @param a          the {@code T} array to sort
 	 * @param fromIndex  the index of the first element to sort (inclusive)
 	 * @param toIndex    the index of the last element to sort (exclusive)
 	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
@@ -626,15 +652,15 @@ public class Arrays {
 		return take(array, 0);
 	}
 
-	public static <T> T[] take(final T[] array, final int from) {
-		return take(array, from, array.length);
+	public static <T> T[] take(final T[] array, final int fromIndex) {
+		return take(array, fromIndex, array.length);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T[] take(final T[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length - from);
+	public static <T> T[] take(final T[] array, final int fromIndex, final int length) {
+		final int maxLength = Math.min(length, array.length - fromIndex);
 		final T[] subarray = (T[]) create(getComponentType(array), maxLength);
-		System.arraycopy(array, from, subarray, 0, maxLength);
+		System.arraycopy(array, fromIndex, subarray, 0, maxLength);
 		return subarray;
 	}
 

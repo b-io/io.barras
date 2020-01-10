@@ -824,10 +824,10 @@ public class Shorts {
 		return take(array, 0, array.length);
 	}
 
-	public static short[] take(final short[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length - from);
+	public static short[] take(final short[] array, final int fromIndex, final int length) {
+		final int maxLength = Math.min(length, array.length - fromIndex);
 		final short[] subarray = new short[maxLength];
-		System.arraycopy(array, from, subarray, 0, maxLength);
+		System.arraycopy(array, fromIndex, subarray, 0, maxLength);
 		return subarray;
 	}
 

@@ -269,11 +269,11 @@ public class Table<E>
 		}
 
 		// Get the column index
-		final int index = Arrays.<String>indexOf(header, name);
-		if (index < 0) {
+		final int columnIndex = Arrays.<String>indexOf(header, name);
+		if (columnIndex < 0) {
 			throw new IllegalArgumentException("There is no column " + Strings.quote(name));
 		}
-		return index;
+		return columnIndex;
 	}
 
 	/**
@@ -356,45 +356,45 @@ public class Table<E>
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index.
 	 * <p>
-	 * @param i    the row index
-	 * @param from the initial column index (inclusive)
+	 * @param i          the row index
+	 * @param fromColumn the initial column index (inclusive)
 	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
-	public E[] getRow(final int i, final int from) {
-		return getRow(i, from, n - from);
+	public E[] getRow(final int i, final int fromColumn) {
+		return getRow(i, fromColumn, n - fromColumn);
 	}
 
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index to the
 	 * specified length.
 	 * <p>
-	 * @param i      the row index
-	 * @param from   the initial column index (inclusive)
-	 * @param length the number of row elements to get
+	 * @param i          the row index
+	 * @param fromColumn the initial column index (inclusive)
+	 * @param length     the number of row elements to get
 	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index to the
 	 *         specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
-	public E[] getRow(final int i, final int from, final int length) {
+	public E[] getRow(final int i, final int fromColumn, final int length) {
 		// Check the arguments
 		// • i
 		IntegerArguments.requireNonNegative(i);
 		IntegerArguments.requireLessThan(i, m);
 		// • from
-		IntegerArguments.requireNonNegative(from);
-		IntegerArguments.requireLessThan(from, n);
+		IntegerArguments.requireNonNegative(fromColumn);
+		IntegerArguments.requireLessThan(fromColumn, n);
 		// • length
 		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, n - from);
+		IntegerArguments.requireLessOrEqualTo(length, n - fromColumn);
 
 		// Get the corresponding row
 		final E[] row = createArray(length);
-		System.arraycopy(elements[i], from, row, 0, length);
+		System.arraycopy(elements[i], fromColumn, row, 0, length);
 		return row;
 	}
 
@@ -427,81 +427,81 @@ public class Table<E>
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index.
 	 * <p>
-	 * @param name the column name
-	 * @param from the initial row index (inclusive)
+	 * @param name    the column name
+	 * @param fromRow the initial row index (inclusive)
 	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code fromRow} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
 	 */
-	public E[] getColumn(final String name, final int from) {
-		return getColumn(name, from, m - from);
+	public E[] getColumn(final String name, final int fromRow) {
+		return getColumn(name, fromRow, m - fromRow);
 	}
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index.
 	 * <p>
-	 * @param j    the column index
-	 * @param from the initial row index (inclusive)
+	 * @param j       the column index
+	 * @param fromRow the initial row index (inclusive)
 	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public E[] getColumn(final int j, final int from) {
-		return getColumn(j, from, m - from);
+	public E[] getColumn(final int j, final int fromRow) {
+		return getColumn(j, fromRow, m - fromRow);
 	}
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index to the
 	 * specified length.
 	 * <p>
-	 * @param name   the column name
-	 * @param from   the initial row index (inclusive)
-	 * @param length the number of column elements to get
+	 * @param name    the column name
+	 * @param fromRow the initial row index (inclusive)
+	 * @param length  the number of column elements to get
 	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index to the
 	 *         specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code fromRow} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
 	 */
-	public E[] getColumn(final String name, final int from, final int length) {
-		return getColumn(getColumnIndex(name), from, length);
+	public E[] getColumn(final String name, final int fromRow, final int length) {
+		return getColumn(getColumnIndex(name), fromRow, length);
 	}
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index to the
 	 * specified length.
 	 * <p>
-	 * @param j      the column index
-	 * @param from   the initial row index (inclusive)
-	 * @param length the number of column elements to get
+	 * @param j       the column index
+	 * @param fromRow the initial row index (inclusive)
+	 * @param length  the number of column elements to get
 	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index to the
 	 *         specified length
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public E[] getColumn(final int j, final int from, final int length) {
+	public E[] getColumn(final int j, final int fromRow, final int length) {
 		// Check the arguments
 		// • j
 		IntegerArguments.requireNonNegative(j);
 		IntegerArguments.requireLessThan(j, n);
 		// • from
-		IntegerArguments.requireNonNegative(from);
-		IntegerArguments.requireLessThan(from, m);
+		IntegerArguments.requireNonNegative(fromRow);
+		IntegerArguments.requireLessThan(fromRow, m);
 		// • length
 		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, m - from);
+		IntegerArguments.requireLessOrEqualTo(length, m - fromRow);
 
 		// Get the corresponding column
 		final E[] column = createArray(length);
 		for (int i = 0; i < column.length; ++i) {
-			column[i] = elements[from + i][j];
+			column[i] = elements[fromRow + i][j];
 		}
 		return column;
 	}
@@ -580,28 +580,28 @@ public class Table<E>
 	/**
 	 * Sets the elements of the specified row from the specified column index.
 	 * <p>
-	 * @param i      the row index
-	 * @param values an {@code E} array
-	 * @param from   the initial column index (inclusive)
+	 * @param i          the row index
+	 * @param values     an {@code E} array
+	 * @param fromColumn the initial column index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
-	public void setRow(final int i, final E[] values, final int from) {
-		setRow(i, values, from, values.length);
+	public void setRow(final int i, final E[] values, final int fromColumn) {
+		setRow(i, values, fromColumn, values.length);
 	}
 
 	/**
 	 * Sets the elements of the specified row from the specified column index to the specified
 	 * length.
 	 * <p>
-	 * @param i      the row index
-	 * @param values an {@code E} array
-	 * @param from   the initial column index (inclusive)
-	 * @param length the number of row elements to set
+	 * @param i          the row index
+	 * @param values     an {@code E} array
+	 * @param fromColumn the initial column index (inclusive)
+	 * @param length     the number of row elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
-	public void setRow(final int i, final E[] values, final int from, final int length) {
+	public void setRow(final int i, final E[] values, final int fromColumn, final int length) {
 		// Check the arguments
 		// • i
 		IntegerArguments.requireNonNegative(i);
@@ -610,14 +610,14 @@ public class Table<E>
 		ArrayArguments.requireNonEmpty(values);
 		ArrayArguments.requireMinLength(values, length);
 		// • from
-		IntegerArguments.requireNonNegative(from);
-		IntegerArguments.requireLessThan(from, n);
+		IntegerArguments.requireNonNegative(fromColumn);
+		IntegerArguments.requireLessThan(fromColumn, n);
 		// • length
 		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, n - from);
+		IntegerArguments.requireLessOrEqualTo(length, n - fromColumn);
 
 		// Set the corresponding row
-		System.arraycopy(values, 0, elements[i], from, length);
+		System.arraycopy(values, 0, elements[i], fromColumn, length);
 	}
 
 	/**
@@ -649,28 +649,28 @@ public class Table<E>
 	/**
 	 * Sets the elements of the specified column from the specified row index.
 	 * <p>
-	 * @param j      the column index
-	 * @param values an {@code E} array
-	 * @param from   the initial row index (inclusive)
+	 * @param j       the column index
+	 * @param values  an {@code E} array
+	 * @param fromRow the initial row index (inclusive)
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public void setColumn(final int j, final E[] values, final int from) {
-		setColumn(j, values, from, values.length);
+	public void setColumn(final int j, final E[] values, final int fromRow) {
+		setColumn(j, values, fromRow, values.length);
 	}
 
 	/**
 	 * Sets the elements of the specified column from the specified row index to the specified
 	 * length.
 	 * <p>
-	 * @param j      the column index
-	 * @param values an {@code E} array
-	 * @param from   the initial row index (inclusive)
-	 * @param length the number of column elements to set
+	 * @param j       the column index
+	 * @param values  an {@code E} array
+	 * @param fromRow the initial row index (inclusive)
+	 * @param length  the number of column elements to set
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code from} is out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public void setColumn(final int j, final E[] values, final int from, final int length) {
+	public void setColumn(final int j, final E[] values, final int fromRow, final int length) {
 		// Check the arguments
 		// • j
 		IntegerArguments.requireNonNegative(j);
@@ -679,15 +679,15 @@ public class Table<E>
 		ArrayArguments.requireNonEmpty(values);
 		ArrayArguments.requireMinLength(values, length);
 		// • from
-		IntegerArguments.requireNonNegative(from);
-		IntegerArguments.requireLessThan(from, m);
+		IntegerArguments.requireNonNegative(fromRow);
+		IntegerArguments.requireLessThan(fromRow, m);
 		// • length
 		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, m - from);
+		IntegerArguments.requireLessOrEqualTo(length, m - fromRow);
 
 		// Set the corresponding column
 		for (int i = 0; i < length; ++i) {
-			elements[i][j] = values[from + i];
+			elements[i][j] = values[fromRow + i];
 		}
 	}
 

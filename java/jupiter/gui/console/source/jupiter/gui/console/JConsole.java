@@ -577,9 +577,10 @@ public class JConsole
 		return textPane.getDocument().getLength();
 	}
 
-	protected String replaceRange(final Object content, final int from, final int to) {
+	protected String replaceRange(final Object content, final int fromSelection,
+			final int toSelection) {
 		final String selection = Strings.toString(content);
-		textPane.select(from, to);
+		textPane.select(fromSelection, toSelection);
 		textPane.replaceSelection(selection);
 		//textPane.repaint();
 		return selection;

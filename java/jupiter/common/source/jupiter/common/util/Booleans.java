@@ -663,10 +663,10 @@ public class Booleans {
 		return take(array, 0, array.length);
 	}
 
-	public static boolean[] take(final boolean[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length - from);
+	public static boolean[] take(final boolean[] array, final int fromIndex, final int length) {
+		final int maxLength = Math.min(length, array.length - fromIndex);
 		final boolean[] subarray = new boolean[maxLength];
-		System.arraycopy(array, from, subarray, 0, maxLength);
+		System.arraycopy(array, fromIndex, subarray, 0, maxLength);
 		return subarray;
 	}
 

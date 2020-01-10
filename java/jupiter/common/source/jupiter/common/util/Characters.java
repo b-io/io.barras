@@ -770,10 +770,10 @@ public class Characters {
 		return take(array, 0, array.length);
 	}
 
-	public static char[] take(final char[] array, final int from, final int length) {
-		final int maxLength = Math.min(length, array.length - from);
+	public static char[] take(final char[] array, final int fromIndex, final int length) {
+		final int maxLength = Math.min(length, array.length - fromIndex);
 		final char[] subarray = new char[maxLength];
-		System.arraycopy(array, from, subarray, 0, maxLength);
+		System.arraycopy(array, fromIndex, subarray, 0, maxLength);
 		return subarray;
 	}
 

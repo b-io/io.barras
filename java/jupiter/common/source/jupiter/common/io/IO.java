@@ -549,20 +549,21 @@ public class IO
 
 	/**
 	 * Copies the data of the specified {@link BufferedReader} with the specified
-	 * {@link PrintWriter} from the specified number of lines.
+	 * {@link PrintWriter} from the specified line index.
 	 * <p>
-	 * @param reader the {@link BufferedReader} to read from
-	 * @param writer the {@link PrintWriter} to copy with
-	 * @param from   the line index to start copying forward from
+	 * @param reader   the {@link BufferedReader} to read from
+	 * @param writer   the {@link PrintWriter} to copy with
+	 * @param fromLine the line index to start copying forward from
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */
-	public static void copy(final BufferedReader reader, final PrintWriter writer, final int from)
+	public static void copy(final BufferedReader reader, final PrintWriter writer,
+			final int fromLine)
 			throws IOException {
 		int i = 0;
 		String line;
 		while ((line = reader.readLine()) != null) {
-			if (i++ >= from) {
+			if (i++ >= fromLine) {
 				writer.println(line);
 			}
 		}

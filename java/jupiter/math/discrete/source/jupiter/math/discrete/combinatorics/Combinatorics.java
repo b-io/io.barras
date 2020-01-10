@@ -131,7 +131,7 @@ public class Combinatorics {
 		// Initialize
 		final int n = sequence.size();
 		final int k = permutation.length;
-		final int divisor = P(n, n) / P(n, k);
+		final int divisor = getKPermutationDivisor(n, k);
 
 		// Get the index of the k-permutation
 		return getKPermutationIndex(permutation, sequence, divisor);
@@ -151,6 +151,20 @@ public class Combinatorics {
 	public static int getKPermutationIndex(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence, final int divisor) {
 		return getPermutationIndex(permutation, sequence) / divisor;
+	}
+
+	/**
+	 * Returns the ratio between the numbers of {@code n}-permutations and {@code k}-permutations
+	 * without repetition.
+	 * <p>
+	 * @param n the number of elements in the set
+	 * @param k the number of elements in the ordered subsets
+	 * <p>
+	 * @return the ratio between the numbers of {@code n}-permutations and {@code k}-permutations
+	 *         without repetition
+	 */
+	public static int getKPermutationDivisor(final int n, final int k) {
+		return P(n, n) / P(n, k);
 	}
 
 
@@ -405,7 +419,7 @@ public class Combinatorics {
 		if (sort) {
 			final ExtendedLinkedList<Integer> sequence = Integers.toLinkedList(
 					Integers.createSequence(n));
-			final int divisor = P(n, n) / P(n, k);
+			final int divisor = getKPermutationDivisor(n, k);
 			for (final int[] combination : combinations) {
 				final int[][] subpermutations = createPermutations(combination);
 				for (final int[] subpermutation : subpermutations) {
@@ -596,6 +610,8 @@ public class Combinatorics {
 	public static double PR(final double n, final double k) {
 		return Math.pow(n, k);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the number {@code PFR(ms)} of distinct {@code n}-element tuples of objects from a
@@ -816,6 +832,8 @@ public class Combinatorics {
 	public static double CR(final double n, final double k) {
 		return C(n + k - 1., k);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the number {@code CFR(k, ms)} of distinct {@code k}-element multisubsets of a
