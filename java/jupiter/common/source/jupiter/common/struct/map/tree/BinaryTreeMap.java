@@ -33,7 +33,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.map.tree.node.BinaryTreeNode;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -56,17 +55,17 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link BinaryTreeMap} of type {@code K}, {@code V} and {@code N}.
+	 * Constructs a {@link BinaryTreeMap} of types {@code K}, {@code V} and {@code N}.
 	 */
 	protected BinaryTreeMap() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link BinaryTreeMap} of type {@code K}, {@code V} and {@code N} loaded from the
+	 * Constructs a {@link BinaryTreeMap} of types {@code K}, {@code V} and {@code N} loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value {@code K} and {@code V} mappings to load
+	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
 	 */
 	protected BinaryTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -240,7 +239,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable the key {@link Comparable} of super type {@code K} to find
+	 * @param keyComparable the key {@link Comparable} of super-type {@code K} to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
@@ -496,7 +495,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Performs the in-order traversal of {@code this} and returns a {@link Set} view of the
-	 * key-value {@link Entry} of type {@code K} and {@code V} of the visited nodes. The iterator of
+	 * key-value {@link Entry} of types {@code K} and {@code V} of the visited nodes. The iterator of
 	 * the {@link Set} returns the entries in ascending key order. The {@link Set} is backed by
 	 * {@code this}, so changes to {@code this} are reflected in the {@link Set} and vice-versa. If
 	 * {@code this} is modified while an iteration over the {@link Set} is in progress (except
@@ -506,7 +505,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
 	 * does not support the {@code add} or {@code addAll} operations.
 	 * <p>
-	 * @return a {@link Set} view of the key-value {@link Entry} of type {@code K} and {@code V}
+	 * @return a {@link Set} view of the key-value {@link Entry} of types {@code K} and {@code V}
 	 */
 	@Override
 	public Set<Entry<K, V>> entrySet() {
@@ -515,13 +514,13 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Performs the in-order traversal of the specified {@code N} tree and returns a {@link Set}
-	 * view of the key-value {@link Entry} of type {@code K} and {@code V} of the visited nodes
+	 * view of the key-value {@link Entry} of types {@code K} and {@code V} of the visited nodes
 	 * added to the specified {@link Set}.
 	 * <p>
 	 * @param tree a {@code N} tree
-	 * @param set  a {@link Set} of {@link Entry} of type {@code K} and {@code V}
+	 * @param set  a {@link Set} of {@link Entry} of types {@code K} and {@code V}
 	 * <p>
-	 * @return a {@link Set} view of the key-value {@link Entry} of type {@code K} and {@code V} of
+	 * @return a {@link Set} view of the key-value {@link Entry} of types {@code K} and {@code V} of
 	 *         the visited nodes added to the specified {@link Set}
 	 */
 	protected Set<Entry<K, V>> entrySet(final N tree, final Set<Entry<K, V>> set) {

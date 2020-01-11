@@ -24,12 +24,18 @@
 package jupiter.common.struct.list;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
+/**
+ * {@link Index} is the index of the {@code T} token.
+ * <p>
+ * @param <T> the type of the token to index
+ */
 public class Index<T>
 		implements Comparable<Index<T>>, ICloneable<Index<T>>, Serializable {
 
@@ -41,6 +47,15 @@ public class Index<T>
 	 * The generated serial version ID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Index<?>> COMPARATOR = new Comparator<Index<?>>() {
+		@Override
+		public int compare(final Index<?> a, final Index<?> b) {
+			return Index.compare(a, b);
+		}
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +127,26 @@ public class Index<T>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
 	public int compareTo(final Index<T> other) {
-		return Integers.compare(index, other.index);
+		return compare(this, other);
+	}
+
+	/**
+	 * Compares the specified {@link Index} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param a the {@link Index} to compare for order
+	 * @param b the other {@link Index} to compare against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 */
+	public static int compare(final Index<?> a, final Index<?> b) {
+		if (a == b) {
+			return 0;
+		}
+		return Integers.compare(a.getIndex(), b.getIndex());
 	}
 
 

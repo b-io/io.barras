@@ -23,13 +23,24 @@
  */
 package jupiter.common.util;
 
-import static jupiter.common.util.Longs.compare;
-
 import java.math.BigDecimal;
+import java.util.Comparator;
 
 import jupiter.common.exception.IllegalOperationException;
 
 public class Numbers {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Number> COMPARATOR = new Comparator<Number>() {
+		@Override
+		public int compare(final Number a, final Number b) {
+			return Numbers.compare(a, b);
+		}
+	};
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -165,11 +176,16 @@ public class Numbers {
 	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static int compare(final Number a, final Number b) {
+		if (a == b) {
+			return 0;
+		}
 		if (a instanceof BigDecimal || b instanceof BigDecimal) {
 			return toBigDecimal(a).compareTo(toBigDecimal(b));
 		}
 		return Doubles.compare(a.doubleValue(), b.doubleValue());
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code a} is less than {@code b}.
@@ -199,6 +215,8 @@ public class Numbers {
 		return compare(a, b) <= 0;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Tests whether {@code a} is greater than {@code b}.
 	 * <p>
@@ -227,39 +245,13 @@ public class Numbers {
 		return compare(a, b) >= 0;
 	}
 
-	//////////////////////////////////////////////
-
-	/**
-	 * Compares the specified arrays of {@link Number} for order. Returns a negative integer, zero
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
-	 * <p>
-	 * @param <T> the component type of the arrays to compare for order
-	 * @param a   the array of {@link Number} to compare for order
-	 * @param b   the other array of {@link Number} to compare against for order
-	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
-	 */
-	public static <T extends Number> int compare(final T[] a, final T[] b) {
-		final int limit = Math.min(a.length, b.length);
-		for (int i = 0; i < limit; ++i) {
-			final int comparison = compare(a[i], b[i]);
-			if (comparison != 0) {
-				return comparison;
-			}
-		}
-		return Integers.compare(a.length, b.length);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the smaller of {@code a} and {@code b}. If they have the same value, the result is
 	 * {@code a}.
 	 * <p>
-	 * @param <T> the type of the {@link Number} to compare
+	 * @param <T> the {@link Number} type
 	 * @param a   the {@link Number} to compare
 	 * @param b   the other {@link Number} to compare against
 	 * <p>
@@ -275,7 +267,7 @@ public class Numbers {
 	 * Returns the larger of {@code a} and {@code b}. If they have the same value, the result is
 	 * {@code a}.
 	 * <p>
-	 * @param <T> the type of the {@link Number} to compare
+	 * @param <T> the {@link Number} type
 	 * @param a   the {@link Number} to compare
 	 * @param b   the other {@link Number} to compare against
 	 * <p>

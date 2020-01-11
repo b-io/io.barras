@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.math.Comparables;
 import jupiter.common.struct.list.ComparableSort;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
@@ -47,6 +48,15 @@ public class Arrays {
 	 * The default delimiting {@link String}.
 	 */
 	public static final String DEFAULT_DELIMITER = ",";
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Comparable<Object>[]> COMPARATOR = new Comparator<Comparable<Object>[]>() {
+		@Override
+		public int compare(final Comparable<Object>[] a, final Comparable<Object>[] b) {
+			return Arrays.compare(a, b);
+		}
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -283,7 +293,7 @@ public class Arrays {
 	/**
 	 * Returns the filtered {@code T} array from the specified {@code T} array and indexes.
 	 * <p>
-	 * @param <T>     the component type of the arrays to filter
+	 * @param <T>     the component type of the array to filter
 	 * @param array   a {@code T} array
 	 * @param indexes the indexes to filter
 	 * <p>
@@ -301,7 +311,7 @@ public class Arrays {
 	/**
 	 * Returns all the filtered {@code T} arrays from the specified {@code T} array and indexes.
 	 * <p>
-	 * @param <T>     the component type of the arrays to filter
+	 * @param <T>     the component type of the array to filter
 	 * @param array   a {@code T} array
 	 * @param indexes the array of indexes to filter
 	 * <p>
@@ -595,10 +605,9 @@ public class Arrays {
 
 	/**
 	 * Sorts the specified array of {@link Object} according to the order induced by the specified
-	 * comparator. All elements in the array must be
-	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
-	 * must not throw a {@link ClassCastException} for any elements {@code e1} and {@code e2} in the
-	 * array).
+	 * comparator. All elements in the array must be <i>mutually comparable</i> by the specified
+	 * comparator (that is, {@code c.compare(e1, e2)} must not throw a {@link ClassCastException}
+	 * for any elements {@code e1} and {@code e2} in the array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -623,7 +632,7 @@ public class Arrays {
 	 * <p>
 	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array to sort
-	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
+	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order (a
 	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
 	 *                   of the elements should be used)
 	 * <p>
@@ -644,10 +653,9 @@ public class Arrays {
 	 * Sorts the specified range of the specified array of {@link Object} according to the order
 	 * induced by the specified comparator. The range to sort extends from index {@code fromIndex},
 	 * inclusive, to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to
-	 * be sorted is empty.) All elements in the range must be
-	 * <i>mutually comparable</i> by the specified comparator (that is, {@code c.compare(e1, e2)}
-	 * must not throw a {@link ClassCastException} for any elements {@code e1} and {@code e2} in the
-	 * range).
+	 * be sorted is empty.) All elements in the range must be <i>mutually comparable</i> by the
+	 * specified comparator (that is, {@code c.compare(e1, e2)} must not throw a
+	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the range).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -674,7 +682,7 @@ public class Arrays {
 	 * @param a          the {@code T} array to sort
 	 * @param fromIndex  the index of the first element to sort (inclusive)
 	 * @param toIndex    the index of the last element to sort (exclusive)
-	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order (a
+	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order (a
 	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
 	 *                   of the elements should be used)
 	 * <p>
@@ -919,6 +927,57 @@ public class Arrays {
 			}
 		}
 		return false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATOR
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified array of {@link Comparable} of {@link Object} for order. Returns a
+	 * negative integer, zero or a positive integer as {@code a} is less than, equal to or greater
+	 * than {@code b}.
+	 * <p>
+	 * @param a the array of {@link Comparable} of {@link Object} to compare for order
+	 * @param b the other array of {@link Comparable} of {@link Object} to compare against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 */
+	public static int compare(final Comparable<Object>[] a, final Comparable<Object>[] b) {
+		return compare(a, b, Comparables.COMPARATOR);
+	}
+
+	/**
+	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
+	 * otherwise.
+	 * <p>
+	 * @param <T>        the type of the arrays to compare for order
+	 * @param a          the {@code T} array to compare for order
+	 * @param b          the other {@code T} array to compare against for order
+	 * @param comparator the {@link Comparator} of super-type {@code T} to use
+	 * <p>
+	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
+	 *         otherwise
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 */
+	public static <T> int compare(final T[] a, final T[] b,
+			final Comparator<? super T> comparator) {
+		if (a == b) {
+			return 0;
+		}
+		final int limit = Math.min(a.length, b.length);
+		for (int i = 0; i < limit; ++i) {
+			final int comparison = comparator.compare(a[i], b[i]);
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+		return Integers.compare(a.length, b.length);
 	}
 
 

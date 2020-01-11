@@ -43,7 +43,7 @@ public class Inverse
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Inverse}.
+	 * Constructs an {@link Inverse}.
 	 */
 	protected Inverse() {
 		super();

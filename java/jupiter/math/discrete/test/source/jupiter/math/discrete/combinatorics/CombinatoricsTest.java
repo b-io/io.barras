@@ -300,7 +300,7 @@ public class CombinatoricsTest
 	public void testCR() {
 		IO.test("• CR");
 
-		// Count the number of ways to choose 3 donuts from 4 distinct types with repetition
+		// Count the number of ways to choose 3 donuts from 4 distinct categories with repetition
 		assertEquals(20L, Combinatorics.CR(4L, 3L));
 	}
 }

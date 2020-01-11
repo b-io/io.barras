@@ -30,7 +30,7 @@ import jupiter.common.util.Objects;
  * {@link Hasher} is the {@link Reducer} hashing an {@code I} input array to an output
  * {@link Integer}.
  * <p>
- * @param <I> the component type of the input array
+ * @param <I> the component type of the input array to hash
  */
 public class Hasher<I>
 		extends Reducer<I, Integer> {

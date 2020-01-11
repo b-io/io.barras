@@ -43,7 +43,7 @@ public class Factorial
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Factorial}.
+	 * Constructs a {@link Factorial}.
 	 */
 	protected Factorial() {
 		super();

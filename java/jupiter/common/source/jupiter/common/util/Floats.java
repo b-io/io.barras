@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -46,6 +47,22 @@ public class Floats {
 	protected static final FloatParser PARSER = IParsers.FLOAT_PARSER;
 
 	public static volatile Random RANDOM = new Random();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Float> COMPARATOR = new Comparator<Float>() {
+		@Override
+		public int compare(final Float a, final Float b) {
+			return Floats.compare(a, b);
+		}
+	};
+
+	public static final Comparator<float[]> ARRAY_COMPARATOR = new Comparator<float[]>() {
+		@Override
+		public int compare(final float[] a, final float[] b) {
+			return Floats.compare(a, b);
+		}
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +133,7 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code float} array from the specified {@code T} array
@@ -128,7 +145,7 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code float} array from the specified {@code T} array
@@ -140,7 +157,7 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code float} array from the specified 2D {@code T} array
@@ -152,7 +169,7 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code float} array from the specified 2D {@code T} array
@@ -164,7 +181,7 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code float} array from the specified 3D {@code T} array
@@ -176,7 +193,7 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code float} array from the specified 3D {@code T} array
@@ -190,7 +207,7 @@ public class Floats {
 	/**
 	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code float} array from the specified 2D {@code T} array
@@ -202,7 +219,7 @@ public class Floats {
 	/**
 	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code float} array from the specified 2D {@code T} array
@@ -214,7 +231,7 @@ public class Floats {
 	/**
 	 * Returns a 3D {@code float} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code float} array from the specified 3D {@code T} array
@@ -226,7 +243,7 @@ public class Floats {
 	/**
 	 * Returns a 3D {@code float} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code float} array from the specified 3D {@code T} array
@@ -236,12 +253,13 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified {@link Collection} of type {@code E}.
+	 * Returns a {@code float} array from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@code float} array from the specified {@link Collection} of type {@code E}
+	 * @return a {@code float} array from the specified {@link Collection} of element type {@code E}
 	 */
 	public static <E> float[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -328,12 +346,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns an array of {@link Float} from the specified {@link Collection} of type {@code E}.
+	 * Returns an array of {@link Float} from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return an array of {@link Float} from the specified {@link Collection} of type {@code E}
+	 * @return an array of {@link Float} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Float[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -342,22 +362,22 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
 	 */
 	public static ExtendedList<Float> toList(final float[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
 	 * <p>
 	 * @param array a {@code float} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
 	 */
 	public static ExtendedList<Float> asList(final float... array) {
 		return toList(array);
@@ -390,24 +410,24 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Float> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Float> asList(final T... array) {
 		return toList(array);
@@ -416,7 +436,7 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
@@ -428,7 +448,7 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
@@ -438,14 +458,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Float} from the specified {@link Collection} of type
-	 * {@code E}.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
+	 * element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Float} from the specified {@link Collection} of type
-	 *         {@code E}
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
+	 *         element type {@code E}
 	 */
 	public static <E> ExtendedList<Float> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
@@ -453,13 +473,13 @@ public class Floats {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
-	 * of type {@code E}.
+	 * of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
-	 *         of type {@code E}
+	 *         of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Float> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -493,7 +513,7 @@ public class Floats {
 	/**
 	 * Returns a {@link Set} of {@link Float} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
@@ -505,7 +525,7 @@ public class Floats {
 	/**
 	 * Returns a {@link Set} of {@link Float} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
@@ -515,13 +535,13 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified {@link Collection} of type
+	 * Returns a {@link Set} of {@link Float} from the specified {@link Collection} of element type
 	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified {@link Collection} of type
+	 * @return a {@link Set} of {@link Float} from the specified {@link Collection} of element type
 	 *         {@code E}
 	 */
 	public static <E> Set<Float> collectionToSet(final Collection<E> collection) {
@@ -1020,8 +1040,13 @@ public class Floats {
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static int compare(final float[] a, final float[] b) {
+		if (a == b) {
+			return 0;
+		}
 		final int limit = Math.min(a.length, b.length);
 		for (int i = 0; i < limit; ++i) {
 			final int comparison = compare(a[i], b[i]);

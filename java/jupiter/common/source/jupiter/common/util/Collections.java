@@ -91,9 +91,9 @@ public class Collections {
 	/**
 	 * Returns the element at the specified index of the elements returned by the iterator.
 	 * <p>
-	 * @param <C>        the type extending {@link Collection}
-	 * @param <E>        the type of the {@link Collection}
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <C>        the {@link Collection} type
+	 * @param <E>        the element type of the {@link Collection}
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * @param index      the index of the element to return
 	 * <p>
 	 * @return the element at the specified index of the elements returned by the iterator
@@ -115,9 +115,9 @@ public class Collections {
 	 * Removes the first occurrence of the specified {@link Object} from the specified
 	 * {@link Collection} and returns the number of removed elements.
 	 * <p>
-	 * @param <C>    the type extending {@link Collection}
-	 * @param <E>    the type of the {@link Collection}
-	 * @param list   a {@link Collection} of type {@code E}
+	 * @param <C>    the {@link Collection} type
+	 * @param <E>    the element type of the {@link Collection}
+	 * @param list   a {@link Collection} of element type {@code E}
 	 * @param object the {@link Object} to remove
 	 * <p>
 	 * @return the number of removed elements
@@ -137,9 +137,9 @@ public class Collections {
 	 * Removes all the occurrences of the specified {@link Object} from the specified
 	 * {@link Collection} and returns the number of removed elements.
 	 * <p>
-	 * @param <C>        the type extending {@link Collection}
-	 * @param <E>        the type of the {@link Collection}
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <C>        the {@link Collection} type
+	 * @param <E>        the element type of the {@link Collection}
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * @param object     the {@link Object} to remove
 	 * <p>
 	 * @return the number of removed elements

@@ -60,7 +60,7 @@ public abstract class Reducer<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Reducer} of type {@code I} and {@code O} with the specified output
+	 * Constructs a {@link Reducer} of types {@code I} and {@code O} with the specified output
 	 * {@link Class}.
 	 * <p>
 	 * @param c the output {@link Class} of type {@code O}

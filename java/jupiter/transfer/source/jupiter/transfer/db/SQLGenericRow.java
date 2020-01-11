@@ -50,11 +50,11 @@ public class SQLGenericRow
 	/**
 	 * The header.
 	 */
-	public String[] header;
+	protected String[] header;
 	/**
 	 * The elements.
 	 */
-	public Object[] elements;
+	protected Object[] elements;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,6 +69,52 @@ public class SQLGenericRow
 	 */
 	public SQLGenericRow(final String[] header, final Object[] elements) {
 		this.header = header;
+		this.elements = elements;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the header.
+	 * <p>
+	 * @return the header
+	 */
+	public String[] getHeader() {
+		return header;
+	}
+
+	/**
+	 * Returns the elements.
+	 * <p>
+	 * @return the elements
+	 */
+	public Object[] getElements() {
+		return elements;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the header.
+	 * <p>
+	 * @param header an array of {@link String}
+	 */
+	public void setHeader(final String[] header) {
+		this.header = header;
+	}
+
+	/**
+	 * Sets the elements.
+	 * <p>
+	 * @param elements an array of {@link Object}
+	 */
+	public void setElements(final Object[] elements) {
 		this.elements = elements;
 	}
 

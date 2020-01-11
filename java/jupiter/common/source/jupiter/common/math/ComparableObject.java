@@ -76,6 +76,8 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	 */
 	public abstract int compareTo(final T other);
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Tests whether {@code this} is less than {@code other}.
 	 * <p>
@@ -106,6 +108,8 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	public boolean isLessOrEqualTo(final T other) {
 		return compareTo(other) <= 0;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code this} is greater than {@code other}.

@@ -27,6 +27,7 @@ import static jupiter.common.util.Characters.LOWER_CASE_DIGITS;
 import static jupiter.common.util.Characters.UPPER_CASE_DIGITS;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -47,6 +48,22 @@ public class Bytes {
 	protected static final ByteParser PARSER = new ByteParser();
 
 	public static volatile Random RANDOM = new Random();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Byte> COMPARATOR = new Comparator<Byte>() {
+		@Override
+		public int compare(final Byte a, final Byte b) {
+			return Bytes.compare(a, b);
+		}
+	};
+
+	public static final Comparator<byte[]> ARRAY_COMPARATOR = new Comparator<byte[]>() {
+		@Override
+		public int compare(final byte[] a, final byte[] b) {
+			return Bytes.compare(a, b);
+		}
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -393,7 +410,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code byte} array from the specified {@code T} array
@@ -405,7 +422,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code byte} array from the specified {@code T} array
@@ -417,7 +434,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code byte} array from the specified 2D {@code T} array
@@ -429,7 +446,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code byte} array from the specified 2D {@code T} array
@@ -441,7 +458,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code byte} array from the specified 3D {@code T} array
@@ -453,7 +470,7 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code byte} array from the specified 3D {@code T} array
@@ -467,7 +484,7 @@ public class Bytes {
 	/**
 	 * Returns a 2D {@code byte} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code byte} array from the specified 2D {@code T} array
@@ -479,7 +496,7 @@ public class Bytes {
 	/**
 	 * Returns a 2D {@code byte} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code byte} array from the specified 2D {@code T} array
@@ -491,7 +508,7 @@ public class Bytes {
 	/**
 	 * Returns a 3D {@code byte} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code byte} array from the specified 3D {@code T} array
@@ -503,7 +520,7 @@ public class Bytes {
 	/**
 	 * Returns a 3D {@code byte} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code byte} array from the specified 3D {@code T} array
@@ -513,12 +530,12 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified {@link Collection} of type {@code E}.
+	 * Returns a {@code byte} array from the specified {@link Collection} of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@code byte} array from the specified {@link Collection} of type {@code E}
+	 * @return a {@code byte} array from the specified {@link Collection} of element type {@code E}
 	 */
 	public static <E> byte[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -605,12 +622,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns an array of {@link Byte} from the specified {@link Collection} of type {@code E}.
+	 * Returns an array of {@link Byte} from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return an array of {@link Byte} from the specified {@link Collection} of type {@code E}
+	 * @return an array of {@link Byte} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Byte[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -619,22 +638,22 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
 	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array
 	 */
 	public static ExtendedList<Byte> toList(final byte[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
 	 * @param array a {@code byte} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array
 	 */
 	public static ExtendedList<Byte> asList(final byte... array) {
 		return toList(array);
@@ -665,24 +684,24 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Byte> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Byte> asList(final T... array) {
 		return toList(array);
@@ -691,7 +710,7 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array
@@ -703,7 +722,7 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array
@@ -713,14 +732,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of type
-	 * {@code E}.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of
+	 * element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of type
-	 *         {@code E}
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of
+	 *         element type {@code E}
 	 */
 	public static <E> ExtendedList<Byte> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
@@ -728,13 +747,13 @@ public class Bytes {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
-	 * of type {@code E}.
+	 * of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
-	 *         of type {@code E}
+	 *         of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Byte> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -768,7 +787,7 @@ public class Bytes {
 	/**
 	 * Returns a {@link Set} of {@link Byte} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Byte} from the specified {@code T} array
@@ -780,7 +799,7 @@ public class Bytes {
 	/**
 	 * Returns a {@link Set} of {@link Byte} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Byte} from the specified {@code T} array
@@ -790,13 +809,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection} of type
+	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection} of element type
 	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection} of type {@code E}
+	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Set<Byte> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
@@ -1264,8 +1284,13 @@ public class Bytes {
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static int compare(final byte[] a, final byte[] b) {
+		if (a == b) {
+			return 0;
+		}
 		final int limit = Math.min(a.length, b.length);
 		for (int i = 0; i < limit; ++i) {
 			final int comparison = compare(a[i], b[i]);

@@ -34,9 +34,9 @@ import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 
 /**
- * {@link SortedList} extends {@link LinkedList} of type {@code E}.
+ * {@link SortedList} extends {@link LinkedList} of element type {@code E}.
  * <p>
- * @param <E> the self {@link Comparable} type of the {@link SortedList}
+ * @param <E> the self element {@link Comparable} type of the {@link SortedList}
  */
 public class SortedList<E extends Comparable<E>>
 		extends LinkedList<E>
@@ -57,17 +57,17 @@ public class SortedList<E extends Comparable<E>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link SortedList} of type {@code E}.
+	 * Constructs an empty {@link SortedList} of element type {@code E}.
 	 */
 	public SortedList() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link SortedList} of type {@code E} with the specified {@link Collection} of
-	 * type extending {@code E}.
+	 * Constructs a {@link SortedList} of element type {@code E} with the specified
+	 * {@link Collection} of element subtype {@code E}.
 	 * <p>
-	 * @param collection a {@link Collection} of type extending {@code E}
+	 * @param collection a {@link Collection} of element subtype {@code E}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */

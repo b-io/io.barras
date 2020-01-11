@@ -27,6 +27,7 @@ import static jupiter.common.util.Characters.LOWER_CASE_DIGITS;
 import static jupiter.common.util.Characters.UPPER_CASE_DIGITS;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -48,6 +49,22 @@ public class Integers {
 	protected static final IntegerParser PARSER = new IntegerParser();
 
 	public static volatile Random RANDOM = new Random();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Integer> COMPARATOR = new Comparator<Integer>() {
+		@Override
+		public int compare(final Integer a, final Integer b) {
+			return Integers.compare(a, b);
+		}
+	};
+
+	public static final Comparator<int[]> ARRAY_COMPARATOR = new Comparator<int[]>() {
+		@Override
+		public int compare(final int[] a, final int[] b) {
+			return Integers.compare(a, b);
+		}
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,7 +256,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@code int} array from the specified {@code T} array
@@ -251,7 +268,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@code int} array from the specified {@code T} array
@@ -263,7 +280,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return an {@code int} array from the specified 2D {@code T} array
@@ -275,7 +292,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return an {@code int} array from the specified 2D {@code T} array
@@ -287,7 +304,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return an {@code int} array from the specified 3D {@code T} array
@@ -299,7 +316,7 @@ public class Integers {
 	/**
 	 * Returns an {@code int} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return an {@code int} array from the specified 3D {@code T} array
@@ -313,7 +330,7 @@ public class Integers {
 	/**
 	 * Returns a 2D {@code int} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code int} array from the specified 2D {@code T} array
@@ -325,7 +342,7 @@ public class Integers {
 	/**
 	 * Returns a 2D {@code int} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code int} array from the specified 2D {@code T} array
@@ -337,7 +354,7 @@ public class Integers {
 	/**
 	 * Returns a 3D {@code int} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code int} array from the specified 3D {@code T} array
@@ -349,7 +366,7 @@ public class Integers {
 	/**
 	 * Returns a 3D {@code int} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code int} array from the specified 3D {@code T} array
@@ -359,12 +376,12 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified {@link Collection} of type {@code E}.
+	 * Returns an {@code int} array from the specified {@link Collection} of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return an {@code int} array from the specified {@link Collection} of type {@code E}
+	 * @return an {@code int} array from the specified {@link Collection} of element type {@code E}
 	 */
 	public static <E> int[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -451,12 +468,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an array of {@link Integer} from the specified {@link Collection} of type {@code E}.
+	 * Returns an array of {@link Integer} from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return an array of {@link Integer} from the specified {@link Collection} of type {@code E}
+	 * @return an array of {@link Integer} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Integer[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -465,22 +484,22 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Integer} from the specified {@code int} array.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code int} array.
 	 * <p>
 	 * @param array an {@code int} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code int} array
 	 */
 	public static ExtendedList<Integer> toList(final int[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Integer} from the specified {@code int} array.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code int} array.
 	 * <p>
 	 * @param array an {@code int} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code int} array
 	 */
 	public static ExtendedList<Integer> asList(final int... array) {
 		return toList(array);
@@ -513,24 +532,24 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Integer> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Integer> asList(final T... array) {
 		return toList(array);
@@ -539,7 +558,7 @@ public class Integers {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array
@@ -551,7 +570,7 @@ public class Integers {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array
@@ -561,13 +580,13 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
 	 * type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
 	 *         type {@code E}
 	 */
 	public static <E> ExtendedList<Integer> collectionToList(final Collection<E> collection) {
@@ -576,13 +595,13 @@ public class Integers {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified
-	 * {@link Collection} of type {@code E}.
+	 * {@link Collection} of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified
-	 *         {@link Collection} of type {@code E}
+	 *         {@link Collection} of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Integer> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -616,7 +635,7 @@ public class Integers {
 	/**
 	 * Returns a {@link Set} of {@link Integer} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified {@code T} array
@@ -628,7 +647,7 @@ public class Integers {
 	/**
 	 * Returns a {@link Set} of {@link Integer} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified {@code T} array
@@ -638,14 +657,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection} of type
-	 * {@code E}.
+	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection} of element
+	 * type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified {@link Collection} of type
-	 *         {@code E}
+	 * @return a {@link Set} of {@link Integer} from the specified {@link Collection} of element
+	 *         type {@code E}
 	 */
 	public static <E> Set<Integer> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
@@ -1130,8 +1149,13 @@ public class Integers {
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static int compare(final int[] a, final int[] b) {
+		if (a == b) {
+			return 0;
+		}
 		final int limit = Math.min(a.length, b.length);
 		for (int i = 0; i < limit; ++i) {
 			final int comparison = compare(a[i], b[i]);
@@ -1139,7 +1163,7 @@ public class Integers {
 				return comparison;
 			}
 		}
-		return compare(a.length, b.length);
+		return Integers.compare(a.length, b.length);
 	}
 
 

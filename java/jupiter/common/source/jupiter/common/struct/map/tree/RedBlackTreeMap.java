@@ -23,12 +23,16 @@
  */
 package jupiter.common.struct.map.tree;
 
-
 import java.util.Map;
 
-import jupiter.common.struct.map.tree.node.RedBlackTreeNode;
 import jupiter.common.test.Arguments;
 
+/**
+ * {@link RedBlackTreeMap} is a light sorted map implementation based on a red-black tree.
+ * <p>
+ * @param <K> the self {@link Comparable} key type of the {@link RedBlackTreeMap}
+ * @param <V> the self {@link Comparable} value type of the {@link RedBlackTreeMap}
+ */
 public class RedBlackTreeMap<K extends Comparable<K>, V>
 		extends BinaryTreeMap<K, V, RedBlackTreeNode<K, V>> {
 
@@ -47,17 +51,17 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} of type {@code K} and {@code V}.
+	 * Constructs a {@link RedBlackTreeMap} of types {@code K} and {@code V}.
 	 */
 	public RedBlackTreeMap() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} of type {@code K} and {@code V} loaded from the
+	 * Constructs a {@link RedBlackTreeMap} of types {@code K} and {@code V} loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value {@code K} and {@code V} mappings to load
+	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
 	 */
 	public RedBlackTreeMap(final Map<? extends K, ? extends V> map) {
 		putAll(map);
@@ -71,7 +75,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node a {@link RedBlackTreeNode} of type {@code K} and {@code V}
+	 * @param node a {@link RedBlackTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected void setRoot(final RedBlackTreeNode<K, V> node) {
@@ -148,7 +152,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Removes the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the {@link RedBlackTreeNode} of type {@code K} and {@code V} to remove
+	 * @param node the {@link RedBlackTreeNode} of types {@code K} and {@code V} to remove
 	 */
 	@Override
 	protected void removeNode(final RedBlackTreeNode<K, V> node) {
@@ -204,7 +208,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after inserting the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the inserted {@link RedBlackTreeNode} of type {@code K} and {@code V}
+	 * @param node the inserted {@link RedBlackTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterInsertion(RedBlackTreeNode<K, V> node) {
@@ -291,7 +295,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after deleting the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the deleted {@link RedBlackTreeNode} of type {@code K} and {@code V}
+	 * @param node the deleted {@link RedBlackTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterDeletion(RedBlackTreeNode<K, V> node) {

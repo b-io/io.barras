@@ -51,16 +51,16 @@ public class SCrypto
 	/**
 	 * The number of bits of the {@link SecretKey}.
 	 */
-	public int secretKeySize = 0; // [bit]
+	protected int secretKeySize = 0; // [bit]
 
 	/**
 	 * The {@link SecretKey}.
 	 */
-	public SecretKey secretKey = null;
+	protected SecretKey secretKey = null;
 	/**
 	 * The {@link IvParameterSpec} specifying an initialization vector (IV).
 	 */
-	public IvParameterSpec iv = null;
+	protected IvParameterSpec iv = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -296,11 +296,11 @@ public class SCrypto
 	}
 
 	/**
-	 * Creates a {@link IvParameterSpec} with the specified primary encoded initialization vector.
+	 * Creates an {@link IvParameterSpec} with the specified primary encoded initialization vector.
 	 * <p>
 	 * @param iv the primary encoded initialization vector of the {@link IvParameterSpec} to create
 	 * <p>
-	 * @return a {@link IvParameterSpec} with the specified primary encoded initialization vector
+	 * @return an {@link IvParameterSpec} with the specified primary encoded initialization vector
 	 */
 	public IvParameterSpec createIV(final byte[] iv) {
 		return new IvParameterSpec(iv);

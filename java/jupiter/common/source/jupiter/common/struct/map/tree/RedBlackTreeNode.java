@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.map.tree.node;
+package jupiter.common.struct.map.tree;
 
-public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends BinaryTreeNode<K, V, N>>
-		extends TreeNode<K, V> {
+public class RedBlackTreeNode<K extends Comparable<K>, V>
+		extends BinaryTreeNode<K, V, RedBlackTreeNode<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -40,8 +40,7 @@ public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends Binar
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public boolean isLeft;
-	public N parent, left, right;
+	protected boolean isRed;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,14 +48,14 @@ public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends Binar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link BinaryTreeNode} with the specified key and value.
+	 * Constructs a {@link RedBlackTreeNode} with the specified key and value.
 	 * <p>
 	 * @param key   the {@code K} key
 	 * @param value the {@code V} value
 	 */
-	protected BinaryTreeNode(final K key, final V value) {
+	public RedBlackTreeNode(final K key, final V value) {
 		super(key, value);
-		parent = left = right = null;
+		isRed = true;
 	}
 
 
@@ -65,16 +64,30 @@ public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends Binar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the left {@code N} node.
+	 * Sets the left {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param leftNode a {@code N} node
+	 * @param leftNode a {@link RedBlackTreeNode} of types {@code K} and {@code V}
 	 */
-	public abstract void setLeft(final N leftNode);
+	@Override
+	public void setLeft(final RedBlackTreeNode<K, V> leftNode) {
+		left = leftNode;
+		if (left != null) {
+			left.isLeft = true;
+			left.parent = this;
+		}
+	}
 
 	/**
-	 * Sets the right {@code N} node.
+	 * Sets the right {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param rightNode a {@code N} node
+	 * @param rightNode a {@link RedBlackTreeNode} of types {@code K} and {@code V}
 	 */
-	public abstract void setRight(final N rightNode);
+	@Override
+	public void setRight(final RedBlackTreeNode<K, V> rightNode) {
+		right = rightNode;
+		if (right != null) {
+			right.isLeft = false;
+			right.parent = this;
+		}
+	}
 }

@@ -204,9 +204,9 @@ public class ReservedThreadPoolExecutor
 	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
 	 * results if the task is submitted, {@code null} otherwise.
 	 * <p>
-	 * @param <T>    the type of the task {@link Runnable} to submit
+	 * @param <T>    the type of the returned {@link Future} of the task {@link Runnable} to submit
 	 * @param task   the task {@link Runnable} to submit
-	 * @param result the default value for the returned future
+	 * @param result the default {@code T} value for the returned {@link Future}
 	 * <p>
 	 * @return a {@link Future} representing the pending results if the task is submitted,
 	 *         {@code null} otherwise

@@ -27,9 +27,11 @@ import static jupiter.math.analysis.function.Functions.FACTORIAL;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.map.tree.TreeMap;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
@@ -502,6 +504,38 @@ public class Combinatorics {
 		return combinations;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the distinct {@code k}-element multisubsets of a {@code n}-element multiset with the
+	 * specified multiplicities {@code ms} where {@code n = sum(ms)} in lexicographic order, i.e.
+	 * {@code k}-combinations with finite repetition.
+	 * <p>
+	 * {@code {}}
+	 * {@code {0}                                 {1}               {2}}
+	 * {@code {00}              {01}        {02}  {11}        {12}  {22}}
+	 * {@code {000} {001} {002} {011} {012} {022} {111} {112} {122} {222}}
+	 * {@code ...}
+	 * <p>
+	 * @param k  the number of elements in the multisubsets
+	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * <p>
+	 * @return the distinct {@code k}-element multisubsets of a {@code n}-element multiset with the
+	 *         specified multiplicities {@code ms} where {@code n = sum(ms)} in lexicographic order,
+	 *         i.e. {@code k}-combinations with finite repetition
+	 */
+	public static int[][] createKCombinations(final int k, final int[] ms) {
+		// Initialize
+		final int n = Maths.sum(ms);
+		final TreeSet<int[]> treeSet = new TreeSet<int[]>();
+
+		// Generate the k-combinations in lexicographic order
+		for (int  i = 0; i < k; ++i) {
+			// TODO
+		}
+		return null;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// COMBINATORIAL FUNCTIONS
@@ -847,7 +881,7 @@ public class Combinatorics {
 	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
 	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
 	 */
-	public static int CFR(final int k, final int ms[]) {
+	public static int CFR(final int k, final int[] ms) {
 		final int n = Maths.sum(ms);
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}

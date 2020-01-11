@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.map.tree.node;
+package jupiter.common.struct.map.tree;
 
 import java.io.Serializable;
 import java.util.Map.Entry;
@@ -50,11 +50,11 @@ public class TreeNode<K extends Comparable<K>, V>
 	/**
 	 * The {@code K} key.
 	 */
-	public K key;
+	protected K key;
 	/**
 	 * The {@code V} value.
 	 */
-	public V value;
+	protected V value;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ public class TreeNode<K extends Comparable<K>, V>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link Entry} of type {@code K} and {@code V} to compare against for
+	 * @param other the other {@link Entry} of types {@code K} and {@code V} to compare against for
 	 *              order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
@@ -135,7 +135,7 @@ public class TreeNode<K extends Comparable<K>, V>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
 	public int compareTo(final Entry<K, V> other) {
-		return key.compareTo(other.getKey());
+		return this == other ? 0 : key.compareTo(other.getKey());
 	}
 
 

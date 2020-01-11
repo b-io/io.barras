@@ -35,9 +35,9 @@ import jupiter.common.util.Lists;
 import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedList} extends {@link ArrayList} of type {@code E}.
+ * {@link ExtendedList} extends {@link ArrayList} of element type {@code E}.
  * <p>
- * @param <E> the type of the {@link ExtendedList}
+ * @param <E> the element type of the {@link ExtendedList}
  */
 public class ExtendedList<E>
 		extends ArrayList<E>
@@ -58,14 +58,15 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of type {@code E} with the default initial capacity.
+	 * Constructs an empty {@link ExtendedList} of element type {@code E} with the default initial
+	 * capacity.
 	 */
 	public ExtendedList() {
 		super(Collections.DEFAULT_CAPACITY);
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of type {@code E} with the specified initial
+	 * Constructs an empty {@link ExtendedList} of element type {@code E} with the specified initial
 	 * capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
@@ -77,7 +78,7 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedList} of type {@code E} with the specified elements.
+	 * Constructs an {@link ExtendedList} of element type {@code E} with the specified elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 * <p>
@@ -89,10 +90,10 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedList} of type {@code E} with the specified {@link Collection} of
-	 * type extending {@code E}.
+	 * Constructs an {@link ExtendedList} of element type {@code E} with the specified
+	 * {@link Collection} of element subtype {@code E}.
 	 * <p>
-	 * @param collection a {@link Collection} of type extending {@code E}
+	 * @param collection a {@link Collection} of element subtype {@code E}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */

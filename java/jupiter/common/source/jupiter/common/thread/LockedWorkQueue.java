@@ -77,7 +77,7 @@ public class LockedWorkQueue<I, O>
 	/**
 	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker}.
 	 * <p>
-	 * @param model the model {@link Worker} of type {@code I} and {@code O}
+	 * @param model the model {@link Worker} of types {@code I} and {@code O}
 	 */
 	public LockedWorkQueue(final Worker<I, O> model) {
 		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
@@ -87,7 +87,7 @@ public class LockedWorkQueue<I, O>
 	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker} and minimum and
 	 * maximum numbers of {@link Worker}.
 	 * <p>
-	 * @param model          the model {@link Worker} of type {@code I} and {@code O}
+	 * @param model          the model {@link Worker} of types {@code I} and {@code O}
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
@@ -99,7 +99,7 @@ public class LockedWorkQueue<I, O>
 	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker}, minimum and
 	 * maximum numbers of {@link Worker} and fairness policy.
 	 * <p>
-	 * @param model          the model {@link Worker} of type {@code I} and {@code O}
+	 * @param model          the model {@link Worker} of types {@code I} and {@code O}
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 * @param isFair         the flag specifying whether to use a fair ordering policy
@@ -195,7 +195,7 @@ public class LockedWorkQueue<I, O>
 	/**
 	 * Removes the specified {@link Worker}.
 	 * <p>
-	 * @param worker the {@link Worker} of type {@code I} and {@code O} to remove
+	 * @param worker the {@link Worker} of types {@code I} and {@code O} to remove
 	 */
 	@Override
 	public void removeWorker(final Worker<I, O> worker) {

@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -44,6 +45,22 @@ public class Longs {
 	protected static final LongParser PARSER = new LongParser();
 
 	public static volatile Random RANDOM = new Random();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Long> COMPARATOR = new Comparator<Long>() {
+		@Override
+		public int compare(final Long a, final Long b) {
+			return Longs.compare(a, b);
+		}
+	};
+
+	public static final Comparator<long[]> ARRAY_COMPARATOR = new Comparator<long[]>() {
+		@Override
+		public int compare(final long[] a, final long[] b) {
+			return Longs.compare(a, b);
+		}
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +136,7 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code long} array from the specified {@code T} array
@@ -131,7 +148,7 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code long} array from the specified {@code T} array
@@ -143,7 +160,7 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code long} array from the specified 2D {@code T} array
@@ -155,7 +172,7 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code long} array from the specified 2D {@code T} array
@@ -167,7 +184,7 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code long} array from the specified 3D {@code T} array
@@ -179,7 +196,7 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code long} array from the specified 3D {@code T} array
@@ -193,7 +210,7 @@ public class Longs {
 	/**
 	 * Returns a 2D {@code long} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code long} array from the specified 2D {@code T} array
@@ -205,7 +222,7 @@ public class Longs {
 	/**
 	 * Returns a 2D {@code long} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code long} array from the specified 2D {@code T} array
@@ -217,7 +234,7 @@ public class Longs {
 	/**
 	 * Returns a 3D {@code long} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code long} array from the specified 3D {@code T} array
@@ -229,7 +246,7 @@ public class Longs {
 	/**
 	 * Returns a 3D {@code long} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code long} array from the specified 3D {@code T} array
@@ -239,12 +256,12 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified {@link Collection} of type {@code E}.
+	 * Returns a {@code long} array from the specified {@link Collection} of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@code long} array from the specified {@link Collection} of type {@code E}
+	 * @return a {@code long} array from the specified {@link Collection} of element type {@code E}
 	 */
 	public static <E> long[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -331,12 +348,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns an array of {@link Long} from the specified {@link Collection} of type {@code E}.
+	 * Returns an array of {@link Long} from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return an array of {@link Long} from the specified {@link Collection} of type {@code E}
+	 * @return an array of {@link Long} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Long[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -345,22 +364,22 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Long} from the specified {@code long} array.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code long} array.
 	 * <p>
 	 * @param array a {@code long} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Long} from the specified {@code long} array
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code long} array
 	 */
 	public static ExtendedList<Long> toList(final long[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Long} from the specified {@code long} array.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code long} array.
 	 * <p>
 	 * @param array a {@code long} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Long} from the specified {@code long} array
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code long} array
 	 */
 	public static ExtendedList<Long> asList(final long... array) {
 		return toList(array);
@@ -391,24 +410,24 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Long} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Long} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Long> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Long} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Long} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Long> asList(final T... array) {
 		return toList(array);
@@ -417,7 +436,7 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array
@@ -429,7 +448,7 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array
@@ -439,14 +458,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Long} from the specified {@link Collection} of type
-	 * {@code E}.
+	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@link Collection} of
+	 * element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Long} from the specified {@link Collection} of type
-	 *         {@code E}
+	 * @return an {@link ExtendedList} of {@link Long} from the specified {@link Collection} of
+	 *         element type {@code E}
 	 */
 	public static <E> ExtendedList<Long> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
@@ -454,13 +473,13 @@ public class Longs {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}
-	 * of type {@code E}.
+	 * of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}
-	 *         of type {@code E}
+	 *         of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Long> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -494,7 +513,7 @@ public class Longs {
 	/**
 	 * Returns a {@link Set} of {@link Long} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Long} from the specified {@code T} array
@@ -506,7 +525,7 @@ public class Longs {
 	/**
 	 * Returns a {@link Set} of {@link Long} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Long} from the specified {@code T} array
@@ -516,13 +535,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Long} from the specified {@link Collection} of type
+	 * Returns a {@link Set} of {@link Long} from the specified {@link Collection} of element type
 	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Long} from the specified {@link Collection} of type {@code E}
+	 * @return a {@link Set} of {@link Long} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Set<Long> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
@@ -990,8 +1010,13 @@ public class Longs {
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static int compare(final long[] a, final long[] b) {
+		if (a == b) {
+			return 0;
+		}
 		final int limit = Math.min(a.length, b.length);
 		for (int i = 0; i < limit; ++i) {
 			final int comparison = compare(a[i], b[i]);

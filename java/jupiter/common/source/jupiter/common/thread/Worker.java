@@ -70,7 +70,7 @@ public abstract class Worker<I, O>
 	 */
 	protected volatile I input;
 	/**
-	 * The {@link WorkQueue} of type {@code I} and {@code O}.
+	 * The {@link WorkQueue} of types {@code I} and {@code O}.
 	 */
 	protected volatile WorkQueue<I, O> workQueue;
 
@@ -80,14 +80,14 @@ public abstract class Worker<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Worker} of type {@code I} and {@code O}.
+	 * Constructs a {@link Worker} of types {@code I} and {@code O}.
 	 */
 	protected Worker() {
 		this(null);
 	}
 
 	/**
-	 * Constructs a {@link Worker} of type {@code I} and {@code O} with the specified {@code I}
+	 * Constructs a {@link Worker} of types {@code I} and {@code O} with the specified {@code I}
 	 * input.
 	 * <p>
 	 * @param input the {@code I} input
@@ -121,7 +121,7 @@ public abstract class Worker<I, O>
 	/**
 	 * Sets the {@link WorkQueue}.
 	 * <p>
-	 * @param workQueue a {@link WorkQueue} of type {@code I} and {@code O}
+	 * @param workQueue a {@link WorkQueue} of types {@code I} and {@code O}
 	 */
 	public void setWorkQueue(final WorkQueue<I, O> workQueue) {
 		this.workQueue = workQueue;

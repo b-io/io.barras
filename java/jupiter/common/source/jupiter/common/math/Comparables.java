@@ -25,16 +25,28 @@ package jupiter.common.math;
 
 import java.util.Comparator;
 
-public class ComparableObjects {
+public class Comparables {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Comparable<Object>> COMPARATOR = new Comparator<Comparable<Object>>() {
+		@Override
+		public int compare(final Comparable<Object> a, final Comparable<Object> b) {
+			return Comparables.compare(a, b);
+		}
+	};
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link ComparableObjects}.
+	 * Prevents the construction of {@link Comparables}.
 	 */
-	protected ComparableObjects() {
+	protected Comparables() {
 	}
 
 
@@ -60,13 +72,30 @@ public class ComparableObjects {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Compares the specified {@link Comparable} of {@link Object} for order. Returns a negative
+	 * integer, zero or a positive integer as {@code a} is less than, equal to or greater than
+	 * {@code b}.
+	 * <p>
+	 * @param a the {@link Comparable} of {@link Object} to compare for order
+	 * @param b the other {@link Comparable} of {@link Object} to compare against for order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 */
+	public static int compare(final Comparable<Object> a, final Comparable<Object> b) {
+		return a == b ? 0 : a.compareTo(b);
+	}
+
+	/**
 	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 * otherwise.
 	 * <p>
 	 * @param <T>        the type of the objects to compare for order
 	 * @param a          the {@code T} object to compare for order
 	 * @param b          the other {@code T} object to compare against for order
-	 * @param comparator the {@link Comparator} of super type {@code T} to use
+	 * @param comparator the {@link Comparator} of super-type {@code T} to use
 	 * <p>
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 *         otherwise
@@ -76,6 +105,8 @@ public class ComparableObjects {
 	public static <T> int compare(final T a, final T b, final Comparator<? super T> comparator) {
 		return a == b ? 0 : comparator.compare(a, b);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code a} is less than {@code b}.
@@ -106,6 +137,8 @@ public class ComparableObjects {
 	public static <T extends Comparable<T>> boolean isLessOrEqualTo(final T a, final T b) {
 		return a.compareTo(b) <= 0;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code a} is greater than {@code b}.
@@ -151,7 +184,7 @@ public class ComparableObjects {
 	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static <T extends Comparable<T>> T getMin(final T a, final T b) {
-		return ComparableObjects.<T>isLessOrEqualTo(a, b) ? a : b;
+		return Comparables.<T>isLessOrEqualTo(a, b) ? a : b;
 	}
 
 	/**
@@ -166,7 +199,7 @@ public class ComparableObjects {
 	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static <T extends Comparable<T>> T getMax(final T a, final T b) {
-		return ComparableObjects.<T>isGreaterOrEqualTo(a, b) ? a : b;
+		return Comparables.<T>isGreaterOrEqualTo(a, b) ? a : b;
 	}
 
 

@@ -274,7 +274,7 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Gets a copy of the {@link DateFormatSymbols} of {@code this}.
+	 * Returns a copy of the {@link DateFormatSymbols} of {@code this}.
 	 * <p>
 	 * @return the {@link DateFormatSymbols} of {@code this}
 	 *

@@ -26,9 +26,14 @@ package jupiter.common.struct.map.tree;
 import java.util.Map;
 
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.map.tree.node.AvlTreeNode;
 import jupiter.common.test.Arguments;
 
+/**
+ * {@link AvlTreeMap} is a light sorted map implementation based on an AVL tree.
+ * <p>
+ * @param <K> the self {@link Comparable} key type of the {@link AvlTreeMap}
+ * @param <V> the self {@link Comparable} value type of the {@link AvlTreeMap}
+ */
 public class AvlTreeMap<K extends Comparable<K>, V>
 		extends BinaryTreeMap<K, V, AvlTreeNode<K, V>> {
 
@@ -57,7 +62,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link AvlTreeMap} of type {@code K} and {@code V}.
+	 * Constructs an {@link AvlTreeMap} of types {@code K} and {@code V}.
 	 */
 	public AvlTreeMap() {
 		super();
@@ -65,10 +70,10 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	}
 
 	/**
-	 * Constructs an {@link AvlTreeMap} of type {@code K} and {@code V} loaded from the specified
+	 * Constructs an {@link AvlTreeMap} of types {@code K} and {@code V} loaded from the specified
 	 * {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value {@code K} and {@code V} mappings to load
+	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
 	 */
 	public AvlTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -91,7 +96,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Returns the height of the specified {@link AvlTreeNode}, or {@code 0L} if it is {@code null}.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param node an {@link AvlTreeNode} of types {@code K} and {@code V}
 	 * <p>
 	 * @return the height of the specified {@link AvlTreeNode}, or {@code 0L} if it is {@code null}
 	 */
@@ -131,7 +136,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param node an {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected void setRoot(final AvlTreeNode<K, V> node) {
@@ -208,7 +213,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Removes the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param node an {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected void removeNode(final AvlTreeNode<K, V> node) {
@@ -256,7 +261,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after inserting the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node the inserted {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param node the inserted {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterInsertion(AvlTreeNode<K, V> node) {
@@ -266,7 +271,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after deleting the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node the deleted {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param node the deleted {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected void balanceAfterDeletion(AvlTreeNode<K, V> node) {
@@ -276,7 +281,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node the {@link AvlTreeNode} of type {@code K} and {@code V} to balance
+	 * @param node the {@link AvlTreeNode} of types {@code K} and {@code V} to balance
 	 */
 	protected void balance(AvlTreeNode<K, V> node) {
 		AvlTreeNode<K, V> parent = node;
@@ -321,9 +326,9 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Rotates the specified tree {@link AvlTreeNode} to the left. Corrects a RR imbalance.
 	 * <p>
-	 * @param tree the tree {@link AvlTreeNode} of type {@code K} and {@code V} to rotate
+	 * @param tree the tree {@link AvlTreeNode} of types {@code K} and {@code V} to rotate
 	 * <p>
-	 * @return the rotated tree {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @return the rotated tree {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected AvlTreeNode<K, V> rotateLeft(final AvlTreeNode<K, V> tree) {
@@ -338,9 +343,9 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Rotates the specified tree {@link AvlTreeNode} to the right. Corrects a LL imbalance.
 	 * <p>
-	 * @param tree the tree {@link AvlTreeNode} of type {@code K} and {@code V} to rotate
+	 * @param tree the tree {@link AvlTreeNode} of types {@code K} and {@code V} to rotate
 	 * <p>
-	 * @return the rotated tree {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @return the rotated tree {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	protected AvlTreeNode<K, V> rotateRight(final AvlTreeNode<K, V> tree) {

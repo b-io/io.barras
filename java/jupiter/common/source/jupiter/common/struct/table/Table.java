@@ -50,7 +50,7 @@ import jupiter.common.util.Strings;
 /**
  * {@link Table} is a wrapper around a 2D {@code E} array.
  * <p>
- * @param <E> the component type of the 2D {@code E} array
+ * @param <E> the element type of the {@link Table}
  */
 public class Table<E>
 		implements ICloneable<Table<E>>, Iterable<E[]>, Serializable {
@@ -101,9 +101,10 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Table} of type {@code E} with the specified numbers of rows and columns.
+	 * Constructs a {@link Table} of element type {@code E} with the specified numbers of rows and
+	 * columns.
 	 * <p>
-	 * @param c           the {@link Class} of type {@code E}
+	 * @param c           the {@link Class} of element type {@code E}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
@@ -121,10 +122,10 @@ public class Table<E>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code E} with the specified header and numbers of rows
-	 * and columns.
+	 * Constructs a {@link Table} of element type {@code E} with the specified header and numbers of
+	 * rows and columns.
 	 * <p>
-	 * @param c           the {@link Class} of type {@code E}
+	 * @param c           the {@link Class} of element type {@code E}
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -144,9 +145,9 @@ public class Table<E>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code E} with the specified elements.
+	 * Constructs a {@link Table} of element type {@code E} with the specified elements.
 	 * <p>
-	 * @param c        the {@link Class} of type {@code E}
+	 * @param c        the {@link Class} of element type {@code E}
 	 * @param elements a 2D {@code E} array
 	 */
 	public Table(final Class<E> c, final E[][] elements) {
@@ -163,9 +164,9 @@ public class Table<E>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code E} with the specified header and elements.
+	 * Constructs a {@link Table} of element type {@code E} with the specified header and elements.
 	 * <p>
-	 * @param c        the {@link Class} of type {@code E}
+	 * @param c        the {@link Class} of element type {@code E}
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D {@code E} array
 	 */
@@ -184,9 +185,9 @@ public class Table<E>
 	}
 
 	/**
-	 * Constructs a {@link Table} of type {@code E} loaded from the specified file.
+	 * Constructs a {@link Table} of element type {@code E} loaded from the specified file.
 	 * <p>
-	 * @param parser    an {@link IParser} of type {@code E}
+	 * @param parser    an {@link IParser} of element type {@code E}
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -539,7 +540,7 @@ public class Table<E>
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
-	 * @param value a value {@code E}
+	 * @param value an {@code E} value
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
@@ -613,7 +614,7 @@ public class Table<E>
 	 * Sets the elements of the specified row.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@link Collection} of type {@code E}
+	 * @param values a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
@@ -682,7 +683,7 @@ public class Table<E>
 	 * Sets the elements of the specified column.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@link Collection} of type {@code E}
+	 * @param values a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
@@ -784,27 +785,27 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified value {@code E}.
+	 * Fills {@code this} with the specified {@code E} value.
 	 * <p>
-	 * @param value the value {@code E} to fill with
+	 * @param value the {@code E} value to fill with
 	 */
 	public void fill(final E value) {
 		Arrays.<E>fill(elements, value);
 	}
 
 	/**
-	 * Merges with the specified {@link Table} of type {@code E}.
+	 * Merges with the specified {@link Table} of element type {@code E}.
 	 * <p>
-	 * @param table the {@link Table} of type {@code E} to merge with
+	 * @param table the {@link Table} of element type {@code E} to merge with
 	 */
 	public void merge(final Table<E> table) {
 		merge(table, true);
 	}
 
 	/**
-	 * Merges with the specified {@link Table} of type {@code E}.
+	 * Merges with the specified {@link Table} of element type {@code E}.
 	 * <p>
-	 * @param table     the {@link Table} of type {@code E} to merge with
+	 * @param table     the {@link Table} of element type {@code E} to merge with
 	 * @param mergeRows the flag specifying whether to merge the rows or the columns
 	 */
 	public void merge(final Table<E> table, final boolean mergeRows) {
@@ -1004,7 +1005,7 @@ public class Table<E>
 	/**
 	 * Loads {@code this} from the specified file.
 	 * <p>
-	 * @param parser    the {@link IParser} of type {@code E} of the file to load
+	 * @param parser    the {@link IParser} of element type {@code E} of the file to load
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -1020,7 +1021,7 @@ public class Table<E>
 	/**
 	 * Loads {@code this} from the specified {@link BufferedReader}.
 	 * <p>
-	 * @param parser    the {@link IParser} of type {@code E} of the lines to load
+	 * @param parser    the {@link IParser} of element type {@code E} of the lines to load
 	 * @param reader    the {@link BufferedReader} of the lines to load
 	 * @param rowCount  the number of lines to load
 	 * @param hasHeader the flag specifying whether the first line is a header

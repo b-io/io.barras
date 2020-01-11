@@ -26,9 +26,9 @@ package jupiter.common.struct.tuple;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class ComparablePair<E1 extends Comparable<E1>, E2 extends Comparable<E2>>
-		extends Pair<E1, E2>
-		implements Comparable<ComparablePair<E1, E2>> {
+public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
+		extends Pair<T1, T2>
+		implements Comparable<ComparablePair<T1, T2>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -52,12 +52,12 @@ public class ComparablePair<E1 extends Comparable<E1>, E2 extends Comparable<E2>
 	}
 
 	/**
-	 * Constructs a {@link ComparablePair} with the specified {@code E1} and {@code E2} components.
+	 * Constructs a {@link ComparablePair} with the specified {@code T1} and {@code T2} components.
 	 * <p>
-	 * @param first  the {@code E1} component
-	 * @param second the {@code E2} component
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
 	 */
-	public ComparablePair(final E1 first, final E2 second) {
+	public ComparablePair(final T1 first, final T2 second) {
 		super(first, second);
 	}
 
@@ -70,15 +70,18 @@ public class ComparablePair<E1 extends Comparable<E1>, E2 extends Comparable<E2>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link ComparablePair} of type {@code E1} and {@code E2} to compare
-	 *              against for order
+	 * @param other the other {@link ComparablePair} of component types {@code T1} and {@code T2} to
+	 *              compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other}
 	 * <p>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparablePair<E1, E2> other) {
+	public int compareTo(final ComparablePair<T1, T2> other) {
+		if (this == other) {
+			return 0;
+		}
 		final int comparison = first.compareTo(other.first);
 		if (comparison != 0) {
 			return comparison;
@@ -99,9 +102,9 @@ public class ComparablePair<E1 extends Comparable<E1>, E2 extends Comparable<E2>
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public ComparablePair<E1, E2> clone() {
+	public ComparablePair<T1, T2> clone() {
 		try {
-			final ComparablePair<E1, E2> clone = (ComparablePair<E1, E2>) super.clone();
+			final ComparablePair<T1, T2> clone = (ComparablePair<T1, T2>) super.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			return clone;

@@ -267,7 +267,7 @@ public class JOCL
 
 	protected int getDeviceInfoHelperInt(final cl_device_id device_id, final int parameterName) {
 		final int valueCount = 1;
-		final int values[] = new int[valueCount];
+		final int[] values = new int[valueCount];
 		clGetDeviceInfo(device_id, parameterName, Sizeof.cl_int * valueCount, Pointer.to(values),
 				null);
 		return values[0];
@@ -275,7 +275,7 @@ public class JOCL
 
 	protected long getDeviceInfoHelperLong(final cl_device_id device_id, final int parameterName) {
 		final int valueCount = 1;
-		final long values[] = new long[valueCount];
+		final long[] values = new long[valueCount];
 		clGetDeviceInfo(device_id, parameterName, Sizeof.cl_long * valueCount, Pointer.to(values),
 				null);
 		return values[0];
@@ -284,11 +284,11 @@ public class JOCL
 	protected String getDeviceInfoHelperString(final cl_device_id device_id,
 			final int parameterName) {
 		// Obtain the length of the info text to query
-		final long size[] = new long[1];
+		final long[] size = new long[1];
 		clGetDeviceInfo(device_id, parameterName, 0, null, size);
 
 		// Create a buffer of the appropriate size and fill it with the info text
-		final byte buffer[] = new byte[(int) size[0]];
+		final byte[] buffer = new byte[(int) size[0]];
 		clGetDeviceInfo(device_id, parameterName, buffer.length, Pointer.to(buffer), null);
 
 		// Return the info text (create a String from the buffer excluding the trailing \0 byte)

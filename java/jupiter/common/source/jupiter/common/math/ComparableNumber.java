@@ -71,8 +71,10 @@ public abstract class ComparableNumber
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
 	public int compareTo(final ComparableNumber other) {
-		return Doubles.compare(doubleValue(), other.doubleValue());
+		return this == other ? 0 : Doubles.compare(doubleValue(), other.doubleValue());
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code this} is less than {@code other}.
@@ -100,6 +102,8 @@ public abstract class ComparableNumber
 	public boolean isLessOrEqualTo(final ComparableNumber other) {
 		return compareTo(other) <= 0;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code this} is greater than {@code other}.
@@ -176,6 +180,8 @@ public abstract class ComparableNumber
 		return Numbers.compare(this, other);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Tests whether {@code this} is less than {@code other}.
 	 * <p>
@@ -202,6 +208,8 @@ public abstract class ComparableNumber
 	public boolean isLessOrEqualTo(final Number other) {
 		return compareTo(other) <= 0;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code this} is greater than {@code other}.

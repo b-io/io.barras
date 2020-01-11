@@ -96,6 +96,22 @@ public class Strings {
 			RIGHT_PARENTHESIS);
 	public static final StringWrapper BRACKETER = new StringWrapper(LEFT_BRACKET, RIGHT_BRACKET);
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<String> COMPARATOR = new Comparator<String>() {
+		@Override
+		public int compare(final String a, final String b) {
+			return Strings.compare(a, b);
+		}
+	};
+
+	public static final Comparator<String> IGNORE_CASE_COMPARATOR = new Comparator<String>() {
+		@Override
+		public int compare(final String a, final String b) {
+			return Strings.compareIgnoreCase(a, b);
+		}
+	};
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -215,24 +231,24 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<String> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<String> asList(final T... array) {
 		return toList(array);
@@ -241,7 +257,7 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
@@ -253,7 +269,7 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
@@ -263,14 +279,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link String} from the specified {@link Collection} of
-	 * type {@code E}.
+	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
+	 * element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link String} from the specified {@link Collection} of
-	 *         type {@code E}
+	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
+	 *         element type {@code E}
 	 */
 	public static <E> ExtendedList<String> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
@@ -278,13 +294,13 @@ public class Strings {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
-	 * of type {@code E}.
+	 * of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
-	 *         of type {@code E}
+	 *         of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<String> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -296,7 +312,7 @@ public class Strings {
 	/**
 	 * Returns a {@link Set} of {@link String} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@code T} array
@@ -308,7 +324,7 @@ public class Strings {
 	/**
 	 * Returns a {@link Set} of {@link String} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@code T} array
@@ -318,13 +334,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link String} from the specified {@link Collection} of type
+	 * Returns a {@link Set} of {@link String} from the specified {@link Collection} of element type
 	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link String} from the specified {@link Collection} of type
+	 * @return a {@link Set} of {@link String} from the specified {@link Collection} of element type
 	 *         {@code E}
 	 */
 	public static <E> Set<String> collectionToSet(final Collection<E> collection) {
@@ -756,7 +772,7 @@ public class Strings {
 	/**
 	 * Returns the specified {@link Collection} of {@link String} without the empty {@link String}.
 	 * <p>
-	 * @param <C>        the type extending {@link Collection}
+	 * @param <C>        the {@link Collection} type
 	 * @param collection a {@link Collection} of {@link String}
 	 * <p>
 	 * @return the number of removed elements
@@ -2397,19 +2413,13 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final Comparator<Index<String>> STRING_INDEX_COMPARATOR = new Comparator<Index<String>>() {
-		public int compare(final Index<String> a, final Index<String> b) {
-			return Integers.compare(a.getIndex(), b.getIndex());
-		}
-	};
-
 	/**
 	 * Sorts the specified {@link List} of {@link Index}.
 	 * <p>
 	 * @param indexes a {@link List} of {@link Index} of {@link String}
 	 */
 	public static void sortStringIndexes(final List<Index<String>> indexes) {
-		Lists.sort(indexes, STRING_INDEX_COMPARATOR);
+		Lists.sort(indexes, Index.COMPARATOR);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3065,6 +3075,40 @@ public class Strings {
 			}
 		}
 		return false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@link String} for lexicographic order. Returns a negative integer,
+	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param a the {@link String} to compare for lexicographic order
+	 * @param b the other {@link String} to compare against for lexicographic order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 */
+	public static int compare(final String a, final String b) {
+		return a.compareTo(b);
+	}
+
+	/**
+	 * Compares the specified {@link String} for lexicographic order, ignoring case differences.
+	 * Returns a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 * greater than {@code b}.
+	 * <p>
+	 * @param a the {@link String} to compare for lexicographic order
+	 * @param b the other {@link String} to compare against for lexicographic order
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 */
+	public static int compareIgnoreCase(final String a, final String b) {
+		return a.compareToIgnoreCase(b);
 	}
 
 

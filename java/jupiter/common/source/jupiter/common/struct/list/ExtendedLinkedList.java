@@ -35,9 +35,9 @@ import jupiter.common.util.Lists;
 import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedLinkedList} extends {@link LinkedList} of type {@code E}.
+ * {@link ExtendedLinkedList} extends {@link LinkedList} of element type {@code E}.
  * <p>
- * @param <E> the type of the {@link ExtendedLinkedList}
+ * @param <E> the element type of the {@link ExtendedLinkedList}
  */
 public class ExtendedLinkedList<E>
 		extends LinkedList<E>
@@ -58,14 +58,15 @@ public class ExtendedLinkedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedLinkedList} of type {@code E} with the default initial
-	 * capacity.
+	 * Constructs an empty {@link ExtendedLinkedList} of element type {@code E} with the default
+	 * initial capacity.
 	 */
 	public ExtendedLinkedList() {
 	}
 
 	/**
-	 * Constructs an {@link ExtendedLinkedList} of type {@code E} with the specified elements.
+	 * Constructs an {@link ExtendedLinkedList} of element type {@code E} with the specified
+	 * elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 * <p>
@@ -76,10 +77,10 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedLinkedList} of type {@code E} with the specified
-	 * {@link Collection} of type extending {@code E}.
+	 * Constructs an {@link ExtendedLinkedList} of element type {@code E} with the specified
+	 * {@link Collection} of element subtype {@code E}.
 	 * <p>
-	 * @param collection a {@link Collection} of type extending {@code E}
+	 * @param collection a {@link Collection} of element subtype {@code E}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */

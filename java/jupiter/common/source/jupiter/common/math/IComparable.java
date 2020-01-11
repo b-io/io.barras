@@ -44,11 +44,11 @@ public interface IComparable<T extends Comparable<T>>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other}
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
-	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
 	public int compareTo(final T other);
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code this} is less than {@code other}.
@@ -76,6 +76,8 @@ public interface IComparable<T extends Comparable<T>>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
 	public boolean isLessOrEqualTo(final T other);
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code this} is greater than {@code other}.

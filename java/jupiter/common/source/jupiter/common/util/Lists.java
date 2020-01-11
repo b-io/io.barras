@@ -31,7 +31,6 @@ import java.util.ListIterator;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.CollectionArguments;
 
-
 public class Lists
 		extends Collections {
 
@@ -54,8 +53,8 @@ public class Lists
 	 * Returns an {@code E} array containing all of the elements in the specified {@link List} in
 	 * proper sequence (from first to last element).
 	 * <p>
-	 * @param <E>  the component type of the array
-	 * @param list a {@link List} of type {@code E}
+	 * @param <E>  the element type of the {@link List} to convert
+	 * @param list a {@link List} of element type {@code E}
 	 * <p>
 	 * @return an {@code E} array containing all of the elements in the specified {@link List} in
 	 *         proper sequence (from first to last element)
@@ -114,9 +113,9 @@ public class Lists
 	 * Removes the first occurrence of the specified {@link Object} from the specified {@link List}
 	 * and returns the index of the removed element, or {@code -1} if it is not present.
 	 * <p>
-	 * @param <L>    the type extending {@link List}
-	 * @param <E>    the type of the {@link List}
-	 * @param list   a {@link List} of type {@code E}
+	 * @param <L>    the {@link List} type
+	 * @param <E>    the element type of the {@link List}
+	 * @param list   a {@link List} of element type {@code E}
 	 * @param object the {@link Object} to remove
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
@@ -138,9 +137,9 @@ public class Lists
 	 * Removes all the occurrences of the specified {@link Object} from the specified {@link List}
 	 * and returns the indexes of the removed elements.
 	 * <p>
-	 * @param <L>    the type extending {@link List}
-	 * @param <E>    the type of the {@link List}
-	 * @param list   a {@link List} of type {@code E}
+	 * @param <L>    the {@link List} type
+	 * @param <E>    the element type of the {@link List}
+	 * @param list   a {@link List} of element type {@code E}
 	 * @param object the {@link Object} to remove
 	 * <p>
 	 * @return the number of removed elements
@@ -176,9 +175,9 @@ public class Lists
 	/**
 	 * Sorts the specified {@link List} with the specified {@link Comparator}.
 	 * <p>
-	 * @param <E>        the type of the {@link List} to sort
-	 * @param list       the {@link List} of type {@code E} to sort
-	 * @param comparator the {@link Comparator} of super type {@code E} to determine the order (a
+	 * @param <E>        the element type of the {@link List} to sort
+	 * @param list       the {@link List} of element type {@code E} to sort
+	 * @param comparator the {@link Comparator} of super-type {@code E} to determine the order (a
 	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
 	 *                   of the elements should be used)
 	 * <p>

@@ -21,9 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.map.tree.node;
-
-import jupiter.common.struct.map.tree.AvlTreeMap;
+package jupiter.common.struct.map.tree;
 
 public class AvlTreeNode<K extends Comparable<K>, V>
 		extends BinaryTreeNode<K, V, AvlTreeNode<K, V>> {
@@ -43,18 +41,18 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link AvlTreeMap} of type {@code K} and {@code V}.
+	 * The {@link AvlTreeMap} of types {@code K} and {@code V}.
 	 */
 	protected final AvlTreeMap<K, V> tree;
 
 	/**
 	 * The height.
 	 */
-	public long height;
+	protected long height;
 	/**
 	 * The balance.
 	 */
-	public long balance;
+	protected long balance;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +65,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	 * <p>
 	 * @param key   the {@code K} key
 	 * @param value the {@code V} value
-	 * @param tree  the {@link AvlTreeMap} of type {@code K} and {@code V}
+	 * @param tree  the {@link AvlTreeMap} of types {@code K} and {@code V}
 	 */
 	public AvlTreeNode(final K key, final V value, final AvlTreeMap<K, V> tree) {
 		super(key, value);
@@ -108,7 +106,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	 * Sets the parent {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if
 	 * required.
 	 * <p>
-	 * @param parentNode an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param parentNode an {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	protected void setParent(final AvlTreeNode<K, V> parentNode) {
 		parent = parentNode;
@@ -120,7 +118,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	/**
 	 * Sets the left {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if required.
 	 * <p>
-	 * @param leftNode an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param leftNode an {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	public void setLeft(final AvlTreeNode<K, V> leftNode) {
@@ -138,7 +136,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	 * Sets the right {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if
 	 * required.
 	 * <p>
-	 * @param rightNode an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param rightNode an {@link AvlTreeNode} of types {@code K} and {@code V}
 	 */
 	@Override
 	public void setRight(final AvlTreeNode<K, V> rightNode) {

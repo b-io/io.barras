@@ -26,9 +26,9 @@ package jupiter.common.struct.tuple;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class ComparableTriple<E1 extends Comparable<E1>, E2 extends Comparable<E2>, E3 extends Comparable<E3>>
-		extends Triple<E1, E2, E3>
-		implements Comparable<ComparableTriple<E1, E2, E3>> {
+public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T2>, T3 extends Comparable<T3>>
+		extends Triple<T1, T2, T3>
+		implements Comparable<ComparableTriple<T1, T2, T3>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -52,14 +52,14 @@ public class ComparableTriple<E1 extends Comparable<E1>, E2 extends Comparable<E
 	}
 
 	/**
-	 * Constructs a {@link ComparableTriple} with the specified {@code E1}, {@code E2} and
-	 * {@code E3} components.
+	 * Constructs a {@link ComparableTriple} with the specified {@code T1}, {@code T2} and
+	 * {@code T3} components.
 	 * <p>
-	 * @param first  the {@code E1} component
-	 * @param second the {@code E2} component
-	 * @param third  the {@code E3} component
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
+	 * @param third  the {@code T3} component
 	 */
-	public ComparableTriple(final E1 first, final E2 second, final E3 third) {
+	public ComparableTriple(final T1 first, final T2 second, final T3 third) {
 		super(first, second, third);
 	}
 
@@ -72,15 +72,18 @@ public class ComparableTriple<E1 extends Comparable<E1>, E2 extends Comparable<E
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link ComparablePair} of type {@code E1}, {@code E2} and {@code E3}
-	 *              to compare against for order
+	 * @param other the other {@link ComparablePair} of component types {@code T1}, {@code T2} and
+	 *              {@code T3} to compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other}
 	 * <p>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
-	public int compareTo(final ComparableTriple<E1, E2, E3> other) {
+	public int compareTo(final ComparableTriple<T1, T2, T3> other) {
+		if (this == other) {
+			return 0;
+		}
 		int comparison = first.compareTo(other.first);
 		if (comparison != 0) {
 			return comparison;
@@ -105,9 +108,9 @@ public class ComparableTriple<E1 extends Comparable<E1>, E2 extends Comparable<E
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public ComparableTriple<E1, E2, E3> clone() {
+	public ComparableTriple<T1, T2, T3> clone() {
 		try {
-			final ComparableTriple<E1, E2, E3> clone = (ComparableTriple<E1, E2, E3>) super.clone();
+			final ComparableTriple<T1, T2, T3> clone = (ComparableTriple<T1, T2, T3>) super.clone();
 			clone.first = Objects.clone(first);
 			clone.second = Objects.clone(second);
 			clone.third = Objects.clone(third);

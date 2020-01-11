@@ -26,12 +26,12 @@ package jupiter.math.analysis.struct;
 import jupiter.common.struct.tuple.Pair;
 
 /**
- * A {@link Pair} of type {@code E}.
+ * A {@link Pair} of component type {@code T}.
  * <p>
- * @param <E> the type of the {@link Pair}
+ * @param <T> the component type of the {@link Pair}
  */
-public class XY<E>
-		extends Pair<E, E> {
+public class XY<T>
+		extends Pair<T, T> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -55,12 +55,12 @@ public class XY<E>
 	}
 
 	/**
-	 * Constructs a {@link XY} with the specified x and y {@code E} objects.
+	 * Constructs a {@link XY} with the specified x and y {@code T} objects.
 	 * <p>
-	 * @param x the x {@code E} object
-	 * @param y the y {@code E} object
+	 * @param x the x {@code T} object
+	 * @param y the y {@code T} object
 	 */
-	public XY(final E x, final E y) {
+	public XY(final T x, final T y) {
 		super(x, y);
 	}
 
@@ -69,11 +69,11 @@ public class XY<E>
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public E getX() {
+	public T getX() {
 		return first;
 	}
 
-	public E getY() {
+	public T getY() {
 		return second;
 	}
 
@@ -82,11 +82,11 @@ public class XY<E>
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void setX(final E x) {
+	public void setX(final T x) {
 		super.setFirst(x);
 	}
 
-	public void setY(final E y) {
+	public void setY(final T y) {
 		super.setSecond(y);
 	}
 
@@ -103,7 +103,7 @@ public class XY<E>
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public XY<E> clone() {
-		return (XY<E>) super.clone();
+	public XY<T> clone() {
+		return (XY<T>) super.clone();
 	}
 }

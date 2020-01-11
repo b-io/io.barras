@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -92,7 +93,7 @@ public class Booleans {
 	/**
 	 * Returns a {@code boolean} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code boolean} array from the specified {@code T} array
@@ -104,7 +105,7 @@ public class Booleans {
 	/**
 	 * Returns a {@code boolean} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code boolean} array from the specified {@code T} array
@@ -116,7 +117,7 @@ public class Booleans {
 	/**
 	 * Returns a {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code boolean} array from the specified 2D {@code T} array
@@ -128,7 +129,7 @@ public class Booleans {
 	/**
 	 * Returns a {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code boolean} array from the specified 2D {@code T} array
@@ -140,7 +141,7 @@ public class Booleans {
 	/**
 	 * Returns a {@code boolean} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code boolean} array from the specified 3D {@code T} array
@@ -152,7 +153,7 @@ public class Booleans {
 	/**
 	 * Returns a {@code boolean} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code boolean} array from the specified 3D {@code T} array
@@ -166,7 +167,7 @@ public class Booleans {
 	/**
 	 * Returns a 2D {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code boolean} array from the specified 2D {@code T} array
@@ -178,7 +179,7 @@ public class Booleans {
 	/**
 	 * Returns a 2D {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code boolean} array from the specified 2D {@code T} array
@@ -190,7 +191,7 @@ public class Booleans {
 	/**
 	 * Returns a 3D {@code boolean} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code boolean} array from the specified 3D {@code T} array
@@ -202,7 +203,7 @@ public class Booleans {
 	/**
 	 * Returns a 3D {@code boolean} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code boolean} array from the specified 3D {@code T} array
@@ -212,12 +213,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified {@link Collection} of type {@code E}.
+	 * Returns a {@code boolean} array from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@code boolean} array from the specified {@link Collection} of type {@code E}
+	 * @return a {@code boolean} array from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> boolean[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -304,12 +307,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns an array of {@link Boolean} from the specified {@link Collection} of type {@code E}.
+	 * Returns an array of {@link Boolean} from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return an array of {@link Boolean} from the specified {@link Collection} of type {@code E}
+	 * @return an array of {@link Boolean} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Boolean[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -318,22 +323,22 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
 	 * @param array a {@code boolean} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
+	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
 	 */
 	public static ExtendedList<Boolean> toList(final boolean[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
 	 * @param array a {@code boolean} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
+	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
 	 */
 	public static ExtendedList<Boolean> asList(final boolean... array) {
 		return toList(array);
@@ -368,24 +373,24 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Boolean> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Boolean> asList(final T... array) {
 		return toList(array);
@@ -394,7 +399,7 @@ public class Booleans {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
@@ -406,7 +411,7 @@ public class Booleans {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
@@ -416,13 +421,13 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
+	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
 	 * type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
+	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
 	 *         type {@code E}
 	 */
 	public static <E> ExtendedList<Boolean> collectionToList(final Collection<E> collection) {
@@ -431,13 +436,13 @@ public class Booleans {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified
-	 * {@link Collection} of type {@code E}.
+	 * {@link Collection} of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified
-	 *         {@link Collection} of type {@code E}
+	 *         {@link Collection} of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Boolean> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -471,7 +476,7 @@ public class Booleans {
 	/**
 	 * Returns a {@link Set} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@code T} array
@@ -483,7 +488,7 @@ public class Booleans {
 	/**
 	 * Returns a {@link Set} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@code T} array
@@ -493,14 +498,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Boolean} from the specified {@link Collection} of type
-	 * {@code E}.
+	 * Returns a {@link Set} of {@link Boolean} from the specified {@link Collection} of element
+	 * type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Boolean} from the specified {@link Collection} of type
-	 *         {@code E}
+	 * @return a {@link Set} of {@link Boolean} from the specified {@link Collection} of element
+	 *         type {@code E}
 	 */
 	public static <E> Set<Boolean> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);

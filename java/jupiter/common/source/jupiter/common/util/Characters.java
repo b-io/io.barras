@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -71,6 +72,22 @@ public class Characters {
 		'9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
 		'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Character> COMPARATOR = new Comparator<Character>() {
+		@Override
+		public int compare(final Character a, final Character b) {
+			return Characters.compare(a, b);
+		}
+	};
+
+	public static final Comparator<char[]> ARRAY_COMPARATOR = new Comparator<char[]>() {
+		@Override
+		public int compare(final char[] a, final char[] b) {
+			return Characters.compare(a, b);
+		}
+	};
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -117,7 +134,7 @@ public class Characters {
 	/**
 	 * Returns a {@code char} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code char} array from the specified {@code T} array
@@ -129,7 +146,7 @@ public class Characters {
 	/**
 	 * Returns a {@code char} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code char} array from the specified {@code T} array
@@ -141,7 +158,7 @@ public class Characters {
 	/**
 	 * Returns a {@code char} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code char} array from the specified 2D {@code T} array
@@ -153,7 +170,7 @@ public class Characters {
 	/**
 	 * Returns a {@code char} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code char} array from the specified 2D {@code T} array
@@ -165,7 +182,7 @@ public class Characters {
 	/**
 	 * Returns a {@code char} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code char} array from the specified 3D {@code T} array
@@ -177,7 +194,7 @@ public class Characters {
 	/**
 	 * Returns a {@code char} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code char} array from the specified 3D {@code T} array
@@ -191,7 +208,7 @@ public class Characters {
 	/**
 	 * Returns a 2D {@code char} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code char} array from the specified 2D {@code T} array
@@ -203,7 +220,7 @@ public class Characters {
 	/**
 	 * Returns a 2D {@code char} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code char} array from the specified 2D {@code T} array
@@ -215,7 +232,7 @@ public class Characters {
 	/**
 	 * Returns a 3D {@code char} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code char} array from the specified 3D {@code T} array
@@ -227,7 +244,7 @@ public class Characters {
 	/**
 	 * Returns a 3D {@code char} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code char} array from the specified 3D {@code T} array
@@ -237,12 +254,12 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified {@link Collection} of type {@code E}.
+	 * Returns a {@code char} array from the specified {@link Collection} of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@code char} array from the specified {@link Collection} of type {@code E}
+	 * @return a {@code char} array from the specified {@link Collection} of element type {@code E}
 	 */
 	public static <E> char[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -329,13 +346,14 @@ public class Characters {
 	}
 
 	/**
-	 * Returns an array of {@link Character} from the specified {@link Collection} of type
+	 * Returns an array of {@link Character} from the specified {@link Collection} of element type
 	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return an array of {@link Character} from the specified {@link Collection} of type {@code E}
+	 * @return an array of {@link Character} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Character[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -344,22 +362,22 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@code char} array.
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code char} array.
 	 * <p>
 	 * @param array a {@code char} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code char} array
 	 */
 	public static ExtendedList<Character> toList(final char[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@code char} array.
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code char} array.
 	 * <p>
 	 * @param array a {@code char} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code char} array
 	 */
 	public static ExtendedList<Character> asList(final char... array) {
 		return toList(array);
@@ -394,24 +412,24 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Character> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Character> asList(final T... array) {
 		return toList(array);
@@ -421,7 +439,7 @@ public class Characters {
 	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T}
 	 * array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T} array
@@ -434,7 +452,7 @@ public class Characters {
 	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T}
 	 * array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T} array
@@ -444,13 +462,13 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
+	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
 	 * type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
+	 * @return an {@link ExtendedList} of {@link Character} from the specified {@link Collection} of
 	 *         type {@code E}
 	 */
 	public static <E> ExtendedList<Character> collectionToList(final Collection<E> collection) {
@@ -459,13 +477,13 @@ public class Characters {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified
-	 * {@link Collection} of type {@code E}.
+	 * {@link Collection} of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified
-	 *         {@link Collection} of type {@code E}
+	 *         {@link Collection} of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Character> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -499,7 +517,7 @@ public class Characters {
 	/**
 	 * Returns a {@link Set} of {@link Character} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Character} from the specified {@code T} array
@@ -511,7 +529,7 @@ public class Characters {
 	/**
 	 * Returns a {@link Set} of {@link Character} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Character} from the specified {@code T} array
@@ -521,14 +539,14 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified {@link Collection} of type
-	 * {@code E}.
+	 * Returns a {@link Set} of {@link Character} from the specified {@link Collection} of element
+	 * type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified {@link Collection} of type
-	 *         {@code E}
+	 * @return a {@link Set} of {@link Character} from the specified {@link Collection} of element
+	 *         type {@code E}
 	 */
 	public static <E> Set<Character> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
@@ -995,8 +1013,13 @@ public class Characters {
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static int compare(final char[] a, final char[] b) {
+		if (a == b) {
+			return 0;
+		}
 		final int limit = Math.min(a.length, b.length);
 		for (int i = 0; i < limit; ++i) {
 			final int comparison = compare(a[i], b[i]);

@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.map.tree.node.TreeNode;
 import jupiter.common.test.Arguments;
 
 public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, V>>
@@ -65,17 +64,17 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TreeMap} of type {@code K}, {@code V} and {@code N}.
+	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N}.
 	 */
 	protected TreeMap() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link TreeMap} of type {@code K}, {@code V} and {@code N} loaded from the
+	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N} loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value {@code K} and {@code V} mappings to load
+	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
 	 */
 	protected TreeMap(final Map<? extends K, ? extends V> map) {
 		super();
@@ -110,9 +109,9 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	}
 
 	/**
-	 * Returns the root {@link Entry} of type {@code K} and {@code V}.
+	 * Returns the root {@link Entry} of types {@code K} and {@code V}.
 	 * <p>
-	 * @return the root {@link Entry} of type {@code K} and {@code V}
+	 * @return the root {@link Entry} of types {@code K} and {@code V}
 	 */
 	public Entry<K, V> getRootEntry() {
 		return root;
@@ -143,7 +142,7 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable the key {@link Comparable} of super type {@code K} to find
+	 * @param keyComparable the key {@link Comparable} of super-type {@code K} to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
@@ -162,7 +161,7 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value {@code K} and {@code V} mappings to put
+	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to put
 	 * <p>
 	 * @throws ClassCastException   if the type of a key or value in {@code map} prevents it from
 	 *                              being stored in {@code this}

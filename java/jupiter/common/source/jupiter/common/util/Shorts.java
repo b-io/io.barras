@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -44,6 +45,22 @@ public class Shorts {
 	protected static final ShortParser PARSER = new ShortParser();
 
 	public static volatile Random RANDOM = new Random();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Short> COMPARATOR = new Comparator<Short>() {
+		@Override
+		public int compare(final Short a, final Short b) {
+			return Shorts.compare(a, b);
+		}
+	};
+
+	public static final Comparator<short[]> ARRAY_COMPARATOR = new Comparator<short[]>() {
+		@Override
+		public int compare(final short[] a, final short[] b) {
+			return Shorts.compare(a, b);
+		}
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +164,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code short} array from the specified {@code T} array
@@ -159,7 +176,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} array from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@code short} array from the specified {@code T} array
@@ -171,7 +188,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code short} array from the specified 2D {@code T} array
@@ -183,7 +200,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a {@code short} array from the specified 2D {@code T} array
@@ -195,7 +212,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code short} array from the specified 3D {@code T} array
@@ -207,7 +224,7 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a {@code short} array from the specified 3D {@code T} array
@@ -221,7 +238,7 @@ public class Shorts {
 	/**
 	 * Returns a 2D {@code short} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code short} array from the specified 2D {@code T} array
@@ -233,7 +250,7 @@ public class Shorts {
 	/**
 	 * Returns a 2D {@code short} array from the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array2D a 2D {@code T} array
 	 * <p>
 	 * @return a 2D {@code short} array from the specified 2D {@code T} array
@@ -245,7 +262,7 @@ public class Shorts {
 	/**
 	 * Returns a 3D {@code short} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code short} array from the specified 3D {@code T} array
@@ -257,7 +274,7 @@ public class Shorts {
 	/**
 	 * Returns a 3D {@code short} array from the specified 3D {@code T} array.
 	 * <p>
-	 * @param <T>     the component type of the array
+	 * @param <T>     the component type of the array to convert
 	 * @param array3D a 3D {@code T} array
 	 * <p>
 	 * @return a 3D {@code short} array from the specified 3D {@code T} array
@@ -267,12 +284,13 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@code short} array from the specified {@link Collection} of type {@code E}.
+	 * Returns a {@code short} array from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@code short} array from the specified {@link Collection} of type {@code E}
+	 * @return a {@code short} array from the specified {@link Collection} of element type {@code E}
 	 */
 	public static <E> short[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -359,12 +377,14 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns an array of {@link Short} from the specified {@link Collection} of type {@code E}.
+	 * Returns an array of {@link Short} from the specified {@link Collection} of element type
+	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return an array of {@link Short} from the specified {@link Collection} of type {@code E}
+	 * @return an array of {@link Short} from the specified {@link Collection} of element type
+	 *         {@code E}
 	 */
 	public static <E> Short[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -373,22 +393,22 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Short} from the specified {@code short} array.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code short} array.
 	 * <p>
 	 * @param array a {@code short} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Short} from the specified {@code short} array
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code short} array
 	 */
 	public static ExtendedList<Short> toList(final short[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Short} from the specified {@code short} array.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code short} array.
 	 * <p>
 	 * @param array a {@code short} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Short} from the specified {@code short} array
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code short} array
 	 */
 	public static ExtendedList<Short> asList(final short... array) {
 		return toList(array);
@@ -421,24 +441,24 @@ public class Shorts {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Short} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Short} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Short> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Short} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Short} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Short> asList(final T... array) {
 		return toList(array);
@@ -447,7 +467,7 @@ public class Shorts {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array
@@ -459,7 +479,7 @@ public class Shorts {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array
@@ -469,14 +489,14 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@link ExtendedList} of {@link Short} from the specified {@link Collection} of type
-	 * {@code E}.
+	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@link Collection} of
+	 * element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link ExtendedList} of {@link Short} from the specified {@link Collection} of type
-	 *         {@code E}
+	 * @return an {@link ExtendedList} of {@link Short} from the specified {@link Collection} of
+	 *         element type {@code E}
 	 */
 	public static <E> ExtendedList<Short> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
@@ -484,13 +504,13 @@ public class Shorts {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@link Collection}
-	 * of type {@code E}.
+	 * of element type {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@link Collection}
-	 *         of type {@code E}
+	 *         of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Short> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -524,7 +544,7 @@ public class Shorts {
 	/**
 	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
@@ -536,7 +556,7 @@ public class Shorts {
 	/**
 	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
 	 * <p>
-	 * @param <T>   the component type of the array
+	 * @param <T>   the component type of the array to convert
 	 * @param array a {@code T} array
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
@@ -546,13 +566,13 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified {@link Collection} of type
+	 * Returns a {@link Set} of {@link Short} from the specified {@link Collection} of element type
 	 * {@code E}.
 	 * <p>
-	 * @param <E>        the type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of type {@code E}
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection a {@link Collection} of element type {@code E}
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified {@link Collection} of type
+	 * @return a {@link Set} of {@link Short} from the specified {@link Collection} of element type
 	 *         {@code E}
 	 */
 	public static <E> Set<Short> collectionToSet(final Collection<E> collection) {
@@ -1023,8 +1043,13 @@ public class Shorts {
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static int compare(final short[] a, final short[] b) {
+		if (a == b) {
+			return 0;
+		}
 		final int limit = Math.min(a.length, b.length);
 		for (int i = 0; i < limit; ++i) {
 			final int comparison = compare(a[i], b[i]);

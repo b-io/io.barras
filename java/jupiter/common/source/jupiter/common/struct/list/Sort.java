@@ -31,7 +31,7 @@ import jupiter.common.util.Arrays;
 /**
  * This is a duplicate of {@code TimSort} from Oracle Java 8.
  * <p>
- * @param <T> the type of the {@link Sort}
+ * @param <T> the component type of the array to sort
  */
 public class Sort<T>
 		implements Serializable {
@@ -88,7 +88,7 @@ public class Sort<T>
 	protected final T[] array;
 
 	/**
-	 * The {@link Comparator} of super type {@code T} to determine the order.
+	 * The {@link Comparator} of super-type {@code T} to determine the order.
 	 */
 	protected final Comparator<? super T> comparator;
 
@@ -130,7 +130,7 @@ public class Sort<T>
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
 	 * <p>
 	 * @param array      the {@code T} array to sort
-	 * @param comparator the {@link Comparator} of super type {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
@@ -184,11 +184,11 @@ public class Sort<T>
 	 * {@link Arrays}) after performing any necessary array bounds checks and expanding parameters
 	 * into the required forms.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array to sort
 	 * @param lo         the index of the first element to sort (inclusive)
 	 * @param hi         the index of the last element to sort (exclusive)
-	 * @param comparator the {@link Comparator} of super type {@code T} to use
+	 * @param comparator the {@link Comparator} of super-type {@code T} to use
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
@@ -250,13 +250,13 @@ public class Sort<T>
 	 * of it: the method assumes that the elements from index {@code lo}, inclusive, to
 	 * {@code start}, exclusive are already sorted.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array in which a range is to be sorted
 	 * @param lo         the index of the first element in the range to sort
 	 * @param hi         the index after the last element in the range to sort
 	 * @param start      the index of the first element in the range that is not already known to be
 	 *                   sorted ({@code lo <= start <= hi})
-	 * @param comparator the {@link Comparator} of super type {@code T} to use
+	 * @param comparator the {@link Comparator} of super-type {@code T} to use
 	 */
 	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
@@ -318,12 +318,12 @@ public class Sort<T>
 	 * is needed so that the call can safely reverse a descending sequence without violating
 	 * stability.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array in which a run is to be counted and possibly reversed
 	 * @param lo         the index of the first element in the run
 	 * @param hi         the index after the last element that may be contained in the run. It is
 	 *                   required that {@code lo < hi}.
-	 * @param comparator the {@link Comparator} of super type {@code T} to use
+	 * @param comparator the {@link Comparator} of super-type {@code T} to use
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
@@ -517,14 +517,14 @@ public class Sort<T>
 	 * range; if the range contains an element equal to {@code key}, returns the index of the
 	 * leftmost equal element.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param key        the {@code T} key whose insertion point to search for
 	 * @param array      the {@code T} array in which to search
 	 * @param base       the index of the first element in the range
 	 * @param length     the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the {@link Comparator} of super type {@code T} to order the range and to
+	 * @param comparator the {@link Comparator} of super-type {@code T} to order the range and to
 	 *                   search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
@@ -607,14 +607,14 @@ public class Sort<T>
 	 * Like {@link #gallopLeft}, except that if the range contains an element equal to {@code key},
 	 * {@link #gallopRight} returns the index after the rightmost equal element.
 	 * <p>
-	 * @param <T>        the component type of the array
+	 * @param <T>        the component type of the array to sort
 	 * @param key        the {@code T} key whose insertion point to search for
 	 * @param array      the {@code T} array in which to search
 	 * @param base       the index of the first element in the range
 	 * @param length     the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the {@link Comparator} of super type {@code T} to order the range and to
+	 * @param comparator the {@link Comparator} of super-type {@code T} to order the range and to
 	 *                   search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that

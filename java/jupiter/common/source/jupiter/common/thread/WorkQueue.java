@@ -78,7 +78,7 @@ public class WorkQueue<I, O>
 	protected volatile boolean isRunning = true;
 
 	/**
-	 * The model {@link Worker} of type {@code I} and {@code O}.
+	 * The model {@link Worker} of types {@code I} and {@code O}.
 	 */
 	protected final Worker<I, O> model;
 	/**
@@ -124,7 +124,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Constructs a {@link WorkQueue} with the specified model {@link Worker}.
 	 * <p>
-	 * @param model the model {@link Worker} of type {@code I} and {@code O}
+	 * @param model the model {@link Worker} of types {@code I} and {@code O}
 	 */
 	protected WorkQueue(final Worker<I, O> model) {
 		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
@@ -134,7 +134,7 @@ public class WorkQueue<I, O>
 	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} and minimum and
 	 * maximum numbers of {@link Worker}.
 	 * <p>
-	 * @param model          the model {@link Worker} of type {@code I} and {@code O}
+	 * @param model          the model {@link Worker} of types {@code I} and {@code O}
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
@@ -244,7 +244,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Removes the specified {@link Worker}.
 	 * <p>
-	 * @param worker the {@link Worker} of type {@code I} and {@code O} to remove
+	 * @param worker the {@link Worker} of types {@code I} and {@code O} to remove
 	 */
 	public void removeWorker(final Worker<I, O> worker) {
 		workers.remove(worker);
@@ -351,7 +351,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Kills the specified {@link Worker}.
 	 * <p>
-	 * @param worker the {@link Worker} of type {@code I} and {@code O} to kill
+	 * @param worker the {@link Worker} of types {@code I} and {@code O} to kill
 	 */
 	public void killWorker(final Worker<I, O> worker) {
 		worker.stop();
