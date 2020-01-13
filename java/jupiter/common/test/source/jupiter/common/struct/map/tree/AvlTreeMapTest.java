@@ -50,7 +50,7 @@ public class AvlTreeMapTest
 		AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(Integer.class);
 		fill(instance, 7);
 		String representation = instance.toString();
-		IO.test(representation);
+		IO.result(representation);
 		assertEquals(instance.getOptimalHeight(), Strings.countLines(representation));
 		assertTrue(Strings.countLines(representation, true) <= instance.getMaxHeight());
 

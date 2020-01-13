@@ -49,7 +49,7 @@ public class RedBlackTreeMapTest
 		RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(Integer.class);
 		fill(instance, 7);
 		String representation = instance.toString();
-		IO.test(representation);
+		IO.result(representation);
 		assertEquals(4, Strings.countLines(representation, true));
 		assertTrue(Strings.countLines(representation, true) <= instance.getMaxHeight());
 
