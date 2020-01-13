@@ -28,6 +28,7 @@ import static jupiter.common.io.IO.IO;
 import java.util.Map;
 
 import jupiter.common.test.Test;
+import jupiter.common.util.Strings;
 
 public class RedBlackTreeMapTest
 		extends Test {
@@ -39,6 +40,28 @@ public class RedBlackTreeMapTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of getHeight method, of class RedBlackTreeMap.
+	 */
+	public void testGetHeight() {
+		IO.test("• getHeight");
+
+		// • Fill with 7 elements
+		RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(Integer.class);
+		fill(instance, 7);
+		String representation = instance.toString();
+		IO.test(representation);
+		assertEquals(4, Strings.countLines(representation, true));
+		assertTrue(Strings.countLines(representation, true) <= instance.getMaxHeight());
+
+		// • Fill with 15 elements
+		instance = new RedBlackTreeMap<Integer, Integer>(Integer.class);
+		fill(instance, 15);
+		representation = instance.toString();
+		assertEquals(6, instance.getHeight());
+		assertTrue(Strings.countLines(representation, true) <= instance.getMaxHeight());
+	}
+
+	/**
 	 * Test of put method, of class RedBlackTreeMap.
 	 */
 	public void testPut() {
@@ -46,7 +69,8 @@ public class RedBlackTreeMapTest
 
 		final int n = 100;
 
-		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>();
+		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance, n);
 		assertEquals(0, (int) instance.getFirstEntry().key);
 		assertEquals(0, (int) instance.getFirstEntry().value);
@@ -62,7 +86,8 @@ public class RedBlackTreeMapTest
 
 		final int n = 100;
 
-		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>();
+		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance, n);
 		remove(instance, 0, 25, 50, 75, 99);
 		assertEquals(1, (int) instance.getFirstEntry().key);
@@ -75,7 +100,8 @@ public class RedBlackTreeMapTest
 	public void testClone() {
 		IO.test("• clone");
 
-		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>();
+		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance);
 		final RedBlackTreeMap<Integer, Integer> clone = instance.clone();
 		assertEquals(instance, clone);

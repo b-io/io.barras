@@ -25,13 +25,23 @@ package jupiter.common.struct.map.tree;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 
-public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, V>>
+/**
+ * {@link TreeMap} is a light sorted {@link Map} implementation based on a tree with a
+ * {@link Comparator} to determine the order of the entries.
+ * <p>
+ * @param <K> the key type of the {@link TreeMap}
+ * @param <V> the value type of the {@link TreeMap}
+ * @param <N> the {@link TreeNode} type of the {@link TreeMap}
+ */
+public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		extends AbstractMap<K, V>
 		implements ICloneable<TreeMap<K, V, N>>, Serializable {
 
@@ -57,6 +67,10 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 	 * The number of nodes (key-value mappings).
 	 */
 	protected int size = 0;
+	/**
+	 * The key {@link Comparator} of super-type {@code K} to use.
+	 */
+	protected final Comparator<? super K> keyComparator;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,19 +79,55 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 
 	/**
 	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * <p>
+	 * @param c the key {@link Class} of type {@code K}
 	 */
-	protected TreeMap() {
+	protected TreeMap(final Class<K> c) {
 		super();
+		keyComparator = Comparables.getComparator(c);
 	}
 
 	/**
 	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N} loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
+	 * @param c   the key {@link Class} of type {@code K}
 	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
 	 */
-	protected TreeMap(final Map<? extends K, ? extends V> map) {
+	protected TreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
 		super();
+		keyComparator = Comparables.getComparator(c);
+		putAll(map);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N} with the specified
+	 * key {@link Comparator}.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
+	 */
+	protected TreeMap(final Comparator<? super K> keyComparator) {
+		super();
+		this.keyComparator = keyComparator;
+	}
+
+	/**
+	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N} with the specified
+	 * key {@link Comparator} loaded from the specified {@link Map} containing the key-value
+	 * mappings .
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
+	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
+	 *                      mappings to load
+	 */
+	protected TreeMap(final Comparator<? super K> keyComparator,
+			final Map<? extends K, ? extends V> map) {
+		super();
+		this.keyComparator = keyComparator;
 		putAll(map);
 	}
 
@@ -106,6 +156,15 @@ public abstract class TreeMap<K extends Comparable<K>, V, N extends TreeNode<K, 
 		// Get the value
 		final N node = getNode(key);
 		return node != null ? node.value : null;
+	}
+
+	/**
+	 * Returns the key {@link Comparator} of super-type {@code K}.
+	 * <p>
+	 * @return the key {@link Comparator} of super-type {@code K}
+	 */
+	public Comparator<? super K> getKeyComparator() {
+		return keyComparator;
 	}
 
 	/**

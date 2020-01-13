@@ -81,7 +81,8 @@ public class Calculator
 	/**
 	 * The context containing the values of the variables.
 	 */
-	protected final Map<String, Element> context = new RedBlackTreeMap<String, Element>();
+	protected final Map<String, Element> context = new RedBlackTreeMap<String, Element>(
+			String.class);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,10 +191,10 @@ public class Calculator
 			if (expressionCount > 1) {
 				// • Assignment
 				// Set the corresponding variables
-				final Iterator<String> eIterator = expressions.iterator();
-				while (eIterator.hasNext()) {
-					final String e = eIterator.next();
-					if (eIterator.hasNext()) {
+				final Iterator<String> expressionIterator = expressions.iterator();
+				while (expressionIterator.hasNext()) {
+					final String e = expressionIterator.next();
+					if (expressionIterator.hasNext()) {
 						context.put(e.trim(), element);
 					}
 				}

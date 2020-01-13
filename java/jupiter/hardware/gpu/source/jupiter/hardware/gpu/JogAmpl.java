@@ -66,7 +66,8 @@ public class JogAmpl
 	protected final CLCommandQueue commandQueue;
 
 	protected CLProgram program;
-	protected final Map<String, CLKernel> kernels = new RedBlackTreeMap<String, CLKernel>();
+	protected final Map<String, CLKernel> kernels = new RedBlackTreeMap<String, CLKernel>(
+			String.class);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

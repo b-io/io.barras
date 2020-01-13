@@ -116,8 +116,6 @@ public class MailHandler
 	public MailHandler() {
 	}
 
-	//////////////////////////////////////////////
-
 	/**
 	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
 	 * outgoing mail server {@link Protocol}, host name, user name and password.

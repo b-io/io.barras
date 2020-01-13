@@ -26,7 +26,6 @@ package jupiter.gui.console;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.ESCAPE;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.awt.Color;
@@ -80,6 +79,8 @@ import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.Index;
 import jupiter.common.util.Strings;
+
+import static jupiter.common.util.Formats.NEW_LINE;
 
 /**
  * A JFC/Swing based console for the BeanShell desktop.
@@ -322,12 +323,12 @@ public class JConsole
 	 * Terminates the line.
 	 */
 	public void println() {
-		print(NEWLINE);
+		print(NEW_LINE);
 		textPane.repaint();
 	}
 
 	public void println(final Object content) {
-		append(Strings.toString(content) + NEWLINE);
+		append(Strings.toString(content) + NEW_LINE);
 	}
 
 	public void error(final Object content) {
@@ -430,7 +431,7 @@ public class JConsole
 
 	protected void historyDown() {
 		if (historicalLineIndex != 0) {
-			historicalLineIndex--;
+			--historicalLineIndex;
 			showHistoryLine();
 		}
 	}
@@ -731,16 +732,16 @@ public class JConsole
 		String command = getCommand();
 		// Special hack for empty return
 		if (command.length() == 0) {
-			command = ";" + NEWLINE;
+			command = ";" + NEW_LINE;
 		} else {
 			history.add(command);
 			synchronized (inputLines) {
 				inputLines.add(command);
 				inputLines.notifyAll();
 			}
-			command += NEWLINE;
+			command += NEW_LINE;
 		}
-		append(NEWLINE);
+		append(NEW_LINE);
 		historicalLineIndex = 0;
 		acceptLine(command);
 	}
@@ -763,24 +764,24 @@ public class JConsole
 			final StyledDocument document = textPane.getStyledDocument();
 			final String styledText = text + Strings.toString(content);
 			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
-			final Iterator<Index<String>> dIterator = delimiters.iterator();
+			final Iterator<Index<String>> delimiterIterator = delimiters.iterator();
 			final List<String> texts = Strings.splitString(styledText, COLORS);
-			final Iterator<String> tIterator = texts.iterator();
+			final Iterator<String> textIterator = texts.iterator();
 
 			// Append
 			text = EMPTY;
-			while (tIterator.hasNext()) {
-				String t = tIterator.next();
+			while (textIterator.hasNext()) {
+				String t = textIterator.next();
 				// Store the text if required (if the text contains a part of the next delimiter)
-				if (!tIterator.hasNext() && t.indexOf(ESCAPE) >= 0) {
+				if (!textIterator.hasNext() && t.indexOf(ESCAPE) >= 0) {
 					text = t;
 					t = EMPTY;
 				}
 				// Insert the text
 				insertString(document, getTextLength(), t, textColor);
 				// Update the color
-				if (dIterator.hasNext()) {
-					textColor = ConsoleHandler.Color.parse(dIterator.next().getToken());
+				if (delimiterIterator.hasNext()) {
+					textColor = ConsoleHandler.Color.parse(delimiterIterator.next().getToken());
 				}
 			}
 		}

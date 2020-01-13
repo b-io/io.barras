@@ -23,8 +23,6 @@
  */
 package jupiter.common.exception;
 
-import jupiter.common.util.Strings;
-
 public class IllegalClassException
 		extends IllegalStateException {
 

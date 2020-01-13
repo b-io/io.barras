@@ -24,7 +24,9 @@
 package jupiter.common.struct.map.tree;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Formats.NEW_LINE;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +34,23 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import jupiter.common.math.Maths;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends BinaryTreeNode<K, V, N>>
+/**
+ * {@link BinaryTreeMap} is a light sorted {@link Map} implementation based on a binary tree with a
+ * {@link Comparator} to determine the order of the entries.
+ * <p>
+ * @param <K> the key type of the {@link BinaryTreeMap}
+ * @param <V> the value type of the {@link BinaryTreeMap}
+ * @param <N> the {@link BinaryTreeNode} type of the {@link BinaryTreeMap}
+ */
+public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 		extends TreeMap<K, V, N> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,24 +69,80 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Constructs a {@link BinaryTreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * <p>
+	 * @param c the key {@link Class} of type {@code K}
 	 */
-	protected BinaryTreeMap() {
-		super();
+	protected BinaryTreeMap(final Class<K> c) {
+		super(c);
 	}
 
 	/**
-	 * Constructs a {@link BinaryTreeMap} of types {@code K}, {@code V} and {@code N} loaded from the
-	 * specified {@link Map} containing the key-value mappings.
+	 * Constructs a {@link BinaryTreeMap} of types {@code K}, {@code V} and {@code N} loaded from
+	 * the specified {@link Map} containing the key-value mappings.
 	 * <p>
+	 * @param c   the key {@link Class} of type {@code K}
 	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
 	 */
-	protected BinaryTreeMap(final Map<? extends K, ? extends V> map) {
-		super(map);
+	protected BinaryTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
+		super(c, map);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * specified key {@link Comparator}.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
+	 */
+	protected BinaryTreeMap(final Comparator<? super K> keyComparator) {
+		super(keyComparator);
+	}
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
+	 * key-value mappings .
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
+	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
+	 *                      mappings to load
+	 */
+	protected BinaryTreeMap(final Comparator<? super K> keyComparator,
+			final Map<? extends K, ? extends V> map) {
+		super(keyComparator, map);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the height.
+	 * <p>
+	 * @return the height
+	 */
+	public abstract int getHeight();
+
+	/**
+	 * Returns the maximum height.
+	 * <p>
+	 * @return the maximum height
+	 */
+	public abstract int getMaxHeight();
+
+	/**
+	 * Returns the optimal height.
+	 * <p>
+	 * @return the optimal height
+	 */
+	public int getOptimalHeight() {
+		return Maths.floorToInt(Math.log(size()) / Maths.LOG_2) + 1;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -495,8 +564,8 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 	/**
 	 * Performs the in-order traversal of {@code this} and returns a {@link Set} view of the
-	 * key-value {@link Entry} of types {@code K} and {@code V} of the visited nodes. The iterator of
-	 * the {@link Set} returns the entries in ascending key order. The {@link Set} is backed by
+	 * key-value {@link Entry} of types {@code K} and {@code V} of the visited nodes. The iterator
+	 * of the {@link Set} returns the entries in ascending key order. The {@link Set} is backed by
 	 * {@code this}, so changes to {@code this} are reflected in the {@link Set} and vice-versa. If
 	 * {@code this} is modified while an iteration over the {@link Set} is in progress (except
 	 * through the operations {@code remove} or {@code setValue} of the iterator), the results of
@@ -566,29 +635,52 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder lineBuilder = Strings.createBuilder();
-		lineBuilder.append("<").append(toString(root)).append(">");
-		return lineBuilder.toString();
+		return toString(getHeight(), 10, false);
 	}
 
 	/**
 	 * Returns a representative {@link String} of the specified {@code N} node.
 	 * <p>
-	 * @param node a {@code N} node
+	 * @param toHeight   the height index to finish representing at (exclusive)
+	 * @param nodeLength the length of the representative {@link String} of each node
+	 * @param center     the flag specifying whether to center-pad
 	 * <p>
 	 * @return a representative {@link String} of the specified {@code N} node
 	 */
-	public String toString(final N node) {
-		final StringBuilder lineBuilder = Strings.createBuilder();
-		lineBuilder.append("<")
-				.append(node.parent)
-				.append("|")
-				.append(node)
-				.append("|")
-				.append(node.left)
-				.append("|")
-				.append(node.right)
-				.append(">");
-		return lineBuilder.toString();
+	public String toString(final int toHeight, final int nodeLength, final boolean center) {
+		// Initialize
+		final int leafCount = Maths.pow2(toHeight - 1);
+		final int length = leafCount * (nodeLength + 1) + 1;
+		final StringBuilder builder = Strings.createBuilder(toHeight * length);
+		final ExtendedLinkedList<Pair<Integer, N>> nodes = new ExtendedLinkedList<Pair<Integer, N>>(
+				new Pair<Integer, N>(0, root));
+
+		// Convert to the String representation
+		int currentHeight = 0, nextHeight = 1, nodeCount = 1;
+		boolean hasLeaf = false;
+		while (!nodes.isEmpty()) {
+			final Pair<Integer, N> element = nodes.remove();
+			final int height = element.getFirst();
+			final N node = element.getSecond();
+			if (currentHeight < height) {
+				builder.append(NEW_LINE);
+				if (!hasLeaf) {
+					break;
+				}
+				++currentHeight;
+				++nextHeight;
+				nodeCount = Maths.pow2(currentHeight);
+				hasLeaf = false;
+			}
+			final String nodeString = Strings.toString(node, nodeLength);
+			builder.append(center ? Strings.centerPad(nodeString, length / nodeCount) :
+					Strings.rightPad(nodeString, length / nodeCount));
+			if (nextHeight < toHeight) {
+				hasLeaf = hasLeaf || node != null && (node.left != null || node.right != null);
+				nodes.add(new Pair<Integer, N>(nextHeight, node == null ? null : node.left));
+				nodes.add(new Pair<Integer, N>(nextHeight, node == null ? null : node.right));
+			}
+		}
+		return builder.toString();
 	}
 }

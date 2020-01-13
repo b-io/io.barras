@@ -97,7 +97,8 @@ public class JOCL
 	protected final cl_command_queue commandQueue;
 
 	protected final cl_program program;
-	protected final Map<String, cl_kernel> kernels = new RedBlackTreeMap<String, cl_kernel>();
+	protected final Map<String, cl_kernel> kernels = new RedBlackTreeMap<String, cl_kernel>(
+			String.class);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

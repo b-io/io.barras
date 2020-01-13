@@ -23,7 +23,7 @@
  */
 package jupiter.common.struct.map.tree;
 
-public class AvlTreeNode<K extends Comparable<K>, V>
+public class AvlTreeNode<K, V>
 		extends BinaryTreeNode<K, V, AvlTreeNode<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,11 +48,11 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	/**
 	 * The height.
 	 */
-	protected long height;
+	protected int height;
 	/**
 	 * The balance.
 	 */
-	protected long balance;
+	protected int balance;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	 * @param tree  the {@link AvlTreeMap} of types {@code K} and {@code V}
 	 */
 	public AvlTreeNode(final K key, final V value, final AvlTreeMap<K, V> tree) {
-		super(key, value);
+		super(key, value, tree.getKeyComparator());
 		this.tree = tree;
 		height = 0;
 		balance = 0;
@@ -84,7 +84,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	 * <p>
 	 * @return the height
 	 */
-	public long getHeight() {
+	public int getHeight() {
 		return height;
 	}
 
@@ -93,7 +93,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 	 * <p>
 	 * @return the balance
 	 */
-	public long getBalance() {
+	public int getBalance() {
 		return balance;
 	}
 
@@ -174,8 +174,7 @@ public class AvlTreeNode<K extends Comparable<K>, V>
 			height = 0;
 			balance = 0;
 		} else {
-			long leftHeight;
-			long rightHeight;
+			int leftHeight, rightHeight;
 			// Update the height
 			if (left == null) {
 				leftHeight = -1;

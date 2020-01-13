@@ -40,7 +40,7 @@ public class StatisticsTest
 	public void testGetConditionalProbability() {
 		IO.test("• getConditionalProbability");
 
-		// Calculate the conditional probability of cheating given 3 consecutive victories (12.5%)
+		// Compute the conditional probability of cheating given 3 consecutive victories (12.5%)
 		final double peh = 0.5; // probability of winning if cheating
 		final double penh = 0.125; // probability of winning if not cheating
 		final double ph = 0.25; // probability of cheating

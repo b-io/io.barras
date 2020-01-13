@@ -23,7 +23,9 @@
  */
 package jupiter.common.struct.map.tree;
 
-public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends BinaryTreeNode<K, V, N>>
+import java.util.Comparator;
+
+public abstract class BinaryTreeNode<K, V, N extends BinaryTreeNode<K, V, N>>
 		extends TreeNode<K, V> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,13 +51,17 @@ public abstract class BinaryTreeNode<K extends Comparable<K>, V, N extends Binar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link BinaryTreeNode} with the specified key and value.
+	 * Constructs a {@link BinaryTreeNode} with the specified {@code K} key, {@code V} value and key
+	 * {@link Comparator}.
 	 * <p>
-	 * @param key   the {@code K} key
-	 * @param value the {@code V} value
+	 * @param key           the {@code K} key
+	 * @param value         the {@code V} value
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
 	 */
-	protected BinaryTreeNode(final K key, final V value) {
-		super(key, value);
+	protected BinaryTreeNode(final K key, final V value,
+			final Comparator<? super K> keyComparator) {
+		super(key, value, keyComparator);
 		parent = left = right = null;
 	}
 

@@ -145,7 +145,7 @@ public class LUDecomposition
 				pivot[j] = k;
 				pivotSign = -pivotSign;
 			}
-			// Compute multipliers
+			// Compute the multipliers
 			if (j < m && LU[j][j] != 0.) {
 				for (int i = j + 1; i < m; ++i) {
 					LU[i][j] /= LU[j][j];

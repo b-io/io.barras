@@ -23,11 +23,13 @@
  */
 package jupiter.common.struct.map.tree;
 
+import static junit.framework.TestCase.assertEquals;
 import static jupiter.common.io.IO.IO;
 
 import java.util.Map;
 
 import jupiter.common.test.Test;
+import jupiter.common.util.Strings;
 
 public class AvlTreeMapTest
 		extends Test {
@@ -44,12 +46,20 @@ public class AvlTreeMapTest
 	public void testGetHeight() {
 		IO.test("• getHeight");
 
-		AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
+		// • Fill with 7 elements
+		AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(Integer.class);
 		fill(instance, 7);
-		assertEquals(2, instance.getHeight());
-		instance = new AvlTreeMap<Integer, Integer>();
-		fill(instance, 8);
-		assertEquals(3, instance.getHeight());
+		String representation = instance.toString();
+		IO.test(representation);
+		assertEquals(instance.getOptimalHeight(), Strings.countLines(representation));
+		assertTrue(Strings.countLines(representation, true) <= instance.getMaxHeight());
+
+		// • Fill with 15 elements
+		instance = new AvlTreeMap<Integer, Integer>(Integer.class);
+		fill(instance, 15);
+		representation = instance.toString();
+		assertEquals(instance.getOptimalHeight(), Strings.countLines(representation));
+		assertTrue(Strings.countLines(representation, true) <= instance.getMaxHeight());
 	}
 
 	/**
@@ -58,7 +68,8 @@ public class AvlTreeMapTest
 	public void testPut() {
 		IO.test("• put");
 
-		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
+		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance);
 		assertEquals(0, (int) instance.getFirstEntry().key);
 		assertEquals(6, (int) instance.getLastEntry().value);
@@ -70,7 +81,8 @@ public class AvlTreeMapTest
 	public void testRemove() {
 		IO.test("• removeNode");
 
-		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
+		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance);
 		instance.remove(0);
 		assertEquals(1, (int) instance.getFirstEntry().key);
@@ -83,7 +95,8 @@ public class AvlTreeMapTest
 	public void testClone() {
 		IO.test("• clone");
 
-		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
+		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance);
 		final AvlTreeMap<Integer, Integer> clone = instance.clone();
 		assertEquals(instance, clone);

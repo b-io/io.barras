@@ -23,7 +23,9 @@
  */
 package jupiter.common.struct.map.tree;
 
-public class RedBlackTreeNode<K extends Comparable<K>, V>
+import java.util.Comparator;
+
+public class RedBlackTreeNode<K, V>
 		extends BinaryTreeNode<K, V, RedBlackTreeNode<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,13 +50,16 @@ public class RedBlackTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RedBlackTreeNode} with the specified key and value.
+	 * Constructs a {@link BinaryTreeNode} with the specified {@code K} key, {@code V} value and key
+	 * {@link Comparator}.
 	 * <p>
-	 * @param key   the {@code K} key
-	 * @param value the {@code V} value
+	 * @param key           the {@code K} key
+	 * @param value         the {@code V} value
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
 	 */
-	public RedBlackTreeNode(final K key, final V value) {
-		super(key, value);
+	public RedBlackTreeNode(final K key, final V value, final Comparator<? super K> keyComparator) {
+		super(key, value, keyComparator);
 		isRed = true;
 	}
 

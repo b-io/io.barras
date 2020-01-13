@@ -27,11 +27,9 @@ import static jupiter.math.analysis.function.Functions.FACTORIAL;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
 
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.map.tree.TreeMap;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
@@ -184,13 +182,13 @@ public class Combinatorics {
 	public static int toDecimal(final List<Integer> factoradicValue) {
 		// Initialize
 		final int n = factoradicValue.size();
-		final Iterator<Integer> fIterator = factoradicValue.iterator();
+		final Iterator<Integer> factoradicValueIterator = factoradicValue.iterator();
 
 		// Convert to the decimal representation
 		int decimalValue = 0;
 		int i = 0;
-		while (fIterator.hasNext()) {
-			decimalValue += fIterator.next() * Maths.factorial(n - 1 - i++);
+		while (factoradicValueIterator.hasNext()) {
+			decimalValue += factoradicValueIterator.next() * Maths.factorial(n - 1 - i++);
 		}
 		return decimalValue;
 	}
@@ -317,7 +315,7 @@ public class Combinatorics {
 				Integers.reverse(permutation, fromIndex);
 			} else {
 				// Generate with minimal changes (use the Steinhaus-Johnson-Trotter algorithm)
-				// - Find the largest mobile index
+				// • Find the largest mobile index
 				int largestMobileIndex = -1;
 				int largestIndex = -1;
 				for (int i = 0; i < n; ++i) {
@@ -330,11 +328,11 @@ public class Combinatorics {
 						}
 					}
 				}
-				// - Swap the largest mobile index and the adjacent index (on the left or right)
+				// • Swap the largest mobile index and the adjacent index (on the left or right)
 				final int offset = directions[largestMobileIndex] == LEFT ? -1 : 1;
 				Integers.swap(permutation, largestMobileIndex, largestMobileIndex + offset);
 				Booleans.swap(directions, largestMobileIndex, largestMobileIndex + offset);
-				// - Reverse the direction of all the integers larger than the largest index
+				// • Reverse the direction of all the integers larger than the largest index
 				for (int i = 0; i < permutation.length; i++) {
 					if (permutation[i] > largestIndex) {
 						directions[i] = !directions[i];
@@ -453,7 +451,7 @@ public class Combinatorics {
 	 */
 	public static int[][] createAllCombinations(final int n) {
 		// Initialize
-		final int combinationCount = 1 << n;
+		final int combinationCount = Maths.pow2(n);
 		final int[][] combinations = new int[combinationCount][];
 
 		// Generate all the combinations
@@ -462,7 +460,7 @@ public class Combinatorics {
 			int index = 0;
 			for (int i = 0; i < n; ++i) {
 				// Use the binary representation of c as a mask to select the elements
-				if ((c & (1 << i)) != 0) {
+				if ((c & Maths.pow2(i)) != 0) {
 					combinations[c][index++] = i;
 				}
 			}
@@ -526,14 +524,21 @@ public class Combinatorics {
 	 */
 	public static int[][] createKCombinations(final int k, final int[] ms) {
 		// Initialize
-		final int n = Maths.sum(ms);
-		final TreeSet<int[]> treeSet = new TreeSet<int[]>();
+		final ExtendedLinkedList<int[]> combinations = new ExtendedLinkedList<int[]>(
+				Integers.EMPTY_PRIMITIVE_ARRAY);
 
-		// Generate the k-combinations in lexicographic order
-		for (int  i = 0; i < k; ++i) {
-			// TODO
+		// Convert to the String representation
+		while (combinations.getFirst().length < k) {
+			final int[] combination = combinations.remove();
+			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
+			for (int i = from; i < ms.length; ++i) {
+				final int index = Integers.indexOf(combination, i);
+				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
+					combinations.add(Integers.merge(combination, i));
+				}
+			}
 		}
-		return null;
+		return (int[][]) combinations.toArray();
 	}
 
 
@@ -736,40 +741,6 @@ public class Combinatorics {
 		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
-	/**
-	 * Returns the number {@code PFR(k, ms)} of distinct {@code k}-element tuples of objects from a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition.
-	 * <p>
-	 * @param k  the number of elements in the tuples
-	 * @param ms the multiplicities of the {@code n}-element multiset
-	 * <p>
-	 * @return the number {@code PFR(k, ms)} of distinct {@code k}-element tuples of objects from a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
-	 */
-	public static long PFR(final long k, final long[] ms) {
-		final long n = Maths.sum(ms);
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-
-	/**
-	 * Returns the number {@code PFR(k, ms)} of distinct {@code k}-element tuples of objects from a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition.
-	 * <p>
-	 * @param k  the number of elements in the tuples
-	 * @param ms the multiplicities of the {@code n}-element multiset
-	 * <p>
-	 * @return the number {@code PFR(k, ms)} of distinct {@code k}-element tuples of objects from a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
-	 */
-	public static double PFR(final double k, final double[] ms) {
-		final double n = Maths.sum(ms);
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -882,41 +853,26 @@ public class Combinatorics {
 	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
 	 */
 	public static int CFR(final int k, final int[] ms) {
-		final int n = Maths.sum(ms);
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
+		// Initialize
+		final ExtendedLinkedList<int[]> combinations = new ExtendedLinkedList<int[]>(
+				Integers.EMPTY_PRIMITIVE_ARRAY);
 
-	/**
-	 * Returns the number {@code CFR(k, ms)} of distinct {@code k}-element multisubsets of a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition.
-	 * <p>
-	 * @param k  the number of elements in the multisubsets
-	 * @param ms the multiplicities of the {@code n}-element multiset
-	 * <p>
-	 * @return the number {@code CFR(k, ms)} of distinct {@code k}-element multisubsets of a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
-	 */
-	public static long CFR(final long k, final long ms[]) {
-		final long n = Maths.sum(ms);
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
-
-	/**
-	 * Returns the number {@code CFR(k, ms)} of distinct {@code k}-element multisubsets of a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition.
-	 * <p>
-	 * @param k  the number of elements in the multisubsets
-	 * @param ms the multiplicities of the {@code n}-element multiset
-	 * <p>
-	 * @return the number {@code CFR(k, ms)} of distinct {@code k}-element multisubsets of a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
-	 */
-	public static double CFR(final double k, final double ms[]) {
-		final double n = Maths.sum(ms);
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// Convert to the String representation
+		int result = 0;
+		while (!combinations.isEmpty()) {
+			final int[] combination = combinations.remove();
+			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
+			for (int i = from; i < ms.length; ++i) {
+				final int index = Integers.indexOf(combination, i);
+				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
+					if (combination.length + 1 == k) {
+						result += 1;
+					} else {
+						combinations.add(Integers.merge(combination, i));
+					}
+				}
+			}
+		}
+		return result;
 	}
 }

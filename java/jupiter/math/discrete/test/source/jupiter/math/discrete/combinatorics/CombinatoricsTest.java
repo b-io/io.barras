@@ -197,11 +197,21 @@ public class CombinatoricsTest
 		// Initialize
 		final int n = 4;
 		final int[] ks = new int[] {2, 3};
+		final int[] ms = new int[] {2, 1, 0};
 
 		for (final int k : ks) {
 			IO.test("- List the ", k, "-combinations of a ", n,
 					"-element set in lexicographic order:");
 			final int[][] combinations = Combinatorics.createKCombinations(n, k);
+			for (final int[] combination : combinations) {
+				IO.test(Integers.toString(combination));
+			}
+		}
+
+		for (final int k : ks) {
+			IO.test("- List the ", k, "-combinations of a ", n,
+					"-element set with finite repetition in lexicographic order:");
+			final int[][] combinations = Combinatorics.createKCombinations(k, ms);
 			for (final int[] combination : combinations) {
 				IO.test(Integers.toString(combination));
 			}
@@ -302,5 +312,20 @@ public class CombinatoricsTest
 
 		// Count the number of ways to choose 3 donuts from 4 distinct categories with repetition
 		assertEquals(20L, Combinatorics.CR(4L, 3L));
+	}
+
+	/**
+	 * Test of CFR method, of class Combinatorics.
+	 */
+	public void testCFR() {
+		IO.test("• CFR");
+
+		// Count the number of ways to choose 3 balls from 2 white and 2 black balls
+		assertEquals(2, Combinatorics.CFR(3, new int[] {2, 2}));
+		IO.test(Combinatorics.createKCombinations(3, new int[] {2, 2}));
+
+		// Count the number of ways to choose 3 balls from 10 white and 10 black balls
+		assertEquals(4, Combinatorics.CFR(3, new int[] {10, 10}));
+		IO.test(Combinatorics.createKCombinations(4, new int[] {10, 10}));
 	}
 }

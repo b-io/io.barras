@@ -24,7 +24,6 @@
 package jupiter.common.io;
 
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
@@ -48,6 +47,8 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
+
+import static jupiter.common.util.Formats.NEW_LINE;
 
 public class IO
 		implements ICloneable<IO>, Serializable {
@@ -382,7 +383,7 @@ public class IO
 			// Iterate over the lines
 			String line;
 			while ((line = reader.readLine()) != null) {
-				builder.append(line).append(NEWLINE);
+				builder.append(line).append(NEW_LINE);
 				++lineCount;
 			}
 		} finally {

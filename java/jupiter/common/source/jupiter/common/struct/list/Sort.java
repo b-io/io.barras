@@ -188,7 +188,7 @@ public class Sort<T>
 	 * @param array      the {@code T} array to sort
 	 * @param lo         the index of the first element to sort (inclusive)
 	 * @param hi         the index of the last element to sort (exclusive)
-	 * @param comparator the {@link Comparator} of super-type {@code T} to use
+	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
@@ -256,16 +256,16 @@ public class Sort<T>
 	 * @param hi         the index after the last element in the range to sort
 	 * @param start      the index of the first element in the range that is not already known to be
 	 *                   sorted ({@code lo <= start <= hi})
-	 * @param comparator the {@link Comparator} of super-type {@code T} to use
+	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
 	 */
 	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
 			final Comparator<? super T> comparator) {
 		assert lo <= start && start <= hi;
 		if (start == lo) {
-			start++;
+			++start;
 		}
-		for (; start < hi; start++) {
+		for (; start < hi; ++start) {
 			final T pivot = array[start];
 
 			// Set left (and right) to the index where a[start] (pivot) belongs
@@ -286,10 +286,10 @@ public class Sort<T>
 			assert left == right;
 
 			// The invariants still hold:
-			//   pivot >= all in [lo, left) and
-			//   pivot < all in [left, start),
+			// • pivot >= all in [lo, left) and
+			// • pivot < all in [left, start),
 			// so pivot belongs at left. Note that if there are elements equal to pivot, left points
-			// to the first slot after them -- that is why this sort is stable. Slide elements over
+			// to the first slot after them - that is why this sort is stable. Slide elements over
 			// to make room for pivot.
 			final int n = start - left; // the number of elements to move
 			// Switch is just an optimization for arraycopy in default case
@@ -323,7 +323,7 @@ public class Sort<T>
 	 * @param lo         the index of the first element in the run
 	 * @param hi         the index after the last element that may be contained in the run. It is
 	 *                   required that {@code lo < hi}.
-	 * @param comparator the {@link Comparator} of super-type {@code T} to use
+	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
@@ -339,13 +339,13 @@ public class Sort<T>
 		if (comparator.compare(array[runHi++], array[lo]) < 0) {
 			// Descending
 			while (runHi < hi && comparator.compare(array[runHi], array[runHi - 1]) < 0) {
-				runHi++;
+				++runHi;
 			}
 			reverseRange(array, lo, runHi);
 		} else {
 			// Ascending
 			while (runHi < hi && comparator.compare(array[runHi], array[runHi - 1]) >= 0) {
-				runHi++;
+				++runHi;
 			}
 		}
 
@@ -360,7 +360,7 @@ public class Sort<T>
 	 * @param hi    the index after the last element in the range to reverse
 	 */
 	protected static void reverseRange(final Object[] array, int lo, int hi) {
-		hi--;
+		--hi;
 		while (lo < hi) {
 			final Object t = array[lo];
 			array[lo++] = array[hi];
@@ -404,7 +404,7 @@ public class Sort<T>
 	protected void pushRun(final int runBase, final int runLength) {
 		this.runBase[stackSize] = runBase;
 		this.runLength[stackSize] = runLength;
-		stackSize++;
+		++stackSize;
 	}
 
 	/**
@@ -423,7 +423,7 @@ public class Sort<T>
 			int n = stackSize - 2;
 			if (n > 0 && runLength[n - 1] <= runLength[n] + runLength[n + 1]) {
 				if (runLength[n - 1] < runLength[n + 1]) {
-					n--;
+					--n;
 				}
 				mergeAt(n);
 			} else if (runLength[n] <= runLength[n + 1]) {
@@ -442,7 +442,7 @@ public class Sort<T>
 		while (stackSize > 1) {
 			int n = stackSize - 2;
 			if (n > 0 && runLength[n - 1] < runLength[n + 1]) {
-				n--;
+				--n;
 			}
 			mergeAt(n);
 		}
@@ -477,7 +477,7 @@ public class Sort<T>
 			runBase[i + 1] = runBase[i + 2];
 			runLength[i + 1] = runLength[i + 2];
 		}
-		stackSize--;
+		--stackSize;
 
 		/*
 		 * Find where the first element of run2 goes in run1. Prior elements in run1 can be ignored
@@ -589,7 +589,7 @@ public class Sort<T>
 		 * right of {@code lastOfs} but no farther right than {@code ofs}. Do a binary search, with
 		 * invariant {@code a[base + lastOfs - 1] < key <= a[base + ofs]}.
 		 */
-		lastOfs++;
+		++lastOfs;
 		while (lastOfs < ofs) {
 			final int m = lastOfs + (ofs - lastOfs >>> 1);
 
@@ -676,7 +676,7 @@ public class Sort<T>
 		 * {@code lastOfs} but no farther right than {@code ofs}. Do a binary search, with invariant
 		 * {@code a[b + lastOfs - 1] <= key < a[b + ofs]}.
 		 */
-		lastOfs++;
+		++lastOfs;
 		while (lastOfs < ofs) {
 			final int m = lastOfs + (ofs - lastOfs >>> 1);
 
@@ -744,14 +744,14 @@ outer:  while (true) {
 				assert len1 > 1 && len2 > 0;
 				if (comparator.compare(array[cursor2], tempArray[cursor1]) < 0) {
 					array[dest++] = array[cursor2++];
-					count2++;
+					++count2;
 					count1 = 0;
 					if (--len2 == 0) {
 						break outer;
 					}
 				} else {
 					array[dest++] = tempArray[cursor1++];
-					count1++;
+					++count1;
 					count2 = 0;
 					if (--len1 == 1) {
 						break outer;
@@ -796,7 +796,7 @@ outer:  while (true) {
 				if (--len1 == 1) {
 					break outer;
 				}
-				minGallop--;
+				--minGallop;
 			} while (count1 >= MIN_GALLOP | count2 >= MIN_GALLOP);
 			if (minGallop < 0) {
 				minGallop = 0;
@@ -873,14 +873,14 @@ outer:  while (true) {
 				assert len1 > 0 && len2 > 1;
 				if (comparator.compare(tempArray[cursor2], array[cursor1]) < 0) {
 					array[dest--] = array[cursor1--];
-					count1++;
+					++count1;
 					count2 = 0;
 					if (--len1 == 0) {
 						break outer;
 					}
 				} else {
 					array[dest--] = tempArray[cursor2--];
-					count2++;
+					++count2;
 					count1 = 0;
 					if (--len2 == 1) {
 						break outer;
@@ -926,7 +926,7 @@ outer:  while (true) {
 				if (--len1 == 0) {
 					break outer;
 				}
-				minGallop--;
+				--minGallop;
 			} while (count1 >= MIN_GALLOP | count2 >= MIN_GALLOP);
 			if (minGallop < 0) {
 				minGallop = 0;
@@ -964,14 +964,14 @@ outer:  while (true) {
 	 */
 	protected T[] ensureCapacity(final int minCapacity) {
 		if (tempArrayLength < minCapacity) {
-			// Compute smallest power of 2 > minCapacity
+			// Compute the smallest power of 2 > minCapacity
 			int newSize = minCapacity;
 			newSize |= newSize >> 1;
 			newSize |= newSize >> 2;
 			newSize |= newSize >> 4;
 			newSize |= newSize >> 8;
 			newSize |= newSize >> 16;
-			newSize++;
+			++newSize;
 
 			if (newSize < 0) // not bloody likely!
 			{

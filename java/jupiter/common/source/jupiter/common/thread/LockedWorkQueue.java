@@ -139,7 +139,7 @@ public class LockedWorkQueue<I, O>
 	/**
 	 * Creates a {@link Worker} according to the model.
 	 * <p>
-	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
+	 * @return {@code 1} if the {@link Worker} is created, zero otherwise
 	 * <p>
 	 * @throws IllegalOperationException if the maximum number of {@link Worker} has been reached
 	 */

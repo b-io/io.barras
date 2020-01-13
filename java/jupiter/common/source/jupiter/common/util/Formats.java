@@ -46,29 +46,19 @@ public class Formats {
 	 */
 	public static final String VERSION = "1.6.0";
 
+	//////////////////////////////////////////////
+
 	/**
 	 * The newline.
 	 */
-	public static final String NEWLINE = "\n";
+	public static final String NEW_LINE = "\n";
 
 	/**
 	 * The UTF-8 {@link Charset}.
 	 */
 	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
-	/**
-	 * The default {@link Charset}.
-	 */
-	public static volatile Charset DEFAULT_CHARSET = UTF8_CHARSET;
 
-	/**
-	 * The default {@link Locale}.
-	 */
-	public static volatile Locale DEFAULT_LOCALE = Locale.getDefault();
-
-	/**
-	 * The default length of a line (used by IO).
-	 */
-	public static volatile int DEFAULT_LINE_LENGTH = 72;
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The default {@link Format}.
@@ -93,7 +83,24 @@ public class Formats {
 		}
 	};
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
+
+	/**
+	 * The default {@link Charset}.
+	 */
+	public static volatile Charset DEFAULT_CHARSET = UTF8_CHARSET;
+
+	/**
+	 * The default {@link Locale}.
+	 */
+	public static volatile Locale DEFAULT_LOCALE = Locale.getDefault();
+
+	/**
+	 * The default length of a line (used by IO).
+	 */
+	public static volatile int DEFAULT_LINE_LENGTH = 72;
+
+	//////////////////////////////////////////////
 
 	/**
 	 * The default pattern {@link String} describing the date format.
@@ -104,7 +111,7 @@ public class Formats {
 	 */
 	public static final String DEFAULT_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * The default pattern {@link String} describing the default {@link DecimalFormat}.
@@ -122,6 +129,8 @@ public class Formats {
 	 * The default maximum number of fraction digits.
 	 */
 	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_PATTERN.length() - 2;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The number length used for representing numbers as {@link String}.

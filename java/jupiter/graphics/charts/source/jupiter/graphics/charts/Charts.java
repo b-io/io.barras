@@ -273,10 +273,10 @@ public class Charts {
 			final List<String> yLabels, final List<XYDataset> datasets) {
 		final CombinedDomainXYPlot plot = new CombinedDomainXYPlot(xAxis);
 		setUpPlot(plot);
-		final Iterator<XYDataset> dataset = datasets.iterator();
-		final Iterator<String> yLabel = yLabels.iterator();
-		while (dataset.hasNext() && yLabel.hasNext()) {
-			plot.add(new XYPlot(dataset.next(), null, new NumberAxis(yLabel.next()),
+		final Iterator<XYDataset> datasetIterator = datasets.iterator();
+		final Iterator<String> yLabelIterator = yLabels.iterator();
+		while (datasetIterator.hasNext() && yLabelIterator.hasNext()) {
+			plot.add(new XYPlot(datasetIterator.next(), null, new NumberAxis(yLabelIterator.next()),
 					new StandardXYItemRenderer()));
 		}
 		return new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, true);

@@ -597,8 +597,8 @@ public class Shorts {
 	 * Returns a pseudorandom, uniformly distributed {@code short} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code short} value to create (inclusive)
-	 * @param upperBound the upper bound of the {@code short} value to create (exclusive)
+	 * @param lowerBound the lower bound of the {@code short} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code short} value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code short} value between the specified
 	 *         bounds
@@ -757,6 +757,17 @@ public class Shorts {
 	public static int indexOf(final short[] array, final short token) {
 		if (array != null) {
 			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int lastIndexOf(final short[] array, final short token) {
+		if (array != null) {
+			for (int i = array.length - 1; i >= 0; --i) {
 				if (array[i] == token) {
 					return i;
 				}

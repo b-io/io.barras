@@ -130,8 +130,6 @@ public class FTPHandler
 	public FTPHandler() {
 	}
 
-	//////////////////////////////////////////////
-
 	/**
 	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
 	 * password, path to the remote directory and path to the local directory.
@@ -147,8 +145,6 @@ public class FTPHandler
 			final String password, final String remoteDirPath, final String localDirPath) {
 		this(protocol, hostName, userName, password, remoteDirPath, localDirPath, STAR);
 	}
-
-	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
@@ -169,8 +165,6 @@ public class FTPHandler
 		this(protocol, hostName, userName, password, remoteDirPath, localDirPath, fileFilter,
 				new String[] {STAR});
 	}
-
-	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,

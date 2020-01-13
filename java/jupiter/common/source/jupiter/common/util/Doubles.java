@@ -558,8 +558,8 @@ public class Doubles {
 	 * Returns a pseudorandom, uniformly distributed {@code double} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code double} value to create (inclusive)
-	 * @param upperBound the upper bound of the {@code double} value to create (exclusive)
+	 * @param lowerBound the lower bound of the {@code double} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code double} value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code double} value between the specified
 	 *         bounds
@@ -743,6 +743,17 @@ public class Doubles {
 	public static int indexOf(final double[] array, final double token) {
 		if (array != null) {
 			for (int i = 0; i < array.length; ++i) {
+				if (equals(array[i], token)) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int lastIndexOf(final double[] array, final double token) {
+		if (array != null) {
+			for (int i = array.length - 1; i >= 0; --i) {
 				if (equals(array[i], token)) {
 					return i;
 				}

@@ -33,7 +33,7 @@ import static jupiter.common.util.Characters.RIGHT_QUOTE;
 import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 import static jupiter.common.util.Formats.DEFAULT_LOCALE;
-import static jupiter.common.util.Formats.NEWLINE;
+import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Formats.formatNumber;
 
 import java.text.NumberFormat;
@@ -68,6 +68,10 @@ public class Strings {
 	public static final String EMPTY = "";
 	public static final String[] EMPTY_ARRAY = new String[] {};
 
+	protected static final StringParser PARSER = new StringParser();
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static final String NULL = "null";
 
 	public static final String SPACE = " ";
@@ -79,10 +83,6 @@ public class Strings {
 	public static volatile int DEFAULT_INITIAL_CAPACITY = 255;
 
 	public static volatile char DEFAULT_PROGRESS_CHARACTER = '-';
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected static final StringParser PARSER = new StringParser();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -352,6 +352,63 @@ public class Strings {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length.
+	 * <p>
+	 * @param length the length of the random {@link String} to generate
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
+	 */
+	public static String random(final int length) {
+		final StringBuilder builder = createBuilder();
+		for (int i = 0; i < length; ++i) {
+			builder.append(Characters.random());
+		}
+		return builder.toString();
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length
+	 * generated with {@code char} values between the specified bounds.
+	 * <p>
+	 * @param length     the length of the random {@link String} to generate
+	 * @param lowerBound the lower bound of the {@code char} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code char} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
+	 *         generated with {@code char} values between the specified bounds
+	 */
+	public static String random(final int length, final char lowerBound, final char upperBound) {
+		final StringBuilder builder = createBuilder();
+		for (int i = 0; i < length; ++i) {
+			builder.append(Characters.random(lowerBound, upperBound));
+		}
+		return builder.toString();
+	}
+
+	//////////////////////////////////////////////
+
+	public static String repeat(final char character, final int repeat) {
+		return repeat(toString(character), repeat);
+	}
+
+	public static String repeat(final String text, final int repeat) {
+		// Check the arguments
+		Arguments.requireNonNull(text);
+		IntegerArguments.requireNonNegative(repeat);
+
+		// Initialize
+		final StringBuilder builder = createBuilder(repeat);
+
+		// Repeat the text
+		for (int i = 0; i < repeat; ++i) {
+			builder.append(text);
+		}
+		return builder.toString();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static StringBuilder createBuilder() {
 		return createBuilder(DEFAULT_INITIAL_CAPACITY);
 	}
@@ -360,7 +417,7 @@ public class Strings {
 		return new StringBuilder(capacity);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a {@link String} bar of the default length with the default progress {@code char}
@@ -411,6 +468,49 @@ public class Strings {
 	 */
 	public static String createBar(final int length, final char progressSymbol) {
 		return repeat(progressSymbol, length);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the escaped representative {@link String} of the specified unescaped content (i.e.
+	 * without traces of offending characters that can prevent parsing).
+	 * <p>
+	 * @param content the content {@link Object}
+	 * <p>
+	 * @return the escaped representative {@link String} of the specified unescaped content (i.e.
+	 *         without traces of offending characters that can prevent parsing)
+	 */
+	public static String escape(final Object content) {
+		return toString(content).replaceAll("\\\\", "\\\\\\\\")
+				.replaceAll("\"", "\\\\\"")
+				.replaceAll("\b", "\\\\b")
+				.replaceAll("\f", "\\\\f")
+				.replaceAll("\n", "\\\\n")
+				.replaceAll("\r", "\\\\r")
+				.replaceAll("\t", "\\\\t");
+	}
+
+	/**
+	 * Returns the unescaped representative {@link String} of the specified escaped content (i.e.
+	 * with traces of offending characters that can prevent parsing).
+	 * <p>
+	 * @param content the content {@link Object}
+	 * <p>
+	 * @return the unescaped representative {@link String} of the specified escaped content (i.e.
+	 *         with traces of offending characters that can prevent parsing)
+	 */
+	public static String unescape(final Object content) {
+		return toString(content).replaceAll("\\\\t", "\t")
+				.replaceAll("\\\\r", "\r")
+				.replaceAll("\\\\n", "\n")
+				.replaceAll("\\\\f", "\f")
+				.replaceAll("\\\\b", "\b")
+				.replaceAll("\\\\\"", "\"")
+				.replaceAll("\\\\\\\\", "\\\\");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -621,58 +721,104 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length.
+	 * Returns the {@link String} constructed by left-padding the specified {@link String} to the
+	 * specified length.
 	 * <p>
-	 * @param length the length of the {@link String} to create
+	 * @param text   a {@link String}
+	 * @param length the length to pad to
 	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
+	 * @return the {@link String} constructed by left-padding the specified {@link String} to the
+	 *         specified length
 	 */
-	public static String random(final int length) {
-		final StringBuilder builder = createBuilder(length);
-		for (int i = 0; i < length; ++i) {
-			builder.append(Characters.random());
-		}
-		return builder.toString();
+	public static String leftPad(final String text, final int length) {
+		return leftPad(text, length, Characters.SPACE);
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static String repeat(final char character, final int repeat) {
-		return repeat(toString(character), repeat);
-	}
-
-	public static String repeat(final String text, final int repeat) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		IntegerArguments.requireNonNegative(repeat);
-
-		// Initialize
-		final StringBuilder builder = createBuilder(repeat);
-
-		// Repeat the text
-		for (int i = 0; i < repeat; ++i) {
-			builder.append(text);
-		}
-		return builder.toString();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link String} constructed by reversing the specified {@link String}.
+	 * Returns the {@link String} constructed by left-padding the specified {@link String} to the
+	 * specified length with the specified {@code char} value.
 	 * <p>
-	 * @param text a {@link String}
+	 * @param text      a {@link String}
+	 * @param length    the length to pad to
+	 * @param character the {@code char} value to pad with
 	 * <p>
-	 * @return the {@link String} constructed by reversing the specified {@link String}
+	 * @return the {@link String} constructed by left-padding the specified {@link String} to the
+	 *         specified length with the specified {@code char} value
 	 */
-	public static String reverse(final String text) {
-		if (text == null) {
-			return null;
+	public static String leftPad(final String text, final int length, final char character) {
+		if (text == null || length <= text.length()) {
+			return text;
 		}
-		return createBuilder(text.length()).append(text).reverse().toString();
+		return repeat(character, length - text.length()).concat(text);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by right-padding the specified {@link String} to the
+	 * specified length.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param length the length to pad to
+	 * <p>
+	 * @return the {@link String} constructed by right-padding the specified {@link String} to the
+	 *         specified length
+	 */
+	public static String rightPad(final String text, final int length) {
+		return rightPad(text, length, Characters.SPACE);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by right-padding the specified {@link String} to the
+	 * specified length with the specified {@code char} value.
+	 * <p>
+	 * @param text      a {@link String}
+	 * @param length    the length to pad to
+	 * @param character the {@code char} value to pad with
+	 * <p>
+	 * @return the {@link String} constructed by right-padding the specified {@link String} to the
+	 *         specified length with the specified {@code char} value
+	 */
+	public static String rightPad(final String text, final int length, final char character) {
+		if (text == null || length <= text.length()) {
+			return text;
+		}
+		return text.concat(repeat(character, length - text.length()));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by center-padding the specified {@link String} to the
+	 * specified length.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param length the length to pad to
+	 * <p>
+	 * @return the {@link String} constructed by center-padding the specified {@link String} to the
+	 *         specified length
+	 */
+	public static String centerPad(final String text, final int length) {
+		return centerPad(text, length, Characters.SPACE);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by center-padding the specified {@link String} to the
+	 * specified length with the specified {@code char} value.
+	 * <p>
+	 * @param text      a {@link String}
+	 * @param length    the length to pad to
+	 * @param character the {@code char} value to pad with
+	 * <p>
+	 * @return the {@link String} constructed by center-padding the specified {@link String} to the
+	 *         specified length with the specified {@code char} value
+	 */
+	public static String centerPad(final String text, final int length, final char character) {
+		if (text == null || length <= text.length()) {
+			return text;
+		}
+		return rightPad(repeat(character, (length - text.length()) / 2).concat(text), length,
+				character);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -689,12 +835,12 @@ public class Strings {
 	 */
 	public static String remove(final String text, final int index) {
 		// Check the arguments
-		ArrayArguments.requireIndex(index, text.length());
-
-		// Remove the character
 		if (text == null) {
 			return null;
 		}
+		ArrayArguments.requireIndex(index, text.length());
+
+		// Remove the character
 		return text.substring(0, index) + text.substring(index + 1);
 	}
 
@@ -710,15 +856,12 @@ public class Strings {
 	 */
 	public static String remove(final String text, final int[] indexes) {
 		// Check the arguments
+		if (text == null || indexes.length == 0) {
+			return null;
+		}
 		ArrayArguments.requireMaxLength(indexes.length, text.length());
 
 		// Remove the characters
-		if (text == null) {
-			return null;
-		}
-		if (indexes.length == 0) {
-			return text;
-		}
 		final StringBuilder builder = createBuilder(text.length() - indexes.length);
 		int previousIndex = -1;
 		for (int i = 0; i < indexes.length; ++i) {
@@ -797,12 +940,12 @@ public class Strings {
 	 */
 	public static String replace(final String text, final int index, final char replacement) {
 		// Check the arguments
-		ArrayArguments.requireIndex(index, text.length());
-
-		// Replace the character
 		if (text == null) {
 			return null;
 		}
+		ArrayArguments.requireIndex(index, text.length());
+
+		// Replace the character
 		final StringBuilder builder = createBuilder(text.length()).append(text);
 		builder.setCharAt(index, replacement);
 		return builder.toString();
@@ -824,16 +967,13 @@ public class Strings {
 	public static String replace(final String text, final int[] indexes,
 			final char[] replacements) {
 		// Check the arguments
+		if (text == null || indexes.length == 0 || replacements.length == 0) {
+			return text;
+		}
 		ArrayArguments.requireMaxLength(indexes.length, text.length());
 		ArrayArguments.requireSameLength(indexes.length, replacements.length);
 
 		// Replace the characters
-		if (text == null) {
-			return null;
-		}
-		if (indexes.length == 0) {
-			return text;
-		}
 		final StringBuilder builder = createBuilder(text.length()).append(text);
 		for (int i = 0; i < indexes.length; ++i) {
 			builder.setCharAt(indexes[i], replacements[i]);
@@ -888,41 +1028,36 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the escaped representative {@link String} of the specified unescaped content (i.e.
-	 * without traces of offending characters that can prevent parsing).
+	 * Returns the {@link String} constructed by reversing the specified {@link String}.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param text a {@link String}
 	 * <p>
-	 * @return the escaped representative {@link String} of the specified unescaped content (i.e.
-	 *         without traces of offending characters that can prevent parsing)
+	 * @return the {@link String} constructed by reversing the specified {@link String}
 	 */
-	public static String escape(final Object content) {
-		return toString(content).replaceAll("\\\\", "\\\\\\\\")
-				.replaceAll("\"", "\\\\\"")
-				.replaceAll("\b", "\\\\b")
-				.replaceAll("\f", "\\\\f")
-				.replaceAll("\n", "\\\\n")
-				.replaceAll("\r", "\\\\r")
-				.replaceAll("\t", "\\\\t");
+	public static String reverse(final String text) {
+		if (text == null) {
+			return null;
+		}
+		return createBuilder(text.length()).append(text).reverse().toString();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Returns the unescaped representative {@link String} of the specified escaped content (i.e.
-	 * with traces of offending characters that can prevent parsing).
+	 * Returns the {@link String} constructed by truncating the specified {@link String} to the
+	 * specified length.
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param text   a {@link String}
+	 * @param length the length to truncate to
 	 * <p>
-	 * @return the unescaped representative {@link String} of the specified escaped content (i.e.
-	 *         with traces of offending characters that can prevent parsing)
+	 * @return the {@link String} constructed by truncating the specified {@link String} to the
+	 *         specified length
 	 */
-	public static String unescape(final Object content) {
-		return toString(content).replaceAll("\\\\t", "\t")
-				.replaceAll("\\\\r", "\r")
-				.replaceAll("\\\\n", "\n")
-				.replaceAll("\\\\f", "\f")
-				.replaceAll("\\\\b", "\b")
-				.replaceAll("\\\\\"", "\"")
-				.replaceAll("\\\\\\\\", "\\\\");
+	public static String truncate(final String text, final int length) {
+		if (text == null || length >= text.length()) {
+			return text;
+		}
+		return text.substring(0, length);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2550,10 +2685,10 @@ public class Strings {
 
 	public static int getToken(final String text, final int fromIndex, final List<String> tokens) {
 		if (fromIndex >= 0 && fromIndex < text.length()) {
-			final Iterator<String> token = tokens.iterator();
+			final Iterator<String> tokenIterator = tokens.iterator();
 			int index = 0;
-			while (token.hasNext()) {
-				if (isToken(text, fromIndex, token.next())) {
+			while (tokenIterator.hasNext()) {
+				if (isToken(text, fromIndex, tokenIterator.next())) {
 					return index;
 				}
 				++index;
@@ -2564,11 +2699,11 @@ public class Strings {
 
 	public static int getTokenTo(final String text, final int toIndex, final List<String> tokens) {
 		if (toIndex > 0 && toIndex <= text.length()) {
-			final Iterator<String> token = tokens.iterator();
+			final Iterator<String> tokenIterator = tokens.iterator();
 			int index = 0;
-			while (token.hasNext()) {
-				final String t = token.next();
-				if (isToken(text, toIndex - t.length(), t)) {
+			while (tokenIterator.hasNext()) {
+				final String token = tokenIterator.next();
+				if (isToken(text, toIndex - token.length(), token)) {
 					return index;
 				}
 				++index;
@@ -2852,7 +2987,8 @@ public class Strings {
 	 *         {@code false} otherwise
 	 */
 	public static boolean is(final Class<?> c) {
-		return String.class.isAssignableFrom(c);
+		return String.class
+				.isAssignableFrom(c);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3137,6 +3273,20 @@ public class Strings {
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param object an {@link Object}
+	 * @param length the length of the representative {@link String}
+	 * <p>
+	 * @return the representative {@link String} of the specified {@link Object} if not
+	 *         {@code null}, {@code "null"} otherwise
+	 */
+	public static String toString(final Object object, final int length) {
+		return truncate(toString(object), length);
+	}
+
+	/**
+	 * Returns the representative {@link String} of the specified {@link Object} if not
+	 * {@code null}, {@code "null"} otherwise.
+	 * <p>
+	 * @param object an {@link Object}
 	 * <p>
 	 * @return the representative {@link String} of the specified {@link Object} if not
 	 *         {@code null}, {@code "null"} otherwise
@@ -3257,8 +3407,8 @@ public class Strings {
 			if (stackTraceElementCount > 0) {
 				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
-				return exception.getLocalizedMessage() + ":" + NEWLINE +
-						joinWith(stackTraces, NEWLINE);
+				return exception.getLocalizedMessage() + ":" + NEW_LINE +
+						joinWith(stackTraces, NEW_LINE);
 			}
 			return exception.getLocalizedMessage();
 		}

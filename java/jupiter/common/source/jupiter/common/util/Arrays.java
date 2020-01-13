@@ -49,15 +49,6 @@ public class Arrays {
 	 */
 	public static final String DEFAULT_DELIMITER = ",";
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static final Comparator<Comparable<Object>[]> COMPARATOR = new Comparator<Comparable<Object>[]>() {
-		@Override
-		public int compare(final Comparable<Object>[] a, final Comparable<Object>[] b) {
-			return Arrays.compare(a, b);
-		}
-	};
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -931,37 +922,37 @@ public class Arrays {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATOR
+	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified array of {@link Comparable} of {@link Object} for order. Returns a
-	 * negative integer, zero or a positive integer as {@code a} is less than, equal to or greater
-	 * than {@code b}.
+	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
+	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the array of {@link Comparable} of {@link Object} to compare for order
-	 * @param b the other array of {@link Comparable} of {@link Object} to compare against for order
+	 * @param <T> the self {@link Comparable} type of the arrays to compare
+	 * @param a   the array of {@link Comparable} of type {@code T} to compare
+	 * @param b   the other array of {@link Comparable} of type {@code T} to compare against
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
 	 * <p>
 	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
-	public static int compare(final Comparable<Object>[] a, final Comparable<Object>[] b) {
-		return compare(a, b, Comparables.COMPARATOR);
+	public static <T extends Comparable<T>> int compare(final T[] a, final T[] b) {
+		return compare(a, b, Comparables.<T>createComparator());
 	}
 
 	/**
-	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
-	 * otherwise.
+	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
+	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param <T>        the type of the arrays to compare for order
+	 * @param <T>        the component type of the arrays to compare for order
 	 * @param a          the {@code T} array to compare for order
 	 * @param b          the other {@code T} array to compare against for order
-	 * @param comparator the {@link Comparator} of super-type {@code T} to use
+	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
 	 * <p>
-	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
-	 *         otherwise
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
 	 * <p>
 	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */

@@ -49,6 +49,7 @@ import java.nio.ByteBuffer;
 import java.util.Locale;
 
 import jupiter.common.io.ProgressBar;
+import jupiter.common.math.Maths;
 import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
@@ -137,7 +138,7 @@ public class MemoryTest
 		bar.start();
 		for (int i = 0; i < memorySizeCount; ++i) {
 			bar.printSymbols(5);
-			memorySizes[i] = 1 << minExponent + i;
+			memorySizes[i] = Maths.pow2(minExponent) + i;
 			final double bandwidth = computeBandwidth(memorySizes[i], memoryMode, accessMode);
 			bandwidths[i] = bandwidth;
 		}
@@ -243,7 +244,7 @@ public class MemoryTest
 		// Compute the bandwidth
 		chrono.stop();
 		final double duration = chrono.getSeconds();
-		final double bandwidth = memorySize * MEMCOPY_ITERATIONS / (duration * (1 << 20)); // [MB/s]
+		final double bandwidth = memorySize * MEMCOPY_ITERATIONS / (duration * Maths.pow2(20)); // [MB/s]
 
 		// Release the memory
 		if (deviceBuffer != null) {

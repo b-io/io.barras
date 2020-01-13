@@ -188,7 +188,7 @@ public class Integers {
 			final int offset, final int length, final char[] digits) {
 		int value = source;
 		int index = length;
-		final int radix = 1 << shift;
+		final int radix = Maths.pow2(shift);
 		final int mask = radix - 1;
 		do {
 			target[offset + --index] = digits[value & mask];
@@ -687,8 +687,8 @@ public class Integers {
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@code int} value between the specified bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code int} value to create (inclusive)
-	 * @param upperBound the upper bound of the {@code int} value to create (exclusive)
+	 * @param lowerBound the lower bound of the {@code int} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code int} value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code int} value between the specified bounds
 	 */
@@ -844,6 +844,17 @@ public class Integers {
 	public static int indexOf(final int[] array, final int token) {
 		if (array != null) {
 			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int lastIndexOf(final int[] array, final int token) {
+		if (array != null) {
+			for (int i = array.length - 1; i >= 0; --i) {
 				if (array[i] == token) {
 					return i;
 				}

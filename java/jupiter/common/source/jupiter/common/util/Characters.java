@@ -47,7 +47,13 @@ public class Characters {
 
 	public static volatile Random RANDOM = new Random();
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static final char ESCAPE = '\u001B';
+
+	public static final char SPACE = ' ';
+
+	//////////////////////////////////////////////
 
 	public static final char SINGLE_QUOTE = '\'';
 	public static final char DOUBLE_QUOTE = '"';
@@ -58,6 +64,8 @@ public class Characters {
 	public static final char RIGHT_PARENTHESIS = ')';
 	public static final char LEFT_BRACKET = '[';
 	public static final char RIGHT_BRACKET = ']';
+
+	//////////////////////////////////////////////
 
 	/**
 	 * The lower case digits.
@@ -570,8 +578,8 @@ public class Characters {
 	 * Returns a pseudorandom, uniformly distributed {@code char} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code char} value to create (inclusive)
-	 * @param upperBound the upper bound of the {@code char} value to create (exclusive)
+	 * @param lowerBound the lower bound of the {@code char} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code char} value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code char} value between the specified bounds
 	 */
@@ -729,6 +737,17 @@ public class Characters {
 	public static int indexOf(final char[] array, final char token) {
 		if (array != null) {
 			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int lastIndexOf(final char[] array, final char token) {
+		if (array != null) {
+			for (int i = array.length - 1; i >= 0; --i) {
 				if (array[i] == token) {
 					return i;
 				}

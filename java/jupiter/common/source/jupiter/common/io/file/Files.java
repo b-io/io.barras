@@ -25,7 +25,6 @@ package jupiter.common.io.file;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 
@@ -58,6 +57,8 @@ import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
+
+import static jupiter.common.util.Formats.NEW_LINE;
 
 public class Files {
 
@@ -497,7 +498,7 @@ public class Files {
 			// Create a file writer
 			writer = IO.createWriter(new FileOutputStream(file, append), charset);
 			// Write or append the content to the file
-			writer.write(content + NEWLINE);
+			writer.write(content + NEW_LINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);

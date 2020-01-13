@@ -101,6 +101,8 @@ public class JSONTest
 		assertEquals("{\"key\":\"value\",\"array\":[a,b,c],\"list\":[a,b,c]}", result);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	protected static class Node {
 		public String key = "value";
 		public String[] array = new String[] {"a", "b", "c"};

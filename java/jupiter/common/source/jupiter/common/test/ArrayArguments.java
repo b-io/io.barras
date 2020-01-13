@@ -131,17 +131,16 @@ public class ArrayArguments
 	}
 
 	/**
-	 * Checks if {@code aType} is either the same as, or is a superclass or superinterface of, the
-	 * class or interface represented by {@code bType}.
+	 * Checks if {@code a} is either the same as, or is a superclass or superinterface of, the class
+	 * or interface represented by {@code b}.
 	 * <p>
-	 * @param expectedType a {@link Class}
-	 * @param foundType    a {@link Class}
+	 * @param a a {@link Class}
+	 * @param b a {@link Class}
 	 */
-	public static void requireAssignableFrom(final Class<?> expectedType,
-			final Class<?> foundType) {
-		if (CHECK_ARGS && !expectedType.isAssignableFrom(foundType)) {
-			throw new IllegalArgumentException("Cannot store " + foundType.getSimpleName() +
-					" in an array of " + expectedType.getSimpleName());
+	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
+		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
+			throw new IllegalArgumentException("Cannot store " + b.getSimpleName() +
+					" in an array of " + a.getSimpleName());
 		}
 	}
 }

@@ -25,19 +25,15 @@ package jupiter.common.math;
 
 import java.util.Comparator;
 
+import jupiter.common.util.Bytes;
+import jupiter.common.util.Characters;
+import jupiter.common.util.Doubles;
+import jupiter.common.util.Floats;
+import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
+import jupiter.common.util.Shorts;
+
 public class Comparables {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static final Comparator<Comparable<Object>> COMPARATOR = new Comparator<Comparable<Object>>() {
-		@Override
-		public int compare(final Comparable<Object> a, final Comparable<Object> b) {
-			return Comparables.compare(a, b);
-		}
-	};
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -47,6 +43,56 @@ public class Comparables {
 	 * Prevents the construction of {@link Comparables}.
 	 */
 	protected Comparables() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> Comparator<? super T> getComparator(final Class<T> c) {
+		if (Comparables.is(c)) {
+			return Comparables.<T>createCastComparator();
+		} else if (Characters.isPrimitiveArray(c)) {
+			return (Comparator<? super T>) Characters.ARRAY_COMPARATOR;
+		} else if (Bytes.isPrimitiveArray(c)) {
+			return (Comparator<? super T>) Bytes.ARRAY_COMPARATOR;
+		} else if (Shorts.isPrimitiveArray(c)) {
+			return (Comparator<? super T>) Shorts.ARRAY_COMPARATOR;
+		} else if (Integers.isPrimitiveArray(c)) {
+			return (Comparator<? super T>) Integers.ARRAY_COMPARATOR;
+		} else if (Longs.isPrimitiveArray(c)) {
+			return (Comparator<? super T>) Longs.ARRAY_COMPARATOR;
+		} else if (Floats.isPrimitiveArray(c)) {
+			return (Comparator<? super T>) Floats.ARRAY_COMPARATOR;
+		} else if (Doubles.isPrimitiveArray(c)) {
+			return (Comparator<? super T>) Doubles.ARRAY_COMPARATOR;
+		}
+		throw new IllegalArgumentException("The specified " + c + " cannot be compared");
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T extends Comparable<T>> Comparator<T> createComparator() {
+		return new Comparator<T>() {
+			@Override
+			public int compare(final T a, final T b) {
+				return Comparables.compare(a, b);
+			}
+		};
+	}
+
+	public static <T> Comparator<T> createCastComparator() {
+		return new Comparator<T>() {
+			@Override
+			@SuppressWarnings("unchecked")
+			public int compare(final T a, final T b) {
+				return ((Comparable<T>) a).compareTo(b);
+			}
+		};
 	}
 
 
@@ -72,32 +118,32 @@ public class Comparables {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@link Comparable} of {@link Object} for order. Returns a negative
-	 * integer, zero or a positive integer as {@code a} is less than, equal to or greater than
-	 * {@code b}.
+	 * Compares the specified {@link Comparable} for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the {@link Comparable} of {@link Object} to compare for order
-	 * @param b the other {@link Comparable} of {@link Object} to compare against for order
+	 * @param <T> the self {@link Comparable} type of the objects to compare
+	 * @param a   the {@link Comparable} of type {@code T} to compare
+	 * @param b   the other {@link Comparable} of type {@code T} to compare against
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
 	 * <p>
 	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
-	public static int compare(final Comparable<Object> a, final Comparable<Object> b) {
+	public static <T extends Comparable<T>> int compare(final T a, final T b) {
 		return a == b ? 0 : a.compareTo(b);
 	}
 
 	/**
-	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
+	 * Returns zero if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 * otherwise.
 	 * <p>
 	 * @param <T>        the type of the objects to compare for order
-	 * @param a          the {@code T} object to compare for order
-	 * @param b          the other {@code T} object to compare against for order
-	 * @param comparator the {@link Comparator} of super-type {@code T} to use
+	 * @param a          the {@link Comparable} of type {@code T} to compare
+	 * @param b          the other {@link Comparable} of type {@code T} to compare against
+	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
 	 * <p>
-	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
+	 * @return zero if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 *         otherwise
 	 * <p>
 	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}

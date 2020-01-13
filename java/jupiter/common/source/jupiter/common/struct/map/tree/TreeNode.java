@@ -24,13 +24,14 @@
 package jupiter.common.struct.map.tree;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Map.Entry;
 
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class TreeNode<K extends Comparable<K>, V>
+public class TreeNode<K, V>
 		implements Comparable<Entry<K, V>>, Entry<K, V>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,24 +57,33 @@ public class TreeNode<K extends Comparable<K>, V>
 	 */
 	protected V value;
 
+	/**
+	 * The key {@link Comparator} of super-type {@code K} to use.
+	 */
+	protected final Comparator<? super K> keyComparator;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TreeNode} with the specified {@code K} key and {@code V} value.
+	 * Constructs a {@link TreeNode} with the specified {@code K} key, {@code V} value and key
+	 * {@link Comparator}.
 	 * <p>
-	 * @param key   the {@code K} key
-	 * @param value the {@code V} value
+	 * @param key           the {@code K} key
+	 * @param value         the {@code V} value
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
 	 */
-	public TreeNode(final K key, final V value) {
+	public TreeNode(final K key, final V value, final Comparator<? super K> keyComparator) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "The specified key is null");
 
 		// Set the attributes
 		this.key = key;
 		this.value = value;
+		this.keyComparator = keyComparator;
 	}
 
 
@@ -135,7 +145,7 @@ public class TreeNode<K extends Comparable<K>, V>
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
 	public int compareTo(final Entry<K, V> other) {
-		return this == other ? 0 : key.compareTo(other.getKey());
+		return keyComparator.compare(key, other.getKey());
 	}
 
 

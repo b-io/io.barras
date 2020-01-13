@@ -116,10 +116,10 @@ public class TimeSeriesList
 
 		// Add or update the values
 		final Millisecond time = new Millisecond();
-		final Iterator<TimeSeries> timeSeries = list.iterator();
+		final Iterator<TimeSeries> timeSeriesIterator = list.iterator();
 		int i = 0;
-		while (timeSeries.hasNext()) {
-			timeSeries.next().addOrUpdate(time, Arguments.requireNonNull(values[i++]));
+		while (timeSeriesIterator.hasNext()) {
+			timeSeriesIterator.next().addOrUpdate(time, Arguments.requireNonNull(values[i++]));
 		}
 	}
 

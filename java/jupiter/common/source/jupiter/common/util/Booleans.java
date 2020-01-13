@@ -24,7 +24,6 @@
 package jupiter.common.util;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -608,6 +607,17 @@ public class Booleans {
 	public static int indexOf(final boolean[] array, final boolean token) {
 		if (array != null) {
 			for (int i = 0; i < array.length; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int lastIndexOf(final boolean[] array, final boolean token) {
+		if (array != null) {
+			for (int i = array.length - 1; i >= 0; --i) {
 				if (array[i] == token) {
 					return i;
 				}

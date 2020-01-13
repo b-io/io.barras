@@ -23,17 +23,21 @@
  */
 package jupiter.common.struct.map.tree;
 
+import java.util.Comparator;
 import java.util.Map;
 
+import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 
 /**
- * {@link RedBlackTreeMap} is a light sorted map implementation based on a red-black tree.
+ * {@link RedBlackTreeMap} is a light sorted {@link Map} implementation based on a red-black tree
+ * with a {@link Comparator} to determine the order of the entries.
  * <p>
- * @param <K> the self {@link Comparable} key type of the {@link RedBlackTreeMap}
- * @param <V> the self {@link Comparable} value type of the {@link RedBlackTreeMap}
+ * @param <K> the key type of the {@link RedBlackTreeMap}
+ * @param <V> the value type of the {@link RedBlackTreeMap}
  */
-public class RedBlackTreeMap<K extends Comparable<K>, V>
+public class RedBlackTreeMap<K, V>
 		extends BinaryTreeMap<K, V, RedBlackTreeNode<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,20 +55,101 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} of types {@code K} and {@code V}.
+	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * <p>
+	 * @param c the key {@link Class} of type {@code K}
 	 */
-	public RedBlackTreeMap() {
-		super();
+	public RedBlackTreeMap(final Class<K> c) {
+		super(c);
 	}
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} of types {@code K} and {@code V} loaded from the
-	 * specified {@link Map} containing the key-value mappings.
+	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N} loaded from
+	 * the specified {@link Map} containing the key-value mappings.
 	 * <p>
+	 * @param c   the key {@link Class} of type {@code K}
 	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
 	 */
-	public RedBlackTreeMap(final Map<? extends K, ? extends V> map) {
-		putAll(map);
+	public RedBlackTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
+		super(c, map);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * specified key {@link Comparator}.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
+	 */
+	public RedBlackTreeMap(final Comparator<? super K> keyComparator) {
+		super(keyComparator);
+	}
+
+	/**
+	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
+	 * key-value mappings .
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
+	 *                      order
+	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
+	 *                      mappings to load
+	 */
+	public RedBlackTreeMap(final Comparator<? super K> keyComparator,
+			final Map<? extends K, ? extends V> map) {
+		super(keyComparator, map);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the height.
+	 * <p>
+	 * @return the height
+	 */
+	@Override
+	public int getHeight() {
+		// Initialize
+		final ExtendedLinkedList<Pair<Integer, RedBlackTreeNode<K, V>>> nodes = new ExtendedLinkedList<Pair<Integer, RedBlackTreeNode<K, V>>>(
+				new Pair<Integer, RedBlackTreeNode<K, V>>(0, root));
+
+		// Compute the height
+		int currentHeight = 0, nextHeight = 1;
+		boolean hasLeaf = false;
+		while (!nodes.isEmpty()) {
+			final Pair<Integer, RedBlackTreeNode<K, V>> element = nodes.remove();
+			final int height = element.getFirst();
+			final RedBlackTreeNode<K, V> node = element.getSecond();
+			if (currentHeight < height) {
+				if (!hasLeaf) {
+					break;
+				}
+				++currentHeight;
+				++nextHeight;
+				hasLeaf = false;
+			}
+			if (node != null) {
+				hasLeaf = hasLeaf || node.left != null || node.right != null;
+				nodes.add(new Pair<Integer, RedBlackTreeNode<K, V>>(nextHeight, node.left));
+				nodes.add(new Pair<Integer, RedBlackTreeNode<K, V>>(nextHeight, node.right));
+			}
+		}
+		return currentHeight + 1;
+	}
+
+	/**
+	 * Returns the maximum height.
+	 * <p>
+	 * @return the maximum height
+	 */
+	@Override
+	public int getMaxHeight() {
+		return 2 * getOptimalHeight();
 	}
 
 
@@ -112,12 +197,12 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 		RedBlackTreeNode<K, V> tree = root;
 		if (tree == null) {
 			// The root is set to a new node containing the specified key and value
-			setRoot(new RedBlackTreeNode<K, V>(key, value));
+			setRoot(new RedBlackTreeNode<K, V>(key, value, keyComparator));
 		} else {
 			int comparison;
 			RedBlackTreeNode<K, V> parent;
 			do {
-				comparison = key.compareTo(tree.key);
+				comparison = keyComparator.compare(key, tree.key);
 				if (comparison < 0) {
 					parent = tree;
 					tree = tree.left;
@@ -130,7 +215,8 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 				}
 			} while (tree != null);
 			// Create a node containing the specified key and value
-			final RedBlackTreeNode<K, V> newNode = new RedBlackTreeNode<K, V>(key, value);
+			final RedBlackTreeNode<K, V> newNode = new RedBlackTreeNode<K, V>(key, value,
+					keyComparator);
 			if (comparison < 0) {
 				// The new node is the left node of the parent
 				parent.setLeft(newNode);
@@ -382,6 +468,6 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	 */
 	@Override
 	public RedBlackTreeMap<K, V> clone() {
-		return new RedBlackTreeMap<K, V>(this);
+		return new RedBlackTreeMap<K, V>(keyComparator, this);
 	}
 }

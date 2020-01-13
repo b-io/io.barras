@@ -24,7 +24,6 @@
 package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 
@@ -46,6 +45,8 @@ import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
+
+import static jupiter.common.util.Formats.NEW_LINE;
 
 /**
  * {@link Table} is a wrapper around a 2D {@code E} array.
@@ -1290,7 +1291,7 @@ public class Table<E>
 	public String toString() {
 		final StringBuilder builder = Strings.createBuilder(10 * m * n);
 		for (int i = 0; i < m; ++i) {
-			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append(NEWLINE);
+			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append(NEW_LINE);
 		}
 		return builder.toString();
 	}

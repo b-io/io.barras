@@ -245,9 +245,9 @@ public class ComparableSort
 	protected static void binarySort(final Object[] array, final int lo, final int hi, int start) {
 		assert lo <= start && start <= hi;
 		if (start == lo) {
-			start++;
+			++start;
 		}
-		for (; start < hi; start++) {
+		for (; start < hi; ++start) {
 			final Comparable pivot = (Comparable) array[start];
 
 			// Set left (and right) to the index where a[start] (pivot) belongs
@@ -268,10 +268,10 @@ public class ComparableSort
 			assert left == right;
 
 			// The invariants still hold:
-			//   pivot >= all in [lo, left) and
-			//   pivot < all in [left, start),
+			// • pivot >= all in [lo, left) and
+			// • pivot < all in [left, start),
 			// so pivot belongs at left. Note that if there are elements equal to pivot, left points
-			// to the first slot after them -- that is why this sort is stable. Slide elements over
+			// to the first slot after them - that is why this sort is stable. Slide elements over
 			// to make room for pivot.
 			final int n = start - left; // the number of elements to move
 			// Switch is just an optimization for arraycopy in default case
@@ -321,13 +321,13 @@ public class ComparableSort
 		if (((Comparable) array[runHi++]).compareTo(array[lo]) < 0) {
 			// Descending
 			while (runHi < hi && ((Comparable) array[runHi]).compareTo(array[runHi - 1]) < 0) {
-				runHi++;
+				++runHi;
 			}
 			reverseRange(array, lo, runHi);
 		} else {
 			// Ascending
 			while (runHi < hi && ((Comparable) array[runHi]).compareTo(array[runHi - 1]) >= 0) {
-				runHi++;
+				++runHi;
 			}
 		}
 
@@ -342,7 +342,7 @@ public class ComparableSort
 	 * @param hi    the index after the last element in the range to reverse
 	 */
 	protected static void reverseRange(final Object[] array, int lo, int hi) {
-		hi--;
+		--hi;
 		while (lo < hi) {
 			final Object t = array[lo];
 			array[lo++] = array[hi];
@@ -386,7 +386,7 @@ public class ComparableSort
 	protected void pushRun(final int runBase, final int runLength) {
 		this.runBase[stackSize] = runBase;
 		this.runLength[stackSize] = runLength;
-		stackSize++;
+		++stackSize;
 	}
 
 	/**
@@ -405,7 +405,7 @@ public class ComparableSort
 			int n = stackSize - 2;
 			if (n > 0 && runLength[n - 1] <= runLength[n] + runLength[n + 1]) {
 				if (runLength[n - 1] < runLength[n + 1]) {
-					n--;
+					--n;
 				}
 				mergeAt(n);
 			} else if (runLength[n] <= runLength[n + 1]) {
@@ -424,7 +424,7 @@ public class ComparableSort
 		while (stackSize > 1) {
 			int n = stackSize - 2;
 			if (n > 0 && runLength[n - 1] < runLength[n + 1]) {
-				n--;
+				--n;
 			}
 			mergeAt(n);
 		}
@@ -460,7 +460,7 @@ public class ComparableSort
 			runBase[i + 1] = runBase[i + 2];
 			runLength[i + 1] = runLength[i + 2];
 		}
-		stackSize--;
+		--stackSize;
 
 		/*
 		 * Find where the first element of run2 goes in run1. Prior elements in run1 can be ignored
@@ -571,7 +571,7 @@ public class ComparableSort
 		 * right of {@code lastOfs} but no farther right than {@code ofs}. Do a binary search, with
 		 * invariant {@code a[base + lastOfs - 1] < key <= a[base + ofs]}.
 		 */
-		lastOfs++;
+		++lastOfs;
 		while (lastOfs < ofs) {
 			final int m = lastOfs + (ofs - lastOfs >>> 1);
 
@@ -657,7 +657,7 @@ public class ComparableSort
 		 * {@code lastOfs} but no farther right than {@code ofs}. Do a binary search, with invariant
 		 * {@code a[b + lastOfs - 1] <= key < a[b + ofs]}.
 		 */
-		lastOfs++;
+		++lastOfs;
 		while (lastOfs < ofs) {
 			final int m = lastOfs + (ofs - lastOfs >>> 1);
 
@@ -725,14 +725,14 @@ outer:  while (true) {
 				assert length1 > 1 && length2 > 0;
 				if (((Comparable) array[cursor2]).compareTo(tempArray[cursor1]) < 0) {
 					array[dest++] = array[cursor2++];
-					count2++;
+					++count2;
 					count1 = 0;
 					if (--length2 == 0) {
 						break outer;
 					}
 				} else {
 					array[dest++] = tempArray[cursor1++];
-					count1++;
+					++count1;
 					count2 = 0;
 					if (--length1 == 1) {
 						break outer;
@@ -777,7 +777,7 @@ outer:  while (true) {
 				if (--length1 == 1) {
 					break outer;
 				}
-				minGallop--;
+				--minGallop;
 			} while (count1 >= MIN_GALLOP | count2 >= MIN_GALLOP);
 			if (minGallop < 0) {
 				minGallop = 0;
@@ -854,14 +854,14 @@ outer:  while (true) {
 				assert length1 > 0 && length2 > 1;
 				if (((Comparable) tempArray[cursor2]).compareTo(array[cursor1]) < 0) {
 					array[dest--] = array[cursor1--];
-					count1++;
+					++count1;
 					count2 = 0;
 					if (--length1 == 0) {
 						break outer;
 					}
 				} else {
 					array[dest--] = tempArray[cursor2--];
-					count2++;
+					++count2;
 					count1 = 0;
 					if (--length2 == 1) {
 						break outer;
@@ -907,7 +907,7 @@ outer:  while (true) {
 				if (--length1 == 0) {
 					break outer;
 				}
-				minGallop--;
+				--minGallop;
 			} while (count1 >= MIN_GALLOP | count2 >= MIN_GALLOP);
 			if (minGallop < 0) {
 				minGallop = 0;
@@ -945,14 +945,14 @@ outer:  while (true) {
 	 */
 	protected Object[] ensureCapacity(final int minCapacity) {
 		if (tempArrayLength < minCapacity) {
-			// Compute smallest power of 2 > minCapacity
+			// Compute the smallest power of 2 > minCapacity
 			int newSize = minCapacity;
 			newSize |= newSize >> 1;
 			newSize |= newSize >> 2;
 			newSize |= newSize >> 4;
 			newSize |= newSize >> 8;
 			newSize |= newSize >> 16;
-			newSize++;
+			++newSize;
 
 			if (newSize < 0) // not bloody likely!
 			{

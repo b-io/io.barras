@@ -27,7 +27,6 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
-import static jupiter.common.util.Formats.NEWLINE;
 import static jupiter.common.util.Formats.NUMBER_LENGTH;
 import static jupiter.common.util.Formats.formatNumber;
 import static jupiter.common.util.Strings.EMPTY;
@@ -68,6 +67,8 @@ import jupiter.math.linear.decomposition.Norms;
 import jupiter.math.linear.decomposition.QRDecomposition;
 import jupiter.math.linear.decomposition.SingularValueDecomposition;
 import jupiter.math.linear.test.MatrixArguments;
+
+import static jupiter.common.util.Formats.NEW_LINE;
 
 /**
  * Extension of the Java Matrix class (JAMA).
@@ -2377,12 +2378,13 @@ public class Matrix
 							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS)).size();
 					// Fill the matrix row by row
 					final double[] elements = new double[m * n];
-					final Iterator<String> row = rows.iterator();
+					final Iterator<String> rowIterator = rows.iterator();
 					for (int i = 0; i < m; ++i) {
-						final Iterator<String> element = Strings.removeEmpty(
-								Strings.split(row.next().trim(), COLUMN_DELIMITERS)).iterator();
+						final Iterator<String> elementIterator = Strings.removeEmpty(
+								Strings.split(rowIterator.next().trim(), COLUMN_DELIMITERS))
+								.iterator();
 						for (int j = 0; j < n; ++j) {
-							elements[i * n + j] = Doubles.convert(element.next());
+							elements[i * n + j] = Doubles.convert(elementIterator.next());
 						}
 					}
 					return new Matrix(m, elements);
@@ -2635,7 +2637,7 @@ public class Matrix
 			}
 			if (i < m - 1) {
 				if (useMultipleLines) {
-					builder.append(NEWLINE);
+					builder.append(NEW_LINE);
 				} else {
 					builder.append(ROW_DELIMITER);
 				}

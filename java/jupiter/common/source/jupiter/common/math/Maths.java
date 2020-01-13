@@ -65,6 +65,7 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static final double LOG_2 = Math.log(2.);
 	public static final double SQUARE_ROOT_OF_2 = Math.sqrt(2.);
 
 	//////////////////////////////////////////////
@@ -472,10 +473,10 @@ public class Maths {
 
 		// Sum
 		double sum = 0.;
-		final Iterator<E> weight = weights.iterator();
-		final Iterator<E> number = numbers.iterator();
-		while (weight.hasNext() && number.hasNext()) {
-			sum += weight.next().doubleValue() * number.next().doubleValue();
+		final Iterator<E> weightIterator = weights.iterator();
+		final Iterator<E> numberIterator = numbers.iterator();
+		while (weightIterator.hasNext() && numberIterator.hasNext()) {
+			sum += weightIterator.next().doubleValue() * numberIterator.next().doubleValue();
 		}
 		return sum;
 	}
@@ -1051,6 +1052,28 @@ public class Maths {
 	 */
 	public static long pow(final long base, final long exponent) {
 		return Longs.convert(Math.pow(base, exponent));
+	}
+
+	/**
+	 * Returns the value of two raised to the power of the specified exponent.
+	 * <p>
+	 * @param exponent an {@code int} value
+	 * <p>
+	 * @return the value of two raised to the power of the specified exponent
+	 */
+	public static int pow2(final int exponent) {
+		return 1 << exponent;
+	}
+
+	/**
+	 * Returns the value of two raised to the power of the specified exponent.
+	 * <p>
+	 * @param exponent a {@code long} value
+	 * <p>
+	 * @return the value of two raised to the power of the specified exponent
+	 */
+	public static long pow2(final long exponent) {
+		return 1L << exponent;
 	}
 
 	public static double square(final double value) {
