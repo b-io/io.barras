@@ -173,17 +173,17 @@ public class Lists
 	}
 
 	/**
-	 * Sorts the specified {@link List} with the specified {@link Comparator}.
+	 * Sorts the specified {@link List} using the specified {@link Comparator}.
 	 * <p>
 	 * @param <E>        the element type of the {@link List} to sort
 	 * @param list       the {@link List} of element type {@code E} to sort
-	 * @param comparator the {@link Comparator} of super-type {@code E} to determine the order (a
-	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
-	 *                   of the elements should be used)
+	 * @param comparator the {@link Comparator} of supertype {@code E} to determine the order
+	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
+	 *                   the elements should be used)
 	 * <p>
-	 * @throws ClassCastException       if the array contains elements that are not mutually
-	 *                                  comparable using the specified comparator
-	 * @throws IllegalArgumentException (optional) if the comparator is found to violate the
+	 * @throws ClassCastException       if {@code list} contains elements that are not mutually
+	 *                                  comparable using {@code comparator}
+	 * @throws IllegalArgumentException (optional) if {@code comparator} is found to violate the
 	 *                                  {@link Comparator} contract
 	 */
 	@SuppressWarnings("unchecked")

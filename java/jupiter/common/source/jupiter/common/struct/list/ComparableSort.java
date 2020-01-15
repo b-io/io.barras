@@ -251,8 +251,7 @@ public class ComparableSort
 			final Comparable pivot = (Comparable) array[start];
 
 			// Set left (and right) to the index where a[start] (pivot) belongs
-			int left = lo;
-			int right = start;
+			int left = lo, right = start;
 			assert left <= right;
 			// Invariants:
 			//   pivot >= all in [lo, left) and
@@ -443,10 +442,8 @@ public class ComparableSort
 		assert i >= 0;
 		assert i == stackSize - 2 || i == stackSize - 3;
 
-		int base1 = runBase[i];
-		int length1 = runLength[i];
-		final int base2 = runBase[i + 1];
-		int length2 = runLength[i + 1];
+		int base1 = runBase[i], length1 = runLength[i];
+		int base2 = runBase[i + 1], length2 = runLength[i + 1];
 		assert length1 > 0 && length2 > 0;
 		assert base1 + length1 == base2;
 
@@ -519,8 +516,7 @@ public class ComparableSort
 			final int base, final int length, final int hint) {
 		assert length > 0 && hint >= 0 && hint < length;
 
-		int lastOfs = 0;
-		int ofs = 1;
+		int lastOfs = 0, ofs = 1;
 		if (key.compareTo(array[base + hint]) > 0) {
 			/*
 			 * Gallop right until {@code a[base + hint + lastOfs] < key <= a[base + hint + ofs]}.
@@ -605,8 +601,7 @@ public class ComparableSort
 			final int base, final int length, final int hint) {
 		assert length > 0 && hint >= 0 && hint < length;
 
-		int ofs = 1;
-		int lastOfs = 0;
+		int ofs = 1, lastOfs = 0;
 		if (key.compareTo(array[base + hint]) < 0) {
 			/*
 			 * Gallop left until {@code a[b + hint - ofs] <= key < a[b + hint - lastOfs]}.
@@ -694,10 +689,9 @@ public class ComparableSort
 		// Copy first run into temporary array
 		final Object[] array = this.array; // for performance
 		final Object[] tempArray = ensureCapacity(length1);
-
 		int cursor1 = tempArrayBase; // indexes into temp array
-		int cursor2 = base2; // indexes int a
-		int dest = base1; // indexes int a
+		int cursor2 = base2; // indexes into a
+		int dest = base1; // indexes into a
 		System.arraycopy(array, base1, tempArray, cursor1, length1);
 
 		// Move first element of second run and deal with degenerate cases

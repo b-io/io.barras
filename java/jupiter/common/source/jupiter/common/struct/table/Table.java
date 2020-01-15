@@ -111,6 +111,7 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final int rowCount, final int columnCount) {
 		// Check the arguments
+		Arguments.requireNonNull(c, "The specified class is null");
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
 
@@ -134,6 +135,10 @@ public class Table<E>
 	public Table(final Class<E> c, final String[] header, final int rowCount,
 			final int columnCount) {
 		// Check the arguments
+		Arguments.requireNonNull(c, "The specified class is null");
+		if (header != null) {
+			ArrayArguments.requireLength(header.length, columnCount);
+		}
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
 
@@ -152,6 +157,10 @@ public class Table<E>
 	 * @param elements a 2D {@code E} array
 	 */
 	public Table(final Class<E> c, final E[][] elements) {
+		// Check the arguments
+		Arguments.requireNonNull(c, "The specified class is null");
+		Arguments.requireNonNull(elements, "The specified array of elements is null");
+
 		// Set the attributes
 		this.c = c;
 		m = elements.length;
@@ -173,6 +182,9 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final String[] header, final E[][] elements) {
 		// Check the arguments
+		Arguments.requireNonNull(c, "The specified class is null");
+		Arguments.requireNonNull(header, "The specified header is null");
+		Arguments.requireNonNull(elements, "The specified array of elements is null");
 		if (elements.length > 0) {
 			ArrayArguments.requireSameLength(header, elements[0]);
 		}
@@ -196,8 +208,13 @@ public class Table<E>
 	 */
 	public Table(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
+		// Check the arguments
+		Arguments.requireNonNull(parser, "The specified parser is null");
+		Arguments.requireNonNull(path, "The specified path is null");
+
 		// Set the attributes
 		this.c = parser.getOutputClass();
+
 		// Load the file
 		load(parser, path, hasHeader);
 	}
@@ -271,7 +288,7 @@ public class Table<E>
 		}
 
 		// Get the column index
-		final int columnIndex = Arrays.<String>indexOf(header, name);
+		final int columnIndex = Arrays.<String>findFirstIndex(header, name);
 		if (columnIndex < 0) {
 			throw new IllegalArgumentException("There is no column " + Strings.quote(name));
 		}
@@ -1040,7 +1057,7 @@ public class Table<E>
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			String delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
-				final int occurrenceCount = Strings.getIndexes(line, d).size();
+				final int occurrenceCount = Strings.count(line, d);
 				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = Strings.toString(d);
@@ -1233,7 +1250,7 @@ public class Table<E>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *

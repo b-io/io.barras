@@ -62,12 +62,11 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of
-	 * {@link Object}.
+	 * Returns a representative {@link String} of the specified {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
+	 * @return a representative {@link String} of the specified {@link Collection}
 	 */
 	public static String join(final Collection<?> collection) {
 		return Strings.joinWith(collection, DEFAULT_DELIMITER);
@@ -174,47 +173,72 @@ public class Collections {
 		return Collection.class.isAssignableFrom(c);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Collection} is {@code null} or empty.
+	 * <p>
+	 * @param collection the {@link Collection} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Collection} is {@code null} or empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNullOrEmpty(final Collection<?> collection) {
+		return collection == null || collection.isEmpty();
+	}
+
+	/**
+	 * Tests whether the specified {@link Collection} is not {@code null} and empty.
+	 * <p>
+	 * @param collection the {@link Collection} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Collection} is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final Collection<?> collection) {
+		return collection != null && collection.isEmpty();
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of
-	 * {@link Object}.
+	 * Returns a representative {@link String} of the specified {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
+	 * @return a representative {@link String} of the specified {@link Collection}
 	 */
 	public static String toString(final Collection<?> collection) {
 		return Strings.bracketize(Strings.joinWith(collection, DEFAULT_DELIMITER));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 * joined by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by
+	 * {@code delimiter}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 *         joined by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@link Collection} joined by
+	 *         {@code delimiter}
 	 */
 	public static String toString(final Collection<?> collection, final String delimiter) {
 		return Strings.bracketize(Strings.joinWith(collection, delimiter));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@link Collection} joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {

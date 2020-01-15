@@ -57,7 +57,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
@@ -71,7 +71,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
@@ -86,7 +86,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
@@ -100,7 +100,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
@@ -115,7 +115,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
@@ -128,7 +128,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 */
@@ -146,7 +146,7 @@ public interface IComparable<T extends Comparable<T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *

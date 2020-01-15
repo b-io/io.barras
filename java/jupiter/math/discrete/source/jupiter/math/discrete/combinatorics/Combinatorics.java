@@ -185,8 +185,7 @@ public class Combinatorics {
 		final Iterator<Integer> factoradicValueIterator = factoradicValue.iterator();
 
 		// Convert to the decimal representation
-		int decimalValue = 0;
-		int i = 0;
+		int decimalValue = 0, i = 0;
 		while (factoradicValueIterator.hasNext()) {
 			decimalValue += factoradicValueIterator.next() * Maths.factorial(n - 1 - i++);
 		}
@@ -316,15 +315,14 @@ public class Combinatorics {
 			} else {
 				// Generate with minimal changes (use the Steinhaus-Johnson-Trotter algorithm)
 				// • Find the largest mobile index
-				int largestMobileIndex = -1;
-				int largestIndex = -1;
+				int largestMobileIndex = -1, largestIndex = -1;
 				for (int i = 0; i < n; ++i) {
 					if (directions[i] == LEFT && i > 0 && permutation[i] > permutation[i - 1] ||
 							directions[i] == RIGHT && i < n - 1 && permutation[i] > permutation[i +
 							1]) {
 						if (permutation[i] > largestIndex) {
-							largestIndex = permutation[i];
 							largestMobileIndex = i;
+							largestIndex = permutation[i];
 						}
 					}
 				}
@@ -438,6 +436,43 @@ public class Combinatorics {
 		return permutations;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the distinct {@code k}-element tuples of a {@code n}-element multiset with the
+	 * specified multiplicities {@code ms} where {@code n = sum(ms)} in lexicographic order, i.e.
+	 * {@code k}-permutations with finite repetition.
+	 * <p>
+	 * {@code {}}
+	 * {@code {0}            {1}            {2}}
+	 * {@code {00} {01} {02} {10} {11} {12} {20} {21} {22}}
+	 * {@code ...}
+	 * <p>
+	 * @param k  the number of elements in the multisubsets
+	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * <p>
+	 * @return the distinct {@code k}-element tuples of a {@code n}-element multiset with the
+	 *         specified multiplicities {@code ms} where {@code n = sum(ms)} in lexicographic order,
+	 *         i.e. {@code k}-permutations with finite repetition
+	 */
+	public static int[][] createKPermutations(final int k, final int[] ms) {
+		// Initialize
+		final ExtendedLinkedList<int[]> combinations = new ExtendedLinkedList<int[]>(
+				Integers.EMPTY_PRIMITIVE_ARRAY);
+
+		// Convert to the String representation
+		while (combinations.getFirst().length < k) {
+			final int[] combination = combinations.remove();
+			for (int i = 0; i < ms.length; ++i) {
+				final int index = Integers.count(combination, i);
+				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
+					combinations.add(Integers.merge(combination, i));
+				}
+			}
+		}
+		return (int[][]) combinations.toArray();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -532,7 +567,7 @@ public class Combinatorics {
 			final int[] combination = combinations.remove();
 			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
 			for (int i = from; i < ms.length; ++i) {
-				final int index = Integers.indexOf(combination, i);
+				final int index = Integers.findFirstIndex(combination, i);
 				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
 					combinations.add(Integers.merge(combination, i));
 				}
@@ -863,7 +898,7 @@ public class Combinatorics {
 			final int[] combination = combinations.remove();
 			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
 			for (int i = from; i < ms.length; ++i) {
-				final int index = Integers.indexOf(combination, i);
+				final int index = Integers.findFirstIndex(combination, i);
 				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
 					if (combination.length + 1 == k) {
 						result += 1;

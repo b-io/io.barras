@@ -444,14 +444,14 @@ public class IO
 
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * {@link InputStream} with the specified {@link Charset}.
+	 * {@link InputStream} using the specified {@link Charset}.
 	 * <p>
 	 * @param input          the {@link InputStream} of the lines to count
 	 * @param charset        the {@link Charset} of the lines to count
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         {@link InputStream} with the specified {@link Charset}
+	 *         {@link InputStream} using the specified {@link Charset}
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */
@@ -1005,7 +1005,7 @@ public class IO
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *

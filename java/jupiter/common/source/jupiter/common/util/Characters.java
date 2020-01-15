@@ -678,6 +678,44 @@ public class Characters {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the number of occurrences of the specified {@code char} token in the specified
+	 * {@code char} array.
+	 * <p>
+	 * @param array a {@code char} array
+	 * @param token the {@code char} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} token in the specified
+	 *         {@code char} array
+	 */
+	public static int count(final char[] array, final char token) {
+		int occurrenceCount = 0, index = 0;
+		while ((index = findFirstIndex(array, token, index)) >= 0) {
+			++occurrenceCount;
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code char} tokens in the specified
+	 * {@code char} array.
+	 * <p>
+	 * @param array  a {@code char} array
+	 * @param tokens the {@code char} tokens to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} tokens in the specified
+	 *         {@code char} array
+	 */
+	public static int count(final char[] array, final char[] tokens) {
+		int occurrenceCount = 0;
+		for (final char token : tokens) {
+			occurrenceCount += count(array, token);
+		}
+		return occurrenceCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void fill(final char[] array, final char value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
@@ -730,30 +768,6 @@ public class Characters {
 			filteredArrays[i] = filter(array, indexes[i]);
 		}
 		return filteredArrays;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static int indexOf(final char[] array, final char token) {
-		if (array != null) {
-			for (int i = 0; i < array.length; ++i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	public static int lastIndexOf(final char[] array, final char token) {
-		if (array != null) {
-			for (int i = array.length - 1; i >= 0; --i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -902,6 +916,53 @@ public class Characters {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findFirstIndex(final char[] array, final char token) {
+		return findFirstIndex(array, token, 0, array.length);
+	}
+
+	public static int findFirstIndex(final char[] array, final char token, final int from) {
+		return findFirstIndex(array, token, from, array.length);
+	}
+
+	public static int findFirstIndex(final char[] array, final char token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = from; i < to; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findLastIndex(final char[] array, final char token) {
+		return findLastIndex(array, token, 0, array.length);
+	}
+
+	public static int findLastIndex(final char[] array, final char token, final int from) {
+		return findLastIndex(array, token, from, array.length);
+	}
+
+	public static int findLastIndex(final char[] array, final char token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = to - 1; i >= from; --i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -942,6 +1003,64 @@ public class Characters {
 		return char[].class.isAssignableFrom(c);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code char} array is {@code null} or empty.
+	 * <p>
+	 * @param array the {@code char} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code char} array is {@code null} or empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNullOrEmpty(final char[] array) {
+		return array == null || array.length == 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code char} array is not {@code null} and empty.
+	 * <p>
+	 * @param array the {@code char} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code char} array is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final char[] array) {
+		return array != null && array.length == 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code char} value is between the specified {@code char} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value the {@code char} value to test
+	 * @param from  the {@code char} lower bound to test against (inclusive)
+	 * @param to    the {@code char} upper bound to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code char} value is between the specified
+	 *         {@code char} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final char value, final char from, final char to) {
+		return value >= from && value < to;
+	}
+
+	/**
+	 * Tests whether the specified {@code char} array is between the specified lower and upper bound
+	 * {@code char} arrays.
+	 * <p>
+	 * @param array the {@code char} array to test
+	 * @param from  the lower bound {@code char} array to test against (inclusive)
+	 * @param to    the upper bound {@code char} array to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code char} array is between the specified lower and
+	 *         upper bound {@code char} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final char[] array, final char[] from, final char[] to) {
+		return compare(array, from) >= 0 && compare(array, to) < 0;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -971,32 +1090,34 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code array} contains {@code token}.
+	 * Tests whether the specified {@code char} array contains the specified {@code char} token.
 	 * <p>
-	 * @param array a {@code char} array
-	 * @param token the {@code char} value to test for presence
+	 * @param array the {@code char} array to test
+	 * @param token the {@code char} token to test for presence
 	 * <p>
-	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code char} array contains the specified {@code char}
+	 *         token, {@code false} otherwise
 	 */
 	public static boolean contains(final char[] array, final char token) {
-		return indexOf(array, token) >= 0;
+		return findFirstIndex(array, token) >= 0;
 	}
 
 	/**
-	 * Tests whether {@code array} contains any {@code tokens}.
+	 * Tests whether the specified {@code char} array contains any of the specified {@code char}
+	 * tokens.
 	 * <p>
-	 * @param array  a {@code char} array
-	 * @param tokens the {@code char} array to test for presence
+	 * @param array  the {@code char} array to test
+	 * @param tokens the {@code char} tokens to test for presence
 	 * <p>
-	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code char} array contains any of the specified
+	 *         {@code char} tokens, {@code false} otherwise
 	 */
 	public static boolean containsAny(final char[] array, final char[] tokens) {
-		if (array == null) {
-			return false;
-		}
-		for (final char token : tokens) {
-			if (contains(array, token)) {
-				return true;
+		if (array != null) {
+			for (final char token : tokens) {
+				if (contains(array, token)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -1058,7 +1179,7 @@ public class Characters {
 	 * Returns a clone of the specified {@code char} array, or {@code null} if {@code array} is
 	 * {@code null}.
 	 * <p>
-	 * @param array a {@code char} array
+	 * @param array the {@code char} array to clone (may be {@code null})
 	 * <p>
 	 * @return a clone of the specified {@code char} array, or {@code null} if {@code array} is
 	 *         {@code null}

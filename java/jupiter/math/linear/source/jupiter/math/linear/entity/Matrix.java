@@ -223,7 +223,7 @@ public class Matrix
 	 * @param rowCount the number of rows of the array
 	 * @param elements a {@code double} array
 	 * <p>
-	 * @throws IllegalArgumentException if the length of {@code elements} is not a multiple of
+	 * @throws IllegalArgumentException if the {@code elements} length is not a multiple of
 	 *                                  {@code rowCount}
 	 */
 	public Matrix(final int rowCount, final double[] elements) {
@@ -247,7 +247,7 @@ public class Matrix
 	 * @param values    a {@code double} array
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
-	 * @throws IllegalArgumentException if the length of {@code values} is not a multiple of
+	 * @throws IllegalArgumentException if the {@code values} length is not a multiple of
 	 *                                  {@code rowCount}
 	 */
 	public Matrix(final int rowCount, final double[] values, final boolean transpose) {
@@ -292,7 +292,7 @@ public class Matrix
 	 * @param columnCount the number of columns
 	 * @param values      a 2D {@code double} array
 	 * <p>
-	 * @throws IllegalArgumentException if the rows of {@code values} have not the same length
+	 * @throws IllegalArgumentException if the {@code values} rows have not the same length
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double[][] values) {
 		// Set the numbers of rows and columns
@@ -2528,7 +2528,7 @@ public class Matrix
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *
@@ -2548,7 +2548,7 @@ public class Matrix
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *

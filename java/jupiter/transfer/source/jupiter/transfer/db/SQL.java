@@ -229,16 +229,16 @@ public class SQL {
 	}
 
 	/**
-	 * Returns either the row count for SQL Data Manipulation Language (DML) statements, zero for
-	 * SQL statements that return nothing, or {@code -1} if there is a problem.
+	 * Returns either the row count for SQL Data Manipulation Language (DML) statements, {@code 0}
+	 * for SQL statements that return nothing, or {@code -1} if there is a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) statement, such as {@code INSERT},
 	 *                   {@code UPDATE} or {@code DELETE}; or an SQL statement that returns nothing,
 	 *                   such as a DDL statement
 	 * <p>
-	 * @return either the row count for SQL Data Manipulation Language (DML) statements, zero for
-	 *         SQL statements that return nothing, or {@code -1} if there is a problem
+	 * @return either the row count for SQL Data Manipulation Language (DML) statements, {@code 0}
+	 *         for SQL statements that return nothing, or {@code -1} if there is a problem
 	 */
 	public static int update(final Connection connection, final String query) {
 		CallableStatement statement = null;

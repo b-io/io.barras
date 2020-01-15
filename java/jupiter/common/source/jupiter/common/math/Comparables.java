@@ -90,7 +90,7 @@ public class Comparables {
 			@Override
 			@SuppressWarnings("unchecked")
 			public int compare(final T a, final T b) {
-				return ((Comparable<T>) a).compareTo(b);
+				return Comparables.compareCast(a, b);
 			}
 		};
 	}
@@ -110,6 +110,50 @@ public class Comparables {
 	 */
 	public static boolean is(final Class<?> c) {
 		return Comparable.class.isAssignableFrom(c);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Comparable} is between the specified lower and upper bound
+	 * {@link Comparable}.
+	 * <p>
+	 * @param <T>    the component type of the object to test
+	 * @param object the {@link Comparable} of type {@code T} to test
+	 * @param from   the lower bound {@link Comparable} of type {@code T} to test against
+	 *               (inclusive)
+	 * @param to     the upper bound {@link Comparable} of type {@code T} to test against
+	 *               (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@link Comparable} is between the specified lower and
+	 *         upper bound {@link Comparable}, {@code false} otherwise
+	 * <p>
+	 * @throws NullPointerException if {@code object}, {@code from} or {@code to} is {@code null}
+	 */
+	public static <T> boolean isBetween(final T object, final T from, final T to) {
+		return isBetween(object, from, to, createCastComparator());
+	}
+
+	/**
+	 * Tests whether the specified {@link Comparable} is between the specified lower and upper bound
+	 * {@link Comparable}.
+	 * <p>
+	 * @param <T>        the component type of the object to test
+	 * @param object     the {@link Comparable} of type {@code T} to test
+	 * @param from       the lower bound {@link Comparable} of type {@code T} to test against
+	 *                   (inclusive)
+	 * @param to         the upper bound {@link Comparable} of type {@code T} to test against
+	 *                   (exclusive)
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * <p>
+	 * @return {@code true} if the specified {@link Comparable} is between the specified lower and
+	 *         upper bound {@link Comparable}, {@code false} otherwise
+	 * <p>
+	 * @throws NullPointerException if {@code object}, {@code from} or {@code to} is {@code null}
+	 */
+	public static <T> boolean isBetween(final T object, final T from, final T to,
+			final Comparator<? super T> comparator) {
+		return compare(object, from, comparator) >= 0 && compare(object, to, comparator) < 0;
 	}
 
 
@@ -135,13 +179,31 @@ public class Comparables {
 	}
 
 	/**
+	 * Compares the specified {@code T} objects for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param <T> the type of the objects to compare
+	 * @param a   the {@code T} object to compare
+	 * @param b   the other {@code T} object to compare against
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> int compareCast(final T a, final T b) {
+		return a == b ? 0 : ((Comparable<T>) a).compareTo(b);
+	}
+
+	/**
 	 * Returns zero if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 * otherwise.
 	 * <p>
 	 * @param <T>        the type of the objects to compare for order
 	 * @param a          the {@link Comparable} of type {@code T} to compare
 	 * @param b          the other {@link Comparable} of type {@code T} to compare against
-	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
 	 * <p>
 	 * @return zero if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 *         otherwise

@@ -68,7 +68,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 */
 	protected int size = 0;
 	/**
-	 * The key {@link Comparator} of super-type {@code K} to use.
+	 * The key {@link Comparator} of supertype {@code K} to use.
 	 */
 	protected final Comparator<? super K> keyComparator;
 
@@ -106,8 +106,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N} with the specified
 	 * key {@link Comparator}.
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 */
 	protected TreeMap(final Comparator<? super K> keyComparator) {
 		super();
@@ -119,8 +118,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * key {@link Comparator} loaded from the specified {@link Map} containing the key-value
 	 * mappings .
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
 	 *                      mappings to load
 	 */
@@ -159,9 +157,9 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	}
 
 	/**
-	 * Returns the key {@link Comparator} of super-type {@code K}.
+	 * Returns the key {@link Comparator} of supertype {@code K}.
 	 * <p>
-	 * @return the key {@link Comparator} of super-type {@code K}
+	 * @return the key {@link Comparator} of supertype {@code K}
 	 */
 	public Comparator<? super K> getKeyComparator() {
 		return keyComparator;
@@ -201,7 +199,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable the key {@link Comparable} of super-type {@code K} to find
+	 * @param keyComparable the key {@link Comparable} of supertype {@code K} to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
@@ -222,10 +220,10 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * <p>
 	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to put
 	 * <p>
-	 * @throws ClassCastException   if the type of a key or value in {@code map} prevents it from
-	 *                              being stored in {@code this}
-	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a null
-	 *                              key
+	 * @throws ClassCastException   if the {@code map} type prevents it from being stored in
+	 *                              {@code this}
+	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a
+	 *                              {@code null} key
 	 */
 	@Override
 	public void putAll(final Map<? extends K, ? extends V> map) {

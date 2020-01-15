@@ -73,7 +73,7 @@ public class QRDecomposition
 	 */
 	protected final double[][] QR;
 	/**
-	 * The diagonal of {@code R}.
+	 * The {@code R} diagonal.
 	 */
 	protected final double[] Rdiag;
 

@@ -940,6 +940,44 @@ public class Bytes {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the number of occurrences of the specified {@code byte} token in the specified
+	 * {@code byte} array.
+	 * <p>
+	 * @param array a {@code byte} array
+	 * @param token the {@code byte} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code byte} token in the specified
+	 *         {@code byte} array
+	 */
+	public static int count(final byte[] array, final byte token) {
+		int occurrenceCount = 0, index = 0;
+		while ((index = findFirstIndex(array, token, index)) >= 0) {
+			++occurrenceCount;
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code byte} tokens in the specified
+	 * {@code byte} array.
+	 * <p>
+	 * @param array  a {@code byte} array
+	 * @param tokens the {@code byte} tokens to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code byte} tokens in the specified
+	 *         {@code byte} array
+	 */
+	public static int count(final byte[] array, final byte[] tokens) {
+		int occurrenceCount = 0;
+		for (final byte token : tokens) {
+			occurrenceCount += count(array, token);
+		}
+		return occurrenceCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void fill(final byte[] array, final byte value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
@@ -992,30 +1030,6 @@ public class Bytes {
 			filteredArrays[i] = filter(array, indexes[i]);
 		}
 		return filteredArrays;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static int indexOf(final byte[] array, final byte token) {
-		if (array != null) {
-			for (int i = 0; i < array.length; ++i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	public static int lastIndexOf(final byte[] array, final byte token) {
-		if (array != null) {
-			for (int i = array.length - 1; i >= 0; --i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1191,6 +1205,53 @@ public class Bytes {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findFirstIndex(final byte[] array, final byte token) {
+		return findFirstIndex(array, token, 0, array.length);
+	}
+
+	public static int findFirstIndex(final byte[] array, final byte token, final int from) {
+		return findFirstIndex(array, token, from, array.length);
+	}
+
+	public static int findFirstIndex(final byte[] array, final byte token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = from; i < to; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findLastIndex(final byte[] array, final byte token) {
+		return findLastIndex(array, token, 0, array.length);
+	}
+
+	public static int findLastIndex(final byte[] array, final byte token, final int from) {
+		return findLastIndex(array, token, from, array.length);
+	}
+
+	public static int findLastIndex(final byte[] array, final byte token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = to - 1; i >= from; --i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1231,35 +1292,95 @@ public class Bytes {
 		return byte[].class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code array} contains {@code token}.
+	 * Tests whether the specified {@code byte} array is {@code null} or empty.
 	 * <p>
-	 * @param array a {@code byte} array
-	 * @param token the {@code byte} value to test for presence
+	 * @param array the {@code byte} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code byte} array is {@code null} or empty,
+	 *         {@code false} otherwise
 	 */
-	public static boolean contains(final byte[] array, final byte token) {
-		return indexOf(array, token) >= 0;
+	public static boolean isNullOrEmpty(final byte[] array) {
+		return array == null || array.length == 0;
 	}
 
 	/**
-	 * Tests whether {@code array} contains any {@code tokens}.
+	 * Tests whether the specified {@code byte} array is not {@code null} and empty.
 	 * <p>
-	 * @param array  a {@code byte} array
-	 * @param tokens the {@code byte} array to test for presence
+	 * @param array the {@code byte} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code byte} array is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final byte[] array) {
+		return array != null && array.length == 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code byte} value is between the specified {@code byte} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value the {@code byte} value to test
+	 * @param from  the {@code byte} lower bound to test against (inclusive)
+	 * @param to    the {@code byte} upper bound to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} value is between the specified
+	 *         {@code byte} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final byte value, final byte from, final byte to) {
+		return value >= from && value < to;
+	}
+
+	/**
+	 * Tests whether the specified {@code byte} array is between the specified lower and upper bound
+	 * {@code byte} arrays.
+	 * <p>
+	 * @param array the {@code byte} array to test
+	 * @param from  the lower bound {@code byte} array to test against (inclusive)
+	 * @param to    the upper bound {@code byte} array to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} array is between the specified lower and
+	 *         upper bound {@code byte} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final byte[] array, final byte[] from, final byte[] to) {
+		return compare(array, from) >= 0 && compare(array, to) < 0;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code byte} array contains the specified {@code byte} token.
+	 * <p>
+	 * @param array the {@code byte} array to test
+	 * @param token the {@code byte} token to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} array contains the specified {@code byte}
+	 *         token, {@code false} otherwise
+	 */
+	public static boolean contains(final byte[] array, final byte token) {
+		return findFirstIndex(array, token) >= 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code byte} array contains any of the specified {@code byte}
+	 * tokens.
+	 * <p>
+	 * @param array  the {@code byte} array to test
+	 * @param tokens the {@code byte} tokens to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} array contains any of the specified
+	 *         {@code byte} tokens, {@code false} otherwise
 	 */
 	public static boolean containsAny(final byte[] array, final byte[] tokens) {
-		if (array == null) {
-			return false;
-		}
-		for (final byte token : tokens) {
-			if (contains(array, token)) {
-				return true;
+		if (array != null) {
+			for (final byte token : tokens) {
+				if (contains(array, token)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -1321,7 +1442,7 @@ public class Bytes {
 	 * Returns a clone of the specified {@code byte} array, or {@code null} if {@code array} is
 	 * {@code null}.
 	 * <p>
-	 * @param array a {@code byte} array
+	 * @param array the {@code byte} array to clone (may be {@code null})
 	 * <p>
 	 * @return a clone of the specified {@code byte} array, or {@code null} if {@code array} is
 	 *         {@code null}

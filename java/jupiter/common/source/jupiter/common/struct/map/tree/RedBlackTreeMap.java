@@ -80,8 +80,7 @@ public class RedBlackTreeMap<K, V>
 	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N} with the
 	 * specified key {@link Comparator}.
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 */
 	public RedBlackTreeMap(final Comparator<? super K> keyComparator) {
 		super(keyComparator);
@@ -92,8 +91,7 @@ public class RedBlackTreeMap<K, V>
 	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
 	 * key-value mappings .
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
 	 *                      mappings to load
 	 */

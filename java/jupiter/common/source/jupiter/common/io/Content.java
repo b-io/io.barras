@@ -24,6 +24,7 @@
 package jupiter.common.io;
 
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.util.Strings.NULL;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;
@@ -148,12 +149,21 @@ public class Content
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code this} is {@code null} or empty.
+	 * Tests whether {@code this} is {@code "null"} or empty.
 	 * <p>
-	 * @return {@code true} if {@code this} is {@code null} or empty, {@code false} otherwise
+	 * @return {@code true} if {@code this} is {@code "null"} or empty, {@code false} otherwise
 	 */
 	public boolean isNullOrEmpty() {
-		return Strings.isNullOrEmpty(content);
+		return content.equals(NULL) || content.isEmpty();
+	}
+
+	/**
+	 * Tests whether {@code this} is empty.
+	 * <p>
+	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
+	 */
+	public boolean isEmpty() {
+		return content.isEmpty();
 	}
 
 
@@ -186,7 +196,7 @@ public class Content
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *

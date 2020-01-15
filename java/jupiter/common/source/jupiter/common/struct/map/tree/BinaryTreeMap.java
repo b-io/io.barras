@@ -93,8 +93,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * Constructs a {@link BinaryTreeMap} of types {@code K}, {@code V} and {@code N} with the
 	 * specified key {@link Comparator}.
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 */
 	protected BinaryTreeMap(final Comparator<? super K> keyComparator) {
 		super(keyComparator);
@@ -105,8 +104,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
 	 * key-value mappings .
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
 	 *                      mappings to load
 	 */
@@ -308,7 +306,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable the key {@link Comparable} of super-type {@code K} to find
+	 * @param keyComparable the key {@link Comparable} of supertype {@code K} to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present

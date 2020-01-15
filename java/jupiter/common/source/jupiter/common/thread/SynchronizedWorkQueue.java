@@ -73,7 +73,7 @@ public class SynchronizedWorkQueue<I, O>
 	/**
 	 * Creates a {@link Worker} according to the model.
 	 * <p>
-	 * @return {@code 1} if the {@link Worker} is created, zero otherwise
+	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
 	 * <p>
 	 * @throws IllegalOperationException if the maximum number of {@link Worker} has been reached
 	 */

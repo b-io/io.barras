@@ -682,6 +682,44 @@ public class Floats {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the number of occurrences of the specified {@code float} token in the specified
+	 * {@code float} array.
+	 * <p>
+	 * @param array a {@code float} array
+	 * @param token the {@code float} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code float} token in the specified
+	 *         {@code float} array
+	 */
+	public static int count(final float[] array, final float token) {
+		int occurrenceCount = 0, index = 0;
+		while ((index = findFirstIndex(array, token, index)) >= 0) {
+			++occurrenceCount;
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code float} tokens in the specified
+	 * {@code float} array.
+	 * <p>
+	 * @param array  a {@code float} array
+	 * @param tokens the {@code float} tokens to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code float} tokens in the specified
+	 *         {@code float} array
+	 */
+	public static int count(final float[] array, final float[] tokens) {
+		int occurrenceCount = 0;
+		for (final float token : tokens) {
+			occurrenceCount += count(array, token);
+		}
+		return occurrenceCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void fill(final float[] array, final float value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
@@ -734,30 +772,6 @@ public class Floats {
 			filteredArrays[i] = filter(array, indexes[i]);
 		}
 		return filteredArrays;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static int indexOf(final float[] array, final float token) {
-		if (array != null) {
-			for (int i = 0; i < array.length; ++i) {
-				if (equals(array[i], token)) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	public static int lastIndexOf(final float[] array, final float token) {
-		if (array != null) {
-			for (int i = array.length - 1; i >= 0; --i) {
-				if (equals(array[i], token)) {
-					return i;
-				}
-			}
-		}
-		return -1;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -936,6 +950,53 @@ public class Floats {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findFirstIndex(final float[] array, final float token) {
+		return findFirstIndex(array, token, 0, array.length);
+	}
+
+	public static int findFirstIndex(final float[] array, final float token, final int from) {
+		return findFirstIndex(array, token, from, array.length);
+	}
+
+	public static int findFirstIndex(final float[] array, final float token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = from; i < to; ++i) {
+				if (equals(array[i], token)) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findLastIndex(final float[] array, final float token) {
+		return findLastIndex(array, token, 0, array.length);
+	}
+
+	public static int findLastIndex(final float[] array, final float token, final int from) {
+		return findLastIndex(array, token, from, array.length);
+	}
+
+	public static int findLastIndex(final float[] array, final float token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = to - 1; i >= from; --i) {
+				if (equals(array[i], token)) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -976,35 +1037,95 @@ public class Floats {
 		return float[].class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code array} contains {@code token}.
+	 * Tests whether the specified {@code float} array is {@code null} or empty.
 	 * <p>
-	 * @param array a {@code float} array
-	 * @param token the {@code float} value to test for presence
+	 * @param array the {@code float} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code float} array is {@code null} or empty,
+	 *         {@code false} otherwise
 	 */
-	public static boolean contains(final float[] array, final float token) {
-		return indexOf(array, token) >= 0;
+	public static boolean isNullOrEmpty(final float[] array) {
+		return array == null || array.length == 0;
 	}
 
 	/**
-	 * Tests whether {@code array} contains any {@code tokens}.
+	 * Tests whether the specified {@code float} array is not {@code null} and empty.
 	 * <p>
-	 * @param array  a {@code float} array
-	 * @param tokens the {@code float} array to test for presence
+	 * @param array the {@code float} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code float} array is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final float[] array) {
+		return array != null && array.length == 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code float} value is between the specified {@code float} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value the {@code float} value to test
+	 * @param from  the {@code float} lower bound to test against (inclusive)
+	 * @param to    the {@code float} upper bound to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code float} value is between the specified
+	 *         {@code float} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final float value, final float from, final float to) {
+		return value >= from && value < to;
+	}
+
+	/**
+	 * Tests whether the specified {@code float} array is between the specified lower and upper
+	 * bound {@code float} arrays.
+	 * <p>
+	 * @param array the {@code float} array to test
+	 * @param from  the lower bound {@code float} array to test against (inclusive)
+	 * @param to    the upper bound {@code float} array to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code float} array is between the specified lower and
+	 *         upper bound {@code float} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final float[] array, final float[] from, final float[] to) {
+		return compare(array, from) >= 0 && compare(array, to) < 0;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code float} array contains the specified {@code float} token.
+	 * <p>
+	 * @param array the {@code float} array to test
+	 * @param token the {@code float} token to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code float} array contains the specified
+	 *         {@code float} token, {@code false} otherwise
+	 */
+	public static boolean contains(final float[] array, final float token) {
+		return findFirstIndex(array, token) >= 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code float} array contains any of the specified {@code float}
+	 * tokens.
+	 * <p>
+	 * @param array  the {@code float} array to test
+	 * @param tokens the {@code float} tokens to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code float} array contains any of the specified
+	 *         {@code float} tokens, {@code false} otherwise
 	 */
 	public static boolean containsAny(final float[] array, final float[] tokens) {
-		if (array == null) {
-			return false;
-		}
-		for (final float token : tokens) {
-			if (contains(array, token)) {
-				return true;
+		if (array != null) {
+			for (final float token : tokens) {
+				if (contains(array, token)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -1077,7 +1198,7 @@ public class Floats {
 	 * Returns a clone of the specified {@code float} array, or {@code null} if {@code array} is
 	 * {@code null}.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to clone (may be {@code null})
 	 * <p>
 	 * @return a clone of the specified {@code float} array, or {@code null} if {@code array} is
 	 *         {@code null}

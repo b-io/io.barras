@@ -698,6 +698,44 @@ public class Shorts {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the number of occurrences of the specified {@code short} token in the specified
+	 * {@code short} array.
+	 * <p>
+	 * @param array a {@code short} array
+	 * @param token the {@code short} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code short} token in the specified
+	 *         {@code short} array
+	 */
+	public static int count(final short[] array, final short token) {
+		int occurrenceCount = 0, index = 0;
+		while ((index = findFirstIndex(array, token, index)) >= 0) {
+			++occurrenceCount;
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code short} tokens in the specified
+	 * {@code short} array.
+	 * <p>
+	 * @param array  a {@code short} array
+	 * @param tokens the {@code short} tokens to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code short} tokens in the specified
+	 *         {@code short} array
+	 */
+	public static int count(final short[] array, final short[] tokens) {
+		int occurrenceCount = 0;
+		for (final short token : tokens) {
+			occurrenceCount += count(array, token);
+		}
+		return occurrenceCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void fill(final short[] array, final short value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
@@ -750,30 +788,6 @@ public class Shorts {
 			filteredArrays[i] = filter(array, indexes[i]);
 		}
 		return filteredArrays;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static int indexOf(final short[] array, final short token) {
-		if (array != null) {
-			for (int i = 0; i < array.length; ++i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	public static int lastIndexOf(final short[] array, final short token) {
-		if (array != null) {
-			for (int i = array.length - 1; i >= 0; --i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -950,6 +964,53 @@ public class Shorts {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findFirstIndex(final short[] array, final short token) {
+		return findFirstIndex(array, token, 0, array.length);
+	}
+
+	public static int findFirstIndex(final short[] array, final short token, final int from) {
+		return findFirstIndex(array, token, from, array.length);
+	}
+
+	public static int findFirstIndex(final short[] array, final short token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = from; i < to; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findLastIndex(final short[] array, final short token) {
+		return findLastIndex(array, token, 0, array.length);
+	}
+
+	public static int findLastIndex(final short[] array, final short token, final int from) {
+		return findLastIndex(array, token, from, array.length);
+	}
+
+	public static int findLastIndex(final short[] array, final short token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = to - 1; i >= from; --i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -990,35 +1051,95 @@ public class Shorts {
 		return short[].class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code array} contains {@code token}.
+	 * Tests whether the specified {@code short} array is {@code null} or empty.
 	 * <p>
-	 * @param array a {@code short} array
-	 * @param token the {@code short} value to test for presence
+	 * @param array the {@code short} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code short} array is {@code null} or empty,
+	 *         {@code false} otherwise
 	 */
-	public static boolean contains(final short[] array, final short token) {
-		return indexOf(array, token) >= 0;
+	public static boolean isNullOrEmpty(final short[] array) {
+		return array == null || array.length == 0;
 	}
 
 	/**
-	 * Tests whether {@code array} contains any {@code tokens}.
+	 * Tests whether the specified {@code short} array is not {@code null} and empty.
 	 * <p>
-	 * @param array  a {@code short} array
-	 * @param tokens the {@code short} array to test for presence
+	 * @param array the {@code short} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code short} array is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final short[] array) {
+		return array != null && array.length == 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code short} value is between the specified {@code short} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value the {@code short} value to test
+	 * @param from  the {@code short} lower bound to test against (inclusive)
+	 * @param to    the {@code short} upper bound to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code short} value is between the specified
+	 *         {@code short} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final short value, final short from, final short to) {
+		return value >= from && value < to;
+	}
+
+	/**
+	 * Tests whether the specified {@code short} array is between the specified lower and upper
+	 * bound {@code short} arrays.
+	 * <p>
+	 * @param array the {@code short} array to test
+	 * @param from  the lower bound {@code short} array to test against (inclusive)
+	 * @param to    the upper bound {@code short} array to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code short} array is between the specified lower and
+	 *         upper bound {@code short} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final short[] array, final short[] from, final short[] to) {
+		return compare(array, from) >= 0 && compare(array, to) < 0;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code short} array contains the specified {@code short} token.
+	 * <p>
+	 * @param array the {@code short} array to test
+	 * @param token the {@code short} token to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code short} array contains the specified
+	 *         {@code short} token, {@code false} otherwise
+	 */
+	public static boolean contains(final short[] array, final short token) {
+		return findFirstIndex(array, token) >= 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code short} array contains any of the specified {@code short}
+	 * tokens.
+	 * <p>
+	 * @param array  the {@code short} array to test
+	 * @param tokens the {@code short} tokens to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code short} array contains any of the specified
+	 *         {@code short} tokens, {@code false} otherwise
 	 */
 	public static boolean containsAny(final short[] array, final short[] tokens) {
-		if (array == null) {
-			return false;
-		}
-		for (final short token : tokens) {
-			if (contains(array, token)) {
-				return true;
+		if (array != null) {
+			for (final short token : tokens) {
+				if (contains(array, token)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -1080,7 +1201,7 @@ public class Shorts {
 	 * Returns a clone of the specified {@code short} array, or {@code null} if {@code array} is
 	 * {@code null}.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to clone (may be {@code null})
 	 * <p>
 	 * @return a clone of the specified {@code short} array, or {@code null} if {@code array} is
 	 *         {@code null}

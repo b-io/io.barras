@@ -196,11 +196,11 @@ public class SafeDateFormat
 	 * Parses the {@link Date} encoded in the specified {@link String}.
 	 * <p>
 	 * The method attempts to parse {@code text} starting at the index specified by
-	 * {@code position}. If parsing succeeds, then the index of {@code position} is updated to the
+	 * {@code position}. If parsing succeeds, then the {@code position} index is updated to the
 	 * index after the last {@code char} value used (parsing does not necessarily use all characters
 	 * up to the end of the {@link String}), and the parsed date is returned. The updated
 	 * {@code position} can be used to indicate the starting point for the next call to this method.
-	 * If an error occurs, then the index of {@code position} is not changed, the error index of
+	 * If an error occurs, then the {@code position} index is not changed, the error index of
 	 * {@code position} is set to the index of the {@code char} value where the error occurred, and
 	 * {@code null} is returned.
 	 * <p>
@@ -325,7 +325,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *

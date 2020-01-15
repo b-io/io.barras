@@ -89,8 +89,7 @@ public class AvlTreeMap<K, V>
 	 * Constructs a {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} with the
 	 * specified key {@link Comparator}.
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 */
 	public AvlTreeMap(final Comparator<? super K> keyComparator) {
 		super(keyComparator);
@@ -101,8 +100,7 @@ public class AvlTreeMap<K, V>
 	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
 	 * key-value mappings .
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
 	 *                      mappings to load
 	 */
@@ -203,8 +201,7 @@ public class AvlTreeMap<K, V>
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current {@code K}
-	 *                              keys
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override

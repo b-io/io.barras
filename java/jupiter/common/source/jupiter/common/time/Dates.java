@@ -388,8 +388,7 @@ public class Dates {
 		final Calendar end = Calendar.getInstance();
 		end.setTime(endDate);
 		// Count the business days
-		int workDays = 0;
-		int year = start.get(Calendar.YEAR);
+		int workDays = 0, year = start.get(Calendar.YEAR);
 		do {
 			// • Update the number of business days
 			if (start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&

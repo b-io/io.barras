@@ -218,11 +218,11 @@ public class Strings {
 	}
 
 	/**
-	 * Returns an array of {@link String} from the specified {@link Collection} of {@link Object}.
+	 * Returns an array of {@link String} from the specified {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * <p>
-	 * @return an array of {@link String} from the specified {@link Collection} of {@link Object}
+	 * @return an array of {@link String} from the specified {@link Collection}
 	 */
 	public static String[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -476,6 +476,122 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of occurrences of the specified {@code char} token in the specified
+	 * {@link String}.
+	 * <p>
+	 * @param text  a {@link String}
+	 * @param token the {@code char} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} token in the specified
+	 *         {@link String}
+	 */
+	public static int count(final String text, final char token) {
+		return Characters.count(text.toCharArray(), token);
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code char} tokens in the specified
+	 * {@link String}.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param tokens the {@code char} tokens to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} tokens in the specified
+	 *         {@link String}
+	 */
+	public static int count(final String text, final char[] tokens) {
+		return Characters.count(text.toCharArray(), tokens);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of occurrences of the specified token {@link String} in the specified
+	 * {@link String}.
+	 * <p>
+	 * @param text  a {@link String}
+	 * @param token the token {@link String} to count
+	 * <p>
+	 * @return the number of occurrences of the specified token {@link String} in the specified
+	 *         {@link String}
+	 */
+	public static int countString(final String text, final String token) {
+		int occurrenceCount = 0, index = 0;
+		while ((index = text.indexOf(token, index)) >= 0) {
+			++occurrenceCount;
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified token {@link String} in the specified
+	 * {@link String}.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param tokens the array of token {@link String} to count
+	 * <p>
+	 * @return the number of occurrences of the specified token {@link String} in the specified
+	 *         {@link String}
+	 */
+	public static int countString(final String text, final String[] tokens) {
+		int occurrenceCount = 0;
+		for (final String token : tokens) {
+			occurrenceCount += countString(text, token);
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of lines of the specified {@link String}.
+	 * <p>
+	 * @param text a {@link String}
+	 * <p>
+	 * @return the number of lines of the specified {@link String}
+	 */
+	public static int countLines(final String text) {
+		return countLines(text, false);
+	}
+
+	/**
+	 * Returns the number of lines of the specified {@link String}.
+	 * <p>
+	 * @param text           a {@link String}
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the number of lines of the specified {@link String}
+	 */
+	public static int countLines(final String text, final boolean skipEmptyLines) {
+		if (text == null) {
+			return 0;
+		}
+		int lineCount;
+		final Matcher matcher = Pattern.compile("\r\n|\r|\n").matcher(text);
+		if (skipEmptyLines) {
+			lineCount = 0;
+			int previousIndex = matcher.regionStart();
+			while (matcher.find()) {
+				if (previousIndex != matcher.start()) {
+					++lineCount;
+				}
+				previousIndex = matcher.end();
+			}
+			if (previousIndex != matcher.regionEnd()) {
+				++lineCount;
+			}
+		} else {
+			lineCount = 1;
+			while (matcher.find()) {
+				++lineCount;
+			}
+		}
+		return lineCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the escaped representative {@link String} of the specified unescaped content (i.e.
 	 * without traces of offending characters that can prevent parsing).
 	 * <p>
@@ -527,12 +643,11 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of
-	 * {@link Object}.
+	 * Returns a representative {@link String} of the specified {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
+	 * @return a representative {@link String} of the specified {@link Collection}
 	 */
 	public static String join(final Collection<?> collection) {
 		return joinWith(collection, EMPTY);
@@ -631,28 +746,28 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 * joined by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by
+	 * {@code delimiter}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * @param delimiter  the delimiting {@code char} value
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 *         joined by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@link Collection} joined by
+	 *         {@code delimiter}
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter) {
 		return joinWith(collection, toString(delimiter));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 * joined by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by
+	 * {@code delimiter}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 *         joined by {@code delimiter}
+	 * @return a representative {@link String} of the specified {@link Collection} joined by
+	 *         {@code delimiter}
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter) {
 		// Check the arguments
@@ -673,15 +788,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * @param delimiter  the delimiting {@code char} value
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@link Collection} joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -689,15 +804,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 * joined by {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by
+	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param collection a {@link Collection} of {@link Object}
+	 * @param collection a {@link Collection}
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} of {@link Object}
-	 *         joined by {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@link Collection} joined by
+	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -878,33 +993,35 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by removing the first occurrence of any of the
-	 * specified tokens from the specified {@link String}.
+	 * {@code char} tokens contained in the specified {@link String} from the specified
+	 * {@link String}.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the tokens to remove
+	 * @param tokens the {@link String} containing the {@code char} tokens to remove
 	 * <p>
 	 * @return the {@link String} constructed by removing the first occurrence of any of the
-	 *         specified tokens from the specified {@link String}
+	 *         {@code char} tokens contained in the specified {@link String} from the specified
+	 *         {@link String}
 	 */
 	public static String removeFirst(final String text, final String tokens) {
-		if (text == null) {
+		if (text == null || isEmpty(tokens)) {
 			return null;
 		}
 		return replaceFirst(text, bracketize(tokens), EMPTY);
 	}
 
 	/**
-	 * Returns the {@link String} constructed by removing all the occurrences of the specified
-	 * tokens from the specified {@link String}.
+	 * Returns the {@link String} constructed by removing all the occurrences of the {@code char}
+	 * tokens contained in the specified {@link String} from the specified {@link String}.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the tokens to remove
+	 * @param tokens the {@link String} containing the {@code char} tokens to remove
 	 * <p>
-	 * @return the {@link String} constructed by removing all the occurrences of the specified
-	 *         tokens from the specified {@link String}
+	 * @return the {@link String} constructed by removing all the occurrences of the {@code char}
+	 *         tokens contained in the specified {@link String} from the specified {@link String}
 	 */
 	public static String removeAll(final String text, final String tokens) {
-		if (text == null) {
+		if (isEmpty(text) || isEmpty(tokens)) {
 			return null;
 		}
 		return replaceAll(text, bracketize(tokens), EMPTY);
@@ -1177,39 +1294,77 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the first token of {@code text} that is in {@code tokens}, or {@code -1}
-	 * if there is no such occurrence.
+	 * Returns the index of the first occurrence of any of the specified {@code char} tokens in the
+	 * specified {@link String}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@code char} array to find
+	 * @param tokens the {@code char} tokens to find
 	 * <p>
-	 * @return the index of the first token of {@code text} that is in {@code tokens}, or {@code -1}
-	 *         if there is no such occurrence
+	 * @return the index of the first occurrence of any of the specified {@code char} tokens in the
+	 *         specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findFirst(final String text, final char[] tokens) {
+	public static int findFirst(final String text, final char... tokens) {
 		return findFirst(text, tokens, 0);
 	}
 
 	/**
-	 * Returns the index of the first token of {@code text} that is in {@code tokens}, seeking
-	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * Returns the index of the first occurrence of any of the specified {@code char} tokens in the
+	 * specified {@link String}, seeking forward from the specified index, or {@code -1} if there is
+	 * no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@code char} array to find
+	 * @param tokens    the {@code char} tokens to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the index of the first token of {@code text} that is in {@code tokens}, seeking
-	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 * @return the index of the first occurrence of any of the specified {@code char} tokens in the
+	 *         specified {@link String}, seeking forward from the specified index, or {@code -1} if
+	 *         there is no such occurrence
 	 */
 	public static int findFirst(final String text, final char[] tokens, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (Characters.contains(tokens, text.charAt(index))) {
+					return index;
+				}
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Returns the index of the first occurrence of any of the specified token {@link Character} in
+	 * the specified {@link String}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param tokens the {@link Collection} of token {@link Character} to find
+	 * <p>
+	 * @return the index of the first occurrence of any of the specified token {@link Character} in
+	 *         the specified {@link String}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findFirst(final String text, final Collection<Character> tokens) {
+		return findFirst(text, tokens, 0);
+	}
+
+	/**
+	 * Returns the index of the first occurrence of any of the specified token {@link Character} in
+	 * the specified {@link String}, seeking forward from the specified index, or {@code -1} if
+	 * there is no such occurrence.
+	 * <p>
+	 * @param text      a {@link String}
+	 * @param tokens    the {@link Collection} of token {@link Character} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index of the first occurrence of any of the specified token {@link Character} in
+	 *         the specified {@link String}, seeking forward from the specified index, or {@code -1}
+	 *         if there is no such occurrence
+	 */
+	public static int findFirst(final String text, final Collection<Character> tokens,
+			final int fromIndex) {
+		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
+			for (int index = fromIndex; index < text.length(); ++index) {
+				if (tokens.contains(text.charAt(index))) {
 					return index;
 				}
 			}
@@ -1220,87 +1375,39 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the first token of {@code text} that is in {@code tokens}, or {@code -1}
-	 * if there is no such occurrence.
+	 * Returns the {@link Index} of the first occurrence of any of the specified token
+	 * {@link String} in the specified {@link String}, or {@code null} if there is no such
+	 * occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@link Collection} of {@link Character} to find
+	 * @param tokens the array of token {@link String} to find
 	 * <p>
-	 * @return the index of the first token of {@code text} that is in {@code tokens}, or {@code -1}
-	 *         if there is no such occurrence
+	 * @return the {@link Index} of the first occurrence of any of the specified token
+	 *         {@link String} in the specified {@link String}, or {@code null} if there is no such
+	 *         occurrence
 	 */
-	public static int findFirst(final String text, final Collection<Character> tokens) {
-		return findFirst(text, tokens, 0);
-	}
-
-	/**
-	 * Returns the index of the first token of {@code text} that is in {@code tokens}, seeking
-	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param text      a {@link String}
-	 * @param tokens    the {@link Collection} of {@link Character} to find
-	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
-	 * @return the index of the first token of {@code text} that is in {@code tokens}, seeking
-	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
-	 */
-	public static int findFirst(final String text, final Collection<Character> tokens,
-			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (tokens.contains(text.charAt(index))) {
-					return index;
-				}
-			}
-		}
-		return -1;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the {@link Index} of {@link String} containing the first token of {@code text} that
-	 * is in {@code tokens}, or {@code null} if there is no such occurrence.
-	 * <p>
-	 * @param text   a {@link String}
-	 * @param tokens the array of {@link String} to find
-	 * <p>
-	 * @return the {@link Index} of {@link String} containing the first token of {@code text} that
-	 *         is in {@code tokens}, or {@code null} if there is no such occurrence
-	 */
-	public static Index<String> findFirstString(final String text, final String[] tokens) {
+	public static Index<String> findFirstString(final String text, final String... tokens) {
 		return findFirstString(text, tokens, 0);
 	}
 
 	/**
-	 * Returns the {@link Index} of {@link String} containing the first token of {@code text} that
-	 * is in {@code tokens}, seeking forward from {@code fromIndex}, or {@code null} if there is no
-	 * such occurrence.
+	 * Returns the {@link Index} of the first occurrence of any of the specified token
+	 * {@link String} in the specified {@link String}, seeking forward from the specified index, or
+	 * {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@link String} to find
+	 * @param tokens    the array of token {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the {@link Index} of {@link String} containing the first token of {@code text} that
-	 *         is in {@code tokens}, seeking forward from {@code fromIndex}, or {@code null} if
-	 *         there is no such occurrence
+	 * @return the {@link Index} of the first occurrence of any of the specified token
+	 *         {@link String} in the specified {@link String}, seeking forward from the specified
+	 *         index, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findFirstString(final String text, final String[] tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Initialize
 		Index<String> indexAndToken = null;
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.indexOf(token, fromIndex);
 				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getIndex())) {
@@ -1311,17 +1418,17 @@ public class Strings {
 		return indexAndToken;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the {@link Index} of {@link String} containing the first token of {@code text} that
-	 * is in {@code tokens}, or {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of the first occurrence of any of the specified token
+	 * {@link String} in the specified {@link String}, or {@code null} if there is no such
+	 * occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@link Collection} of {@link String} to find
+	 * @param tokens the {@link Collection} of token {@link String} to find
 	 * <p>
-	 * @return the {@link Index} of {@link String} containing the first token of {@code text} that
-	 *         is in {@code tokens}, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of the first occurrence of any of the specified token
+	 *         {@link String} in the specified {@link String}, or {@code null} if there is no such
+	 *         occurrence
 	 */
 	public static Index<String> findFirstString(final String text,
 			final Collection<String> tokens) {
@@ -1329,29 +1436,23 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@link Index} of {@link String} containing the first token of {@code text} that
-	 * is in {@code tokens}, seeking forward from {@code fromIndex}, or {@code null} if there is no
-	 * such occurrence.
+	 * Returns the {@link Index} of the first occurrence of any of the specified token
+	 * {@link String} in the specified {@link String}, seeking forward from the specified index, or
+	 * {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@link Collection} of {@link String} to find
+	 * @param tokens    the {@link Collection} of token {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the {@link Index} of {@link String} containing the first token of {@code text} that
-	 *         is in {@code tokens}, seeking forward from {@code fromIndex}, or {@code null} if
-	 *         there is no such occurrence
+	 * @return the {@link Index} of the first occurrence of any of the specified token
+	 *         {@link String} in the specified {@link String}, seeking forward from the specified
+	 *         index, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findFirstString(final String text, final Collection<String> tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Initialize
 		Index<String> indexAndToken = null;
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.indexOf(token, fromIndex);
 				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getIndex())) {
@@ -1365,37 +1466,35 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the last token of {@code text} that is in {@code tokens}, or {@code -1}
-	 * if there is no such occurrence.
+	 * Returns the index of the last occurrence of any of the specified {@code char} tokens in the
+	 * specified {@link String}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@code char} array to find
+	 * @param tokens the {@code char} tokens to find
 	 * <p>
-	 * @return the index of the last token of {@code text} that is in {@code tokens}, or {@code -1}
-	 *         if there is no such occurrence
+	 * @return the index of the last occurrence of any of the specified {@code char} tokens in the
+	 *         specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findLast(final String text, final char[] tokens) {
+	public static int findLast(final String text, final char... tokens) {
 		return findLast(text, tokens, text.length() - 1);
 	}
 
 	/**
-	 * Returns the index of the last token of {@code text} that is in {@code tokens}, seeking
-	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * Returns the index of the last occurrence of any of the specified {@code char} tokens in the
+	 * specified {@link String}, seeking backward from the specified index, or {@code -1} if there
+	 * is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@code char} array to find
+	 * @param tokens    the {@code char} tokens to find
 	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
-	 * @return the index of the last token of {@code text} that is in {@code tokens}, seeking
-	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 * @return the index of the last occurrence of any of the specified {@code char} tokens in the
+	 *         specified {@link String}, seeking backward from the specified index, or {@code -1} if
+	 *         there is no such occurrence
 	 */
 	public static int findLast(final String text, final char[] tokens, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (Characters.contains(tokens, text.charAt(index))) {
 					return index;
@@ -1405,41 +1504,37 @@ public class Strings {
 		return -1;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the index of the last token of {@code text} that is in {@code tokens}, or {@code -1}
-	 * if there is no such occurrence.
+	 * Returns the index of the last occurrence of any of the specified token {@link Character} in
+	 * the specified {@link String}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@link Collection} of {@link Character} to find
+	 * @param tokens the {@link Collection} of token {@link Character} to find
 	 * <p>
-	 * @return the index of the last token of {@code text} that is in {@code tokens}, or {@code -1}
-	 *         if there is no such occurrence
+	 * @return the index of the last occurrence of any of the specified token {@link Character} in
+	 *         the specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLast(final String text, final Collection<Character> tokens) {
 		return findLast(text, tokens, text.length() - 1);
 	}
 
 	/**
-	 * Returns the index of the last token of {@code text} that is in {@code tokens}, seeking
-	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * Returns the index of the last occurrence of any of the specified token {@link Character} in
+	 * the specified {@link String}, seeking backward from the specified index, or {@code -1} if
+	 * there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@link Collection} of {@link Character} to find
+	 * @param tokens    the {@link Collection} of token {@link Character} to find
 	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
-	 * @return the index of the last token of {@code text} that is in {@code tokens}, seeking
-	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 * @return the index of the last occurrence of any of the specified token {@link Character} in
+	 *         the specified {@link String}, seeking backward from the specified index, or
+	 *         {@code -1} if there is no such occurrence
 	 */
 	public static int findLast(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (tokens.contains(text.charAt(index))) {
 					return index;
@@ -1449,46 +1544,40 @@ public class Strings {
 		return -1;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Index} of {@link String} containing the last token of {@code text} that is
-	 * in {@code tokens}, or {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 * in the specified {@link String}, or {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@link String} to find
+	 * @param tokens the array of token {@link String} to find
 	 * <p>
-	 * @return the {@link Index} of {@link String} containing the last token of {@code text} that is
-	 *         in {@code tokens}, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 *         in the specified {@link String}, or {@code null} if there is no such occurrence
 	 */
-	public static Index<String> findLastString(final String text, final String[] tokens) {
+	public static Index<String> findLastString(final String text, final String... tokens) {
 		return findLastString(text, tokens, text.length() - 1);
 	}
 
 	/**
-	 * Returns the {@link Index} of {@link String} containing the last token of {@code text} that is
-	 * in {@code tokens}, seeking backward from {@code fromIndex}, or {@code null} if there is no
-	 * such occurrence.
+	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 * in the specified {@link String}, seeking backward from the specified index, or {@code null}
+	 * if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@link String} to find
-	 * @param fromIndex the index to finish seeking forward at (exclusive)
+	 * @param tokens    the array of token {@link String} to find
+	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
-	 * @return the {@link Index} of {@link String} containing the last token of {@code text} that is
-	 *         in {@code tokens}, seeking backward from {@code fromIndex}, or {@code null} if there
-	 *         is no such occurrence
+	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 *         in the specified {@link String}, seeking backward from the specified index, or
+	 *         {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String text, final String[] tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Initialize
 		Index<String> indexAndToken = null;
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.lastIndexOf(token, fromIndex);
 				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getIndex())) {
@@ -1499,46 +1588,38 @@ public class Strings {
 		return indexAndToken;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the {@link Index} of {@link String} containing the last token of {@code text} that is
-	 * in {@code tokens}, or {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 * in the specified {@link String}, or {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@link Collection} of {@link String} to find
+	 * @param tokens the {@link Collection} of token {@link String} to find
 	 * <p>
-	 * @return the {@link Index} of {@link String} containing the last token of {@code text} that is
-	 *         in {@code tokens}, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 *         in the specified {@link String}, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String text, final Collection<String> tokens) {
 		return findLastString(text, tokens, text.length() - 1);
 	}
 
 	/**
-	 * Returns the {@link Index} of {@link String} containing the last token of {@code text} that is
-	 * in {@code tokens}, seeking backward from {@code fromIndex}, or {@code null} if there is no
-	 * such occurrence.
+	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 * in the specified {@link String}, seeking backward from the specified index, or {@code null}
+	 * if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@link Collection} of {@link String} to find
-	 * @param fromIndex the index to finish seeking forward at (exclusive)
+	 * @param tokens    the {@link Collection} of token {@link String} to find
+	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
-	 * @return the {@link Index} of {@link String} containing the last token of {@code text} that is
-	 *         in {@code tokens}, seeking backward from {@code fromIndex}, or {@code null} if there
-	 *         is no such occurrence
+	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 *         in the specified {@link String}, seeking backward from the specified index, or
+	 *         {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String text, final Collection<String> tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Initialize
 		Index<String> indexAndToken = null;
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.lastIndexOf(token, fromIndex);
 				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getIndex())) {
@@ -1552,13 +1633,13 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not equal to {@code token}, or
+	 * Returns the index of the first {@code text} token that is not equal to {@code token}, or
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text  a {@link String}
-	 * @param token the {@code char} value to find
+	 * @param token the {@code char} token to find
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not equal to {@code token}, or
+	 * @return the index of the first {@code text} token that is not equal to {@code token}, or
 	 *         {@code -1} if there is no such occurrence
 	 */
 	public static int findFirstNotEqualTo(final String text, final char token) {
@@ -1566,24 +1647,19 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not equal to {@code token},
-	 * seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * Returns the index of the first {@code text} token that is not equal to {@code token}, seeking
+	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param token     the {@code char} value to find
+	 * @param token     the {@code char} token to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not equal to {@code token},
-	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 * @return the index of the first {@code text} token that is not equal to {@code token}, seeking
+	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findFirstNotEqualTo(final String text, final char token,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(token);
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (text.charAt(index) != token) {
 					return index;
@@ -1596,83 +1672,36 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not in {@code tokens}, or
+	 * Returns the index of the first {@code text} token that is not equal to {@code token}, or
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param text   a {@link String}
-	 * @param tokens the {@code char} array to find
+	 * @param text  a {@link String}
+	 * @param token the {@link String} to find
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not in {@code tokens}, or
+	 * @return the index of the first {@code text} token that is not equal to {@code token}, or
 	 *         {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstNotIn(final String text, final char[] tokens) {
-		return findFirstNotIn(text, tokens, 0);
+	public static int findFirstStringNotEqualTo(final String text, final String token) {
+		return findFirstStringNotEqualTo(text, token, 0);
 	}
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not in {@code tokens}, seeking
+	 * Returns the index of the first {@code text} token that is not equal to {@code token}, seeking
 	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@code char} array to find
+	 * @param token     the {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not in {@code tokens}, seeking
+	 * @return the index of the first {@code text} token that is not equal to {@code token}, seeking
 	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstNotIn(final String text, final char[] tokens, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (!Characters.contains(tokens, text.charAt(index))) {
-					return index;
-				}
-			}
-		}
-		return -1;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the index of the first token of {@code text} that is not in {@code tokens}, or
-	 * {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param text   a {@link String}
-	 * @param tokens the {@link Collection} of {@link Character} to find
-	 * <p>
-	 * @return the index of the first token of {@code text} that is not in {@code tokens}, or
-	 *         {@code -1} if there is no such occurrence
-	 */
-	public static int findFirstNotIn(final String text, final Collection<Character> tokens) {
-		return findFirstNotIn(text, tokens, 0);
-	}
-
-	/**
-	 * Returns the index of the first token of {@code text} that is not in {@code tokens}, seeking
-	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param text      a {@link String}
-	 * @param tokens    the {@link Collection} of {@link Character} to find
-	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
-	 * @return the index of the first token of {@code text} that is not in {@code tokens}, seeking
-	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
-	 */
-	public static int findFirstNotIn(final String text, final Collection<Character> tokens,
+	public static int findFirstStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (!tokens.contains(text.charAt(index))) {
+		if (!isNullOrEmpty(text) && !isNullOrEmpty(token) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
+			for (int index = fromIndex; index < text.length(); index += token.length()) {
+				if (!isToken(text, index, token)) {
 					return index;
 				}
 			}
@@ -1683,40 +1712,34 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not equal to {@code token}, or
+	 * Returns the index of the last {@code text} token that is not equal to {@code token}, or
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text  a {@link String}
-	 * @param token the {@link String} to find
+	 * @param token the {@code char} token to find
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not equal to {@code token}, or
+	 * @return the index of the last {@code text} token that is not equal to {@code token}, or
 	 *         {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstStringNotEqualTo(final String text, final String token) {
-		return findFirstStringNotEqualTo(text, token, 0);
+	public static int findLastNotEqualTo(final String text, final char token) {
+		return findLastNotEqualTo(text, token, text.length() - 1);
 	}
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not equal to {@code token},
-	 * seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * Returns the index of the last {@code text} token that is not equal to {@code token}, seeking
+	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param token     the {@link String} to find
-	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * @param token     the {@code char} token to find
+	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not equal to {@code token},
-	 *         seeking forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 * @return the index of the last {@code text} token that is not equal to {@code token}, seeking
+	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstStringNotEqualTo(final String text, final String token,
-			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(token);
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
-			for (int index = fromIndex; index < text.length(); index += token.length()) {
-				if (!isToken(text, index, token)) {
+	public static int findLastNotEqualTo(final String text, final char token, final int fromIndex) {
+		if (!isNullOrEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
+			for (int index = fromIndex; index >= 0; --index) {
+				if (text.charAt(index) != token) {
 					return index;
 				}
 			}
@@ -1727,38 +1750,151 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not in {@code tokens}, or
+	 * Returns the index of the last {@code text} token that is not equal to {@code token}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text  a {@link String}
+	 * @param token the {@link String} to find
+	 * <p>
+	 * @return the index of the last {@code text} token that is not equal to {@code token}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findLastStringNotEqualTo(final String text, final String token) {
+		return findLastStringNotEqualTo(text, token, text.length() - 1);
+	}
+
+	/**
+	 * Returns the index of the last {@code text} token that is not equal to {@code token}, seeking
+	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text      a {@link String}
+	 * @param token     the {@link String} to find
+	 * @param fromIndex the index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the index of the last {@code text} token that is not equal to {@code token}, seeking
+	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findLastStringNotEqualTo(final String text, final String token,
+			final int fromIndex) {
+		if (!isNullOrEmpty(text) && !isNullOrEmpty(token) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
+			for (int index = fromIndex; index >= 0; index -= token.length()) {
+				if (!isTokenTo(text, index, token)) {
+					return index;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the first {@code text} token that is not in {@code tokens}, or
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@link String} to find
+	 * @param tokens the {@code char} tokens to find
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not in {@code tokens}, or
+	 * @return the index of the first {@code text} token that is not in {@code tokens}, or
 	 *         {@code -1} if there is no such occurrence
 	 */
-	public static int findFirstStringNotIn(final String text, final String[] tokens) {
+	public static int findFirstNotIn(final String text, final char... tokens) {
+		return findFirstNotIn(text, tokens, 0);
+	}
+
+	/**
+	 * Returns the index of the first {@code text} token that is not in {@code tokens}, seeking
+	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text      a {@link String}
+	 * @param tokens    the {@code char} tokens to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index of the first {@code text} token that is not in {@code tokens}, seeking
+	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstNotIn(final String text, final char[] tokens, final int fromIndex) {
+		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
+			for (int index = fromIndex; index < text.length(); ++index) {
+				if (!Characters.contains(tokens, text.charAt(index))) {
+					return index;
+				}
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Returns the index of the first {@code text} token that is not in {@code tokens}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param tokens the {@link Collection} of token {@link Character} to find
+	 * <p>
+	 * @return the index of the first {@code text} token that is not in {@code tokens}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstNotIn(final String text, final Collection<Character> tokens) {
+		return findFirstNotIn(text, tokens, 0);
+	}
+
+	/**
+	 * Returns the index of the first {@code text} token that is not in {@code tokens}, seeking
+	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text      a {@link String}
+	 * @param tokens    the {@link Collection} of token {@link Character} to find
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index of the first {@code text} token that is not in {@code tokens}, seeking
+	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstNotIn(final String text, final Collection<Character> tokens,
+			final int fromIndex) {
+		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
+			for (int index = fromIndex; index < text.length(); ++index) {
+				if (!tokens.contains(text.charAt(index))) {
+					return index;
+				}
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the first {@code text} token that is not in {@code tokens}, or
+	 * {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param tokens the array of token {@link String} to find
+	 * <p>
+	 * @return the index of the first {@code text} token that is not in {@code tokens}, or
+	 *         {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstStringNotIn(final String text, final String... tokens) {
 		return findFirstStringNotIn(text, tokens, 0);
 	}
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not in {@code tokens}, seeking
+	 * Returns the index of the first {@code text} token that is not in {@code tokens}, seeking
 	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@link String} to find
+	 * @param tokens    the array of token {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not in {@code tokens}, seeking
+	 * @return the index of the first {@code text} token that is not in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findFirstStringNotIn(final String text, final String[] tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex;
 			do {
 				final int i = getToken(text, index, tokens);
@@ -1772,16 +1908,14 @@ public class Strings {
 		return -1;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the index of the first token of {@code text} that is not in {@code tokens}, or
+	 * Returns the index of the first {@code text} token that is not in {@code tokens}, or
 	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
 	 * @param tokens the {@link List} of {@link String} to find
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not in {@code tokens}, or
+	 * @return the index of the first {@code text} token that is not in {@code tokens}, or
 	 *         {@code -1} if there is no such occurrence
 	 */
 	public static int findFirstStringNotIn(final String text, final List<String> tokens) {
@@ -1789,24 +1923,20 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the index of the first token of {@code text} that is not in {@code tokens}, seeking
+	 * Returns the index of the first {@code text} token that is not in {@code tokens}, seeking
 	 * forward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param tokens    the {@link List} of {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the index of the first token of {@code text} that is not in {@code tokens}, seeking
+	 * @return the index of the first {@code text} token that is not in {@code tokens}, seeking
 	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findFirstStringNotIn(final String text, final List<String> tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the first token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex;
 			do {
 				final int i = getToken(text, index, tokens);
@@ -1823,80 +1953,33 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the last token of {@code text} that is not equal to {@code token}, or
-	 * {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param text  a {@link String}
-	 * @param token the {@code char} value to find
-	 * <p>
-	 * @return the index of the last token of {@code text} that is not equal to {@code token}, or
-	 *         {@code -1} if there is no such occurrence
-	 */
-	public static int findLastNotEqualTo(final String text, final char token) {
-		return findLastNotEqualTo(text, token, text.length() - 1);
-	}
-
-	/**
-	 * Returns the index of the last token of {@code text} that is not equal to {@code token},
-	 * seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param text      a {@link String}
-	 * @param token     the {@code char} value to find
-	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
-	 * @return the index of the last token of {@code text} that is not equal to {@code token},
-	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
-	 */
-	public static int findLastNotEqualTo(final String text, final char token, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(token);
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
-			for (int index = fromIndex; index >= 0; --index) {
-				if (text.charAt(index) != token) {
-					return index;
-				}
-			}
-		}
-		return -1;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the index of the last token of {@code text} that is not in {@code tokens}, or
-	 * {@code -1} if there is no such occurrence.
+	 * Returns the index of the last {@code text} token that is not in {@code tokens}, or {@code -1}
+	 * if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@code char} array to find
+	 * @param tokens the {@code char} tokens to find
 	 * <p>
-	 * @return the index of the last token of {@code text} that is not in {@code tokens}, or
-	 *         {@code -1} if there is no such occurrence
+	 * @return the index of the last {@code text} token that is not in {@code tokens}, or {@code -1}
+	 *         if there is no such occurrence
 	 */
-	public static int findLastNotIn(final String text, final char[] tokens) {
+	public static int findLastNotIn(final String text, final char... tokens) {
 		return findLastNotIn(text, tokens, text.length() - 1);
 	}
 
 	/**
-	 * Returns the index of the last token of {@code text} that is not in {@code tokens}, seeking
+	 * Returns the index of the last {@code text} token that is not in {@code tokens}, seeking
 	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@code char} array to find
+	 * @param tokens    the {@code char} tokens to find
 	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
-	 * @return the index of the last token of {@code text} that is not in {@code tokens}, seeking
+	 * @return the index of the last {@code text} token that is not in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String text, final char[] tokens, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (!Characters.contains(tokens, text.charAt(index))) {
 					return index;
@@ -1906,41 +1989,35 @@ public class Strings {
 		return -1;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the index of the last token of {@code text} that is not in {@code tokens}, or
-	 * {@code -1} if there is no such occurrence.
+	 * Returns the index of the last {@code text} token that is not in {@code tokens}, or {@code -1}
+	 * if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@link Collection} of {@link Character} to find
+	 * @param tokens the {@link Collection} of token {@link Character} to find
 	 * <p>
-	 * @return the index of the last token of {@code text} that is not in {@code tokens}, or
-	 *         {@code -1} if there is no such occurrence
+	 * @return the index of the last {@code text} token that is not in {@code tokens}, or {@code -1}
+	 *         if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String text, final Collection<Character> tokens) {
 		return findLastNotIn(text, tokens, text.length() - 1);
 	}
 
 	/**
-	 * Returns the index of the last token of {@code text} that is not in {@code tokens}, seeking
+	 * Returns the index of the last {@code text} token that is not in {@code tokens}, seeking
 	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@link Collection} of {@link Character} to find
+	 * @param tokens    the {@link Collection} of token {@link Character} to find
 	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
-	 * @return the index of the last token of {@code text} that is not in {@code tokens}, seeking
+	 * @return the index of the last {@code text} token that is not in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (!tokens.contains(text.charAt(index))) {
 					return index;
@@ -1950,85 +2027,37 @@ public class Strings {
 		return -1;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the index of the last token of {@code text} that is not equal to {@code token}, or
-	 * {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param text  a {@link String}
-	 * @param token the {@link String} to find
-	 * <p>
-	 * @return the index of the last token of {@code text} that is not equal to {@code token}, or
-	 *         {@code -1} if there is no such occurrence
-	 */
-	public static int findLastStringNotEqualTo(final String text, final String token) {
-		return findLastStringNotEqualTo(text, token, text.length() - 1);
-	}
-
-	/**
-	 * Returns the index of the last token of {@code text} that is not equal to {@code token},
-	 * seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
-	 * <p>
-	 * @param text      a {@link String}
-	 * @param token     the {@link String} to find
-	 * @param fromIndex the index to finish seeking forward at (exclusive)
-	 * <p>
-	 * @return the index of the last token of {@code text} that is not equal to {@code token},
-	 *         seeking backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
-	 */
-	public static int findLastStringNotEqualTo(final String text, final String token,
-			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(token);
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
-			for (int index = fromIndex; index >= 0; index -= token.length()) {
-				if (!isTokenTo(text, index, token)) {
-					return index;
-				}
-			}
-		}
-		return -1;
-	}
-
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the last token of {@code text} that is not in {@code tokens}, or
-	 * {@code -1} if there is no such occurrence.
+	 * Returns the index of the last {@code text} token that is not in {@code tokens}, or {@code -1}
+	 * if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@link String} to find
+	 * @param tokens the array of token {@link String} to find
 	 * <p>
-	 * @return the index of the last token of {@code text} that is not in {@code tokens}, or
-	 *         {@code -1} if there is no such occurrence
+	 * @return the index of the last {@code text} token that is not in {@code tokens}, or {@code -1}
+	 *         if there is no such occurrence
 	 */
-	public static int findLastStringNotIn(final String text, final String[] tokens) {
+	public static int findLastStringNotIn(final String text, final String... tokens) {
 		return findLastStringNotIn(text, tokens, text.length() - 1);
 	}
 
 	/**
-	 * Returns the index of the last token of {@code text} that is not in {@code tokens}, seeking
+	 * Returns the index of the last {@code text} token that is not in {@code tokens}, seeking
 	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@link String} to find
+	 * @param tokens    the array of token {@link String} to find
 	 * @param fromIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the index of the last token of {@code text} that is not in {@code tokens}, seeking
+	 * @return the index of the last {@code text} token that is not in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastStringNotIn(final String text, final String[] tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex;
 			do {
 				final int i = getTokenTo(text, index + 1, tokens);
@@ -2042,41 +2071,35 @@ public class Strings {
 		return -1;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the index of the last token of {@code text} that is not in {@code tokens}, or
-	 * {@code -1} if there is no such occurrence.
+	 * Returns the index of the last {@code text} token that is not in {@code tokens}, or {@code -1}
+	 * if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String}
 	 * @param tokens the {@link List} of {@link String} to find
 	 * <p>
-	 * @return the index of the last token of {@code text} that is not in {@code tokens}, or
-	 *         {@code -1} if there is no such occurrence
+	 * @return the index of the last {@code text} token that is not in {@code tokens}, or {@code -1}
+	 *         if there is no such occurrence
 	 */
 	public static int findLastStringNotIn(final String text, final List<String> tokens) {
 		return findLastStringNotIn(text, tokens, text.length() - 1);
 	}
 
 	/**
-	 * Returns the index of the last token of {@code text} that is not in {@code tokens}, seeking
+	 * Returns the index of the last {@code text} token that is not in {@code tokens}, seeking
 	 * backward from {@code fromIndex}, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param tokens    the {@link List} of {@link String} to find
 	 * @param fromIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the index of the last token of {@code text} that is not in {@code tokens}, seeking
+	 * @return the index of the last {@code text} token that is not in {@code tokens}, seeking
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastStringNotIn(final String text, final List<String> tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
-		// Find the last token
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex;
 			do {
 				final int i = getTokenTo(text, index + 1, tokens);
@@ -2096,7 +2119,7 @@ public class Strings {
 	 * Returns the indexes of {@code token} in {@code text}.
 	 * <p>
 	 * @param text  a {@link String}
-	 * @param token the {@code char} value to find
+	 * @param token the {@code char} token to find
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}
 	 */
@@ -2108,22 +2131,18 @@ public class Strings {
 	 * Returns the indexes of {@code token} in {@code text}, seeking forward from {@code fromIndex}.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param token     the {@code char} value to find
+	 * @param token     the {@code char} token to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}, seeking forward from {@code fromIndex}
 	 */
 	public static ExtendedLinkedList<Integer> getIndexes(final String text, final char token,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(token);
-
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (text != null && fromIndex >= 0 && fromIndex < text.length()) {
 			int index = fromIndex - 1;
 			while ((index = text.indexOf(token, index + 1)) >= 0) {
 				indexes.add(index);
@@ -2136,26 +2155,23 @@ public class Strings {
 	 * Returns the indexes of {@code token} in {@code text}, seeking forward to {@code toIndex}.
 	 * <p>
 	 * @param text    a {@link String}
-	 * @param token   the {@code char} value to find
+	 * @param token   the {@code char} token to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the indexes of {@code token} in {@code text}, seeking forward to {@code toIndex}
 	 */
 	public static ExtendedLinkedList<Integer> getIndexesTo(final String text, final char token,
 			final int toIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(token);
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
-
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
-		int index = text.indexOf(token);
 
 		// Get the indexes
-		while (index >= 0 && index < toIndex) {
-			indexes.add(index);
-			index = text.indexOf(token, index + 1);
+		if (text != null && toIndex > 0 && toIndex <= text.length()) {
+			int index = text.indexOf(token);
+			while (index >= 0 && index < toIndex) {
+				indexes.add(index);
+				index = text.indexOf(token, index + 1);
+			}
 		}
 		return indexes;
 	}
@@ -2163,39 +2179,36 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the indexes of {@code tokens} in {@code text}.
+	 * Returns the indexes of the specified {@code char} tokens in the specified {@link String}.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@code char} array to find
+	 * @param tokens the {@code char} tokens to find
 	 * <p>
-	 * @return the indexes of {@code tokens} in {@code text}
+	 * @return the indexes of the specified {@code char} tokens in the specified {@link String}
 	 */
 	public static ExtendedLinkedList<Integer> getIndexes(final String text, final char[] tokens) {
 		return getIndexes(text, tokens, 0);
 	}
 
 	/**
-	 * Returns the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
-	 * from {@code fromIndex}.
+	 * Returns the indexes of the specified {@code char} tokens in the specified {@link String},
+	 * seeking forward from the specified index.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@code char} array to find
+	 * @param tokens    the {@code char} tokens to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
-	 *         from {@code fromIndex}
+	 * @return the indexes of the specified {@code char} tokens in the specified {@link String},
+	 *         seeking forward from the specified index
 	 */
 	public static ExtendedLinkedList<Integer> getIndexes(final String text, final char[] tokens,
 			final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (text != null && tokens != null && tokens.length > 0 &&
+				fromIndex >= 0 && fromIndex < text.length()) {
 			final char[] array = text.toCharArray();
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (Characters.contains(tokens, array[index])) {
@@ -2207,31 +2220,29 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
-	 * to {@code toIndex}.
+	 * Returns the indexes of the specified {@code char} tokens in the specified {@link String},
+	 * seeking forward to the specified index.
 	 * <p>
 	 * @param text    a {@link String}
-	 * @param tokens  the {@code char} array to find
+	 * @param tokens  the {@code char} tokens to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
-	 *         to {@code toIndex}
+	 * @return the indexes of the specified {@code char} tokens in the specified {@link String},
+	 *         seeking forward to the specified index
 	 */
 	public static ExtendedLinkedList<Integer> getIndexesTo(final String text, final char[] tokens,
 			final int toIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
-
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
-		final char[] array = text.toCharArray();
 
 		// Get the indexes
-		for (int index = 0; index < toIndex; ++index) {
-			if (Characters.contains(tokens, array[index])) {
-				indexes.add(index);
+		if (text != null && tokens != null && tokens.length > 0 &&
+				toIndex > 0 && toIndex <= text.length()) {
+			final char[] array = text.toCharArray();
+			for (int index = 0; index < toIndex; ++index) {
+				if (Characters.contains(tokens, array[index])) {
+					indexes.add(index);
+				}
 			}
 		}
 		return indexes;
@@ -2240,12 +2251,14 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the indexes of {@code tokens} in {@code text}.
+	 * Returns the indexes of the specified {@link Collection} of token {@code Character} in the
+	 * specified {@link String}.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@link Collection} of {@link Character} to find
+	 * @param tokens the {@link Collection} of token {@code Character} to find
 	 * <p>
-	 * @return the indexes of {@code tokens} in {@code text}
+	 * @return the indexes of the specified {@link Collection} of token {@code Character} in the
+	 *         specified {@link String}
 	 */
 	public static ExtendedLinkedList<Integer> getIndexes(final String text,
 			final Collection<Character> tokens) {
@@ -2253,27 +2266,24 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
-	 * from {@code fromIndex}.
+	 * Returns the indexes of the specified {@link Collection} of token {@code Character} in the
+	 * specified {@link String}, seeking forward from the specified index.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@link Collection} of {@link Character} to find
+	 * @param tokens    the {@link Collection} of token {@link Character} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
-	 *         from {@code fromIndex}
+	 * @return the indexes of the specified {@link Collection} of token {@code Character} in the
+	 *         specified {@link String}, seeking forward from the specified index
 	 */
 	public static ExtendedLinkedList<Integer> getIndexes(final String text,
 			final Collection<Character> tokens, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (text != null && tokens != null && tokens.size() > 0 &&
+				fromIndex >= 0 && fromIndex < text.length()) {
 			final char[] array = text.toCharArray();
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (tokens.contains(array[index])) {
@@ -2285,31 +2295,29 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
-	 * to {@code toIndex}.
+	 * Returns the indexes of the specified {@link Collection} of token {@code Character} in the
+	 * specified {@link String}, seeking forward to the specified index.
 	 * <p>
 	 * @param text    a {@link String}
-	 * @param tokens  the {@link Collection} of {@link Character} to find
+	 * @param tokens  the {@link Collection} of token {@link Character} to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the indexes of the tokens of {@code text} that are in {@code tokens}, seeking forward
-	 *         to {@code toIndex}
+	 * @return the indexes of the specified {@link Collection} of token {@code Character} in the
+	 *         specified {@link String}, seeking forward to the specified index
 	 */
 	public static ExtendedLinkedList<Integer> getIndexesTo(final String text,
 			final Collection<Character> tokens, final int toIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
-
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
-		final char[] array = text.toCharArray();
 
 		// Get the indexes
-		for (int index = 0; index < toIndex; ++index) {
-			if (tokens.contains(array[index])) {
-				indexes.add(index);
+		if (text != null && tokens != null && tokens.size() > 0 &&
+				toIndex > 0 && toIndex <= text.length()) {
+			final char[] array = text.toCharArray();
+			for (int index = 0; index < toIndex; ++index) {
+				if (tokens.contains(array[index])) {
+					indexes.add(index);
+				}
 			}
 		}
 		return indexes;
@@ -2341,15 +2349,12 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<Integer> getStringIndexes(final String text,
 			final String token, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(token);
-
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (text != null && !isNullOrEmpty(token) &&
+				fromIndex >= 0 && fromIndex < text.length()) {
 			int index = fromIndex - 1;
 			while ((index = text.indexOf(token, index + 1)) >= 0) {
 				indexes.add(index);
@@ -2369,19 +2374,17 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<Integer> getStringIndexesTo(final String text,
 			final String token, final int toIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(token);
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
-
 		// Initialize
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
-		int index = text.indexOf(token);
 
 		// Get the indexes
-		while (index >= 0 && index < toIndex) {
-			indexes.add(index);
-			index = text.indexOf(token, index + 1);
+		if (text != null && !isNullOrEmpty(token) &&
+				toIndex > 0 && toIndex <= text.length()) {
+			int index = text.indexOf(token);
+			while (index >= 0 && index < toIndex) {
+				indexes.add(index);
+				index = text.indexOf(token, index + 1);
+			}
 		}
 		return indexes;
 	}
@@ -2392,7 +2395,7 @@ public class Strings {
 	 * Returns the indexes and {@code tokens} in {@code text}.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the array of {@link String} to find
+	 * @param tokens the array of token {@link String} to find
 	 * <p>
 	 * @return the indexes and {@code tokens} in {@code text}
 	 */
@@ -2406,7 +2409,7 @@ public class Strings {
 	 * from {@code fromIndex}.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the array of {@link String} to find
+	 * @param tokens    the array of token {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the indexes and tokens of {@code text} that are in {@code tokens}, seeking forward
@@ -2414,15 +2417,12 @@ public class Strings {
 	 */
 	public static SortedList<Index<String>> getStringIndexes(final String text,
 			final String[] tokens, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
 		// Initialize
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (text != null && tokens != null && tokens.length > 0 &&
+				fromIndex >= 0 && fromIndex < text.length()) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexes(text, token,
 						fromIndex);
@@ -2439,7 +2439,7 @@ public class Strings {
 	 * {@code toIndex}.
 	 * <p>
 	 * @param text    a {@link String}
-	 * @param tokens  the array of {@link String} to find
+	 * @param tokens  the array of token {@link String} to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the indexes and tokens of {@code text} that are in {@code tokens}, seeking forward to
@@ -2447,20 +2447,18 @@ public class Strings {
 	 */
 	public static SortedList<Index<String>> getStringIndexesTo(final String text,
 			final String[] tokens, final int toIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
-
 		// Initialize
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
-		for (final String token : tokens) {
-			final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
-					toIndex);
-			for (final int tokenIndex : tokenIndexes) {
-				indexes.add(new Index<String>(tokenIndex, token));
+		if (text != null && tokens != null && tokens.length > 0 &&
+				toIndex > 0 && toIndex <= text.length()) {
+			for (final String token : tokens) {
+				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
+						toIndex);
+				for (final int tokenIndex : tokenIndexes) {
+					indexes.add(new Index<String>(tokenIndex, token));
+				}
 			}
 		}
 		return indexes;
@@ -2472,7 +2470,7 @@ public class Strings {
 	 * Returns the indexes and {@code tokens} in {@code text}.
 	 * <p>
 	 * @param text   a {@link String}
-	 * @param tokens the {@link Collection} of {@link String} to find
+	 * @param tokens the {@link Collection} of token {@link String} to find
 	 * <p>
 	 * @return the indexes and {@code tokens} in {@code text}
 	 */
@@ -2486,7 +2484,7 @@ public class Strings {
 	 * from {@code fromIndex}.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param tokens    the {@link Collection} of {@link String} to find
+	 * @param tokens    the {@link Collection} of token {@link String} to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the indexes and tokens of {@code text} that are in {@code tokens}, seeking forward
@@ -2494,15 +2492,12 @@ public class Strings {
 	 */
 	public static SortedList<Index<String>> getStringIndexes(final String text,
 			final Collection<String> tokens, final int fromIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-
 		// Initialize
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
-		if (fromIndex >= 0 && fromIndex < text.length()) {
+		if (text != null && tokens != null && tokens.size() > 0 &&
+				fromIndex >= 0 && fromIndex < text.length()) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexes(text, token,
 						fromIndex);
@@ -2519,7 +2514,7 @@ public class Strings {
 	 * {@code toIndex}.
 	 * <p>
 	 * @param text    a {@link String}
-	 * @param tokens  the {@link Collection} of {@link String} to find
+	 * @param tokens  the {@link Collection} of token {@link String} to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the indexes and tokens of {@code text} that are in {@code tokens}, seeking forward to
@@ -2527,20 +2522,18 @@ public class Strings {
 	 */
 	public static SortedList<Index<String>> getStringIndexesTo(final String text,
 			final Collection<String> tokens, final int toIndex) {
-		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(tokens);
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
-
 		// Initialize
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
-		for (final String token : tokens) {
-			final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
-					toIndex);
-			for (final int tokenIndex : tokenIndexes) {
-				indexes.add(new Index<String>(tokenIndex, token));
+		if (text != null && tokens != null && tokens.size() > 0 &&
+				toIndex > 0 && toIndex <= text.length()) {
+			for (final String token : tokens) {
+				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
+						toIndex);
+				for (final int tokenIndex : tokenIndexes) {
+					indexes.add(new Index<String>(tokenIndex, token));
+				}
 			}
 		}
 		return indexes;
@@ -2551,7 +2544,7 @@ public class Strings {
 	/**
 	 * Sorts the specified {@link List} of {@link Index}.
 	 * <p>
-	 * @param indexes a {@link List} of {@link Index} of {@link String}
+	 * @param indexes a {@link List} of {@link Index}
 	 */
 	public static void sortStringIndexes(final List<Index<String>> indexes) {
 		Lists.sort(indexes, Index.COMPARATOR);
@@ -2987,45 +2980,53 @@ public class Strings {
 	 *         {@code false} otherwise
 	 */
 	public static boolean is(final Class<?> c) {
-		return String.class
-				.isAssignableFrom(c);
+		return String.class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code text} is {@code null} or empty.
+	 * Tests whether the specified {@link String} is {@code null} or empty.
 	 * <p>
 	 * @param text the {@link String} to test
 	 * <p>
-	 * @return {@code true} if {@code text} is {@code null} or empty, {@code false} otherwise
-	 */
-	public static boolean isNullOrEmpty(final String text) {
-		return text == null || text.length() == 0;
-	}
-
-	/**
-	 * Tests whether {@code text} is not {@code null} and empty.
-	 * <p>
-	 * @param text the {@link String} to test
-	 * <p>
-	 * @return {@code true} if {@code text} is not {@code null} and empty, {@code false} otherwise
-	 */
-	public static boolean isEmpty(final String text) {
-		return text != null && text.length() == 0;
-	}
-
-	/**
-	 * Tests whether {@code text} is not {@code null} and not empty.
-	 * <p>
-	 * @param text the {@link String} to test
-	 * <p>
-	 * @return {@code true} if {@code text} is not {@code null} and not empty, {@code false}
+	 * @return {@code true} if the specified {@link String} is {@code null} or empty, {@code false}
 	 *         otherwise
 	 */
-	public static boolean isNotEmpty(final String text) {
-		return text != null && text.length() > 0;
+	public static boolean isNullOrEmpty(final String text) {
+		return text == null || text.isEmpty();
 	}
+
+	/**
+	 * Tests whether the specified {@link String} is not {@code null} and empty.
+	 * <p>
+	 * @param text the {@link String} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final String text) {
+		return text != null && text.isEmpty();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link String} is between the specified lower and upper bound
+	 * {@link String}.
+	 * <p>
+	 * @param text the {@link String} to test
+	 * @param from the lower bound {@link String} to test against (inclusive)
+	 * @param to   the upper bound {@link String} to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
+	 *         bound {@link String}, {@code false} otherwise
+	 */
+	public static boolean isBetween(final String text, final String from, final String to) {
+		return compare(text, from) >= 0 && compare(text, to) < 0;
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether {@code text} is numeric.
@@ -3044,7 +3045,7 @@ public class Strings {
 		return text.length() == position.getIndex();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public static boolean isToken(final String text, final int index, final String token) {
 		return index >= 0 && text.substring(index, index + token.length()).equals(token);
@@ -3057,12 +3058,13 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code text} contains {@code token}.
+	 * Tests whether the specified {@link String} contains the specified {@code char} token.
 	 * <p>
-	 * @param text  a {@link String}
-	 * @param token the {@code char} value to test for presence
+	 * @param text  the {@link String} to test
+	 * @param token the {@code char} token to test for presence
 	 * <p>
-	 * @return {@code true} if {@code text} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} contains the specified {@code char}
+	 *         token, {@code false} otherwise
 	 */
 	public static boolean contains(final String text, final char token) {
 		if (text == null) {
@@ -3072,20 +3074,20 @@ public class Strings {
 	}
 
 	/**
-	 * Tests whether {@code text} contains any {@code tokens}.
+	 * Tests whether the specified {@link String} contains any of the specified {@code char} tokens.
 	 * <p>
-	 * @param text   a {@link String}
-	 * @param tokens the {@code char} array to test for presence
+	 * @param text   the {@link String} to test
+	 * @param tokens the {@code char} tokens to test for presence
 	 * <p>
-	 * @return {@code true} if {@code text} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} contains any of the specified
+	 *         {@code char} tokens, {@code false} otherwise
 	 */
 	public static boolean containsAny(final String text, final char[] tokens) {
-		if (text == null) {
-			return false;
-		}
-		for (final char token : tokens) {
-			if (text.indexOf(token) >= 0) {
-				return true;
+		if (text != null) {
+			for (final char token : tokens) {
+				if (text.indexOf(token) >= 0) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -3094,12 +3096,13 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code text} contains {@code token}.
+	 * Tests whether the specified {@link String} contains the specified token {@link String}.
 	 * <p>
-	 * @param text  a {@link String}
-	 * @param token the {@link String} to test for presence
+	 * @param text  the {@link String} to test
+	 * @param token the token {@link String} to test for presence
 	 * <p>
-	 * @return {@code true} if {@code text} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} contains the specified token
+	 *         {@link String}, {@code false} otherwise
 	 */
 	public static boolean contains(final String text, final String token) {
 		if (text == null) {
@@ -3109,20 +3112,21 @@ public class Strings {
 	}
 
 	/**
-	 * Tests whether {@code text} contains any {@code tokens}.
+	 * Tests whether the specified {@link String} contains any of the the specified token
+	 * {@link String}.
 	 * <p>
-	 * @param text   a {@link String}
-	 * @param tokens the array of {@link String} to test for presence
+	 * @param text   the {@link String} to test
+	 * @param tokens the array of token {@link String} to test for presence
 	 * <p>
-	 * @return {@code true} if {@code text} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} contains any of the the specified token
+	 *         {@link String}, {@code false} otherwise
 	 */
 	public static boolean containsAny(final String text, final String[] tokens) {
-		if (text == null) {
-			return false;
-		}
-		for (final String token : tokens) {
-			if (text.contains(token)) {
-				return true;
+		if (text != null) {
+			for (final String token : tokens) {
+				if (text.contains(token)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -3131,57 +3135,9 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of lines of the specified {@link String}.
-	 * <p>
-	 * @param text a {@link String}
-	 * <p>
-	 * @return the number of lines of the specified {@link String}
-	 */
-	public static int countLines(final String text) {
-		return countLines(text, false);
-	}
-
-	/**
-	 * Returns the number of lines of the specified {@link String}.
-	 * <p>
-	 * @param text           a {@link String}
-	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
-	 * @return the number of lines of the specified {@link String}
-	 */
-	public static int countLines(final String text, final boolean skipEmptyLines) {
-		if (text == null) {
-			return 0;
-		}
-		int lineCount;
-		final Matcher matcher = Pattern.compile("\r\n|\r|\n").matcher(text);
-		if (skipEmptyLines) {
-			lineCount = 0;
-			int previousIndex = matcher.regionStart();
-			while (matcher.find()) {
-				if (previousIndex != matcher.start()) {
-					++lineCount;
-				}
-				previousIndex = matcher.end();
-			}
-			if (previousIndex != matcher.regionEnd()) {
-				++lineCount;
-			}
-		} else {
-			lineCount = 1;
-			while (matcher.find()) {
-				++lineCount;
-			}
-		}
-		return lineCount;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Tests whether {@code text} matches {@code expression}.
 	 * <p>
-	 * @param text       a {@link String}
+	 * @param text       the {@link String} to test
 	 * @param expression the expression {@link String} to test for presence
 	 * <p>
 	 * @return {@code true} if {@code text} matches {@code expression}, {@code false} otherwise
@@ -3196,7 +3152,7 @@ public class Strings {
 	/**
 	 * Tests whether {@code text} matches any {@code expressions}.
 	 * <p>
-	 * @param text        a {@link String}
+	 * @param text        the {@link String} to test
 	 * @param expressions the array of expression {@link String} to test for presence
 	 * <p>
 	 * @return {@code true} if {@code text} matches any {@code expressions}, {@code false} otherwise

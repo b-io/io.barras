@@ -52,7 +52,7 @@ public class Contents {
 		return Content.class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@link Content} is {@code null} or empty.
@@ -64,5 +64,17 @@ public class Contents {
 	 */
 	public static boolean isNullOrEmpty(final Content content) {
 		return content == null || content.isNullOrEmpty();
+	}
+
+	/**
+	 * Tests whether the specified {@link Content} is not {@code null} and empty.
+	 * <p>
+	 * @param content the {@link Content} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Content} is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final Content content) {
+		return content != null && content.isEmpty();
 	}
 }

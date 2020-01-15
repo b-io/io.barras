@@ -70,18 +70,32 @@ public class Objects {
 		return void.class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code object} is {@code null} or its representative {@link String} is empty.
+	 * Tests whether the specified {@link Object} is {@code null} or its representative
+	 * {@link String} is {@code null} or empty.
 	 * <p>
 	 * @param object the {@link Object} to test
 	 * <p>
-	 * @return {@code true} if {@code object} is {@code null} or its representative {@link String}
-	 *         is empty, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Object} is {@code null} or its representative
+	 *         {@link String} is {@code null} or empty, {@code false} otherwise
 	 */
 	public static boolean isNullOrEmpty(final Object object) {
 		return object == null || Strings.isNullOrEmpty(object.toString());
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is not {@code null} and its representative
+	 * {@link String} is not {@code null} and empty.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is not {@code null} and its
+	 *         representative {@link String} is not {@code null} and empty, {@code false} otherwise
+	 */
+	public static boolean isEmpty(final Object object) {
+		return object != null && Strings.isEmpty(object.toString());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

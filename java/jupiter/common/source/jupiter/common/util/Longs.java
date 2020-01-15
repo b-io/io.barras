@@ -666,6 +666,44 @@ public class Longs {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the number of occurrences of the specified {@code long} token in the specified
+	 * {@code long} array.
+	 * <p>
+	 * @param array a {@code long} array
+	 * @param token the {@code long} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code long} token in the specified
+	 *         {@code long} array
+	 */
+	public static int count(final long[] array, final long token) {
+		int occurrenceCount = 0, index = 0;
+		while ((index = findFirstIndex(array, token, index)) >= 0) {
+			++occurrenceCount;
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code long} tokens in the specified
+	 * {@code long} array.
+	 * <p>
+	 * @param array  a {@code long} array
+	 * @param tokens the {@code long} tokens to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code long} tokens in the specified
+	 *         {@code long} array
+	 */
+	public static int count(final long[] array, final long[] tokens) {
+		int occurrenceCount = 0;
+		for (final long token : tokens) {
+			occurrenceCount += count(array, token);
+		}
+		return occurrenceCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void fill(final long[] array, final long value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
@@ -718,30 +756,6 @@ public class Longs {
 			filteredArrays[i] = filter(array, indexes[i]);
 		}
 		return filteredArrays;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static int indexOf(final long[] array, final long token) {
-		if (array != null) {
-			for (int i = 0; i < array.length; ++i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	public static int lastIndexOf(final long[] array, final long token) {
-		if (array != null) {
-			for (int i = array.length - 1; i >= 0; --i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -917,6 +931,53 @@ public class Longs {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findFirstIndex(final long[] array, final long token) {
+		return findFirstIndex(array, token, 0, array.length);
+	}
+
+	public static int findFirstIndex(final long[] array, final long token, final int from) {
+		return findFirstIndex(array, token, from, array.length);
+	}
+
+	public static int findFirstIndex(final long[] array, final long token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = from; i < to; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findLastIndex(final long[] array, final long token) {
+		return findLastIndex(array, token, 0, array.length);
+	}
+
+	public static int findLastIndex(final long[] array, final long token, final int from) {
+		return findLastIndex(array, token, from, array.length);
+	}
+
+	public static int findLastIndex(final long[] array, final long token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = to - 1; i >= from; --i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -957,35 +1018,95 @@ public class Longs {
 		return long[].class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code array} contains {@code token}.
+	 * Tests whether the specified {@code long} array is {@code null} or empty.
 	 * <p>
-	 * @param array a {@code long} array
-	 * @param token the {@code long} value to test for presence
+	 * @param array the {@code long} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code long} array is {@code null} or empty,
+	 *         {@code false} otherwise
 	 */
-	public static boolean contains(final long[] array, final long token) {
-		return indexOf(array, token) >= 0;
+	public static boolean isNullOrEmpty(final long[] array) {
+		return array == null || array.length == 0;
 	}
 
 	/**
-	 * Tests whether {@code array} contains any {@code tokens}.
+	 * Tests whether the specified {@code long} array is not {@code null} and empty.
 	 * <p>
-	 * @param array  a {@code long} array
-	 * @param tokens the {@code long} array to test for presence
+	 * @param array the {@code long} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code long} array is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final long[] array) {
+		return array != null && array.length == 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code long} value is between the specified {@code long} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value the {@code long} value to test
+	 * @param from  the {@code long} lower bound to test against (inclusive)
+	 * @param to    the {@code long} upper bound to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code long} value is between the specified
+	 *         {@code long} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final long value, final long from, final long to) {
+		return value >= from && value < to;
+	}
+
+	/**
+	 * Tests whether the specified {@code long} array is between the specified lower and upper bound
+	 * {@code long} arrays.
+	 * <p>
+	 * @param array the {@code long} array to test
+	 * @param from  the lower bound {@code long} array to test against (inclusive)
+	 * @param to    the upper bound {@code long} array to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code long} array is between the specified lower and
+	 *         upper bound {@code long} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final long[] array, final long[] from, final long[] to) {
+		return compare(array, from) >= 0 && compare(array, to) < 0;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code long} array contains the specified {@code long} token.
+	 * <p>
+	 * @param array the {@code long} array to test
+	 * @param token the {@code long} token to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code long} array contains the specified {@code long}
+	 *         token, {@code false} otherwise
+	 */
+	public static boolean contains(final long[] array, final long token) {
+		return findFirstIndex(array, token) >= 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code long} array contains any of the specified {@code long}
+	 * tokens.
+	 * <p>
+	 * @param array  the {@code long} array to test
+	 * @param tokens the {@code long} tokens to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code long} array contains any of the specified
+	 *         {@code long} tokens, {@code false} otherwise
 	 */
 	public static boolean containsAny(final long[] array, final long[] tokens) {
-		if (array == null) {
-			return false;
-		}
-		for (final long token : tokens) {
-			if (contains(array, token)) {
-				return true;
+		if (array != null) {
+			for (final long token : tokens) {
+				if (contains(array, token)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -1047,7 +1168,7 @@ public class Longs {
 	 * Returns a clone of the specified {@code long} array, or {@code null} if {@code array} is
 	 * {@code null}.
 	 * <p>
-	 * @param array a {@code long} array
+	 * @param array the {@code long} array to clone (may be {@code null})
 	 * <p>
 	 * @return a clone of the specified {@code long} array, or {@code null} if {@code array} is
 	 *         {@code null}

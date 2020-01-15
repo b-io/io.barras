@@ -546,6 +546,44 @@ public class Booleans {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the number of occurrences of the specified {@code boolean} token in the specified
+	 * {@code boolean} array.
+	 * <p>
+	 * @param array a {@code boolean} array
+	 * @param token the {@code boolean} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code boolean} token in the specified
+	 *         {@code boolean} array
+	 */
+	public static int count(final boolean[] array, final boolean token) {
+		int occurrenceCount = 0, index = 0;
+		while ((index = findFirstIndex(array, token, index)) >= 0) {
+			++occurrenceCount;
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code boolean} tokens in the specified
+	 * {@code boolean} array.
+	 * <p>
+	 * @param array  a {@code boolean} array
+	 * @param tokens the {@code boolean} tokens to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code boolean} tokens in the specified
+	 *         {@code boolean} array
+	 */
+	public static int count(final boolean[] array, final boolean[] tokens) {
+		int occurrenceCount = 0;
+		for (final boolean token : tokens) {
+			occurrenceCount += count(array, token);
+		}
+		return occurrenceCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void fill(final boolean[] array, final boolean value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
@@ -600,30 +638,6 @@ public class Booleans {
 			filteredArrays[i] = filter(array, indexes[i]);
 		}
 		return filteredArrays;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static int indexOf(final boolean[] array, final boolean token) {
-		if (array != null) {
-			for (int i = 0; i < array.length; ++i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	public static int lastIndexOf(final boolean[] array, final boolean token) {
-		if (array != null) {
-			for (int i = array.length - 1; i >= 0; --i) {
-				if (array[i] == token) {
-					return i;
-				}
-			}
-		}
-		return -1;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -776,6 +790,53 @@ public class Booleans {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findFirstIndex(final boolean[] array, final boolean token) {
+		return findFirstIndex(array, token, 0, array.length);
+	}
+
+	public static int findFirstIndex(final boolean[] array, final boolean token, final int from) {
+		return findFirstIndex(array, token, from, array.length);
+	}
+
+	public static int findFirstIndex(final boolean[] array, final boolean token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = from; i < to; ++i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int findLastIndex(final boolean[] array, final boolean token) {
+		return findLastIndex(array, token, 0, array.length);
+	}
+
+	public static int findLastIndex(final boolean[] array, final boolean token, final int from) {
+		return findLastIndex(array, token, from, array.length);
+	}
+
+	public static int findLastIndex(final boolean[] array, final boolean token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = to - 1; i >= from; --i) {
+				if (array[i] == token) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -816,35 +877,64 @@ public class Booleans {
 		return boolean[].class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code array} contains {@code token}.
+	 * Tests whether the specified {@code boolean} array is {@code null} or empty.
 	 * <p>
-	 * @param array a {@code boolean} array
-	 * @param token the {@code boolean} value to test for presence
+	 * @param array the {@code boolean} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code boolean} array is {@code null} or empty,
+	 *         {@code false} otherwise
 	 */
-	public static boolean contains(final boolean[] array, final boolean token) {
-		return indexOf(array, token) >= 0;
+	public static boolean isNullOrEmpty(final boolean[] array) {
+		return array == null || array.length == 0;
 	}
 
 	/**
-	 * Tests whether {@code array} contains any {@code tokens}.
+	 * Tests whether the specified {@code boolean} array is not {@code null} and empty.
 	 * <p>
-	 * @param array  a {@code boolean} array
-	 * @param tokens the {@code boolean} array to test for presence
+	 * @param array the {@code boolean} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code boolean} array is not {@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final boolean[] array) {
+		return array != null && array.length == 0;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code boolean} array contains the specified {@code boolean}
+	 * token.
+	 * <p>
+	 * @param array the {@code boolean} array to test
+	 * @param token the {@code boolean} token to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code boolean} array contains the specified
+	 *         {@code boolean} token, {@code false} otherwise
+	 */
+	public static boolean contains(final boolean[] array, final boolean token) {
+		return findFirstIndex(array, token) >= 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code boolean} array contains any of the specified
+	 * {@code boolean} tokens.
+	 * <p>
+	 * @param array  the {@code boolean} array to test
+	 * @param tokens the {@code boolean} tokens to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code boolean} array contains any of the specified
+	 *         {@code boolean} tokens, {@code false} otherwise
 	 */
 	public static boolean containsAny(final boolean[] array, final boolean[] tokens) {
-		if (array == null) {
-			return false;
-		}
-		for (final boolean token : tokens) {
-			if (contains(array, token)) {
-				return true;
+		if (array != null) {
+			for (final boolean token : tokens) {
+				if (contains(array, token)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -859,7 +949,7 @@ public class Booleans {
 	 * Returns a clone of the specified {@code boolean} array, or {@code null} if {@code array} is
 	 * {@code null}.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to clone (may be {@code null})
 	 * <p>
 	 * @return a clone of the specified {@code boolean} array, or {@code null} if {@code array} is
 	 *         {@code null}

@@ -251,12 +251,60 @@ public class Arrays {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> int count(final T[][] arrays) {
-		int count = 0;
-		for (final T[] array : arrays) {
-			count += array.length;
+	/**
+	 * Returns the number of occurrences of the specified {@code T} token in the specified {@code T}
+	 * array.
+	 * <p>
+	 * @param <T>   the component type of the array
+	 * @param array a {@code T} array
+	 * @param token the {@code T} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code T} token in the specified {@code T}
+	 *         array
+	 */
+	public static <T> int count(final T[] array, final T token) {
+		int occurrenceCount = 0, index = 0;
+		while ((index = findFirstIndex(array, token, index)) >= 0) {
+			++occurrenceCount;
 		}
-		return count;
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code T} tokens in the specified
+	 * {@code T} array.
+	 * <p>
+	 * @param <T>    the component type of the array
+	 * @param array  a {@code T} array
+	 * @param tokens the {@code T} tokens to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code T} tokens in the specified
+	 *         {@code T} array
+	 */
+	public static <T> int count(final T[] array, final T[] tokens) {
+		int occurrenceCount = 0;
+		for (final T token : tokens) {
+			occurrenceCount += count(array, token);
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the sum of the lengths of the specified {@code T} arrays.
+	 * <p>
+	 * @param <T>    the component type of the arrays
+	 * @param arrays a 2D {@code T} array
+	 * <p>
+	 * @return the sum of the lengths of the specified {@code T} arrays
+	 */
+	public static <T> int countLength(final T[][] arrays) {
+		int countLength = 0;
+		for (final T[] array : arrays) {
+			countLength += array.length;
+		}
+		return countLength;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +332,7 @@ public class Arrays {
 	/**
 	 * Returns the filtered {@code T} array from the specified {@code T} array and indexes.
 	 * <p>
-	 * @param <T>     the component type of the array to filter
+	 * @param <T>     the component type of the array
 	 * @param array   a {@code T} array
 	 * @param indexes the indexes to filter
 	 * <p>
@@ -302,7 +350,7 @@ public class Arrays {
 	/**
 	 * Returns all the filtered {@code T} arrays from the specified {@code T} array and indexes.
 	 * <p>
-	 * @param <T>     the component type of the array to filter
+	 * @param <T>     the component type of the array
 	 * @param array   a {@code T} array
 	 * @param indexes the array of indexes to filter
 	 * <p>
@@ -315,41 +363,6 @@ public class Arrays {
 			filteredArrays[i] = filter(array, indexes[i]);
 		}
 		return filteredArrays;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static <T> int indexOf(final T[] array, final T token) {
-		if (array != null) {
-			for (int i = 0; i < array.length; ++i) {
-				if (Objects.equals(array[i], token)) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
-	public static <T> Pair<Integer, Integer> indexOf(final T[][] array2D, final T token) {
-		for (int i = 0; i < array2D.length; ++i) {
-			final int index = indexOf(array2D[i], token);
-			if (index > 0) {
-				return new Pair<Integer, Integer>(i, index);
-			}
-		}
-		return null;
-	}
-
-	public static <T> Triple<Integer, Integer, Integer> indexOf(final T[][][] array3D,
-			final T token) {
-		for (int i = 0; i < array3D.length; ++i) {
-			final Pair<Integer, Integer> index = indexOf(array3D[i], token);
-			if (index != null) {
-				return new Triple<Integer, Integer, Integer>(i, index.getFirst(),
-						index.getSecond());
-			}
-		}
-		return null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -404,7 +417,7 @@ public class Arrays {
 			return toArray(getComponentType2D(arrays), arrays[0]);
 		}
 		final Class<?> c = getComponentType2D(arrays);
-		final T[] mergedArray = (T[]) create(c, count(arrays));
+		final T[] mergedArray = (T[]) create(c, countLength(arrays));
 		int offset = 0;
 		for (final T[] array : arrays) {
 			try {
@@ -487,11 +500,11 @@ public class Arrays {
 	 * <p>
 	 * @param array the array of {@link Object} to sort
 	 * <p>
-	 * @throws ClassCastException       if the array contains elements that are not mutually
+	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
 	 *                                  comparable (for example, a {@link String} and an
 	 *                                  {@link Integer})
-	 * @throws IllegalArgumentException (optional) if the natural ordering of the array elements is
-	 *                                  found to violate the {@link Comparable} contract
+	 * @throws IllegalArgumentException (optional) if the natural ordering of the {@code array}
+	 *                                  elements is found to violate the {@link Comparable} contract
 	 */
 	public static void sort(final Object... array) {
 		ComparableSort.sort(array, 0, array.length, null, 0, 0);
@@ -529,12 +542,12 @@ public class Arrays {
 	 * @param array     the array of {@link Object} to sort
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * <p>
-	 * @throws ClassCastException       if the array contains elements that are not mutually
+	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
 	 *                                  comparable (for example, a {@link String} and an
 	 *                                  {@link Integer})
 	 * @throws IllegalArgumentException if {@code fromIndex} is out of bounds or (optional) if the
-	 *                                  natural ordering of the array elements is found to violate
-	 *                                  the {@link Comparable} contract
+	 *                                  natural ordering of the {@code array} elements is found to
+	 *                                  violate the {@link Comparable} contract
 	 */
 	public static void sort(final Object[] array, final int fromIndex) {
 		// Check the arguments
@@ -577,12 +590,12 @@ public class Arrays {
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * @param toIndex   the index of the last element to sort (exclusive)
 	 * <p>
-	 * @throws ClassCastException       if the array contains elements that are not mutually
+	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
 	 *                                  comparable (for example, a {@link String} and an
 	 *                                  {@link Integer})
 	 * @throws IllegalArgumentException if {@code fromIndex} or {@code toIndex} is out of bounds or
-	 *                                  (optional) if the natural ordering of the array elements is
-	 *                                  found to violate the {@link Comparable} contract
+	 *                                  (optional) if the natural ordering of the {@code array}
+	 *                                  elements is found to violate the {@link Comparable} contract
 	 */
 	public static void sort(final Object[] array, final int fromIndex, final int toIndex) {
 		// Check the arguments
@@ -596,9 +609,9 @@ public class Arrays {
 
 	/**
 	 * Sorts the specified array of {@link Object} according to the order induced by the specified
-	 * comparator. All elements in the array must be <i>mutually comparable</i> by the specified
-	 * comparator (that is, {@code c.compare(e1, e2)} must not throw a {@link ClassCastException}
-	 * for any elements {@code e1} and {@code e2} in the array).
+	 * {@link Comparator}. All elements in the array must be <i>mutually comparable</i> by the
+	 * specified {@link Comparator} (that is, {@code c.compare(e1, e2)} must not throw a
+	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -623,13 +636,13 @@ public class Arrays {
 	 * <p>
 	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array to sort
-	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order (a
-	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
-	 *                   of the elements should be used)
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
+	 *                   the elements should be used)
 	 * <p>
-	 * @throws ClassCastException       if the array contains elements that are not mutually
-	 *                                  comparable using the specified comparator
-	 * @throws IllegalArgumentException (optional) if the comparator is found to violate the
+	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
+	 *                                  comparable using {@code comparator}
+	 * @throws IllegalArgumentException (optional) if {@code comparator} is found to violate the
 	 *                                  {@link Comparator} contract
 	 */
 	public static <T> void sort(final T[] array, final Comparator<? super T> comparator) {
@@ -642,11 +655,12 @@ public class Arrays {
 
 	/**
 	 * Sorts the specified range of the specified array of {@link Object} according to the order
-	 * induced by the specified comparator. The range to sort extends from index {@code fromIndex},
-	 * inclusive, to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to
-	 * be sorted is empty.) All elements in the range must be <i>mutually comparable</i> by the
-	 * specified comparator (that is, {@code c.compare(e1, e2)} must not throw a
-	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the range).
+	 * induced by the specified {@link Comparator}. The range to sort extends from index
+	 * {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
+	 * {@code fromIndex==toIndex}, the range to be sorted is empty.) All elements in the range must
+	 * be <i>mutually comparable</i> by the specified {@link Comparator} (that is,
+	 * {@code c.compare(e1, e2)} must not throw a {@link ClassCastException} for any elements
+	 * {@code e1} and {@code e2} in the range).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -670,26 +684,26 @@ public class Arrays {
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
 	 * @param <T>        the component type of the array to sort
-	 * @param a          the {@code T} array to sort
+	 * @param array      the {@code T} array to sort
 	 * @param fromIndex  the index of the first element to sort (inclusive)
 	 * @param toIndex    the index of the last element to sort (exclusive)
-	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order (a
-	 *                   {@code null} value indicates that {@linkplain Comparable natural ordering}
-	 *                   of the elements should be used)
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
+	 *                   the elements should be used)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or {@code toIndex > a.length}
-	 * @throws ClassCastException             if the array contains elements that are not mutually
-	 *                                        comparable using the specified comparator
-	 * @throws IllegalArgumentException       if {@code fromIndex > toIndex} or (optional) if the
-	 *                                        comparator is found to violate the {@link Comparator}
-	 *                                        contract
+	 * @throws ClassCastException             if {@code array} contains elements that are not
+	 *                                        mutually comparable using {@code comparator}
+	 * @throws IllegalArgumentException       if {@code fromIndex > toIndex} or (optional) if
+	 *                                        {@code comparator} is found to violate the
+	 *                                        {@link Comparator} contract
 	 */
-	public static <T> void sort(final T[] a, final int fromIndex, final int toIndex,
+	public static <T> void sort(final T[] array, final int fromIndex, final int toIndex,
 			final Comparator<? super T> comparator) {
 		if (comparator == null) {
-			sort(a, fromIndex, toIndex);
+			sort(array, fromIndex, toIndex);
 		} else {
-			Sort.<T>sort(a, fromIndex, toIndex, comparator, null, 0, 0);
+			Sort.<T>sort(array, fromIndex, toIndex, comparator, null, 0, 0);
 		}
 	}
 
@@ -816,6 +830,109 @@ public class Arrays {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> int findFirstIndex(final T[] array, final T token) {
+		return findFirstIndex(array, token, 0, array.length);
+	}
+
+	public static <T> int findFirstIndex(final T[] array, final T token, final int from) {
+		return findFirstIndex(array, token, from, array.length);
+	}
+
+	public static <T> int findFirstIndex(final T[] array, final T token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = from; i < to; ++i) {
+				if (Objects.equals(array[i], token)) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	public static <T> Pair<Integer, Integer> findFirstIndex(final T[][] array2D, final T token) {
+		if (array2D != null) {
+			for (int i = 0; i < array2D.length; ++i) {
+				final int index = findFirstIndex(array2D[i], token);
+				if (index > 0) {
+					return new Pair<Integer, Integer>(i, index);
+				}
+			}
+		}
+		return null;
+	}
+
+	public static <T> Triple<Integer, Integer, Integer> findFirstIndex(final T[][][] array3D,
+			final T token) {
+		if (array3D != null) {
+			for (int i = 0; i < array3D.length; ++i) {
+				final Pair<Integer, Integer> index = findFirstIndex(array3D[i], token);
+				if (index != null) {
+					return new Triple<Integer, Integer, Integer>(i, index.getFirst(),
+							index.getSecond());
+				}
+			}
+		}
+		return null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> int findLastIndex(final T[] array, final T token) {
+		return findLastIndex(array, token, 0, array.length);
+	}
+
+	public static <T> int findLastIndex(final T[] array, final T token, final int from) {
+		return findLastIndex(array, token, from, array.length);
+	}
+
+	public static <T> int findLastIndex(final T[] array, final T token, final int from,
+			final int to) {
+		if (array != null) {
+			for (int i = to - 1; i >= from; --i) {
+				if (Objects.equals(array[i], token)) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	public static <T> Pair<Integer, Integer> findLastIndex(final T[][] array2D, final T token) {
+		if (array2D != null) {
+			for (int i = array2D.length - 1; i >= 0; --i) {
+				final int index = findLastIndex(array2D[i], token);
+				if (index > 0) {
+					return new Pair<Integer, Integer>(i, index);
+				}
+			}
+		}
+		return null;
+	}
+
+	public static <T> Triple<Integer, Integer, Integer> findLastIndex(final T[][][] array3D,
+			final T token) {
+		if (array3D != null) {
+			for (int i = array3D.length - 1; i >= 0; --i) {
+				final Pair<Integer, Integer> index = findFirstIndex(array3D[i], token);
+				if (index != null) {
+					return new Triple<Integer, Integer, Integer>(i, index.getFirst(),
+							index.getSecond());
+				}
+			}
+		}
+		return null;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -831,90 +948,165 @@ public class Arrays {
 		return c.isArray();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified {@code T} array is empty.
+	 * Tests whether the specified {@code T} array is {@code null} or empty.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to test
 	 * <p>
-	 * @return {@code true} if the specified {@code T} array is empty, {@code false} otherwise
+	 * @return {@code true} if the specified {@code T} array is {@code null} or empty, {@code false}
+	 *         otherwise
+	 */
+	public static <T> boolean isNullOrEmpty(final T[] array) {
+		return array == null || array.length == 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code T} array is not {@code null} and empty.
+	 * <p>
+	 * @param <T>   the component type of the array to test
+	 * @param array the {@code T} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code T} array is not {@code null} and empty,
+	 *         {@code false} otherwise
 	 */
 	public static <T> boolean isEmpty(final T[] array) {
-		for (final T element : array) {
-			if (element != null) {
-				return false;
-			}
-		}
-		return true;
+		return array != null && array.length == 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
+	 * {@code T} arrays.
+	 * <p>
+	 * @param <T>   the component type of the arrays to test
+	 * @param array the {@code T} array to test
+	 * @param from  the lower bound {@code T} array to test against (inclusive)
+	 * @param to    the upper bound {@code T} array to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code T} array is between the specified lower and
+	 *         upper bound {@code T} arrays, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to) {
+		return isBetween(array, from, to, Comparables.createCastComparator());
 	}
 
 	/**
-	 * Tests whether the specified 2D {@code T} array is empty.
+	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
+	 * {@code T} arrays using the specified {@link Comparator}.
 	 * <p>
-	 * @param <T>     the component type of the 2D array to test
-	 * @param array2D a 2D {@code T} array
+	 * @param <T>        the component type of the arrays to test
+	 * @param array      the {@code T} array to test
+	 * @param from       the lower bound {@code T} array to test against (inclusive)
+	 * @param to         the upper bound {@code T} array to test against (exclusive)
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
 	 * <p>
-	 * @return {@code true} if the specified 2D {@code T} array is empty, {@code false} otherwise
+	 * @return {@code true} if the specified {@code T} array is between the specified lower and
+	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
+	 *         otherwise
 	 */
-	public static <T> boolean isEmpty(final T[][] array2D) {
-		for (final T[] array : array2D) {
-			if (!isEmpty(array)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Tests whether the specified 3D {@code T} array is empty.
-	 * <p>
-	 * @param <T>     the component type of the 3D array to test
-	 * @param array3D an 3D {@code T} array
-	 * <p>
-	 * @return {@code true} if the specified 3D {@code T} array is empty, {@code false} otherwise
-	 */
-	public static <T> boolean isEmpty(final T[][][] array3D) {
-		for (final T[][] array2D : array3D) {
-			if (!isEmpty(array2D)) {
-				return false;
-			}
-		}
-		return true;
+	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
+			final Comparator<? super T> comparator) {
+		return compare(array, from, comparator) >= 0 && compare(array, to, comparator) < 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code array} contains {@code token}.
+	 * Tests whether the specified {@code T} array has any element different from {@code null}.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array a {@code T} array
-	 * @param token the {@code T} object to test for presence
+	 * @param array the {@code T} array to test
 	 * <p>
-	 * @return {@code true} if {@code array} contains {@code token}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code T} array has any element different from
+	 *         {@code null}, {@code false} otherwise
 	 */
-	public static <T> boolean contains(final T[] array, final T token) {
-		return indexOf(array, token) >= 0;
+	public static <T> boolean hasAnyValue(final T[] array) {
+		if (array != null) {
+			for (final T element : array) {
+				if (element != null) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
-	 * Tests whether {@code array} contains any {@code tokens}.
+	 * Tests whether the specified 2D {@code T} array has any element different from {@code null}.
+	 * <p>
+	 * @param <T>     the component type of the 2D array to test
+	 * @param array2D the 2D {@code T} array to test
+	 * <p>
+	 * @return {@code true} if the specified 2D {@code T} array has any element different from
+	 *         {@code null}, {@code false} otherwise
+	 */
+	public static <T> boolean hasAnyValue(final T[][] array2D) {
+		if (array2D != null) {
+			for (final T[] array : array2D) {
+				if (hasAnyValue(array)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Tests whether the specified 3D {@code T} array has any element different from {@code null}.
+	 * <p>
+	 * @param <T>     the component type of the 3D array to test
+	 * @param array3D the 3D {@code T} array to test
+	 * <p>
+	 * @return {@code true} if the specified 3D {@code T} array has any element different from
+	 *         {@code null}, {@code false} otherwise
+	 */
+	public static <T> boolean hasAnyValue(final T[][][] array3D) {
+		if (array3D != null) {
+			for (final T[][] array2D : array3D) {
+				if (hasAnyValue(array2D)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code T} array contains the specified {@code T} token.
+	 * <p>
+	 * @param <T>   the component type of the array to test
+	 * @param array the {@code T} array to test
+	 * @param token the {@code T} token to test for presence
+	 * <p>
+	 * @return {@code true} if the specified {@code T} array contains the specified {@code T} token,
+	 *         {@code false} otherwise
+	 */
+	public static <T> boolean contains(final T[] array, final T token) {
+		return findFirstIndex(array, token) >= 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code T} array contains any of the specified {@code T} tokens.
 	 * <p>
 	 * @param <T>    the component type of the array to test
-	 * @param array  an array of {@link String}
-	 * @param tokens the {@code T} array to test for presence
+	 * @param array  the {@code T} array to test
+	 * @param tokens the {@code T} tokens to test for presence
 	 * <p>
-	 * @return {@code true} if {@code array} contains any {@code tokens}, {@code false} otherwise
+	 * @return {@code true} if the specified {@code T} array contains any of the specified {@code T}
+	 *         tokens, {@code false} otherwise
 	 */
 	public static <T> boolean containsAny(final T[] array, final T[] tokens) {
-		if (array == null) {
-			return false;
-		}
-		for (final T token : tokens) {
-			if (contains(array, token)) {
-				return true;
+		if (array != null) {
+			for (final T token : tokens) {
+				if (contains(array, token)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -943,13 +1135,30 @@ public class Arrays {
 	}
 
 	/**
+	 * Compares the specified {@code T} arrays for order. Returns a negative integer, zero or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param <T> the type of the arrays to compare
+	 * @param a   the {@code T} array to compare
+	 * @param b   the other {@code T} array to compare against
+	 * <p>
+	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
+	 *         greater than {@code b}
+	 * <p>
+	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 */
+	public static <T> int compareCast(final T[] a, final T[] b) {
+		return compare(a, b, Comparables.<T>createCastComparator());
+	}
+
+	/**
 	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
 	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param <T>        the component type of the arrays to compare for order
 	 * @param a          the {@code T} array to compare for order
 	 * @param b          the other {@code T} array to compare against for order
-	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}

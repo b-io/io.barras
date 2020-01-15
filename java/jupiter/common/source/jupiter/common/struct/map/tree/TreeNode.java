@@ -58,7 +58,7 @@ public class TreeNode<K, V>
 	protected V value;
 
 	/**
-	 * The key {@link Comparator} of super-type {@code K} to use.
+	 * The key {@link Comparator} of supertype {@code K} to use.
 	 */
 	protected final Comparator<? super K> keyComparator;
 
@@ -73,8 +73,7 @@ public class TreeNode<K, V>
 	 * <p>
 	 * @param key           the {@code K} key
 	 * @param value         the {@code V} value
-	 * @param keyComparator the key {@link Comparator} of super-type {@code K} to determine the
-	 *                      order
+	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 */
 	public TreeNode(final K key, final V value, final Comparator<? super K> keyComparator) {
 		// Check the arguments
@@ -160,7 +159,7 @@ public class TreeNode<K, V>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *

@@ -194,8 +194,7 @@ public class Formats {
 		// Format
 		final String formattedNumber;
 		final String numberString = DOUBLE_DECIMAL_FORMAT.format(number);
-		int integerDigitCount = numberString.length();
-		int fractionDigitCount = numberString.length();
+		int integerDigitCount = numberString.length(), fractionDigitCount = numberString.length();
 		if (numberString.contains("-")) {
 			--integerDigitCount;
 			--fractionDigitCount;
@@ -233,7 +232,7 @@ public class Formats {
 	}
 
 	public static DecimalFormat getDecimalFormat(final String pattern, final Locale locale) {
-		final DecimalFormat format = Strings.isNotEmpty(pattern) ? new DecimalFormat(pattern) :
+		final DecimalFormat format = !Strings.isNullOrEmpty(pattern) ? new DecimalFormat(pattern) :
 				new DecimalFormat();
 		format.setDecimalFormatSymbols(new DecimalFormatSymbols(locale));
 		format.setGroupingUsed(false); // whether to use grouping separators
@@ -260,11 +259,12 @@ public class Formats {
 
 	/**
 	 *
-	 * Returns the {@link DecimalFormat} of {@code double} values with the specified {@link Locale}.
+	 * Returns the {@link DecimalFormat} of {@code double} values using the specified
+	 * {@link Locale}.
 	 * <p>
 	 * @param locale the {@link Locale}
 	 * <p>
-	 * @return the {@link DecimalFormat} of {@code double} values with the specified {@link Locale}
+	 * @return the {@link DecimalFormat} of {@code double} values using the specified {@link Locale}
 	 *
 	 * @see DecimalFormat#DOUBLE_INTEGER_DIGITS
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS

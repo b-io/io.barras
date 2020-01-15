@@ -217,7 +217,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Creates a {@link Worker} according to the model.
 	 * <p>
-	 * @return {@code 1} if the {@link Worker} is created, zero otherwise
+	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
 	 * <p>
 	 * @throws IllegalOperationException if the maximum number of {@link Worker} has been reached
 	 */
@@ -530,7 +530,7 @@ public class WorkQueue<I, O>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the type of {@code other} prevents it from being compared to
+	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
 	 *                              {@code this}
 	 * @throws NullPointerException if {@code other} is {@code null}
 	 *

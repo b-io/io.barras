@@ -792,7 +792,7 @@ public class JConsole
 
 	protected void insertString(final StyledDocument document, final int offset, final String text,
 			final ConsoleHandler.Color textColor) {
-		if (text.length() > 0) {
+		if (!Strings.isNullOrEmpty(text)) {
 			try {
 				document.insertString(offset,
 						textColor != null ? textColor.getText(text) : text,

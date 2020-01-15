@@ -106,7 +106,7 @@ public class SplineInterpolator
 	 * <p>
 	 * @return a monotone cubic spline from the specified set of control points
 	 * <p>
-	 * @throws IllegalArgumentException if the X or Y arrays are {@code null}, have different
+	 * @throws IllegalArgumentException if {@code X} or {@code Y} are {@code null}, have different
 	 *                                  lengths or have fewer than 2 values
 	 */
 	public static SplineInterpolator createMonotoneCubicSpline(final double[] X, final double[] Y) {

@@ -88,7 +88,7 @@ public class Sort<T>
 	protected final T[] array;
 
 	/**
-	 * The {@link Comparator} of super-type {@code T} to determine the order.
+	 * The {@link Comparator} of supertype {@code T} to determine the order.
 	 */
 	protected final Comparator<? super T> comparator;
 
@@ -130,7 +130,7 @@ public class Sort<T>
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
 	 * <p>
 	 * @param array      the {@code T} array to sort
-	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
@@ -188,7 +188,7 @@ public class Sort<T>
 	 * @param array      the {@code T} array to sort
 	 * @param lo         the index of the first element to sort (inclusive)
 	 * @param hi         the index of the last element to sort (exclusive)
-	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
@@ -256,7 +256,7 @@ public class Sort<T>
 	 * @param hi         the index after the last element in the range to sort
 	 * @param start      the index of the first element in the range that is not already known to be
 	 *                   sorted ({@code lo <= start <= hi})
-	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
 	 */
 	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
@@ -269,8 +269,7 @@ public class Sort<T>
 			final T pivot = array[start];
 
 			// Set left (and right) to the index where a[start] (pivot) belongs
-			int left = lo;
-			int right = start;
+			int left = lo, right = start;
 			assert left <= right;
 			// Invariants:
 			//   pivot >= all in [lo, left) and
@@ -323,7 +322,7 @@ public class Sort<T>
 	 * @param lo         the index of the first element in the run
 	 * @param hi         the index after the last element that may be contained in the run. It is
 	 *                   required that {@code lo < hi}.
-	 * @param comparator the {@link Comparator} of super-type {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
@@ -460,10 +459,8 @@ public class Sort<T>
 		assert i >= 0;
 		assert i == stackSize - 2 || i == stackSize - 3;
 
-		int base1 = runBase[i];
-		int len1 = runLength[i];
-		final int base2 = runBase[i + 1];
-		int len2 = runLength[i + 1];
+		int base1 = runBase[i], len1 = runLength[i];
+		int base2 = runBase[i + 1], len2 = runLength[i + 1];
 		assert len1 > 0 && len2 > 0;
 		assert base1 + len1 == base2;
 
@@ -524,7 +521,7 @@ public class Sort<T>
 	 * @param length     the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the {@link Comparator} of super-type {@code T} to order the range and to
+	 * @param comparator the {@link Comparator} of supertype {@code T} to order the range and to
 	 *                   search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
@@ -537,8 +534,7 @@ public class Sort<T>
 			final int hint, final Comparator<? super T> comparator) {
 		assert length > 0 && hint >= 0 && hint < length;
 
-		int lastOfs = 0;
-		int ofs = 1;
+		int lastOfs = 0, ofs = 1;
 		if (comparator.compare(key, array[base + hint]) > 0) {
 			/*
 			 * Gallop right until {@code a[base + hint + lastOfs] < key <= a[base + hint + ofs]}.
@@ -614,7 +610,7 @@ public class Sort<T>
 	 * @param length     the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the {@link Comparator} of super-type {@code T} to order the range and to
+	 * @param comparator the {@link Comparator} of supertype {@code T} to order the range and to
 	 *                   search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
@@ -624,8 +620,7 @@ public class Sort<T>
 			final int length, final int hint, final Comparator<? super T> comparator) {
 		assert length > 0 && hint >= 0 && hint < length;
 
-		int ofs = 1;
-		int lastOfs = 0;
+		int ofs = 1, lastOfs = 0;
 		if (comparator.compare(key, array[base + hint]) < 0) {
 			/*
 			 * Gallop left until {@code a[b + hint - ofs] <= key < a[b + hint - lastOfs]}.
@@ -712,10 +707,9 @@ public class Sort<T>
 		// Copy first run into temporary array
 		final T[] array = this.array; // for performance
 		final T[] tempArray = ensureCapacity(len1);
-
 		int cursor1 = tempArrayBase; // indexes into temp array
-		int cursor2 = base2; // indexes int a
-		int dest = base1; // indexes int a
+		int cursor2 = base2; // indexes into a
+		int dest = base1; // indexes into a
 		System.arraycopy(array, base1, tempArray, cursor1, len1);
 
 		// Move first element of second run and deal with degenerate cases

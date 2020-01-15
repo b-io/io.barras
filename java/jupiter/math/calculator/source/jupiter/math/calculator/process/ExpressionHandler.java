@@ -326,7 +326,7 @@ public class ExpressionHandler
 		final ExtendedList<Integer> indexes = getBinaryOperatorIndexes(expression,
 				delimitingIntervals);
 		IO.debug("Indexes: ", indexes);
-		if (indexes.size() > 0) {
+		if (!indexes.isEmpty()) {
 			return indexes.getMiddle();
 		}
 		return -1;
@@ -436,9 +436,9 @@ public class ExpressionHandler
 			final List<List<Character>> allOperators) {
 		// Initialize
 		final int allOperatorCount = allOperators.size();
-		int index, binaryOperatorsIndex = 0;
 
 		// Get the last operator index
+		int index, binaryOperatorsIndex = 0;
 		do {
 			index = getLastOperatorIndex(expression, delimitingIntervals, fromIndex,
 					allOperators.get(binaryOperatorsIndex));
@@ -459,20 +459,19 @@ public class ExpressionHandler
 	protected static IntervalList<Integer> getDelimitingIntervals(final String expression) {
 		// Initialize
 		final List<Interval<Integer>> delimitingIntervals = new ExtendedLinkedList<Interval<Integer>>();
-		int counter = 0;
-		int lowerBound, upperBound = -1;
 
 		// Get the delimiting intervals
+		int parenthesisCount = 0, lowerBound, upperBound = -1;
 		for (int index = expression.length() - 1; index >= 0; --index) {
 			final Element.Type type = getType(expression.charAt(index));
 			if (type == Element.Type.RIGHT_PARENTHESIS || type == Element.Type.RIGHT_BRACKET) {
-				if (counter == 0) {
+				if (parenthesisCount == 0) {
 					upperBound = index;
 				}
-				++counter;
+				++parenthesisCount;
 			} else if (type == Element.Type.LEFT_PARENTHESIS || type == Element.Type.LEFT_BRACKET) {
-				--counter;
-				if (counter == 0) {
+				--parenthesisCount;
+				if (parenthesisCount == 0) {
 					lowerBound = index;
 					delimitingIntervals.add(new Interval<Integer>(lowerBound, upperBound));
 				}
@@ -484,11 +483,11 @@ public class ExpressionHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Type} of the specified token.
+	 * Returns the {@link Type} of the specified {@code char} token.
 	 * <p>
-	 * @param token a {@code char} value
+	 * @param token a {@code char} token
 	 * <p>
-	 * @return the {@link Type} of the specified token
+	 * @return the {@link Type} of the specified {@code char} token
 	 */
 	protected static Element.Type getType(final char token) {
 		switch (token) {
