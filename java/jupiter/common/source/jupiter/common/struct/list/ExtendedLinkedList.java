@@ -217,6 +217,18 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
+	 * Removes the last occurrence of the specified {@link Object} from {@code this} and returns the
+	 * index of the removed element, or {@code -1} if it is not present.
+	 * <p>
+	 * @param object the {@link Object} to remove
+	 * <p>
+	 * @return the index of the removed element, or {@code -1} if it is not present
+	 */
+	public synchronized int removeLast(final Object object) {
+		return Lists.removeLast(this, object);
+	}
+
+	/**
 	 * Removes all the occurrences of the specified {@link Object} from {@code this} and returns the
 	 * number of removed elements.
 	 * <p>

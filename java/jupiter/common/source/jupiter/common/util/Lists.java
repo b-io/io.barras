@@ -82,7 +82,7 @@ public class Lists
 		// Check the arguments
 		CollectionArguments.<List<E>>requireSameSize(a, b);
 
-		// For each index, get the minimum number
+		// Get the minimum element for each index
 		final ExtendedList<E> minElements = new ExtendedList<E>(a.size());
 		final Iterator<E> aIterator = a.iterator();
 		final Iterator<E> bIterator = b.iterator();
@@ -97,7 +97,7 @@ public class Lists
 		// Check the arguments
 		CollectionArguments.<List<E>>requireSameSize(a, b);
 
-		// For each index, get the maximum number
+		// Get the maximum element for each index
 		final ExtendedList<E> maxElements = new ExtendedList<E>(a.size());
 		final Iterator<E> aIterator = a.iterator();
 		final Iterator<E> bIterator = b.iterator();
@@ -134,6 +134,30 @@ public class Lists
 	}
 
 	/**
+	 * Removes the last occurrence of the specified {@link Object} from the specified {@link List}
+	 * and returns the index of the removed element, or {@code -1} if it is not present.
+	 * <p>
+	 * @param <L>    the {@link List} type
+	 * @param <E>    the element type of the {@link List}
+	 * @param list   a {@link List} of element type {@code E}
+	 * @param object the {@link Object} to remove
+	 * <p>
+	 * @return the index of the removed element, or {@code -1} if it is not present
+	 */
+	public static <L extends List<E>, E> int removeLast(final L list, final Object object) {
+		final ListIterator<E> iterator = list.listIterator(list.size());
+		int index = list.size() - 1;
+		while (iterator.hasPrevious()) {
+			if (Objects.equals(iterator.previous(), object)) {
+				iterator.remove();
+				return index;
+			}
+			--index;
+		}
+		return -1;
+	}
+
+	/**
 	 * Removes all the occurrences of the specified {@link Object} from the specified {@link List}
 	 * and returns the indexes of the removed elements.
 	 * <p>
@@ -142,7 +166,7 @@ public class Lists
 	 * @param list   a {@link List} of element type {@code E}
 	 * @param object the {@link Object} to remove
 	 * <p>
-	 * @return the number of removed elements
+	 * @return the indexes of the removed elements
 	 */
 	public static <L extends List<E>, E> int[] removeAll(final L list,
 			final Object object) {
@@ -153,8 +177,8 @@ public class Lists
 			if (Objects.equals(iterator.next(), object)) {
 				iterator.remove();
 				indexes.add(index);
-				++index;
 			}
+			++index;
 		}
 		return Integers.collectionToPrimitiveArray(indexes);
 	}
