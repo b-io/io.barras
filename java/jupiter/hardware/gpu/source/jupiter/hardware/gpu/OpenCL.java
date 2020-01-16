@@ -51,7 +51,7 @@ public abstract class OpenCL
 	/**
 	 * The flag specifying whether OpenCL is active.
 	 */
-	public static volatile boolean IS_ACTIVE = true;
+	public static volatile boolean IS_ACTIVE = false;
 
 	/**
 	 * The kernel prefix {@link String}.
