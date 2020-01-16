@@ -516,8 +516,8 @@ public class Strings {
 	 *         {@link String}
 	 */
 	public static int countString(final String text, final String token) {
-		int occurrenceCount = 0, index = 0;
-		while ((index = text.indexOf(token, index)) >= 0) {
+		int occurrenceCount = 0, index = -1;
+		while ((index = text.indexOf(token, index + 1)) >= 0) {
 			++occurrenceCount;
 		}
 		return occurrenceCount;

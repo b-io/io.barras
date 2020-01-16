@@ -557,8 +557,8 @@ public class Booleans {
 	 *         {@code boolean} array
 	 */
 	public static int count(final boolean[] array, final boolean token) {
-		int occurrenceCount = 0, index = 0;
-		while ((index = findFirstIndex(array, token, index)) >= 0) {
+		int occurrenceCount = 0, index = -1;
+		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
 			++occurrenceCount;
 		}
 		return occurrenceCount;

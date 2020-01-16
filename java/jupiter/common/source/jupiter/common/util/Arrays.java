@@ -263,8 +263,8 @@ public class Arrays {
 	 *         array
 	 */
 	public static <T> int count(final T[] array, final T token) {
-		int occurrenceCount = 0, index = 0;
-		while ((index = findFirstIndex(array, token, index)) >= 0) {
+		int occurrenceCount = 0, index = -1;
+		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
 			++occurrenceCount;
 		}
 		return occurrenceCount;

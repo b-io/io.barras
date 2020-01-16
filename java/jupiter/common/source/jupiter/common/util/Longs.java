@@ -677,8 +677,8 @@ public class Longs {
 	 *         {@code long} array
 	 */
 	public static int count(final long[] array, final long token) {
-		int occurrenceCount = 0, index = 0;
-		while ((index = findFirstIndex(array, token, index)) >= 0) {
+		int occurrenceCount = 0, index = -1;
+		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
 			++occurrenceCount;
 		}
 		return occurrenceCount;

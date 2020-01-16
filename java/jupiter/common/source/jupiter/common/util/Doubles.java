@@ -694,8 +694,8 @@ public class Doubles {
 	 *         {@code double} array
 	 */
 	public static int count(final double[] array, final double token) {
-		int occurrenceCount = 0, index = 0;
-		while ((index = findFirstIndex(array, token, index)) >= 0) {
+		int occurrenceCount = 0, index = -1;
+		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
 			++occurrenceCount;
 		}
 		return occurrenceCount;
