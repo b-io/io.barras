@@ -52,9 +52,9 @@ public class SCryptoTest
 			final String encryptedText = new String(encryptedData);
 			IO.test(encryptedText);
 			assertNotSame(text, encryptedText);
-		} catch (BadPaddingException ex) {
+		} catch (final BadPaddingException ex) {
 			IO.error(ex);
-		} catch (IllegalBlockSizeException ex) {
+		} catch (final IllegalBlockSizeException ex) {
 			IO.error(ex);
 		}
 	}
@@ -73,9 +73,9 @@ public class SCryptoTest
 			final String decryptedText = new String(decryptedData);
 			IO.test(decryptedText);
 			assertEquals(text, new String(decryptedData));
-		} catch (BadPaddingException ex) {
+		} catch (final BadPaddingException ex) {
 			IO.error(ex);
-		} catch (IllegalBlockSizeException ex) {
+		} catch (final IllegalBlockSizeException ex) {
 			IO.error(ex);
 		}
 	}

@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.util.Strings;
 
 public class Dates {
 
@@ -284,6 +285,31 @@ public class Dates {
 	}
 
 	/**
+	 * Parses the {@link Date} encoded in the specified {@link String}, or returns
+	 * {@code defaultDate} if there is a problem with parsing.
+	 * <p>
+	 * @param text        the {@link String} to parse
+	 * @param defaultDate the default {@link Date}
+	 * <p>
+	 * @return the {@link Date} encoded in the specified {@link String}, or returns
+	 *         {@code defaultDate} if there is a problem with parsing
+	 * <p>
+	 * @throws ParseException if there is a problem with parsing
+	 */
+	public static Date parse(final String text, final Date defaultDate)
+			throws ParseException {
+		try {
+			if (Strings.isNotEmpty(text)) {
+				return DATE_FORMATTER.parse(text);
+			}
+		} catch (final ParseException ignored) {
+		}
+		return defaultDate;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Parses the {@link Date} with time encoded in the specified {@link String}.
 	 * <p>
 	 * @param text the {@link String} to parse
@@ -295,6 +321,29 @@ public class Dates {
 	public static Date parseWithTime(final String text)
 			throws ParseException {
 		return DATE_TIME_FORMATTER.parse(text);
+	}
+
+	/**
+	 * Parses the {@link Date} with time encoded in the specified {@link String}, or returns
+	 * {@code defaultDate} if there is a problem with parsing.
+	 * <p>
+	 * @param text            the {@link String} to parse
+	 * @param defaultDateTime the default {@link Date} with time
+	 * <p>
+	 * @return the {@link Date} with time encoded in the specified {@link String}, or returns
+	 *         {@code defaultDate} if there is a problem with parsing
+	 * <p>
+	 * @throws ParseException if there is a problem with parsing
+	 */
+	public static Date parseWithTime(final String text, final Date defaultDateTime)
+			throws ParseException {
+		try {
+			if (Strings.isNotEmpty(text)) {
+				return DATE_TIME_FORMATTER.parse(text);
+			}
+		} catch (final ParseException ignored) {
+		}
+		return defaultDateTime;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

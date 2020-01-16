@@ -3237,13 +3237,13 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if not
+	 * Returns the representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param object an {@link Object}
 	 * @param length the length of the representative {@link String}
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if not
+	 * @return the representative {@link String} of the specified {@link Object} if it is not
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Object object, final int length) {
@@ -3251,12 +3251,12 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if not
+	 * Returns the representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param object an {@link Object}
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if not
+	 * @return the representative {@link String} of the specified {@link Object} if it is not
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Object object) {
@@ -3295,13 +3295,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if not {@code null}
-	 * or {@code "null"}, {@code null} otherwise.
+	 * Returns the representative {@link String} of the specified {@link Object} if it is not
+	 * {@code null} or {@code "null"}, {@code null} otherwise.
 	 * <p>
 	 * @param object an {@link Object}
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if not {@code null}
-	 *         or {@code "null"}, {@code null} otherwise
+	 * @return the representative {@link String} of the specified {@link Object} if it is not
+	 *         {@code null} or {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object object) {
 		final String value = toString(object);
@@ -3314,13 +3314,13 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if not
+	 * Returns the representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param object        the {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if not
+	 * @return the representative {@link String} of the specified {@link Object} if it is not
 	 *         {@code null}, {@code defaultString} otherwise
 	 */
 	public static String toString(final Object object, final String defaultString) {
@@ -3328,14 +3328,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if not {@code null}
-	 * or {@code "null"}, {@code defaultString} otherwise.
+	 * Returns the representative {@link String} of the specified {@link Object} if it is not
+	 * {@code null} or {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param object        the {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null}
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if not {@code null}
-	 *         or {@code "null"}, {@code defaultString} otherwise
+	 * @return the representative {@link String} of the specified {@link Object} if it is not
+	 *         {@code null} or {@code "null"}, {@code defaultString} otherwise
 	 */
 	public static String toStringWithNull(final Object object, final String defaultString) {
 		final String value = toString(object);
@@ -3348,12 +3348,12 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Exception} if not
+	 * Returns a representative {@link String} of the specified {@link Exception} if it is not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param exception an {@link Exception}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Exception} if not
+	 * @return a representative {@link String} of the specified {@link Exception} if it is not
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Exception exception) {
@@ -3362,13 +3362,14 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Exception} with the specified
-	 * number of {@link StackTraceElement} if not {@code null}, {@code "null"} otherwise.
+	 * number of {@link StackTraceElement} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param exception              an {@link Exception}
 	 * @param stackTraceElementCount the number of {@link StackTraceElement} to add
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Exception} with the specified
-	 *         number of {@link StackTraceElement} if not {@code null}, {@code "null"} otherwise
+	 *         number of {@link StackTraceElement} if it is not {@code null}, {@code "null"}
+	 *         otherwise
 	 */
 	public static String toString(final Exception exception, final int stackTraceElementCount) {
 		if (exception != null) {
