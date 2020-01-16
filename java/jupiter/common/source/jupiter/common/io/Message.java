@@ -310,6 +310,6 @@ public class Message
 	 */
 	@Override
 	public String toString() {
-		return (!Strings.isNullOrEmpty(prefix) ? prefix + SPACE : EMPTY) + content;
+		return (Strings.isNotEmpty(prefix) ? prefix + SPACE : EMPTY) + content;
 	}
 }

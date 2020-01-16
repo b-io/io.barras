@@ -889,8 +889,10 @@ public class Shorts {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final short[] subarray = new short[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
-					columnCount);
+			System
+					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
+							columnCount,
+							columnCount);
 		}
 		return subarray;
 	}
@@ -1075,6 +1077,18 @@ public class Shorts {
 	 */
 	public static boolean isEmpty(final short[] array) {
 		return array != null && array.length == 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code short} array is not {@code null} and not empty.
+	 * <p>
+	 * @param array the {@code short} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code short} array is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final short[] array) {
+		return array != null && array.length > 0;
 	}
 
 	//////////////////////////////////////////////

@@ -995,8 +995,10 @@ public class Integers {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final int[] subarray = new int[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
-					columnCount);
+			System
+					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
+							columnCount,
+							columnCount);
 		}
 		return subarray;
 	}
@@ -1183,6 +1185,18 @@ public class Integers {
 	 */
 	public static boolean isEmpty(final int[] array) {
 		return array != null && array.length == 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code int} array is not {@code null} and not empty.
+	 * <p>
+	 * @param array the {@code int} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code int} array is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final int[] array) {
+		return array != null && array.length > 0;
 	}
 
 	//////////////////////////////////////////////

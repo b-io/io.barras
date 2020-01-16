@@ -903,6 +903,18 @@ public class Booleans {
 		return array != null && array.length == 0;
 	}
 
+	/**
+	 * Tests whether the specified {@code boolean} array is not {@code null} and not empty.
+	 * <p>
+	 * @param array the {@code boolean} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code boolean} array is not {@code null} and not
+	 *         empty, {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final boolean[] array) {
+		return array != null && array.length > 0;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

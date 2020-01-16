@@ -166,6 +166,16 @@ public class Content
 		return content.isEmpty();
 	}
 
+	/**
+	 * Tests whether {@code this} is not {@code "null"} and not empty.
+	 * <p>
+	 * @return {@code true} if {@code this} is not {@code "null"} and not empty, {@code false}
+	 *         otherwise
+	 */
+	public boolean isNotEmpty() {
+		return !content.equals(NULL) && !content.isEmpty();
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT

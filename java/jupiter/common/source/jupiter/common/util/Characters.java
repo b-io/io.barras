@@ -841,8 +841,10 @@ public class Characters {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final char[] subarray = new char[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
-					columnCount);
+			System
+					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
+							columnCount,
+							columnCount);
 		}
 		return subarray;
 	}
@@ -1027,6 +1029,18 @@ public class Characters {
 	 */
 	public static boolean isEmpty(final char[] array) {
 		return array != null && array.length == 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code char} array is not {@code null} and not empty.
+	 * <p>
+	 * @param array the {@code char} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code char} array is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final char[] array) {
+		return array != null && array.length > 0;
 	}
 
 	//////////////////////////////////////////////

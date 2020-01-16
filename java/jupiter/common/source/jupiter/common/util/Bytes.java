@@ -1130,8 +1130,10 @@ public class Bytes {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final byte[] subarray = new byte[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
-					columnCount);
+			System
+					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
+							columnCount,
+							columnCount);
 		}
 		return subarray;
 	}
@@ -1316,6 +1318,18 @@ public class Bytes {
 	 */
 	public static boolean isEmpty(final byte[] array) {
 		return array != null && array.length == 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code byte} array is not {@code null} and not empty.
+	 * <p>
+	 * @param array the {@code byte} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} array is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final byte[] array) {
+		return array != null && array.length > 0;
 	}
 
 	//////////////////////////////////////////////

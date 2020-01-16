@@ -199,6 +199,18 @@ public class Collections {
 		return collection != null && collection.isEmpty();
 	}
 
+	/**
+	 * Tests whether the specified {@link Collection} is not {@code null} and not empty.
+	 * <p>
+	 * @param collection the {@link Collection} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Collection} is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final Collection<?> collection) {
+		return collection != null && !collection.isEmpty();
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT

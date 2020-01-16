@@ -98,6 +98,20 @@ public class Objects {
 		return object != null && Strings.isEmpty(object.toString());
 	}
 
+	/**
+	 * Tests whether the specified {@link Object} is not {@code null} and its representative
+	 * {@link String} is not {@code null} and not empty.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is not {@code null} and its
+	 *         representative {@link String} is not {@code null} and not empty, {@code false}
+	 *         otherwise
+	 */
+	public static boolean isNotEmpty(final Object object) {
+		return object != null && Strings.isNotEmpty(object.toString());
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean hasToString(final Class<?> c) {

@@ -875,8 +875,10 @@ public class Doubles {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final double[] subarray = new double[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
-					columnCount);
+			System
+					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
+							columnCount,
+							columnCount);
 		}
 		return subarray;
 	}
@@ -1061,6 +1063,18 @@ public class Doubles {
 	 */
 	public static boolean isEmpty(final double[] array) {
 		return array != null && array.length == 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code double} array is not {@code null} and not empty.
+	 * <p>
+	 * @param array the {@code double} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code double} array is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final double[] array) {
+		return array != null && array.length > 0;
 	}
 
 	//////////////////////////////////////////////

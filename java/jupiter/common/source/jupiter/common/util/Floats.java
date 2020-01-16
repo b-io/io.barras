@@ -1063,6 +1063,18 @@ public class Floats {
 		return array != null && array.length == 0;
 	}
 
+	/**
+	 * Tests whether the specified {@code float} array is not {@code null} and not empty.
+	 * <p>
+	 * @param array the {@code float} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code float} array is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final float[] array) {
+		return array != null && array.length > 0;
+	}
+
 	//////////////////////////////////////////////
 
 	/**

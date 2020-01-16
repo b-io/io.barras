@@ -976,6 +976,19 @@ public class Arrays {
 		return array != null && array.length == 0;
 	}
 
+	/**
+	 * Tests whether the specified {@code T} array is not {@code null} and not empty.
+	 * <p>
+	 * @param <T>   the component type of the array to test
+	 * @param array the {@code T} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code T} array is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static <T> boolean isNotEmpty(final T[] array) {
+		return array != null && array.length > 0;
+	}
+
 	//////////////////////////////////////////////
 
 	/**

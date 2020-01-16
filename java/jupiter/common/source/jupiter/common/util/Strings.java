@@ -1321,7 +1321,7 @@ public class Strings {
 	 *         there is no such occurrence
 	 */
 	public static int findFirst(final String text, final char[] tokens, final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (Characters.contains(tokens, text.charAt(index))) {
@@ -1361,7 +1361,7 @@ public class Strings {
 	 */
 	public static int findFirst(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (tokens.contains(text.charAt(index))) {
@@ -1406,7 +1406,7 @@ public class Strings {
 	public static Index<String> findFirstString(final String text, final String[] tokens,
 			final int fromIndex) {
 		Index<String> indexAndToken = null;
-		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.indexOf(token, fromIndex);
@@ -1451,7 +1451,7 @@ public class Strings {
 	public static Index<String> findFirstString(final String text, final Collection<String> tokens,
 			final int fromIndex) {
 		Index<String> indexAndToken = null;
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.indexOf(token, fromIndex);
@@ -1493,7 +1493,7 @@ public class Strings {
 	 *         there is no such occurrence
 	 */
 	public static int findLast(final String text, final char[] tokens, final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (Characters.contains(tokens, text.charAt(index))) {
@@ -1533,7 +1533,7 @@ public class Strings {
 	 */
 	public static int findLast(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (tokens.contains(text.charAt(index))) {
@@ -1576,7 +1576,7 @@ public class Strings {
 	public static Index<String> findLastString(final String text, final String[] tokens,
 			final int fromIndex) {
 		Index<String> indexAndToken = null;
-		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.lastIndexOf(token, fromIndex);
@@ -1618,7 +1618,7 @@ public class Strings {
 	public static Index<String> findLastString(final String text, final Collection<String> tokens,
 			final int fromIndex) {
 		Index<String> indexAndToken = null;
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.lastIndexOf(token, fromIndex);
@@ -1659,7 +1659,7 @@ public class Strings {
 	 */
 	public static int findFirstNotEqualTo(final String text, final char token,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
+		if (isNotEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (text.charAt(index) != token) {
 					return index;
@@ -1698,7 +1698,7 @@ public class Strings {
 	 */
 	public static int findFirstStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !isNullOrEmpty(token) &&
+		if (isNotEmpty(text) && isNotEmpty(token) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index < text.length(); index += token.length()) {
 				if (!isToken(text, index, token)) {
@@ -1737,7 +1737,7 @@ public class Strings {
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotEqualTo(final String text, final char token, final int fromIndex) {
-		if (!isNullOrEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
+		if (isNotEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (text.charAt(index) != token) {
 					return index;
@@ -1776,7 +1776,7 @@ public class Strings {
 	 */
 	public static int findLastStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !isNullOrEmpty(token) &&
+		if (isNotEmpty(text) && isNotEmpty(token) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; index -= token.length()) {
 				if (!isTokenTo(text, index, token)) {
@@ -1815,7 +1815,7 @@ public class Strings {
 	 *         forward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findFirstNotIn(final String text, final char[] tokens, final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (!Characters.contains(tokens, text.charAt(index))) {
@@ -1853,7 +1853,7 @@ public class Strings {
 	 */
 	public static int findFirstNotIn(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (!tokens.contains(text.charAt(index))) {
@@ -1893,7 +1893,7 @@ public class Strings {
 	 */
 	public static int findFirstStringNotIn(final String text, final String[] tokens,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex;
 			do {
@@ -1935,7 +1935,7 @@ public class Strings {
 	 */
 	public static int findFirstStringNotIn(final String text, final List<String> tokens,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex;
 			do {
@@ -1978,7 +1978,7 @@ public class Strings {
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String text, final char[] tokens, final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (!Characters.contains(tokens, text.charAt(index))) {
@@ -2016,7 +2016,7 @@ public class Strings {
 	 */
 	public static int findLastNotIn(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (!tokens.contains(text.charAt(index))) {
@@ -2056,7 +2056,7 @@ public class Strings {
 	 */
 	public static int findLastStringNotIn(final String text, final String[] tokens,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex;
 			do {
@@ -2098,7 +2098,7 @@ public class Strings {
 	 */
 	public static int findLastStringNotIn(final String text, final List<String> tokens,
 			final int fromIndex) {
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex;
 			do {
@@ -2142,7 +2142,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
+		if (isNotEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex - 1;
 			while ((index = text.indexOf(token, index + 1)) >= 0) {
 				indexes.add(index);
@@ -2166,7 +2166,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && Integers.isBetween(toIndex, 1, text.length() + 1)) {
+		if (isNotEmpty(text) && Integers.isBetween(toIndex, 1, text.length() + 1)) {
 			int index = text.indexOf(token);
 			while (index >= 0 && index < toIndex) {
 				indexes.add(index);
@@ -2207,7 +2207,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			final char[] array = text.toCharArray();
 			for (int index = fromIndex; index < text.length(); ++index) {
@@ -2236,7 +2236,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !Characters.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
 				Integers.isBetween(toIndex, 1, text.length() + 1)) {
 			final char[] array = text.toCharArray();
 			for (int index = 0; index < toIndex; ++index) {
@@ -2282,7 +2282,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			final char[] array = text.toCharArray();
 			for (int index = fromIndex; index < text.length(); ++index) {
@@ -2311,7 +2311,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(toIndex, 1, text.length() + 1)) {
 			final char[] array = text.toCharArray();
 			for (int index = 0; index < toIndex; ++index) {
@@ -2353,7 +2353,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !isNullOrEmpty(token) &&
+		if (isNotEmpty(text) && isNotEmpty(token) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			int index = fromIndex - 1;
 			while ((index = text.indexOf(token, index + 1)) >= 0) {
@@ -2378,7 +2378,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !isNullOrEmpty(token) &&
+		if (isNotEmpty(text) && isNotEmpty(token) &&
 				Integers.isBetween(toIndex, 1, text.length() + 1)) {
 			int index = text.indexOf(token);
 			while (index >= 0 && index < toIndex) {
@@ -2421,7 +2421,7 @@ public class Strings {
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexes(text, token,
@@ -2451,7 +2451,7 @@ public class Strings {
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !Arrays.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
 				Integers.isBetween(toIndex, 1, text.length() + 1)) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
@@ -2496,7 +2496,7 @@ public class Strings {
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(fromIndex, 0, text.length())) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexes(text, token,
@@ -2526,7 +2526,7 @@ public class Strings {
 		final SortedList<Index<String>> indexes = new SortedList<Index<String>>();
 
 		// Get the indexes
-		if (!isNullOrEmpty(text) && !Collections.isNullOrEmpty(tokens) &&
+		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
 				Integers.isBetween(toIndex, 1, text.length() + 1)) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
@@ -3007,6 +3007,18 @@ public class Strings {
 	 */
 	public static boolean isEmpty(final String text) {
 		return text != null && text.isEmpty();
+	}
+
+	/**
+	 * Tests whether the specified {@link String} is not {@code null} and not empty.
+	 * <p>
+	 * @param text the {@link String} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final String text) {
+		return text != null && !text.isEmpty();
 	}
 
 	//////////////////////////////////////////////

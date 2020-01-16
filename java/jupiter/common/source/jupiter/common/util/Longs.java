@@ -856,8 +856,10 @@ public class Longs {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final long[] subarray = new long[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i * columnCount,
-					columnCount);
+			System
+					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
+							columnCount,
+							columnCount);
 		}
 		return subarray;
 	}
@@ -1042,6 +1044,18 @@ public class Longs {
 	 */
 	public static boolean isEmpty(final long[] array) {
 		return array != null && array.length == 0;
+	}
+
+	/**
+	 * Tests whether the specified {@code long} array is not {@code null} and not empty.
+	 * <p>
+	 * @param array the {@code long} array to test
+	 * <p>
+	 * @return {@code true} if the specified {@code long} array is not {@code null} and not empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNotEmpty(final long[] array) {
+		return array != null && array.length > 0;
 	}
 
 	//////////////////////////////////////////////

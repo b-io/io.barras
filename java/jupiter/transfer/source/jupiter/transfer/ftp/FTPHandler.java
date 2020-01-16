@@ -600,7 +600,7 @@ public class FTPHandler
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
-			if (!Strings.isNullOrEmpty(remoteDirPath)) {
+			if (Strings.isNotEmpty(remoteDirPath)) {
 				sftp.cd(remoteDirPath);
 			}
 			final Vector<ChannelSftp.LsEntry> entries = sftp.ls(fileFilter);
@@ -840,7 +840,7 @@ public class FTPHandler
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
-			if (!Strings.isNullOrEmpty(remoteDirPath)) {
+			if (Strings.isNotEmpty(remoteDirPath)) {
 				sftp.cd(remoteDirPath);
 			}
 			final List<File> files = Files.listAll(new File(localDirPath), fileFilter);
