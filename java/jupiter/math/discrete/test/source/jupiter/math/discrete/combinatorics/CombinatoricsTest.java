@@ -279,11 +279,15 @@ public class CombinatoricsTest
 		assertEquals(34650L, Combinatorics.PFR(Longs.asPrimitiveArray(1L, 4L, 4L, 2L)));
 		assertEquals(34650., Combinatorics.PFR(Doubles.asPrimitiveArray(1., 4., 4., 2.)));
 
-		assertEquals(1, Combinatorics.PFR(0, new int[] {1, 4, 4, 2}));
-		assertEquals(4, Combinatorics.PFR(1, new int[] {1, 4, 4, 2}));
-		assertEquals(176, Combinatorics.PFR(4, new int[] {1, 4, 4, 2}));
-		assertEquals(10430, Combinatorics.PFR(8, new int[] {1, 4, 4, 2}));
-		assertEquals(34650, Combinatorics.PFR(11, new int[] {1, 4, 4, 2}));
+		int[] ks = new int[] {0, 1, 4, 8, 11};
+		int[] ms = new int[] {1, 4, 4, 2};
+		IO.test("- Count the number of words of length ", ks,
+				" that can be formed with the letters of the word", Strings.quote("MISSISSIPI"));
+		assertEquals(1, Combinatorics.PFR(ks[0], ms));
+		assertEquals(4, Combinatorics.PFR(ks[1], ms));
+		assertEquals(176, Combinatorics.PFR(ks[2], ms));
+		assertEquals(10430, Combinatorics.PFR(ks[3], ms));
+		assertEquals(34650, Combinatorics.PFR(ks[4], ms));
 	}
 
 	//////////////////////////////////////////////
@@ -338,12 +342,18 @@ public class CombinatoricsTest
 	public void testCFR() {
 		IO.test("• CFR");
 
-		// Count the number of ways to choose 3 balls from 2 white and 2 black balls
-		assertEquals(2, Combinatorics.CFR(3, new int[] {2, 2}));
-		IO.test(Combinatorics.createKCombinations(3, new int[] {2, 2}));
+		int k = 3;
+		int[] ms = new int[] {2, 2};
+		IO.test("- Count the number of ways to choose ", k, " balls from ", ms[0],
+				" white and ", ms[1], " black balls");
+		IO.test(Combinatorics.createKCombinations(k, ms));
+		assertEquals(2, Combinatorics.CFR(k, ms));
 
-		// Count the number of ways to choose 3 balls from 10 white and 10 black balls
-		assertEquals(4, Combinatorics.CFR(3, new int[] {10, 10}));
-		IO.test(Combinatorics.createKCombinations(4, new int[] {10, 10}));
+		k = 9;
+		ms = new int[] {6, 6};
+		IO.test("- Count the number of ways to choose ", k, " balls from ", ms[0],
+				" white and ", ms[1], " black balls");
+		IO.test(Combinatorics.createKCombinations(k, ms));
+		assertEquals(4, Combinatorics.CFR(k, ms));
 	}
 }
