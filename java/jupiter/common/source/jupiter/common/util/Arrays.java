@@ -82,11 +82,18 @@ public class Arrays {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns an array of {@link Object} converted from the specified {@link Object}.
+	 * <p>
+	 * @param object the {@link Object} to convert
+	 * <p>
+	 * @return an array of {@link Object} converted from the specified {@link Object}
+	 */
 	public static Object[] toArray(final Object object) {
 		// Check the arguments
 		ArrayArguments.requireArray(object);
 
-		// Convert
+		// Convert the Object to an array of Object
 		final Class<?> c = object.getClass();
 		if (Booleans.isPrimitiveArray(c)) {
 			return Booleans.toArray((boolean[]) object);

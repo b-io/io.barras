@@ -254,8 +254,8 @@ public class ComparableSort
 			int left = lo, right = start;
 			assert left <= right;
 			// Invariants:
-			//   pivot >= all in [lo, left) and
-			//   pivot < all in [right, start).
+			// • pivot >= all in [lo, left) and
+			// • pivot < all in [right, start).
 			while (left < right) {
 				final int mid = left + right >>> 1;
 				if (pivot.compareTo(array[mid]) < 0) {
@@ -784,7 +784,7 @@ outer:  while (true) {
 			case 1:
 				assert length2 > 0;
 				System.arraycopy(array, cursor2, array, dest, length2);
-				array[dest + length2] = tempArray[cursor1]; //  Last elt of run 1 to end of merge
+				array[dest + length2] = tempArray[cursor1]; // last elt of run 1 to end of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(

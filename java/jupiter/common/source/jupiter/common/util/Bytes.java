@@ -165,8 +165,9 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Formats the specified source {@code byte} value into the specified target {@code char}
-	 * buffer.
+	 * Converts the specified source {@code byte} value to a representative unsigned {@code int}
+	 * value written to the specified target {@code char} buffer and returns the lowest index of the
+	 * specified target {@code char} buffer used.
 	 * <p>
 	 * @param source the source {@code byte} value
 	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
@@ -182,8 +183,9 @@ public class Bytes {
 	}
 
 	/**
-	 * Formats the specified source {@code byte} value into the specified target {@code char}
-	 * buffer.
+	 * Converts the specified source {@code byte} value to a representative unsigned {@code int}
+	 * value written to the specified target {@code char} buffer and returns the lowest index of the
+	 * specified target {@code char} buffer used.
 	 * <p>
 	 * @param source       the source {@code byte} value
 	 * @param shift        the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
@@ -201,8 +203,9 @@ public class Bytes {
 	}
 
 	/**
-	 * Formats the specified source {@code byte} value into the specified target {@code char} buffer
-	 * using the specified digits.
+	 * Converts the specified source {@code byte} value to a representative unsigned {@code int}
+	 * value written to the specified target {@code char} buffer and returns the lowest index of the
+	 * specified target {@code char} buffer used.
 	 * <p>
 	 * @param source the source {@code byte} value
 	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)

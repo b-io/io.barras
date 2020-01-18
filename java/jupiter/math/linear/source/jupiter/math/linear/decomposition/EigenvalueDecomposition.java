@@ -329,9 +329,9 @@ public class EigenvalueDecomposition
 			}
 			// If m == l, d[l] is an eigenvalue, iterate otherwise
 			if (m > l) {
-				// int iter = 0;
+				//int iterationCount = 0;
 				do {
-					// iter += 1; // @todo test to avoid too many iterations
+					//++iterationCount; // @todo test to avoid too many iterations
 					// Apply the implicit shift
 					double g = d[l];
 					double p = (d[l + 1] - g) / (2. * e[l]);
@@ -541,7 +541,7 @@ public class EigenvalueDecomposition
 		}
 
 		// Iterate over the eigenvalue index
-		int iter = 0;
+		int iterationCount = 0;
 		while (n >= low) {
 			// Find a single small sub-diagonal element
 			int l = n;
@@ -563,7 +563,7 @@ public class EigenvalueDecomposition
 				d[n] = H[n][n];
 				e[n] = 0.;
 				--n;
-				iter = 0;
+				iterationCount = 0;
 			} else if (l == n - 1) {
 				// • 2 roots found
 				w = H[n][n - 1] * H[n - 1][n];
@@ -621,7 +621,7 @@ public class EigenvalueDecomposition
 					e[n] = -z;
 				}
 				n -= 2;
-				iter = 0;
+				iterationCount = 0;
 			} else {
 				// • No convergence yet
 				// Apply form shift
@@ -633,7 +633,7 @@ public class EigenvalueDecomposition
 					w = H[n][n - 1] * H[n - 1][n];
 				}
 				// Apply Wilkinson's original ad hoc shift
-				if (iter == 10) {
+				if (iterationCount == 10) {
 					exshift += x;
 					for (int i = low; i <= n; ++i) {
 						H[i][i] -= x;
@@ -643,7 +643,7 @@ public class EigenvalueDecomposition
 					w = -0.4375 * s * s;
 				}
 				// Apply MATLAB's new ad hoc shift
-				if (iter == 30) {
+				if (iterationCount == 30) {
 					s = (y - x) / 2.;
 					s = s * s + w;
 					if (s > 0) {
@@ -659,7 +659,7 @@ public class EigenvalueDecomposition
 						x = y = w = 0.964;
 					}
 				}
-				iter += 1; // @todo test to avoid too many iterations
+				++iterationCount; // @todo test to avoid too many iterations
 				// Find two consecutive small sub-diagonal elements
 				int m = n - 2;
 				while (m >= l) {

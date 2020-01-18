@@ -160,10 +160,21 @@ public class CombinatoricsTest
 		// Initialize
 		final int n = 4;
 		final int[] ks = new int[] {2, 3};
+		final int[] ms = new int[] {3, 2, 1};
 
 		for (final int k : ks) {
 			IO.test("- List the ", k, "-permutations of a ", n, "-element set:");
 			final int[][] permutations = Combinatorics.createKPermutations(n, k);
+			for (final int[] permutation : permutations) {
+				IO.test(Integers.toString(permutation));
+			}
+		}
+
+		for (final int k : ks) {
+			IO.test("- List the ", k, "-permutations of a ", n,
+					"-element multiset with multiplicities ", Integers.toString(ms),
+					" in lexicographic order:");
+			final int[][] permutations = Combinatorics.createKPermutations(k, ms);
 			for (final int[] permutation : permutations) {
 				IO.test(Integers.toString(permutation));
 			}
@@ -197,7 +208,7 @@ public class CombinatoricsTest
 		// Initialize
 		final int n = 4;
 		final int[] ks = new int[] {2, 3};
-		final int[] ms = new int[] {2, 1, 0};
+		final int[] ms = new int[] {3, 2, 1};
 
 		for (final int k : ks) {
 			IO.test("- List the ", k, "-combinations of a ", n,
@@ -210,7 +221,8 @@ public class CombinatoricsTest
 
 		for (final int k : ks) {
 			IO.test("- List the ", k, "-combinations of a ", n,
-					"-element set with finite repetition in lexicographic order:");
+					"-element multiset with multiplicities ", Integers.toString(ms),
+					" in lexicographic order:");
 			final int[][] combinations = Combinatorics.createKCombinations(k, ms);
 			for (final int[] combination : combinations) {
 				IO.test(Integers.toString(combination));
@@ -263,9 +275,15 @@ public class CombinatoricsTest
 		IO.test("• PFR");
 
 		IO.test("- Count the number of anagrams of the word ", Strings.quote("MISSISSIPI"));
-		assertEquals(34650, Combinatorics.PFR(Integers.asPrimitiveArray(1, 4, 4, 2)));
+		assertEquals(34650, Combinatorics.PFR(new int[] {1, 4, 4, 2}));
 		assertEquals(34650L, Combinatorics.PFR(Longs.asPrimitiveArray(1L, 4L, 4L, 2L)));
 		assertEquals(34650., Combinatorics.PFR(Doubles.asPrimitiveArray(1., 4., 4., 2.)));
+
+		assertEquals(1, Combinatorics.PFR(0, new int[] {1, 4, 4, 2}));
+		assertEquals(4, Combinatorics.PFR(1, new int[] {1, 4, 4, 2}));
+		assertEquals(176, Combinatorics.PFR(4, new int[] {1, 4, 4, 2}));
+		assertEquals(10430, Combinatorics.PFR(8, new int[] {1, 4, 4, 2}));
+		assertEquals(34650, Combinatorics.PFR(11, new int[] {1, 4, 4, 2}));
 	}
 
 	//////////////////////////////////////////////

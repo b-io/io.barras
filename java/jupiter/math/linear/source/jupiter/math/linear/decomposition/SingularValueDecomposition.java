@@ -430,7 +430,7 @@ public class SingularValueDecomposition
 						}
 					}
 					e[p - 2] = f;
-					// iter += 1;
+					//++iter;
 					break;
 				}
 

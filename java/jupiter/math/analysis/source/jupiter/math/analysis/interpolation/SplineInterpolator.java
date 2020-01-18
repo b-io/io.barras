@@ -185,7 +185,7 @@ public class SplineInterpolator
 		// Find the index of the last point with smaller X
 		int i = 0;
 		while (x >= X[i + 1]) {
-			i += 1;
+			++i;
 			if (x == X[i]) {
 				return Y[i];
 			}

@@ -75,13 +75,13 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the factorial representation of the specified permutation without repetition of the
+	 * Returns the factoradic representation of the specified permutation without repetition of the
 	 * specified sequence.
 	 * <p>
 	 * @param permutation an {@code int} array containing the permutation indexes of the sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
-	 * @return the factorial representation of the specified permutation without repetition of the
+	 * @return the factoradic representation of the specified permutation without repetition of the
 	 *         specified sequence
 	 */
 	public static ExtendedLinkedList<Integer> getPermutationFactoradic(final int[] permutation,
@@ -173,18 +173,18 @@ public class Combinatorics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the decimal representation of the specified factorial representation.
+	 * Returns the decimal representation of the specified factoradic representation.
 	 * <p>
-	 * @param factoradicValue the factorial {@link List} of {@link Integer} to convert
+	 * @param factoradicValue the factoradic {@link List} of {@link Integer} to convert
 	 * <p>
-	 * @return the decimal representation of the specified factorial representation
+	 * @return the decimal representation of the specified factoradic representation
 	 */
 	public static int toDecimal(final List<Integer> factoradicValue) {
 		// Initialize
 		final int n = factoradicValue.size();
 		final Iterator<Integer> factoradicValueIterator = factoradicValue.iterator();
 
-		// Convert to the decimal representation
+		// Convert the factoradic value to the decimal representation
 		int decimalValue = 0, i = 0;
 		while (factoradicValueIterator.hasNext()) {
 			decimalValue += factoradicValueIterator.next() * Maths.factorial(n - 1 - i++);
@@ -193,17 +193,17 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the factorial representation of the specified decimal representation.
+	 * Returns the factoradic representation of the specified decimal representation.
 	 * <p>
 	 * @param decimalValue the decimal {@code int} value to convert
 	 * <p>
-	 * @return the factorial representation of the specified decimal representation
+	 * @return the factoradic representation of the specified decimal representation
 	 */
 	public static ExtendedLinkedList<Integer> toFactoradic(final int decimalValue) {
 		// Initialize
 		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
 
-		// Convert to the factorial representation
+		// Convert the decimal value to the factoradic representation
 		int remainder, quotient = decimalValue, radix = 1;
 		do {
 			remainder = quotient % radix;
@@ -419,17 +419,15 @@ public class Combinatorics {
 					Integers.createSequence(n));
 			final int divisor = getKPermutationDivisor(n, k);
 			for (final int[] combination : combinations) {
-				final int[][] subpermutations = createPermutations(combination);
-				for (final int[] subpermutation : subpermutations) {
-					permutations[getKPermutationIndex(subpermutation, sequence, divisor)] = subpermutation;
+				for (final int[] permutation : createPermutations(combination)) {
+					permutations[getKPermutationIndex(permutation, sequence, divisor)] = permutation;
 				}
 			}
 		} else {
 			int p = 0;
 			for (final int[] combination : combinations) {
-				final int[][] subpermutations = createPermutations(combination);
-				for (final int[] subpermutation : subpermutations) {
-					permutations[p++] = subpermutation;
+				for (final int[] permutation : createPermutations(combination)) {
+					permutations[p++] = permutation;
 				}
 			}
 		}
@@ -457,20 +455,19 @@ public class Combinatorics {
 	 */
 	public static int[][] createKPermutations(final int k, final int[] ms) {
 		// Initialize
-		final ExtendedLinkedList<int[]> combinations = new ExtendedLinkedList<int[]>(
+		final ExtendedLinkedList<int[]> permutations = new ExtendedLinkedList<int[]>(
 				Integers.EMPTY_PRIMITIVE_ARRAY);
 
-		// Convert to the String representation
-		while (combinations.getFirst().length < k) {
-			final int[] combination = combinations.remove();
+		// Create the k-permutations with the finite multiplicities
+		while (permutations.getFirst().length < k) {
+			final int[] permutation = permutations.remove();
 			for (int i = 0; i < ms.length; ++i) {
-				final int index = Integers.count(combination, i);
-				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
-					combinations.add(Integers.merge(combination, i));
+				if (Integers.count(permutation, i) < ms[i]) {
+					permutations.add(Integers.merge(permutation, i));
 				}
 			}
 		}
-		return (int[][]) combinations.toArray();
+		return (int[][]) permutations.toArray();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -562,7 +559,7 @@ public class Combinatorics {
 		final ExtendedLinkedList<int[]> combinations = new ExtendedLinkedList<int[]>(
 				Integers.EMPTY_PRIMITIVE_ARRAY);
 
-		// Convert to the String representation
+		// Create the k-combinations with the finite multiplicities
 		while (combinations.getFirst().length < k) {
 			final int[] combination = combinations.remove();
 			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
@@ -772,8 +769,30 @@ public class Combinatorics {
 	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
 	 */
 	public static int PFR(final int k, final int[] ms) {
-		final long n = Maths.sum(ms);
-		throw new UnsupportedOperationException("Not yet implemented!");
+		// Check the arguments
+		if (k == 0) {
+			return 1;
+		}
+
+		// Initialize
+		final ExtendedLinkedList<int[]> permutations = new ExtendedLinkedList<int[]>(
+				Integers.EMPTY_PRIMITIVE_ARRAY);
+
+		// Create the k-permutations with the finite multiplicities
+		int result = 0;
+		while (!permutations.isEmpty()) {
+			final int[] permutation = permutations.remove();
+			for (int i = 0; i < ms.length; ++i) {
+				if (Integers.count(permutation, i) < ms[i]) {
+					if (permutation.length + 1 == k) {
+						++result;
+					} else {
+						permutations.add(Integers.merge(permutation, i));
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -888,11 +907,16 @@ public class Combinatorics {
 	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
 	 */
 	public static int CFR(final int k, final int[] ms) {
+		// Check the arguments
+		if (k == 0) {
+			return 0;
+		}
+
 		// Initialize
 		final ExtendedLinkedList<int[]> combinations = new ExtendedLinkedList<int[]>(
 				Integers.EMPTY_PRIMITIVE_ARRAY);
 
-		// Convert to the String representation
+		// Compute the number of k-combinations with the finite multiplicities
 		int result = 0;
 		while (!combinations.isEmpty()) {
 			final int[] combination = combinations.remove();
@@ -901,7 +925,7 @@ public class Combinatorics {
 				final int index = Integers.findFirstIndex(combination, i);
 				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
 					if (combination.length + 1 == k) {
-						result += 1;
+						++result;
 					} else {
 						combinations.add(Integers.merge(combination, i));
 					}
