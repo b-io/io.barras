@@ -507,7 +507,7 @@ public class Dates {
 	@SuppressWarnings("deprecation")
 	public static boolean equals(final Date a, final Date b) {
 		return a == b || a != null && b != null &&
-				a.getDay() == b.getDay() &&
+				a.getDate() == b.getDate() &&
 				a.getMonth() == b.getMonth() &&
 				a.getYear() == b.getYear();
 	}
