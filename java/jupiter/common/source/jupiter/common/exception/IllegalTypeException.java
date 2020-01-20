@@ -48,7 +48,7 @@ public class IllegalTypeException
 	 * @param type the illegal type {@link Object}
 	 */
 	public IllegalTypeException(final Object type) {
-		super("Illegal type " + Strings.quote(type));
+		super(Strings.join("Illegal type ", Strings.quote(type)));
 	}
 
 	/**
@@ -61,6 +61,6 @@ public class IllegalTypeException
 	 *              {@link #getCause()})
 	 */
 	public IllegalTypeException(final Object type, final Throwable cause) {
-		super("Illegal type " + Strings.quote(type), cause);
+		super(Strings.join("Illegal type ", Strings.quote(type)), cause);
 	}
 }

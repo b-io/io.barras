@@ -25,6 +25,7 @@ package jupiter.common.io.file;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.util.Formats.NEW_LINE;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -38,8 +39,6 @@ import jupiter.common.io.Content;
 import jupiter.common.io.Resources;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Strings;
-
-import static jupiter.common.util.Formats.NEW_LINE;
 
 public class FileHandler
 		implements Serializable {
@@ -351,7 +350,8 @@ public class FileHandler
 	 * Closes the writer.
 	 */
 	public void closeWriter() {
-		closeWriter("The writer of " + Strings.quote(file) + " has already been closed");
+		closeWriter(Strings.join(
+				"The writer of ", Strings.quote(file), " has already been closed"));
 	}
 
 	/**

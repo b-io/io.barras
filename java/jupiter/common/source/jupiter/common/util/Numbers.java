@@ -100,8 +100,8 @@ public class Numbers {
 		} else if (BigDecimal.class.isAssignableFrom(c)) {
 			return new BigDecimal(text);
 		}
-		throw new IllegalOperationException(
-				"Cannot convert " + Strings.quote(text) + " to a " + c.getSimpleName());
+		throw new IllegalOperationException(Strings.join(
+				"Cannot convert ", Strings.quote(text), " to a ", c.getSimpleName()));
 	}
 
 

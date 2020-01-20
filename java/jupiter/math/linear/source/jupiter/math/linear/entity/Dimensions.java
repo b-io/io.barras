@@ -26,6 +26,7 @@ package jupiter.math.linear.entity;
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Strings;
 
 public class Dimensions
@@ -54,6 +55,11 @@ public class Dimensions
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public Dimensions(final int rowCount, final int columnCount) {
+		// Check the arguments
+		IntegerArguments.requirePositive(rowCount);
+		IntegerArguments.requirePositive(columnCount);
+
+		// Set the dimensions
 		m = rowCount;
 		n = columnCount;
 	}

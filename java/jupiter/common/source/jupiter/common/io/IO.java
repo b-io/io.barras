@@ -24,6 +24,7 @@
 package jupiter.common.io;
 
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
@@ -47,8 +48,6 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
-
-import static jupiter.common.util.Formats.NEW_LINE;
 
 public class IO
 		implements ICloneable<IO>, Serializable {
@@ -833,7 +832,7 @@ public class IO
 	 */
 	public Message warn(final Object content, final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + ": " + exception;
+			final String text = Strings.join(content, ": ", exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -890,7 +889,7 @@ public class IO
 	 */
 	public Message error(final Object content, final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + ": " + exception;
+			final String text = Strings.join(content, ": ", exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -949,7 +948,7 @@ public class IO
 	 */
 	public Message fail(final Object content, final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.toString(content) + ": " + exception;
+			final String text = Strings.join(content, ": ", exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);

@@ -240,7 +240,8 @@ public class Integers {
 				}
 			}
 		} else {
-			throw new NumberFormatException("For input string: " + Strings.quote(string));
+			throw new NumberFormatException(Strings.join(
+					"For input string: ", Strings.quote(string)));
 		}
 	}
 
@@ -1219,6 +1220,43 @@ public class Integers {
 	 */
 	public static boolean isBetween(final int value, final int from, final int to) {
 		return value >= from && value < to;
+	}
+
+	/**
+	 * Tests whether the specified {@code int} value is between the specified {@code int} lower and
+	 * upper bounds.
+	 * <p>
+	 * @param value                the {@code int} value to test
+	 * @param from                 the {@code int} lower bound to test against
+	 * @param to                   the {@code int} upper bound to test against
+	 * @param isInclusiveExclusive the flag specifying whether the lower bound is inclusive and the
+	 *                             upper bound is exclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code int} value is between the specified {@code int}
+	 *         lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final int value, final int from, final int to,
+			final boolean isInclusiveExclusive) {
+		return isInclusiveExclusive ? value >= from && value < to : value > from && value <= to;
+	}
+
+	/**
+	 * Tests whether the specified {@code int} value is between the specified {@code int} lower and
+	 * upper bounds.
+	 * <p>
+	 * @param value            the {@code int} value to test
+	 * @param from             the {@code int} lower bound to test against
+	 * @param to               the {@code int} upper bound to test against
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code int} value is between the specified {@code int}
+	 *         lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final int value, final int from, final int to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? value >= from : value > from) &&
+				(isUpperInclusive ? value <= to : value < to);
 	}
 
 	/**

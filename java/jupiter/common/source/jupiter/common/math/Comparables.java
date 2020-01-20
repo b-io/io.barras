@@ -32,6 +32,7 @@ import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Shorts;
+import jupiter.common.util.Strings;
 
 public class Comparables {
 
@@ -68,7 +69,8 @@ public class Comparables {
 		} else if (Doubles.isPrimitiveArray(c)) {
 			return (Comparator<? super T>) Doubles.ARRAY_COMPARATOR;
 		}
-		throw new IllegalArgumentException("The specified " + c + " cannot be compared");
+		throw new IllegalArgumentException(Strings.join(
+				"The specified ", c, " cannot be compared"));
 	}
 
 

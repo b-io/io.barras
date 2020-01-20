@@ -200,6 +200,6 @@ public class TreeNode<K, V>
 	 */
 	@Override
 	public String toString() {
-		return Strings.bracketize(key + " => " + value);
+		return Strings.bracketize(Strings.join(key, " => ", value));
 	}
 }

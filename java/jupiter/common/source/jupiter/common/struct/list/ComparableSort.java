@@ -173,24 +173,24 @@ public class ComparableSort
 	 * into the required forms.
 	 * <p>
 	 * @param array      the array of {@link Object} to sort
-	 * @param lo         the index of the first element to sort (inclusive)
-	 * @param hi         the index of the last element to sort (exclusive)
+	 * @param fromIndex  the index of the first element to sort (inclusive)
+	 * @param toIndex    the index of the last element to sort (exclusive)
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 */
-	public static void sort(final Object[] array, int lo, final int hi, final Object[] work,
+	public static void sort(final Object[] array, int fromIndex, final int toIndex, final Object[] work,
 			final int workBase, final int workLength) {
-		assert array != null && lo >= 0 && lo <= hi && hi <= array.length;
+		assert array != null && fromIndex >= 0 && fromIndex <= toIndex && toIndex <= array.length;
 
-		int nRemaining = hi - lo;
+		int nRemaining = toIndex - fromIndex;
 		if (nRemaining < 2) {
 			return; // arrays of size 0 and 1 are always sorted
 		}
 		// If array is small, do a "mini-TimSort" with no merges
 		if (nRemaining < MIN_MERGE) {
-			final int initRunLength = countRunAndMakeAscending(array, lo, hi);
-			binarySort(array, lo, hi, lo + initRunLength);
+			final int initRunLength = countRunAndMakeAscending(array, fromIndex, toIndex);
+			binarySort(array, fromIndex, toIndex, fromIndex + initRunLength);
 			return;
 		}
 
@@ -202,26 +202,26 @@ public class ComparableSort
 		final int minRun = minRunLength(nRemaining);
 		do {
 			// Identify next run
-			int runLength = countRunAndMakeAscending(array, lo, hi);
+			int runLength = countRunAndMakeAscending(array, fromIndex, toIndex);
 
 			// If run is short, extend to min(minRun, nRemaining)
 			if (runLength < minRun) {
 				final int force = nRemaining <= minRun ? nRemaining : minRun;
-				binarySort(array, lo, lo + force, lo + runLength);
+				binarySort(array, fromIndex, fromIndex + force, fromIndex + runLength);
 				runLength = force;
 			}
 
 			// Push run onto pending-run stack and maybe merge
-			ts.pushRun(lo, runLength);
+			ts.pushRun(fromIndex, runLength);
 			ts.mergeCollapse();
 
 			// Advance to find next run
-			lo += runLength;
+			fromIndex += runLength;
 			nRemaining -= runLength;
 		} while (nRemaining > 0);
 
 		// Merge all remaining runs to complete sort
-		assert lo == hi;
+		assert fromIndex == toIndex;
 		ts.mergeForceCollapse();
 		assert ts.stackSize == 1;
 	}

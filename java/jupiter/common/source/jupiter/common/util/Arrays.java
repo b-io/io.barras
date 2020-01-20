@@ -93,7 +93,7 @@ public class Arrays {
 		// Check the arguments
 		ArrayArguments.requireArray(object);
 
-		// Convert the Object to an array of Object
+		// Convert the object to an array
 		final Class<?> c = object.getClass();
 		if (Booleans.isPrimitiveArray(c)) {
 			return Booleans.toArray((boolean[]) object);
@@ -607,7 +607,7 @@ public class Arrays {
 	public static void sort(final Object[] array, final int fromIndex, final int toIndex) {
 		// Check the arguments
 		ArrayArguments.requireIndex(fromIndex, array.length);
-		ArrayArguments.requireIndex(toIndex, array.length, true);
+		ArrayArguments.requireIndex(toIndex, array.length, false);
 
 		ComparableSort.sort(array, fromIndex, toIndex, null, 0, 0);
 	}
@@ -997,6 +997,66 @@ public class Arrays {
 	}
 
 	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified index is in the bounds of the specified array length.
+	 * <p>
+	 * @param index  the index to test
+	 * @param length the array length to test against
+	 * <p>
+	 * @return {@code true} if the specified index is in the bounds of the specified array length,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isBetween(final int index, final int length) {
+		return Integers.isBetween(index, 0, length);
+	}
+
+	/**
+	 * Tests whether the specified index is in the bounds of the specified array length.
+	 * <p>
+	 * @param index                the index to test
+	 * @param length               the array length to test against
+	 * @param isInclusiveExclusive the flag specifying whether the lower bound is inclusive and the
+	 *                             upper bound is exclusive
+	 * <p>
+	 * @return {@code true} if the specified index is in the bounds of the specified array length,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isBetween(final int index, final int length,
+			final boolean isInclusiveExclusive) {
+		return Integers.isBetween(index, 0, length, isInclusiveExclusive);
+	}
+
+	/**
+	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
+	 * <p>
+	 * @param <T>   the component type of the array to test against
+	 * @param index the index to test
+	 * @param array the {@code T} array to test against
+	 * <p>
+	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
+	 *         array, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final int index, final T[] array) {
+		return Integers.isBetween(index, 0, array.length);
+	}
+
+	/**
+	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
+	 * <p>
+	 * @param <T>                  the component type of the array to test against
+	 * @param index                the index to test
+	 * @param array                the {@code T} array to test against
+	 * @param isInclusiveExclusive the flag specifying whether the lower bound is inclusive and the
+	 *                             upper bound is exclusive
+	 * <p>
+	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
+	 *         array, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final int index, final T[] array,
+			final boolean isInclusiveExclusive) {
+		return Integers.isBetween(index, 0, array.length, isInclusiveExclusive);
+	}
 
 	/**
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound

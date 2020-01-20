@@ -24,7 +24,6 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.formatNumber;
 
 import jupiter.common.test.Test;
 
@@ -43,22 +42,22 @@ public class FormatsTest
 	public void testFormatNumber() {
 		IO.test("• formatNumber");
 
-		IO.test(formatNumber(0.0000001));
-		assertEquals("1E-7", formatNumber(0.0000001));
-		assertEquals("0.000001", formatNumber(0.000001));
-		assertEquals("0.00001", formatNumber(0.00001));
-		assertEquals("0.0001", formatNumber(0.0001));
-		assertEquals("0.001", formatNumber(0.001));
-		assertEquals("0.01", formatNumber(0.01));
-		assertEquals("0.1", formatNumber(0.1));
-		assertEquals("0", formatNumber(0.));
+		IO.test(Formats.formatNumber(0.0000001));
+		assertEquals("1E-7", Formats.formatNumber(0.0000001));
+		assertEquals("0.000001", Formats.formatNumber(0.000001));
+		assertEquals("0.00001", Formats.formatNumber(0.00001));
+		assertEquals("0.0001", Formats.formatNumber(0.0001));
+		assertEquals("0.001", Formats.formatNumber(0.001));
+		assertEquals("0.01", Formats.formatNumber(0.01));
+		assertEquals("0.1", Formats.formatNumber(0.1));
+		assertEquals("0", Formats.formatNumber(0.));
 
-		assertEquals("1", formatNumber(1));
-		assertEquals("12", formatNumber(12));
-		assertEquals("123", formatNumber(123));
-		assertEquals("1234", formatNumber(1234));
-		assertEquals("12345", formatNumber(12345));
-		assertEquals("123456", formatNumber(123456));
-		assertEquals("1.234567E6", formatNumber(1234567));
+		assertEquals("1", Formats.formatNumber(1));
+		assertEquals("12", Formats.formatNumber(12));
+		assertEquals("123", Formats.formatNumber(123));
+		assertEquals("1234", Formats.formatNumber(1234));
+		assertEquals("12345", Formats.formatNumber(12345));
+		assertEquals("123456", Formats.formatNumber(123456));
+		assertEquals("1.234567E6", Formats.formatNumber(1234567));
 	}
 }

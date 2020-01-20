@@ -50,31 +50,38 @@ public class Arguments {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String expectedButFound(final Object found, final Object expected) {
-		return Strings.parenthesize(
-				Strings.quote(expected) + " expected but " + Strings.quote(found) + " found");
+		return Strings.parenthesize(Strings.join(
+				Strings.quote(expected), " expected but ",
+				Strings.quote(found), " found"));
 	}
 
 	public static String atLeastExpectedButFound(final Object found, final Object expected) {
-		return Strings.parenthesize("at least " + Strings.quote(expected) + " expected but " +
-				Strings.quote(found) + " found");
+		return Strings.parenthesize(Strings.join(
+				"at least ", Strings.quote(expected), " expected but ",
+				Strings.quote(found), " found"));
 	}
 
 	public static String atMostExpectedButFound(final Object found, final Object expected) {
-		return Strings.parenthesize("at most " + Strings.quote(expected) + " expected but " +
-				Strings.quote(found) + " found");
+		return Strings.parenthesize(Strings.join(
+				"at most ", Strings.quote(expected), " expected but ",
+				Strings.quote(found), " found"));
 	}
 
 	public static String betweenExpectedButFound(final Object found, final Object expectedFrom,
-			final Object expectedTo, final boolean isInclusive) {
-		return Strings.parenthesize("between " + Strings.quote(expectedFrom) + " and " +
-				Strings.quote(expectedTo) + " " + (isInclusive ? "inclusive" : "exclusive") +
-				" expected but " + Strings.quote(found) + " found");
+			final Object expectedTo, final boolean isInclusiveExclusive) {
+		return Strings.parenthesize(Strings.join(
+				"between ", Strings.quote(expectedFrom),
+				isInclusiveExclusive ? " (inclusive)" : " (exclusive)", " and ",
+				Strings.quote(expectedTo),
+				isInclusiveExclusive ? " (exclusive)" : " (inclusive)", " expected but ",
+				Strings.quote(found), " found"));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String isNotEqualTo(final Object a, final Object b) {
-		return Strings.parenthesize(Strings.quote(a) + " is not equal to " + Strings.quote(b));
+		return Strings.parenthesize(Strings.join(
+				Strings.quote(a), " is not equal to ", Strings.quote(b)));
 	}
 
 
@@ -98,15 +105,15 @@ public class Arguments {
 
 	public static <T> void require(final T found, final T expected) {
 		if (CHECK_ARGS && !requireNonNull(found).equals(expected)) {
-			throw new IllegalArgumentException(
-					"The specified object is wrong " + expectedButFound(found, expected));
+			throw new IllegalArgumentException(Strings.join(
+					"The specified object is wrong ", expectedButFound(found, expected)));
 		}
 	}
 
 	public static <T> void requireEquals(final T a, final T b) {
 		if (CHECK_ARGS && !requireNonNull(a).equals(requireNonNull(b))) {
-			throw new IllegalArgumentException(
-					"The specified objects are not equal " + isNotEqualTo(a, b));
+			throw new IllegalArgumentException(Strings.join(
+					"The specified objects are not equal ", isNotEqualTo(a, b)));
 		}
 	}
 }

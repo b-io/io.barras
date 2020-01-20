@@ -114,15 +114,16 @@ public class Collections {
 	 * Removes the first occurrence of the specified {@link Object} from the specified
 	 * {@link Collection} and returns the number of removed elements.
 	 * <p>
-	 * @param <C>    the {@link Collection} type
-	 * @param <E>    the element type of the {@link Collection}
-	 * @param list   a {@link Collection} of element type {@code E}
-	 * @param object the {@link Object} to remove
+	 * @param <C>        the {@link Collection} type
+	 * @param <E>        the element type of the {@link Collection}
+	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param object     the {@link Object} to remove
 	 * <p>
 	 * @return the number of removed elements
 	 */
-	public static <C extends Collection<E>, E> int removeFirst(final C list, final Object object) {
-		final Iterator<E> iterator = list.iterator();
+	public static <C extends Collection<E>, E> int removeFirst(final C collection,
+			final Object object) {
+		final Iterator<E> iterator = collection.iterator();
 		while (iterator.hasNext()) {
 			if (Objects.equals(iterator.next(), object)) {
 				iterator.remove();

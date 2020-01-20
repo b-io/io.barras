@@ -27,8 +27,8 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
+import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Formats.NUMBER_LENGTH;
-import static jupiter.common.util.Formats.formatNumber;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.SPACE;
 import static jupiter.hardware.gpu.OpenCL.CL;
@@ -51,9 +51,12 @@ import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.Table;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
+import jupiter.common.test.IntegerArguments;
 import jupiter.common.thread.DivideAndConquer;
 import jupiter.common.thread.WorkQueue;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Formats;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -67,8 +70,6 @@ import jupiter.math.linear.decomposition.Norms;
 import jupiter.math.linear.decomposition.QRDecomposition;
 import jupiter.math.linear.decomposition.SingularValueDecomposition;
 import jupiter.math.linear.test.MatrixArguments;
-
-import static jupiter.common.util.Formats.NEW_LINE;
 
 /**
  * Extension of the Java Matrix class (JAMA).
@@ -187,6 +188,10 @@ public class Matrix
 	 * @param columnCount the number of columns
 	 */
 	public Matrix(final int rowCount, final int columnCount) {
+		// Check the arguments
+		IntegerArguments.requirePositive(rowCount);
+		IntegerArguments.requirePositive(columnCount);
+
 		// Set the numbers of rows and columns
 		m = rowCount;
 		n = columnCount;
@@ -204,6 +209,10 @@ public class Matrix
 	 * @param value       the {@code double} value of the elements
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double value) {
+		// Check the arguments
+		IntegerArguments.requirePositive(rowCount);
+		IntegerArguments.requirePositive(columnCount);
+
 		// Set the numbers of rows and columns
 		m = rowCount;
 		n = columnCount;
@@ -227,6 +236,9 @@ public class Matrix
 	 *                                  {@code rowCount}
 	 */
 	public Matrix(final int rowCount, final double[] elements) {
+		// Check the arguments
+		IntegerArguments.requirePositive(rowCount);
+
 		// Set the numbers of rows and columns
 		m = rowCount;
 		n = rowCount > 0 ? elements.length / rowCount : 0;
@@ -251,6 +263,9 @@ public class Matrix
 	 *                                  {@code rowCount}
 	 */
 	public Matrix(final int rowCount, final double[] values, final boolean transpose) {
+		// Check the arguments
+		IntegerArguments.requirePositive(rowCount);
+
 		// Set the numbers of rows and columns
 		if (transpose) {
 			n = rowCount;
@@ -295,6 +310,10 @@ public class Matrix
 	 * @throws IllegalArgumentException if the {@code values} rows have not the same length
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double[][] values) {
+		// Check the arguments
+		IntegerArguments.requirePositive(rowCount);
+		IntegerArguments.requirePositive(columnCount);
+
 		// Set the numbers of rows and columns
 		m = rowCount;
 		n = columnCount;
@@ -2325,8 +2344,7 @@ public class Matrix
 			}
 			while ((line = reader.readLine()) != null) {
 				values = line.split(delimiter);
-				if (values == null || values.length == 0 || values[0] == null ||
-						EMPTY.equals(values[0])) {
+				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
 					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
 				} else if (values.length < n) {
@@ -2628,7 +2646,7 @@ public class Matrix
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				final String formattedElement = formatNumber(elements[i * n + j]);
+				final String formattedElement = Formats.formatNumber(elements[i * n + j]);
 				final int padding = Math.max(1, columnWidth - formattedElement.length());
 				for (int k = 0; k < padding; ++k) {
 					builder.append(' ');

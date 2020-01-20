@@ -80,10 +80,11 @@ public class R
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int installPackage(final String name) {
-		return execute("if (!" + Strings.singleQuote(name) + " %in% installed.packages())" +
-				"install.packages(" + Strings.singleQuote(name) +
-				", repos=" + Strings.singleQuote(REPO) +
-				")");
+		return execute(Strings.join(
+				"if (!", Strings.singleQuote(name), " %in% installed.packages())",
+				"install.packages(", Strings.singleQuote(name),
+				", repos=", Strings.singleQuote(REPO),
+				")"));
 	}
 
 	public static int[] installPackages(final String[] names) {
@@ -107,10 +108,11 @@ public class R
 		}
 
 		// Launch Rserve
-		if (!(installPackage("Rserve") == IO.EXIT_SUCCESS && execute("library(Rserve);" +
-				"Rserve(" + (debug ? "T" : "F") +
-				", args = " + Strings.singleQuote(Strings.joinWith(ARGS, SPACE)) +
-				")") == IO.EXIT_SUCCESS)) {
+		if (!(installPackage("Rserve") == IO.EXIT_SUCCESS && execute(Strings.join(
+				"library(Rserve);",
+				"Rserve(", (debug ? "T" : "F"),
+				", args = ", Strings.singleQuote(Strings.joinWith(ARGS, SPACE)),
+				")")) == IO.EXIT_SUCCESS)) {
 			return false;
 		}
 
@@ -287,7 +289,7 @@ public class R
 		@Override
 		public void print(final Object content, final boolean isError) {
 			final String text = Strings.toString(content);
-			printer.print(PREFIX + text, isError);
+			printer.print(PREFIX.concat(text), isError);
 			if (isError) {
 				check(text);
 			}
@@ -296,7 +298,7 @@ public class R
 		@Override
 		public void println(final Object content, final boolean isError) {
 			final String text = Strings.toString(content);
-			printer.println(PREFIX + text, isError);
+			printer.println(PREFIX.concat(text), isError);
 			if (isError) {
 				check(text);
 			}

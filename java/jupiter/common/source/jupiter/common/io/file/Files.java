@@ -25,8 +25,8 @@ package jupiter.common.io.file;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Strings.EMPTY;
-import static jupiter.common.util.Strings.SPACE;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -57,8 +57,6 @@ import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Strings;
-
-import static jupiter.common.util.Formats.NEW_LINE;
 
 public class Files {
 
@@ -209,8 +207,8 @@ public class Files {
 	public static void createDirs(final File file)
 			throws IOException {
 		if (!exists(file) && !file.mkdirs()) {
-			throw new IOException(
-					"Unable to create the directories " + Strings.quote(getPath(file)));
+			throw new IOException(Strings.join(
+					"Unable to create the directories ", Strings.quote(getPath(file))));
 		}
 	}
 
@@ -576,8 +574,8 @@ public class Files {
 			if (force) {
 				delete(target, true);
 			} else {
-				throw new CopyFileException(
-						"Target file " + Strings.quote(target) + " already exists");
+				throw new CopyFileException(Strings.join(
+						"Target file ", Strings.quote(target), " already exists"));
 			}
 		}
 		if (source.isDirectory()) {
@@ -636,9 +634,10 @@ public class Files {
 					position += byteCount;
 				}
 				if (source.length() != target.length()) {
-					throw new CopyFileException("Failed to copy the full contents from " +
-							Strings.quote(source) + " to " + Strings.quote(target) + SPACE +
-							Arguments.expectedButFound(target.length(), source.length()));
+					throw new CopyFileException(Strings.join(
+							"Failed to copy the full content from ", Strings.quote(source),
+							" to ", Strings.quote(target),
+							" ", Arguments.expectedButFound(target.length(), source.length())));
 				}
 				return true;
 			} catch (final IOException ex) {
@@ -677,8 +676,8 @@ public class Files {
 			if (force) {
 				delete(target, true);
 			} else {
-				throw new CopyFileException(
-						"Target file " + Strings.quote(target) + " already exists");
+				throw new CopyFileException(Strings.join(
+						"Target file ", Strings.quote(target), " already exists"));
 			}
 		}
 		if (source.isDirectory()) {

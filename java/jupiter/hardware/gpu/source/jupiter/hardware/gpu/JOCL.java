@@ -292,7 +292,7 @@ public class JOCL
 		final byte[] buffer = new byte[(int) size[0]];
 		clGetDeviceInfo(device_id, parameterName, buffer.length, Pointer.to(buffer), null);
 
-		// Return the info text (create a String from the buffer excluding the trailing \0 byte)
+		// Return the info text (create a string from the buffer excluding the trailing \0 byte)
 		return new String(buffer, 0, buffer.length - 1);
 	}
 

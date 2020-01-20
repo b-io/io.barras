@@ -24,7 +24,7 @@
 package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Strings.SPACE;
 
 import java.io.BufferedReader;
@@ -45,8 +45,6 @@ import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
-
-import static jupiter.common.util.Formats.NEW_LINE;
 
 /**
  * {@link Table} is a wrapper around a 2D {@code E} array.
@@ -290,7 +288,8 @@ public class Table<E>
 		// Get the column index
 		final int columnIndex = Arrays.<String>findFirstIndex(header, name);
 		if (columnIndex < 0) {
-			throw new IllegalArgumentException("There is no column " + Strings.quote(name));
+			throw new IllegalArgumentException(Strings.join(
+					"There is no column ", Strings.quote(name)));
 		}
 		return columnIndex;
 	}
@@ -876,7 +875,7 @@ public class Table<E>
 	 */
 	public void resizeRows() {
 		int i = m - 1;
-		while (i > 0 && Arrays.<E>isEmpty(elements[i])) {
+		while (i > 0 && !Arrays.<E>hasAnyValue(elements[i])) {
 			--i;
 		}
 		resize(i + 1, n);
@@ -886,13 +885,16 @@ public class Table<E>
 	 * Removes the empty leading columns.
 	 */
 	public void resizeColumns() {
-		final int j = n - 1;
+		int j = n - 1;
 		boolean isEmpty = true;
 		while (j > 0 && isEmpty) {
 			for (int i = 0; i < m && isEmpty; ++i) {
 				if (elements[i][j] != null) {
 					isEmpty = false;
 				}
+			}
+			if (isEmpty) {
+				--j;
 			}
 		}
 		resize(m, j + 1);
@@ -1082,8 +1084,7 @@ public class Table<E>
 			}
 			while ((line = reader.readLine()) != null) {
 				values = delimiter == null ? new String[] {line} : line.split(delimiter);
-				if (values == null || values.length == 0 || values[0] == null ||
-						EMPTY.equals(values[0])) {
+				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
 					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
 				} else if (values.length < n) {

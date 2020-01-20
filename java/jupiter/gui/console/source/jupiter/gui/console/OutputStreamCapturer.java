@@ -23,6 +23,7 @@
  */
 package jupiter.gui.console;
 
+import static jupiter.common.util.Formats.NEW_LINE;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -30,8 +31,6 @@ import java.io.PrintStream;
 import java.io.Serializable;
 
 import jupiter.common.util.Strings;
-
-import static jupiter.common.util.Formats.NEW_LINE;
 
 public class OutputStreamCapturer
 		extends OutputStream

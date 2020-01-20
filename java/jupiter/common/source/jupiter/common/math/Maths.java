@@ -38,6 +38,7 @@ import jupiter.common.test.ShortArguments;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Shorts;
+import jupiter.common.util.Strings;
 
 public class Maths {
 
@@ -1092,8 +1093,8 @@ public class Maths {
 
 	public static int factorial(final int n) {
 		if (!isFactorialInt(n)) {
-			throw new ArithmeticException("The factorial of " + n +
-					" cannot be represented as an int");
+			throw new ArithmeticException(Strings.join(
+					"The factorial of ", n, " cannot be represented as an int value"));
 		}
 		return INT_FACTORIALS[n];
 	}
@@ -1104,8 +1105,8 @@ public class Maths {
 
 	public static long factorial(final long n) {
 		if (!isFactorialLong(n)) {
-			throw new ArithmeticException("The factorial of " + n +
-					" cannot be represented as a long");
+			throw new ArithmeticException(Strings.join(
+					"The factorial of ", n, " cannot be represented as a long value"));
 		}
 		return LONG_FACTORIALS[Integers.convert(n)];
 	}

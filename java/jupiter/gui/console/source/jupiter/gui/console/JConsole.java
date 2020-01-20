@@ -26,6 +26,7 @@ package jupiter.gui.console;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.ESCAPE;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.awt.Color;
@@ -79,8 +80,6 @@ import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.Index;
 import jupiter.common.util.Strings;
-
-import static jupiter.common.util.Formats.NEW_LINE;
 
 /**
  * A JFC/Swing based console for the BeanShell desktop.
@@ -182,7 +181,7 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void init(final InputStream inputStream, final OutputStream outputStream) {
-		// Special TextPane which catches for cut and paste, both L&F keys and programmatic behavior
+		// Initialize the special text pane catching cut/paste, keys and programmatic behavior
 		textPane = new JTextPane(new DefaultStyledDocument()) {
 			/**
 			 * The generated serial version ID.

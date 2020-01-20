@@ -68,7 +68,7 @@ public class Messages {
 
 	// • OUTPUT
 	public static String getOutputPrefix(final SeverityLevel level, final int stackIndex) {
-		// Get information about the call (class name, method name and Message number)
+		// Get information about the call (class name, method name and line number)
 		final StackTraceElement stackTraceElement = new Throwable().fillInStackTrace()
 				.getStackTrace()[stackIndex];
 		final String simpleClassName = getSimpleClassName(stackTraceElement);

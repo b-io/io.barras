@@ -34,7 +34,6 @@ import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 import static jupiter.common.util.Formats.DEFAULT_LOCALE;
 import static jupiter.common.util.Formats.NEW_LINE;
-import static jupiter.common.util.Formats.formatNumber;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -80,7 +79,7 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile int DEFAULT_INITIAL_CAPACITY = 255;
+	public static volatile int DEFAULT_INITIAL_CAPACITY = 15;
 
 	public static volatile char DEFAULT_PROGRESS_CHARACTER = '-';
 
@@ -89,8 +88,8 @@ public class Strings {
 	public static final StringWrapper SINGLE_QUOTER = new StringWrapper(SINGLE_QUOTE, SINGLE_QUOTE);
 	public static final StringWrapper DOUBLE_QUOTER = new StringWrapper(DOUBLE_QUOTE, DOUBLE_QUOTE);
 	public static final StringWrapper QUOTER = new StringWrapper(LEFT_QUOTE, RIGHT_QUOTE);
-	public static final StringRemover UNQUOTER = new StringRemover(join(SINGLE_QUOTE, DOUBLE_QUOTE,
-			LEFT_QUOTE, RIGHT_QUOTE));
+	public static final StringRemover UNQUOTER = new StringRemover(join(
+			SINGLE_QUOTE, DOUBLE_QUOTE, LEFT_QUOTE, RIGHT_QUOTE));
 
 	public static final StringWrapper PARENTHESER = new StringWrapper(LEFT_PARENTHESIS,
 			RIGHT_PARENTHESIS);
@@ -360,7 +359,11 @@ public class Strings {
 	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
 	 */
 	public static String random(final int length) {
-		final StringBuilder builder = createBuilder();
+		// Check the arguments
+		IntegerArguments.requireNonNegative(length);
+
+		// Generate
+		final StringBuilder builder = createBuilder(length);
 		for (int i = 0; i < length; ++i) {
 			builder.append(Characters.random());
 		}
@@ -379,7 +382,11 @@ public class Strings {
 	 *         generated with {@code char} values between the specified bounds
 	 */
 	public static String random(final int length, final char lowerBound, final char upperBound) {
-		final StringBuilder builder = createBuilder();
+		// Check the arguments
+		IntegerArguments.requireNonNegative(length);
+
+		// Generate
+		final StringBuilder builder = createBuilder(length);
 		for (int i = 0; i < length; ++i) {
 			builder.append(Characters.random(lowerBound, upperBound));
 		}
@@ -388,20 +395,22 @@ public class Strings {
 
 	//////////////////////////////////////////////
 
-	public static String repeat(final char character, final int repeat) {
-		return repeat(toString(character), repeat);
+	public static String repeat(final char character, final int length) {
+		return repeat(toString(character), length);
 	}
 
-	public static String repeat(final String text, final int repeat) {
+	public static String repeat(final String text, final int length) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
-		IntegerArguments.requireNonNegative(repeat);
+		if (isNullOrEmpty(text)) {
+			return text;
+		}
+		IntegerArguments.requireNonNegative(length);
 
 		// Initialize
-		final StringBuilder builder = createBuilder(repeat);
+		final StringBuilder builder = createBuilder(length * text.length());
 
 		// Repeat the text
-		for (int i = 0; i < repeat; ++i) {
+		for (int i = 0; i < length; ++i) {
 			builder.append(text);
 		}
 		return builder.toString();
@@ -516,9 +525,12 @@ public class Strings {
 	 *         {@link String}
 	 */
 	public static int countString(final String text, final String token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = text.indexOf(token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (text != null && token != null) {
+			int index = -1;
+			while ((index = text.indexOf(token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -563,11 +575,16 @@ public class Strings {
 	 * @return the number of lines of the specified {@link String}
 	 */
 	public static int countLines(final String text, final boolean skipEmptyLines) {
+		// Check the arguments
 		if (text == null) {
 			return 0;
 		}
-		int lineCount;
+
+		// Initialize
 		final Matcher matcher = Pattern.compile("\r\n|\r|\n").matcher(text);
+
+		// Count
+		int lineCount;
 		if (skipEmptyLines) {
 			lineCount = 0;
 			int previousIndex = matcher.regionStart();
@@ -632,6 +649,29 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns a representative {@link String} of the specified array of {@link String}.
+	 * <p>
+	 * @param array an array of {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified array of {@link String}
+	 */
+	public static String join(final String... array) {
+		// Check the arguments
+		if (array == null) {
+			return NULL;
+		}
+
+		// Initialize
+		final StringBuilder builder = createBuilder(array.length * DEFAULT_INITIAL_CAPACITY);
+
+		// Join the array
+		for (final String string : array) {
+			builder.append(string);
+		}
+		return builder.toString();
+	}
+
+	/**
 	 * Returns a representative {@link String} of the specified array of {@link Object}.
 	 * <p>
 	 * @param array an array of {@link Object}
@@ -639,7 +679,19 @@ public class Strings {
 	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
 	public static String join(final Object... array) {
-		return joinWith(array, EMPTY);
+		// Check the arguments
+		if (array == null) {
+			return NULL;
+		}
+
+		// Initialize
+		final StringBuilder builder = createBuilder(array.length * DEFAULT_INITIAL_CAPACITY);
+
+		// Join the array
+		for (final Object object : array) {
+			builder.append(toString(object));
+		}
+		return builder.toString();
 	}
 
 	/**
@@ -650,7 +702,19 @@ public class Strings {
 	 * @return a representative {@link String} of the specified {@link Collection}
 	 */
 	public static String join(final Collection<?> collection) {
-		return joinWith(collection, EMPTY);
+		// Check the arguments
+		if (collection == null) {
+			return NULL;
+		}
+
+		// Initialize
+		final StringBuilder builder = createBuilder(collection.size() * DEFAULT_INITIAL_CAPACITY);
+
+		// Join the array
+		for (final Object object : collection) {
+			builder.append(toString(object));
+		}
+		return builder.toString();
 	}
 
 	//////////////////////////////////////////////
@@ -681,13 +745,17 @@ public class Strings {
 	 */
 	public static String joinWith(final Object[] array, final String delimiter) {
 		// Check the arguments
-		Arguments.requireNonNull(array);
+		if (array == null) {
+			return NULL;
+		}
+		Arguments.requireNonNull(delimiter);
 
 		// Initialize
-		int i = 0;
-		final StringBuilder builder = createBuilder(array.length * delimiter.length());
+		final StringBuilder builder = createBuilder(
+				array.length * (DEFAULT_INITIAL_CAPACITY + delimiter.length()));
 
 		// Join the array
+		int i = 0;
 		if (array.length > 0) {
 			builder.append(toString(array[i++]));
 			while (i < array.length) {
@@ -727,13 +795,18 @@ public class Strings {
 	public static String joinWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		// Check the arguments
-		Arguments.requireNonNull(array);
+		if (array == null) {
+			return NULL;
+		}
+		Arguments.requireNonNull(delimiter);
+		Arguments.requireNonNull(wrapper);
 
 		// Initialize
-		int i = 0;
-		final StringBuilder builder = createBuilder(array.length * delimiter.length());
+		final StringBuilder builder = createBuilder(
+				array.length * (DEFAULT_INITIAL_CAPACITY + delimiter.length()));
 
 		// Join the array
+		int i = 0;
 		if (array.length > 0) {
 			builder.append(wrapper.call(array[i++]));
 			while (i < array.length) {
@@ -771,10 +844,14 @@ public class Strings {
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter) {
 		// Check the arguments
-		Arguments.requireNonNull(collection);
+		if (collection == null) {
+			return NULL;
+		}
+		Arguments.requireNonNull(delimiter);
 
 		// Initialize
-		final StringBuilder builder = createBuilder(collection.size() * delimiter.length());
+		final StringBuilder builder = createBuilder(
+				collection.size() * (DEFAULT_INITIAL_CAPACITY + delimiter.length()));
 		final Iterator<?> iterator = collection.iterator();
 
 		// Join the collection
@@ -817,10 +894,15 @@ public class Strings {
 	public static String joinWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		// Check the arguments
-		Arguments.requireNonNull(collection);
+		if (collection == null) {
+			return NULL;
+		}
+		Arguments.requireNonNull(delimiter);
+		Arguments.requireNonNull(wrapper);
 
 		// Initialize
-		final StringBuilder builder = createBuilder(collection.size() * delimiter.length());
+		final StringBuilder builder = createBuilder(
+				collection.size() * (DEFAULT_INITIAL_CAPACITY + delimiter.length()));
 		final Iterator<?> iterator = collection.iterator();
 
 		// Join the collection
@@ -861,7 +943,7 @@ public class Strings {
 	 *         specified length with the specified {@code char} value
 	 */
 	public static String leftPad(final String text, final int length, final char character) {
-		if (text == null || length <= text.length()) {
+		if (isNullOrEmpty(text) || length <= text.length()) {
 			return text;
 		}
 		return repeat(character, length - text.length()).concat(text);
@@ -895,7 +977,7 @@ public class Strings {
 	 *         specified length with the specified {@code char} value
 	 */
 	public static String rightPad(final String text, final int length, final char character) {
-		if (text == null || length <= text.length()) {
+		if (isNullOrEmpty(text) || length <= text.length()) {
 			return text;
 		}
 		return text.concat(repeat(character, length - text.length()));
@@ -929,7 +1011,7 @@ public class Strings {
 	 *         specified length with the specified {@code char} value
 	 */
 	public static String centerPad(final String text, final int length, final char character) {
-		if (text == null || length <= text.length()) {
+		if (isNullOrEmpty(text) || length <= text.length()) {
 			return text;
 		}
 		return rightPad(repeat(character, (length - text.length()) / 2).concat(text), length,
@@ -950,13 +1032,13 @@ public class Strings {
 	 */
 	public static String remove(final String text, final int index) {
 		// Check the arguments
-		if (text == null) {
+		if (isNullOrEmpty(text)) {
 			return text;
 		}
 		ArrayArguments.requireIndex(index, text.length());
 
 		// Remove the character
-		return text.substring(0, index) + text.substring(index + 1);
+		return text.substring(0, index).concat(text.substring(index + 1));
 	}
 
 	/**
@@ -971,10 +1053,9 @@ public class Strings {
 	 */
 	public static String remove(final String text, final int[] indexes) {
 		// Check the arguments
-		if (text == null || indexes.length == 0) {
+		if (isNullOrEmpty(text) || Integers.isNullOrEmpty(indexes)) {
 			return text;
 		}
-		ArrayArguments.requireMaxLength(indexes.length, text.length());
 
 		// Remove the characters
 		final StringBuilder builder = createBuilder(text.length() - indexes.length);
@@ -1004,10 +1085,29 @@ public class Strings {
 	 *         {@link String}
 	 */
 	public static String removeFirst(final String text, final String tokens) {
-		if (text == null || isEmpty(tokens)) {
+		if (isNullOrEmpty(text) || isNullOrEmpty(tokens)) {
 			return text;
 		}
 		return replaceFirst(text, bracketize(tokens), EMPTY);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by removing the last occurrence of any of the
+	 * {@code char} tokens contained in the specified {@link String} from the specified
+	 * {@link String}.
+	 * <p>
+	 * @param text   a {@link String}
+	 * @param tokens the {@link String} containing the {@code char} tokens to remove
+	 * <p>
+	 * @return the {@link String} constructed by removing the last occurrence of any of the
+	 *         {@code char} tokens contained in the specified {@link String} from the specified
+	 *         {@link String}
+	 */
+	public static String removeLast(final String text, final String tokens) {
+		if (isNullOrEmpty(text) || isNullOrEmpty(tokens)) {
+			return text;
+		}
+		return replaceLast(text, bracketize(tokens), EMPTY);
 	}
 
 	/**
@@ -1021,7 +1121,7 @@ public class Strings {
 	 *         tokens contained in the specified {@link String} from the specified {@link String}
 	 */
 	public static String removeAll(final String text, final String tokens) {
-		if (isEmpty(text) || isEmpty(tokens)) {
+		if (isNullOrEmpty(text) || isNullOrEmpty(tokens)) {
 			return text;
 		}
 		return replaceAll(text, bracketize(tokens), EMPTY);
@@ -1057,7 +1157,7 @@ public class Strings {
 	 */
 	public static String replace(final String text, final int index, final char replacement) {
 		// Check the arguments
-		if (text == null) {
+		if (isNullOrEmpty(text)) {
 			return text;
 		}
 		ArrayArguments.requireIndex(index, text.length());
@@ -1084,10 +1184,9 @@ public class Strings {
 	public static String replace(final String text, final int[] indexes,
 			final char[] replacements) {
 		// Check the arguments
-		if (text == null || indexes.length == 0 || replacements.length == 0) {
+		if (isNullOrEmpty(text) || Integers.isNullOrEmpty(indexes)) {
 			return text;
 		}
-		ArrayArguments.requireMaxLength(indexes.length, text.length());
 		ArrayArguments.requireSameLength(indexes.length, replacements.length);
 
 		// Replace the characters
@@ -1096,6 +1195,56 @@ public class Strings {
 			builder.setCharAt(indexes[i], replacements[i]);
 		}
 		return builder.toString();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by replacing the substring at the specified index in
+	 * the specified {@link String} by the specified replacement {@link String} of the same length.
+	 * <p>
+	 * @param text        a {@link String}
+	 * @param fromIndex   the index to start replacing from (inclusive)
+	 * @param replacement the {@link String} to replace by
+	 * <p>
+	 * @return the {@link String} constructed by replacing the substring at the specified index in
+	 *         the specified {@link String} by the specified replacement {@link String} of the same
+	 *         length
+	 */
+	public static String replace(final String text, final int fromIndex, final String replacement) {
+		if (isNullOrEmpty(text) || isNullOrEmpty(replacement)) {
+			return text;
+		}
+		return replace(text, fromIndex, fromIndex + replacement.length(), replacement);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by replacing the substring between the specified
+	 * indexes in the specified {@link String} by the specified replacement {@link String}.
+	 * <p>
+	 * @param text        a {@link String}
+	 * @param fromIndex   the index to start replacing from (inclusive)
+	 * @param toIndex     the index to finish replacing at (exclusive)
+	 * @param replacement the {@link String} to replace by
+	 * <p>
+	 * @return the {@link String} constructed by replacing the substring between the specified
+	 *         indexes in the specified {@link String} by the specified replacement {@link String}
+	 */
+	public static String replace(final String text, final int fromIndex, final int toIndex,
+			final String replacement) {
+		// Check the arguments
+		if (isNullOrEmpty(text) || replacement == null) {
+			return text;
+		}
+		ArrayArguments.requireIndex(fromIndex, text.length());
+		ArrayArguments.requireIndex(toIndex, text.length(), false);
+
+		// Replace the character
+		final String string = text.substring(0, fromIndex).concat(replacement);
+		if (toIndex < text.length()) {
+			return string.concat(text.substring(toIndex));
+		}
+		return string;
 	}
 
 	//////////////////////////////////////////////
@@ -1115,10 +1264,40 @@ public class Strings {
 	 */
 	public static String replaceFirst(final String text, final String regex,
 			final String replacement) {
-		if (text == null) {
+		if (text == null || regex == null || replacement == null) {
 			return text;
 		}
 		return text.replaceFirst(regex, replacement);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by replacing the last matching subsequence in the
+	 * specified regular expression {@link String} by the specified replacement {@link String},
+	 * substituting the captured subsequence as needed.
+	 * <p>
+	 * @param text        a {@link String}
+	 * @param regex       the regular expression {@link String} to identify and replace
+	 * @param replacement the replacement {@link String}
+	 * <p>
+	 * @return the {@link String} constructed by replacing the last matching subsequence in the
+	 *         specified regular expression {@link String} by the specified replacement
+	 *         {@link String}, substituting the captured subsequence as needed
+	 */
+	public static String replaceLast(final String text, final String regex,
+			final String replacement) {
+		if (text == null || regex == null || replacement == null) {
+			return text;
+		}
+		final Matcher matcher = Pattern.compile(regex).matcher(text);
+		int fromIndex = -1, toIndex = -1;
+		while (matcher.find()) {
+			fromIndex = matcher.start();
+			toIndex = matcher.end();
+		}
+		if (fromIndex >= 0) {
+			return replace(text, fromIndex, toIndex, replacement);
+		}
+		return text;
 	}
 
 	/**
@@ -1136,7 +1315,7 @@ public class Strings {
 	 */
 	public static String replaceAll(final String text, final String regex,
 			final String replacement) {
-		if (text == null) {
+		if (text == null || regex == null || replacement == null) {
 			return text;
 		}
 		return text.replaceAll(regex, replacement);
@@ -1152,7 +1331,7 @@ public class Strings {
 	 * @return the {@link String} constructed by reversing the specified {@link String}
 	 */
 	public static String reverse(final String text) {
-		if (text == null) {
+		if (isNullOrEmpty(text)) {
 			return text;
 		}
 		return createBuilder(text.length()).append(text).reverse().toString();
@@ -1171,9 +1350,12 @@ public class Strings {
 	 *         specified length
 	 */
 	public static String truncate(final String text, final int length) {
-		if (text == null || length >= text.length()) {
+		// Check the arguments
+		if (isNullOrEmpty(text) || length >= text.length()) {
 			return text;
 		}
+		IntegerArguments.requireNonNegative(length);
+
 		return text.substring(0, length);
 	}
 
@@ -1193,7 +1375,11 @@ public class Strings {
 		if (content == null) {
 			return null;
 		}
-		return wrapper + toString(content) + wrapper;
+		final String string = toString(content);
+		if (isNullOrEmpty(wrapper)) {
+			return string;
+		}
+		return wrapper.concat(string).concat(wrapper);
 	}
 
 	/**
@@ -1211,7 +1397,14 @@ public class Strings {
 		if (content == null) {
 			return null;
 		}
-		return left + toString(content) + right;
+		String string = toString(content);
+		if (isNotEmpty(left)) {
+			string = left.concat(string);
+		}
+		if (isNotEmpty(right)) {
+			string = string.concat(right);
+		}
+		return string;
 	}
 
 	//////////////////////////////////////////////
@@ -1322,7 +1515,7 @@ public class Strings {
 	 */
 	public static int findFirst(final String text, final char[] tokens, final int fromIndex) {
 		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (Characters.contains(tokens, text.charAt(index))) {
 					return index;
@@ -1362,7 +1555,7 @@ public class Strings {
 	public static int findFirst(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (tokens.contains(text.charAt(index))) {
 					return index;
@@ -1407,7 +1600,7 @@ public class Strings {
 			final int fromIndex) {
 		Index<String> indexAndToken = null;
 		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.indexOf(token, fromIndex);
 				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getIndex())) {
@@ -1452,7 +1645,7 @@ public class Strings {
 			final int fromIndex) {
 		Index<String> indexAndToken = null;
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.indexOf(token, fromIndex);
 				if (index >= 0 && (indexAndToken == null || index < indexAndToken.getIndex())) {
@@ -1476,7 +1669,10 @@ public class Strings {
 	 *         specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLast(final String text, final char... tokens) {
-		return findLast(text, tokens, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLast(text, tokens, text.length() - 1);
+		}
+		return -1;
 	}
 
 	/**
@@ -1494,7 +1690,7 @@ public class Strings {
 	 */
 	public static int findLast(final String text, final char[] tokens, final int fromIndex) {
 		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (Characters.contains(tokens, text.charAt(index))) {
 					return index;
@@ -1515,7 +1711,10 @@ public class Strings {
 	 *         the specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLast(final String text, final Collection<Character> tokens) {
-		return findLast(text, tokens, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLast(text, tokens, text.length() - 1);
+		}
+		return -1;
 	}
 
 	/**
@@ -1534,7 +1733,7 @@ public class Strings {
 	public static int findLast(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (tokens.contains(text.charAt(index))) {
 					return index;
@@ -1557,7 +1756,10 @@ public class Strings {
 	 *         in the specified {@link String}, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String text, final String... tokens) {
-		return findLastString(text, tokens, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLastString(text, tokens, text.length() - 1);
+		}
+		return null;
 	}
 
 	/**
@@ -1577,7 +1779,7 @@ public class Strings {
 			final int fromIndex) {
 		Index<String> indexAndToken = null;
 		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.lastIndexOf(token, fromIndex);
 				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getIndex())) {
@@ -1599,7 +1801,10 @@ public class Strings {
 	 *         in the specified {@link String}, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String text, final Collection<String> tokens) {
-		return findLastString(text, tokens, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLastString(text, tokens, text.length() - 1);
+		}
+		return null;
 	}
 
 	/**
@@ -1619,7 +1824,7 @@ public class Strings {
 			final int fromIndex) {
 		Index<String> indexAndToken = null;
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (final String token : tokens) {
 				final int index = text.lastIndexOf(token, fromIndex);
 				if (index >= 0 && (indexAndToken == null || index > indexAndToken.getIndex())) {
@@ -1659,7 +1864,7 @@ public class Strings {
 	 */
 	public static int findFirstNotEqualTo(final String text, final char token,
 			final int fromIndex) {
-		if (isNotEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
+		if (isNotEmpty(text) && Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (text.charAt(index) != token) {
 					return index;
@@ -1699,7 +1904,7 @@ public class Strings {
 	public static int findFirstStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
 		if (isNotEmpty(text) && isNotEmpty(token) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index < text.length(); index += token.length()) {
 				if (!isToken(text, index, token)) {
 					return index;
@@ -1722,7 +1927,10 @@ public class Strings {
 	 *         {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotEqualTo(final String text, final char token) {
-		return findLastNotEqualTo(text, token, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLastNotEqualTo(text, token, text.length() - 1);
+		}
+		return -1;
 	}
 
 	/**
@@ -1737,7 +1945,7 @@ public class Strings {
 	 *         backward from {@code fromIndex}, or {@code -1} if there is no such occurrence
 	 */
 	public static int findLastNotEqualTo(final String text, final char token, final int fromIndex) {
-		if (isNotEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
+		if (isNotEmpty(text) && Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (text.charAt(index) != token) {
 					return index;
@@ -1760,7 +1968,10 @@ public class Strings {
 	 *         {@code -1} if there is no such occurrence
 	 */
 	public static int findLastStringNotEqualTo(final String text, final String token) {
-		return findLastStringNotEqualTo(text, token, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLastStringNotEqualTo(text, token, text.length() - 1);
+		}
+		return -1;
 	}
 
 	/**
@@ -1777,7 +1988,7 @@ public class Strings {
 	public static int findLastStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
 		if (isNotEmpty(text) && isNotEmpty(token) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index >= 0; index -= token.length()) {
 				if (!isTokenTo(text, index, token)) {
 					return index;
@@ -1816,7 +2027,7 @@ public class Strings {
 	 */
 	public static int findFirstNotIn(final String text, final char[] tokens, final int fromIndex) {
 		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (!Characters.contains(tokens, text.charAt(index))) {
 					return index;
@@ -1854,7 +2065,7 @@ public class Strings {
 	public static int findFirstNotIn(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (!tokens.contains(text.charAt(index))) {
 					return index;
@@ -1894,7 +2105,7 @@ public class Strings {
 	public static int findFirstStringNotIn(final String text, final String[] tokens,
 			final int fromIndex) {
 		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex;
 			do {
 				final int i = getToken(text, index, tokens);
@@ -1936,7 +2147,7 @@ public class Strings {
 	public static int findFirstStringNotIn(final String text, final List<String> tokens,
 			final int fromIndex) {
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex;
 			do {
 				final int i = getToken(text, index, tokens);
@@ -1963,7 +2174,10 @@ public class Strings {
 	 *         if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String text, final char... tokens) {
-		return findLastNotIn(text, tokens, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLastNotIn(text, tokens, text.length() - 1);
+		}
+		return -1;
 	}
 
 	/**
@@ -1979,7 +2193,7 @@ public class Strings {
 	 */
 	public static int findLastNotIn(final String text, final char[] tokens, final int fromIndex) {
 		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (!Characters.contains(tokens, text.charAt(index))) {
 					return index;
@@ -2000,7 +2214,10 @@ public class Strings {
 	 *         if there is no such occurrence
 	 */
 	public static int findLastNotIn(final String text, final Collection<Character> tokens) {
-		return findLastNotIn(text, tokens, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLastNotIn(text, tokens, text.length() - 1);
+		}
+		return -1;
 	}
 
 	/**
@@ -2017,7 +2234,7 @@ public class Strings {
 	public static int findLastNotIn(final String text, final Collection<Character> tokens,
 			final int fromIndex) {
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index >= 0; --index) {
 				if (!tokens.contains(text.charAt(index))) {
 					return index;
@@ -2040,7 +2257,10 @@ public class Strings {
 	 *         if there is no such occurrence
 	 */
 	public static int findLastStringNotIn(final String text, final String... tokens) {
-		return findLastStringNotIn(text, tokens, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLastStringNotIn(text, tokens, text.length() - 1);
+		}
+		return -1;
 	}
 
 	/**
@@ -2057,7 +2277,7 @@ public class Strings {
 	public static int findLastStringNotIn(final String text, final String[] tokens,
 			final int fromIndex) {
 		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex;
 			do {
 				final int i = getTokenTo(text, index + 1, tokens);
@@ -2082,7 +2302,10 @@ public class Strings {
 	 *         if there is no such occurrence
 	 */
 	public static int findLastStringNotIn(final String text, final List<String> tokens) {
-		return findLastStringNotIn(text, tokens, text.length() - 1);
+		if (isNotEmpty(text)) {
+			return findLastStringNotIn(text, tokens, text.length() - 1);
+		}
+		return -1;
 	}
 
 	/**
@@ -2099,7 +2322,7 @@ public class Strings {
 	public static int findLastStringNotIn(final String text, final List<String> tokens,
 			final int fromIndex) {
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex;
 			do {
 				final int i = getTokenTo(text, index + 1, tokens);
@@ -2142,7 +2365,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (isNotEmpty(text) && Integers.isBetween(fromIndex, 0, text.length())) {
+		if (isNotEmpty(text) && Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex - 1;
 			while ((index = text.indexOf(token, index + 1)) >= 0) {
 				indexes.add(index);
@@ -2166,7 +2389,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (isNotEmpty(text) && Integers.isBetween(toIndex, 1, text.length() + 1)) {
+		if (isNotEmpty(text) && Arrays.isBetween(toIndex, text.length(), false)) {
 			int index = text.indexOf(token);
 			while (index >= 0 && index < toIndex) {
 				indexes.add(index);
@@ -2208,7 +2431,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			final char[] array = text.toCharArray();
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (Characters.contains(tokens, array[index])) {
@@ -2237,7 +2460,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
-				Integers.isBetween(toIndex, 1, text.length() + 1)) {
+				Arrays.isBetween(toIndex, text.length(), false)) {
 			final char[] array = text.toCharArray();
 			for (int index = 0; index < toIndex; ++index) {
 				if (Characters.contains(tokens, array[index])) {
@@ -2283,7 +2506,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			final char[] array = text.toCharArray();
 			for (int index = fromIndex; index < text.length(); ++index) {
 				if (tokens.contains(array[index])) {
@@ -2312,7 +2535,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(toIndex, 1, text.length() + 1)) {
+				Arrays.isBetween(toIndex, text.length(), false)) {
 			final char[] array = text.toCharArray();
 			for (int index = 0; index < toIndex; ++index) {
 				if (tokens.contains(array[index])) {
@@ -2354,7 +2577,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && isNotEmpty(token) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex - 1;
 			while ((index = text.indexOf(token, index + 1)) >= 0) {
 				indexes.add(index);
@@ -2379,7 +2602,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && isNotEmpty(token) &&
-				Integers.isBetween(toIndex, 1, text.length() + 1)) {
+				Arrays.isBetween(toIndex, text.length(), false)) {
 			int index = text.indexOf(token);
 			while (index >= 0 && index < toIndex) {
 				indexes.add(index);
@@ -2422,7 +2645,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexes(text, token,
 						fromIndex);
@@ -2452,7 +2675,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
-				Integers.isBetween(toIndex, 1, text.length() + 1)) {
+				Arrays.isBetween(toIndex, text.length(), false)) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
 						toIndex);
@@ -2497,7 +2720,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(fromIndex, 0, text.length())) {
+				Arrays.isBetween(fromIndex, text.length())) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexes(text, token,
 						fromIndex);
@@ -2527,7 +2750,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Integers.isBetween(toIndex, 1, text.length() + 1)) {
+				Arrays.isBetween(toIndex, text.length(), false)) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
 						toIndex);
@@ -2655,7 +2878,7 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int getToken(final String text, final int fromIndex, final String[] tokens) {
-		if (Integers.isBetween(fromIndex, 0, text.length())) {
+		if (Arrays.isBetween(fromIndex, text.length())) {
 			for (int i = 0; i < tokens.length; ++i) {
 				if (isToken(text, fromIndex, tokens[i])) {
 					return i;
@@ -2677,7 +2900,7 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	public static int getToken(final String text, final int fromIndex, final List<String> tokens) {
-		if (Integers.isBetween(fromIndex, 0, text.length())) {
+		if (Arrays.isBetween(fromIndex, text.length())) {
 			final Iterator<String> tokenIterator = tokens.iterator();
 			int index = 0;
 			while (tokenIterator.hasNext()) {
@@ -2691,7 +2914,7 @@ public class Strings {
 	}
 
 	public static int getTokenTo(final String text, final int toIndex, final List<String> tokens) {
-		if (Integers.isBetween(toIndex, 1, text.length() + 1)) {
+		if (Arrays.isBetween(toIndex, text.length(), false)) {
 			final Iterator<String> tokenIterator = tokens.iterator();
 			int index = 0;
 			while (tokenIterator.hasNext()) {
@@ -2838,7 +3061,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiter);
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
+		ArrayArguments.requireIndex(toIndex, text.length(), false);
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
@@ -2892,7 +3115,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiters);
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
+		ArrayArguments.requireIndex(toIndex, text.length(), false);
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
@@ -3048,7 +3271,7 @@ public class Strings {
 	 * @return {@code true} if {@code text} is numeric, {@code false} otherwise
 	 */
 	public static boolean isNumeric(final String text) {
-		if (text == null) {
+		if (isNullOrEmpty(text)) {
 			return false;
 		}
 		final NumberFormat formatter = NumberFormat.getInstance();
@@ -3079,10 +3302,7 @@ public class Strings {
 	 *         token, {@code false} otherwise
 	 */
 	public static boolean contains(final String text, final char token) {
-		if (text == null) {
-			return false;
-		}
-		return text.indexOf(token) >= 0;
+		return text != null && text.indexOf(token) >= 0;
 	}
 
 	/**
@@ -3117,10 +3337,7 @@ public class Strings {
 	 *         {@link String}, {@code false} otherwise
 	 */
 	public static boolean contains(final String text, final String token) {
-		if (text == null) {
-			return false;
-		}
-		return text.contains(token);
+		return text != null && text.contains(token);
 	}
 
 	/**
@@ -3155,10 +3372,7 @@ public class Strings {
 	 * @return {@code true} if {@code text} matches {@code expression}, {@code false} otherwise
 	 */
 	public static boolean matches(final String text, final String expression) {
-		if (text == null) {
-			return false;
-		}
-		return text.matches(expression);
+		return text != null && expression != null && text.matches(expression);
 	}
 
 	/**
@@ -3170,12 +3384,11 @@ public class Strings {
 	 * @return {@code true} if {@code text} matches any {@code expressions}, {@code false} otherwise
 	 */
 	public static boolean matches(final String text, final String[] expressions) {
-		if (text == null) {
-			return false;
-		}
-		for (final String expression : expressions) {
-			if (text.matches(expression)) {
-				return true;
+		if (text != null) {
+			for (final String expression : expressions) {
+				if (expression != null && text.matches(expression)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -3289,7 +3502,7 @@ public class Strings {
 		} else if (Collections.is(c)) {
 			Collections.toString((Collection<?>) object);
 		} else if (Numbers.is(c)) {
-			return formatNumber(object);
+			return Formats.formatNumber(object);
 		}
 		return String.valueOf(object);
 	}
@@ -3304,11 +3517,11 @@ public class Strings {
 	 *         {@code null} or {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object object) {
-		final String value = toString(object);
-		if (NULL.equals(value)) {
+		final String string = toString(object);
+		if (NULL.equals(string)) {
 			return null;
 		}
-		return value;
+		return string;
 	}
 
 	//////////////////////////////////////////////
@@ -3338,11 +3551,11 @@ public class Strings {
 	 *         {@code null} or {@code "null"}, {@code defaultString} otherwise
 	 */
 	public static String toStringWithNull(final Object object, final String defaultString) {
-		final String value = toString(object);
-		if (NULL.equals(value)) {
+		final String string = toString(object);
+		if (NULL.equals(string)) {
 			return defaultString;
 		}
-		return value;
+		return string;
 	}
 
 	//////////////////////////////////////////////
@@ -3376,8 +3589,8 @@ public class Strings {
 			if (stackTraceElementCount > 0) {
 				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
-				return exception.getLocalizedMessage() + ":" + NEW_LINE +
-						joinWith(stackTraces, NEW_LINE);
+				return exception.getLocalizedMessage().concat(":").concat(NEW_LINE)
+						.concat(joinWith(stackTraces, NEW_LINE));
 			}
 			return exception.getLocalizedMessage();
 		}

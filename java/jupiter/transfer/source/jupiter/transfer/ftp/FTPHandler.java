@@ -396,7 +396,7 @@ public class FTPHandler
 			IO.warn("No file names");
 			return 0;
 		}
-		if (Strings.isEmpty(fileNames[0])) {
+		if (Strings.isNullOrEmpty(fileNames[0])) {
 			IO.warn("Empty file name");
 			return 0;
 		}
@@ -643,7 +643,7 @@ public class FTPHandler
 			IO.warn("No file names");
 			return 0;
 		}
-		if (Strings.isEmpty(fileNames[0])) {
+		if (Strings.isNullOrEmpty(fileNames[0])) {
 			IO.warn("Empty file name");
 			return 0;
 		}
