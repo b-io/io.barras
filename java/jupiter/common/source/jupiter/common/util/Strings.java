@@ -77,6 +77,8 @@ public class Strings {
 
 	public static final String STAR = "*";
 
+	public static final String UNICODE = "\\u";
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static volatile int DEFAULT_INITIAL_CAPACITY = 15;
@@ -146,6 +148,23 @@ public class Strings {
 
 	public static String toUpperCase(final String text) {
 		return text.toUpperCase(DEFAULT_LOCALE);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns an Unicode {@link String} converted from the specified {@code String}.
+	 * <p>
+	 * @param text the {@code String} to convert
+	 * <p>
+	 * @return an Unicode {@link String} converted from the specified {@code String}
+	 */
+	public static String toUnicode(final String text) {
+		final StringBuilder builder = Strings.createBuilder(6 * text.length());
+		for (int i = 0; i < text.length(); ++i) {
+			builder.append(Characters.toUnicode(text.charAt(i)));
+		}
+		return builder.toString();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -665,8 +684,8 @@ public class Strings {
 		final StringBuilder builder = createBuilder(array.length * DEFAULT_INITIAL_CAPACITY);
 
 		// Join the array
-		for (final String string : array) {
-			builder.append(string);
+		for (final String element : array) {
+			builder.append(element);
 		}
 		return builder.toString();
 	}
@@ -1042,14 +1061,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@link String} constructed by removing the characters at the specified indexes in
-	 * the specified {@link String}.
+	 * Returns the {@link String} constructed by removing the characters at the specified distinct
+	 * sorted indexes in the specified {@link String}.
 	 * <p>
 	 * @param text    a {@link String}
-	 * @param indexes the indexes of the characters to remove
+	 * @param indexes the distinct sorted indexes of the characters to remove
 	 * <p>
-	 * @return the {@link String} constructed by removing the characters at the specified indexes in
-	 *         the specified {@link String}
+	 * @return the {@link String} constructed by removing the characters at the specified distinct
+	 *         sorted indexes in the specified {@link String}
 	 */
 	public static String remove(final String text, final int[] indexes) {
 		// Check the arguments
@@ -1135,7 +1154,7 @@ public class Strings {
 	 * @param <C>        the {@link Collection} type
 	 * @param collection a {@link Collection} of {@link String}
 	 * <p>
-	 * @return the number of removed elements
+	 * @return the specified {@link Collection} of {@link String} without the empty {@link String}
 	 */
 	public static <C extends Collection<String>> C removeEmpty(final C collection) {
 		Collections.<C, String>removeAll(collection, EMPTY);

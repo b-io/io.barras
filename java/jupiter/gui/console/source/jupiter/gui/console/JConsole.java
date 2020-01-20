@@ -106,7 +106,6 @@ public class JConsole
 	protected static final String COPY = "Copy";
 	protected static final String CUT = "Cut";
 	protected static final String PASTE = "Paste";
-	protected static final String ZEROS = "000";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -453,20 +452,15 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void acceptLine(String line) {
-		// Handle Unicode characters
-		final StringBuilder builder = Strings.createBuilder();
-		for (int i = 0; i < line.length(); ++i) {
-			String unicode = Integer.toString(line.charAt(i), 16);
-			unicode = ZEROS.substring(0, 4 - unicode.length()) + unicode;
-			builder.append("\\u").append(unicode);
-		}
-		line = builder.toString();
+		// Check the output stream
 		if (outPipe == null) {
 			IO.error("No console output stream");
 			return;
 		}
+
+		// Write the line (handle Unicode characters)
 		try {
-			outPipe.write(line.getBytes(DEFAULT_CHARSET.name()));
+			outPipe.write(Strings.toUnicode(line).getBytes(DEFAULT_CHARSET.name()));
 			outPipe.flush();
 		} catch (final IOException ex) {
 			throw new IllegalStateException("Unable to write in the console", ex);

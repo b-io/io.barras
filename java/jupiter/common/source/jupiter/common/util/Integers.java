@@ -204,44 +204,40 @@ public class Integers {
 		return index;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an {@code int} value converted from the specified representative {@link String} of
 	 * the specified radix.
 	 * <p>
-	 * @param string the representative {@link String} to convert
-	 * @param radix  the radix of the representative {@link String} to convert
+	 * @param text  the representative {@link String} to convert
+	 * @param radix the radix of the representative {@link String} to convert
 	 * <p>
 	 * @return an {@code int} value converted from the specified representative {@link String} of
 	 *         the specified radix
 	 */
-	public static int parseUnsignedInt(final String string, final int radix)
+	public static int parseUnsignedInt(final String text, final int radix)
 			throws NumberFormatException {
-		if (string == null) {
-			throw new NumberFormatException(Strings.NULL);
+		// Check the arguments
+		if (Strings.isNullOrEmpty(text) || text.charAt(0) == '-') {
+			throw new NumberFormatException(Strings.join(
+					"Cannot parse ", Strings.quote(text), " to an unsigned int value"));
 		}
 
-		final int length = string.length();
-		if (length > 0) {
-			if (string.charAt(0) == '-') {
-				throw new NumberFormatException(String.format(
-						"Illegal leading minus sign on unsigned string %s", string));
-			} else if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
-					(radix == 10 && length <= 9)) { // Integer.MAX_VALUE in base 10 is 10 digits
-				return Integer.parseInt(string, radix);
-			} else {
-				final long value = Long.parseLong(string, radix);
-				if ((value & 0xffffffff00000000L) == 0) {
-					return (int) value;
-				} else {
-					throw new NumberFormatException(String.format(
-							"String value %s exceeds range of unsigned int", string));
-				}
-			}
+		// Parse
+		final int length = text.length();
+		if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
+				(radix == 10 && length <= 9)) { // Integer.MAX_VALUE in base 10 is 10 digits
+			return Integer.parseInt(text, radix);
 		} else {
-			throw new NumberFormatException(Strings.join(
-					"For input string: ", Strings.quote(string)));
+			final long value = Long.parseLong(text, radix);
+			if ((value & 0xffffffff00000000L) == 0) {
+				return (int) value;
+			} else {
+				throw new NumberFormatException(Strings.join(
+						"Cannot parse ", Strings.quote(text),
+						" to an unsigned int value (range exceeded)"));
+			}
 		}
 	}
 

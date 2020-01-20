@@ -47,6 +47,19 @@ public class StringsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of toUnicode method, of class Strings.
+	 */
+	public void testToUnicode() {
+		IO.test("• toUnicode");
+
+		assertTrue("\\u0030".equals(Strings.toUnicode("0")));
+		assertTrue("\\u0061".equals(Strings.toUnicode("a")));
+		assertTrue("\\u2022".equals(Strings.toUnicode("•")));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Test of split method, of class Strings.
 	 */
 	public void testSplit() {

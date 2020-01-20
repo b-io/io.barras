@@ -36,7 +36,6 @@ import java.util.Set;
 import jupiter.common.io.file.Files;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.util.Arrays;
-import jupiter.common.util.Strings;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
@@ -143,7 +142,7 @@ public class SystemFiles {
 			IO.warn("No file names");
 			return 0;
 		}
-		if (Strings.isNullOrEmpty(fileNames[0])) {
+		if (fileNames[0].isEmpty()) {
 			IO.warn("Empty file name");
 			return 0;
 		}

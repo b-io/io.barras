@@ -30,6 +30,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
@@ -46,7 +47,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
-import java.io.FileNotFoundException;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.Resources;
@@ -396,7 +396,7 @@ public class FTPHandler
 			IO.warn("No file names");
 			return 0;
 		}
-		if (Strings.isNullOrEmpty(fileNames[0])) {
+		if (fileNames[0].isEmpty()) {
 			IO.warn("Empty file name");
 			return 0;
 		}
@@ -643,7 +643,7 @@ public class FTPHandler
 			IO.warn("No file names");
 			return 0;
 		}
-		if (Strings.isNullOrEmpty(fileNames[0])) {
+		if (fileNames[0].isEmpty()) {
 			IO.warn("Empty file name");
 			return 0;
 		}

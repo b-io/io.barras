@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Strings.UNICODE;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
@@ -64,6 +66,11 @@ public class Characters {
 	public static final char RIGHT_PARENTHESIS = ')';
 	public static final char LEFT_BRACKET = '[';
 	public static final char RIGHT_BRACKET = ']';
+
+	//////////////////////////////////////////////
+
+	public static final char ZERO = '0';
+	public static final char ONE = '1';
 
 	//////////////////////////////////////////////
 
@@ -121,6 +128,19 @@ public class Characters {
 	 */
 	public static Character convert(final Object object) {
 		return PARSER.call(object);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns an Unicode {@link String} converted from the specified {@code char} value.
+	 * <p>
+	 * @param value the {@code char} value to convert
+	 * <p>
+	 * @return an Unicode {@link String} converted from the specified {@code char} value
+	 */
+	public static String toUnicode(final char value) {
+		return UNICODE.concat(Strings.leftPad(Integer.toString(value, 16), 4, ZERO));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
