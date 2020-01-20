@@ -24,6 +24,7 @@
 package jupiter.common.test;
 
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
 
 public class ArrayArguments
@@ -121,16 +122,21 @@ public class ArrayArguments
 	}
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength) {
-		requireIndex(foundIndex, maxExpectedLength, false);
+		requireIndex(foundIndex, maxExpectedLength, true);
 	}
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength,
 			final boolean isInclusiveExclusive) {
-		if (CHECK_ARGS && isInclusiveExclusive ? foundIndex < 0 && foundIndex >= maxExpectedLength :
-				foundIndex <= 0 && foundIndex > maxExpectedLength) {
+		requireIndex(foundIndex, maxExpectedLength, isInclusiveExclusive, !isInclusiveExclusive);
+	}
+
+	public static void requireIndex(final int foundIndex, final int maxExpectedLength,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		if (CHECK_ARGS && !Integers.isBetween(
+				foundIndex, 0, maxExpectedLength, isLowerInclusive, isUpperInclusive)) {
 			throw new IllegalArgumentException(Strings.join(
-					"The specified index is out of bounds ", betweenExpectedButFound(foundIndex,
-							isInclusiveExclusive ? 0 : 1, maxExpectedLength, !isInclusiveExclusive)));
+					"The specified index is out of bounds ", betweenExpectedButFound(
+							foundIndex, 0, maxExpectedLength, isLowerInclusive, isUpperInclusive)));
 		}
 	}
 

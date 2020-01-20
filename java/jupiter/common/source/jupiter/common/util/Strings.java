@@ -1252,11 +1252,11 @@ public class Strings {
 	public static String replace(final String text, final int fromIndex, final int toIndex,
 			final String replacement) {
 		// Check the arguments
-		if (isNullOrEmpty(text) || replacement == null) {
+		if (text == null || replacement == null) {
 			return text;
 		}
 		ArrayArguments.requireIndex(fromIndex, text.length());
-		ArrayArguments.requireIndex(toIndex, text.length(), false);
+		ArrayArguments.requireIndex(toIndex, text.length(), true, true);
 
 		// Replace the character
 		final String string = text.substring(0, fromIndex).concat(replacement);
@@ -1304,10 +1304,15 @@ public class Strings {
 	 */
 	public static String replaceLast(final String text, final String regex,
 			final String replacement) {
+		// Check the arguments
 		if (text == null || regex == null || replacement == null) {
 			return text;
 		}
+
+		// Initialize
 		final Matcher matcher = Pattern.compile(regex).matcher(text);
+
+		// Replace
 		int fromIndex = -1, toIndex = -1;
 		while (matcher.find()) {
 			fromIndex = matcher.start();

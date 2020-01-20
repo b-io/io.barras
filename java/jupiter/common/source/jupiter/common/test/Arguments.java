@@ -69,12 +69,19 @@ public class Arguments {
 
 	public static String betweenExpectedButFound(final Object found, final Object expectedFrom,
 			final Object expectedTo, final boolean isInclusiveExclusive) {
+		return betweenExpectedButFound(found, expectedFrom, expectedTo, isInclusiveExclusive,
+				!isInclusiveExclusive);
+	}
+
+	public static String betweenExpectedButFound(final Object found, final Object expectedFrom,
+			final Object expectedTo, final boolean isLowerInclusive,
+			final boolean isUpperInclusive) {
 		return Strings.parenthesize(Strings.join(
-				"between ", Strings.quote(expectedFrom),
-				isInclusiveExclusive ? " (inclusive)" : " (exclusive)", " and ",
-				Strings.quote(expectedTo),
-				isInclusiveExclusive ? " (exclusive)" : " (inclusive)", " expected but ",
-				Strings.quote(found), " found"));
+				"between ",
+				Strings.quote(expectedFrom), isLowerInclusive ? " (inclusive)" : " (exclusive)",
+				" and ",
+				Strings.quote(expectedTo), isUpperInclusive ? " (inclusive)" : " (exclusive)",
+				" expected but ", Strings.quote(found), " found"));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
