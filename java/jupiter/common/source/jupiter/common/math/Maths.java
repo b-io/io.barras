@@ -49,15 +49,15 @@ public class Maths {
 	/**
 	 * The tolerance level (or termination criterion) ε for {@code float} values.
 	 */
-	public static volatile float FLOAT_TOLERANCE = 1E-6f;
+	public static volatile float FLOAT_TOLERANCE = 1E-5f;
 	/**
 	 * The tolerance level (or termination criterion) ε for {@code double} values.
 	 */
-	public static volatile double TOLERANCE = 1E-12;
+	public static volatile double TOLERANCE = 1E-10;
 	/**
 	 * The tiny tolerance level for {@code double} values.
 	 */
-	public static volatile double TINY_TOLERANCE = 1E-300;
+	public static volatile double TINY_TOLERANCE = 1E-100;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
