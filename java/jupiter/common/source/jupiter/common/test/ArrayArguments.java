@@ -122,7 +122,7 @@ public class ArrayArguments
 	}
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength) {
-		requireIndex(foundIndex, maxExpectedLength, true);
+		requireIndex(foundIndex, maxExpectedLength, true, false);
 	}
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength,

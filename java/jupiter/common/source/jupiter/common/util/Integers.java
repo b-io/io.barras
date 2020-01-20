@@ -1215,7 +1215,7 @@ public class Integers {
 	 *         lower and upper bounds, {@code false} otherwise
 	 */
 	public static boolean isBetween(final int value, final int from, final int to) {
-		return value >= from && value < to;
+		return isBetween(value, from, to, true, false);
 	}
 
 	/**
