@@ -1255,8 +1255,8 @@ public class Strings {
 		if (text == null || replacement == null) {
 			return text;
 		}
-		ArrayArguments.requireIndex(fromIndex, text.length());
-		ArrayArguments.requireIndex(toIndex, text.length(), true);
+		ArrayArguments.requireIndex(fromIndex, text.length() + 1); // handle the empty string
+		ArrayArguments.requireIndex(toIndex, text.length() + 1, true); // handle the empty string
 
 		// Replace the character
 		final String string = text.substring(0, fromIndex).concat(replacement);
