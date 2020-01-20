@@ -607,7 +607,7 @@ public class Arrays {
 	public static void sort(final Object[] array, final int fromIndex, final int toIndex) {
 		// Check the arguments
 		ArrayArguments.requireIndex(fromIndex, array.length);
-		ArrayArguments.requireIndex(toIndex, array.length, false);
+		ArrayArguments.requireIndex(toIndex, array.length, true);
 
 		ComparableSort.sort(array, fromIndex, toIndex, null, 0, 0);
 	}
@@ -1014,17 +1014,16 @@ public class Arrays {
 	/**
 	 * Tests whether the specified index is in the bounds of the specified array length.
 	 * <p>
-	 * @param index                the index to test
-	 * @param length               the array length to test against
-	 * @param isInclusiveExclusive the flag specifying whether the lower bound is inclusive and the
-	 *                             upper bound is exclusive
+	 * @param index            the index to test
+	 * @param length           the array length to test against
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
 	 * <p>
 	 * @return {@code true} if the specified index is in the bounds of the specified array length,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isBetween(final int index, final int length,
-			final boolean isInclusiveExclusive) {
-		return Integers.isBetween(index, 0, length, isInclusiveExclusive);
+			final boolean isUpperInclusive) {
+		return Integers.isBetween(index, 0, length, isUpperInclusive);
 	}
 
 	/**
@@ -1044,18 +1043,17 @@ public class Arrays {
 	/**
 	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
 	 * <p>
-	 * @param <T>                  the component type of the array to test against
-	 * @param index                the index to test
-	 * @param array                the {@code T} array to test against
-	 * @param isInclusiveExclusive the flag specifying whether the lower bound is inclusive and the
-	 *                             upper bound is exclusive
+	 * @param <T>              the component type of the array to test against
+	 * @param index            the index to test
+	 * @param array            the {@code T} array to test against
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
 	 * <p>
 	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
 	 *         array, {@code false} otherwise
 	 */
 	public static <T> boolean isBetween(final int index, final T[] array,
-			final boolean isInclusiveExclusive) {
-		return Integers.isBetween(index, 0, array.length, isInclusiveExclusive);
+			final boolean isUpperInclusive) {
+		return Integers.isBetween(index, 0, array.length, isUpperInclusive);
 	}
 
 	/**

@@ -68,9 +68,8 @@ public class Arguments {
 	}
 
 	public static String betweenExpectedButFound(final Object found, final Object expectedFrom,
-			final Object expectedTo, final boolean isInclusiveExclusive) {
-		return betweenExpectedButFound(found, expectedFrom, expectedTo, isInclusiveExclusive,
-				!isInclusiveExclusive);
+			final Object expectedTo, final boolean isUpperInclusive) {
+		return betweenExpectedButFound(found, expectedFrom, expectedTo, true, isUpperInclusive);
 	}
 
 	public static String betweenExpectedButFound(final Object found, final Object expectedFrom,

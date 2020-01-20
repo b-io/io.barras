@@ -126,8 +126,8 @@ public class ArrayArguments
 	}
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength,
-			final boolean isInclusiveExclusive) {
-		requireIndex(foundIndex, maxExpectedLength, isInclusiveExclusive, !isInclusiveExclusive);
+			final boolean isUpperInclusive) {
+		requireIndex(foundIndex, maxExpectedLength, true, isUpperInclusive);
 	}
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength,

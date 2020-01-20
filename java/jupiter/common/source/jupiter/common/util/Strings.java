@@ -1256,7 +1256,7 @@ public class Strings {
 			return text;
 		}
 		ArrayArguments.requireIndex(fromIndex, text.length());
-		ArrayArguments.requireIndex(toIndex, text.length(), true, true);
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Replace the character
 		final String string = text.substring(0, fromIndex).concat(replacement);
@@ -2413,7 +2413,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (isNotEmpty(text) && Arrays.isBetween(toIndex, text.length(), false)) {
+		if (isNotEmpty(text) && Arrays.isBetween(toIndex, text.length(), true)) {
 			int index = text.indexOf(token);
 			while (index >= 0 && index < toIndex) {
 				indexes.add(index);
@@ -2484,7 +2484,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Characters.isNotEmpty(tokens) &&
-				Arrays.isBetween(toIndex, text.length(), false)) {
+				Arrays.isBetween(toIndex, text.length(), true)) {
 			final char[] array = text.toCharArray();
 			for (int index = 0; index < toIndex; ++index) {
 				if (Characters.contains(tokens, array[index])) {
@@ -2559,7 +2559,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Arrays.isBetween(toIndex, text.length(), false)) {
+				Arrays.isBetween(toIndex, text.length(), true)) {
 			final char[] array = text.toCharArray();
 			for (int index = 0; index < toIndex; ++index) {
 				if (tokens.contains(array[index])) {
@@ -2626,7 +2626,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && isNotEmpty(token) &&
-				Arrays.isBetween(toIndex, text.length(), false)) {
+				Arrays.isBetween(toIndex, text.length(), true)) {
 			int index = text.indexOf(token);
 			while (index >= 0 && index < toIndex) {
 				indexes.add(index);
@@ -2699,7 +2699,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Arrays.isNotEmpty(tokens) &&
-				Arrays.isBetween(toIndex, text.length(), false)) {
+				Arrays.isBetween(toIndex, text.length(), true)) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
 						toIndex);
@@ -2774,7 +2774,7 @@ public class Strings {
 
 		// Get the indexes
 		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
-				Arrays.isBetween(toIndex, text.length(), false)) {
+				Arrays.isBetween(toIndex, text.length(), true)) {
 			for (final String token : tokens) {
 				final ExtendedLinkedList<Integer> tokenIndexes = getStringIndexesTo(text, token,
 						toIndex);
@@ -2938,7 +2938,7 @@ public class Strings {
 	}
 
 	public static int getTokenTo(final String text, final int toIndex, final List<String> tokens) {
-		if (Arrays.isBetween(toIndex, text.length(), false)) {
+		if (Arrays.isBetween(toIndex, text.length(), true)) {
 			final Iterator<String> tokenIterator = tokens.iterator();
 			int index = 0;
 			while (tokenIterator.hasNext()) {
@@ -3085,7 +3085,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiter);
-		ArrayArguments.requireIndex(toIndex, text.length(), false);
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
@@ -3139,7 +3139,7 @@ public class Strings {
 		// Check the arguments
 		Arguments.requireNonNull(text);
 		Arguments.requireNonNull(delimiters);
-		ArrayArguments.requireIndex(toIndex, text.length(), false);
+		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
