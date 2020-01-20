@@ -328,6 +328,6 @@ public class Comparables {
 	 *         otherwise
 	 */
 	public static <T extends Comparable<T>> boolean equals(final T a, final T b) {
-		return a == b || a != null && a.compareTo(b) == 0;
+		return a == b || a != null && b != null && a.compareTo(b) == 0;
 	}
 }

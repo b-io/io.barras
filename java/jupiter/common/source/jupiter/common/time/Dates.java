@@ -30,6 +30,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Strings;
@@ -487,5 +488,40 @@ public class Dates {
 		calendar.setTime(day);
 		return !(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
 				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code a} and {@code b} are equal to each other.
+	 * <p>
+	 * @param a the {@link Date} to compare for equality
+	 * @param b the other {@link Date} to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
+	 *         otherwise
+	 */
+	@SuppressWarnings("deprecation")
+	public static boolean equals(final Date a, final Date b) {
+		return a == b || a != null && b != null &&
+				a.getDay() == b.getDay() &&
+				a.getMonth() == b.getMonth() &&
+				a.getYear() == b.getYear();
+	}
+
+	/**
+	 * Tests whether {@code a} and {@code b} are equal to each other.
+	 * <p>
+	 * @param a the {@link Date} with time to compare for equality
+	 * @param b the other {@link Date} with time to compare against for equality
+	 * <p>
+	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
+	 *         otherwise
+	 */
+	public static boolean equalsWithTime(final Date a, final Date b) {
+		return Objects.equals(a, b);
 	}
 }

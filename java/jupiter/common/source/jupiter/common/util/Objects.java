@@ -199,10 +199,7 @@ public class Objects {
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Object a, final Object b) {
-		if (a == null) {
-			return b == null;
-		}
-		return b != null && a.equals(b);
+		return a == b || a != null && b != null && a.equals(b);
 	}
 
 	//////////////////////////////////////////////
