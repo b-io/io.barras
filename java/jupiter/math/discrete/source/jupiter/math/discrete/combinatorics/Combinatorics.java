@@ -482,18 +482,42 @@ public class Combinatorics {
 	 *         repetition
 	 */
 	public static int[][] createAllCombinations(final int n) {
+		return createAllCombinations(n, false);
+	}
+
+	/**
+	 * Returns all the distinct subsets of a {@code n}-element set (in lexicographic order if
+	 * {@code sort}), i.e. combinations without repetition.
+	 * <p>
+	 * @param n    the number of elements in the set
+	 * @param sort the flag specifying whether to sort in lexicographic order
+	 * <p>
+	 * @return all the distinct subsets of a {@code n}-element set (in lexicographic order if
+	 *         {@code sort}), i.e. combinations without repetition
+	 */
+	public static int[][] createAllCombinations(final int n, final boolean sort) {
 		// Initialize
 		final int combinationCount = Maths.pow2(n);
 		final int[][] combinations = new int[combinationCount][];
 
 		// Generate all the combinations
-		for (int c = 0; c < combinationCount; ++c) {
-			combinations[c] = new int[Integer.bitCount(c)];
-			int index = 0;
-			for (int i = 0; i < n; ++i) {
-				// Use the binary representation of c as a mask to select the elements
-				if ((c & Maths.pow2(i)) != 0) {
-					combinations[c][index++] = i;
+		if (sort) {
+			int c = 0;
+			for (int k = 0; k <= n; ++k) {
+				final int[][] subcombinations = createKCombinations(n, k);
+				for (final int[] subcombination : subcombinations) {
+					combinations[c++] = subcombination;
+				}
+			}
+		} else {
+			for (int c = 0; c < combinationCount; ++c) {
+				combinations[c] = new int[Integer.bitCount(c)];
+				int index = 0;
+				for (int i = 0; i < n; ++i) {
+					// Use the binary representation of c as a mask to select the elements
+					if ((c & Maths.pow2(i)) != 0) {
+						combinations[c][index++] = i;
+					}
 				}
 			}
 		}

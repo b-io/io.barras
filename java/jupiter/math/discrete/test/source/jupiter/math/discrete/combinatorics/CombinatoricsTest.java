@@ -192,8 +192,14 @@ public class CombinatoricsTest
 		// Initialize
 		final int n = 4;
 
+		IO.test("- List all the combinations of a ", n, "-element set");
+		int[][] combinations = Combinatorics.createAllCombinations(n);
+		for (final int[] combination : combinations) {
+			IO.test(Integers.toString(combination));
+		}
+
 		IO.test("- List all the combinations of a ", n, "-element set in lexicographic order:");
-		final int[][] combinations = Combinatorics.createAllCombinations(n);
+		combinations = Combinatorics.createAllCombinations(n, true);
 		for (final int[] combination : combinations) {
 			IO.test(Integers.toString(combination));
 		}
