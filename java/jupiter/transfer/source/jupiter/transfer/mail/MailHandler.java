@@ -499,7 +499,7 @@ public class MailHandler
 				" with ", Strings.quote(sender));
 		final Session session = createSession(outProtocol);
 
-		// Send the mail
+		// Create and send the mail
 		final MimeMessage mail = Mails.create(session, sender, recipients, subject, content);
 		IO.debug("Send the mail ", Strings.quote(subject),
 				" from ", Strings.quote(sender),
