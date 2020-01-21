@@ -67,16 +67,16 @@ public class Mails {
 	public static String[] getAttachements(final MimeMessage mail)
 			throws IOException, MessagingException {
 		final Object content = mail.getContent();
-		if (content instanceof MimeMultipart) {
-			final MimeMultipart multipart = (MimeMultipart) content;
-			final int count = multipart.getCount();
-			final String[] attachements = new String[count];
-			for (int i = 0; i < count; ++i) {
-				attachements[i] = multipart.getBodyPart(i).getFileName();
-			}
-			return attachements;
+		if (content == null || !(content instanceof MimeMultipart)) {
+			return Strings.EMPTY_ARRAY;
 		}
-		return Strings.EMPTY_ARRAY;
+		final MimeMultipart multipart = (MimeMultipart) content;
+		final int count = multipart.getCount();
+		final String[] attachements = new String[count];
+		for (int i = 0; i < count; ++i) {
+			attachements[i] = multipart.getBodyPart(i).getFileName();
+		}
+		return attachements;
 	}
 
 

@@ -212,7 +212,7 @@ public class XYSelectionOverlay
 		if (other == this) {
 			return true;
 		}
-		if (!(other instanceof XYSelectionOverlay)) {
+		if (other == null || !(other instanceof XYSelectionOverlay)) {
 			return false;
 		}
 		final XYSelectionOverlay otherXYSelectionOverlay = (XYSelectionOverlay) other;

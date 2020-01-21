@@ -314,7 +314,7 @@ public class XYSelection
 		if (other == this) {
 			return true;
 		}
-		if (!(other instanceof XYSelection)) {
+		if (other == null || !(other instanceof XYSelection)) {
 			return false;
 		}
 		final XYSelection otherXYSelection = (XYSelection) other;

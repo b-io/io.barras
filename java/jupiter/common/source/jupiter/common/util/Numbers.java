@@ -65,6 +65,9 @@ public class Numbers {
 	 * @return a {@link BigDecimal} converted from the specified {@link Number}
 	 */
 	public static BigDecimal toBigDecimal(final Number number) {
+		if (number == null) {
+			return null;
+		}
 		if (number instanceof BigDecimal) {
 			return (BigDecimal) number;
 		}
@@ -298,6 +301,9 @@ public class Numbers {
 		if (a == b) {
 			return true;
 		}
+		if (a == null || b == null) {
+			return false;
+		}
 		if (a instanceof BigDecimal || b instanceof BigDecimal) {
 			return toBigDecimal(a).equals(toBigDecimal(b));
 		}
@@ -319,6 +325,9 @@ public class Numbers {
 	public static boolean equals(final Number a, final Number b, final double tolerance) {
 		if (a == b) {
 			return true;
+		}
+		if (a == null || b == null) {
+			return false;
 		}
 		if (a instanceof BigDecimal || b instanceof BigDecimal) {
 			return toBigDecimal(a).subtract(toBigDecimal(b)).abs().doubleValue() <= tolerance;
