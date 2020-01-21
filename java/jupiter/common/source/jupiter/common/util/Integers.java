@@ -224,7 +224,7 @@ public class Integers {
 					"Cannot parse ", Strings.quote(text), " to an unsigned int value"));
 		}
 
-		// Parse
+		// Parse the text
 		final int length = text.length();
 		if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
 				(radix == 10 && length <= 9)) { // Integer.MAX_VALUE in base 10 is 10 digits

@@ -45,9 +45,9 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default delimiting {@link String}.
+	 * The default {@code char} delimiter.
 	 */
-	public static final String DEFAULT_DELIMITER = ",";
+	public static final char DEFAULT_DELIMITER = ',';
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -560,6 +560,7 @@ public class Arrays {
 		// Check the arguments
 		ArrayArguments.requireIndex(fromIndex, array.length);
 
+		// Sort the array
 		ComparableSort.sort(array, fromIndex, array.length, null, 0, 0);
 	}
 
@@ -609,6 +610,7 @@ public class Arrays {
 		ArrayArguments.requireIndex(fromIndex, array.length);
 		ArrayArguments.requireIndex(toIndex, array.length, true);
 
+		// Sort the array
 		ComparableSort.sort(array, fromIndex, toIndex, null, 0, 0);
 	}
 

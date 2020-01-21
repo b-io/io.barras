@@ -2312,12 +2312,12 @@ public class Matrix
 		String line;
 		if ((line = reader.readLine()) != null) {
 			// Find the delimiter (take the first one in the list in case of different delimiters)
-			String delimiter = null;
+			Character delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
 				final int occurrenceCount = Strings.getIndexes(line, d).size();
 				if (occurrenceCount > 0) {
 					if (n == 0) {
-						delimiter = Strings.toString(d);
+						delimiter = d;
 						n = occurrenceCount;
 					} else {
 						IO.warn("The file contains different delimiters; ",
@@ -2336,14 +2336,14 @@ public class Matrix
 			}
 			// Scan the file line by line
 			int i = 0;
-			String[] values = line.split(delimiter);
+			String[] values = (String[]) Strings.split(line, delimiter).toArray();
 			if (transpose) {
 				matrix.setColumn(i++, Doubles.toPrimitiveArray(values));
 			} else {
 				matrix.setRow(i++, Doubles.toPrimitiveArray(values));
 			}
 			while ((line = reader.readLine()) != null) {
-				values = line.split(delimiter);
+				values = (String[]) Strings.split(line, delimiter).toArray();
 				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
 					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
@@ -2737,8 +2737,8 @@ public class Matrix
 
 		/**
 		 * Processes the multiplication with the specified result {@link Matrix}, left-hand side
-		 * operand {@link Matrix} and right-hand side operand {@link Matrix} from the specified
-		 * index to the specified index and returns the exit code.
+		 * operand {@link Matrix} and right-hand side operand {@link Matrix} between the specified
+		 * indexes and returns the exit code.
 		 * <p>
 		 * @param result    the result {@link Matrix}
 		 * @param left      the left-hand side operand {@link Matrix}

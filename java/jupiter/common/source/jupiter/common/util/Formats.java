@@ -191,7 +191,7 @@ public class Formats {
 		// Check the arguments
 		NumberArguments.requireNumber(number);
 
-		// Format
+		// Format the number
 		final String formattedNumber;
 		final String numberString = DOUBLE_DECIMAL_FORMAT.format(number);
 		int integerDigitCount = numberString.length(), fractionDigitCount = numberString.length();

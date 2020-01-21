@@ -1057,12 +1057,12 @@ public class Table<E>
 		String line;
 		if ((line = reader.readLine()) != null) {
 			// Find the delimiter (take the first one in the list in case of different delimiters)
-			String delimiter = null;
+			Character delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
 				final int occurrenceCount = Strings.count(line, d);
 				if (occurrenceCount > 0) {
 					if (n == 0) {
-						delimiter = Strings.toString(d);
+						delimiter = d;
 						n = occurrenceCount;
 					} else {
 						IO.warn("The file contains different delimiters; ",
@@ -1076,14 +1076,14 @@ public class Table<E>
 			reset();
 			// Scan the file line by line
 			int i = 0;
-			String[] values = delimiter == null ? new String[] {line} : line.split(delimiter);
+			String[] values = (String[]) Strings.split(line, delimiter).toArray();
 			if (hasHeader) {
 				header = values;
 			} else {
 				setRow(i++, parser.parseToArray(values));
 			}
 			while ((line = reader.readLine()) != null) {
-				values = delimiter == null ? new String[] {line} : line.split(delimiter);
+				values = (String[]) Strings.split(line, delimiter).toArray();
 				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
 					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
