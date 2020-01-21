@@ -500,7 +500,7 @@ public class MailHandler
 		final Session session = createSession(outProtocol);
 
 		// Send the mail
-		final MimeMessage mail = Mails.createMail(session, sender, recipients, subject, content);
+		final MimeMessage mail = Mails.create(session, sender, recipients, subject, content);
 		IO.debug("Send the mail ", Strings.quote(subject),
 				" from ", Strings.quote(sender),
 				" to ", Strings.quote(recipients),
