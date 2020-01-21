@@ -161,7 +161,7 @@ public class FileHandler
 	 * <p>
 	 * @return the canonical path
 	 * <p>
-	 * @throws IOException       if there is a problem querying the file system
+	 * @throws IOException       if there is a problem with querying the file system
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public String getCanonicalPath()
@@ -204,7 +204,7 @@ public class FileHandler
 	/**
 	 * Creates all the directories.
 	 * <p>
-	 * @throws IOException       if there is a problem creating the directories
+	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public void createDirs()
@@ -215,7 +215,7 @@ public class FileHandler
 	/**
 	 * Creates all the parent directories.
 	 * <p>
-	 * @throws IOException       if there is a problem creating the directories
+	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public void createParentDirs()

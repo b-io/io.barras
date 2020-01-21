@@ -204,7 +204,7 @@ public class LogHandler
 	/**
 	 * Creates all the directories of the log directory.
 	 * <p>
-	 * @throws IOException       if there is a problem creating the directories
+	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
 	protected void createDirs()

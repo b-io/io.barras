@@ -121,7 +121,7 @@ public class Files {
 	 * <p>
 	 * @return the canonical path to the specified {@link File}
 	 * <p>
-	 * @throws IOException       if there is a problem querying the file system
+	 * @throws IOException       if there is a problem with querying the file system
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public static String getCanonicalPath(final File file)
@@ -201,7 +201,7 @@ public class Files {
 	 * <p>
 	 * @param file a {@link File}
 	 * <p>
-	 * @throws IOException       if there is a problem creating the directories
+	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public static void createDirs(final File file)
@@ -217,7 +217,7 @@ public class Files {
 	 * <p>
 	 * @param file a {@link File}
 	 * <p>
-	 * @throws IOException       if there is a problem creating the directories
+	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public static void createParentDirs(final File file)

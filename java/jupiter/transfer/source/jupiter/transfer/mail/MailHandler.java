@@ -27,7 +27,6 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.STAR;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -40,7 +39,6 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -296,7 +294,7 @@ public class MailHandler
 	 * <p>
 	 * @return a {@link MimeMultipart} with the specified content {@link String}
 	 * <p>
-	 * @throws MessagingException if there is a problem with creating
+	 * @throws MessagingException if there is a problem with creating the mail content
 	 */
 	public static MimeMultipart createContent(final String content)
 			throws MessagingException {
@@ -458,7 +456,7 @@ public class MailHandler
 	 * @param subject    the subject {@link String} of the mail to send
 	 * @param content    the content {@link String} of the mail to send
 	 * <p>
-	 * @throws MessagingException if there is a problem with sending
+	 * @throws MessagingException if there is a problem with creating or sending the mail
 	 */
 	public void send(final String recipients, final String subject, final String content)
 			throws MessagingException {
@@ -474,26 +472,39 @@ public class MailHandler
 	 * @param subject    the subject {@link String} of the mail to send
 	 * @param content    the content {@link Multipart} of the mail to send
 	 * <p>
-	 * @throws MessagingException if there is a problem with sending
+	 * @throws MessagingException if there is a problem with creating or sending the mail
 	 */
 	public void send(final String recipients, final String subject, final Multipart content)
 			throws MessagingException {
+		send(userName, recipients, subject, content);
+	}
+
+	/**
+	 * Sends a mail with the specified subject {@link String} and content {@link Multipart} to the
+	 * specified comma-separated recipients {@link String} from the mail server with {@code this}
+	 * parameters.
+	 * <p>
+	 * @param sender     the sender {@link String} to send from
+	 * @param recipients the comma-separated recipients {@link String} to send to
+	 * @param subject    the subject {@link String} of the mail to send
+	 * @param content    the content {@link Multipart} of the mail to send
+	 * <p>
+	 * @throws MessagingException if there is a problem with creating or sending the mail
+	 */
+	public void send(final String sender, final String recipients, final String subject,
+			final Multipart content)
+			throws MessagingException {
 		IO.debug("Connect to the mail server ",
 				Strings.quote(hostName + ":" + outProtocol.getPort()),
-				" with ", Strings.quote(userName));
+				" with ", Strings.quote(sender));
 		final Session session = createSession(outProtocol);
 
 		// Send the mail
-		final MimeMessage mail = new MimeMessage(session);
-		mail.setFrom(new InternetAddress(userName));
-		mail.addRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
-		mail.setSubject(subject);
-		mail.setContent(content);
-		final Date sentDate = new Date();
-		mail.setSentDate(sentDate);
+		final MimeMessage mail = Mails.createMail(session, sender, recipients, subject, content);
 		IO.debug("Send the mail ", Strings.quote(subject),
+				" from ", Strings.quote(sender),
 				" to ", Strings.quote(recipients),
-				" at ", Dates.formatWithTime(sentDate));
+				" at ", Dates.formatWithTime(mail.getSentDate()));
 		Transport.send(mail);
 	}
 
