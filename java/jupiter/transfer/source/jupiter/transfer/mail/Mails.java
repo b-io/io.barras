@@ -100,7 +100,7 @@ public class Mails {
 	 * @throws AddressException   if there is a problem with the sender
 	 * @throws MessagingException if there is a problem with creating the mail
 	 */
-	protected static MimeMessage createMail(final Session session, final String sender,
+	protected static MimeMessage create(final Session session, final String sender,
 			final String recipients, final String subject, final Multipart content)
 			throws AddressException, MessagingException {
 		final MimeMessage mail = new MimeMessage(session);
