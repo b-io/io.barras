@@ -26,6 +26,8 @@ package jupiter.common.io.file;
 import java.io.IOException;
 
 import jupiter.common.thread.Threads;
+import jupiter.common.util.Arrays;
+import jupiter.common.util.Strings;
 
 public class Properties
 		extends java.util.Properties {
@@ -70,6 +72,45 @@ public class Properties
 	public Properties(final String fileName)
 			throws IOException {
 		load(fileName);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String[] getPropertyList(final String key) {
+		final String propertyList = getProperty(key);
+		if (propertyList == null) {
+			return null;
+		}
+		return (String[]) Strings.split(propertyList, Arrays.DEFAULT_DELIMITER).toArray();
+	}
+
+	public String[] getPropertyList(final String key, final String defaultValue) {
+		final String propertyList = getProperty(key, defaultValue);
+		if (propertyList == null) {
+			return null;
+		}
+		return (String[]) Strings.split(propertyList, Arrays.DEFAULT_DELIMITER).toArray();
+	}
+
+	//////////////////////////////////////////////
+
+	public String[] getProperties(final String... keys) {
+		final String[] properties = new String[keys.length];
+		for (int i = 0; i < keys.length; ++i) {
+			properties[i] = getProperty(keys[i]);
+		}
+		return properties;
+	}
+
+	public String[] getProperties(final String[] keys, final String[] defaultValues) {
+		final String[] properties = new String[keys.length];
+		for (int i = 0; i < keys.length; ++i) {
+			properties[i] = getProperty(keys[i], defaultValues[i]);
+		}
+		return properties;
 	}
 
 
