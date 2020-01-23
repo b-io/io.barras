@@ -26,6 +26,7 @@ package jupiter.transfer.mail;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.mail.BodyPart;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -34,8 +35,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
-import jupiter.common.util.Strings;
 
 public class Mails {
 
@@ -55,28 +54,28 @@ public class Mails {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the file names of the attachements of the specified {@link MimeMessage}.
+	 * Returns the array of {@link BodyPart} of the specified {@link MimeMessage}.
 	 * <p>
-	 * @param mail the {@link MimeMessage} to get the attachements from
+	 * @param mail a {@link MimeMessage}
 	 * <p>
-	 * @return the file names of the attachements of the specified {@link MimeMessage}
+	 * @return the array of {@link BodyPart} of the specified {@link MimeMessage}
 	 * <p>
 	 * @throws IOException        if there is a problem with querying the file system
-	 * @throws MessagingException if there is a problem with getting the mail attachements
+	 * @throws MessagingException if there is a problem with accessing the mail
 	 */
-	public static String[] getAttachements(final MimeMessage mail)
+	public static BodyPart[] getBodyParts(final MimeMessage mail)
 			throws IOException, MessagingException {
 		final Object content = mail.getContent();
 		if (content == null || !(content instanceof MimeMultipart)) {
-			return Strings.EMPTY_ARRAY;
+			return new BodyPart[] {};
 		}
 		final MimeMultipart multipart = (MimeMultipart) content;
 		final int count = multipart.getCount();
-		final String[] attachements = new String[count];
+		final BodyPart[] bodyParts = new BodyPart[count];
 		for (int i = 0; i < count; ++i) {
-			attachements[i] = multipart.getBodyPart(i).getFileName();
+			bodyParts[i] = multipart.getBodyPart(i);
 		}
-		return attachements;
+		return bodyParts;
 	}
 
 
