@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Formats.DECIMAL_FORMAT;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
@@ -554,33 +556,6 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
-	 * {@code 1f}.
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
-	 *         {@code 1f}
-	 */
-	public static float random() {
-		return RANDOM.nextFloat();
-	}
-
-	/**
-	 * Returns a pseudorandom, uniformly distributed {@code float} value between the specified
-	 * bounds.
-	 * <p>
-	 * @param lowerBound the lower bound of the {@code float} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code float} value to generate (exclusive)
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code float} value between the specified
-	 *         bounds
-	 */
-	public static float random(final float lowerBound, final float upperBound) {
-		return lowerBound + RANDOM.nextFloat() * (upperBound - lowerBound);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates a {@code float} array of the specified length containing the sequence of numbers
 	 * starting with zero and spaced by one.
 	 * <p>
@@ -627,7 +602,7 @@ public class Floats {
 		return array;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a random {@code float} array of the specified length.
@@ -667,14 +642,73 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
+	 * {@code 1f}.
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
+	 *         {@code 1f}
+	 */
+	public static float random() {
+		return RANDOM.nextFloat();
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code float} value between the specified
+	 * bounds.
+	 * <p>
+	 * @param lowerBound the lower bound of the {@code float} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code float} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code float} value between the specified
+	 *         bounds
+	 */
+	public static float random(final float lowerBound, final float upperBound) {
+		return lowerBound + RANDOM.nextFloat() * (upperBound - lowerBound);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code float} array of the specified length with the specified {@code float}
+	 * element.
+	 * <p>
+	 * @param element the {@code float} element of the {@code float} array to create
+	 * @param length  the length of the {@code float} array to create
+	 * <p>
+	 * @return a {@code float} array of the specified length with the specified {@code float}
+	 *         element
+	 */
+	public static float[] repeat(final float element, final int length) {
+		return fill(new float[length], element);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FORMATTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the formatted representative {@link String} of the specified {@code float} value.
+	 * <p>
+	 * @param value a {@code float} value
+	 * <p>
+	 * @return the formatted representative {@link String} of the specified {@code float} value
+	 */
+	public static String format(final float value) {
+		return DECIMAL_FORMAT.format(value);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the percentage representative {@link String} of the specified {@code float} value.
 	 * <p>
 	 * @param value a {@code float} value
 	 * <p>
 	 * @return the percentage representative {@link String} of the specified {@code float} value
 	 */
-	public static String toPercentage(final float value) {
-		return value * 100f + "%";
+	public static String formatPercent(final float value) {
+		return format(value * 100f) + "%";
 	}
 
 
@@ -720,22 +754,25 @@ public class Floats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void fill(final float[] array, final float value) {
+	public static float[] fill(final float[] array, final float value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
+		return array;
 	}
 
-	public static void fill(final float[][] array2D, final float value) {
+	public static float[][] fill(final float[][] array2D, final float value) {
 		for (final float[] array : array2D) {
 			fill(array, value);
 		}
+		return array2D;
 	}
 
-	public static void fill(final float[][][] array3D, final float value) {
+	public static float[][][] fill(final float[][][] array3D, final float value) {
 		for (final float[][] array2D : array3D) {
 			fill(array2D, value);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

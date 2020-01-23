@@ -585,31 +585,6 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code short} value.
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code short} value
-	 */
-	public static short random() {
-		return random(Short.MIN_VALUE, Short.MAX_VALUE);
-	}
-
-	/**
-	 * Returns a pseudorandom, uniformly distributed {@code short} value between the specified
-	 * bounds.
-	 * <p>
-	 * @param lowerBound the lower bound of the {@code short} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code short} value to generate (exclusive)
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code short} value between the specified
-	 *         bounds
-	 */
-	public static short random(final short lowerBound, final short upperBound) {
-		return convert(lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates a {@code short} array of the specified length containing the sequence of numbers
 	 * starting with zero and spaced by one.
 	 * <p>
@@ -656,7 +631,7 @@ public class Shorts {
 		return array;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a random {@code short} array of the specified length.
@@ -691,6 +666,47 @@ public class Shorts {
 			array[i] = random(lowerBound, upperBound);
 		}
 		return array;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code short} value.
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code short} value
+	 */
+	public static short random() {
+		return random(Short.MIN_VALUE, Short.MAX_VALUE);
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code short} value between the specified
+	 * bounds.
+	 * <p>
+	 * @param lowerBound the lower bound of the {@code short} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code short} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code short} value between the specified
+	 *         bounds
+	 */
+	public static short random(final short lowerBound, final short upperBound) {
+		return convert(lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code short} array of the specified length with the specified {@code short}
+	 * element.
+	 * <p>
+	 * @param element the {@code short} element of the {@code short} array to create
+	 * @param length  the length of the {@code short} array to create
+	 * <p>
+	 * @return a {@code short} array of the specified length with the specified {@code short}
+	 *         element
+	 */
+	public static short[] repeat(final short element, final int length) {
+		return fill(new short[length], element);
 	}
 
 
@@ -736,22 +752,25 @@ public class Shorts {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void fill(final short[] array, final short value) {
+	public static short[] fill(final short[] array, final short value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
+		return array;
 	}
 
-	public static void fill(final short[][] array2D, final short value) {
+	public static short[][] fill(final short[][] array2D, final short value) {
 		for (final short[] array : array2D) {
 			fill(array, value);
 		}
+		return array2D;
 	}
 
-	public static void fill(final short[][][] array3D, final short value) {
+	public static short[][][] fill(final short[][][] array3D, final short value) {
 		for (final short[][] array2D : array3D) {
 			fill(array2D, value);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

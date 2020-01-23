@@ -67,6 +67,8 @@ public class Arguments {
 				Strings.quote(found), " found"));
 	}
 
+	//////////////////////////////////////////////
+
 	public static String betweenExpectedButFound(final Object found, final Object expectedFrom,
 			final Object expectedTo) {
 		return betweenExpectedButFound(found, expectedFrom, expectedTo, true, false);
@@ -114,12 +116,16 @@ public class Arguments {
 		return object;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static <T> void require(final T found, final T expected) {
 		if (CHECK_ARGS && !requireNonNull(found).equals(expected)) {
 			throw new IllegalArgumentException(Strings.join(
 					"The specified object is wrong ", expectedButFound(found, expected)));
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> void requireEquals(final T a, final T b) {
 		if (CHECK_ARGS && !requireNonNull(a).equals(requireNonNull(b))) {

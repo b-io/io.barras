@@ -214,17 +214,18 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds a {@link Task} with the specified {@code I} input and returns its identifier.
+	 * Submits a {@link Task} with the specified {@code I} input for execution and returns its
+	 * identifier.
 	 * <p>
-	 * @param input the {@code I} input of the {@link Task} to add
+	 * @param input the {@code I} input of the {@link Task} to submit
 	 * <p>
-	 * @return the identifier of the added {@link Task}
+	 * @return the identifier of the submitted {@link Task}
 	 */
 	@Override
 	public long submit(final I input) {
 		// Create a worker if required
 		createAvailableWorkers(1);
-		// Add the task
+		// Submit the task
 		tasksLock.lock();
 		try {
 			final long taskId = super.submit(input);

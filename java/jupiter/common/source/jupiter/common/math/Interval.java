@@ -195,15 +195,15 @@ public class Interval<T extends Comparable<T>>
 	}
 
 	/**
-	 * Tests whether {@code this} contains the specified {@code T} value.
+	 * Tests whether {@code this} contains the specified {@code T} object.
 	 * <p>
-	 * @param value the {@code T} value to test for presence
+	 * @param object the {@code T} object to test for presence
 	 * <p>
-	 * @return {@code true} if {@code this} contains the {@code T} value, {@code false} otherwise
+	 * @return {@code true} if {@code this} contains the {@code T} object, {@code false} otherwise
 	 */
-	public boolean isInside(final T value) {
-		return (isLowerInclusive ? value.compareTo(lowerBound) >= 0 : value.compareTo(lowerBound) > 0) &&
-				(isUpperInclusive ? value.compareTo(upperBound) <= 0 : value.compareTo(upperBound) < 0);
+	public boolean isInside(final T object) {
+		return (isLowerInclusive ? object.compareTo(lowerBound) >= 0 : object.compareTo(lowerBound) > 0) &&
+				(isUpperInclusive ? object.compareTo(upperBound) <= 0 : object.compareTo(upperBound) < 0);
 	}
 
 	/**

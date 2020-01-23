@@ -97,7 +97,7 @@ public class Tests {
 			final Interval<Double> confidenceInterval) {
 		IO.test("Average ", label, ": ", Doubles.format(mean),
 				" +- ", Doubles.format(confidenceInterval.getUpperBound() - mean),
-				" (" + Doubles.toPercentage(Maths.DEFAULT_CONFIDENCE) + ")");
+				" (" + Doubles.formatPercent(Maths.DEFAULT_CONFIDENCE) + ")");
 	}
 
 	protected static void printMinMaxInterval(final double min, final double max) {

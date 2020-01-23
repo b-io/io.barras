@@ -201,6 +201,37 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Creates all the directories of the specified {@link File}.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @throws IOException       if there is a problem with creating the directories
+	 * @throws SecurityException if there is a permission problem
+	 */
+	public static void createDirs(final File file)
+			throws IOException {
+		if (!exists(file) && !file.mkdirs()) {
+			throw new IOException(Strings.join(
+					"Unable to create the directories ", Strings.quote(getPath(file))));
+		}
+	}
+
+	/**
+	 * Creates all the parent directories of the specified {@link File}.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @throws IOException       if there is a problem with creating the directories
+	 * @throws SecurityException if there is a permission problem
+	 */
+	public static void createParentDirs(final File file)
+			throws IOException {
+		createDirs(file.getParentFile());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Creates a {@link BufferedInputStream} of the file denoted by the specified path.
 	 * <p>
 	 * @param path a {@link String}
@@ -286,37 +317,6 @@ public class Files {
 	public static BufferedOutputStream createOutputStream(final File file, final boolean append)
 			throws FileNotFoundException {
 		return new BufferedOutputStream(new FileOutputStream(file, append));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates all the directories of the specified {@link File}.
-	 * <p>
-	 * @param file a {@link File}
-	 * <p>
-	 * @throws IOException       if there is a problem with creating the directories
-	 * @throws SecurityException if there is a permission problem
-	 */
-	public static void createDirs(final File file)
-			throws IOException {
-		if (!exists(file) && !file.mkdirs()) {
-			throw new IOException(Strings.join(
-					"Unable to create the directories ", Strings.quote(getPath(file))));
-		}
-	}
-
-	/**
-	 * Creates all the parent directories of the specified {@link File}.
-	 * <p>
-	 * @param file a {@link File}
-	 * <p>
-	 * @throws IOException       if there is a problem with creating the directories
-	 * @throws SecurityException if there is a permission problem
-	 */
-	public static void createParentDirs(final File file)
-			throws IOException {
-		createDirs(file.getParentFile());
 	}
 
 

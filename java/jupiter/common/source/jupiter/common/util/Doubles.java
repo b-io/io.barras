@@ -544,33 +544,6 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code double} value between {@code 0.} and
-	 * {@code 1.}.
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code double} value between {@code 0.} and
-	 *         {@code 1.}
-	 */
-	public static double random() {
-		return RANDOM.nextDouble();
-	}
-
-	/**
-	 * Returns a pseudorandom, uniformly distributed {@code double} value between the specified
-	 * bounds.
-	 * <p>
-	 * @param lowerBound the lower bound of the {@code double} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code double} value to generate (exclusive)
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code double} value between the specified
-	 *         bounds
-	 */
-	public static double random(final double lowerBound, final double upperBound) {
-		return lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates a {@code double} array of the specified length containing the sequence of numbers
 	 * starting with zero and spaced by one.
 	 * <p>
@@ -617,7 +590,7 @@ public class Doubles {
 		return array;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a random {@code double} array of the specified length.
@@ -657,6 +630,52 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns a pseudorandom, uniformly distributed {@code double} value between {@code 0.} and
+	 * {@code 1.}.
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code double} value between {@code 0.} and
+	 *         {@code 1.}
+	 */
+	public static double random() {
+		return RANDOM.nextDouble();
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code double} value between the specified
+	 * bounds.
+	 * <p>
+	 * @param lowerBound the lower bound of the {@code double} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code double} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code double} value between the specified
+	 *         bounds
+	 */
+	public static double random(final double lowerBound, final double upperBound) {
+		return lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code double} array of the specified length with the specified {@code double}
+	 * element.
+	 * <p>
+	 * @param element the {@code double} element of the {@code double} array to create
+	 * @param length  the length of the {@code double} array to create
+	 * <p>
+	 * @return a {@code double} array of the specified length with the specified {@code double}
+	 *         element
+	 */
+	public static double[] repeat(final double element, final int length) {
+		return fill(new double[length], element);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FORMATTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the formatted representative {@link String} of the specified {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
@@ -667,6 +686,8 @@ public class Doubles {
 		return DECIMAL_FORMAT.format(value);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the percentage representative {@link String} of the specified {@code double} value.
 	 * <p>
@@ -674,7 +695,7 @@ public class Doubles {
 	 * <p>
 	 * @return the percentage representative {@link String} of the specified {@code double} value
 	 */
-	public static String toPercentage(final double value) {
+	public static String formatPercent(final double value) {
 		return format(value * 100.) + "%";
 	}
 
@@ -721,22 +742,25 @@ public class Doubles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void fill(final double[] array, final double value) {
+	public static double[] fill(final double[] array, final double value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
+		return array;
 	}
 
-	public static void fill(final double[][] array2D, final double value) {
+	public static double[][] fill(final double[][] array2D, final double value) {
 		for (final double[] array : array2D) {
 			fill(array, value);
 		}
+		return array2D;
 	}
 
-	public static void fill(final double[][][] array3D, final double value) {
+	public static double[][][] fill(final double[][][] array3D, final double value) {
 		for (final double[][] array2D : array3D) {
 			fill(array2D, value);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

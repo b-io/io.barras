@@ -116,7 +116,39 @@ public class SafeDateFormat
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the beginning date of the 100-year period 2-digit years are interpreted as being
+	 * within.
+	 * <p>
+	 * @return the start of the 100-year period into which two digit years are parsed
+	 * <p>
+	 * @since 1.2
+	 *
+	 * @see #set2DigitYearStart
+	 */
+	@Override
+	public synchronized Date get2DigitYearStart() {
+		return super.get2DigitYearStart();
+	}
+
+	/**
+	 * Returns a copy of the {@link DateFormatSymbols} of {@code this}.
+	 * <p>
+	 * @return the {@link DateFormatSymbols} of {@code this}
+	 *
+	 * @see #setDateFormatSymbols
+	 */
+	@Override
+	public synchronized DateFormatSymbols getDateFormatSymbols() {
+		return super.getDateFormatSymbols();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -136,19 +168,23 @@ public class SafeDateFormat
 	}
 
 	/**
-	 * Returns the beginning date of the 100-year period 2-digit years are interpreted as being
-	 * within.
+	 * Sets the {@link DateFormatSymbols} of {@code this}.
 	 * <p>
-	 * @return the start of the 100-year period into which two digit years are parsed
+	 * @param newFormatSymbols a {@link DateFormatSymbols}
 	 * <p>
-	 * @since 1.2
+	 * @exception NullPointerException if {@code newFormatSymbols} is {@code null}
 	 *
-	 * @see #set2DigitYearStart
+	 * @see #getDateFormatSymbols
 	 */
 	@Override
-	public synchronized Date get2DigitYearStart() {
-		return super.get2DigitYearStart();
+	public synchronized void setDateFormatSymbols(final DateFormatSymbols newFormatSymbols) {
+		super.setDateFormatSymbols(newFormatSymbols);
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FORMATTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Formats the specified {@link Date} into a date-time {@link String} and appends the result to
@@ -192,6 +228,64 @@ public class SafeDateFormat
 		return super.formatToCharacterIterator(object);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pattern {@link String} describing {@code this}.
+	 * <p>
+	 * @return a pattern {@link String} describing {@code this}
+	 */
+	@Override
+	public synchronized String toPattern() {
+		return super.toPattern();
+	}
+
+	/**
+	 * Returns a localized pattern {@link String} describing {@code this}.
+	 * <p>
+	 * @return a localized pattern {@link String} describing {@code this}
+	 */
+	@Override
+	public synchronized String toLocalizedPattern() {
+		return super.toLocalizedPattern();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Applies the specified pattern {@link String} to {@code this}.
+	 * <p>
+	 * @param pattern the pattern {@link String} describing the date-time format
+	 * <p>
+	 * @exception NullPointerException     if {@code pattern} is {@code null}
+	 * @exception IllegalArgumentException if {@code pattern} is invalid
+	 */
+	@Override
+	public synchronized void applyPattern(final String pattern) {
+		super.applyPattern(pattern);
+	}
+
+	/**
+	 * Applies the specified localized pattern {@link String} to {@code this}.
+	 * <p>
+	 * @param pattern the pattern {@link String} describing the localized date-time format
+	 * <p>
+	 * @exception NullPointerException     if {@code pattern} is {@code null}
+	 * @exception IllegalArgumentException if {@code pattern} is invalid
+	 */
+	@Override
+	public synchronized void applyLocalizedPattern(final String pattern) {
+		super.applyLocalizedPattern(pattern);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Parses the {@link Date} encoded in the specified {@link String}.
 	 * <p>
@@ -225,78 +319,6 @@ public class SafeDateFormat
 	@Override
 	public synchronized Date parse(final String text, final ParsePosition position) {
 		return super.parse(text, position);
-	}
-
-	/**
-	 * Returns a pattern {@link String} describing {@code this}.
-	 * <p>
-	 * @return a pattern {@link String} describing {@code this}
-	 */
-	@Override
-	public synchronized String toPattern() {
-		return super.toPattern();
-	}
-
-	/**
-	 * Returns a localized pattern {@link String} describing {@code this}.
-	 * <p>
-	 * @return a localized pattern {@link String} describing {@code this}
-	 */
-	@Override
-	public synchronized String toLocalizedPattern() {
-		return super.toLocalizedPattern();
-	}
-
-	/**
-	 * Applies the specified pattern {@link String} to {@code this}.
-	 * <p>
-	 * @param pattern the pattern {@link String} describing the date-time format
-	 * <p>
-	 * @exception NullPointerException     if {@code pattern} is {@code null}
-	 * @exception IllegalArgumentException if {@code pattern} is invalid
-	 */
-	@Override
-	public synchronized void applyPattern(final String pattern) {
-		super.applyPattern(pattern);
-	}
-
-	/**
-	 * Applies the specified localized pattern {@link String} to {@code this}.
-	 * <p>
-	 * @param pattern the pattern {@link String} describing the localized date-time format
-	 * <p>
-	 * @exception NullPointerException     if {@code pattern} is {@code null}
-	 * @exception IllegalArgumentException if {@code pattern} is invalid
-	 */
-	@Override
-	public synchronized void applyLocalizedPattern(final String pattern) {
-		super.applyLocalizedPattern(pattern);
-	}
-
-	/**
-	 * Returns a copy of the {@link DateFormatSymbols} of {@code this}.
-	 * <p>
-	 * @return the {@link DateFormatSymbols} of {@code this}
-	 *
-	 * @see #setDateFormatSymbols
-	 */
-	@Override
-	public synchronized DateFormatSymbols getDateFormatSymbols() {
-		return super.getDateFormatSymbols();
-	}
-
-	/**
-	 * Sets the {@link DateFormatSymbols} of {@code this}.
-	 * <p>
-	 * @param newFormatSymbols a {@link DateFormatSymbols}
-	 * <p>
-	 * @exception NullPointerException if {@code newFormatSymbols} is {@code null}
-	 *
-	 * @see #getDateFormatSymbols
-	 */
-	@Override
-	public synchronized void setDateFormatSymbols(final DateFormatSymbols newFormatSymbols) {
-		super.setDateFormatSymbols(newFormatSymbols);
 	}
 
 

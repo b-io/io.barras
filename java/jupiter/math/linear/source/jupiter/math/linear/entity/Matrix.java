@@ -2380,6 +2380,28 @@ public class Matrix
 		return null;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// EXPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Saves {@code this} to the specified file.
+	 * <p>
+	 * @param path the path to the file to save to
+	 * <p>
+	 * @return {@code true} if {@code this} is saved to the specified file, {@code false} otherwise
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
+	 */
+	public boolean save(final String path)
+			throws FileNotFoundException {
+		return toTable().save(path, false);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -2435,25 +2457,6 @@ public class Matrix
 			IO.error(ex);
 		}
 		return null;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// EXPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Saves {@code this} to the specified file.
-	 * <p>
-	 * @param path the path to the file to save to
-	 * <p>
-	 * @return {@code true} if {@code this} is saved to the specified file, {@code false} otherwise
-	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
-	 */
-	public boolean save(final String path)
-			throws FileNotFoundException {
-		return toTable().save(path, false);
 	}
 
 

@@ -761,20 +761,6 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a header of the specified length.
-	 * <p>
-	 * @param length the length of the header
-	 */
-	protected void createHeader(final int length) {
-		header = new String[length];
-		for (int i = 1; i <= length; ++i) {
-			header[i - 1] = Strings.toString(i);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates an {@code E} array of the specified length.
 	 * <p>
 	 * @param length the length of the array to create
@@ -795,6 +781,20 @@ public class Table<E>
 	 */
 	protected E[][] createArray2D(final int rowCount, final int columnCount) {
 		return Arrays.<E>create(c, rowCount, columnCount);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a header of the specified length.
+	 * <p>
+	 * @param length the length of the header
+	 */
+	protected void createHeader(final int length) {
+		header = new String[length];
+		for (int i = 1; i <= length; ++i) {
+			header[i - 1] = Strings.toString(i);
+		}
 	}
 
 

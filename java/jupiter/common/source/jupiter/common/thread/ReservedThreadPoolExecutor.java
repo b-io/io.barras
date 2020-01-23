@@ -174,17 +174,19 @@ public class ReservedThreadPoolExecutor
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Submits the specified task to the {@link ThreadPoolExecutor} if there is at least one thread
-	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
-	 * results if the task is submitted, {@code null} otherwise.
+	 * Submits the specified {@link Runnable} task for execution if there is at least one thread
+	 * that is not actively executing tasks and returns a {@link Future} representing that task,
+	 * {@code null} otherwise. The {@link Future#get} method will return {@code null} upon
+	 * successful completion.
 	 * <p>
-	 * @param task the task {@link Runnable} to submit
+	 * @param task the {@link Runnable} task to submit
 	 * <p>
-	 * @return a {@link Future} representing the pending results if the task is submitted,
-	 *         {@code null} otherwise
+	 * @return a {@link Future} representing the pending completion of the specified
+	 *         {@link Runnable} task if there is at least one thread that is not actively executing
+	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException if {@code task} is rejected
 	 * @throws NullPointerException       if {@code task} is {@code null}
+	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
 	public Future<?> submit(final Runnable task) {
@@ -200,26 +202,29 @@ public class ReservedThreadPoolExecutor
 	}
 
 	/**
-	 * Submits the specified task to the {@link ThreadPoolExecutor} if there is at least one thread
-	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
-	 * results if the task is submitted, {@code null} otherwise.
+	 * Submits the specified {@link Runnable} task for execution if there is at least one thread
+	 * that is not actively executing tasks and returns a {@link Future} representing that task,
+	 * {@code null} otherwise. The {@link Future#get} method will return the specified default
+	 * {@code T} result upon successful completion.
 	 * <p>
-	 * @param <T>    the type of the returned {@link Future} of the task {@link Runnable} to submit
-	 * @param task   the task {@link Runnable} to submit
-	 * @param result the default {@code T} value for the returned {@link Future}
+	 * @param <T>           the type of the returned {@link Future} of the {@link Runnable} task to
+	 *                      submit
+	 * @param task          the {@link Runnable} task to submit
+	 * @param defaultResult the default {@code T} result to return upon successful completion
 	 * <p>
-	 * @return a {@link Future} representing the pending results if the task is submitted,
-	 *         {@code null} otherwise
+	 * @return a {@link Future} representing the pending completion of the specified
+	 *         {@link Runnable} task if there is at least one thread that is not actively executing
+	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException if {@code task} is rejected
 	 * @throws NullPointerException       if {@code task} is {@code null}
+	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
-	public <T> Future<T> submit(final Runnable task, final T result) {
+	public <T> Future<T> submit(final Runnable task, final T defaultResult) {
 		submitLock.lock();
 		try {
 			if (getActiveCount() < maxPoolSize) {
-				return super.submit(task, result);
+				return super.submit(task, defaultResult);
 			}
 		} finally {
 			submitLock.unlock();
@@ -228,18 +233,20 @@ public class ReservedThreadPoolExecutor
 	}
 
 	/**
-	 * Submits the specified task to the {@link ThreadPoolExecutor} if there is at least one thread
-	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
-	 * results if the task is submitted, {@code null} otherwise.
+	 * Submits the specified {@link Callable} task for execution if there is at least one thread
+	 * that is not actively executing tasks and returns a {@link Future} representing that task,
+	 * {@code null} otherwise. The {@link Future#get} method will return {@code null} upon
+	 * successful completion.
 	 * <p>
-	 * @param <T>  the type of the task {@link Callable} to submit
-	 * @param task the task {@link Callable} of type {@code T} to submit
+	 * @param <T>  the type of the {@link Callable} task to submit
+	 * @param task the {@link Callable} task of type {@code T} to submit
 	 * <p>
-	 * @return a {@link Future} representing the pending results if the task is submitted,
-	 *         {@code null} otherwise
+	 * @return a {@link Future} representing the pending completion of the specified
+	 *         {@link Callable} task if there is at least one thread that is not actively executing
+	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException if {@code task} is rejected
 	 * @throws NullPointerException       if {@code task} is {@code null}
+	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
 	public <T> Future<T> submit(final Callable<T> task) {

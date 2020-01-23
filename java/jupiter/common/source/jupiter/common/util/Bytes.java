@@ -831,30 +831,6 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code byte} value.
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code byte} value
-	 */
-	public static byte random() {
-		return random(Byte.MIN_VALUE, Byte.MAX_VALUE);
-	}
-
-	/**
-	 * Returns a pseudorandom, uniformly distributed {@code byte} value between the specified
-	 * bounds.
-	 * <p>
-	 * @param lowerBound the lower bound of the {@code byte} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code byte} value to generate (exclusive)
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code byte} value between the specified bounds
-	 */
-	public static byte random(final byte lowerBound, final byte upperBound) {
-		return convert(lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates a {@code byte} array of the specified length containing the sequence of numbers
 	 * starting with zero and spaced by one.
 	 * <p>
@@ -901,7 +877,7 @@ public class Bytes {
 		return array;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a random {@code byte} array of the specified length.
@@ -936,6 +912,44 @@ public class Bytes {
 			array[i] = random(lowerBound, upperBound);
 		}
 		return array;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code byte} value.
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code byte} value
+	 */
+	public static byte random() {
+		return random(Byte.MIN_VALUE, Byte.MAX_VALUE);
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code byte} value between the specified
+	 * bounds.
+	 * <p>
+	 * @param lowerBound the lower bound of the {@code byte} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code byte} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code byte} value between the specified bounds
+	 */
+	public static byte random(final byte lowerBound, final byte upperBound) {
+		return convert(lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code byte} array of the specified length with the specified {@code byte} element.
+	 * <p>
+	 * @param element the {@code byte} element of the {@code byte} array to create
+	 * @param length  the length of the {@code byte} array to create
+	 * <p>
+	 * @return a {@code byte} array of the specified length with the specified {@code byte} element
+	 */
+	public static byte[] repeat(final byte element, final int length) {
+		return fill(new byte[length], element);
 	}
 
 
@@ -981,22 +995,25 @@ public class Bytes {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void fill(final byte[] array, final byte value) {
+	public static byte[] fill(final byte[] array, final byte value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
+		return array;
 	}
 
-	public static void fill(final byte[][] array2D, final byte value) {
+	public static byte[][] fill(final byte[][] array2D, final byte value) {
 		for (final byte[] array : array2D) {
 			fill(array, value);
 		}
+		return array2D;
 	}
 
-	public static void fill(final byte[][][] array3D, final byte value) {
+	public static byte[][][] fill(final byte[][][] array3D, final byte value) {
 		for (final byte[][] array2D : array3D) {
 			fill(array2D, value);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

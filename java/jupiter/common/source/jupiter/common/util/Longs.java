@@ -554,30 +554,6 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code long} value.
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code long} value
-	 */
-	public static long random() {
-		return random(Long.MIN_VALUE, Long.MAX_VALUE);
-	}
-
-	/**
-	 * Returns a pseudorandom, uniformly distributed {@code long} value between the specified
-	 * bounds.
-	 * <p>
-	 * @param lowerBound the lower bound of the {@code long} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code long} value to generate (exclusive)
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code long} value between the specified bounds
-	 */
-	public static long random(final long lowerBound, final long upperBound) {
-		return lowerBound + convert(RANDOM.nextDouble() * (upperBound - lowerBound));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates a {@code long} array of the specified length containing the sequence of numbers
 	 * starting with zero and spaced by one.
 	 * <p>
@@ -624,7 +600,7 @@ public class Longs {
 		return array;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a random {@code long} array of the specified length.
@@ -659,6 +635,44 @@ public class Longs {
 			array[i] = random(lowerBound, upperBound);
 		}
 		return array;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code long} value.
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code long} value
+	 */
+	public static long random() {
+		return random(Long.MIN_VALUE, Long.MAX_VALUE);
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code long} value between the specified
+	 * bounds.
+	 * <p>
+	 * @param lowerBound the lower bound of the {@code long} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code long} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code long} value between the specified bounds
+	 */
+	public static long random(final long lowerBound, final long upperBound) {
+		return lowerBound + convert(RANDOM.nextDouble() * (upperBound - lowerBound));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code long} array of the specified length with the specified {@code long} element.
+	 * <p>
+	 * @param element the {@code long} element of the {@code long} array to create
+	 * @param length  the length of the {@code long} array to create
+	 * <p>
+	 * @return a {@code long} array of the specified length with the specified {@code long} element
+	 */
+	public static long[] repeat(final long element, final int length) {
+		return fill(new long[length], element);
 	}
 
 
@@ -704,22 +718,25 @@ public class Longs {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void fill(final long[] array, final long value) {
+	public static long[] fill(final long[] array, final long value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
+		return array;
 	}
 
-	public static void fill(final long[][] array2D, final long value) {
+	public static long[][] fill(final long[][] array2D, final long value) {
 		for (final long[] array : array2D) {
 			fill(array, value);
 		}
+		return array2D;
 	}
 
-	public static void fill(final long[][][] array3D, final long value) {
+	public static long[][][] fill(final long[][][] array3D, final long value) {
 		for (final long[][] array2D : array3D) {
 			fill(array2D, value);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

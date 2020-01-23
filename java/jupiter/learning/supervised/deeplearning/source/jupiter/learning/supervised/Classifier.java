@@ -362,7 +362,7 @@ public abstract class Classifier
 		// Test the convergence
 		if (delta > cost) {
 			IO.warn("The cost is increasing by ", delta,
-					" (", Doubles.toPercentage(delta / cost), ")");
+					" (", Doubles.formatPercent(delta / cost), ")");
 		}
 		cost = currentCost;
 		if (delta <= tolerance) {

@@ -100,8 +100,8 @@ public class NeuralNetworkTest
 			final double accuracy = model.computeAccuracy();
 			final double f1Score = model.computeF1Score();
 			final double cost = model.computeCost();
-			IO.test(Doubles.toPercentage(accuracy), " accuracy, ",
-					Doubles.toPercentage(f1Score), " F1 score and ",
+			IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
+					Doubles.formatPercent(f1Score), " F1 score and ",
 					DECIMAL_FORMAT.format(cost), " cost in ",
 					iterationCount, " iterations in ",
 					chrono.getMilliseconds(), " [ms]");
@@ -219,7 +219,7 @@ public class NeuralNetworkTest
 		final double accuracy = model.computeAccuracy();
 		final double f1Score = model.computeF1Score();
 		final double cost = model.computeCost();
-		IO.test(Doubles.toPercentage(accuracy), " accuracy, ", Doubles.toPercentage(f1Score),
+		IO.test(Doubles.formatPercent(accuracy), " accuracy, ", Doubles.formatPercent(f1Score),
 				" F1 score and ", DECIMAL_FORMAT.format(cost), " cost in ", iterationCount,
 				" iterations in ", chrono.getMilliseconds(), " [ms]");
 

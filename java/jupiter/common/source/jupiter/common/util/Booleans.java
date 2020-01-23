@@ -516,17 +516,6 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code boolean} value.
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code boolean} value
-	 */
-	public static boolean random() {
-		return RANDOM.nextBoolean();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates a random {@code boolean} array of the specified length.
 	 * <p>
 	 * @param length the length of the random sequence to create
@@ -539,6 +528,33 @@ public class Booleans {
 			array[i] = random();
 		}
 		return array;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code boolean} value.
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code boolean} value
+	 */
+	public static boolean random() {
+		return RANDOM.nextBoolean();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code boolean} array of the specified length with the specified {@code boolean}
+	 * element.
+	 * <p>
+	 * @param element the {@code boolean} element of the {@code boolean} array to create
+	 * @param length  the length of the {@code boolean} array to create
+	 * <p>
+	 * @return a {@code boolean} array of the specified length with the specified {@code boolean}
+	 *         element
+	 */
+	public static boolean[] repeat(final boolean element, final int length) {
+		return fill(new boolean[length], element);
 	}
 
 
@@ -584,22 +600,25 @@ public class Booleans {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void fill(final boolean[] array, final boolean value) {
+	public static boolean[] fill(final boolean[] array, final boolean value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
+		return array;
 	}
 
-	public static void fill(final boolean[][] array2D, final boolean value) {
+	public static boolean[][] fill(final boolean[][] array2D, final boolean value) {
 		for (final boolean[] array : array2D) {
 			fill(array, value);
 		}
+		return array2D;
 	}
 
-	public static void fill(final boolean[][][] array3D, final boolean value) {
+	public static boolean[][][] fill(final boolean[][][] array3D, final boolean value) {
 		for (final boolean[][] array2D : array3D) {
 			fill(array2D, value);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

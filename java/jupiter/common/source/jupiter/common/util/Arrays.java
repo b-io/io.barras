@@ -253,6 +253,22 @@ public class Arrays {
 		return Strings.joinWith(array, DEFAULT_DELIMITER);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code T} array of the specified length with the specified {@code T} element.
+	 * <p>
+	 * @param <T>     the component type of the array to create
+	 * @param element the {@code T} element of the {@code T} array to create
+	 * @param length  the length of the {@code T} array to create
+	 * <p>
+	 * @return a {@code T} array of the specified length with the specified {@code T} element
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T[] repeat(final T element, final int length) {
+		return fill((T[]) create(element.getClass(), length), element);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
@@ -316,22 +332,25 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> void fill(final T[] array, final T value) {
+	public static <T> T[] fill(final T[] array, final T object) {
 		for (int i = 0; i < array.length; ++i) {
-			array[i] = value;
+			array[i] = object;
 		}
+		return array;
 	}
 
-	public static <T> void fill(final T[][] array2D, final T value) {
+	public static <T> T[][] fill(final T[][] array2D, final T object) {
 		for (final T[] array : array2D) {
-			fill(array, value);
+			fill(array, object);
 		}
+		return array2D;
 	}
 
-	public static <T> void fill(final T[][][] array3D, final T value) {
+	public static <T> T[][][] fill(final T[][][] array3D, final T object) {
 		for (final T[][] array2D : array3D) {
-			fill(array2D, value);
+			fill(array2D, object);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1201,7 +1220,7 @@ public class Arrays {
 	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
 	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param <T> the self {@link Comparable} type of the arrays to compare
+	 * @param <T> the self {@link Comparable} component type of the arrays to compare
 	 * @param a   the array of {@link Comparable} of type {@code T} to compare
 	 * @param b   the other array of {@link Comparable} of type {@code T} to compare against
 	 * <p>
@@ -1218,7 +1237,7 @@ public class Arrays {
 	 * Compares the specified {@code T} arrays for order. Returns a negative integer, zero or a
 	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param <T> the type of the arrays to compare
+	 * @param <T> the component type of the arrays to compare
 	 * @param a   the {@code T} array to compare
 	 * @param b   the other {@code T} array to compare against
 	 * <p>

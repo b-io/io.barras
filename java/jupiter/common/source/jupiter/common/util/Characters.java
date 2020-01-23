@@ -586,30 +586,6 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code char} value.
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code char} value
-	 */
-	public static char random() {
-		return (char) (Character.MIN_VALUE + RANDOM.nextInt(Character.MAX_VALUE + 1));
-	}
-
-	/**
-	 * Returns a pseudorandom, uniformly distributed {@code char} value between the specified
-	 * bounds.
-	 * <p>
-	 * @param lowerBound the lower bound of the {@code char} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code char} value to generate (exclusive)
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code char} value between the specified bounds
-	 */
-	public static char random(final char lowerBound, final char upperBound) {
-		return (char) (lowerBound + RANDOM.nextInt(upperBound - lowerBound));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates a {@code char} array of the specified length containing the sequence of characters
 	 * starting with zero and spaced by one.
 	 * <p>
@@ -656,7 +632,7 @@ public class Characters {
 		return array;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a random {@code char} array of the specified length.
@@ -691,6 +667,44 @@ public class Characters {
 			array[i] = random(lowerBound, upperBound);
 		}
 		return array;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code char} value.
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code char} value
+	 */
+	public static char random() {
+		return (char) (Character.MIN_VALUE + RANDOM.nextInt(Character.MAX_VALUE + 1));
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code char} value between the specified
+	 * bounds.
+	 * <p>
+	 * @param lowerBound the lower bound of the {@code char} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code char} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code char} value between the specified bounds
+	 */
+	public static char random(final char lowerBound, final char upperBound) {
+		return (char) (lowerBound + RANDOM.nextInt(upperBound - lowerBound));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code char} array of the specified length with the specified {@code char} element.
+	 * <p>
+	 * @param element the {@code char} element of the {@code char} array to create
+	 * @param length  the length of the {@code char} array to create
+	 * <p>
+	 * @return a {@code char} array of the specified length with the specified {@code char} element
+	 */
+	public static char[] repeat(final char element, final int length) {
+		return fill(new char[length], element);
 	}
 
 
@@ -736,22 +750,25 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void fill(final char[] array, final char value) {
+	public static char[] fill(final char[] array, final char value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
+		return array;
 	}
 
-	public static void fill(final char[][] array2D, final char value) {
+	public static char[][] fill(final char[][] array2D, final char value) {
 		for (final char[] array : array2D) {
 			fill(array, value);
 		}
+		return array2D;
 	}
 
-	public static void fill(final char[][][] array3D, final char value) {
+	public static char[][][] fill(final char[][][] array3D, final char value) {
 		for (final char[][] array2D : array3D) {
 			fill(array2D, value);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -375,15 +375,16 @@ public class WorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds a {@link Task} with the specified {@code I} input and returns its identifier.
+	 * Submits a {@link Task} with the specified {@code I} input for execution and returns its
+	 * identifier.
 	 * <p>
-	 * @param input the {@code I} input of the {@link Task} to add
+	 * @param input the {@code I} input of the {@link Task} to submit
 	 * <p>
-	 * @return the identifier of the added {@link Task}
+	 * @return the identifier of the submitted {@link Task}
 	 */
 	public long submit(final I input) {
 		++currentTaskId;
-		IO.debug("Add task ", currentTaskId);
+		IO.debug("Submit task ", currentTaskId);
 		tasks.add(new Task<I>(currentTaskId, input));
 		return currentTaskId;
 	}

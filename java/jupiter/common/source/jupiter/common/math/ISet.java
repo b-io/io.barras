@@ -42,13 +42,13 @@ public interface ISet<T extends Comparable<T>> {
 	public boolean isEmpty();
 
 	/**
-	 * Tests whether {@code this} contains the specified {@code T} value.
+	 * Tests whether {@code this} contains the specified {@code T} object.
 	 * <p>
-	 * @param value the {@code T} value to test for presence
+	 * @param object the {@code T} object to test for presence
 	 * <p>
-	 * @return {@code true} if {@code this} contains the {@code T} value, {@code false} otherwise
+	 * @return {@code true} if {@code this} contains the {@code T} object, {@code false} otherwise
 	 */
-	public boolean isInside(final T value);
+	public boolean isInside(final T object);
 
 	/**
 	 * Tests whether {@code this} is valid.

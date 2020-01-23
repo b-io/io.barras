@@ -371,83 +371,6 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length.
-	 * <p>
-	 * @param length the length of the random {@link String} to generate
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
-	 */
-	public static String random(final int length) {
-		// Check the arguments
-		IntegerArguments.requireNonNegative(length);
-
-		// Generate
-		final StringBuilder builder = createBuilder(length);
-		for (int i = 0; i < length; ++i) {
-			builder.append(Characters.random());
-		}
-		return builder.toString();
-	}
-
-	/**
-	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length
-	 * generated with {@code char} values between the specified bounds.
-	 * <p>
-	 * @param length     the length of the random {@link String} to generate
-	 * @param lowerBound the lower bound of the {@code char} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code char} value to generate (exclusive)
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
-	 *         generated with {@code char} values between the specified bounds
-	 */
-	public static String random(final int length, final char lowerBound, final char upperBound) {
-		// Check the arguments
-		IntegerArguments.requireNonNegative(length);
-
-		// Generate
-		final StringBuilder builder = createBuilder(length);
-		for (int i = 0; i < length; ++i) {
-			builder.append(Characters.random(lowerBound, upperBound));
-		}
-		return builder.toString();
-	}
-
-	//////////////////////////////////////////////
-
-	public static String repeat(final char character, final int length) {
-		return repeat(toString(character), length);
-	}
-
-	public static String repeat(final String text, final int length) {
-		// Check the arguments
-		if (isNullOrEmpty(text)) {
-			return text;
-		}
-		IntegerArguments.requireNonNegative(length);
-
-		// Initialize
-		final StringBuilder builder = createBuilder(length * text.length());
-
-		// Repeat the text
-		for (int i = 0; i < length; ++i) {
-			builder.append(text);
-		}
-		return builder.toString();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static StringBuilder createBuilder() {
-		return createBuilder(DEFAULT_INITIAL_CAPACITY);
-	}
-
-	public static StringBuilder createBuilder(final int capacity) {
-		return new StringBuilder(capacity);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
 	 * Creates a {@link String} bar of the default length with the default progress {@code char}
 	 * symbol.
 	 * <p>
@@ -496,6 +419,83 @@ public class Strings {
 	 */
 	public static String createBar(final int length, final char progressSymbol) {
 		return repeat(progressSymbol, length);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static StringBuilder createBuilder() {
+		return createBuilder(DEFAULT_INITIAL_CAPACITY);
+	}
+
+	public static StringBuilder createBuilder(final int capacity) {
+		return new StringBuilder(capacity);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length.
+	 * <p>
+	 * @param length the length of the random {@link String} to generate
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
+	 */
+	public static String random(final int length) {
+		// Check the arguments
+		IntegerArguments.requireNonNegative(length);
+
+		// Generate
+		final StringBuilder builder = createBuilder(length);
+		for (int i = 0; i < length; ++i) {
+			builder.append(Characters.random());
+		}
+		return builder.toString();
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length
+	 * generated with {@code char} values between the specified bounds.
+	 * <p>
+	 * @param length     the length of the random {@link String} to generate
+	 * @param lowerBound the lower bound of the {@code char} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code char} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
+	 *         generated with {@code char} values between the specified bounds
+	 */
+	public static String random(final int length, final char lowerBound, final char upperBound) {
+		// Check the arguments
+		IntegerArguments.requireNonNegative(length);
+
+		// Generate
+		final StringBuilder builder = createBuilder(length);
+		for (int i = 0; i < length; ++i) {
+			builder.append(Characters.random(lowerBound, upperBound));
+		}
+		return builder.toString();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String repeat(final char character, final int length) {
+		return repeat(toString(character), length);
+	}
+
+	public static String repeat(final String text, final int length) {
+		// Check the arguments
+		if (isNullOrEmpty(text)) {
+			return text;
+		}
+		IntegerArguments.requireNonNegative(length);
+
+		// Initialize
+		final StringBuilder builder = createBuilder(length * text.length());
+
+		// Repeat the text
+		for (int i = 0; i < length; ++i) {
+			builder.append(text);
+		}
+		return builder.toString();
 	}
 
 

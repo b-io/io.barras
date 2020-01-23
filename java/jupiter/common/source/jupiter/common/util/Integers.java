@@ -680,29 +680,6 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed {@code int} value.
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code int} value
-	 */
-	public static int random() {
-		return RANDOM.nextInt();
-	}
-
-	/**
-	 * Returns a pseudorandom, uniformly distributed {@code int} value between the specified bounds.
-	 * <p>
-	 * @param lowerBound the lower bound of the {@code int} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code int} value to generate (exclusive)
-	 * <p>
-	 * @return a pseudorandom, uniformly distributed {@code int} value between the specified bounds
-	 */
-	public static int random(final int lowerBound, final int upperBound) {
-		return lowerBound + RANDOM.nextInt(upperBound - lowerBound);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Creates an {@code int} array of the specified length containing the sequence of numbers
 	 * starting with zero and spaced by one.
 	 * <p>
@@ -749,7 +726,7 @@ public class Integers {
 		return array;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a random {@code int} array of the specified length.
@@ -784,6 +761,43 @@ public class Integers {
 			array[i] = random(lowerBound, upperBound);
 		}
 		return array;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code int} value.
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code int} value
+	 */
+	public static int random() {
+		return RANDOM.nextInt();
+	}
+
+	/**
+	 * Returns a pseudorandom, uniformly distributed {@code int} value between the specified bounds.
+	 * <p>
+	 * @param lowerBound the lower bound of the {@code int} value to generate (inclusive)
+	 * @param upperBound the upper bound of the {@code int} value to generate (exclusive)
+	 * <p>
+	 * @return a pseudorandom, uniformly distributed {@code int} value between the specified bounds
+	 */
+	public static int random(final int lowerBound, final int upperBound) {
+		return lowerBound + RANDOM.nextInt(upperBound - lowerBound);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@code int} array of the specified length with the specified {@code int} element.
+	 * <p>
+	 * @param element the {@code int} element of the {@code int} array to create
+	 * @param length  the length of the {@code int} array to create
+	 * <p>
+	 * @return a {@code int} array of the specified length with the specified {@code int} element
+	 */
+	public static int[] repeat(final int element, final int length) {
+		return fill(new int[length], element);
 	}
 
 
@@ -829,22 +843,25 @@ public class Integers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void fill(final int[] array, final int value) {
+	public static int[] fill(final int[] array, final int value) {
 		for (int i = 0; i < array.length; ++i) {
 			array[i] = value;
 		}
+		return array;
 	}
 
-	public static void fill(final int[][] array2D, final int value) {
+	public static int[][] fill(final int[][] array2D, final int value) {
 		for (final int[] array : array2D) {
 			fill(array, value);
 		}
+		return array2D;
 	}
 
-	public static void fill(final int[][][] array3D, final int value) {
+	public static int[][][] fill(final int[][][] array3D, final int value) {
 		for (final int[][] array2D : array3D) {
 			fill(array2D, value);
 		}
+		return array3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
