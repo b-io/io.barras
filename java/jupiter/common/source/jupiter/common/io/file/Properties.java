@@ -67,7 +67,7 @@ public class Properties
 	 * <p>
 	 * @param fileName the name of the file to load
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
+	 * @throws IOException if there is a problem with reading {@code fileName}
 	 */
 	public Properties(final String fileName)
 			throws IOException {
@@ -123,7 +123,7 @@ public class Properties
 	 * <p>
 	 * @param fileName the name of the file to load
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
+	 * @throws IOException if there is a problem with reading {@code fileName}
 	 */
 	public synchronized void load(final String fileName)
 			throws IOException {

@@ -61,7 +61,7 @@ public class Mails {
 	 * @return the array of {@link BodyPart} of the specified {@link MimeMessage}
 	 * <p>
 	 * @throws IOException        if there is a problem with querying the file system
-	 * @throws MessagingException if there is a problem with accessing the mail
+	 * @throws MessagingException if there is a problem with accessing {@code mail}
 	 */
 	public static BodyPart[] getBodyParts(final MimeMessage mail)
 			throws IOException, MessagingException {
@@ -126,5 +126,22 @@ public class Mails {
 	 */
 	public static boolean is(final Class<?> c) {
 		return MimeMessage.class.isAssignableFrom(c);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link BodyPart} is an attachment.
+	 * <p>
+	 * @param bodyPart the {@link BodyPart} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link BodyPart} is an attachment, {@code false}
+	 *         otherwise
+	 * <p>
+	 * @throws MessagingException if there is a problem with accessing {@code bodyPart}
+	 */
+	public static boolean isAttachment(final BodyPart bodyPart)
+			throws MessagingException {
+		return bodyPart != null && BodyPart.ATTACHMENT.equals(bodyPart.getDisposition());
 	}
 }

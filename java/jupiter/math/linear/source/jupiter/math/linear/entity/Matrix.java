@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
@@ -348,7 +349,7 @@ public class Matrix
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
+	 * @throws IOException if there is a problem with reading {@code path}
 	 */
 	public Matrix(final String path, final boolean hasHeader)
 			throws IOException {
@@ -533,7 +534,7 @@ public class Matrix
 	 * <p>
 	 * @return the submatrix {@code this(rowStart:rowEnd, columnStart:columnEnd)}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
 			final int columnEnd) {
@@ -561,7 +562,7 @@ public class Matrix
 	 * <p>
 	 * @return the submatrix {@code this(rowIndexes(:), columnStart:columnEnd)}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
 	public Matrix getSubmatrix(final int[] rowIndexes, final int columnStart, final int columnEnd) {
 		final int rowCount = rowIndexes.length;
@@ -588,7 +589,7 @@ public class Matrix
 	 * <p>
 	 * @return the submatrix {@code this(rowStart:rowEnd, columnIndexes(:))}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndexes) {
 		final int rowCount = rowEnd - rowStart;
@@ -617,7 +618,7 @@ public class Matrix
 	 * <p>
 	 * @return the submatrix {@code this(rowIndexes(:), columnIndexes(:))}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
 	public Matrix getSubmatrix(final int[] rowIndexes, final int[] columnIndexes) {
 		final int rowCount = rowIndexes.length;
@@ -788,7 +789,7 @@ public class Matrix
 	 * <p>
 	 * @param values a {@code double} array
 	 * <p>
-	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
+	 * @throws IndexOutOfBoundsException if {@code values} is not of the same length as {@code this}
 	 */
 	public void setAll(final double... values) {
 		System.arraycopy(values, 0, elements, 0, m * n);
@@ -799,7 +800,7 @@ public class Matrix
 	 * <p>
 	 * @param values a 2D {@code double} array
 	 * <p>
-	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
+	 * @throws IndexOutOfBoundsException if {@code values} is not of the same length as {@code this}
 	 */
 	public void setAll(final double[]... values) {
 		for (int i = 0; i < m; ++i) {
@@ -818,7 +819,7 @@ public class Matrix
 	 * @param columnEnd   the final column index (exclusive)
 	 * @param submatrix   a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
 			final int columnEnd, final Matrix submatrix) {
@@ -842,7 +843,7 @@ public class Matrix
 	 * @param columnEnd   the final column index (exclusive)
 	 * @param submatrix   a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
 	public void setSubmatrix(final int[] rowIndexes, final int columnStart, final int columnEnd,
 			final Matrix submatrix) {
@@ -866,7 +867,7 @@ public class Matrix
 	 * @param columnIndexes an array of column indexes
 	 * @param submatrix     a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndexes,
 			final Matrix submatrix) {
@@ -892,7 +893,7 @@ public class Matrix
 	 * @param columnIndexes an array of column indexes
 	 * @param submatrix     a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the specified submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
 	public void setSubmatrix(final int[] rowIndexes, final int[] columnIndexes,
 			final Matrix submatrix) {
@@ -2268,12 +2269,18 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
+	 * @throws IOException if there is a problem with reading {@code path}
 	 */
 	public static Matrix create(final String path)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
-		return create(fileHandler.getReader(), fileHandler.countLines(true), false);
+		BufferedReader reader = null;
+		try {
+			reader = fileHandler.createReader();
+			return create(reader, fileHandler.countLines(true), false);
+		} finally {
+			Resources.close(reader);
+		}
 	}
 
 	/**
@@ -2284,24 +2291,30 @@ public class Matrix
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified file
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
+	 * @throws IOException if there is a problem with reading {@code path}
 	 */
 	public static Matrix create(final String path, final boolean transpose)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
-		return create(fileHandler.getReader(), fileHandler.countLines(true), transpose);
+		BufferedReader reader = null;
+		try {
+			reader = fileHandler.createReader();
+			return create(reader, fileHandler.countLines(true), transpose);
+		} finally {
+			Resources.close(reader);
+		}
 	}
 
 	/**
 	 * Creates a {@link Matrix} loaded from the specified reader.
 	 * <p>
-	 * @param reader    a {@link BufferedReader}
+	 * @param reader    the {@link BufferedReader} of the lines to load
 	 * @param lineCount the number of lines to load
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @return a {@link Matrix} loaded from the specified reader
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
 	public static Matrix create(final BufferedReader reader, final int lineCount,
 			final boolean transpose)

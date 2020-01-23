@@ -34,6 +34,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
 import java.util.List;
@@ -231,13 +232,13 @@ public class SpeedChecker {
 				final String fileName = url.getFile().replace(File.separator, EMPTY);
 				final File targetFile = new File(TEMP_DIR + File.separator + fileName);
 				IO.debug("Download the file ", Strings.quote(fileName));
-				ReadableByteChannel channel = null;
-				FileOutputStream tempFile = null;
+				ReadableByteChannel inputChannel = null;
+				FileChannel outputChannel = null;
 				try {
-					channel = Channels.newChannel(url.openStream());
-					tempFile = new FileOutputStream(targetFile);
+					inputChannel = Channels.newChannel(url.openStream());
+					outputChannel = new FileOutputStream(targetFile).getChannel();
 					chrono.start();
-					tempFile.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
+					outputChannel.transferFrom(inputChannel, 0, Long.MAX_VALUE);
 					chrono.stop();
 					final double length = targetFile.length() / 1048576. * 8.;
 					final double time = chrono.getSeconds();
@@ -251,8 +252,8 @@ public class SpeedChecker {
 							IO.error("Unable to transfer the file ", Strings.quote(urlName), " to ",
 									Strings.quote(Files.getCanonicalPath(targetFile)), ": ", ex));
 				} finally {
-					Resources.close(channel);
-					Resources.close(tempFile);
+					Resources.close(inputChannel);
+					Resources.close(outputChannel);
 				}
 			} catch (final IOException ex) {
 				IO.error("The URL ", Strings.quote(urlName), " is not reachable: ", ex);

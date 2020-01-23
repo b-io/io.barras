@@ -352,7 +352,7 @@ public class IO
 	 * <p>
 	 * @return the {@link Content} of the specified {@link InputStream}
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static Content read(final InputStream input)
 			throws IOException {
@@ -369,7 +369,7 @@ public class IO
 	 * @return the number of lines of the specified {@link InputStream} with the specified
 	 *         {@link Charset}
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static Content read(final InputStream input, final Charset charset)
 			throws IOException {
@@ -400,7 +400,7 @@ public class IO
 	 * <p>
 	 * @return the number of lines of the specified {@link InputStream}
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static int countLines(final InputStream input)
 			throws IOException {
@@ -417,7 +417,7 @@ public class IO
 	 * @return the number of lines of the specified {@link InputStream} with the specified
 	 *         {@link Charset}
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static int countLines(final InputStream input, final Charset charset)
 			throws IOException {
@@ -434,7 +434,7 @@ public class IO
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         {@link InputStream}
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static int countLines(final InputStream input, final boolean skipEmptyLines)
 			throws IOException {
@@ -452,7 +452,7 @@ public class IO
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         {@link InputStream} using the specified {@link Charset}
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static int countLines(final InputStream input, final Charset charset,
 			final boolean skipEmptyLines)
@@ -517,7 +517,8 @@ public class IO
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading {@code input} or writing to
+	 *                     {@code output}
 	 */
 	public static long copy(final InputStream input, final OutputStream output)
 			throws IOException {
@@ -534,7 +535,8 @@ public class IO
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading {@code input} or writing to
+	 *                     {@code output}
 	 */
 	public static long copy(final InputStream input, final OutputStream output, final byte[] buffer)
 			throws IOException {
@@ -551,11 +553,12 @@ public class IO
 	 * Copies the data of the specified {@link BufferedReader} with the specified
 	 * {@link PrintWriter} from the specified line index.
 	 * <p>
-	 * @param reader   the {@link BufferedReader} to read from
-	 * @param writer   the {@link PrintWriter} to copy with
+	 * @param reader   the {@link BufferedReader} to read with
+	 * @param writer   the {@link PrintWriter} to write with
 	 * @param fromLine the line index to start copying forward from
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading with {@code reader} or writing with
+	 *                     {@code writer}
 	 */
 	public static void copy(final BufferedReader reader, final PrintWriter writer,
 			final int fromLine)

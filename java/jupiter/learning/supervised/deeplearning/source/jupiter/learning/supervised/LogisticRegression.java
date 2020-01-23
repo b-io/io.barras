@@ -95,7 +95,8 @@ public class LogisticRegression
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
 	 * @param classesPath        the path to the file containing the classes of size m
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified files
+	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
+	 *                     {@code classesPath}
 	 */
 	public LogisticRegression(final String featureVectorsPath, final String classesPath)
 			throws IOException {
@@ -112,7 +113,8 @@ public class LogisticRegression
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified files
+	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
+	 *                     {@code classesPath}
 	 */
 	public LogisticRegression(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)

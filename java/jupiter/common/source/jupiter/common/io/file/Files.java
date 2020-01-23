@@ -28,6 +28,8 @@ import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Strings.EMPTY;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,6 +39,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -197,6 +201,96 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Creates a {@link BufferedInputStream} of the file denoted by the specified path.
+	 * <p>
+	 * @param path a {@link String}
+	 * <p>
+	 * @return a {@link BufferedInputStream} of the file denoted by the specified path
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with opening {@code path}
+	 */
+	public static BufferedInputStream createInputStream(final String path)
+			throws FileNotFoundException {
+		return new BufferedInputStream(new FileInputStream(path));
+	}
+
+	/**
+	 * Creates a {@link BufferedInputStream} of the specified {@link File}.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @return a {@link BufferedInputStream} of the specified {@link File}
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
+	 */
+	public static BufferedInputStream createInputStream(final File file)
+			throws FileNotFoundException {
+		return new BufferedInputStream(new FileInputStream(file));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link BufferedOutputStream} of the file denoted by the specified path.
+	 * <p>
+	 * @param path a {@link String}
+	 * <p>
+	 * @return a {@link BufferedOutputStream} of the file denoted by the specified path
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
+	 */
+	public static BufferedOutputStream createOutputStream(final String path)
+			throws FileNotFoundException {
+		return new BufferedOutputStream(new FileOutputStream(path));
+	}
+
+	/**
+	 * Creates a {@link BufferedOutputStream} of the file denoted by the specified path.
+	 * <p>
+	 * @param path   a {@link String}
+	 * @param append the flag specifying whether to append
+	 * <p>
+	 * @return a {@link BufferedOutputStream} of the file denoted by the specified path
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
+	 */
+	public static BufferedOutputStream createOutputStream(final String path, final boolean append)
+			throws FileNotFoundException {
+		return new BufferedOutputStream(new FileOutputStream(path, append));
+	}
+
+	/**
+	 * Creates a {@link BufferedOutputStream} of the specified {@link File}.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @return a {@link BufferedOutputStream} of the specified {@link File}
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 */
+	public static BufferedOutputStream createOutputStream(final File file)
+			throws FileNotFoundException {
+		return new BufferedOutputStream(new FileOutputStream(file));
+	}
+
+	/**
+	 * Creates a {@link BufferedOutputStream} of the specified {@link File}.
+	 * <p>
+	 * @param file   a {@link File}
+	 * @param append the flag specifying whether to append
+	 * <p>
+	 * @return a {@link BufferedOutputStream} of the specified {@link File}
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 */
+	public static BufferedOutputStream createOutputStream(final File file, final boolean append)
+			throws FileNotFoundException {
+		return new BufferedOutputStream(new FileOutputStream(file, append));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Creates all the directories of the specified {@link File}.
 	 * <p>
 	 * @param file a {@link File}
@@ -237,7 +331,7 @@ public class Files {
 	 * <p>
 	 * @return a {@link BufferedReader} of the specified {@link File}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
 	public static BufferedReader createReader(final File file)
 			throws FileNotFoundException {
@@ -254,11 +348,11 @@ public class Files {
 	 * @return a {@link BufferedReader} of the specified {@link File} with the specified
 	 *         {@link Charset}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
 	public static BufferedReader createReader(final File file, final Charset charset)
 			throws FileNotFoundException {
-		return IO.createReader(new FileInputStream(file), charset);
+		return IO.createReader(createInputStream(file), charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -285,7 +379,7 @@ public class Files {
 	 */
 	public static Content read(final File file, final Charset charset) {
 		try {
-			return IO.read(new FileInputStream(file), charset);
+			return IO.read(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
@@ -319,7 +413,7 @@ public class Files {
 	 */
 	public static Content unzip(final File file, final Charset charset) {
 		try {
-			return IO.read(new ZipInputStream(new FileInputStream(file)), charset);
+			return IO.read(new ZipInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
@@ -353,7 +447,7 @@ public class Files {
 	 */
 	public static Content ungzip(final File file, final Charset charset) {
 		try {
-			return IO.read(new GZIPInputStream(new FileInputStream(file)), charset);
+			return IO.read(new GZIPInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
@@ -416,7 +510,7 @@ public class Files {
 	public static int countLines(final File file, final Charset charset,
 			final boolean skipEmptyLines) {
 		try {
-			return IO.countLines(new FileInputStream(file), charset);
+			return IO.countLines(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
@@ -461,7 +555,7 @@ public class Files {
 	public static BufferedWriter createWriter(final File file, final Charset charset,
 			final boolean append)
 			throws FileNotFoundException {
-		return IO.createWriter(new FileOutputStream(file, append), charset);
+		return IO.createWriter(createOutputStream(file, append), charset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -496,7 +590,7 @@ public class Files {
 		BufferedWriter writer = null;
 		try {
 			// Create a file writer
-			writer = IO.createWriter(new FileOutputStream(file, append), charset);
+			writer = IO.createWriter(createOutputStream(file, append), charset);
 			// Write or append the content to the file
 			writer.write(content + NEW_LINE);
 			isWritten = true;
@@ -559,14 +653,14 @@ public class Files {
 	 * Copies the specified source {@link File} to the specified target {@link File} (preserving the
 	 * file dates).
 	 * <p>
-	 * @param source the source {@link File} to copy
-	 * @param target the target {@link File} to copy to
+	 * @param source the source {@link File} to read from
+	 * @param target the target {@link File} to write to
 	 * @param force  the flag specifying whether to delete the target {@link File} before copying
 	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
 	 *         {@link File} (preserving the file dates), {@code false} otherwise
 	 * <p>
-	 * @throws CopyFileException if there is a problem with copying {@code source}
+	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
 	 */
 	public static boolean copy(final File source, final File target, final boolean force)
 			throws CopyFileException {
@@ -613,18 +707,18 @@ public class Files {
 			}
 		} else {
 			// Copy the file
-			FileChannel input = null;
-			FileChannel output = null;
+			FileChannel inputChannel = null;
+			FileChannel outputChannel = null;
 			try {
 				createParentDirs(target);
-				input = new FileInputStream(source).getChannel();
-				output = new FileOutputStream(target).getChannel();
-				final long size = input.size();
+				inputChannel = new FileInputStream(source).getChannel();
+				outputChannel = new FileOutputStream(target).getChannel();
+				final long size = inputChannel.size();
 				long position = 0L;
 				long byteCount;
 				while (position < size) {
 					final long remain = size - position;
-					byteCount = output.transferFrom(input, position,
+					byteCount = outputChannel.transferFrom(inputChannel, position,
 							remain > BUFFER_SIZE ? BUFFER_SIZE : remain);
 					// Exit if there are no more bytes to transfer
 					// (e.g. if the file is truncated after caching the size)
@@ -643,8 +737,8 @@ public class Files {
 			} catch (final IOException ex) {
 				IO.error(ex);
 			} finally {
-				Resources.close(input);
-				Resources.close(output);
+				Resources.close(inputChannel);
+				Resources.close(outputChannel);
 				setLastModified(target, source.lastModified());
 			}
 		}
@@ -655,8 +749,8 @@ public class Files {
 	 * Copies the specified source {@link File} to the specified target {@link File} from the
 	 * specified line index (without necessary preserving the file dates).
 	 * <p>
-	 * @param source   the source {@link File} to copy
-	 * @param target   the target {@link File} to copy to
+	 * @param source   the source {@link File} to read from
+	 * @param target   the target {@link File} to write to
 	 * @param force    the flag specifying whether to delete the target {@link File} before copying
 	 * @param fromLine the line index to start copying forward from
 	 * <p>
@@ -664,7 +758,7 @@ public class Files {
 	 *         {@link File} from the specified line index (without necessary preserving the file
 	 *         dates), {@code false} otherwise
 	 * <p>
-	 * @throws CopyFileException if there is a problem with copying {@code source}
+	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
 	 */
 	public static boolean copy(final File source, final File target, final boolean force,
 			final int fromLine)
@@ -698,6 +792,92 @@ public class Files {
 			Resources.close(writer);
 		}
 		return false;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Reads the data from the specified source {@link File}, writes it to the specified
+	 * {@link OutputStream} and returns the number of copied {@code byte}.
+	 * <p>
+	 * @param source the source {@link File} to read from
+	 * @param output the {@link OutputStream} to write to
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code source} or writing to
+	 *                     {@code output}
+	 */
+	public static long copy(final File source, final OutputStream output)
+			throws IOException {
+		return copy(source, output, new byte[BUFFER_SIZE]);
+	}
+
+	/**
+	 * Reads the data from the specified source {@link File}, writes it to the specified
+	 * {@link OutputStream} with the specified buffer and returns the number of copied {@code byte}.
+	 * <p>
+	 * @param source the source {@link File} to read from
+	 * @param output the {@link OutputStream} to write to
+	 * @param buffer the buffer {@code byte} array used for copying
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code source} or writing to
+	 *                     {@code output}
+	 */
+	public static long copy(final File source, final OutputStream output, final byte[] buffer)
+			throws IOException {
+		InputStream input = null;
+		try {
+			input = createInputStream(source);
+			return IO.copy(input, output, buffer);
+		} finally {
+			Resources.close(input);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Reads the data from the specified {@link InputStream}, writes it to the specified target
+	 * {@link File} and returns the number of copied {@code byte}.
+	 * <p>
+	 * @param input  the {@link InputStream} to read from
+	 * @param target the target {@link File} to write to
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input} or writing to
+	 *                     {@code target}
+	 */
+	public static long copy(final InputStream input, final File target)
+			throws IOException {
+		return copy(input, target, new byte[BUFFER_SIZE]);
+	}
+
+	/**
+	 * Reads the data from the specified {@link InputStream}, writes it to the specified target
+	 * {@link File} with the specified buffer and returns the number of copied {@code byte}.
+	 * <p>
+	 * @param input  the {@link InputStream} to read from
+	 * @param target the target {@link File} to write to
+	 * @param buffer the buffer {@code byte} array used for copying
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input} or writing to
+	 *                     {@code target}
+	 */
+	public static long copy(final InputStream input, final File target, final byte[] buffer)
+			throws IOException {
+		OutputStream output = null;
+		try {
+			output = createOutputStream(target);
+			return IO.copy(input, output, buffer);
+		} finally {
+			Resources.close(output);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -877,7 +1057,7 @@ public class Files {
 			// Zip the files
 			ZipOutputStream output = null;
 			try {
-				output = new ZipOutputStream(new FileOutputStream(targetFile));
+				output = new ZipOutputStream(createOutputStream(targetFile));
 				for (final File source : listAll(sourceDir)) {
 					// Zip the file
 					final ZipEntry entry = new ZipEntry(getRelativePath(sourceDir, source));
@@ -888,17 +1068,8 @@ public class Files {
 					if (source.isDirectory()) {
 						++entryCount;
 					} else {
-						FileInputStream input = null;
-						try {
-							input = new FileInputStream(source);
-							int length;
-							while ((length = input.read(buffer)) > 0) {
-								output.write(buffer, 0, length);
-							}
-							++entryCount;
-						} finally {
-							Resources.close(input);
-						}
+						copy(source, output, buffer);
+						++entryCount;
 					}
 					output.closeEntry();
 				}
@@ -945,7 +1116,7 @@ public class Files {
 			// Unzip the files
 			ZipInputStream input = null;
 			try {
-				input = new ZipInputStream(new FileInputStream(sourceFile));
+				input = new ZipInputStream(createInputStream(sourceFile));
 				ZipEntry entry;
 				while ((entry = input.getNextEntry()) != null) {
 					// Unzip the file
@@ -962,18 +1133,12 @@ public class Files {
 					} else {
 						final File parentDir = target.getParentFile();
 						final long lastModified = parentDir.lastModified();
-						FileOutputStream output = null;
 						try {
-							output = new FileOutputStream(target);
-							int length;
-							while ((length = input.read(buffer)) > 0) {
-								output.write(buffer, 0, length);
-							}
+							Files.copy(input, target, buffer);
 							++entryCount;
 						} catch (final IOException ex) {
 							IO.error(ex);
 						} finally {
-							Resources.close(output);
 							setLastModified(parentDir, lastModified);
 						}
 					}

@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.map.parser.IParser;
 import jupiter.common.model.ICloneable;
@@ -202,7 +203,7 @@ public class Table<E>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
+	 * @throws IOException if there is a problem with reading {@code path}
 	 */
 	public Table(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
@@ -715,7 +716,7 @@ public class Table<E>
 	 * <p>
 	 * @param values an {@code E} array
 	 * <p>
-	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
+	 * @throws IndexOutOfBoundsException if {@code values} is not of the same length as {@code this}
 	 */
 	public void setAll(final E[] values) {
 		for (int i = 0; i < m; ++i) {
@@ -728,7 +729,7 @@ public class Table<E>
 	 * <p>
 	 * @param values a 2D {@code E} array
 	 * <p>
-	 * @throws IndexOutOfBoundsException if the specified array is not of the same length
+	 * @throws IndexOutOfBoundsException if {@code values} is not of the same length as {@code this}
 	 */
 	public void setAll(final E[][] values) {
 		for (int i = 0; i < m; ++i) {
@@ -1029,13 +1030,18 @@ public class Table<E>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
+	 * @throws IOException if there is a problem with reading {@code path}
 	 */
 	public void load(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
-		load(parser, fileHandler.getReader(), fileHandler.countLines(true) - (hasHeader ? 1 : 0),
-				hasHeader);
+		BufferedReader reader = null;
+		try {
+			reader = fileHandler.createReader();
+			load(parser, reader, fileHandler.countLines(true) - (hasHeader ? 1 : 0), hasHeader);
+		} finally {
+			Resources.close(reader);
+		}
 	}
 
 	/**
@@ -1046,7 +1052,7 @@ public class Table<E>
 	 * @param rowCount  the number of lines to load
 	 * @param hasHeader the flag specifying whether the first line is a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
 	public void load(final IParser<E> parser, final BufferedReader reader, final int rowCount,
 			final boolean hasHeader)

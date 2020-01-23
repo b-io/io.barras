@@ -114,7 +114,7 @@ public class CharacterTable
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified file
+	 * @throws IOException if there is a problem with reading {@code path}
 	 */
 	public CharacterTable(final String path, final boolean hasHeader)
 			throws IOException {

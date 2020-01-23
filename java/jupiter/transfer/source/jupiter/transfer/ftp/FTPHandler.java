@@ -26,12 +26,8 @@ package jupiter.transfer.ftp;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.STAR;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -466,7 +462,7 @@ public class FTPHandler
 									Strings.quote(localPath));
 							OutputStream output = null;
 							try {
-								output = new BufferedOutputStream(new FileOutputStream(localPath));
+								output = Files.createOutputStream(localPath);
 								if (ftp.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
@@ -541,7 +537,7 @@ public class FTPHandler
 									Strings.quote(localPath));
 							OutputStream output = null;
 							try {
-								output = new BufferedOutputStream(new FileOutputStream(localPath));
+								output = Files.createOutputStream(localPath);
 								if (ftps.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
@@ -710,7 +706,7 @@ public class FTPHandler
 									Strings.quote(remotePath));
 							InputStream input = null;
 							try {
-								input = new BufferedInputStream(new FileInputStream(file));
+								input = Files.createInputStream(file);
 								if (ftp.storeFile(remotePath, input)) {
 									++uploadedFileCount;
 								} else {
@@ -782,7 +778,7 @@ public class FTPHandler
 									Strings.quote(remotePath));
 							InputStream input = null;
 							try {
-								input = new BufferedInputStream(new FileInputStream(file));
+								input = Files.createInputStream(file);
 								if (ftps.storeFile(remotePath, input)) {
 									++uploadedFileCount;
 								} else {
@@ -853,7 +849,7 @@ public class FTPHandler
 							Strings.quote(remotePath));
 					InputStream input = null;
 					try {
-						input = new BufferedInputStream(new FileInputStream(file));
+						input = Files.createInputStream(file);
 						sftp.put(input, fileName);
 						++uploadedFileCount;
 					} catch (final FileNotFoundException ex) {

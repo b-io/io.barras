@@ -160,7 +160,8 @@ public abstract class Classifier
 	 *                           to load
 	 * @param classesPath        the path to the file containing the classes of size m to load
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified files
+	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
+	 *                     {@code classesPath}
 	 */
 	protected Classifier(final String featureVectorsPath, final String classesPath)
 			throws IOException {
@@ -178,7 +179,8 @@ public abstract class Classifier
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified files
+	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
+	 *                     {@code classesPath}
 	 */
 	protected Classifier(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
@@ -464,7 +466,8 @@ public abstract class Classifier
 	 *                           to load
 	 * @param classesPath        the path to the file containing the classes of size m to load
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified files
+	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
+	 *                     {@code classesPath}
 	 */
 	public void load(final String featureVectorsPath, final String classesPath)
 			throws IOException {
@@ -485,7 +488,8 @@ public abstract class Classifier
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading the specified files
+	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
+	 *                     {@code classesPath}
 	 */
 	public void load(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
