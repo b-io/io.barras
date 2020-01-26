@@ -165,13 +165,11 @@ public abstract class DivideAndConquer<I>
 		final int sliceSize = count / sliceCount;
 		final long[] ids = new long[sliceCount];
 		for (int i = 0; i < sliceCount - 1; ++i) {
-			ids[i] = workQueue.submit(
-					new Pair<I, Interval<Integer>>(input,
-							new Interval<Integer>(i * sliceSize, (i + 1) * sliceSize)));
+			ids[i] = workQueue.submit(new Pair<I, Interval<Integer>>(input,
+					new Interval<Integer>(i * sliceSize, (i + 1) * sliceSize)));
 		}
-		ids[sliceCount - 1] = workQueue.submit(
-				new Pair<I, Interval<Integer>>(input,
-						new Interval<Integer>((sliceCount - 1) * sliceSize, toIndex)));
+		ids[sliceCount - 1] = workQueue.submit(new Pair<I, Interval<Integer>>(input,
+				new Interval<Integer>((sliceCount - 1) * sliceSize, toIndex)));
 		return ids;
 	}
 

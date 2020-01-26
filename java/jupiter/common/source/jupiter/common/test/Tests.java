@@ -24,7 +24,6 @@
 package jupiter.common.test;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 
 import java.util.Collection;
 

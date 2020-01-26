@@ -168,8 +168,7 @@ public class Lists
 	 * <p>
 	 * @return the indexes of the removed elements
 	 */
-	public static <L extends List<E>, E> int[] removeAll(final L list,
-			final Object object) {
+	public static <L extends List<E>, E> int[] removeAll(final L list, final Object object) {
 		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
 		final Iterator<E> iterator = list.iterator();
 		int index = 0;

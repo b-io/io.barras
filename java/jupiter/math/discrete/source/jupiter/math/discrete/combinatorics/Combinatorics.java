@@ -318,8 +318,7 @@ public class Combinatorics {
 				int largestMobileIndex = -1, largestIndex = -1;
 				for (int i = 0; i < n; ++i) {
 					if (directions[i] == LEFT && i > 0 && permutation[i] > permutation[i - 1] ||
-							directions[i] == RIGHT && i < n - 1 && permutation[i] > permutation[i +
-							1]) {
+							directions[i] == RIGHT && i < n - 1 && permutation[i] > permutation[i + 1]) {
 						if (permutation[i] > largestIndex) {
 							largestMobileIndex = i;
 							largestIndex = permutation[i];

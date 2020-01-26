@@ -309,8 +309,8 @@ public class ConsoleHandler
 		public float getHue() {
 			switch (this) {
 				case RESET:
-					throw new IllegalOperationException(Strings.join(
-							"Cannot get the hue of ", Strings.quote("RESET")));
+					throw new IllegalOperationException(
+							Strings.join("Cannot get the hue of ", Strings.quote("RESET")));
 				case BLACK:
 					return 0f;
 				case WHITE:
@@ -335,8 +335,8 @@ public class ConsoleHandler
 		public float getSaturation() {
 			switch (this) {
 				case RESET:
-					throw new IllegalOperationException(Strings.join(
-							"Cannot get the saturation of ", Strings.quote("RESET")));
+					throw new IllegalOperationException(
+							Strings.join("Cannot get the saturation of ", Strings.quote("RESET")));
 				case BLACK:
 					return 0f;
 				case WHITE:
@@ -356,8 +356,8 @@ public class ConsoleHandler
 		public float getBrightness() {
 			switch (this) {
 				case RESET:
-					throw new IllegalOperationException(Strings.join(
-							"Cannot get the brightness of ", Strings.quote("RESET")));
+					throw new IllegalOperationException(
+							Strings.join("Cannot get the brightness of ", Strings.quote("RESET")));
 				case BLACK:
 					return 0f;
 				case WHITE:

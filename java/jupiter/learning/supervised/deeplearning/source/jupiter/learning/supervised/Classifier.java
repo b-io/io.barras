@@ -451,7 +451,7 @@ public abstract class Classifier
 		// Compute 2. / ((1. / precision) + (1. / recall))
 		final double precision = computePrecision(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))
 		final double recall = computeRecall(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))
-		return Maths.safeDivision(2., (Maths.safeInverse(precision) + Maths.safeInverse(recall)));
+		return Maths.safeDivision(2., Maths.safeInverse(precision) + Maths.safeInverse(recall));
 	}
 
 

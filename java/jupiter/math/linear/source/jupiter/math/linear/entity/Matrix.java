@@ -1765,8 +1765,7 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] *= broadcastedMatrix.elements[i *
-						broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] *= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1887,8 +1886,7 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i *
-						broadcastedMatrix.n + j] +
+				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j] +
 						Maths.TOLERANCE;
 			}
 		}

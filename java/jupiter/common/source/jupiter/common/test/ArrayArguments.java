@@ -87,9 +87,8 @@ public class ArrayArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException(Strings.join(
-					"The specified array has a length ", foundLength,
-					" inferior to ", minExpectedLength));
+			throw new IllegalArgumentException(Strings.join("The specified array has a length ",
+					foundLength, " inferior to ", minExpectedLength));
 		}
 	}
 
@@ -102,9 +101,8 @@ public class ArrayArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException(Strings.join(
-					"The specified array has a length ", foundLength,
-					" superior to ", maxExpectedLength));
+			throw new IllegalArgumentException(Strings.join("The specified array has a length ",
+					foundLength, " superior to ", maxExpectedLength));
 		}
 	}
 
@@ -116,8 +114,9 @@ public class ArrayArguments
 
 	public static void requireSameLength(final int a, final int b) {
 		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException(Strings.join(
-					"The specified arrays do not have the same length ", isNotEqualTo(a, b)));
+			throw new IllegalArgumentException(
+					Strings.join("The specified arrays do not have the same length ",
+							isNotEqualTo(a, b)));
 		}
 	}
 
@@ -132,10 +131,10 @@ public class ArrayArguments
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength,
 			final boolean isLowerInclusive, final boolean isUpperInclusive) {
-		if (CHECK_ARGS && !Integers.isBetween(
-				foundIndex, 0, maxExpectedLength, isLowerInclusive, isUpperInclusive)) {
-			throw new IllegalArgumentException(Strings.join(
-					"The specified index is out of bounds ", betweenExpectedButFound(
+		if (CHECK_ARGS && !Integers.isBetween(foundIndex, 0, maxExpectedLength, isLowerInclusive,
+				isUpperInclusive)) {
+			throw new IllegalArgumentException(
+					Strings.join("The specified index is out of bounds ", betweenExpectedButFound(
 							foundIndex, 0, maxExpectedLength, isLowerInclusive, isUpperInclusive)));
 		}
 	}
@@ -149,8 +148,8 @@ public class ArrayArguments
 	 */
 	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
 		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
-			throw new IllegalArgumentException(Strings.join(
-					"Cannot store ", b.getSimpleName(), " in an array of ", a.getSimpleName()));
+			throw new IllegalArgumentException(Strings.join("Cannot store ", b.getSimpleName(),
+					" in an array of ", a.getSimpleName()));
 		}
 	}
 }

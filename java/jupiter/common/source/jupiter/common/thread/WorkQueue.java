@@ -138,7 +138,8 @@ public class WorkQueue<I, O>
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
-	protected WorkQueue(final Worker<I, O> model, final int minThreadCount, final int maxThreadCount) {
+	protected WorkQueue(final Worker<I, O> model, final int minThreadCount,
+			final int maxThreadCount) {
 		this.model = model;
 		this.c = model.getClass();
 		this.minThreadCount = minThreadCount;

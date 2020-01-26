@@ -23,8 +23,6 @@
  */
 package jupiter.common.test;
 
-import jupiter.common.util.Strings;
-
 public class StringArguments
 		extends Arguments {
 

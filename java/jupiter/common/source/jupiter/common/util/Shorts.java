@@ -908,10 +908,8 @@ public class Shorts {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final short[] subarray = new short[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System
-					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
-							columnCount,
-							columnCount);
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray,
+					i * columnCount, columnCount);
 		}
 		return subarray;
 	}

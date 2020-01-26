@@ -103,8 +103,8 @@ public class Interval<T extends Comparable<T>>
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
 	 */
-	public Interval(final T lowerBound, final T upperBound,
-			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+	public Interval(final T lowerBound, final T upperBound, final boolean isLowerInclusive,
+			final boolean isUpperInclusive) {
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
 		this.isLowerInclusive = isLowerInclusive;
@@ -129,8 +129,8 @@ public class Interval<T extends Comparable<T>>
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
 	 */
-	public Interval(final Pair<T, T> pair,
-			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+	public Interval(final Pair<T, T> pair, final boolean isLowerInclusive,
+			final boolean isUpperInclusive) {
 		this(pair.getFirst(), pair.getSecond(), isLowerInclusive, isUpperInclusive);
 	}
 
@@ -202,8 +202,10 @@ public class Interval<T extends Comparable<T>>
 	 * @return {@code true} if {@code this} contains the {@code T} object, {@code false} otherwise
 	 */
 	public boolean isInside(final T object) {
-		return (isLowerInclusive ? object.compareTo(lowerBound) >= 0 : object.compareTo(lowerBound) > 0) &&
-				(isUpperInclusive ? object.compareTo(upperBound) <= 0 : object.compareTo(upperBound) < 0);
+		return (isLowerInclusive ? object.compareTo(lowerBound) >= 0 :
+						object.compareTo(lowerBound) > 0) &&
+				(isUpperInclusive ? object.compareTo(upperBound) <= 0 :
+						object.compareTo(upperBound) < 0);
 	}
 
 	/**

@@ -899,10 +899,8 @@ public class Doubles {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final double[] subarray = new double[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System
-					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
-							columnCount,
-							columnCount);
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray,
+					i * columnCount, columnCount);
 		}
 		return subarray;
 	}
@@ -1196,7 +1194,7 @@ public class Doubles {
 		final long bBits = Double.doubleToLongBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-						1; // (0., -0.) or (NaN, !NaN)
+				1; // (0., -0.) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
@@ -1307,7 +1305,7 @@ public class Doubles {
 				return Bits.SEEDS[depth % Bits.SEEDS.length];
 			case 1:
 				final long bits = Double.doubleToLongBits(array[0]);
-				return (int) (bits ^ (bits >>> 32));
+				return (int) (bits ^ bits >>> 32);
 			default:
 				int hashCode = Bits.SEEDS[depth % Bits.SEEDS.length];
 				for (int i = 0; i < array.length; ++i) {

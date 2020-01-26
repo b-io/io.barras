@@ -451,7 +451,7 @@ public class JConsole
 	// LINE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected void acceptLine(String line) {
+	protected void acceptLine(final String line) {
 		// Check the output stream
 		if (outPipe == null) {
 			IO.error("No console output stream");

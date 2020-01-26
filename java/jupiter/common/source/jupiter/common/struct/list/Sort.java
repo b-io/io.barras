@@ -196,7 +196,8 @@ public class Sort<T>
 	public static <T> void sort(final T[] array, int fromIndex, final int toIndex,
 			final Comparator<? super T> comparator, final T[] work, final int workBase,
 			final int workLength) {
-		assert comparator != null && array != null && fromIndex >= 0 && fromIndex <= toIndex && toIndex <= array.length;
+		assert comparator != null && array != null && fromIndex >= 0 && fromIndex <= toIndex &&
+				toIndex <= array.length;
 
 		int nRemaining = toIndex - fromIndex;
 		if (nRemaining < 2) {
@@ -204,7 +205,8 @@ public class Sort<T>
 		}
 		// If array is small, do a "mini-TimSort" with no merges
 		if (nRemaining < MIN_MERGE) {
-			final int initRunLength = countRunAndMakeAscending(array, fromIndex, toIndex, comparator);
+			final int initRunLength = countRunAndMakeAscending(array, fromIndex, toIndex,
+					comparator);
 			binarySort(array, fromIndex, toIndex, fromIndex + initRunLength, comparator);
 			return;
 		}
@@ -286,10 +288,9 @@ public class Sort<T>
 
 			// The invariants still hold:
 			// • pivot >= all in [lo, left) and
-			// • pivot < all in [left, start),
-			// so pivot belongs at left. Note that if there are elements equal to pivot, left points
-			// to the first slot after them - that is why this sort is stable. Slide elements over
-			// to make room for pivot.
+			// • pivot < all in [left, start), so pivot belongs at left.
+			// Note that if there are elements equal to pivot, left points to the first slot after
+			// them - that is why this sort is stable. Slide elements over to make room for pivot.
 			final int n = start - left; // the number of elements to move
 			// Switch is just an optimization for arraycopy in default case
 			switch (n) {
@@ -459,17 +460,17 @@ public class Sort<T>
 		assert i >= 0;
 		assert i == stackSize - 2 || i == stackSize - 3;
 
-		int base1 = runBase[i], len1 = runLength[i];
-		int base2 = runBase[i + 1], len2 = runLength[i + 1];
-		assert len1 > 0 && len2 > 0;
-		assert base1 + len1 == base2;
+		int base1 = runBase[i], length1 = runLength[i];
+		int base2 = runBase[i + 1], length2 = runLength[i + 1];
+		assert length1 > 0 && length2 > 0;
+		assert base1 + length1 == base2;
 
 		/*
 		 * Record the length of the combined runs; if i is the 3rd-last run now, also slide over the
 		 * last run (which isn't involved in this merge). The current run ({@code i + 1}) goes away
 		 * in any case.
 		 */
-		runLength[i] = len1 + len2;
+		runLength[i] = length1 + length2;
 		if (i == stackSize - 3) {
 			runBase[i + 1] = runBase[i + 2];
 			runLength[i + 1] = runLength[i + 2];
@@ -480,11 +481,11 @@ public class Sort<T>
 		 * Find where the first element of run2 goes in run1. Prior elements in run1 can be ignored
 		 * (because they're already in place).
 		 */
-		final int k = gallopRight(array[base2], array, base1, len1, 0, comparator);
+		final int k = gallopRight(array[base2], array, base1, length1, 0, comparator);
 		assert k >= 0;
 		base1 += k;
-		len1 -= k;
-		if (len1 == 0) {
+		length1 -= k;
+		if (length1 == 0) {
 			return;
 		}
 
@@ -492,20 +493,21 @@ public class Sort<T>
 		 * Find where the last element of run1 goes in run2. Subsequent elements in run2 can be
 		 * ignored (because they're already in place).
 		 */
-		len2 = gallopLeft(array[base1 + len1 - 1], array, base2, len2, len2 - 1, comparator);
-		assert len2 >= 0;
-		if (len2 == 0) {
+		length2 = gallopLeft(array[base1 + length1 - 1], array, base2, length2, length2 - 1,
+				comparator);
+		assert length2 >= 0;
+		if (length2 == 0) {
 			return;
 		}
 
 		/*
-		 * Merge remaining runs, using {@code tempArray} array with {@code min(len1, len2)}
+		 * Merge remaining runs, using {@code tempArray} array with {@code min(length1, length2)}
 		 * elements.
 		 */
-		if (len1 <= len2) {
-			mergeLo(base1, len1, base2, len2);
+		if (length1 <= length2) {
+			mergeLo(base1, length1, base2, length2);
 		} else {
-			mergeHi(base1, len1, base2, len2);
+			mergeHi(base1, length1, base2, length2);
 		}
 	}
 
@@ -530,8 +532,8 @@ public class Sort<T>
 	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code a}
 	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 */
-	protected static <T> int gallopLeft(final T key, final T[] array, final int base, final int length,
-			final int hint, final Comparator<? super T> comparator) {
+	protected static <T> int gallopLeft(final T key, final T[] array, final int base,
+			final int length, final int hint, final Comparator<? super T> comparator) {
 		assert length > 0 && hint >= 0 && hint < length;
 
 		int lastOfs = 0, ofs = 1;
@@ -689,39 +691,39 @@ public class Sort<T>
 	/**
 	 * Merges two adjacent runs in place, in a stable fashion. The first element of the first run
 	 * must be greater than the first element of the second run ({@code a[base1] > a[base2]}) and
-	 * the last element of the first run ({@code a[base1 + len1 - 1]}) must be greater than all
+	 * the last element of the first run ({@code a[base1 + length1 - 1]}) must be greater than all
 	 * elements of the second run.
 	 * <p>
-	 * For performance, this method should be called only when {@code len1 <= len2}; its twin method
-	 * {@link #mergeHi} should be called if {@code len1 >= len2}. (Either method may be called if
-	 * {@code len1 == len2}.)
+	 * For performance, this method should be called only when {@code length1 <= length2}; its twin
+	 * method {@link #mergeHi} should be called if {@code length1 >= length2}. (Either method may be
+	 * called if {@code length1 == length2}.)
 	 * <p>
-	 * @param base1 index of first element in first run to be merged
-	 * @param len1  length of first run to be merged (must be greater than 0)
-	 * @param base2 index of first element in second run to be merged (must be
-	 *              {@code aBase + aLength})
-	 * @param len2  length of second run to be merged (must be greater than 0)
+	 * @param base1   index of first element in first run to be merged
+	 * @param length1 length of first run to be merged (must be greater than 0)
+	 * @param base2   index of first element in second run to be merged (must be
+	 *                {@code aBase + aLength})
+	 * @param length2 length of second run to be merged (must be greater than 0)
 	 */
-	protected void mergeLo(final int base1, int len1, final int base2, int len2) {
-		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
+	protected void mergeLo(final int base1, int length1, final int base2, int length2) {
+		assert length1 > 0 && length2 > 0 && base1 + length1 == base2;
 
 		// Copy first run into temporary array
 		final T[] array = this.array; // for performance
-		final T[] tempArray = ensureCapacity(len1);
+		final T[] tempArray = ensureCapacity(length1);
 		int cursor1 = tempArrayBase; // indexes into temp array
 		int cursor2 = base2; // indexes into a
 		int dest = base1; // indexes into a
-		System.arraycopy(array, base1, tempArray, cursor1, len1);
+		System.arraycopy(array, base1, tempArray, cursor1, length1);
 
 		// Move first element of second run and deal with degenerate cases
 		array[dest++] = array[cursor2++];
-		if (--len2 == 0) {
-			System.arraycopy(tempArray, cursor1, array, dest, len1);
+		if (--length2 == 0) {
+			System.arraycopy(tempArray, cursor1, array, dest, length1);
 			return;
 		}
-		if (len1 == 1) {
-			System.arraycopy(array, cursor2, array, dest, len2);
-			array[dest + len2] = tempArray[cursor1]; // last elt of run 1 to end of merge
+		if (length1 == 1) {
+			System.arraycopy(array, cursor2, array, dest, length2);
+			array[dest + length2] = tempArray[cursor1]; // last elt of run 1 to end of merge
 			return;
 		}
 
@@ -736,19 +738,19 @@ outer:  while (true) {
 			 * Do the straightforward thing until (if ever) one run starts winning consistently.
 			 */
 			do {
-				assert len1 > 1 && len2 > 0;
+				assert length1 > 1 && length2 > 0;
 				if (comparator.compare(array[cursor2], tempArray[cursor1]) < 0) {
 					array[dest++] = array[cursor2++];
 					++count2;
 					count1 = 0;
-					if (--len2 == 0) {
+					if (--length2 == 0) {
 						break outer;
 					}
 				} else {
 					array[dest++] = tempArray[cursor1++];
 					++count1;
 					count2 = 0;
-					if (--len1 == 1) {
+					if (--length1 == 1) {
 						break outer;
 					}
 				}
@@ -760,35 +762,35 @@ outer:  while (true) {
 			 * anymore.
 			 */
 			do {
-				assert len1 > 1 && len2 > 0;
-				count1 = gallopRight(array[cursor2], tempArray, cursor1, len1, 0, comparator);
+				assert length1 > 1 && length2 > 0;
+				count1 = gallopRight(array[cursor2], tempArray, cursor1, length1, 0, comparator);
 				if (count1 != 0) {
 					System.arraycopy(tempArray, cursor1, array, dest, count1);
 					dest += count1;
 					cursor1 += count1;
-					len1 -= count1;
-					if (len1 <= 1) // len1 == 1 || len1 == 0
+					length1 -= count1;
+					if (length1 <= 1) // length1 == 1 || length1 == 0
 					{
 						break outer;
 					}
 				}
 				array[dest++] = array[cursor2++];
-				if (--len2 == 0) {
+				if (--length2 == 0) {
 					break outer;
 				}
 
-				count2 = gallopLeft(tempArray[cursor1], array, cursor2, len2, 0, comparator);
+				count2 = gallopLeft(tempArray[cursor1], array, cursor2, length2, 0, comparator);
 				if (count2 != 0) {
 					System.arraycopy(array, cursor2, array, dest, count2);
 					dest += count2;
 					cursor2 += count2;
-					len2 -= count2;
-					if (len2 == 0) {
+					length2 -= count2;
+					if (length2 == 0) {
 						break outer;
 					}
 				}
 				array[dest++] = tempArray[cursor1++];
-				if (--len1 == 1) {
+				if (--length1 == 1) {
 					break outer;
 				}
 				--minGallop;
@@ -800,56 +802,56 @@ outer:  while (true) {
 		} // end of "outer" loop
 		this.minGallop = minGallop < 1 ? 1 : minGallop; // write back to field
 
-		switch (len1) {
+		switch (length1) {
 			case 1:
-				assert len2 > 0;
-				System.arraycopy(array, cursor2, array, dest, len2);
-				array[dest + len2] = tempArray[cursor1]; // last elt of run 1 to end of merge
+				assert length2 > 0;
+				System.arraycopy(array, cursor2, array, dest, length2);
+				array[dest + length2] = tempArray[cursor1]; // last elt of run 1 to end of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
 						"Comparison method violates its general contract");
 			default:
-				assert len2 == 0;
-				assert len1 > 1;
-				System.arraycopy(tempArray, cursor1, array, dest, len1);
+				assert length2 == 0;
+				assert length1 > 1;
+				System.arraycopy(tempArray, cursor1, array, dest, length1);
 		}
 	}
 
 	/**
 	 * Like the method {@link #mergeLo}, except that this method should be called only if
-	 * {@code len1 >= len2}; the method {@link #mergeLo} should be called if {@code len1 <= len2}.
-	 * (Either method may be called if {@code len1 == len2}.)
+	 * {@code length1 >= length2}; the method {@link #mergeLo} should be called if
+	 * {@code length1 <= length2}. (Either method may be called if {@code length1 == length2}.)
 	 * <p>
-	 * @param base1 index of first element in first run to be merged
-	 * @param len1  length of first run to be merged (must be greater than 0)
-	 * @param base2 index of first element in second run to be merged (must be
-	 *              {@code aBase + aLength})
-	 * @param len2  length of second run to be merged (must be greater than 0)
+	 * @param base1   index of first element in first run to be merged
+	 * @param length1 length of first run to be merged (must be greater than 0)
+	 * @param base2   index of first element in second run to be merged (must be
+	 *                {@code aBase + aLength})
+	 * @param length2 length of second run to be merged (must be greater than 0)
 	 */
-	protected void mergeHi(final int base1, int len1, final int base2, int len2) {
-		assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
+	protected void mergeHi(final int base1, int length1, final int base2, int length2) {
+		assert length1 > 0 && length2 > 0 && base1 + length1 == base2;
 
 		// Copy second run into temporary array
 		final T[] array = this.array; // for performance
-		final T[] tempArray = ensureCapacity(len2);
+		final T[] tempArray = ensureCapacity(length2);
 		final int tempArrayBase = this.tempArrayBase;
-		System.arraycopy(array, base2, tempArray, tempArrayBase, len2);
+		System.arraycopy(array, base2, tempArray, tempArrayBase, length2);
 
-		int cursor1 = base1 + len1 - 1; // indexes into a
-		int cursor2 = tempArrayBase + len2 - 1; // indexes into temp array
-		int dest = base2 + len2 - 1; // indexes into a
+		int cursor1 = base1 + length1 - 1; // indexes into a
+		int cursor2 = tempArrayBase + length2 - 1; // indexes into temp array
+		int dest = base2 + length2 - 1; // indexes into a
 
 		// Move last element of first run and deal with degenerate cases
 		array[dest--] = array[cursor1--];
-		if (--len1 == 0) {
-			System.arraycopy(tempArray, tempArrayBase, array, dest - (len2 - 1), len2);
+		if (--length1 == 0) {
+			System.arraycopy(tempArray, tempArrayBase, array, dest - (length2 - 1), length2);
 			return;
 		}
-		if (len2 == 1) {
-			dest -= len1;
-			cursor1 -= len1;
-			System.arraycopy(array, cursor1 + 1, array, dest + 1, len1);
+		if (length2 == 1) {
+			dest -= length1;
+			cursor1 -= length1;
+			System.arraycopy(array, cursor1 + 1, array, dest + 1, length1);
 			array[dest] = tempArray[cursor2];
 			return;
 		}
@@ -865,19 +867,19 @@ outer:  while (true) {
 			 * Do the straightforward thing until (if ever) one run appears to win consistently.
 			 */
 			do {
-				assert len1 > 0 && len2 > 1;
+				assert length1 > 0 && length2 > 1;
 				if (comparator.compare(tempArray[cursor2], array[cursor1]) < 0) {
 					array[dest--] = array[cursor1--];
 					++count1;
 					count2 = 0;
-					if (--len1 == 0) {
+					if (--length1 == 0) {
 						break outer;
 					}
 				} else {
 					array[dest--] = tempArray[cursor2--];
 					++count2;
 					count1 = 0;
-					if (--len2 == 1) {
+					if (--length2 == 1) {
 						break outer;
 					}
 				}
@@ -889,36 +891,36 @@ outer:  while (true) {
 			 * anymore.
 			 */
 			do {
-				assert len1 > 0 && len2 > 1;
-				count1 = len1 - gallopRight(tempArray[cursor2], array, base1, len1, len1 - 1,
-						comparator);
+				assert length1 > 0 && length2 > 1;
+				count1 = length1 - gallopRight(tempArray[cursor2], array, base1, length1,
+						length1 - 1, comparator);
 				if (count1 != 0) {
 					dest -= count1;
 					cursor1 -= count1;
-					len1 -= count1;
+					length1 -= count1;
 					System.arraycopy(array, cursor1 + 1, array, dest + 1, count1);
-					if (len1 == 0) {
+					if (length1 == 0) {
 						break outer;
 					}
 				}
 				array[dest--] = tempArray[cursor2--];
-				if (--len2 == 1) {
+				if (--length2 == 1) {
 					break outer;
 				}
 
-				count2 = len2 - gallopLeft(array[cursor1], tempArray, tempArrayBase, len2, len2 - 1,
-						comparator);
+				count2 = length2 - gallopLeft(array[cursor1], tempArray, tempArrayBase, length2,
+						length2 - 1, comparator);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;
-					len2 -= count2;
+					length2 -= count2;
 					System.arraycopy(tempArray, cursor2 + 1, array, dest + 1, count2);
-					if (len2 <= 1) {
-						break outer; // len2 == 1 || len2 == 0
+					if (length2 <= 1) {
+						break outer; // length2 == 1 || length2 == 0
 					}
 				}
 				array[dest--] = array[cursor1--];
-				if (--len1 == 0) {
+				if (--length1 == 0) {
 					break outer;
 				}
 				--minGallop;
@@ -930,21 +932,21 @@ outer:  while (true) {
 		} // end of "outer" loop
 		this.minGallop = minGallop < 1 ? 1 : minGallop; // write back to field
 
-		switch (len2) {
+		switch (length2) {
 			case 1:
-				assert len1 > 0;
-				dest -= len1;
-				cursor1 -= len1;
-				System.arraycopy(array, cursor1 + 1, array, dest + 1, len1);
+				assert length1 > 0;
+				dest -= length1;
+				cursor1 -= length1;
+				System.arraycopy(array, cursor1 + 1, array, dest + 1, length1);
 				array[dest] = tempArray[cursor2]; // move first elt of run2 to front of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
 						"Comparison method violates its general contract");
 			default:
-				assert len1 == 0;
-				assert len2 > 0;
-				System.arraycopy(tempArray, tempArrayBase, array, dest - (len2 - 1), len2);
+				assert length1 == 0;
+				assert length2 > 0;
+				System.arraycopy(tempArray, tempArrayBase, array, dest - (length2 - 1), length2);
 		}
 	}
 

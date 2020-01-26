@@ -289,8 +289,8 @@ public class Table<E>
 		// Get the column index
 		final int columnIndex = Arrays.<String>findFirstIndex(header, name);
 		if (columnIndex < 0) {
-			throw new IllegalArgumentException(Strings.join(
-					"There is no column ", Strings.quote(name)));
+			throw new IllegalArgumentException(
+					Strings.join("There is no column ", Strings.quote(name)));
 		}
 		return columnIndex;
 	}

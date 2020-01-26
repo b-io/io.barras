@@ -91,7 +91,8 @@ public class LockedWorkQueue<I, O>
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
-	public LockedWorkQueue(final Worker<I, O> model, final int minThreadCount, final int maxThreadCount) {
+	public LockedWorkQueue(final Worker<I, O> model, final int minThreadCount,
+			final int maxThreadCount) {
 		this(model, minThreadCount, maxThreadCount, false);
 	}
 
@@ -104,8 +105,8 @@ public class LockedWorkQueue<I, O>
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 * @param isFair         the flag specifying whether to use a fair ordering policy
 	 */
-	public LockedWorkQueue(final Worker<I, O> model, final int minThreadCount, final int maxThreadCount,
-			final boolean isFair) {
+	public LockedWorkQueue(final Worker<I, O> model, final int minThreadCount,
+			final int maxThreadCount, final boolean isFair) {
 		super(model, minThreadCount, maxThreadCount);
 		this.isFair = isFair;
 		workersLock = new ReentrantLock(isFair);

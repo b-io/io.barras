@@ -34,13 +34,14 @@ public class RConsole {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile String[] PACKAGES = new String[] {"BHH2", "bsts", "d3heatmap", "dbplyr",
-		"dendextend", "DescTools", "dplyr", "DT", "foreach", "forecast", "ggplot2", "gridExtra",
-		"highcharter", "imputeTS", "Jmisc", "lars", "lubridate", "magrittr", "mgcv", "openintro",
-		"parallel", "plotly", "pls", "plyr", "quantmod", "random", "Rblpapi", "RColorBrewer",
-		"reshape2", "rJava", "RODBC", "rstudioapi", "shiny", "shinyalert", "shinycssloaders",
-		"shinydashboard", "shinyHeatmaply", "shinyjs", "stringi", "stringr", "tbl2xts", "tidyquant",
-		"tidyr", "TSA", "xts", "zoo"};
+	public static volatile String[] PACKAGES = new String[] {
+		"BHH2", "bsts", "d3heatmap", "dbplyr", "dendextend", "DescTools", "dplyr", "DT", "foreach",
+		"forecast", "ggplot2", "gridExtra", "highcharter", "imputeTS", "Jmisc", "lars", "lubridate",
+		"magrittr", "mgcv", "openintro", "parallel", "plotly", "pls", "plyr", "quantmod", "random",
+		"Rblpapi", "RColorBrewer", "reshape2", "rJava", "RODBC", "rstudioapi", "shiny",
+		"shinyalert", "shinycssloaders", "shinydashboard", "shinyHeatmaply", "shinyjs", "stringi",
+		"stringr", "tbl2xts", "tidyquant", "tidyr", "TSA", "xts", "zoo"
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

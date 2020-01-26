@@ -23,7 +23,6 @@
  */
 package jupiter.common.struct.map.tree;
 
-import static junit.framework.TestCase.assertEquals;
 import static jupiter.common.io.IO.IO;
 
 import java.util.Map;

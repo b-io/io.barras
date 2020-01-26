@@ -46,7 +46,8 @@ public class RedBlackTreeMapTest
 		IO.test("• getHeight");
 
 		// • Fill with 7 elements
-		RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(Integer.class);
+		RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance, 7);
 		String representation = instance.toString();
 		IO.result(representation);

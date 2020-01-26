@@ -179,8 +179,8 @@ public class ComparableSort
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 */
-	public static void sort(final Object[] array, int fromIndex, final int toIndex, final Object[] work,
-			final int workBase, final int workLength) {
+	public static void sort(final Object[] array, int fromIndex, final int toIndex,
+			final Object[] work, final int workBase, final int workLength) {
 		assert array != null && fromIndex >= 0 && fromIndex <= toIndex && toIndex <= array.length;
 
 		int nRemaining = toIndex - fromIndex;
@@ -268,10 +268,9 @@ public class ComparableSort
 
 			// The invariants still hold:
 			// • pivot >= all in [lo, left) and
-			// • pivot < all in [left, start),
-			// so pivot belongs at left. Note that if there are elements equal to pivot, left points
-			// to the first slot after them - that is why this sort is stable. Slide elements over
-			// to make room for pivot.
+			// • pivot < all in [left, start), so pivot belongs at left.
+			// Note that if there are elements equal to pivot, left points to the first slot after
+			// them - that is why this sort is stable. Slide elements over to make room for pivot.
 			final int n = start - left; // the number of elements to move
 			// Switch is just an optimization for arraycopy in default case
 			switch (n) {
@@ -870,8 +869,8 @@ outer:  while (true) {
 			 */
 			do {
 				assert length1 > 0 && length2 > 1;
-				count1 = length1 -
-						gallopRight((Comparable) tempArray[cursor2], array, base1, length1, length1 - 1);
+				count1 = length1 - gallopRight((Comparable) tempArray[cursor2], array, base1,
+						length1, length1 - 1);
 				if (count1 != 0) {
 					dest -= count1;
 					cursor1 -= count1;

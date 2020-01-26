@@ -55,8 +55,7 @@ public class BytesTest
 		IO.test("• toOctal");
 
 		final String text = "Hello world!";
-		assertEquals(
-				"011001450154015401570040016701570162015401440041",
+		assertEquals("011001450154015401570040016701570162015401440041",
 				Bytes.toOctalString(text.getBytes()));
 	}
 
@@ -67,9 +66,7 @@ public class BytesTest
 		IO.test("• toHex");
 
 		final String text = "Hello world!";
-		assertEquals(
-				"48656C6C6F20776F726C6421",
-				Bytes.toHexString(text.getBytes()));
+		assertEquals("48656C6C6F20776F726C6421", Bytes.toHexString(text.getBytes()));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +100,6 @@ public class BytesTest
 		IO.test("• parseHexString");
 
 		final String text = "Hello world!";
-		assertEquals(text,
-				new String(Bytes.parseHexString(Bytes.toHexString(text.getBytes()))));
+		assertEquals(text, new String(Bytes.parseHexString(Bytes.toHexString(text.getBytes()))));
 	}
 }

@@ -220,22 +220,21 @@ public class Integers {
 			throws NumberFormatException {
 		// Check the arguments
 		if (Strings.isNullOrEmpty(text) || text.charAt(0) == '-') {
-			throw new NumberFormatException(Strings.join(
-					"Cannot parse ", Strings.quote(text), " to an unsigned int value"));
+			throw new NumberFormatException(Strings.join("Cannot parse ", Strings.quote(text),
+					" to an unsigned int value"));
 		}
 
 		// Parse the text
 		final int length = text.length();
 		if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
-				(radix == 10 && length <= 9)) { // Integer.MAX_VALUE in base 10 is 10 digits
+				radix == 10 && length <= 9) { // Integer.MAX_VALUE in base 10 is 10 digits
 			return Integer.parseInt(text, radix);
 		} else {
 			final long value = Long.parseLong(text, radix);
 			if ((value & 0xffffffff00000000L) == 0) {
 				return (int) value;
 			} else {
-				throw new NumberFormatException(Strings.join(
-						"Cannot parse ", Strings.quote(text),
+				throw new NumberFormatException(Strings.join("Cannot parse ", Strings.quote(text),
 						" to an unsigned int value (range exceeded)"));
 			}
 		}
@@ -1014,10 +1013,8 @@ public class Integers {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final int[] subarray = new int[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System
-					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
-							columnCount,
-							columnCount);
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray,
+					i * columnCount, columnCount);
 		}
 		return subarray;
 	}

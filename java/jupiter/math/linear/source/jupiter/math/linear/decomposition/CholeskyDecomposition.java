@@ -104,8 +104,8 @@ public class CholeskyDecomposition
 				}
 				Lrowj[k] = s = (elements[j * dimension + k] - s) / L[k][k];
 				d += s * s;
-				isSymmetricPositiveDefinite &= elements[k * dimension +
-						j] == elements[j * dimension + k];
+				isSymmetricPositiveDefinite &= elements[k * dimension + j] ==
+						elements[j * dimension + k];
 			}
 			d = elements[j * dimension + j] - d;
 			isSymmetricPositiveDefinite &= d > 0.;

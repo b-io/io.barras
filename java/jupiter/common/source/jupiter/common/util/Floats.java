@@ -910,10 +910,8 @@ public class Floats {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final float[] subarray = new float[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System
-					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
-							columnCount,
-							columnCount);
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray,
+					i * columnCount, columnCount);
 		}
 		return subarray;
 	}
@@ -1207,7 +1205,7 @@ public class Floats {
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-						1; // (0f, -0f) or (NaN, !NaN)
+				1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////

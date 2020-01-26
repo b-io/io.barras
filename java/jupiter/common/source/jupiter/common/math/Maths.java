@@ -664,8 +664,8 @@ public class Maths {
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
 	 */
-	public static void arraySum(final byte[] A, final byte[] B, final byte c,
-			final int aOffset, final int bOffset) {
+	public static void arraySum(final byte[] A, final byte[] B, final byte c, final int aOffset,
+			final int bOffset) {
 		arraySum(A, B, c, aOffset, bOffset, 0,
 				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
@@ -682,8 +682,8 @@ public class Maths {
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
-	public static void arraySum(final byte[] A, final byte[] B, final byte c,
-			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
+	public static void arraySum(final byte[] A, final byte[] B, final byte c, final int aOffset,
+			final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0) {
 			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
@@ -711,8 +711,8 @@ public class Maths {
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
 	 */
-	public static void arraySum(final short[] A, final short[] B, final short c,
-			final int aOffset, final int bOffset) {
+	public static void arraySum(final short[] A, final short[] B, final short c, final int aOffset,
+			final int bOffset) {
 		arraySum(A, B, c, aOffset, bOffset, 0,
 				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
@@ -729,8 +729,8 @@ public class Maths {
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
-	public static void arraySum(final short[] A, final short[] B, final short c,
-			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
+	public static void arraySum(final short[] A, final short[] B, final short c, final int aOffset,
+			final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0) {
 			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
@@ -758,8 +758,8 @@ public class Maths {
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
 	 */
-	public static void arraySum(final int[] A, final int[] B, final int c,
-			final int aOffset, final int bOffset) {
+	public static void arraySum(final int[] A, final int[] B, final int c, final int aOffset,
+			final int bOffset) {
 		arraySum(A, B, c, aOffset, bOffset, 0,
 				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
@@ -776,8 +776,8 @@ public class Maths {
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
-	public static void arraySum(final int[] A, final int[] B, final int c,
-			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
+	public static void arraySum(final int[] A, final int[] B, final int c, final int aOffset,
+			final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0) {
 			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
@@ -805,8 +805,8 @@ public class Maths {
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
 	 */
-	public static void arraySum(final long[] A, final long[] B, final long c,
-			final int aOffset, final int bOffset) {
+	public static void arraySum(final long[] A, final long[] B, final long c, final int aOffset,
+			final int bOffset) {
 		arraySum(A, B, c, aOffset, bOffset, 0,
 				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
@@ -823,8 +823,8 @@ public class Maths {
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
-	public static void arraySum(final long[] A, final long[] B, final long c,
-			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
+	public static void arraySum(final long[] A, final long[] B, final long c, final int aOffset,
+			final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0L) {
 			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
@@ -852,8 +852,8 @@ public class Maths {
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
 	 */
-	public static void arraySum(final float[] A, final float[] B, final float c,
-			final int aOffset, final int bOffset) {
+	public static void arraySum(final float[] A, final float[] B, final float c, final int aOffset,
+			final int bOffset) {
 		arraySum(A, B, c, aOffset, bOffset, 0,
 				Math.min(A.length - 1 - aOffset, B.length - 1 - bOffset));
 	}
@@ -870,8 +870,8 @@ public class Maths {
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
 	 */
-	public static void arraySum(final float[] A, final float[] B, final float c,
-			final int aOffset, final int bOffset, final int fromIndex, final int toIndex) {
+	public static void arraySum(final float[] A, final float[] B, final float c, final int aOffset,
+			final int bOffset, final int fromIndex, final int toIndex) {
 		if (c != 0f) {
 			for (int i = fromIndex; i < toIndex; ++i) {
 				A[aOffset + i] += c * B[bOffset + i];
@@ -1093,8 +1093,8 @@ public class Maths {
 
 	public static int factorial(final int n) {
 		if (!isFactorialInt(n)) {
-			throw new ArithmeticException(Strings.join(
-					"The factorial of ", n, " cannot be represented as an int value"));
+			throw new ArithmeticException(
+					Strings.join("The factorial of ", n, " cannot be represented as an int value"));
 		}
 		return INT_FACTORIALS[n];
 	}
@@ -1105,8 +1105,8 @@ public class Maths {
 
 	public static long factorial(final long n) {
 		if (!isFactorialLong(n)) {
-			throw new ArithmeticException(Strings.join(
-					"The factorial of ", n, " cannot be represented as a long value"));
+			throw new ArithmeticException(
+					Strings.join("The factorial of ", n, " cannot be represented as a long value"));
 		}
 		return LONG_FACTORIALS[Integers.convert(n)];
 	}

@@ -30,6 +30,7 @@ import javax.mail.BodyPart;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -142,6 +143,6 @@ public class Mails {
 	 */
 	public static boolean isAttachment(final BodyPart bodyPart)
 			throws MessagingException {
-		return bodyPart != null && BodyPart.ATTACHMENT.equals(bodyPart.getDisposition());
+		return bodyPart != null && Part.ATTACHMENT.equals(bodyPart.getDisposition());
 	}
 }

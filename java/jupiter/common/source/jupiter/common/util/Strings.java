@@ -90,8 +90,8 @@ public class Strings {
 	public static final StringWrapper SINGLE_QUOTER = new StringWrapper(SINGLE_QUOTE, SINGLE_QUOTE);
 	public static final StringWrapper DOUBLE_QUOTER = new StringWrapper(DOUBLE_QUOTE, DOUBLE_QUOTE);
 	public static final StringWrapper QUOTER = new StringWrapper(LEFT_QUOTE, RIGHT_QUOTE);
-	public static final StringRemover UNQUOTER = new StringRemover(join(
-			SINGLE_QUOTE, DOUBLE_QUOTE, LEFT_QUOTE, RIGHT_QUOTE));
+	public static final StringRemover UNQUOTER = new StringRemover(
+			join(SINGLE_QUOTE, DOUBLE_QUOTE, LEFT_QUOTE, RIGHT_QUOTE));
 
 	public static final StringWrapper PARENTHESER = new StringWrapper(LEFT_PARENTHESIS,
 			RIGHT_PARENTHESIS);
@@ -1088,9 +1088,9 @@ public class Strings {
 		// Remove the characters at the indexes from the text
 		final StringBuilder builder = createBuilder(text.length() - indexes.length);
 		int previousIndex = -1;
-		for (int i = 0; i < indexes.length; ++i) {
-			builder.append(text.substring(previousIndex + 1, indexes[i]));
-			previousIndex = indexes[i];
+		for (final int index : indexes) {
+			builder.append(text.substring(previousIndex + 1, index));
+			previousIndex = index;
 		}
 		if (previousIndex + 1 < indexes.length) {
 			builder.append(text.substring(previousIndex + 1));
@@ -1972,8 +1972,7 @@ public class Strings {
 	 */
 	public static int findFirstStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
-		if (isNotEmpty(text) && isNotEmpty(token) &&
-				Arrays.isBetween(fromIndex, text.length())) {
+		if (isNotEmpty(text) && isNotEmpty(token) && Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index < text.length(); index += token.length()) {
 				if (!isToken(text, index, token)) {
 					return index;
@@ -2060,8 +2059,7 @@ public class Strings {
 	 */
 	public static int findLastStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
-		if (isNotEmpty(text) && isNotEmpty(token) &&
-				Arrays.isBetween(fromIndex, text.length())) {
+		if (isNotEmpty(text) && isNotEmpty(token) && Arrays.isBetween(fromIndex, text.length())) {
 			for (int index = fromIndex; index >= 0; index -= token.length()) {
 				if (!isTokenTo(text, index, token)) {
 					return index;
@@ -2730,8 +2728,7 @@ public class Strings {
 		final ExtendedLinkedList<Integer> indexes = new ExtendedLinkedList<Integer>();
 
 		// Get the indexes
-		if (isNotEmpty(text) && isNotEmpty(token) &&
-				Arrays.isBetween(fromIndex, text.length())) {
+		if (isNotEmpty(text) && isNotEmpty(token) && Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex - 1;
 			while ((index = text.indexOf(token, index + 1)) >= 0) {
 				indexes.add(index);

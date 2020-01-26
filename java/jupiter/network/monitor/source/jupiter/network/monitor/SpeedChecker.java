@@ -200,7 +200,8 @@ public class SpeedChecker {
 				final Result<Double> result = WORK_QUEUE.get(id);
 				final String output = DECIMAL_FORMAT.format(result.getOutput());
 				IO.info(output, " [Mbits/s]");
-				DATA_FILES.get(URLS.get(i++)).writeLine(Dates.createTimestamp() + DELIMITER + output);
+				DATA_FILES.get(URLS.get(i++))
+						.writeLine(Dates.createTimestamp() + DELIMITER + output);
 			}
 		} else {
 			for (final String urlName : URLS) {

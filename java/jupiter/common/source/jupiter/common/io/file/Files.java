@@ -211,8 +211,8 @@ public class Files {
 	public static void createDirs(final File file)
 			throws IOException {
 		if (!exists(file) && !file.mkdirs()) {
-			throw new IOException(Strings.join(
-					"Unable to create the directories ", Strings.quote(getPath(file))));
+			throw new IOException(Strings.join("Unable to create the directories ",
+					Strings.quote(getPath(file))));
 		}
 	}
 
@@ -668,8 +668,8 @@ public class Files {
 			if (force) {
 				delete(target, true);
 			} else {
-				throw new CopyFileException(Strings.join(
-						"Target file ", Strings.quote(target), " already exists"));
+				throw new CopyFileException(
+						Strings.join("Target file ", Strings.quote(target), " already exists"));
 			}
 		}
 		if (source.isDirectory()) {
@@ -728,10 +728,10 @@ public class Files {
 					position += byteCount;
 				}
 				if (source.length() != target.length()) {
-					throw new CopyFileException(Strings.join(
-							"Failed to copy the full content from ", Strings.quote(source),
-							" to ", Strings.quote(target),
-							" ", Arguments.expectedButFound(target.length(), source.length())));
+					throw new CopyFileException(
+							Strings.join("Failed to copy the full content from ",
+									Strings.quote(source), " to ", Strings.quote(target), " ",
+									Arguments.expectedButFound(target.length(), source.length())));
 				}
 				return true;
 			} catch (final IOException ex) {
@@ -770,8 +770,8 @@ public class Files {
 			if (force) {
 				delete(target, true);
 			} else {
-				throw new CopyFileException(Strings.join(
-						"Target file ", Strings.quote(target), " already exists"));
+				throw new CopyFileException(
+						Strings.join("Target file ", Strings.quote(target), " already exists"));
 			}
 		}
 		if (source.isDirectory()) {

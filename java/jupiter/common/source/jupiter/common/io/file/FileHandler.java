@@ -350,8 +350,8 @@ public class FileHandler
 	 * Closes the writer.
 	 */
 	public void closeWriter() {
-		closeWriter(Strings.join(
-				"The writer of ", Strings.quote(file), " has already been closed"));
+		closeWriter(
+				Strings.join("The writer of ", Strings.quote(file), " has already been closed"));
 	}
 
 	/**

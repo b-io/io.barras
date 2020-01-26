@@ -485,8 +485,8 @@ public class JOCL
 	 * @return {@code A += c * B}
 	 */
 	@Override
-	public double[] arraySum(final double[] A, final double[] B, final double c,
-			final int aOffset, final int bOffset, final int length) {
+	public double[] arraySum(final double[] A, final double[] B, final double c, final int aOffset,
+			final int bOffset, final int length) {
 		if (c == 0.) {
 			return A;
 		}

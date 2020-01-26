@@ -873,10 +873,8 @@ public class Longs {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final long[] subarray = new long[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System
-					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
-							columnCount,
-							columnCount);
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray,
+					i * columnCount, columnCount);
 		}
 		return subarray;
 	}
@@ -1241,7 +1239,7 @@ public class Longs {
 			case 0:
 				return Bits.SEEDS[depth % Bits.SEEDS.length];
 			case 1:
-				return (int) (array[0] ^ (array[0] >>> 32));
+				return (int) (array[0] ^ array[0] >>> 32);
 			default:
 				int hashCode = Bits.SEEDS[depth % Bits.SEEDS.length];
 				for (int i = 0; i < array.length; ++i) {

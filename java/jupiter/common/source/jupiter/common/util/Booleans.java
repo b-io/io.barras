@@ -731,10 +731,8 @@ public class Booleans {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final boolean[] subarray = new boolean[maxRowCount * columnCount];
 		for (int i = fromRow; i < maxRowCount; ++i) {
-			System
-					.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray, i *
-							columnCount,
-							columnCount);
+			System.arraycopy(take(array2D[i], fromColumn, columnCount), 0, subarray,
+					i * columnCount, columnCount);
 		}
 		return subarray;
 	}

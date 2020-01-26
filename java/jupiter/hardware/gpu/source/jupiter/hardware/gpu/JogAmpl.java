@@ -195,8 +195,7 @@ public class JogAmpl
 	}
 
 	public CLBuffer<DoubleBuffer> createReadBuffer(final double[] array) {
-		final CLBuffer<DoubleBuffer> buffer = context
-				.createDoubleBuffer(array.length, READ_ONLY);
+		final CLBuffer<DoubleBuffer> buffer = context.createDoubleBuffer(array.length, READ_ONLY);
 		fill(buffer.getBuffer(), array);
 		return buffer;
 	}
@@ -206,8 +205,7 @@ public class JogAmpl
 	}
 
 	public CLBuffer<DoubleBuffer> createReadWriteBuffer(final double[] array) {
-		final CLBuffer<DoubleBuffer> buffer = context
-				.createDoubleBuffer(array.length, READ_WRITE);
+		final CLBuffer<DoubleBuffer> buffer = context.createDoubleBuffer(array.length, READ_WRITE);
 		fill(buffer.getBuffer(), array);
 		return buffer;
 	}
