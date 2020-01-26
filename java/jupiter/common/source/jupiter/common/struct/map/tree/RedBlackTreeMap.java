@@ -111,6 +111,7 @@ public class RedBlackTreeMap<K, V>
 	 * @return the height
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public int getHeight() {
 		// Initialize
 		final ExtendedLinkedList<Pair<Integer, RedBlackTreeNode<K, V>>> nodes = new ExtendedLinkedList<Pair<Integer, RedBlackTreeNode<K, V>>>(
