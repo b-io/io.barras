@@ -44,8 +44,8 @@ public class StatisticsTest
 		final double peh = 0.5; // probability of winning if cheating
 		final double penh = 0.125; // probability of winning if not cheating
 		final double ph = 0.25; // probability of cheating
-		final double phe = Statistics.getConditionalProbability(peh, ph,
-				new double[] {peh, penh}, new double[] {ph, 1. - ph}); // probability of cheating if winning
+		final double phe = Statistics.getConditionalProbability(peh, ph, new double[] {peh, penh},
+				new double[] {ph, 1. - ph}); // probability of cheating if winning
 		assertEquals(0.5714285714285714, phe, Maths.TOLERANCE);
 	}
 }

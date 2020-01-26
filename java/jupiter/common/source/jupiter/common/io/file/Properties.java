@@ -26,7 +26,6 @@ package jupiter.common.io.file;
 import java.io.IOException;
 
 import jupiter.common.thread.Threads;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
 public class Properties
@@ -84,7 +83,7 @@ public class Properties
 		if (propertyList == null) {
 			return null;
 		}
-		return (String[]) Strings.split(propertyList, Arrays.DEFAULT_DELIMITER).toArray();
+		return (String[]) Strings.split(propertyList).toArray();
 	}
 
 	public String[] getPropertyList(final String key, final String defaultValue) {
@@ -92,7 +91,7 @@ public class Properties
 		if (propertyList == null) {
 			return null;
 		}
-		return (String[]) Strings.split(propertyList, Arrays.DEFAULT_DELIMITER).toArray();
+		return (String[]) Strings.split(propertyList).toArray();
 	}
 
 	//////////////////////////////////////////////

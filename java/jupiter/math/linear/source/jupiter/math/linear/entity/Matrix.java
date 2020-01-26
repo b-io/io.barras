@@ -1469,8 +1469,7 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] += broadcastedMatrix.elements[i *
-						broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] += broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1570,8 +1569,7 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] -= broadcastedMatrix.elements[i *
-						broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] -= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -2426,7 +2424,8 @@ public class Matrix
 					// Count the numbers of rows and columns
 					final int m = rows.size();
 					final int n = Strings.removeEmpty(
-							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS)).size();
+							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS))
+							.size();
 					// Fill the matrix row by row
 					final double[] elements = new double[m * n];
 					final Iterator<String> rowIterator = rows.iterator();

@@ -285,8 +285,8 @@ public class CombinatoricsTest
 		assertEquals(34650L, Combinatorics.PFR(Longs.asPrimitiveArray(1L, 4L, 4L, 2L)));
 		assertEquals(34650., Combinatorics.PFR(Doubles.asPrimitiveArray(1., 4., 4., 2.)));
 
-		int[] ks = new int[] {0, 1, 4, 8, 11};
-		int[] ms = new int[] {1, 4, 4, 2};
+		final int[] ks = new int[] {0, 1, 4, 8, 11};
+		final int[] ms = new int[] {1, 4, 4, 2};
 		IO.test("- Count the number of words of length ", ks,
 				" that can be formed with the letters of the word", Strings.quote("MISSISSIPI"));
 		assertEquals(1, Combinatorics.PFR(ks[0], ms));
@@ -350,15 +350,15 @@ public class CombinatoricsTest
 
 		int k = 3;
 		int[] ms = new int[] {2, 2};
-		IO.test("- Count the number of ways to choose ", k, " balls from ", ms[0],
-				" white and ", ms[1], " black balls");
+		IO.test("- Count the number of ways to choose ", k, " balls from ", ms[0], " white and ",
+				ms[1], " black balls");
 		IO.test(Combinatorics.createKCombinations(k, ms));
 		assertEquals(2, Combinatorics.CFR(k, ms));
 
 		k = 9;
 		ms = new int[] {6, 6};
-		IO.test("- Count the number of ways to choose ", k, " balls from ", ms[0],
-				" white and ", ms[1], " black balls");
+		IO.test("- Count the number of ways to choose ", k, " balls from ", ms[0], " white and ",
+				ms[1], " black balls");
 		IO.test(Combinatorics.createKCombinations(k, ms));
 		assertEquals(4, Combinatorics.CFR(k, ms));
 	}

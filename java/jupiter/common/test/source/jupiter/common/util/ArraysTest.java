@@ -54,8 +54,9 @@ public class ArraysTest
 	public void testFilterAll() {
 		IO.test("• filterAll");
 
-		assertEquals(Objects.hashCode(
-				Arrays.<String>filterAll(ARRAY, new int[][] {new int[] {0, 0, 1, 2, 2, 3, 4, 5}})),
+		assertEquals(
+				Objects.hashCode(Arrays.<String>filterAll(ARRAY,
+						new int[][] {new int[] {0, 0, 1, 2, 2, 3, 4, 5}})),
 				Objects.hashCode(
 						new String[][] {new String[] {"a", "a", "b", "c", "c", "d", "e", "f"}}));
 	}

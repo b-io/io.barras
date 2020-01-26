@@ -325,7 +325,8 @@ public class JOCL
 		return clCreateKernel(program, name, null);
 	}
 
-	public int execute(final cl_kernel kernel, final long globalWorkSize, final long localWorkSize) {
+	public int execute(final cl_kernel kernel, final long globalWorkSize,
+			final long localWorkSize) {
 		return clEnqueueNDRangeKernel(commandQueue, kernel, 1, null, new long[] {globalWorkSize},
 				new long[] {localWorkSize}, 0, null, null);
 	}

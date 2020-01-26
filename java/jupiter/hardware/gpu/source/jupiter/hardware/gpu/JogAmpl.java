@@ -406,8 +406,7 @@ public class JogAmpl
 		// Get the kernel
 		final CLKernel kernel = getKernel("arraySum");
 		// Set the kernel arguments
-		kernel.putArgs(aBuffer, bBuffer)
-				.putArg(c);
+		kernel.putArgs(aBuffer, bBuffer).putArg(c);
 		// Execute the kernel
 		commandQueue.putWriteBuffer(aBuffer, false)
 				.putWriteBuffer(bBuffer, false)

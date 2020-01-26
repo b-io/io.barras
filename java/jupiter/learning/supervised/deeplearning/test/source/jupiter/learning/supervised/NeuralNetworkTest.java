@@ -209,10 +209,9 @@ public class NeuralNetworkTest
 
 		// Train
 		chrono.start();
-		final int iterationCount = model.train(learningRate,
-				firstMomentExponentialDecayRate, secondMomentExponentialDecayRate,
-				Classifier.DEFAULT_TOLERANCE,
-				maxIterationCount, hiddenLayerCount, hiddenLayerSize);
+		final int iterationCount = model.train(learningRate, firstMomentExponentialDecayRate,
+				secondMomentExponentialDecayRate, Classifier.DEFAULT_TOLERANCE, maxIterationCount,
+				hiddenLayerCount, hiddenLayerSize);
 		chrono.stop();
 
 		// Report the statistics

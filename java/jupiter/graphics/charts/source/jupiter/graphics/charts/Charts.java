@@ -286,8 +286,8 @@ public class Charts {
 
 	public static Crosshair createCrosshair(final boolean showLabel, final Format labelFormat) {
 		// Create the crosshair
-		final Crosshair crosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(
-				1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[] {10f, 5f}, 0f));
+		final Crosshair crosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(1f,
+				BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[] {10f, 5f}, 0f));
 		// Set the label
 		crosshair.setLabelBackgroundPaint(Color.BLACK);
 		crosshair.setLabelGenerator(new CrosshairLabelGenerator() {

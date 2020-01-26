@@ -246,8 +246,7 @@ public class XYSelection
 					coordinates);
 			final double ySelection = ChartPanels.rangeValueToJava2D(chartPanel, mousePosition,
 					coordinates);
-			final Ellipse2D selection = new Ellipse2D.Double(
-					xSelection - 5, ySelection - 5,
+			final Ellipse2D selection = new Ellipse2D.Double(xSelection - 5, ySelection - 5,
 					10, 10);
 			g.draw(selection);
 			g.fill(selection);

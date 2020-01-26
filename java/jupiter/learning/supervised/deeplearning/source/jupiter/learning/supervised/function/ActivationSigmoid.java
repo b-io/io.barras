@@ -102,10 +102,13 @@ public class ActivationSigmoid
 	 */
 	@Override
 	public double computeCost(final Classifier classifier, final Entity A) {
-		return -A.apply(LOG).diagonalTimes(classifier.getTransposedClasses())
-				.add(Scalar.ONE.minus(A).apply(LOG)
+		return -A.apply(LOG)
+				.diagonalTimes(classifier.getTransposedClasses())
+				.add(Scalar.ONE.minus(A)
+						.apply(LOG)
 						.diagonalTimes(Scalar.ONE.minus(classifier.getTransposedClasses())))
-				.toScalar().get() / classifier.getTrainingExampleCount();
+				.toScalar()
+				.get() / classifier.getTrainingExampleCount();
 	}
 
 

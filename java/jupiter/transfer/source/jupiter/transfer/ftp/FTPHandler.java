@@ -48,7 +48,6 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -890,8 +889,7 @@ public class FTPHandler
 		remoteDirPath = properties.getProperty("remoteDir");
 		localDirPath = properties.getProperty("localDir");
 		fileFilter = properties.getProperty("fileFilter", STAR);
-		fileNames = (String[]) Strings.split(properties.getProperty("fileNames", STAR),
-				Arrays.DEFAULT_DELIMITER).toArray();
+		fileNames = (String[]) Strings.split(properties.getProperty("fileNames", STAR)).toArray();
 	}
 
 

@@ -3038,6 +3038,24 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
+	 * specified {@link String} around the default delimiter {@link Arrays#DEFAULT_DELIMITER}.
+	 * <p>
+	 * @param text a {@link String}
+	 * <p>
+	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
+	 *         specified {@link String} around the default delimiter
+	 *         {@link Arrays#DEFAULT_DELIMITER}
+	 */
+	public static ExtendedLinkedList<String> split(final String text) {
+		// Check the arguments
+		Arguments.requireNonNull(text);
+
+		// Split the text around the delimiter
+		return splitTo(text, Arrays.DEFAULT_DELIMITER, text.length());
+	}
+
+	/**
+	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around {@code delimiter}.
 	 * <p>
 	 * @param text      a {@link String}
@@ -3767,7 +3785,9 @@ public class Strings {
 			if (stackTraceElementCount > 0) {
 				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
-				return exception.getLocalizedMessage().concat(":").concat(NEW_LINE)
+				return exception.getLocalizedMessage()
+						.concat(":")
+						.concat(NEW_LINE)
 						.concat(joinWith(stackTraces, NEW_LINE));
 			}
 			return exception.getLocalizedMessage();
