@@ -110,7 +110,7 @@ public class R
 		// Launch Rserve
 		if (!(installPackage("Rserve") == IO.EXIT_SUCCESS && execute(Strings.join(
 				"library(Rserve);",
-				"Rserve(", (debug ? "T" : "F"),
+				"Rserve(", debug ? "T" : "F",
 				", args = ", Strings.singleQuote(Strings.joinWith(ARGS, SPACE)),
 				")")) == IO.EXIT_SUCCESS)) {
 			return false;

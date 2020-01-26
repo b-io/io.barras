@@ -89,10 +89,10 @@ public class ChartPanels {
 		// • Get the mouse position
 		final int xPosition = Integers.convert(
 				(mouseEvent.getTrigger().getX() - chartPanel.getInsets().left) /
-				chartPanel.getScaleX());
+						chartPanel.getScaleX());
 		final int yPosition = Integers.convert(
 				(mouseEvent.getTrigger().getY() - chartPanel.getInsets().top) /
-				chartPanel.getScaleY());
+						chartPanel.getScaleY());
 		final Point2D position = new Point2D.Double(xPosition, yPosition);
 		// • Select the closest chart entity to the mouse position
 		double minDistance = Integer.MAX_VALUE;
