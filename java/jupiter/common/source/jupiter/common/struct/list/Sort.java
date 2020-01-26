@@ -47,13 +47,13 @@ public class Sort<T>
 
 	/**
 	 * This is the minimum sized sequence that will be merged. Shorter sequences will be lengthened
-	 * by calling {@link #binarySort}. If the entire array is less than this length, no merges will
-	 * be performed.
+	 * by calling the static method {@link #binarySort}. If the entire array is less than this
+	 * length, no merges will be performed.
 	 * <p>
 	 * This constant should be a power of two. It was 64 in Tim Peter's C implementation, but 32 was
 	 * empirically determined to work better in this implementation. In the unlikely event that you
-	 * set this constant to be a number that is not a power of two, you'll need to change the
-	 * {@link #minRunLength} computation.
+	 * set this constant to be a number that is not a power of two, you will need to change the
+	 * computation of the static method {@link #minRunLength}.
 	 * <p>
 	 * If you decrease this constant, you must change the {@code stackLength} computation in the
 	 * {@link Sort} constructor, or you risk an {@link ArrayIndexOutOfBoundsException}. See
@@ -369,7 +369,7 @@ public class Sort<T>
 
 	/**
 	 * Returns the minimum acceptable run length for an array of the specified length. Natural runs
-	 * shorter than this will be extended with {@link #binarySort}.
+	 * shorter than this will be extended with the static method {@link #binarySort}.
 	 * <p>
 	 * Roughly speaking, the computation is:
 	 * <p>
@@ -600,8 +600,9 @@ public class Sort<T>
 	}
 
 	/**
-	 * Like {@link #gallopLeft}, except that if the range contains an element equal to {@code key},
-	 * {@link #gallopRight} returns the index after the rightmost equal element.
+	 * Like the static method {@link #gallopLeft}, except that if the range contains an element
+	 * equal to {@code key}, the static method {@link #gallopRight} returns the index after the
+	 * rightmost equal element.
 	 * <p>
 	 * @param <T>        the component type of the array to sort
 	 * @param key        the {@code T} key whose insertion point to search for
@@ -691,7 +692,7 @@ public class Sort<T>
 	 * the last element of the first run ({@code a[base1 + len1 - 1]}) must be greater than all
 	 * elements of the second run.
 	 * <p>
-	 * For performance, this method should be called only when {@code len1 <= len2}; its twin,
+	 * For performance, this method should be called only when {@code len1 <= len2}; its twin method
 	 * {@link #mergeHi} should be called if {@code len1 >= len2}. (Either method may be called if
 	 * {@code len1 == len2}.)
 	 * <p>
@@ -816,9 +817,9 @@ outer:  while (true) {
 	}
 
 	/**
-	 * Like {@link #mergeLo}, except that this method should be called only if {@code len1 >= len2};
-	 * {@link #mergeLo} should be called if {@code len1 <= len2}. (Either method may be called if
-	 * {@code len1 == len2}.)
+	 * Like the method {@link #mergeLo}, except that this method should be called only if
+	 * {@code len1 >= len2}; the method {@link #mergeLo} should be called if {@code len1 <= len2}.
+	 * (Either method may be called if {@code len1 == len2}.)
 	 * <p>
 	 * @param base1 index of first element in first run to be merged
 	 * @param len1  length of first run to be merged (must be greater than 0)

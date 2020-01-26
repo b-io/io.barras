@@ -99,7 +99,7 @@ public class SingularValueDecomposition
 		/*
 		 * @todo apparently the failing cases are only a proper subset of m < n, so let us not throw
 		 * an exception. The fix may come later.
-		 * if (m < n) { throw new UnsupportedOperationException("Work only for m >= n"); }
+		 * {@code if (m < n) { throw new UnsupportedOperationException("Work only for m >= n"); }}
 		 */
 		final int nu = Math.min(m, n);
 		s = new double[Math.min(m + 1, n)];

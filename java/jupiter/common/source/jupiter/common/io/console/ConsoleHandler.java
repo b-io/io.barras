@@ -300,11 +300,9 @@ public class ConsoleHandler
 		public static volatile float SATURATION = 1f;
 		/**
 		 * The color intensity.
-		 * <ul>
-		 * <li>0: standard</li>
-		 * <li>1: light</li>
-		 * <li>2: dark</li>
-		 * </ul>
+		 * • 0: standard
+		 * • 1: light
+		 * • 2: dark
 		 */
 		public static volatile int INTENSITY = 0;
 

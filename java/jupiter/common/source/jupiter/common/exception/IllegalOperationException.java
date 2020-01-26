@@ -51,8 +51,8 @@ public class IllegalOperationException
 	 * Constructs an {@link IllegalOperationException} with the specified message {@link String}
 	 * (which is saved for later retrieval by the method {@link #getMessage()}).
 	 * <p>
-	 * @param message the message {@link String} (which is saved for later retrieval by the
-	 *                method {@link #getMessage()})
+	 * @param message the message {@link String} (which is saved for later retrieval by the method
+	 *                {@link #getMessage()})
 	 */
 	public IllegalOperationException(final String message) {
 		super(message);
@@ -63,10 +63,10 @@ public class IllegalOperationException
 	 * (which is saved for later retrieval by the method {@link #getMessage()}) and cause
 	 * {@link Throwable} (which is saved for later retrieval by the method {@link #getCause()}).
 	 * <p>
-	 * @param message the message {@link String} (which is saved for later retrieval by the
-	 *                method {@link #getMessage()})
-	 * @param cause   the cause {@link Throwable} (which is saved for later retrieval by the
-	 *                method {@link #getCause()})
+	 * @param message the message {@link String} (which is saved for later retrieval by the method
+	 *                {@link #getMessage()})
+	 * @param cause   the cause {@link Throwable} (which is saved for later retrieval by the method
+	 *                {@link #getCause()})
 	 */
 	public IllegalOperationException(final String message, final Throwable cause) {
 		super(message, cause);

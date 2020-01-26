@@ -69,7 +69,7 @@ public class SafeDateFormat
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
 	 * factory methods in the class {@link DateFormat}.
 	 * <p>
-	 * This is equivalent to calling {@link #SafeDateFormat(String, Locale)
+	 * This is equivalent to calling the constructor {@link #SafeDateFormat(String, Locale)
 	 * SafeDateFormat(pattern, Locale.getDefault(Category.FORMAT))}.
 	 *
 	 * @see Locale#getDefault
@@ -305,7 +305,7 @@ public class SafeDateFormat
 	 * the year value of the parsed {@link Date} is 1970 with {@link GregorianCalendar} if no year
 	 * value is specified from the parsing operation. The {@link TimeZone} value may be overwritten,
 	 * depending on the specified pattern and the time zone value in {@code text}. Any
-	 * {@link TimeZone} value that has previously been set by a call to
+	 * {@link TimeZone} value that has previously been set by a call to the method
 	 * {@link #setTimeZone(TimeZone) setTimeZone} may need to be restored for further operations.
 	 * <p>
 	 * @param text     a {@link String}, part of which should be parsed

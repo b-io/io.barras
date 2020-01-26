@@ -44,13 +44,13 @@ public class ComparableSort
 
 	/**
 	 * This is the minimum sized sequence that will be merged. Shorter sequences will be lengthened
-	 * by calling {@link #binarySort}. If the entire array is less than this length, no merges will
-	 * be performed.
+	 * by calling the static method {@link #binarySort}. If the entire array is less than this
+	 * length, no merges will be performed.
 	 * <p>
 	 * This constant should be a power of two. It was 64 in Tim Peter's C implementation, but 32 was
 	 * empirically determined to work better in this implementation. In the unlikely event that you
-	 * set this constant to be a number that is not a power of two, you'll need to change the
-	 * {@link #minRunLength} computation.
+	 * set this constant to be a number that is not a power of two, you will need to change the
+	 * computation of the static method {@link #minRunLength}.
 	 * <p>
 	 * If you decrease this constant, you must change the {@code stackLength} computation in the
 	 * {@link ComparableSort} constructor, or you risk an {@link ArrayIndexOutOfBoundsException}.
@@ -351,7 +351,7 @@ public class ComparableSort
 
 	/**
 	 * Returns the minimum acceptable run length for an array of the specified length. Natural runs
-	 * shorter than this will be extended with {@link #binarySort}.
+	 * shorter than this will be extended with the static method {@link #binarySort}.
 	 * <p>
 	 * Roughly speaking, the computation is:
 	 * <p>
@@ -582,9 +582,9 @@ public class ComparableSort
 	}
 
 	/**
-	 * Like {@link #gallopLeft}, except that if the range contains an element equal to the specified
-	 * key {@link Comparable}, {@link #gallopRight} returns the index after the rightmost equal
-	 * element.
+	 * Like the static method {@link #gallopLeft}, except that if the range contains an element
+	 * equal to the specified key {@link Comparable}, the static method {@link #gallopRight} returns
+	 * the index after the rightmost equal element.
 	 * <p>
 	 * @param key    the key {@link Comparable} of {@link Object} whose insertion point to search
 	 *               for
@@ -672,9 +672,9 @@ public class ComparableSort
 	 * the last element of the first run ({@code a[base1 + length1 - 1]}) must be greater than all
 	 * elements of the second run.
 	 * <p>
-	 * For performance, this method should be called only when {@code length1 <= length2}; its twin,
-	 * {@link #mergeHi} should be called if {@code length1 >= length2}. (Either method may be called
-	 * if {@code length1 == length2}.)
+	 * For performance, this method should be called only when {@code length1 <= length2}; its twin
+	 * method {@link #mergeHi} should be called if {@code length1 >= length2}. (Either method may be
+	 * called if {@code length1 == length2}.)
 	 * <p>
 	 * @param base1   index of first element in first run to merge
 	 * @param length1 length of first run to merge (must be greater than 0)
@@ -797,9 +797,9 @@ outer:  while (true) {
 	}
 
 	/**
-	 * Like {@link #mergeLo}, except that this method should be called only if
-	 * {@code length1 >= length2}; {@link #mergeLo} should be called if {@code length1 <= length2}.
-	 * (Either method may be called if {@code length1 == length2}.)
+	 * Like the method {@link #mergeLo}, except that this method should be called only if
+	 * {@code length1 >= length2}; the method {@link #mergeLo} should be called if
+	 * {@code length1 <= length2}. (Either method may be called if {@code length1 == length2}.)
 	 * <p>
 	 * @param base1   index of first element in first run to merge
 	 * @param length1 length of first run to merge (must be greater than 0)
