@@ -108,9 +108,9 @@ public class SQL {
 		} else if (Blob.class.isAssignableFrom(c)) {
 			statement.setBlob(index, (Blob) parameter);
 		} else if (Booleans.is(c)) {
-			statement.setBoolean(index, (boolean) parameter);
+			statement.setBoolean(index, (Boolean) parameter);
 		} else if (Bytes.is(c)) {
-			statement.setByte(index, (byte) parameter);
+			statement.setByte(index, (Byte) parameter);
 		} else if (Bytes.isPrimitiveArray(c)) {
 			statement.setBytes(index, (byte[]) parameter);
 		} else if (Clob.class.isAssignableFrom(c)) {
@@ -118,15 +118,15 @@ public class SQL {
 		} else if (Dates.is(c)) {
 			statement.setDate(index, (Date) parameter);
 		} else if (Doubles.is(c)) {
-			statement.setDouble(index, (double) parameter);
+			statement.setDouble(index, (Double) parameter);
 		} else if (Floats.is(c)) {
-			statement.setFloat(index, (float) parameter);
+			statement.setFloat(index, (Float) parameter);
 		} else if (Integers.is(c)) {
-			statement.setInt(index, (int) parameter);
+			statement.setInt(index, (Integer) parameter);
 		} else if (Longs.is(c)) {
-			statement.setLong(index, (long) parameter);
+			statement.setLong(index, (Long) parameter);
 		} else if (Shorts.is(c)) {
-			statement.setShort(index, (short) parameter);
+			statement.setShort(index, (Short) parameter);
 		} else if (Strings.is(c)) {
 			statement.setString(index, (String) parameter);
 		} else if (Time.class.isAssignableFrom(c)) {
