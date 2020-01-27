@@ -589,7 +589,7 @@ public class Files {
 		boolean isWritten = false;
 		BufferedWriter writer = null;
 		try {
-			// Create a file writer
+			// Create the file writer with the charset
 			writer = IO.createWriter(createOutputStream(file, append), charset);
 			// Write or append the content to the file
 			writer.write(content + NEW_LINE);

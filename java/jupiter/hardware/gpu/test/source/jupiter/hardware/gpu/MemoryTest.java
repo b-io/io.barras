@@ -271,7 +271,7 @@ public class MemoryTest
 		clGetPlatformIDs(0, null, numPlatformsArray);
 		final int numPlatforms = numPlatformsArray[0];
 
-		// Obtain a platform identifier
+		// Obtain the platform identifier
 		final cl_platform_id[] platforms = new cl_platform_id[numPlatforms];
 		clGetPlatformIDs(platforms.length, platforms, null);
 		final cl_platform_id platform = platforms[PLATFORM_INDEX];
@@ -285,16 +285,16 @@ public class MemoryTest
 		clGetDeviceIDs(platform, DEVICE_TYPE, 0, null, numDevicesArray);
 		final int numDevices = numDevicesArray[0];
 
-		// Obtain a device identifier
+		// Obtain the device identifier
 		final cl_device_id[] devices = new cl_device_id[numDevices];
 		clGetDeviceIDs(platform, DEVICE_TYPE, numDevices, devices, null);
 		final cl_device_id device = devices[DEVICE_INDEX];
 
-		// Create a context for the selected device
+		// Create the context for the selected device
 		context = clCreateContext(contextProperties, 1, new cl_device_id[] {device}, null, null,
 				null);
 
-		// Create a command-queue for the selected device
+		// Create the command-queue for the selected device
 		commandQueue = clCreateCommandQueue(context, device, 0, null);
 	}
 

@@ -377,7 +377,7 @@ public class IO
 		int lineCount = 0;
 		BufferedReader reader = null;
 		try {
-			// Create a reader
+			// Create the input reader with the charset
 			reader = createReader(input, charset);
 			// Iterate over the lines
 			String line;
@@ -460,7 +460,7 @@ public class IO
 		int lineCount = 0;
 		BufferedReader reader = null;
 		try {
-			// Create a reader
+			// Create the input reader with the charset
 			reader = createReader(input, charset);
 			// Iterate over the lines
 			while (reader.readLine() != null) {

@@ -26,7 +26,7 @@ package jupiter.common.util;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
-import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.exception.IllegalClassException;
 
 public class Numbers {
 
@@ -103,8 +103,7 @@ public class Numbers {
 		} else if (BigDecimal.class.isAssignableFrom(c)) {
 			return new BigDecimal(text);
 		}
-		throw new IllegalOperationException(
-				Strings.join("Cannot convert ", Strings.quote(text), " to a ", c.getSimpleName()));
+		throw new IllegalClassException(c);
 	}
 
 

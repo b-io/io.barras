@@ -72,7 +72,7 @@ public class Messages {
 		final StackTraceElement stackTraceElement = new Throwable().fillInStackTrace()
 				.getStackTrace()[stackIndex];
 		final String simpleClassName = getSimpleClassName(stackTraceElement);
-		// Create the prefix
+		// Create the output prefix
 		switch (level) {
 			case RESULT:
 				return EMPTY;

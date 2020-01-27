@@ -195,7 +195,7 @@ public class RedBlackTreeMap<K, V>
 		// Put the key-value mapping
 		RedBlackTreeNode<K, V> tree = root;
 		if (tree == null) {
-			// The root is set to a new node containing the specified key and value
+			// The root is set to a new node containing the key and value
 			setRoot(new RedBlackTreeNode<K, V>(key, value, keyComparator));
 		} else {
 			int comparison;
@@ -213,7 +213,7 @@ public class RedBlackTreeMap<K, V>
 					return tree.setValue(value);
 				}
 			} while (tree != null);
-			// Create a node containing the specified key and value
+			// Create the node containing the key and value
 			final RedBlackTreeNode<K, V> newNode = new RedBlackTreeNode<K, V>(key, value,
 					keyComparator);
 			if (comparison < 0) {
@@ -241,7 +241,7 @@ public class RedBlackTreeMap<K, V>
 	 */
 	@Override
 	protected void removeNode(final RedBlackTreeNode<K, V> node) {
-		// Get the parent and successor of the specified node
+		// Get the parent and successor of the node
 		final RedBlackTreeNode<K, V> parent = node.parent;
 		// Test whether there is 0 or 1 child or there are 2 children
 		if (node.left == null || node.right == null) {

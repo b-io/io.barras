@@ -267,12 +267,12 @@ public class Calculator
 			final long rightId = WORK_QUEUE.submit(
 					new Pair<Element, Map<String, Element>>(binaryOperation.getRight(), context));
 
-			// Get the results
+			// Collect the results
 			leftResult = WORK_QUEUE.get(leftId);
 			rightResult = WORK_QUEUE.get(rightId);
 			WORK_QUEUE.freeWorkers(2);
 		} else {
-			// Get the results
+			// Collect the results
 			leftResult = evaluateTree(binaryOperation.getLeft(), context);
 			rightResult = evaluateTree(binaryOperation.getRight(), context);
 		}

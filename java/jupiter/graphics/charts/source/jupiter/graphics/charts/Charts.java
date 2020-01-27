@@ -133,7 +133,7 @@ public class Charts {
 	 */
 	public static JFreeChart createLineChart(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset) {
-		// Create a line chart
+		// Create the line chart with the title, xy-axes labels and dataset
 		final JFreeChart chart = ChartFactory.createXYLineChart(title, // the title
 				xLabel, // the x-axis label
 				yLabel, // the y-axis label
@@ -210,7 +210,7 @@ public class Charts {
 	 */
 	public static JFreeChart createTimeSeriesChart(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset, final DateFormat dateFormat) {
-		// Create a time series chart
+		// Create the time series chart with the title, xy-axes labels and dataset
 		final JFreeChart chart = ChartFactory.createTimeSeriesChart(title, // the title
 				xLabel, // the x-axis label
 				yLabel, // the y-axis label

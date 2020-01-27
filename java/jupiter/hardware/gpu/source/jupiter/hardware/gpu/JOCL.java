@@ -130,7 +130,7 @@ public class JOCL
 			throw new IllegalStateException("There is no compatible OpenCL platform");
 		}
 
-		// Obtain a platform identifier
+		// Obtain the platform identifier
 		final cl_platform_id[] platforms = new cl_platform_id[platformCount];
 		clGetPlatformIDs(platforms.length, platforms, null);
 		final cl_platform_id platform = platforms[platformIndex];
@@ -163,11 +163,11 @@ public class JOCL
 		setDeviceInfo();
 
 		try {
-			// Create a context for the selected device
+			// Create the context for the selected device
 			context = clCreateContext(contextProperties, 1, new cl_device_id[] {device}, null, null,
 					null);
 
-			// Create a command-queue for the selected device
+			// Create the command-queue for the selected device
 			commandQueue = clCreateCommandQueue(context, device, 0, null);
 
 			// Create the program from the source code
@@ -288,7 +288,7 @@ public class JOCL
 		final long[] size = new long[1];
 		clGetDeviceInfo(device_id, parameterName, 0, null, size);
 
-		// Create a buffer of the appropriate size and fill it with the info text
+		// Create the buffer of the appropriate size and fill it with the info text
 		final byte[] buffer = new byte[(int) size[0]];
 		clGetDeviceInfo(device_id, parameterName, buffer.length, Pointer.to(buffer), null);
 

@@ -212,7 +212,7 @@ public class AvlTreeMap<K, V>
 		// Put the key-value mapping
 		AvlTreeNode<K, V> tree = root;
 		if (tree == null) {
-			// The root is set to a new node containing the specified key and value
+			// The root is set to a new node containing the key and value
 			setRoot(new AvlTreeNode<K, V>(key, value, this));
 		} else {
 			int comparison;
@@ -230,7 +230,7 @@ public class AvlTreeMap<K, V>
 					return tree.setValue(value);
 				}
 			} while (tree != null);
-			// Create a node containing the specified key and value
+			// Create the node containing the key and value
 			final AvlTreeNode<K, V> newNode = new AvlTreeNode<K, V>(key, value, this);
 			if (comparison < 0) {
 				// The new node is the left node of the parent
@@ -257,7 +257,7 @@ public class AvlTreeMap<K, V>
 	 */
 	@Override
 	protected void removeNode(final AvlTreeNode<K, V> node) {
-		// Get the parent and successor of the specified node
+		// Get the parent and successor of the node
 		final AvlTreeNode<K, V> parent = node.parent;
 		// Test whether there is 0 or 1 child or there are 2 children
 		if (node.left == null || node.right == null) {
@@ -331,7 +331,7 @@ public class AvlTreeMap<K, V>
 			final int balance = node.balance;
 			// Test the imbalance
 			if (balance == -2) {
-				// Get the left node of the specified node
+				// Get the left node of the node
 				// @note the left node cannot be null since the balance is negative
 				final AvlTreeNode<K, V> leftNode = node.left;
 				// Test whether the imbalance is LL or LR
@@ -343,7 +343,7 @@ public class AvlTreeMap<K, V>
 					node = rotateLeftRight(node);
 				}
 			} else if (balance == 2) {
-				// Get the right node of the specified node
+				// Get the right node of the node
 				// @note the right node cannot be null since the balance is positive
 				final AvlTreeNode<K, V> rightNode = node.right;
 				// Test whether the imbalance is RR or RL

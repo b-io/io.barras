@@ -82,14 +82,14 @@ public class JogAmpl
 	public JogAmpl(final String sourceCode) {
 		super(sourceCode);
 
-		// Create a context for all the devices (use the default CLPlatform)
+		// Create the context for all the devices (use the default CLPlatform)
 		context = CLContext.create();
 		try {
 			// Select the fastest device
 			device = context.getMaxFlopsDevice();
 			setDeviceInfo();
 
-			// Create a command-queue for the selected device
+			// Create the command-queue for the selected device
 			commandQueue = device.createCommandQueue();
 
 			// Create the program from the source code

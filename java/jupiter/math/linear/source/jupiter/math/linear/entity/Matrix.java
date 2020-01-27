@@ -244,7 +244,7 @@ public class Matrix
 		m = rowCount;
 		n = rowCount > 0 ? elements.length / rowCount : 0;
 		size = new Dimensions(m, n);
-		// Check the length of the specified array
+		// Check the length of the array
 		if (m * n != elements.length) {
 			throw new IllegalArgumentException("The length of the specified array " +
 					elements.length + " is not a multiple of " + rowCount);
@@ -276,7 +276,7 @@ public class Matrix
 			n = rowCount > 0 ? values.length / rowCount : 0;
 		}
 		size = new Dimensions(m, n);
-		// Check the length of the specified array
+		// Check the length of the array
 		if (m * n != values.length) {
 			throw new IllegalArgumentException("The length of the specified array " +
 					values.length + " is not a multiple of " + rowCount);
@@ -319,7 +319,7 @@ public class Matrix
 		m = rowCount;
 		n = columnCount;
 		size = new Dimensions(m, n);
-		// Check the row and column lengths of the specified array
+		// Check the row and column lengths of the array
 		if (values.length < m) {
 			throw new IllegalArgumentException(
 					"The row length of the specified 2D array is less than " + m);

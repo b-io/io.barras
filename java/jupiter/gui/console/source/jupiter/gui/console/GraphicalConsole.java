@@ -79,12 +79,12 @@ public class GraphicalConsole
 	 * Constructs a {@link GraphicalConsole}.
 	 */
 	public GraphicalConsole() {
-		// Create a frame
+		// Create the frame
 		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		frame.setSize(600, 400);
-		// Create a console
+		// Create the console
 		console = new JConsole();
 		frame.add(console);
 		// Redirect the input of IO to this input

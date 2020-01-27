@@ -355,7 +355,7 @@ public class Dates {
 	 */
 	public static int countBusinessDaysBetween(final Date startDate, final Date endDate,
 			List<Date> publicHolidays) {
-		// Create calendars
+		// Create the calendars for the start and end dates
 		final Calendar start = Calendar.getInstance();
 		start.setTime(startDate);
 		final Calendar end = Calendar.getInstance();

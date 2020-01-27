@@ -30,6 +30,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.ResultSet;
@@ -37,8 +38,8 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+import jupiter.common.exception.IllegalClassException;
 import jupiter.common.time.Dates;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
 import jupiter.common.util.Doubles;
@@ -115,7 +116,7 @@ public abstract class SQLRow {
 					try {
 						final String columnName = getColumnName(field.getName());
 						final Class<?> c = field.getType();
-						if (Arrays.is(c)) {
+						if (Array.class.isAssignableFrom(c)) {
 							field.set(this, resultSet.getArray(columnName));
 						} else if (BigDecimal.class.isAssignableFrom(c)) {
 							field.set(this, resultSet.getBigDecimal(columnName));
@@ -149,9 +150,8 @@ public abstract class SQLRow {
 							field.set(this, resultSet.getTimestamp(columnName));
 						} else if (URL.class.isAssignableFrom(c)) {
 							field.set(this, resultSet.getURL(columnName));
-						} else {
-							IO.warn("Unhandled field class: ", Strings.quote(c));
 						}
+						throw new IllegalClassException(c);
 					} catch (final IllegalAccessException ignored) {
 					} catch (final IllegalArgumentException ex) {
 						IO.error(ex);

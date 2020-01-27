@@ -54,12 +54,10 @@ public class ReservedThreadPoolExecutorTest
 		// Initialize
 		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
-
-		// Create a work queue
 		final ReservedThreadPoolExecutor queue = new ReservedThreadPoolExecutor();
 		IO.test("There are ", queue.getMaxPoolSize(), " workers");
 
-		// Process the tasks
+		// Submit the tasks
 		chrono.start();
 		final List<Future<Integer>> futures = new ExtendedList<Future<Integer>>(taskCount);
 		for (int i = 0; i < taskCount; ++i) {
@@ -69,6 +67,8 @@ public class ReservedThreadPoolExecutorTest
 			//} while (future == null);
 			futures.add(future);
 		}
+
+		// Collect the results
 		final Set<Integer> results = new HashSet<Integer>(futures.size());
 		int skippedTaskCount = 0;
 		for (final Future<Integer> future : futures) {

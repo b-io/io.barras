@@ -138,7 +138,7 @@ public class SpeedChecker {
 				final URL url = new URL(urlName);
 				// Get the name of the file pointed by the URL
 				final String fileName = url.getFile().replace(File.separator, EMPTY);
-				// Create a file handler of the data file storing the downloading speeds
+				// Create the handler of the data file storing the downloading speeds
 				DATA_FILES.put(urlName,
 						new FileHandler(TEMP_DIR + "/downloading_speeds_of_" + fileName + ".csv"));
 			} catch (final MalformedURLException ex) {

@@ -148,7 +148,7 @@ public class ScatterPlotGraphic
 		// Check the arguments
 		ArrayArguments.<Number>requireSameLength(xValues, yValues);
 
-		// Create the series
+		// Create the series with the title and style
 		final int seriesIndex = addSeries(title, style);
 		// Add the points
 		final int n = xValues.length;

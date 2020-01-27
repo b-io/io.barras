@@ -215,12 +215,12 @@ public class ExpressionHandler
 					.submit(new Triple<Element, String, Map<String, Element>>(parent,
 							rightExpression, context));
 
-			// Get the results
+			// Collect the results
 			leftNodeResult = WORK_QUEUE.get(leftId);
 			rightNodeResult = WORK_QUEUE.get(rightId);
 			WORK_QUEUE.freeWorkers(2);
 		} else {
-			// Get the results
+			// Collect the results
 			leftNodeResult = parseExpression(parent, leftExpression, context);
 			rightNodeResult = parseExpression(parent, rightExpression, context);
 		}
