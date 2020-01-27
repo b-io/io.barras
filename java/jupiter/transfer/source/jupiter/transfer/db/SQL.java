@@ -210,6 +210,10 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String createStoredProcedureQuery(final String name, final int parameterCount) {
+		// Check the arguments
+		Arguments.requireNonNull(name);
+
+		// Create the query for executing the stored procedure
 		return "{call ".concat(name)
 				.concat(Arrays.toString(Arrays.repeat("?", parameterCount)))
 				.concat("}");
@@ -218,13 +222,15 @@ public class SQL {
 	public static CallableStatement createStoredProcedureCall(final Connection connection,
 			final String name, final Object... parameters)
 			throws SQLException {
+		// Check the arguments
+		Arguments.requireNonNull(connection);
+		Arguments.requireNonNull(parameters);
+
 		// Create the statement for executing the stored procedure
 		CallableStatement statement = connection.prepareCall(
 				createStoredProcedureQuery(name, parameters.length));
 		// Set the parameters of the statement
-		if (parameters != null) {
-			setParameters(statement, parameters);
-		}
+		setParameters(statement, parameters);
 		// Return the statement
 		return statement;
 	}
