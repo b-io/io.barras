@@ -150,8 +150,9 @@ public abstract class SQLRow {
 							field.set(this, resultSet.getTimestamp(columnName));
 						} else if (URL.class.isAssignableFrom(c)) {
 							field.set(this, resultSet.getURL(columnName));
+						} else {
+							throw new IllegalClassException(c);
 						}
-						throw new IllegalClassException(c);
 					} catch (final IllegalAccessException ignored) {
 					} catch (final IllegalArgumentException ex) {
 						IO.error(ex);

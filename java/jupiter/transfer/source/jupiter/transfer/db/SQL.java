@@ -28,6 +28,7 @@ import static jupiter.common.io.IO.IO;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Array;
 import java.sql.Blob;
@@ -135,8 +136,9 @@ public class SQL {
 			statement.setTimestamp(index, (Timestamp) parameter);
 		} else if (URL.class.isAssignableFrom(c)) {
 			statement.setURL(index, (URL) parameter);
+		} else {
+			throw new IllegalClassException(c);
 		}
-		throw new IllegalClassException(c);
 	}
 
 	/**
@@ -191,6 +193,12 @@ public class SQL {
 			return Time.valueOf(text);
 		} else if (Timestamp.class.isAssignableFrom(c)) {
 			return Timestamp.valueOf(text);
+		} else if (URL.class.isAssignableFrom(c)) {
+			try {
+				return new URL(text);
+			} catch (final MalformedURLException ex) {
+				throw new IllegalStateException(Strings.toString(ex), ex);
+			}
 		}
 		throw new IllegalClassException(c);
 	}
