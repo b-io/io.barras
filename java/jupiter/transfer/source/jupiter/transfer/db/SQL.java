@@ -209,8 +209,7 @@ public class SQL {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String createStoredProcedureQuery(final String name, final int parameterCount)
-			throws SQLException {
+	public static String createStoredProcedureQuery(final String name, final int parameterCount) {
 		return "{call ".concat(name)
 				.concat(Arrays.toString(Arrays.repeat("?", parameterCount)))
 				.concat("}");
