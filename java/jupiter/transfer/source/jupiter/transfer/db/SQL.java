@@ -48,6 +48,7 @@ import jupiter.common.exception.IllegalClassException;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
 import jupiter.common.util.Doubles;
@@ -201,6 +202,32 @@ public class SQL {
 			}
 		}
 		throw new IllegalClassException(c);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String createStoredProcedureQuery(final String name, final int parameterCount)
+			throws SQLException {
+		return "{call ".concat(name)
+				.concat(Arrays.toString(Arrays.repeat("?", parameterCount)))
+				.concat("}");
+	}
+
+	public static CallableStatement createStoredProcedureCall(final Connection connection,
+			final String name, final Object... parameters)
+			throws SQLException {
+		// Create the statement for executing the stored procedure
+		CallableStatement statement = connection.prepareCall(
+				createStoredProcedureQuery(name, parameters.length));
+		// Set the parameters of the statement
+		if (parameters != null) {
+			setParameters(statement, parameters);
+		}
+		// Return the statement
+		return statement;
 	}
 
 
