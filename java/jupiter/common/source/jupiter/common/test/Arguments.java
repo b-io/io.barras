@@ -104,9 +104,10 @@ public class Arguments {
 		return object;
 	}
 
-	public static <T> T requireNonNull(final T object, final String message) {
+	public static <T> T requireNonNull(final T object, final String name) {
 		if (CHECK_ARGS && object == null) {
-			throw new NullPointerException(message);
+			throw new NullPointerException("The specified ".concat(Strings.quote(name))
+					.concat(" is null"));
 		}
 		return object;
 	}

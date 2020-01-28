@@ -78,7 +78,7 @@ public class BayesianInferenceWithModel
 	public void setStatisticalModel(final int i, final StatisticalModel model) {
 		// Check the arguments
 		ArrayArguments.requireIndex(i, hypothesisCount);
-		Arguments.requireNonNull(model);
+		Arguments.requireNonNull(model, "model");
 
 		// Set the statistical model
 		models[i] = model;

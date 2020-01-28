@@ -110,7 +110,7 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final int rowCount, final int columnCount) {
 		// Check the arguments
-		Arguments.requireNonNull(c, "The specified class is null");
+		Arguments.requireNonNull(c, "class");
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
 
@@ -134,7 +134,7 @@ public class Table<E>
 	public Table(final Class<E> c, final String[] header, final int rowCount,
 			final int columnCount) {
 		// Check the arguments
-		Arguments.requireNonNull(c, "The specified class is null");
+		Arguments.requireNonNull(c, "class");
 		if (header != null) {
 			ArrayArguments.requireLength(header.length, columnCount);
 		}
@@ -157,8 +157,8 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final E[][] elements) {
 		// Check the arguments
-		Arguments.requireNonNull(c, "The specified class is null");
-		Arguments.requireNonNull(elements, "The specified array of elements is null");
+		Arguments.requireNonNull(c, "class");
+		Arguments.requireNonNull(elements, "2D array of elements");
 
 		// Set the attributes
 		this.c = c;
@@ -181,9 +181,9 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final String[] header, final E[][] elements) {
 		// Check the arguments
-		Arguments.requireNonNull(c, "The specified class is null");
-		Arguments.requireNonNull(header, "The specified header is null");
-		Arguments.requireNonNull(elements, "The specified array of elements is null");
+		Arguments.requireNonNull(c, "class");
+		Arguments.requireNonNull(header, "header");
+		Arguments.requireNonNull(elements, "2D array of elements");
 		if (elements.length > 0) {
 			ArrayArguments.requireSameLength(header, elements[0]);
 		}
@@ -208,8 +208,7 @@ public class Table<E>
 	public Table(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		// Check the arguments
-		Arguments.requireNonNull(parser, "The specified parser is null");
-		Arguments.requireNonNull(path, "The specified path is null");
+		Arguments.requireNonNull(parser, "parser");
 
 		// Set the attributes
 		this.c = parser.getOutputClass();

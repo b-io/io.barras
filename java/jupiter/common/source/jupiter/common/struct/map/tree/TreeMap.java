@@ -149,7 +149,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	@Override
 	public V get(final Object key) {
 		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
+		Arguments.requireNonNull(key, "key");
 
 		// Get the value
 		final N node = getNode(key);
@@ -189,7 +189,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	@SuppressWarnings("unchecked")
 	protected N getNode(final Object key) {
 		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
+		Arguments.requireNonNull(key, "key");
 
 		// Get the node
 		return findNode((Comparable<? super K>) key);

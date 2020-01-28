@@ -207,7 +207,7 @@ public class AvlTreeMap<K, V>
 	@Override
 	public synchronized V put(final K key, final V value) {
 		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
+		Arguments.requireNonNull(key, "key");
 
 		// Put the key-value mapping
 		AvlTreeNode<K, V> tree = root;

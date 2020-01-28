@@ -767,7 +767,7 @@ public class Strings {
 		if (array == null) {
 			return NULL;
 		}
-		Arguments.requireNonNull(delimiter);
+		Arguments.requireNonNull(delimiter, "delimiter");
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
@@ -817,8 +817,8 @@ public class Strings {
 		if (array == null) {
 			return NULL;
 		}
-		Arguments.requireNonNull(delimiter);
-		Arguments.requireNonNull(wrapper);
+		Arguments.requireNonNull(delimiter, "delimiter");
+		Arguments.requireNonNull(wrapper, "wrapper");
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
@@ -866,7 +866,7 @@ public class Strings {
 		if (collection == null) {
 			return NULL;
 		}
-		Arguments.requireNonNull(delimiter);
+		Arguments.requireNonNull(delimiter, "delimiter");
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
@@ -916,8 +916,8 @@ public class Strings {
 		if (collection == null) {
 			return NULL;
 		}
-		Arguments.requireNonNull(delimiter);
-		Arguments.requireNonNull(wrapper);
+		Arguments.requireNonNull(delimiter, "delimiter");
+		Arguments.requireNonNull(wrapper, "wrapper");
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
@@ -2934,7 +2934,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> getTokens(final String text,
 			final int[] delimiterIndexes) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Get the tokens computed by splitting the text around the delimiters
 		return getTokensTo(text, delimiterIndexes, text.length());
@@ -2955,8 +2955,8 @@ public class Strings {
 	public static ExtendedLinkedList<String> getTokensTo(final String text,
 			final int[] delimiterIndexes, final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(delimiterIndexes);
+		Arguments.requireNonNull(text, "text");
+		Arguments.requireNonNull(delimiterIndexes, "delimiting indexes");
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
@@ -2990,7 +2990,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> getTokens(final String text,
 			final Collection<Integer> delimiterIndexes) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Get the tokens computed by splitting the text around the delimiters
 		return getTokensTo(text, delimiterIndexes, text.length());
@@ -3011,8 +3011,8 @@ public class Strings {
 	public static ExtendedLinkedList<String> getTokensTo(final String text,
 			final Collection<Integer> delimiterIndexes, final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(delimiterIndexes);
+		Arguments.requireNonNull(text, "text");
+		Arguments.requireNonNull(delimiterIndexes, "delimiting indexes");
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
@@ -3048,7 +3048,7 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<String> split(final String text) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiter
 		return splitTo(text, Arrays.DEFAULT_DELIMITER, text.length());
@@ -3066,7 +3066,7 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final char delimiter) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiter
 		return splitTo(text, delimiter, text.length());
@@ -3102,7 +3102,7 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final Character delimiter) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiter
 		return splitTo(text, delimiter, text.length());
@@ -3122,7 +3122,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitTo(final String text, final Character delimiter,
 			final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 		ArrayArguments.requireIndex(toIndex, text.length(), true);
 		if (delimiter == null) {
 			return new ExtendedLinkedList<String>(text.substring(0, toIndex));
@@ -3146,7 +3146,7 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final char[] delimiters) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiters
 		return splitTo(text, delimiters, text.length());
@@ -3183,7 +3183,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> split(final String text,
 			final Collection<Character> delimiters) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiters
 		return splitTo(text, delimiters, text.length());
@@ -3220,7 +3220,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final String delimiter) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiter
 		return splitStringTo(text, delimiter, text.length());
@@ -3240,7 +3240,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitStringTo(final String text,
 			final String delimiter, final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 		ArrayArguments.requireIndex(toIndex, text.length(), true);
 		if (delimiter == null) {
 			return new ExtendedLinkedList<String>(text.substring(0, toIndex));
@@ -3280,7 +3280,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final String[] delimiters) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiters
 		return splitStringTo(text, delimiters, text.length());
@@ -3300,8 +3300,8 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitStringTo(final String text,
 			final String[] delimiters, final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
-		Arguments.requireNonNull(delimiters);
+		Arguments.requireNonNull(text, "text");
+		Arguments.requireNonNull(delimiters, "delimiters");
 		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
@@ -3340,7 +3340,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final List<String> delimiters) {
 		// Check the arguments
-		Arguments.requireNonNull(text);
+		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiters
 		return splitStringTo(text, delimiters, text.length());

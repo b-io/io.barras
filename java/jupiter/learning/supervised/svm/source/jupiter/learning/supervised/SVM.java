@@ -368,8 +368,9 @@ public class SVM {
 	 */
 	public void load(final double[][] featureVectors, final int[] classes) {
 		// Check the arguments
-		ArrayArguments.requireSameLength(Arguments.requireNonNull(featureVectors).length,
-				Arguments.requireNonNull(classes).length);
+		ArrayArguments.requireSameLength(
+				Arguments.requireNonNull(featureVectors, "feature vectors").length,
+				Arguments.requireNonNull(classes, "classes").length);
 
 		// Load the training examples
 		if (featureVectors.length > 0) {

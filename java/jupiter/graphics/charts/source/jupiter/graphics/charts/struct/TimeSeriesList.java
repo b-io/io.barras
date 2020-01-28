@@ -98,16 +98,18 @@ public class TimeSeriesList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public int addSeries(final String title) {
-		addSeries(new TimeSeries(Arguments.requireNonNull(title)));
+		addSeries(new TimeSeries(Arguments.requireNonNull(title, "title")));
 		return list.size() - 1;
 	}
 
 	public void addValue(final int index, final Number value) {
-		list.get(index).addOrUpdate(new Millisecond(), Arguments.requireNonNull(value));
+		list.get(index)
+				.addOrUpdate(new Millisecond(), Arguments.requireNonNull(value, "value"));
 	}
 
 	public void addValue(final int index, final Date time, final Number value) {
-		list.get(index).addOrUpdate(new Millisecond(time), Arguments.requireNonNull(value));
+		list.get(index)
+				.addOrUpdate(new Millisecond(time), Arguments.requireNonNull(value, "value"));
 	}
 
 	public void addValues(final Number[] values) {
@@ -119,7 +121,8 @@ public class TimeSeriesList
 		final Iterator<TimeSeries> timeSeriesIterator = list.iterator();
 		int i = 0;
 		while (timeSeriesIterator.hasNext()) {
-			timeSeriesIterator.next().addOrUpdate(time, Arguments.requireNonNull(values[i++]));
+			timeSeriesIterator.next()
+					.addOrUpdate(time, Arguments.requireNonNull(values[i++], "value"));
 		}
 	}
 

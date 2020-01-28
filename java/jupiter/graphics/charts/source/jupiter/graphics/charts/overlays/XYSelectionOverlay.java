@@ -94,7 +94,7 @@ public class XYSelectionOverlay
 	 */
 	public void addSelection(final XYSelection selection) {
 		// Check the arguments
-		Arguments.requireNonNull(selection);
+		Arguments.requireNonNull(selection, "selection");
 
 		// Add the selection
 		selections.add(selection);
@@ -110,7 +110,7 @@ public class XYSelectionOverlay
 	 */
 	public void removeSelection(final XYSelection selection) {
 		// Check the arguments
-		Arguments.requireNonNull(selection);
+		Arguments.requireNonNull(selection, "selection");
 
 		// Remove the selection
 		selections.remove(selection);

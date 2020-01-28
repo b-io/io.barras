@@ -99,7 +99,8 @@ public class SQL {
 			final Object parameter)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(parameter);
+		Arguments.requireNonNull(statement, "statement");
+		Arguments.requireNonNull(parameter, "parameter");
 
 		// Set the parameter of the statement at the index
 		final Class<?> c = parameter.getClass();
@@ -156,7 +157,7 @@ public class SQL {
 	public static void setParameters(final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(parameters);
+		Arguments.requireNonNull(parameters, "array of parameters");
 
 		// Set the parameters of the statement
 		int index = 1;
@@ -211,7 +212,7 @@ public class SQL {
 
 	public static String createStoredProcedureQuery(final String name, final int parameterCount) {
 		// Check the arguments
-		Arguments.requireNonNull(name);
+		Arguments.requireNonNull(name, "name");
 
 		// Create the query for executing the stored procedure
 		return "{call ".concat(name)
@@ -223,8 +224,8 @@ public class SQL {
 			final String name, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(connection);
-		Arguments.requireNonNull(parameters);
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(parameters, "array of parameters");
 
 		// Create the statement for executing the stored procedure
 		CallableStatement statement = connection.prepareCall(
@@ -247,6 +248,10 @@ public class SQL {
 
 	public static ExtendedList<SQLGenericRow> executeWith(final Connection connection,
 			final String query, final Object... parameters) {
+		// Check the arguments
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(query, "query");
+
 		// Create the statement for executing the query
 		CallableStatement statement = null;
 		try {
@@ -279,6 +284,9 @@ public class SQL {
 	public static ExtendedList<SQLGenericRow> executeWith(final CallableStatement statement,
 			final Object... parameters)
 			throws SQLException {
+		// Check the arguments
+		Arguments.requireNonNull(statement, "statement");
+
 		// Set the parameters of the statement
 		if (parameters != null) {
 			setParameters(statement, parameters);
@@ -313,6 +321,11 @@ public class SQL {
 
 	public static <T extends SQLRow> ExtendedList<T> executeWith(final Connection connection,
 			final String query, final Class<T> c, final Object... parameters) {
+		// Check the arguments
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(query, "query");
+		Arguments.requireNonNull(c, "class");
+
 		// Create the statement for executing the query
 		CallableStatement statement = null;
 		try {
@@ -346,6 +359,10 @@ public class SQL {
 	public static <T extends SQLRow> ExtendedList<T> executeWith(final CallableStatement statement,
 			final Class<T> c, final Object... parameters)
 			throws SQLException {
+		// Check the arguments
+		Arguments.requireNonNull(statement, "statement");
+		Arguments.requireNonNull(c, "class");
+
 		// Set the parameters of the statement
 		if (parameters != null) {
 			setParameters(statement, parameters);
@@ -374,6 +391,18 @@ public class SQL {
 			IO.error(ex);
 		}
 		return rows;
+	}
+
+	//////////////////////////////////////////////
+
+	public static ExtendedList<SQLGenericRow> executeStoredProcedure(final Connection connection,
+			final String name, final Object... parameters) {
+		// Check the arguments
+		Arguments.requireNonNull(parameters, "array of parameters");
+
+		// Execute the stored procedure
+		return executeWith(connection, createStoredProcedureQuery(name, parameters.length),
+				parameters);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -407,6 +436,10 @@ public class SQL {
 	 */
 	public static long insertWith(final Connection connection, final String query,
 			final Object... parameters) {
+		// Check the arguments
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(query, "query");
+
 		// Create the statement for executing the query
 		PreparedStatement statement = null;
 		try {
@@ -471,6 +504,10 @@ public class SQL {
 	 */
 	public static int updateWith(final Connection connection, final String query,
 			final Object... parameters) {
+		// Check the arguments
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(query, "query");
+
 		// Create the statement for executing the query
 		CallableStatement statement = null;
 		try {
