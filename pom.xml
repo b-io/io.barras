@@ -74,6 +74,25 @@
 		<scm.url>https://github.com/b-io/io.barras</scm.url>
 	</properties>
 
+	<repositories>
+		<!-- Maven -->
+		<repository>
+			<id>default</id>
+			<name>Default</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<!-- Maven -->
 		<dependency>
