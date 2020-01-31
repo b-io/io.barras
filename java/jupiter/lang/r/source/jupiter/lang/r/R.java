@@ -259,7 +259,7 @@ public class R
 		private static final long serialVersionUID = 1L;
 
 		/**
-		 * The message prefix.
+		 * The message prefix {@link String}.
 		 */
 		protected static final String PREFIX = "R> ";
 
