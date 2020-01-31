@@ -1058,7 +1058,7 @@ public class Bytes {
 	 * Returns a {@code byte} array containing the specified {@code byte} value and all the elements
 	 * of the specified {@code byte} array.
 	 * <p>
-	 * @param a a {@code byte} value (may be {@code null})
+	 * @param a a {@code byte} value
 	 * @param b a {@code byte} array (may be {@code null})
 	 * <p>
 	 * @return a {@code byte} array containing the specified {@code byte} value and all the elements
@@ -1229,11 +1229,17 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findFirstIndex(final byte[] array, final byte token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final byte[] array, final byte token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final byte[] array, final byte token, final int from,
@@ -1251,11 +1257,17 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findLastIndex(final byte[] array, final byte token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final byte[] array, final byte token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final byte[] array, final byte token, final int from,
@@ -1317,7 +1329,7 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} array is {@code null} or empty.
 	 * <p>
-	 * @param array the {@code byte} array to test
+	 * @param array the {@code byte} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -1329,7 +1341,7 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} array is not {@code null} and empty.
 	 * <p>
-	 * @param array the {@code byte} array to test
+	 * @param array the {@code byte} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -1341,7 +1353,7 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} array is not {@code null} and not empty.
 	 * <p>
-	 * @param array the {@code byte} array to test
+	 * @param array the {@code byte} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is not {@code null} and not empty,
 	 *         {@code false} otherwise
@@ -1387,7 +1399,7 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} array contains the specified {@code byte} token.
 	 * <p>
-	 * @param array the {@code byte} array to test
+	 * @param array the {@code byte} array to test (may be {@code null})
 	 * @param token the {@code byte} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code byte} array contains the specified {@code byte}
@@ -1401,7 +1413,7 @@ public class Bytes {
 	 * Tests whether the specified {@code byte} array contains any of the specified {@code byte}
 	 * tokens.
 	 * <p>
-	 * @param array  the {@code byte} array to test
+	 * @param array  the {@code byte} array to test (may be {@code null})
 	 * @param tokens the {@code byte} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code byte} array contains any of the specified
@@ -1491,7 +1503,7 @@ public class Bytes {
 	/**
 	 * Returns the hash code value for the specified {@code byte} array.
 	 * <p>
-	 * @param array the {@code byte} array to hash
+	 * @param array the {@code byte} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code byte} array
 	 */
@@ -1502,8 +1514,8 @@ public class Bytes {
 	/**
 	 * Returns the hash code value for the specified {@code byte} array at the specified depth.
 	 * <p>
-	 * @param array the {@code byte} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code byte} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code byte} array at the specified depth
 	 */

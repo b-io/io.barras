@@ -127,7 +127,7 @@ public class Table<E>
 	 * rows and columns.
 	 * <p>
 	 * @param c           the {@link Class} of element type {@code E}
-	 * @param header      an array of {@link String}
+	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
@@ -272,7 +272,7 @@ public class Table<E>
 	/**
 	 * Returns the index of the specified column, or {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param name the column name
+	 * @param name the column name (may be {@code null})
 	 * <p>
 	 * @return the index of the specified column, or {@code -1} if there is no such occurrence
 	 * <p>
@@ -557,7 +557,7 @@ public class Table<E>
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
-	 * @param value an {@code E} value
+	 * @param value an {@code E} value (may be {@code null})
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
@@ -804,7 +804,7 @@ public class Table<E>
 	/**
 	 * Fills {@code this} with the specified {@code E} value.
 	 * <p>
-	 * @param value the {@code E} value to fill with
+	 * @param value the {@code E} value to fill with (may be {@code null})
 	 */
 	public void fill(final E value) {
 		Arrays.<E>fill(elements, value);
@@ -1252,7 +1252,7 @@ public class Table<E>
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the other {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>

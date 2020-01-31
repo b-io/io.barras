@@ -1176,7 +1176,7 @@ public class Files {
 	/**
 	 * Tests whether the specified {@link File} exists.
 	 * <p>
-	 * @param file the {@link File} to test for presence
+	 * @param file the {@link File} to test for presence (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link File} exists, {@code false} otherwise
 	 * <p>

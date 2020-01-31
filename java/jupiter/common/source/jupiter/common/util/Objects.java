@@ -76,7 +76,7 @@ public class Objects {
 	 * Tests whether the specified {@link Object} is {@code null} or its representative
 	 * {@link String} is {@code null} or empty.
 	 * <p>
-	 * @param object the {@link Object} to test
+	 * @param object the {@link Object} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Object} is {@code null} or its representative
 	 *         {@link String} is {@code null} or empty, {@code false} otherwise
@@ -89,7 +89,7 @@ public class Objects {
 	 * Tests whether the specified {@link Object} is not {@code null} and its representative
 	 * {@link String} is not {@code null} and empty.
 	 * <p>
-	 * @param object the {@link Object} to test
+	 * @param object the {@link Object} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Object} is not {@code null} and its
 	 *         representative {@link String} is not {@code null} and empty, {@code false} otherwise
@@ -102,7 +102,7 @@ public class Objects {
 	 * Tests whether the specified {@link Object} is not {@code null} and its representative
 	 * {@link String} is not {@code null} and not empty.
 	 * <p>
-	 * @param object the {@link Object} to test
+	 * @param object the {@link Object} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Object} is not {@code null} and its
 	 *         representative {@link String} is not {@code null} and not empty, {@code false}
@@ -133,7 +133,7 @@ public class Objects {
 	 * Creates a copy of the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to clone
-	 * @param object the {@code T} object to clone
+	 * @param object the {@code T} object to clone (may be {@code null})
 	 * <p>
 	 * @return a copy of the specified {@code T} object
 	 * <p>
@@ -193,8 +193,8 @@ public class Objects {
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
-	 * @param a the {@link Object} to compare for equality
-	 * @param b the other {@link Object} to compare against for equality
+	 * @param a the {@link Object} to compare for equality (may be {@code null})
+	 * @param b the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
@@ -208,7 +208,7 @@ public class Objects {
 	 * Returns the hash code value for the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to hash
-	 * @param array the {@code T} array to hash
+	 * @param array the {@code T} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code T} array
 	 */
@@ -220,8 +220,8 @@ public class Objects {
 	 * Returns the hash code value for the specified {@code T} array at the specified depth.
 	 * <p>
 	 * @param <T>   the component type of the array to hash
-	 * @param array the {@code T} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code T} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code T} array at the specified depth
 	 */

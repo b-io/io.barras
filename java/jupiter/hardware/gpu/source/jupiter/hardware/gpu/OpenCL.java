@@ -341,9 +341,9 @@ public abstract class OpenCL
 	public abstract OpenCL clone();
 
 	/**
-	 * Disposes of system resources and performs a cleanup. Note that this method is called by the
-	 * garbage collector on an {@link Object} when the garbage collection determines that there are
-	 * no more references to the {@link Object}.
+	 * Disposes of system resources and performs a cleanup.
+	 * <b>Note:</b> This method is called by the garbage collector on an {@link Object} when the
+	 * garbage collection determines that there are no more references to the {@link Object}.
 	 *
 	 * @see java.lang.ref.PhantomReference
 	 * @see java.lang.ref.WeakReference

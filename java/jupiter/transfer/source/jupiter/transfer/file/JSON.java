@@ -66,7 +66,7 @@ public class JSON {
 	 * Returns a JSON {@link String} of the fields of the specified content {@link Object}.
 	 * <p>
 	 * @param content the content {@link Object} containing the fields to represent as a JSON
-	 *                {@link String}
+	 *                {@link String} (may be {@code null})
 	 * <p>
 	 * @return a JSON {@link String} of the fields of the specified content {@link Object}
 	 */
@@ -94,8 +94,9 @@ public class JSON {
 	 * Returns a JSON {@link String} of the specified key-value mapping.
 	 * <p>
 	 * @param key   the key {@link String} of the key-value mapping to represent as a JSON
-	 *              {@link String}
-	 * @param value the value of the key-value mapping to represent as a JSON {@link String}
+	 *              {@link String} (may be {@code null})
+	 * @param value the value of the key-value mapping to represent as a JSON {@link String} (may be
+	 *              {@code null})
 	 * <p>
 	 * @return a JSON {@link String} of the specified key-value mapping
 	 */
@@ -112,7 +113,8 @@ public class JSON {
 	/**
 	 * Returns a JSON entry {@link String} of the specified value {@link Object}.
 	 * <p>
-	 * @param value the value {@link Object} to represent as a JSON entry {@link String}
+	 * @param value the value {@link Object} to represent as a JSON entry {@link String} (may be
+	 *              {@code null})
 	 * <p>
 	 * @return a JSON entry {@link String} of the specified value {@link Object}
 	 */
@@ -124,9 +126,9 @@ public class JSON {
 	 * Returns a JSON entry {@link String} of the specified key-value mapping.
 	 * <p>
 	 * @param key   the key {@link String} of the key-value mapping to represent as a JSON entry
-	 *              {@link String}
+	 *              {@link String} (may be {@code null})
 	 * @param value the value {@link Object} of the key-value mapping to represent as a JSON entry
-	 *              {@link String}
+	 *              {@link String} (may be {@code null})
 	 * <p>
 	 * @return a JSON entry {@link String} of the specified key-value mapping
 	 */

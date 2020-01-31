@@ -195,7 +195,7 @@ public class Vector
 	 * Sets the element at the specified row index.
 	 * <p>
 	 * @param i     the row index
-	 * @param value an {@link Object}
+	 * @param value a value {@link Object}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */

@@ -55,7 +55,7 @@ public class Properties
 	/**
 	 * Constructs a {@link Properties} with the specified default {@link Properties}.
 	 * <p>
-	 * @param defaultProperties the default {@link Properties}
+	 * @param defaultProperties the default {@link Properties} (may be {@code null})
 	 */
 	public Properties(final java.util.Properties defaultProperties) {
 		super(defaultProperties);

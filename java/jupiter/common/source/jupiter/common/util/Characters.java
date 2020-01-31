@@ -815,7 +815,7 @@ public class Characters {
 	 * Returns a {@code char} array containing the specified {@code char} value and all the elements
 	 * of the specified {@code char} array.
 	 * <p>
-	 * @param a a {@code char} value (may be {@code null})
+	 * @param a a {@code char} value
 	 * @param b a {@code char} array (may be {@code null})
 	 * <p>
 	 * @return a {@code char} array containing the specified {@code char} value and all the elements
@@ -959,11 +959,17 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findFirstIndex(final char[] array, final char token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final char[] array, final char token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final char[] array, final char token, final int from,
@@ -981,11 +987,17 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findLastIndex(final char[] array, final char token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final char[] array, final char token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final char[] array, final char token, final int from,
@@ -1047,7 +1059,7 @@ public class Characters {
 	/**
 	 * Tests whether the specified {@code char} array is {@code null} or empty.
 	 * <p>
-	 * @param array the {@code char} array to test
+	 * @param array the {@code char} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code char} array is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -1059,7 +1071,7 @@ public class Characters {
 	/**
 	 * Tests whether the specified {@code char} array is not {@code null} and empty.
 	 * <p>
-	 * @param array the {@code char} array to test
+	 * @param array the {@code char} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code char} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -1071,7 +1083,7 @@ public class Characters {
 	/**
 	 * Tests whether the specified {@code char} array is not {@code null} and not empty.
 	 * <p>
-	 * @param array the {@code char} array to test
+	 * @param array the {@code char} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code char} array is not {@code null} and not empty,
 	 *         {@code false} otherwise
@@ -1143,7 +1155,7 @@ public class Characters {
 	/**
 	 * Tests whether the specified {@code char} array contains the specified {@code char} token.
 	 * <p>
-	 * @param array the {@code char} array to test
+	 * @param array the {@code char} array to test (may be {@code null})
 	 * @param token the {@code char} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code char} array contains the specified {@code char}
@@ -1157,7 +1169,7 @@ public class Characters {
 	 * Tests whether the specified {@code char} array contains any of the specified {@code char}
 	 * tokens.
 	 * <p>
-	 * @param array  the {@code char} array to test
+	 * @param array  the {@code char} array to test (may be {@code null})
 	 * @param tokens the {@code char} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code char} array contains any of the specified
@@ -1247,7 +1259,7 @@ public class Characters {
 	/**
 	 * Returns the hash code value for the specified {@code char} array.
 	 * <p>
-	 * @param array the {@code char} array to hash
+	 * @param array the {@code char} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code char} array
 	 */
@@ -1258,8 +1270,8 @@ public class Characters {
 	/**
 	 * Returns the hash code value for the specified {@code char} array at the specified depth.
 	 * <p>
-	 * @param array the {@code char} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code char} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code char} array at the specified depth
 	 */

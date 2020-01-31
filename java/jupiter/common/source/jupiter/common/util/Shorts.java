@@ -815,7 +815,7 @@ public class Shorts {
 	 * Returns a {@code short} array containing the specified {@code short} value and all the
 	 * elements of the specified {@code short} array.
 	 * <p>
-	 * @param a a {@code short} value (may be {@code null})
+	 * @param a a {@code short} value
 	 * @param b a {@code short} array (may be {@code null})
 	 * <p>
 	 * @return a {@code short} array containing the specified {@code short} value and all the
@@ -987,11 +987,17 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findFirstIndex(final short[] array, final short token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final short[] array, final short token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final short[] array, final short token, final int from,
@@ -1009,11 +1015,17 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findLastIndex(final short[] array, final short token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final short[] array, final short token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final short[] array, final short token, final int from,
@@ -1075,7 +1087,7 @@ public class Shorts {
 	/**
 	 * Tests whether the specified {@code short} array is {@code null} or empty.
 	 * <p>
-	 * @param array the {@code short} array to test
+	 * @param array the {@code short} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code short} array is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -1087,7 +1099,7 @@ public class Shorts {
 	/**
 	 * Tests whether the specified {@code short} array is not {@code null} and empty.
 	 * <p>
-	 * @param array the {@code short} array to test
+	 * @param array the {@code short} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code short} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -1099,7 +1111,7 @@ public class Shorts {
 	/**
 	 * Tests whether the specified {@code short} array is not {@code null} and not empty.
 	 * <p>
-	 * @param array the {@code short} array to test
+	 * @param array the {@code short} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code short} array is not {@code null} and not empty,
 	 *         {@code false} otherwise
@@ -1145,7 +1157,7 @@ public class Shorts {
 	/**
 	 * Tests whether the specified {@code short} array contains the specified {@code short} token.
 	 * <p>
-	 * @param array the {@code short} array to test
+	 * @param array the {@code short} array to test (may be {@code null})
 	 * @param token the {@code short} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code short} array contains the specified
@@ -1159,7 +1171,7 @@ public class Shorts {
 	 * Tests whether the specified {@code short} array contains any of the specified {@code short}
 	 * tokens.
 	 * <p>
-	 * @param array  the {@code short} array to test
+	 * @param array  the {@code short} array to test (may be {@code null})
 	 * @param tokens the {@code short} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code short} array contains any of the specified
@@ -1249,7 +1261,7 @@ public class Shorts {
 	/**
 	 * Returns the hash code value for the specified {@code short} array.
 	 * <p>
-	 * @param array the {@code short} array to hash
+	 * @param array the {@code short} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code short} array
 	 */
@@ -1260,8 +1272,8 @@ public class Shorts {
 	/**
 	 * Returns the hash code value for the specified {@code short} array at the specified depth.
 	 * <p>
-	 * @param array the {@code short} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code short} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code short} array at the specified depth
 	 */

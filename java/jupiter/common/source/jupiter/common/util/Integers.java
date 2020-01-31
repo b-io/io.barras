@@ -903,7 +903,7 @@ public class Integers {
 	 * Returns an {@code int} array containing the specified {@code int} value and all the elements
 	 * of the specified {@code int} array.
 	 * <p>
-	 * @param a an {@code int} value (may be {@code null})
+	 * @param a an {@code int} value
 	 * @param b an {@code int} array (may be {@code null})
 	 * <p>
 	 * @return an {@code int} array containing the specified {@code int} value and all the elements
@@ -1094,11 +1094,17 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findFirstIndex(final int[] array, final int token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final int[] array, final int token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final int[] array, final int token, final int from,
@@ -1116,11 +1122,17 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findLastIndex(final int[] array, final int token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final int[] array, final int token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final int[] array, final int token, final int from,
@@ -1182,7 +1194,7 @@ public class Integers {
 	/**
 	 * Tests whether the specified {@code int} array is {@code null} or empty.
 	 * <p>
-	 * @param array the {@code int} array to test
+	 * @param array the {@code int} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code int} array is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -1194,7 +1206,7 @@ public class Integers {
 	/**
 	 * Tests whether the specified {@code int} array is not {@code null} and empty.
 	 * <p>
-	 * @param array the {@code int} array to test
+	 * @param array the {@code int} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code int} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -1206,7 +1218,7 @@ public class Integers {
 	/**
 	 * Tests whether the specified {@code int} array is not {@code null} and not empty.
 	 * <p>
-	 * @param array the {@code int} array to test
+	 * @param array the {@code int} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code int} array is not {@code null} and not empty,
 	 *         {@code false} otherwise
@@ -1288,7 +1300,7 @@ public class Integers {
 	/**
 	 * Tests whether the specified {@code int} array contains the specified {@code int} token.
 	 * <p>
-	 * @param array the {@code int} array to test
+	 * @param array the {@code int} array to test (may be {@code null})
 	 * @param token the {@code int} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code int} array contains the specified {@code int}
@@ -1302,7 +1314,7 @@ public class Integers {
 	 * Tests whether the specified {@code int} array contains any of the specified {@code int}
 	 * tokens.
 	 * <p>
-	 * @param array  the {@code int} array to test
+	 * @param array  the {@code int} array to test (may be {@code null})
 	 * @param tokens the {@code int} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code int} array contains any of the specified
@@ -1392,7 +1404,7 @@ public class Integers {
 	/**
 	 * Returns the hash code value for the specified {@code int} array.
 	 * <p>
-	 * @param array the {@code int} array to hash
+	 * @param array the {@code int} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code int} array
 	 */
@@ -1403,8 +1415,8 @@ public class Integers {
 	/**
 	 * Returns the hash code value for the specified {@code int} array at the specified depth.
 	 * <p>
-	 * @param array the {@code int} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code int} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code int} array at the specified depth
 	 */

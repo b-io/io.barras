@@ -60,7 +60,7 @@ public class Numbers {
 	/**
 	 * Returns a {@link BigDecimal} converted from the specified {@link Number}.
 	 * <p>
-	 * @param number a {@link Number}
+	 * @param number a {@link Number} (may be {@code null})
 	 * <p>
 	 * @return a {@link BigDecimal} converted from the specified {@link Number}
 	 */
@@ -79,7 +79,7 @@ public class Numbers {
 	 * {@link String}.
 	 * <p>
 	 * @param c    a {@link Class}
-	 * @param text a {@link String}
+	 * @param text a {@link String} (may be {@code null})
 	 * <p>
 	 * @return a {@link Number} of the specified {@link Class} converted from the specified
 	 *         {@link String}
@@ -144,16 +144,16 @@ public class Numbers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified {@link String} is a parsable {@link Number}.
+	 * Tests whether the specified value {@link String} is a parsable {@link Number}.
 	 * <p>
-	 * @param text the {@link String} to test
+	 * @param value the value {@link String} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is a parsable
+	 * @return {@code true} if the specified value {@link String} is a parsable
 	 *         {@link Number}, {@code false} otherwise
 	 */
-	public static boolean is(final String text) {
+	public static boolean is(final String value) {
 		try {
-			Double.parseDouble(text);
+			Double.parseDouble(value);
 		} catch (final NumberFormatException ignored) {
 			return false;
 		}
@@ -289,8 +289,8 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
-	 * @param a the {@link Number} to compare for equality
-	 * @param b the other {@link Number} to compare against for equality
+	 * @param a the {@link Number} to compare for equality (may be {@code null})
+	 * @param b the other {@link Number} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 * <p>
@@ -312,8 +312,9 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
 	 * <p>
-	 * @param a         the {@link Number} to compare for equality
-	 * @param b         the other {@link Number} to compare against for equality
+	 * @param a         the {@link Number} to compare for equality (may be {@code null})
+	 * @param b         the other {@link Number} to compare against for equality (may be
+	 *                  {@code null})
 	 * @param tolerance the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},

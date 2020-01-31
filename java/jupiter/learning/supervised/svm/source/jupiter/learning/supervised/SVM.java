@@ -399,30 +399,32 @@ public class SVM {
 	 * @param classesIndex     the index of the column containing the classes of size m to load
 	 */
 	public void load(final StringTable trainingExamples, final int classesIndex) {
-		if (trainingExamples != null) {
-			final int m = trainingExamples.getRowCount();
-			if (m > 0) {
-				final int n = trainingExamples.getColumnCount();
-				if (n <= featureCount) {
-					throw new IllegalArgumentException("There are not enough columns " +
-							Arguments.atLeastExpectedButFound(n, featureCount + 1));
-				}
-				if (classesIndex < n - 1) {
-					throw new IllegalArgumentException("The classes index is out of bounds " +
-							Arguments.atLeastExpectedButFound(classesIndex, n - 1));
-				}
-				trainingExampleCount = m;
-				updateProblem();
-				for (int i = 0; i < trainingExampleCount; ++i) {
-					updateClassification(i,
-							Integers.convert(trainingExamples.get(i, classesIndex)));
-					for (int j = 0; j < featureCount; ++j) {
-						updateValue(i, j, Doubles.convert(trainingExamples.get(i, j)));
-					}
-				}
-			} else {
-				IO.warn("No training examples found");
+		// Check the arguments
+		Arguments.requireNonNull(trainingExamples, "training examples");
+
+		// Load the training examples
+		final int m = trainingExamples.getRowCount();
+		if (m > 0) {
+			final int n = trainingExamples.getColumnCount();
+			if (n <= featureCount) {
+				throw new IllegalArgumentException("There are not enough columns " +
+						Arguments.atLeastExpectedButFound(n, featureCount + 1));
 			}
+			if (classesIndex < n - 1) {
+				throw new IllegalArgumentException("The classes index is out of bounds " +
+						Arguments.atLeastExpectedButFound(classesIndex, n - 1));
+			}
+			trainingExampleCount = m;
+			updateProblem();
+			for (int i = 0; i < trainingExampleCount; ++i) {
+				updateClassification(i,
+						Integers.convert(trainingExamples.get(i, classesIndex)));
+				for (int j = 0; j < featureCount; ++j) {
+					updateValue(i, j, Doubles.convert(trainingExamples.get(i, j)));
+				}
+			}
+		} else {
+			IO.warn("No training examples found");
 		}
 	}
 

@@ -131,7 +131,7 @@ public class Sort<T>
 	 * <p>
 	 * @param array      the {@code T} array to sort
 	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
-	 * @param work       a workspace array (slice)
+	 * @param work       a workspace array (slice) (may be {@code null})
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 */

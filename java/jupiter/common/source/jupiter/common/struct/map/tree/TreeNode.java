@@ -72,7 +72,7 @@ public class TreeNode<K, V>
 	 * {@link Comparator}.
 	 * <p>
 	 * @param key           the {@code K} key
-	 * @param value         the {@code V} value
+	 * @param value         the {@code V} value (may be {@code null})
 	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
 	 */
 	public TreeNode(final K key, final V value, final Comparator<? super K> keyComparator) {
@@ -116,7 +116,7 @@ public class TreeNode<K, V>
 	/**
 	 * Sets the {@code V} value and returns the previous associated {@code V} value.
 	 * <p>
-	 * @param value a {@code V} value
+	 * @param value a {@code V} value (may be {@code null})
 	 * <p>
 	 * @return the previous associated {@code V} value
 	 */
@@ -155,7 +155,7 @@ public class TreeNode<K, V>
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the other {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>

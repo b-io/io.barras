@@ -134,7 +134,7 @@ public class Mails {
 	/**
 	 * Tests whether the specified {@link BodyPart} is an attachment.
 	 * <p>
-	 * @param bodyPart the {@link BodyPart} to test
+	 * @param bodyPart the {@link BodyPart} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link BodyPart} is an attachment, {@code false}
 	 *         otherwise

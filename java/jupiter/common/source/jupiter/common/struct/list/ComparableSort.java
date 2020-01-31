@@ -122,7 +122,7 @@ public class ComparableSort
 	 * Creates a {@link ComparableSort} instance to maintain the state of an ongoing sort.
 	 * <p>
 	 * @param array      the array of {@link Object} to sort
-	 * @param work       a workspace array (slice)
+	 * @param work       a workspace array (slice) (may be {@code null})
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 */

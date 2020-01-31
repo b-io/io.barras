@@ -218,7 +218,7 @@ public class SafeDateFormat
 	 * @return an {@link AttributedCharacterIterator} describing the formatted value
 	 * <p>
 	 * @exception NullPointerException     if {@code object} is {@code null}
-	 * @exception IllegalArgumentException if {@code this} cannot format {@code object}, or if the
+	 * @exception IllegalArgumentException if {@code this} cannot format {@code object} or if the
 	 *                                     format pattern {@link String} is invalid
 	 * <p>
 	 * @since 1.4
@@ -343,7 +343,7 @@ public class SafeDateFormat
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the other {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>

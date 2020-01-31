@@ -179,7 +179,7 @@ public class Collections {
 	/**
 	 * Tests whether the specified {@link Collection} is {@code null} or empty.
 	 * <p>
-	 * @param collection the {@link Collection} to test
+	 * @param collection the {@link Collection} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Collection} is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -191,7 +191,7 @@ public class Collections {
 	/**
 	 * Tests whether the specified {@link Collection} is not {@code null} and empty.
 	 * <p>
-	 * @param collection the {@link Collection} to test
+	 * @param collection the {@link Collection} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Collection} is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -203,7 +203,7 @@ public class Collections {
 	/**
 	 * Tests whether the specified {@link Collection} is not {@code null} and not empty.
 	 * <p>
-	 * @param collection the {@link Collection} to test
+	 * @param collection the {@link Collection} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Collection} is not {@code null} and not empty,
 	 *         {@code false} otherwise

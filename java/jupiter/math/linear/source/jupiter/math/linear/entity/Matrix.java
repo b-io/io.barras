@@ -663,7 +663,7 @@ public class Matrix
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
-	 * @param value an {@link Object}
+	 * @param value a value {@link Object}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
@@ -2555,7 +2555,7 @@ public class Matrix
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the other {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
@@ -2573,7 +2573,8 @@ public class Matrix
 	/**
 	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
 	 * <p>
-	 * @param other     the other {@link Object} to compare against for equality
+	 * @param other     the other {@link Object} to compare against for equality (may be
+	 *                  {@code null})
 	 * @param tolerance the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
@@ -2704,8 +2705,9 @@ public class Matrix
 		 * Divides the multiplication of the specified input {@link Triple} into execution slices
 		 * and conquers them. Returns the exit code for each of them.
 		 * <p>
-		 * @param input the input {@link Triple} of result {@link Matrix}, left-hand side operand
-		 *              {@link Matrix} and right-hand side operand {@link Matrix} to process
+		 * @param input the input {@link Triple} containing the result {@link Matrix}, the left-hand
+		 *              side operand {@link Matrix} and the right-hand side operand {@link Matrix}
+		 *              to process
 		 * <p>
 		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
 		 *         otherwise for each execution slice
@@ -2718,8 +2720,9 @@ public class Matrix
 		 * Conquers the execution slice with the specified input {@link Triple} and {@link Interval}
 		 * and returns the exit code.
 		 * <p>
-		 * @param input    the input {@link Triple} of result {@link Matrix}, left-hand side operand
-		 *                 {@link Matrix} and right-hand side operand {@link Matrix} to process
+		 * @param input    the input {@link Triple} containing the result {@link Matrix}, the
+		 *                 left-hand side operand {@link Matrix} and the right-hand side operand
+		 *                 {@link Matrix} to process
 		 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
 		 * <p>
 		 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,

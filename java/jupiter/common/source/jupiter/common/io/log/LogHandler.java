@@ -219,7 +219,8 @@ public class LogHandler
 
 	/**
 	 * Appends the specified content {@link Object} to the line buffer with the specified standard
-	 * type. Note that the line buffer is written to the log when either {@code println} or
+	 * type.
+	 * <b>Note:</b> The line buffer is written to the log when either {@code println} or
 	 * {@code flush} is called.
 	 * <p>
 	 * @param content the content {@link Object} to print
@@ -382,7 +383,7 @@ public class LogHandler
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the other {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>

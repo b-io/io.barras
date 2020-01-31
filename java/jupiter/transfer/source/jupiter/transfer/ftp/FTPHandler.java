@@ -48,6 +48,7 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -880,6 +881,10 @@ public class FTPHandler
 	 * @param properties the {@link Properties} to load
 	 */
 	public void load(final Properties properties) {
+		// Check the arguments
+		Arguments.requireNonNull(properties, "properties");
+
+		// Load the properties
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
 		protocol.setPort(Integers.convert(properties.getProperty("port",

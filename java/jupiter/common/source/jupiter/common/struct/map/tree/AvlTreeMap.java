@@ -177,7 +177,7 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of types {@code K} and {@code V}
+	 * @param node an {@link AvlTreeNode} of types {@code K} and {@code V} (may be {@code null})
 	 */
 	@Override
 	protected void setRoot(final AvlTreeNode<K, V> node) {
@@ -197,7 +197,7 @@ public class AvlTreeMap<K, V>
 	 * previous associated {@code V} value, or {@code null} if it is not present.
 	 * <p>
 	 * @param key   the {@code K} key of the key-value mapping to put
-	 * @param value the {@code V} value of the key-value mapping to put
+	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>

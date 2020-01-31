@@ -159,7 +159,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * Performs the in-order traversal of the specified {@code N} tree and stores the {@code K} keys
 	 * of the visited {@code N} nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree the {@code N} tree to get the {@code K} keys from
+	 * @param tree the {@code N} tree to get the {@code K} keys from (may be {@code null})
 	 * @param keys the {@link List} of type {@code K} to store the {@code K} keys in
 	 */
 	protected void getKeys(final N tree, final List<K> keys) {
@@ -188,7 +188,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * Performs the in-order traversal of the specified {@code N} tree and returns the values of the
 	 * visited nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree   the {@code N} tree to get the values from
+	 * @param tree   the {@code N} tree to get the values from (may be {@code null})
 	 * @param values the {@link List} of type {@code V} to store the values in
 	 */
 	protected void getValues(final N tree, final List<V> values) {
@@ -544,7 +544,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	/**
 	 * Tests whether a mapping for the specified value {@link Object} exists.
 	 * <p>
-	 * @param value the value {@link Object} of the key-value mapping to test for presence
+	 * @param value the value {@link Object} of the key-value mapping to test for presence (may be
+	 *              {@code null})
 	 * <p>
 	 * @return {@code true} if a mapping for the specified value {@link Object} exists,
 	 *         {@code false} otherwise
@@ -584,7 +585,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * view of the key-value {@link Entry} of types {@code K} and {@code V} of the visited nodes
 	 * added to the specified {@link Set}.
 	 * <p>
-	 * @param tree a {@code N} tree
+	 * @param tree a {@code N} tree (may be {@code null})
 	 * @param set  a {@link Set} of {@link Entry} of types {@code K} and {@code V}
 	 * <p>
 	 * @return a {@link Set} view of the key-value {@link Entry} of types {@code K} and {@code V} of
@@ -676,8 +677,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 					Strings.rightPad(nodeString, length / nodeCount));
 			if (nextHeight < toHeight) {
 				hasLeaf = hasLeaf || node != null && (node.left != null || node.right != null);
-				nodes.add(new Pair<Integer, N>(nextHeight, node == null ? null : node.left));
-				nodes.add(new Pair<Integer, N>(nextHeight, node == null ? null : node.right));
+				nodes.add(new Pair<Integer, N>(nextHeight, node != null ? node.left : null));
+				nodes.add(new Pair<Integer, N>(nextHeight, node != null ? node.right : null));
 			}
 		}
 		return builder.toString();

@@ -806,7 +806,7 @@ public class Doubles {
 	 * Returns a {@code double} array containing the specified {@code double} value and all the
 	 * elements of the specified {@code double} array.
 	 * <p>
-	 * @param a a {@code double} value (may be {@code null})
+	 * @param a a {@code double} value
 	 * @param b a {@code double} array (may be {@code null})
 	 * <p>
 	 * @return a {@code double} array containing the specified {@code double} value and all the
@@ -978,11 +978,17 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findFirstIndex(final double[] array, final double token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final double[] array, final double token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final double[] array, final double token, final int from,
@@ -1000,11 +1006,17 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findLastIndex(final double[] array, final double token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final double[] array, final double token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final double[] array, final double token, final int from,
@@ -1066,7 +1078,7 @@ public class Doubles {
 	/**
 	 * Tests whether the specified {@code double} array is {@code null} or empty.
 	 * <p>
-	 * @param array the {@code double} array to test
+	 * @param array the {@code double} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code double} array is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -1078,7 +1090,7 @@ public class Doubles {
 	/**
 	 * Tests whether the specified {@code double} array is not {@code null} and empty.
 	 * <p>
-	 * @param array the {@code double} array to test
+	 * @param array the {@code double} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code double} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -1090,7 +1102,7 @@ public class Doubles {
 	/**
 	 * Tests whether the specified {@code double} array is not {@code null} and not empty.
 	 * <p>
-	 * @param array the {@code double} array to test
+	 * @param array the {@code double} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code double} array is not {@code null} and not empty,
 	 *         {@code false} otherwise
@@ -1136,7 +1148,7 @@ public class Doubles {
 	/**
 	 * Tests whether the specified {@code double} array contains the specified {@code double} token.
 	 * <p>
-	 * @param array the {@code double} array to test
+	 * @param array the {@code double} array to test (may be {@code null})
 	 * @param token the {@code double} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code double} array contains the specified
@@ -1150,7 +1162,7 @@ public class Doubles {
 	 * Tests whether the specified {@code double} array contains any of the specified {@code double}
 	 * tokens.
 	 * <p>
-	 * @param array  the {@code double} array to test
+	 * @param array  the {@code double} array to test (may be {@code null})
 	 * @param tokens the {@code double} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code double} array contains any of the specified
@@ -1194,7 +1206,7 @@ public class Doubles {
 		final long bBits = Double.doubleToLongBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-				1; // (0., -0.) or (NaN, !NaN)
+						1; // (0., -0.) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
@@ -1279,7 +1291,7 @@ public class Doubles {
 	/**
 	 * Returns the hash code value for the specified {@code double} array.
 	 * <p>
-	 * @param array the {@code double} array to hash
+	 * @param array the {@code double} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code double} array
 	 */
@@ -1290,8 +1302,8 @@ public class Doubles {
 	/**
 	 * Returns the hash code value for the specified {@code double} array at the specified depth.
 	 * <p>
-	 * @param array the {@code double} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code double} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code double} array at the specified depth
 	 */

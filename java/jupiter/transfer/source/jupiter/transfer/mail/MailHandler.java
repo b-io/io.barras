@@ -51,6 +51,7 @@ import javax.mail.search.SubjectTerm;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
@@ -519,6 +520,10 @@ public class MailHandler
 	 * @param properties the {@link Properties} to load
 	 */
 	public void load(final Properties properties) {
+		// Check the arguments
+		Arguments.requireNonNull(properties, "properties");
+
+		// Load the properties
 		inProtocol = Protocol.get(properties.getProperty("inProtocol"));
 		outProtocol = Protocol.get(properties.getProperty("outProtocol"));
 		hostName = properties.getProperty("hostName");

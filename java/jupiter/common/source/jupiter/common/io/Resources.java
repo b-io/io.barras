@@ -48,7 +48,7 @@ public class Resources {
 	/**
 	 * Closes the specified {@link Closeable}.
 	 * <p>
-	 * @param closeable the {@link Closeable} to close
+	 * @param closeable the {@link Closeable} to close (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the resource is closed, {@code false} otherwise
 	 */
@@ -59,7 +59,7 @@ public class Resources {
 	/**
 	 * Closes the specified {@link Closeable}, or prints a warning message if it is {@code null}.
 	 * <p>
-	 * @param closeable the {@link Closeable} to close
+	 * @param closeable the {@link Closeable} to close (may be {@code null})
 	 * @param message   the warning message {@link String}
 	 * <p>
 	 * @return {@code true} if the resource is closed, {@code false} otherwise

@@ -775,7 +775,7 @@ public class Scalar
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param other the other {@link Object} to compare against for equality
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
@@ -793,7 +793,8 @@ public class Scalar
 	/**
 	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
 	 * <p>
-	 * @param other     the other {@link Object} to compare against for equality
+	 * @param other     the other {@link Object} to compare against for equality (may be
+	 *                  {@code null})
 	 * @param tolerance the tolerance level
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},

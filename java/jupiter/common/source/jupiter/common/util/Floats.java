@@ -844,7 +844,7 @@ public class Floats {
 	 * Returns a {@code float} array containing the specified {@code float} value and all the
 	 * elements of the specified {@code float} array.
 	 * <p>
-	 * @param a a {@code float} value (may be {@code null})
+	 * @param a a {@code float} value
 	 * @param b a {@code float} array (may be {@code null})
 	 * <p>
 	 * @return a {@code float} array containing the specified {@code float} value and all the
@@ -989,11 +989,17 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findFirstIndex(final float[] array, final float token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final float[] array, final float token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final float[] array, final float token, final int from,
@@ -1011,11 +1017,17 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findLastIndex(final float[] array, final float token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final float[] array, final float token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final float[] array, final float token, final int from,
@@ -1077,7 +1089,7 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} array is {@code null} or empty.
 	 * <p>
-	 * @param array the {@code float} array to test
+	 * @param array the {@code float} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code float} array is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -1089,7 +1101,7 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} array is not {@code null} and empty.
 	 * <p>
-	 * @param array the {@code float} array to test
+	 * @param array the {@code float} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code float} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -1101,7 +1113,7 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} array is not {@code null} and not empty.
 	 * <p>
-	 * @param array the {@code float} array to test
+	 * @param array the {@code float} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code float} array is not {@code null} and not empty,
 	 *         {@code false} otherwise
@@ -1147,7 +1159,7 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} array contains the specified {@code float} token.
 	 * <p>
-	 * @param array the {@code float} array to test
+	 * @param array the {@code float} array to test (may be {@code null})
 	 * @param token the {@code float} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code float} array contains the specified
@@ -1161,7 +1173,7 @@ public class Floats {
 	 * Tests whether the specified {@code float} array contains any of the specified {@code float}
 	 * tokens.
 	 * <p>
-	 * @param array  the {@code float} array to test
+	 * @param array  the {@code float} array to test (may be {@code null})
 	 * @param tokens the {@code float} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code float} array contains any of the specified
@@ -1205,7 +1217,7 @@ public class Floats {
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-				1; // (0f, -0f) or (NaN, !NaN)
+						1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
@@ -1290,7 +1302,7 @@ public class Floats {
 	/**
 	 * Returns the hash code value for the specified {@code float} array.
 	 * <p>
-	 * @param array the {@code float} array to hash
+	 * @param array the {@code float} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code float} array
 	 */
@@ -1301,8 +1313,8 @@ public class Floats {
 	/**
 	 * Returns the hash code value for the specified {@code float} array at the specified depth.
 	 * <p>
-	 * @param array the {@code float} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code float} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code float} array at the specified depth
 	 */

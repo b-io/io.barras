@@ -148,7 +148,7 @@ public class SQL {
 	 * {@link PreparedStatement}.
 	 * <p>
 	 * @param statement  a {@link PreparedStatement}
-	 * @param parameters the array of parameter {@link Object} to set
+	 * @param parameters the array of parameter {@link Object} to set (may be {@code null})
 	 * <p>
 	 * @throws SQLException if the {@code parameters} length is greater than the number of parameter
 	 *                      markers in {@code statement}, if a database access error occurs or if
@@ -428,7 +428,7 @@ public class SQL {
 	 * <p>
 	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) {@code INSERT} statement
-	 * @param parameters the array of parameter {@link Object} to set
+	 * @param parameters the array of parameter {@link Object} to set (may be {@code null})
 	 * <p>
 	 * @return either any auto-generated keys created as a result of executing the specified SQL
 	 *         Data Manipulation Language (DML) statement with the specified array of parameter
@@ -496,7 +496,7 @@ public class SQL {
 	 * @param query      a SQL Data Manipulation Language (DML) statement, such as {@code INSERT},
 	 *                   {@code UPDATE} or {@code DELETE}; or an SQL statement that returns nothing,
 	 *                   such as a DDL statement
-	 * @param parameters the array of parameter {@link Object} to set
+	 * @param parameters the array of parameter {@link Object} to set (may be {@code null})
 	 * <p>
 	 * @return either the row count for the SQL Data Manipulation Language (DML) statement with the
 	 *         specified array of parameter {@link Object}, {@code 0} if nothing is returned, or
@@ -540,7 +540,7 @@ public class SQL {
 	/**
 	 * Tests whether the specified {@link Object} is {@code null} or {@code "NULL"}.
 	 * <p>
-	 * @param object the {@link Object} to test
+	 * @param object the {@link Object} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Object} is {@code null} or {@code "NULL"},
 	 *         {@code false} otherwise
@@ -552,7 +552,7 @@ public class SQL {
 	/**
 	 * Tests whether the specified {@link String} is {@code null} or {@code "NULL"}.
 	 * <p>
-	 * @param text the {@link String} to test
+	 * @param text the {@link String} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link String} is {@code null} or {@code "NULL"},
 	 *         {@code false} otherwise

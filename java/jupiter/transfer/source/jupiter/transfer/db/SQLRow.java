@@ -39,6 +39,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 import jupiter.common.exception.IllegalClassException;
+import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
@@ -109,56 +110,58 @@ public abstract class SQLRow {
 	 * @param resultSet the {@link ResultSet} to load
 	 */
 	protected void load(final ResultSet resultSet) {
-		if (resultSet != null) {
-			final Field[] fields = getClass().getDeclaredFields();
-			for (final Field field : fields) {
-				if (Modifier.isPublic(field.getModifiers())) {
-					try {
-						final String columnName = getColumnName(field.getName());
-						final Class<?> c = field.getType();
-						if (Array.class.isAssignableFrom(c)) {
-							field.set(this, resultSet.getArray(columnName));
-						} else if (BigDecimal.class.isAssignableFrom(c)) {
-							field.set(this, resultSet.getBigDecimal(columnName));
-						} else if (Blob.class.isAssignableFrom(c)) {
-							field.set(this, resultSet.getBlob(columnName));
-						} else if (Booleans.is(c)) {
-							field.set(this, resultSet.getBoolean(columnName));
-						} else if (Bytes.is(c)) {
-							field.set(this, resultSet.getByte(columnName));
-						} else if (Bytes.isPrimitiveArray(c)) {
-							field.set(this, resultSet.getBytes(columnName));
-						} else if (Clob.class.isAssignableFrom(c)) {
-							field.set(this, resultSet.getClob(columnName));
-						} else if (Dates.is(c)) {
-							field.set(this, resultSet.getDate(columnName));
-						} else if (Doubles.is(c)) {
-							field.set(this, resultSet.getDouble(columnName));
-						} else if (Floats.is(c)) {
-							field.set(this, resultSet.getFloat(columnName));
-						} else if (Integers.is(c)) {
-							field.set(this, resultSet.getInt(columnName));
-						} else if (Longs.is(c)) {
-							field.set(this, resultSet.getLong(columnName));
-						} else if (Shorts.is(c)) {
-							field.set(this, resultSet.getShort(columnName));
-						} else if (Strings.is(c)) {
-							field.set(this, resultSet.getString(columnName));
-						} else if (Time.class.isAssignableFrom(c)) {
-							field.set(this, resultSet.getTime(columnName));
-						} else if (Timestamp.class.isAssignableFrom(c)) {
-							field.set(this, resultSet.getTimestamp(columnName));
-						} else if (URL.class.isAssignableFrom(c)) {
-							field.set(this, resultSet.getURL(columnName));
-						} else {
-							throw new IllegalClassException(c);
-						}
-					} catch (final IllegalAccessException ignored) {
-					} catch (final IllegalArgumentException ex) {
-						IO.error(ex);
-					} catch (final SQLException ex) {
-						IO.error(ex);
+		// Check the arguments
+		Arguments.requireNonNull(resultSet, "result set");
+
+		// Load the result set
+		final Field[] fields = getClass().getDeclaredFields();
+		for (final Field field : fields) {
+			if (Modifier.isPublic(field.getModifiers())) {
+				try {
+					final String columnName = getColumnName(field.getName());
+					final Class<?> c = field.getType();
+					if (Array.class.isAssignableFrom(c)) {
+						field.set(this, resultSet.getArray(columnName));
+					} else if (BigDecimal.class.isAssignableFrom(c)) {
+						field.set(this, resultSet.getBigDecimal(columnName));
+					} else if (Blob.class.isAssignableFrom(c)) {
+						field.set(this, resultSet.getBlob(columnName));
+					} else if (Booleans.is(c)) {
+						field.set(this, resultSet.getBoolean(columnName));
+					} else if (Bytes.is(c)) {
+						field.set(this, resultSet.getByte(columnName));
+					} else if (Bytes.isPrimitiveArray(c)) {
+						field.set(this, resultSet.getBytes(columnName));
+					} else if (Clob.class.isAssignableFrom(c)) {
+						field.set(this, resultSet.getClob(columnName));
+					} else if (Dates.is(c)) {
+						field.set(this, resultSet.getDate(columnName));
+					} else if (Doubles.is(c)) {
+						field.set(this, resultSet.getDouble(columnName));
+					} else if (Floats.is(c)) {
+						field.set(this, resultSet.getFloat(columnName));
+					} else if (Integers.is(c)) {
+						field.set(this, resultSet.getInt(columnName));
+					} else if (Longs.is(c)) {
+						field.set(this, resultSet.getLong(columnName));
+					} else if (Shorts.is(c)) {
+						field.set(this, resultSet.getShort(columnName));
+					} else if (Strings.is(c)) {
+						field.set(this, resultSet.getString(columnName));
+					} else if (Time.class.isAssignableFrom(c)) {
+						field.set(this, resultSet.getTime(columnName));
+					} else if (Timestamp.class.isAssignableFrom(c)) {
+						field.set(this, resultSet.getTimestamp(columnName));
+					} else if (URL.class.isAssignableFrom(c)) {
+						field.set(this, resultSet.getURL(columnName));
+					} else {
+						throw new IllegalClassException(c);
 					}
+				} catch (final IllegalAccessException ignored) {
+				} catch (final IllegalArgumentException ex) {
+					IO.error(ex);
+				} catch (final SQLException ex) {
+					IO.error(ex);
 				}
 			}
 		}

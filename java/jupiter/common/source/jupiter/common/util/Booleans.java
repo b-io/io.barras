@@ -665,7 +665,7 @@ public class Booleans {
 	 * Returns a {@code boolean} array containing the specified {@code boolean} value and all the
 	 * elements of the specified {@code boolean} array.
 	 * <p>
-	 * @param a a {@code boolean} value (may be {@code null})
+	 * @param a a {@code boolean} value
 	 * @param b a {@code boolean} array (may be {@code null})
 	 * <p>
 	 * @return a {@code boolean} array containing the specified {@code boolean} value and all the
@@ -811,11 +811,17 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findFirstIndex(final boolean[] array, final boolean token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final boolean[] array, final boolean token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final boolean[] array, final boolean token, final int from,
@@ -833,11 +839,17 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findLastIndex(final boolean[] array, final boolean token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final boolean[] array, final boolean token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final boolean[] array, final boolean token, final int from,
@@ -899,7 +911,7 @@ public class Booleans {
 	/**
 	 * Tests whether the specified {@code boolean} array is {@code null} or empty.
 	 * <p>
-	 * @param array the {@code boolean} array to test
+	 * @param array the {@code boolean} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code boolean} array is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -911,7 +923,7 @@ public class Booleans {
 	/**
 	 * Tests whether the specified {@code boolean} array is not {@code null} and empty.
 	 * <p>
-	 * @param array the {@code boolean} array to test
+	 * @param array the {@code boolean} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code boolean} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -923,7 +935,7 @@ public class Booleans {
 	/**
 	 * Tests whether the specified {@code boolean} array is not {@code null} and not empty.
 	 * <p>
-	 * @param array the {@code boolean} array to test
+	 * @param array the {@code boolean} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code boolean} array is not {@code null} and not
 	 *         empty, {@code false} otherwise
@@ -938,7 +950,7 @@ public class Booleans {
 	 * Tests whether the specified {@code boolean} array contains the specified {@code boolean}
 	 * token.
 	 * <p>
-	 * @param array the {@code boolean} array to test
+	 * @param array the {@code boolean} array to test (may be {@code null})
 	 * @param token the {@code boolean} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code boolean} array contains the specified
@@ -952,7 +964,7 @@ public class Booleans {
 	 * Tests whether the specified {@code boolean} array contains any of the specified
 	 * {@code boolean} tokens.
 	 * <p>
-	 * @param array  the {@code boolean} array to test
+	 * @param array  the {@code boolean} array to test (may be {@code null})
 	 * @param tokens the {@code boolean} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code boolean} array contains any of the specified
@@ -995,7 +1007,7 @@ public class Booleans {
 	/**
 	 * Returns the hash code value for the specified {@code boolean} array.
 	 * <p>
-	 * @param array the {@code boolean} array to hash
+	 * @param array the {@code boolean} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code boolean} array
 	 */
@@ -1006,8 +1018,8 @@ public class Booleans {
 	/**
 	 * Returns the hash code value for the specified {@code boolean} array at the specified depth.
 	 * <p>
-	 * @param array the {@code boolean} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code boolean} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code boolean} array at the specified depth
 	 */

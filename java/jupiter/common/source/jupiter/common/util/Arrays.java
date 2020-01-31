@@ -862,11 +862,17 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> int findFirstIndex(final T[] array, final T token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static <T> int findFirstIndex(final T[] array, final T token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static <T> int findFirstIndex(final T[] array, final T token, final int from,
@@ -912,11 +918,17 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> int findLastIndex(final T[] array, final T token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static <T> int findLastIndex(final T[] array, final T token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static <T> int findLastIndex(final T[] array, final T token, final int from,
@@ -982,7 +994,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array is {@code null} or empty.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array the {@code T} array to test
+	 * @param array the {@code T} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array is {@code null} or empty, {@code false}
 	 *         otherwise
@@ -995,7 +1007,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array is not {@code null} and empty.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array the {@code T} array to test
+	 * @param array the {@code T} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -1008,7 +1020,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array is not {@code null} and not empty.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array the {@code T} array to test
+	 * @param array the {@code T} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array is not {@code null} and not empty,
 	 *         {@code false} otherwise
@@ -1118,7 +1130,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array has any element different from {@code null}.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array the {@code T} array to test
+	 * @param array the {@code T} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array has any element different from
 	 *         {@code null}, {@code false} otherwise
@@ -1138,7 +1150,7 @@ public class Arrays {
 	 * Tests whether the specified 2D {@code T} array has any element different from {@code null}.
 	 * <p>
 	 * @param <T>     the component type of the 2D array to test
-	 * @param array2D the 2D {@code T} array to test
+	 * @param array2D the 2D {@code T} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified 2D {@code T} array has any element different from
 	 *         {@code null}, {@code false} otherwise
@@ -1158,7 +1170,7 @@ public class Arrays {
 	 * Tests whether the specified 3D {@code T} array has any element different from {@code null}.
 	 * <p>
 	 * @param <T>     the component type of the 3D array to test
-	 * @param array3D the 3D {@code T} array to test
+	 * @param array3D the 3D {@code T} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified 3D {@code T} array has any element different from
 	 *         {@code null}, {@code false} otherwise
@@ -1180,7 +1192,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array contains the specified {@code T} token.
 	 * <p>
 	 * @param <T>   the component type of the array to test
-	 * @param array the {@code T} array to test
+	 * @param array the {@code T} array to test (may be {@code null})
 	 * @param token the {@code T} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array contains the specified {@code T} token,
@@ -1194,7 +1206,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array contains any of the specified {@code T} tokens.
 	 * <p>
 	 * @param <T>    the component type of the array to test
-	 * @param array  the {@code T} array to test
+	 * @param array  the {@code T} array to test (may be {@code null})
 	 * @param tokens the {@code T} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array contains any of the specified {@code T}

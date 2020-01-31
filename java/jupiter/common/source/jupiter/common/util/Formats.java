@@ -217,10 +217,10 @@ public class Formats {
 	//////////////////////////////////////////////
 
 	/**
-	 *
 	 * Returns the {@link DecimalFormat} with the specified decimal pattern {@link String}.
 	 * <p>
-	 * @param pattern the pattern {@link String} describing the {@link DecimalFormat}
+	 * @param pattern the pattern {@link String} describing the {@link DecimalFormat} ({@code null}
+	 *                indicates that the default {@link DecimalFormat} should be used)
 	 * <p>
 	 * @return the {@link DecimalFormat} with the specified decimal pattern {@link String}
 	 *
@@ -231,6 +231,20 @@ public class Formats {
 		return getDecimalFormat(pattern, DEFAULT_LOCALE);
 	}
 
+	/**
+	 * Returns the {@link DecimalFormat} with the specified decimal pattern {@link String} and
+	 * {@link Locale}.
+	 * <p>
+	 * @param pattern the pattern {@link String} describing the {@link DecimalFormat} ({@code null}
+	 *                indicates that the default {@link DecimalFormat} should be used)
+	 * @param locale  the {@link Locale} whose {@link DecimalFormatSymbols} should be used
+	 * <p>
+	 * @return the {@link DecimalFormat} with the specified decimal pattern {@link String} and
+	 *         {@link Locale}
+	 *
+	 * @see DecimalFormat#DOUBLE_INTEGER_DIGITS
+	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
+	 */
 	public static DecimalFormat getDecimalFormat(final String pattern, final Locale locale) {
 		final DecimalFormat format = Strings.isNotEmpty(pattern) ? new DecimalFormat(pattern) :
 				new DecimalFormat();
@@ -245,7 +259,6 @@ public class Formats {
 	//////////////////////////////////////////////
 
 	/**
-	 *
 	 * Returns the {@link DecimalFormat} of {@code double} values.
 	 * <p>
 	 * @return the {@link DecimalFormat} of {@code double} values
@@ -258,13 +271,11 @@ public class Formats {
 	}
 
 	/**
-	 *
-	 * Returns the {@link DecimalFormat} of {@code double} values using the specified
-	 * {@link Locale}.
+	 * Returns the {@link DecimalFormat} of {@code double} values with the specified {@link Locale}.
 	 * <p>
-	 * @param locale the {@link Locale}
+	 * @param locale the {@link Locale} whose {@link DecimalFormatSymbols} should be used
 	 * <p>
-	 * @return the {@link DecimalFormat} of {@code double} values using the specified {@link Locale}
+	 * @return the {@link DecimalFormat} of {@code double} values with the specified {@link Locale}
 	 *
 	 * @see DecimalFormat#DOUBLE_INTEGER_DIGITS
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS

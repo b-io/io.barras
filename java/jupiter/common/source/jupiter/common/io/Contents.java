@@ -57,7 +57,7 @@ public class Contents {
 	/**
 	 * Tests whether the specified {@link Content} is {@code null}, {@code "null"} or empty.
 	 * <p>
-	 * @param content the {@link Content} to test
+	 * @param content the {@link Content} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Content} is {@code null}, {@code "null"} or
 	 *         empty, {@code false} otherwise
@@ -69,7 +69,7 @@ public class Contents {
 	/**
 	 * Tests whether the specified {@link Content} is not {@code null} and empty.
 	 * <p>
-	 * @param content the {@link Content} to test
+	 * @param content the {@link Content} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Content} is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -82,7 +82,7 @@ public class Contents {
 	 * Tests whether the specified {@link Content} is not {@code null}, not {@code "null"} and not
 	 * empty.
 	 * <p>
-	 * @param content the {@link Content} to test
+	 * @param content the {@link Content} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Content} is not {@code null}, not {@code "null"}
 	 *         and not empty, {@code false} otherwise

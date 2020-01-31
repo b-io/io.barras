@@ -403,8 +403,8 @@ public class Dates {
 	 * Parses the {@link Date} encoded in the specified {@link String}, or returns
 	 * {@code defaultDate} if there is a problem with parsing.
 	 * <p>
-	 * @param text        the {@link String} to parse
-	 * @param defaultDate the default {@link Date}
+	 * @param text        the {@link String} to parse (may be {@code null})
+	 * @param defaultDate the default {@link Date} (may be {@code null})
 	 * <p>
 	 * @return the {@link Date} encoded in the specified {@link String}, or returns
 	 *         {@code defaultDate} if there is a problem with parsing
@@ -442,8 +442,8 @@ public class Dates {
 	 * Parses the {@link Date} with time encoded in the specified {@link String}, or returns
 	 * {@code defaultDate} if there is a problem with parsing.
 	 * <p>
-	 * @param text            the {@link String} to parse
-	 * @param defaultDateTime the default {@link Date} with time
+	 * @param text            the {@link String} to parse (may be {@code null})
+	 * @param defaultDateTime the default {@link Date} with time (may be {@code null})
 	 * <p>
 	 * @return the {@link Date} with time encoded in the specified {@link String}, or returns
 	 *         {@code defaultDate} if there is a problem with parsing
@@ -502,8 +502,8 @@ public class Dates {
 	/**
 	 * Tests whether {@code a} and {@code b} are equal to each other.
 	 * <p>
-	 * @param a the {@link Date} to compare for equality
-	 * @param b the other {@link Date} to compare against for equality
+	 * @param a the {@link Date} to compare for equality (may be {@code null})
+	 * @param b the other {@link Date} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
 	 *         otherwise
@@ -519,8 +519,9 @@ public class Dates {
 	/**
 	 * Tests whether {@code a} and {@code b} are equal to each other.
 	 * <p>
-	 * @param a the {@link Date} with time to compare for equality
-	 * @param b the other {@link Date} with time to compare against for equality
+	 * @param a the {@link Date} with time to compare for equality (may be {@code null})
+	 * @param b the other {@link Date} with time to compare against for equality (may be
+	 *          {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
 	 *         otherwise

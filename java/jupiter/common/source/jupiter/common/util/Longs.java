@@ -781,7 +781,7 @@ public class Longs {
 	 * Returns a {@code long} array containing the specified {@code long} value and all the elements
 	 * of the specified {@code long} array.
 	 * <p>
-	 * @param a a {@code long} value (may be {@code null})
+	 * @param a a {@code long} value
 	 * @param b a {@code long} array (may be {@code null})
 	 * <p>
 	 * @return a {@code long} array containing the specified {@code long} value and all the elements
@@ -952,11 +952,17 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findFirstIndex(final long[] array, final long token) {
-		return findFirstIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final long[] array, final long token, final int from) {
-		return findFirstIndex(array, token, from, array.length);
+		if (array != null) {
+			return findFirstIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findFirstIndex(final long[] array, final long token, final int from,
@@ -974,11 +980,17 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int findLastIndex(final long[] array, final long token) {
-		return findLastIndex(array, token, 0, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, 0, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final long[] array, final long token, final int from) {
-		return findLastIndex(array, token, from, array.length);
+		if (array != null) {
+			return findLastIndex(array, token, from, array.length);
+		}
+		return -1;
 	}
 
 	public static int findLastIndex(final long[] array, final long token, final int from,
@@ -1040,7 +1052,7 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} array is {@code null} or empty.
 	 * <p>
-	 * @param array the {@code long} array to test
+	 * @param array the {@code long} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code long} array is {@code null} or empty,
 	 *         {@code false} otherwise
@@ -1052,7 +1064,7 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} array is not {@code null} and empty.
 	 * <p>
-	 * @param array the {@code long} array to test
+	 * @param array the {@code long} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code long} array is not {@code null} and empty,
 	 *         {@code false} otherwise
@@ -1064,7 +1076,7 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} array is not {@code null} and not empty.
 	 * <p>
-	 * @param array the {@code long} array to test
+	 * @param array the {@code long} array to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code long} array is not {@code null} and not empty,
 	 *         {@code false} otherwise
@@ -1110,7 +1122,7 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} array contains the specified {@code long} token.
 	 * <p>
-	 * @param array the {@code long} array to test
+	 * @param array the {@code long} array to test (may be {@code null})
 	 * @param token the {@code long} token to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code long} array contains the specified {@code long}
@@ -1124,7 +1136,7 @@ public class Longs {
 	 * Tests whether the specified {@code long} array contains any of the specified {@code long}
 	 * tokens.
 	 * <p>
-	 * @param array  the {@code long} array to test
+	 * @param array  the {@code long} array to test (may be {@code null})
 	 * @param tokens the {@code long} tokens to test for presence
 	 * <p>
 	 * @return {@code true} if the specified {@code long} array contains any of the specified
@@ -1214,7 +1226,7 @@ public class Longs {
 	/**
 	 * Returns the hash code value for the specified {@code long} array.
 	 * <p>
-	 * @param array the {@code long} array to hash
+	 * @param array the {@code long} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code long} array
 	 */
@@ -1225,8 +1237,8 @@ public class Longs {
 	/**
 	 * Returns the hash code value for the specified {@code long} array at the specified depth.
 	 * <p>
-	 * @param array the {@code long} array to hash
 	 * @param depth the depth to hash at
+	 * @param array the {@code long} array to hash (may be {@code null})
 	 * <p>
 	 * @return the hash code value for the specified {@code long} array at the specified depth
 	 */

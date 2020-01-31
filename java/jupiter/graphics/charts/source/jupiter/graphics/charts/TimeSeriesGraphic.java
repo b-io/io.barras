@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import jupiter.common.struct.table.StringTable;
+import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Objects;
@@ -150,19 +151,21 @@ public class TimeSeriesGraphic
 	public void load(final StringTable coordinates, final int xColumnIndex, final int yColumnIndex,
 			final boolean hasTime)
 			throws ParseException {
-		if (coordinates != null) {
-			final int seriesIndex = addSeries(coordinates.getColumnName(yColumnIndex));
-			final int m = coordinates.getRowCount();
-			if (m > 0) {
-				for (int i = 0; i < m; ++i) {
-					addValue(seriesIndex,
-							hasTime ? Dates.parseWithTime(coordinates.get(i, xColumnIndex)) :
-									Dates.parse(coordinates.get(i, xColumnIndex)),
-							Doubles.convert(coordinates.get(i, yColumnIndex)));
-				}
-			} else {
-				IO.warn("No coordinates found");
+		// Check the arguments
+		Arguments.requireNonNull(coordinates, "coordinates");
+
+		// Load the time series
+		final int seriesIndex = addSeries(coordinates.getColumnName(yColumnIndex));
+		final int m = coordinates.getRowCount();
+		if (m > 0) {
+			for (int i = 0; i < m; ++i) {
+				addValue(seriesIndex,
+						hasTime ? Dates.parseWithTime(coordinates.get(i, xColumnIndex)) :
+								Dates.parse(coordinates.get(i, xColumnIndex)),
+						Doubles.convert(coordinates.get(i, yColumnIndex)));
 			}
+		} else {
+			IO.warn("No coordinates found");
 		}
 	}
 
