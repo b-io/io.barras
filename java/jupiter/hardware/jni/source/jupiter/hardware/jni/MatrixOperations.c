@@ -36,8 +36,7 @@
  * OPERATORS
  **************************************************************************************************/
 
-JNIEXPORT void JNICALL
-Java_jupiter_hardware_jni_MatrixOperations_test(JNIEnv* env, jobject obj)
+JNIEXPORT void JNICALL Java_jupiter_hardware_jni_MatrixOperations_test(JNIEnv* env, jobject obj)
 {
 	printf("[INFO] Java_jupiter_hardware_jni_MatrixOperations_test\n");
 }
