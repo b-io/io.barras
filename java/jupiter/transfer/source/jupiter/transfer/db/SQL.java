@@ -228,7 +228,7 @@ public class SQL {
 		Arguments.requireNonNull(parameters, "array of parameters");
 
 		// Create the statement for executing the stored procedure
-		CallableStatement statement = connection.prepareCall(
+		final CallableStatement statement = connection.prepareCall(
 				createStoredProcedureQuery(name, parameters.length));
 		// Set the parameters of the statement
 		setParameters(statement, parameters);
