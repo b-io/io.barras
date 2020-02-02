@@ -39,6 +39,7 @@ public class PairTest
 	/**
 	 * Test of clone method, of class Pair.
 	 */
+	@SuppressWarnings("deprecation")
 	public void testClone() {
 		IO.test("• clone");
 

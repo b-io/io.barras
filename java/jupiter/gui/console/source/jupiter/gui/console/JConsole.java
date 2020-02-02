@@ -626,6 +626,7 @@ public class JConsole
 		type(event);
 	}
 
+	@SuppressWarnings("deprecation")
 	protected synchronized void type(final KeyEvent event) {
 		switch (event.getKeyCode()) {
 			case KeyEvent.VK_ENTER:

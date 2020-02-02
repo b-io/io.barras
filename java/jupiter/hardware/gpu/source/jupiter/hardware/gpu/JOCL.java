@@ -110,6 +110,7 @@ public class JOCL
 	 * <p>
 	 * @param sourceCode the source code {@link String}
 	 */
+	@SuppressWarnings("deprecation")
 	public JOCL(final String sourceCode) {
 		super(sourceCode);
 

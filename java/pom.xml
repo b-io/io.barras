@@ -76,6 +76,7 @@
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
 				<extensions>true</extensions>
+
 				<executions>
 					<execution>
 						<id>nar-download</id>

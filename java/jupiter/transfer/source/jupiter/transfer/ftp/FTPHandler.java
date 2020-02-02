@@ -578,6 +578,7 @@ public class FTPHandler
 	 * <p>
 	 * @return the number of downloaded files
 	 */
+	@SuppressWarnings("unchecked")
 	protected int downloadSFTP() {
 		int downloadedFileCount = 0;
 		final JSch jsch = new JSch();
