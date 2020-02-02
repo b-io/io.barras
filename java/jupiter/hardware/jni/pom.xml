@@ -21,7 +21,7 @@
 		<!-- Maven -->
 		<maven.helper.version>1.12</maven.helper.version>
 		<!-- Native Library Loader -->
-		<nativelib.loader.version>2.1.5</nativelib.loader.version>
+		<nativelib.loader.version>2.3.4</nativelib.loader.version>
 	</properties>
 
 	<dependencies>
