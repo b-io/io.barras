@@ -210,13 +210,6 @@
 							</options>
 						</linker>
 					</configuration>
-
-					<executions>
-						<execution>
-							<id>default-nar-javah</id>
-							<phase>none</phase>
-						</execution>
-					</executions>
 				</plugin>
 
 				<!-- Set the source encoding -->
