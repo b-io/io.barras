@@ -24,6 +24,7 @@
 package jupiter.common.struct.tuple;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.test.Test;
 
@@ -41,7 +42,7 @@ public class PairTest
 	 */
 	@SuppressWarnings("deprecation")
 	public void testClone() {
-		IO.test("• clone");
+		IO.test(BULLET, " clone");
 
 		final String[] header = new String[] {"a"};
 		final Integer[] values = new Integer[] {42};

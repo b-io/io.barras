@@ -24,6 +24,7 @@
 package jupiter.common.io;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 import static jupiter.common.util.Strings.EMPTY;
 
 import jupiter.common.io.IO.SeverityLevel;
@@ -42,7 +43,7 @@ public class IOTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void testPrint() {
-		IO.test("• print");
+		IO.test(BULLET, " print");
 
 		final String content = "This is a test message";
 		IO.print(content, false);
@@ -55,7 +56,7 @@ public class IOTest
 	 * Test of println method, of class IO.
 	 */
 	public void testPrintln_Object() {
-		IO.test("• println_Object");
+		IO.test(BULLET, " println_Object");
 
 		final String content = "This is a test message";
 		IO.println(content, false);
@@ -67,7 +68,7 @@ public class IOTest
 	 * Test of println method, of class IO.
 	 */
 	public void testPrintln_Message() {
-		IO.test("• println_Message");
+		IO.test(BULLET, " println_Message");
 
 		IO.println(IO.test("This is a test message"));
 		IO.println(IO.warn("This is a warning message"));
@@ -78,7 +79,7 @@ public class IOTest
 	 * Test of printInput method, of class IO.
 	 */
 	public void testPrintInput() {
-		IO.test("• printInput");
+		IO.test(BULLET, " printInput");
 
 		IO.printInput();
 		IO.println();
@@ -88,7 +89,7 @@ public class IOTest
 	 * Test of bar method, of class IO.
 	 */
 	public void testBar() {
-		IO.test("• bar");
+		IO.test(BULLET, " bar");
 
 		IO.bar();
 	}
@@ -97,7 +98,7 @@ public class IOTest
 	 * Test of trace method, of class IO.
 	 */
 	public void testTrace() {
-		IO.test("• trace");
+		IO.test(BULLET, " trace");
 		IO.setSeverityLevel(SeverityLevel.TRACE);
 
 		final String content = "This is a test message";
@@ -112,7 +113,7 @@ public class IOTest
 	 * Test of debug method, of class IO.
 	 */
 	public void testDebug() {
-		IO.test("• debug");
+		IO.test(BULLET, " debug");
 		IO.setSeverityLevel(SeverityLevel.DEBUG);
 
 		final String content = "This is a test message";
@@ -126,7 +127,7 @@ public class IOTest
 	 * Test of test method, of class IO.
 	 */
 	public void testTest() {
-		IO.test("• test");
+		IO.test(BULLET, " test");
 
 		final String content = "This is a test message";
 		final Message result = IO.test(content);
@@ -137,7 +138,7 @@ public class IOTest
 	 * Test of info method, of class IO.
 	 */
 	public void testInfo() {
-		IO.test("• info");
+		IO.test(BULLET, " info");
 
 		final String content = "This is a test message";
 		final Message result = IO.info(content);
@@ -148,7 +149,7 @@ public class IOTest
 	 * Test of result method, of class IO.
 	 */
 	public void testResult() {
-		IO.test("• result");
+		IO.test(BULLET, " result");
 
 		final String content = "This is a test message";
 		final Message result = IO.result(content);
@@ -159,7 +160,7 @@ public class IOTest
 	 * Test of warn method, of class IO.
 	 */
 	public void testWarn_Object() {
-		IO.test("• warn_Object");
+		IO.test(BULLET, " warn_Object");
 
 		final String content = "This is a test message";
 		final Message result = IO.warn(content);
@@ -170,7 +171,7 @@ public class IOTest
 	 * Test of warn method, of class IO.
 	 */
 	public void testWarn_Object_Exception() {
-		IO.test("• warn_Object_Exception");
+		IO.test(BULLET, " warn_Object_Exception");
 
 		final String content = "This is a test message";
 		IO.warn(content, new Exception("This is a test warning"));
@@ -180,7 +181,7 @@ public class IOTest
 	 * Test of error method, of class IO.
 	 */
 	public void testError_Object() {
-		IO.test("• error_Object");
+		IO.test(BULLET, " error_Object");
 
 		final String content = "This is a test message";
 		final Message result = IO.error(content);
@@ -191,7 +192,7 @@ public class IOTest
 	 * Test of error method, of class IO.
 	 */
 	public void testError_Exception() {
-		IO.test("• error_Exception");
+		IO.test(BULLET, " error_Exception");
 
 		IO.error(new Exception("This is a test error"));
 	}
@@ -200,7 +201,7 @@ public class IOTest
 	 * Test of error method, of class IO.
 	 */
 	public void testError_Object_Exception() {
-		IO.test("• error_Object_Exception");
+		IO.test(BULLET, " error_Object_Exception");
 
 		final String content = "This is a test message";
 		IO.error(content, new Exception("This is a test error"));
@@ -210,7 +211,7 @@ public class IOTest
 	 * Test of fail method, of class IO.
 	 */
 	public void testFail_Object() {
-		IO.test("• fail_Object");
+		IO.test(BULLET, " fail_Object");
 
 		final String content = "This is a test message";
 		final Message result = IO.fail(content);
@@ -221,7 +222,7 @@ public class IOTest
 	 * Test of fail method, of class IO.
 	 */
 	public void testFail_Exception() {
-		IO.test("• fail_Exception");
+		IO.test(BULLET, " fail_Exception");
 
 		IO.fail(new Exception("This is a test failure"));
 	}
@@ -230,7 +231,7 @@ public class IOTest
 	 * Test of setConsole method, of class IO.
 	 */
 	public void testSetConsole() {
-		IO.test("• setConsole");
+		IO.test(BULLET, " setConsole");
 
 		final IConsole console = new SystemConsole();
 		IO.setConsole(console);
@@ -240,7 +241,7 @@ public class IOTest
 	 * Test of clear method, of class IO.
 	 */
 	public void testClear() {
-		IO.test("• clear");
+		IO.test(BULLET, " clear");
 
 		IO.clear();
 	}

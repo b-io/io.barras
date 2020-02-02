@@ -23,12 +23,15 @@
  */
 package jupiter.common.time;
 
+import static jupiter.common.util.Characters.COLON;
+import static jupiter.common.util.Characters.POINT;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.Serializable;
 
 import jupiter.common.math.Maths;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Strings;
 
 public class Chronometer
 		implements Serializable {
@@ -141,8 +144,8 @@ public class Chronometer
 			timeByUnit[i] = difference / (1E9 * Math.pow(60., i - 3));
 			time[i] = Longs.convert(timeByUnit[i]) % 60L;
 		}
-		representation = time[TimeUnit.HOUR.value] + ":" + time[TimeUnit.MINUTE.value] + ":" +
-				time[TimeUnit.SECOND.value] + "." + time[TimeUnit.MILLISECOND.value];
+		representation = Strings.join(time[TimeUnit.HOUR.value], COLON, time[TimeUnit.MINUTE.value],
+				COLON, time[TimeUnit.SECOND.value], POINT, time[TimeUnit.MILLISECOND.value]);
 	}
 
 

@@ -95,7 +95,7 @@ public class Tests {
 	protected static void printAverageValue(final String label, final double mean,
 			final Interval<Double> confidenceInterval) {
 		IO.test("Average ", label, ": ", Doubles.format(mean),
-				" +- ", Doubles.format(confidenceInterval.getUpperBound() - mean),
+				" ± ", Doubles.format(confidenceInterval.getUpperBound() - mean),
 				" (" + Doubles.formatPercent(Maths.DEFAULT_CONFIDENCE) + ")");
 	}
 

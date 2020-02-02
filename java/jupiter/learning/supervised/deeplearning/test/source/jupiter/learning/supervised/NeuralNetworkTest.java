@@ -24,6 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class NeuralNetworkTest
 	 * Test of classify method, of class NeuralNetwork.
 	 */
 	public void testClassify() {
-		IO.test("• classify");
+		IO.test(BULLET, " classify");
 
 		// Initialize
 		final int testCount = 2;
@@ -118,7 +119,7 @@ public class NeuralNetworkTest
 	 * Test of classify method using files, of class NeuralNetwork.
 	 */
 	public void testClassify_Files() {
-		IO.test("• classify_Files");
+		IO.test(BULLET, " classify_Files");
 
 		// Initialize
 		Doubles.RANDOM = new Random(1L);

@@ -24,6 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.io.IOException;
 
@@ -45,7 +46,7 @@ public class ClassifierTest
 	 */
 	public void test()
 			throws IOException {
-		IO.test("• Classifier");
+		IO.test(BULLET, " Classifier");
 
 		// Initialize
 		final Classifier model = new LogisticRegression(

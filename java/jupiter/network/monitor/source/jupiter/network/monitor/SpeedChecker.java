@@ -51,6 +51,7 @@ import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.time.Chronometer;
 import jupiter.common.time.Dates;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
 public class SpeedChecker {
@@ -201,14 +202,15 @@ public class SpeedChecker {
 				final String output = DECIMAL_FORMAT.format(result.getOutput());
 				IO.info(output, " [Mbits/s]");
 				DATA_FILES.get(URLS.get(i++))
-						.writeLine(Dates.createTimestamp() + DELIMITER + output);
+						.writeLine(Dates.createTimestamp() + Arrays.DELIMITER + output);
 			}
 		} else {
 			for (final String urlName : URLS) {
 				final Result<Double> result = checkURL(urlName);
 				final String output = DECIMAL_FORMAT.format(result.getOutput());
 				IO.info(output, " [Mbits/s]");
-				DATA_FILES.get(urlName).writeLine(Dates.createTimestamp() + DELIMITER + output);
+				DATA_FILES.get(urlName)
+						.writeLine(Dates.createTimestamp() + Arrays.DELIMITER + output);
 			}
 		}
 	}

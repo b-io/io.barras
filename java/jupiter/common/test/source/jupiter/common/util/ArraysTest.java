@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.test.Test;
 
@@ -52,7 +53,7 @@ public class ArraysTest
 	 * Test of filterAll method, of class Arrays.
 	 */
 	public void testFilterAll() {
-		IO.test("• filterAll");
+		IO.test(BULLET, " filterAll");
 
 		assertEquals(
 				Objects.hashCode(Arrays.<String>filterAll(ARRAY,
@@ -65,7 +66,7 @@ public class ArraysTest
 	 * Test of merge method, of class Arrays.
 	 */
 	public void testMerge() {
-		IO.test("• merge");
+		IO.test(BULLET, " merge");
 
 		assertEquals(Objects.hashCode(Arrays.<String>merge(new String[] {"a"}, ARRAY)),
 				Objects.hashCode(new String[] {"a", "a", "b", "c", "d", "e", "f"}));
@@ -79,7 +80,7 @@ public class ArraysTest
 	 * Test of take method, of class Arrays.
 	 */
 	public void testTake() {
-		IO.test("• take");
+		IO.test(BULLET, " take");
 
 		// • 1D
 		assertEquals(Objects.hashCode(Arrays.<String>take(ARRAY)), Objects.hashCode(ARRAY));

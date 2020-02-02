@@ -23,6 +23,7 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Characters.COLON;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
@@ -3051,20 +3052,19 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around the default delimiter {@link Arrays#DEFAULT_DELIMITER}.
+	 * specified {@link String} around the default delimiter {@link Arrays#DELIMITER}.
 	 * <p>
 	 * @param text a {@link String}
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around the default delimiter
-	 *         {@link Arrays#DEFAULT_DELIMITER}
+	 *         specified {@link String} around the default delimiter {@link Arrays#DELIMITER}
 	 */
 	public static ExtendedLinkedList<String> split(final String text) {
 		// Check the arguments
 		Arguments.requireNonNull(text, "text");
 
 		// Split the text around the delimiter
-		return splitTo(text, Arrays.DEFAULT_DELIMITER, text.length());
+		return splitTo(text, Arrays.DELIMITER, text.length());
 	}
 
 	/**
@@ -3800,10 +3800,8 @@ public class Strings {
 			if (stackTraceElementCount > 0) {
 				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
-				return exception.getLocalizedMessage()
-						.concat(":")
-						.concat(NEW_LINE)
-						.concat(joinWith(stackTraces, NEW_LINE));
+				return Strings.join(exception.getLocalizedMessage(), COLON, NEW_LINE,
+						joinWith(stackTraces, NEW_LINE));
 			}
 			return exception.getLocalizedMessage();
 		}

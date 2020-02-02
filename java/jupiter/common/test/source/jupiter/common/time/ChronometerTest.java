@@ -24,6 +24,7 @@
 package jupiter.common.time;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.math.Maths;
 import jupiter.common.test.Test;
@@ -43,7 +44,7 @@ public class ChronometerTest
 	 * Test of getMilliseconds method, of class Chronometer.
 	 */
 	public void testGetMilliseconds() {
-		IO.test("• getMilliseconds");
+		IO.test(BULLET, " getMilliseconds");
 
 		// Initialize
 		final long sleepingTime = 600L; // [ms]
@@ -66,7 +67,7 @@ public class ChronometerTest
 	 * Test of getMicroseconds method, of class Chronometer.
 	 */
 	public void testGetMicroseconds() {
-		IO.test("• getMicroseconds");
+		IO.test(BULLET, " getMicroseconds");
 
 		// Initialize
 		final long sleepingTime = 600L; // [ms]
@@ -89,7 +90,7 @@ public class ChronometerTest
 	 * Test of getNanoseconds method, of class Chronometer.
 	 */
 	public void testGetNanoseconds() {
-		IO.test("• getNanoseconds");
+		IO.test(BULLET, " getNanoseconds");
 
 		// Initialize
 		final long sleepingTime = 600L; // [ms]

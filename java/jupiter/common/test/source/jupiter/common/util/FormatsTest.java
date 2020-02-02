@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.test.Test;
 
@@ -40,7 +41,7 @@ public class FormatsTest
 	 * Test of formatNumber method, of class Formats.
 	 */
 	public void testFormatNumber() {
-		IO.test("• formatNumber");
+		IO.test(BULLET, " formatNumber");
 
 		IO.test(Formats.formatNumber(0.0000001));
 		assertEquals("1E-7", Formats.formatNumber(0.0000001));

@@ -24,6 +24,7 @@
 package jupiter.hardware.gpu;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
 import jupiter.common.test.Test;
@@ -43,7 +44,7 @@ public class OpenCLTest
 	 */
 	public void testArrayTimes() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test("• arrayTimes");
+			IO.test(BULLET, " arrayTimes");
 
 			// Create the input and output data
 			final int dimension = 1000;
@@ -78,7 +79,7 @@ public class OpenCLTest
 	 */
 	public void testTimes() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test("• times");
+			IO.test(BULLET, " times");
 
 			// Create the input and output data
 			final int n = 100;
@@ -124,7 +125,7 @@ public class OpenCLTest
 	 */
 	public void testForward() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test("• forward");
+			IO.test(BULLET, " forward");
 
 			// Create the input and output data
 			final int n = 100;
@@ -177,7 +178,7 @@ public class OpenCLTest
 	 */
 	public void testArraySum() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test("• arraySum");
+			IO.test(BULLET, " arraySum");
 
 			// Create the input and output data
 			final int dimension = 1000;

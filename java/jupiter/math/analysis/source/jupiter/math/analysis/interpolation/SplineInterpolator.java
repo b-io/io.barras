@@ -236,11 +236,11 @@ public class SplineInterpolator
 		final int n = X.length;
 		for (int i = 0; i < n; ++i) {
 			if (i > 0) {
-				builder.append(Arrays.DEFAULT_DELIMITER);
+				builder.append(Arrays.DELIMITER);
 			}
 			builder.append(LEFT_PARENTHESIS)
 					.append(X[i])
-					.append(Arrays.DEFAULT_DELIMITER)
+					.append(Arrays.DELIMITER)
 					.append(Y[i])
 					.append(": ")
 					.append(M[i])

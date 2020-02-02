@@ -949,14 +949,14 @@ public class Files {
 	 *         directory or subdirectories
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir) {
-		final ExtendedLinkedList<File> list = new ExtendedLinkedList<File>();
+		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
 		for (final File file : dir.listFiles()) {
-			list.add(file);
+			files.add(file);
 			if (file.isDirectory()) {
-				list.addAll(listAll(file));
+				files.addAll(listAll(file));
 			}
 		}
-		return list;
+		return files;
 	}
 
 	/**
@@ -984,16 +984,16 @@ public class Files {
 	 *         directory or subdirectories and matching the specified {@link Pattern}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern pattern) {
-		final ExtendedLinkedList<File> list = new ExtendedLinkedList<File>();
+		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
 		for (final File file : dir.listFiles()) {
 			if (pattern.matcher(file.getName()).matches()) {
-				list.add(file);
+				files.add(file);
 			}
 			if (file.isDirectory()) {
-				list.addAll(listAll(file, pattern));
+				files.addAll(listAll(file, pattern));
 			}
 		}
-		return list;
+		return files;
 	}
 
 	/**
@@ -1011,16 +1011,16 @@ public class Files {
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern pattern,
 			final int depth) {
-		final ExtendedLinkedList<File> list = new ExtendedLinkedList<File>();
+		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
 		for (final File file : dir.listFiles()) {
 			if (pattern.matcher(file.getName()).matches()) {
-				list.add(file);
+				files.add(file);
 			}
 			if (depth > 0 && file.isDirectory()) {
-				list.addAll(listAll(file, pattern, depth - 1));
+				files.addAll(listAll(file, pattern, depth - 1));
 			}
 		}
-		return list;
+		return files;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

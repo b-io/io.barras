@@ -24,6 +24,7 @@
 package jupiter.math.calculator.process;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class CalculatorTest
 	 * Test of process method, of class Calculator.
 	 */
 	public void testProcess() {
-		IO.test("• process");
+		IO.test(BULLET, " process");
 
 		// Initialize
 		final int testCount = 20;

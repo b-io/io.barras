@@ -24,6 +24,7 @@
 package jupiter.security.crypto;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -43,7 +44,7 @@ public class SCryptoTest
 	 * Test of {@link SCrypto#encrypt}.
 	 */
 	public void testEncrypt() {
-		IO.test("• encrypt");
+		IO.test(BULLET, " encrypt");
 
 		try {
 			final String text = "Hello world!";
@@ -63,7 +64,7 @@ public class SCryptoTest
 	 * Test of {@link SCrypto#decrypt}.
 	 */
 	public void testDecrypt() {
-		IO.test("• decrypt");
+		IO.test(BULLET, " decrypt");
 
 		try {
 			final String text = "Hello world!";

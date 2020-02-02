@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.test.Test;
 
@@ -40,7 +41,7 @@ public class ObjectsTest
 	 * Test of hashCode method, of class Objects.
 	 */
 	public void testHashCode() {
-		IO.test("• hashCode");
+		IO.test(BULLET, " hashCode");
 
 		assertEquals(Objects.hashCode(Integers.EMPTY_ARRAY),
 				Objects.hashCode(Integers.EMPTY_ARRAY));

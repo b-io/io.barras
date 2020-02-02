@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.test.Test;
 
@@ -40,7 +41,7 @@ public class BytesTest
 	 * Test of toBinary method, of class Bytes.
 	 */
 	public void testToBinary() {
-		IO.test("• toBinary");
+		IO.test(BULLET, " toBinary");
 
 		final String text = "Hello world!";
 		assertEquals(
@@ -52,7 +53,7 @@ public class BytesTest
 	 * Test of toOctal method, of class Bytes.
 	 */
 	public void testToOctal() {
-		IO.test("• toOctal");
+		IO.test(BULLET, " toOctal");
 
 		final String text = "Hello world!";
 		assertEquals("011001450154015401570040016701570162015401440041",
@@ -63,7 +64,7 @@ public class BytesTest
 	 * Test of toHex method, of class Bytes.
 	 */
 	public void testToHex() {
-		IO.test("• toHex");
+		IO.test(BULLET, " toHex");
 
 		final String text = "Hello world!";
 		assertEquals("48656C6C6F20776F726C6421", Bytes.toHexString(text.getBytes()));
@@ -75,7 +76,7 @@ public class BytesTest
 	 * Test of parseBinaryString method, of class Bytes.
 	 */
 	public void testParseBinaryString() {
-		IO.test("• parseBinaryString");
+		IO.test(BULLET, " parseBinaryString");
 
 		final String text = "Hello world!";
 		assertEquals(text,
@@ -86,7 +87,7 @@ public class BytesTest
 	 * Test of parseOctalString method, of class Bytes.
 	 */
 	public void testParseOctalString() {
-		IO.test("• parseOctalString");
+		IO.test(BULLET, " parseOctalString");
 
 		final String text = "Hello world!";
 		assertEquals(text,
@@ -97,7 +98,7 @@ public class BytesTest
 	 * Test of parseHexString method, of class Bytes.
 	 */
 	public void testParseHexString() {
-		IO.test("• parseHexString");
+		IO.test(BULLET, " parseHexString");
 
 		final String text = "Hello world!";
 		assertEquals(text, new String(Bytes.parseHexString(Bytes.toHexString(text.getBytes()))));

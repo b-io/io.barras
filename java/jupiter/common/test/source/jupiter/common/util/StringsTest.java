@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 import static jupiter.common.util.Strings.EMPTY;
 
 import jupiter.common.test.Test;
@@ -50,7 +51,7 @@ public class StringsTest
 	 * Test of toUnicode method, of class Strings.
 	 */
 	public void testToUnicode() {
-		IO.test("• toUnicode");
+		IO.test(BULLET, " toUnicode");
 
 		assertTrue("\\u0030".equals(Strings.toUnicode("0")));
 		assertTrue("\\u0061".equals(Strings.toUnicode("a")));
@@ -63,7 +64,7 @@ public class StringsTest
 	 * Test of split method, of class Strings.
 	 */
 	public void testSplit() {
-		IO.test("• split");
+		IO.test(BULLET, " split");
 
 		assertEquals(Objects.hashCode(Strings.split(EMPTY, DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {EMPTY}));
@@ -77,7 +78,7 @@ public class StringsTest
 	 * Test of splitString method, of class Strings.
 	 */
 	public void testSplitString() {
-		IO.test("• splitString");
+		IO.test(BULLET, " splitString");
 
 		assertEquals(Objects.hashCode(Strings.splitString(EMPTY, STRING_DELIMITERS).toArray()),
 				Objects.hashCode(new String[] {EMPTY}));

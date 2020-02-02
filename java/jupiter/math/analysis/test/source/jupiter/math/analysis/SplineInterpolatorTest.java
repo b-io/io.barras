@@ -24,6 +24,7 @@
 package jupiter.math.analysis;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 import static jupiter.math.analysis.function.Functions.SIN;
 
 import jupiter.common.test.Test;
@@ -43,7 +44,7 @@ public class SplineInterpolatorTest
 	 * Test of interpolate method, of class SplineInterpolator.
 	 */
 	public void testInterpolate() {
-		IO.test("• interpolate");
+		IO.test(BULLET, " interpolate");
 
 		final Function f = SIN;
 		final double[] x = new double[] {0., 1., 2., 3., 4., 5., 6., 7., 8., 9.};

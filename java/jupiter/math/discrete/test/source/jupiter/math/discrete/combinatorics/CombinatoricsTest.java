@@ -24,6 +24,7 @@
 package jupiter.math.discrete.combinatorics;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Test;
@@ -46,7 +47,7 @@ public class CombinatoricsTest
 	 * Test of getPermutationIndex method, of class Combinatorics.
 	 */
 	public void testGetPermutationIndex() {
-		IO.test("• getPermutationIndex");
+		IO.test(BULLET, " getPermutationIndex");
 
 		// Initialize
 		final int n = 4;
@@ -65,7 +66,7 @@ public class CombinatoricsTest
 	 * Test of getKPermutationIndex method, of class Combinatorics.
 	 */
 	public void testGetKPermutationIndex() {
-		IO.test("• getKPermutationIndex");
+		IO.test(BULLET, " getKPermutationIndex");
 
 		// Initialize
 		final int n = 4;
@@ -90,7 +91,7 @@ public class CombinatoricsTest
 	 * Test of toFactoradic method, of class Combinatorics.
 	 */
 	public void testToFactoradic() {
-		IO.test("• toFactoradic");
+		IO.test(BULLET, " toFactoradic");
 
 		IO.test("- Get the factoradic representation of 463");
 		ExtendedLinkedList<Integer> factoradicValue = Combinatorics.toFactoradic(463);
@@ -111,7 +112,7 @@ public class CombinatoricsTest
 	 * Test of createAllPermutations method, of class Combinatorics.
 	 */
 	public void testCreateAllPermutations() {
-		IO.test("• createAllPermutations");
+		IO.test(BULLET, " createAllPermutations");
 
 		// Initialize
 		final int n = 4;
@@ -133,7 +134,7 @@ public class CombinatoricsTest
 	 * Test of createPermutations method, of class Combinatorics.
 	 */
 	public void testCreatePermutations() {
-		IO.test("• createPermutations");
+		IO.test(BULLET, " createPermutations");
 
 		// Initialize
 		final int n = 4;
@@ -155,7 +156,7 @@ public class CombinatoricsTest
 	 * Test of createKPermutations method, of class Combinatorics.
 	 */
 	public void testCreateKPermutations() {
-		IO.test("• createKPermutations");
+		IO.test(BULLET, " createKPermutations");
 
 		// Initialize
 		final int n = 4;
@@ -187,7 +188,7 @@ public class CombinatoricsTest
 	 * Test of createAllCombinations method, of class Combinatorics.
 	 */
 	public void testCreateAllCombinations() {
-		IO.test("• createAllCombinations");
+		IO.test(BULLET, " createAllCombinations");
 
 		// Initialize
 		final int n = 4;
@@ -209,7 +210,7 @@ public class CombinatoricsTest
 	 * Test of createKCombinations method, of class Combinatorics.
 	 */
 	public void testCreateKCombinations() {
-		IO.test("• createKCombinations");
+		IO.test(BULLET, " createKCombinations");
 
 		// Initialize
 		final int n = 4;
@@ -242,7 +243,7 @@ public class CombinatoricsTest
 	 * Test of P method, of class Combinatorics.
 	 */
 	public void testP() {
-		IO.test("• P");
+		IO.test(BULLET, " P");
 
 		{
 			final int n = 10;
@@ -278,7 +279,7 @@ public class CombinatoricsTest
 	 * Test of PFR method, of class Combinatorics.
 	 */
 	public void testPRF() {
-		IO.test("• PFR");
+		IO.test(BULLET, " PFR");
 
 		IO.test("- Count the number of anagrams of the word ", Strings.quote("MISSISSIPI"));
 		assertEquals(34650, Combinatorics.PFR(new int[] {1, 4, 4, 2}));
@@ -302,7 +303,7 @@ public class CombinatoricsTest
 	 * Test of C method, of class Combinatorics.
 	 */
 	public void testC() {
-		IO.test("• C");
+		IO.test(BULLET, " C");
 
 		{
 			final int n = 10;
@@ -336,7 +337,7 @@ public class CombinatoricsTest
 	 * Test of CR method, of class Combinatorics.
 	 */
 	public void testCR() {
-		IO.test("• CR");
+		IO.test(BULLET, " CR");
 
 		// Count the number of ways to choose 3 donuts from 4 distinct categories with repetition
 		assertEquals(20L, Combinatorics.CR(4L, 3L));
@@ -346,7 +347,7 @@ public class CombinatoricsTest
 	 * Test of CFR method, of class Combinatorics.
 	 */
 	public void testCFR() {
-		IO.test("• CFR");
+		IO.test(BULLET, " CFR");
 
 		int k = 3;
 		int[] ms = new int[] {2, 2};

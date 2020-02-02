@@ -24,6 +24,7 @@
 package jupiter.common.struct.map.tree;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class AvlTreeMapTest
 	 * Test of getHeight method, of class AvlTreeMap.
 	 */
 	public void testGetHeight() {
-		IO.test("• getHeight");
+		IO.test(BULLET, " getHeight");
 
 		// • Fill with 7 elements
 		AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(Integer.class);
@@ -65,7 +66,7 @@ public class AvlTreeMapTest
 	 * Test of put method, of class AvlTreeMap.
 	 */
 	public void testPut() {
-		IO.test("• put");
+		IO.test(BULLET, " put");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
 				Integer.class);
@@ -78,7 +79,7 @@ public class AvlTreeMapTest
 	 * Test of remove method, of class AvlTreeMap.
 	 */
 	public void testRemove() {
-		IO.test("• removeNode");
+		IO.test(BULLET, " removeNode");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
 				Integer.class);
@@ -92,7 +93,7 @@ public class AvlTreeMapTest
 	 * Test of clone method, of class AvlTreeMap.
 	 */
 	public void testClone() {
-		IO.test("• clone");
+		IO.test(BULLET, " clone");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
 				Integer.class);

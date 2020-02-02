@@ -47,7 +47,7 @@ public class Arrays {
 	/**
 	 * The default {@code char} delimiter.
 	 */
-	public static final char DEFAULT_DELIMITER = ',';
+	public static final char DELIMITER = ',';
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,11 +178,11 @@ public class Arrays {
 	}
 
 	public static <T> ExtendedLinkedList<T> toLinkedList(final T[] array) {
-		final ExtendedLinkedList<T> list = new ExtendedLinkedList<T>();
+		final ExtendedLinkedList<T> linkedList = new ExtendedLinkedList<T>();
 		for (final T element : array) {
-			list.add(element);
+			linkedList.add(element);
 		}
-		return list;
+		return linkedList;
 	}
 
 	public static <T> ExtendedLinkedList<T> asLinkedList(final T... array) {
@@ -250,7 +250,7 @@ public class Arrays {
 	 * @return a representative {@link String} of the specified array of {@link Object}
 	 */
 	public static String join(final Object... array) {
-		return Strings.joinWith(array, DEFAULT_DELIMITER);
+		return Strings.joinWith(array, DELIMITER);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

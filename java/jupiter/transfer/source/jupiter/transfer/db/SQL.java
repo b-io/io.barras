@@ -24,6 +24,8 @@
 package jupiter.transfer.db;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.LEFT_BRACE;
+import static jupiter.common.util.Characters.RIGHT_BRACE;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -215,9 +217,8 @@ public class SQL {
 		Arguments.requireNonNull(name, "name");
 
 		// Create the query for executing the stored procedure
-		return "{call ".concat(name)
-				.concat(Arrays.toString(Arrays.repeat("?", parameterCount)))
-				.concat("}");
+		return Strings.join(LEFT_BRACE, "call ", name,
+				Arrays.toString(Arrays.repeat('?', parameterCount)), RIGHT_BRACE);
 	}
 
 	public static CallableStatement createStoredProcedureCall(final Connection connection,

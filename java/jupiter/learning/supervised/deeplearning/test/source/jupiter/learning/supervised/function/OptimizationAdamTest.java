@@ -24,6 +24,7 @@
 package jupiter.learning.supervised.function;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
@@ -42,7 +43,7 @@ public class OptimizationAdamTest
 	 * Test of optimize method, of class OptimizationAdam.
 	 */
 	public void testOptimize() {
-		IO.test("• optimize");
+		IO.test(BULLET, " optimize");
 
 		// Initialize
 		final int layerCount = 2; // L

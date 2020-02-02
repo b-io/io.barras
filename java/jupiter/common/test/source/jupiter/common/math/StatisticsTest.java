@@ -24,6 +24,7 @@
 package jupiter.common.math;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.test.Test;
 
@@ -40,7 +41,7 @@ public class StatisticsTest
 	 * Test of normalCdf method, of class Statistics.
 	 */
 	public void testNormalCdf() {
-		IO.test("• normalCdf");
+		IO.test(BULLET, " normalCdf");
 
 		final double normalCdf = Statistics.normalCdf(0.);
 		assertEquals(0.5, normalCdf, Maths.TOLERANCE);
@@ -50,7 +51,7 @@ public class StatisticsTest
 	 * Test of normalCdfInverse method, of class Statistics.
 	 */
 	public void testNormalCdfInverse() {
-		IO.test("• normalCdfInverse");
+		IO.test(BULLET, " normalCdfInverse");
 
 		final double normalCdfInverse = Statistics.normalCdfInverse(Maths.DEFAULT_CONFIDENCE);
 		IO.test("Accuracy: ", Maths.delta(normalCdfInverse, Maths.DEFAULT_Z));

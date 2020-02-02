@@ -24,6 +24,7 @@
 package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ReservedThreadPoolExecutorTest
 	 * Test of addTask method, of class ReservedThreadPoolExecutor.
 	 */
 	public void testSubmit() {
-		IO.test("• submit");
+		IO.test(BULLET, " submit");
 
 		// Initialize
 		final int taskCount = 100000;

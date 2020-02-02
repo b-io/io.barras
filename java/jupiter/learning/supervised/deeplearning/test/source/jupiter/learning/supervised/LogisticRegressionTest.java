@@ -24,6 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.io.IOException;
 
@@ -43,7 +44,7 @@ public class LogisticRegressionTest
 	 * Test of classify method, of class LogisticRegression.
 	 */
 	public void testClassify() {
-		IO.test("• classify");
+		IO.test(BULLET, " classify");
 
 		try {
 			// Initialize

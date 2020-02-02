@@ -24,6 +24,7 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
 import java.io.FileNotFoundException;
@@ -53,7 +54,7 @@ public class MatrixTest
 	 * Test of multiply method, of class Matrix.
 	 */
 	public void testMultiply() {
-		IO.test("• multiply");
+		IO.test(BULLET, " multiply");
 
 		// Initialize
 		final int testCount = 10;
@@ -183,7 +184,7 @@ public class MatrixTest
 	 * Test of division method, of class Matrix.
 	 */
 	public void testDivision() {
-		IO.test("• division");
+		IO.test(BULLET, " division");
 
 		// Initialize
 		final Matrix A = Matrix.random(10);
@@ -196,7 +197,7 @@ public class MatrixTest
 	 * Test of forward method, of class Matrix.
 	 */
 	public void testForward() {
-		IO.test("• forward");
+		IO.test(BULLET, " forward");
 
 		// Initialize
 		final int testCount = 10;

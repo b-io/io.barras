@@ -228,9 +228,9 @@ public class IO
 		consoleHandler = DEFAULT_CONSOLE_HANDLER;
 		logHandler = DEFAULT_LOG_HANDLER;
 		for (final IOHandler handler : handlers) {
-			if (ConsoleHandler.class.isAssignableFrom(handler.getClass())) {
+			if (handler instanceof ConsoleHandler) {
 				consoleHandler = (ConsoleHandler) handler;
-			} else if (LogHandler.class.isAssignableFrom(handler.getClass())) {
+			} else if (handler instanceof LogHandler) {
 				logHandler = (LogHandler) handler;
 			}
 		}

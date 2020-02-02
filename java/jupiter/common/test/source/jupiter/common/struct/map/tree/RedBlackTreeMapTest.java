@@ -24,6 +24,7 @@
 package jupiter.common.struct.map.tree;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class RedBlackTreeMapTest
 	 * Test of getHeight method, of class RedBlackTreeMap.
 	 */
 	public void testGetHeight() {
-		IO.test("• getHeight");
+		IO.test(BULLET, " getHeight");
 
 		// • Fill with 7 elements
 		RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(
@@ -66,7 +67,7 @@ public class RedBlackTreeMapTest
 	 * Test of put method, of class RedBlackTreeMap.
 	 */
 	public void testPut() {
-		IO.test("• put");
+		IO.test(BULLET, " put");
 
 		final int n = 100;
 
@@ -83,7 +84,7 @@ public class RedBlackTreeMapTest
 	 * Test of remove method, of class RedBlackTreeMap.
 	 */
 	public void testRemove() {
-		IO.test("• remove");
+		IO.test(BULLET, " remove");
 
 		final int n = 100;
 
@@ -99,7 +100,7 @@ public class RedBlackTreeMapTest
 	 * Test of clone method, of class RedBlackTreeMap.
 	 */
 	public void testClone() {
-		IO.test("• clone");
+		IO.test(BULLET, " clone");
 
 		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(
 				Integer.class);

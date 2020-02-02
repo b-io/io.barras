@@ -160,7 +160,7 @@ public class SQLGenericRow
 				builder.append(": ");
 				builder.append(Strings.doubleQuote(elements[i]));
 				if (i != n - 1) {
-					builder.append(Arrays.DEFAULT_DELIMITER);
+					builder.append(Arrays.DELIMITER);
 				}
 			}
 		}

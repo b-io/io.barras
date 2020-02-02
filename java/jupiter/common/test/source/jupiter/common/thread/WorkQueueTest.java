@@ -24,6 +24,7 @@
 package jupiter.common.thread;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.util.HashSet;
 import java.util.List;
@@ -46,7 +47,7 @@ public class WorkQueueTest
 	 * Test of constants, of class WorkQueue.
 	 */
 	public void testConstants() {
-		IO.test("• constants");
+		IO.test(BULLET, " constants");
 
 		// Initialize
 		final WorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(

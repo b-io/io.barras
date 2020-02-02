@@ -38,7 +38,7 @@ public class Collections {
 	/**
 	 * The default delimiting {@link String}.
 	 */
-	public static final String DEFAULT_DELIMITER = ",";
+	public static final String DELIMITER = ",";
 
 	/**
 	 * The default initial capacity.
@@ -69,7 +69,7 @@ public class Collections {
 	 * @return a representative {@link String} of the specified {@link Collection}
 	 */
 	public static String join(final Collection<?> collection) {
-		return Strings.joinWith(collection, DEFAULT_DELIMITER);
+		return Strings.joinWith(collection, DELIMITER);
 	}
 
 
@@ -225,7 +225,7 @@ public class Collections {
 	 * @return a representative {@link String} of the specified {@link Collection}
 	 */
 	public static String toString(final Collection<?> collection) {
-		return Strings.bracketize(Strings.joinWith(collection, DEFAULT_DELIMITER));
+		return Strings.bracketize(Strings.joinWith(collection, DELIMITER));
 	}
 
 	/**

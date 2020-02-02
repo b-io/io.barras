@@ -24,6 +24,7 @@
 package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.io.IOException;
 
@@ -42,7 +43,7 @@ public class TableTest
 	 * Test of transpose method, of class Table.
 	 */
 	public void testTranspose() {
-		IO.test("• transpose");
+		IO.test(BULLET, " transpose");
 
 		final DoubleTable table1 = new DoubleTable(1, 2);
 		table1.fill(5.);
@@ -60,7 +61,7 @@ public class TableTest
 	 * Test of load method, of class Table.
 	 */
 	public void testLoad() {
-		IO.test("• load");
+		IO.test(BULLET, " load");
 
 		try {
 			new StringTable("test/resources/testFX.csv", true);
@@ -75,7 +76,7 @@ public class TableTest
 	 * Test of equals method, of class Table.
 	 */
 	public void testEquals() {
-		IO.test("• equals");
+		IO.test(BULLET, " equals");
 
 		final DoubleTable table1 = new DoubleTable(1, 2);
 		table1.fill(5.);
@@ -87,7 +88,7 @@ public class TableTest
 	 * Test of hashCode method, of class Table.
 	 */
 	public void testHashCode() {
-		IO.test("• hashCode");
+		IO.test(BULLET, " hashCode");
 
 		final DoubleTable table1 = new DoubleTable(1, 2);
 		table1.fill(5.);

@@ -21,6 +21,7 @@
 package jupiter.math.statistics;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.math.Maths;
 import jupiter.common.test.Test;
@@ -38,7 +39,7 @@ public class StatisticsTest
 	 * Test of getConditionalProbability method, of class Statistics.
 	 */
 	public void testGetConditionalProbability() {
-		IO.test("• getConditionalProbability");
+		IO.test(BULLET, " getConditionalProbability");
 
 		// Compute the conditional probability of cheating given 3 consecutive victories (12.5%)
 		final double peh = 0.5; // probability of winning if cheating
