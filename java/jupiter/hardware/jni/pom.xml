@@ -19,9 +19,9 @@
 
 	<properties>
 		<!-- Maven -->
-		<maven.helper.version>1.12</maven.helper.version>
+		<maven.helper.version>3.0.0</maven.helper.version>
 		<!-- Native Library Loader -->
-		<nativelib.loader.version>2.3.4</nativelib.loader.version>
+		<nativelib.loader.version>2.2.0</nativelib.loader.version>
 	</properties>
 
 	<!-- Project Settings -->
