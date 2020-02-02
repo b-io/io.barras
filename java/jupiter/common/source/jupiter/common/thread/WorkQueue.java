@@ -354,6 +354,7 @@ public class WorkQueue<I, O>
 	 * <p>
 	 * @param worker the {@link Worker} of types {@code I} and {@code O} to kill
 	 */
+	@SuppressWarnings("deprecation")
 	public void killWorker(final Worker<I, O> worker) {
 		worker.stop();
 		removeWorker(worker);
@@ -362,6 +363,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Kills all the {@link Worker}.
 	 */
+	@SuppressWarnings("deprecation")
 	public void killAllWorkers() {
 		Threads.sleep();
 		for (final Worker<I, O> worker : workers) {

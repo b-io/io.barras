@@ -205,6 +205,7 @@ public abstract class Worker<I, O>
 	 * @see java.lang.ref.WeakReference
 	 */
 	@Override
+	@SuppressWarnings("deprecation")
 	protected void finalize() {
 		IO.debug(this, " is finalized");
 		try {

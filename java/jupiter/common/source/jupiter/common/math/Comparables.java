@@ -51,6 +51,7 @@ public class Comparables {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@SuppressWarnings("unchecked")
 	public static <T> Comparator<? super T> getComparator(final Class<T> c) {
 		if (Comparables.is(c)) {
 			return Comparables.<T>createCastComparator();
