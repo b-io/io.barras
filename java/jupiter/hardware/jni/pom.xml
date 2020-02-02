@@ -24,6 +24,7 @@
 		<nativelib.loader.version>2.3.4</nativelib.loader.version>
 	</properties>
 
+	<!-- Project Settings -->
 	<dependencies>
 		<!-- Native Library Loader -->
 		<dependency>
@@ -40,6 +41,7 @@
 		</dependency>
 	</dependencies>
 
+	<!-- Build Settings -->
 	<build>
 		<plugins>
 			<!-- Package the JNI library -->

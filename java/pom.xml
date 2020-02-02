@@ -19,10 +19,6 @@
 	<description>Libraries written in Java</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java</url>
 
-	<modules>
-		<module>jupiter</module>
-	</modules>
-
 	<properties>
 		<!-- Project -->
 		<project.build.source>1.6</project.build.source>
@@ -35,6 +31,11 @@
 		<junit.verison>4.12</junit.verison>
 	</properties>
 
+	<!-- Project Settings -->
+	<modules>
+		<module>jupiter</module>
+	</modules>
+
 	<dependencies>
 		<!-- JUnit -->
 		<dependency>
@@ -45,6 +46,7 @@
 		</dependency>
 	</dependencies>
 
+	<!-- Build Settings -->
 	<build>
 		<plugins>
 			<!-- Compile Java -->

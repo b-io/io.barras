@@ -25,6 +25,7 @@
 		<jogamp.version>2.3.2</jogamp.version>
 	</properties>
 
+	<!-- Project Settings -->
 	<dependencies>
 		<!-- JOCL -->
 		<dependency>

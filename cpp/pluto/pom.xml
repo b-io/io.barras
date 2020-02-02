@@ -18,6 +18,7 @@
 	<description>Utility library for C++</description>
 	<url>https://github.com/b-io/io.barras/tree/master/cpp/pluto</url>
 
+	<!-- Build Settings -->
 	<build>
 		<plugins>
 			<!-- Compile C++ to a shared library -->

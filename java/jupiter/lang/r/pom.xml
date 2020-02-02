@@ -23,6 +23,7 @@
 		<rosuda.rserve.version>1.8.1</rosuda.rserve.version>
 	</properties>
 
+	<!-- Project Settings -->
 	<dependencies>
 		<!-- ROSUDA -->
 		<dependency>

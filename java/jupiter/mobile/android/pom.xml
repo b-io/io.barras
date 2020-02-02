@@ -22,6 +22,7 @@
 		<google.android.version>2.2.1</google.android.version>
 	</properties>
 
+	<!-- Project Settings -->
 	<dependencies>
 		<!-- Google Android -->
 		<dependency>

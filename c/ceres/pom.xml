@@ -24,6 +24,7 @@
 		<warning.option>-Wpadded</warning.option>
 	</properties>
 
+	<!-- Build Settings -->
 	<build>
 		<plugins>
 			<!-- Compile C to a shared library -->

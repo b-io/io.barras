@@ -17,6 +17,7 @@
 	<description>Asymmetric and symmetric cryptographic algorithms</description>
 	<url>https://github.com/b-io/io.barras/tree/master/scala/saturn/security/crypto</url>
 
+	<!-- Project Settings -->
 	<dependencies>
 		<!-- Saturn -->
 		<dependency>

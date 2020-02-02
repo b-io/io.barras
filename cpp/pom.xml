@@ -18,10 +18,6 @@
 	<description>Libraries written in C++</description>
 	<url>https://github.com/b-io/io.barras/tree/master/cpp</url>
 
-	<modules>
-		<module>pluto</module>
-	</modules>
-
 	<properties>
 		<!-- Project -->
 		<project.build.source>1.8</project.build.source>
@@ -38,6 +34,12 @@
 		<warning.option>-Wpadded</warning.option>
 	</properties>
 
+	<!-- Project Settings -->
+	<modules>
+		<module>pluto</module>
+	</modules>
+
+	<!-- Build Settings -->
 	<build>
 		<pluginManagement>
 			<plugins>

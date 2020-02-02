@@ -27,6 +27,7 @@
 		<sun.mail.version>1.6.2</sun.mail.version>
 	</properties>
 
+	<!-- Project Settings -->
 	<dependencies>
 		<!-- Apache Commons (for the file package) -->
 		<dependency>

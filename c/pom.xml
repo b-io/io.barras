@@ -18,13 +18,14 @@
 	<description>Libraries written in C</description>
 	<url>https://github.com/b-io/io.barras/tree/master/c</url>
 
-	<modules>
-		<module>ceres</module>
-	</modules>
-
 	<properties>
 		<!-- Project -->
 		<project.build.source>1.8</project.build.source>
 		<project.build.target>1.8</project.build.target>
 	</properties>
+
+	<!-- Project Settings -->
+	<modules>
+		<module>ceres</module>
+	</modules>
 </project>

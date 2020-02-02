@@ -18,6 +18,7 @@
 	<description>Utility library for POSIX Shell</description>
 	<url>https://github.com/b-io/io.barras/tree/master/shell/uranus</url>
 
+	<!-- Build Settings -->
 	<build>
 		<plugins>
 			<!-- Install -->
