@@ -14,15 +14,6 @@
 	<url>https://github.com/b-io/io.barras</url>
 	<inceptionYear>2013</inceptionYear>
 
-	<developers>
-		<developer>
-			<id>b-io</id>
-			<name>Florian Barras</name>
-			<email>florian@barras.io</email>
-			<url>https://barras.io</url>
-		</developer>
-	</developers>
-
 	<licenses>
 		<license>
 			<name>The MIT License (MIT)</name>
@@ -32,23 +23,25 @@
 		</license>
 	</licenses>
 
-	<modules>
-		<module>c</module>
-		<module>cpp</module>
-		<module>java</module>
-		<module>scala</module>
-		<module>shell</module>
-	</modules>
+	<developers>
+		<developer>
+			<id>b-io</id>
+			<name>Florian Barras</name>
+			<email>florian@barras.io</email>
+			<url>https://barras.io</url>
+		</developer>
+	</developers>
 
 	<properties>
 		<!-- Project -->
 		<project.build.source>1.8</project.build.source>
 		<project.build.target>1.8</project.build.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.url>https://github.com/b-io/io.barras</project.url>
 		<!-- Maven -->
 		<maven.compiler.source>${project.build.source}</maven.compiler.source>
 		<maven.compiler.target>${project.build.target}</maven.compiler.target>
-		<maven.artifact.version>2.2.1</maven.artifact.version>
+		<maven.artifact.version>3.6.3</maven.artifact.version>
 		<maven.project.version>2.2.1</maven.project.version>
 		<maven.nar.version>3.2.3</maven.nar.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
@@ -70,15 +63,25 @@
 		<optimisation.option>-O2</optimisation.option>
 		<debug.option>-g</debug.option>
 		<warning.option />
-		<!-- SCM -->
-		<scm.url>https://github.com/b-io/io.barras</scm.url>
 	</properties>
+
+	<!-- Environment Settings -->
+	<issueManagement>
+		<system>GitHub</system>
+		<url>${project.url}/issues</url>
+	</issueManagement>
+
+	<scm>
+		<url>${project.url}</url>
+		<connection>scm:git:${project.url}</connection>
+		<developerConnection>scm:git:${project.url}</developerConnection>
+	</scm>
 
 	<repositories>
 		<!-- Maven -->
 		<repository>
-			<id>default</id>
-			<name>Default</name>
+			<id>central</id>
+			<name>Central</name>
 			<url>https://repo.maven.apache.org/maven2</url>
 			<releases>
 				<enabled>true</enabled>
@@ -92,6 +95,34 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
+	<pluginRepositories>
+		<!-- Maven -->
+		<pluginRepository>
+			<id>central</id>
+			<name>Central</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<!-- Project Settings -->
+	<modules>
+		<module>c</module>
+		<module>cpp</module>
+		<module>java</module>
+		<module>scala</module>
+		<module>shell</module>
+	</modules>
 
 	<dependencies>
 		<!-- Maven -->
@@ -107,17 +138,7 @@
 		</dependency>
 	</dependencies>
 
-	<scm>
-		<url>${scm.url}</url>
-		<connection>scm:git:${scm.url}</connection>
-		<developerConnection>scm:git:${scm.url}</developerConnection>
-	</scm>
-
-	<issueManagement>
-		<system>GitHub</system>
-		<url>${scm.url}/issues</url>
-	</issueManagement>
-
+	<!-- Build Settings -->
 	<build>
 		<!-- Source -->
 		<sourceDirectory>${build.sourceFolder}</sourceDirectory>
