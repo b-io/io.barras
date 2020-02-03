@@ -54,6 +54,8 @@ public abstract class Classifier
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The default learning rate α.
 	 */
@@ -78,6 +80,8 @@ public abstract class Classifier
 	 * The default maximum number of iterations.
 	 */
 	public static volatile int DEFAULT_MAX_ITERATIONS = Integers.convert(1E6);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The minimum convergence test frequency.

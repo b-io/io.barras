@@ -47,6 +47,8 @@ public abstract class OpenCL
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The flag specifying whether OpenCL is active.
 	 */

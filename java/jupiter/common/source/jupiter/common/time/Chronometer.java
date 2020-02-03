@@ -45,6 +45,8 @@ public class Chronometer
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The number of time units.
 	 */

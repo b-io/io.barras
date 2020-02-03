@@ -49,6 +49,8 @@ public class WorkQueue<I, O>
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The default minimum number of {@link Worker} to handle.
 	 */

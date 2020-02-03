@@ -42,6 +42,8 @@ public class ComparableSort
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * This is the minimum sized sequence that will be merged. Shorter sequences will be lengthened
 	 * by calling the static method {@link #binarySort}. If the entire array is less than this

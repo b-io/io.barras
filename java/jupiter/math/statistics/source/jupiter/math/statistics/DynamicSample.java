@@ -37,6 +37,8 @@ public class DynamicSample
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The minimum sample size (2 for the first sample standard deviation and 1 for the second one).
 	 */

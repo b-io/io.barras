@@ -119,6 +119,8 @@ public class Matrix
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The column {@code char} delimiters.
 	 */
@@ -127,6 +129,8 @@ public class Matrix
 	 * The row {@code char} delimiter.
 	 */
 	public static final char ROW_DELIMITER = ';';
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.

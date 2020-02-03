@@ -53,10 +53,14 @@ public class R
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static final String R_PATH = "R";
 	public static final String R_SCRIPT_PATH = "RScript";
 	public static final String[] ARGS = new String[] {};
 	public static volatile String REPO = "https://cloud.r-project.org";
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The default {@link RPrinter}.

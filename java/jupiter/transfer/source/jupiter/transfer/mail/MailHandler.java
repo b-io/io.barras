@@ -68,6 +68,8 @@ public class MailHandler
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The system-dependent default name-separator {@link String} of the remote file system.
 	 */

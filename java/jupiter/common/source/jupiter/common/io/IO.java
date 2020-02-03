@@ -61,6 +61,13 @@ public class IO
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The end-of-file (or stream).
+	 */
+	public static final int EOF = -1;
+
 	/**
 	 * The flag specifying whether to exit with success.
 	 */
@@ -70,10 +77,7 @@ public class IO
 	 */
 	public static final int EXIT_FAILURE = 1;
 
-	/**
-	 * The end-of-file (or stream).
-	 */
-	public static final int EOF = -1;
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The default {@link SeverityLevel}.
@@ -89,20 +93,24 @@ public class IO
 	 */
 	public static final LogHandler DEFAULT_LOG_HANDLER = new LogHandler();
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The default {@link IO}.
 	 */
 	public static final IO IO = new IO();
 
-	/**
-	 * The stack index offset.
-	 */
-	protected static final int STACK_INDEX_OFFSET = 1;
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The buffer size used for copying.
 	 */
 	protected static volatile int BUFFER_SIZE = 4096; // [byte]
+
+	/**
+	 * The stack index offset.
+	 */
+	protected static final int STACK_INDEX_OFFSET = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

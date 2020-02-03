@@ -64,7 +64,6 @@ public class Formats {
 	 * The default {@link Format}.
 	 */
 	public static volatile Format DEFAULT_FORMAT = new Format() {
-
 		/**
 		 * The generated serial version ID.
 		 */

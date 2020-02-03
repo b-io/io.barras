@@ -49,6 +49,8 @@ public class ConsoleHandler
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The flag specifying whether to use colors.
 	 */

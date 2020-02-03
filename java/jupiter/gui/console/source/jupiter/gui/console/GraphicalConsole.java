@@ -50,6 +50,8 @@ public class GraphicalConsole
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	protected static final String TITLE = "Jupiter v" + VERSION;
 
 

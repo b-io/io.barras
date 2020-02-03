@@ -64,6 +64,8 @@ public class Calculator
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */

@@ -44,6 +44,8 @@ public class ProgressBar
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The start {@code char} symbol.
 	 */

@@ -48,6 +48,8 @@ public class LogHandler
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The default {@link String} log directory.
 	 */

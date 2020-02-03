@@ -67,6 +67,8 @@ public class ExpressionHandler
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The {@link List} of binary operators.
 	 */
@@ -80,6 +82,8 @@ public class ExpressionHandler
 	@SuppressWarnings("unchecked")
 	protected static final List<List<Character>> UNARY_FUNCTIONS = Arrays.<List<Character>>asList(
 			Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.

@@ -53,7 +53,15 @@ public abstract class Worker<I, O>
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The current identifier.
+	 */
 	protected static volatile long CURRENT_ID = 0L;
+	/**
+	 * The internal {@link Lock} of the current identifier.
+	 */
 	protected static final Lock CURRENT_ID_LOCK = new ReentrantLock(true);
 
 

@@ -64,6 +64,8 @@ public class Table<E>
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The column {@code char} delimiters.
 	 */

@@ -49,6 +49,8 @@ public class Result<O>
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The stack index offset.
 	 */

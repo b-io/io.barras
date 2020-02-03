@@ -47,6 +47,8 @@ public class Scalar
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static final Dimensions DIMENSIONS = new Dimensions(1, 1);
 
 	public static final Scalar ZERO = new Scalar(0., true);

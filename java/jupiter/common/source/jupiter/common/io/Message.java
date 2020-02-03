@@ -46,6 +46,8 @@ public class Message
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The default stack index.
 	 */
