@@ -57,8 +57,8 @@ import jupiter.common.thread.DivideAndConquer;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.hardware.gpu.OpenCL;
@@ -2664,7 +2664,7 @@ public class Matrix
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				final String formattedElement = Formats.formatNumber(elements[i * n + j]);
+				final String formattedElement = Numbers.toString(elements[i * n + j]);
 				final int padding = Math.max(1, columnWidth - formattedElement.length());
 				for (int k = 0; k < padding; ++k) {
 					builder.append(' ');

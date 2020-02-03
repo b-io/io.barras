@@ -29,7 +29,7 @@ import static jupiter.common.util.Formats.NUMBER_LENGTH;
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.math.Maths;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Formats;
+import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
@@ -854,7 +854,7 @@ public class Scalar
 	 */
 	public String toString(final int width) {
 		final StringBuilder builder = Strings.createBuilder(NUMBER_LENGTH);
-		final String formattedValue = Formats.formatNumber(value);
+		final String formattedValue = Numbers.toString(value);
 		final int padding = Math.max(0, width - formattedValue.length());
 		for (int k = 0; k < padding; ++k) {
 			builder.append(' ');
