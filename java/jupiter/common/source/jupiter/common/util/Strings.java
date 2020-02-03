@@ -74,8 +74,6 @@ public class Strings {
 
 	public static final String NULL = "null";
 
-	public static final String SPACE = " ";
-
 	public static final String STAR = "*";
 
 	public static final String UNICODE = "\\u";

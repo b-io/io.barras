@@ -24,7 +24,7 @@
 package jupiter.lang.r;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Strings.SPACE;
+import static jupiter.common.util.Characters.SPACE;
 
 import java.io.IOException;
 import java.io.Serializable;

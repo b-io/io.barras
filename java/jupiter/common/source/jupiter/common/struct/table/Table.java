@@ -24,8 +24,8 @@
 package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Formats.NEW_LINE;
-import static jupiter.common.util.Strings.SPACE;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

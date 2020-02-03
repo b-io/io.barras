@@ -23,7 +23,7 @@
  */
 package jupiter.common.thread;
 
-import static jupiter.common.util.Strings.SPACE;
+import static jupiter.common.util.Characters.SPACE;
 
 import java.io.Serializable;
 

@@ -26,7 +26,7 @@ package jupiter.learning.supervised;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
-import static jupiter.common.util.Strings.SPACE;
+import static jupiter.common.util.Characters.SPACE;
 import static jupiter.math.analysis.function.Functions.ROUND;
 
 import java.util.HashMap;

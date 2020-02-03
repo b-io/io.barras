@@ -24,7 +24,7 @@
 package jupiter.math.filters;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Strings.SPACE;
+import static jupiter.common.util.Characters.SPACE;
 
 import java.io.Serializable;
 

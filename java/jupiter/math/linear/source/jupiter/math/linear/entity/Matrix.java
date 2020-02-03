@@ -26,11 +26,11 @@ package jupiter.math.linear.entity;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.RIGHT_BRACKET;
+import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Formats.NUMBER_LENGTH;
 import static jupiter.common.util.Strings.EMPTY;
-import static jupiter.common.util.Strings.SPACE;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
 import java.io.BufferedReader;
