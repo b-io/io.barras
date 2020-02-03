@@ -28,37 +28,37 @@ import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.test.Test;
 
-public class FormatsTest
+public class NumbersTest
 		extends Test {
 
-	public FormatsTest(final String name) {
+	public NumbersTest(final String name) {
 		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of formatNumber method, of class Formats.
+	 * Test of toString method, of class Numbers.
 	 */
-	public void testFormatNumber() {
-		IO.test(BULLET, " formatNumber");
+	public void testToString() {
+		IO.test(BULLET, " toString");
 
-		IO.test(Formats.formatNumber(0.0000001));
-		assertEquals("1E-7", Formats.formatNumber(0.0000001));
-		assertEquals("0.000001", Formats.formatNumber(0.000001));
-		assertEquals("0.00001", Formats.formatNumber(0.00001));
-		assertEquals("0.0001", Formats.formatNumber(0.0001));
-		assertEquals("0.001", Formats.formatNumber(0.001));
-		assertEquals("0.01", Formats.formatNumber(0.01));
-		assertEquals("0.1", Formats.formatNumber(0.1));
-		assertEquals("0", Formats.formatNumber(0.));
+		IO.test(Numbers.toString(0.0000001));
+		assertEquals("1E-7", Numbers.toString(0.0000001));
+		assertEquals("0.000001", Numbers.toString(0.000001));
+		assertEquals("0.00001", Numbers.toString(0.00001));
+		assertEquals("0.0001", Numbers.toString(0.0001));
+		assertEquals("0.001", Numbers.toString(0.001));
+		assertEquals("0.01", Numbers.toString(0.01));
+		assertEquals("0.1", Numbers.toString(0.1));
+		assertEquals("0", Numbers.toString(0.));
 
-		assertEquals("1", Formats.formatNumber(1));
-		assertEquals("12", Formats.formatNumber(12));
-		assertEquals("123", Formats.formatNumber(123));
-		assertEquals("1234", Formats.formatNumber(1234));
-		assertEquals("12345", Formats.formatNumber(12345));
-		assertEquals("123456", Formats.formatNumber(123456));
-		assertEquals("1.234567E6", Formats.formatNumber(1234567));
+		assertEquals("1", Numbers.toString(1));
+		assertEquals("12", Numbers.toString(12));
+		assertEquals("123", Numbers.toString(123));
+		assertEquals("1234", Numbers.toString(1234));
+		assertEquals("12345", Numbers.toString(12345));
+		assertEquals("123456", Numbers.toString(123456));
+		assertEquals("1.234567E6", Numbers.toString(1234567));
 	}
 }

@@ -210,7 +210,7 @@ public class Combinatorics {
 			quotient /= radix;
 			factoradicValue.push(remainder);
 			++radix;
-		} while (quotient != 0);
+		} while (quotient > 0);
 		return factoradicValue;
 	}
 

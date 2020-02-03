@@ -23,6 +23,13 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Formats.DECIMAL_FORMAT;
+import static jupiter.common.util.Formats.DOUBLE_DECIMAL_FORMAT;
+import static jupiter.common.util.Formats.MAX_FRACTION_DIGITS;
+import static jupiter.common.util.Formats.MAX_INTEGER_DIGITS;
+import static jupiter.common.util.Formats.SCIENTIFIC_DECIMAL_FORMAT;
+import static jupiter.common.util.Strings.EMPTY;
+
 import java.math.BigDecimal;
 import java.util.Comparator;
 
@@ -71,7 +78,7 @@ public class Numbers {
 		if (number instanceof BigDecimal) {
 			return (BigDecimal) number;
 		}
-		return new BigDecimal(Strings.toString(number));
+		return new BigDecimal(toString(number));
 	}
 
 	/**
@@ -333,5 +340,38 @@ public class Numbers {
 			return toBigDecimal(a).subtract(toBigDecimal(b)).abs().doubleValue() <= tolerance;
 		}
 		return Doubles.equals(a.doubleValue(), b.doubleValue(), tolerance);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the representative {@link String} of the specified {@link Number}.
+	 * <p>
+	 * @param number a {@link Number}
+	 * <p>
+	 * @return the representative {@link String} of the specified {@link Number}
+	 */
+	public static String toString(final Number number) {
+		// Format the number
+		final String formattedNumber;
+		final String numberString = DOUBLE_DECIMAL_FORMAT.format(number);
+		int integerDigitCount = numberString.length(), fractionDigitCount = numberString.length();
+		if (numberString.contains("-")) {
+			--integerDigitCount;
+			--fractionDigitCount;
+		}
+		final int decimalPointIndex = numberString.indexOf('.');
+		if (decimalPointIndex >= 0) {
+			integerDigitCount -= numberString.length() - decimalPointIndex;
+			fractionDigitCount -= decimalPointIndex + 1;
+		} else {
+			fractionDigitCount = 0;
+		}
+		if (integerDigitCount > MAX_INTEGER_DIGITS || fractionDigitCount > MAX_FRACTION_DIGITS) {
+			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY);
+		} else {
+			formattedNumber = DECIMAL_FORMAT.format(number);
+		}
+		return formattedNumber;
 	}
 }

@@ -428,7 +428,7 @@ public class JConsole
 	}
 
 	protected void historyDown() {
-		if (historicalLineIndex != 0) {
+		if (historicalLineIndex > 0) {
 			--historicalLineIndex;
 			showHistoryLine();
 		}

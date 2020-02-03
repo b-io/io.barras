@@ -331,7 +331,7 @@ public class LockedWorkQueue<I, O>
 				killAllWorkers();
 			}
 
-			while (workerCount != 0) {
+			while (workerCount > 0) {
 				try {
 					workersLockCondition.await();
 				} catch (final InterruptedException ignored) {

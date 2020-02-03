@@ -237,7 +237,7 @@ public class SynchronizedWorkQueue<I, O>
 				killAllWorkers();
 			}
 
-			while (workerCount != 0) {
+			while (workerCount > 0) {
 				try {
 					workers.wait();
 				} catch (final InterruptedException ignored) {

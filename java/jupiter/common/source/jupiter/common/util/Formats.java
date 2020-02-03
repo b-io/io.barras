@@ -23,8 +23,6 @@
  */
 package jupiter.common.util;
 
-import static jupiter.common.util.Strings.EMPTY;
-
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -32,8 +30,6 @@ import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Locale;
-
-import jupiter.common.test.NumberArguments;
 
 public class Formats {
 
@@ -183,37 +179,8 @@ public class Formats {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FORMATTERS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static String formatNumber(final Object number) {
-		// Check the arguments
-		NumberArguments.requireNumber(number);
-
-		// Format the number
-		final String formattedNumber;
-		final String numberString = DOUBLE_DECIMAL_FORMAT.format(number);
-		int integerDigitCount = numberString.length(), fractionDigitCount = numberString.length();
-		if (numberString.contains("-")) {
-			--integerDigitCount;
-			--fractionDigitCount;
-		}
-		final int decimalPointIndex = numberString.indexOf('.');
-		if (decimalPointIndex >= 0) {
-			integerDigitCount -= numberString.length() - decimalPointIndex;
-			fractionDigitCount -= decimalPointIndex + 1;
-		} else {
-			fractionDigitCount = 0;
-		}
-		if (integerDigitCount > MAX_INTEGER_DIGITS || fractionDigitCount > MAX_FRACTION_DIGITS) {
-			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY);
-		} else {
-			formattedNumber = DECIMAL_FORMAT.format(number);
-		}
-		return formattedNumber;
-	}
-
-	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@link DecimalFormat} with the specified decimal pattern {@link String}.
@@ -265,7 +232,7 @@ public class Formats {
 	 * @see DecimalFormat#DOUBLE_INTEGER_DIGITS
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
 	 */
-	protected static DecimalFormat getDoubleDecimalFormat() {
+	public static DecimalFormat getDoubleDecimalFormat() {
 		return getDoubleDecimalFormat(DEFAULT_LOCALE);
 	}
 
@@ -279,7 +246,7 @@ public class Formats {
 	 * @see DecimalFormat#DOUBLE_INTEGER_DIGITS
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
 	 */
-	protected static DecimalFormat getDoubleDecimalFormat(final Locale locale) {
+	public static DecimalFormat getDoubleDecimalFormat(final Locale locale) {
 		final DecimalFormat format = new DecimalFormat();
 		format.setDecimalFormatSymbols(new DecimalFormatSymbols(locale));
 		format.setGroupingUsed(false); // whether to use grouping separators

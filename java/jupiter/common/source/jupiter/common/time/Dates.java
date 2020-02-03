@@ -192,7 +192,7 @@ public class Dates {
 		// Mois et quantième du Samedi saint
 		final int x = e + L - 7 * h + 114;
 		final int m = x / 31, j = x % 31;
-		return createDate(j + 1, m, year);
+		return createDate(year, m, j + 1);
 	}
 
 	/**
@@ -249,23 +249,23 @@ public class Dates {
 	public static ExtendedList<Date> getSwissPublicHolidays(final int year) {
 		final ExtendedList<Date> publicHolidays = new ExtendedList<Date>(9);
 		// Add New Year's Day
-		publicHolidays.add(createDate(1, 1, year));
+		publicHolidays.add(createDate(year, 1, 1));
 		// Add Good Friday
 		publicHolidays.add(getGoodFriday(year));
 		// Add Easter Monday
 		publicHolidays.add(getEasterMonday(year));
 		// Add Labor Day
-		publicHolidays.add(createDate(1, 5, year));
+		publicHolidays.add(createDate(year, 5, 1));
 		// Add Ascension Day
 		publicHolidays.add(getAscensionDay(year));
 		// Add Whit Monday (Pentecost)
 		publicHolidays.add(getPentecostDay(year));
 		// Add Swiss National Day
-		publicHolidays.add(createDate(1, 8, year));
+		publicHolidays.add(createDate(year, 8, 1));
 		// Add Christmas Day
-		publicHolidays.add(createDate(25, 12, year));
+		publicHolidays.add(createDate(year, 12, 25));
 		// Add St. Stephen's Day
-		publicHolidays.add(createDate(26, 12, year));
+		publicHolidays.add(createDate(year, 12, 26));
 		return publicHolidays;
 	}
 
@@ -275,20 +275,57 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link Date} that represents the specified time value.
+	 * Creates a {@link Date} that represents the specified date value.
 	 * <p>
-	 * @param day   the day of the {@link Date} to create
-	 * @param month the month of the {@link Date} to create
 	 * @param year  the year of the {@link Date} to create
+	 * @param month the month of the {@link Date} to create
+	 * @param day   the day of the {@link Date} to create
 	 * <p>
-	 * @return a {@link Date} that represents the specified time value
+	 * @return a {@link Date} that represents the specified date value
 	 */
-	public static Date createDate(final int day, final int month, final int year) {
+	public static Date createDate(final int year, final int month, final int day) {
+		return createDateWithTime(year, month, day, 0, 0, 0, 0L);
+	}
+
+	/**
+	 * Creates a {@link Date} that represents the specified date with time value.
+	 * <p>
+	 * @param year      the year of the {@link Date} to create
+	 * @param month     the month of the {@link Date} to create
+	 * @param day       the day of the {@link Date} to create
+	 * @param hourOfDay the hour of the day of the {@link Date} to create
+	 * @param minute    the minute of the {@link Date} to create
+	 * @param second    the second of the {@link Date} to create
+	 * <p>
+	 * @return a {@link Date} that represents the specified date with time value
+	 */
+	public static Date createDateWithTime(final int year, final int month, final int day,
+			final int hourOfDay, final int minute, final int second) {
+		return createDateWithTime(year, month, day, hourOfDay, minute, second, 0L);
+	}
+
+	/**
+	 * Creates a {@link Date} that represents the specified date with time value.
+	 * <p>
+	 * @param year        the year of the {@link Date} to create
+	 * @param month       the month of the {@link Date} to create
+	 * @param day         the day of the {@link Date} to create
+	 * @param hourOfDay   the hour of the day of the {@link Date} to create
+	 * @param minute      the minute of the {@link Date} to create
+	 * @param second      the second of the {@link Date} to create
+	 * @param millisecond the millisecond of the {@link Date} to create
+	 * <p>
+	 * @return a {@link Date} that represents the specified date with time value
+	 */
+	public static Date createDateWithTime(final int year, final int month, final int day,
+			final int hourOfDay, final int minute, final int second, final long millisecond) {
 		final Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(0L);
-		cal.set(year, month - 1, day, 0, 0, 0);
+		cal.setTimeInMillis(millisecond);
+		cal.set(year, month - 1, day, hourOfDay, minute, second);
 		return cal.getTime();
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the current number of milliseconds since January 1, 1970, 00:00:00 GMT.
@@ -340,7 +377,7 @@ public class Dates {
 	 * @return the number of business days for the specified year
 	 */
 	public static int countBusinessDays(final int year, final List<Date> publicHolidays) {
-		return countBusinessDaysBetween(createDate(1, 1, year), createDate(31, 12, year),
+		return countBusinessDaysBetween(createDate(year, 1, 1), createDate(year, 12, 31),
 				publicHolidays);
 	}
 
@@ -478,20 +515,36 @@ public class Dates {
 		return Date.class.isAssignableFrom(c);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@link Date} is a week day.
 	 * <p>
-	 * @param day the {@link Date} to consider
+	 * @param date the {@link Date} to test
 	 * <p>
 	 * @return {@code true} if the specified {@link Date} is a week day, {@code false} otherwise
 	 */
-	public static Boolean isWeekDay(final Date day) {
+	public static boolean isWeekDay(final Date date) {
 		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(day);
+		calendar.setTime(date);
 		return !(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
 				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Date} has time.
+	 * <p>
+	 * @param date the {@link Date} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Date} has time, {@code false} otherwise
+	 */
+	public static boolean hasTime(final Date date) {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE) +
+				calendar.get(Calendar.SECOND) + calendar.get(Calendar.MILLISECOND) > 0;
 	}
 
 
@@ -528,5 +581,18 @@ public class Dates {
 	 */
 	public static boolean equalsWithTime(final Date a, final Date b) {
 		return Objects.equals(a, b);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the representative {@link String} of the specified {@link Date}.
+	 * <p>
+	 * @param date a {@link Date}
+	 * <p>
+	 * @return the representative {@link String} of the specified {@link Date}
+	 */
+	public static String toString(final Date date) {
+		return hasTime(date) ? formatWithTime(date) : format(date);
 	}
 }

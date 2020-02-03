@@ -40,6 +40,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +59,7 @@ import jupiter.common.struct.list.SortedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
+import jupiter.common.time.Dates;
 
 public class Strings {
 
@@ -3710,8 +3712,10 @@ public class Strings {
 			return Arrays.toString((Object[]) object);
 		} else if (Collections.is(c)) {
 			Collections.toString((Collection<?>) object);
+		} else if (Dates.is(c)) {
+			return Dates.toString((Date) object);
 		} else if (Numbers.is(c)) {
-			return Formats.formatNumber(object);
+			return Numbers.toString((Number) object);
 		}
 		return String.valueOf(object);
 	}
