@@ -99,7 +99,7 @@ public class Arguments {
 
 	public static <T> T requireNonNull(final T object) {
 		if (CHECK_ARGS) {
-			return requireNonNull(object, "The specified object is null");
+			return requireNonNull(object, "object");
 		}
 		return object;
 	}
