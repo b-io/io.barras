@@ -117,7 +117,7 @@ public abstract class ObjectToIntegerMapper
 		return output3D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public <I> int[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final int[] output = new int[input.size()];

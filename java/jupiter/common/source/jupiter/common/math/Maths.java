@@ -234,6 +234,7 @@ public class Maths {
 		return sum;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double sum(final T... numbers) {
 		double sum = 0.;
 		for (final T number : numbers) {
@@ -284,6 +285,7 @@ public class Maths {
 		return sum;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double sumWithoutNaN(final T... numbers) {
 		double sum = 0.;
 		for (final T number : numbers) {
@@ -1341,6 +1343,7 @@ public class Maths {
 		return min;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double minToDouble(final T... numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers);
@@ -1427,6 +1430,7 @@ public class Maths {
 		return max;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double maxToDouble(final T... numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers);

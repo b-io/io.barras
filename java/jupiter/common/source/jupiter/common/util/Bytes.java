@@ -430,6 +430,7 @@ public class Bytes {
 	 * <p>
 	 * @return a {@code byte} array from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> byte[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -454,6 +455,7 @@ public class Bytes {
 	 * <p>
 	 * @return a {@code byte} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> byte[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -478,6 +480,7 @@ public class Bytes {
 	 * <p>
 	 * @return a {@code byte} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> byte[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -504,9 +507,12 @@ public class Bytes {
 	 * <p>
 	 * @return a 2D {@code byte} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> byte[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a 3D {@code byte} array from the specified 3D {@code T} array.
@@ -528,9 +534,12 @@ public class Bytes {
 	 * <p>
 	 * @return a 3D {@code byte} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> byte[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code byte} array from the specified {@link Collection} of element type {@code E}.
@@ -572,6 +581,8 @@ public class Bytes {
 		return toArray(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 2D array of {@link Byte} from the specified 2D {@code byte} array.
 	 * <p>
@@ -598,6 +609,8 @@ public class Bytes {
 		return toArray2D(array2D);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 3D array of {@link Byte} from the specified 3D {@code byte} array.
 	 * <p>
@@ -623,6 +636,8 @@ public class Bytes {
 	public static Byte[][][] asArray3D(final byte[][]... array3D) {
 		return toArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link Byte} from the specified {@link Collection} of element type
@@ -706,6 +721,7 @@ public class Bytes {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedList<Byte> asList(final T... array) {
 		return toList(array);
 	}
@@ -730,9 +746,12 @@ public class Bytes {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedLinkedList<Byte> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of
@@ -787,6 +806,8 @@ public class Bytes {
 		return toSet(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a {@link Set} of {@link Byte} from the specified {@code T} array.
 	 * <p>
@@ -807,9 +828,12 @@ public class Bytes {
 	 * <p>
 	 * @return a {@link Set} of {@link Byte} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> Set<Byte> asSet(final T... array) {
 		return toSet(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection} of element type

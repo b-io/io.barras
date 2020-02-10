@@ -137,6 +137,7 @@ public class Doubles {
 	 * <p>
 	 * @return a {@code double} array from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> double[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -161,6 +162,7 @@ public class Doubles {
 	 * <p>
 	 * @return a {@code double} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> double[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -185,6 +187,7 @@ public class Doubles {
 	 * <p>
 	 * @return a {@code double} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> double[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -211,9 +214,12 @@ public class Doubles {
 	 * <p>
 	 * @return a 2D {@code double} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> double[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a 3D {@code double} array from the specified 3D {@code T} array.
@@ -235,9 +241,12 @@ public class Doubles {
 	 * <p>
 	 * @return a 3D {@code double} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> double[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code double} array from the specified {@link Collection} of element type
@@ -281,6 +290,8 @@ public class Doubles {
 		return toArray(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 2D array of {@link Double} from the specified 2D {@code double} array.
 	 * <p>
@@ -307,6 +318,8 @@ public class Doubles {
 		return toArray2D(array2D);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 3D array of {@link Double} from the specified 3D {@code double} array.
 	 * <p>
@@ -332,6 +345,8 @@ public class Doubles {
 	public static Double[][][] asArray3D(final double[][]... array3D) {
 		return toArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link Double} from the specified {@link Collection} of element type
@@ -419,6 +434,7 @@ public class Doubles {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Double} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedList<Double> asList(final T... array) {
 		return toList(array);
 	}
@@ -443,9 +459,12 @@ public class Doubles {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedLinkedList<Double> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@link Collection} of
@@ -500,6 +519,8 @@ public class Doubles {
 		return toSet(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a {@link Set} of {@link Double} from the specified {@code T} array.
 	 * <p>
@@ -520,9 +541,12 @@ public class Doubles {
 	 * <p>
 	 * @return a {@link Set} of {@link Double} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> Set<Double> asSet(final T... array) {
 		return toSet(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@link Set} of {@link Double} from the specified {@link Collection} of element type

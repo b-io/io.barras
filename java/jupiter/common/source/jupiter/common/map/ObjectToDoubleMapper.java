@@ -117,7 +117,7 @@ public abstract class ObjectToDoubleMapper
 		return output3D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public <I> double[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final double[] output = new double[input.size()];

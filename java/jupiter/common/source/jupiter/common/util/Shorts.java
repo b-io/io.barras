@@ -181,6 +181,7 @@ public class Shorts {
 	 * <p>
 	 * @return a {@code short} array from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> short[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -205,6 +206,7 @@ public class Shorts {
 	 * <p>
 	 * @return a {@code short} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> short[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -229,6 +231,7 @@ public class Shorts {
 	 * <p>
 	 * @return a {@code short} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> short[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -255,9 +258,12 @@ public class Shorts {
 	 * <p>
 	 * @return a 2D {@code short} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> short[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a 3D {@code short} array from the specified 3D {@code T} array.
@@ -279,9 +285,12 @@ public class Shorts {
 	 * <p>
 	 * @return a 3D {@code short} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> short[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code short} array from the specified {@link Collection} of element type
@@ -324,6 +333,8 @@ public class Shorts {
 		return toArray(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 2D array of {@link Short} from the specified 2D {@code short} array.
 	 * <p>
@@ -350,6 +361,8 @@ public class Shorts {
 		return toArray2D(array2D);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 3D array of {@link Short} from the specified 3D {@code short} array.
 	 * <p>
@@ -375,6 +388,8 @@ public class Shorts {
 	public static Short[][][] asArray3D(final short[][]... array3D) {
 		return toArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link Short} from the specified {@link Collection} of element type
@@ -460,6 +475,7 @@ public class Shorts {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedList<Short> asList(final T... array) {
 		return toList(array);
 	}
@@ -484,9 +500,12 @@ public class Shorts {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedLinkedList<Short> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@link Collection} of
@@ -541,6 +560,8 @@ public class Shorts {
 		return toSet(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
 	 * <p>
@@ -561,9 +582,12 @@ public class Shorts {
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> Set<Short> asSet(final T... array) {
 		return toSet(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@link Set} of {@link Short} from the specified {@link Collection} of element type

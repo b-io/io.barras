@@ -212,6 +212,7 @@ public class Objects {
 	 * <p>
 	 * @return the hash code value for the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int hashCode(final T... array) {
 		return hashCodeWith(0, array);
 	}

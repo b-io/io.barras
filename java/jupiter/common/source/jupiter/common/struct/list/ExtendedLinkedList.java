@@ -72,6 +72,7 @@ public class ExtendedLinkedList<E>
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
+	@SuppressWarnings("unchecked")
 	public ExtendedLinkedList(final E... elements) {
 		addAll(elements);
 	}

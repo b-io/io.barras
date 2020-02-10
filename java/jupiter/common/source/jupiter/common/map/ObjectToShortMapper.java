@@ -117,7 +117,7 @@ public abstract class ObjectToShortMapper
 		return output3D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public <I> short[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final short[] output = new short[input.size()];

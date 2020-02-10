@@ -55,6 +55,7 @@ public class Statistics {
 		return Maths.sumWithoutNaN(values) / values.length;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double getMean(final T... numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers);
@@ -77,6 +78,7 @@ public class Statistics {
 		return varianceWith(values, mean(values));
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double getVariance(final T... numbers) {
 		return Statistics.getVarianceWith(numbers, Statistics.getMean(numbers));
 	}
@@ -116,6 +118,7 @@ public class Statistics {
 		return sampleVarianceWith(values, mean(values));
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double getSampleVariance(final T... numbers) {
 		return Statistics.getSampleVarianceWith(numbers, Statistics.getMean(numbers));
 	}
@@ -156,6 +159,7 @@ public class Statistics {
 		return Math.sqrt(variance(values));
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double getStandardDeviation(final T... numbers) {
 		return Math.sqrt(Statistics.getVariance(numbers));
 	}
@@ -184,6 +188,7 @@ public class Statistics {
 		return Math.sqrt(sampleVariance(values));
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Number> double getSampleStandardDeviation(final T... numbers) {
 		return Math.sqrt(Statistics.getSampleVariance(numbers));
 	}

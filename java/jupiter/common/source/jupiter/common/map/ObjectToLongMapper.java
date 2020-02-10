@@ -117,7 +117,7 @@ public abstract class ObjectToLongMapper
 		return output3D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public <I> long[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final long[] output = new long[input.size()];

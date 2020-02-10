@@ -153,6 +153,7 @@ public class Longs {
 	 * <p>
 	 * @return a {@code long} array from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> long[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -177,6 +178,7 @@ public class Longs {
 	 * <p>
 	 * @return a {@code long} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> long[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -201,6 +203,7 @@ public class Longs {
 	 * <p>
 	 * @return a {@code long} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> long[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -227,9 +230,12 @@ public class Longs {
 	 * <p>
 	 * @return a 2D {@code long} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> long[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a 3D {@code long} array from the specified 3D {@code T} array.
@@ -251,9 +257,12 @@ public class Longs {
 	 * <p>
 	 * @return a 3D {@code long} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> long[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code long} array from the specified {@link Collection} of element type {@code E}.
@@ -295,6 +304,8 @@ public class Longs {
 		return toArray(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 2D array of {@link Long} from the specified 2D {@code long} array.
 	 * <p>
@@ -321,6 +332,8 @@ public class Longs {
 		return toArray2D(array2D);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 3D array of {@link Long} from the specified 3D {@code long} array.
 	 * <p>
@@ -346,6 +359,8 @@ public class Longs {
 	public static Long[][][] asArray3D(final long[][]... array3D) {
 		return toArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link Long} from the specified {@link Collection} of element type
@@ -429,6 +444,7 @@ public class Longs {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedList<Long> asList(final T... array) {
 		return toList(array);
 	}
@@ -453,9 +469,12 @@ public class Longs {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedLinkedList<Long> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@link Collection} of
@@ -510,6 +529,8 @@ public class Longs {
 		return toSet(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a {@link Set} of {@link Long} from the specified {@code T} array.
 	 * <p>
@@ -530,9 +551,12 @@ public class Longs {
 	 * <p>
 	 * @return a {@link Set} of {@link Long} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> Set<Long> asSet(final T... array) {
 		return toSet(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@link Set} of {@link Long} from the specified {@link Collection} of element type

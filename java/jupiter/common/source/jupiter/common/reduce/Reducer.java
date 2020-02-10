@@ -95,6 +95,7 @@ public abstract class Reducer<I, O>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@SuppressWarnings("unchecked")
 	public O[] callToArray(final I[]... input2D) {
 		final O[] output = Arrays.<O>create(c, input2D.length);
 		for (int i = 0; i < input2D.length; ++i) {
@@ -103,6 +104,9 @@ public abstract class Reducer<I, O>
 		return output;
 	}
 
+	//////////////////////////////////////////////
+
+	@SuppressWarnings("unchecked")
 	public O[][] callToArray2D(final I[][]... input3D) {
 		final O[][] output2D = Arrays.<O>create(c, input3D.length, 0);
 		for (int i = 0; i < input3D.length; ++i) {

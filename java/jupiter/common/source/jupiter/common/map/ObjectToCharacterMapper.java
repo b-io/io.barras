@@ -117,7 +117,7 @@ public abstract class ObjectToCharacterMapper
 		return output3D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public <I> char[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final char[] output = new char[input.size()];

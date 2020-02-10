@@ -117,7 +117,7 @@ public abstract class ObjectToBooleanMapper
 		return output3D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public <I> boolean[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final boolean[] output = new boolean[input.size()];

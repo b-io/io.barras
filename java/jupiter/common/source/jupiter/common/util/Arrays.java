@@ -129,6 +129,8 @@ public class Arrays {
 		return output;
 	}
 
+	//////////////////////////////////////////////
+
 	@SuppressWarnings("unchecked")
 	public static <T> T[][] toArray2D(final T[][] array2D) {
 		return toArray2D(getComponentType2D(array2D), array2D);
@@ -144,6 +146,8 @@ public class Arrays {
 		}
 		return output2D;
 	}
+
+	//////////////////////////////////////////////
 
 	@SuppressWarnings("unchecked")
 	public static <T> T[][][] toArray3D(final T[][][] array3D) {
@@ -173,6 +177,7 @@ public class Arrays {
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedList<T> asList(final T... array) {
 		return toList(array);
 	}
@@ -185,6 +190,7 @@ public class Arrays {
 		return linkedList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedLinkedList<T> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -199,6 +205,7 @@ public class Arrays {
 		return set;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> Set<T> asSet(final T... array) {
 		return toSet(array);
 	}

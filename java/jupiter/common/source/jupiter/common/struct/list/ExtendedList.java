@@ -85,6 +85,7 @@ public class ExtendedList<E>
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
+	@SuppressWarnings("unchecked")
 	public ExtendedList(final E... elements) {
 		super(Arguments.requireNonNull(elements, "elements").length);
 		addAll(elements);

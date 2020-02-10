@@ -117,7 +117,7 @@ public abstract class ObjectToByteMapper
 		return output3D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public <I> byte[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final byte[] output = new byte[input.size()];

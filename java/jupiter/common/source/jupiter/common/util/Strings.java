@@ -192,6 +192,8 @@ public class Strings {
 		return toArray(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 2D array of {@link String} from the specified 2D array of {@link Object}.
 	 * <p>
@@ -214,6 +216,8 @@ public class Strings {
 		return toArray2D(array2D);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 3D array of {@link String} from the specified 3D array of {@link Object}.
 	 * <p>
@@ -235,6 +239,8 @@ public class Strings {
 	public static String[][][] asArray3D(final Object[][]... array3D) {
 		return toArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link String} from the specified {@link Collection}.
@@ -269,6 +275,7 @@ public class Strings {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedList<String> asList(final T... array) {
 		return toList(array);
 	}
@@ -293,9 +300,12 @@ public class Strings {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedLinkedList<String> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
@@ -348,9 +358,12 @@ public class Strings {
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> Set<String> asSet(final T... array) {
 		return toSet(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@link Set} of {@link String} from the specified {@link Collection} of element type

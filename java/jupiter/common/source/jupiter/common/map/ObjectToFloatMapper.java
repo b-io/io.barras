@@ -117,7 +117,7 @@ public abstract class ObjectToFloatMapper
 		return output3D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public <I> float[] callCollectionToPrimitiveArray(final Collection<I> input) {
 		final float[] output = new float[input.size()];

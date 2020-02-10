@@ -276,6 +276,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@code int} array from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -300,6 +301,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@code int} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -324,6 +326,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@code int} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -350,9 +353,12 @@ public class Integers {
 	 * <p>
 	 * @return a 2D {@code int} array from the specified 2D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a 3D {@code int} array from the specified 3D {@code T} array.
@@ -374,9 +380,12 @@ public class Integers {
 	 * <p>
 	 * @return a 3D {@code int} array from the specified 3D {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> int[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an {@code int} array from the specified {@link Collection} of element type {@code E}.
@@ -418,6 +427,8 @@ public class Integers {
 		return toArray(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 2D array of {@link Integer} from the specified 2D {@code int} array.
 	 * <p>
@@ -444,6 +455,8 @@ public class Integers {
 		return toArray2D(array2D);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 3D array of {@link Integer} from the specified 3D {@code int} array.
 	 * <p>
@@ -469,6 +482,8 @@ public class Integers {
 	public static Integer[][][] asArray3D(final int[][]... array3D) {
 		return toArray3D(array3D);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link Integer} from the specified {@link Collection} of element type
@@ -554,6 +569,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedList<Integer> asList(final T... array) {
 		return toList(array);
 	}
@@ -578,9 +594,12 @@ public class Integers {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> ExtendedLinkedList<Integer> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
@@ -635,6 +654,8 @@ public class Integers {
 		return toSet(array);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a {@link Set} of {@link Integer} from the specified {@code T} array.
 	 * <p>
@@ -655,9 +676,12 @@ public class Integers {
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified {@code T} array
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> Set<Integer> asSet(final T... array) {
 		return toSet(array);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection} of element
