@@ -70,9 +70,9 @@ public class Statistics {
 	 * @param peh  the conditional probability {@code P(E|H)} of the event {@code E} given the
 	 *             hypothesis {@code H}
 	 * @param ph   the probability {@code P(H)} of the hypothesis {@code H}
-	 * @param pehs the conditional probability {@code P(H|E)} of the hypothesis {@code H} given each
-	 *             event {@code E}
-	 * @param phs  the probability {@code P(H)} of each hypothesis {@code H}
+	 * @param pehs the array of conditional probability {@code P(H|E)} of the hypothesis {@code H}
+	 *             given all event {@code E}
+	 * @param phs  the array of probability {@code P(H)} for all hypothesis {@code H}
 	 * <p>
 	 * @return the conditional probability {@code P(H|E)} of the hypothesis {@code H} given the
 	 *         event {@code E} using Baye's theorem and the law of total probability where

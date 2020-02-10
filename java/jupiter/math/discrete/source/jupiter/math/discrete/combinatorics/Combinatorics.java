@@ -118,13 +118,15 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the index of the specified k-permutation without repetition of the specified
+	 * Returns the index of the specified {@code k}-permutation without repetition of the specified
 	 * sequence.
 	 * <p>
-	 * @param permutation an {@code int} array containing the k-permutation indexes of the sequence
+	 * @param permutation an {@code int} array containing the {@code k}-permutation indexes of the
+	 *                    sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
-	 * @return the index of the specified k-permutation without repetition of the specified sequence
+	 * @return the index of the specified {@code k}-permutation without repetition of the specified
+	 *         sequence
 	 */
 	public static int getKPermutationIndex(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence) {
@@ -138,15 +140,16 @@ public class Combinatorics {
 	}
 
 	/**
-	 * Returns the index of the specified k-permutation without repetition of the specified sequence
-	 * with the specified divisor.
+	 * Returns the index of the specified {@code k}-permutation without repetition of the specified
+	 * sequence with the specified divisor.
 	 * <p>
-	 * @param permutation an {@code int} array containing the k-permutation indexes of the sequence
+	 * @param permutation an {@code int} array containing the {@code k}-permutation indexes of the
+	 *                    sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * @param divisor     an {@code int} value
 	 * <p>
-	 * @return the index of the specified k-permutation without repetition of the specified sequence
-	 *         with the specified divisor
+	 * @return the index of the specified {@code k}-permutation without repetition of the specified
+	 *         sequence with the specified divisor
 	 */
 	public static int getKPermutationIndex(final int[] permutation,
 			final ExtendedLinkedList<Integer> sequence, final int divisor) {

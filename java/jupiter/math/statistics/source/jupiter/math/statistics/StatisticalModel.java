@@ -24,8 +24,11 @@
 package jupiter.math.statistics;
 
 import java.io.Serializable;
-import java.util.Collection;
 
+/**
+ * {@link StatisticalModel} is a mathematical model that embodies a set of statistical assumptions
+ * concerning the generation of sample data (and similar data from a larger population).
+ */
 public abstract class StatisticalModel
 		implements Serializable {
 
@@ -43,20 +46,37 @@ public abstract class StatisticalModel
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link StatisticalModel}.
+	 */
 	protected StatisticalModel() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// STATISTICAL MODEL
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public abstract double likelihood(final double value);
+	/**
+	 * Returns the likelihood of {@code this} given the specified evidence.
+	 * <p>
+	 * @param evidence a {@code double} value
+	 * <p>
+	 * @return the likelihood of {@code this} given the specified evidence
+	 */
+	public abstract double getLikelihood(final double evidence);
 
-	public double getLikelihood(final Collection<Double> values) {
+	/**
+	 * Returns the likelihood of {@code this} given the specified evidences.
+	 * <p>
+	 * @param evidences a {@code double} array
+	 * <p>
+	 * @return the likelihood of {@code this} given the specified evidences
+	 */
+	public double getLikelihood(final double[] evidences) {
 		double likelihood = 1.;
-		for (final double value : values) {
-			likelihood *= likelihood(value);
+		for (final double evidence : evidences) {
+			likelihood *= getLikelihood(evidence);
 		}
 		return likelihood;
 	}

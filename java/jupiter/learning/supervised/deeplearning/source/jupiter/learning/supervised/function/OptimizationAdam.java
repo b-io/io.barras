@@ -51,24 +51,26 @@ public class OptimizationAdam
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The exponential decay hyper-parameter β1 for the first moment estimates (i.e. momentum).
+	 * The exponential decay hyper-parameter {@code β1} for the first moment estimates (i.e.
+	 * momentum).
 	 */
 	protected double beta1;
 	/**
-	 * The exponential decay hyper-parameter β2 for the second moment estimates (i.e. RMSprop).
+	 * The exponential decay hyper-parameter {@code β2} for the second moment estimates (i.e.
+	 * RMSprop).
 	 */
 	protected double beta2;
 	/**
-	 * The hyper-parameter t for the number of steps (used for the bias correction).
+	 * The hyper-parameter {@code t} for the number of steps (used for the bias correction).
 	 */
 	protected int t;
 
 	/**
-	 * The array of moving averages of the first gradient {@link Entity} V (for momentum).
+	 * The array of moving averages of the first gradient {@link Entity} {@code V} (for momentum).
 	 */
 	protected final Matrix[] V;
 	/**
-	 * The array of moving averages of the squared gradient {@link Entity} S (for RMSprop).
+	 * The array of moving averages of the squared gradient {@link Entity} {@code S} (for RMSprop).
 	 */
 	protected final Matrix[] S;
 
@@ -78,13 +80,13 @@ public class OptimizationAdam
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link OptimizationAdam} with the specified number of layers L and initializes
-	 * the arrays of momentum {@link Entity} V and RMSprop {@link Entity} S with the specified array
-	 * of model {@link Vector}.
+	 * Constructs an {@link OptimizationAdam} with the specified number of layers {@code L} and
+	 * initializes the arrays of momentum {@link Entity} {@code V} and RMSprop
+	 * {@link Entity} {@code S} with the specified array of model {@link Vector}.
 	 * <p>
-	 * @param layerCount the number of layers L
+	 * @param layerCount the number of layers {@code L}
 	 * @param models     the array of model {@link Vector} for the arrays of momentum {@link Entity}
-	 *                   V and RMSprop {@link Entity} S
+	 *                   {@code V} and RMSprop {@link Entity} {@code S}
 	 */
 	public OptimizationAdam(final int layerCount, final Vector[] models) {
 		super();
@@ -98,13 +100,13 @@ public class OptimizationAdam
 	}
 
 	/**
-	 * Constructs an {@link OptimizationAdam} with the specified number of layers L and initializes
-	 * the arrays of momentum {@link Entity} V and RMSprop {@link Entity} S with the specified array
-	 * of model {@link Matrix}.
+	 * Constructs an {@link OptimizationAdam} with the specified number of layers {@code L} and
+	 * initializes the arrays of momentum {@link Entity} {@code V} and RMSprop
+	 * {@link Entity} {@code S} with the specified array of model {@link Matrix}.
 	 * <p>
-	 * @param layerCount the number of layers L
+	 * @param layerCount the number of layers {@code L}
 	 * @param models     the array of model {@link Matrix} for the arrays of momentum {@link Entity}
-	 *                   V and RMSprop {@link Entity} S
+	 *                   {@code V} and RMSprop {@link Entity} {@code S}
 	 */
 	public OptimizationAdam(final int layerCount, final Matrix[] models) {
 		super();
@@ -123,27 +125,27 @@ public class OptimizationAdam
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the hyper-parameter β1 for the momentum exponentially weighted average.
+	 * Returns the hyper-parameter {@code β1} for the momentum exponentially weighted average.
 	 * <p>
-	 * @return the hyper-parameter β1 for the momentum exponentially weighted average
+	 * @return the hyper-parameter {@code β1} for the momentum exponentially weighted average
 	 */
 	public double getBeta1() {
 		return beta1;
 	}
 
 	/**
-	 * Returns the hyper-parameter β2 for the RMSprop.
+	 * Returns the hyper-parameter {@code β2} for the RMSprop.
 	 * <p>
-	 * @return the hyper-parameter β2 for the RMSprop
+	 * @return the hyper-parameter {@code β2} for the RMSprop
 	 */
 	public double getBeta2() {
 		return beta2;
 	}
 
 	/**
-	 * Returns the hyper-parameter t for the number of steps (used for the bias correction).
+	 * Returns the hyper-parameter {@code t} for the number of steps (used for the bias correction).
 	 * <p>
-	 * @return the hyper-parameter t for the number of steps (used for the bias correction)
+	 * @return the hyper-parameter {@code t} for the number of steps (used for the bias correction)
 	 */
 	public int getT() {
 		return t;
@@ -155,18 +157,18 @@ public class OptimizationAdam
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the default hyper-parameters.
+	 * Sets the default hyper-parameters {@code β1}, {@code β2} and {@code t}.
 	 */
 	public void setDefaultParameters() {
 		setParameters(0.9, 0.999, 1);
 	}
 
 	/**
-	 * Sets the hyper-parameters β1, β2 and t.
+	 * Sets the hyper-parameters {@code β1}, {@code β2} and {@code t}.
 	 * <p>
-	 * @param beta1 the hyper-parameter β1 for the momentum exponentially weighted average
-	 * @param beta2 the hyper-parameter β2 for the RMSprop
-	 * @param t     the hyper-parameter t for the number of steps
+	 * @param beta1 the hyper-parameter {@code β1} for the momentum exponentially weighted average
+	 * @param beta2 the hyper-parameter {@code β2} for the RMSprop
+	 * @param t     the hyper-parameter {@code t} for the number of steps
 	 */
 	public void setParameters(final double beta1, final double beta2, final int t) {
 		this.beta1 = beta1;
@@ -177,27 +179,27 @@ public class OptimizationAdam
 	//////////////////////////////////////////////
 
 	/**
-	 * Sets the hyper-parameter β1.
+	 * Sets the hyper-parameter {@code β1}.
 	 * <p>
-	 * @param beta1 the hyper-parameter β1 for the momentum exponentially weighted average
+	 * @param beta1 the hyper-parameter {@code β1} for the momentum exponentially weighted average
 	 */
 	public void setBeta1(final double beta1) {
 		this.beta1 = beta1;
 	}
 
 	/**
-	 * Sets the hyper-parameter β2.
+	 * Sets the hyper-parameter {@code β2}.
 	 * <p>
-	 * @param beta2 the hyper-parameter β2 for the RMSprop
+	 * @param beta2 the hyper-parameter {@code β2} for the RMSprop
 	 */
 	public void setBeta2(final double beta2) {
 		this.beta2 = beta2;
 	}
 
 	/**
-	 * Sets the hyper-parameter t.
+	 * Sets the hyper-parameter {@code t}.
 	 * <p>
-	 * @param t the hyper-parameter t for the number of steps
+	 * @param t the hyper-parameter {@code t} for the number of steps
 	 */
 	public void setT(final int t) {
 		this.t = t;

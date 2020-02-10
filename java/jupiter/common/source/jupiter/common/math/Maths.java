@@ -47,11 +47,11 @@ public class Maths {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The tolerance level (or termination criterion) ε for {@code float} values.
+	 * The tolerance level (or termination criterion) {@code ε} for {@code float} values.
 	 */
 	public static volatile float FLOAT_TOLERANCE = 1E-5f;
 	/**
-	 * The tolerance level (or termination criterion) ε for {@code double} values.
+	 * The tolerance level (or termination criterion) {@code ε} for {@code double} values.
 	 */
 	public static volatile double TOLERANCE = 1E-10;
 	/**
@@ -72,7 +72,7 @@ public class Maths {
 	//////////////////////////////////////////////
 
 	/**
-	 * The Napier constant e, the base of the natural logarithm.
+	 * The Napier constant {@code e}, the base of the natural logarithm.
 	 */
 	public static final double E = 2850325. / 1048576. + 8.254840070411028747E-8;
 	public static final double SQUARE_ROOT_OF_E = Math.sqrt(E);
@@ -80,7 +80,7 @@ public class Maths {
 	//////////////////////////////////////////////
 
 	/**
-	 * The Archimede constant PI, the ratio of the circumference of a circle to its diameter.
+	 * The Archimede constant {@code π}, the ratio of the circumference of a circle to its diameter.
 	 */
 	public static final double PI = 105414357. / 33554432. + 1.984187159361080883E-9;
 	public static final double SQUARE_ROOT_OF_PI = Math.sqrt(PI);

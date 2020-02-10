@@ -23,13 +23,13 @@
  */
 package jupiter.math.statistics;
 
-import java.io.Serializable;
-
-import jupiter.common.test.ArrayArguments;
-import jupiter.common.util.Doubles;
-
-public class BayesianInference
-		implements Inference, Serializable {
+/**
+ * {@link BayesianInference} is the method of {@link StatisticalInference} in which Bayes' theorem
+ * is used to update the probability {@code P(H)} for a hypothesis {@code H} as more evidence
+ * {@code E} becomes available.
+ */
+public abstract class BayesianInference
+		extends StatisticalInference {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -46,52 +46,23 @@ public class BayesianInference
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The number of hypotheses.
+	 * The array of evidence conditional probability {@code P(E|H)} (called likelihood) for all
+	 * hypothesis {@code H}.
 	 */
-	protected final int hypothesisCount;
-	/**
-	 * The array of probabilities P(E|H) for all hypothesis H (the likelihood).
-	 */
-	protected final double[] likelihoods;
-	/**
-	 * The array of probabilities P(H|E) for all hypothesis H (the posterior probability).
-	 */
-	protected final double[] hypothesesProbabilities;
+	protected double[] likelihoods;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link BayesianInference} with the specified number of hypotheses.
+	 * <p>
+	 * @param hypothesisCount the number of hypotheses
+	 */
 	public BayesianInference(final int hypothesisCount) {
-		this.hypothesisCount = hypothesisCount;
-		likelihoods = new double[hypothesisCount];
-		hypothesesProbabilities = new double[hypothesisCount];
-		reset();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INFERENCE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void reset() {
-		Doubles.fill(hypothesesProbabilities, 1. / hypothesisCount);
-	}
-
-	public void updateHypothesesProbabilities(final double value) {
-		// Get the marginal likelihood P(E)
-		double marginalLikelihood = 0.;
-		for (int i = 0; i < hypothesisCount; ++i) {
-			// Compute P(E) = Σ[P(H) * P(E|H)] over H (chain rule)
-			marginalLikelihood += hypothesesProbabilities[i] * likelihoods[i];
-		}
-		// Update the probabilities of the hypotheses
-		for (int i = 0; i < hypothesisCount; ++i) {
-			// Using the previous posterior probability P(H|E) as the current prior P(H),
-			// compute P(H|E) = P(H) * P(E|H) / P(E) (Bayes' rule)
-			hypothesesProbabilities[i] *= likelihoods[i] / marginalLikelihood;
-		}
+		super(hypothesisCount);
 	}
 
 
@@ -100,24 +71,80 @@ public class BayesianInference
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the probabilities of the hypotheses.
+	 * Returns the array of hypothesis probability {@code P(H)} for all hypothesis {@code H}.
 	 * <p>
-	 * @return the probabilities of the hypotheses
+	 * @return the array of hypothesis probability {@code P(H)} for all hypothesis {@code H}
 	 */
 	public double[] getHypothesesProbabilities() {
-		return hypothesesProbabilities;
+		return hypothesisProbabilities;
 	}
 
+	/**
+	 * Returns the evidence conditional probability {@code P(E|H)} (called likelihood) of observing
+	 * the specified evidence {@code E} given the specified hypothesis {@code H}.
+	 * <p>
+	 * @param hypothesisIndex the index of the hypothesis {@code H}
+	 * @param evidence        a {@code double} value
+	 * <p>
+	 * @return the evidence conditional probability {@code P(E|H)} (called likelihood) of observing
+	 *         the specified evidence {@code E} given the specified hypothesis {@code H}
+	 */
+	protected abstract double getLikelihood(final int hypothesisIndex, final double evidence);
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void setLikelihood(final int i, final double likelihood) {
-		// Check the arguments
-		ArrayArguments.requireIndex(i, hypothesisCount);
+	/**
+	 * Updates the likelihood {@code P(E|H)} for all hypothesis {@code H} with the specified
+	 * evidence {@code E}, computes the marginal likelihood {@code P(E)} (also called model
+	 * evidence) and updates the hypothesis probability {@code P(H)} for all hypothesis {@code H}.
+	 * <p>
+	 * @param evidence the evidence {@code E} that is not yet used in the inference
+	 */
+	@Override
+	public void infer(final double evidence) {
+		// Update the likelihood P(E|H) for all hypothesis H with the evidence E
+		updateLikelihoods(evidence);
+		// Compute the marginal likelihood P(E) (also called model evidence) and update the
+		// hypothesis probability P(H) for all hypothesis H
+		updateHypothesisProbabilities(evidence);
+	}
 
-		// Set the likelihood
-		likelihoods[i] = likelihood;
+	//////////////////////////////////////////////
+
+	/**
+	 * Updates the likelihood {@code P(E|H)} for all hypothesis {@code H} with the specified
+	 * evidence {@code E}.
+	 * <p>
+	 * @param evidence the evidence {@code E} that is not yet used for updating the likelihood
+	 *                 {@code P(E|H)} for all hypothesis {@code H}
+	 */
+	protected void updateLikelihoods(final double evidence) {
+		for (int i = 0; i < hypothesisCount; ++i) {
+			likelihoods[i] += getLikelihood(i, evidence);
+		}
+	}
+
+	/**
+	 * Computes the marginal likelihood {@code P(E)} (also called model evidence) and updates the
+	 * hypothesis probability {@code P(H)} for all hypothesis {@code H}.
+	 * <p>
+	 * @param evidence the evidence {@code E} that is not yet used for updating the hypothesis
+	 *                 probability {@code P(H)} for all hypothesis {@code H}
+	 */
+	public void updateHypothesisProbabilities(final double evidence) {
+		// Compute the marginal likelihood P(E) = Σ[P(H) * P(E|H)] over H (law of total probability)
+		double marginalLikelihood = 0.;
+		for (int i = 0; i < hypothesisCount; ++i) {
+			marginalLikelihood += hypothesisProbabilities[i] * likelihoods[i];
+		}
+		// Update the hypothesis probability P(H) for all hypothesis H
+		for (int i = 0; i < hypothesisCount; ++i) {
+			// Compute the posterior probability P(H|E) = P(H) * P(E|H) / P(E) (Bayes' rule) and
+			// replace the prior probability P(H) by it
+			hypothesisProbabilities[i] *= likelihoods[i] / marginalLikelihood;
+		}
 	}
 }

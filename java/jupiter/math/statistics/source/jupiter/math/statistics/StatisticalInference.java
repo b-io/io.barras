@@ -21,16 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.learning.supervised.function;
+package jupiter.math.statistics;
 
-import jupiter.learning.supervised.Classifier;
-import jupiter.math.linear.entity.Entity;
+import java.io.Serializable;
+
+import jupiter.common.util.Doubles;
 
 /**
- * {@link OutputActivationFunction} is an {@link ActivationFunction} for the output layer.
+ * {@link StatisticalInference} is the process of using data analysis to deduce properties of an
+ * underlying probability distribution.
  */
-public abstract class OutputActivationFunction
-		extends ActivationFunction {
+public abstract class StatisticalInference
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,14 +45,32 @@ public abstract class OutputActivationFunction
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The number of hypotheses.
+	 */
+	protected final int hypothesisCount;
+	/**
+	 * The array of hypothesis probability {@code P(H)} for all hypothesis {@code H}.
+	 */
+	protected final double[] hypothesisProbabilities;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link OutputActivationFunction}.
+	 * Constructs a {@link StatisticalInference} with the specified number of hypotheses.
+	 * <p>
+	 * @param hypothesisCount the number of hypotheses
 	 */
-	protected OutputActivationFunction() {
-		super();
+	public StatisticalInference(final int hypothesisCount) {
+		this.hypothesisCount = hypothesisCount;
+		hypothesisProbabilities = new double[hypothesisCount];
+		reset();
 	}
 
 
@@ -59,29 +79,20 @@ public abstract class OutputActivationFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Computes the cost of {@code A}.
-	 * <p>
-	 * @param classifier a {@link Classifier}
-	 * @param A          an {@link Entity}
-	 * <p>
-	 * @return the cost of {@code A}
+	 * Resets {@code this}.
 	 */
-	public abstract double computeCost(final Classifier classifier, final Entity A);
+	public void reset() {
+		// Reset the hypothesis probability P(H) for all hypothesis H to equal probabilities
+		Doubles.fill(hypothesisProbabilities, 1. / hypothesisCount);
+	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Infers the hypothesis probability {@code P(H)} for all hypothesis {@code H} with the
+	 * specified evidence {@code E}.
 	 * <p>
-	 * @return a copy of {@code this}
-	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @param evidence the evidence {@code E} that is not yet used in the inference
 	 */
-	@Override
-	public OutputActivationFunction clone() {
-		return (OutputActivationFunction) super.clone();
-	}
+	public abstract void infer(final double evidence);
 }

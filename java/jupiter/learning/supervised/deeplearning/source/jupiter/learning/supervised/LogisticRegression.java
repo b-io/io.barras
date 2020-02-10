@@ -60,17 +60,17 @@ public class LogisticRegression
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Vector} W containing the weights.
+	 * The {@link Vector} {@code W} containing the weights.
 	 */
 	protected Vector W; // (1 x n)
 
 	/**
-	 * The {@link Scalar} b containing the bias.
+	 * The {@link Scalar} {@code b} containing the bias.
 	 */
 	protected Scalar b;
 
 	/**
-	 * The {@link Vector} A containing the Y estimates.
+	 * The {@link Vector} {@code A} containing the {@code Y} estimates.
 	 */
 	protected Entity A;
 
@@ -82,7 +82,7 @@ public class LogisticRegression
 	/**
 	 * Constructs a {@link LogisticRegression}.
 	 * <p>
-	 * @param featureCount the number of features n
+	 * @param featureCount the number of features {@code n}
 	 */
 	public LogisticRegression(final int featureCount) {
 		super(featureCount);
@@ -92,8 +92,9 @@ public class LogisticRegression
 	 * Constructs a {@link LogisticRegression} with the specified files containing the feature
 	 * vectors and classes.
 	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 * @param classesPath        the path to the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m}
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
 	 *                     {@code classesPath}
@@ -107,9 +108,9 @@ public class LogisticRegression
 	 * Constructs a {@link LogisticRegression} with the specified files containing the feature
 	 * vectors and classes.
 	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 *                           (or (m x n) if {@code transpose})
-	 * @param classesPath        the path to the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
@@ -127,10 +128,20 @@ public class LogisticRegression
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the {@link Vector} {@code W} containing the weights.
+	 * <p>
+	 * @return the {@link Vector} {@code W} containing the weights
+	 */
 	public synchronized Vector getWeights() {
 		return W;
 	}
 
+	/**
+	 * Returns the {@link Scalar} {@code b} containing the bias.
+	 * <p>
+	 * @return the {@link Scalar} {@code b} containing the bias
+	 */
 	public synchronized Scalar getBias() {
 		return b;
 	}
@@ -155,16 +166,16 @@ public class LogisticRegression
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MODELER
+	// MODEL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate                     the learning rate α
-	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
-	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
-	 * @param tolerance                        the tolerance level
+	 * @param learningRate                     the learning rate {@code α}
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
+	 * @param tolerance                        the tolerance level {@code ε}
 	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
@@ -203,7 +214,7 @@ public class LogisticRegression
 			// Compute A = sigmoid(Z) = sigmoid(W X + b)
 			A = estimate(X); // (1 x m)
 
-			// Test whether the tolerance level is reached
+			// Test whether the tolerance level ε is reached
 			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
 				IO.debug("Stop training after ", i, " iterations and with ", cost, " cost");
 				return i;
@@ -241,7 +252,7 @@ public class LogisticRegression
 	 * Returns the estimated probability of the binary response for all feature vector in {@code X}.
 	 * Computes the sigmoid of {@code Z = W X + b}.
 	 * <p>
-	 * @param X the feature vectors of size (n x m)
+	 * @param X the feature vectors of size {@code n x m}
 	 * <p>
 	 * @return the estimated probability of the binary response for all feature vector in {@code X}
 	 */

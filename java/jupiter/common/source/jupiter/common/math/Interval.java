@@ -30,6 +30,7 @@ import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -118,7 +119,7 @@ public class Interval<T extends Comparable<T>>
 	 * @param pair the lower and upper bounds {@link Pair} of type {@code T}
 	 */
 	public Interval(final Pair<T, T> pair) {
-		this(pair.getFirst(), pair.getSecond());
+		this(Arguments.requireNonNull(pair, "pair").getFirst(), pair.getSecond());
 	}
 
 	/**
@@ -131,7 +132,8 @@ public class Interval<T extends Comparable<T>>
 	 */
 	public Interval(final Pair<T, T> pair, final boolean isLowerInclusive,
 			final boolean isUpperInclusive) {
-		this(pair.getFirst(), pair.getSecond(), isLowerInclusive, isUpperInclusive);
+		this(Arguments.requireNonNull(pair, "pair").getFirst(), pair.getSecond(),
+				isLowerInclusive, isUpperInclusive);
 	}
 
 

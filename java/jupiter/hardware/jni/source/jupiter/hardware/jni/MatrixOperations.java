@@ -57,6 +57,11 @@ public class MatrixOperations {
 	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Starts testing.
+	 * <p>
+	 * @param args the array of command line arguments
+	 */
 	public static void main(final String[] args) {
 		test();
 

@@ -64,9 +64,14 @@ public class Display {
 	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Starts displaying the chart.
+	 * <p>
+	 * @param args the array of command line arguments
+	 */
 	public static void main(final String[] args) {
 		final Display display = new Display();
-		display.loadSeries();
+		display.loadSeries("test/resources/coordinates.csv");
 		display.plot();
 	}
 
@@ -92,9 +97,9 @@ public class Display {
 		graph.setVisible(true);
 	}
 
-	protected void loadSeries() {
+	protected void loadSeries(final String path) {
 		try {
-			final StringTable coordinates = new StringTable("test/resources/coordinates.csv", true);
+			final StringTable coordinates = new StringTable(path, true);
 			graph.load(coordinates, 0, 1, true);
 			graph.load(coordinates, 0, 2, true);
 		} catch (final IOException ex) {

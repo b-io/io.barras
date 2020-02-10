@@ -59,7 +59,7 @@ public class SVM {
 	public static volatile double DEFAULT_CACHE_SIZE = 128;
 
 	/**
-	 * The default tolerance level (or termination criterion) ε.
+	 * The default tolerance level (or termination criterion) {@code ε}.
 	 */
 	public static volatile double DEFAULT_TOLERANCE = 1E-8;
 
@@ -215,7 +215,7 @@ public class SVM {
 	}
 
 	/**
-	 * Sets the tolerance level (or termination criterion).
+	 * Sets the tolerance level (or termination criterion) {@code ε}.
 	 * <p>
 	 * @param tolerance a {@code double} value
 	 */
@@ -300,7 +300,7 @@ public class SVM {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MODELER
+	// MODEL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

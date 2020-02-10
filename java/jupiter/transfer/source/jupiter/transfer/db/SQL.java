@@ -478,7 +478,7 @@ public class SQL {
 	 * <p>
 	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) statement, such as {@code INSERT},
-	 *                   {@code UPDATE} or {@code DELETE}; or an SQL statement that returns nothing,
+	 *                   {@code UPDATE} or {@code DELETE}; or a SQL statement that returns nothing,
 	 *                   such as a DDL statement
 	 * <p>
 	 * @return either the row count for the SQL Data Manipulation Language (DML) statement,
@@ -495,7 +495,7 @@ public class SQL {
 	 * <p>
 	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) statement, such as {@code INSERT},
-	 *                   {@code UPDATE} or {@code DELETE}; or an SQL statement that returns nothing,
+	 *                   {@code UPDATE} or {@code DELETE}; or a SQL statement that returns nothing,
 	 *                   such as a DDL statement
 	 * @param parameters the array of parameter {@link Object} to set (may be {@code null})
 	 * <p>

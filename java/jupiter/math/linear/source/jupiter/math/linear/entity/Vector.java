@@ -24,6 +24,7 @@
 package jupiter.math.linear.entity;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Doubles;
 import jupiter.math.analysis.function.Function;
 
@@ -112,7 +113,7 @@ public class Vector
 	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final double[] values, final boolean transpose) {
-		super(values.length, values, transpose);
+		super(Arguments.requireNonNull(values, "values").length, values, transpose);
 		isTransposed = transpose;
 	}
 

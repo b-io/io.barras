@@ -32,9 +32,11 @@ import jupiter.math.linear.test.MatrixArguments;
 /**
  * LU Decomposition.
  * <p>
- * For a (m x n) matrix A with m {@literal >}= n, the LU decomposition is a (m x n) unit lower
- * triangular matrix L, a (n x n) upper triangular matrix U and a permutation vector piv of length m
- * so that A(piv, :) = L * U. If m {@literal <} n, then L is (m x m) and U is (m x n).
+ * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the LU decomposition is a
+ * {@code m x n} unit lower triangular matrix {@code L}, a {@code n x n} upper triangular matrix
+ * {@code U} and a permutation vector {@code pivot} of length {@code m} so that
+ * {@code A(pivot, :) = L U}. If {@code m {@literal <} n}, then {@code L} is {@code m x m} and
+ * {@code U} is {@code m x n}.
  * <p>
  * The LU decomposition with pivoting always exists, even if the matrix is singular, so the
  * constructor never fails. The primary use of the LU decomposition is in the solution of square
@@ -70,7 +72,7 @@ public class LUDecomposition
 	 */
 	protected final int n;
 	/**
-	 * The decomposition.
+	 * The decomposition containing {@code L} and {@code U}.
 	 */
 	protected final double[][] LU;
 	/**
@@ -165,9 +167,10 @@ public class LUDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether U (and hence {@code A}) is nonsingular.
+	 * Tests whether {@code U} (and hence {@code A}) is nonsingular.
 	 * <p>
-	 * @return {@code true} if U (and hence {@code A}) is nonsingular, {@code false} otherwise
+	 * @return {@code true} if {@code U} (and hence {@code A}) is nonsingular, {@code false}
+	 *         otherwise
 	 */
 	public boolean isNonsingular() {
 		for (int j = 0; j < n; ++j) {
@@ -239,9 +242,9 @@ public class LUDecomposition
 	}
 
 	/**
-	 * Returns the pivot permutation vector as a one-dimensional double array.
+	 * Returns the pivot permutation vector {@code pivot} as a one-dimensional double array.
 	 * <p>
-	 * @return the pivot permutation vector as a one-dimensional double array
+	 * @return the pivot permutation vector {@code pivot} as a one-dimensional double array
 	 */
 	public double[] getDoublePivot() {
 		final double[] p = new double[m];
@@ -272,11 +275,11 @@ public class LUDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the solution of {@code A * X = B}.
+	 * Returns the solution of {@code A X = B}.
 	 * <p>
 	 * @param B a {@link Matrix} with as many rows as {@code A} and any number of columns
 	 * <p>
-	 * @return {@code X} so that {@code L * U * X = B(pivot, :)}
+	 * @return {@code X} so that {@code L U X = B(pivot, :)}
 	 * <p>
 	 * @throws IllegalArgumentException  if the matrix row dimensions do not agree
 	 * @throws IllegalOperationException if {@code A} is singular

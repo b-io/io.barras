@@ -32,8 +32,8 @@ import jupiter.math.linear.test.MatrixArguments;
 /**
  * Cholesky Decomposition.
  * <p>
- * For a symmetric, positive definite matrix A, the Cholesky decomposition is an lower triangular
- * matrix L so that A = L * L'.
+ * For a symmetric, positive definite matrix {@code A}, the Cholesky decomposition is a lower
+ * triangular matrix {@code L} so that {@code A = L L'}.
  * <p>
  * If the matrix is not symmetric or positive definite, the constructor returns a partial
  * decomposition and sets an internal flag that may be queried by the method {@link #isSPD()}.
@@ -67,7 +67,7 @@ public class CholeskyDecomposition
 	 */
 	protected boolean isSymmetricPositiveDefinite;
 	/**
-	 * The decomposition.
+	 * The decomposition {@code L}.
 	 */
 	protected final double[][] L;
 
@@ -150,11 +150,11 @@ public class CholeskyDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Solves {@code A * X = B}.
+	 * Solves {@code A X = B}.
 	 * <p>
 	 * @param B a {@link Matrix} with as many rows as {@code A} and any number of columns
 	 * <p>
-	 * @return {@code X} so that {@code L * L' * X = B}
+	 * @return {@code X} so that {@code L L' X = B}
 	 * <p>
 	 * @throws IllegalArgumentException  if the inner dimensions do not agree
 	 * @throws IllegalOperationException if {@code A} is not symmetric positive definite

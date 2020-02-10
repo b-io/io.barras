@@ -32,8 +32,9 @@ import jupiter.math.linear.test.MatrixArguments;
 /**
  * QR Decomposition.
  * <p>
- * For a (m x n) matrix A with m {@literal >}= n, the QR decomposition is a (m x n) orthogonal
- * matrix Q and a (n x n) upper triangular matrix R so that A = Q * R.
+ * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the QR decomposition is a
+ * {@code m x n} orthogonal matrix {@code Q} and a {@code n x n} upper triangular matrix {@code R}
+ * so that {@code A = Q R}.
  * <p>
  * The QR decomposition always exists, even if the matrix does not have full rank, so the
  * constructor never fails. The primary use of the QR decomposition is in the least squares solution
@@ -69,7 +70,7 @@ public class QRDecomposition
 	 */
 	protected final int n;
 	/**
-	 * The decomposition.
+	 * The decomposition containing {@code Q} and {@code R}.
 	 */
 	protected final double[][] QR;
 	/**
@@ -225,11 +226,11 @@ public class QRDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the least squares solution of {@code A * X = B}.
+	 * Returns the least squares solution of {@code A X = B}.
 	 * <p>
 	 * @param B a {@link Matrix} with as many rows as {@code A} and any number of columns
 	 * <p>
-	 * @return {@code X} that minimizes the two norm of {@code Q * R * X - B}
+	 * @return {@code X} that minimizes the two norm of {@code Q R X - B}
 	 * <p>
 	 * @throws IllegalArgumentException  if the matrix row dimensions do not agree
 	 * @throws IllegalOperationException if {@code A} is rank deficient

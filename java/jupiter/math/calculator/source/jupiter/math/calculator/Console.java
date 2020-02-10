@@ -34,6 +34,11 @@ public class Console {
 	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Starts the console.
+	 * <p>
+	 * @param args the array of command line arguments
+	 */
 	public static void main(final String[] args) {
 		IO.clear();
 		Calculator.parallelize();

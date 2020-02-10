@@ -183,7 +183,7 @@ public class Matrix
 	 * @param dimensions the {@link Dimensions}
 	 */
 	public Matrix(final Dimensions dimensions) {
-		this(dimensions.m, dimensions.n);
+		this(Arguments.requireNonNull(dimensions, "dimensions").m, dimensions.n);
 	}
 
 	/**
@@ -301,7 +301,7 @@ public class Matrix
 	 * @throws IllegalArgumentException if {@code values} has different row lengths
 	 */
 	public Matrix(final double[][] values) {
-		this(values.length, values[0].length, values);
+		this(Arguments.requireNonNull(values, "values").length, values[0].length, values);
 	}
 
 	/**
@@ -339,12 +339,12 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} with the specified table.
+	 * Constructs a {@link Matrix} with the specified {@link DoubleTable}.
 	 * <p>
 	 * @param table a {@link DoubleTable}
 	 */
 	public Matrix(final DoubleTable table) {
-		this(table.getRowCount(), table.toPrimitiveArray());
+		this(Arguments.requireNonNull(table, "table").getRowCount(), table.toPrimitiveArray());
 	}
 
 	/**

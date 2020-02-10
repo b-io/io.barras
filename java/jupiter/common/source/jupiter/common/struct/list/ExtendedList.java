@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.Arguments;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
@@ -85,7 +86,7 @@ public class ExtendedList<E>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
 	public ExtendedList(final E... elements) {
-		super(elements.length);
+		super(Arguments.requireNonNull(elements, "elements").length);
 		addAll(elements);
 	}
 

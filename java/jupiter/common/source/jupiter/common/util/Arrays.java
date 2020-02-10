@@ -507,11 +507,11 @@ public class Arrays {
 	 * of the sort.
 	 * <p>
 	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than n lg(n) comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately n
-	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
-	 * input arrays to n/2 object references for randomly ordered input arrays.
+	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
+	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * ordered. If the input array is nearly sorted, the implementation requires approximately
+	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
+	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -548,11 +548,11 @@ public class Arrays {
 	 * of the sort.
 	 * <p>
 	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than n lg(n) comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately n
-	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
-	 * input arrays to n/2 object references for randomly ordered input arrays.
+	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
+	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * ordered. If the input array is nearly sorted, the implementation requires approximately
+	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
+	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -596,11 +596,11 @@ public class Arrays {
 	 * of the sort.
 	 * <p>
 	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than n lg(n) comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately n
-	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
-	 * input arrays to n/2 object references for randomly ordered input arrays.
+	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
+	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * ordered. If the input array is nearly sorted, the implementation requires approximately
+	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
+	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -645,11 +645,11 @@ public class Arrays {
 	 * of the sort.
 	 * <p>
 	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than n lg(n) comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately n
-	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
-	 * input arrays to n/2 object references for randomly ordered input arrays.
+	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
+	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * ordered. If the input array is nearly sorted, the implementation requires approximately
+	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
+	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -694,11 +694,11 @@ public class Arrays {
 	 * of the sort.
 	 * <p>
 	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than n lg(n) comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately n
-	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
-	 * input arrays to n/2 object references for randomly ordered input arrays.
+	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
+	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * ordered. If the input array is nearly sorted, the implementation requires approximately
+	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
+	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input

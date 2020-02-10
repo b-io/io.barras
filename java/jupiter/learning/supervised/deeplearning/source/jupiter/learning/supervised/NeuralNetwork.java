@@ -63,25 +63,27 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The array of {@link Matrix} W containing the weights.
+	 * The array of {@link Matrix} {@code W} containing the weights.
 	 */
 	protected Matrix[] W; // n -> nh... -> 1: (nh x n) -> (nh x nh)... -> (k x nh)
 	/**
-	 * The array of {@link Vector} b containing the bias.
+	 * The array of {@link Vector} {@code b} containing the bias.
 	 */
 	protected Vector[] b; // n -> nh... -> 1: (nh x 1) -> (nh x 1)... -> (k x 1)
 	/**
-	 * The array of {@link Matrix} A containing the feature vectors, hidden vectors and Y estimates
-	 * (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])).
+	 * The array of {@link Entity} {@code A} containing the feature vectors, hidden vectors and
+	 * {@code Y} estimates ({@code A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])}).
 	 */
 	protected Entity[] A; // n -> nh... -> 1: (n x m) -> (nh x m)... -> (k x m)
 
+	//////////////////////////////////////////////
+
 	/**
-	 * The {@link ActivationFunction} g for all the hidden layers.
+	 * The {@link ActivationFunction} {@code g} for all the hidden layers.
 	 */
 	protected ActivationFunction activationFunction;
 	/**
-	 * The {@link RegularizationFunction} r.
+	 * The {@link RegularizationFunction} {@code r}.
 	 */
 	protected RegularizationFunction regularizationFunction;
 
@@ -93,7 +95,7 @@ public class NeuralNetwork
 	/**
 	 * Constructs a {@link NeuralNetwork}.
 	 * <p>
-	 * @param featureCount the number of features n
+	 * @param featureCount the number of features {@code n}
 	 */
 	public NeuralNetwork(final int featureCount) {
 		super(featureCount);
@@ -104,8 +106,9 @@ public class NeuralNetwork
 	 * Constructs a {@link NeuralNetwork} with the specified files containing the feature vectors
 	 * and classes.
 	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 * @param classesPath        the path to the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m}
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
 	 *                     {@code classesPath}
@@ -120,9 +123,9 @@ public class NeuralNetwork
 	 * Constructs a {@link NeuralNetwork} with the specified files containing the feature vectors
 	 * and classes.
 	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 *                           (or (m x n) if {@code transpose})
-	 * @param classesPath        the path to the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
@@ -141,18 +144,40 @@ public class NeuralNetwork
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the array of {@link Matrix} {@code W} containing the weights.
+	 * <p>
+	 * @return the array of {@link Matrix} {@code W} containing the weights
+	 */
 	public synchronized Matrix[] getWeights() {
 		return W;
 	}
 
+	/**
+	 * Returns the array of {@link Vector} {@code b} containing the bias.
+	 * <p>
+	 * @return the array of {@link Vector} {@code b} containing the bias
+	 */
 	public synchronized Vector[] getBias() {
 		return b;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link ActivationFunction} {@code g} for all the hidden layers.
+	 * <p>
+	 * @return the {@link ActivationFunction} {@code g} for all the hidden layers
+	 */
 	public synchronized ActivationFunction getActivationFunction() {
 		return activationFunction;
 	}
 
+	/**
+	 * Returns the {@link RegularizationFunction} {@code r}.
+	 * <p>
+	 * @return the {@link RegularizationFunction} {@code r}
+	 */
 	public synchronized RegularizationFunction getRegularizationFunction() {
 		return regularizationFunction;
 	}
@@ -162,6 +187,11 @@ public class NeuralNetwork
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the array of {@link Matrix} {@code W} containing the weights.
+	 * <p>
+	 * @param weights an array of {@link Matrix}
+	 */
 	public synchronized void setWeights(final Matrix[] weights) {
 		// Check the arguments
 		if (weights != null) {
@@ -176,6 +206,11 @@ public class NeuralNetwork
 		}
 	}
 
+	/**
+	 * Sets the array of {@link Vector} {@code b} containing the bias.
+	 * <p>
+	 * @param bias an array of {@link Vector}
+	 */
 	public synchronized void setBias(final Vector[] bias) {
 		// Check the arguments
 		if (bias != null) {
@@ -190,15 +225,31 @@ public class NeuralNetwork
 		}
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Sets the {@link ActivationFunction} {@code g} for all the hidden layers.
+	 * <p>
+	 * @param activationFunction an {@link ActivationFunction}
+	 */
 	public synchronized void setActivationFunction(final ActivationFunction activationFunction) {
 		this.activationFunction = activationFunction;
 	}
 
+	/**
+	 * Sets the {@link RegularizationFunction} {@code r}.
+	 * <p>
+	 * @param regularizationFunction a {@link RegularizationFunction}
+	 */
 	public synchronized void setRegularizationFunction(
 			final RegularizationFunction regularizationFunction) {
 		this.regularizationFunction = regularizationFunction;
 	}
 
+	/**
+	 * Sets the default {@link ActivationFunction} {@code g} for all the hidden layers and
+	 * {@link RegularizationFunction} {@code r}.
+	 */
 	protected void setDefaultFunctions() {
 		activationFunction = ActivationFunctions.TANH;
 		regularizationFunction = RegularizationFunctions.L2;
@@ -206,16 +257,16 @@ public class NeuralNetwork
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MODELER
+	// MODEL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate                     the learning rate α
-	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
-	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
-	 * @param tolerance                        the tolerance level
+	 * @param learningRate                     the learning rate {@code α}
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
+	 * @param tolerance                        the tolerance level {@code ε}
 	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
@@ -243,10 +294,10 @@ public class NeuralNetwork
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate      the learning rate α
-	 * @param tolerance         the tolerance level
+	 * @param learningRate      the learning rate {@code α}
+	 * @param tolerance         the tolerance level {@code ε}
 	 * @param maxIterationCount the maximum number of iterations
-	 * @param hiddenLayerCount  the number of hidden layers
+	 * @param hiddenLayerCount  the number of hidden layers {@code L - 1}
 	 * @param hiddenLayerSize   the size of the hidden layers
 	 * <p>
 	 * @return the number of iterations
@@ -264,12 +315,12 @@ public class NeuralNetwork
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate                     the learning rate α
-	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
-	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
-	 * @param tolerance                        the tolerance level
+	 * @param learningRate                     the learning rate {@code α}
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
+	 * @param tolerance                        the tolerance level {@code ε}
 	 * @param maxIterationCount                the maximum number of iterations
-	 * @param hiddenLayerCount                 the number of hidden layers
+	 * @param hiddenLayerCount                 the number of hidden layers {@code L - 1}
 	 * @param hiddenLayerSize                  the size of the hidden layers
 	 * <p>
 	 * @return the number of iterations
@@ -350,7 +401,7 @@ public class NeuralNetwork
 			// • Compute A[L + 1] = h(Z[L + 1]) = h(W[L] A[L] + b[L])
 			A[layerCount] = outputActivationFunction.apply(computeForward(layerCount - 1)); // (k x m)
 
-			// Test whether the tolerance level is reached
+			// Test whether the tolerance level ε is reached
 			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
 				IO.debug("Stop training after ", i, " iterations and with ", cost, " cost");
 				return i;
@@ -434,7 +485,7 @@ public class NeuralNetwork
 	 * Returns the estimated probability of the binary (logistic) or multinary (softmax) response
 	 * for all feature vector in {@code X}.
 	 * <p>
-	 * @param X the feature vectors of size (n x m)
+	 * @param X the feature vectors of size {@code n x m}
 	 * <p>
 	 * @return the estimated probability of the binary (logistic) or multinary (softmax) response
 	 *         for all feature vector in {@code X}

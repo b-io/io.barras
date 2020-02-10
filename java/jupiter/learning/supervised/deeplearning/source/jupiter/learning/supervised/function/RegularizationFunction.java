@@ -30,6 +30,10 @@ import jupiter.common.util.Strings;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
+/**
+ * {@link RegularizationFunction} is the process of adding information in order to solve an
+ * ill-posed problem or to prevent overfitting.
+ */
 public abstract class RegularizationFunction
 		implements ICloneable<RegularizationFunction>, Serializable {
 
@@ -48,7 +52,7 @@ public abstract class RegularizationFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The hyper-parameter λ.
+	 * The hyper-parameter {@code λ}.
 	 */
 	protected final double lambda;
 
@@ -58,9 +62,9 @@ public abstract class RegularizationFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RegularizationFunction} with the specified hyper-parameter λ.
+	 * Constructs a {@link RegularizationFunction} with the specified hyper-parameter {@code λ}.
 	 * <p>
-	 * @param lambda the hyper-parameter λ
+	 * @param lambda the hyper-parameter {@code λ}
 	 */
 	protected RegularizationFunction(final double lambda) {
 		super();

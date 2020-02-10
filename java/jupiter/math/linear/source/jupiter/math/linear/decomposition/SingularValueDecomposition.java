@@ -31,12 +31,12 @@ import jupiter.math.linear.entity.Matrix;
 /**
  * Singular Value Decomposition.
  * <p>
- * For a (m x n) matrix A with m {@literal >}= n, the singular value decomposition is a (m x n)
- * orthogonal matrix U, a (n x n) diagonal matrix S and a (n x n) orthogonal matrix V so that A = U
- * * S * V'.
+ * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the singular value
+ * decomposition is a {@code m x n} orthogonal matrix {@code U}, a {@code n x n} diagonal matrix
+ * {@code S} and a {@code n x n} orthogonal matrix {@code V} so that {@code A = U S V'}.
  * <p>
- * The singular values, sigma[k] = S[k][k], are ordered so that sigma[0] {@literal >}= sigma[1]
- * {@literal >}= ... {@literal >}= sigma[n-1].
+ * The singular values, {@code sigma[k] = S[k][k]}, are ordered so that
+ * {@code sigma[0] {@literal >}= sigma[1] {@literal >}= ... {@literal >}= sigma[n-1]}.
  * <p>
  * The singular value decomposition always exists, so the constructor never fails. The matrix
  * condition number and the effective numerical rank can be computed from this decomposition.
@@ -70,13 +70,13 @@ public class SingularValueDecomposition
 	 */
 	protected final int n;
 	/**
-	 * The decomposition.
+	 * The decomposition {@code U} and {@code V}.
 	 */
 	protected final double[][] U, V;
 	/**
-	 * The singular values.
+	 * The singular values {@code sigma}.
 	 */
-	protected final double[] s;
+	protected final double[] sigma;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ public class SingularValueDecomposition
 
 	/**
 	 * Constructs a {@link SingularValueDecomposition} of the specified rectangular {@link Matrix}.
-	 * Sets the decomposition {@code U} and {@code V} and the singular values {@code s}.
+	 * Sets the decomposition {@code U} and {@code V} and the singular values {@code sigma}.
 	 * <p>
 	 * See LINPACK code.
 	 * <p>
@@ -102,7 +102,7 @@ public class SingularValueDecomposition
 		 * {@code if (m < n) { throw new UnsupportedOperationException("Work only for m >= n"); }}
 		 */
 		final int nu = Math.min(m, n);
-		s = new double[Math.min(m + 1, n)];
+		sigma = new double[Math.min(m + 1, n)];
 		U = new double[m][nu];
 		V = new double[n][n];
 		final double[] e = new double[n];
@@ -119,23 +119,23 @@ public class SingularValueDecomposition
 			if (k < nct) {
 				// Apply the transformation for the k-th column and place the k-th diagonal in s[k]
 				// Compute the 2-norm of the k-th column without under/overflow
-				s[k] = 0;
+				sigma[k] = 0;
 				for (int i = k; i < m; ++i) {
-					s[k] = Norms.getEuclideanNorm(s[k], elements[i * n + k]);
+					sigma[k] = Norms.getEuclideanNorm(sigma[k], elements[i * n + k]);
 				}
-				if (s[k] != 0.) {
+				if (sigma[k] != 0.) {
 					if (elements[k * n + k] < 0.) {
-						s[k] = -s[k];
+						sigma[k] = -sigma[k];
 					}
 					for (int i = k; i < m; ++i) {
-						elements[i * n + k] /= s[k];
+						elements[i * n + k] /= sigma[k];
 					}
 					elements[k * n + k] += 1.;
 				}
-				s[k] = -s[k];
+				sigma[k] = -sigma[k];
 			}
 			for (int j = k + 1; j < n; ++j) {
-				if (k < nct && s[k] != 0.) {
+				if (k < nct && sigma[k] != 0.) {
 					// Apply the transformation
 					double t = 0.;
 					for (int i = k; i < m; ++i) {
@@ -202,10 +202,10 @@ public class SingularValueDecomposition
 		// Set up the final bidiagonal matrix or order p
 		int p = Math.min(m + 1, n);
 		if (nct < n) {
-			s[nct] = elements[nct * n + nct];
+			sigma[nct] = elements[nct * n + nct];
 		}
 		if (m < p) {
-			s[p - 1] = 0.;
+			sigma[p - 1] = 0.;
 		}
 		if (nrt + 1 < p) {
 			e[nrt] = elements[nrt * n + p - 1];
@@ -221,7 +221,7 @@ public class SingularValueDecomposition
 				U[j][j] = 1.;
 			}
 			for (int k = nct - 1; k >= 0; --k) {
-				if (s[k] != 0.) {
+				if (sigma[k] != 0.) {
 					for (int j = k + 1; j < nu; ++j) {
 						double t = 0.;
 						for (int i = k; i < m; ++i) {
@@ -291,7 +291,7 @@ public class SingularValueDecomposition
 				if (k == -1) {
 					break;
 				}
-				if (Math.abs(e[k]) <= tiny + eps * (Math.abs(s[k]) + Math.abs(s[k + 1]))) {
+				if (Math.abs(e[k]) <= tiny + eps * (Math.abs(sigma[k]) + Math.abs(sigma[k + 1]))) {
 					e[k] = 0.;
 					break;
 				}
@@ -306,8 +306,8 @@ public class SingularValueDecomposition
 					}
 					final double t = (ks != p ? Math.abs(e[ks]) : 0.) +
 							(ks != k + 1 ? Math.abs(e[ks - 1]) : 0.);
-					if (Math.abs(s[ks]) <= tiny + eps * t) {
-						s[ks] = 0.;
+					if (Math.abs(sigma[ks]) <= tiny + eps * t) {
+						sigma[ks] = 0.;
 						break;
 					}
 				}
@@ -329,10 +329,10 @@ public class SingularValueDecomposition
 					double f = e[p - 2];
 					e[p - 2] = 0.;
 					for (int j = p - 2; j >= k; --j) {
-						double t = Norms.getEuclideanNorm(s[j], f);
-						final double cs = s[j] / t;
+						double t = Norms.getEuclideanNorm(sigma[j], f);
+						final double cs = sigma[j] / t;
 						final double sn = f / t;
-						s[j] = t;
+						sigma[j] = t;
 						if (j != k) {
 							f = -sn * e[j - 1];
 							e[j - 1] = cs * e[j - 1];
@@ -353,10 +353,10 @@ public class SingularValueDecomposition
 					double f = e[k - 1];
 					e[k - 1] = 0.;
 					for (int j = k; j < p; ++j) {
-						double t = Norms.getEuclideanNorm(s[j], f);
-						final double cs = s[j] / t;
+						double t = Norms.getEuclideanNorm(sigma[j], f);
+						final double cs = sigma[j] / t;
 						final double sn = f / t;
-						s[j] = t;
+						sigma[j] = t;
 						f = -sn * e[j];
 						e[j] = cs * e[j];
 						if (requireU) {
@@ -374,12 +374,12 @@ public class SingularValueDecomposition
 				case 3: {
 					// Compute the shift
 					final double scale = Math
-							.max(Math.max(Math.max(Math.max(Math.abs(s[p - 1]), Math.abs(s[p - 2])),
-									Math.abs(e[p - 2])), Math.abs(s[k])), Math.abs(e[k]));
-					final double sp = s[p - 1] / scale;
-					final double spm1 = s[p - 2] / scale;
+							.max(Math.max(Math.max(Math.max(Math.abs(sigma[p - 1]), Math.abs(sigma[p - 2])),
+									Math.abs(e[p - 2])), Math.abs(sigma[k])), Math.abs(e[k]));
+					final double sp = sigma[p - 1] / scale;
+					final double spm1 = sigma[p - 2] / scale;
 					final double epm1 = e[p - 2] / scale;
-					final double sk = s[k] / scale;
+					final double sk = sigma[k] / scale;
 					final double ek = e[k] / scale;
 					final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.;
 					final double c = sp * epm1 * (sp * epm1);
@@ -402,10 +402,10 @@ public class SingularValueDecomposition
 						if (j != k) {
 							e[j - 1] = t;
 						}
-						f = cs * s[j] + sn * e[j];
-						e[j] = cs * e[j] - sn * s[j];
-						g = sn * s[j + 1];
-						s[j + 1] = cs * s[j + 1];
+						f = cs * sigma[j] + sn * e[j];
+						e[j] = cs * e[j] - sn * sigma[j];
+						g = sn * sigma[j + 1];
+						sigma[j + 1] = cs * sigma[j + 1];
 						if (requireV) {
 							for (int i = 0; i < n; ++i) {
 								t = cs * V[i][j] + sn * V[i][j + 1];
@@ -416,9 +416,9 @@ public class SingularValueDecomposition
 						t = Norms.getEuclideanNorm(f, g);
 						cs = f / t;
 						sn = g / t;
-						s[j] = t;
-						f = cs * e[j] + sn * s[j + 1];
-						s[j + 1] = -sn * e[j] + cs * s[j + 1];
+						sigma[j] = t;
+						f = cs * e[j] + sn * sigma[j + 1];
+						sigma[j + 1] = -sn * e[j] + cs * sigma[j + 1];
 						g = sn * e[j + 1];
 						e[j + 1] = cs * e[j + 1];
 						if (requireU && j < m - 1) {
@@ -437,8 +437,8 @@ public class SingularValueDecomposition
 				// Convergence
 				case 4: {
 					// Make the singular values positive
-					if (s[k] <= 0.) {
-						s[k] = s[k] < 0. ? -s[k] : 0.;
+					if (sigma[k] <= 0.) {
+						sigma[k] = sigma[k] < 0. ? -sigma[k] : 0.;
 						if (requireV) {
 							for (int i = 0; i <= pp; ++i) {
 								V[i][k] = -V[i][k];
@@ -448,12 +448,12 @@ public class SingularValueDecomposition
 
 					// Order the singular values
 					while (k < pp) {
-						if (s[k] >= s[k + 1]) {
+						if (sigma[k] >= sigma[k + 1]) {
 							break;
 						}
-						double t = s[k];
-						s[k] = s[k + 1];
-						s[k + 1] = t;
+						double t = sigma[k];
+						sigma[k] = sigma[k + 1];
+						sigma[k + 1] = t;
 						if (requireV && k < n - 1) {
 							for (int i = 0; i < n; ++i) {
 								t = V[i][k + 1];
@@ -502,18 +502,18 @@ public class SingularValueDecomposition
 	}
 
 	/**
-	 * Returns the one-dimensional array of singular values {@code s}.
+	 * Returns the one-dimensional array of singular values {@code sigma}.
 	 * <p>
-	 * @return the one-dimensional array of singular values {@code s}
+	 * @return the one-dimensional array of singular values {@code sigma}
 	 */
 	public double[] getSingularValues() {
-		return s;
+		return sigma;
 	}
 
 	/**
-	 * Returns the diagonal {@link Matrix} of the singular values {@code s}.
+	 * Returns the diagonal {@link Matrix} of the singular values {@code sigma}.
 	 * <p>
-	 * @return the diagonal {@link Matrix} of the singular values {@code s}
+	 * @return the diagonal {@link Matrix} of the singular values {@code sigma}
 	 */
 	public Matrix getS() {
 		final double[][] S = new double[n][n];
@@ -521,7 +521,7 @@ public class SingularValueDecomposition
 			for (int j = 0; j < n; ++j) {
 				S[i][j] = 0.;
 			}
-			S[i][i] = s[i];
+			S[i][i] = sigma[i];
 		}
 		return new Matrix(S);
 	}
@@ -532,7 +532,7 @@ public class SingularValueDecomposition
 	 * @return {@code max(s)}
 	 */
 	public double norm2() {
-		return s[0];
+		return sigma[0];
 	}
 
 	/**
@@ -541,7 +541,7 @@ public class SingularValueDecomposition
 	 * @return {@code max(s) / min(s)}
 	 */
 	public double cond() {
-		return s[0] / s[Math.min(m, n) - 1];
+		return sigma[0] / sigma[Math.min(m, n) - 1];
 	}
 
 	/**
@@ -551,9 +551,9 @@ public class SingularValueDecomposition
 	 */
 	public int rank() {
 		final double eps = Maths.TOLERANCE;
-		final double tolerance = Math.max(m, n) * s[0] * eps;
+		final double tolerance = Math.max(m, n) * sigma[0] * eps;
 		int r = 0;
-		for (final double value : s) {
+		for (final double value : sigma) {
 			if (value > tolerance) {
 				++r;
 			}

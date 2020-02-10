@@ -55,6 +55,13 @@ public class XYSelection
 	 */
 	private static final long serialVersionUID = 1L;
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The default radius.
+	 */
+	public static final int DEFAULT_RADIUS = 10;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -66,13 +73,18 @@ public class XYSelection
 	protected Point mousePosition;
 
 	/**
-	 * The x and y coordinates.
+	 * The xy-coordinates.
 	 */
 	protected XY<Double> coordinates = new XY<Double>();
 	/**
-	 * The formats of the x and y coordinates.
+	 * The formats of the xy-coordinates.
 	 */
 	protected XY<Format> formats;
+
+	/**
+	 * The radius.
+	 */
+	protected final int radius;
 
 	/**
 	 * The flag specifying whether {@code this} is visible.
@@ -80,7 +92,7 @@ public class XYSelection
 	protected boolean isVisible;
 
 	/**
-	 * The property change support.
+	 * The {@link PropertyChangeSupport}.
 	 */
 	protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
@@ -91,23 +103,35 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link XYSelection} with the specified formats of the x and y coordinates.
+	 * Constructs a {@link XYSelection} with the specified formats of the xy-coordinates.
 	 * <p>
-	 * @param formats a {@link XY} of {@link Format}
+	 * @param formats the {@link XY} of {@link Format}
 	 */
 	public XYSelection(final XY<Format> formats) {
-		this(formats, true);
+		this(formats, DEFAULT_RADIUS, true);
 	}
 
 	/**
-	 * Constructs a {@link XYSelection} with the specified formats of the x and y coordinates and
+	 * Constructs a {@link XYSelection} with the specified formats of the xy-coordinates and radius.
+	 * <p>
+	 * @param formats the {@link XY} of {@link Format}
+	 * @param radius  the radius
+	 */
+	public XYSelection(final XY<Format> formats, final int radius) {
+		this(formats, radius, true);
+	}
+
+	/**
+	 * Constructs a {@link XYSelection} with the specified formats of the xy-coordinates, radius and
 	 * flag specifying whether {@code this} is visible.
 	 * <p>
-	 * @param formats   a {@link XY} of {@link Format}
+	 * @param formats   the {@link XY} of {@link Format}
+	 * @param radius    the radius
 	 * @param isVisible the flag specifying whether {@code this} is visible
 	 */
-	public XYSelection(final XY<Format> formats, final boolean isVisible) {
+	public XYSelection(final XY<Format> formats, final int radius, final boolean isVisible) {
 		this.formats = formats;
+		this.radius = radius;
 		this.isVisible = isVisible;
 	}
 
@@ -128,9 +152,9 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the x and y coordinates.
+	 * Returns the xy-coordinates.
 	 * <p>
-	 * @return the x and y coordinates
+	 * @return the xy-coordinates
 	 */
 	public XY<Double> getCoordinates() {
 		return coordinates;
@@ -182,7 +206,7 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the x and y coordinates and sends a property change event to all registered listeners.
+	 * Sets the xy-coordinates and sends a property change event to all registered listeners.
 	 * <p>
 	 * @param x a {@code double} value
 	 * @param y a {@code double} value
@@ -246,19 +270,20 @@ public class XYSelection
 					coordinates);
 			final double ySelection = ChartPanels.rangeValueToJava2D(chartPanel, mousePosition,
 					coordinates);
-			final Ellipse2D selection = new Ellipse2D.Double(xSelection - 5, ySelection - 5,
-					10, 10);
+			final Ellipse2D selection = new Ellipse2D.Double(
+					xSelection - radius, ySelection - radius,
+					2 * radius, 2 * radius);
 			g.draw(selection);
 			g.fill(selection);
 		}
 	}
 
 	/**
-	 * Formats the specified x and y coordinates.
+	 * Formats the specified xy-coordinates.
 	 * <p>
 	 * @param coordinates a {@link XY} of {@link Double}
 	 * <p>
-	 * @return the formatted x and y coordinates in an array of {@link String}
+	 * @return the formatted xy-coordinates in an array of {@link String}
 	 */
 	protected String[] formatCoordinates(final XY<Double> coordinates) {
 		final String[] formattedCoordinates = new String[2];
@@ -320,6 +345,7 @@ public class XYSelection
 		return Objects.equals(mousePosition, otherXYSelection.mousePosition) &&
 				Objects.equals(coordinates, otherXYSelection.coordinates) &&
 				Objects.equals(formats, otherXYSelection.formats) &&
+				radius == otherXYSelection.radius &&
 				Objects.equals(isVisible, otherXYSelection.isVisible) &&
 				Objects.equals(propertyChangeSupport, otherXYSelection.propertyChangeSupport);
 	}
@@ -334,7 +360,7 @@ public class XYSelection
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, mousePosition, coordinates, formats, isVisible,
-				propertyChangeSupport);
+		return Objects.hashCode(serialVersionUID, mousePosition, coordinates, formats, radius,
+				isVisible, propertyChangeSupport);
 	}
 }

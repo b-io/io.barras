@@ -28,7 +28,7 @@ import static jupiter.math.analysis.function.Functions.SQUARE;
 import jupiter.math.linear.entity.Matrix;
 
 /**
- * {@link RegularizationL2} is the {@link RegularizationFunction} adding an L2 penalty equal to the
+ * {@link RegularizationL2} is the {@link RegularizationFunction} adding a L2 penalty equal to the
  * sum of the squares of all the weights.
  */
 public class RegularizationL2
@@ -56,9 +56,9 @@ public class RegularizationL2
 	}
 
 	/**
-	 * Constructs a {@link RegularizationL2} with the specified hyper-parameter λ.
+	 * Constructs a {@link RegularizationL2} with the specified hyper-parameter {@code λ}.
 	 * <p>
-	 * @param lambda the hyper-parameter λ
+	 * @param lambda the hyper-parameter {@code λ}
 	 */
 	public RegularizationL2(final double lambda) {
 		super(lambda);

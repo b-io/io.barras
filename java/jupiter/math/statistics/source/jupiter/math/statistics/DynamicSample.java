@@ -222,7 +222,7 @@ public class DynamicSample
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Resets the fields.
+	 * Resets {@code this}.
 	 */
 	@Override
 	public void reset() {

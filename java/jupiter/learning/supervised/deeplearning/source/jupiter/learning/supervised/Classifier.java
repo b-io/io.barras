@@ -57,22 +57,24 @@ public abstract class Classifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default learning rate α.
+	 * The default learning rate {@code α}.
 	 */
 	public static volatile double DEFAULT_LEARNING_RATE = 0.1;
 
 	/**
-	 * The default exponential decay rate for the first-moment estimates β1 (Adam algorithm).
+	 * The default exponential decay rate for the first-moment estimates {@code β1} (Adam
+	 * algorithm).
 	 */
 	public static volatile double DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE = 0.9;
 
 	/**
-	 * The default exponential decay rate for the second-moment estimates β2 (Adam algorithm).
+	 * The default exponential decay rate for the second-moment estimates {@code β2} (Adam
+	 * algorithm).
 	 */
 	public static volatile double DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE = 0.999;
 
 	/**
-	 * The default tolerance level (or termination criterion) ε.
+	 * The default tolerance level (or termination criterion) {@code ε}.
 	 */
 	public static volatile double DEFAULT_TOLERANCE = 1E-8;
 
@@ -94,29 +96,29 @@ public abstract class Classifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The number of features n.
+	 * The number of features {@code n}.
 	 */
 	protected int featureCount;
 	/**
-	 * The number of classes k.
+	 * The number of classes {@code k}.
 	 */
 	protected int classCount;
 	/**
-	 * The number of training examples m.
+	 * The number of training examples {@code m}.
 	 */
 	protected int trainingExampleCount;
 
 	/**
-	 * The {@link Matrix} X containing the feature vectors.
+	 * The {@link Matrix} {@code X} containing the feature vectors.
 	 */
 	protected Matrix X; // (n x m)
 	/**
-	 * The {@link Matrix} Y containing the classes.
+	 * The {@link Matrix} {@code Y} and {@code YT} (its transpose) containing the classes.
 	 */
 	protected Matrix Y, YT; // (k x m), (m x k)
 
 	/**
-	 * The {@link OutputActivationFunction} h for the output layer.
+	 * The {@link OutputActivationFunction} {@code h} for the output layer.
 	 */
 	protected OutputActivationFunction outputActivationFunction;
 	/**
@@ -130,20 +132,20 @@ public abstract class Classifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Classifier} with the specified number of features n.
+	 * Constructs a {@link Classifier} with the specified number of features {@code n}.
 	 * <p>
-	 * @param featureCount the number of features n
+	 * @param featureCount the number of features {@code n}
 	 */
 	protected Classifier(final int featureCount) {
 		this(featureCount, 1);
 	}
 
 	/**
-	 * Constructs a {@link Classifier} with the specified number of features n and number of classes
-	 * k.
+	 * Constructs a {@link Classifier} with the specified number of features {@code n} and number of
+	 * classes {@code k}.
 	 * <p>
-	 * @param featureCount the number of features n
-	 * @param classCount   the number of classes k
+	 * @param featureCount the number of features {@code n}
+	 * @param classCount   the number of classes {@code k}
 	 */
 	protected Classifier(final int featureCount, final int classCount) {
 		this.featureCount = featureCount;
@@ -160,9 +162,10 @@ public abstract class Classifier
 	 * Constructs a {@link Classifier} loaded from the specified files containing the training
 	 * examples (feature vectors and classes).
 	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 *                           to load
-	 * @param classesPath        the path to the file containing the classes of size m to load
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} to load
+	 * @param classesPath        the path to the file containing the classes of size {@code m} to
+	 *                           load
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
 	 *                     {@code classesPath}
@@ -177,9 +180,10 @@ public abstract class Classifier
 	 * examples (feature vectors and classes) and flag specifying whether to transpose the feature
 	 * vectors and classes.
 	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 *                           (or (m x n) if {@code transpose}) to load
-	 * @param classesPath        the path to the file containing the classes of size m to load
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} (or {@code m x n} if {@code transpose}) to load
+	 * @param classesPath        the path to the file containing the classes of size {@code m} to
+	 *                           load
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
@@ -198,27 +202,27 @@ public abstract class Classifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The number of feature vectors n.
+	 * The number of feature vectors {@code n}.
 	 * <p>
-	 * @return the number of feature vectors n
+	 * @return the number of feature vectors {@code n}
 	 */
 	public synchronized int getFeatureCount() {
 		return featureCount;
 	}
 
 	/**
-	 * The number of classes k.
+	 * The number of classes {@code k}.
 	 * <p>
-	 * @return the number of classes k
+	 * @return the number of classes {@code k}
 	 */
 	public synchronized int getClassCount() {
 		return classCount;
 	}
 
 	/**
-	 * The number of training examples m.
+	 * The number of training examples {@code m}.
 	 * <p>
-	 * @return the number of training examples m
+	 * @return the number of training examples {@code m}
 	 */
 	public synchronized int getTrainingExampleCount() {
 		return trainingExampleCount;
@@ -227,27 +231,27 @@ public abstract class Classifier
 	//////////////////////////////////////////////
 
 	/**
-	 * The {@link Matrix} X containing the feature vectors.
+	 * The {@link Matrix} {@code X} containing the feature vectors.
 	 * <p>
-	 * @return the {@link Matrix} X containing the feature vectors
+	 * @return the {@link Matrix} {@code X} containing the feature vectors
 	 */
 	public synchronized Matrix getFeatureVectors() {
 		return X;
 	}
 
 	/**
-	 * The {@link Matrix} Y containing the classes.
+	 * The {@link Matrix} {@code Y} containing the classes.
 	 * <p>
-	 * @return the {@link Matrix} Y containing the classes
+	 * @return the {@link Matrix} {@code Y} containing the classes
 	 */
 	public synchronized Matrix getClasses() {
 		return Y;
 	}
 
 	/**
-	 * The transposed {@link Matrix} Y containing the classes.
+	 * The transposed {@link Matrix} {@code YT} containing the classes.
 	 * <p>
-	 * @return the transposed {@link Matrix} Y containing the classes
+	 * @return the transposed {@link Matrix} {@code YT} containing the classes
 	 */
 	public synchronized Matrix getTransposedClasses() {
 		return YT;
@@ -284,7 +288,7 @@ public abstract class Classifier
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MODELER
+	// MODEL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -299,7 +303,7 @@ public abstract class Classifier
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate      the learning rate α
+	 * @param learningRate      the learning rate {@code α}
 	 * @param tolerance         the tolerance level
 	 * @param maxIterationCount the maximum number of iterations
 	 * <p>
@@ -313,10 +317,10 @@ public abstract class Classifier
 	/**
 	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
 	 * <p>
-	 * @param learningRate                     the learning rate α
-	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate
-	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate
-	 * @param tolerance                        the tolerance level
+	 * @param learningRate                     the learning rate {@code α}
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
+	 * @param tolerance                        the tolerance level {@code ε}
 	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
@@ -350,11 +354,11 @@ public abstract class Classifier
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether the tolerance level is reached.
+	 * Tests whether the tolerance level {@code ε} is reached.
 	 * <p>
 	 * @param tolerance the tolerance level
 	 * <p>
-	 * @return {@code true} if the tolerance level is reached, {@code false} otherwise
+	 * @return {@code true} if the tolerance level {@code ε} is reached, {@code false} otherwise
 	 */
 	public synchronized boolean testConvergence(final double tolerance) {
 		// Compute the current cost
@@ -384,7 +388,7 @@ public abstract class Classifier
 	 * Returns the estimated probability of the binary (logistic) or multinary (softmax) response
 	 * for all feature vector in {@code X}.
 	 * <p>
-	 * @param X the feature vectors of size (n x m)
+	 * @param X the feature vectors of size {@code n x m}
 	 * <p>
 	 * @return the estimated probability of the binary (logistic) or multinary (softmax) response
 	 *         for all feature vector in {@code X}
@@ -466,9 +470,10 @@ public abstract class Classifier
 	/**
 	 * Loads the training examples (feature vectors and classes) from the specified files.
 	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 *                           to load
-	 * @param classesPath        the path to the file containing the classes of size m to load
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} to load
+	 * @param classesPath        the path to the file containing the classes of size {@code m} to
+	 *                           load
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
 	 *                     {@code classesPath}
@@ -486,9 +491,9 @@ public abstract class Classifier
 	 * Loads the training examples (feature vectors and classes) from the specified files and flag
 	 * specifying whether to transpose the feature vectors and classes.
 	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size (n x m)
-	 *                           (or (m x n) if {@code transpose})
-	 * @param classesPath        the path to the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>

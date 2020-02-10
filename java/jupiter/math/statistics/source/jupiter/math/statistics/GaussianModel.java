@@ -42,7 +42,13 @@ public class GaussianModel
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The mean.
+	 */
 	protected final double mean;
+	/**
+	 * The standard deviation.
+	 */
 	protected final double standardDeviation;
 
 
@@ -50,6 +56,12 @@ public class GaussianModel
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link GaussianModel} with the specified mean and standard deviation.
+	 * <p>
+	 * @param mean              the mean
+	 * @param standardDeviation the standard deviation
+	 */
 	public GaussianModel(final double mean, final double standardDeviation) {
 		super();
 		this.mean = mean;
@@ -58,11 +70,18 @@ public class GaussianModel
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// STATISTICAL MODEL
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the likelihood of {@code this} given the specified evidence.
+	 * <p>
+	 * @param evidence a {@code double} value
+	 * <p>
+	 * @return the likelihood of {@code this} given the specified evidence
+	 */
 	@Override
-	public double likelihood(final double value) {
-		return Statistics.normalPdf(value, mean, standardDeviation);
+	public double getLikelihood(final double evidence) {
+		return Statistics.normalPdf(evidence, mean, standardDeviation);
 	}
 }

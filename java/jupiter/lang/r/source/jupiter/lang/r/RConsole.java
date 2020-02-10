@@ -59,6 +59,11 @@ public class RConsole {
 	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Starts the R console.
+	 * <p>
+	 * @param args the array of command line arguments
+	 */
 	public static void main(final String[] args) {
 		int status = IO.EXIT_SUCCESS;
 		final GraphicalConsole console = new GraphicalConsole();

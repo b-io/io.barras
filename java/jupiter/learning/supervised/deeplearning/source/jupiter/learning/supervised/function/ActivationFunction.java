@@ -29,6 +29,10 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
 import jupiter.math.linear.entity.Entity;
 
+/**
+ * {@link ActivationFunction} of a node defines the output of that node given an input or set of
+ * inputs.
+ */
 public abstract class ActivationFunction
 		implements ICloneable<ActivationFunction>, Serializable {
 

@@ -23,6 +23,8 @@
  */
 package jupiter.common.struct.map.tree;
 
+import jupiter.common.test.Arguments;
+
 public class AvlTreeNode<K, V>
 		extends BinaryTreeNode<K, V, AvlTreeNode<K, V>> {
 
@@ -68,7 +70,7 @@ public class AvlTreeNode<K, V>
 	 * @param tree  the {@link AvlTreeMap} of types {@code K} and {@code V}
 	 */
 	public AvlTreeNode(final K key, final V value, final AvlTreeMap<K, V> tree) {
-		super(key, value, tree.getKeyComparator());
+		super(key, value, Arguments.requireNonNull(tree, "tree").getKeyComparator());
 		this.tree = tree;
 		height = 0;
 		balance = 0;

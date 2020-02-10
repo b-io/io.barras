@@ -26,7 +26,11 @@ package jupiter.math.statistics;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 
-public class BayesianInferenceWithModel
+/**
+ * {@link BayesianInferenceOverModel} is the {@link BayesianInference} over an array of
+ * {@link StatisticalModel} (hypotheses).
+ */
+public class BayesianInferenceOverModel
 		extends BayesianInference {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +47,9 @@ public class BayesianInferenceWithModel
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The array of {@link StatisticalModel} (hypotheses).
+	 */
 	protected final StatisticalModel[] models;
 
 
@@ -50,18 +57,52 @@ public class BayesianInferenceWithModel
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public BayesianInferenceWithModel(final int modelCount) {
+	/**
+	 * Constructs a {@link BayesianInferenceOverModel} with the specified number of
+	 * {@link StatisticalModel} (hypotheses).
+	 * <p>
+	 * @param modelCount the number of {@link StatisticalModel} (hypotheses)
+	 */
+	public BayesianInferenceOverModel(final int modelCount) {
 		super(modelCount);
 		models = new StatisticalModel[modelCount];
 	}
 
+	/**
+	 * Constructs a {@link BayesianInferenceOverModel} with the specified array of
+	 * {@link StatisticalModel} (hypotheses).
+	 * <p>
+	 * @param models the array of {@link StatisticalModel} (hypotheses)
+	 */
+	public BayesianInferenceOverModel(final StatisticalModel[] models) {
+		super(ArrayArguments.requireNonNull(models, "models").length);
+		this.models = models;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// BAYESIAN INFERENCE
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void updateLikelihood(final int i, final double value) {
-		likelihoods[i] = models[i].likelihood(value);
+	/**
+	 * Returns the evidence conditional probability {@code P(E|H)} (called likelihood) of observing
+	 * the specified evidence {@code E} given the specified {@link StatisticalModel} (hypothesis
+	 * {@code H}).
+	 * <p>
+	 * @param hypothesisIndex the index of the {@link StatisticalModel} (hypothesis {@code H})
+	 * @param evidence        a {@code double} value
+	 * <p>
+	 * @return the evidence conditional probability {@code P(E|H)} (called likelihood) of observing
+	 *         the specified evidence {@code E} given the specified {@link StatisticalModel}
+	 *         (hypothesis {@code H})
+	 */
+	@Override
+	protected double getLikelihood(final int hypothesisIndex, final double evidence) {
+		// Check the arguments
+		ArrayArguments.requireIndex(hypothesisIndex, hypothesisCount);
+
+		// Get the likelihood of the evidence given the statistical model
+		return models[hypothesisIndex].getLikelihood(evidence);
 	}
 
 
@@ -70,17 +111,17 @@ public class BayesianInferenceWithModel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the statistical model of the specified hypothesis.
+	 * Sets the {@link StatisticalModel} at the specified index.
 	 * <p>
-	 * @param i     the hypothesis index
+	 * @param index the index of the {@link StatisticalModel} to set
 	 * @param model a {@link StatisticalModel}
 	 */
-	public void setStatisticalModel(final int i, final StatisticalModel model) {
+	public void setStatisticalModel(final int index, final StatisticalModel model) {
 		// Check the arguments
-		ArrayArguments.requireIndex(i, hypothesisCount);
+		ArrayArguments.requireIndex(index, hypothesisCount);
 		Arguments.requireNonNull(model, "model");
 
 		// Set the statistical model
-		models[i] = model;
+		models[index] = model;
 	}
 }

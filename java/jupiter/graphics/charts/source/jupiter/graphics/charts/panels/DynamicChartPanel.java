@@ -72,7 +72,7 @@ public class DynamicChartPanel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Format} of the x and y coordinates.
+	 * The {@link Format} of the xy-coordinates.
 	 */
 	protected final XY<Format> formats;
 
@@ -81,7 +81,7 @@ public class DynamicChartPanel
 	 */
 	protected Point mousePosition = new Point();
 	/**
-	 * The x and y coordinates of the mouse position.
+	 * The xy-coordinates of the mouse position.
 	 */
 	protected XY<Double> mouseCoordinates = new XY<Double>();
 
@@ -183,12 +183,6 @@ public class DynamicChartPanel
 	public void setDefaultParameters() {
 		ChartPanels.setDefaultParameters(this);
 
-		// Add an overlay for the selection
-		selection = new XYSelection(formats);
-		final XYSelectionOverlay selectionOverlay = new XYSelectionOverlay();
-		selectionOverlay.addSelection(selection);
-		addOverlay(selectionOverlay);
-
 		// Add an overlay for the vertical and horizontal crosshairs
 		crosshairs = new XY<Crosshair>(Charts.createCrosshair(true, formats.getX()),
 				Charts.createCrosshair(true, formats.getY()));
@@ -196,6 +190,12 @@ public class DynamicChartPanel
 		crosshairOverlay.addDomainCrosshair(crosshairs.getX());
 		crosshairOverlay.addRangeCrosshair(crosshairs.getY());
 		addOverlay(crosshairOverlay);
+
+		// Add an overlay for the selection
+		selection = new XYSelection(formats);
+		final XYSelectionOverlay selectionOverlay = new XYSelectionOverlay();
+		selectionOverlay.addSelection(selection);
+		addOverlay(selectionOverlay);
 	}
 
 
