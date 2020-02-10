@@ -55,15 +55,15 @@ public class SplineInterpolator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The X component of the control points, strictly increasing.
+	 * The {@code X}-component of the control points, strictly increasing.
 	 */
 	protected double[] X;
 	/**
-	 * The Y component of the control points.
+	 * The {@code Y}-component of the control points.
 	 */
 	protected double[] Y;
 	/**
-	 * The tangents.
+	 * The tangents {@code M}.
 	 */
 	protected double[] M;
 
@@ -73,11 +73,11 @@ public class SplineInterpolator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SplineInterpolator} with the specified X and Y components of the control
-	 * points and tangents.
+	 * Constructs a {@link SplineInterpolator} with the specified {@code X}- and
+	 * {@code Y}-components of the control points and tangents.
 	 * <p>
-	 * @param X the X component of the control points, strictly increasing
-	 * @param Y the Y component of the control points
+	 * @param X the {@code X}-component of the control points, strictly increasing
+	 * @param Y the {@code Y}-component of the control points
 	 * @param M the tangents
 	 */
 	protected SplineInterpolator(final double[] X, final double[] Y, final double[] M) {
@@ -101,18 +101,18 @@ public class SplineInterpolator
 	 * This function uses the Fritsch-Carlson method for computing the spline parameters.
 	 * http://en.wikipedia.org/wiki/Monotone_cubic_interpolation
 	 * <p>
-	 * @param X the X component of the control points, strictly increasing
-	 * @param Y the Y component of the control points
+	 * @param X the {@code X}-component of the control points, strictly increasing
+	 * @param Y the {@code Y}-component of the control points
 	 * <p>
 	 * @return a monotone cubic spline from the specified set of control points
 	 * <p>
-	 * @throws IllegalArgumentException if {@code X} or {@code Y} are {@code null}, have different
+	 * @throws IllegalArgumentException if {@code X} or {@code Y} is {@code null}, have different
 	 *                                  lengths or have fewer than 2 values
 	 */
 	public static SplineInterpolator createMonotoneCubicSpline(final double[] X, final double[] Y) {
 		if (X == null || Y == null || X.length != Y.length || X.length < 2) {
 			throw new IllegalArgumentException(
-					"There must be at least two control points and the arrays must be of equal length");
+					"The arrays must be of equal length and there must be at least two control points");
 		}
 
 		final int n = X.length;
@@ -162,12 +162,13 @@ public class SplineInterpolator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the interpolated {@code double} value of Y = f(X) for the specified X. Clamps X to
-	 * the domain of the spline.
+	 * Returns the interpolated {@code double} value of {@code Y = f(X)} for the specified {@code x}
+	 * value. Clamps {@code x} to the domain of the spline.
 	 * <p>
-	 * @param x the X {@code double} value
+	 * @param x a {@code double} value
 	 * <p>
-	 * @return the interpolated {@code double} value of Y = f(X) for the specified X
+	 * @return the interpolated {@code double} value of {@code Y = f(X)} for the specified {@code x}
+	 *         value
 	 */
 	public double interpolate(final double x) {
 		// Handle the boundary cases
