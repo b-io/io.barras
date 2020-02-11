@@ -112,7 +112,7 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final int rowCount, final int columnCount) {
 		// Check the arguments
-		Arguments.requireNonNull(c, "class");
+		Arguments.requireNotNull(c, "class");
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
 
@@ -136,7 +136,7 @@ public class Table<E>
 	public Table(final Class<E> c, final String[] header, final int rowCount,
 			final int columnCount) {
 		// Check the arguments
-		Arguments.requireNonNull(c, "class");
+		Arguments.requireNotNull(c, "class");
 		if (header != null) {
 			ArrayArguments.requireLength(header.length, columnCount);
 		}
@@ -159,8 +159,8 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final E[][] elements) {
 		// Check the arguments
-		Arguments.requireNonNull(c, "class");
-		Arguments.requireNonNull(elements, "2D array of elements");
+		Arguments.requireNotNull(c, "class");
+		ArrayArguments.requireNotEmpty(elements, "2D array of elements");
 
 		// Set the attributes
 		this.c = c;
@@ -183,12 +183,9 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final String[] header, final E[][] elements) {
 		// Check the arguments
-		Arguments.requireNonNull(c, "class");
-		Arguments.requireNonNull(header, "header");
-		Arguments.requireNonNull(elements, "2D array of elements");
-		if (elements.length > 0) {
-			ArrayArguments.requireSameLength(header, elements[0]);
-		}
+		Arguments.requireNotNull(c, "class");
+		ArrayArguments.requireSameLength(ArrayArguments.requireNotEmpty(header, "header"),
+				ArrayArguments.requireNotEmpty(elements, "elements"));
 
 		// Set the attributes
 		this.c = c;
@@ -210,7 +207,7 @@ public class Table<E>
 	public Table(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		// Check the arguments
-		Arguments.requireNonNull(parser, "parser");
+		Arguments.requireNotNull(parser, "parser");
 
 		// Set the attributes
 		this.c = parser.getOutputClass();
@@ -225,9 +222,9 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Class} of the elements.
+	 * Returns the element {@link Class}.
 	 * <p>
-	 * @return the {@link Class} of the elements
+	 * @return the element {@link Class}
 	 */
 	public Class<E> getElementClass() {
 		return c;
@@ -617,7 +614,7 @@ public class Table<E>
 		// • i
 		ArrayArguments.requireIndex(i, m);
 		// • values
-		ArrayArguments.requireNonEmpty(values);
+		ArrayArguments.requireNotEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
 		ArrayArguments.requireIndex(fromColumn, n);
@@ -684,7 +681,7 @@ public class Table<E>
 		// • j
 		ArrayArguments.requireIndex(j, n);
 		// • values
-		ArrayArguments.requireNonEmpty(values);
+		ArrayArguments.requireNotEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
 		ArrayArguments.requireIndex(fromRow, m);

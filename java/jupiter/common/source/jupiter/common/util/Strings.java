@@ -23,11 +23,14 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Arrays.DELIMITER;
 import static jupiter.common.util.Characters.COLON;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
+import static jupiter.common.util.Characters.LEFT_BRACE;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Characters.LEFT_QUOTE;
+import static jupiter.common.util.Characters.RIGHT_BRACE;
 import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 import static jupiter.common.util.Characters.RIGHT_QUOTE;
@@ -97,6 +100,7 @@ public class Strings {
 	public static final StringWrapper PARENTHESER = new StringWrapper(LEFT_PARENTHESIS,
 			RIGHT_PARENTHESIS);
 	public static final StringWrapper BRACKETER = new StringWrapper(LEFT_BRACKET, RIGHT_BRACKET);
+	public static final StringWrapper BRACER = new StringWrapper(LEFT_BRACE, RIGHT_BRACE);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -171,22 +175,22 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link String} from the specified array of {@link Object}.
+	 * Returns an array of {@link String} from the specified array.
 	 * <p>
-	 * @param array an array of {@link Object}
+	 * @param array the array to convert
 	 * <p>
-	 * @return an array of {@link String} from the specified array of {@link Object}
+	 * @return an array of {@link String} from the specified array
 	 */
 	public static String[] toArray(final Object[] array) {
 		return PARSER.callToArray(array);
 	}
 
 	/**
-	 * Returns an array of {@link String} from the specified array of {@link Object}.
+	 * Returns an array of {@link String} from the specified array.
 	 * <p>
-	 * @param array an array of {@link Object}
+	 * @param array the array to convert
 	 * <p>
-	 * @return an array of {@link String} from the specified array of {@link Object}
+	 * @return an array of {@link String} from the specified array
 	 */
 	public static String[] asArray(final Object... array) {
 		return toArray(array);
@@ -195,22 +199,22 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link String} from the specified 2D array of {@link Object}.
+	 * Returns a 2D array of {@link String} from the specified 2D array.
 	 * <p>
-	 * @param array2D a 2D array of {@link Object}
+	 * @param array2D the 2D array to convert
 	 * <p>
-	 * @return a 2D array of {@link String} from the specified 2D array of {@link Object}
+	 * @return a 2D array of {@link String} from the specified 2D array
 	 */
 	public static String[][] toArray2D(final Object[][] array2D) {
 		return PARSER.callToArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@link String} from the specified 2D array of {@link Object}.
+	 * Returns a 2D array of {@link String} from the specified 2D array.
 	 * <p>
-	 * @param array2D a 2D array of {@link Object}
+	 * @param array2D the 2D array to convert
 	 * <p>
-	 * @return a 2D array of {@link String} from the specified 2D array of {@link Object}
+	 * @return a 2D array of {@link String} from the specified 2D array
 	 */
 	public static String[][] asArray2D(final Object[]... array2D) {
 		return toArray2D(array2D);
@@ -219,22 +223,22 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link String} from the specified 3D array of {@link Object}.
+	 * Returns a 3D array of {@link String} from the specified 3D array.
 	 * <p>
-	 * @param array3D a 3D array of {@link Object}
+	 * @param array3D the 3D array to convert
 	 * <p>
-	 * @return a 3D array of {@link String} from the specified 3D array of {@link Object}
+	 * @return a 3D array of {@link String} from the specified 3D array
 	 */
 	public static String[][][] toArray3D(final Object[][][] array3D) {
 		return PARSER.callToArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link String} from the specified 3D array of {@link Object}.
+	 * Returns a 3D array of {@link String} from the specified 3D array.
 	 * <p>
-	 * @param array3D a 3D array of {@link Object}
+	 * @param array3D the 3D array to convert
 	 * <p>
-	 * @return a 3D array of {@link String} from the specified 3D array of {@link Object}
+	 * @return a 3D array of {@link String} from the specified 3D array
 	 */
 	public static String[][][] asArray3D(final Object[][]... array3D) {
 		return toArray3D(array3D);
@@ -245,7 +249,7 @@ public class Strings {
 	/**
 	 * Returns an array of {@link String} from the specified {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection}
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an array of {@link String} from the specified {@link Collection}
 	 */
@@ -259,7 +263,7 @@ public class Strings {
 	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
@@ -271,7 +275,7 @@ public class Strings {
 	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
@@ -284,7 +288,7 @@ public class Strings {
 	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
 	 */
@@ -296,7 +300,7 @@ public class Strings {
 	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
 	 */
@@ -312,7 +316,7 @@ public class Strings {
 	 * element type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
 	 *         element type {@code E}
@@ -326,7 +330,7 @@ public class Strings {
 	 * of element type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
 	 *         of element type {@code E}
@@ -342,7 +346,7 @@ public class Strings {
 	 * Returns a {@link Set} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert to convert
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@code T} array
 	 */
@@ -354,7 +358,7 @@ public class Strings {
 	 * Returns a {@link Set} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert to convert
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@code T} array
 	 */
@@ -370,7 +374,7 @@ public class Strings {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@link Collection} of element type
 	 *         {@code E}
@@ -705,11 +709,11 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object}.
+	 * Returns a representative {@link String} of the specified array.
 	 * <p>
-	 * @param array an array of {@link Object} (may be {@code null})
+	 * @param array an array (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object}
+	 * @return a representative {@link String} of the specified array
 	 */
 	public static String join(final Object... array) {
 		// Check the arguments
@@ -753,35 +757,44 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
-	 * {@code delimiter}.
+	 * Returns a representative {@link String} of the specified array joined by the default
+	 * {@link Arrays#DELIMITER}.
 	 * <p>
-	 * @param array     an array of {@link Object}
+	 * @param array an array
+	 * <p>
+	 * @return a representative {@link String} of the specified array joined by the default
+	 *         {@link Arrays#DELIMITER}
+	 */
+	public static String joinWith(final Object[] array) {
+		return joinWith(array, toString(DELIMITER));
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}.
+	 * <p>
+	 * @param array     an array
 	 * @param delimiter the delimiting {@code char} value
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object} joined by
-	 *         {@code delimiter}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
 	 */
 	public static String joinWith(final Object[] array, final char delimiter) {
 		return joinWith(array, toString(delimiter));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
-	 * {@code delimiter}.
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}.
 	 * <p>
-	 * @param array     an array of {@link Object} (may be {@code null})
+	 * @param array     an array (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object} joined by
-	 *         {@code delimiter}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
 	 */
 	public static String joinWith(final Object[] array, final String delimiter) {
 		// Check the arguments
 		if (array == null) {
 			return NULL;
 		}
-		Arguments.requireNonNull(delimiter, "delimiter");
+		Arguments.requireNotNull(delimiter, "delimiter");
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
@@ -799,15 +812,29 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified array joined by the default
+	 * {@link Arrays#DELIMITER} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@link Object}
+	 * @param array   an array
+	 * @param wrapper an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified array joined by the default
+	 *         {@link Arrays#DELIMITER} and wrapped by {@code wrapper}
+	 */
+	public static String joinWith(final Object[] array, final ObjectToStringMapper wrapper) {
+		return joinWith(array, toString(DELIMITER), wrapper);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
+	 * and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param array     an array
 	 * @param delimiter the delimiting {@code char} value
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
+	 *         and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Object[] array, final char delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -815,15 +842,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
+	 * and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@link Object} (may be {@code null})
+	 * @param array     an array (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
+	 *         and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -831,8 +858,8 @@ public class Strings {
 		if (array == null) {
 			return NULL;
 		}
-		Arguments.requireNonNull(delimiter, "delimiter");
-		Arguments.requireNonNull(wrapper, "wrapper");
+		Arguments.requireNotNull(delimiter, "delimiter");
+		Arguments.requireNotNull(wrapper, "wrapper");
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
@@ -880,7 +907,7 @@ public class Strings {
 		if (collection == null) {
 			return NULL;
 		}
-		Arguments.requireNonNull(delimiter, "delimiter");
+		Arguments.requireNotNull(delimiter, "delimiter");
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
@@ -930,8 +957,8 @@ public class Strings {
 		if (collection == null) {
 			return NULL;
 		}
-		Arguments.requireNonNull(delimiter, "delimiter");
-		Arguments.requireNonNull(wrapper, "wrapper");
+		Arguments.requireNotNull(delimiter, "delimiter");
+		Arguments.requireNotNull(wrapper, "wrapper");
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
@@ -1556,8 +1583,6 @@ public class Strings {
 		return PARENTHESER.call(content);
 	}
 
-	//////////////////////////////////////////////
-
 	/**
 	 * Returns the bracketized representative {@link String} of the specified content.
 	 * <p>
@@ -1567,6 +1592,17 @@ public class Strings {
 	 */
 	public static String bracketize(final Object content) {
 		return BRACKETER.call(content);
+	}
+
+	/**
+	 * Returns the braced representative {@link String} of the specified content.
+	 * <p>
+	 * @param content the content {@link Object}
+	 * <p>
+	 * @return the braced representative {@link String} of the specified content
+	 */
+	public static String brace(final Object content) {
+		return BRACER.call(content);
 	}
 
 
@@ -2961,7 +2997,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> getTokens(final String text,
 			final int[] delimiterIndexes) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Get the tokens computed by splitting the text around the delimiters
 		return getTokensTo(text, delimiterIndexes, text.length());
@@ -2982,8 +3018,8 @@ public class Strings {
 	public static ExtendedLinkedList<String> getTokensTo(final String text,
 			final int[] delimiterIndexes, final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
-		Arguments.requireNonNull(delimiterIndexes, "delimiting indexes");
+		Arguments.requireNotNull(text, "text");
+		Arguments.requireNotNull(delimiterIndexes, "delimiting indexes");
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
@@ -3017,7 +3053,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> getTokens(final String text,
 			final Collection<Integer> delimiterIndexes) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Get the tokens computed by splitting the text around the delimiters
 		return getTokensTo(text, delimiterIndexes, text.length());
@@ -3038,8 +3074,8 @@ public class Strings {
 	public static ExtendedLinkedList<String> getTokensTo(final String text,
 			final Collection<Integer> delimiterIndexes, final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
-		Arguments.requireNonNull(delimiterIndexes, "delimiting indexes");
+		Arguments.requireNotNull(text, "text");
+		Arguments.requireNotNull(delimiterIndexes, "delimiting indexes");
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
@@ -3065,19 +3101,19 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around the default delimiter {@link Arrays#DELIMITER}.
+	 * specified {@link String} around the default {@link Arrays#DELIMITER}.
 	 * <p>
 	 * @param text a {@link String}
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around the default delimiter {@link Arrays#DELIMITER}
+	 *         specified {@link String} around the default {@link Arrays#DELIMITER}
 	 */
 	public static ExtendedLinkedList<String> split(final String text) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Split the text around the delimiter
-		return splitTo(text, Arrays.DELIMITER, text.length());
+		return splitTo(text, DELIMITER, text.length());
 	}
 
 	/**
@@ -3092,7 +3128,7 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final char delimiter) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Split the text around the delimiter
 		return splitTo(text, delimiter, text.length());
@@ -3128,7 +3164,7 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final Character delimiter) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Split the text around the delimiter
 		return splitTo(text, delimiter, text.length());
@@ -3148,7 +3184,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitTo(final String text, final Character delimiter,
 			final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 		ArrayArguments.requireIndex(toIndex, text.length(), true);
 		if (delimiter == null) {
 			return new ExtendedLinkedList<String>(text.substring(0, toIndex));
@@ -3172,7 +3208,7 @@ public class Strings {
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final char[] delimiters) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Split the text around the delimiters
 		return splitTo(text, delimiters, text.length());
@@ -3210,7 +3246,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> split(final String text,
 			final Collection<Character> delimiters) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Split the text around the delimiters
 		return splitTo(text, delimiters, text.length());
@@ -3248,7 +3284,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final String delimiter) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Split the text around the delimiter
 		return splitStringTo(text, delimiter, text.length());
@@ -3268,7 +3304,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitStringTo(final String text,
 			final String delimiter, final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 		ArrayArguments.requireIndex(toIndex, text.length(), true);
 		if (delimiter == null) {
 			return new ExtendedLinkedList<String>(text.substring(0, toIndex));
@@ -3308,7 +3344,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final String[] delimiters) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Split the text around the delimiters
 		return splitStringTo(text, delimiters, text.length());
@@ -3328,8 +3364,8 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitStringTo(final String text,
 			final String[] delimiters, final int toIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
-		Arguments.requireNonNull(delimiters, "delimiters");
+		Arguments.requireNotNull(text, "text");
+		Arguments.requireNotNull(delimiters, "delimiters");
 		ArrayArguments.requireIndex(toIndex, text.length(), true);
 
 		// Initialize
@@ -3368,7 +3404,7 @@ public class Strings {
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final List<String> delimiters) {
 		// Check the arguments
-		Arguments.requireNonNull(text, "text");
+		Arguments.requireNotNull(text, "text");
 
 		// Split the text around the delimiters
 		return splitStringTo(text, delimiters, text.length());
@@ -3677,7 +3713,7 @@ public class Strings {
 	 * Returns the representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object an {@link Object} (may be {@code null})
 	 * @param length the length of the representative {@link String}
 	 * <p>
 	 * @return the representative {@link String} of the specified {@link Object} if it is not
@@ -3756,7 +3792,7 @@ public class Strings {
 	 * Returns the representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null}, {@code defaultString} otherwise.
 	 * <p>
-	 * @param object        the {@link Object}
+	 * @param object        the {@link Object} (may be {@code null})
 	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
 	 * <p>
 	 * @return the representative {@link String} of the specified {@link Object} if it is not
@@ -3790,7 +3826,7 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified {@link Exception} if it is not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param exception an {@link Exception}
+	 * @param exception an {@link Exception} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Exception} if it is not
 	 *         {@code null}, {@code "null"} otherwise

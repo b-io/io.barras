@@ -148,7 +148,7 @@ public class Sort<T>
 				INITIAL_TEMP_STORAGE_LENGTH;
 		if (work == null || workLength < tempLength || workBase + tempLength > work.length) {
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentType(array), tempLength);
+			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentClass(array), tempLength);
 			tempArray = newArray;
 			tempArrayBase = 0;
 			tempArrayLength = tempLength;
@@ -357,7 +357,7 @@ public class Sort<T>
 	/**
 	 * Reverse the specified range of the specified array.
 	 * <p>
-	 * @param array the array of {@link Object} in which a range is to be reversed
+	 * @param array the array in which a range is to be reversed
 	 * @param lo    the index of the first element in the range to reverse
 	 * @param hi    the index after the last element in the range to reverse
 	 */
@@ -980,7 +980,7 @@ outer:  while (true) {
 			}
 
 			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentType(array), newSize);
+			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentClass(array), newSize);
 			tempArray = newArray;
 			tempArrayLength = newSize;
 			tempArrayBase = 0;

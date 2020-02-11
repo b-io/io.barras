@@ -23,6 +23,9 @@
  */
 package jupiter.transfer.file;
 
+import static jupiter.common.util.Characters.LEFT_BRACE;
+import static jupiter.common.util.Characters.RIGHT_BRACE;
+
 import java.lang.reflect.Field;
 import java.util.Collection;
 
@@ -72,9 +75,10 @@ public class JSON {
 	 */
 	public static String jsonify(final Object content) {
 		final StringBuilder builder = Strings.createBuilder();
-		builder.append('{');
+		builder.append(LEFT_BRACE);
 		if (content != null) {
 			final Field[] fields = content.getClass().getDeclaredFields();
+			int accessibleFieldCount = 0;
 			for (int i = 0; i < fields.length; ++i) {
 				final Field field = fields[i];
 				try {
@@ -82,11 +86,15 @@ public class JSON {
 					if (i < fields.length - 1) {
 						builder.append(',');
 					}
+					++accessibleFieldCount;
 				} catch (final IllegalAccessException ignored) {
 				}
 			}
+			if (accessibleFieldCount == 0) {
+				builder.append(jsonifyNode(content));
+			}
 		}
-		builder.append('}');
+		builder.append(RIGHT_BRACE);
 		return builder.toString();
 	}
 

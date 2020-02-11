@@ -93,7 +93,7 @@ public class Booleans {
 	 * Returns a {@code boolean} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@code boolean} array from the specified {@code T} array
 	 */
@@ -105,7 +105,7 @@ public class Booleans {
 	 * Returns a {@code boolean} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@code boolean} array from the specified {@code T} array
 	 */
@@ -118,7 +118,7 @@ public class Booleans {
 	 * Returns a {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a {@code boolean} array from the specified 2D {@code T} array
 	 */
@@ -130,7 +130,7 @@ public class Booleans {
 	 * Returns a {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a {@code boolean} array from the specified 2D {@code T} array
 	 */
@@ -143,7 +143,7 @@ public class Booleans {
 	 * Returns a {@code boolean} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a {@code boolean} array from the specified 3D {@code T} array
 	 */
@@ -155,7 +155,7 @@ public class Booleans {
 	 * Returns a {@code boolean} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a {@code boolean} array from the specified 3D {@code T} array
 	 */
@@ -170,7 +170,7 @@ public class Booleans {
 	 * Returns a 2D {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a 2D {@code boolean} array from the specified 2D {@code T} array
 	 */
@@ -182,7 +182,7 @@ public class Booleans {
 	 * Returns a 2D {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a 2D {@code boolean} array from the specified 2D {@code T} array
 	 */
@@ -197,7 +197,7 @@ public class Booleans {
 	 * Returns a 3D {@code boolean} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a 3D {@code boolean} array from the specified 3D {@code T} array
 	 */
@@ -209,7 +209,7 @@ public class Booleans {
 	 * Returns a 3D {@code boolean} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a 3D {@code boolean} array from the specified 3D {@code T} array
 	 */
@@ -225,7 +225,7 @@ public class Booleans {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return a {@code boolean} array from the specified {@link Collection} of element type
 	 *         {@code E}
@@ -239,7 +239,7 @@ public class Booleans {
 	/**
 	 * Returns an array of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return an array of {@link Boolean} from the specified {@code boolean} array
 	 */
@@ -254,7 +254,7 @@ public class Booleans {
 	/**
 	 * Returns an array of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return an array of {@link Boolean} from the specified {@code boolean} array
 	 */
@@ -267,7 +267,7 @@ public class Booleans {
 	/**
 	 * Returns a 2D array of {@link Boolean} from the specified 2D {@code boolean} array.
 	 * <p>
-	 * @param array2D a 2D {@code boolean} array
+	 * @param array2D the 2D {@code boolean} array to convert
 	 * <p>
 	 * @return a 2D array of {@link Boolean} from the specified 2D {@code boolean} array
 	 */
@@ -282,7 +282,7 @@ public class Booleans {
 	/**
 	 * Returns a 2D array of {@link Boolean} from the specified 2D {@code boolean} array.
 	 * <p>
-	 * @param array2D a 2D {@code boolean} array
+	 * @param array2D the 2D {@code boolean} array to convert
 	 * <p>
 	 * @return a 2D array of {@link Boolean} from the specified 2D {@code boolean} array
 	 */
@@ -295,7 +295,7 @@ public class Booleans {
 	/**
 	 * Returns a 3D array of {@link Boolean} from the specified 3D {@code boolean} array.
 	 * <p>
-	 * @param array3D a 3D {@code boolean} array
+	 * @param array3D the 3D {@code boolean} array to convert
 	 * <p>
 	 * @return a 3D array of {@link Boolean} from the specified 3D {@code boolean} array
 	 */
@@ -310,7 +310,7 @@ public class Booleans {
 	/**
 	 * Returns a 3D array of {@link Boolean} from the specified 3D {@code boolean} array.
 	 * <p>
-	 * @param array3D a 3D {@code boolean} array
+	 * @param array3D the 3D {@code boolean} array to convert
 	 * <p>
 	 * @return a 3D array of {@link Boolean} from the specified 3D {@code boolean} array
 	 */
@@ -325,7 +325,7 @@ public class Booleans {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an array of {@link Boolean} from the specified {@link Collection} of element type
 	 *         {@code E}
@@ -339,7 +339,7 @@ public class Booleans {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
 	 */
@@ -350,7 +350,7 @@ public class Booleans {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
 	 */
@@ -362,7 +362,7 @@ public class Booleans {
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
 	 * array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
 	 *         array
@@ -375,7 +375,7 @@ public class Booleans {
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
 	 * array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
 	 *         array
@@ -390,7 +390,7 @@ public class Booleans {
 	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
 	 */
@@ -402,7 +402,7 @@ public class Booleans {
 	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
 	 */
@@ -415,7 +415,7 @@ public class Booleans {
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
 	 */
@@ -427,7 +427,7 @@ public class Booleans {
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
 	 */
@@ -443,7 +443,7 @@ public class Booleans {
 	 * type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection} of
 	 *         type {@code E}
@@ -457,7 +457,7 @@ public class Booleans {
 	 * {@link Collection} of element type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified
 	 *         {@link Collection} of element type {@code E}
@@ -472,7 +472,7 @@ public class Booleans {
 	/**
 	 * Returns a {@link Set} of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@code boolean} array
 	 */
@@ -483,7 +483,7 @@ public class Booleans {
 	/**
 	 * Returns a {@link Set} of {@link Boolean} from the specified {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@code boolean} array
 	 */
@@ -497,7 +497,7 @@ public class Booleans {
 	 * Returns a {@link Set} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@code T} array
 	 */
@@ -509,7 +509,7 @@ public class Booleans {
 	 * Returns a {@link Set} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@code T} array
 	 */
@@ -525,7 +525,7 @@ public class Booleans {
 	 * type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@link Collection} of element
 	 *         type {@code E}
@@ -590,7 +590,7 @@ public class Booleans {
 	 * Returns the number of occurrences of the specified {@code boolean} token in the specified
 	 * {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * @param token the {@code boolean} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code boolean} token in the specified
@@ -813,7 +813,7 @@ public class Booleans {
 	/**
 	 * Returns the transpose of the specified 2D {@code boolean} array.
 	 * <p>
-	 * @param array2D a 2D {@code boolean} array
+	 * @param array2D the 2D {@code boolean} array to convert
 	 * <p>
 	 * @return the transpose of the specified 2D {@code boolean} array
 	 */
@@ -1075,7 +1075,7 @@ public class Booleans {
 	/**
 	 * Returns a representative {@link String} of the specified {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to convert
 	 * <p>
 	 * @return a representative {@link String} of the specified {@code boolean} array
 	 */

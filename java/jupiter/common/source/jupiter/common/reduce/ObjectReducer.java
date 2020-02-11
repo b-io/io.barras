@@ -24,8 +24,7 @@
 package jupiter.common.reduce;
 
 /**
- * {@link ObjectReducer} is the {@link Reducer} reducing an input array of {@link Object} to an
- * {@code O} output.
+ * {@link ObjectReducer} is the {@link Reducer} reducing an input array to an {@code O} output.
  * <p>
  * @param <O> the output type
  */

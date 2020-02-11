@@ -885,7 +885,7 @@ public class FTPHandler
 	 */
 	public void load(final Properties properties) {
 		// Check the arguments
-		Arguments.requireNonNull(properties, "properties");
+		Arguments.requireNotNull(properties, "properties");
 
 		// Load the properties
 		protocol = Protocol.get(properties.getProperty("protocol"));

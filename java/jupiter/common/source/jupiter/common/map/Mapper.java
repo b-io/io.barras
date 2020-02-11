@@ -75,7 +75,7 @@ public abstract class Mapper<I, O>
 		super();
 
 		// Check the arguments
-		Arguments.requireNonNull(c, "class");
+		Arguments.requireNotNull(c, "class");
 
 		// Set the attributes
 		this.c = c;

@@ -369,8 +369,8 @@ public class SVM {
 	public void load(final double[][] featureVectors, final int[] classes) {
 		// Check the arguments
 		ArrayArguments.requireSameLength(
-				Arguments.requireNonNull(featureVectors, "feature vectors").length,
-				Arguments.requireNonNull(classes, "classes").length);
+				Arguments.requireNotNull(featureVectors, "feature vectors").length,
+				Arguments.requireNotNull(classes, "classes").length);
 
 		// Load the training examples
 		if (featureVectors.length > 0) {
@@ -400,7 +400,7 @@ public class SVM {
 	 */
 	public void load(final StringTable trainingExamples, final int classesIndex) {
 		// Check the arguments
-		Arguments.requireNonNull(trainingExamples, "training examples");
+		Arguments.requireNotNull(trainingExamples, "training examples");
 
 		// Load the training examples
 		final int m = trainingExamples.getRowCount();

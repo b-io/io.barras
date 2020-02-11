@@ -46,28 +46,6 @@ public class Lists
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONVERTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns an {@code E} array containing all of the elements in the specified {@link List} in
-	 * proper sequence (from first to last element).
-	 * <p>
-	 * @param <E>  the element type of the {@link List} to convert
-	 * @param list a {@link List} of element type {@code E}
-	 * <p>
-	 * @return an {@code E} array containing all of the elements in the specified {@link List} in
-	 *         proper sequence (from first to last element)
-	 *
-	 * @see List#toArray
-	 */
-	@SuppressWarnings("unchecked")
-	public static <E> E[] toArray(final List<E> list) {
-		return (E[]) list.toArray();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

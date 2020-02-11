@@ -132,14 +132,14 @@ public class DoubleArguments
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double[] requireNonEmpty(final double... array) {
+	public static double[] requireNotEmpty(final double... array) {
 		if (CHECK_ARGS) {
-			requireNonEmpty(requireNonNull(array).length);
+			requireNotEmpty(requireNotNull(array).length);
 		}
 		return array;
 	}
 
-	public static void requireNonEmpty(final int length) {
+	public static void requireNotEmpty(final int length) {
 		if (CHECK_ARGS && length == 0) {
 			throw new IllegalArgumentException("The specified double array is empty");
 		}
@@ -147,7 +147,7 @@ public class DoubleArguments
 
 	public static double[] requireLength(final double[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
-			requireLength(requireNonNull(array).length, expectedLength);
+			requireLength(requireNotNull(array).length, expectedLength);
 		}
 		return array;
 	}
@@ -161,7 +161,7 @@ public class DoubleArguments
 
 	public static double[] requireMinLength(final double[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
-			requireMinLength(requireNonNull(array).length, minExpectedLength);
+			requireMinLength(requireNotNull(array).length, minExpectedLength);
 		}
 		return array;
 	}
@@ -175,7 +175,7 @@ public class DoubleArguments
 
 	public static double[] requireMaxLength(final double[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
-			requireMaxLength(requireNonNull(array).length, maxExpectedLength);
+			requireMaxLength(requireNotNull(array).length, maxExpectedLength);
 		}
 		return array;
 	}
@@ -189,7 +189,7 @@ public class DoubleArguments
 
 	public static void requireSameLength(final double[] a, final double[] b) {
 		if (CHECK_ARGS) {
-			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
+			requireSameLength(requireNotNull(a).length, requireNotNull(b).length);
 		}
 	}
 

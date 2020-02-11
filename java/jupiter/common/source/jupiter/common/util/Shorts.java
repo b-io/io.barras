@@ -151,7 +151,7 @@ public class Shorts {
 	 * Returns a {@code short} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
-	 * @param object a {@code T} object
+	 * @param object the {@code T} object to convert
 	 * <p>
 	 * @return a {@code short} value from the specified {@code T} object
 	 */
@@ -165,7 +165,7 @@ public class Shorts {
 	 * Returns a {@code short} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@code short} array from the specified {@code T} array
 	 */
@@ -177,7 +177,7 @@ public class Shorts {
 	 * Returns a {@code short} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@code short} array from the specified {@code T} array
 	 */
@@ -190,7 +190,7 @@ public class Shorts {
 	 * Returns a {@code short} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a {@code short} array from the specified 2D {@code T} array
 	 */
@@ -202,7 +202,7 @@ public class Shorts {
 	 * Returns a {@code short} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a {@code short} array from the specified 2D {@code T} array
 	 */
@@ -215,7 +215,7 @@ public class Shorts {
 	 * Returns a {@code short} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a {@code short} array from the specified 3D {@code T} array
 	 */
@@ -227,7 +227,7 @@ public class Shorts {
 	 * Returns a {@code short} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a {@code short} array from the specified 3D {@code T} array
 	 */
@@ -242,7 +242,7 @@ public class Shorts {
 	 * Returns a 2D {@code short} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a 2D {@code short} array from the specified 2D {@code T} array
 	 */
@@ -254,7 +254,7 @@ public class Shorts {
 	 * Returns a 2D {@code short} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a 2D {@code short} array from the specified 2D {@code T} array
 	 */
@@ -269,7 +269,7 @@ public class Shorts {
 	 * Returns a 3D {@code short} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a 3D {@code short} array from the specified 3D {@code T} array
 	 */
@@ -281,7 +281,7 @@ public class Shorts {
 	 * Returns a 3D {@code short} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a 3D {@code short} array from the specified 3D {@code T} array
 	 */
@@ -297,7 +297,7 @@ public class Shorts {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return a {@code short} array from the specified {@link Collection} of element type {@code E}
 	 */
@@ -310,7 +310,7 @@ public class Shorts {
 	/**
 	 * Returns an array of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return an array of {@link Short} from the specified {@code short} array
 	 */
@@ -325,7 +325,7 @@ public class Shorts {
 	/**
 	 * Returns an array of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return an array of {@link Short} from the specified {@code short} array
 	 */
@@ -338,7 +338,7 @@ public class Shorts {
 	/**
 	 * Returns a 2D array of {@link Short} from the specified 2D {@code short} array.
 	 * <p>
-	 * @param array2D a 2D {@code short} array
+	 * @param array2D the 2D {@code short} array to convert
 	 * <p>
 	 * @return a 2D array of {@link Short} from the specified 2D {@code short} array
 	 */
@@ -353,7 +353,7 @@ public class Shorts {
 	/**
 	 * Returns a 2D array of {@link Short} from the specified 2D {@code short} array.
 	 * <p>
-	 * @param array2D a 2D {@code short} array
+	 * @param array2D the 2D {@code short} array to convert
 	 * <p>
 	 * @return a 2D array of {@link Short} from the specified 2D {@code short} array
 	 */
@@ -366,7 +366,7 @@ public class Shorts {
 	/**
 	 * Returns a 3D array of {@link Short} from the specified 3D {@code short} array.
 	 * <p>
-	 * @param array3D a 3D {@code short} array
+	 * @param array3D the 3D {@code short} array to convert
 	 * <p>
 	 * @return a 3D array of {@link Short} from the specified 3D {@code short} array
 	 */
@@ -381,7 +381,7 @@ public class Shorts {
 	/**
 	 * Returns a 3D array of {@link Short} from the specified 3D {@code short} array.
 	 * <p>
-	 * @param array3D a 3D {@code short} array
+	 * @param array3D the 3D {@code short} array to convert
 	 * <p>
 	 * @return a 3D array of {@link Short} from the specified 3D {@code short} array
 	 */
@@ -396,7 +396,7 @@ public class Shorts {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an array of {@link Short} from the specified {@link Collection} of element type
 	 *         {@code E}
@@ -410,7 +410,7 @@ public class Shorts {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code short} array
 	 */
@@ -421,7 +421,7 @@ public class Shorts {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code short} array
 	 */
@@ -433,7 +433,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@code short}
 	 * array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@code short} array
 	 */
@@ -445,7 +445,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@code short}
 	 * array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@code short} array
 	 */
@@ -459,7 +459,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code T} array
 	 */
@@ -471,7 +471,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code T} array
 	 */
@@ -484,7 +484,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array
 	 */
@@ -496,7 +496,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array
 	 */
@@ -512,7 +512,7 @@ public class Shorts {
 	 * element type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@link Collection} of
 	 *         element type {@code E}
@@ -526,7 +526,7 @@ public class Shorts {
 	 * of element type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@link Collection}
 	 *         of element type {@code E}
@@ -541,7 +541,7 @@ public class Shorts {
 	/**
 	 * Returns a {@link Set} of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@code short} array
 	 */
@@ -552,7 +552,7 @@ public class Shorts {
 	/**
 	 * Returns a {@link Set} of {@link Short} from the specified {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@code short} array
 	 */
@@ -566,7 +566,7 @@ public class Shorts {
 	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
 	 */
@@ -578,7 +578,7 @@ public class Shorts {
 	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
 	 */
@@ -594,7 +594,7 @@ public class Shorts {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@link Collection} of element type
 	 *         {@code E}
@@ -742,7 +742,7 @@ public class Shorts {
 	 * Returns the number of occurrences of the specified {@code short} token in the specified
 	 * {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * @param token the {@code short} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code short} token in the specified
@@ -989,7 +989,7 @@ public class Shorts {
 	/**
 	 * Returns the transpose of the specified 2D {@code short} array.
 	 * <p>
-	 * @param array2D a 2D {@code short} array
+	 * @param array2D the 2D {@code short} array to convert
 	 * <p>
 	 * @return the transpose of the specified 2D {@code short} array
 	 */
@@ -1329,7 +1329,7 @@ public class Shorts {
 	/**
 	 * Returns a representative {@link String} of the specified {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to convert
 	 * <p>
 	 * @return a representative {@link String} of the specified {@code short} array
 	 */

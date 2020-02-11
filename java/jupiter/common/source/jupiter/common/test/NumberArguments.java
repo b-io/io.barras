@@ -24,13 +24,19 @@
 package jupiter.common.test;
 
 import jupiter.common.util.Numbers;
+import jupiter.common.util.Strings;
 
 public class NumberArguments
 		extends Arguments {
 
 	public static void requireNumber(final Object number) {
-		if (CHECK_ARGS && !Numbers.is(requireNonNull(number).getClass())) {
-			throw new IllegalArgumentException("The specified object is not a number");
+		requireNumber(number, "number");
+	}
+
+	public static void requireNumber(final Object number, final String name) {
+		if (CHECK_ARGS && !Numbers.is(requireNotNull(number, name).getClass())) {
+			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
+					" is not a number"));
 		}
 	}
 }

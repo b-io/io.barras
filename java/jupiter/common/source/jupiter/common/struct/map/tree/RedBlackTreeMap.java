@@ -190,7 +190,7 @@ public class RedBlackTreeMap<K, V>
 	@Override
 	public synchronized V put(final K key, final V value) {
 		// Check the arguments
-		Arguments.requireNonNull(key, "key");
+		Arguments.requireNotNull(key, "key");
 
 		// Put the key-value mapping
 		RedBlackTreeNode<K, V> tree = root;

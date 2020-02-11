@@ -169,7 +169,7 @@ public abstract class OpenCL
 		}
 
 		// Check the arguments
-		StringArguments.requireNonEmpty(sourceCode);
+		StringArguments.requireNotEmpty(sourceCode);
 
 		// Set the attributes
 		this.sourceCode = sourceCode;

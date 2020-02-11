@@ -152,7 +152,7 @@ public class TimeSeriesGraphic
 			final boolean hasTime)
 			throws ParseException {
 		// Check the arguments
-		Arguments.requireNonNull(coordinates, "coordinates");
+		Arguments.requireNotNull(coordinates, "coordinates");
 
 		// Load the time series
 		final int seriesIndex = addSeries(coordinates.getColumnName(yColumnIndex));

@@ -396,8 +396,8 @@ public class JOCL
 	public double[] times(final double[] A, final double[] B, final int aColumnDimension,
 			final int bColumnDimension) {
 		// Check the arguments
-		Arguments.requireNonNull(A, "array A");
-		Arguments.requireNonNull(B, "array B");
+		Arguments.requireNotNull(A, "array A");
+		Arguments.requireNotNull(B, "array B");
 		OpenCLArguments.requireSameInnerDimension(aColumnDimension, B.length / bColumnDimension);
 
 		// Initialize
@@ -441,9 +441,9 @@ public class JOCL
 	public double[] forward(final double[] A, final double[] B, final double[] C,
 			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension) {
 		// Check the arguments
-		Arguments.requireNonNull(A, "array A");
-		Arguments.requireNonNull(B, "array B");
-		Arguments.requireNonNull(C, "array C");
+		Arguments.requireNotNull(A, "array A");
+		Arguments.requireNotNull(B, "array B");
+		Arguments.requireNotNull(C, "array C");
 		OpenCLArguments.requireSameInnerDimension(aColumnDimension, B.length / bColumnDimension);
 
 		// Initialize
@@ -494,8 +494,8 @@ public class JOCL
 		}
 
 		// Check the arguments
-		Arguments.requireNonNull(A, "array A");
-		Arguments.requireNonNull(B, "array B");
+		Arguments.requireNotNull(A, "array A");
+		Arguments.requireNotNull(B, "array B");
 		DoubleArguments.requireMinLength(A.length - aOffset, length);
 		DoubleArguments.requireMinLength(B.length - bOffset, length);
 

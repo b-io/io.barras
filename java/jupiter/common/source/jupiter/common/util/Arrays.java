@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+import jupiter.common.exception.IllegalClassException;
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.math.Comparables;
 import jupiter.common.struct.list.ComparableSort;
@@ -65,15 +66,15 @@ public class Arrays {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> Class<?> getComponentType(final T[] array) {
+	public static <T> Class<?> getComponentClass(final T[] array) {
 		return array.getClass().getComponentType();
 	}
 
-	public static <T> Class<?> getComponentType2D(final T[] array) {
+	public static <T> Class<?> getComponentClass2D(final T[] array) {
 		return array.getClass().getComponentType().getComponentType();
 	}
 
-	public static <T> Class<?> getComponentType3D(final T[] array) {
+	public static <T> Class<?> getComponentClass3D(final T[] array) {
 		return array.getClass().getComponentType().getComponentType().getComponentType();
 	}
 
@@ -83,43 +84,96 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Object} converted from the specified {@link Object}.
+	 * Returns an array converted from the specified primitive array.
 	 * <p>
-	 * @param object the {@link Object} to convert
+	 * @param primitiveArray the primitive array to convert
 	 * <p>
-	 * @return an array of {@link Object} converted from the specified {@link Object}
+	 * @return an array converted from the specified primitive array
 	 */
-	public static Object[] toArray(final Object object) {
+	public static Object[] toArray(final Object primitiveArray) {
 		// Check the arguments
-		ArrayArguments.requireArray(object);
+		ArrayArguments.requireArray(primitiveArray);
 
-		// Convert the object to an array
-		final Class<?> c = object.getClass();
+		// Convert the primitive array to an array
+		final Class<?> c = primitiveArray.getClass();
 		if (Booleans.isPrimitiveArray(c)) {
-			return Booleans.toArray((boolean[]) object);
+			return Booleans.toArray((boolean[]) primitiveArray);
 		} else if (Characters.isPrimitiveArray(c)) {
-			return Characters.toArray((char[]) object);
+			return Characters.toArray((char[]) primitiveArray);
 		} else if (Bytes.isPrimitiveArray(c)) {
-			return Bytes.toArray((byte[]) object);
+			return Bytes.toArray((byte[]) primitiveArray);
 		} else if (Shorts.isPrimitiveArray(c)) {
-			return Shorts.toArray((short[]) object);
+			return Shorts.toArray((short[]) primitiveArray);
 		} else if (Integers.isPrimitiveArray(c)) {
-			return Integers.toArray((int[]) object);
+			return Integers.toArray((int[]) primitiveArray);
 		} else if (Longs.isPrimitiveArray(c)) {
-			return Longs.toArray((long[]) object);
+			return Longs.toArray((long[]) primitiveArray);
 		} else if (Floats.isPrimitiveArray(c)) {
-			return Floats.toArray((float[]) object);
+			return Floats.toArray((float[]) primitiveArray);
 		} else if (Doubles.isPrimitiveArray(c)) {
-			return Doubles.toArray((double[]) object);
+			return Doubles.toArray((double[]) primitiveArray);
 		}
-		return (Object[]) object;
+		return (Object[]) primitiveArray;
+	}
+
+	/**
+	 * Returns a primitive array converted from the specified array, or {@code null} if the array is
+	 * {@code null}.
+	 * <p>
+	 * @param array the array to convert (may be {@code null})
+	 * <p>
+	 * @return a primitive array converted from the specified array, or {@code null} if the array is
+	 *         {@code null}
+	 */
+	public static Object toPrimitiveArray(final Object[] array) {
+		if (array == null) {
+			return null;
+		}
+		return toPrimitiveArray(getComponentClass(array), array);
+	}
+
+	/**
+	 * Returns a primitive array converted from the specified array of the specified element
+	 * {@link Class}, or {@code null} if the specified array or element {@link Class} is
+	 * {@code null}.
+	 * <p>
+	 * @param c     the element {@link Class} of the array to convert (may be {@code null})
+	 * @param array the array to convert (may be {@code null})
+	 * <p>
+	 * @return a primitive array converted from the specified array of the specified element
+	 *         {@link Class}, or {@code null} if the specified array or element {@link Class} is
+	 *         {@code null}
+	 */
+	public static Object toPrimitiveArray(final Class<?> c, final Object[] array) {
+		if (c == null || array == null) {
+			return null;
+		}
+		// Convert the array to a primitive array
+		if (Booleans.is(c)) {
+			return Booleans.toPrimitiveArray(array);
+		} else if (Characters.is(c)) {
+			return Characters.toPrimitiveArray(array);
+		} else if (Bytes.is(c)) {
+			return Bytes.toPrimitiveArray(array);
+		} else if (Shorts.is(c)) {
+			return Shorts.toPrimitiveArray(array);
+		} else if (Integers.is(c)) {
+			return Integers.toPrimitiveArray(array);
+		} else if (Longs.is(c)) {
+			return Longs.toPrimitiveArray(array);
+		} else if (Floats.is(c)) {
+			return Floats.toPrimitiveArray(array);
+		} else if (Doubles.is(c)) {
+			return Doubles.toPrimitiveArray(array);
+		}
+		throw new IllegalClassException(c);
 	}
 
 	//////////////////////////////////////////////
 
 	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(final T[] array) {
-		return toArray(getComponentType(array), array);
+		return toArray(getComponentClass(array), array);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -133,7 +187,7 @@ public class Arrays {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T[][] toArray2D(final T[][] array2D) {
-		return toArray2D(getComponentType2D(array2D), array2D);
+		return toArray2D(getComponentClass2D(array2D), array2D);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -151,7 +205,7 @@ public class Arrays {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T[][][] toArray3D(final T[][][] array3D) {
-		return toArray3D(getComponentType3D(array3D), array3D);
+		return toArray3D(getComponentClass3D(array3D), array3D);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -250,11 +304,11 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object}.
+	 * Returns a representative {@link String} of the specified array.
 	 * <p>
-	 * @param array an array of {@link Object}
+	 * @param array an array
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object}
+	 * @return a representative {@link String} of the specified array
 	 */
 	public static String join(final Object... array) {
 		return Strings.joinWith(array, DELIMITER);
@@ -373,7 +427,7 @@ public class Arrays {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[] filter(final T[] array, final int... indexes) {
-		final T[] filteredArray = (T[]) create(getComponentType(array), indexes.length);
+		final T[] filteredArray = (T[]) create(getComponentClass(array), indexes.length);
 		for (int i = 0; i < indexes.length; ++i) {
 			filteredArray[i] = array[indexes[i]];
 		}
@@ -419,13 +473,13 @@ public class Arrays {
 		} else if (b == null) {
 			return toArray(a);
 		}
-		final Class<?> c = getComponentType(a);
+		final Class<?> c = getComponentClass(a);
 		final T[] mergedArray = (T[]) create(c, a.length + b.length);
 		System.arraycopy(a, 0, mergedArray, 0, a.length);
 		try {
 			System.arraycopy(b, 0, mergedArray, a.length, b.length);
 		} catch (final ArrayStoreException ex) {
-			ArrayArguments.requireAssignableFrom(c, getComponentType(b));
+			ArrayArguments.requireAssignableFrom(c, getComponentClass(b));
 			throw ex;
 		}
 		return mergedArray;
@@ -447,16 +501,16 @@ public class Arrays {
 		if (arrays == null) {
 			return null;
 		} else if (arrays.length == 1) {
-			return toArray(getComponentType2D(arrays), arrays[0]);
+			return toArray(getComponentClass2D(arrays), arrays[0]);
 		}
-		final Class<?> c = getComponentType2D(arrays);
+		final Class<?> c = getComponentClass2D(arrays);
 		final T[] mergedArray = (T[]) create(c, countLength(arrays));
 		int offset = 0;
 		for (final T[] array : arrays) {
 			try {
 				System.arraycopy(array, 0, mergedArray, offset, array.length);
 			} catch (final ArrayStoreException ex) {
-				ArrayArguments.requireAssignableFrom(c, getComponentType2D(array));
+				ArrayArguments.requireAssignableFrom(c, getComponentClass2D(array));
 				throw ex;
 			}
 			offset += array.length;
@@ -504,7 +558,7 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sorts the specified array of {@link Object} into ascending order, according to the
+	 * Sorts the specified array into ascending order, according to the
 	 * {@linkplain Comparable natural ordering} of its elements. All elements in the array must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in the array must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
@@ -531,7 +585,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param array the array of {@link Object} to sort
+	 * @param array the array to sort
 	 * <p>
 	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
 	 *                                  comparable (for example, a {@link String} and an
@@ -544,7 +598,7 @@ public class Arrays {
 	}
 
 	/**
-	 * Sorts the specified array of {@link Object} into ascending order, according to the
+	 * Sorts the specified array into ascending order, according to the
 	 * {@linkplain Comparable natural ordering} of its elements from index {@code fromIndex},
 	 * inclusive. All elements in the array must implement the {@link Comparable} interface.
 	 * Furthermore, all elements in the array must be <i>mutually comparable</i> (that is,
@@ -572,7 +626,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param array     the array of {@link Object} to sort
+	 * @param array     the array to sort
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * <p>
 	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
@@ -591,9 +645,9 @@ public class Arrays {
 	}
 
 	/**
-	 * Sorts the specified range of the specified array of {@link Object} into ascending order,
-	 * according to the {@linkplain Comparable natural ordering} of its elements. The range to sort
-	 * extends from index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
+	 * Sorts the specified range of the specified array into ascending order, according to the
+	 * {@linkplain Comparable natural ordering} of its elements. The range to sort extends from
+	 * index {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
 	 * {@code fromIndex==toIndex}, the range to sort is empty.) All elements in this range must
 	 * implement the {@link Comparable} interface. Furthermore, all elements in this range must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
@@ -620,7 +674,7 @@ public class Arrays {
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.
 	 * <p>
-	 * @param array     the array of {@link Object} to sort
+	 * @param array     the array to sort
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * @param toIndex   the index of the last element to sort (exclusive)
 	 * <p>
@@ -643,9 +697,9 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	/**
-	 * Sorts the specified array of {@link Object} according to the order induced by the specified
-	 * {@link Comparator}. All elements in the array must be <i>mutually comparable</i> by the
-	 * specified {@link Comparator} (that is, {@code c.compare(e1, e2)} must not throw a
+	 * Sorts the specified array according to the order induced by the specified {@link Comparator}.
+	 * All elements in the array must be <i>mutually comparable</i> by the specified
+	 * {@link Comparator} (that is, {@code c.compare(e1, e2)} must not throw a
 	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the array).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
@@ -689,13 +743,12 @@ public class Arrays {
 	}
 
 	/**
-	 * Sorts the specified range of the specified array of {@link Object} according to the order
-	 * induced by the specified {@link Comparator}. The range to sort extends from index
-	 * {@code fromIndex}, inclusive, to index {@code toIndex}, exclusive. (If
-	 * {@code fromIndex==toIndex}, the range to be sorted is empty.) All elements in the range must
-	 * be <i>mutually comparable</i> by the specified {@link Comparator} (that is,
-	 * {@code c.compare(e1, e2)} must not throw a {@link ClassCastException} for any elements
-	 * {@code e1} and {@code e2} in the range).
+	 * Sorts the specified range of the specified array according to the order induced by the
+	 * specified {@link Comparator}. The range to sort extends from index {@code fromIndex},
+	 * inclusive, to index {@code toIndex}, exclusive. (If {@code fromIndex==toIndex}, the range to
+	 * be sorted is empty.) All elements in the range must be <i>mutually comparable</i> by the
+	 * specified {@link Comparator} (that is, {@code c.compare(e1, e2)} must not throw a
+	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the range).
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
@@ -763,7 +816,7 @@ public class Arrays {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] take(final T[] array, final int fromIndex, final int length) {
 		final int maxLength = Math.min(length, array.length - fromIndex);
-		final T[] subarray = (T[]) create(getComponentType(array), maxLength);
+		final T[] subarray = (T[]) create(getComponentClass(array), maxLength);
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);
 		return subarray;
 	}
@@ -792,7 +845,7 @@ public class Arrays {
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array2D[0].length - fromColumn);
-		final T[] subarray = (T[]) create(getComponentType2D(array2D),
+		final T[] subarray = (T[]) create(getComponentClass2D(array2D),
 				maxRowCount * maxColumnCount);
 		for (int i = 0; i < maxRowCount; ++i) {
 			System.arraycopy(array2D[fromRow + i], fromColumn, subarray, i * maxColumnCount,
@@ -838,7 +891,7 @@ public class Arrays {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array3D[0].length - fromColumn);
 		final int maxDepthCount = Math.min(depthCount, array3D[0][0].length - fromDepth);
-		final T[] subarray = (T[]) create(getComponentType3D(array3D),
+		final T[] subarray = (T[]) create(getComponentClass3D(array3D),
 				maxRowCount * maxColumnCount * maxDepthCount);
 		for (int i = 0; i < maxRowCount; ++i) {
 			for (int j = 0; j < maxColumnCount; ++j) {
@@ -1321,7 +1374,7 @@ public class Arrays {
 		if (array == null) {
 			return null;
 		}
-		final T[] clone = (T[]) create(getComponentType(array), array.length);
+		final T[] clone = (T[]) create(getComponentClass(array), array.length);
 		for (int i = 0; i < array.length; ++i) {
 			clone[i] = Objects.clone(array[i]);
 		}
@@ -1331,40 +1384,50 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object}.
+	 * Returns a representative {@link String} of the specified array.
 	 * <p>
-	 * @param array an array of {@link Object}
+	 * @param array an array (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object}
+	 * @return a representative {@link String} of the specified array
 	 */
 	public static String toString(final Object... array) {
 		return Strings.parenthesize(join(array));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
-	 * {@code delimiter}.
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}.
 	 * <p>
-	 * @param array     an array of {@link Object}
+	 * @param array     an array (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object} joined by
-	 *         {@code delimiter}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
 	 */
 	public static String toString(final Object[] array, final String delimiter) {
 		return Strings.parenthesize(Strings.joinWith(array, delimiter));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link Object} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified array wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array of {@link Object}
+	 * @param array   an array (may be {@code null})
+	 * @param wrapper an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified array wrapped by {@code wrapper}
+	 */
+	public static String toString(final Object[] array, final ObjectToStringMapper wrapper) {
+		return Strings.parenthesize(Strings.joinWith(array, wrapper));
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
+	 * and wrapped by {@code wrapper}.
+	 * <p>
+	 * @param array     an array (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Object} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
+	 *         and wrapped by {@code wrapper}
 	 */
 	public static String toString(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

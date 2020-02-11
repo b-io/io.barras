@@ -136,7 +136,7 @@ public class Floats {
 	 * Returns a {@code float} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@code float} array from the specified {@code T} array
 	 */
@@ -148,7 +148,7 @@ public class Floats {
 	 * Returns a {@code float} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@code float} array from the specified {@code T} array
 	 */
@@ -161,7 +161,7 @@ public class Floats {
 	 * Returns a {@code float} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a {@code float} array from the specified 2D {@code T} array
 	 */
@@ -173,7 +173,7 @@ public class Floats {
 	 * Returns a {@code float} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a {@code float} array from the specified 2D {@code T} array
 	 */
@@ -186,7 +186,7 @@ public class Floats {
 	 * Returns a {@code float} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a {@code float} array from the specified 3D {@code T} array
 	 */
@@ -198,7 +198,7 @@ public class Floats {
 	 * Returns a {@code float} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a {@code float} array from the specified 3D {@code T} array
 	 */
@@ -213,7 +213,7 @@ public class Floats {
 	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a 2D {@code float} array from the specified 2D {@code T} array
 	 */
@@ -225,7 +225,7 @@ public class Floats {
 	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array2D a 2D {@code T} array
+	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
 	 * @return a 2D {@code float} array from the specified 2D {@code T} array
 	 */
@@ -240,7 +240,7 @@ public class Floats {
 	 * Returns a 3D {@code float} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a 3D {@code float} array from the specified 3D {@code T} array
 	 */
@@ -252,7 +252,7 @@ public class Floats {
 	 * Returns a 3D {@code float} array from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
-	 * @param array3D a 3D {@code T} array
+	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
 	 * @return a 3D {@code float} array from the specified 3D {@code T} array
 	 */
@@ -268,7 +268,7 @@ public class Floats {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return a {@code float} array from the specified {@link Collection} of element type {@code E}
 	 */
@@ -281,7 +281,7 @@ public class Floats {
 	/**
 	 * Returns an array of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return an array of {@link Float} from the specified {@code float} array
 	 */
@@ -296,7 +296,7 @@ public class Floats {
 	/**
 	 * Returns an array of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return an array of {@link Float} from the specified {@code float} array
 	 */
@@ -309,7 +309,7 @@ public class Floats {
 	/**
 	 * Returns a 2D array of {@link Float} from the specified 2D {@code float} array.
 	 * <p>
-	 * @param array2D a 2D {@code float} array
+	 * @param array2D the 2D {@code float} array to convert
 	 * <p>
 	 * @return a 2D array of {@link Float} from the specified 2D {@code float} array
 	 */
@@ -324,7 +324,7 @@ public class Floats {
 	/**
 	 * Returns a 2D array of {@link Float} from the specified 2D {@code float} array.
 	 * <p>
-	 * @param array2D a 2D {@code float} array
+	 * @param array2D the 2D {@code float} array to convert
 	 * <p>
 	 * @return a 2D array of {@link Float} from the specified 2D {@code float} array
 	 */
@@ -337,7 +337,7 @@ public class Floats {
 	/**
 	 * Returns a 3D array of {@link Float} from the specified 3D {@code float} array.
 	 * <p>
-	 * @param array3D a 3D {@code float} array
+	 * @param array3D the 3D {@code float} array to convert
 	 * <p>
 	 * @return a 3D array of {@link Float} from the specified 3D {@code float} array
 	 */
@@ -352,7 +352,7 @@ public class Floats {
 	/**
 	 * Returns a 3D array of {@link Float} from the specified 3D {@code float} array.
 	 * <p>
-	 * @param array3D a 3D {@code float} array
+	 * @param array3D the 3D {@code float} array to convert
 	 * <p>
 	 * @return a 3D array of {@link Float} from the specified 3D {@code float} array
 	 */
@@ -367,7 +367,7 @@ public class Floats {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an array of {@link Float} from the specified {@link Collection} of element type
 	 *         {@code E}
@@ -381,7 +381,7 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
 	 */
@@ -392,7 +392,7 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
 	 */
@@ -404,7 +404,7 @@ public class Floats {
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float}
 	 * array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float} array
 	 */
@@ -416,7 +416,7 @@ public class Floats {
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float}
 	 * array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float} array
 	 */
@@ -430,7 +430,7 @@ public class Floats {
 	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
@@ -442,7 +442,7 @@ public class Floats {
 	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
@@ -455,7 +455,7 @@ public class Floats {
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
 	 */
@@ -467,7 +467,7 @@ public class Floats {
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
 	 */
@@ -483,7 +483,7 @@ public class Floats {
 	 * element type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
 	 *         element type {@code E}
@@ -497,7 +497,7 @@ public class Floats {
 	 * of element type {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
 	 *         of element type {@code E}
@@ -512,7 +512,7 @@ public class Floats {
 	/**
 	 * Returns a {@link Set} of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@code float} array
 	 */
@@ -523,7 +523,7 @@ public class Floats {
 	/**
 	 * Returns a {@link Set} of {@link Float} from the specified {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@code float} array
 	 */
@@ -537,7 +537,7 @@ public class Floats {
 	 * Returns a {@link Set} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
 	 */
@@ -549,7 +549,7 @@ public class Floats {
 	 * Returns a {@link Set} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
-	 * @param array a {@code T} array
+	 * @param array the {@code T} array to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
 	 */
@@ -565,7 +565,7 @@ public class Floats {
 	 * {@code E}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@link Collection} of element type
 	 *         {@code E}
@@ -744,7 +744,7 @@ public class Floats {
 	 * Returns the number of occurrences of the specified {@code float} token in the specified
 	 * {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * @param token the {@code float} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code float} token in the specified
@@ -991,7 +991,7 @@ public class Floats {
 	/**
 	 * Returns the transpose of the specified 2D {@code float} array.
 	 * <p>
-	 * @param array2D a 2D {@code float} array
+	 * @param array2D the 2D {@code float} array to convert
 	 * <p>
 	 * @return the transpose of the specified 2D {@code float} array
 	 */
@@ -1370,7 +1370,7 @@ public class Floats {
 	/**
 	 * Returns a representative {@link String} of the specified {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to convert
 	 * <p>
 	 * @return a representative {@link String} of the specified {@code float} array
 	 */

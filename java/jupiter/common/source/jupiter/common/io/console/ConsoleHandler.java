@@ -161,7 +161,7 @@ public class ConsoleHandler
 	@Override
 	public void print(final Object content, final boolean isError) {
 		// Check the arguments
-		Arguments.requireNonNull(content, "content");
+		Arguments.requireNotNull(content, "content");
 
 		// Print the content
 		if (isError) {
@@ -182,7 +182,7 @@ public class ConsoleHandler
 	@Override
 	public void println(final Object content, final boolean isError) {
 		// Check the arguments
-		Arguments.requireNonNull(content, "content");
+		Arguments.requireNotNull(content, "content");
 
 		// Print the content
 		final PrintStream printStream = isError ? console.getErr() : console.getOut();

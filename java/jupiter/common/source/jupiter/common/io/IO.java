@@ -706,12 +706,12 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
-	 * the severity level {@link SeverityLevel#TRACE}.
+	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
+	 * {@link SeverityLevel#TRACE}.
 	 * <p>
-	 * @param content the content array of {@link Object} to print
+	 * @param content the content array to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object}
+	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message trace(final Object... content) {
 		if (SeverityLevel.TRACE.toInt() >= severityLevel.toInt()) {
@@ -724,12 +724,12 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
-	 * the severity level {@link SeverityLevel#DEBUG}.
+	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
+	 * {@link SeverityLevel#DEBUG}.
 	 * <p>
-	 * @param content the content array of {@link Object} to print
+	 * @param content the content array to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object}
+	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message debug(final Object... content) {
 		if (SeverityLevel.DEBUG.toInt() >= severityLevel.toInt()) {
@@ -742,12 +742,12 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
-	 * the severity level {@link SeverityLevel#TEST}.
+	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
+	 * {@link SeverityLevel#TEST}.
 	 * <p>
-	 * @param content the content array of {@link Object} to print
+	 * @param content the content array to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object}
+	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message test(final Object... content) {
 		if (SeverityLevel.TEST.toInt() >= severityLevel.toInt()) {
@@ -760,12 +760,12 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
-	 * the severity level {@link SeverityLevel#INFO}.
+	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
+	 * {@link SeverityLevel#INFO}.
 	 * <p>
-	 * @param content the content array of {@link Object} to print
+	 * @param content the content array to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object}
+	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message info(final Object... content) {
 		if (SeverityLevel.INFO.toInt() >= severityLevel.toInt()) {
@@ -778,12 +778,12 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
-	 * the severity level {@link SeverityLevel#RESULT}.
+	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
+	 * {@link SeverityLevel#RESULT}.
 	 * <p>
-	 * @param content the content array of {@link Object} to print
+	 * @param content the content array to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object}
+	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message result(final Object... content) {
 		if (SeverityLevel.RESULT.toInt() >= severityLevel.toInt()) {
@@ -796,12 +796,12 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
-	 * the severity level {@link SeverityLevel#WARNING}.
+	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
+	 * {@link SeverityLevel#WARNING}.
 	 * <p>
-	 * @param content the content array of {@link Object} to print
+	 * @param content the content array to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object}
+	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message warn(final Object... content) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
@@ -853,12 +853,12 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
-	 * the severity level {@link SeverityLevel#ERROR}.
+	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
+	 * {@link SeverityLevel#ERROR}.
 	 * <p>
-	 * @param content the content array of {@link Object} to print
+	 * @param content the content array to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object}
+	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message error(final Object... content) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
@@ -910,12 +910,12 @@ public class IO
 	}
 
 	/**
-	 * Prints the specified content array of {@link Object} with the {@link IOPrinter} indicating
-	 * the severity level {@link SeverityLevel#FAILURE}.
+	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
+	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param content the content array of {@link Object} to print
+	 * @param content the content array to print
 	 * <p>
-	 * @return a {@link Message} containing the specified content array of {@link Object}
+	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message fail(final Object... content) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {

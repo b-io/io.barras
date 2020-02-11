@@ -28,8 +28,8 @@ import jupiter.common.test.Arguments;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringJoiner} is the {@link ObjectReducer} joining an input array of {@link Object} to an
- * output {@link String}.
+ * {@link StringJoiner} is the {@link ObjectReducer} joining an input array to an output
+ * {@link String}.
  */
 public class StringJoiner
 		extends ObjectReducer<String> {
@@ -67,7 +67,7 @@ public class StringJoiner
 		super(String.class);
 
 		// Check the arguments
-		Arguments.requireNonNull(delimiter, "delimiter");
+		Arguments.requireNotNull(delimiter, "delimiter");
 
 		// Set the attributes
 		this.delimiter = delimiter;

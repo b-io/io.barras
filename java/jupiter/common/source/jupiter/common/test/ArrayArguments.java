@@ -45,28 +45,42 @@ public class ArrayArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void requireArray(final Object array) {
-		if (CHECK_ARGS && !Arrays.is(requireNonNull(array).getClass())) {
-			throw new IllegalArgumentException("The specified object is not an array");
+	public static void requireArray(final Object object) {
+		requireArray(object, "object");
+	}
+
+	public static void requireArray(final Object object, final String name) {
+		if (CHECK_ARGS && !Arrays.is(requireNotNull(object, name).getClass())) {
+			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
+					" is not an array"));
 		}
 	}
 
-	public static <T> T[] requireNonEmpty(final T[] array) {
+	//////////////////////////////////////////////
+
+	public static <T> T[] requireNotEmpty(final T[] array) {
+		return requireNotEmpty(array, "array");
+	}
+
+	public static <T> T[] requireNotEmpty(final T[] array, final String name) {
 		if (CHECK_ARGS) {
-			requireNonEmpty(requireNonNull(array).length);
+			requireNotEmpty(requireNotNull(array, name).length, name);
 		}
 		return array;
 	}
 
-	public static void requireNonEmpty(final int length) {
+	public static void requireNotEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException("The specified array is empty");
+			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
+					" is empty"));
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static <T> T[] requireLength(final T[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
-			requireLength(requireNonNull(array).length, expectedLength);
+			requireLength(requireNotNull(array).length, expectedLength);
 		}
 		return array;
 	}
@@ -80,7 +94,7 @@ public class ArrayArguments
 
 	public static <T> T[] requireMinLength(final T[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
-			requireMinLength(requireNonNull(array).length, minExpectedLength);
+			requireMinLength(requireNotNull(array).length, minExpectedLength);
 		}
 		return array;
 	}
@@ -94,7 +108,7 @@ public class ArrayArguments
 
 	public static <T> T[] requireMaxLength(final T[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
-			requireMaxLength(requireNonNull(array).length, maxExpectedLength);
+			requireMaxLength(requireNotNull(array).length, maxExpectedLength);
 		}
 		return array;
 	}
@@ -108,7 +122,7 @@ public class ArrayArguments
 
 	public static <T> void requireSameLength(final T[] a, final T[] b) {
 		if (CHECK_ARGS) {
-			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
+			requireSameLength(requireNotNull(a).length, requireNotNull(b).length);
 		}
 	}
 
@@ -119,6 +133,8 @@ public class ArrayArguments
 							isNotEqualTo(a, b)));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength) {
 		requireIndex(foundIndex, maxExpectedLength, true, false);
@@ -138,6 +154,8 @@ public class ArrayArguments
 							foundIndex, 0, maxExpectedLength, isLowerInclusive, isUpperInclusive)));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Checks if {@code a} is either the same as, or is a superclass or superinterface of, the class

@@ -1285,7 +1285,7 @@ public class Maths {
 
 	public static short minToShort(final short... values) {
 		// Check the arguments
-		ShortArguments.requireNonEmpty(values);
+		ShortArguments.requireNotEmpty(values);
 
 		// Get the minimum value
 		short min = Short.MAX_VALUE;
@@ -1297,7 +1297,7 @@ public class Maths {
 
 	public static int minToInt(final int... values) {
 		// Check the arguments
-		IntegerArguments.requireNonEmpty(values);
+		IntegerArguments.requireNotEmpty(values);
 
 		// Get the minimum value
 		int min = Integer.MAX_VALUE;
@@ -1309,7 +1309,7 @@ public class Maths {
 
 	public static long minToLong(final long... values) {
 		// Check the arguments
-		LongArguments.requireNonEmpty(values);
+		LongArguments.requireNotEmpty(values);
 
 		// Get the minimum value
 		long min = Long.MAX_VALUE;
@@ -1321,7 +1321,7 @@ public class Maths {
 
 	public static float minToFloat(final float... values) {
 		// Check the arguments
-		FloatArguments.requireNonEmpty(values);
+		FloatArguments.requireNotEmpty(values);
 
 		// Get the minimum value
 		float min = Float.MAX_VALUE;
@@ -1333,7 +1333,7 @@ public class Maths {
 
 	public static double minToDouble(final double... values) {
 		// Check the arguments
-		DoubleArguments.requireNonEmpty(values);
+		DoubleArguments.requireNotEmpty(values);
 
 		// Get the minimum value
 		double min = Double.MAX_VALUE;
@@ -1346,7 +1346,7 @@ public class Maths {
 	@SuppressWarnings("unchecked")
 	public static <T extends Number> double minToDouble(final T... numbers) {
 		// Check the arguments
-		ArrayArguments.requireNonEmpty(numbers);
+		ArrayArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the minimum value
 		double min = Double.MAX_VALUE;
@@ -1358,7 +1358,7 @@ public class Maths {
 
 	public static <E extends Number> double minToDouble(final Collection<E> numbers) {
 		// Check the arguments
-		CollectionArguments.requireNonEmpty(numbers);
+		CollectionArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the minimum value
 		double min = Double.MAX_VALUE;
@@ -1372,7 +1372,7 @@ public class Maths {
 
 	public static short maxToShort(final short... values) {
 		// Check the arguments
-		ShortArguments.requireNonEmpty(values);
+		ShortArguments.requireNotEmpty(values);
 
 		// Get the maximum value
 		short max = Short.MIN_VALUE;
@@ -1384,7 +1384,7 @@ public class Maths {
 
 	public static int maxToInt(final int... values) {
 		// Check the arguments
-		IntegerArguments.requireNonEmpty(values);
+		IntegerArguments.requireNotEmpty(values);
 
 		// Get the maximum value
 		int max = Integer.MIN_VALUE;
@@ -1396,7 +1396,7 @@ public class Maths {
 
 	public static long maxToLong(final long... values) {
 		// Check the arguments
-		LongArguments.requireNonEmpty(values);
+		LongArguments.requireNotEmpty(values);
 
 		// Get the maximum value
 		long max = Long.MIN_VALUE;
@@ -1408,7 +1408,7 @@ public class Maths {
 
 	public static float maxToFloat(final float... values) {
 		// Check the arguments
-		FloatArguments.requireNonEmpty(values);
+		FloatArguments.requireNotEmpty(values);
 
 		// Get the maximum value
 		float max = Float.MIN_VALUE;
@@ -1420,7 +1420,7 @@ public class Maths {
 
 	public static double maxToDouble(final double... values) {
 		// Check the arguments
-		DoubleArguments.requireNonEmpty(values);
+		DoubleArguments.requireNotEmpty(values);
 
 		// Get the maximum value
 		double max = Double.MIN_VALUE;
@@ -1433,7 +1433,7 @@ public class Maths {
 	@SuppressWarnings("unchecked")
 	public static <T extends Number> double maxToDouble(final T... numbers) {
 		// Check the arguments
-		ArrayArguments.requireNonEmpty(numbers);
+		ArrayArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the maximum value
 		double max = Double.MIN_VALUE;
@@ -1445,7 +1445,7 @@ public class Maths {
 
 	public static <E extends Number> double maxToDouble(final Collection<E> numbers) {
 		// Check the arguments
-		CollectionArguments.requireNonEmpty(numbers);
+		CollectionArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the maximum value
 		double max = Double.MIN_VALUE;

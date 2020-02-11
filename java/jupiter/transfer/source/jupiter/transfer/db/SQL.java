@@ -26,6 +26,7 @@ package jupiter.transfer.db;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.LEFT_BRACE;
 import static jupiter.common.util.Characters.RIGHT_BRACE;
+import static jupiter.common.util.Strings.BRACKETER;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -47,8 +48,10 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 import jupiter.common.exception.IllegalClassException;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
+import jupiter.common.test.ArrayArguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
@@ -101,8 +104,8 @@ public class SQL {
 			final Object parameter)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(statement, "statement");
-		Arguments.requireNonNull(parameter, "parameter");
+		Arguments.requireNotNull(statement, "statement");
+		Arguments.requireNotNull(parameter, "parameter");
 
 		// Set the parameter of the statement at the index
 		final Class<?> c = parameter.getClass();
@@ -159,7 +162,7 @@ public class SQL {
 	public static void setParameters(final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(parameters, "array of parameters");
+		Arguments.requireNotNull(parameters, "parameters");
 
 		// Set the parameters of the statement
 		int index = 1;
@@ -214,25 +217,95 @@ public class SQL {
 
 	public static String createStoredProcedureQuery(final String name, final int parameterCount) {
 		// Check the arguments
-		Arguments.requireNonNull(name, "name");
+		Arguments.requireNotNull(name, "name");
 
 		// Create the query for executing the stored procedure
 		return Strings.join(LEFT_BRACE, "call ", name,
 				Arrays.toString(Arrays.repeat('?', parameterCount)), RIGHT_BRACE);
 	}
 
-	public static CallableStatement createStoredProcedureCall(final Connection connection,
+	public static CallableStatement createStoredProcedureStatement(final Connection connection,
 			final String name, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(connection, "connection");
-		Arguments.requireNonNull(parameters, "array of parameters");
+		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNotNull(name, "name");
+		Arguments.requireNotNull(parameters, "parameters");
 
 		// Create the statement for executing the stored procedure
 		final CallableStatement statement = connection.prepareCall(
 				createStoredProcedureQuery(name, parameters.length));
 		// Set the parameters of the statement
 		setParameters(statement, parameters);
+		// Return the statement
+		return statement;
+	}
+
+	//////////////////////////////////////////////
+
+	public static String createInsertQuery(final String tableName, final String[] columns) {
+		// Check the arguments
+		Arguments.requireNotNull(tableName, "tableName");
+		ArrayArguments.requireNotEmpty(columns, "columns");
+
+		// Create the query for inserting into the table with the columns
+		return Strings.join("INSERT INTO ", Strings.bracketize(tableName), " ",
+				Arrays.toString(columns, BRACKETER), " VALUES ",
+				Arrays.toString(Arrays.repeat('?', columns.length)));
+	}
+
+	public static PreparedStatement createInsertStatement(final Connection connection,
+			final String tableName, final String[] columns, final Object... values)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNotNull(connection, "connection");
+		ArrayArguments.requireSameLength(ArrayArguments.requireNotEmpty(columns, "columns"),
+				ArrayArguments.requireNotEmpty(values, "values"));
+
+		// Create the query for inserting into the table with the columns
+		final PreparedStatement statement = connection.prepareStatement(
+				createInsertQuery(tableName, columns), Statement.RETURN_GENERATED_KEYS);
+		// Set the parameters of the statement
+		setParameters(statement, values);
+		// Return the statement
+		return statement;
+	}
+
+	//////////////////////////////////////////////
+
+	public static String createUpdateQuery(final String tableName, final String[] columns,
+			final String[] conditionalColumns) {
+		// Check the arguments
+		Arguments.requireNotNull(tableName, "tableName");
+		ArrayArguments.requireNotEmpty(columns, "columns");
+
+		// Create the query for updating the table with the columns and conditional columns
+		return Strings.join("UPDATE ", Strings.bracketize(tableName), " SET ",
+				Arrays.toString(columns, " = ?,", BRACKETER),
+				Arrays.isNotEmpty(conditionalColumns) ?
+				Strings.join(" WHERE ", Arrays.toString(conditionalColumns, " = ?,", BRACKETER)) :
+				"");
+	}
+
+	public static PreparedStatement createUpdateStatement(final Connection connection,
+			final String tableName, final String[] columns, final Object[] values,
+			final String[] conditionalColumns, final Object[] conditionalValues)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNotNull(connection, "connection");
+		ArrayArguments.requireSameLength(ArrayArguments.requireNotEmpty(columns, "columns"),
+				ArrayArguments.requireNotEmpty(values, "values"));
+		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
+			ArrayArguments.requireSameLength(
+					ArrayArguments.requireNotEmpty(conditionalColumns, "conditional columns"),
+					ArrayArguments.requireNotEmpty(conditionalValues, "conditional values"));
+		}
+
+		// Create the query for updating the table with the columns and conditional columns
+		final PreparedStatement statement = connection.prepareStatement(
+				createUpdateQuery(tableName, columns, conditionalColumns));
+		// Set the parameters of the statement
+		setParameters(statement, Arrays.merge(values, conditionalValues));
 		// Return the statement
 		return statement;
 	}
@@ -250,15 +323,15 @@ public class SQL {
 	public static ExtendedList<SQLGenericRow> executeWith(final Connection connection,
 			final String query, final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNonNull(connection, "connection");
-		Arguments.requireNonNull(query, "query");
+		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNotNull(query, "query");
 
 		// Create the statement for executing the query
-		CallableStatement statement = null;
+		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareCall(query);
+			statement = connection.prepareStatement(query);
 			// Set the parameters of the statement
-			if (parameters != null) {
+			if (Arrays.isNotEmpty(parameters)) {
 				setParameters(statement, parameters);
 			}
 			// Execute the query and return the result
@@ -277,38 +350,38 @@ public class SQL {
 		return new ExtendedList<SQLGenericRow>();
 	}
 
-	public static ExtendedList<SQLGenericRow> execute(final CallableStatement statement)
+	public static ExtendedList<SQLGenericRow> execute(final PreparedStatement statement)
 			throws SQLException {
 		return executeWith(statement, null);
 	}
 
-	public static ExtendedList<SQLGenericRow> executeWith(final CallableStatement statement,
+	public static ExtendedList<SQLGenericRow> executeWith(final PreparedStatement statement,
 			final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(statement, "statement");
+		Arguments.requireNotNull(statement, "statement");
 
 		// Set the parameters of the statement
-		if (parameters != null) {
+		if (Arrays.isNotEmpty(parameters)) {
 			setParameters(statement, parameters);
 		}
 		// Execute the query
 		final ResultSet resultSet = statement.executeQuery();
-		// Get the header of the result
+		// Get the columns of the result
 		final ResultSetMetaData metaData = resultSet.getMetaData();
 		final int n = metaData.getColumnCount();
-		final String[] header = new String[n];
+		final String[] columns = new String[n];
 		for (int i = 1; i <= n; ++i) {
-			header[i - 1] = metaData.getColumnName(i);
+			columns[i - 1] = metaData.getColumnName(i);
 		}
 		// Store and return the result
 		final ExtendedList<SQLGenericRow> rows = new ExtendedList<SQLGenericRow>();
 		while (resultSet.next()) {
 			final Object[] values = new Object[n];
 			for (int i = 0; i < n; ++i) {
-				values[i] = resultSet.getObject(header[i]);
+				values[i] = resultSet.getObject(columns[i]);
 			}
-			rows.add(new SQLGenericRow(header, values));
+			rows.add(new SQLGenericRow(columns, values));
 		}
 		return rows;
 	}
@@ -323,16 +396,16 @@ public class SQL {
 	public static <T extends SQLRow> ExtendedList<T> executeWith(final Connection connection,
 			final String query, final Class<T> c, final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNonNull(connection, "connection");
-		Arguments.requireNonNull(query, "query");
-		Arguments.requireNonNull(c, "class");
+		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNotNull(query, "query");
+		Arguments.requireNotNull(c, "class");
 
 		// Create the statement for executing the query
-		CallableStatement statement = null;
+		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareCall(query);
+			statement = connection.prepareStatement(query);
 			// Set the parameters of the statement
-			if (parameters != null) {
+			if (Arrays.isNotEmpty(parameters)) {
 				setParameters(statement, parameters);
 			}
 			// Execute the query and return the result
@@ -351,21 +424,21 @@ public class SQL {
 		return new ExtendedList<T>();
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> execute(final CallableStatement statement,
+	public static <T extends SQLRow> ExtendedList<T> execute(final PreparedStatement statement,
 			final Class<T> c)
 			throws SQLException {
 		return executeWith(statement, c, null);
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> executeWith(final CallableStatement statement,
+	public static <T extends SQLRow> ExtendedList<T> executeWith(final PreparedStatement statement,
 			final Class<T> c, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(statement, "statement");
-		Arguments.requireNonNull(c, "class");
+		Arguments.requireNotNull(statement, "statement");
+		Arguments.requireNotNull(c, "class");
 
 		// Set the parameters of the statement
-		if (parameters != null) {
+		if (Arrays.isNotEmpty(parameters)) {
 			setParameters(statement, parameters);
 		}
 		// Execute the query
@@ -399,7 +472,7 @@ public class SQL {
 	public static ExtendedList<SQLGenericRow> executeStoredProcedure(final Connection connection,
 			final String name, final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNonNull(parameters, "array of parameters");
+		Arguments.requireNotNull(parameters, "parameters");
 
 		// Execute the stored procedure
 		return executeWith(connection, createStoredProcedureQuery(name, parameters.length),
@@ -409,53 +482,44 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns either any auto-generated keys created as a result of executing the specified SQL
-	 * Data Manipulation Language (DML) statement, or {@code -1} if there is a problem.
+	 * Returns any auto-generated keys created as a result of executing the specified SQL Data
+	 * Manipulation Language (DML) statement, or {@code null} if there is a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) {@code INSERT} statement
 	 * <p>
-	 * @return either any auto-generated keys created as a result of executing the specified SQL
-	 *         Data Manipulation Language (DML) statement, or {@code -1} if there is a problem
+	 * @return any auto-generated keys created as a result of executing the specified SQL Data
+	 *         Manipulation Language (DML) statement, or {@code null} if there is a problem
 	 */
-	public static long insert(final Connection connection, final String query) {
+	public static long[] insert(final Connection connection, final String query) {
 		return insertWith(connection, query, null);
 	}
 
 	/**
-	 * Returns either any auto-generated keys created as a result of executing the specified SQL
-	 * Data Manipulation Language (DML) statement with the specified array of parameter
-	 * {@link Object}, or {@code -1} if there is a problem.
+	 * Returns any auto-generated keys created as a result of executing the specified SQL Data
+	 * Manipulation Language (DML) statement with the specified array of parameter {@link Object},
+	 * or {@code null} if there is a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) {@code INSERT} statement
 	 * @param parameters the array of parameter {@link Object} to set (may be {@code null})
 	 * <p>
-	 * @return either any auto-generated keys created as a result of executing the specified SQL
-	 *         Data Manipulation Language (DML) statement with the specified array of parameter
-	 *         {@link Object}, or {@code -1} if there is a problem
+	 * @return any auto-generated keys created as a result of executing the specified SQL Data
+	 *         Manipulation Language (DML) statement with the specified array of parameter
+	 *         {@link Object}, or {@code null} if there is a problem
 	 */
-	public static long insertWith(final Connection connection, final String query,
+	public static long[] insertWith(final Connection connection, final String query,
 			final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNonNull(connection, "connection");
-		Arguments.requireNonNull(query, "query");
+		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNotNull(query, "query");
 
 		// Create the statement for executing the query
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			// Set the parameters of the statement
-			if (parameters != null) {
-				setParameters(statement, parameters);
-			}
-			// Execute the query
-			statement.executeUpdate();
-			// Return any auto-generated keys
-			final ResultSet rs = statement.getGeneratedKeys();
-			if (rs.next()) {
-				return rs.getLong(1);
-			}
+			// Execute the query and return any auto-generated keys
+			return insertWith(statement, parameters);
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
@@ -467,29 +531,54 @@ public class SQL {
 				}
 			}
 		}
-		return -1;
+		return null;
 	}
 
-	//////////////////////////////////////////////
+	public static long[] insert(final PreparedStatement statement)
+			throws SQLException {
+		return insertWith(statement, null);
+	}
+
+	public static long[] insertWith(final PreparedStatement statement, final Object... parameters)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNotNull(statement, "statement");
+
+		// Set the parameters of the statement
+		if (Arrays.isNotEmpty(parameters)) {
+			setParameters(statement, parameters);
+		}
+		// Execute the query
+		statement.executeUpdate();
+		// Return any auto-generated keys
+		final ResultSet resultSet = statement.getGeneratedKeys();
+		final ExtendedLinkedList<Long> result = new ExtendedLinkedList<Long>();
+		while (resultSet.next()) {
+			result.add(resultSet.getLong(1));
+		}
+		return result.isEmpty() ? Longs.EMPTY_PRIMITIVE_ARRAY : (long[]) result.toPrimitiveArray();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns either the row count for the SQL Data Manipulation Language (DML) statement,
-	 * {@code 0} if nothing is returned, or {@code -1} if there is a problem.
+	 * Returns the row count for the SQL Data Manipulation Language (DML) statement, {@code 0} if
+	 * nothing is returned, or {@code -1} if there is a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) with a database
 	 * @param query      a SQL Data Manipulation Language (DML) statement, such as {@code INSERT},
 	 *                   {@code UPDATE} or {@code DELETE}; or a SQL statement that returns nothing,
 	 *                   such as a DDL statement
 	 * <p>
-	 * @return either the row count for the SQL Data Manipulation Language (DML) statement,
-	 *         {@code 0} if nothing is returned, or {@code -1} if there is a problem
+	 * @return the row count for the SQL Data Manipulation Language (DML) statement, {@code 0} if
+	 *         nothing is returned, or {@code -1} if there is a problem
 	 */
 	public static int update(final Connection connection, final String query) {
 		return updateWith(connection, query, null);
 	}
 
 	/**
-	 * Returns either the row count for the SQL Data Manipulation Language (DML) statement with the
+	 * Returns the row count for the SQL Data Manipulation Language (DML) statement with the
 	 * specified array of parameter {@link Object}, {@code 0} if nothing is returned, or {@code -1}
 	 * if there is a problem.
 	 * <p>
@@ -499,26 +588,22 @@ public class SQL {
 	 *                   such as a DDL statement
 	 * @param parameters the array of parameter {@link Object} to set (may be {@code null})
 	 * <p>
-	 * @return either the row count for the SQL Data Manipulation Language (DML) statement with the
+	 * @return the row count for the SQL Data Manipulation Language (DML) statement with the
 	 *         specified array of parameter {@link Object}, {@code 0} if nothing is returned, or
 	 *         {@code -1} if there is a problem
 	 */
 	public static int updateWith(final Connection connection, final String query,
 			final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNonNull(connection, "connection");
-		Arguments.requireNonNull(query, "query");
+		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNotNull(query, "query");
 
 		// Create the statement for executing the query
-		CallableStatement statement = null;
+		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareCall(query);
-			// Set the parameters of the statement
-			if (parameters != null) {
-				setParameters(statement, parameters);
-			}
+			statement = connection.prepareStatement(query);
 			// Execute the query and return the row count
-			return statement.executeUpdate();
+			return updateWith(statement, parameters);
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
@@ -531,6 +616,24 @@ public class SQL {
 			}
 		}
 		return -1;
+	}
+
+	public static int update(final PreparedStatement statement)
+			throws SQLException {
+		return updateWith(statement, null);
+	}
+
+	public static int updateWith(final PreparedStatement statement, final Object... parameters)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNotNull(statement, "statement");
+
+		// Set the parameters of the statement
+		if (Arrays.isNotEmpty(parameters)) {
+			setParameters(statement, parameters);
+		}
+		// Execute the query and return the row count
+		return statement.executeUpdate();
 	}
 
 

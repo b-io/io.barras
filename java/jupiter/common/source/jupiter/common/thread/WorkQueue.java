@@ -158,7 +158,7 @@ public class WorkQueue<I, O>
 	 * <p>
 	 * @return the {@link Class} of the model {@link Worker}
 	 */
-	public Class<?> getType() {
+	public Class<?> getModelClass() {
 		return c;
 	}
 

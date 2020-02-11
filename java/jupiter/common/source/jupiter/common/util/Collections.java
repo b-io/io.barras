@@ -26,6 +26,7 @@ package jupiter.common.util;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import jupiter.common.exception.IllegalClassException;
 
 import jupiter.common.map.ObjectToStringMapper;
 
@@ -58,13 +59,116 @@ public class Collections {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the element {@link Class} of the specified {@link Collection}.
+	 * <p>
+	 * @param <E>        the element type of the {@link Collection}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * <p>
+	 * @return the element {@link Class} of the specified {@link Collection}
+	 */
+	@SuppressWarnings("unchecked")
+	public static <E> Class<E> getElementClass(final Collection<E> collection) {
+		if (isNotEmpty(collection)) {
+			final Iterator<?> iterator = collection.iterator();
+			while (iterator.hasNext()) {
+				final Object element = iterator.next();
+				if (element != null) {
+					return (Class<E>) element.getClass();
+				}
+			}
+		}
+		return null;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns an array containing all of the elements in the specified {@link Collection} in proper
+	 * sequence (from first to last element), or an empty array if the specified {@link Collection}
+	 * is {@code null} or empty.
+	 * <p>
+	 * @param collection the {@link Collection} to convert (may be {@code null})
+	 * <p>
+	 * @return an array containing all of the elements in the specified {@link Collection} in proper
+	 *         sequence (from first to last element), or an empty array if the specified
+	 *         {@link Collection} is {@code null} or empty
+	 *
+	 * @see Collection#toArray
+	 */
+	public static Object[] toArray(final Collection<?> collection) {
+		final Class<?> c = getElementClass(collection);
+		if (c == null) {
+			return Objects.EMPTY_ARRAY;
+		}
+		return collection.toArray(Arrays.create(c, collection.size()));
+	}
+
+	/**
+	 * Returns a primitive array converted from the specified {@link Collection}, or {@code null} if
+	 * the specified {@link Collection} is {@code null} or empty.
+	 * <p>
+	 * @param collection the {@link Collection} to convert (may be {@code null})
+	 * <p>
+	 * @return a primitive array converted from the specified {@link Collection}, or {@code null} if
+	 *         the specified {@link Collection} is {@code null} or empty
+	 */
+	public static Object toPrimitiveArray(final Collection<?> collection) {
+		return toPrimitiveArray(getElementClass(collection), collection);
+	}
+
+	/**
+	 * Returns a primitive array converted from the specified {@link Collection} of the specified
+	 * element {@link Class}, or {@code null} if the specified {@link Collection} or element
+	 * {@link Class} is {@code null}.
+	 * <p>
+	 * @param c          the element {@link Class} of the {@link Collection} to convert (may be
+	 *                   {@code null})
+	 * @param collection the {@link Collection} to convert (may be {@code null})
+	 * <p>
+	 * @return a primitive array converted from the specified {@link Collection} of the specified
+	 *         element {@link Class}, or {@code null} if the specified {@link Collection} or element
+	 *         {@link Class} is {@code null}
+	 */
+	public static Object toPrimitiveArray(final Class<?> c, final Collection<?> collection) {
+		if (c == null || collection == null) {
+			return null;
+		}
+		if (Booleans.is(c)) {
+			return Booleans.collectionToPrimitiveArray(collection);
+		} else if (Characters.is(c)) {
+			return Characters.collectionToPrimitiveArray(collection);
+		} else if (Bytes.is(c)) {
+			return Bytes.collectionToPrimitiveArray(collection);
+		} else if (Shorts.is(c)) {
+			return Shorts.collectionToPrimitiveArray(collection);
+		} else if (Integers.is(c)) {
+			return Integers.collectionToPrimitiveArray(collection);
+		} else if (Longs.is(c)) {
+			return Longs.collectionToPrimitiveArray(collection);
+		} else if (Floats.is(c)) {
+			return Floats.collectionToPrimitiveArray(collection);
+		} else if (Doubles.is(c)) {
+			return Doubles.collectionToPrimitiveArray(collection);
+		}
+		throw new IllegalClassException(c);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection}
+	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection}
 	 */
@@ -92,7 +196,7 @@ public class Collections {
 	 * <p>
 	 * @param <C>        the {@link Collection} type
 	 * @param <E>        the element type of the {@link Collection}
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * @param index      the index of the element to return
 	 * <p>
 	 * @return the element at the specified index of the elements returned by the iterator
@@ -116,7 +220,7 @@ public class Collections {
 	 * <p>
 	 * @param <C>        the {@link Collection} type
 	 * @param <E>        the element type of the {@link Collection}
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * @param object     the {@link Object} to remove
 	 * <p>
 	 * @return the number of removed elements
@@ -139,7 +243,7 @@ public class Collections {
 	 * <p>
 	 * @param <C>        the {@link Collection} type
 	 * @param <E>        the element type of the {@link Collection}
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * @param object     the {@link Object} to remove
 	 * <p>
 	 * @return the number of removed elements
@@ -220,7 +324,7 @@ public class Collections {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection}
+	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection}
 	 */
@@ -232,7 +336,7 @@ public class Collections {
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
 	 * {@code delimiter}.
 	 * <p>
-	 * @param collection a {@link Collection}
+	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
@@ -246,7 +350,7 @@ public class Collections {
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param collection a {@link Collection}
+	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>

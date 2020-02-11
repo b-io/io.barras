@@ -28,11 +28,9 @@ import java.util.LinkedList;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Lists;
-import jupiter.common.util.Objects;
 
 /**
  * {@link ExtendedLinkedList} extends {@link LinkedList} of element type {@code E}.
@@ -94,12 +92,13 @@ public class ExtendedLinkedList<E>
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Returns the element {@link Class}.
+	 * <p>
+	 * @return the element {@link Class}
+	 */
 	public Class<E> getElementClass() {
-		if (isEmpty()) {
-			return null;
-		}
-		return (Class<E>) getFirst().getClass();
+		return Collections.getElementClass(this);
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class ExtendedLinkedList<E>
 	 */
 	public E getMiddle() {
 		// Check the arguments
-		CollectionArguments.requireNonEmpty(this);
+		CollectionArguments.requireNotEmpty(this);
 
 		// Get the middle
 		return get(Integers.middle(size()));
@@ -141,20 +140,30 @@ public class ExtendedLinkedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code E} array containing all of the elements in {@code this} in proper sequence
-	 * (from first to last element).
+	 * Returns an array containing all of the elements in {@code this} in proper sequence (from
+	 * first to last element), or an empty array if {@code this} is empty.
 	 * <p>
-	 * @return an {@code E} array containing all of the elements in {@code this} in proper sequence
-	 *         (from first to last element)
+	 * @return an array containing all of the elements in {@code this} in proper sequence (from
+	 *         first to last element), or an empty array if {@code this} is empty
 	 *
 	 * @see LinkedList#toArray
 	 */
 	@Override
 	public Object[] toArray() {
-		if (isEmpty()) {
-			return Objects.EMPTY_ARRAY;
-		}
-		return super.toArray(Arrays.create(getElementClass(), size()));
+		return Collections.toArray(this);
+	}
+
+	/**
+	 * Returns a primitive array containing all of the elements in {@code this} in proper sequence
+	 * (from first to last element), or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a primitive array containing all of the elements in {@code this} in proper sequence
+	 *         (from first to last element), or {@code null} if {@code this} is empty
+	 *
+	 * @see LinkedList#toArray
+	 */
+	public Object toPrimitiveArray() {
+		return Collections.toPrimitiveArray(this);
 	}
 
 

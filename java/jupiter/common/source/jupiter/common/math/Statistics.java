@@ -49,7 +49,7 @@ public class Statistics {
 
 	public static double mean(final double... values) {
 		// Check the arguments
-		DoubleArguments.requireNonEmpty(values);
+		DoubleArguments.requireNotEmpty(values);
 
 		// Get the mean
 		return Maths.sumWithoutNaN(values) / values.length;
@@ -58,7 +58,7 @@ public class Statistics {
 	@SuppressWarnings("unchecked")
 	public static <T extends Number> double getMean(final T... numbers) {
 		// Check the arguments
-		ArrayArguments.requireNonEmpty(numbers);
+		ArrayArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the mean
 		return Maths.sumWithoutNaN(numbers) / numbers.length;
@@ -66,7 +66,7 @@ public class Statistics {
 
 	public static <E extends Number> double getMean(final Collection<E> numbers) {
 		// Check the arguments
-		CollectionArguments.requireNonEmpty(numbers);
+		CollectionArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the mean
 		return Maths.sumWithoutNaN(numbers) / numbers.size();
@@ -89,7 +89,7 @@ public class Statistics {
 
 	public static double varianceWith(final double[] values, final double mean) {
 		// Check the arguments
-		DoubleArguments.requireNonEmpty(values);
+		DoubleArguments.requireNotEmpty(values);
 
 		// Get the variance
 		return Maths.sumOfSquaresWithoutNaN(values, mean) / values.length;
@@ -97,7 +97,7 @@ public class Statistics {
 
 	public static <T extends Number> double getVarianceWith(final T[] numbers, final double mean) {
 		// Check the arguments
-		ArrayArguments.requireNonEmpty(numbers);
+		ArrayArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the variance
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.length;
@@ -106,7 +106,7 @@ public class Statistics {
 	public static <E extends Number> double getVarianceWith(final Collection<E> numbers,
 			final double mean) {
 		// Check the arguments
-		CollectionArguments.requireNonEmpty(numbers);
+		CollectionArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the variance
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.size();

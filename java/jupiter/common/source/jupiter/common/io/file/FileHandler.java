@@ -91,7 +91,7 @@ public class FileHandler
 	 * @param charset the {@link Charset} of the file to handle
 	 */
 	public FileHandler(final String path, final Charset charset) {
-		this(new File(Arguments.requireNonNull(path, "path")), charset);
+		this(new File(Arguments.requireNotNull(path, "path")), charset);
 	}
 
 	//////////////////////////////////////////////
@@ -113,8 +113,8 @@ public class FileHandler
 	 */
 	public FileHandler(final File file, final Charset charset) {
 		// Check the arguments
-		Arguments.requireNonNull(file, "file");
-		Arguments.requireNonNull(charset, "charset");
+		Arguments.requireNotNull(file, "file");
+		Arguments.requireNotNull(charset, "charset");
 
 		// Set the attributes
 		this.file = file;

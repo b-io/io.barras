@@ -111,7 +111,7 @@ public abstract class SQLRow {
 	 */
 	protected void load(final ResultSet resultSet) {
 		// Check the arguments
-		Arguments.requireNonNull(resultSet, "result set");
+		Arguments.requireNotNull(resultSet, "result set");
 
 		// Load the result set
 		final Field[] fields = getClass().getDeclaredFields();

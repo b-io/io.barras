@@ -158,7 +158,7 @@ public class LogisticRegression
 
 	public synchronized void setBias(final Scalar bias) {
 		// Check the arguments
-		Arguments.requireNonNull(bias, "bias");
+		Arguments.requireNotNull(bias, "bias");
 
 		// Set the bias
 		b = bias;

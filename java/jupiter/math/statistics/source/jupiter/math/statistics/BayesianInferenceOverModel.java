@@ -75,7 +75,7 @@ public class BayesianInferenceOverModel
 	 * @param models the array of {@link StatisticalModel} (hypotheses)
 	 */
 	public BayesianInferenceOverModel(final StatisticalModel[] models) {
-		super(ArrayArguments.requireNonNull(models, "models").length);
+		super(ArrayArguments.requireNotNull(models, "models").length);
 		this.models = models;
 	}
 
@@ -119,7 +119,7 @@ public class BayesianInferenceOverModel
 	public void setStatisticalModel(final int index, final StatisticalModel model) {
 		// Check the arguments
 		ArrayArguments.requireIndex(index, hypothesisCount);
-		Arguments.requireNonNull(model, "model");
+		Arguments.requireNotNull(model, "model");
 
 		// Set the statistical model
 		models[index] = model;

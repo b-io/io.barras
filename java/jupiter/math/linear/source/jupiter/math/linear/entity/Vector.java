@@ -113,7 +113,7 @@ public class Vector
 	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final double[] values, final boolean transpose) {
-		super(Arguments.requireNonNull(values, "values").length, values, transpose);
+		super(Arguments.requireNotNull(values, "values").length, values, transpose);
 		isTransposed = transpose;
 	}
 

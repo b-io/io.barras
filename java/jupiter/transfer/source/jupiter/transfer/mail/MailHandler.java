@@ -523,7 +523,7 @@ public class MailHandler
 	 */
 	public void load(final Properties properties) {
 		// Check the arguments
-		Arguments.requireNonNull(properties, "properties");
+		Arguments.requireNotNull(properties, "properties");
 
 		// Load the properties
 		inProtocol = Protocol.get(properties.getProperty("inProtocol"));

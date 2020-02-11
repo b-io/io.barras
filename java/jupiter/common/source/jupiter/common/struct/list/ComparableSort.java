@@ -123,7 +123,7 @@ public class ComparableSort
 	/**
 	 * Creates a {@link ComparableSort} instance to maintain the state of an ongoing sort.
 	 * <p>
-	 * @param array      the array of {@link Object} to sort
+	 * @param array      the array to sort
 	 * @param work       a workspace array (slice) (may be {@code null})
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
@@ -174,7 +174,7 @@ public class ComparableSort
 	 * {@link Arrays}) after performing any necessary array bounds checks and expanding parameters
 	 * into the required forms.
 	 * <p>
-	 * @param array      the array of {@link Object} to sort
+	 * @param array      the array to sort
 	 * @param fromIndex  the index of the first element to sort (inclusive)
 	 * @param toIndex    the index of the last element to sort (exclusive)
 	 * @param work       a workspace array (slice)
@@ -237,7 +237,7 @@ public class ComparableSort
 	 * of it: the method assumes that the elements from index {@code lo}, inclusive, to
 	 * {@code start}, exclusive are already sorted.
 	 * <p>
-	 * @param array the array of {@link Object} in which a range is to be sorted
+	 * @param array the array in which a range is to be sorted
 	 * @param lo    the index of the first element in the range to sort
 	 * @param hi    the index after the last element in the range to sort
 	 * @param start the index of the first element in the range that is not already known to sort
@@ -300,8 +300,7 @@ public class ComparableSort
 	 * is needed so that the call can safely reverse a descending sequence without violating
 	 * stability.
 	 * <p>
-	 * @param array the array of {@link Object} in which a run is to be counted and possibly
-	 *              reversed
+	 * @param array the array in which a run is to be counted and possibly reversed
 	 * @param lo    the index of the first element in the run
 	 * @param hi    the index after the last element that may be contained in the run. It is
 	 *              required that {@code lo < hi}.
@@ -337,7 +336,7 @@ public class ComparableSort
 	/**
 	 * Reverse the specified range of the specified array.
 	 * <p>
-	 * @param array the array of {@link Object} in which a range is to be reversed
+	 * @param array the array in which a range is to be reversed
 	 * @param lo    the index of the first element in the range to reverse
 	 * @param hi    the index after the last element in the range to reverse
 	 */
@@ -499,9 +498,8 @@ public class ComparableSort
 	 * specified sorted range; if the range contains an element equal to {@code key}, returns the
 	 * index of the leftmost equal element.
 	 * <p>
-	 * @param key    the key {@link Comparable} of {@link Object} whose insertion point to search
-	 *               for
-	 * @param array  the array of {@link Object} in which to search
+	 * @param key    the key {@link Comparable} whose insertion point to search for
+	 * @param array  the array in which to search
 	 * @param base   the index of the first element in the range
 	 * @param length the length of the range (must be greater than 0)
 	 * @param hint   the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
@@ -587,9 +585,8 @@ public class ComparableSort
 	 * equal to the specified key {@link Comparable}, the static method {@link #gallopRight} returns
 	 * the index after the rightmost equal element.
 	 * <p>
-	 * @param key    the key {@link Comparable} of {@link Object} whose insertion point to search
-	 *               for
-	 * @param array  the array of {@link Object} in which to search
+	 * @param key    the key {@link Comparable} whose insertion point to search for
+	 * @param array  the array in which to search
 	 * @param base   the index of the first element in the range
 	 * @param length the length of the range (must be greater than 0)
 	 * @param hint   the index at which to begin the search, {@code 0 <= hint < n} (the closer hint
