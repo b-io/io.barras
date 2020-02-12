@@ -498,12 +498,9 @@ public class SQL {
 	 * @return any auto-generated keys created by inserting the specified values with the specified
 	 *         columns into the specified table using the specified {@link Connection}, or
 	 *         {@code null} if there is a problem
-	 * <p>
-	 * @throws SQLException if a database access error occurs
 	 */
 	public static long[] insertWith(final Connection connection,
-			final String table, final String[] columns, final Object... values)
-			throws SQLException {
+			final String table, final String[] columns, final Object... values) {
 		// Check the arguments
 		ArrayArguments.requireSameLength(ArrayArguments.requireNotEmpty(columns, "columns"),
 				ArrayArguments.requireNotEmpty(values, "values"));
@@ -643,13 +640,10 @@ public class SQL {
 	 * <p>
 	 * @return the number of updated rows, {@code 0} if nothing is returned, or {@code -1} if there
 	 *         is a problem
-	 * <p>
-	 * @throws SQLException if a database access error occurs
 	 */
 	public static int updateWith(final Connection connection,
 			final String table, final String[] columns, final Object[] values,
-			final String[] conditionalColumns, final Object[] conditionalValues)
-			throws SQLException {
+			final String[] conditionalColumns, final Object[] conditionalValues) {
 		// Check the arguments
 		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
