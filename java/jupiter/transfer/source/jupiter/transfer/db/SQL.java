@@ -149,7 +149,7 @@ public class SQL {
 	}
 
 	/**
-	 * Sets the specified array of parameters of the specified {@link PreparedStatement}.
+	 * Sets the specified parameters of the specified {@link PreparedStatement}.
 	 * <p>
 	 * @param statement  a {@link PreparedStatement}
 	 * @param parameters the array of parameters to set (may be {@code null})
@@ -519,7 +519,8 @@ public class SQL {
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code INSERT} query to execute
-	 * @param parameters the parameters of the {@code INSERT} query to execute (may be {@code null})
+	 * @param parameters the array of parameters of the {@code INSERT} query to execute (may be
+	 *                   {@code null})
 	 * <p>
 	 * @return any auto-generated keys created by executing the specified {@code INSERT} query with
 	 *         the specified parameters using the specified {@link Connection}, or {@code null} if
@@ -573,8 +574,8 @@ public class SQL {
 
 	/**
 	 * Returns any auto-generated keys created by executing the specified SQL Data Manipulation
-	 * Language (DML) {@code INSERT} {@link PreparedStatement} with the specified array of
-	 * parameters, or {@code null} if there is a problem.
+	 * Language (DML) {@code INSERT} {@link PreparedStatement} with the specified parameters, or
+	 * {@code null} if there is a problem.
 	 * <p>
 	 * @param statement  the SQL Data Manipulation Language (DML) {@code INSERT}
 	 *                   {@link PreparedStatement} to execute
@@ -582,7 +583,7 @@ public class SQL {
 	 *                   {@code INSERT} {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
 	 * @return any auto-generated keys created by executing the specified SQL Data Manipulation
-	 *         Language (DML) {@code INSERT} {@link PreparedStatement} with the specified array of
+	 *         Language (DML) {@code INSERT} {@link PreparedStatement} with the specified
 	 *         parameters, or {@code null} if there is a problem
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
@@ -663,8 +664,8 @@ public class SQL {
 
 	/**
 	 * Returns the number of rows updated by executing the specified SQL query with the specified
-	 * array of parameters using the specified {@link Connection}, {@code 0} if nothing is returned,
-	 * or {@code -1} if there is a problem.
+	 * parameters using the specified {@link Connection}, {@code 0} if nothing is returned, or
+	 * {@code -1} if there is a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the SQL query to execute, such as {@code INSERT}, {@code UPDATE} or
@@ -674,8 +675,8 @@ public class SQL {
 	 *                   {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
 	 * @return the number of rows updated by executing the specified SQL query with the specified
-	 *         array of parameters using the specified {@link Connection}, {@code 0} if nothing is
-	 *         returned, or {@code -1} if there is a problem
+	 *         parameters using the specified {@link Connection}, {@code 0} if nothing is returned,
+	 *         or {@code -1} if there is a problem
 	 */
 	public static int updateWith(final Connection connection, final String query,
 			final Object... parameters) {
@@ -726,8 +727,8 @@ public class SQL {
 
 	/**
 	 * Returns the number of rows updated by executing the specified SQL Data Manipulation Language
-	 * (DML) {@link PreparedStatement} with the specified array of parameters, {@code 0} if nothing
-	 * is returned, or {@code -1} if there is a problem.
+	 * (DML) {@link PreparedStatement} with the specified parameters, {@code 0} if nothing is
+	 * returned, or {@code -1} if there is a problem.
 	 * <p>
 	 * @param statement  the SQL Data Manipulation Language (DML) {@link PreparedStatement} to
 	 *                   execute, such as {@code INSERT}, {@code UPDATE} or {@code DELETE}; or a SQL
@@ -736,8 +737,8 @@ public class SQL {
 	 *                   {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
 	 * @return the number of rows updated by executing the specified SQL Data Manipulation Language
-	 *         (DML) {@link PreparedStatement} with the specified array of parameters, {@code 0} if
-	 *         nothing is returned, or {@code -1} if there is a problem
+	 *         (DML) {@link PreparedStatement} with the specified parameters, {@code 0} if nothing
+	 *         is returned, or {@code -1} if there is a problem
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
