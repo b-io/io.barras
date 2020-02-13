@@ -211,7 +211,7 @@ public class Table<E>
 		Arguments.requireNotNull(parser, "parser");
 
 		// Set the attributes
-		this.c = parser.getOutputClass();
+		c = parser.getOutputClass();
 
 		// Load the file
 		load(parser, path, hasHeader);
@@ -1089,7 +1089,7 @@ public class Table<E>
 			}
 			while ((line = reader.readLine()) != null) {
 				values = (String[]) Strings.split(line, delimiter).toArray();
-				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
+				if (Arrays.isNullOrEmpty(values)) {
 					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
 				} else if (values.length < n) {

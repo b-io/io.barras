@@ -124,7 +124,12 @@ public class SQL {
 		} else if (Clob.class.isAssignableFrom(c)) {
 			statement.setClob(index, (Clob) parameter);
 		} else if (Dates.is(c)) {
-			statement.setDate(index, toSQLDate((java.util.Date) parameter));
+			final java.util.Date date = (java.util.Date) parameter;
+			if (Dates.hasTime(date)) {
+				statement.setTimestamp(index, toSQLTimestamp(date));
+			} else {
+				statement.setDate(index, toSQLDate(date));
+			}
 		} else if (Doubles.is(c)) {
 			statement.setDouble(index, (Double) parameter);
 		} else if (Floats.is(c)) {
@@ -226,6 +231,19 @@ public class SQL {
 	 */
 	public static Date toSQLDate(final java.util.Date date) {
 		return date == null ? null : new Date(date.getTime());
+	}
+
+	/**
+	 * Returns a SQL {@link Timestamp} converted from the specified {@link java.util.Date}, or
+	 * {@code null} if the {@link java.util.Date} is {@code null}.
+	 * <p>
+	 * @param date the {@link java.util.Date} to convert (may be {@code null})
+	 * <p>
+	 * @return a SQL {@link Timestamp} converted from the specified {@link java.util.Date}, or
+	 *         {@code null} if the {@link java.util.Date} is {@code null}
+	 */
+	public static Timestamp toSQLTimestamp(final java.util.Date date) {
+		return date == null ? null : new Timestamp(date.getTime());
 	}
 
 

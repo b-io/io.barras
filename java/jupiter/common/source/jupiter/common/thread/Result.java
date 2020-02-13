@@ -112,8 +112,8 @@ public class Result<O>
 	 * @param exception the {@link Exception}
 	 */
 	public Result(final Exception exception) {
-		this.output = null;
-		this.message = new Message(exception, Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+		output = null;
+		message = new Message(exception, Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 

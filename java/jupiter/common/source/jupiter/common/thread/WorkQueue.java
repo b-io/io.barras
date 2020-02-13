@@ -143,7 +143,7 @@ public class WorkQueue<I, O>
 	protected WorkQueue(final Worker<I, O> model, final int minThreadCount,
 			final int maxThreadCount) {
 		this.model = model;
-		this.c = model.getClass();
+		c = model.getClass();
 		this.minThreadCount = minThreadCount;
 		this.maxThreadCount = maxThreadCount;
 	}

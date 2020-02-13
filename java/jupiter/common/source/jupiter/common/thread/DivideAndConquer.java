@@ -64,7 +64,7 @@ public abstract class DivideAndConquer<I>
 	 * Constructs a {@link DivideAndConquer} of type {@code I}.
 	 */
 	public DivideAndConquer() {
-		this.workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror());
+		workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror());
 	}
 
 	/**
@@ -75,7 +75,7 @@ public abstract class DivideAndConquer<I>
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
 	public DivideAndConquer(final int minThreadCount, final int maxThreadCount) {
-		this.workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror(),
+		workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror(),
 				minThreadCount, maxThreadCount);
 	}
 
@@ -89,7 +89,7 @@ public abstract class DivideAndConquer<I>
 	 */
 	public DivideAndConquer(final int minThreadCount, final int maxThreadCount,
 			final boolean isFair) {
-		this.workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror(),
+		workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror(),
 				minThreadCount, maxThreadCount, isFair);
 	}
 
