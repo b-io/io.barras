@@ -366,8 +366,8 @@ public class MailHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the specified
-	 * remote directory.
+	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the remote
+	 * directory denoted by the specified path.
 	 * <p>
 	 * @param remoteDirPath the path to the remote directory
 	 * <p>
@@ -380,8 +380,8 @@ public class MailHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the specified
-	 * remote directory filtered by the specified mail filter {@link String}.
+	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the remote
+	 * directory denoted by the specified path filtered by the specified mail filter {@link String}.
 	 * <p>
 	 * @param remoteDirPath the path to the remote directory
 	 * @param mailFilter    the mail filter {@link String}
@@ -393,8 +393,9 @@ public class MailHandler
 	}
 
 	/**
-	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the specified
-	 * remote directory filtered by the specified mail filter {@link SearchTerm}.
+	 * Downloads the {@link List} of {@link MimeMessage} from the mail server in the remote
+	 * directory denoted by the specified path filtered by the specified mail filter
+	 * {@link SearchTerm}.
 	 * <p>
 	 * @param remoteDirPath the path to the remote directory
 	 * @param mailFilter    the mail filter {@link SearchTerm}

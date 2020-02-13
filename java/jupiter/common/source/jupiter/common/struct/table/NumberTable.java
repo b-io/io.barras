@@ -104,13 +104,13 @@ public class NumberTable<E extends Number>
 
 	/**
 	 * Constructs a {@link NumberTable} of element {@link Number} type {@code E} loaded from the
-	 * specified file.
+	 * file denoted by the specified path.
 	 * <p>
 	 * @param parser    an {@link IParser} of element {@link Number} type {@code E}
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code path}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public NumberTable(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {

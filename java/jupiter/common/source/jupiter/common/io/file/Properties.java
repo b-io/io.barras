@@ -62,11 +62,11 @@ public class Properties
 	}
 
 	/**
-	 * Constructs a {@link Properties} loaded from the specified file.
+	 * Constructs a {@link Properties} loaded from the file denoted by the specified name.
 	 * <p>
 	 * @param fileName the name of the file to load
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code fileName}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code fileName}
 	 */
 	public Properties(final String fileName)
 			throws IOException {
@@ -118,11 +118,11 @@ public class Properties
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Loads {@code this} from the specified file.
+	 * Loads {@code this} from the file denoted by the specified name.
 	 * <p>
 	 * @param fileName the name of the file to load
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code fileName}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code fileName}
 	 */
 	public synchronized void load(final String fileName)
 			throws IOException {

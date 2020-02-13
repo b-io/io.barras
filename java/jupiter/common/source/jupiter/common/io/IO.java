@@ -295,7 +295,8 @@ public class IO
 	}
 
 	/**
-	 * Sets the log directory {@link File} of the {@link LogHandler} with the specified path.
+	 * Sets the log directory {@link File} of the {@link LogHandler} with the specified directory
+	 * path.
 	 * <p>
 	 * @param logDirPath a {@link String}
 	 */

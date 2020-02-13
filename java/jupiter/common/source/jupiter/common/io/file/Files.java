@@ -238,7 +238,8 @@ public class Files {
 	 * <p>
 	 * @return a {@link BufferedInputStream} of the file denoted by the specified path
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code path}
+	 * @throws FileNotFoundException if there is a problem with opening the file denoted by
+	 *                               {@code path}
 	 */
 	public static BufferedInputStream createInputStream(final String path)
 			throws FileNotFoundException {
@@ -268,7 +269,8 @@ public class Files {
 	 * <p>
 	 * @return a {@link BufferedOutputStream} of the file denoted by the specified path
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
+	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
+	 *                               by {@code path}
 	 */
 	public static BufferedOutputStream createOutputStream(final String path)
 			throws FileNotFoundException {
@@ -283,7 +285,8 @@ public class Files {
 	 * <p>
 	 * @return a {@link BufferedOutputStream} of the file denoted by the specified path
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
+	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
+	 *                               by {@code path}
 	 */
 	public static BufferedOutputStream createOutputStream(final String path, final boolean append)
 			throws FileNotFoundException {
@@ -943,7 +946,7 @@ public class Files {
 	 * Returns the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
 	 * directory or subdirectories.
 	 * <p>
-	 * @param dir a {@link File}
+	 * @param dir the directory {@link File} of the {@link File} to list
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
 	 *         directory or subdirectories
@@ -961,36 +964,36 @@ public class Files {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 * directory or subdirectories and matching the specified pattern {@link String}.
+	 * directory or subdirectories and matching the specified name filter {@link String}.
 	 * <p>
-	 * @param dir     the directory {@link File} of the {@link File} to list
-	 * @param pattern the pattern {@link String} of the {@link File} to list
+	 * @param dir        the directory {@link File} of the {@link File} to list
+	 * @param nameFilter the name filter {@link String} of the {@link File} to list
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 *         directory or subdirectories and matching the specified pattern {@link String}
+	 *         directory or subdirectories and matching the specified name filter {@link String}
 	 */
-	public static ExtendedLinkedList<File> listAll(final File dir, final String pattern) {
-		return listAll(dir, Pattern.compile(pattern));
+	public static ExtendedLinkedList<File> listAll(final File dir, final String nameFilter) {
+		return listAll(dir, Pattern.compile(nameFilter));
 	}
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 * directory or subdirectories and matching the specified {@link Pattern}.
+	 * directory or subdirectories and matching the specified name {@link Pattern}.
 	 * <p>
-	 * @param dir     the directory {@link File} of the {@link File} to list
-	 * @param pattern the name {@link Pattern} of the {@link File} to list
+	 * @param dir         the directory {@link File} of the {@link File} to list
+	 * @param namePattern the name {@link Pattern} of the {@link File} to list
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 *         directory or subdirectories and matching the specified {@link Pattern}
+	 *         directory or subdirectories and matching the specified name {@link Pattern}
 	 */
-	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern pattern) {
+	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern) {
 		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
 		for (final File file : dir.listFiles()) {
-			if (pattern.matcher(file.getName()).matches()) {
+			if (namePattern.matcher(file.getName()).matches()) {
 				files.add(file);
 			}
 			if (file.isDirectory()) {
-				files.addAll(listAll(file, pattern));
+				files.addAll(listAll(file, namePattern));
 			}
 		}
 		return files;
@@ -998,26 +1001,26 @@ public class Files {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 * directory or subdirectories and matching the specified {@link Pattern} until the specified
-	 * depth.
+	 * directory or subdirectories and matching the specified name {@link Pattern} until the
+	 * specified depth.
 	 * <p>
-	 * @param dir     the directory {@link File} of the {@link File} to list
-	 * @param pattern the name {@link Pattern} of the {@link File} to list
-	 * @param depth   the number of subdirectories under the specified directory to search in
+	 * @param dir         the directory {@link File} of the {@link File} to list
+	 * @param namePattern the name {@link Pattern} of the {@link File} to list
+	 * @param depth       the number of subdirectories under the specified directory to search in
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 *         directory or subdirectories and matching the specified {@link Pattern} until the
+	 *         directory or subdirectories and matching the specified name {@link Pattern} until the
 	 *         specified depth
 	 */
-	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern pattern,
+	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern,
 			final int depth) {
 		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
 		for (final File file : dir.listFiles()) {
-			if (pattern.matcher(file.getName()).matches()) {
+			if (namePattern.matcher(file.getName()).matches()) {
 				files.add(file);
 			}
 			if (depth > 0 && file.isDirectory()) {
-				files.addAll(listAll(file, pattern, depth - 1));
+				files.addAll(listAll(file, namePattern, depth - 1));
 			}
 		}
 		return files;

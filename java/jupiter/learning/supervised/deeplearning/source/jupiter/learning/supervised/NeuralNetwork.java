@@ -103,15 +103,15 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Constructs a {@link NeuralNetwork} with the specified files containing the feature vectors
-	 * and classes.
+	 * Constructs a {@link NeuralNetwork} with the files denoted by the specified paths containing
+	 * the feature vectors and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m}
 	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
-	 *                     {@code classesPath}
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
 	public NeuralNetwork(final String featureVectorsPath, final String classesPath)
 			throws IOException {
@@ -120,8 +120,8 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Constructs a {@link NeuralNetwork} with the specified files containing the feature vectors
-	 * and classes.
+	 * Constructs a {@link NeuralNetwork} with the files denoted by the specified paths containing
+	 * the feature vectors and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
@@ -129,8 +129,8 @@ public class NeuralNetwork
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
-	 *                     {@code classesPath}
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
 	public NeuralNetwork(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)

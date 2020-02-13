@@ -107,7 +107,7 @@ public class LogHandler
 	}
 
 	/**
-	 * Constructs a {@link LogHandler} with the specified log directory.
+	 * Constructs a {@link LogHandler} with the specified path to the log directory.
 	 * <p>
 	 * @param logDirPath the path to the log directory
 	 */
@@ -116,7 +116,8 @@ public class LogHandler
 	}
 
 	/**
-	 * Constructs a {@link LogHandler} with the specified log directory, output log and error log.
+	 * Constructs a {@link LogHandler} with the specified path to the log directory, output log and
+	 * error log.
 	 * <p>
 	 * @param logDirPath    the path to the log directory
 	 * @param outputLogName the name to the output log to handle
@@ -152,7 +153,7 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the log directory {@link File} with the specified path.
+	 * Sets the log directory {@link File} with the specified directory path.
 	 * <p>
 	 * @param logDirPath a {@link String}
 	 */

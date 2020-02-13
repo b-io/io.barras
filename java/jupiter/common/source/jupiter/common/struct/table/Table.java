@@ -196,13 +196,14 @@ public class Table<E>
 	}
 
 	/**
-	 * Constructs a {@link Table} of element type {@code E} loaded from the specified file.
+	 * Constructs a {@link Table} of element type {@code E} loaded from the file denoted by the
+	 * specified path.
 	 * <p>
 	 * @param parser    an {@link IParser} of element type {@code E}
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code path}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public Table(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
@@ -1022,13 +1023,13 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Loads {@code this} from the specified file.
+	 * Loads {@code this} from the file denoted by the specified path.
 	 * <p>
 	 * @param parser    the {@link IParser} of element type {@code E} of the file to load
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code path}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public void load(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
@@ -1113,14 +1114,16 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Saves {@code this} to the specified file.
+	 * Saves {@code this} to the file denoted by the specified path.
 	 * <p>
 	 * @param path       the path to the file to save to
 	 * @param saveHeader the flag specifying whether to save the header
 	 * <p>
-	 * @return {@code true} if {@code this} is saved to the specified file, {@code false} otherwise
+	 * @return {@code true} if {@code this} is saved to the file denoted by the specified path,
+	 *         {@code false} otherwise
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
+	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
+	 *                               by {@code path}
 	 */
 	public boolean save(final String path, final boolean saveHeader)
 			throws FileNotFoundException {

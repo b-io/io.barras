@@ -159,16 +159,16 @@ public abstract class Classifier
 	}
 
 	/**
-	 * Constructs a {@link Classifier} loaded from the specified files containing the training
-	 * examples (feature vectors and classes).
+	 * Constructs a {@link Classifier} loaded from the files denoted by the specified paths
+	 * containing the training examples (feature vectors and classes).
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m} to load
 	 * @param classesPath        the path to the file containing the classes of size {@code m} to
 	 *                           load
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
-	 *                     {@code classesPath}
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
 	protected Classifier(final String featureVectorsPath, final String classesPath)
 			throws IOException {
@@ -176,9 +176,9 @@ public abstract class Classifier
 	}
 
 	/**
-	 * Constructs a {@link Classifier} loaded from the specified files containing the training
-	 * examples (feature vectors and classes) and flag specifying whether to transpose the feature
-	 * vectors and classes.
+	 * Constructs a {@link Classifier} loaded from the files denoted by the specified paths
+	 * containing the training examples (feature vectors and classes) and flag specifying whether to
+	 * transpose the feature vectors and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m} (or {@code m x n} if {@code transpose}) to load
@@ -187,8 +187,8 @@ public abstract class Classifier
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
-	 *                     {@code classesPath}
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
 	protected Classifier(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
@@ -468,15 +468,16 @@ public abstract class Classifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Loads the training examples (feature vectors and classes) from the specified files.
+	 * Loads the training examples (feature vectors and classes) from the files denoted by the
+	 * specified paths.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m} to load
 	 * @param classesPath        the path to the file containing the classes of size {@code m} to
 	 *                           load
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
-	 *                     {@code classesPath}
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
 	public void load(final String featureVectorsPath, final String classesPath)
 			throws IOException {
@@ -488,8 +489,8 @@ public abstract class Classifier
 	}
 
 	/**
-	 * Loads the training examples (feature vectors and classes) from the specified files and flag
-	 * specifying whether to transpose the feature vectors and classes.
+	 * Loads the training examples (feature vectors and classes) from the files denoted by the
+	 * specified paths and flag specifying whether to transpose the feature vectors and classes.
 	 * <p>
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
@@ -497,8 +498,8 @@ public abstract class Classifier
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code featureVectorsPath} or
-	 *                     {@code classesPath}
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
 	public void load(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)

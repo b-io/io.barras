@@ -348,12 +348,12 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} loaded from the specified file.
+	 * Constructs a {@link Matrix} loaded from the file denoted by the specified path.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code path}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public Matrix(final String path, final boolean hasHeader)
 			throws IOException {
@@ -2263,13 +2263,13 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link Matrix} loaded from the specified file.
+	 * Creates a {@link Matrix} loaded from the file denoted by the specified path.
 	 * <p>
 	 * @param path the path to the file to load
 	 * <p>
-	 * @return a {@link Matrix} loaded from the specified file
+	 * @return a {@link Matrix} loaded from the file denoted by the specified path
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code path}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public static Matrix create(final String path)
 			throws IOException {
@@ -2284,14 +2284,14 @@ public class Matrix
 	}
 
 	/**
-	 * Creates a {@link Matrix} loaded from the specified file.
+	 * Creates a {@link Matrix} loaded from the file denoted by the specified path.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
-	 * @return a {@link Matrix} loaded from the specified file
+	 * @return a {@link Matrix} loaded from the file denoted by the specified path
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code path}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public static Matrix create(final String path, final boolean transpose)
 			throws IOException {
@@ -2386,13 +2386,15 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Saves {@code this} to the specified file.
+	 * Saves {@code this} to the file denoted by the specified path.
 	 * <p>
 	 * @param path the path to the file to save to
 	 * <p>
-	 * @return {@code true} if {@code this} is saved to the specified file, {@code false} otherwise
+	 * @return {@code true} if {@code this} is saved to the file denoted by the specified path,
+	 *         {@code false} otherwise
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code path}
+	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
+	 *                               by {@code path}
 	 */
 	public boolean save(final String path)
 			throws FileNotFoundException {

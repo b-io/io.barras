@@ -57,10 +57,10 @@ public class SystemFiles {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static IOFileFilter createFilter(final String pattern) {
+	public static IOFileFilter createNameFilter(final String nameFilter) {
 		return new IOFileFilter() {
 			public boolean accept(final File file) {
-				return file.getName().matches(pattern);
+				return file.getName().matches(nameFilter);
 			}
 
 			public boolean accept(final File file, final String text) {
@@ -87,7 +87,7 @@ public class SystemFiles {
 
 	public static Collection<File> find(final File dir, final String fileFilter,
 			final String dirFilter) {
-		return FileUtils.listFiles(dir, createFilter(fileFilter), createFilter(dirFilter));
+		return FileUtils.listFiles(dir, createNameFilter(fileFilter), createNameFilter(dirFilter));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

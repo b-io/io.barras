@@ -76,7 +76,7 @@ public class FileHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FileHandler} with the specified file.
+	 * Constructs a {@link FileHandler} with the specified path.
 	 * <p>
 	 * @param path the path to the file to handle
 	 */
@@ -85,7 +85,7 @@ public class FileHandler
 	}
 
 	/**
-	 * Constructs a {@link FileHandler} with the specified file and {@link Charset}.
+	 * Constructs a {@link FileHandler} with the specified path and {@link Charset}.
 	 * <p>
 	 * @param path    the path to the file to handle
 	 * @param charset the {@link Charset} of the file to handle

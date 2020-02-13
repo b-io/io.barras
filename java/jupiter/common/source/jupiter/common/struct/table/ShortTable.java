@@ -108,12 +108,12 @@ public class ShortTable
 	}
 
 	/**
-	 * Constructs a {@link ShortTable} loaded from the specified file.
+	 * Constructs a {@link ShortTable} loaded from the file denoted by the specified path.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code path}
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public ShortTable(final String path, final boolean hasHeader)
 			throws IOException {
