@@ -124,7 +124,7 @@ public class SQL {
 		} else if (Clob.class.isAssignableFrom(c)) {
 			statement.setClob(index, (Clob) parameter);
 		} else if (Dates.is(c)) {
-			statement.setDate(index, (Date) parameter);
+			statement.setDate(index, toSQLDate((java.util.Date) parameter));
 		} else if (Doubles.is(c)) {
 			statement.setDouble(index, (Double) parameter);
 		} else if (Floats.is(c)) {
@@ -211,6 +211,21 @@ public class SQL {
 			}
 		}
 		throw new IllegalClassException(c);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a SQL {@link Date} converted from the specified {@link java.util.Date}, or
+	 * {@code null} if the {@link java.util.Date} is {@code null}.
+	 * <p>
+	 * @param date the {@link java.util.Date} to convert (may be {@code null})
+	 * <p>
+	 * @return a SQL {@link Date} converted from the specified {@link java.util.Date}, or
+	 *         {@code null} if the {@link java.util.Date} is {@code null}
+	 */
+	public static Date toSQLDate(final java.util.Date date) {
+		return date == null ? null : new Date(date.getTime());
 	}
 
 
