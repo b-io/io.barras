@@ -1227,14 +1227,14 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing the character at the specified index in
-	 * the specified {@link String} by the specified replacement {@code char} value.
+	 * the specified {@link String} by the specified {@code char} value.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param index       the index of the character to replace
 	 * @param replacement the {@code char} value to replace by
 	 * <p>
 	 * @return the {@link String} constructed by replacing the character at the specified index in
-	 *         the specified {@link String} by the specified replacement {@code char} value
+	 *         the specified {@link String} by the specified {@code char} value
 	 */
 	public static String replace(final String text, final int index, final char replacement) {
 		// Check the arguments
@@ -1251,16 +1251,14 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing the characters at the specified indexes
-	 * in the specified {@link String} respectively by the specified replacement {@code char}
-	 * values.
+	 * in the specified {@link String} respectively by the specified {@code char} values.
 	 * <p>
 	 * @param text         a {@link String} (may be {@code null})
 	 * @param indexes      the indexes of the characters to replace (may be {@code null})
 	 * @param replacements the {@code char} values to replace by (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by replacing the characters at the specified indexes
-	 *         in the specified {@link String} respectively by the specified replacement
-	 *         {@code char} values
+	 *         in the specified {@link String} respectively by the specified {@code char} values
 	 */
 	public static String replace(final String text, final int[] indexes,
 			final char[] replacements) {
@@ -1283,15 +1281,14 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing the substring at the specified index in
-	 * the specified {@link String} by the specified replacement {@link String} of the same length.
+	 * the specified {@link String} by the specified {@link String} of the same length.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param fromIndex   the index to start replacing from (inclusive)
 	 * @param replacement the {@link String} to replace by (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by replacing the substring at the specified index in
-	 *         the specified {@link String} by the specified replacement {@link String} of the same
-	 *         length
+	 *         the specified {@link String} by the specified {@link String} of the same length
 	 */
 	public static String replace(final String text, final int fromIndex, final String replacement) {
 		// Check the arguments
@@ -1305,7 +1302,7 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing the substring between the specified
-	 * indexes in the specified {@link String} by the specified replacement {@link String}.
+	 * indexes in the specified {@link String} by the specified {@link String}.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param fromIndex   the index to start replacing from (inclusive)
@@ -1313,7 +1310,7 @@ public class Strings {
 	 * @param replacement the {@link String} to replace by (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by replacing the substring between the specified
-	 *         indexes in the specified {@link String} by the specified replacement {@link String}
+	 *         indexes in the specified {@link String} by the specified {@link String}
 	 */
 	public static String replace(final String text, final int fromIndex, final int toIndex,
 			final String replacement) {
@@ -1335,17 +1332,124 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
+	 * Returns the {@link String} constructed by replacing all the characters matching the specified
+	 * {@code char} tokens in the specified {@link String} by the specified {@link String}.
+	 * <p>
+	 * @param text        a {@link String} (may be {@code null})
+	 * @param tokens      the {@code char} tokens to replace (may be {@code null})
+	 * @param replacement the {@link String} to replace by (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by replacing all the characters matching the specified
+	 *         {@code char} tokens in the specified {@link String} by the specified {@link String}
+	 */
+	public static String replaceAll(String text, final char[] tokens, String replacement) {
+		// Check the arguments
+		if (text == null || tokens == null) {
+			return text;
+		}
+
+		// Replace all the characters matching the tokens in the text by the replacement
+		final StringBuilder builder = createBuilder(text.length());
+		for (int i = 0; i < text.length(); ++i) {
+			final char character = text.charAt(i);
+			if (Characters.contains(tokens, character)) {
+				builder.append(replacement);
+			} else {
+				builder.append(character);
+			}
+		}
+		return builder.toString();
+	}
+
+	/**
+	 * Returns the {@link String} constructed by replacing all the characters matching the specified
+	 * {@code char} tokens inside the specified delimiting {@code char} values in the specified
+	 * {@link String} by the specified {@link String}.
+	 * <p>
+	 * @param text        a {@link String} (may be {@code null})
+	 * @param delimiters  the array of delimiting {@code char} values (may be {@code null})
+	 * @param tokens      the {@code char} tokens to replace (may be {@code null})
+	 * @param replacement the {@link String} to replace by (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by replacing all the characters matching the specified
+	 *         {@code char} tokens inside the specified {@code char} delimiters in the specified
+	 *         {@link String} by the specified {@link String}
+	 */
+	public static String replaceInside(final String text, final char[] delimiters,
+			final char[] tokens, final char replacement) {
+		// Check the arguments
+		if (text == null || delimiters == null || tokens == null) {
+			return text;
+		}
+
+		// Replace all the characters matching the tokens inside the delimiters in the text by the
+		// replacement
+		final StringBuilder builder = createBuilder(text.length());
+		boolean isInside = false;
+		for (int i = 0; i < text.length(); ++i) {
+			final char character = text.charAt(i);
+			if (Characters.contains(delimiters, character)) {
+				isInside = !isInside;
+			} else if (isInside && Characters.contains(tokens, character)) {
+				builder.append(replacement);
+			} else {
+				builder.append(character);
+			}
+		}
+		return builder.toString();
+	}
+
+	/**
+	 * Returns the {@link String} constructed by replacing all the characters matching the specified
+	 * {@code char} tokens outside the specified delimiting {@code char} values in the specified
+	 * {@link String} by the specified {@link String}.
+	 * <p>
+	 * @param text        a {@link String} (may be {@code null})
+	 * @param delimiters  the array of delimiting {@code char} values (may be {@code null})
+	 * @param tokens      the {@code char} tokens to replace (may be {@code null})
+	 * @param replacement the {@link String} to replace by (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by replacing all the characters matching the specified
+	 *         {@code char} tokens outside the specified {@code char} delimiters in the specified
+	 *         {@link String} by the specified {@link String}
+	 */
+	public static String replaceOutside(final String text, final char[] delimiters,
+			final char[] tokens, final char replacement) {
+		// Check the arguments
+		if (text == null || delimiters == null || tokens == null) {
+			return text;
+		}
+
+		// Replace all the characters matching the tokens outside the delimiters in the text by the
+		// replacement
+		final StringBuilder builder = createBuilder(text.length());
+		boolean isOutside = false;
+		for (int i = 0; i < text.length(); ++i) {
+			final char character = text.charAt(i);
+			if (Characters.contains(delimiters, character)) {
+				isOutside = !isOutside;
+			} else if (isOutside && Characters.contains(tokens, character)) {
+				builder.append(replacement);
+			} else {
+				builder.append(character);
+			}
+		}
+		return builder.toString();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the {@link String} constructed by replacing the first substring matching the
-	 * specified regular expression {@link String} by the specified replacement {@link String}.
+	 * specified regular expression {@link String} by the specified {@link String}.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param regex       the regular expression {@link String} to identify and replace (may be
 	 *                    {@code null})
-	 * @param replacement the replacement {@link String} (may be {@code null})
+	 * @param replacement the {@link String} to replace by (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by replacing the first substring matching the
-	 *         specified regular expression {@link String} by the specified replacement
-	 *         {@link String}
+	 *         specified regular expression {@link String} by the specified {@link String}
 	 */
 	public static String replaceFirst(final String text, final String regex,
 			final String replacement) {
@@ -1360,15 +1464,15 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing the last substring matching the specified
-	 * regular expression {@link String} by the specified replacement {@link String}.
+	 * regular expression {@link String} by the specified {@link String}.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param regex       the regular expression {@link String} to identify and replace (may be
 	 *                    {@code null})
-	 * @param replacement the replacement {@link String} (may be {@code null})
+	 * @param replacement the {@link String} to replace by (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by replacing the last substring matching the specified
-	 *         regular expression {@link String} by the specified replacement {@link String}
+	 *         regular expression {@link String} by the specified {@link String}
 	 */
 	public static String replaceLast(final String text, final String regex,
 			final String replacement) {
@@ -1394,15 +1498,15 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing all the substrings matching the specified
-	 * regular expression {@link String} by the specified replacement {@link String}.
+	 * regular expression {@link String} by the specified {@link String}.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param regex       the regular expression {@link String} to identify and replace (may be
 	 *                    {@code null})
-	 * @param replacement the replacement {@link String} (may be {@code null})
+	 * @param replacement the {@link String} to replace by (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by replacing all the substrings matching the specified
-	 *         regular expression {@link String} by the specified replacement {@link String}
+	 *         regular expression {@link String} by the specified {@link String}
 	 */
 	public static String replaceAll(final String text, final String regex,
 			final String replacement) {

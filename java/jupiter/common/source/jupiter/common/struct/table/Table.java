@@ -44,6 +44,7 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Characters;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -1079,6 +1080,10 @@ public class Table<E>
 			++n;
 			// Reset the table
 			reset();
+			// Replace the delimiters in quotes
+			line = Strings.replaceInside(line,
+					new char[] {Characters.SINGLE_QUOTE, Characters.DOUBLE_QUOTE},
+					new char[] {delimiter}, '|');
 			// Scan the file line by line
 			int i = 0;
 			String[] values = (String[]) Strings.split(line, delimiter).toArray();

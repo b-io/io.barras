@@ -71,8 +71,8 @@ public class Sort<T>
 	protected static final int MIN_GALLOP = 7;
 
 	/**
-	 * Maximum initial size of {@code tempArray} array used for merging. The array can grow to
-	 * accommodate demand.
+	 * Maximum initial size of {@code tempArray} used for merging. The array can grow to accommodate
+	 * demand.
 	 * <p>
 	 * Unlike Tim's original C version, we do not allocate this much storage when sorting smaller
 	 * arrays. This change was required for performance.
@@ -503,7 +503,7 @@ public class Sort<T>
 		}
 
 		/*
-		 * Merge remaining runs, using {@code tempArray} array with {@code min(length1, length2)}
+		 * Merge remaining runs, using {@code tempArray} with {@code min(length1, length2)}
 		 * elements.
 		 */
 		if (length1 <= length2) {
