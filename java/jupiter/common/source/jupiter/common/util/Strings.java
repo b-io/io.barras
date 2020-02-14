@@ -1243,7 +1243,7 @@ public class Strings {
 		}
 		ArrayArguments.requireIndex(index, text.length());
 
-		// Replace the character at the index in the text by the replacement
+		// Replace the character at the index in the text by the replacement character
 		final StringBuilder builder = createBuilder(text.length()).append(text);
 		builder.setCharAt(index, replacement);
 		return builder.toString();
@@ -1269,7 +1269,7 @@ public class Strings {
 		}
 		ArrayArguments.requireSameLength(indexes.length, replacements.length);
 
-		// Replace the characters at the indexes in the text by the replacements
+		// Replace the characters at the indexes in the text by the replacement characters
 		final StringBuilder builder = createBuilder(text.length()).append(text);
 		for (int i = 0; i < indexes.length; ++i) {
 			builder.setCharAt(indexes[i], replacements[i]);
@@ -1296,7 +1296,7 @@ public class Strings {
 			return text;
 		}
 
-		// Replace the substring at the index in the text by the replacement
+		// Replace the substring at the index in the text by the replacement string
 		return replace(text, fromIndex, fromIndex + replacement.length(), replacement);
 	}
 
@@ -1321,7 +1321,7 @@ public class Strings {
 		ArrayArguments.requireIndex(fromIndex, text.length() + 1); // handle the empty string
 		ArrayArguments.requireIndex(toIndex, text.length() + 1, true); // handle the empty string
 
-		// Replace the substring between the indexes in the text by the replacement
+		// Replace the substring between the indexes in the text by the replacement string
 		final String string = text.substring(0, fromIndex).concat(replacement);
 		if (toIndex < text.length()) {
 			return string.concat(text.substring(toIndex));
@@ -1348,7 +1348,7 @@ public class Strings {
 			return text;
 		}
 
-		// Replace all the characters matching the tokens in the text by the replacement
+		// Replace all the characters matching the tokens in the text by the replacement string
 		final StringBuilder builder = createBuilder(text.length());
 		for (int i = 0; i < text.length(); ++i) {
 			final char character = text.charAt(i);
@@ -1383,7 +1383,7 @@ public class Strings {
 		}
 
 		// Replace all the characters matching the tokens inside the delimiters in the text by the
-		// replacement
+		// replacement character
 		final StringBuilder builder = createBuilder(text.length());
 		boolean isInside = false;
 		for (int i = 0; i < text.length(); ++i) {
@@ -1421,7 +1421,7 @@ public class Strings {
 		}
 
 		// Replace all the characters matching the tokens outside the delimiters in the text by the
-		// replacement
+		// replacement character
 		final StringBuilder builder = createBuilder(text.length());
 		boolean isOutside = false;
 		for (int i = 0; i < text.length(); ++i) {
@@ -1458,7 +1458,7 @@ public class Strings {
 			return text;
 		}
 
-		// Replace the first substring matching the regex in the text by the replacement
+		// Replace the first substring matching the regex in the text by the replacement string
 		return text.replaceFirst(regex, replacement);
 	}
 
@@ -1484,7 +1484,7 @@ public class Strings {
 		// Initialize
 		final Matcher matcher = Pattern.compile(regex).matcher(text);
 
-		// Replace the last substring matching the regex in the text by the replacement
+		// Replace the last substring matching the regex in the text by the replacement string
 		int fromIndex = -1, toIndex = -1;
 		while (matcher.find()) {
 			fromIndex = matcher.start();
@@ -1515,7 +1515,7 @@ public class Strings {
 			return text;
 		}
 
-		// Replace all the substrings matching the regex in the text by the replacement
+		// Replace all the substrings matching the regex in the text by the replacement string
 		return text.replaceAll(regex, replacement);
 	}
 
