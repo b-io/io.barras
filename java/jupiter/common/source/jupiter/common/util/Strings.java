@@ -649,7 +649,7 @@ public class Strings {
 	 * Returns the escaped representative {@link String} of the specified unescaped content (i.e.
 	 * without traces of offending characters that can prevent parsing).
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to escape
 	 * <p>
 	 * @return the escaped representative {@link String} of the specified unescaped content (i.e.
 	 *         without traces of offending characters that can prevent parsing)
@@ -668,7 +668,7 @@ public class Strings {
 	 * Returns the unescaped representative {@link String} of the specified escaped content (i.e.
 	 * with traces of offending characters that can prevent parsing).
 	 * <p>
-	 * @param content the content {@link Object}
+	 * @param content the content {@link Object} to unescape
 	 * <p>
 	 * @return the unescaped representative {@link String} of the specified escaped content (i.e.
 	 *         with traces of offending characters that can prevent parsing)
@@ -681,6 +681,23 @@ public class Strings {
 				.replaceAll("\\\\b", "\b")
 				.replaceAll("\\\\\"", "\"")
 				.replaceAll("\\\\\\\\", "\\\\");
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the escaped representative {@link String} of the specified unescaped content for
+	 * regular expressions (i.e. without traces of offending characters that can prevent parsing a
+	 * regular expression).
+	 * <p>
+	 * @param content the content {@link Object} to escape
+	 * <p>
+	 * @return the escaped representative {@link String} of the specified unescaped content for
+	 *         regular expressions (i.e. without traces of offending characters that can prevent
+	 *         parsing a regular expression)
+	 */
+	public static String escapeRegex(final Object content) {
+		return Pattern.quote(toString(content));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1161,7 +1178,7 @@ public class Strings {
 		}
 
 		// Remove the first occurrence of any of the tokens from the text
-		return replaceFirst(text, bracketize(tokens), EMPTY);
+		return replaceFirst(text, bracketize(escapeRegex(tokens)), EMPTY);
 	}
 
 	/**
@@ -1184,7 +1201,7 @@ public class Strings {
 		}
 
 		// Remove the last occurrence of any of the tokens from the text
-		return replaceLast(text, bracketize(tokens), EMPTY);
+		return replaceLast(text, bracketize(escapeRegex(tokens)), EMPTY);
 	}
 
 	/**
@@ -1205,7 +1222,7 @@ public class Strings {
 		}
 
 		// Remove all the occurrences of the tokens from the text
-		return replaceAll(text, bracketize(tokens), EMPTY);
+		return replaceAll(text, bracketize(escapeRegex(tokens)), EMPTY);
 	}
 
 	//////////////////////////////////////////////
