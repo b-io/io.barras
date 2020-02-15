@@ -24,7 +24,10 @@
 package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.DOUBLE_QUOTE;
+import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Characters.SPACE;
+import static jupiter.common.util.Characters.SPLITTER;
 import static jupiter.common.util.Formats.NEW_LINE;
 
 import java.io.BufferedReader;
@@ -39,12 +42,12 @@ import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.map.parser.IParser;
+import jupiter.common.map.replacer.StringReplacer;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
-import jupiter.common.util.Characters;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -1064,11 +1067,14 @@ public class Table<E>
 		if ((line = reader.readLine()) != null) {
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			Character delimiter = null;
+			StringReplacer replacer = null;
 			for (final char d : COLUMN_DELIMITERS) {
 				final int occurrenceCount = Strings.count(line, d);
 				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = d;
+						replacer = new StringReplacer(new char[] {SPLITTER},
+								Strings.toString(delimiter));
 						n = occurrenceCount;
 					} else {
 						IO.warn("The file contains different delimiters; ",
@@ -1080,20 +1086,16 @@ public class Table<E>
 			++n;
 			// Reset the table
 			reset();
-			// Replace the delimiters in quotes
-			line = Strings.replaceInside(line,
-					new char[] {Characters.SINGLE_QUOTE, Characters.DOUBLE_QUOTE},
-					new char[] {delimiter}, '|');
 			// Scan the file line by line
 			int i = 0;
-			String[] values = (String[]) Strings.split(line, delimiter).toArray();
+			String[] values = loadLine(line, delimiter, replacer);
 			if (hasHeader) {
 				header = values;
 			} else {
 				setRow(i++, parser.parseToArray(values));
 			}
 			while ((line = reader.readLine()) != null) {
-				values = (String[]) Strings.split(line, delimiter).toArray();
+				values = values = loadLine(line, delimiter, replacer);
 				if (Arrays.isNullOrEmpty(values)) {
 					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
@@ -1111,6 +1113,14 @@ public class Table<E>
 			// Resize if there are any empty rows or columns
 			resize();
 		}
+	}
+
+	protected String[] loadLine(final String line, final char delimiter,
+			final StringReplacer replacer) {
+		final String l = Strings.replaceInside(line, new char[] {SINGLE_QUOTE, DOUBLE_QUOTE},
+				new char[] {delimiter}, SPLITTER);
+		final String[] values = (String[]) Strings.split(l, delimiter).toArray();
+		return replacer != null ? replacer.callToArray(values) : values;
 	}
 
 
