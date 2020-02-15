@@ -35,6 +35,7 @@ import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 import static jupiter.common.util.Characters.RIGHT_QUOTE;
 import static jupiter.common.util.Characters.SINGLE_QUOTE;
+import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 import static jupiter.common.util.Formats.DEFAULT_LOCALE;
 import static jupiter.common.util.Formats.NEW_LINE;
@@ -988,7 +989,7 @@ public class Strings {
 	 *         specified length
 	 */
 	public static String leftPad(final String text, final int length) {
-		return leftPad(text, length, Characters.SPACE);
+		return leftPad(text, length, SPACE);
 	}
 
 	/**
@@ -1025,7 +1026,7 @@ public class Strings {
 	 *         specified length
 	 */
 	public static String rightPad(final String text, final int length) {
-		return rightPad(text, length, Characters.SPACE);
+		return rightPad(text, length, SPACE);
 	}
 
 	/**
@@ -1062,7 +1063,7 @@ public class Strings {
 	 *         specified length
 	 */
 	public static String centerPad(final String text, final int length) {
-		return centerPad(text, length, Characters.SPACE);
+		return centerPad(text, length, SPACE);
 	}
 
 	/**

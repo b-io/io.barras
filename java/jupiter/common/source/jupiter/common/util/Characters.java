@@ -61,6 +61,8 @@ public class Characters {
 
 	public static final char SPACE = ' ';
 
+	public static final char SPLITTER = '|';
+
 	//////////////////////////////////////////////
 
 	public static final char SINGLE_QUOTE = '\'';
