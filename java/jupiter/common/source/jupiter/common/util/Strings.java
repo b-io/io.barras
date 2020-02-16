@@ -1358,7 +1358,8 @@ public class Strings {
 	 * @return the {@link String} constructed by replacing all the characters matching the specified
 	 *         {@code char} tokens in the specified {@link String} by the specified {@link String}
 	 */
-	public static String replaceAll(String text, final char[] tokens, String replacement) {
+	public static String replaceAll(final String text, final char[] tokens,
+			final String replacement) {
 		// Check the arguments
 		if (text == null || tokens == null) {
 			return text;

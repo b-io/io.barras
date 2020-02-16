@@ -373,9 +373,9 @@ public class SingularValueDecomposition
 				// Perform the single QR step
 				case 3: {
 					// Compute the shift
-					final double scale = Math
-							.max(Math.max(Math.max(Math.max(Math.abs(sigma[p - 1]), Math.abs(sigma[p - 2])),
-									Math.abs(e[p - 2])), Math.abs(sigma[k])), Math.abs(e[k]));
+					final double scale = Maths.maxToDouble(Math.abs(sigma[p - 1]),
+							Math.abs(sigma[p - 2]), Math.abs(e[p - 2]),
+							Math.abs(sigma[k]), Math.abs(e[k]));
 					final double sp = sigma[p - 1] / scale;
 					final double spm1 = sigma[p - 2] / scale;
 					final double epm1 = e[p - 2] / scale;

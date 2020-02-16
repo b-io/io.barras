@@ -108,7 +108,8 @@ public class Audio {
 	 * @return the {@link ExtendedLinkedList} of {@link AudioSourceInterface} with the specified
 	 *         mixer name
 	 */
-	public static ExtendedLinkedList<AudioSourceInterface> getSourceInterfaces(final String mixerName) {
+	public static ExtendedLinkedList<AudioSourceInterface> getSourceInterfaces(
+			final String mixerName) {
 		final ExtendedLinkedList<AudioSourceInterface> interfaces = new ExtendedLinkedList<AudioSourceInterface>();
 		final Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
 		for (final Mixer.Info mixerInfo : mixerInfos) {
@@ -150,7 +151,8 @@ public class Audio {
 	 * @return the {@link ExtendedLinkedList} of {@link AudioTargetInterface} with the specified
 	 *         mixer name
 	 */
-	public static ExtendedLinkedList<AudioTargetInterface> getTargetInterfaces(final String mixerName) {
+	public static ExtendedLinkedList<AudioTargetInterface> getTargetInterfaces(
+			final String mixerName) {
 		final ExtendedLinkedList<AudioTargetInterface> interfaces = new ExtendedLinkedList<AudioTargetInterface>();
 		final Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
 		for (final Mixer.Info mixerInfo : mixerInfos) {

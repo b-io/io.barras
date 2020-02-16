@@ -284,7 +284,7 @@ public class Scalar
 	@Override
 	public void fill(final double constant) {
 		if (!isReadOnly) {
-			this.value = constant;
+			value = constant;
 		} else {
 			throw new IllegalOperationException(
 					"Cannot change the value of a read-only " + getName());

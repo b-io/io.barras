@@ -316,8 +316,9 @@ public class SQL {
 		return Strings.join("UPDATE ", Strings.bracketize(table), " SET ",
 				Arrays.toString(columns, " = ?,", BRACKETER),
 				Arrays.isNotEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ", Arrays.toString(conditionalColumns, " = ?,", BRACKETER)) :
-				"");
+						Strings.join(" WHERE ",
+								Arrays.toString(conditionalColumns, " = ?,", BRACKETER)) :
+						"");
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,

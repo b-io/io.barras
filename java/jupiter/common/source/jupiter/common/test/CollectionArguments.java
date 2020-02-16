@@ -23,10 +23,8 @@
  */
 package jupiter.common.test;
 
-import static jupiter.common.test.Arguments.CHECK_ARGS;
-import static jupiter.common.test.Arguments.requireNotNull;
-
 import java.util.Collection;
+
 import jupiter.common.util.Strings;
 
 public class CollectionArguments
@@ -90,7 +88,7 @@ public class CollectionArguments
 		if (CHECK_ARGS && requireNotNull(a).size() != requireNotNull(b).size()) {
 			throw new IllegalArgumentException(
 					"The specified collections do not have the same size " +
-					isNotEqualTo(a.size(), b.size()));
+							isNotEqualTo(a.size(), b.size()));
 		}
 	}
 }
