@@ -50,8 +50,8 @@ public class RedBlackTreeNode<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link BinaryTreeNode} with the specified {@code K} key, {@code V} value and key
-	 * {@link Comparator}.
+	 * Constructs a {@link RedBlackTreeNode} with the specified {@code K} key, {@code V} value and
+	 * key {@link Comparator}.
 	 * <p>
 	 * @param key           the {@code K} key
 	 * @param value         the {@code V} value (may be {@code null})

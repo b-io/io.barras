@@ -51,12 +51,12 @@ public class JPanels {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Displays the specified message {@link String} in the specified {@link JPanel}.
+	 * Shows the specified message {@link String} in the specified {@link JPanel}.
 	 * <p>
-	 * @param panel   the {@link JPanel} in which the message {@link String} is displayed
-	 * @param message the message {@link String} to display
+	 * @param panel   the {@link JPanel} in which the message {@link String} is showed
+	 * @param message the message {@link String} to show
 	 */
-	public static void displayMessage(final JPanel panel, final String message) {
+	public static void showMessage(final JPanel panel, final String message) {
 		final JPanel p = new JPanel();
 		p.add(new JLabel(message));
 		JOptionPane.showMessageDialog(panel, p);

@@ -23,6 +23,9 @@
  */
 package jupiter.graphics.charts;
 
+import static jupiter.gui.swing.Swings.MIN_SIZE;
+import static jupiter.gui.swing.Swings.PREFERRED_SIZE;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -56,15 +59,6 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The default minimum {@link Dimension} of the chart panels.
-	 */
-	public static final Dimension DEFAULT_MIN_SIZE = new Dimension(960, 600); // 13.5"
-	/**
-	 * The default preferred {@link Dimension} of the chart panels.
-	 */
-	public static final Dimension DEFAULT_PREFERRED_SIZE = new Dimension(1920, 1200); // 27"
 
 	/**
 	 * The default {@link DateFormat} of the x-axis.
@@ -117,7 +111,7 @@ public class Charts {
 	 * @param component the {@link Component} to set
 	 */
 	public static void setSizes(final Component component) {
-		setSizes(component, DEFAULT_MIN_SIZE, DEFAULT_PREFERRED_SIZE);
+		setSizes(component, MIN_SIZE, PREFERRED_SIZE);
 	}
 
 	/**

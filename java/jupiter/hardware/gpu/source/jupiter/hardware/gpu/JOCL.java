@@ -59,7 +59,7 @@ import static org.jocl.CL.setExceptionsEnabled;
 import java.util.Map;
 
 import jupiter.common.math.Maths;
-import jupiter.common.struct.map.tree.RedBlackTreeMap;
+import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Strings;
@@ -97,8 +97,7 @@ public class JOCL
 	protected final cl_command_queue commandQueue;
 
 	protected final cl_program program;
-	protected final Map<String, cl_kernel> kernels = new RedBlackTreeMap<String, cl_kernel>(
-			String.class);
+	protected final Map<String, cl_kernel> kernels = new ComparableRedBlackTreeMap<String, cl_kernel>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

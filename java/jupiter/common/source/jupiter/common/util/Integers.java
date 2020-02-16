@@ -812,12 +812,12 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@code int} array of the specified length with the specified {@code int} element.
+	 * Creates an {@code int} array of the specified length with the specified {@code int} element.
 	 * <p>
 	 * @param element the {@code int} element of the {@code int} array to create
 	 * @param length  the length of the {@code int} array to create
 	 * <p>
-	 * @return a {@code int} array of the specified length with the specified {@code int} element
+	 * @return an {@code int} array of the specified length with the specified {@code int} element
 	 */
 	public static int[] repeat(final int element, final int length) {
 		return fill(new int[length], element);

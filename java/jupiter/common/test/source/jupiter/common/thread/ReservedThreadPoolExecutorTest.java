@@ -89,7 +89,7 @@ public class ReservedThreadPoolExecutorTest
 		IO.test(chrono.getMilliseconds(), " [ms]");
 		IO.test(skippedTaskCount, " skipped tasks");
 
-		// Test
+		// Report the number of completed tasks
 		int completedTaskCount = 0;
 		for (int i = 0; i < taskCount; ++i) {
 			if (results.contains(i)) {

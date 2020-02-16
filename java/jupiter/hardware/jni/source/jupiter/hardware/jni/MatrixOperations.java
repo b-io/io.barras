@@ -23,10 +23,6 @@
  */
 package jupiter.hardware.jni;
 
-import static jupiter.common.io.IO.IO;
-
-import jupiter.common.util.Doubles;
-
 public class MatrixOperations {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,30 +46,6 @@ public class MatrixOperations {
 	 * Prevents the construction of {@link MatrixOperations}.
 	 */
 	protected MatrixOperations() {
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Starts testing.
-	 * <p>
-	 * @param args the array of command line arguments
-	 */
-	public static void main(final String[] args) {
-		test();
-
-		final double[] A = new double[] {
-			1., 2., 3., 4., 5., 6.
-		};
-		final double[] B = new double[] {
-			1., 2., 3., 4.
-		};
-		for (int i = 0; i < 100; ++i) {
-			IO.result(Doubles.toString(multiply(A, B, 2, 2)));
-		}
 	}
 
 

@@ -52,12 +52,12 @@ public class ChronometerTest
 		final long tolerance = 100L * unit;
 		final Chronometer chrono = new Chronometer();
 
-		// Process
+		// Measure the sleeping time
 		chrono.start();
 		Threads.sleep(sleepingTime);
 		chrono.stop();
 
-		// Test
+		// Check the measured time
 		final long time = Longs.convert(chrono.getMilliseconds());
 		IO.test(time, " [ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getMilliseconds()), tolerance);
@@ -75,12 +75,12 @@ public class ChronometerTest
 		final long tolerance = 100L * unit;
 		final Chronometer chrono = new Chronometer();
 
-		// Process
+		// Measure the sleeping time
 		chrono.start();
 		Threads.sleep(sleepingTime);
 		chrono.stop();
 
-		// Test
+		// Check the measured time
 		final long time = Longs.convert(chrono.getMicroseconds());
 		IO.test(time, " [µs] => ", Maths.roundToLong((double) time / unit), " [ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getMicroseconds()), tolerance);
@@ -98,12 +98,12 @@ public class ChronometerTest
 		final long tolerance = 100L * unit;
 		final Chronometer chrono = new Chronometer();
 
-		// Process
+		// Measure the sleeping time
 		chrono.start();
 		Threads.sleep(sleepingTime);
 		chrono.stop();
 
-		// Test
+		// Check the measured time
 		final long time = Longs.convert(chrono.getNanoseconds());
 		IO.test(time, " [ns] => ", Maths.roundToLong((double) time / unit), " [ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getNanoseconds()), tolerance);

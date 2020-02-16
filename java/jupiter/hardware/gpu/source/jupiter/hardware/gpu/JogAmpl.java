@@ -39,7 +39,7 @@ import com.jogamp.opencl.CLKernel;
 import com.jogamp.opencl.CLProgram;
 
 import jupiter.common.math.Maths;
-import jupiter.common.struct.map.tree.RedBlackTreeMap;
+import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Strings;
@@ -66,8 +66,7 @@ public class JogAmpl
 	protected final CLCommandQueue commandQueue;
 
 	protected CLProgram program;
-	protected final Map<String, CLKernel> kernels = new RedBlackTreeMap<String, CLKernel>(
-			String.class);
+	protected final Map<String, CLKernel> kernels = new ComparableRedBlackTreeMap<String, CLKernel>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

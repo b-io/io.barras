@@ -134,15 +134,15 @@ public class MemoryTest
 		final int[] memorySizes = new int[memorySizeCount];
 		final double[] bandwidths = new double[memorySizeCount];
 
-		final ProgressBar bar = new ProgressBar(5 * memorySizeCount);
-		bar.start();
+		final ProgressBar progressBar = new ProgressBar(5 * memorySizeCount);
+		progressBar.start();
 		for (int i = 0; i < memorySizeCount; ++i) {
-			bar.printSymbols(5);
+			progressBar.printSymbols(5);
 			memorySizes[i] = Maths.pow2(minExponent) + i;
 			final double bandwidth = computeBandwidth(memorySizes[i], memoryMode, accessMode);
 			bandwidths[i] = bandwidth;
 		}
-		bar.end();
+		progressBar.end();
 
 		IO.test("Bandwidths for ", memoryMode, " and ", accessMode);
 		for (int i = 0; i < memorySizeCount; ++i) {

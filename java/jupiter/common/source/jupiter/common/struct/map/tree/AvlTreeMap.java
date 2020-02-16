@@ -64,7 +64,7 @@ public class AvlTreeMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * Constructs an {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N}.
 	 * <p>
 	 * @param c the key {@link Class} of type {@code K}
 	 */
@@ -73,7 +73,7 @@ public class AvlTreeMap<K, V>
 	}
 
 	/**
-	 * Constructs a {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} loaded from the
+	 * Constructs an {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of type {@code K}
@@ -86,7 +86,7 @@ public class AvlTreeMap<K, V>
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * Constructs an {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} with the
 	 * specified key {@link Comparator}.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
@@ -96,7 +96,7 @@ public class AvlTreeMap<K, V>
 	}
 
 	/**
-	 * Constructs a {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * Constructs an {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} with the
 	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
 	 * key-value mappings .
 	 * <p>

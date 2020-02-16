@@ -48,7 +48,7 @@ public class SynchronizedWorkQueueTest
 		final double[] testTimes = new double[testCount];
 		final double[] threadCounts = new double[testCount];
 
-		// Test
+		// Test the synchronized work queue
 		final WorkQueue<Integer, Integer> workQueue = new SynchronizedWorkQueue<Integer, Integer>(
 				new SimpleWorker());
 		for (int i = 0; i < testCount; ++i) {

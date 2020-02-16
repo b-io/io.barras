@@ -41,7 +41,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.util.PublicCloneable;
 
 /**
- * A selection to display on a plot.
+ * A selection to show on a plot.
  */
 public class XYSelection
 		implements ICloneable<XYSelection>, PublicCloneable, Serializable {
@@ -60,7 +60,7 @@ public class XYSelection
 	/**
 	 * The default radius.
 	 */
-	public static final int DEFAULT_RADIUS = 10;
+	public static final int DEFAULT_RADIUS = 5;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

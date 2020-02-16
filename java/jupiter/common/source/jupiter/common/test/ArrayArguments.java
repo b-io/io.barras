@@ -25,6 +25,7 @@ package jupiter.common.test;
 
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class ArrayArguments
@@ -166,8 +167,8 @@ public class ArrayArguments
 	 */
 	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
 		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
-			throw new IllegalArgumentException(Strings.join("Cannot store ", b.getSimpleName(),
-					" in an array of ", a.getSimpleName()));
+			throw new IllegalArgumentException(Strings.join("Cannot store ", Objects.getName(b),
+					" in an array of ", Objects.getName(a)));
 		}
 	}
 }

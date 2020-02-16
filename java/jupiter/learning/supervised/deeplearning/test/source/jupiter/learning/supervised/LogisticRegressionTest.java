@@ -51,10 +51,10 @@ public class LogisticRegressionTest
 			final LogisticRegression model = new LogisticRegression("test/resources/A/X.csv",
 					"test/resources/A/Y.csv");
 
-			// Train
+			// Train the model
 			final int iterationCount = model.train();
 
-			// Test
+			// Check the statistics
 			// • The accuracy
 			final double accuracy = model.computeAccuracy();
 			IO.test(Doubles.formatPercent(accuracy), " accuracy in ",

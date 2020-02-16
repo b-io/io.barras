@@ -589,6 +589,6 @@ public class WorkQueue<I, O>
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " of type " + c.getSimpleName();
+		return Objects.getName(this).concat(" of type ").concat(Objects.getName(c));
 	}
 }

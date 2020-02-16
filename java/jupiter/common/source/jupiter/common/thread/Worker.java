@@ -31,6 +31,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
@@ -231,6 +232,6 @@ public abstract class Worker<I, O>
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + Strings.parenthesize(id);
+		return Objects.getName(this) + Strings.parenthesize(id);
 	}
 }

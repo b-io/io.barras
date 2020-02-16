@@ -61,6 +61,7 @@ import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Numbers;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
 
@@ -483,8 +484,8 @@ public class SQL {
 		} catch (final InvocationTargetException ex) {
 			IO.error(ex);
 		} catch (final NoSuchMethodException ex) {
-			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ",
-					c.getSimpleName(), " found: ", ex);
+			IO.error("No constructor with ", Objects.getName(ResultSet.class), " in ",
+					Objects.getName(c), " found: ", ex);
 		} catch (final SecurityException ex) {
 			IO.error(ex);
 		}

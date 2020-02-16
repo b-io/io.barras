@@ -79,6 +79,7 @@ import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.Index;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
@@ -875,7 +876,7 @@ public class JConsole
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName();
+		return Objects.getName(this);
 	}
 
 

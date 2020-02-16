@@ -37,6 +37,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import jupiter.common.io.Resources;
+import jupiter.gui.swing.Swings;
 
 public class GraphicalConsole
 		implements Serializable {
@@ -82,9 +83,7 @@ public class GraphicalConsole
 	 */
 	public GraphicalConsole() {
 		// Create the frame
-		frame = new JFrame(TITLE);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new BorderLayout());
+		frame = Swings.createFrame(TITLE);
 		frame.setSize(600, 400);
 		// Create the console
 		console = new JConsole();
@@ -97,9 +96,8 @@ public class GraphicalConsole
 					DEFAULT_CHARSET.name());
 			System.setOut(printStream);
 			System.setErr(printStream);
-			// Display the frame
-			frame.setLocationRelativeTo(null);
-			frame.setVisible(true);
+			// Show the frame
+			Swings.show(frame);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (final ClassNotFoundException ignored) {
 		} catch (final IllegalAccessException ignored) {
@@ -155,8 +153,7 @@ public class GraphicalConsole
 	 * @param status the status code to exit with
 	 */
 	public void exit(final int status) {
-		frame.setVisible(false);
-		frame.dispose();
+		Swings.hide(frame);
 		Resources.close(printStream);
 		System.exit(status);
 	}

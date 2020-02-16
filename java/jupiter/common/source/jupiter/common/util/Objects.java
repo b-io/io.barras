@@ -49,6 +49,34 @@ public class Objects {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the name of the {@link Class} of the specified {@link Object}, {@code null}
+	 * otherwise.
+	 * <p>
+	 * @param object an {@link Object}
+	 * <p>
+	 * @return the name of the {@link Class} of the specified {@link Object}, {@code null} otherwise
+	 */
+	public static String getName(final Object object) {
+		return object != null ? getName(object.getClass()) : null;
+	}
+
+	/**
+	 * Returns the name of the specified {@link Class}, {@code null} otherwise.
+	 * <p>
+	 * @param c a {@link Class}
+	 * <p>
+	 * @return the name of the specified {@link Class}, {@code null} otherwise
+	 */
+	public static String getName(final Class<?> c) {
+		return c != null ? c.getName() : null;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -378,7 +378,7 @@ public class Matrix
 	 */
 	@Override
 	public String getName() {
-		return getClass().getSimpleName() + " of dimensions " + size;
+		return Objects.getName(this) + " of dimensions " + size;
 	}
 
 	/**
@@ -961,7 +961,7 @@ public class Matrix
 			return new Scalar(elements[0]);
 		}
 		throw new IllegalOperationException(
-				"Cannot convert a " + getName() + " to a " + Scalar.class.getSimpleName());
+				"Cannot convert a " + getName() + " to a " + Objects.getName(Scalar.class));
 	}
 
 	/**
@@ -975,7 +975,7 @@ public class Matrix
 			return new Vector(toPrimitiveArray(), n != 1);
 		}
 		throw new IllegalOperationException(
-				"Cannot convert a " + getName() + " to a " + Vector.class.getSimpleName());
+				"Cannot convert a " + getName() + " to a " + Objects.getName(Vector.class));
 	}
 
 	/**

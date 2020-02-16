@@ -107,7 +107,7 @@ public class CalculatorTest
 				IO.debug("Entity2: ", chrono.getMilliseconds(), " [ms]");
 				entityTimes[2 * t + 1] = chrono.getMilliseconds();
 
-				// Test the results
+				// Check the results
 				assertEquals(entity1, entity2);
 			}
 			Tests.printTimes(elementTimes);

@@ -35,7 +35,7 @@ import jupiter.common.exception.IllegalClassException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.map.tree.RedBlackTreeMap;
+import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Result;
@@ -83,8 +83,7 @@ public class Calculator
 	/**
 	 * The context containing the values of the variables.
 	 */
-	protected final Map<String, Element> context = new RedBlackTreeMap<String, Element>(
-			String.class);
+	protected final Map<String, Element> context = new ComparableRedBlackTreeMap<String, Element>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

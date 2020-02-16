@@ -26,6 +26,7 @@ package jupiter.common.map.parser;
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.map.ObjectToFloatMapper;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
@@ -80,7 +81,7 @@ public class FloatParser
 		try {
 			return Float.valueOf(value);
 		} catch (final NumberFormatException ignored) {
-			IO.error("Cannot convert ", Strings.quote(input), " to a ", c.getSimpleName());
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
 		}
 		return null;
 	}

@@ -48,7 +48,7 @@ public class LockedWorkQueueTest
 		final double[] testTimes = new double[testCount];
 		final double[] threadCounts = new double[testCount];
 
-		// Test
+		// Test the locked work queue
 		final LockedWorkQueue<Integer, Integer> workQueue = new LockedWorkQueue<Integer, Integer>(
 				new SimpleWorker());
 		for (int i = 0; i < testCount; ++i) {

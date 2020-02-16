@@ -69,7 +69,7 @@ public class MatrixTest
 		final DoubleTable hybridStats = new DoubleTable(header, rowCounts.length,
 				columnCounts.length);
 
-		// Test
+		// Test the matrix multiplication
 		int rowIndex = 0;
 		for (final int m : rowCounts) {
 			int columnIndex = 0;
@@ -81,7 +81,7 @@ public class MatrixTest
 				final Chronometer chrono = new Chronometer();
 				final double[] times = new double[testCount];
 
-				// Test the normal version
+				// • Test the normal version
 				IO.test("- Normal:");
 				Matrix expected = null;
 				for (int t = 0; t < testCount; ++t) {
@@ -94,7 +94,7 @@ public class MatrixTest
 				normalStats.set(rowIndex, columnIndex, Statistics.mean(times));
 				//expected.toTable().save("normal.values.csv");
 
-				// Test the parallel version
+				// • Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.parallelize();
 				if (OpenCL.IS_ACTIVE) {
@@ -108,15 +108,19 @@ public class MatrixTest
 						chrono.stop();
 						times[t] = chrono.getMilliseconds();
 					}
+					//found.toTable().save("parallel.values.csv");
+
+					// Report the statistics
 					Tests.printTimes(times);
 					parallelStats.set(rowIndex, columnIndex, Statistics.mean(times));
-					//found.toTable().save("parallel.values.csv");
+
+					// Check the result
 					assertEquals(expected, found);
 				} finally {
 					Matrix.unparallelize();
 				}
 
-				// Test the GPU version
+				// • Test the GPU version
 				if (OpenCL.IS_ACTIVE) {
 					IO.test("- GPU:");
 					CL.setActive(true);
@@ -128,16 +132,20 @@ public class MatrixTest
 							chrono.stop();
 							times[t] = chrono.getMilliseconds();
 						}
-						Tests.printTimes(times);
 						//found.toTable().save("gpu.values.csv");
+
+						// Report the statistics
+						Tests.printTimes(times);
 						gpuStats.set(rowIndex, columnIndex, Statistics.mean(times));
+
+						// Check the result
 						assertEquals(expected, found);
 					} finally {
 						CL.setActive(false);
 					}
 				}
 
-				// Test the hybrid version
+				// • Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.parallelize();
 				if (OpenCL.IS_ACTIVE) {
@@ -151,9 +159,13 @@ public class MatrixTest
 						chrono.stop();
 						times[t] = chrono.getMilliseconds();
 					}
+					//found.toTable().save("hybrid.values.csv");
+
+					// Report the statistics
 					Tests.printTimes(times);
 					hybridStats.set(rowIndex, columnIndex, Statistics.mean(times));
-					//found.toTable().save("hybrid.values.csv");
+
+					// Check the result
 					assertEquals(expected, found);
 				} finally {
 					Matrix.unparallelize();
@@ -189,7 +201,7 @@ public class MatrixTest
 		// Initialize
 		final Matrix A = Matrix.random(10);
 
-		// Test
+		// Test the matrix division
 		assertTrue(A.equals(A.times(A).division(A)));
 	}
 
@@ -212,7 +224,7 @@ public class MatrixTest
 		final DoubleTable hybridStats = new DoubleTable(header, rowCounts.length,
 				columnCounts.length);
 
-		// Test
+		// Test the matrix forward calculations
 		int rowIndex = 0;
 		for (final int m : rowCounts) {
 			int columnIndex = 0;
@@ -225,7 +237,7 @@ public class MatrixTest
 				final Chronometer chrono = new Chronometer();
 				final double[] times = new double[testCount];
 
-				// Test the normal version
+				// • Test the normal version
 				IO.test("- Normal:");
 				Matrix expected = null;
 				for (int t = 0; t < testCount; ++t) {
@@ -238,7 +250,7 @@ public class MatrixTest
 				normalStats.set(rowIndex, columnIndex, Statistics.mean(times));
 				//expected.toTable().save("normal.values.csv");
 
-				// Test the parallel version
+				// • Test the parallel version
 				IO.test("- Parallel:");
 				Matrix.parallelize();
 				if (OpenCL.IS_ACTIVE) {
@@ -260,7 +272,7 @@ public class MatrixTest
 					Matrix.unparallelize();
 				}
 
-				// Test the GPU version
+				// • Test the GPU version
 				if (OpenCL.IS_ACTIVE) {
 					IO.test("- GPU:");
 					CL.setActive(true);
@@ -281,7 +293,7 @@ public class MatrixTest
 					}
 				}
 
-				// Test the hybrid version
+				// • Test the hybrid version
 				IO.test("- Hybrid:");
 				Matrix.parallelize();
 				if (OpenCL.IS_ACTIVE) {

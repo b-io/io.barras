@@ -20,5 +20,6 @@
 	<!-- Project Settings -->
 	<modules>
 		<module>console</module>
+		<module>swing</module>
 	</modules>
 </project>

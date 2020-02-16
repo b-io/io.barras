@@ -107,7 +107,7 @@ public class NeuralNetworkTest
 					iterationCount, " iterations in ",
 					chrono.getMilliseconds(), " [ms]");
 
-			// Test
+			// Check the statistics
 			assertEquals(1., accuracy, Classifier.DEFAULT_TOLERANCE);
 			assertEquals(1., f1Score, Classifier.DEFAULT_TOLERANCE);
 			assertEquals(0., cost, Classifier.DEFAULT_TOLERANCE);
@@ -126,7 +126,7 @@ public class NeuralNetworkTest
 		final int testCount = 2;
 		final double[] times = new double[testCount];
 
-		// Test
+		// Test the classifier
 		try {
 			IO.test("A) Test the activation function TANH");
 			for (int t = 0; t < testCount; ++t) {
@@ -223,7 +223,7 @@ public class NeuralNetworkTest
 				" F1 score and ", DECIMAL_FORMAT.format(cost), " cost in ", iterationCount,
 				" iterations in ", chrono.getMilliseconds(), " [ms]");
 
-		// Test
+		// Check the statistics
 		assertEquals(expectedAccuracy, accuracy, tolerance);
 		assertEquals(expectedAccuracy, f1Score, tolerance);
 		assertEquals(expectedCost, cost, tolerance);

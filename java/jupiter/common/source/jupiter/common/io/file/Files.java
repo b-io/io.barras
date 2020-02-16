@@ -193,12 +193,13 @@ public class Files {
 	/**
 	 * Sets the last-modified time of the specified {@link File}.
 	 * <p>
-	 * @param file the {@link File} to set
-	 * @param time a time measured in milliseconds since the epoch (January 1, 1970, 00:00:00 GMT)
+	 * @param file      the {@link File} to set
+	 * @param timestamp a length of time (in milliseconds) since the epoch (January 1, 1970,
+	 *                  00:00:00 GMT)
 	 */
-	public static void setLastModified(final File file, final long time) {
+	public static void setLastModified(final File file, final long timestamp) {
 		if (exists(file)) {
-			file.setLastModified(time);
+			file.setLastModified(timestamp);
 		}
 	}
 

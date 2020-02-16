@@ -67,10 +67,10 @@ public class Threads {
 
 	/**
 	 * Causes the currently executing thread to sleep (temporarily cease execution) for the
-	 * specified number of milliseconds, subject to the precision and accuracy of system timers and
-	 * schedulers. The thread does not lose ownership of any monitors.
+	 * specified length of time (in milliseconds), subject to the precision and accuracy of system
+	 * timers and schedulers. The thread does not lose ownership of any monitors.
 	 * <p>
-	 * @param time the length of time to sleep in milliseconds
+	 * @param time the length of time to sleep (in milliseconds)
 	 * <p>
 	 * @throws IllegalArgumentException if {@code time} is negative
 	 */

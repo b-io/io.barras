@@ -32,6 +32,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.graphics.charts.struct.SeriesStyle;
+import jupiter.gui.swing.Swings;
 import jupiter.math.analysis.struct.XY;
 
 import org.jfree.chart.ChartPanel;
@@ -107,7 +108,7 @@ public abstract class ChartGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Display the chart graphic.
+	 * Displays {@code this}.
 	 */
 	public void display() {
 		EventQueue.invokeLater(new Runnable() {
@@ -116,8 +117,8 @@ public abstract class ChartGraphic
 				final JFreeChart chart = createChart();
 				final ChartPanel chartPanel = new DynamicChartPanel(chart);
 				setContentPane(chartPanel);
-				// Display
-				setVisible(true);
+				// Show the chart graphic
+				Swings.show(ChartGraphic.this);
 			}
 		});
 	}

@@ -21,31 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.graphics.charts;
+package jupiter.common.struct.map.tree;
 
-import static jupiter.common.io.IO.IO;
+public class ComparableRedBlackTreeNode<K extends Comparable<K>, V>
+		extends ComparableBinaryTreeNode<K, V, ComparableRedBlackTreeNode<K, V>> {
 
-import java.awt.Color;
-import java.io.IOException;
-import java.text.ParseException;
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-import jupiter.common.struct.table.StringTable;
-import jupiter.graphics.charts.panels.DynamicChartPanel;
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.XYPlot;
-
-public class Display {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * The {@link TimeSeriesGraphic}.
-	 */
-	protected final TimeSeriesGraphic graph;
+	protected boolean isRed;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,59 +48,49 @@ public class Display {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Display}.
+	 * Constructs a {@link ComparableRedBlackTreeNode} with the specified {@code K} key and
+	 * {@code V} value.
+	 * <p>
+	 * @param key   the {@code K} key
+	 * @param value the {@code V} value (may be {@code null})
 	 */
-	public Display() {
-		graph = new TimeSeriesGraphic("Test Series", "Time", "Value");
+	public ComparableRedBlackTreeNode(final K key, final V value) {
+		super(key, value);
+		isRed = true;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
+	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts displaying the chart.
+	 * Sets the left {@link ComparableRedBlackTreeNode}.
 	 * <p>
-	 * @param args the array of command line arguments
+	 * @param leftNode a {@link ComparableRedBlackTreeNode} of types {@code K} and {@code V} (may be
+	 *                 {@code null})
 	 */
-	public static void main(final String[] args) {
-		final Display display = new Display();
-		display.loadSeries("test/resources/coordinates.csv");
-		display.plot();
+	@Override
+	public void setLeft(final ComparableRedBlackTreeNode<K, V> leftNode) {
+		left = leftNode;
+		if (left != null) {
+			left.isLeft = true;
+			left.parent = this;
+		}
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void plot() {
-		// Create the chart
-		final JFreeChart chart = graph.createChart();
-		final XYPlot plot = chart.getXYPlot();
-		plot.getRenderer().setSeriesPaint(0, Color.RED);
-		plot.getRenderer().setSeriesPaint(1, Color.GREEN);
-		plot.getRenderer().setSeriesPaint(2, Color.BLUE);
-		plot.getRenderer().setSeriesPaint(3, Color.YELLOW);
-
-		// Create the chart panel
-		final ChartPanel chartPanel = new DynamicChartPanel(chart, Charts.DEFAULT_DATE_FORMAT);
-
-		// Display
-		graph.setContentPane(chartPanel);
-		graph.setVisible(true);
-	}
-
-	protected void loadSeries(final String path) {
-		try {
-			final StringTable coordinates = new StringTable(path, true);
-			graph.load(coordinates, 0, 1, true);
-			graph.load(coordinates, 0, 2, true);
-		} catch (final IOException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
-			IO.error(ex);
+	/**
+	 * Sets the right {@link ComparableRedBlackTreeNode}.
+	 * <p>
+	 * @param rightNode a {@link ComparableRedBlackTreeNode} of types {@code K} and {@code V} (may
+	 *                  be {@code null})
+	 */
+	@Override
+	public void setRight(final ComparableRedBlackTreeNode<K, V> rightNode) {
+		right = rightNode;
+		if (right != null) {
+			right.isLeft = false;
+			right.parent = this;
 		}
 	}
 }

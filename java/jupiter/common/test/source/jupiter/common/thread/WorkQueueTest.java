@@ -53,7 +53,7 @@ public class WorkQueueTest
 		final WorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(
 				new SimpleWorker());
 
-		// Test
+		// Test the constants of the work queue
 		assertTrue(workQueue.minThreadCount <= workQueue.maxThreadCount);
 	}
 
@@ -76,11 +76,10 @@ public class WorkQueueTest
 		}
 		chrono.stop();
 
-		// Test
+		// Check the results
 		for (int i = 0; i < taskCount; ++i) {
 			assertTrue(results.contains(i));
 		}
-
 		return chrono.getMilliseconds();
 	}
 }

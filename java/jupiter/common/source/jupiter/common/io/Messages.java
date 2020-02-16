@@ -29,6 +29,7 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
 import jupiter.common.time.Dates;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Messages {
@@ -95,7 +96,7 @@ public class Messages {
 	}
 
 	public static String getSimpleClassName(final StackTraceElement stackTraceElement) {
-		final String className = stackTraceElement.getClassName();
+		final String className = Objects.getName(stackTraceElement);
 		return className.substring(className.lastIndexOf('.') + 1);
 	}
 

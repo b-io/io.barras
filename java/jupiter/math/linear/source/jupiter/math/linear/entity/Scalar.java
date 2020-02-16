@@ -128,7 +128,7 @@ public class Scalar
 	 */
 	@Override
 	public String getName() {
-		return getClass().getSimpleName();
+		return Objects.getName(this);
 	}
 
 	/**

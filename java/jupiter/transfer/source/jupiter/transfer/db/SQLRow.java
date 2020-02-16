@@ -47,6 +47,7 @@ import jupiter.common.util.Doubles;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
 import jupiter.transfer.file.JSON;
@@ -77,8 +78,8 @@ public abstract class SQLRow {
 		try {
 			constructor = getClass().getConstructor(ResultSet.class);
 		} catch (final NoSuchMethodException ex) {
-			IO.error("No constructor with ", ResultSet.class.getSimpleName(), " in ",
-					getClass().getSimpleName(), " found: ", ex);
+			IO.error("No constructor with ", Objects.getName(ResultSet.class), " in ",
+					Objects.getName(this), " found: ", ex);
 		}
 		load(resultSet);
 	}

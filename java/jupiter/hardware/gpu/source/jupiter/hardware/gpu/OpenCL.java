@@ -34,6 +34,7 @@ import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.StringArguments;
+import jupiter.common.util.Objects;
 
 public abstract class OpenCL
 		implements ICloneable<OpenCL>, Serializable {
@@ -378,6 +379,6 @@ public abstract class OpenCL
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName();
+		return Objects.getName(this);
 	}
 }

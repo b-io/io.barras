@@ -340,7 +340,7 @@ public abstract class DivideAndConquer<I>
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName();
+		return Objects.getName(this);
 	}
 
 

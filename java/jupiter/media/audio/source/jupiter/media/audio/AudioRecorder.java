@@ -44,9 +44,9 @@ import javax.swing.JOptionPane;
 import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.thread.Threads;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Strings;
+import jupiter.gui.swing.Swings;
 
 public class AudioRecorder
 		implements ICloneable<AudioRecorder>, Serializable {
@@ -81,7 +81,7 @@ public class AudioRecorder
 	protected final Condition lockCondition = lock.newCondition();
 
 	/**
-	 * The recording time in seconds.
+	 * The recording time (in seconds).
 	 */
 	protected Integer recordingTime = null;
 
@@ -156,46 +156,70 @@ public class AudioRecorder
 			@Override
 			public void run() {
 				try {
-					lock.lock();
-					try {
-						// Prompt to select the microphone
-						while (targetInterface == null || targetInterface.line == null) {
-							final ExtendedLinkedList<AudioTargetInterface> targetInterfaces = Audio.getTargetInterfaces();
-							if (targetInterfaces.isEmpty()) {
-								throw new IllegalStateException("No available microphone");
-							}
-							targetInterface = (AudioTargetInterface) JOptionPane.showInputDialog(
-									null, "Select the microphone:", "Microphone Selection",
-									JOptionPane.QUESTION_MESSAGE, null, targetInterfaces.toArray(),
-									targetInterfaces.getFirst());
-						}
+					// Prompt to select the microphone
+					selectMicrophone();
 
-						// Prompt to enter the recording time
-						while (recordingTime == null) {
-							recordingTime = Integer.parseInt(JOptionPane.showInputDialog(null,
-									"How many seconds do you want to record?", "Recording Time",
-									JOptionPane.QUESTION_MESSAGE)); // [s]
-						}
+					// Prompt to enter the recording time (in seconds)
+					enterRecordingTime();
 
-						// Start to record
-						lockCondition.signal();
-					} finally {
-						lock.unlock();
-					}
-					Threads.sleep(recordingTime * 1000L);
+					// Start recording
+					startRecording();
+
+					// Show the recording progress
+					Swings.showTimeProgressBar("Recording...", recordingTime * 1000);
 				} catch (final HeadlessException ex) {
 					IO.error("The environment does not support display", ex);
 				} catch (final NumberFormatException ex) {
 					IO.error("Cannot parse the recording time", ex);
 				} finally {
-					if (targetInterface != null && targetInterface.line != null) {
-						targetInterface.line.stop();
-					}
+					// Stop recording
+					stopRecording();
 				}
 			}
 		}.start();
 		return record();
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Starts recording.
+	 */
+	protected void startRecording() {
+		lock.lock();
+		try {
+			lockCondition.signal();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	/**
+	 * Stops recording.
+	 */
+	protected void stopRecording() {
+		if (targetInterface != null && targetInterface.line != null) {
+			targetInterface.line.stop();
+		}
+	}
+
+	/**
+	 * Waits until the fields are set.
+	 */
+	protected void waitUntilReady() {
+		lock.lock();
+		try {
+			while (targetInterface == null || targetInterface.line == null ||
+					recordingTime == null) {
+				lockCondition.await();
+			}
+		} catch (final InterruptedException ignored) {
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Records the audio and returns the WAV {@link File} containing the recording.
@@ -205,16 +229,10 @@ public class AudioRecorder
 	protected File record() {
 		File targetFile = null;
 		try {
-			lock.lock();
-			try {
-				while (targetInterface == null || targetInterface.line == null ||
-						recordingTime == null) {
-					lockCondition.await();
-				}
-			} catch (final InterruptedException ignored) {
-			} finally {
-				lock.unlock();
-			}
+			// Wait until the fields are set
+			waitUntilReady();
+
+			// Record with the microphone in the format to the target file
 			targetFile = record(targetInterface, format);
 		} finally {
 			if (targetInterface != null && targetInterface.line != null) {
@@ -229,6 +247,8 @@ public class AudioRecorder
 		}
 		return targetFile;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Records the audio with the specified {@link AudioTargetInterface} and returns the WAV
@@ -245,11 +265,11 @@ public class AudioRecorder
 	}
 
 	/**
-	 * Records the audio with the specified {@link AudioTargetInterface} to the specified
+	 * Records the audio with the specified {@link AudioTargetInterface} in the specified
 	 * {@link AudioFormat} and returns the WAV {@link File} containing the recording.
 	 * <p>
 	 * @param targetInterface the {@link AudioTargetInterface} to record with
-	 * @param format          the {@link AudioFormat} to record to
+	 * @param format          the {@link AudioFormat} to record in
 	 * <p>
 	 * @return the WAV {@link File} containing the recording
 	 */
@@ -273,11 +293,11 @@ public class AudioRecorder
 
 	/**
 	 * Records the audio with the specified {@link AudioTargetInterface} to the specified WAV
-	 * {@link File} and {@link AudioFormat}.
+	 * {@link File} and in the specified {@link AudioFormat}.
 	 * <p>
 	 * @param targetInterface the {@link AudioTargetInterface} to record with
 	 * @param targetFile      the WAV {@link File} to record to
-	 * @param format          the {@link AudioFormat} to record to
+	 * @param format          the {@link AudioFormat} to record in
 	 */
 	public static void record(final AudioTargetInterface targetInterface, final File targetFile,
 			final AudioFormat format) {
@@ -292,6 +312,38 @@ public class AudioRecorder
 			IO.error("Cannot open the microphone due to resource restrictions", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GUI
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prompts to select the {@link AudioTargetInterface}.
+	 */
+	protected void selectMicrophone() {
+		while (targetInterface == null || targetInterface.line == null) {
+			final ExtendedLinkedList<AudioTargetInterface> targetInterfaces = Audio.getTargetInterfaces();
+			if (targetInterfaces.isEmpty()) {
+				throw new IllegalStateException("No available microphone");
+			}
+			targetInterface = (AudioTargetInterface) JOptionPane.showInputDialog(
+					null, "Select the microphone:", "Microphone Selection",
+					JOptionPane.QUESTION_MESSAGE, null, targetInterfaces.toArray(),
+					targetInterfaces.getFirst());
+		}
+	}
+
+	/**
+	 * Prompts to enter the recording time (in seconds).
+	 */
+	protected void enterRecordingTime() {
+		while (recordingTime == null) {
+			recordingTime = Integer.parseInt(JOptionPane.showInputDialog(null,
+					"How many seconds do you want to record?", "Recording Time",
+					JOptionPane.QUESTION_MESSAGE)); // [s]
 		}
 	}
 
