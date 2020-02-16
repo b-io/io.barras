@@ -59,7 +59,7 @@ public class Formats {
 	/**
 	 * The default {@link Format}.
 	 */
-	public static volatile Format DEFAULT_FORMAT = new Format() {
+	public static final Format DEFAULT_FORMAT = new Format() {
 		/**
 		 * The generated serial version ID.
 		 */
@@ -83,17 +83,17 @@ public class Formats {
 	/**
 	 * The default {@link Charset}.
 	 */
-	public static volatile Charset DEFAULT_CHARSET = UTF8_CHARSET;
+	public static final Charset DEFAULT_CHARSET = UTF8_CHARSET;
 
 	/**
 	 * The default {@link Locale}.
 	 */
-	public static volatile Locale DEFAULT_LOCALE = Locale.getDefault();
+	public static final Locale DEFAULT_LOCALE = Locale.getDefault();
 
 	/**
 	 * The default length of a line (used by IO).
 	 */
-	public static volatile int DEFAULT_LINE_LENGTH = 72;
+	public static final int DEFAULT_LINE_LENGTH = 72;
 
 	//////////////////////////////////////////////
 

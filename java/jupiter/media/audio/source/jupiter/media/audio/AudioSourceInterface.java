@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2020 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,31 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.graphics.charts;
+package jupiter.media.audio;
 
-import static jupiter.common.io.IO.IO;
+import javax.sound.sampled.Mixer;
+import javax.sound.sampled.SourceDataLine;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.text.ParseException;
+public class AudioSourceInterface
+		extends AudioInterface {
 
-import jupiter.common.struct.table.StringTable;
-import jupiter.graphics.charts.panels.DynamicChartPanel;
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.XYPlot;
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
-public class Display {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link TimeSeriesGraphic}.
+	 * The {@link SourceDataLine}.
 	 */
-	protected final TimeSeriesGraphic graph;
+	protected final SourceDataLine line;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,59 +54,49 @@ public class Display {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Display}.
+	 * Constructs an {@link AudioInterface} with the specified name of the {@link Mixer},
+	 * {@link Mixer}, name of the {@link SourceDataLine} and {@link SourceDataLine}.
+	 * <p>
+	 * @param mixerName the name of the {@link Mixer}
+	 * @param mixer     the {@link Mixer}
+	 * @param lineName  the name of the {@link SourceDataLine}
+	 * @param line      the {@link SourceDataLine}
 	 */
-	public Display() {
-		graph = new TimeSeriesGraphic("Test Series", "Time", "Value");
+	public AudioSourceInterface(final String mixerName, final Mixer mixer, final String lineName,
+			final SourceDataLine line) {
+		super(mixerName, mixer, lineName);
+		this.line = line;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts displaying the chart.
+	 * Returns the {@link SourceDataLine}.
 	 * <p>
-	 * @param args the array of command line arguments
+	 * @return the {@link SourceDataLine}
 	 */
-	public static void main(final String[] args) {
-		final Display display = new Display();
-		display.loadSeries("test/resources/coordinates.csv");
-		display.plot();
+	@Override
+	public SourceDataLine getLine() {
+		return line;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void plot() {
-		// Create the chart
-		final JFreeChart chart = graph.createChart();
-		final XYPlot plot = chart.getXYPlot();
-		plot.getRenderer().setSeriesPaint(0, Color.RED);
-		plot.getRenderer().setSeriesPaint(1, Color.GREEN);
-		plot.getRenderer().setSeriesPaint(2, Color.BLUE);
-		plot.getRenderer().setSeriesPaint(3, Color.YELLOW);
-
-		// Create the chart panel
-		final ChartPanel chartPanel = new DynamicChartPanel(chart, Charts.DEFAULT_DATE_FORMAT);
-
-		// Display
-		graph.setContentPane(chartPanel);
-		graph.setVisible(true);
-	}
-
-	protected void loadSeries(final String path) {
-		try {
-			final StringTable coordinates = new StringTable(path, true);
-			graph.load(coordinates, 0, 1, true);
-			graph.load(coordinates, 0, 2, true);
-		} catch (final IOException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
-			IO.error(ex);
-		}
+	/**
+	 * Creates a copy of {@code this}.
+	 * <p>
+	 * @return a copy of {@code this}
+	 *
+	 * @see jupiter.common.model.ICloneable
+	 */
+	@Override
+	public AudioSourceInterface clone() {
+		return (AudioSourceInterface) super.clone();
 	}
 }

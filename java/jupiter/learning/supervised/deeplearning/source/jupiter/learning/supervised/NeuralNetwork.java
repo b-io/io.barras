@@ -247,8 +247,8 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Sets the default {@link ActivationFunction} {@code g} for all the hidden layers and
-	 * {@link RegularizationFunction} {@code r}.
+	 * Sets the {@link ActivationFunction} {@code g} for all the hidden layers and
+	 * {@link RegularizationFunction} {@code r} by default.
 	 */
 	protected void setDefaultFunctions() {
 		activationFunction = ActivationFunctions.TANH;

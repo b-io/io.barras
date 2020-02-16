@@ -839,25 +839,23 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the middle of the specified {@code long} value.
+	 * Returns the middle of the specified {@code long} value rounded down.
 	 * <p>
 	 * @param value a {@code long} value
 	 * <p>
-	 * @return the middle of the specified {@code long} value
+	 * @return the middle of the specified {@code long} value rounded down
 	 */
 	public static long middle(final long value) {
 		return middle(0L, value);
 	}
 
 	/**
-	 * Returns the middle of the specified lower and upper bounds rounded to the lower {@code long}
-	 * value.
+	 * Returns the middle of the specified lower and upper bounds rounded down.
 	 * <p>
 	 * @param lowerBound a {@code long} value
 	 * @param upperBound another {@code long} value
 	 * <p>
-	 * @return the middle of the specified lower and upper bounds rounded to the lower {@code long}
-	 *         value
+	 * @return the middle of the specified lower and upper bounds rounded down
 	 */
 	public static long middle(final long lowerBound, final long upperBound) {
 		return lowerBound + (upperBound - lowerBound) / 2L;
@@ -934,7 +932,7 @@ public class Longs {
 	/**
 	 * Returns the transpose of the specified {@code long} array.
 	 * <p>
-	 * @param rowCount the number of rows of the array
+	 * @param rowCount the number of rows of the {@code long} array
 	 * @param array    a {@code long} array
 	 * <p>
 	 * @return the transpose of the specified {@code long} array

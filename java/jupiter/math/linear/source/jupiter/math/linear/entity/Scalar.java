@@ -66,7 +66,7 @@ public class Scalar
 	protected final boolean isReadOnly;
 
 	/**
-	 * The value.
+	 * The {@code double} value.
 	 */
 	protected double value;
 
@@ -75,10 +75,18 @@ public class Scalar
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Scalar} with zero.
+	 */
 	public Scalar() {
 		this(0.);
 	}
 
+	/**
+	 * Constructs a {@link Scalar} with the specified value.
+	 * <p>
+	 * @param value the {@code double} value
+	 */
 	public Scalar(final double value) {
 		this.value = value;
 		isReadOnly = false;
@@ -86,10 +94,23 @@ public class Scalar
 
 	//////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Scalar} with zero and the flag specifying whether {@code this} is
+	 * read-only.
+	 * <p>
+	 * @param isReadOnly the flag specifying whether {@code this} is read-only
+	 */
 	public Scalar(final boolean isReadOnly) {
 		this(0., isReadOnly);
 	}
 
+	/**
+	 * Constructs a {@link Scalar} with the specified value and the flag specifying whether
+	 * {@code this} is read-only.
+	 * <p>
+	 * @param value      the {@code double} value
+	 * @param isReadOnly the flag specifying whether {@code this} is read-only
+	 */
 	public Scalar(final double value, final boolean isReadOnly) {
 		this.value = value;
 		this.isReadOnly = isReadOnly;
@@ -111,9 +132,9 @@ public class Scalar
 	}
 
 	/**
-	 * Returns the dimensions.
+	 * Returns the {@link Dimensions}.
 	 * <p>
-	 * @return the dimensions
+	 * @return the {@link Dimensions}
 	 */
 	@Override
 	public Dimensions getDimensions() {
@@ -121,9 +142,9 @@ public class Scalar
 	}
 
 	/**
-	 * Returns the value.
+	 * Returns the {@code double} value.
 	 * <p>
-	 * @return the value
+	 * @return the {@code double} value
 	 */
 	public double get() {
 		return value;
@@ -135,7 +156,7 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the value.
+	 * Sets the {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
 	 */
@@ -256,14 +277,14 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified {@code double} value.
+	 * Fills {@code this} with the specified constant.
 	 * <p>
-	 * @param value the {@code double} value to fill with
+	 * @param constant the {@code double} constant to fill with
 	 */
 	@Override
-	public void fill(final double value) {
+	public void fill(final double constant) {
 		if (!isReadOnly) {
-			this.value = value;
+			this.value = constant;
 		} else {
 			throw new IllegalOperationException(
 					"Cannot change the value of a read-only " + getName());

@@ -306,7 +306,7 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array.
 	 * <p>
-	 * @param array an array
+	 * @param array an array of {@link Object}
 	 * <p>
 	 * @return a representative {@link String} of the specified array
 	 */
@@ -1386,7 +1386,7 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array.
 	 * <p>
-	 * @param array an array (may be {@code null})
+	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified array
 	 */
@@ -1397,7 +1397,7 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}.
 	 * <p>
-	 * @param array     an array (may be {@code null})
+	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
@@ -1409,7 +1409,7 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array   an array (may be {@code null})
+	 * @param array   an array of {@link Object} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array wrapped by {@code wrapper}
@@ -1422,7 +1422,7 @@ public class Arrays {
 	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
 	 * and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array (may be {@code null})
+	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>

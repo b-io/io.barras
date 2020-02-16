@@ -156,7 +156,7 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link JConsole}.
+	 * Constructs a {@link JConsole} by default.
 	 */
 	public JConsole() {
 		this(null, null);
@@ -401,12 +401,39 @@ public class JConsole
 	// CURSOR
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void setWaitFeedback(final boolean enable) {
-		if (enable) {
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		} else {
-			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		}
+	/**
+	 * Sets the cursor image to the specified predefined cursor.
+	 */
+	public void setCursor(final int type) {
+		setCursor(Cursor.getPredefinedCursor(type));
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined default cursor.
+	 */
+	public void setCursor() {
+		setCursor(Cursor.DEFAULT_CURSOR);
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined crosshair cursor.
+	 */
+	public void setCursorToCrosshair() {
+		setCursor(Cursor.CROSSHAIR_CURSOR);
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined text cursor.
+	 */
+	public void setCursorToText() {
+		setCursor(Cursor.TEXT_CURSOR);
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined wait cursor.
+	 */
+	public void setCursorToWait() {
+		setCursor(Cursor.WAIT_CURSOR);
 	}
 
 
@@ -463,7 +490,7 @@ public class JConsole
 			outPipe.write(Strings.toUnicode(line).getBytes(DEFAULT_CHARSET.name()));
 			outPipe.flush();
 		} catch (final IOException ex) {
-			throw new IllegalStateException("Unable to write in the console", ex);
+			throw new IllegalStateException("Cannot write in the console", ex);
 		}
 		//textPane.repaint();
 	}

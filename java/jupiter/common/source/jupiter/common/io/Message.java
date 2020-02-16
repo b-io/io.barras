@@ -51,7 +51,7 @@ public class Message
 	/**
 	 * The default stack index.
 	 */
-	public static volatile int DEFAULT_STACK_INDEX = 3;
+	public static final int DEFAULT_STACK_INDEX = 3;
 	/**
 	 * The stack index offset.
 	 */

@@ -971,7 +971,7 @@ public class Floats {
 	/**
 	 * Returns the transpose of the specified {@code float} array.
 	 * <p>
-	 * @param rowCount the number of rows of the array
+	 * @param rowCount the number of rows of the {@code float} array
 	 * @param array    a {@code float} array
 	 * <p>
 	 * @return the transpose of the specified {@code float} array

@@ -58,18 +58,18 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The minimum {@link Dimension} of the chart panels.
+	 * The default minimum {@link Dimension} of the chart panels.
 	 */
-	protected static final Dimension MIN_DIMENSION = new Dimension(960, 600); // 13.5"
+	public static final Dimension DEFAULT_MIN_SIZE = new Dimension(960, 600); // 13.5"
 	/**
-	 * The preferred {@link Dimension} of the chart panels.
+	 * The default preferred {@link Dimension} of the chart panels.
 	 */
-	protected static final Dimension DIMENSION = new Dimension(1920, 1200); // 27"
+	public static final Dimension DEFAULT_PREFERRED_SIZE = new Dimension(1920, 1200); // 27"
 
 	/**
-	 * The {@link DateFormat}.
+	 * The default {@link DateFormat} of the x-axis.
 	 */
-	public static volatile DateFormat DATE_FORMAT = new SafeDateFormat("dd/MM/YY HH:mm");
+	public static final DateFormat DEFAULT_DATE_FORMAT = new SafeDateFormat("dd/MM/YY HH:mm");
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,18 +102,35 @@ public class Charts {
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the parameters of the specified {@link Component} by default.
+	 * <p>
+	 * @param component the {@link Component} to set
+	 */
 	public static void setDefaultParameters(final Component component) {
 		setSizes(component);
 	}
 
+	/**
+	 * Sets the minimum and preferred sizes of the specified {@link Component} by default.
+	 * <p>
+	 * @param component the {@link Component} to set
+	 */
 	public static void setSizes(final Component component) {
-		setSizes(component, MIN_DIMENSION, DIMENSION);
+		setSizes(component, DEFAULT_MIN_SIZE, DEFAULT_PREFERRED_SIZE);
 	}
 
-	public static void setSizes(final Component component, final Dimension minDimension,
-			final Dimension dimension) {
-		component.setMinimumSize(minDimension);
-		component.setPreferredSize(dimension);
+	/**
+	 * Sets the minimum and preferred sizes of the specified {@link Component}.
+	 * <p>
+	 * @param component     the {@link Component} to set
+	 * @param minSize       a minimum {@link Dimension}
+	 * @param preferredSize a preferred {@link Dimension}
+	 */
+	public static void setSizes(final Component component, final Dimension minSize,
+			final Dimension preferredSize) {
+		component.setMinimumSize(minSize);
+		component.setPreferredSize(preferredSize);
 	}
 
 
@@ -192,7 +209,7 @@ public class Charts {
 	 */
 	public static JFreeChart createTimeSeriesChart(final String title, final String xLabel,
 			final String yLabel, final XYDataset dataset) {
-		return createTimeSeriesChart(title, xLabel, yLabel, dataset, DATE_FORMAT);
+		return createTimeSeriesChart(title, xLabel, yLabel, dataset, DEFAULT_DATE_FORMAT);
 	}
 
 	/**
@@ -311,7 +328,7 @@ public class Charts {
 	/**
 	 * Sets up the specified {@link XYPlot}.
 	 * <p>
-	 * @param plot a {@link XYPlot}
+	 * @param plot the {@link XYPlot} to set up
 	 */
 	public static void setUpPlot(final XYPlot plot) {
 		// Set the orientation

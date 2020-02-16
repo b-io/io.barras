@@ -468,7 +468,7 @@ public class FTPHandler
 								if (ftp.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
-									IO.error("Unable to download the file ",
+									IO.error("Cannot download the file ",
 											Strings.quote(remotePath), " to ",
 											Strings.quote(localPath));
 								}
@@ -543,7 +543,7 @@ public class FTPHandler
 								if (ftps.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
-									IO.error("Unable to download the file ",
+									IO.error("Cannot download the file ",
 											Strings.quote(remotePath), " to ",
 											Strings.quote(localPath));
 								}
@@ -713,7 +713,7 @@ public class FTPHandler
 								if (ftp.storeFile(remotePath, input)) {
 									++uploadedFileCount;
 								} else {
-									IO.error("Unable to upload the file ", Strings.quote(file),
+									IO.error("Cannot upload the file ", Strings.quote(file),
 											" to ", Strings.quote(remotePath));
 								}
 							} finally {
@@ -785,7 +785,7 @@ public class FTPHandler
 								if (ftps.storeFile(remotePath, input)) {
 									++uploadedFileCount;
 								} else {
-									IO.error("Unable to upload the file ", Strings.quote(file),
+									IO.error("Cannot upload the file ", Strings.quote(file),
 											" to ", Strings.quote(remotePath));
 								}
 							} finally {
@@ -856,7 +856,7 @@ public class FTPHandler
 						sftp.put(input, fileName);
 						++uploadedFileCount;
 					} catch (final FileNotFoundException ex) {
-						IO.error("Unable to upload the file ", Strings.quote(file), " to ",
+						IO.error("Cannot upload the file ", Strings.quote(file), " to ",
 								Strings.quote(remotePath), ": ", ex);
 					} finally {
 						Resources.close(input);

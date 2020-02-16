@@ -252,7 +252,7 @@ public class SpeedChecker {
 									DECIMAL_FORMAT.format(speed), " [Mbits/s]"));
 				} catch (final IOException ex) {
 					return new Result<Double>(0.,
-							IO.error("Unable to transfer the file ", Strings.quote(urlName), " to ",
+							IO.error("Cannot transfer the file ", Strings.quote(urlName), " to ",
 									Strings.quote(Files.getCanonicalPath(targetFile)), ": ", ex));
 				} finally {
 					Resources.close(inputChannel);

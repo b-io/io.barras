@@ -793,7 +793,7 @@ public class Booleans {
 	/**
 	 * Returns the transpose of the specified {@code boolean} array.
 	 * <p>
-	 * @param rowCount the number of rows of the array
+	 * @param rowCount the number of rows of the {@code boolean} array
 	 * @param array    a {@code boolean} array
 	 * <p>
 	 * @return the transpose of the specified {@code boolean} array

@@ -72,7 +72,7 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ConsoleHandler}.
+	 * Constructs a {@link ConsoleHandler} by default.
 	 */
 	public ConsoleHandler() {
 		super();
@@ -152,7 +152,8 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} in the console with the specified standard type.
+	 * Prints the specified content {@link Object} in the output console (or in the error console if
+	 * {@code isError}).
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
@@ -172,8 +173,8 @@ public class ConsoleHandler
 	}
 
 	/**
-	 * Prints the specified content {@link Object} in the console with the specified standard type
-	 * and terminates the line.
+	 * Prints the specified content {@link Object} in the output console (or in the error console if
+	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
@@ -184,7 +185,7 @@ public class ConsoleHandler
 		// Check the arguments
 		Arguments.requireNotNull(content, "content");
 
-		// Print the content
+		// Print the content and terminate the line
 		final PrintStream printStream = isError ? console.getErr() : console.getOut();
 		String text = Strings.toString(content);
 		if (USE_COLORS && isError && Color.parse(text) == null) {

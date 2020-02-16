@@ -75,41 +75,45 @@ public class Vector
 		isTransposed = transpose;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Constructs a constant {@link Vector} with the specified number of elements and value.
+	 * Constructs a constant {@link Vector} with the specified number of elements and constant.
 	 * <p>
 	 * @param dimension the number of elements
-	 * @param value     a {@code double} value
+	 * @param constant  the {@code double} constant
 	 */
-	public Vector(final int dimension, final double value) {
-		this(dimension, value, false);
+	public Vector(final int dimension, final double constant) {
+		this(dimension, constant, false);
 	}
 
 	/**
-	 * Constructs a constant {@link Vector} with the specified number of elements and value.
+	 * Constructs a constant {@link Vector} with the specified number of elements and constant.
 	 * <p>
 	 * @param dimension the number of elements
-	 * @param value     a {@code double} value
+	 * @param constant  the {@code double} constant
 	 * @param transpose the flag specifying whether to transpose
 	 */
-	public Vector(final int dimension, final double value, final boolean transpose) {
-		super(transpose ? 1 : dimension, transpose ? dimension : 1, value);
+	public Vector(final int dimension, final double constant, final boolean transpose) {
+		super(transpose ? 1 : dimension, transpose ? dimension : 1, constant);
 		isTransposed = transpose;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Constructs a {@link Vector} with the specified {@code double} values.
+	 * Constructs a {@link Vector} with the specified values.
 	 * <p>
-	 * @param values a {@code double} array
+	 * @param values the values of the elements in a {@code double} array
 	 */
 	public Vector(final double... values) {
 		this(values, false);
 	}
 
 	/**
-	 * Constructs a {@link Vector} with the specified {@code double} values.
+	 * Constructs a {@link Vector} with the specified values.
 	 * <p>
-	 * @param values    a {@code double} array
+	 * @param values    the values of the elements in a {@code double} array
 	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final double[] values, final boolean transpose) {
@@ -118,21 +122,21 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a {@link Vector} with the specified elements.
+	 * Constructs a {@link Vector} with the specified values.
 	 * <p>
-	 * @param elements a 2D {@code double} array
+	 * @param values the values of the elements in a 2D {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if {@code elements} is not one-dimensional
 	 */
-	public Vector(final double[]... elements) {
-		super(elements);
-		if (elements.length == 1) {
+	public Vector(final double[]... values) {
+		super(values);
+		if (values.length == 1) {
 			isTransposed = true;
-		} else if (elements[0].length == 1) {
+		} else if (values[0].length == 1) {
 			isTransposed = false;
 		} else {
 			throw new IllegalArgumentException("The specified 2D array of dimensions " +
-					new Dimensions(elements.length, elements[0].length) +
+					new Dimensions(values.length, values[0].length) +
 					" is not one-dimensional");
 		}
 	}
@@ -298,13 +302,13 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified {@code double} value.
+	 * Fills {@code this} with the specified constant.
 	 * <p>
-	 * @param value the {@code double} value to fill with
+	 * @param constant the {@code double} constant to fill with
 	 */
 	@Override
-	public void fill(final double value) {
-		Doubles.fill(elements, value);
+	public void fill(final double constant) {
+		Doubles.fill(elements, constant);
 	}
 
 

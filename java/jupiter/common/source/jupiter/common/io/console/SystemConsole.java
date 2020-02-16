@@ -63,7 +63,7 @@ public class SystemConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SystemConsole}.
+	 * Constructs a {@link SystemConsole} by default.
 	 */
 	public SystemConsole() {
 		charset = Charset.defaultCharset();

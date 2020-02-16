@@ -89,88 +89,88 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the specified parameter of the specified {@link PreparedStatement} at the specified
-	 * index.
+	 * Sets the parameter at the specified index in the specified {@link PreparedStatement} to the
+	 * specified value.
 	 * <p>
-	 * @param statement a {@link PreparedStatement}
+	 * @param statement the {@link PreparedStatement} containing the parameter to set
 	 * @param index     the index of the parameter to set
-	 * @param parameter the parameter to set
+	 * @param value     an {@link Object}
 	 * <p>
 	 * @throws SQLException if {@code index} does not correspond to a parameter marker in
 	 *                      {@code statement}, if a database access error occurs or if this method
 	 *                      is called on a closed {@link PreparedStatement}
 	 */
 	public static void setParameter(final PreparedStatement statement, final int index,
-			final Object parameter)
+			final Object value)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNotNull(statement, "statement");
-		Arguments.requireNotNull(parameter, "parameter");
+		Arguments.requireNotNull(value, "value");
 
 		// Set the parameter of the SQL statement at the index
-		final Class<?> c = parameter.getClass();
+		final Class<?> c = value.getClass();
 		if (Array.class.isAssignableFrom(c)) {
-			statement.setArray(index, (Array) parameter);
+			statement.setArray(index, (Array) value);
 		} else if (BigDecimal.class.isAssignableFrom(c)) {
-			statement.setBigDecimal(index, (BigDecimal) parameter);
+			statement.setBigDecimal(index, (BigDecimal) value);
 		} else if (Blob.class.isAssignableFrom(c)) {
-			statement.setBlob(index, (Blob) parameter);
+			statement.setBlob(index, (Blob) value);
 		} else if (Booleans.is(c)) {
-			statement.setBoolean(index, (Boolean) parameter);
+			statement.setBoolean(index, (Boolean) value);
 		} else if (Bytes.is(c)) {
-			statement.setByte(index, (Byte) parameter);
+			statement.setByte(index, (Byte) value);
 		} else if (Bytes.isPrimitiveArray(c)) {
-			statement.setBytes(index, (byte[]) parameter);
+			statement.setBytes(index, (byte[]) value);
 		} else if (Clob.class.isAssignableFrom(c)) {
-			statement.setClob(index, (Clob) parameter);
+			statement.setClob(index, (Clob) value);
 		} else if (Dates.is(c)) {
-			final java.util.Date date = (java.util.Date) parameter;
+			final java.util.Date date = (java.util.Date) value;
 			if (Dates.hasTime(date)) {
 				statement.setTimestamp(index, toSQLTimestamp(date));
 			} else {
 				statement.setDate(index, toSQLDate(date));
 			}
 		} else if (Doubles.is(c)) {
-			statement.setDouble(index, (Double) parameter);
+			statement.setDouble(index, (Double) value);
 		} else if (Floats.is(c)) {
-			statement.setFloat(index, (Float) parameter);
+			statement.setFloat(index, (Float) value);
 		} else if (Integers.is(c)) {
-			statement.setInt(index, (Integer) parameter);
+			statement.setInt(index, (Integer) value);
 		} else if (Longs.is(c)) {
-			statement.setLong(index, (Long) parameter);
+			statement.setLong(index, (Long) value);
 		} else if (Shorts.is(c)) {
-			statement.setShort(index, (Short) parameter);
+			statement.setShort(index, (Short) value);
 		} else if (Strings.is(c)) {
-			statement.setString(index, (String) parameter);
+			statement.setString(index, (String) value);
 		} else if (Time.class.isAssignableFrom(c)) {
-			statement.setTime(index, (Time) parameter);
+			statement.setTime(index, (Time) value);
 		} else if (Timestamp.class.isAssignableFrom(c)) {
-			statement.setTimestamp(index, (Timestamp) parameter);
+			statement.setTimestamp(index, (Timestamp) value);
 		} else if (URL.class.isAssignableFrom(c)) {
-			statement.setURL(index, (URL) parameter);
+			statement.setURL(index, (URL) value);
 		} else {
 			throw new IllegalClassException(c);
 		}
 	}
 
 	/**
-	 * Sets the specified parameters of the specified {@link PreparedStatement}.
+	 * Sets the parameters of the specified {@link PreparedStatement}.
 	 * <p>
-	 * @param statement  a {@link PreparedStatement}
-	 * @param parameters the array of parameters to set (may be {@code null})
+	 * @param statement the {@link PreparedStatement} containing the parameters to set
+	 * @param values    an array of {@link Object} (may be {@code null})
 	 * <p>
 	 * @throws SQLException if the {@code parameters} length is greater than the number of parameter
 	 *                      markers in {@code statement}, if a database access error occurs or if
 	 *                      this method is called on a closed {@link PreparedStatement}
 	 */
-	public static void setParameters(final PreparedStatement statement, final Object... parameters)
+	public static void setParameters(final PreparedStatement statement, final Object... values)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(parameters, "parameters");
+		Arguments.requireNotNull(values, "values");
 
 		// Set the parameters of the SQL statement
 		int index = 1;
-		for (final Object parameter : parameters) {
+		for (final Object parameter : values) {
 			setParameter(statement, index++, parameter);
 		}
 	}

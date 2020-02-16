@@ -86,9 +86,9 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile int DEFAULT_INITIAL_CAPACITY = 15;
+	public static final int DEFAULT_INITIAL_CAPACITY = 15;
 
-	public static volatile char DEFAULT_PROGRESS_CHARACTER = '-';
+	public static final char DEFAULT_PROGRESS_CHARACTER = '-';
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -390,11 +390,9 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link String} bar of the default length with the default progress {@code char}
-	 * symbol.
+	 * Creates a {@link String} bar by default.
 	 * <p>
-	 * @return a {@link String} bar of the default length with the default progress {@code char}
-	 *         symbol
+	 * @return a {@link String} bar by default
 	 */
 	public static String createBar() {
 		return createBar(DEFAULT_LINE_LENGTH, DEFAULT_PROGRESS_CHARACTER);
@@ -729,7 +727,7 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array.
 	 * <p>
-	 * @param array an array (may be {@code null})
+	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified array
 	 */
@@ -775,12 +773,12 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by the default
+	 * Returns a representative {@link String} of the specified array joined by
 	 * {@link Arrays#DELIMITER}.
 	 * <p>
 	 * @param array an array
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by the default
+	 * @return a representative {@link String} of the specified array joined by
 	 *         {@link Arrays#DELIMITER}
 	 */
 	public static String joinWith(final Object[] array) {
@@ -802,7 +800,7 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}.
 	 * <p>
-	 * @param array     an array (may be {@code null})
+	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
@@ -830,13 +828,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by the default
+	 * Returns a representative {@link String} of the specified array joined by
 	 * {@link Arrays#DELIMITER} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array   an array
 	 * @param wrapper an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by the default
+	 * @return a representative {@link String} of the specified array joined by
 	 *         {@link Arrays#DELIMITER} and wrapped by {@code wrapper}
 	 */
 	public static String joinWith(final Object[] array, final ObjectToStringMapper wrapper) {
@@ -863,7 +861,7 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
 	 * and wrapped by {@code wrapper}.
 	 * <p>
-	 * @param array     an array (may be {@code null})
+	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
@@ -3223,12 +3221,12 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around the default {@link Arrays#DELIMITER}.
+	 * specified {@link String} around {@link Arrays#DELIMITER}.
 	 * <p>
 	 * @param text a {@link String}
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around the default {@link Arrays#DELIMITER}
+	 *         specified {@link String} around {@link Arrays#DELIMITER}
 	 */
 	public static ExtendedLinkedList<String> split(final String text) {
 		// Check the arguments

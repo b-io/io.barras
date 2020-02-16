@@ -59,29 +59,29 @@ public abstract class Classifier
 	/**
 	 * The default learning rate {@code α}.
 	 */
-	public static volatile double DEFAULT_LEARNING_RATE = 0.1;
+	public static final double DEFAULT_LEARNING_RATE = 0.1;
 
 	/**
 	 * The default exponential decay rate for the first-moment estimates {@code β1} (Adam
 	 * algorithm).
 	 */
-	public static volatile double DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE = 0.9;
+	public static final double DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE = 0.9;
 
 	/**
 	 * The default exponential decay rate for the second-moment estimates {@code β2} (Adam
 	 * algorithm).
 	 */
-	public static volatile double DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE = 0.999;
+	public static final double DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE = 0.999;
 
 	/**
 	 * The default tolerance level (or termination criterion) {@code ε}.
 	 */
-	public static volatile double DEFAULT_TOLERANCE = 1E-8;
+	public static final double DEFAULT_TOLERANCE = 1E-8;
 
 	/**
 	 * The default maximum number of iterations.
 	 */
-	public static volatile int DEFAULT_MAX_ITERATIONS = Integers.convert(1E6);
+	public static final int DEFAULT_MAX_ITERATIONS = Integers.convert(1E6);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

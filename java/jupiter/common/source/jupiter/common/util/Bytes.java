@@ -1211,7 +1211,7 @@ public class Bytes {
 	/**
 	 * Returns the transpose of the specified {@code byte} array.
 	 * <p>
-	 * @param rowCount the number of rows of the array
+	 * @param rowCount the number of rows of the {@code byte} array
 	 * @param array    a {@code byte} array
 	 * <p>
 	 * @return the transpose of the specified {@code byte} array

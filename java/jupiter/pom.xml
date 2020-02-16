@@ -28,6 +28,7 @@
 		<module>learning</module>
 		<module>log</module>
 		<module>math</module>
+		<module>media</module>
 		<module>mobile</module>
 		<module>network</module>
 		<module>security</module>

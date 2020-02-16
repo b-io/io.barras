@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2020 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,14 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.lang.r;
+package jupiter.media.audio;
 
-import jupiter.common.thread.WorkQueue;
-import jupiter.common.thread.Worker;
-import jupiter.lang.r.R.RPrinter;
+import static jupiter.common.util.Characters.COLON;
+import static jupiter.common.util.Characters.SPACE;
 
-public class RWorker
-		extends Worker<String[], Integer> {
+import java.io.Serializable;
+
+import javax.sound.sampled.Line;
+import javax.sound.sampled.Mixer;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Strings;
+
+public abstract class AudioInterface
+		implements ICloneable<AudioInterface>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -45,9 +52,18 @@ public class RWorker
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link RPrinter}.
+	 * The name of the {@link Mixer}.
 	 */
-	protected final RPrinter printer;
+	protected final String mixerName;
+	/**
+	 * The {@link Mixer}.
+	 */
+	protected final Mixer mixer;
+
+	/**
+	 * The name of the {@link Line}.
+	 */
+	protected final String lineName;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,46 +71,59 @@ public class RWorker
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RWorker} by default.
-	 */
-	public RWorker() {
-		this(R.DEFAULT_PRINTER);
-	}
-
-	/**
-	 * Constructs a {@link RWorker} with the specified {@link RPrinter}.
+	 * Constructs an {@link AudioInterface} with the specified name of the {@link Mixer},
+	 * {@link Mixer}, name of the {@link Line} and {@link Line}.
 	 * <p>
-	 * @param printer the {@link RPrinter}
+	 * @param mixerName the name of the {@link Mixer}
+	 * @param mixer     the {@link Mixer}
+	 * @param lineName  the name of the {@link Line}
 	 */
-	public RWorker(final RPrinter printer) {
-		this.printer = printer;
+	public AudioInterface(final String mixerName, final Mixer mixer, final String lineName) {
+		this.mixerName = mixerName;
+		this.mixer = mixer;
+		this.lineName = lineName;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@link WorkQueue}.
+	 * Returns the name of the {@link Mixer}.
 	 * <p>
-	 * @param workQueue a {@link WorkQueue} of array of {@link String} and {@link Integer}
+	 * @return the name of the {@link Mixer}
 	 */
-	@Override
-	public void setWorkQueue(final WorkQueue<String[], Integer> workQueue) {
-		super.setWorkQueue(workQueue);
-		printer.setWorkQueueToMonitor(workQueue);
+	public String getMixerName() {
+		return mixerName;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Integer call(final String[] script) {
-		return R.executeScript(printer, script);
+	/**
+	 * Returns the {@link Mixer}.
+	 * <p>
+	 * @return the {@link Mixer}
+	 */
+	public Mixer getMixer() {
+		return mixer;
 	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the name of the {@link Line}.
+	 * <p>
+	 * @return the name of the {@link Line}
+	 */
+	public String getLineName() {
+		return lineName;
+	}
+
+	/**
+	 * Returns the {@link Line}.
+	 * <p>
+	 * @return the {@link Line}
+	 */
+	public abstract Line getLine();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +138,23 @@ public class RWorker
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public RWorker clone() {
-		return new RWorker(printer);
+	public AudioInterface clone() {
+		try {
+			return (AudioInterface) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Strings.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
+	@Override
+	public String toString() {
+		return mixerName + COLON + SPACE + lineName;
 	}
 }

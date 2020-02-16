@@ -56,8 +56,7 @@ public class ExtendedLinkedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedLinkedList} of element type {@code E} with the default
-	 * initial capacity.
+	 * Constructs an empty {@link ExtendedLinkedList} of element type {@code E}.
 	 */
 	public ExtendedLinkedList() {
 	}

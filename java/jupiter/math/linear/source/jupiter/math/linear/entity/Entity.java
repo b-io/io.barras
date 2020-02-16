@@ -57,9 +57,9 @@ public abstract class Entity
 	public abstract String getName();
 
 	/**
-	 * Returns the {@link Dimensions} of {@code this}.
+	 * Returns the {@link Dimensions}.
 	 * <p>
-	 * @return the {@link Dimensions} of {@code this}
+	 * @return the {@link Dimensions}
 	 */
 	public abstract Dimensions getDimensions();
 
@@ -144,11 +144,11 @@ public abstract class Entity
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified {@code double} value.
+	 * Fills {@code this} with the specified constant.
 	 * <p>
-	 * @param value the {@code double} value to fill with
+	 * @param constant the {@code double} constant to fill with
 	 */
-	public abstract void fill(final double value);
+	public abstract void fill(final double constant);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

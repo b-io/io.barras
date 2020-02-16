@@ -69,6 +69,9 @@ public abstract class Graphic
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the parameters by default.
+	 */
 	public void setDefaultParameters() {
 		Charts.setSizes(this);
 	}

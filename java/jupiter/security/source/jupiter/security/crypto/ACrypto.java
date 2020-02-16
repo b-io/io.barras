@@ -70,7 +70,7 @@ public class ACrypto
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ACrypto}.
+	 * Constructs an {@link ACrypto} by default.
 	 */
 	public ACrypto() {
 		this(CipherMethod.RSA);

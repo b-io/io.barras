@@ -58,7 +58,7 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link WholeNumber} with the specified {@code long} value.
+	 * Constructs a {@link WholeNumber} with the specified value.
 	 * <p>
 	 * @param value the {@code long} value
 	 */
@@ -100,9 +100,9 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the middle of the {@code long} value rounded to the lower {@code long} value.
+	 * Returns the middle of {@code this} rounded down.
 	 * <p>
-	 * @return the middle of the {@code long} value rounded to the lower {@code long} value
+	 * @return the middle of {@code this} rounded down
 	 */
 	public long middle() {
 		return Longs.middle(value);

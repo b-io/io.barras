@@ -73,7 +73,8 @@ public abstract class IOHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} in the specified standard type.
+	 * Prints the specified content {@link Object} in the standard output (or in the standard error
+	 * if {@code isError}).
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -82,8 +83,8 @@ public abstract class IOHandler
 	public abstract void print(final Object content, final boolean isError);
 
 	/**
-	 * Prints the specified content {@link Object} in the specified standard type and terminates the
-	 * line.
+	 * Prints the specified content {@link Object} in the standard output (or in the standard error
+	 * if {@code isError}) and terminates the line.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -92,7 +93,8 @@ public abstract class IOHandler
 	public abstract void println(final Object content, final boolean isError);
 
 	/**
-	 * Prints the specified {@link Message} in the specified standard type and terminates the line.
+	 * Prints the specified {@link Message} in the standard output (or in the standard error if
+	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param message the {@link Message} to print
 	 */
@@ -101,8 +103,8 @@ public abstract class IOHandler
 	}
 
 	/**
-	 * Prints the specified {@link InputStream} in the specified standard type and terminates the
-	 * line.
+	 * Prints the specified {@link InputStream} in the standard output (or in the standard error if
+	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param input   the {@link InputStream} of the data to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -113,8 +115,8 @@ public abstract class IOHandler
 	}
 
 	/**
-	 * Prints the specified {@link InputStream} in the specified standard type and terminates the
-	 * line.
+	 * Prints the specified {@link InputStream} in the standard output (or in the standard error if
+	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param input   the {@link InputStream} of the data to print
 	 * @param charset the {@link Charset} of the data to print

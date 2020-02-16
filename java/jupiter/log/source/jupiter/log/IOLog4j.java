@@ -121,10 +121,18 @@ public class IOLog4j
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the path to the configuration file by default.
+	 */
 	public static void setConfigurationPath() {
 		setConfigurationPath("log4j.properties");
 	}
 
+	/**
+	 * Sets the path to the configuration file.
+	 * <p>
+	 * @param fileName a {@link String}
+	 */
 	public static void setConfigurationPath(final String fileName) {
 		try {
 			final File log4j = new File(Files.getPath() + File.separator + fileName);

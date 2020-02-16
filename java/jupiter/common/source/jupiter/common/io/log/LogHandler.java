@@ -100,7 +100,7 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link LogHandler}.
+	 * Constructs a {@link LogHandler} by default.
 	 */
 	public LogHandler() {
 		this(DEFAULT_LOG_DIR);
@@ -221,8 +221,8 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Appends the specified content {@link Object} to the line buffer with the specified standard
-	 * type.
+	 * Appends the specified content {@link Object} to the output line buffer (or to the error line
+	 * buffer if {@code isError}).
 	 * <b>Note:</b> The line buffer is written to the log when either {@code println} or
 	 * {@code flush} is called.
 	 * <p>
@@ -234,12 +234,13 @@ public class LogHandler
 		// Check the arguments
 		Arguments.requireNotNull(content, "content");
 
-		// Update the log line
-		updateLogLine(content, isError);
+		// Print the content
+		appendToLogLine(content, isError);
 	}
 
 	/**
-	 * Writes the specified content {@link Object} to the log with the specified standard type.
+	 * Appends the specified content {@link Object} to the output line buffer (or to the error line
+	 * buffer if {@code isError}) and flushes it.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
@@ -249,12 +250,12 @@ public class LogHandler
 		// Check the arguments
 		Arguments.requireNotNull(content, "content");
 
-		// Print the content
+		// Print the content and terminate the line
 		if (isError) {
 			errorLogLock.lock();
 			try {
 				createDirs();
-				updateLogLine(content, isError);
+				appendToLogLine(content, isError);
 				flush(isError);
 			} catch (final IOException ex) {
 				IO.error(ex);
@@ -265,7 +266,7 @@ public class LogHandler
 			outputLogLock.lock();
 			try {
 				createDirs();
-				updateLogLine(content, isError);
+				appendToLogLine(content, isError);
 				flush(isError);
 			} catch (final IOException ex) {
 				IO.error(ex);
@@ -277,7 +278,7 @@ public class LogHandler
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected void updateLogLine(final Object content, final boolean isError) {
+	protected void appendToLogLine(final Object content, final boolean isError) {
 		if (isError) {
 			errorLineBuilder.append(content);
 		} else {

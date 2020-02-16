@@ -70,7 +70,7 @@ public class ReservedThreadPoolExecutor
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ReservedThreadPoolExecutor}.
+	 * Constructs a {@link ReservedThreadPoolExecutor} by default.
 	 */
 	public ReservedThreadPoolExecutor() {
 		this(Runtime.getRuntime().availableProcessors());

@@ -180,6 +180,9 @@ public class DynamicChartPanel
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the parameters by default.
+	 */
 	public void setDefaultParameters() {
 		ChartPanels.setDefaultParameters(this);
 

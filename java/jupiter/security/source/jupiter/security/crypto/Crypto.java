@@ -161,7 +161,7 @@ public abstract class Crypto {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a key of the default size.
+	 * Creates a key by default.
 	 */
 	public void createKey() {
 		createKey(getDefaultKeySize());

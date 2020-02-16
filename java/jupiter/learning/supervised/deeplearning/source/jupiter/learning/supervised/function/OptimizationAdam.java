@@ -157,7 +157,7 @@ public class OptimizationAdam
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the default hyper-parameters {@code β1}, {@code β2} and {@code t}.
+	 * Sets the hyper-parameters {@code β1}, {@code β2} and {@code t} by default.
 	 */
 	public void setDefaultParameters() {
 		setParameters(0.9, 0.999, 1);

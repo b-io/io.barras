@@ -60,6 +60,7 @@ import jupiter.common.test.FileArguments;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
+import jupiter.common.time.Dates;
 import jupiter.common.util.Strings;
 
 public class Files {
@@ -189,6 +190,12 @@ public class Files {
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the last-modified time of the specified {@link File}.
+	 * <p>
+	 * @param file the {@link File} to set
+	 * @param time a time measured in milliseconds since the epoch (January 1, 1970, 00:00:00 GMT)
+	 */
 	public static void setLastModified(final File file, final long time) {
 		if (exists(file)) {
 			file.setLastModified(time);
@@ -211,7 +218,7 @@ public class Files {
 	public static void createDirs(final File file)
 			throws IOException {
 		if (!exists(file) && !file.mkdirs()) {
-			throw new IOException(Strings.join("Unable to create the directories ",
+			throw new IOException(Strings.join("Cannot create the directories ",
 					Strings.quote(getPath(file))));
 		}
 	}
@@ -384,7 +391,7 @@ public class Files {
 		try {
 			return IO.read(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -418,7 +425,7 @@ public class Files {
 		try {
 			return IO.read(new ZipInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -452,7 +459,7 @@ public class Files {
 		try {
 			return IO.read(new GZIPInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -515,7 +522,7 @@ public class Files {
 		try {
 			return IO.countLines(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -598,7 +605,7 @@ public class Files {
 			writer.write(content + NEW_LINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
@@ -929,7 +936,7 @@ public class Files {
 				// Attempt to delete the file (or directory)
 				isDeleted = file.delete();
 				if (!isDeleted) {
-					IO.error("Unable to delete the file ", Strings.quote(file));
+					IO.error("Cannot delete the file ", Strings.quote(file));
 				}
 			} else {
 				IO.warn("The file ", Strings.quote(file), " is write protected");
@@ -1024,6 +1031,23 @@ public class Files {
 			}
 		}
 		return files;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Touches the specified {@link File}.
+	 * <p>
+	 * @param file the {@link File} to touch
+	 * <p>
+	 * @throws IOException if there is a problem with creating {@code file}
+	 */
+	public static void touch(final File file)
+			throws IOException {
+		if (!file.exists()) {
+			Resources.close(new FileOutputStream(file));
+		}
+		file.setLastModified(Dates.createTimestamp());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1214,7 +1238,7 @@ public class Files {
 		public Boolean call(final Triple<File, File, Boolean> input) {
 			try {
 				return copy(input.getFirst(), input.getSecond(), input.getThird());
-			} catch (final Exception ex) {
+			} catch (final CopyFileException ex) {
 				IO.error(ex);
 			}
 			return true;

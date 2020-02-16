@@ -61,7 +61,7 @@ public abstract class DivideAndConquer<I>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link DivideAndConquer} of type {@code I}.
+	 * Constructs a {@link DivideAndConquer} of type {@code I} by default.
 	 */
 	public DivideAndConquer() {
 		workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror());

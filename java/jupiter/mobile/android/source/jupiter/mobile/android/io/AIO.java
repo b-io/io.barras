@@ -79,7 +79,7 @@ public class AIO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link AIO}.
+	 * Constructs an {@link AIO} by default.
 	 */
 	public AIO() {
 		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);

@@ -224,7 +224,7 @@ public class XYSelection
 	 * Sets the flag specifying whether {@code this} is visible and sends a property change event to
 	 * all registered listeners.
 	 * <p>
-	 * @param isVisible the flag specifying whether {@code this} is visible
+	 * @param isVisible a {@code boolean} value
 	 */
 	public void setVisible(final boolean isVisible) {
 		final boolean oldValue = this.isVisible;

@@ -232,6 +232,11 @@ public abstract class OpenCL
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the flag specifying whether {@code this} is active.
+	 * <p>
+	 * @param isActive a {@code boolean} value
+	 */
 	public void setActive(final boolean isActive) {
 		this.isActive = isActive;
 	}

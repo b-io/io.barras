@@ -42,11 +42,11 @@ public class DynamicSample
 	/**
 	 * The minimum sample size (2 for the first sample standard deviation and 1 for the second one).
 	 */
-	public static final int DEFAULT_MIN_SAMPLE_SIZE = 3;
+	public static final int MIN_SAMPLE_SIZE = 3;
 	/**
 	 * The maximum sample size.
 	 */
-	public static volatile int DEFAULT_MAX_SAMPLE_SIZE = Integer.MAX_VALUE;
+	public static final int MAX_SAMPLE_SIZE = Integer.MAX_VALUE;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,10 +76,10 @@ public class DynamicSample
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link DynamicSample}.
+	 * Constructs a {@link DynamicSample} by default.
 	 */
 	public DynamicSample() {
-		this(DEFAULT_MIN_SAMPLE_SIZE);
+		this(MIN_SAMPLE_SIZE);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class DynamicSample
 	 * @param minSampleSize the minimum sample size
 	 */
 	public DynamicSample(final int minSampleSize) {
-		this(minSampleSize, DEFAULT_MAX_SAMPLE_SIZE);
+		this(minSampleSize, MAX_SAMPLE_SIZE);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class DynamicSample
 	 */
 	public DynamicSample(final int minSampleSize, final int maxSampleSize) {
 		// Check the arguments
-		IntegerArguments.requireGreaterOrEqualTo(minSampleSize, DEFAULT_MIN_SAMPLE_SIZE);
+		IntegerArguments.requireGreaterOrEqualTo(minSampleSize, MIN_SAMPLE_SIZE);
 		IntegerArguments.requireGreaterOrEqualTo(maxSampleSize, minSampleSize);
 
 		// Set the minimum and maximum sample sizes

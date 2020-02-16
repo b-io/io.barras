@@ -951,7 +951,7 @@ public class Characters {
 	/**
 	 * Returns the transpose of the specified {@code char} array.
 	 * <p>
-	 * @param rowCount the number of rows of the array
+	 * @param rowCount the number of rows of the {@code char} array
 	 * @param array    a {@code char} array
 	 * <p>
 	 * @return the transpose of the specified {@code char} array

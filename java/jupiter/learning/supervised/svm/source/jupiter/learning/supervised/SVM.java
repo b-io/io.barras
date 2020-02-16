@@ -56,12 +56,12 @@ public class SVM {
 	/**
 	 * The default cache size.
 	 */
-	public static volatile double DEFAULT_CACHE_SIZE = 128;
+	public static final double DEFAULT_CACHE_SIZE = 128;
 
 	/**
 	 * The default tolerance level (or termination criterion) {@code ε}.
 	 */
-	public static volatile double DEFAULT_TOLERANCE = 1E-8;
+	public static final double DEFAULT_TOLERANCE = 1E-8;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +153,7 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the default hyper-parameters.
+	 * Sets the hyper-parameters by default.
 	 */
 	public void setDefaultParameters() {
 		hyperParameters.cache_size = DEFAULT_CACHE_SIZE;

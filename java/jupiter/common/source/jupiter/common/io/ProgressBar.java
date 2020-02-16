@@ -89,7 +89,7 @@ public class ProgressBar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ProgressBar}.
+	 * Constructs a {@link ProgressBar} by default.
 	 */
 	public ProgressBar() {
 		this(DEFAULT_LINE_LENGTH - 2);

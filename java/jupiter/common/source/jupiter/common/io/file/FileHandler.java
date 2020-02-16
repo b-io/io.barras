@@ -339,7 +339,7 @@ public class FileHandler
 			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Unable to find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}

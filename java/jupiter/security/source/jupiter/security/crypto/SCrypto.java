@@ -68,7 +68,7 @@ public class SCrypto
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SCrypto}.
+	 * Constructs a {@link SCrypto} by default.
 	 */
 	public SCrypto() {
 		this(CipherMethod.AES);

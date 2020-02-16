@@ -328,9 +328,9 @@ public class Dates {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the current number of milliseconds since January 1, 1970, 00:00:00 GMT.
+	 * Returns the current number of milliseconds since the epoch (January 1, 1970, 00:00:00 GMT).
 	 * <p>
-	 * @return the current number of milliseconds since January 1, 1970, 00:00:00 GMT
+	 * @return the current number of milliseconds since the epoch (January 1, 1970, 00:00:00 GMT)
 	 */
 	public static long createTimestamp() {
 		return new Date().getTime();

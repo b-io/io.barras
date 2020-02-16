@@ -159,7 +159,7 @@ public class Matrix
 	 */
 	protected Dimensions size;
 	/**
-	 * The elements.
+	 * The elements in a {@code double} array.
 	 */
 	protected double[] elements;
 
@@ -205,15 +205,17 @@ public class Matrix
 		elements = new double[m * n];
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Constructs a constant {@link Matrix} with the specified numbers of rows and columns with the
-	 * specified {@code double} value.
+	 * Constructs a constant {@link Matrix} with the specified numbers of rows and columns and
+	 * constant.
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
-	 * @param value       the {@code double} value of the elements
+	 * @param constant    the {@code double} constant
 	 */
-	public Matrix(final int rowCount, final int columnCount, final double value) {
+	public Matrix(final int rowCount, final int columnCount, final double constant) {
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
@@ -226,42 +228,18 @@ public class Matrix
 		elements = new double[m * n];
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i * n + j] = value;
+				elements[i * n + j] = constant;
 			}
 		}
 	}
 
-	/**
-	 * Constructs a {@link Matrix} with the specified elements.
-	 * <p>
-	 * @param rowCount the number of rows of the array
-	 * @param elements a {@code double} array
-	 * <p>
-	 * @throws IllegalArgumentException if the {@code elements} length is not a multiple of
-	 *                                  {@code rowCount}
-	 */
-	public Matrix(final int rowCount, final double[] elements) {
-		// Check the arguments
-		IntegerArguments.requirePositive(rowCount);
-
-		// Set the numbers of rows and columns
-		m = rowCount;
-		n = rowCount > 0 ? elements.length / rowCount : 0;
-		size = new Dimensions(m, n);
-		// Check the length of the array
-		if (m * n != elements.length) {
-			throw new IllegalArgumentException("The length of the specified array " +
-					elements.length + " is not a multiple of " + rowCount);
-		}
-		// Set the elements
-		this.elements = elements;
-	}
+	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Matrix} with the specified {@code double} values.
+	 * Constructs a {@link Matrix} with the specified values.
 	 * <p>
-	 * @param rowCount  the number of rows of the array
-	 * @param values    a {@code double} array
+	 * @param rowCount  the number of rows
+	 * @param values    the values of the elements in a {@code double} array
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @throws IllegalArgumentException if the {@code values} length is not a multiple of
@@ -294,9 +272,9 @@ public class Matrix
 	}
 
 	/**
-	 * Constructs a {@link Matrix} with the specified {@code double} values.
+	 * Constructs a {@link Matrix} with the specified values.
 	 * <p>
-	 * @param values a 2D {@code double} array
+	 * @param values the values of the elements in a 2D {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if {@code values} has different row lengths
 	 */
@@ -310,7 +288,7 @@ public class Matrix
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
-	 * @param values      a 2D {@code double} array
+	 * @param values      the values of the elements in a 2D {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if the {@code values} rows have not the same length
 	 */
@@ -338,10 +316,38 @@ public class Matrix
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Constructs a {@link Matrix} with the specified {@link DoubleTable}.
+	 * Constructs a {@link Matrix} with the specified number of rows and elements.
 	 * <p>
-	 * @param table a {@link DoubleTable}
+	 * @param rowCount the number of rows
+	 * @param elements the elements in a {@code double} array
+	 * <p>
+	 * @throws IllegalArgumentException if the {@code elements} length is not a multiple of
+	 *                                  {@code rowCount}
+	 */
+	public Matrix(final int rowCount, final double[] elements) {
+		// Check the arguments
+		IntegerArguments.requirePositive(rowCount);
+
+		// Set the numbers of rows and columns
+		m = rowCount;
+		n = rowCount > 0 ? elements.length / rowCount : 0;
+		size = new Dimensions(m, n);
+		// Check the length of the array
+		if (m * n != elements.length) {
+			throw new IllegalArgumentException("The length of the specified array " +
+					elements.length + " is not a multiple of " + rowCount);
+		}
+		// Set the elements
+		this.elements = elements;
+	}
+
+	/**
+	 * Constructs a {@link Matrix} with the specified {@link DoubleTable} containing the elements.
+	 * <p>
+	 * @param table the {@link DoubleTable} containing the elements
 	 */
 	public Matrix(final DoubleTable table) {
 		this(Arguments.requireNotNull(table, "table").getRowCount(), table.toPrimitiveArray());
@@ -394,9 +400,9 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the dimensions.
+	 * Returns the {@link Dimensions}.
 	 * <p>
-	 * @return the dimensions
+	 * @return the {@link Dimensions}
 	 */
 	@Override
 	public Dimensions getDimensions() {
@@ -404,9 +410,9 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the elements.
+	 * Returns the elements in a {@code double} array.
 	 * <p>
-	 * @return the elements
+	 * @return the elements in a {@code double} array
 	 */
 	public double[] getElements() {
 		return elements;
@@ -431,11 +437,11 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the elements of the specified row.
+	 * Returns the elements of the specified row in a {@code double} array.
 	 * <p>
 	 * @param i the row index
 	 * <p>
-	 * @return the elements of the specified row
+	 * @return the elements of the specified row in a {@code double} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
@@ -444,12 +450,14 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the elements of the specified row truncated from the specified column index.
+	 * Returns the elements of the specified row truncated from the specified column index in a
+	 * {@code double} array.
 	 * <p>
 	 * @param i          the row index
 	 * @param fromColumn the initial column index (inclusive)
 	 * <p>
-	 * @return the elements of the specified row truncated from the specified column index
+	 * @return the elements of the specified row truncated from the specified column index in a
+	 *         {@code double} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
@@ -459,14 +467,14 @@ public class Matrix
 
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index to the
-	 * specified length.
+	 * specified length in a {@code double} array.
 	 * <p>
 	 * @param i          the row index
 	 * @param fromColumn the initial column index (inclusive)
 	 * @param length     the number of row elements to get
 	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index to the
-	 *         specified length
+	 *         specified length in a {@code double} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
@@ -479,11 +487,11 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the elements of the specified column.
+	 * Returns the elements of the specified column in a {@code double} array.
 	 * <p>
 	 * @param j the column index
 	 * <p>
-	 * @return the elements of the specified column
+	 * @return the elements of the specified column in a {@code double} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
@@ -492,12 +500,14 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the elements of the specified column truncated from the specified row index.
+	 * Returns the elements of the specified column truncated from the specified row index in a
+	 * {@code double} array.
 	 * <p>
 	 * @param j       the column index
 	 * @param fromRow the initial row index (inclusive)
 	 * <p>
-	 * @return the elements of the specified column truncated from the specified row index
+	 * @return the elements of the specified column truncated from the specified row index in a
+	 *         {@code double} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
@@ -507,14 +517,14 @@ public class Matrix
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index to the
-	 * specified length.
+	 * specified length in a {@code double} array.
 	 * <p>
 	 * @param j       the column index
 	 * @param fromRow the initial row index (inclusive)
 	 * @param length  the number of column elements to get
 	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index to the
-	 *         specified length
+	 *         specified length in a {@code double} array
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
@@ -529,14 +539,14 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the submatrix {@code this(rowStart:rowEnd, columnStart:columnEnd)}.
+	 * Returns the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}.
 	 * <p>
 	 * @param rowStart    the initial row index (inclusive)
 	 * @param rowEnd      the final row index (exclusive)
 	 * @param columnStart the initial column index (inclusive)
 	 * @param columnEnd   the final column index (exclusive)
 	 * <p>
-	 * @return the submatrix {@code this(rowStart:rowEnd, columnStart:columnEnd)}
+	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
@@ -558,13 +568,13 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the submatrix {@code this(rowIndexes(:), columnStart:columnEnd)}.
+	 * Returns the sub-{@link Matrix} {@code this(rowIndexes(:), columnStart:columnEnd)}.
 	 * <p>
 	 * @param rowIndexes  an array of row indexes
 	 * @param columnStart the initial column index (inclusive)
 	 * @param columnEnd   the final column index (exclusive)
 	 * <p>
-	 * @return the submatrix {@code this(rowIndexes(:), columnStart:columnEnd)}
+	 * @return the sub-{@link Matrix} {@code this(rowIndexes(:), columnStart:columnEnd)}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
@@ -585,13 +595,13 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the submatrix {@code this(rowStart:rowEnd, columnIndexes(:))}.
+	 * Returns the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndexes(:))}.
 	 * <p>
 	 * @param rowStart      the initial row index (inclusive)
 	 * @param rowEnd        the final row index (exclusive)
 	 * @param columnIndexes an array of column indexes
 	 * <p>
-	 * @return the submatrix {@code this(rowStart:rowEnd, columnIndexes(:))}
+	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndexes(:))}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
@@ -603,8 +613,7 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					submatrix.elements[i * columnCount + j] = elements[(rowStart + i) * n +
-							columnIndexes[j]];
+					submatrix.elements[i * columnCount + j] = elements[(rowStart + i) * n + columnIndexes[j]];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -615,12 +624,12 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the submatrix {@code this(rowIndexes(:), columnIndexes(:))}.
+	 * Returns the sub-{@link Matrix} {@code this(rowIndexes(:), columnIndexes(:))}.
 	 * <p>
 	 * @param rowIndexes    an array of row indexes
 	 * @param columnIndexes an array of column indexes
 	 * <p>
-	 * @return the submatrix {@code this(rowIndexes(:), columnIndexes(:))}
+	 * @return the sub-{@link Matrix} {@code this(rowIndexes(:), columnIndexes(:))}
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
 	 */
@@ -649,8 +658,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the element at the specified row and column indexes to the specified {@code double}
-	 * value.
+	 * Sets the element at the specified row and column indexes.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -663,7 +671,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets the element at the specified row and column indexes to the specified {@link Object}.
+	 * Sets the element at the specified row and column indexes.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -815,7 +823,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets {@code this(rowStart:rowEnd, columnStart:columnEnd)} to the specified submatrix.
+	 * Sets the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}.
 	 * <p>
 	 * @param rowStart    the initial row index (inclusive)
 	 * @param rowEnd      the final row index (exclusive)
@@ -840,7 +848,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets {@code this(rowIndexes(:), columnStart:columnEnd)} to the specified submatrix.
+	 * Sets the sub-{@link Matrix} {@code this(rowIndexes(:), columnStart:columnEnd)}.
 	 * <p>
 	 * @param rowIndexes  an array of row indexes
 	 * @param columnStart the initial column index (inclusive)
@@ -864,7 +872,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets {@code this(rowStart:rowEnd, columnIndexes(:))} to the specified submatrix.
+	 * Sets the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndexes(:))}.
 	 * <p>
 	 * @param rowStart      the initial row index (inclusive)
 	 * @param rowEnd        the final row index (exclusive)
@@ -880,8 +888,7 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					elements[(rowStart + i) * n +
-							columnIndexes[j]] = submatrix.elements[i * columnCount + j];
+					elements[(rowStart + i) * n + columnIndexes[j]] = submatrix.elements[i * columnCount + j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -891,7 +898,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets {@code this(rowIndexes(:), columnIndexes(:))} to the specified submatrix.
+	 * Sets the sub-{@link Matrix} {@code this(rowIndexes(:), columnIndexes(:))}.
 	 * <p>
 	 * @param rowIndexes    an array of row indexes
 	 * @param columnIndexes an array of column indexes
@@ -906,8 +913,7 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					elements[rowIndexes[i] * n +
-							columnIndexes[j]] = submatrix.elements[i * columnCount + j];
+					elements[rowIndexes[i] * n + columnIndexes[j]] = submatrix.elements[i * columnCount + j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -1298,13 +1304,13 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified {@code double} value.
+	 * Fills {@code this} with the specified constant.
 	 * <p>
-	 * @param value the {@code double} value to fill with
+	 * @param constant the {@code double} constant to fill with
 	 */
 	@Override
-	public void fill(final double value) {
-		Doubles.fill(elements, value);
+	public void fill(final double constant) {
+		Doubles.fill(elements, constant);
 	}
 
 

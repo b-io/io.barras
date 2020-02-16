@@ -1076,7 +1076,7 @@ public class Integers {
 	/**
 	 * Returns the transpose of the specified {@code int} array.
 	 * <p>
-	 * @param rowCount the number of rows of the array
+	 * @param rowCount the number of rows of the {@code int} array
 	 * @param array    an {@code int} array
 	 * <p>
 	 * @return the transpose of the specified {@code int} array

@@ -54,11 +54,11 @@ public class WorkQueue<I, O>
 	/**
 	 * The default minimum number of {@link Worker} to handle.
 	 */
-	public static volatile int DEFAULT_MIN_THREADS = Runtime.getRuntime().availableProcessors();
+	public static final int DEFAULT_MIN_THREADS = Runtime.getRuntime().availableProcessors();
 	/**
 	 * The default maximum number of {@link Worker} to handle.
 	 */
-	public static volatile int DEFAULT_MAX_THREADS = 2 * DEFAULT_MIN_THREADS;
+	public static final int DEFAULT_MAX_THREADS = 2 * DEFAULT_MIN_THREADS;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -54,10 +54,9 @@ public class SafeDateFormat
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SafeDateFormat} with the default pattern and {@link DateFormatSymbols}
-	 * for the default {@link Locale}.
+	 * Constructs a {@link SafeDateFormat} by default.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
-	 * factory methods in the class {@link DateFormat}.
+	 * factory methods of {@link DateFormat}.
 	 */
 	public SafeDateFormat() {
 		super();
@@ -67,7 +66,7 @@ public class SafeDateFormat
 	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and the default
 	 * {@link DateFormatSymbols} for the default {@link Locale}.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
-	 * factory methods in the class {@link DateFormat}.
+	 * factory methods of {@link DateFormat}.
 	 * <p>
 	 * This is equivalent to calling the constructor {@link #SafeDateFormat(String, Locale)
 	 * SafeDateFormat(pattern, Locale.getDefault(Category.FORMAT))}.
@@ -87,7 +86,7 @@ public class SafeDateFormat
 	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and the default
 	 * {@link DateFormatSymbols} for the specified {@link Locale}.
 	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
-	 * factory methods in the class {@link DateFormat}.
+	 * factory methods of {@link DateFormat}.
 	 * <p>
 	 * @param pattern the pattern {@link String} describing the date-time format
 	 * @param locale  the {@link Locale} whose {@link DateFormatSymbols} should be used

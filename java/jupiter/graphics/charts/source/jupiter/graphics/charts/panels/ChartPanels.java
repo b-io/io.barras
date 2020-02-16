@@ -150,6 +150,11 @@ public class ChartPanels {
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the parameters of the specified {@link ChartPanel} by default.
+	 * <p>
+	 * @param chartPanel the {@link ChartPanel} to set
+	 */
 	public static void setDefaultParameters(final ChartPanel chartPanel) {
 		Charts.setSizes(chartPanel);
 		JPanels.addScrollZoom(chartPanel);

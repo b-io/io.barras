@@ -969,7 +969,7 @@ public class Shorts {
 	/**
 	 * Returns the transpose of the specified {@code short} array.
 	 * <p>
-	 * @param rowCount the number of rows of the array
+	 * @param rowCount the number of rows of the {@code short} array
 	 * @param array    a {@code short} array
 	 * <p>
 	 * @return the transpose of the specified {@code short} array

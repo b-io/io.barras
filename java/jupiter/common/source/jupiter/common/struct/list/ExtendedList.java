@@ -57,8 +57,7 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of element type {@code E} with the default initial
-	 * capacity.
+	 * Constructs an empty {@link ExtendedList} of element type {@code E} by default.
 	 */
 	public ExtendedList() {
 		super(Collections.DEFAULT_CAPACITY);
