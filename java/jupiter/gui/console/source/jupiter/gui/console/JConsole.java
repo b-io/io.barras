@@ -403,6 +403,8 @@ public class JConsole
 
 	/**
 	 * Sets the cursor image to the specified predefined cursor.
+	 * <p>
+	 * @param type the type of a predefined cursor
 	 */
 	public void setCursor(final int type) {
 		setCursor(Cursor.getPredefinedCursor(type));
