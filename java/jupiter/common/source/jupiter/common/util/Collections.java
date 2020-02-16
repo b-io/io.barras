@@ -26,8 +26,8 @@ package jupiter.common.util;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import jupiter.common.exception.IllegalClassException;
 
+import jupiter.common.exception.IllegalClassException;
 import jupiter.common.map.ObjectToStringMapper;
 
 public class Collections {
