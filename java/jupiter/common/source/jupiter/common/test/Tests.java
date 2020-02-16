@@ -55,8 +55,7 @@ public class Tests {
 		printValues("time [ms]", times);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends Number> void printTimes(final T... times) {
+	public static <T extends Number> void printTimes(final T[] times) {
 		printValues("time [ms]", times);
 	}
 
@@ -75,8 +74,7 @@ public class Tests {
 		printMinMaxInterval(Maths.minToDouble(values), Maths.maxToDouble(values));
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends Number> void printValues(final String label, final T... values) {
+	public static <T extends Number> void printValues(final String label, final T[] values) {
 		final double mean = Statistics.getMean(values);
 		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
 		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.length,
