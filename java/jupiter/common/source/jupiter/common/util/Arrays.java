@@ -1390,7 +1390,7 @@ public class Arrays {
 	 * <p>
 	 * @return a representative {@link String} of the specified array
 	 */
-	public static String toString(final Object... array) {
+	public static String toString(final Object[] array) {
 		return Strings.parenthesize(join(array));
 	}
 

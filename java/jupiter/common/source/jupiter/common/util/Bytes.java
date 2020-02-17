@@ -1594,6 +1594,20 @@ public class Bytes {
 	}
 
 	/**
+	 * Returns a representative {@link String} of the specified {@code byte} array wrapped by
+	 * {@code wrapper}.
+	 * <p>
+	 * @param array   a {@code byte} array
+	 * @param wrapper an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code byte} array wrapped by
+	 *         {@code wrapper}
+	 */
+	public static String toString(final byte[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toString(toArray(array), wrapper);
+	}
+
+	/**
 	 * Returns a representative {@link String} of the specified {@code byte} array joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
@@ -1607,48 +1621,5 @@ public class Bytes {
 	public static String toString(final byte[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		return Arrays.toString(toArray(array), delimiter, wrapper);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Byte}.
-	 * <p>
-	 * @param array an array of {@link Byte}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Byte}
-	 */
-	public static String toString(final Byte... array) {
-		return Arrays.toString(array);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Byte} joined by
-	 * {@code delimiter}.
-	 * <p>
-	 * @param array     an array of {@link Byte}
-	 * @param delimiter the delimiting {@link String}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Byte} joined by
-	 *         {@code delimiter}
-	 */
-	public static String toString(final Byte[] array, final String delimiter) {
-		return Arrays.toString(array, delimiter);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Byte} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
-	 * <p>
-	 * @param array     an array of {@link Byte}
-	 * @param delimiter the delimiting {@link String}
-	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Byte} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
-	 */
-	public static String toString(final Byte[] array, final String delimiter,
-			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(array, delimiter, wrapper);
 	}
 }

@@ -1495,6 +1495,20 @@ public class Integers {
 	}
 
 	/**
+	 * Returns a representative {@link String} of the specified {@code int} array wrapped by
+	 * {@code wrapper}.
+	 * <p>
+	 * @param array   an {@code int} array
+	 * @param wrapper an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code int} array wrapped by
+	 *         {@code wrapper}
+	 */
+	public static String toString(final int[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toString(toArray(array), wrapper);
+	}
+
+	/**
 	 * Returns a representative {@link String} of the specified {@code int} array joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
@@ -1508,48 +1522,5 @@ public class Integers {
 	public static String toString(final int[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		return Arrays.toString(toArray(array), delimiter, wrapper);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Integer}.
-	 * <p>
-	 * @param array an array of {@link Integer}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Integer}
-	 */
-	public static String toString(final Integer... array) {
-		return Arrays.toString(array);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Integer} joined by
-	 * {@code delimiter}.
-	 * <p>
-	 * @param array     an array of {@link Integer}
-	 * @param delimiter the delimiting {@link String}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Integer} joined by
-	 *         {@code delimiter}
-	 */
-	public static String toString(final Integer[] array, final String delimiter) {
-		return Arrays.toString(array, delimiter);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Integer} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
-	 * <p>
-	 * @param array     an array of {@link Integer}
-	 * @param delimiter the delimiting {@link String}
-	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Integer} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
-	 */
-	public static String toString(final Integer[] array, final String delimiter,
-			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(array, delimiter, wrapper);
 	}
 }

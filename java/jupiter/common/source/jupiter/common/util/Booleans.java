@@ -1098,6 +1098,20 @@ public class Booleans {
 	}
 
 	/**
+	 * Returns a representative {@link String} of the specified {@code boolean} array wrapped by
+	 * {@code wrapper}.
+	 * <p>
+	 * @param array   a {@code boolean} array
+	 * @param wrapper an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code boolean} array wrapped by
+	 *         {@code wrapper}
+	 */
+	public static String toString(final boolean[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toString(toArray(array), wrapper);
+	}
+
+	/**
 	 * Returns a representative {@link String} of the specified {@code boolean} array joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
@@ -1111,48 +1125,5 @@ public class Booleans {
 	public static String toString(final boolean[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		return Arrays.toString(toArray(array), delimiter, wrapper);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Boolean}.
-	 * <p>
-	 * @param array an array of {@link Boolean}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Boolean}
-	 */
-	public static String toString(final Boolean... array) {
-		return Arrays.toString(array);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Boolean} joined by
-	 * {@code delimiter}.
-	 * <p>
-	 * @param array     an array of {@link Boolean}
-	 * @param delimiter the delimiting {@link String}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Boolean} joined by
-	 *         {@code delimiter}
-	 */
-	public static String toString(final Boolean[] array, final String delimiter) {
-		return Arrays.toString(array, delimiter);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Boolean} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
-	 * <p>
-	 * @param array     an array of {@link Boolean}
-	 * @param delimiter the delimiting {@link String}
-	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Boolean} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
-	 */
-	public static String toString(final Boolean[] array, final String delimiter,
-			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(array, delimiter, wrapper);
 	}
 }

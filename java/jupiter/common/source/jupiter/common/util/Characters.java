@@ -1360,6 +1360,20 @@ public class Characters {
 	}
 
 	/**
+	 * Returns a representative {@link String} of the specified {@code char} array wrapped by
+	 * {@code wrapper}.
+	 * <p>
+	 * @param array   a {@code char} array
+	 * @param wrapper an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code char} array wrapped by
+	 *         {@code wrapper}
+	 */
+	public static String toString(final char[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toString(toArray(array), wrapper);
+	}
+
+	/**
 	 * Returns a representative {@link String} of the specified {@code char} array joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
@@ -1373,48 +1387,5 @@ public class Characters {
 	public static String toString(final char[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		return Arrays.toString(toArray(array), delimiter, wrapper);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Character}.
-	 * <p>
-	 * @param array an array of {@link Character}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Character}
-	 */
-	public static String toString(final Character... array) {
-		return Arrays.toString(array);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Character} joined by
-	 * {@code delimiter}.
-	 * <p>
-	 * @param array     an array of {@link Character}
-	 * @param delimiter the delimiting {@link String}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Character} joined by
-	 *         {@code delimiter}
-	 */
-	public static String toString(final Character[] array, final String delimiter) {
-		return Arrays.toString(array, delimiter);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified array of {@link Character} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
-	 * <p>
-	 * @param array     an array of {@link Character}
-	 * @param delimiter the delimiting {@link String}
-	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link Character} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
-	 */
-	public static String toString(final Character[] array, final String delimiter,
-			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(array, delimiter, wrapper);
 	}
 }
