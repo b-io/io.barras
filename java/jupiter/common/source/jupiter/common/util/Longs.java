@@ -1310,8 +1310,8 @@ public class Longs {
 	 * @return a representative {@link String} of the specified {@code long} array joined by
 	 *         {@code delimiter}
 	 */
-	public static String toString(final long[] array, final String delimiter) {
-		return Arrays.toString(toArray(array), delimiter);
+	public static String toStringWith(final long[] array, final String delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
 	}
 
 	/**
@@ -1324,8 +1324,8 @@ public class Longs {
 	 * @return a representative {@link String} of the specified {@code long} array wrapped by
 	 *         {@code wrapper}
 	 */
-	public static String toString(final long[] array, final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), wrapper);
+	public static String toStringWith(final long[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toStringWith(toArray(array), wrapper);
 	}
 
 	/**
@@ -1339,8 +1339,8 @@ public class Longs {
 	 * @return a representative {@link String} of the specified {@code long} array joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static String toString(final long[] array, final String delimiter,
+	public static String toStringWith(final long[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), delimiter, wrapper);
+		return Arrays.toStringWith(toArray(array), delimiter, wrapper);
 	}
 }

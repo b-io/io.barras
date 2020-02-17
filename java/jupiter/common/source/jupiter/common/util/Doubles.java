@@ -1378,8 +1378,8 @@ public class Doubles {
 	 * @return a representative {@link String} of the specified {@code double} array joined by
 	 *         {@code delimiter}
 	 */
-	public static String toString(final double[] array, final String delimiter) {
-		return Arrays.toString(toArray(array), delimiter);
+	public static String toStringWith(final double[] array, final String delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
 	}
 
 	/**
@@ -1392,8 +1392,8 @@ public class Doubles {
 	 * @return a representative {@link String} of the specified {@code double} array wrapped by
 	 *         {@code wrapper}
 	 */
-	public static String toString(final double[] array, final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), wrapper);
+	public static String toStringWith(final double[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toStringWith(toArray(array), wrapper);
 	}
 
 	/**
@@ -1407,8 +1407,8 @@ public class Doubles {
 	 * @return a representative {@link String} of the specified {@code double} array joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static String toString(final double[] array, final String delimiter,
+	public static String toStringWith(final double[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), delimiter, wrapper);
+		return Arrays.toStringWith(toArray(array), delimiter, wrapper);
 	}
 }

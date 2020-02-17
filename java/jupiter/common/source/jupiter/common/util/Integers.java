@@ -1490,8 +1490,8 @@ public class Integers {
 	 * @return a representative {@link String} of the specified {@code int} array joined by
 	 *         {@code delimiter}
 	 */
-	public static String toString(final int[] array, final String delimiter) {
-		return Arrays.toString(toArray(array), delimiter);
+	public static String toStringWith(final int[] array, final String delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
 	}
 
 	/**
@@ -1504,8 +1504,8 @@ public class Integers {
 	 * @return a representative {@link String} of the specified {@code int} array wrapped by
 	 *         {@code wrapper}
 	 */
-	public static String toString(final int[] array, final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), wrapper);
+	public static String toStringWith(final int[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toStringWith(toArray(array), wrapper);
 	}
 
 	/**
@@ -1519,8 +1519,8 @@ public class Integers {
 	 * @return a representative {@link String} of the specified {@code int} array joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static String toString(final int[] array, final String delimiter,
+	public static String toStringWith(final int[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), delimiter, wrapper);
+		return Arrays.toStringWith(toArray(array), delimiter, wrapper);
 	}
 }

@@ -1390,7 +1390,7 @@ public class Arrays {
 	 * <p>
 	 * @return a representative {@link String} of the specified array
 	 */
-	public static String toString(final Object[] array) {
+	public static String toString(final Object... array) {
 		return Strings.parenthesize(join(array));
 	}
 
@@ -1402,7 +1402,7 @@ public class Arrays {
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
 	 */
-	public static String toString(final Object[] array, final String delimiter) {
+	public static String toStringWith(final Object[] array, final String delimiter) {
 		return Strings.parenthesize(Strings.joinWith(array, delimiter));
 	}
 
@@ -1414,7 +1414,7 @@ public class Arrays {
 	 * <p>
 	 * @return a representative {@link String} of the specified array wrapped by {@code wrapper}
 	 */
-	public static String toString(final Object[] array, final ObjectToStringMapper wrapper) {
+	public static String toStringWith(final Object[] array, final ObjectToStringMapper wrapper) {
 		return Strings.parenthesize(Strings.joinWith(array, wrapper));
 	}
 
@@ -1429,7 +1429,7 @@ public class Arrays {
 	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
 	 *         and wrapped by {@code wrapper}
 	 */
-	public static String toString(final Object[] array, final String delimiter,
+	public static String toStringWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		return Strings.parenthesize(Strings.joinWith(array, delimiter, wrapper));
 	}

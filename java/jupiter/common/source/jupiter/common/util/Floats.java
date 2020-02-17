@@ -1388,8 +1388,8 @@ public class Floats {
 	 * @return a representative {@link String} of the specified {@code float} array joined by
 	 *         {@code delimiter}
 	 */
-	public static String toString(final float[] array, final String delimiter) {
-		return Arrays.toString(toArray(array), delimiter);
+	public static String toStringWith(final float[] array, final String delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
 	}
 
 	/**
@@ -1402,8 +1402,8 @@ public class Floats {
 	 * @return a representative {@link String} of the specified {@code float} array wrapped by
 	 *         {@code wrapper}
 	 */
-	public static String toString(final float[] array, final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), wrapper);
+	public static String toStringWith(final float[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toStringWith(toArray(array), wrapper);
 	}
 
 	/**
@@ -1417,8 +1417,8 @@ public class Floats {
 	 * @return a representative {@link String} of the specified {@code float} array joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static String toString(final float[] array, final String delimiter,
+	public static String toStringWith(final float[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), delimiter, wrapper);
+		return Arrays.toStringWith(toArray(array), delimiter, wrapper);
 	}
 }

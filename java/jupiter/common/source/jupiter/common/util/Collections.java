@@ -342,8 +342,23 @@ public class Collections {
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
 	 *         {@code delimiter}
 	 */
-	public static String toString(final Collection<?> collection, final String delimiter) {
+	public static String toStringWith(final Collection<?> collection, final String delimiter) {
 		return Strings.bracketize(Strings.joinWith(collection, delimiter));
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Collection} wrapped by
+	 * {@code wrapper}.
+	 * <p>
+	 * @param collection a {@link Collection} (may be {@code null})
+	 * @param wrapper    an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Collection} wrapped by
+	 *         {@code wrapper}
+	 */
+	public static String toStringWith(final Collection<?> collection,
+			final ObjectToStringMapper wrapper) {
+		return Strings.bracketize(Strings.joinWith(collection, wrapper));
 	}
 
 	/**
@@ -357,7 +372,7 @@ public class Collections {
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static String toString(final Collection<?> collection, final String delimiter,
+	public static String toStringWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
 		return Strings.bracketize(Strings.joinWith(collection, delimiter, wrapper));
 	}

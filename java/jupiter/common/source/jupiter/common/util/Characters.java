@@ -1355,8 +1355,8 @@ public class Characters {
 	 * @return a representative {@link String} of the specified {@code char} array joined by
 	 *         {@code delimiter}
 	 */
-	public static String toString(final char[] array, final String delimiter) {
-		return Arrays.toString(toArray(array), delimiter);
+	public static String toStringWith(final char[] array, final String delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
 	}
 
 	/**
@@ -1369,8 +1369,8 @@ public class Characters {
 	 * @return a representative {@link String} of the specified {@code char} array wrapped by
 	 *         {@code wrapper}
 	 */
-	public static String toString(final char[] array, final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), wrapper);
+	public static String toStringWith(final char[] array, final ObjectToStringMapper wrapper) {
+		return Arrays.toStringWith(toArray(array), wrapper);
 	}
 
 	/**
@@ -1384,8 +1384,8 @@ public class Characters {
 	 * @return a representative {@link String} of the specified {@code char} array joined by
 	 *         {@code delimiter} and wrapped by {@code wrapper}
 	 */
-	public static String toString(final char[] array, final String delimiter,
+	public static String toStringWith(final char[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
-		return Arrays.toString(toArray(array), delimiter, wrapper);
+		return Arrays.toStringWith(toArray(array), delimiter, wrapper);
 	}
 }

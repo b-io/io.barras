@@ -957,6 +957,21 @@ public class Strings {
 	}
 
 	/**
+	 * Returns a representative {@link String} of the specified {@link Collection} wrapped by
+	 * {@code wrapper}.
+	 * <p>
+	 * @param collection a {@link Collection} (may be {@code null})
+	 * @param wrapper    an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Collection} wrapped by
+	 *         {@code wrapper}
+	 */
+	public static String joinWith(final Collection<?> collection,
+			final ObjectToStringMapper wrapper) {
+		return joinWith(collection, toString(DELIMITER), wrapper);
+	}
+
+	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
 	 * {@code delimiter} and wrapped by {@code wrapper}.
 	 * <p>
