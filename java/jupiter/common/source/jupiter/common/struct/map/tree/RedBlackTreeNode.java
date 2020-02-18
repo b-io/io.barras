@@ -42,7 +42,7 @@ public class RedBlackTreeNode<K, V>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected boolean isRed;
+	protected boolean isBlack;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ public class RedBlackTreeNode<K, V>
 	 */
 	public RedBlackTreeNode(final K key, final V value, final Comparator<? super K> keyComparator) {
 		super(key, value, keyComparator);
-		isRed = true;
+		isBlack = false;
 	}
 
 

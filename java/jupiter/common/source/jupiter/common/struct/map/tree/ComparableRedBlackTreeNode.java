@@ -40,7 +40,7 @@ public class ComparableRedBlackTreeNode<K extends Comparable<K>, V>
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected boolean isRed;
+	protected boolean isBlack;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ public class ComparableRedBlackTreeNode<K extends Comparable<K>, V>
 	 */
 	public ComparableRedBlackTreeNode(final K key, final V value) {
 		super(key, value);
-		isRed = true;
+		isBlack = false;
 	}
 
 

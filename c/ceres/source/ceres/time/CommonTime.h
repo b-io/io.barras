@@ -65,9 +65,11 @@ extern "C"
 	 **********************************************************************************************/
 
 	/**
-	 * Returns the current timestamp.
+	 * Returns the length of time (in milliseconds) since the epoch (January 1,
+	 * 1970, 00:00:00 GMT).
 	 * <p>
-	 * @return the current timestamp
+	 * @return the length of time (in milliseconds) since the epoch (January 1,
+	 * 1970, 00:00:00 GMT)
 	 */
 	timestamp timestamp_get(void);
 

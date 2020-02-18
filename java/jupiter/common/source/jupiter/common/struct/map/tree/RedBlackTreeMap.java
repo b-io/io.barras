@@ -166,7 +166,7 @@ public class RedBlackTreeMap<K, V>
 		root = node;
 		if (root != null) {
 			root.parent = null;
-			root.isRed = false;
+			root.isBlack = true;
 		}
 	}
 
@@ -255,7 +255,7 @@ public class RedBlackTreeMap<K, V>
 			} else {
 				child = null;
 				// If the node is black
-				if (!node.isRed) {
+				if (node.isBlack) {
 					// Balance this tree from the node
 					balanceAfterDeletion(node);
 				}
@@ -269,7 +269,7 @@ public class RedBlackTreeMap<K, V>
 				parent.setRight(child);
 			}
 			// If the node has at least one child and is black
-			if (child != null && !node.isRed) {
+			if (child != null && node.isBlack) {
 				// Balance this tree from the child
 				balanceAfterDeletion(child);
 			}
@@ -303,15 +303,15 @@ public class RedBlackTreeMap<K, V>
 		// Get the grand-parent
 		RedBlackTreeNode<K, V> grandParent = parent.parent;
 		RedBlackTreeNode<K, V> uncle;
-		while (parent.isRed) {
+		while (!parent.isBlack) {
 			if (parent.isLeft) {
 				// Get the uncle
 				uncle = grandParent != null ? grandParent.right : null;
-				if (uncle != null && uncle.isRed) {
+				if (uncle != null && !uncle.isBlack) {
 					// Update the colors
-					parent.isRed = false;
-					uncle.isRed = false;
-					grandParent.isRed = true;
+					parent.isBlack = true;
+					uncle.isBlack = true;
+					grandParent.isBlack = false;
 					// Update the references
 					node = grandParent;
 					parent = node.parent;
@@ -332,20 +332,20 @@ public class RedBlackTreeMap<K, V>
 						}
 					}
 					// Update the colors and rotate right
-					parent.isRed = false;
+					parent.isBlack = true;
 					if (grandParent != null) {
-						grandParent.isRed = true;
+						grandParent.isBlack = false;
 						rotateRight(grandParent);
 					}
 				}
 			} else {
 				// Get the uncle
 				uncle = grandParent != null ? grandParent.left : null;
-				if (uncle != null && uncle.isRed) {
+				if (uncle != null && !uncle.isBlack) {
 					// Update the colors
-					parent.isRed = false;
-					uncle.isRed = false;
-					grandParent.isRed = true;
+					parent.isBlack = true;
+					uncle.isBlack = true;
+					grandParent.isBlack = false;
 					// Update the references
 					node = grandParent;
 					parent = node.parent;
@@ -366,15 +366,15 @@ public class RedBlackTreeMap<K, V>
 						}
 					}
 					// Update the colors and rotate left
-					parent.isRed = false;
+					parent.isBlack = true;
 					if (grandParent != null) {
-						grandParent.isRed = true;
+						grandParent.isBlack = false;
 						rotateLeft(grandParent);
 					}
 				}
 			}
 		}
-		root.isRed = false;
+		root.isBlack = true;
 	}
 
 	/**
@@ -385,35 +385,35 @@ public class RedBlackTreeMap<K, V>
 	@Override
 	protected void balanceAfterDeletion(RedBlackTreeNode<K, V> node) {
 		RedBlackTreeNode<K, V> parent, brother, left, right;
-		while (node != root && !node.isRed) {
+		while (node != root && node.isBlack) {
 			// Get the parent
 			parent = node.parent;
 			if (node.isLeft) {
 				// Get the brother node
 				brother = parent.right;
-				if (brother.isRed) {
-					brother.isRed = false;
-					parent.isRed = true;
+				if (!brother.isBlack) {
+					brother.isBlack = true;
+					parent.isBlack = false;
 					rotateLeft(parent);
 					brother = parent.right;
 				}
 				left = brother.left;
 				right = brother.right;
-				if ((left == null || !left.isRed) && (right == null || !right.isRed)) {
-					brother.isRed = true;
+				if ((left == null || left.isBlack) && (right == null || right.isBlack)) {
+					brother.isBlack = false;
 					node = parent;
 				} else {
-					if (right == null || !right.isRed) {
+					if (right == null || right.isBlack) {
 						if (left != null) {
-							left.isRed = false;
+							left.isBlack = true;
 						}
-						brother.isRed = true;
+						brother.isBlack = false;
 						rotateRight(brother);
 						brother = parent.right;
 					}
-					brother.isRed = parent.isRed;
-					parent.isRed = false;
-					right.isRed = false;
+					brother.isBlack = parent.isBlack;
+					parent.isBlack = true;
+					right.isBlack = true;
 					rotateLeft(parent);
 					node = root;
 					break;
@@ -421,36 +421,36 @@ public class RedBlackTreeMap<K, V>
 			} else {
 				// Get the brother node
 				brother = parent.left;
-				if (brother.isRed) {
-					brother.isRed = false;
-					parent.isRed = true;
+				if (!brother.isBlack) {
+					brother.isBlack = true;
+					parent.isBlack = false;
 					rotateRight(parent);
 					brother = parent.left;
 				}
 				left = brother.left;
 				right = brother.right;
-				if ((left == null || !left.isRed) && (right == null || !right.isRed)) {
-					brother.isRed = true;
+				if ((left == null || left.isBlack) && (right == null || right.isBlack)) {
+					brother.isBlack = false;
 					node = parent;
 				} else {
-					if (left == null || !left.isRed) {
+					if (left == null || left.isBlack) {
 						if (right != null) {
-							right.isRed = false;
+							right.isBlack = true;
 						}
-						brother.isRed = true;
+						brother.isBlack = false;
 						rotateLeft(brother);
 						brother = parent.left;
 					}
-					brother.isRed = parent.isRed;
-					parent.isRed = false;
-					left.isRed = false;
+					brother.isBlack = parent.isBlack;
+					parent.isBlack = true;
+					left.isBlack = true;
 					rotateRight(parent);
 					node = root;
 					break;
 				}
 			}
 		}
-		node.isRed = false;
+		node.isBlack = true;
 	}
 
 
