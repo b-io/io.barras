@@ -110,9 +110,9 @@ public class JSON {
 	 */
 	public static String jsonify(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
-		builder.append('{');
+		builder.append(LEFT_BRACE);
 		builder.append(jsonifyNode(key, value));
-		builder.append('}');
+		builder.append(RIGHT_BRACE);
 		return builder.toString();
 	}
 

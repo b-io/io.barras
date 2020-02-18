@@ -23,6 +23,9 @@
  */
 package jupiter.transfer.db;
 
+import static jupiter.common.util.Characters.LEFT_BRACE;
+import static jupiter.common.util.Characters.RIGHT_BRACE;
+
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
@@ -106,7 +109,7 @@ public class SQLGenericRow
 	@Override
 	public String toString() {
 		final StringBuilder builder = Strings.createBuilder(10 * header.length);
-		builder.append("{");
+		builder.append(LEFT_BRACE);
 		final int n = header.length;
 		if (n == elements.length) {
 			for (int i = 0; i < n; ++i) {
@@ -118,7 +121,7 @@ public class SQLGenericRow
 				}
 			}
 		}
-		builder.append("}");
+		builder.append(RIGHT_BRACE);
 		return builder.toString();
 	}
 }
