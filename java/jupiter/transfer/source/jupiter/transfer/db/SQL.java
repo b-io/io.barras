@@ -288,7 +288,7 @@ public class SQL {
 
 		// Create the SQL query for inserting into the table with the columns
 		return Strings.join("INSERT INTO ", Strings.bracketize(table), " ",
-				Arrays.toString(columns, BRACKETER), " VALUES ",
+				Arrays.toStringWith(columns, BRACKETER), " VALUES ",
 				Arrays.toString(Arrays.repeat('?', columns.length)));
 	}
 
@@ -315,10 +315,10 @@ public class SQL {
 
 		// Create the SQL query for updating the table with the columns and conditional columns
 		return Strings.join("UPDATE ", Strings.bracketize(table), " SET ",
-				Arrays.toString(columns, " = ?,", BRACKETER),
+				Arrays.toStringWith(columns, " = ?,", BRACKETER),
 				Arrays.isNotEmpty(conditionalColumns) ?
 						Strings.join(" WHERE ",
-								Arrays.toString(conditionalColumns, " = ?,", BRACKETER)) :
+								Arrays.toStringWith(conditionalColumns, " = ?,", BRACKETER)) :
 						"");
 	}
 
