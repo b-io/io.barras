@@ -409,9 +409,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @return the rotated {@code N} tree
 	 */
 	protected N rotateLeft(final N tree) {
-		N rotatedTree;
 		// Set the root of the rotated tree
-		rotatedTree = tree.right;
+		final N rotatedTree = tree.right;
 		// Update the parent
 		final N parent = tree.parent;
 		if (parent == null) {
@@ -435,9 +434,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @return the rotated {@code N} tree
 	 */
 	protected N rotateRight(final N tree) {
-		N rotatedTree;
 		// Set the root of the rotated tree
-		rotatedTree = tree.left;
+		final N rotatedTree = tree.left;
 		// Update the parent
 		final N treeParent = tree.parent;
 		if (treeParent == null) {

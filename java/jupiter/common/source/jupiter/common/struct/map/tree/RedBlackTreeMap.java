@@ -247,7 +247,7 @@ public class RedBlackTreeMap<K, V>
 		if (node.left == null || node.right == null) {
 			// • There is 0 or 1 child (so the tree is guaranteed to be balanced)
 			// Get the child (if it exists)
-			RedBlackTreeNode<K, V> child;
+			final RedBlackTreeNode<K, V> child;
 			if (node.left != null) {
 				child = node.left;
 			} else if (node.right != null) {

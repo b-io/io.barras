@@ -234,7 +234,7 @@ public class ComparableAvlTreeMap<K extends Comparable<K>, V>
 		if (node.left == null || node.right == null) {
 			// • There is 0 or 1 child (so the tree is guaranteed to be balanced)
 			// Get the child (if it exists)
-			ComparableAvlTreeNode<K, V> child;
+			final ComparableAvlTreeNode<K, V> child;
 			if (node.left != null) {
 				child = node.left;
 			} else if (node.right != null) {
