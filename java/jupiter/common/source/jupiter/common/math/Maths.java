@@ -234,9 +234,9 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sum(final T[] numbers) {
+	public static double sum(final Number[] numbers) {
 		double sum = 0.;
-		for (final T number : numbers) {
+		for (final Number number : numbers) {
 			if (number != null) {
 				sum += number.doubleValue();
 			}
@@ -284,9 +284,9 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumWithoutNaN(final T[] numbers) {
+	public static double sumWithoutNaN(final Number[] numbers) {
 		double sum = 0.;
-		for (final T number : numbers) {
+		for (final Number number : numbers) {
 			if (number != null) {
 				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
@@ -320,9 +320,9 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquares(final T[] numbers, final double mean) {
+	public static double sumOfSquares(final Number[] numbers, final double mean) {
 		double sum = 0.;
-		for (final T number : numbers) {
+		for (final Number number : numbers) {
 			if (number != null) {
 				sum += square(number.doubleValue() - mean);
 			}
@@ -353,10 +353,9 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double sumOfSquaresWithoutNaN(final T[] numbers,
-			final double mean) {
+	public static double sumOfSquaresWithoutNaN(final Number[] numbers, final double mean) {
 		double sum = 0.;
-		for (final T number : numbers) {
+		for (final Number number : numbers) {
 			if (number != null) {
 				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
@@ -455,7 +454,7 @@ public class Maths {
 		return sum;
 	}
 
-	public static <T extends Number> double weightedSum(final T[] numbers, final T[] weights) {
+	public static double weightedSum(final Number[] numbers, final Number[] weights) {
 		// Check the arguments
 		ArrayArguments.requireSameLength(numbers, weights);
 
@@ -1341,13 +1340,13 @@ public class Maths {
 		return min;
 	}
 
-	public static <T extends Number> double minToDouble(final T[] numbers) {
+	public static double minToDouble(final Number[] numbers) {
 		// Check the arguments
 		ArrayArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the minimum value
 		double min = Double.MAX_VALUE;
-		for (final T number : numbers) {
+		for (final Number number : numbers) {
 			min = Math.min(number.doubleValue(), min);
 		}
 		return min;
@@ -1427,13 +1426,13 @@ public class Maths {
 		return max;
 	}
 
-	public static <T extends Number> double maxToDouble(final T[] numbers) {
+	public static double maxToDouble(final Number[] numbers) {
 		// Check the arguments
 		ArrayArguments.requireNotEmpty(numbers, "numbers");
 
 		// Get the maximum value
 		double max = Double.MIN_VALUE;
-		for (final T number : numbers) {
+		for (final Number number : numbers) {
 			max = Math.max(max, number.doubleValue());
 		}
 		return max;
