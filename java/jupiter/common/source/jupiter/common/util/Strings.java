@@ -166,7 +166,7 @@ public class Strings {
 	 * @return an Unicode {@link String} converted from the specified {@link String}
 	 */
 	public static String toUnicode(final String text) {
-		final StringBuilder builder = Strings.createBuilder(6 * text.length());
+		final StringBuilder builder = createBuilder(6 * text.length());
 		for (int i = 0; i < text.length(); ++i) {
 			builder.append(Characters.toUnicode(text.charAt(i)));
 		}
@@ -3987,7 +3987,7 @@ public class Strings {
 			if (stackTraceElementCount > 0) {
 				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 						exception.getStackTrace(), 0, stackTraceElementCount);
-				return Strings.join(exception.getLocalizedMessage(), COLON, NEW_LINE,
+				return join(exception.getLocalizedMessage(), COLON, NEW_LINE,
 						joinWith(stackTraces, NEW_LINE));
 			}
 			return exception.getLocalizedMessage();
