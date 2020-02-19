@@ -130,7 +130,7 @@ public class NumberTable<E extends Number>
 	public double[] getRowMeans() {
 		final double[] means = new double[m];
 		for (int i = 0; i < m; ++i) {
-			means[i] = Statistics.<E>getMean(getRow(i));
+			means[i] = Statistics.getMean(getRow(i));
 		}
 		return means;
 	}
@@ -143,7 +143,7 @@ public class NumberTable<E extends Number>
 	public double[] getColumnMeans() {
 		final double[] means = new double[n];
 		for (int i = 0; i < n; ++i) {
-			means[i] = Statistics.<E>getMean(getColumn(i));
+			means[i] = Statistics.getMean(getColumn(i));
 		}
 		return means;
 	}
