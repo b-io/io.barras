@@ -63,8 +63,9 @@ public class Schedulers {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T extends Job> Scheduler createScheduler(final String group,
-			final String cronExpression, final String timeZone, final Class<T>... jobClasses)
+	@SuppressWarnings("unchecked")
+	public static Scheduler createScheduler(final String group, final String cronExpression,
+			final String timeZone, final Class<? extends Job>... jobClasses)
 			throws SchedulerException {
 		final Scheduler scheduler = new StdSchedulerFactory().getScheduler();
 		// Create the job details
@@ -82,8 +83,8 @@ public class Schedulers {
 		return scheduler;
 	}
 
-	public static <T extends Job> JobDetail createJobDetail(final String group,
-			final Class<T> jobClass) {
+	public static JobDetail createJobDetail(final String group,
+			final Class<? extends Job> jobClass) {
 		return JobBuilder.newJob(jobClass)
 				.withIdentity(group.concat(".").concat(Objects.getName(jobClass)), group)
 				.storeDurably(true)
