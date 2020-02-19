@@ -41,6 +41,14 @@ import org.quartz.listeners.JobChainingJobListener;
 public class Schedulers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile String CHAIN_PREFIX = "CHAIN_";
+	public static volatile String TRIGGER_PREFIX = "TRIGGER_";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -84,7 +92,7 @@ public class Schedulers {
 
 	public static CronTrigger createTrigger(final String group, final String cronExpression,
 			final String timeZone) {
-		return TriggerBuilder.newTrigger().withIdentity("TRIGGER".concat(".").concat(group), group)
+		return TriggerBuilder.newTrigger().withIdentity(TRIGGER_PREFIX.concat(group), group)
 				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression)
 						.inTimeZone(TimeZone.getTimeZone(timeZone)))
 				.build();
@@ -92,8 +100,8 @@ public class Schedulers {
 
 	public static JobChainingJobListener createJobChain(final String group,
 			final JobDetail[] jobDetails) {
-		final JobChainingJobListener jobChain = new JobChainingJobListener("CHAIN".concat(".")
-				.concat(group));
+		final JobChainingJobListener jobChain = new JobChainingJobListener(
+				CHAIN_PREFIX.concat(group));
 		for (int i = 1; i < jobDetails.length; ++i) {
 			jobChain.addJobChainLink(jobDetails[i - 1].getKey(), jobDetails[i].getKey());
 		}
