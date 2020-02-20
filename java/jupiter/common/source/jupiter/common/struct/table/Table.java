@@ -1095,7 +1095,7 @@ public class Table<E>
 				setRow(i++, parser.parseToArray(values));
 			}
 			while ((line = reader.readLine()) != null) {
-				values = values = loadLine(line, delimiter, replacer);
+				values = loadLine(line, delimiter, replacer);
 				if (Arrays.isNullOrEmpty(values)) {
 					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));
