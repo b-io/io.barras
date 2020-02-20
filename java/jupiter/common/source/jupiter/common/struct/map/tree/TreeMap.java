@@ -31,7 +31,9 @@ import java.util.Map.Entry;
 
 import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Maps;
 
 /**
  * {@link TreeMap} is a light sorted {@link Map} implementation based on a tree with a
@@ -154,6 +156,45 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		// Get the value
 		final N node = getNode(key);
 		return node != null ? node.value : null;
+	}
+
+	/**
+	 * Returns all the {@code V} values associated to the specified keys in an {@link ExtendedList}.
+	 * <p>
+	 * @param keys the array of key {@link Object} of the {@code V} values to get
+	 * <p>
+	 * @return all the {@code V} values associated to the specified keys in an {@link ExtendedList}
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared with the current keys
+	 * @throws NullPointerException if any {@code keys} are {@code null}
+	 */
+	public ExtendedList<V> getAll(final Object[] keys) {
+		// Check the arguments
+		Arguments.requireNotNull(keys, "keys");
+
+		// Get the values associated to the keys
+		return Maps.getAll(this, keys);
+	}
+
+	/**
+	 * Returns all the {@code V} values associated to the specified keys or the specified default
+	 * {@code V} value for those that are not present in an {@link ExtendedList}.
+	 * <p>
+	 * @param keys         the array of key {@link Object} of the {@code V} values to get
+	 * @param defaultValue the default {@code V} value (may be {@code null})
+	 * <p>
+	 * @return all the {@code V} values associated to the specified keys or the specified default
+	 *         {@code V} value for those that are not present in an {@link ExtendedList}
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared with the current keys
+	 * @throws NullPointerException if any {@code keys} are {@code null}
+	 */
+	public ExtendedList<V> getAll(final Object[] keys, final V defaultValue) {
+		// Check the arguments
+		Arguments.requireNotNull(keys, "keys");
+
+		// Get the values associated to the keys or the default value for those that are not present
+		return Maps.getAll(this, keys, defaultValue);
 	}
 
 	/**
