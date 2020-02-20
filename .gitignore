@@ -25,6 +25,14 @@ X64
 .settings
 *.prefs
 
+# IntelliJ IDEA
+.idea
+modules.xml
+profiles_settings.xml
+vcs.xml
+workspace.xml
+*.iml
+
 # Netbeans
 nbproject
 nb-configuration.xml
@@ -44,6 +52,7 @@ nbactions.xml
 
 # Log files ########################################################################################
 
+log
 logs
 *.log
 *err.log
@@ -69,6 +78,10 @@ $*
 *.new
 *.old
 *.tmp
+
+# System files #####################################################################################
+
+.DS_Store
 
 
 # Uranus files #####################################################################################

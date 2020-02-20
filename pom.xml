@@ -82,6 +82,7 @@
 			<id>central</id>
 			<name>Central</name>
 			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
 			<releases>
 				<enabled>true</enabled>
 				<updatePolicy>daily</updatePolicy>
@@ -101,6 +102,7 @@
 			<id>central</id>
 			<name>Central</name>
 			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
 			<releases>
 				<enabled>true</enabled>
 				<updatePolicy>daily</updatePolicy>
