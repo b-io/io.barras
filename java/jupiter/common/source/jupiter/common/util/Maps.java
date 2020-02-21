@@ -57,7 +57,7 @@ public class Maps
 	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
 	 *         keys in an {@link ExtendedList}
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be compared with the current keys
+	 * @throws ClassCastException   if any {@code keys} cannot be compared with the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} are {@code null}
 	 */
 	public static <K, V> ExtendedList<V> getAll(final Map<K, V> map, final Object[] keys) {
@@ -83,16 +83,40 @@ public class Maps
 	 *         keys or the specified default {@code V} value for those that are not present in an
 	 *         {@link ExtendedList}
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be compared with the current keys
+	 * @throws ClassCastException   if any {@code keys} cannot be compared with the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} are {@code null}
 	 */
 	public static <K, V> ExtendedList<V> getAll(final Map<K, V> map, final Object[] keys,
 			final V defaultValue) {
 		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
 		for (final Object key : keys) {
-			values.add(map.getOrDefault(key, defaultValue));
+			values.add(getOrDefault(map, key, defaultValue));
 		}
 		return values;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code V} value of the specified {@link Map} associated to the specified key, or
+	 * the specified default {@code V} value if it is not present.
+	 * <p>
+	 * @param <K>          the key type of the {@link Map}
+	 * @param <V>          the value type of the {@link Map}
+	 * @param map          a {@link Map}
+	 * @param key          the key {@link Object} of the {@code V} value to get
+	 * @param defaultValue the default {@code V} value (may be {@code null})
+	 * <p>
+	 * @return the {@code V} value of the specified {@link Map} associated to the specified key, or
+	 *         the specified default {@code V} value if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared with the {@code map} keys
+	 * @throws NullPointerException if {@code key} is {@code null}
+	 */
+	public static <K, V> V getOrDefault(final Map<K, V> map, final Object key,
+			final V defaultValue) {
+		final V value;
+		return (value = map.get(key)) != null || map.containsKey(key) ? value : defaultValue;
 	}
 
 

@@ -392,7 +392,7 @@ public class Files {
 		try {
 			return IO.read(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -426,7 +426,7 @@ public class Files {
 		try {
 			return IO.read(new ZipInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -460,7 +460,7 @@ public class Files {
 		try {
 			return IO.read(new GZIPInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -523,7 +523,7 @@ public class Files {
 		try {
 			return IO.countLines(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -606,7 +606,7 @@ public class Files {
 			writer.write(content + NEW_LINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the specified file ", Strings.quote(file), ": ", ex);
+			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {

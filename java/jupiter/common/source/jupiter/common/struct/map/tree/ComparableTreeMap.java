@@ -118,6 +118,27 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	}
 
 	/**
+	 * Returns the {@code V} value associated to the specified key, or the specified default
+	 * {@code V} value if it is not present.
+	 * <p>
+	 * @param key          the key {@link Object} of the {@code V} value to get
+	 * @param defaultValue the default {@code V} value (may be {@code null})
+	 * <p>
+	 * @return the {@code V} value associated to the specified key, or the specified default
+	 *         {@code V} value if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code key} is {@code null}
+	 */
+	public V getOrDefault(final Object key, final V defaultValue) {
+		// Check the arguments
+		Arguments.requireNotNull(key, "key");
+
+		// Get the value associated to the key or the default value if it is not present
+		return Maps.getOrDefault(this, key, defaultValue);
+	}
+
+	/**
 	 * Returns all the {@code V} values associated to the specified keys in an {@link ExtendedList}.
 	 * <p>
 	 * @param keys the array of key {@link Object} of the {@code V} values to get
@@ -155,6 +176,8 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 		// Get the values associated to the keys or the default value for those that are not present
 		return Maps.getAll(this, keys, defaultValue);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the root {@link Entry} of types {@code K} and {@code V}.

@@ -281,6 +281,36 @@ public class SQL {
 
 	//////////////////////////////////////////////
 
+	public static String createDeleteQuery(final String table, final String[] conditionalColumns) {
+		// Check the arguments
+		Arguments.requireNotNull(table, "table");
+		if (Arrays.isNullOrEmpty(conditionalColumns)) {
+			IO.warn("No conditional columns for deleting the table ", Strings.quote(table));
+		}
+
+		// Create the SQL query for deleting the table with the conditional columns
+		return Strings.join("DELETE FROM ", Strings.bracketize(table),
+				Arrays.isNotEmpty(conditionalColumns) ?
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER).concat("=?")) :
+				"");
+	}
+
+	public static PreparedStatement createDeleteStatement(final Connection connection,
+			final String table, final String[] columns)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNotNull(connection, "connection");
+
+		// Create the SQL query for inserting into the table with the columns
+		final PreparedStatement statement = connection.prepareStatement(
+				createInsertQuery(table, columns), Statement.RETURN_GENERATED_KEYS);
+		// Return the SQL statement
+		return statement;
+	}
+
+	//////////////////////////////////////////////
+
 	public static String createInsertQuery(final String table, final String[] columns) {
 		// Check the arguments
 		Arguments.requireNotNull(table, "table");
@@ -312,14 +342,17 @@ public class SQL {
 		// Check the arguments
 		Arguments.requireNotNull(table, "table");
 		ArrayArguments.requireNotEmpty(columns, "columns");
+		if (Arrays.isNullOrEmpty(conditionalColumns)) {
+			IO.warn("No conditional columns for updating the table ", Strings.quote(table));
+		}
 
 		// Create the SQL query for updating the table with the columns and conditional columns
 		return Strings.join("UPDATE ", Strings.bracketize(table), " SET ",
-				Arrays.toStringWith(columns, " = ?,", BRACKETER),
+				Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
 				Arrays.isNotEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Arrays.toStringWith(conditionalColumns, " = ?,", BRACKETER)) :
-						"");
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER).concat("=?")) :
+				"");
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
@@ -507,6 +540,113 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of rows deleted by executing the specified SQL query using the specified
+	 * {@link Connection}, {@code 0} if nothing is returned, or {@code -1} if there is a problem.
+	 * <p>
+	 * @param connection a {@link Connection} (session) to a database
+	 * @param query      the {@code DELETE} query to execute
+	 * <p>
+	 * @return the number of rows deleted by executing the specified SQL query using the specified
+	 *         {@link Connection}, {@code 0} if nothing is returned, or {@code -1} if there is a
+	 *         problem
+	 */
+	public static int delete(final Connection connection, final String query) {
+		return updateWith(connection, query, null);
+	}
+
+	/**
+	 * Deletes the rows from the specified table where the specified conditional columns are equal
+	 * to the conditional values using the specified {@link Connection} and returns the number of
+	 * deleted rows, {@code 0} if nothing is returned, or {@code -1} if there is a problem.
+	 * <p>
+	 * @param connection         a {@link Connection} (session) to a database
+	 * @param table              the table containing the rows to delete
+	 * @param conditionalColumns the conditional columns to filter
+	 * @param conditionalValues  the conditional values to filter
+	 * <p>
+	 * @return the number of deleted rows, {@code 0} if nothing is returned, or {@code -1} if there
+	 *         is a problem
+	 */
+	public static int deleteWith(final Connection connection, final String table,
+			final String[] conditionalColumns, final Object[] conditionalValues) {
+		// Check the arguments
+		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
+			ArrayArguments.requireSameLength(
+					ArrayArguments.requireNotEmpty(conditionalColumns, "conditional columns"),
+					ArrayArguments.requireNotEmpty(conditionalValues, "conditional values"));
+		}
+
+		// Execute the SQL query and return the row count
+		return deleteWith(connection, createDeleteQuery(table, conditionalColumns),
+				conditionalValues);
+	}
+
+	/**
+	 * Returns the number of rows deleted by executing the specified SQL query with the specified
+	 * parameters using the specified {@link Connection}, {@code 0} if nothing is returned, or
+	 * {@code -1} if there is a problem.
+	 * <p>
+	 * @param connection a {@link Connection} (session) to a database
+	 * @param query      the {@code DELETE} query to execute
+	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
+	 *                   {@link PreparedStatement} to execute (may be {@code null})
+	 * <p>
+	 * @return the number of rows deleted by executing the specified SQL query with the specified
+	 *         parameters using the specified {@link Connection}, {@code 0} if nothing is returned,
+	 *         or {@code -1} if there is a problem
+	 */
+	public static int deleteWith(final Connection connection, final String query,
+			final Object... parameters) {
+		return updateWith(connection, query, parameters);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of rows deleted by executing the specified SQL Data Manipulation Language
+	 * (DML) {@link PreparedStatement}, {@code 0} if nothing is returned, or {@code -1} if there is
+	 * a problem.
+	 * <p>
+	 * @param statement the SQL Data Manipulation Language (DML) {@code DELETE}
+	 *                  {@link PreparedStatement} to execute
+	 * <p>
+	 * @return the number of rows deleted by executing the specified SQL Data Manipulation Language
+	 *         (DML) {@link PreparedStatement}, {@code 0} if nothing is returned, or {@code -1} if
+	 *         there is a problem
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link PreparedStatement}
+	 */
+	public static int delete(final PreparedStatement statement)
+			throws SQLException {
+		return updateWith(statement, null);
+	}
+
+	/**
+	 * Returns the number of rows deleted by executing the specified SQL Data Manipulation Language
+	 * (DML) {@link PreparedStatement} with the specified parameters, {@code 0} if nothing is
+	 * returned, or {@code -1} if there is a problem.
+	 * <p>
+	 * @param statement  the SQL Data Manipulation Language (DML) {@code DELETE}
+	 *                   {@link PreparedStatement} to execute
+	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
+	 *                   {@link PreparedStatement} to execute (may be {@code null})
+	 * <p>
+	 * @return the number of rows deleted by executing the specified SQL Data Manipulation Language
+	 *         (DML) {@link PreparedStatement} with the specified parameters, {@code 0} if nothing
+	 *         is returned, or {@code -1} if there is a problem
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link PreparedStatement}
+	 */
+	public static int deleteWith(final PreparedStatement statement, final Object... parameters)
+			throws SQLException {
+		return updateWith(statement, parameters);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns any auto-generated keys created by executing the specified {@code INSERT} query using
 	 * the specified {@link Connection}, or {@code null} if there is a problem.
 	 * <p>
@@ -521,18 +661,18 @@ public class SQL {
 	}
 
 	/**
-	 * Returns any auto-generated keys created by inserting the specified values with the specified
-	 * columns into the specified table using the specified {@link Connection}, or {@code null} if
-	 * there is a problem.
+	 * Returns any auto-generated key created by inserting the row with the specified columns
+	 * containing the specified values into the specified table using the specified
+	 * {@link Connection}, or {@code null} if there is a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table to insert into
-	 * @param columns    the columns of the values to insert
-	 * @param values     the values to insert
+	 * @param columns    the columns of the row to insert
+	 * @param values     the values of the row to insert
 	 * <p>
-	 * @return any auto-generated keys created by inserting the specified values with the specified
-	 *         columns into the specified table using the specified {@link Connection}, or
-	 *         {@code null} if there is a problem
+	 * @return any auto-generated key created by inserting the row with the specified columns
+	 *         containing the specified values into the specified table using the specified
+	 *         {@link Connection}, or {@code null} if there is a problem
 	 */
 	public static long[] insertWith(final Connection connection,
 			final String table, final String[] columns, final Object... values) {
@@ -540,7 +680,7 @@ public class SQL {
 		ArrayArguments.requireSameLength(ArrayArguments.requireNotEmpty(columns, "columns"),
 				ArrayArguments.requireNotEmpty(values, "values"));
 
-		// Execute the SQL query and return any auto-generated keys
+		// Execute the SQL query and return any auto-generated key
 		return insertWith(connection, createInsertQuery(table, columns), values);
 	}
 
@@ -583,6 +723,8 @@ public class SQL {
 		}
 		return null;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns any auto-generated keys created by executing the specified SQL Data Manipulation
@@ -661,17 +803,17 @@ public class SQL {
 	}
 
 	/**
-	 * Updates the specified table by setting the specified columns to the specified values where
-	 * the specified conditional columns are equal to the conditional values using the specified
-	 * {@link Connection} and returns the number of updated rows, {@code 0} if nothing is returned,
-	 * or {@code -1} if there is a problem.
+	 * Updates the rows of specified table by setting the specified columns to the specified values
+	 * where the specified conditional columns are equal to the conditional values using the
+	 * specified {@link Connection} and returns the number of updated rows, {@code 0} if nothing is
+	 * returned, or {@code -1} if there is a problem.
 	 * <p>
 	 * @param connection         a {@link Connection} (session) to a database
-	 * @param table              the table to update
-	 * @param columns            the columns of the values to update
-	 * @param values             the values to update
-	 * @param conditionalColumns the conditional columns to update
-	 * @param conditionalValues  the conditional values to update
+	 * @param table              the table containing the rows to update
+	 * @param columns            the columns of the rows to update
+	 * @param values             the values of the rows to update to
+	 * @param conditionalColumns the conditional columns to filter
+	 * @param conditionalValues  the conditional values to filter
 	 * <p>
 	 * @return the number of updated rows, {@code 0} if nothing is returned, or {@code -1} if there
 	 *         is a problem
@@ -732,6 +874,8 @@ public class SQL {
 		}
 		return -1;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the number of rows updated by executing the specified SQL Data Manipulation Language

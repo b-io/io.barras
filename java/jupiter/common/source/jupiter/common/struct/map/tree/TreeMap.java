@@ -159,6 +159,27 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	}
 
 	/**
+	 * Returns the {@code V} value associated to the specified key, or the specified default
+	 * {@code V} value if it is not present.
+	 * <p>
+	 * @param key          the key {@link Object} of the {@code V} value to get
+	 * @param defaultValue the default {@code V} value (may be {@code null})
+	 * <p>
+	 * @return the {@code V} value associated to the specified key, or the specified default
+	 *         {@code V} value if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws NullPointerException if {@code key} is {@code null}
+	 */
+	public V getOrDefault(final Object key, final V defaultValue) {
+		// Check the arguments
+		Arguments.requireNotNull(key, "key");
+
+		// Get the value associated to the key or the default value if it is not present
+		return Maps.getOrDefault(this, key, defaultValue);
+	}
+
+	/**
 	 * Returns all the {@code V} values associated to the specified keys in an {@link ExtendedList}.
 	 * <p>
 	 * @param keys the array of key {@link Object} of the {@code V} values to get
@@ -197,6 +218,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		return Maps.getAll(this, keys, defaultValue);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the key {@link Comparator} of supertype {@code K}.
 	 * <p>
@@ -205,6 +228,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	public Comparator<? super K> getKeyComparator() {
 		return keyComparator;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the root {@link Entry} of types {@code K} and {@code V}.
