@@ -207,8 +207,7 @@ public class ReservedThreadPoolExecutor
 	 * {@code null} otherwise. The {@link Future#get} method will return the specified default
 	 * {@code T} result upon successful completion.
 	 * <p>
-	 * @param <T>           the type of the returned {@link Future} of the {@link Runnable} task to
-	 *                      submit
+	 * @param <T>           the type of the {@link Future} to return
 	 * @param task          the {@link Runnable} task to submit
 	 * @param defaultResult the default {@code T} result to return upon successful completion (may
 	 *                      be {@code null})
@@ -239,7 +238,7 @@ public class ReservedThreadPoolExecutor
 	 * {@code null} otherwise. The {@link Future#get} method will return {@code null} upon
 	 * successful completion.
 	 * <p>
-	 * @param <T>  the type of the {@link Callable} task to submit
+	 * @param <T>  the type of the {@link Future} to return
 	 * @param task the {@link Callable} task of type {@code T} to submit
 	 * <p>
 	 * @return a {@link Future} representing the pending completion of the specified
