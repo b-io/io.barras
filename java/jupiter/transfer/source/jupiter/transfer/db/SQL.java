@@ -199,7 +199,7 @@ public class SQL {
 			return Integers.convert(text) == 1;
 		} else if (Bytes.isPrimitiveArray(c)) {
 			return text.getBytes();
-		} else if (Dates.is(c)) {
+		} else if (Date.class.isAssignableFrom(c)) {
 			return Date.valueOf(text);
 		} else if (Numbers.is(c)) {
 			return Numbers.toNumber(c, text);
