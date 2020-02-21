@@ -577,7 +577,7 @@ public class SQL {
 		}
 
 		// Execute the SQL query and return the row count
-		return deleteWith(connection, createDeleteQuery(table, conditionalColumns),
+		return updateWith(connection, createDeleteQuery(table, conditionalColumns),
 				conditionalValues);
 	}
 
