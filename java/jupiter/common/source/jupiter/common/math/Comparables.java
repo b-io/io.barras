@@ -71,7 +71,7 @@ public class Comparables {
 			return (Comparator<? super T>) Doubles.ARRAY_COMPARATOR;
 		}
 		throw new IllegalArgumentException(
-				Strings.join("The specified ", c, " cannot be compared"));
+				Strings.join("The specified type ", c, " cannot be compared"));
 	}
 
 
