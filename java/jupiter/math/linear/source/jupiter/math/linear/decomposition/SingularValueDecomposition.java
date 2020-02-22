@@ -451,21 +451,21 @@ public class SingularValueDecomposition
 						if (sigma[k] >= sigma[k + 1]) {
 							break;
 						}
-						double t = sigma[k];
+						double value = sigma[k];
 						sigma[k] = sigma[k + 1];
-						sigma[k + 1] = t;
+						sigma[k + 1] = value;
 						if (requireV && k < n - 1) {
 							for (int i = 0; i < n; ++i) {
-								t = V[i][k + 1];
+								value = V[i][k + 1];
 								V[i][k + 1] = V[i][k];
-								V[i][k] = t;
+								V[i][k] = value;
 							}
 						}
 						if (requireU && k < m - 1) {
 							for (int i = 0; i < m; ++i) {
-								t = U[i][k + 1];
+								value = U[i][k + 1];
 								U[i][k + 1] = U[i][k];
-								U[i][k] = t;
+								U[i][k] = value;
 							}
 						}
 						++k;

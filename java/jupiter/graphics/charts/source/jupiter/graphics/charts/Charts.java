@@ -23,13 +23,8 @@
  */
 package jupiter.graphics.charts;
 
-import static jupiter.gui.swing.Swings.MIN_SIZE;
-import static jupiter.gui.swing.Swings.PREFERRED_SIZE;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.text.DateFormat;
 import java.text.Format;
 import java.util.Iterator;
@@ -89,42 +84,6 @@ public class Charts {
 	public static ExtendedList<Color> getColors() {
 		return new ExtendedList<Color>(
 				Arrays.<Color>asList(Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Sets the parameters of the specified {@link Component} by default.
-	 * <p>
-	 * @param component the {@link Component} to set
-	 */
-	public static void setDefaultParameters(final Component component) {
-		setSizes(component);
-	}
-
-	/**
-	 * Sets the minimum and preferred sizes of the specified {@link Component} by default.
-	 * <p>
-	 * @param component the {@link Component} to set
-	 */
-	public static void setSizes(final Component component) {
-		setSizes(component, MIN_SIZE, PREFERRED_SIZE);
-	}
-
-	/**
-	 * Sets the minimum and preferred sizes of the specified {@link Component}.
-	 * <p>
-	 * @param component     the {@link Component} to set
-	 * @param minSize       a minimum {@link Dimension}
-	 * @param preferredSize a preferred {@link Dimension}
-	 */
-	public static void setSizes(final Component component, final Dimension minSize,
-			final Dimension preferredSize) {
-		component.setMinimumSize(minSize);
-		component.setPreferredSize(preferredSize);
 	}
 
 

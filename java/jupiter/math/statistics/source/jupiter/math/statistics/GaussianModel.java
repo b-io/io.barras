@@ -82,6 +82,6 @@ public class GaussianModel
 	 */
 	@Override
 	public double getLikelihood(final double evidence) {
-		return Statistics.normalPdf(evidence, mean, standardDeviation);
+		return Statistics.normalPDF(evidence, mean, standardDeviation);
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2020 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,10 @@
 package jupiter.gui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -62,11 +64,48 @@ public class Swings {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the parameters of the specified {@link Component} by default.
+	 * <p>
+	 * @param component the {@link Component} to set
+	 */
+	public static void setDefaultParameters(final Component component) {
+		setSizes(component);
+	}
+
+	/**
+	 * Sets the minimum and preferred sizes of the specified {@link Component} by default.
+	 * <p>
+	 * @param component the {@link Component} to set
+	 */
+	public static void setSizes(final Component component) {
+		setSizes(component, MIN_SIZE, PREFERRED_SIZE);
+	}
+
+	/**
+	 * Sets the minimum and preferred sizes of the specified {@link Component}.
+	 * <p>
+	 * @param component     the {@link Component} to set
+	 * @param minSize       a minimum {@link Dimension}
+	 * @param preferredSize a preferred {@link Dimension}
+	 */
+	public static void setSizes(final Component component, final Dimension minSize,
+			final Dimension preferredSize) {
+		component.setMinimumSize(minSize);
+		component.setPreferredSize(preferredSize);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static JFrame createFrame(final String title) {
 		final JFrame frame = new JFrame(title);
+		setDefaultParameters(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		return frame;
@@ -74,10 +113,10 @@ public class Swings {
 
 	public static JProgressBar createProgressBar(final int min, final int max) {
 		final JProgressBar progressBar = new JProgressBar(min, max);
-		progressBar.setStringPainted(true);
-		progressBar.setValue(min);
 		progressBar.setMinimumSize(new Dimension(MIN_SIZE.width / 2, 50));
 		progressBar.setPreferredSize(new Dimension(PREFERRED_SIZE.width / 2, 50));
+		progressBar.setStringPainted(true);
+		progressBar.setValue(min);
 		return progressBar;
 	}
 

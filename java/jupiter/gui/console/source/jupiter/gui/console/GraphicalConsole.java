@@ -84,7 +84,6 @@ public class GraphicalConsole
 	public GraphicalConsole() {
 		// Create the frame
 		frame = Swings.createFrame(TITLE);
-		frame.setSize(600, 400);
 		// Create the console
 		console = new JConsole();
 		frame.add(console);

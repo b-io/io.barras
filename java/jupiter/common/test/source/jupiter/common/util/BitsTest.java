@@ -43,7 +43,7 @@ public class BitsTest
 	public void testRotateLeft_long() {
 		IO.test(BULLET, " rotateLeft");
 
-		assertEquals(0, Bits.rotateLeft(0L));
+		assertEquals(0L, Bits.rotateLeft(0L));
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class BitsTest
 	public void testRotateLeft_long_long() {
 		IO.test(BULLET, " rotateLeft");
 
-		assertEquals(0, Bits.rotateLeft(0L, 0L));
+		assertEquals(0L, Bits.rotateLeft(0L, 0L));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class BitsTest
 	public void testRotateRight_long() {
 		IO.test(BULLET, " rotateRight");
 
-		assertEquals(0, Bits.rotateRight(0L));
+		assertEquals(0L, Bits.rotateRight(0L));
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class BitsTest
 	public void testRotateRight_long_long() {
 		IO.test(BULLET, " rotateRight");
 
-		assertEquals(0, Bits.rotateRight(0L, 0L));
+		assertEquals(0L, Bits.rotateRight(0L, 0L));
 	}
 
 	/**

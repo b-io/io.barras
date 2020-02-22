@@ -21,36 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.hardware.jni;
+package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.hardware.jni.MatrixOperations.multiply;
-import static jupiter.hardware.jni.MatrixOperations.test;
+import static jupiter.common.util.Characters.BULLET;
 
-import jupiter.common.util.Doubles;
+import java.io.IOException;
 
-public class MatrixOperationsDemo {
+import jupiter.common.struct.table.StringTable;
+import jupiter.common.test.Test;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
+public class SVMTest
+		extends Test {
+
+	public SVMTest(final String name) {
+		super(name);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Demonstrates {@link MatrixOperations}.
-	 * <p>
-	 * @param args ignored
+	 * Test of classify method, of class SVM.
 	 */
-	public static void main(final String[] args) {
-		test();
+	public void testClassify() {
+		IO.test(BULLET, " classify");
 
-		final double[] A = new double[] {
-			1., 2., 3., 4., 5., 6.
-		};
-		final double[] B = new double[] {
-			1., 2., 3., 4.
-		};
-		for (int i = 0; i < 100; ++i) {
-			IO.result(Doubles.toString(multiply(A, B, 2, 2)));
+		try {
+			// Initialize
+			final StringTable trainingExamples = new StringTable("test/resources/test.csv", false);
+			final SVM svm = new SVM(2);
+
+			// Train the model
+			svm.load(trainingExamples, 2);
+			svm.train();
+
+			// Verify the model
+			assertEquals((int) svm.classify(new double[] {0., 0.}), 0);
+			assertEquals(0.69, svm.getProbabilityEstimates().get(0), 0.01);
+			assertEquals((int) svm.classify(new double[] {0., 1.}), 1);
+			assertEquals(0.69, svm.getProbabilityEstimates().get(1), 0.01);
+			assertEquals((int) svm.classify(new double[] {1., 0.}), 2);
+			assertEquals(0.69, svm.getProbabilityEstimates().get(2), 0.01);
+			assertEquals((int) svm.classify(new double[] {1., 1.}), 3);
+			assertEquals(0.69, svm.getProbabilityEstimates().get(3), 0.01);
+		} catch (final IOException ex) {
+			IO.error(ex);
 		}
 	}
 }

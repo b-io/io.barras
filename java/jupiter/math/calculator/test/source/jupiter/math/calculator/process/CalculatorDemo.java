@@ -21,62 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.graphics.charts;
+package jupiter.math.calculator.process;
 
-import org.jfree.ui.RefineryUtilities;
+import jupiter.gui.console.GraphicalConsole;
+import jupiter.math.calculator.Console;
 
-import jupiter.common.time.Chronometer;
-import jupiter.common.util.Doubles;
-import jupiter.graphics.charts.struct.TimeSeriesList;
-
-public class TimeSeriesGraphicDemo {
+public class CalculatorDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Demonstrates {@link TimeSeriesGraphic}.
+	 * Demonstrates {@link Calculator}.
 	 * <p>
 	 * @param args ignored
 	 */
 	public static void main(final String[] args) {
-		final TimeSeriesGraphic graphic = new TimeSeriesGraphic("TimeSeriesGraphic Demo", "Time",
-				"Value", createTimeSeriesList(100));
-		graphic.pack();
-		RefineryUtilities.centerFrameOnScreen(graphic);
-		graphic.display();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a {@link TimeSeriesList}.
-	 * <p>
-	 * @param count the length of the time series to create
-	 * <p>
-	 * @return a {@link TimeSeriesList}
-	 */
-	protected static TimeSeriesList createTimeSeriesList(final int count) {
-		// Initialize
-		final TimeSeriesList dataset = new TimeSeriesList();
-		final Double[] values = new Double[2];
-		final Chronometer chrono = new Chronometer();
-
-		// Create the time series list
-		dataset.addSeries("Time intervals [ms]");
-		dataset.addSeries("Random values");
-		chrono.start();
-		for (int i = 0; i < count; ++i) {
-			chrono.stop();
-			chrono.start();
-			values[0] = chrono.getMilliseconds();
-			values[1] = Doubles.random();
-			dataset.addValues(values);
-		}
-		return dataset;
+		// Create a graphical console and show it
+		final GraphicalConsole graphicalConsole = new GraphicalConsole();
+		// Process the inputs
+		Console.main(args);
+		// Close the graphical console
+		graphicalConsole.exit();
 	}
 }

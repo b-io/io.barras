@@ -23,6 +23,8 @@
  */
 package jupiter.math.linear.decomposition;
 
+import static jupiter.common.io.IO.IO;
+
 import java.io.Serializable;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -138,9 +140,9 @@ public class LUDecomposition
 			}
 			if (p != j) {
 				for (int k = 0; k < n; ++k) {
-					final double t = LU[p][k];
+					final double value = LU[p][k];
 					LU[p][k] = LU[j][k];
-					LU[j][k] = t;
+					LU[j][k] = value;
 				}
 				final int k = pivot[p];
 				pivot[p] = pivot[j];
@@ -157,7 +159,7 @@ public class LUDecomposition
 
 		// Verify the feasibility
 		if (!isNonsingular()) {
-			throw new IllegalOperationException("The matrix is singular");
+			IO.warn("The matrix is singular");
 		}
 	}
 

@@ -25,6 +25,7 @@ package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.BULLET;
+import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 
 import java.io.IOException;
 
@@ -54,19 +55,18 @@ public class LogisticRegressionTest
 			// Train the model
 			final int iterationCount = model.train();
 
-			// Check the statistics
-			// • The accuracy
+			// Report the statistics
 			final double accuracy = model.computeAccuracy();
-			IO.test(Doubles.formatPercent(accuracy), " accuracy in ",
-					iterationCount, " iterations");
-			assertEquals(0.5, accuracy, 0.05);
-			// • The F1 score
 			final double f1Score = model.computeF1Score();
-			IO.test(Doubles.formatPercent(f1Score), " F1 score in ",
-					iterationCount, " iterations");
-			assertEquals(0.5, f1Score, 0.05);
-			// • The cost
 			final double cost = model.computeCost();
+			IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
+					Doubles.formatPercent(f1Score), " F1 score and ",
+					DECIMAL_FORMAT.format(cost), " cost in ",
+					iterationCount, " iterations");
+
+			// Verify the model
+			assertEquals(0.5, accuracy, 0.05);
+			assertEquals(0.5, f1Score, 0.05);
 			assertEquals(0.67, cost, 0.05);
 		} catch (final IOException ex) {
 			IO.error(ex);

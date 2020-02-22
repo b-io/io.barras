@@ -1091,6 +1091,73 @@ public class Matrix
 	//////////////////////////////////////////////
 
 	/**
+	 * Returns the magic square {@link Matrix} of the specified size.
+	 * <p>
+	 * @param size the number of rows and columns
+	 * <p>
+	 * @return the magic square {@link Matrix} of the specified size
+	 */
+	public static Matrix magic(final int size) {
+		final double[][] values = new double[size][size];
+		if (size % 2 == 1) {
+			// • Create the magic square of the size (of odd order)
+			final int a = (size + 1) / 2;
+			final int b = size + 1;
+			for (int j = 0; j < size; j++) {
+				for (int i = 0; i < size; i++) {
+					values[i][j] = size * ((i + j + a) % size) + (i + 2 * j + b) % size + 1;
+				}
+			}
+		} else if (size % 4 == 0) {
+			// • Create the magic square of the size (of doubly even order)
+			for (int j = 0; j < size; j++) {
+				for (int i = 0; i < size; i++) {
+					if ((i + 1) / 2 % 2 == (j + 1) / 2 % 2) {
+						values[i][j] = size * size - size * i - j;
+					} else {
+						values[i][j] = size * i + j + 1;
+					}
+				}
+			}
+		} else {
+			// • Create the magic square of the size (of singly even order)
+			final int p = size / 2;
+			final int k = (size - 2) / 4;
+			final Matrix A = magic(p);
+			for (int j = 0; j < p; j++) {
+				for (int i = 0; i < p; i++) {
+					final double aij = A.get(i, j);
+					values[i][j] = aij;
+					values[i][j + p] = aij + 2 * p * p;
+					values[i + p][j] = aij + 3 * p * p;
+					values[i + p][j + p] = aij + p * p;
+				}
+			}
+			for (int i = 0; i < p; i++) {
+				for (int j = 0; j < k; j++) {
+					final double value = values[i][j];
+					values[i][j] = values[i + p][j];
+					values[i + p][j] = value;
+				}
+				for (int j = size - k + 1; j < size; j++) {
+					final double value = values[i][j];
+					values[i][j] = values[i + p][j];
+					values[i + p][j] = value;
+				}
+			}
+			double value = values[k][0];
+			values[k][0] = values[k + p][0];
+			values[k + p][0] = value;
+			value = values[k][k];
+			values[k][k] = values[k + p][k];
+			values[k + p][k] = value;
+		}
+		return new Matrix(values);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the randomization of {@code size(this)}.
 	 * <p>
 	 * @return {@code rand(size(this))}
@@ -2255,12 +2322,12 @@ public class Matrix
 	 * @return {@code trace(this)}
 	 */
 	public double trace() {
-		double t = 0.;
+		double trace = 0.;
 		final int limit = Math.min(m, n);
 		for (int i = 0; i < limit; ++i) {
-			t += elements[i * n + i];
+			trace += elements[i * n + i];
 		}
-		return t;
+		return trace;
 	}
 
 

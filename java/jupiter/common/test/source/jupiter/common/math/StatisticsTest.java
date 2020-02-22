@@ -38,23 +38,23 @@ public class StatisticsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of normalCdf method, of class Statistics.
+	 * Test of normalCDF method, of class Statistics.
 	 */
-	public void testNormalCdf() {
-		IO.test(BULLET, " normalCdf");
+	public void testNormalCDF() {
+		IO.test(BULLET, " normalCDF");
 
-		final double normalCdf = Statistics.normalCdf(0.);
-		assertEquals(0.5, normalCdf, Maths.TOLERANCE);
+		final double normalCDF = Statistics.normalCDF(0.);
+		assertEquals(0.5, normalCDF, Maths.TOLERANCE);
 	}
 
 	/**
-	 * Test of normalCdfInverse method, of class Statistics.
+	 * Test of normalCDFInverse method, of class Statistics.
 	 */
-	public void testNormalCdfInverse() {
-		IO.test(BULLET, " normalCdfInverse");
+	public void testNormalCDFInverse() {
+		IO.test(BULLET, " normalCDFInverse");
 
-		final double normalCdfInverse = Statistics.normalCdfInverse(Maths.DEFAULT_CONFIDENCE);
-		IO.test("Accuracy: ", Maths.delta(normalCdfInverse, Maths.DEFAULT_Z));
-		assertEquals(Maths.DEFAULT_Z, normalCdfInverse, Maths.TOLERANCE);
+		final double normalCDFInverse = Statistics.normalCDFInverse(Maths.DEFAULT_CONFIDENCE);
+		IO.test("Accuracy: ", Maths.delta(normalCDFInverse, Maths.DEFAULT_Z));
+		assertEquals(Maths.DEFAULT_Z, normalCDFInverse, Maths.TOLERANCE);
 	}
 }

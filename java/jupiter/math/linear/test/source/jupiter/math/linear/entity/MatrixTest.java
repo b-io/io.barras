@@ -114,7 +114,7 @@ public class MatrixTest
 					Tests.printTimes(times);
 					parallelStats.set(rowIndex, columnIndex, Statistics.mean(times));
 
-					// Check the result
+					// Verify the result
 					assertEquals(expected, found);
 				} finally {
 					Matrix.unparallelize();
@@ -138,7 +138,7 @@ public class MatrixTest
 						Tests.printTimes(times);
 						gpuStats.set(rowIndex, columnIndex, Statistics.mean(times));
 
-						// Check the result
+						// Verify the result
 						assertEquals(expected, found);
 					} finally {
 						CL.setActive(false);
@@ -165,7 +165,7 @@ public class MatrixTest
 					Tests.printTimes(times);
 					hybridStats.set(rowIndex, columnIndex, Statistics.mean(times));
 
-					// Check the result
+					// Verify the result
 					assertEquals(expected, found);
 				} finally {
 					Matrix.unparallelize();
@@ -201,7 +201,7 @@ public class MatrixTest
 		// Initialize
 		final Matrix A = Matrix.random(10);
 
-		// Test the matrix division
+		// Verify the matrix division
 		assertTrue(A.equals(A.times(A).division(A)));
 	}
 

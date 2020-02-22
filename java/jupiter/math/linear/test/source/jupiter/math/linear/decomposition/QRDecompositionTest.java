@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2020 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.hardware.jni;
+package jupiter.math.linear.decomposition;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.hardware.jni.MatrixOperations.multiply;
-import static jupiter.hardware.jni.MatrixOperations.test;
+import static jupiter.common.util.Characters.BULLET;
 
-import jupiter.common.util.Doubles;
+import jupiter.common.math.Maths;
+import jupiter.common.test.Test;
+import jupiter.math.linear.entity.Matrix;
 
-public class MatrixOperationsDemo {
+public class QRDecompositionTest
+		extends Test {
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
+	public QRDecompositionTest(final String name) {
+		super(name);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Demonstrates {@link MatrixOperations}.
-	 * <p>
-	 * @param args ignored
+	 * Test of class QRDecomposition.
 	 */
-	public static void main(final String[] args) {
-		test();
+	public void testQRDecomposition() {
+		IO.test(BULLET, " QRDecomposition");
 
-		final double[] A = new double[] {
-			1., 2., 3., 4., 5., 6.
-		};
-		final double[] B = new double[] {
-			1., 2., 3., 4.
-		};
-		for (int i = 0; i < 100; ++i) {
-			IO.result(Doubles.toString(multiply(A, B, 2, 2)));
+		// Test the QR decomposition
+		for (int size = 3; size <= 32; ++size) {
+			// Initialize
+			final Matrix matrix = Matrix.magic(size);
+
+			// Decompose
+			final QRDecomposition decomposition = new QRDecomposition(matrix);
+
+			// Verify the decomposition
+			final Matrix Q = decomposition.getQ();
+			final Matrix result = Q.times(decomposition.getR()).minus(matrix);
+			assertEquals(0., result.norm1() / (size * Maths.TOLERANCE), 0.01);
 		}
 	}
 }

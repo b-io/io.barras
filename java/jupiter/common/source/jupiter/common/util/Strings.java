@@ -3667,7 +3667,7 @@ public class Strings {
 			return false;
 		}
 
-		// Verify
+		// Test whether the text is numeric
 		final NumberFormat formatter = NumberFormat.getInstance();
 		final ParsePosition position = new ParsePosition(0);
 		formatter.parse(text, position);

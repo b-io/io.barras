@@ -91,7 +91,7 @@ public class NeuralNetworkTest
 			model.setWeights(weights);
 			model.setBias(null);
 
-			// Train
+			// Train the model
 			chrono.start();
 			final int iterationCount = model.train(1.2, 1E-8, 10000, hiddenLayerCount,
 					hiddenLayerSize);
@@ -107,7 +107,7 @@ public class NeuralNetworkTest
 					iterationCount, " iterations in ",
 					chrono.getMilliseconds(), " [ms]");
 
-			// Check the statistics
+			// Verify the model
 			assertEquals(1., accuracy, Classifier.DEFAULT_TOLERANCE);
 			assertEquals(1., f1Score, Classifier.DEFAULT_TOLERANCE);
 			assertEquals(0., cost, Classifier.DEFAULT_TOLERANCE);
@@ -126,7 +126,7 @@ public class NeuralNetworkTest
 		final int testCount = 2;
 		final double[] times = new double[testCount];
 
-		// Test the classifier
+		IO.test("Test the classifier");
 		try {
 			IO.test("A) Test the activation function TANH");
 			for (int t = 0; t < testCount; ++t) {
@@ -208,7 +208,7 @@ public class NeuralNetworkTest
 		}
 		final Chronometer chrono = new Chronometer();
 
-		// Train
+		// Train the model
 		chrono.start();
 		final int iterationCount = model.train(learningRate, firstMomentExponentialDecayRate,
 				secondMomentExponentialDecayRate, Classifier.DEFAULT_TOLERANCE, maxIterationCount,
@@ -219,11 +219,13 @@ public class NeuralNetworkTest
 		final double accuracy = model.computeAccuracy();
 		final double f1Score = model.computeF1Score();
 		final double cost = model.computeCost();
-		IO.test(Doubles.formatPercent(accuracy), " accuracy, ", Doubles.formatPercent(f1Score),
-				" F1 score and ", DECIMAL_FORMAT.format(cost), " cost in ", iterationCount,
-				" iterations in ", chrono.getMilliseconds(), " [ms]");
+		IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
+				Doubles.formatPercent(f1Score), " F1 score and ",
+				DECIMAL_FORMAT.format(cost), " cost in ",
+				iterationCount, " iterations in ",
+				chrono.getMilliseconds(), " [ms]");
 
-		// Check the statistics
+		// Verify the model
 		assertEquals(expectedAccuracy, accuracy, tolerance);
 		assertEquals(expectedAccuracy, f1Score, tolerance);
 		assertEquals(expectedCost, cost, tolerance);

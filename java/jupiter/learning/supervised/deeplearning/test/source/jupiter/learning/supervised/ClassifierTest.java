@@ -53,7 +53,7 @@ public class ClassifierTest
 				"test/resources/A/X.csv",
 				"test/resources/A/Y.csv");
 
-		// Check the construction
+		// Verify the model
 		assertEquals(2, model.getFeatureVectors().getRowDimension());
 		assertEquals(400, model.getFeatureVectors().getColumnDimension());
 		assertEquals(1, model.getClasses().getRowDimension());
