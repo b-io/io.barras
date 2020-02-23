@@ -49,10 +49,10 @@ public class ParseException
 
 	/**
 	 * Constructs a {@link ParseException} with the specified message {@link String} (which is saved
-	 * for later retrieval by the method {@link #getMessage()}).
+	 * for later retrieval by the method {@link #getMessage}).
 	 * <p>
 	 * @param message the message {@link String} (which is saved for later retrieval by the method
-	 *                {@link #getMessage()})
+	 *                {@link #getMessage})
 	 */
 	public ParseException(final String message) {
 		super(message);
@@ -60,13 +60,13 @@ public class ParseException
 
 	/**
 	 * Constructs a {@link ParseException} with the specified message {@link String} (which is saved
-	 * for later retrieval by the method {@link #getMessage()}) and cause {@link Throwable} (which
-	 * is saved for later retrieval by the method {@link #getCause()}).
+	 * for later retrieval by the method {@link #getMessage}) and cause {@link Throwable} (which is
+	 * saved for later retrieval by the method {@link #getCause}).
 	 * <p>
 	 * @param message the message {@link String} (which is saved for later retrieval by the method
-	 *                {@link #getMessage()})
+	 *                {@link #getMessage})
 	 * @param cause   the cause {@link Throwable} (which is saved for later retrieval by the method
-	 *                {@link #getCause()})
+	 *                {@link #getCause})
 	 */
 	public ParseException(final String message, final Throwable cause) {
 		super(message, cause);

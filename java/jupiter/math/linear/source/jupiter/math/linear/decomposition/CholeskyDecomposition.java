@@ -36,7 +36,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * triangular matrix {@code L} so that {@code A = L L'}.
  * <p>
  * If the matrix is not symmetric or positive definite, the constructor returns a partial
- * decomposition and sets an internal flag that may be queried by the method {@link #isSPD()}.
+ * decomposition and sets an internal flag that may be queried by the method {@link #isSPD}.
  * <p>
  * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
