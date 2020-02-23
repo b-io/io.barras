@@ -26,6 +26,7 @@ package jupiter.math.calculator.model;
 import static jupiter.common.util.Characters.SPACE;
 
 import jupiter.common.util.Strings;
+import jupiter.math.calculator.model.Element.Type;
 
 public class BinaryOperation
 		extends Element {

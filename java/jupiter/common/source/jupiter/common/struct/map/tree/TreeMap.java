@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
