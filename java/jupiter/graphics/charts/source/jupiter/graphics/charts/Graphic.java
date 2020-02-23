@@ -25,6 +25,7 @@ package jupiter.graphics.charts;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
+import jupiter.gui.swing.Swings;
 
 import org.jfree.ui.ApplicationFrame;
 
@@ -73,7 +74,7 @@ public abstract class Graphic
 	 * Sets the parameters by default.
 	 */
 	public void setDefaultParameters() {
-		Charts.setSizes(this);
+		Swings.setDefaultParameters(this);
 	}
 
 

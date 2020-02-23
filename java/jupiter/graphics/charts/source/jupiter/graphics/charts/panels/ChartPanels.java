@@ -30,7 +30,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 
 import jupiter.common.util.Integers;
-import jupiter.graphics.charts.Charts;
+import jupiter.gui.swing.Swings;
 import jupiter.math.analysis.struct.XY;
 
 import org.jfree.chart.ChartMouseEvent;
@@ -156,7 +156,7 @@ public class ChartPanels {
 	 * @param chartPanel the {@link ChartPanel} to set
 	 */
 	public static void setDefaultParameters(final ChartPanel chartPanel) {
-		Charts.setSizes(chartPanel);
+		Swings.setDefaultParameters(chartPanel);
 		JPanels.addScrollZoom(chartPanel);
 		chartPanel.setMouseZoomable(true, false);
 	}
