@@ -1408,7 +1408,7 @@ public class Strings {
 	 *         {@link String} by the specified {@link String}
 	 */
 	public static String replaceInside(final String text, final char[] delimiters,
-			final char[] tokens, final char replacement) {
+			final char[] tokens, final String replacement) {
 		// Check the arguments
 		if (text == null || delimiters == null || tokens == null) {
 			return text;
@@ -1446,7 +1446,7 @@ public class Strings {
 	 *         {@link String} by the specified {@link String}
 	 */
 	public static String replaceOutside(final String text, final char[] delimiters,
-			final char[] tokens, final char replacement) {
+			final char[] tokens, final String replacement) {
 		// Check the arguments
 		if (text == null || delimiters == null || tokens == null) {
 			return text;

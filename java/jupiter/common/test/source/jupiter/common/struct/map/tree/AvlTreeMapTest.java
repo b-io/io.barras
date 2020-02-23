@@ -51,15 +51,15 @@ public class AvlTreeMapTest
 		fill(instance, 7);
 		String representation = instance.toString();
 		IO.result(representation);
-		assertEquals(instance.getOptimalHeight(), Strings.countLines(representation));
-		assertTrue(Strings.countLines(representation, true) <= instance.getMaxHeight());
+		assertEquals(3, instance.getHeight());
+		assertTrue(Strings.countLines(representation) <= instance.getMaxHeight());
 
 		// • Fill with 15 elements
 		instance = new AvlTreeMap<Integer, Integer>(Integer.class);
 		fill(instance, 15);
 		representation = instance.toString();
-		assertEquals(instance.getOptimalHeight(), Strings.countLines(representation));
-		assertTrue(Strings.countLines(representation, true) <= instance.getMaxHeight());
+		assertEquals(4, instance.getHeight());
+		assertTrue(Strings.countLines(representation) <= instance.getMaxHeight());
 	}
 
 	/**
@@ -98,8 +98,7 @@ public class AvlTreeMapTest
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
 				Integer.class);
 		fill(instance);
-		final AvlTreeMap<Integer, Integer> clone = instance.clone();
-		assertEquals(instance, clone);
+		assertEquals(instance, instance.clone());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -56,13 +56,13 @@ public class SVMTest
 			svm.train();
 
 			// Verify the model
-			assertEquals((int) svm.classify(new double[] {0., 0.}), 0);
+			assertEquals(0, (int) svm.classify(new double[] {0., 0.}));
 			assertEquals(0.69, svm.getProbabilityEstimates().get(0), 0.01);
-			assertEquals((int) svm.classify(new double[] {0., 1.}), 1);
+			assertEquals(1, (int) svm.classify(new double[] {0., 1.}));
 			assertEquals(0.69, svm.getProbabilityEstimates().get(1), 0.01);
-			assertEquals((int) svm.classify(new double[] {1., 0.}), 2);
+			assertEquals(2, (int) svm.classify(new double[] {1., 0.}));
 			assertEquals(0.69, svm.getProbabilityEstimates().get(2), 0.01);
-			assertEquals((int) svm.classify(new double[] {1., 1.}), 3);
+			assertEquals(3, (int) svm.classify(new double[] {1., 1.}));
 			assertEquals(0.69, svm.getProbabilityEstimates().get(3), 0.01);
 		} catch (final IOException ex) {
 			IO.error(ex);

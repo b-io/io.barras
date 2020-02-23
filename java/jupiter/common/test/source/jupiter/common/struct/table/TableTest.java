@@ -45,14 +45,14 @@ public class TableTest
 	public void testTranspose() {
 		IO.test(BULLET, " transpose");
 
-		final DoubleTable table1 = new DoubleTable(1, 2);
-		table1.fill(5.);
-		final DoubleTable table2 = table1.clone();
-		assertEquals(table1, table2);
-		table2.transpose();
-		assertNotSame(table1, table2);
-		table2.transpose();
-		assertEquals(table1, table2);
+		final DoubleTable table = new DoubleTable(1, 2);
+		table.fill(5.);
+		final DoubleTable clone = table.clone();
+		assertEquals(table, clone);
+		clone.transpose();
+		assertNotSame(table, clone);
+		clone.transpose();
+		assertEquals(table, clone);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,10 +78,9 @@ public class TableTest
 	public void testEquals() {
 		IO.test(BULLET, " equals");
 
-		final DoubleTable table1 = new DoubleTable(1, 2);
-		table1.fill(5.);
-		final DoubleTable table2 = table1.clone();
-		assertEquals(table1, table2);
+		final DoubleTable table = new DoubleTable(1, 2);
+		table.fill(5.);
+		assertEquals(table, table.clone());
 	}
 
 	/**
@@ -90,9 +89,8 @@ public class TableTest
 	public void testHashCode() {
 		IO.test(BULLET, " hashCode");
 
-		final DoubleTable table1 = new DoubleTable(1, 2);
-		table1.fill(5.);
-		final DoubleTable table2 = table1.clone();
-		assertEquals(table1.hashCode(), table2.hashCode());
+		final DoubleTable table = new DoubleTable(1, 2);
+		table.fill(5.);
+		assertEquals(table.hashCode(), table.clone().hashCode());
 	}
 }

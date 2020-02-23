@@ -131,32 +131,32 @@ public class NeuralNetworkTest
 			IO.test("A) Test the activation function TANH");
 			for (int t = 0; t < testCount; ++t) {
 				times[t] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
-						RegularizationFunctions.NONE, 0.75, 0.5, 0.25);
+						RegularizationFunctions.NONE, 0.75, 0.5, 0.5, 0.25);
 			}
 			Tests.printTimes(times);
 
 			IO.test("B) Test the activation function RELU");
 			testExample("B", 200, 0.075, 1, 0, ActivationFunctions.RELU, new RegularizationL2(0.9),
-					0.75, 0.5, 0.25);
+					0.75, 0.5, 0.5, 0.25);
 
 			IO.test("C) Test the L2 regularization");
 			for (int t = 0; t < testCount; ++t) {
 				times[t] = testExample("C", 100, 0.1, 2, 0, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
+						new RegularizationL2(0.9), 0.75, 0.25, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
 
 			IO.test("D) Test the Adam optimization");
 			for (int t = 0; t < testCount; ++t) {
 				times[t] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
+						new RegularizationL2(0.9), 0.75, 0.25, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
 
 			IO.test("E) Test the last activation function SOFTMAX");
 			for (int t = 0; t < testCount; ++t) {
 				times[t] = testExample("E", 1000, 0.9, 1, 4, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.75, 0.25, 0.25);
+						new RegularizationL2(0.9), 0.75, 0.25, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
 		} catch (final IOException ex) {
@@ -169,7 +169,8 @@ public class NeuralNetworkTest
 			final int hiddenLayerCount, final int hiddenLayerSize,
 			final ActivationFunction activationFunction,
 			final RegularizationFunction regularizationFunction,
-			final double expectedAccuracy, final double expectedCost, final double tolerance)
+			final double expectedAccuracy, final double expectedF1Score, final double expectedCost,
+			final double tolerance)
 			throws IOException {
 		return testExample(example, maxIterationCount,
 				learningRate,
@@ -178,7 +179,8 @@ public class NeuralNetworkTest
 				hiddenLayerCount, hiddenLayerSize,
 				activationFunction,
 				regularizationFunction,
-				expectedAccuracy, expectedCost, tolerance);
+				expectedAccuracy, expectedF1Score, expectedCost,
+				tolerance);
 	}
 
 	protected static double testExample(final String example, final int maxIterationCount,
@@ -188,7 +190,8 @@ public class NeuralNetworkTest
 			final int hiddenLayerCount, final int hiddenLayerSize,
 			final ActivationFunction activationFunction,
 			final RegularizationFunction regularizationFunction,
-			final double expectedAccuracy, final double expectedCost, final double tolerance)
+			final double expectedAccuracy, final double expectedF1Score, final double expectedCost,
+			final double tolerance)
 			throws IOException {
 		// Initialize
 		final NeuralNetwork model = new NeuralNetwork("test/resources/" + example + "/X.csv",
@@ -227,7 +230,7 @@ public class NeuralNetworkTest
 
 		// Verify the model
 		assertEquals(expectedAccuracy, accuracy, tolerance);
-		assertEquals(expectedAccuracy, f1Score, tolerance);
+		assertEquals(expectedF1Score, f1Score, tolerance);
 		assertEquals(expectedCost, cost, tolerance);
 		return chrono.getMilliseconds();
 	}

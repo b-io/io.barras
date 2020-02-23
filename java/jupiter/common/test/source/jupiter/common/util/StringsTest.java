@@ -25,6 +25,7 @@ package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.BULLET;
+import static jupiter.common.util.Characters.SPLITTER;
 import static jupiter.common.util.Strings.EMPTY;
 
 import jupiter.common.test.Test;
@@ -32,12 +33,9 @@ import jupiter.common.test.Test;
 public class StringsTest
 		extends Test {
 
-	/**
-	 * The {@code char} delimiters.
-	 */
 	protected static final char[] DELIMITERS = new char[] {'.', ':', ',', ';', '-'};
 	protected static final String[] STRING_DELIMITERS = new String[] {".", ":", ",", ";", "-"};
-	protected static final String STRING = "-AA.BB:CC--DD;EE,FF-";
+	protected static final String STRING = "-A.B:C,D;E-";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -61,17 +59,30 @@ public class StringsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of replaceAll method, of class Strings.
+	 */
+	public void testReplaceAll() {
+		IO.test(BULLET, " replaceAll");
+
+		assertEquals(EMPTY, Strings.replaceAll(EMPTY, DELIMITERS, String.valueOf(SPLITTER)));
+		assertEquals("|A|B|C|D|E|",
+				Strings.replaceAll(STRING, DELIMITERS, String.valueOf(SPLITTER)));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Test of split method, of class Strings.
 	 */
 	public void testSplit() {
 		IO.test(BULLET, " split");
 
-		assertEquals(Objects.hashCode(Strings.split(EMPTY, DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {EMPTY}));
-		assertEquals(Objects.hashCode(Strings.split(STRING_DELIMITERS[0], DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {EMPTY, EMPTY}));
-		assertEquals(Objects.hashCode(Strings.split(STRING, DELIMITERS).toArray()), Objects
-				.hashCode(new String[] {EMPTY, "AA", "BB", "CC", EMPTY, "DD", "EE", "FF", EMPTY}));
+		assertEquals(Objects.hashCode(new String[] {EMPTY}),
+				Objects.hashCode(Strings.split(EMPTY, DELIMITERS).toArray()));
+		assertEquals(Objects.hashCode(Objects.hashCode(new String[] {EMPTY, EMPTY})),
+				Objects.hashCode(Strings.split("-", DELIMITERS).toArray()));
+		assertEquals(Objects.hashCode(new String[] {EMPTY, "A", "B", "C", "D", "E", EMPTY}),
+				Objects.hashCode(Strings.split(STRING, DELIMITERS).toArray()));
 	}
 
 	/**
@@ -80,14 +91,11 @@ public class StringsTest
 	public void testSplitString() {
 		IO.test(BULLET, " splitString");
 
-		assertEquals(Objects.hashCode(Strings.splitString(EMPTY, STRING_DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {EMPTY}));
-		assertEquals(
-				Objects.hashCode(
-						Strings.splitString(STRING_DELIMITERS[0], STRING_DELIMITERS).toArray()),
-				Objects.hashCode(new String[] {EMPTY, EMPTY}));
-		assertEquals(Objects.hashCode(Strings.splitString(STRING, STRING_DELIMITERS).toArray()),
-				Objects.hashCode(
-						new String[] {EMPTY, "AA", "BB", "CC", EMPTY, "DD", "EE", "FF", EMPTY}));
+		assertEquals(Objects.hashCode(new String[] {EMPTY}),
+				Objects.hashCode(Strings.splitString(EMPTY, STRING_DELIMITERS).toArray()));
+		assertEquals(Objects.hashCode(new String[] {EMPTY, EMPTY}),
+				Objects.hashCode(Strings.splitString("-", STRING_DELIMITERS).toArray()));
+		assertEquals(Objects.hashCode(new String[] {EMPTY, "A", "B", "C", "D", "E", EMPTY}),
+				Objects.hashCode(Strings.splitString(STRING, STRING_DELIMITERS).toArray()));
 	}
 }

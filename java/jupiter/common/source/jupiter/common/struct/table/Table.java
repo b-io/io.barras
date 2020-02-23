@@ -1118,7 +1118,7 @@ public class Table<E>
 	protected String[] loadLine(final String line, final char delimiter,
 			final StringReplacer replacer) {
 		final String l = Strings.replaceInside(line, new char[] {SINGLE_QUOTE, DOUBLE_QUOTE},
-				new char[] {delimiter}, SPLITTER);
+				new char[] {delimiter}, String.valueOf(SPLITTER));
 		final String[] values = (String[]) Strings.split(l, delimiter).toArray();
 		return replacer != null ? replacer.callToArray(values) : values;
 	}
