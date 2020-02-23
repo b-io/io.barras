@@ -42,8 +42,8 @@ import jupiter.math.linear.test.MatrixArguments;
  * <p>
  * The LU decomposition with pivoting always exists, even if the matrix is singular, so the
  * constructor never fails. The primary use of the LU decomposition is in the solution of square
- * systems of simultaneous linear equations. This fails if the method {@link #isNonsingular()}
- * returns {@code false}.
+ * systems of simultaneous linear equations. This fails if the method {@link #isSingular()} returns
+ * {@code true}.
  * <p>
  * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
@@ -158,7 +158,7 @@ public class LUDecomposition
 		}
 
 		// Verify the feasibility
-		if (!isNonsingular()) {
+		if (isSingular()) {
 			IO.warn("The matrix is singular");
 		}
 	}
@@ -169,18 +169,17 @@ public class LUDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code U} (and hence {@code A}) is nonsingular.
+	 * Tests whether {@code U} (and hence {@code A}) is singular.
 	 * <p>
-	 * @return {@code true} if {@code U} (and hence {@code A}) is nonsingular, {@code false}
-	 *         otherwise
+	 * @return {@code true} if {@code U} (and hence {@code A}) is singular, {@code false} otherwise
 	 */
-	public boolean isNonsingular() {
+	public boolean isSingular() {
 		for (int j = 0; j < n; ++j) {
 			if (LU[j][j] == 0) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	/**
