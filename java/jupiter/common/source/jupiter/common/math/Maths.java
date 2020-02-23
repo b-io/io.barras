@@ -1501,55 +1501,55 @@ public class Maths {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the cosine of the specified angle in degrees.
+	 * Returns the cosine of the specified angle (in degrees).
 	 * <p>
-	 * @param angle an angle in degrees
+	 * @param angle an angle (in degrees)
 	 * <p>
-	 * @return the cosine of the specified angle in degrees
+	 * @return the cosine of the specified angle (in degrees)
 	 */
 	public static double cos(final double angle) {
 		return StrictMath.cos(DEGREE_TO_RADIAN * angle);
 	}
 
 	/**
-	 * Returns the sine of the specified angle in degrees.
+	 * Returns the sine of the specified angle (in degrees).
 	 * <p>
-	 * @param angle an angle in degrees
+	 * @param angle an angle (in degrees)
 	 * <p>
-	 * @return the sine of the specified angle in degrees
+	 * @return the sine of the specified angle (in degrees)
 	 */
 	public static double sin(final double angle) {
 		return StrictMath.sin(DEGREE_TO_RADIAN * angle);
 	}
 
 	/**
-	 * Returns the tangent of the specified angle in degrees.
+	 * Returns the tangent of the specified angle (in degrees).
 	 * <p>
-	 * @param angle an angle in degrees
+	 * @param angle an angle (in degrees)
 	 * <p>
-	 * @return the tangent of the specified angle in degrees
+	 * @return the tangent of the specified angle (in degrees)
 	 */
 	public static double tan(final double angle) {
 		return StrictMath.tan(DEGREE_TO_RADIAN * angle);
 	}
 
 	/**
-	 * Returns the cotangent of the specified angle in degrees.
+	 * Returns the cotangent of the specified angle (in degrees).
 	 * <p>
-	 * @param angle an angle in degrees
+	 * @param angle an angle (in degrees)
 	 * <p>
-	 * @return the cotangent of the specified angle in degrees
+	 * @return the cotangent of the specified angle (in degrees)
 	 */
 	public static double cot(final double angle) {
 		return 1. / tan(angle);
 	}
 
 	/**
-	 * Returns the haversine of the specified angle in degrees.
+	 * Returns the haversine of the specified angle (in degrees).
 	 * <p>
-	 * @param angle an angle in degrees
+	 * @param angle an angle (in degrees)
 	 * <p>
-	 * @return the haversine of the specified angle in degrees
+	 * @return the haversine of the specified angle (in degrees)
 	 */
 	public static double hav(final double angle) {
 		return (1. - cos(angle)) / 2.;
@@ -1558,55 +1558,55 @@ public class Maths {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the arc-cosine in degrees of the specified cosine value.
+	 * Returns the arc-cosine (in degrees) of the specified cosine value.
 	 *
 	 * @param value a cosine value
 	 *
-	 * @return the arc-cosine in degrees of the specified cosine value
+	 * @return the arc-cosine (in degrees) of the specified cosine value
 	 */
 	public static double acos(final double value) {
 		return RADIAN_TO_DEGREE * StrictMath.acos(value);
 	}
 
 	/**
-	 * Returns the arc-sine in degrees of the specified sine value.
+	 * Returns the arc-sine (in degrees) of the specified sine value.
 	 *
 	 * @param value a sine value
 	 *
-	 * @return the arc-sine in degrees of the specified sine value
+	 * @return the arc-sine (in degrees) of the specified sine value
 	 */
 	public static double asin(final double value) {
 		return RADIAN_TO_DEGREE * StrictMath.asin(value);
 	}
 
 	/**
-	 * Returns the arc-tangent in degrees of the specified tangent value.
+	 * Returns the arc-tangent (in degrees) of the specified tangent value.
 	 *
 	 * @param value a tangent value
 	 *
-	 * @return the arc-tangent in degrees of the specified tangent value
+	 * @return the arc-tangent (in degrees) of the specified tangent value
 	 */
 	public static double atan(final double value) {
 		return RADIAN_TO_DEGREE * StrictMath.atan(value);
 	}
 
 	/**
-	 * Returns the arc-cotangent in degrees of the specified cotangent value.
+	 * Returns the arc-cotangent (in degrees) of the specified cotangent value.
 	 *
 	 * @param value a cotangent value
 	 *
-	 * @return the arc-cotangent in degrees of the specified cotangent value
+	 * @return the arc-cotangent (in degrees) of the specified cotangent value
 	 */
 	public static double acot(final double value) {
 		return atan(1. / value);
 	}
 
 	/**
-	 * Returns the arc-haversine in degrees of the specified haversine value.
+	 * Returns the arc-haversine (in degrees) of the specified haversine value.
 	 *
 	 * @param value a haversine value
 	 *
-	 * @return the arc-haversine in degrees of the specified haversine value
+	 * @return the arc-haversine (in degrees) of the specified haversine value
 	 */
 	public static double ahav(final double value) {
 		return acos(1. - 2. * value);
@@ -1616,18 +1616,18 @@ public class Maths {
 
 	/**
 	 * Returns the great-circle distance or orthodromic distance (shortest distance) between the
-	 * points defined by their latitudes and longitudes in degrees around the sphere of the
+	 * points defined by their latitudes and longitudes (in degrees) around the sphere of the
 	 * specified radius.
 	 * <p>
 	 * @param radius     the radius of the sphere
-	 * @param latitude1  the latitude of the first point
-	 * @param longitude1 the longitude of the first point
-	 * @param latitude2  the latitude of the second point
-	 * @param longitude2 the longitude of the second point
+	 * @param latitude1  the latitude of the first point (in degrees)
+	 * @param longitude1 the longitude of the first point (in degrees)
+	 * @param latitude2  the latitude of the second point (in degrees)
+	 * @param longitude2 the longitude of the second point (in degrees)
 	 * <p>
 	 * @return the great-circle distance or orthodromic distance (shortest distance) between the
-	 *         points defined by their latitudes and longitudes in degrees around the sphere of the
-	 *         specified radius
+	 *         points defined by their latitudes and longitudes (in degrees) around the sphere of
+	 *         the specified radius
 	 */
 	public static double getGreatCircleDistance(final double radius, final double latitude1,
 			final double longitude1, final double latitude2, final double longitude2) {
