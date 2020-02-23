@@ -46,7 +46,7 @@ public class MathsTest
 		// Initialize
 		final double earthRadius = 6371.; // [km]
 
-		// Verify the orthodromic distance between the Statue of Liberty and Eiffel Tower
+		// Verify the orthodromic distance between the Statue of Liberty and the Eiffel Tower
 		assertEquals(5837.44, Maths.getGreatCircleDistance(earthRadius, 40.689247, -74.044502,
 				48.858093, 2.294694), 0.01);
 	}
