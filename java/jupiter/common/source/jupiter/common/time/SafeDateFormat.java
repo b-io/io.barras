@@ -25,7 +25,6 @@ package jupiter.common.time;
 
 import java.text.AttributedCharacterIterator;
 import java.text.DateFormat;
-import java.text.DateFormat.Field;
 import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
 import java.text.ParsePosition;

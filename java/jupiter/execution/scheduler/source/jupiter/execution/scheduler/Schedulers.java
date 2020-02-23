@@ -93,7 +93,8 @@ public class Schedulers {
 
 	public static CronTrigger createTrigger(final String group, final String cronExpression,
 			final String timeZone) {
-		return TriggerBuilder.newTrigger().withIdentity(TRIGGER_PREFIX.concat(group), group)
+		return TriggerBuilder.newTrigger()
+				.withIdentity(TRIGGER_PREFIX.concat(group), group)
 				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression)
 						.inTimeZone(TimeZone.getTimeZone(timeZone)))
 				.build();

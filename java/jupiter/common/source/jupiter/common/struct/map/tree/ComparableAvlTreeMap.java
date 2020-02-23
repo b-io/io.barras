@@ -202,7 +202,8 @@ public class ComparableAvlTreeMap<K extends Comparable<K>, V>
 				}
 			} while (tree != null);
 			// Create the node containing the key and value
-			final ComparableAvlTreeNode<K, V> newNode = new ComparableAvlTreeNode<K, V>(key, value, this);
+			final ComparableAvlTreeNode<K, V> newNode = new ComparableAvlTreeNode<K, V>(key, value,
+					this);
 			if (comparison < 0) {
 				// The new node is the left node of the parent
 				parent.setLeft(newNode);

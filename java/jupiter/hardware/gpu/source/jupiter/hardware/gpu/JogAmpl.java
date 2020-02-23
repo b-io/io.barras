@@ -28,15 +28,15 @@ import static com.jogamp.opencl.CLMemory.Mem.READ_WRITE;
 import static com.jogamp.opencl.CLMemory.Mem.WRITE_ONLY;
 import static jupiter.common.io.IO.IO;
 
-import java.nio.DoubleBuffer;
-import java.util.Map;
-
 import com.jogamp.opencl.CLBuffer;
 import com.jogamp.opencl.CLCommandQueue;
 import com.jogamp.opencl.CLContext;
 import com.jogamp.opencl.CLDevice;
 import com.jogamp.opencl.CLKernel;
 import com.jogamp.opencl.CLProgram;
+
+import java.nio.DoubleBuffer;
+import java.util.Map;
 
 import jupiter.common.math.Maths;
 import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;

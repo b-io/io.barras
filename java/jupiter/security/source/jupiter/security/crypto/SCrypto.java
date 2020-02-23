@@ -37,9 +37,6 @@ import javax.crypto.spec.SecretKeySpec;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.util.Bytes;
 import jupiter.common.util.Strings;
-import jupiter.security.crypto.Crypto.CipherMethod;
-import jupiter.security.crypto.Crypto.CipherMode;
-import jupiter.security.crypto.Crypto.CipherPadding;
 
 public class SCrypto
 		extends Crypto {

@@ -303,7 +303,8 @@ public class SQL {
 				" FROM ", Strings.bracketize(table),
 				Arrays.isNotEmpty(conditionalColumns) ?
 				Strings.join(" WHERE ",
-						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER).concat("=?")) :
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+								.concat("=?")) :
 				"");
 	}
 
@@ -377,9 +378,10 @@ public class SQL {
 		return Strings.join("UPDATE ", Strings.bracketize(table),
 				" SET ", Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
 				Arrays.isNotEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ",
-						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER).concat("=?")) :
-				"");
+						Strings.join(" WHERE ",
+								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+										.concat("=?")) :
+						"");
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
@@ -417,9 +419,10 @@ public class SQL {
 		// Create the SQL query for deleting the table with the conditional columns
 		return Strings.join("DELETE FROM ", Strings.bracketize(table),
 				Arrays.isNotEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ",
-						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER).concat("=?")) :
-				"");
+						Strings.join(" WHERE ",
+								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+										.concat("=?")) :
+						"");
 	}
 
 	public static PreparedStatement createDeleteStatement(final Connection connection,

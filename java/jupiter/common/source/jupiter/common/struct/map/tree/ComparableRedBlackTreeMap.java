@@ -104,8 +104,10 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 			}
 			if (node != null) {
 				hasLeaf = hasLeaf || node.left != null || node.right != null;
-				nodes.add(new Pair<Integer, ComparableRedBlackTreeNode<K, V>>(nextHeight, node.left));
-				nodes.add(new Pair<Integer, ComparableRedBlackTreeNode<K, V>>(nextHeight, node.right));
+				nodes.add(new Pair<Integer, ComparableRedBlackTreeNode<K, V>>(nextHeight,
+						node.left));
+				nodes.add(new Pair<Integer, ComparableRedBlackTreeNode<K, V>>(nextHeight,
+						node.right));
 			}
 		}
 		return currentHeight + 1;

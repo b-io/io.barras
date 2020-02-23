@@ -26,6 +26,7 @@ package jupiter.common.test;
 import static jupiter.common.io.IO.IO;
 
 import junit.framework.TestCase;
+
 import jupiter.common.io.IO.SeverityLevel;
 
 public class Test

@@ -23,10 +23,10 @@
  */
 package jupiter.mobile.android.io;
 
-import java.io.Serializable;
-
 import android.content.Context;
 import android.widget.Toast;
+
+import java.io.Serializable;
 
 import jupiter.common.io.IO;
 import jupiter.common.io.IO.SeverityLevel;

@@ -23,11 +23,11 @@
  */
 package jupiter.graphics.charts;
 
-import org.jfree.ui.RefineryUtilities;
-
 import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
 import jupiter.graphics.charts.struct.TimeSeriesList;
+
+import org.jfree.ui.RefineryUtilities;
 
 public class TimeSeriesGraphicDemo {
 
