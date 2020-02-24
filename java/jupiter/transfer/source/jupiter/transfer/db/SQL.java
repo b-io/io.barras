@@ -302,10 +302,10 @@ public class SQL {
 				Arrays.isNotEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
 				" FROM ", Strings.bracketize(table),
 				Arrays.isNotEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						"");
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+								.concat("=?")) :
+				"");
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
@@ -378,10 +378,10 @@ public class SQL {
 		return Strings.join("UPDATE ", Strings.bracketize(table),
 				" SET ", Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
 				Arrays.isNotEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						"");
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+								.concat("=?")) :
+				"");
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
@@ -419,10 +419,10 @@ public class SQL {
 		// Create the SQL query for deleting the table with the conditional columns
 		return Strings.join("DELETE FROM ", Strings.bracketize(table),
 				Arrays.isNotEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						"");
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+								.concat("=?")) :
+				"");
 	}
 
 	public static PreparedStatement createDeleteStatement(final Connection connection,
@@ -522,17 +522,17 @@ public class SQL {
 
 	//////////////////////////////////////////////
 
-	public static <T extends SQLRow> ExtendedList<T> execute(final Connection connection,
-			final String query, final Class<T> c) {
-		return executeWith(connection, query, c, Objects.EMPTY_ARRAY);
+	public static <T extends SQLRow> ExtendedList<T> execute(final Class<T> c,
+			final Connection connection, final String query) {
+		return executeWith(c, connection, query, Objects.EMPTY_ARRAY);
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> executeWith(final Connection connection,
-			final String query, final Class<T> c, final Object... parameters) {
+	public static <T extends SQLRow> ExtendedList<T> executeWith(final Class<T> c,
+			final Connection connection, final String query, final Object... parameters) {
 		// Check the arguments
+		Arguments.requireNotNull(c, "class");
 		Arguments.requireNotNull(connection, "connection");
 		Arguments.requireNotNull(query, "query");
-		Arguments.requireNotNull(c, "class");
 
 		// Create the SQL statement for executing the SQL query
 		PreparedStatement statement = null;
@@ -543,7 +543,7 @@ public class SQL {
 				setParameters(statement, parameters);
 			}
 			// Execute the SQL query and return the result
-			return execute(statement, c);
+			return execute(c, statement);
 		} catch (final SQLException ex) {
 			IO.error(ex);
 		} finally {
@@ -558,18 +558,18 @@ public class SQL {
 		return new ExtendedList<T>();
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> execute(final PreparedStatement statement,
-			final Class<T> c)
+	public static <T extends SQLRow> ExtendedList<T> execute(final Class<T> c,
+			final PreparedStatement statement)
 			throws SQLException {
-		return executeWith(statement, c, Objects.EMPTY_ARRAY);
+		return executeWith(c, statement, Objects.EMPTY_ARRAY);
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> executeWith(final PreparedStatement statement,
-			final Class<T> c, final Object... parameters)
+	public static <T extends SQLRow> ExtendedList<T> executeWith(final Class<T> c,
+			final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(statement, "statement");
 		Arguments.requireNotNull(c, "class");
+		Arguments.requireNotNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
 		if (Arrays.isNotEmpty(parameters)) {
@@ -668,7 +668,7 @@ public class SQL {
 	 */
 	public static ExtendedList<SQLGenericRow> selectWith(final Connection connection,
 			final String table, final String[] columns, final String[] conditionalColumns,
-			final Object[] conditionalValues) {
+			final Object... conditionalValues) {
 		// Check the arguments
 		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
@@ -699,9 +699,9 @@ public class SQL {
 
 	//////////////////////////////////////////////
 
-	public static <T extends SQLRow> ExtendedList<T> select(final Connection connection,
-			final String query, final Class<T> c) {
-		return execute(connection, query, c);
+	public static <T extends SQLRow> ExtendedList<T> select(final Class<T> c,
+			final Connection connection, final String query) {
+		return execute(c, connection, query);
 	}
 
 	/**
@@ -709,16 +709,16 @@ public class SQL {
 	 * the specified {@link Connection}.
 	 * <p>
 	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
+	 * @param c          the row {@link Class} of type {@code T}
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to update
-	 * @param c          the row {@link Class} of type {@code T}
 	 * <p>
 	 * @return the rows of the specified table in an {@link ExtendedList} of type {@code T} using
 	 *         the specified {@link Connection}
 	 */
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Connection connection,
-			final String table, final Class<T> c) {
-		return selectWith(connection, table, null, null, null, c);
+	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+			final Connection connection, final String table) {
+		return selectWith(c, connection, table, null, null, null);
 	}
 
 	/**
@@ -726,17 +726,17 @@ public class SQL {
 	 * of type {@code T} using the specified {@link Connection}.
 	 * <p>
 	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
+	 * @param c          the row {@link Class} of type {@code T}
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to update
 	 * @param columns    the columns of the rows to select (may be {@code null})
-	 * @param c          the row {@link Class} of type {@code T}
 	 * <p>
 	 * @return the specified columns of the rows of the specified table in an {@link ExtendedList}
 	 *         of type {@code T} using the specified {@link Connection}
 	 */
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Connection connection,
-			final String table, final String[] columns, final Class<T> c) {
-		return selectWith(connection, table, columns, null, null, c);
+	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+			final Connection connection, final String table, final String[] columns) {
+		return selectWith(c, connection, table, columns, null, null);
 	}
 
 	/**
@@ -745,20 +745,20 @@ public class SQL {
 	 * {@code T} using the specified {@link Connection}.
 	 * <p>
 	 * @param <T>                the {@link SQLRow} type of the {@link ExtendedList} to return
+	 * @param c                  the row {@link Class} of type {@code T}
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to update
 	 * @param columns            the columns of the rows to select (may be {@code null})
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
 	 * @param conditionalValues  the conditional values to filter (may be {@code null})
-	 * @param c                  the row {@link Class} of type {@code T}
 	 * <p>
 	 * @return the specified columns of the rows of the specified table where the specified
 	 *         conditional columns are equal to the conditional values in an {@link ExtendedList} of
 	 *         type {@code T} using the specified {@link Connection}
 	 */
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Connection connection,
-			final String table, final String[] columns, final String[] conditionalColumns,
-			final Object[] conditionalValues, final Class<T> c) {
+	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+			final Connection connection, final String table, final String[] columns,
+			final String[] conditionalColumns, final Object... conditionalValues) {
 		// Check the arguments
 		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
@@ -767,25 +767,25 @@ public class SQL {
 		}
 
 		// Execute the SQL query and return the result
-		return executeWith(connection, createSelectQuery(table, columns, conditionalColumns),
-				c, conditionalValues);
+		return executeWith(c, connection, createSelectQuery(table, columns, conditionalColumns),
+				conditionalValues);
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Connection connection,
-			final String query, final Class<T> c, final Object... parameters) {
-		return executeWith(connection, query, c, parameters);
+	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+			final Connection connection, final String query, final Object... parameters) {
+		return executeWith(c, connection, query, parameters);
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> select(final PreparedStatement statement,
-			final Class<T> c)
+	public static <T extends SQLRow> ExtendedList<T> select(final Class<T> c,
+			final PreparedStatement statement)
 			throws SQLException {
-		return execute(statement, c);
+		return execute(c, statement);
 	}
 
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final PreparedStatement statement,
-			final Class<T> c, final Object... parameters)
+	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+			final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
-		return executeWith(statement, c, parameters);
+		return executeWith(c, statement, parameters);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -982,7 +982,7 @@ public class SQL {
 	 */
 	public static int updateWith(final Connection connection,
 			final String table, final String[] columns, final Object[] values,
-			final String[] conditionalColumns, final Object[] conditionalValues) {
+			final String[] conditionalColumns, final Object... conditionalValues) {
 		// Check the arguments
 		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
@@ -1137,7 +1137,7 @@ public class SQL {
 	 *         is a problem
 	 */
 	public static int deleteWith(final Connection connection, final String table,
-			final String[] conditionalColumns, final Object[] conditionalValues) {
+			final String[] conditionalColumns, final Object... conditionalValues) {
 		// Check the arguments
 		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
