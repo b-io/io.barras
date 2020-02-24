@@ -180,6 +180,6 @@ public abstract class SQLRow {
 	 */
 	@Override
 	public String toString() {
-		return JSON.jsonify(this);
+		return JSON.stringify(this);
 	}
 }

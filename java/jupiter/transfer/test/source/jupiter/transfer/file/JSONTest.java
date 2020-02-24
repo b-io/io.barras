@@ -41,63 +41,63 @@ public class JSONTest
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void testJsonify() {
-		IO.test(BULLET, " jsonify");
+	public void testStringify() {
+		IO.test(BULLET, " stringify");
 
 		String result;
 		// • Boolean
 		final boolean primitiveBoolean = true;
-		result = JSON.jsonifyNode(primitiveBoolean);
+		result = JSON.stringifyNode(primitiveBoolean);
 		IO.test(result);
 		assertEquals("true", result);
 		// • Character
 		final char primitiveCharacter = 'c';
-		result = JSON.jsonifyNode(primitiveCharacter);
+		result = JSON.stringifyNode(primitiveCharacter);
 		IO.test(result);
 		assertEquals("c", result);
 		// • Byte
 		final byte primitiveByte = (byte) 42;
-		result = JSON.jsonifyNode(primitiveByte);
+		result = JSON.stringifyNode(primitiveByte);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Short
 		final short primitiveShort = (short) 42;
-		result = JSON.jsonifyNode(primitiveShort);
+		result = JSON.stringifyNode(primitiveShort);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Integer
 		final int primitiveInteger = 42;
-		result = JSON.jsonifyNode(primitiveInteger);
+		result = JSON.stringifyNode(primitiveInteger);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Long
 		final long primitiveLong = 42L;
-		result = JSON.jsonifyNode(primitiveLong);
+		result = JSON.stringifyNode(primitiveLong);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Float
 		final float primitiveFloat = 42f;
-		result = JSON.jsonifyNode(primitiveFloat);
+		result = JSON.stringifyNode(primitiveFloat);
 		IO.test(result);
 		assertEquals("42.0", result);
 		// • Double
 		final double primitiveDouble = 42.;
-		result = JSON.jsonifyNode(primitiveDouble);
+		result = JSON.stringifyNode(primitiveDouble);
 		IO.test(result);
 		assertEquals("42.0", result);
 		// • Primitive array
 		final int[] primitiveSequence = Integers.createSequence(5);
-		result = JSON.jsonifyNode(primitiveSequence);
+		result = JSON.stringifyNode(primitiveSequence);
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
 		// • Array
 		final Integer[] sequence = (Integer[]) Arrays.toArray(primitiveSequence);
-		result = JSON.jsonifyNode(sequence);
+		result = JSON.stringifyNode(sequence);
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
 		// • Object
 		final Node object = new Node();
-		result = JSON.jsonifyNode(object);
+		result = JSON.stringifyNode(object);
 		IO.test(result);
 		assertEquals("{\"key\":\"value\",\"array\":[a,b,c],\"list\":[a,b,c]}", result);
 	}

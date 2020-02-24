@@ -60,7 +60,7 @@ public class JSONGenerator
 
 	@Override
 	public String call(final Object input) {
-		return JSON.jsonify(input);
+		return JSON.stringify(input);
 	}
 
 

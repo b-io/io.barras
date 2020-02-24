@@ -73,7 +73,7 @@ public class JSON {
 	 * <p>
 	 * @return a JSON {@link String} of the fields of the specified content {@link Object}
 	 */
-	public static String jsonify(final Object content) {
+	public static String stringify(final Object content) {
 		final StringBuilder builder = Strings.createBuilder();
 		builder.append(LEFT_BRACE);
 		if (content != null) {
@@ -82,7 +82,7 @@ public class JSON {
 			for (int i = 0; i < fields.length; ++i) {
 				final Field field = fields[i];
 				try {
-					builder.append(jsonifyNode(field.getName(), field.get(content)));
+					builder.append(stringifyNode(field.getName(), field.get(content)));
 					if (i < fields.length - 1) {
 						builder.append(',');
 					}
@@ -91,7 +91,7 @@ public class JSON {
 				}
 			}
 			if (accessibleFieldCount == 0) {
-				builder.append(jsonifyNode(content));
+				builder.append(stringifyNode(content));
 			}
 		}
 		builder.append(RIGHT_BRACE);
@@ -108,10 +108,10 @@ public class JSON {
 	 * <p>
 	 * @return a JSON {@link String} of the specified key-value mapping
 	 */
-	public static String jsonify(final String key, final Object value) {
+	public static String stringify(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
 		builder.append(LEFT_BRACE);
-		builder.append(jsonifyNode(key, value));
+		builder.append(stringifyNode(key, value));
 		builder.append(RIGHT_BRACE);
 		return builder.toString();
 	}
@@ -126,8 +126,8 @@ public class JSON {
 	 * <p>
 	 * @return a JSON entry {@link String} of the specified value {@link Object}
 	 */
-	public static String jsonifyNode(final Object value) {
-		return jsonifyNode(null, value);
+	public static String stringifyNode(final Object value) {
+		return stringifyNode(null, value);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class JSON {
 	 * <p>
 	 * @return a JSON entry {@link String} of the specified key-value mapping
 	 */
-	public static String jsonifyNode(final String key, final Object value) {
+	public static String stringifyNode(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder();
 		if (key != null) {
 			builder.append(Strings.doubleQuote(key));
@@ -166,17 +166,17 @@ public class JSON {
 							Strings.joinWith(collection, JSON_DELIMITER, JSON_WRAPPER)));
 				}
 			} else if (isLeaf(c)) {
-				builder.append(jsonifyLeaf(value));
+				builder.append(stringifyLeaf(value));
 			} else {
-				builder.append(jsonify(value));
+				builder.append(stringify(value));
 			}
 		} else {
-			builder.append(jsonifyLeaf(value));
+			builder.append(stringifyLeaf(value));
 		}
 		return builder.toString();
 	}
 
-	public static String jsonifyLeaf(final Object value) {
+	public static String stringifyLeaf(final Object value) {
 		if (value != null && Strings.is(value.getClass())) {
 			return Strings.doubleQuote(Strings.escape(value));
 		}
