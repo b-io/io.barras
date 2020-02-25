@@ -34,7 +34,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import jupiter.common.math.Maths;
 import jupiter.common.thread.Threads;
+import jupiter.common.time.Chronometer;
 
 public class Swings {
 
@@ -50,6 +52,15 @@ public class Swings {
 	 * The preferred {@link Dimension} of the windows.
 	 */
 	public static volatile Dimension PREFERRED_SIZE = new Dimension(1440, 960);
+
+	/**
+	 * The minimum {@link Dimension} of the progress bars.
+	 */
+	public static volatile Dimension PROGRESS_BAR_MIN_SIZE = new Dimension(360, 60);
+	/**
+	 * The preferred {@link Dimension} of the progress bars.
+	 */
+	public static volatile Dimension PROGRESS_BAR_PREFERRED_SIZE = new Dimension(720, 120);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,17 +115,28 @@ public class Swings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static JFrame createFrame(final String title) {
+		return createFrame(title, MIN_SIZE, PREFERRED_SIZE);
+	}
+
+	public static JFrame createFrame(final String title, final Dimension minSize,
+			final Dimension preferredSize) {
 		final JFrame frame = new JFrame(title);
-		setDefaultParameters(frame);
+		setSizes(frame, minSize, preferredSize);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		return frame;
 	}
 
+	//////////////////////////////////////////////
+
 	public static JProgressBar createProgressBar(final int min, final int max) {
+		return createProgressBar(min, max, PROGRESS_BAR_MIN_SIZE, PROGRESS_BAR_PREFERRED_SIZE);
+	}
+
+	public static JProgressBar createProgressBar(final int min, final int max,
+			final Dimension minSize, final Dimension preferredSize) {
 		final JProgressBar progressBar = new JProgressBar(min, max);
-		progressBar.setMinimumSize(new Dimension(MIN_SIZE.width / 2, 50));
-		progressBar.setPreferredSize(new Dimension(PREFERRED_SIZE.width / 2, 50));
+		setSizes(progressBar, minSize, preferredSize);
 		progressBar.setStringPainted(true);
 		progressBar.setValue(min);
 		return progressBar;
@@ -180,7 +202,7 @@ public class Swings {
 	 * @param time  the length of time to show the progress bar (in milliseconds)
 	 */
 	public static void showTimeProgressBar(final String title, final int time) {
-		showTimeProgressBar(title, time, 500);
+		showTimeProgressBar(title, time, 100);
 	}
 
 	/**
@@ -192,17 +214,21 @@ public class Swings {
 	 * @param step  the time interval between each refresh (in milliseconds)
 	 */
 	public static void showTimeProgressBar(final String title, final int time, final int step) {
-		final JFrame frame = createFrame(title);
+		final JFrame frame = createFrame(title, PROGRESS_BAR_MIN_SIZE, PROGRESS_BAR_PREFERRED_SIZE);
 		frame.setAlwaysOnTop(true);
 		final JProgressBar progressBar = createProgressBar(0, time);
 		frame.add(progressBar);
 		show(frame);
+		final Chronometer chrono = new Chronometer();
+		chrono.start();
 		try {
-			int value = 0; // [ms]
-			while (value < time) {
-				Threads.sleep(step);
-				value = Math.min(value + step, time);
-				progressBar.setValue(value);
+			for (int t = step; t <= time; t += step) {
+				chrono.stop();
+				final int difference = t - Maths.roundToInt(chrono.getMilliseconds());
+				if (difference > 0) {
+					Threads.sleep(difference);
+				}
+				progressBar.setValue(t);
 			}
 		} finally {
 			close(frame);
