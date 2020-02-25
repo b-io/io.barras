@@ -146,6 +146,9 @@
 		<resources>
 			<resource>
 				<directory>${build.resourceFolder}</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</resource>
 		</resources>
 		<scriptSourceDirectory>${build.scriptFolder}</scriptSourceDirectory>
@@ -155,6 +158,9 @@
 		<testResources>
 			<testResource>
 				<directory>${build.testFolder}/${build.resourceFolder}</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</testResource>
 		</testResources>
 
