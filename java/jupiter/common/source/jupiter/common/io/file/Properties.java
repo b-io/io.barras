@@ -23,6 +23,8 @@
  */
 package jupiter.common.io.file;
 
+import static jupiter.common.io.IO.IO;
+
 import java.io.IOException;
 
 import jupiter.common.thread.Threads;
@@ -97,7 +99,8 @@ public class Properties
 		this.defaultValue = defaultValue;
 		try {
 			load(fileName);
-		} catch (final IOException ignored) {
+		} catch (final IOException ex) {
+			IO.warn(ex);
 		}
 	}
 
@@ -176,8 +179,7 @@ public class Properties
 		return (String[]) Strings.split(propertyList).toArray();
 	}
 
-	public static String[] getArray(final String fileName, final String key)
-			throws IOException {
+	public static String[] getArray(final String fileName, final String key) {
 		return new Properties(fileName, null).getPropertyArray(key);
 	}
 
