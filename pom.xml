@@ -146,8 +146,9 @@
 		<resources>
 			<resource>
 				<directory>${build.resourceFolder}</directory>
+				<filtering>false</filtering>
 				<includes>
-					<include>**/*</include>
+					<include>*</include>
 				</includes>
 			</resource>
 		</resources>
@@ -158,8 +159,9 @@
 		<testResources>
 			<testResource>
 				<directory>${build.testFolder}/${build.resourceFolder}</directory>
+				<filtering>false</filtering>
 				<includes>
-					<include>**/*</include>
+					<include>*</include>
 				</includes>
 			</testResource>
 		</testResources>
