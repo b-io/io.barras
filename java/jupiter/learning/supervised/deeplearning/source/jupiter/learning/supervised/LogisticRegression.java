@@ -216,7 +216,7 @@ public class LogisticRegression
 
 			// Test whether the tolerance level ε is reached
 			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
-				IO.debug("Stop training after ", i, " iterations and with ", cost, " cost");
+				IO.debug("Stop training after ", i, " iterations with ", cost, " cost");
 				return i;
 			}
 
@@ -229,7 +229,7 @@ public class LogisticRegression
 			W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
 			b.subtract(db.multiply(learningRate)).toScalar();
 		}
-		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", cost, " cost");
+		IO.debug("Stop training after ", maxIterationCount, " iterations with ", cost, " cost");
 		return maxIterationCount;
 	}
 

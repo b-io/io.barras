@@ -403,7 +403,7 @@ public class NeuralNetwork
 
 			// Test whether the tolerance level ε is reached
 			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
-				IO.debug("Stop training after ", i, " iterations and with ", cost, " cost");
+				IO.debug("Stop training after ", i, " iterations with ", cost, " cost");
 				return i;
 			}
 
@@ -435,7 +435,7 @@ public class NeuralNetwork
 				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (k x 1)
 			}
 		}
-		IO.debug("Stop training after ", maxIterationCount, " iterations and with ", cost, " cost");
+		IO.debug("Stop training after ", maxIterationCount, " iterations with ", cost, " cost");
 		return maxIterationCount;
 	}
 

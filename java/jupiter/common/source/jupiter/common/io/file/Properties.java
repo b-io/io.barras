@@ -42,6 +42,16 @@ public class Properties
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The default value {@link String}.
+	 */
+	public final String defaultValue;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -50,6 +60,7 @@ public class Properties
 	 */
 	public Properties() {
 		super();
+		defaultValue = null;
 	}
 
 	/**
@@ -59,6 +70,7 @@ public class Properties
 	 */
 	public Properties(final java.util.Properties defaultProperties) {
 		super(defaultProperties);
+		defaultValue = null;
 	}
 
 	/**
@@ -70,7 +82,23 @@ public class Properties
 	 */
 	public Properties(final String fileName)
 			throws IOException {
+		defaultValue = null;
 		load(fileName);
+	}
+
+	/**
+	 * Constructs a {@link Properties} loaded from the file denoted by the specified name with the
+	 * specified default value {@link String}.
+	 * <p>
+	 * @param fileName     the name of the file to load
+	 * @param defaultValue the default value {@link String} (may be {@code null})
+	 */
+	public Properties(final String fileName, final String defaultValue) {
+		this.defaultValue = defaultValue;
+		try {
+			load(fileName);
+		} catch (final IOException ignored) {
+		}
 	}
 
 
@@ -78,15 +106,69 @@ public class Properties
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public String[] getPropertyList(final String key) {
-		final String propertyList = getProperty(key);
-		if (propertyList == null) {
-			return null;
-		}
-		return (String[]) Strings.split(propertyList).toArray();
+	/**
+	 * Returns the property {@link String} (or the default property {@link String} if it is not
+	 * present) associated to the specified key {@link String}, the default value {@link String}
+	 * otherwise.
+	 * <p>
+	 * @param key the key {@link String}
+	 * <p>
+	 * @return the property {@link String} (or the default property {@link String} if it is not
+	 *         present) associated to the specified key {@link String}, the default value
+	 *         {@link String} otherwise
+	 *
+	 * @see #defaults
+	 * @see #defaultValue
+	 */
+	@Override
+	public String getProperty(String key) {
+		final String value = super.getProperty(key);
+		return value != null ? value : defaultValue;
 	}
 
-	public String[] getPropertyList(final String key, final String defaultValue) {
+	public static String get(final String fileName, final String key) {
+		return new Properties(fileName, null).getProperty(key);
+	}
+
+	public static String get(final String fileName, final String key, final String defaultValue) {
+		return new Properties(fileName, defaultValue).getProperty(key);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the property array of {@link String} (or the default property array of {@link String}
+	 * if it is not present) associated to the specified key {@link String}, the property array of
+	 * {@link String} of the default value {@link String} otherwise.
+	 * <p>
+	 * @param key the key {@link String}
+	 * <p>
+	 * @return the property array of {@link String} (or the default property array of {@link String}
+	 *         if it is not present) associated to the specified key {@link String}, the property
+	 *         array of {@link String} of the default value {@link String} otherwise
+	 *
+	 * @see #defaults
+	 * @see #defaultValue
+	 */
+	public String[] getPropertyArray(final String key) {
+		return getPropertyArray(key, defaultValue);
+	}
+
+	/**
+	 * Returns the property array of {@link String} (or the default property array of {@link String}
+	 * if it is not present) associated to the specified key {@link String}, the property array of
+	 * {@link String} of the specified default value {@link String} otherwise.
+	 * <p>
+	 * @param key          the key {@link String}
+	 * @param defaultValue the default value {@link String} (may be {@code null})
+	 * <p>
+	 * @return the property array of {@link String} (or the default property array of {@link String}
+	 *         if it is not present) associated to the specified key {@link String}, the property
+	 *         array of {@link String} of the specified default value {@link String} otherwise
+	 *
+	 * @see #defaults
+	 */
+	public String[] getPropertyArray(final String key, final String defaultValue) {
 		final String propertyList = getProperty(key, defaultValue);
 		if (propertyList == null) {
 			return null;
@@ -94,22 +176,70 @@ public class Properties
 		return (String[]) Strings.split(propertyList).toArray();
 	}
 
+	public static String[] getArray(final String fileName, final String key)
+			throws IOException {
+		return new Properties(fileName, null).getPropertyArray(key);
+	}
+
+	public static String[] getArray(final String fileName, final String key,
+			final String defaultValue) {
+		return new Properties(fileName, defaultValue).getPropertyArray(key, defaultValue);
+	}
+
 	//////////////////////////////////////////////
 
-	public String[] getProperties(final String... keys) {
+	/**
+	 * Returns all the property {@link String} (or the default property {@link String} if it is not
+	 * present) associated to the specified key {@link String} or the default value {@link String}
+	 * if it is not present in an array of {@link String}.
+	 * <p>
+	 * @param keys the array of key {@link String}
+	 * <p>
+	 * @return all the property {@link String} (or the default property {@link String} if it is not
+	 *         present) associated to the specified key {@link String} or the default value
+	 *         {@link String} if it is not present in an array of {@link String}
+	 *
+	 * @see #defaults
+	 * @see #defaultValue
+	 */
+	public String[] getAllProperties(final String... keys) {
 		final String[] properties = new String[keys.length];
 		for (int i = 0; i < keys.length; ++i) {
-			properties[i] = getProperty(keys[i]);
+			properties[i] = getProperty(keys[i], defaultValue);
 		}
 		return properties;
 	}
 
-	public String[] getProperties(final String[] keys, final String[] defaultValues) {
+	/**
+	 * Returns all the property {@link String} (or the default property {@link String} if it is not
+	 * present) associated to the specified key {@link String} or the corresponding specified
+	 * default value {@link String} if it is not present in an array of {@link String}.
+	 * <p>
+	 * @param keys          the array of key {@link String}
+	 * @param defaultValues the array of default value {@link String}
+	 * <p>
+	 * @return all the property {@link String} (or the default property {@link String} if it is not
+	 *         present) associated to the specified key {@link String} or the corresponding
+	 *         specified default value {@link String} if it is not present in an array of
+	 *         {@link String}
+	 *
+	 * @see #defaults
+	 */
+	public String[] getAllProperties(final String[] keys, final String[] defaultValues) {
 		final String[] properties = new String[keys.length];
 		for (int i = 0; i < keys.length; ++i) {
 			properties[i] = getProperty(keys[i], defaultValues[i]);
 		}
 		return properties;
+	}
+
+	public static String[] getAll(final String fileName, final String... keys) {
+		return new Properties(fileName, null).getAllProperties(keys);
+	}
+
+	public static String[] getAll(final String fileName, final String[] keys,
+			final String[] defaultValues) {
+		return new Properties(fileName, null).getAllProperties(keys, defaultValues);
 	}
 
 
