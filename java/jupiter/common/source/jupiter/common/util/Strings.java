@@ -86,9 +86,11 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final int DEFAULT_INITIAL_CAPACITY = 15;
-
 	public static final char DEFAULT_PROGRESS_CHARACTER = '-';
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile int INITIAL_CAPACITY = 15;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -441,7 +443,7 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static StringBuilder createBuilder() {
-		return createBuilder(DEFAULT_INITIAL_CAPACITY);
+		return createBuilder(INITIAL_CAPACITY);
 	}
 
 	public static StringBuilder createBuilder(final int capacity) {
@@ -702,11 +704,13 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link String}.
+	 * Returns a representative {@link String} of the specified array of {@link String} if it is not
+	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array an array of {@link String} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link String}
+	 * @return a representative {@link String} of the specified array of {@link String} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String join(final String... array) {
 		// Check the arguments
@@ -715,7 +719,7 @@ public class Strings {
 		}
 
 		// Initialize
-		final StringBuilder builder = createBuilder(array.length * DEFAULT_INITIAL_CAPACITY);
+		final StringBuilder builder = createBuilder(array.length * INITIAL_CAPACITY);
 
 		// Join the elements
 		for (final String element : array) {
@@ -725,11 +729,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array.
+	 * Returns a representative {@link String} of the specified array if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array
+	 * @return a representative {@link String} of the specified array if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String join(final Object... array) {
 		// Check the arguments
@@ -738,7 +744,7 @@ public class Strings {
 		}
 
 		// Initialize
-		final StringBuilder builder = createBuilder(array.length * DEFAULT_INITIAL_CAPACITY);
+		final StringBuilder builder = createBuilder(array.length * INITIAL_CAPACITY);
 
 		// Join the elements
 		for (final Object object : array) {
@@ -748,11 +754,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection}.
+	 * Returns a representative {@link String} of the specified {@link Collection} if it is not
+	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection}
+	 * @return a representative {@link String} of the specified {@link Collection} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String join(final Collection<?> collection) {
 		// Check the arguments
@@ -761,7 +769,7 @@ public class Strings {
 		}
 
 		// Initialize
-		final StringBuilder builder = createBuilder(collection.size() * DEFAULT_INITIAL_CAPACITY);
+		final StringBuilder builder = createBuilder(collection.size() * INITIAL_CAPACITY);
 
 		// Join the elements
 		for (final Object object : collection) {
@@ -774,36 +782,40 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by
-	 * {@link Arrays#DELIMITER}.
+	 * {@link Arrays#DELIMITER} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param array an array
+	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by
-	 *         {@link Arrays#DELIMITER}
+	 *         {@link Arrays#DELIMITER} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array) {
 		return joinWith(array, toString(DELIMITER));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter} if
+	 * it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param array     an array
+	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@code char} value
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter} if
+	 *         it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final char delimiter) {
 		return joinWith(array, toString(delimiter));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter} if
+	 * it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter} if
+	 *         it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final String delimiter) {
 		// Check the arguments
@@ -814,7 +826,7 @@ public class Strings {
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
-				array.length * (DEFAULT_INITIAL_CAPACITY + delimiter.length()));
+				array.length * (INITIAL_CAPACITY + delimiter.length()));
 
 		// Join the elements
 		int i = 0;
@@ -829,13 +841,15 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by
-	 * {@link Arrays#DELIMITER} and wrapped by {@code wrapper}.
+	 * {@link Arrays#DELIMITER} and wrapped by {@code wrapper} if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
-	 * @param array   an array
+	 * @param array   an array of {@link Object} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by
-	 *         {@link Arrays#DELIMITER} and wrapped by {@code wrapper}
+	 *         {@link Arrays#DELIMITER} and wrapped by {@code wrapper} if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final ObjectToStringMapper wrapper) {
 		return joinWith(array, toString(DELIMITER), wrapper);
@@ -843,14 +857,14 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
-	 * and wrapped by {@code wrapper}.
+	 * and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param array     an array
+	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@code char} value
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
-	 *         and wrapped by {@code wrapper}
+	 *         and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final char delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -859,14 +873,14 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
-	 * and wrapped by {@code wrapper}.
+	 * and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
-	 *         and wrapped by {@code wrapper}
+	 *         and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -879,7 +893,7 @@ public class Strings {
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
-				array.length * (DEFAULT_INITIAL_CAPACITY + delimiter.length()));
+				array.length * (INITIAL_CAPACITY + delimiter.length()));
 
 		// Wrap the elements and join them
 		int i = 0;
@@ -896,13 +910,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter}.
+	 * {@code delimiter} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param collection a {@link Collection}
+	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@code char} value
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter}
+	 *         {@code delimiter} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter) {
 		return joinWith(collection, toString(delimiter));
@@ -910,13 +924,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter}.
+	 * {@code delimiter} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter}
+	 *         {@code delimiter} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter) {
 		// Check the arguments
@@ -927,7 +941,7 @@ public class Strings {
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
-				collection.size() * (DEFAULT_INITIAL_CAPACITY + delimiter.length()));
+				collection.size() * (INITIAL_CAPACITY + delimiter.length()));
 		final Iterator<?> iterator = collection.iterator();
 
 		// Join the elements
@@ -942,14 +956,16 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"}
+	 * otherwise.
 	 * <p>
-	 * @param collection a {@link Collection}
+	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@code char} value
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 *         {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -958,13 +974,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} wrapped by
-	 * {@code wrapper}.
+	 * {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} wrapped by
-	 *         {@code wrapper}
+	 *         {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Collection<?> collection,
 			final ObjectToStringMapper wrapper) {
@@ -973,14 +989,16 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"}
+	 * otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 *         {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -993,7 +1011,7 @@ public class Strings {
 
 		// Initialize
 		final StringBuilder builder = createBuilder(
-				collection.size() * (DEFAULT_INITIAL_CAPACITY + delimiter.length()));
+				collection.size() * (INITIAL_CAPACITY + delimiter.length()));
 		final Iterator<?> iterator = collection.iterator();
 
 		// Wrap the elements and join them
@@ -1607,14 +1625,13 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified content wrapped with
+	 * Returns a representative {@link String} of the specified content wrapped with
 	 * {@code wrapper}.
 	 * <p>
 	 * @param content the content {@link Object} (may be {@code null})
 	 * @param wrapper the {@link String} to wrap with (may be {@code null})
 	 * <p>
-	 * @return the representative {@link String} of the specified content wrapped with
-	 *         {@code wrapper}
+	 * @return a representative {@link String} of the specified content wrapped with {@code wrapper}
 	 */
 	public static String wrap(final Object content, final String wrapper) {
 		// Check the arguments
@@ -1631,14 +1648,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified content wrapped with {@code left}
+	 * Returns a representative {@link String} of the specified content wrapped with {@code left}
 	 * and {@code right}.
 	 * <p>
 	 * @param content the content {@link Object} (may be {@code null})
 	 * @param left    the {@link String} to wrap with on the left
 	 * @param right   right {@link String} to wrap with on the right
 	 * <p>
-	 * @return the representative {@link String} of the specified content wrapped with {@code left}
+	 * @return a representative {@link String} of the specified content wrapped with {@code left}
 	 *         and {@code right}
 	 */
 	public static String wrap(final Object content, final String left, final String right) {
@@ -3846,26 +3863,12 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if it is not
-	 * {@code null}, {@code "null"} otherwise.
-	 * <p>
-	 * @param object an {@link Object} (may be {@code null})
-	 * @param length the length of the representative {@link String}
-	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if it is not
-	 *         {@code null}, {@code "null"} otherwise
-	 */
-	public static String toString(final Object object, final int length) {
-		return truncate(toString(object), length);
-	}
-
-	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if it is not
+	 * Returns a representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param object an {@link Object} (may be {@code null})
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if it is not
+	 * @return a representative {@link String} of the specified {@link Object} if it is not
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Object object) {
@@ -3906,32 +3909,45 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if it is not
+	 * Returns a representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null} or {@code "null"}, {@code null} otherwise.
 	 * <p>
 	 * @param object an {@link Object}
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if it is not
+	 * @return a representative {@link String} of the specified {@link Object} if it is not
 	 *         {@code null} or {@code "null"}, {@code null} otherwise
 	 */
 	public static String toStringWithNull(final Object object) {
 		final String string = toString(object);
-		if (NULL.equals(string)) {
-			return null;
-		}
-		return string;
+		return !NULL.equals(string) ? string : null;
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if it is not
+	 * Returns a representative {@link String} of the specified {@link Object} if it is not
+	 * {@code null}, {@code "null"} otherwise, truncated to the specified length.
+	 * <p>
+	 * @param object an {@link Object} (may be {@code null})
+	 * @param length the length of the representative {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object} if it is not
+	 *         {@code null}, {@code "null"} otherwise, truncated to the specified length
+	 */
+	public static String toString(final Object object, final int length) {
+		return truncate(toString(object), length);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param object        the {@link Object} (may be {@code null})
 	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if it is not
+	 * @return a representative {@link String} of the specified {@link Object} if it is not
 	 *         {@code null}, {@code defaultString} otherwise
 	 */
 	public static String toString(final Object object, final String defaultString) {
@@ -3939,21 +3955,18 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Object} if it is not
+	 * Returns a representative {@link String} of the specified {@link Object} if it is not
 	 * {@code null} or {@code "null"}, {@code defaultString} otherwise.
 	 * <p>
 	 * @param object        the {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Object} if it is not
+	 * @return a representative {@link String} of the specified {@link Object} if it is not
 	 *         {@code null} or {@code "null"}, {@code defaultString} otherwise
 	 */
 	public static String toStringWithNull(final Object object, final String defaultString) {
 		final String string = toString(object);
-		if (NULL.equals(string)) {
-			return defaultString;
-		}
-		return string;
+		return !NULL.equals(string) ? string : defaultString;
 	}
 
 	//////////////////////////////////////////////
@@ -3983,15 +3996,33 @@ public class Strings {
 	 *         otherwise
 	 */
 	public static String toString(final Exception exception, final int stackTraceElementCount) {
-		if (exception != null) {
-			if (stackTraceElementCount > 0) {
-				final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
-						exception.getStackTrace(), 0, stackTraceElementCount);
-				return join(exception.getLocalizedMessage(), COLON, NEW_LINE,
-						joinWith(stackTraces, NEW_LINE));
-			}
-			return exception.getLocalizedMessage();
+		if (exception == null) {
+			return NULL;
 		}
-		return NULL;
+		if (stackTraceElementCount > 0) {
+			final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
+					exception.getStackTrace(), 0, stackTraceElementCount);
+			return join(exception.getLocalizedMessage(), COLON, NEW_LINE,
+					joinWith(stackTraces, NEW_LINE));
+		}
+		return exception.getLocalizedMessage();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified value {@link Object} if it is not
+	 * {@code null}, {@code "null"} otherwise.
+	 * <p>
+	 * @param value a value {@link Object} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified value {@link Object} if it is not
+	 *         {@code null}, {@code "null"} otherwise
+	 */
+	public static String valueToString(final Object value) {
+		if (value != null && is(value.getClass())) {
+			return doubleQuote(escape(value));
+		}
+		return toString(value);
 	}
 }

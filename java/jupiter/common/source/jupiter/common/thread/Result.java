@@ -24,6 +24,7 @@
 package jupiter.common.thread;
 
 import static jupiter.common.util.Characters.SPACE;
+import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
 import java.io.Serializable;
 
@@ -234,7 +235,7 @@ public class Result<O>
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder builder = Strings.createBuilder();
+		final StringBuilder builder = Strings.createBuilder(2 * INITIAL_CAPACITY + 1);
 		if (output != null) {
 			builder.append(output);
 			if (message != null) {

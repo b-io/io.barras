@@ -82,7 +82,7 @@ public class ChronometerTest
 
 		// Verify the measured time
 		final long time = Longs.convert(chrono.getMicroseconds());
-		IO.test(time, " [µs] => ", Maths.roundToLong((double) time / unit), " [ms]");
+		IO.test(time, " [µs] = ", Maths.roundToLong((double) time / unit), " [ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getMicroseconds()), tolerance);
 	}
 
@@ -105,7 +105,7 @@ public class ChronometerTest
 
 		// Verify the measured time
 		final long time = Longs.convert(chrono.getNanoseconds());
-		IO.test(time, " [ns] => ", Maths.roundToLong((double) time / unit), " [ms]");
+		IO.test(time, " [ns] = ", Maths.roundToLong((double) time / unit), " [ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getNanoseconds()), tolerance);
 	}
 }

@@ -27,8 +27,8 @@ import java.io.Serializable;
 import java.util.Map.Entry;
 
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class ComparableTreeNode<K extends Comparable<K>, V>
 		implements Comparable<Entry<K, V>>, Entry<K, V>, Serializable {
@@ -191,6 +191,6 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	 */
 	@Override
 	public String toString() {
-		return Strings.bracketize(Strings.join(key, " => ", value));
+		return Maps.toString(this);
 	}
 }

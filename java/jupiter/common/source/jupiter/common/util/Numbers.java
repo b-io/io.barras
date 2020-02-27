@@ -29,6 +29,7 @@ import static jupiter.common.util.Formats.MAX_FRACTION_DIGITS;
 import static jupiter.common.util.Formats.MAX_INTEGER_DIGITS;
 import static jupiter.common.util.Formats.SCIENTIFIC_DECIMAL_FORMAT;
 import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.NULL;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -345,14 +346,18 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Number}.
+	 * Returns a representative {@link String} of the specified {@link Number} if it is not
+	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param number a {@link Number}
+	 * @param number a {@link Number} (may be {@code null})
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Number}
+	 * @return a representative {@link String} of the specified {@link Number} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Number number) {
-		// Format the number
+		if (number == null) {
+			return NULL;
+		}
 		final String formattedNumber;
 		final String numberString = DOUBLE_DECIMAL_FORMAT.format(number);
 		int integerDigitCount = numberString.length(), fractionDigitCount = numberString.length();

@@ -25,6 +25,7 @@ package jupiter.common.time;
 
 import static jupiter.common.util.Formats.DEFAULT_DATE_PATTERN;
 import static jupiter.common.util.Formats.DEFAULT_DATE_TIME_PATTERN;
+import static jupiter.common.util.Strings.NULL;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -342,22 +343,22 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Date}.
+	 * Returns the formatted {@link String} of the specified {@link Date}.
 	 * <p>
 	 * @param date the {@link Date} to format
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Date}
+	 * @return the formatted {@link String} of the specified {@link Date}
 	 */
 	public static String format(final Date date) {
 		return DATE_FORMATTER.format(date);
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Date} with time.
+	 * Returns the formatted {@link String} of the specified {@link Date} with time.
 	 * <p>
 	 * @param date the {@link Date} to format
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Date} with time
+	 * @return the formatted {@link String} of the specified {@link Date} with time
 	 */
 	public static String formatWithTime(final Date date) {
 		return DATE_TIME_FORMATTER.format(date);
@@ -586,13 +587,18 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the representative {@link String} of the specified {@link Date}.
+	 * Returns a representative {@link String} of the specified {@link Date} if it is not
+	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
-	 * @param date a {@link Date}
+	 * @param date a {@link Date} (may be {@code null})
 	 * <p>
-	 * @return the representative {@link String} of the specified {@link Date}
+	 * @return a representative {@link String} of the specified {@link Date} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Date date) {
+		if (date == null) {
+			return NULL;
+		}
 		return hasTime(date) ? formatWithTime(date) : format(date);
 	}
 }

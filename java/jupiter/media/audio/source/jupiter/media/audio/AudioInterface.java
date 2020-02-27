@@ -155,6 +155,6 @@ public abstract class AudioInterface
 	 */
 	@Override
 	public String toString() {
-		return mixerName + COLON + SPACE + lineName;
+		return Strings.join(mixerName, COLON, SPACE, lineName);
 	}
 }

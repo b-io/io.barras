@@ -111,11 +111,11 @@ public class Formats {
 	/**
 	 * The default pattern {@link String} describing the default {@link DecimalFormat}.
 	 */
-	public static final String DEFAULT_PATTERN = "0.######";
+	public static final String DEFAULT_PATTERN = "0.########";
 	/**
 	 * The default pattern {@link String} describing the default scientific {@link DecimalFormat}.
 	 */
-	public static final String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN + "E0";
+	public static final String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN.concat("E0");
 	/**
 	 * The default minimum number of fraction digits.
 	 */
@@ -142,7 +142,7 @@ public class Formats {
 	/**
 	 * The maximum number of integer digits before using the scientific {@link DecimalFormat}.
 	 */
-	public static volatile int MAX_INTEGER_DIGITS = 6;
+	public static volatile int MAX_INTEGER_DIGITS = 8;
 	/**
 	 * The minimum number of fraction digits.
 	 */

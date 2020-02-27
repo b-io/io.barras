@@ -51,17 +51,14 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static final char BAR = '|';
 	public static final char BULLET = '\u2022'; // '•'
-
 	public static final char COLON = ':';
-
 	public static final char ESCAPE = '\u001B';
-
+	public static final char HYPHEN = '-';
 	public static final char POINT = '.';
-
+	public static final char SEMICOLON = ';';
 	public static final char SPACE = ' ';
-
-	public static final char SPLITTER = '|';
 
 	//////////////////////////////////////////////
 

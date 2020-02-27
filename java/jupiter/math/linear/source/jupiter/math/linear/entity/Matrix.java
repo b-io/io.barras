@@ -29,7 +29,6 @@ import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
 import static jupiter.common.util.Formats.NEW_LINE;
-import static jupiter.common.util.Formats.NUMBER_LENGTH;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
@@ -2731,20 +2730,12 @@ public class Matrix
 	 *         flag specifying whether to use multiple lines
 	 */
 	public String toString(final int columnWidth, final boolean useMultipleLines) {
-		final StringBuilder builder;
-		if (useMultipleLines) {
-			builder = Strings.createBuilder(m + m * n * (NUMBER_LENGTH + 1));
-		} else {
-			builder = Strings.createBuilder(2 + m + m * n * (NUMBER_LENGTH + 1));
-		}
+		final StringBuilder builder = Strings.createBuilder(m * (n * columnWidth + 1));
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				final String formattedElement = Numbers.toString(elements[i * n + j]);
-				final int padding = Math.max(1, columnWidth - formattedElement.length());
-				for (int k = 0; k < padding; ++k) {
-					builder.append(' ');
-				}
-				builder.append(formattedElement);
+				builder.append(SPACE);
+				builder.append(Strings.leftPad(Numbers.toString(elements[i * n + j]),
+						columnWidth - 1));
 			}
 			if (i < m - 1) {
 				if (useMultipleLines) {

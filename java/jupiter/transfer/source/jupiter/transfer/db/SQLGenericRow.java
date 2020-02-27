@@ -23,13 +23,13 @@
  */
 package jupiter.transfer.db;
 
-import static jupiter.common.util.Characters.LEFT_BRACE;
-import static jupiter.common.util.Characters.RIGHT_BRACE;
+import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -68,7 +68,7 @@ public class SQLGenericRow
 	 * Constructs a {@link SQLGenericRow} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
-	 * @param elements an array
+	 * @param elements an array of {@link Object}
 	 */
 	public SQLGenericRow(final String[] header, final Object[] elements) {
 		this.header = header;
@@ -108,20 +108,16 @@ public class SQLGenericRow
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder builder = Strings.createBuilder(10 * header.length);
-		builder.append(LEFT_BRACE);
-		final int n = header.length;
-		if (n == elements.length) {
-			for (int i = 0; i < n; ++i) {
-				builder.append(Strings.doubleQuote(header[i]));
-				builder.append(": ");
-				builder.append(Strings.doubleQuote(elements[i]));
-				if (i != n - 1) {
+		final StringBuilder builder = Strings.createBuilder(header.length *
+				(2 * INITIAL_CAPACITY + 4));
+		if (header.length == elements.length) {
+			for (int i = 0; i < header.length; ++i) {
+				if (i > 0) {
 					builder.append(Arrays.DELIMITER);
 				}
+				builder.append(Maps.toString(header[i], elements[i]));
 			}
 		}
-		builder.append(RIGHT_BRACE);
-		return builder.toString();
+		return Strings.brace(builder.toString());
 	}
 }

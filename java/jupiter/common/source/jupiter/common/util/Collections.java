@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Strings.NULL;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -66,7 +68,8 @@ public class Collections {
 	 * Returns the element {@link Class} of the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection}
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of element type {@code E} to convert (may be
+	 *                   {@code null})
 	 * <p>
 	 * @return the element {@link Class} of the specified {@link Collection}
 	 */
@@ -166,11 +169,13 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection}.
+	 * Returns a representative {@link String} of the specified {@link Collection} if it is not
+	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection}
+	 * @return a representative {@link String} of the specified {@link Collection} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String join(final Collection<?> collection) {
 		return Strings.joinWith(collection, DELIMITER);
@@ -322,58 +327,74 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection}.
+	 * Returns a representative {@link String} of the specified {@link Collection} if it is not
+	 * {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection}
+	 * @return a representative {@link String} of the specified {@link Collection} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Collection<?> collection) {
+		if (collection == null) {
+			return NULL;
+		}
 		return Strings.bracketize(Strings.joinWith(collection, DELIMITER));
 	}
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter}.
+	 * {@code delimiter} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter}
+	 *         {@code delimiter} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Collection<?> collection, final String delimiter) {
+		if (collection == null) {
+			return NULL;
+		}
 		return Strings.bracketize(Strings.joinWith(collection, delimiter));
 	}
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} wrapped by
-	 * {@code wrapper}.
+	 * {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} wrapped by
-	 *         {@code wrapper}
+	 *         {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Collection<?> collection,
 			final ObjectToStringMapper wrapper) {
+		if (collection == null) {
+			return NULL;
+		}
 		return Strings.bracketize(Strings.joinWith(collection, wrapper));
 	}
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"}
+	 * otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 *         {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
+		if (collection == null) {
+			return NULL;
+		}
 		return Strings.bracketize(Strings.joinWith(collection, delimiter, wrapper));
 	}
 }

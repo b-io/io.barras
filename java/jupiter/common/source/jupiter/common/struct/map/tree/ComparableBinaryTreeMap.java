@@ -619,7 +619,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 		// Initialize
 		final int leafCount = Maths.pow2(toHeight - 1);
 		final int length = leafCount * (nodeLength + 1) + 1;
-		final StringBuilder builder = Strings.createBuilder(toHeight * length);
+		final StringBuilder builder = Strings.createBuilder(toHeight * (length + 1));
 		final ExtendedLinkedList<Pair<Integer, N>> nodes = new ExtendedLinkedList<Pair<Integer, N>>(
 				new Pair<Integer, N>(0, root));
 

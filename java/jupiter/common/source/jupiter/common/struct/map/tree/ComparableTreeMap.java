@@ -223,6 +223,18 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 */
 	protected abstract N findNode(final Comparable<? super K> keyComparable);
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the size.
+	 * <p>
+	 * @return the size
+	 */
+	@Override
+	public int size() {
+		return size;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS

@@ -35,6 +35,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.StringArguments;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public abstract class OpenCL
 		implements ICloneable<OpenCL>, Serializable {
@@ -62,61 +63,61 @@ public abstract class OpenCL
 	/**
 	 * The OpenCL program {@link String}.
 	 */
-	protected static final String PROGRAM = "#pragma OPENCL EXTENSION cl_khr_fp64: enable" +
-			NEW_LINE +
-			KERNEL_PREFIX + " plus(__global const double* A, __global const double* B," +
-			"		__global double* C) {" +
-			"	const int index = get_global_id(0);" +
-			"	C[index] = A[index] + B[index];" +
-			"}" +
-			KERNEL_PREFIX + " minus(__global const double* A, __global const double* B," +
-			"		__global double* C) {" +
-			"	const int index = get_global_id(0);" +
-			"	C[index] = A[index] - B[index];" +
-			"}" +
-			KERNEL_PREFIX + " times(__global const double* A, __global const double* B," +
-			"		__global double* C, const int aColumnDimension, const int bColumnDimension) {" +
-			"	const int index = get_global_id(0);" +
-			"	const int aRowOffset = (index / bColumnDimension) * aColumnDimension;" +
-			"	const int bColumnOffset = index % bColumnDimension;" +
-			"	double sum = 0.;" +
-			"	for (int k = 0; k < aColumnDimension; ++k) {" +
-			"		sum += A[aRowOffset + k] * B[k * bColumnDimension + bColumnOffset];" +
-			"	}" +
-			"	C[index] = sum;" +
-			"}" +
-			KERNEL_PREFIX + " arrayTimes(__global const double* A, __global const double* B," +
-			"		__global double* C) {" +
-			"	const int index = get_global_id(0);" +
-			"	C[index] = A[index] * B[index];" +
-			"}" +
-			KERNEL_PREFIX + " arrayDivision(__global const double* A, __global const double* B," +
-			"		__global double* C) {" +
-			"	const int index = get_global_id(0);" +
-			"	C[index] = A[index] / B[index];" +
-			"}" +
-			KERNEL_PREFIX + " arrayLeftDivision(__global const double* A, __global const double* B," +
-			"		__global double* C) {" +
-			"	const int index = get_global_id(0);" +
-			"	C[index] = B[index] / A[index];" +
-			"}" +
-			KERNEL_PREFIX + " forward(__global const double* A, __global const double* B," +
-			"		__global const double* C, __global double* D, const int aColumnDimension," +
-			"		const int bColumnDimension, const int cColumnDimension) {" +
-			"	const int index = get_global_id(0);" +
-			"	const int aRowOffset = (index / bColumnDimension) * aColumnDimension;" +
-			"	const int bColumnOffset = index % bColumnDimension;" +
-			"	double sum = 0.;" +
-			"	for (int k = 0; k < aColumnDimension; ++k) {" +
-			"		sum += A[aRowOffset + k] * B[k * bColumnDimension + bColumnOffset];" +
-			"	}" +
-			"	D[index] = sum + C[index % cColumnDimension];" +
-			"}" +
-			KERNEL_PREFIX + " arraySum(__global double* A, __global const double* B," +
-			"		const double c) {" +
-			"	const int index = get_global_id(0);" +
-			"	A[index] += c * B[index];" +
-			"}";
+	protected static final String PROGRAM = Strings.join(
+			"#pragma OPENCL EXTENSION cl_khr_fp64: enable", NEW_LINE,
+			KERNEL_PREFIX, " plus(__global const double* A, __global const double* B,",
+			"		__global double* C) {",
+			"	const int index = get_global_id(0);",
+			"	C[index] = A[index] + B[index];",
+			"}",
+			KERNEL_PREFIX, " minus(__global const double* A, __global const double* B,",
+			"		__global double* C) {",
+			"	const int index = get_global_id(0);",
+			"	C[index] = A[index] - B[index];",
+			"}",
+			KERNEL_PREFIX, " times(__global const double* A, __global const double* B,",
+			"		__global double* C, const int aColumnDimension, const int bColumnDimension) {",
+			"	const int index = get_global_id(0);",
+			"	const int aRowOffset = (index / bColumnDimension) * aColumnDimension;",
+			"	const int bColumnOffset = index % bColumnDimension;",
+			"	double sum = 0.;",
+			"	for (int k = 0; k < aColumnDimension; ++k) {",
+			"		sum += A[aRowOffset + k] * B[k * bColumnDimension + bColumnOffset];",
+			"	}",
+			"	C[index] = sum;",
+			"}",
+			KERNEL_PREFIX, " arrayTimes(__global const double* A, __global const double* B,",
+			"		__global double* C) {",
+			"	const int index = get_global_id(0);",
+			"	C[index] = A[index] * B[index];",
+			"}",
+			KERNEL_PREFIX, " arrayDivision(__global const double* A, __global const double* B,",
+			"		__global double* C) {",
+			"	const int index = get_global_id(0);",
+			"	C[index] = A[index] / B[index];",
+			"}",
+			KERNEL_PREFIX, " arrayLeftDivision(__global const double* A, __global const double* B,",
+			"		__global double* C) {",
+			"	const int index = get_global_id(0);",
+			"	C[index] = B[index] / A[index];",
+			"}",
+			KERNEL_PREFIX, " forward(__global const double* A, __global const double* B,",
+			"		__global const double* C, __global double* D, const int aColumnDimension,",
+			"		const int bColumnDimension, const int cColumnDimension) {",
+			"	const int index = get_global_id(0);",
+			"	const int aRowOffset = (index / bColumnDimension) * aColumnDimension;",
+			"	const int bColumnOffset = index % bColumnDimension;",
+			"	double sum = 0.;",
+			"	for (int k = 0; k < aColumnDimension; ++k) {",
+			"		sum += A[aRowOffset + k] * B[k * bColumnDimension + bColumnOffset];",
+			"	}",
+			"	D[index] = sum + C[index % cColumnDimension];",
+			"}",
+			KERNEL_PREFIX, " arraySum(__global double* A, __global const double* B,",
+			"		const double c) {",
+			"	const int index = get_global_id(0);",
+			"	A[index] += c * B[index];",
+			"}");
 	public static volatile OpenCL CL = null;
 
 	static {

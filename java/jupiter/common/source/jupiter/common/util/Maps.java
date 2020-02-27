@@ -23,7 +23,13 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Characters.COLON;
+import static jupiter.common.util.Strings.INITIAL_CAPACITY;
+import static jupiter.common.util.Strings.NULL;
+
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import jupiter.common.struct.list.ExtendedList;
 
@@ -134,5 +140,72 @@ public class Maps
 	 */
 	public static boolean is(final Class<?> c) {
 		return Map.class.isAssignableFrom(c);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Map} if it is not
+	 * {@code null}, {@code "null"} otherwise.
+	 * <p>
+	 * @param map a {@link Map} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Map} if it is not
+	 *         {@code null}, {@code "null"} otherwise
+	 */
+	public static String toString(final Map<?, ?> map) {
+		if (map == null) {
+			return NULL;
+		}
+		final Set<? extends Entry<?, ?>> entries = map.entrySet();
+		final StringBuilder builder = Strings.createBuilder(entries.size() *
+				(2 * INITIAL_CAPACITY + 6));
+		int i = 0;
+		for (final Entry<?, ?> entry : entries) {
+			if (i++ > 0) {
+				builder.append(Arrays.DELIMITER);
+			}
+			builder.append(toString(entry));
+		}
+		return Strings.bracketize(builder.toString());
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Entry} if it is not
+	 * {@code null}, {@code "null"} otherwise.
+	 * <p>
+	 * @param entry an {@link Entry} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Entry} if it is not
+	 *         {@code null}, {@code "null"} otherwise
+	 */
+	public static String toString(final Entry<?, ?> entry) {
+		if (entry == null) {
+			return NULL;
+		}
+		return Strings.brace(toString(entry.getKey(), entry.getValue()));
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified key-value mapping.
+	 * <p>
+	 * @param key   a key {@link Object} (may be {@code null})
+	 * @param value a value {@link Object} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified key-value mapping
+	 */
+	public static String toString(final Object key, final Object value) {
+		final StringBuilder builder = Strings.createBuilder(2 * INITIAL_CAPACITY + 3);
+		if (key != null) {
+			builder.append(Strings.doubleQuote(key));
+			builder.append(COLON);
+		}
+		if (value != null) {
+			builder.append(Strings.valueToString(value));
+		}
+		return builder.toString();
 	}
 }

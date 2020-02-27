@@ -24,7 +24,6 @@
 package jupiter.math.linear.entity;
 
 import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
-import static jupiter.common.util.Formats.NUMBER_LENGTH;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.math.Maths;
@@ -874,13 +873,6 @@ public class Scalar
 	 * @return a representative {@link String} of {@code this} of the specified width
 	 */
 	public String toString(final int width) {
-		final StringBuilder builder = Strings.createBuilder(NUMBER_LENGTH);
-		final String formattedValue = Numbers.toString(value);
-		final int padding = Math.max(0, width - formattedValue.length());
-		for (int k = 0; k < padding; ++k) {
-			builder.append(' ');
-		}
-		builder.append(formattedValue);
-		return builder.toString();
+		return Strings.leftPad(Numbers.toString(value), width);
 	}
 }

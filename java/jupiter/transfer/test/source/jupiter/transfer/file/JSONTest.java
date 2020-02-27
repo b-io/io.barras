@@ -26,11 +26,15 @@ package jupiter.transfer.file;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.BULLET;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.test.Test;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Strings;
 
 public class JSONTest
 		extends Test {
@@ -79,22 +83,35 @@ public class JSONTest
 		final float primitiveFloat = 42f;
 		result = JSON.stringifyNode(primitiveFloat);
 		IO.test(result);
-		assertEquals("42.0", result);
+		assertEquals("42", result);
 		// • Double
 		final double primitiveDouble = 42.;
 		result = JSON.stringifyNode(primitiveDouble);
 		IO.test(result);
-		assertEquals("42.0", result);
+		assertEquals("42", result);
 		// • Primitive array
 		final int[] primitiveSequence = Integers.createSequence(5);
 		result = JSON.stringifyNode(primitiveSequence);
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
 		// • Array
-		final Integer[] sequence = (Integer[]) Arrays.toArray(primitiveSequence);
-		result = JSON.stringifyNode(sequence);
+		final Integer[] array = (Integer[]) Arrays.toArray(primitiveSequence);
+		result = JSON.stringifyNode(array);
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
+		// • Collection
+		final Collection<Integer> collection = Arrays.toList(array);
+		result = JSON.stringifyNode(collection);
+		IO.test(result);
+		assertEquals("[0,1,2,3,4]", result);
+		// • Map
+		final Map<String, Integer> map = new ComparableRedBlackTreeMap<String, Integer>();
+		for (int i = 0; i < 5; ++i) {
+			map.put(Strings.toString(i), i);
+		}
+		result = JSON.stringifyNode(map);
+		IO.test(result);
+		assertEquals("[{\"0\":0},{\"1\":1},{\"2\":2},{\"3\":3},{\"4\":4}]", result);
 		// • Object
 		final Node object = new Node();
 		result = JSON.stringifyNode(object);

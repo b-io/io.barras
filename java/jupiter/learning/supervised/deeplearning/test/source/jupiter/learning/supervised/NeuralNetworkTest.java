@@ -34,6 +34,7 @@ import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
 import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.learning.supervised.function.RegularizationFunction;
@@ -202,7 +203,8 @@ public class NeuralNetworkTest
 			final int layerCount = hiddenLayerCount + 1; // L
 			final Matrix[] weights = new Matrix[layerCount];
 			for (int l = 0; l < layerCount; ++l) {
-				weights[l] = Matrix.create("test/resources/" + example + "/W" + (l + 1) + ".csv");
+				weights[l] = Matrix.create(
+						Strings.join("test/resources/", example, "/W", l + 1, ".csv"));
 				IO.test("W", l + 1, " loaded");
 			}
 			model.setWeights(weights);

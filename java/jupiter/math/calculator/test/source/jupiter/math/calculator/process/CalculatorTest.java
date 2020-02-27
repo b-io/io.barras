@@ -70,10 +70,10 @@ public class CalculatorTest
 						Collections.DEFAULT_CAPACITY);
 				final Matrix matrix = Matrix.random(matrixSize);
 				final String matrixString = Strings.toString(matrix);
-				final String e1 = "(" + matrixString + " * " + "@(" + matrixString + ")) + " + "(" +
-						matrixString + " * " + "@(" + matrixString + "))";
-				final String e2 = "(" + matrixString + " / " + matrixString + ") + " + "(" +
-						matrixString + " / " + matrixString + ")";
+				final String e1 = Strings.join("(", matrixString, "*", "@(", matrixString, "))+",
+						"(", matrixString, "*", "@(", matrixString, "))");
+				final String e2 = Strings.join("(", matrixString, "/", matrixString, ")+",
+						"(", matrixString, "/", matrixString, ")");
 
 				// Test the parsing and evaluation of the element and entity #1
 				chrono.start();

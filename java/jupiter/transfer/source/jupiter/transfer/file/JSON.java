@@ -23,14 +23,17 @@
  */
 package jupiter.transfer.file;
 
-import static jupiter.common.util.Characters.LEFT_BRACE;
-import static jupiter.common.util.Characters.RIGHT_BRACE;
+import static jupiter.common.util.Characters.COLON;
+import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.Map;
 
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
+import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -74,28 +77,30 @@ public class JSON {
 	 * @return a JSON {@link String} of the fields of the specified content {@link Object}
 	 */
 	public static String stringify(final Object content) {
-		final StringBuilder builder = Strings.createBuilder();
-		builder.append(LEFT_BRACE);
-		if (content != null) {
-			final Field[] fields = content.getClass().getDeclaredFields();
-			int accessibleFieldCount = 0;
-			for (int i = 0; i < fields.length; ++i) {
-				final Field field = fields[i];
-				try {
-					builder.append(stringifyNode(field.getName(), field.get(content)));
-					if (i < fields.length - 1) {
-						builder.append(',');
-					}
-					++accessibleFieldCount;
-				} catch (final IllegalAccessException ignored) {
+		if (content == null) {
+			return Strings.brace(EMPTY);
+		}
+		final Field[] fields = content.getClass().getDeclaredFields();
+		final StringBuilder builder = Strings.createBuilder(fields.length *
+				(2 * INITIAL_CAPACITY + 6));
+		int accessibleFieldCount = 0;
+		for (int i = 0; i < fields.length; ++i) {
+			final Field field = fields[i];
+			try {
+				final String key = field.getName();
+				final Object value = field.get(content);
+				if (accessibleFieldCount > 0) {
+					builder.append(JSON_DELIMITER);
 				}
-			}
-			if (accessibleFieldCount == 0) {
-				builder.append(stringifyNode(content));
+				builder.append(stringifyNode(key, value));
+				++accessibleFieldCount;
+			} catch (final IllegalAccessException ignored) {
 			}
 		}
-		builder.append(RIGHT_BRACE);
-		return builder.toString();
+		if (accessibleFieldCount == 0) {
+			builder.append(stringifyNode(content));
+		}
+		return Strings.brace(builder.toString());
 	}
 
 	/**
@@ -109,11 +114,7 @@ public class JSON {
 	 * @return a JSON {@link String} of the specified key-value mapping
 	 */
 	public static String stringify(final String key, final Object value) {
-		final StringBuilder builder = Strings.createBuilder();
-		builder.append(LEFT_BRACE);
-		builder.append(stringifyNode(key, value));
-		builder.append(RIGHT_BRACE);
-		return builder.toString();
+		return Strings.brace(stringifyNode(key, value));
 	}
 
 	//////////////////////////////////////////////
@@ -141,10 +142,10 @@ public class JSON {
 	 * @return a JSON entry {@link String} of the specified key-value mapping
 	 */
 	public static String stringifyNode(final String key, final Object value) {
-		final StringBuilder builder = Strings.createBuilder();
+		final StringBuilder builder = Strings.createBuilder(2 * INITIAL_CAPACITY + 5);
 		if (key != null) {
 			builder.append(Strings.doubleQuote(key));
-			builder.append(':');
+			builder.append(COLON);
 		}
 		if (value != null) {
 			final Class<?> c = value.getClass();
@@ -165,6 +166,8 @@ public class JSON {
 					builder.append(Strings.bracketize(
 							Strings.joinWith(collection, JSON_DELIMITER, JSON_WRAPPER)));
 				}
+			} else if (Maps.is(c)) {
+				builder.append(Maps.toString((Map<?, ?>) value));
 			} else if (isLeaf(c)) {
 				builder.append(stringifyLeaf(value));
 			} else {
@@ -177,10 +180,7 @@ public class JSON {
 	}
 
 	public static String stringifyLeaf(final Object value) {
-		if (value != null && Strings.is(value.getClass())) {
-			return Strings.doubleQuote(Strings.escape(value));
-		}
-		return String.valueOf(value);
+		return Strings.valueToString(value);
 	}
 
 

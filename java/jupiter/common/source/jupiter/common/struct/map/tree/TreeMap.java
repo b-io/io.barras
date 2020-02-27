@@ -275,6 +275,18 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 */
 	protected abstract N findNode(final Comparable<? super K> keyComparable);
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the size.
+	 * <p>
+	 * @return the size
+	 */
+	@Override
+	public int size() {
+		return size;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS

@@ -24,8 +24,8 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BAR;
 import static jupiter.common.util.Characters.BULLET;
-import static jupiter.common.util.Characters.SPLITTER;
 import static jupiter.common.util.Strings.EMPTY;
 
 import jupiter.common.test.Test;
@@ -64,9 +64,8 @@ public class StringsTest
 	public void testReplaceAll() {
 		IO.test(BULLET, " replaceAll");
 
-		assertEquals(EMPTY, Strings.replaceAll(EMPTY, DELIMITERS, String.valueOf(SPLITTER)));
-		assertEquals("|A|B|C|D|E|",
-				Strings.replaceAll(STRING, DELIMITERS, String.valueOf(SPLITTER)));
+		assertEquals(EMPTY, Strings.replaceAll(EMPTY, DELIMITERS, String.valueOf(BAR)));
+		assertEquals("|A|B|C|D|E|", Strings.replaceAll(STRING, DELIMITERS, String.valueOf(BAR)));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

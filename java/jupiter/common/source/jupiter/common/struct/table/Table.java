@@ -24,11 +24,12 @@
 package jupiter.common.struct.table;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.BAR;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
 import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Characters.SPACE;
-import static jupiter.common.util.Characters.SPLITTER;
 import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -1073,7 +1074,7 @@ public class Table<E>
 				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = d;
-						replacer = new StringReplacer(new char[] {SPLITTER},
+						replacer = new StringReplacer(new char[] {BAR},
 								Strings.toString(delimiter));
 						n = occurrenceCount;
 					} else {
@@ -1118,7 +1119,7 @@ public class Table<E>
 	protected String[] loadLine(final String line, final char delimiter,
 			final StringReplacer replacer) {
 		final String l = Strings.replaceInside(line, new char[] {SINGLE_QUOTE, DOUBLE_QUOTE},
-				new char[] {delimiter}, String.valueOf(SPLITTER));
+				new char[] {delimiter}, String.valueOf(BAR));
 		final String[] values = (String[]) Strings.split(l, delimiter).toArray();
 		return replacer != null ? replacer.callToArray(values) : values;
 	}
@@ -1329,7 +1330,7 @@ public class Table<E>
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder builder = Strings.createBuilder(10 * m * n);
+		final StringBuilder builder = Strings.createBuilder(m * n * (INITIAL_CAPACITY + 1));
 		for (int i = 0; i < m; ++i) {
 			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append(NEW_LINE);
 		}

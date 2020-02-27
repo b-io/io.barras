@@ -44,7 +44,9 @@ public class NumbersTest
 		IO.test(BULLET, " toString");
 
 		IO.test(Numbers.toString(0.0000001));
-		assertEquals("1E-7", Numbers.toString(0.0000001));
+		assertEquals("1E-9", Numbers.toString(0.000000001));
+		assertEquals("0.00000001", Numbers.toString(0.00000001));
+		assertEquals("0.0000001", Numbers.toString(0.0000001));
 		assertEquals("0.000001", Numbers.toString(0.000001));
 		assertEquals("0.00001", Numbers.toString(0.00001));
 		assertEquals("0.0001", Numbers.toString(0.0001));
@@ -59,6 +61,8 @@ public class NumbersTest
 		assertEquals("1234", Numbers.toString(1234));
 		assertEquals("12345", Numbers.toString(12345));
 		assertEquals("123456", Numbers.toString(123456));
-		assertEquals("1.234567E6", Numbers.toString(1234567));
+		assertEquals("1234567", Numbers.toString(1234567));
+		assertEquals("12345678", Numbers.toString(12345678));
+		assertEquals("1.23456789E8", Numbers.toString(123456789));
 	}
 }

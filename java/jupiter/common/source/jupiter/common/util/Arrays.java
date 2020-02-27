@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Strings.NULL;
+
 import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -304,11 +306,13 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array.
+	 * Returns a representative {@link String} of the specified array if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
-	 * @param array an array of {@link Object}
+	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array
+	 * @return a representative {@link String} of the specified array if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String join(final Object... array) {
 		return Strings.joinWith(array, DELIMITER);
@@ -1384,53 +1388,71 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array.
+	 * Returns a representative {@link String} of the specified array if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array
+	 * @return a representative {@link String} of the specified array if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String toString(final Object... array) {
+		if (array == null) {
+			return NULL;
+		}
 		return Strings.parenthesize(join(array));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}.
+	 * Returns a representative {@link String} of the specified array joined by {@code delimiter} if
+	 * it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
+	 * @return a representative {@link String} of the specified array joined by {@code delimiter} if
+	 *         it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Object[] array, final String delimiter) {
+		if (array == null) {
+			return NULL;
+		}
 		return Strings.parenthesize(Strings.joinWith(array, delimiter));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified array wrapped by {@code wrapper} if
+	 * it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array   an array of {@link Object} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified array wrapped by {@code wrapper} if
+	 *         it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Object[] array, final ObjectToStringMapper wrapper) {
+		if (array == null) {
+			return NULL;
+		}
 		return Strings.parenthesize(Strings.joinWith(array, wrapper));
 	}
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
-	 * and wrapped by {@code wrapper}.
+	 * and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
-	 *         and wrapped by {@code wrapper}
+	 *         and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
+		if (array == null) {
+			return NULL;
+		}
 		return Strings.parenthesize(Strings.joinWith(array, delimiter, wrapper));
 	}
 }

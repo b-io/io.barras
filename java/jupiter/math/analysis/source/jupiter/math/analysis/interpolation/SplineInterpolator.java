@@ -23,8 +23,10 @@
  */
 package jupiter.math.analysis.interpolation;
 
+import static jupiter.common.util.Characters.COLON;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
+import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
 import java.io.Serializable;
 
@@ -233,9 +235,8 @@ public class SplineInterpolator
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder builder = Strings.createBuilder(10 * X.length * Y.length * M.length);
-		final int n = X.length;
-		for (int i = 0; i < n; ++i) {
+		final StringBuilder builder = Strings.createBuilder(X.length * (3 * INITIAL_CAPACITY + 5));
+		for (int i = 0; i < X.length; ++i) {
 			if (i > 0) {
 				builder.append(Arrays.DELIMITER);
 			}
@@ -243,7 +244,7 @@ public class SplineInterpolator
 					.append(X[i])
 					.append(Arrays.DELIMITER)
 					.append(Y[i])
-					.append(": ")
+					.append(COLON)
 					.append(M[i])
 					.append(RIGHT_PARENTHESIS);
 		}
