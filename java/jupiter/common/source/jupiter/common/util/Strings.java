@@ -4020,9 +4020,9 @@ public class Strings {
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String valueToString(final Object value) {
-		if (value != null && is(value.getClass())) {
-			return doubleQuote(escape(value));
+		if (value == null || Numbers.is(value.getClass())) {
+			return toString(value);
 		}
-		return toString(value);
+		return doubleQuote(escape(value));
 	}
 }
