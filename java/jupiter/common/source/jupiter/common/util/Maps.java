@@ -203,9 +203,7 @@ public class Maps
 			builder.append(Strings.doubleQuote(key));
 			builder.append(COLON);
 		}
-		if (value != null) {
-			builder.append(Strings.valueToString(value));
-		}
+		builder.append(Strings.valueToString(value));
 		return builder.toString();
 	}
 }
