@@ -47,6 +47,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -3902,6 +3903,8 @@ public class Strings {
 			Collections.toString((Collection<?>) object);
 		} else if (Dates.is(c)) {
 			return Dates.toString((Date) object);
+		} else if (Maps.is(c)) {
+			Maps.toString((Map<?, ?>) object);
 		} else if (Numbers.is(c)) {
 			return Numbers.toString((Number) object);
 		}
@@ -4020,7 +4023,7 @@ public class Strings {
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String valueToString(final Object value) {
-		if (value == null || Numbers.is(value.getClass())) {
+		if (value == null || Booleans.is(value.getClass()) || Numbers.is(value.getClass())) {
 			return toString(value);
 		}
 		return doubleQuote(escape(value));

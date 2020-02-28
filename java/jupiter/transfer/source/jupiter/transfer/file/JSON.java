@@ -24,8 +24,8 @@
 package jupiter.transfer.file;
 
 import static jupiter.common.util.Characters.COLON;
-import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.INITIAL_CAPACITY;
+import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -78,7 +78,7 @@ public class JSON {
 	 */
 	public static String stringify(final Object content) {
 		if (content == null) {
-			return Strings.brace(EMPTY);
+			return NULL;
 		}
 		final Field[] fields = content.getClass().getDeclaredFields();
 		final StringBuilder builder = Strings.createBuilder(fields.length *

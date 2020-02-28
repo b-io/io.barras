@@ -26,7 +26,6 @@ package jupiter.transfer.file;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.BULLET;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -50,58 +49,58 @@ public class JSONTest
 
 		String result;
 		// • Boolean
-		final boolean primitiveBoolean = true;
-		result = JSON.stringifyNode(primitiveBoolean);
+		// - False
+		result = JSON.stringifyNode(false);
+		IO.test(result);
+		assertEquals("false", result);
+		// - True
+		result = JSON.stringifyNode(true);
 		IO.test(result);
 		assertEquals("true", result);
 		// • Character
-		final char primitiveCharacter = 'c';
-		result = JSON.stringifyNode(primitiveCharacter);
+		result = JSON.stringifyNode('c');
 		IO.test(result);
-		assertEquals("c", result);
+		assertEquals("\"c\"", result);
 		// • Byte
-		final byte primitiveByte = (byte) 42;
-		result = JSON.stringifyNode(primitiveByte);
+		result = JSON.stringifyNode((byte) 42);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Short
-		final short primitiveShort = (short) 42;
-		result = JSON.stringifyNode(primitiveShort);
+		result = JSON.stringifyNode((short) 42);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Integer
-		final int primitiveInteger = 42;
-		result = JSON.stringifyNode(primitiveInteger);
+		result = JSON.stringifyNode(42);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Long
-		final long primitiveLong = 42L;
-		result = JSON.stringifyNode(primitiveLong);
+		result = JSON.stringifyNode(42L);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Float
-		final float primitiveFloat = 42f;
-		result = JSON.stringifyNode(primitiveFloat);
+		result = JSON.stringifyNode(42f);
 		IO.test(result);
 		assertEquals("42", result);
 		// • Double
-		final double primitiveDouble = 42.;
-		result = JSON.stringifyNode(primitiveDouble);
+		result = JSON.stringifyNode(42.);
 		IO.test(result);
 		assertEquals("42", result);
+		// • String
+		result = JSON.stringifyNode("");
+		IO.test(result);
+		assertEquals("\"\"", result);
 		// • Primitive array
 		final int[] primitiveSequence = Integers.createSequence(5);
 		result = JSON.stringifyNode(primitiveSequence);
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
 		// • Array
-		final Integer[] array = (Integer[]) Arrays.toArray(primitiveSequence);
+		final Integer[] array = Integers.toArray(primitiveSequence);
 		result = JSON.stringifyNode(array);
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
 		// • Collection
-		final Collection<Integer> collection = Arrays.toList(array);
-		result = JSON.stringifyNode(collection);
+		result = JSON.stringifyNode(Arrays.toList(array));
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
 		// • Map
@@ -113,8 +112,12 @@ public class JSONTest
 		IO.test(result);
 		assertEquals("[{\"0\":0},{\"1\":1},{\"2\":2},{\"3\":3},{\"4\":4}]", result);
 		// • Object
-		final Node object = new Node();
-		result = JSON.stringifyNode(object);
+		// - Null
+		result = JSON.stringifyNode(null);
+		IO.test(result);
+		assertEquals("null", result);
+		// - Fields
+		result = JSON.stringifyNode(new Node());
 		IO.test(result);
 		assertEquals("{\"key\":\"value\",\"array\":[a,b,c],\"list\":[a,b,c]}", result);
 	}
