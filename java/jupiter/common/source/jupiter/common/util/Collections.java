@@ -343,14 +343,15 @@ public class Collections {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} if it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
+	 * specified delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} if it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection} joined by the
+	 *         specified delimiting {@link String} if it is not {@code null}, {@code "null"}
+	 *         otherwise
 	 */
 	public static String toStringWith(final Collection<?> collection, final String delimiter) {
 		if (collection == null) {
@@ -378,17 +379,17 @@ public class Collections {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"}
-	 * otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
+	 * specified delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection} joined by the
+	 *         specified delimiting {@link String} and wrapped by {@code wrapper} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {

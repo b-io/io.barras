@@ -88,12 +88,12 @@ public class OutputStreamCapturer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public void write(final int b)
+	public void write(final int characterCode)
 			throws IOException {
-		final char character = (char) b;
-		final String value = Character.toString(character);
-		builder.append(value);
-		if (value.equals(NEW_LINE)) {
+		final char character = (char) characterCode;
+		final String token = Character.toString(character);
+		builder.append(token);
+		if (token.equals(NEW_LINE)) {
 			consumer.append(builder.toString());
 			builder.delete(0, builder.length());
 		}

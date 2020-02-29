@@ -1404,14 +1404,14 @@ public class Arrays {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter} if
-	 * it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array joined by the specified
+	 * delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter} if
-	 *         it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array joined by the specified
+	 *         delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Object[] array, final String delimiter) {
 		if (array == null) {
@@ -1438,15 +1438,17 @@ public class Arrays {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
-	 * and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array joined by the specified
+	 * delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
-	 *         and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array joined by the specified
+	 *         delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String toStringWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

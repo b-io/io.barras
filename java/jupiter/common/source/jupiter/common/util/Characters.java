@@ -142,14 +142,14 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an Unicode {@link String} converted from the specified {@code char} value.
+	 * Returns an Unicode {@link String} converted from the specified {@code char} token.
 	 * <p>
-	 * @param value the {@code char} value to convert
+	 * @param token the {@code char} token to convert
 	 * <p>
-	 * @return an Unicode {@link String} converted from the specified {@code char} value
+	 * @return an Unicode {@link String} converted from the specified {@code char} token
 	 */
-	public static String toUnicode(final char value) {
-		return UNICODE.concat(Strings.leftPad(Integer.toString(value, 16), 4, ZERO));
+	public static String toUnicode(final char token) {
+		return UNICODE.concat(Strings.leftPad(Integer.toString(token, 16), 4, ZERO));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -619,42 +619,42 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@code char} array of the specified length containing the sequence of characters
-	 * starting with zero and spaced by one.
+	 * Creates a {@code char} array of the specified length containing the sequence of {@code char}
+	 * values starting with zero and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
-	 * @return a {@code char} array of the specified length containing the sequence of characters
-	 *         starting with zero and spaced by one
+	 * @return a {@code char} array of the specified length containing the sequence of {@code char}
+	 *         values starting with zero and spaced by one
 	 */
 	public static char[] createSequence(final char length) {
 		return createSequence(length, Character.MIN_VALUE, '\u0001');
 	}
 
 	/**
-	 * Creates a {@code char} array of the specified length containing the sequence of characters
-	 * starting with {@code from} and spaced by one.
+	 * Creates a {@code char} array of the specified length containing the sequence of {@code char}
+	 * values starting with {@code from} and spaced by one.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
-	 * @return a {@code char} array of the specified length containing the sequence of characters
-	 *         starting with {@code from} and spaced by one
+	 * @return a {@code char} array of the specified length containing the sequence of {@code char}
+	 *         values starting with {@code from} and spaced by one
 	 */
 	public static char[] createSequence(final char length, final char from) {
 		return createSequence(length, from, '\u0001');
 	}
 
 	/**
-	 * Creates a {@code char} array of the specified length containing the sequence of characters
-	 * starting with {@code from} and spaced by {@code step}.
+	 * Creates a {@code char} array of the specified length containing the sequence of {@code char}
+	 * values starting with {@code from} and spaced by {@code step}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
 	 * <p>
-	 * @return a {@code char} array of the specified length containing the sequence of characters
-	 *         starting with {@code from} and spaced by {@code step}
+	 * @return a {@code char} array of the specified length containing the sequence of {@code char}
+	 *         values starting with {@code from} and spaced by {@code step}
 	 */
 	public static char[] createSequence(final char length, final char from, final char step) {
 		final char[] array = new char[length];
@@ -746,10 +746,63 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of lower case {@code char} tokens in the specified {@code char} array.
+	 * <p>
+	 * @param array a {@code char} array
+	 * <p>
+	 * @return the number of lower case {@code char} tokens in the specified {@code char} array
+	 */
+	public static int countLowerCase(final char[] array) {
+		int occurrenceCount = 0;
+		for (final char token : array) {
+			if (Character.isLowerCase(token)) {
+				++occurrenceCount;
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of upper case {@code char} tokens in the specified {@code char} array.
+	 * <p>
+	 * @param array a {@code char} array
+	 * <p>
+	 * @return the number of upper case {@code char} tokens in the specified {@code char} array
+	 */
+	public static int countUpperCase(final char[] array) {
+		int occurrenceCount = 0;
+		for (final char token : array) {
+			if (Character.isUpperCase(token)) {
+				++occurrenceCount;
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of title case {@code char} tokens in the specified {@code char} array.
+	 * <p>
+	 * @param array a {@code char} array
+	 * <p>
+	 * @return the number of title case {@code char} tokens in the specified {@code char} array
+	 */
+	public static int countTitleCase(final char[] array) {
+		int occurrenceCount = 0;
+		for (final char token : array) {
+			if (Character.isTitleCase(token)) {
+				++occurrenceCount;
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code char} token in the specified
 	 * {@code char} array.
 	 * <p>
-	 * @param array the {@code char} array to convert
+	 * @param array a {@code char} array
 	 * @param token the {@code char} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code char} token in the specified
@@ -1158,27 +1211,27 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified {@code char} value is a parenthesis.
+	 * Tests whether the specified {@code char} token is a parenthesis.
 	 * <p>
-	 * @param character the {@code char} value to test
+	 * @param token the {@code char} token to test
 	 * <p>
-	 * @return {@code true} if the specified {@code char} value is a parenthesis, {@code false}
+	 * @return {@code true} if the specified {@code char} token is a parenthesis, {@code false}
 	 *         otherwise
 	 */
-	public static boolean isParenthesis(final char character) {
-		return character == LEFT_PARENTHESIS || character == RIGHT_PARENTHESIS;
+	public static boolean isParenthesis(final char token) {
+		return token == LEFT_PARENTHESIS || token == RIGHT_PARENTHESIS;
 	}
 
 	/**
-	 * Tests whether the specified {@code char} value is a bracket.
+	 * Tests whether the specified {@code char} token is a bracket.
 	 * <p>
-	 * @param character the {@code char} value to test
+	 * @param token the {@code char} token to test
 	 * <p>
-	 * @return {@code true} if the specified {@code char} value is a bracket, {@code false}
+	 * @return {@code true} if the specified {@code char} token is a bracket, {@code false}
 	 *         otherwise
 	 */
-	public static boolean isBracket(final char character) {
-		return character == LEFT_BRACKET || character == RIGHT_BRACKET;
+	public static boolean isBracket(final char token) {
+		return token == LEFT_BRACKET || token == RIGHT_BRACKET;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1343,14 +1396,14 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code char} array joined by
-	 * {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code char} array joined by the
+	 * specified delimiting {@link String}.
 	 * <p>
 	 * @param array     a {@code char} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code char} array joined by
-	 *         {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code char} array joined by the
+	 *         specified delimiting {@link String}
 	 */
 	public static String toStringWith(final char[] array, final String delimiter) {
 		return Arrays.toStringWith(toArray(array), delimiter);
@@ -1371,15 +1424,15 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code char} array joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code char} array joined by the
+	 * specified delimiting {@link String} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     a {@code char} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code char} array joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code char} array joined by the
+	 *         specified delimiting {@link String} and wrapped by {@code wrapper}
 	 */
 	public static String toStringWith(final char[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

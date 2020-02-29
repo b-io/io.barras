@@ -26,6 +26,7 @@ package jupiter.common.util;
 import static jupiter.common.util.Arrays.DELIMITER;
 import static jupiter.common.util.Characters.COLON;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
+import static jupiter.common.util.Characters.HYPHEN;
 import static jupiter.common.util.Characters.LEFT_BRACE;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
@@ -87,7 +88,7 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final char DEFAULT_PROGRESS_CHARACTER = '-';
+	public static final char DEFAULT_PROGRESS_SYMBOL = HYPHEN;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -151,16 +152,6 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String toLowerCase(final String text) {
-		return text.toLowerCase(DEFAULT_LOCALE);
-	}
-
-	public static String toUpperCase(final String text) {
-		return text.toUpperCase(DEFAULT_LOCALE);
-	}
-
-	//////////////////////////////////////////////
-
 	/**
 	 * Returns an Unicode {@link String} converted from the specified {@link String}.
 	 * <p>
@@ -172,6 +163,47 @@ public class Strings {
 		final StringBuilder builder = createBuilder(6 * text.length());
 		for (int i = 0; i < text.length(); ++i) {
 			builder.append(Characters.toUnicode(text.charAt(i)));
+		}
+		return builder.toString();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String toLowerCase(final String text) {
+		return text.toLowerCase(DEFAULT_LOCALE);
+	}
+
+	public static String toUpperCase(final String text) {
+		return text.toUpperCase(DEFAULT_LOCALE);
+	}
+
+	//////////////////////////////////////////////
+
+	public static String toCase(final String text) {
+		final StringBuilder builder = createBuilder(text.length() + countUpperCase(text) +
+				countTitleCase(text));
+		for (final char token : text.toCharArray()) {
+			if (Character.isUpperCase(token) || Character.isTitleCase(token)) {
+				builder.append(SPACE).append(Character.toLowerCase(token));
+			} else {
+				builder.append(token);
+			}
+		}
+		return builder.toString();
+	}
+
+	public static String toCamelCase(final String text) {
+		final StringBuilder builder = createBuilder(text.length() - count(text, SPACE));
+		boolean isSpace = false;
+		for (final char token : text.toCharArray()) {
+			if (token == SPACE) {
+				isSpace = true;
+			} else if (isSpace) {
+				builder.append(Character.toUpperCase(token));
+				isSpace = false;
+			} else {
+				builder.append(Character.toLowerCase(token));
+			}
 		}
 		return builder.toString();
 	}
@@ -398,7 +430,7 @@ public class Strings {
 	 * @return a {@link String} bar by default
 	 */
 	public static String createBar() {
-		return createBar(DEFAULT_LINE_LENGTH, DEFAULT_PROGRESS_CHARACTER);
+		return createBar(DEFAULT_LINE_LENGTH, DEFAULT_PROGRESS_SYMBOL);
 	}
 
 	/**
@@ -411,7 +443,7 @@ public class Strings {
 	 *         symbol
 	 */
 	public static String createBar(final int length) {
-		return createBar(length, DEFAULT_PROGRESS_CHARACTER);
+		return createBar(length, DEFAULT_PROGRESS_SYMBOL);
 	}
 
 	/**
@@ -497,8 +529,8 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String repeat(final char character, final int length) {
-		return repeat(toString(character), length);
+	public static String repeat(final char token, final int length) {
+		return repeat(toString(token), length);
 	}
 
 	public static String repeat(final String text, final int length) {
@@ -522,6 +554,206 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by capitalizing the first character of the specified
+	 * {@link String}.
+	 * <p>
+	 * @param text the @link String} to capitalize (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by capitalizing the first character of the specified
+	 *         {@link String}
+	 */
+	public static String capitalizeFirst(final String text) {
+		// Check the arguments
+		if (isNullOrEmpty(text)) {
+			return text;
+		}
+
+		// Capitalize the first character of the text
+		return Character.toTitleCase(text.charAt(0)) + text.substring(1);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by capitalizing all the whitespace-separated words of
+	 * the specified {@link String}.
+	 * <b>Note:</b> To also convert the remaining characters to lowercase, use
+	 * {@link #capitalizeStrictly(String)}.
+	 * <p>
+	 * @param text the @link String} to capitalize (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by capitalizing all the whitespace-separated words of
+	 *         the specified {@link String}
+	 *
+	 * @see #capitalizeStrictly(String)
+	 * @see #uncapitalize(String)
+	 */
+	public static String capitalize(final String text) {
+		return capitalize(text, SPACE);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by capitalizing all the words of the specified
+	 * {@link String} separated by the specified {@code char} delimiters.
+	 * <b>Note:</b> To also convert the remaining characters to lowercase, use
+	 * {@link #capitalizeStrictly(String, char[])}.
+	 * <p>
+	 * @param text       the @link String} to capitalize (may be {@code null})
+	 * @param delimiters the {@code char} delimiters (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by capitalizing all the words of the specified
+	 *         {@link String} separated by the specified {@code char} delimiters
+	 *
+	 * @see #capitalizeStrictly(String, char[])
+	 * @see #uncapitalize(String, char[])
+	 */
+	public static String capitalize(final String text, final char... delimiters) {
+		// Check the arguments
+		if (isNullOrEmpty(text) || Characters.isNullOrEmpty(delimiters)) {
+			return text;
+		}
+
+		// Capitalize all the words of the text separated by the delimiters
+		final char[] array = text.toCharArray();
+		boolean capitalize = true;
+		for (int i = 0; i < array.length; i++) {
+			final char token = array[i];
+			if (Characters.contains(delimiters, token)) {
+				capitalize = true;
+			} else if (capitalize) {
+				array[i] = Character.toTitleCase(token);
+				capitalize = false;
+			}
+		}
+		return new String(array);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by capitalizing all the whitespace-separated words of
+	 * the specified {@link String} and converting the remaining characters to lowercase.
+	 * <p>
+	 * @param text the @link String} to capitalize (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by capitalizing all the whitespace-separated words of
+	 *         the specified {@link String} and converting the remaining characters to lowercase
+	 *
+	 * @see #uncapitalize(String)
+	 */
+	public static String capitalizeStrictly(final String text) {
+		return capitalizeStrictly(text, SPACE);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by capitalizing all the words of the specified
+	 * {@link String} separated by the specified {@code char} delimiters and converting the
+	 * remaining characters to lowercase.
+	 * <p>
+	 * @param text       the @link String} to capitalize (may be {@code null})
+	 * @param delimiters the {@code char} delimiters (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by capitalizing all the words of the specified
+	 *         {@link String} separated by the specified {@code char} delimiters and converting the
+	 *         remaining characters to lowercase
+	 *
+	 * @see #uncapitalize(String, char[])
+	 */
+	public static String capitalizeStrictly(String text, final char... delimiters) {
+		// Check the arguments
+		if (isNullOrEmpty(text) || Characters.isNullOrEmpty(delimiters)) {
+			return text;
+		}
+
+		// Convert the text to lowercase and
+		// capitalize all the words of the text separated by the delimiters
+		return capitalize(text.toLowerCase(), delimiters);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by uncapitalizing all the whitespace-separated words
+	 * of the specified {@link String}.
+	 * <p>
+	 * @param text the @link String} to uncapitalize (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by uncapitalizing all the whitespace-separated words
+	 *         of the specified {@link String}
+	 */
+	public static String uncapitalize(final String text) {
+		return uncapitalize(text, SPACE);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by uncapitalizing all the words of the specified
+	 * {@link String} separated by the specified {@code char} delimiters.
+	 * <p>
+	 * @param text       the @link String} to uncapitalize (may be {@code null})
+	 * @param delimiters the {@code char} delimiters (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by uncapitalizing all the words of the specified
+	 *         {@link String} separated by the specified {@code char} delimiters
+	 */
+	public static String uncapitalize(final String text, final char... delimiters) {
+		// Check the arguments
+		if (isNullOrEmpty(text) || Characters.isNullOrEmpty(delimiters)) {
+			return text;
+		}
+
+		// Uncapitalize all the words of the text separated by the delimiters
+		final char[] array = text.toCharArray();
+		boolean uncapitalize = true;
+		for (int i = 0; i < array.length; i++) {
+			final char token = array[i];
+			if (Characters.contains(delimiters, token)) {
+				uncapitalize = true;
+			} else if (uncapitalize) {
+				array[i] = Character.toLowerCase(token);
+				uncapitalize = false;
+			}
+		}
+		return new String(array);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the number of lower case characters in the specified {@link String}.
+	 * <p>
+	 * @param text a {@link String}
+	 * <p>
+	 * @return the number of lower case characters in the specified {@link String}
+	 */
+	public static int countLowerCase(final String text) {
+		return Characters.countLowerCase(text.toCharArray());
+	}
+
+	/**
+	 * Returns the number of upper case characters in the specified {@link String}.
+	 * <p>
+	 * @param text a {@link String}
+	 * <p>
+	 * @return the number of upper case characters in the specified {@link String}
+	 */
+	public static int countUpperCase(final String text) {
+		return Characters.countUpperCase(text.toCharArray());
+	}
+
+	/**
+	 * Returns the number of title case characters in the specified {@link String}.
+	 * <p>
+	 * @param text a {@link String}
+	 * <p>
+	 * @return the number of title case characters in the specified {@link String}
+	 */
+	public static int countTitleCase(final String text) {
+		return Characters.countTitleCase(text.toCharArray());
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the number of occurrences of the specified {@code char} token in the specified
@@ -795,28 +1027,28 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter} if
-	 * it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array joined by the specified
+	 * {@code char} delimiter if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
-	 * @param delimiter the delimiting {@code char} value
+	 * @param delimiter the {@code char} delimiter
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter} if
-	 *         it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array joined by the specified
+	 *         {@code char} delimiter if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final char delimiter) {
 		return joinWith(array, toString(delimiter));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter} if
-	 * it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array joined by the specified
+	 * delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter} if
-	 *         it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array joined by the specified
+	 *         delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final String delimiter) {
 		// Check the arguments
@@ -857,15 +1089,17 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
-	 * and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array joined by the specified
+	 * {@code char} delimiter and wrapped by {@code wrapper} if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
-	 * @param delimiter the delimiting {@code char} value
+	 * @param delimiter the {@code char} delimiter
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
-	 *         and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array joined by the specified
+	 *         {@code char} delimiter and wrapped by {@code wrapper} if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final char delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -873,15 +1107,17 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array joined by {@code delimiter}
-	 * and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array joined by the specified
+	 * delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array joined by {@code delimiter}
-	 *         and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array joined by the specified
+	 *         delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
+	 *         {@code "null"} otherwise
 	 */
 	public static String joinWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -910,28 +1146,29 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} if it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
+	 * specified {@code char} delimiter if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
-	 * @param delimiter  the delimiting {@code char} value
+	 * @param delimiter  the {@code char} delimiter
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} if it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection} joined by the
+	 *         specified {@code char} delimiter if it is not {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter) {
 		return joinWith(collection, toString(delimiter));
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} if it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
+	 * specified delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} if it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection} joined by the
+	 *         specified delimiting {@link String} if it is not {@code null}, {@code "null"}
+	 *         otherwise
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter) {
 		// Check the arguments
@@ -956,17 +1193,17 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"}
-	 * otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
+	 * specified {@code char} delimiter and wrapped by {@code wrapper} if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
-	 * @param delimiter  the delimiting {@code char} value
+	 * @param delimiter  the {@code char} delimiter
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection} joined by the
+	 *         specified {@code char} delimiter and wrapped by {@code wrapper} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -989,17 +1226,17 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} joined by
-	 * {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null}, {@code "null"}
-	 * otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
+	 * specified delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
+	 * {@code "null"} otherwise.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper} if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection} joined by the
+	 *         specified delimiting {@link String} and wrapped by {@code wrapper} if it is not
+	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -1043,23 +1280,23 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by left-padding the specified {@link String} to the
-	 * specified length with the specified {@code char} value.
+	 * specified length with the specified {@code char} token.
 	 * <p>
-	 * @param text      a {@link String} (may be {@code null})
-	 * @param length    the length to pad to
-	 * @param character the {@code char} value to pad with
+	 * @param text   a {@link String} (may be {@code null})
+	 * @param length the length to pad to
+	 * @param token  the {@code char} token to pad with
 	 * <p>
 	 * @return the {@link String} constructed by left-padding the specified {@link String} to the
-	 *         specified length with the specified {@code char} value
+	 *         specified length with the specified {@code char} token
 	 */
-	public static String leftPad(final String text, final int length, final char character) {
+	public static String leftPad(final String text, final int length, final char token) {
 		// Check the arguments
 		if (isNullOrEmpty(text) || length <= text.length()) {
 			return text;
 		}
 
 		// Left-pad the text
-		return repeat(character, length - text.length()).concat(text);
+		return repeat(token, length - text.length()).concat(text);
 	}
 
 	//////////////////////////////////////////////
@@ -1080,23 +1317,23 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by right-padding the specified {@link String} to the
-	 * specified length with the specified {@code char} value.
+	 * specified length with the specified {@code char} token.
 	 * <p>
-	 * @param text      a {@link String} (may be {@code null})
-	 * @param length    the length to pad to
-	 * @param character the {@code char} value to pad with
+	 * @param text   a {@link String} (may be {@code null})
+	 * @param length the length to pad to
+	 * @param token  the {@code char} token to pad with
 	 * <p>
 	 * @return the {@link String} constructed by right-padding the specified {@link String} to the
-	 *         specified length with the specified {@code char} value
+	 *         specified length with the specified {@code char} token
 	 */
-	public static String rightPad(final String text, final int length, final char character) {
+	public static String rightPad(final String text, final int length, final char token) {
 		// Check the arguments
 		if (isNullOrEmpty(text) || length <= text.length()) {
 			return text;
 		}
 
 		// Right-pad the text
-		return text.concat(repeat(character, length - text.length()));
+		return text.concat(repeat(token, length - text.length()));
 	}
 
 	//////////////////////////////////////////////
@@ -1117,24 +1354,23 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by center-padding the specified {@link String} to the
-	 * specified length with the specified {@code char} value.
+	 * specified length with the specified {@code char} token.
 	 * <p>
-	 * @param text      a {@link String} (may be {@code null})
-	 * @param length    the length to pad to
-	 * @param character the {@code char} value to pad with
+	 * @param text   a {@link String} (may be {@code null})
+	 * @param length the length to pad to
+	 * @param token  the {@code char} token to pad with
 	 * <p>
 	 * @return the {@link String} constructed by center-padding the specified {@link String} to the
-	 *         specified length with the specified {@code char} value
+	 *         specified length with the specified {@code char} token
 	 */
-	public static String centerPad(final String text, final int length, final char character) {
+	public static String centerPad(final String text, final int length, final char token) {
 		// Check the arguments
 		if (isNullOrEmpty(text) || length <= text.length()) {
 			return text;
 		}
 
 		// Center-pad the text
-		return rightPad(repeat(character, (length - text.length()) / 2).concat(text), length,
-				character);
+		return rightPad(repeat(token, (length - text.length()) / 2).concat(text), length, token);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1277,14 +1513,14 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing the character at the specified index in
-	 * the specified {@link String} by the specified {@code char} value.
+	 * the specified {@link String} by the specified {@code char} token.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param index       the index of the character to replace
-	 * @param replacement the {@code char} value to replace by
+	 * @param replacement the {@code char} token to replace by
 	 * <p>
 	 * @return the {@link String} constructed by replacing the character at the specified index in
-	 *         the specified {@link String} by the specified {@code char} value
+	 *         the specified {@link String} by the specified {@code char} token
 	 */
 	public static String replace(final String text, final int index, final char replacement) {
 		// Check the arguments
@@ -1301,14 +1537,14 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing the characters at the specified indexes
-	 * in the specified {@link String} respectively by the specified {@code char} values.
+	 * in the specified {@link String} respectively by the specified {@code char} tokens.
 	 * <p>
 	 * @param text         a {@link String} (may be {@code null})
 	 * @param indexes      the indexes of the characters to replace (may be {@code null})
-	 * @param replacements the {@code char} values to replace by (may be {@code null})
+	 * @param replacements the {@code char} tokens to replace by (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by replacing the characters at the specified indexes
-	 *         in the specified {@link String} respectively by the specified {@code char} values
+	 *         in the specified {@link String} respectively by the specified {@code char} tokens
 	 */
 	public static String replace(final String text, final int[] indexes,
 			final char[] replacements) {
@@ -1414,11 +1650,11 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing all the characters matching the specified
-	 * {@code char} tokens inside the specified delimiting {@code char} values in the specified
+	 * {@code char} tokens inside the specified {@code char} delimiters in the specified
 	 * {@link String} by the specified {@link String}.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
-	 * @param delimiters  the array of delimiting {@code char} values (may be {@code null})
+	 * @param delimiters  the {@code char} delimiters (may be {@code null})
 	 * @param tokens      the {@code char} tokens to replace (may be {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
 	 * <p>
@@ -1452,11 +1688,11 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by replacing all the characters matching the specified
-	 * {@code char} tokens outside the specified delimiting {@code char} values in the specified
+	 * {@code char} tokens outside the specified {@code char} delimiters in the specified
 	 * {@link String} by the specified {@link String}.
 	 * <p>
 	 * @param text        a {@link String} (may be {@code null})
-	 * @param delimiters  the array of delimiting {@code char} values (may be {@code null})
+	 * @param delimiters  the {@code char} delimiters (may be {@code null})
 	 * @param tokens      the {@code char} tokens to replace (may be {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
 	 * <p>
@@ -3272,13 +3508,13 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiter}.
+	 * specified {@link String} around the specified {@code char} delimiter.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param delimiter the delimiting {@code char} value
+	 * @param delimiter the {@code char} delimiter
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiter}
+	 *         specified {@link String} around the specified {@code char} delimiter
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final char delimiter) {
 		// Check the arguments
@@ -3290,14 +3526,16 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiter} until the specified index.
+	 * specified {@link String} around the specified {@code char} delimiter until the specified
+	 * index.
 	 * <p>
 	 * @param text      a {@link String}
-	 * @param delimiter the delimiting {@code char} value
+	 * @param delimiter the {@code char} delimiter
 	 * @param toIndex   the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiter} until the specified index
+	 *         specified {@link String} around the specified {@code char} delimiter until the
+	 *         specified index
 	 */
 	public static ExtendedLinkedList<String> splitTo(final String text, final char delimiter,
 			final int toIndex) {
@@ -3308,13 +3546,13 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiter}.
+	 * specified {@link String} around the specified delimiting {@link Character}.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link Character} (may be {@code null})
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiter}
+	 *         specified {@link String} around the specified delimiting {@link Character}
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final Character delimiter) {
 		// Check the arguments
@@ -3326,14 +3564,16 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiter} until the specified index.
+	 * specified {@link String} around the specified delimiting {@link Character} until the
+	 * specified index.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link Character} (may be {@code null})
 	 * @param toIndex   the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiter} until the specified index
+	 *         specified {@link String} around the specified delimiting {@link Character} until the
+	 *         specified index
 	 */
 	public static ExtendedLinkedList<String> splitTo(final String text, final Character delimiter,
 			final int toIndex) {
@@ -3352,13 +3592,13 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiters}.
+	 * specified {@link String} around the specified {@code char} delimiters.
 	 * <p>
 	 * @param text       a {@link String}
-	 * @param delimiters the array of delimiting {@code char} values (may be {@code null})
+	 * @param delimiters the {@code char} delimiters (may be {@code null})
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiters}
+	 *         specified {@link String} around the specified {@code char} delimiters
 	 */
 	public static ExtendedLinkedList<String> split(final String text, final char[] delimiters) {
 		// Check the arguments
@@ -3370,14 +3610,16 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiters} until the specified index.
+	 * specified {@link String} around the specified {@code char} delimiters until the specified
+	 * index.
 	 * <p>
 	 * @param text       a {@link String}
-	 * @param delimiters the array of delimiting {@code char} values (may be {@code null})
+	 * @param delimiters the {@code char} delimiters (may be {@code null})
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiters} until the specified index
+	 *         specified {@link String} around the specified {@code char} delimiters until the
+	 *         specified index
 	 */
 	public static ExtendedLinkedList<String> splitTo(final String text, final char[] delimiters,
 			final int toIndex) {
@@ -3388,14 +3630,14 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiters}.
+	 * specified {@link String} around the specified delimiting {@link Character}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link Collection} of delimiting {@link Character} (may be
 	 *                   {@code null})
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiters}
+	 *         specified {@link String} around the specified delimiting {@link Character}
 	 */
 	public static ExtendedLinkedList<String> split(final String text,
 			final Collection<Character> delimiters) {
@@ -3408,7 +3650,8 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiters} until the specified index.
+	 * specified {@link String} around the specified delimiting {@link Character} until the
+	 * specified index.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link Collection} of delimiting {@link Character} (may be
@@ -3416,7 +3659,8 @@ public class Strings {
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiters} until the specified index
+	 *         specified {@link String} around the specified delimiting {@link Character} until the
+	 *         specified index
 	 */
 	public static ExtendedLinkedList<String> splitTo(final String text,
 			final Collection<Character> delimiters, final int toIndex) {
@@ -3427,13 +3671,13 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiter}.
+	 * specified {@link String} around the specified delimiting {@link String}.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link String} (may be {@code null})
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiter}
+	 *         specified {@link String} around the specified delimiting {@link String}
 	 */
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final String delimiter) {
@@ -3446,14 +3690,16 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiter} until the specified index.
+	 * specified {@link String} around the specified delimiting {@link String} until the specified
+	 * index.
 	 * <p>
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link String} (may be {@code null})
 	 * @param toIndex   the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiter} until the specified index
+	 *         specified {@link String} around the specified delimiting {@link String} until the
+	 *         specified index
 	 */
 	public static ExtendedLinkedList<String> splitStringTo(final String text,
 			final String delimiter, final int toIndex) {
@@ -3487,13 +3733,13 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiters}.
+	 * specified {@link String} around the specified delimiting {@link String}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the array of delimiting {@link String} (may be {@code null})
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiters}
+	 *         specified {@link String} around the specified delimiting {@link String}
 	 */
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final String[] delimiters) {
@@ -3506,14 +3752,16 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiters} until the specified index.
+	 * specified {@link String} around the specified delimiting {@link String} until the specified
+	 * index.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the array of delimiting {@link String} (may be {@code null})
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiters} until the specified index
+	 *         specified {@link String} around the specified delimiting {@link String} until the
+	 *         specified index
 	 */
 	public static ExtendedLinkedList<String> splitStringTo(final String text,
 			final String[] delimiters, final int toIndex) {
@@ -3547,13 +3795,13 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiters}.
+	 * specified {@link String} around the specified delimiting {@link String}.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link List} of delimiting {@link String} (may be {@code null})
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiters}
+	 *         specified {@link String} around the specified delimiting {@link String}
 	 */
 	public static ExtendedLinkedList<String> splitString(final String text,
 			final List<String> delimiters) {
@@ -3566,14 +3814,16 @@ public class Strings {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 * specified {@link String} around {@code delimiters} until the specified index.
+	 * specified {@link String} around the specified delimiting {@link String} until the specified
+	 * index.
 	 * <p>
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link List} of delimiting {@link String} (may be {@code null})
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
-	 *         specified {@link String} around {@code delimiters} until the specified index
+	 *         specified {@link String} around the specified delimiting {@link String} until the
+	 *         specified index
 	 */
 	public static ExtendedLinkedList<String> splitStringTo(final String text,
 			final List<String> delimiters, final int toIndex) {

@@ -742,7 +742,7 @@ public class Shorts {
 	 * Returns the number of occurrences of the specified {@code short} token in the specified
 	 * {@code short} array.
 	 * <p>
-	 * @param array the {@code short} array to convert
+	 * @param array a {@code short} array
 	 * @param token the {@code short} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code short} token in the specified
@@ -1338,14 +1338,14 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code short} array joined by
-	 * {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code short} array joined by the
+	 * specified delimiting {@link String}.
 	 * <p>
 	 * @param array     a {@code short} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code short} array joined by
-	 *         {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code short} array joined by the
+	 *         specified delimiting {@link String}
 	 */
 	public static String toStringWith(final short[] array, final String delimiter) {
 		return Arrays.toStringWith(toArray(array), delimiter);
@@ -1366,15 +1366,15 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code short} array joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code short} array joined by the
+	 * specified delimiting {@link String} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     a {@code short} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code short} array joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code short} array joined by the
+	 *         specified delimiting {@link String} and wrapped by {@code wrapper}
 	 */
 	public static String toStringWith(final short[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

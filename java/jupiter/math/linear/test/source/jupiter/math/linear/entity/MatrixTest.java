@@ -202,7 +202,7 @@ public class MatrixTest
 		final Matrix A = Matrix.random(10);
 
 		// Verify the matrix division
-		assertTrue(A.equals(A.times(A).division(A)));
+		assertEquals(A, A.times(A).division(A));
 	}
 
 	/**

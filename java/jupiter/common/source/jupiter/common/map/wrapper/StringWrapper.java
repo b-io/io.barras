@@ -28,7 +28,7 @@ import jupiter.common.util.Strings;
 
 /**
  * {@link StringWrapper} is the {@link ObjectToStringMapper} wrapping an input {@link String} with
- * the specified left and right {@code char} values.
+ * the specified left and right {@code char} tokens.
  */
 public class StringWrapper
 		extends ObjectToStringMapper {
@@ -63,10 +63,10 @@ public class StringWrapper
 
 	/**
 	 * Constructs a {@link StringWrapper} with the specified left and right wrapping {@code char}
-	 * values.
+	 * tokens.
 	 * <p>
-	 * @param left  the left wrapping {@code char} value
-	 * @param right the right wrapping {@code char} value
+	 * @param left  the left wrapping {@code char} token
+	 * @param right the right wrapping {@code char} token
 	 */
 	public StringWrapper(final char left, final char right) {
 		super();

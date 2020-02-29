@@ -744,7 +744,7 @@ public class Floats {
 	 * Returns the number of occurrences of the specified {@code float} token in the specified
 	 * {@code float} array.
 	 * <p>
-	 * @param array the {@code float} array to convert
+	 * @param array a {@code float} array
 	 * @param token the {@code float} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code float} token in the specified
@@ -1379,14 +1379,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code float} array joined by
-	 * {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code float} array joined by the
+	 * specified delimiting {@link String}.
 	 * <p>
 	 * @param array     a {@code float} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code float} array joined by
-	 *         {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code float} array joined by the
+	 *         specified delimiting {@link String}
 	 */
 	public static String toStringWith(final float[] array, final String delimiter) {
 		return Arrays.toStringWith(toArray(array), delimiter);
@@ -1407,15 +1407,15 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code float} array joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code float} array joined by the
+	 * specified delimiting {@link String} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     a {@code float} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code float} array joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code float} array joined by the
+	 *         specified delimiting {@link String} and wrapped by {@code wrapper}
 	 */
 	public static String toStringWith(final float[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

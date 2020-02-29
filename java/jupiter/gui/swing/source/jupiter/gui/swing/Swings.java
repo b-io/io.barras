@@ -27,7 +27,9 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,6 +39,7 @@ import javax.swing.JProgressBar;
 import jupiter.common.math.Maths;
 import jupiter.common.thread.Threads;
 import jupiter.common.time.Chronometer;
+import jupiter.common.util.Strings;
 
 public class Swings {
 
@@ -125,6 +128,16 @@ public class Swings {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		return frame;
+	}
+
+	//////////////////////////////////////////////
+
+	public static JButton createButton(final String actionCommand,
+			final ActionListener actionListener) {
+		final JButton button = new JButton(Strings.capitalize(Strings.toCase(actionCommand)));
+		button.setActionCommand(actionCommand);
+		button.addActionListener(actionListener);
+		return button;
 	}
 
 	//////////////////////////////////////////////

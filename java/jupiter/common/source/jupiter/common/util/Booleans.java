@@ -590,7 +590,7 @@ public class Booleans {
 	 * Returns the number of occurrences of the specified {@code boolean} token in the specified
 	 * {@code boolean} array.
 	 * <p>
-	 * @param array the {@code boolean} array to convert
+	 * @param array a {@code boolean} array
 	 * @param token the {@code boolean} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code boolean} token in the specified
@@ -1084,14 +1084,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code boolean} array joined by
-	 * {@code delimiter}.
+	 * Returns a representative {@link String} of the specified {@code boolean} array joined by the
+	 * specified delimiting {@link String}.
 	 * <p>
 	 * @param array     a {@code boolean} array
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code boolean} array joined by
-	 *         {@code delimiter}
+	 * @return a representative {@link String} of the specified {@code boolean} array joined by the
+	 *         specified delimiting {@link String}
 	 */
 	public static String toStringWith(final boolean[] array, final String delimiter) {
 		return Arrays.toStringWith(toArray(array), delimiter);
@@ -1112,15 +1112,15 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@code boolean} array joined by
-	 * {@code delimiter} and wrapped by {@code wrapper}.
+	 * Returns a representative {@link String} of the specified {@code boolean} array joined by the
+	 * specified delimiting {@link String} and wrapped by {@code wrapper}.
 	 * <p>
 	 * @param array     a {@code boolean} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@code boolean} array joined by
-	 *         {@code delimiter} and wrapped by {@code wrapper}
+	 * @return a representative {@link String} of the specified {@code boolean} array joined by the
+	 *         specified delimiting {@link String} and wrapped by {@code wrapper}
 	 */
 	public static String toStringWith(final boolean[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

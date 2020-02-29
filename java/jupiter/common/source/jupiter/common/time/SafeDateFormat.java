@@ -290,11 +290,11 @@ public class SafeDateFormat
 	 * <p>
 	 * The method attempts to parse {@code text} starting at the index specified by
 	 * {@code position}. If parsing succeeds, then the {@code position} index is updated to the
-	 * index after the last {@code char} value used (parsing does not necessarily use all characters
+	 * index after the last {@code char} token used (parsing does not necessarily use all characters
 	 * up to the end of the {@link String}), and the parsed date is returned. The updated
 	 * {@code position} can be used to indicate the starting point for the next call to this method.
 	 * If an error occurs, then the {@code position} index is not changed, the error index of
-	 * {@code position} is set to the index of the {@code char} value where the error occurred, and
+	 * {@code position} is set to the index of the {@code char} token where the error occurred, and
 	 * {@code null} is returned.
 	 * <p>
 	 * This parsing operation uses the {@link DateFormat#calendar calendar} to produce a

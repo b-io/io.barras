@@ -51,12 +51,53 @@ public class StringsTest
 	public void testToUnicode() {
 		IO.test(BULLET, " toUnicode");
 
-		assertTrue("\\u0030".equals(Strings.toUnicode("0")));
-		assertTrue("\\u0061".equals(Strings.toUnicode("a")));
-		assertTrue("\\u2022".equals(Strings.toUnicode("•")));
+		assertEquals("\\u0030", Strings.toUnicode("0"));
+		assertEquals("\\u0061", Strings.toUnicode("a"));
+		assertEquals("\\u2022", Strings.toUnicode("•"));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Test of toCase method, of class Strings.
+	 */
+	public void testToCase() {
+		IO.test(BULLET, " toCase");
+
+		assertEquals("hello world!", Strings.toCase("helloWorld!"));
+	}
+
+	/**
+	 * Test of toCamelCase method, of class Strings.
+	 */
+	public void testToCamelCase() {
+		IO.test(BULLET, " toCamelCase");
+
+		assertEquals("helloWorld!", Strings.toCamelCase("Hello world!"));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Test of capitalizeFirst method, of class Strings.
+	 */
+	public void testCapitalizeFirst() {
+		IO.test(BULLET, " capitalizeFirst");
+
+		assertEquals("A", Strings.capitalizeFirst("a"));
+		assertEquals("Hello", Strings.capitalizeFirst("hello"));
+	}
+
+	/**
+	 * Test of capitalizeStrictly method, of class Strings.
+	 */
+	public void testCapitalizeFully() {
+		IO.test(BULLET, " capitalizeStrictly");
+
+		assertEquals("Hello World!", Strings.capitalizeStrictly("hELLO wORLD!"));
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Test of replaceAll method, of class Strings.
@@ -68,7 +109,7 @@ public class StringsTest
 		assertEquals("|A|B|C|D|E|", Strings.replaceAll(STRING, DELIMITERS, String.valueOf(BAR)));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Test of split method, of class Strings.
