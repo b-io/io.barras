@@ -38,7 +38,6 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.ContourEntity;
 import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.entity.XYItemEntity;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
@@ -98,7 +97,8 @@ public class ChartPanels {
 		// • Select the closest chart entity to the mouse position
 		double minDistance = Integer.MAX_VALUE;
 		for (final ChartEntity e : entities) {
-			if (e instanceof CategoryItemEntity || e instanceof ContourEntity ||
+			if (e instanceof CategoryItemEntity ||
+					e instanceof org.jfree.chart.entity.ContourEntity ||
 					e instanceof PieSectionEntity || e instanceof XYItemEntity) {
 				final Rectangle r = e.getArea().getBounds();
 				final Point2D center = new Point2D.Double(r.getCenterX(), r.getCenterY());
