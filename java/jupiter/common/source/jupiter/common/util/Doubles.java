@@ -1254,7 +1254,7 @@ public class Doubles {
 		final long bBits = Double.doubleToLongBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-						1; // (0., -0.) or (NaN, !NaN)
+				1; // (0., -0.) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
