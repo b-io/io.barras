@@ -661,7 +661,7 @@ public class Strings {
 	 *
 	 * @see #uncapitalize(String, char[])
 	 */
-	public static String capitalizeStrictly(String text, final char... delimiters) {
+	public static String capitalizeStrictly(final String text, final char... delimiters) {
 		// Check the arguments
 		if (isNullOrEmpty(text) || Characters.isNullOrEmpty(delimiters)) {
 			return text;

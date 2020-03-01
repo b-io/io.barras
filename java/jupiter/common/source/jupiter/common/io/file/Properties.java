@@ -124,7 +124,7 @@ public class Properties
 	 * @see #defaultValue
 	 */
 	@Override
-	public String getProperty(String key) {
+	public String getProperty(final String key) {
 		final String value = super.getProperty(key);
 		return value != null ? value : defaultValue;
 	}

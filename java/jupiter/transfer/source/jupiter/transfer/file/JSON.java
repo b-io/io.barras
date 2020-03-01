@@ -84,8 +84,7 @@ public class JSON {
 		final StringBuilder builder = Strings.createBuilder(fields.length *
 				(2 * INITIAL_CAPACITY + 6));
 		int accessibleFieldCount = 0;
-		for (int i = 0; i < fields.length; ++i) {
-			final Field field = fields[i];
+		for (final Field field : fields) {
 			try {
 				final String key = field.getName();
 				final Object value = field.get(content);
