@@ -110,44 +110,44 @@ public class SQL {
 
 		// Set the parameter of the SQL statement at the index
 		final Class<?> c = value.getClass();
-		if (Array.class.isAssignableFrom(c)) {
+		if (value instanceof Array) {
 			statement.setArray(index, (Array) value);
-		} else if (BigDecimal.class.isAssignableFrom(c)) {
+		} else if (value instanceof BigDecimal) {
 			statement.setBigDecimal(index, (BigDecimal) value);
-		} else if (Blob.class.isAssignableFrom(c)) {
+		} else if (value instanceof Blob) {
 			statement.setBlob(index, (Blob) value);
-		} else if (Booleans.is(c)) {
+		} else if (Booleans.is(value)) {
 			statement.setBoolean(index, (Boolean) value);
-		} else if (Bytes.is(c)) {
+		} else if (Bytes.is(value)) {
 			statement.setByte(index, (Byte) value);
 		} else if (Bytes.isPrimitiveArray(c)) {
 			statement.setBytes(index, (byte[]) value);
-		} else if (Clob.class.isAssignableFrom(c)) {
+		} else if (value instanceof Clob) {
 			statement.setClob(index, (Clob) value);
-		} else if (Dates.is(c)) {
+		} else if (Dates.is(value)) {
 			final java.util.Date date = (java.util.Date) value;
 			if (Dates.hasTime(date)) {
 				statement.setTimestamp(index, toSQLTimestamp(date));
 			} else {
 				statement.setDate(index, toSQLDate(date));
 			}
-		} else if (Doubles.is(c)) {
+		} else if (Doubles.is(value)) {
 			statement.setDouble(index, (Double) value);
-		} else if (Floats.is(c)) {
+		} else if (Floats.is(value)) {
 			statement.setFloat(index, (Float) value);
-		} else if (Integers.is(c)) {
+		} else if (Integers.is(value)) {
 			statement.setInt(index, (Integer) value);
-		} else if (Longs.is(c)) {
+		} else if (Longs.is(value)) {
 			statement.setLong(index, (Long) value);
-		} else if (Shorts.is(c)) {
+		} else if (Shorts.is(value)) {
 			statement.setShort(index, (Short) value);
-		} else if (Strings.is(c)) {
+		} else if (Strings.is(value)) {
 			statement.setString(index, (String) value);
-		} else if (Time.class.isAssignableFrom(c)) {
+		} else if (value instanceof Time) {
 			statement.setTime(index, (Time) value);
-		} else if (Timestamp.class.isAssignableFrom(c)) {
+		} else if (value instanceof Timestamp) {
 			statement.setTimestamp(index, (Timestamp) value);
-		} else if (URL.class.isAssignableFrom(c)) {
+		} else if (value instanceof URL) {
 			statement.setURL(index, (URL) value);
 		} else {
 			throw new IllegalClassException(c);
@@ -195,15 +195,15 @@ public class SQL {
 		if (isNull(text)) {
 			return null;
 		}
-		if (Booleans.is(c)) {
+		if (Booleans.isAssignableFrom(c)) {
 			return Integers.convert(text) == 1;
 		} else if (Bytes.isPrimitiveArray(c)) {
 			return text.getBytes();
 		} else if (Date.class.isAssignableFrom(c)) {
 			return Date.valueOf(text);
-		} else if (Numbers.is(c)) {
+		} else if (Numbers.isAssignableFrom(c)) {
 			return Numbers.toNumber(c, text);
-		} else if (Strings.is(c)) {
+		} else if (Strings.isAssignableFrom(c)) {
 			return text;
 		} else if (Time.class.isAssignableFrom(c)) {
 			return Time.valueOf(text);

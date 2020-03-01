@@ -96,17 +96,17 @@ public class Numbers {
 		if (text == null) {
 			return null;
 		}
-		if (Bytes.is(c)) {
+		if (Bytes.isAssignableFrom(c)) {
 			return Byte.valueOf(text);
-		} else if (Shorts.is(c)) {
+		} else if (Shorts.isAssignableFrom(c)) {
 			return Short.valueOf(text);
-		} else if (Integers.is(c)) {
+		} else if (Integers.isAssignableFrom(c)) {
 			return Integer.valueOf(text);
-		} else if (Longs.is(c)) {
+		} else if (Longs.isAssignableFrom(c)) {
 			return Long.valueOf(text);
-		} else if (Floats.is(c)) {
+		} else if (Floats.isAssignableFrom(c)) {
 			return Float.valueOf(text);
-		} else if (Doubles.is(c)) {
+		} else if (Doubles.isAssignableFrom(c)) {
 			return Double.valueOf(text);
 		} else if (BigDecimal.class.isAssignableFrom(c)) {
 			return new BigDecimal(text);
@@ -120,6 +120,18 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Number}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Number},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Number;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a primitive number or a
 	 * {@link Number}.
 	 * <p>
@@ -128,7 +140,7 @@ public class Numbers {
 	 * @return {@code true} if the specified {@link Class} is assignable to a primitive number or a
 	 *         {@link Number}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return Number.class.isAssignableFrom(c) || isPrimitive(c);
 	}
 
@@ -152,14 +164,14 @@ public class Numbers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified value {@link String} is a parsable {@link Number}.
+	 * Tests whether the specified value {@link String} is parsable to a {@link Number}.
 	 * <p>
 	 * @param value the value {@link String} to test
 	 * <p>
-	 * @return {@code true} if the specified value {@link String} is a parsable
-	 *         {@link Number}, {@code false} otherwise
+	 * @return {@code true} if the specified value {@link String} is parsable to a {@link Number},
+	 *         {@code false} otherwise
 	 */
-	public static boolean is(final String value) {
+	public static boolean isParsableFrom(final String value) {
 		try {
 			Double.parseDouble(value);
 		} catch (final NumberFormatException ignored) {

@@ -204,6 +204,18 @@ public class Lists
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link List}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link List},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof List;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link List}.
 	 * <p>
 	 * @param c the {@link Class} to test
@@ -211,7 +223,7 @@ public class Lists
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link List},
 	 *         {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return List.class.isAssignableFrom(c);
 	}
 }

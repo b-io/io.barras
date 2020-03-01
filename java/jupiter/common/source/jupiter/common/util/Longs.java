@@ -1033,6 +1033,18 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Long}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Long},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Long;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code long} value or a
 	 * {@link Long}.
 	 * <p>
@@ -1041,7 +1053,7 @@ public class Longs {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} value or
 	 *         a {@link Long}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return long.class.isAssignableFrom(c) || Long.class.isAssignableFrom(c);
 	}
 

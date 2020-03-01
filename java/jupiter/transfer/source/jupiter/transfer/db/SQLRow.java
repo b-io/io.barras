@@ -127,27 +127,27 @@ public abstract class SQLRow {
 						field.set(this, resultSet.getBigDecimal(columnName));
 					} else if (Blob.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getBlob(columnName));
-					} else if (Booleans.is(c)) {
+					} else if (Booleans.isAssignableFrom(c)) {
 						field.set(this, resultSet.getBoolean(columnName));
-					} else if (Bytes.is(c)) {
+					} else if (Bytes.isAssignableFrom(c)) {
 						field.set(this, resultSet.getByte(columnName));
 					} else if (Bytes.isPrimitiveArray(c)) {
 						field.set(this, resultSet.getBytes(columnName));
 					} else if (Clob.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getClob(columnName));
-					} else if (Dates.is(c)) {
+					} else if (Dates.isAssignableFrom(c)) {
 						field.set(this, resultSet.getDate(columnName));
-					} else if (Doubles.is(c)) {
+					} else if (Doubles.isAssignableFrom(c)) {
 						field.set(this, resultSet.getDouble(columnName));
-					} else if (Floats.is(c)) {
+					} else if (Floats.isAssignableFrom(c)) {
 						field.set(this, resultSet.getFloat(columnName));
-					} else if (Integers.is(c)) {
+					} else if (Integers.isAssignableFrom(c)) {
 						field.set(this, resultSet.getInt(columnName));
-					} else if (Longs.is(c)) {
+					} else if (Longs.isAssignableFrom(c)) {
 						field.set(this, resultSet.getLong(columnName));
-					} else if (Shorts.is(c)) {
+					} else if (Shorts.isAssignableFrom(c)) {
 						field.set(this, resultSet.getShort(columnName));
-					} else if (Strings.is(c)) {
+					} else if (Strings.isAssignableFrom(c)) {
 						field.set(this, resultSet.getString(columnName));
 					} else if (Time.class.isAssignableFrom(c)) {
 						field.set(this, resultSet.getTime(columnName));

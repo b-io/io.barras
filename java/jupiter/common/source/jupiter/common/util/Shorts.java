@@ -1070,6 +1070,18 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Short}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Short},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Short;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code short} value or a
 	 * {@link Short}.
 	 * <p>
@@ -1078,7 +1090,7 @@ public class Shorts {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code short} value or
 	 *         a {@link Short}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return short.class.isAssignableFrom(c) || Short.class.isAssignableFrom(c);
 	}
 

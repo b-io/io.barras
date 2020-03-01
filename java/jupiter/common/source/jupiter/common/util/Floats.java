@@ -1072,6 +1072,18 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Float}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Float},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Float;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code float} value or a
 	 * {@link Float}.
 	 * <p>
@@ -1080,7 +1092,7 @@ public class Floats {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} value or
 	 *         a {@link Float}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return float.class.isAssignableFrom(c) || Float.class.isAssignableFrom(c);
 	}
 

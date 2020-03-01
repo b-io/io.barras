@@ -278,9 +278,9 @@ public class WorkQueue<I, O>
 		IntegerArguments.requirePositive(workerToReserveCount);
 
 		// Reserve the workers
-		IO.debug("Try to reserve ", workerToReserveCount, " workers of type ", c);
+		IO.debug("Try to reserve ", workerToReserveCount, " workers of ", c);
 		if (maxThreadCount - reservedWorkerCount < workerToReserveCount) {
-			IO.debug("Cannot reserve ", workerToReserveCount, " workers of type ", c, " (",
+			IO.debug("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return false;
 		}
@@ -288,17 +288,17 @@ public class WorkQueue<I, O>
 		// Create more workers if required
 		final int workerToCreateCount = reservedWorkerCount - workerCount;
 		if (workerToCreateCount <= 0) {
-			IO.debug("OK, the workers of type ", c, " are already created (",
+			IO.debug("OK, the workers of ", c, " are already created (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return true;
 		}
 		if (createWorkers(workerToCreateCount) != workerToCreateCount) {
 			reservedWorkerCount -= workerToReserveCount;
-			IO.debug("Cannot reserve ", workerToReserveCount, " workers of type ", c, " (",
+			IO.debug("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return false;
 		}
-		IO.debug("OK, create ", workerToCreateCount, " more workers of type ", c, " (",
+		IO.debug("OK, create ", workerToCreateCount, " more workers of ", c, " (",
 				reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 		return true;
 	}
@@ -315,11 +315,11 @@ public class WorkQueue<I, O>
 		IntegerArguments.requirePositive(maxWorkerToReserveCount);
 
 		// Reserve the workers
-		IO.debug("Reserve maximum ", maxWorkerToReserveCount, " workers of type ", c);
+		IO.debug("Reserve maximum ", maxWorkerToReserveCount, " workers of ", c);
 		final int workerToReserveCount = Math.min(maxThreadCount - reservedWorkerCount,
 				maxWorkerToReserveCount);
 		if (workerToReserveCount <= 0) {
-			IO.debug("Cannot reserve ", workerToReserveCount, " workers of type ", c, " (",
+			IO.debug("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return 0;
 		}
@@ -327,11 +327,11 @@ public class WorkQueue<I, O>
 		// Create more workers if required
 		final int workerToCreateCount = reservedWorkerCount - workerCount;
 		if (workerToCreateCount <= 0) {
-			IO.debug("OK, create ", workerToCreateCount, " more workers of type ", c, " (",
+			IO.debug("OK, create ", workerToCreateCount, " more workers of ", c, " (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return workerToReserveCount;
 		}
-		IO.debug("OK, create ", workerToCreateCount, " more workers of type ", c,
+		IO.debug("OK, create ", workerToCreateCount, " more workers of ", c,
 				" (total reserved: ", reservedWorkerCount, "/", maxThreadCount, ")");
 		final int missingWorkerCount = workerToCreateCount - createWorkers(workerToCreateCount);
 		reservedWorkerCount -= missingWorkerCount;

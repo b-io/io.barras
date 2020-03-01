@@ -1061,6 +1061,18 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Double}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Double},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Double;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code double} value or a
 	 * {@link Double}.
 	 * <p>
@@ -1069,7 +1081,7 @@ public class Doubles {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code double} value
 	 *         or a {@link Double}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return double.class.isAssignableFrom(c) || Double.class.isAssignableFrom(c);
 	}
 

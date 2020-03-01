@@ -53,7 +53,7 @@ public class Comparables {
 
 	@SuppressWarnings("unchecked")
 	public static <T> Comparator<? super T> getComparator(final Class<T> c) {
-		if (Comparables.is(c)) {
+		if (Comparables.isAssignableFrom(c)) {
 			return Comparables.<T>createCastComparator();
 		} else if (Characters.isPrimitiveArray(c)) {
 			return (Comparator<? super T>) Characters.ARRAY_COMPARATOR;
@@ -71,7 +71,7 @@ public class Comparables {
 			return (Comparator<? super T>) Doubles.ARRAY_COMPARATOR;
 		}
 		throw new IllegalArgumentException(
-				Strings.join("The specified type ", c, " cannot be compared"));
+				Strings.join("The specified ", c, " cannot be compared"));
 	}
 
 
@@ -104,6 +104,18 @@ public class Comparables {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Comparable}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Comparable},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Comparable;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Comparable}.
 	 * <p>
 	 * @param c the {@link Class} to test
@@ -111,7 +123,7 @@ public class Comparables {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Comparable},
 	 *         {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return Comparable.class.isAssignableFrom(c);
 	}
 

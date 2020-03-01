@@ -1177,6 +1177,18 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Integer}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Integer},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Integer;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to an {@code int} value or an
 	 * {@link Integer}.
 	 * <p>
@@ -1185,7 +1197,7 @@ public class Integers {
 	 * @return {@code true} if the specified {@link Class} is assignable to an {@code int} value or
 	 *         an {@link Integer}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return int.class.isAssignableFrom(c) || Integer.class.isAssignableFrom(c);
 	}
 

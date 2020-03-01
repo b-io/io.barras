@@ -151,21 +151,21 @@ public class Arrays {
 			return null;
 		}
 		// Convert the array to a primitive array
-		if (Booleans.is(c)) {
+		if (Booleans.isAssignableFrom(c)) {
 			return Booleans.toPrimitiveArray(array);
-		} else if (Characters.is(c)) {
+		} else if (Characters.isAssignableFrom(c)) {
 			return Characters.toPrimitiveArray(array);
-		} else if (Bytes.is(c)) {
+		} else if (Bytes.isAssignableFrom(c)) {
 			return Bytes.toPrimitiveArray(array);
-		} else if (Shorts.is(c)) {
+		} else if (Shorts.isAssignableFrom(c)) {
 			return Shorts.toPrimitiveArray(array);
-		} else if (Integers.is(c)) {
+		} else if (Integers.isAssignableFrom(c)) {
 			return Integers.toPrimitiveArray(array);
-		} else if (Longs.is(c)) {
+		} else if (Longs.isAssignableFrom(c)) {
 			return Longs.toPrimitiveArray(array);
-		} else if (Floats.is(c)) {
+		} else if (Floats.isAssignableFrom(c)) {
 			return Floats.toPrimitiveArray(array);
-		} else if (Doubles.is(c)) {
+		} else if (Doubles.isAssignableFrom(c)) {
 			return Doubles.toPrimitiveArray(array);
 		}
 		throw new IllegalClassException(c);
@@ -1041,6 +1041,18 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of array, {@code false}
+	 *         otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Object[];
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to an array.
 	 * <p>
 	 * @param c the {@link Class} to test
@@ -1048,7 +1060,7 @@ public class Arrays {
 	 * @return {@code true} if the specified {@link Class} is assignable to an array, {@code false}
 	 *         otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return c.isArray();
 	}
 

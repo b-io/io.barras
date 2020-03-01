@@ -1312,6 +1312,18 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Byte}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Byte},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Byte;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code byte} value or a
 	 * {@link Byte}.
 	 * <p>
@@ -1320,7 +1332,7 @@ public class Bytes {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code byte} value or
 	 *         a {@link Byte}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return byte.class.isAssignableFrom(c) || Byte.class.isAssignableFrom(c);
 	}
 

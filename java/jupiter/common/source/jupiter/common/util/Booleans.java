@@ -894,6 +894,18 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Boolean}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Boolean},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Boolean;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code boolean} value or a
 	 * {@link Boolean}.
 	 * <p>
@@ -902,7 +914,7 @@ public class Booleans {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code boolean} value
 	 *         or a {@link Boolean}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return boolean.class.isAssignableFrom(c) || Boolean.class.isAssignableFrom(c);
 	}
 

@@ -2583,14 +2583,14 @@ public class Matrix
 	}
 
 	/**
-	 * Tests whether the specified {@link String} is a parsable {@link Matrix}.
+	 * Tests whether the specified {@link String} is parsable to a {@link Matrix}.
 	 * <p>
 	 * @param text a {@link String}
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is a parsable {@link Matrix},
+	 * @return {@code true} if the specified {@link String} is parsable to a {@link Matrix},
 	 *         {@code false} otherwise
 	 */
-	public static boolean is(final String text) {
+	public static boolean isParsableFrom(final String text) {
 		final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
 		final List<Integer> indexes = Strings.getIndexes(text.trim(), delimiters);
 		if (indexes.size() == 2) {

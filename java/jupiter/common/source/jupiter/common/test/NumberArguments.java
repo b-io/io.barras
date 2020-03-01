@@ -34,7 +34,7 @@ public class NumberArguments
 	}
 
 	public static void requireNumber(final Object number, final String name) {
-		if (CHECK_ARGS && !Numbers.is(requireNotNull(number, name).getClass())) {
+		if (CHECK_ARGS && !Numbers.is(requireNotNull(number, name))) {
 			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
 					" is not a number"));
 		}

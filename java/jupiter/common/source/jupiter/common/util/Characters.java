@@ -1102,6 +1102,18 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Character}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Character},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Character;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code char} value or a
 	 * {@link Character}.
 	 * <p>
@@ -1110,7 +1122,7 @@ public class Characters {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code char} value or
 	 *         a {@link Character}, {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return char.class.isAssignableFrom(c) || Character.class.isAssignableFrom(c);
 	}
 

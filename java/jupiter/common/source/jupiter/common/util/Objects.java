@@ -82,15 +82,15 @@ public class Objects {
 
 	public static boolean isImmutable(final Class<?> c) {
 		return isVoid(c) ||
-				Booleans.is(c) ||
-				Characters.is(c) ||
-				Bytes.is(c) ||
-				Shorts.is(c) ||
-				Integers.is(c) ||
-				Longs.is(c) ||
-				Floats.is(c) ||
-				Doubles.is(c) ||
-				Strings.is(c) ||
+				Booleans.isAssignableFrom(c) ||
+				Characters.isAssignableFrom(c) ||
+				Bytes.isAssignableFrom(c) ||
+				Shorts.isAssignableFrom(c) ||
+				Integers.isAssignableFrom(c) ||
+				Longs.isAssignableFrom(c) ||
+				Floats.isAssignableFrom(c) ||
+				Doubles.isAssignableFrom(c) ||
+				Strings.isAssignableFrom(c) ||
 				Class.class.isAssignableFrom(c);
 	}
 

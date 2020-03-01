@@ -298,7 +298,7 @@ public class ExpressionHandler
 		if (context.containsKey(expression)) {
 			// Variable
 			output = context.get(expression);
-		} else if (Matrix.is(expression)) {
+		} else if (Matrix.isParsableFrom(expression)) {
 			// Matrix
 			output = new MatrixElement(parent, expression);
 		} else if (Strings.isNumeric(expression)) {

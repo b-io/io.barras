@@ -143,21 +143,21 @@ public class Collections {
 		if (c == null || collection == null) {
 			return null;
 		}
-		if (Booleans.is(c)) {
+		if (Booleans.isAssignableFrom(c)) {
 			return Booleans.collectionToPrimitiveArray(collection);
-		} else if (Characters.is(c)) {
+		} else if (Characters.isAssignableFrom(c)) {
 			return Characters.collectionToPrimitiveArray(collection);
-		} else if (Bytes.is(c)) {
+		} else if (Bytes.isAssignableFrom(c)) {
 			return Bytes.collectionToPrimitiveArray(collection);
-		} else if (Shorts.is(c)) {
+		} else if (Shorts.isAssignableFrom(c)) {
 			return Shorts.collectionToPrimitiveArray(collection);
-		} else if (Integers.is(c)) {
+		} else if (Integers.isAssignableFrom(c)) {
 			return Integers.collectionToPrimitiveArray(collection);
-		} else if (Longs.is(c)) {
+		} else if (Longs.isAssignableFrom(c)) {
 			return Longs.collectionToPrimitiveArray(collection);
-		} else if (Floats.is(c)) {
+		} else if (Floats.isAssignableFrom(c)) {
 			return Floats.collectionToPrimitiveArray(collection);
-		} else if (Doubles.is(c)) {
+		} else if (Doubles.isAssignableFrom(c)) {
 			return Doubles.collectionToPrimitiveArray(collection);
 		}
 		throw new IllegalClassException(c);
@@ -272,6 +272,18 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Collection}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Collection},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Collection;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Collection}.
 	 * <p>
 	 * @param c the {@link Class} to test
@@ -279,7 +291,7 @@ public class Collections {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Collection},
 	 *         {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return Collection.class.isAssignableFrom(c);
 	}
 

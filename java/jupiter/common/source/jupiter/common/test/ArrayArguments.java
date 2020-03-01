@@ -51,7 +51,7 @@ public class ArrayArguments
 	}
 
 	public static void requireArray(final Object object, final String name) {
-		if (CHECK_ARGS && !Arrays.is(requireNotNull(object, name).getClass())) {
+		if (CHECK_ARGS && !Arrays.is(requireNotNull(object, name))) {
 			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
 					" is not an array"));
 		}

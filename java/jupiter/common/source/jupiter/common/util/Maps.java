@@ -131,6 +131,18 @@ public class Maps
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Map}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Map},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Map;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Map}.
 	 * <p>
 	 * @param c the {@link Class} to test
@@ -138,7 +150,7 @@ public class Maps
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Map},
 	 *         {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return Map.class.isAssignableFrom(c);
 	}
 

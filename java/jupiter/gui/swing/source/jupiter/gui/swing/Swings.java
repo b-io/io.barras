@@ -26,15 +26,17 @@ package jupiter.gui.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
 
 import jupiter.common.math.Maths;
 import jupiter.common.thread.Threads;
@@ -59,11 +61,11 @@ public class Swings {
 	/**
 	 * The minimum {@link Dimension} of the progress bars.
 	 */
-	public static volatile Dimension PROGRESS_BAR_MIN_SIZE = new Dimension(360, 60);
+	public static volatile Dimension PROGRESS_BAR_MIN_SIZE = new Dimension(360, 30);
 	/**
 	 * The preferred {@link Dimension} of the progress bars.
 	 */
-	public static volatile Dimension PROGRESS_BAR_PREFERRED_SIZE = new Dimension(720, 120);
+	public static volatile Dimension PROGRESS_BAR_PREFERRED_SIZE = new Dimension(720, 60);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,7 +132,70 @@ public class Swings {
 		return frame;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static JPanel createHorizontalBorderPanel(final int horizontalGap,
+			final Component lineStartComponent, final Component centerComponent,
+			final Component lineEndComponent) {
+		return createBorderPanel(horizontalGap, 0, null, lineStartComponent, centerComponent,
+				lineEndComponent, null);
+	}
+
+	public static JPanel createVerticalBorderPanel(final int verticalGap,
+			final Component pageStartComponent, final Component centerComponent,
+			final Component pageEndComponent) {
+		return createBorderPanel(0, verticalGap, pageStartComponent, null, centerComponent,
+				null, pageEndComponent);
+	}
+
+	public static JPanel createBorderPanel(final int horizontalGap, final int verticalGap,
+			final Component pageStartComponent, final Component lineStartComponent,
+			final Component centerComponent, final Component lineEndComponent,
+			final Component pageEndComponent) {
+		final JPanel panel = new JPanel(new BorderLayout(horizontalGap, verticalGap));
+		if (pageStartComponent != null) {
+			panel.add(pageStartComponent, BorderLayout.PAGE_START);
+		}
+		if (lineStartComponent != null) {
+			panel.add(lineStartComponent, BorderLayout.LINE_START);
+		}
+		if (centerComponent != null) {
+			panel.add(centerComponent, BorderLayout.CENTER);
+		}
+		if (lineEndComponent != null) {
+			panel.add(lineEndComponent, BorderLayout.LINE_END);
+		}
+		if (pageEndComponent != null) {
+			panel.add(pageEndComponent, BorderLayout.PAGE_END);
+		}
+		return panel;
+	}
+
 	//////////////////////////////////////////////
+
+	public static JPanel createFlowPanel(final Component... components) {
+		return createFlowPanel(FlowLayout.CENTER, 0, 0, components);
+	}
+
+	public static JPanel createFlowPanel(final int align, final Component... components) {
+		return createFlowPanel(align, 0, 0, components);
+	}
+
+	public static JPanel createFlowPanel(final int horizontalGap, final int verticalGap,
+			final Component... components) {
+		return createFlowPanel(FlowLayout.CENTER, horizontalGap, verticalGap, components);
+	}
+
+	public static JPanel createFlowPanel(final int align, final int horizontalGap,
+			final int verticalGap, final Component... components) {
+		final JPanel panel = new JPanel(new FlowLayout(align, horizontalGap, verticalGap));
+		for (final Component component : components) {
+			panel.add(component);
+		}
+		return panel;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static JButton createButton(final String actionCommand,
 			final ActionListener actionListener) {
@@ -141,6 +206,14 @@ public class Swings {
 	}
 
 	//////////////////////////////////////////////
+
+	public static JProgressBar createProgressBar() {
+		return createProgressBar(0, 100, PROGRESS_BAR_MIN_SIZE, PROGRESS_BAR_PREFERRED_SIZE);
+	}
+
+	public static JProgressBar createProgressBar(final int max) {
+		return createProgressBar(0, max, PROGRESS_BAR_MIN_SIZE, PROGRESS_BAR_PREFERRED_SIZE);
+	}
 
 	public static JProgressBar createProgressBar(final int min, final int max) {
 		return createProgressBar(min, max, PROGRESS_BAR_MIN_SIZE, PROGRESS_BAR_PREFERRED_SIZE);
@@ -153,6 +226,32 @@ public class Swings {
 		progressBar.setStringPainted(true);
 		progressBar.setValue(min);
 		return progressBar;
+	}
+
+	//////////////////////////////////////////////
+
+	public static JTextArea createTextArea() {
+		return createTextArea(0, 0, false);
+	}
+
+	public static JTextArea createTextArea(final int rowCount) {
+		return createTextArea(rowCount, 0, false);
+	}
+
+	public static JTextArea createTextArea(final int rowCount, final int columnCount) {
+		return createTextArea(rowCount, columnCount, false);
+	}
+
+	public static JTextArea createTextArea(final boolean isEditable) {
+		return createTextArea(0, 0, isEditable);
+	}
+
+	public static JTextArea createTextArea(final int rowCount, final int columnCount,
+			final boolean isEditable) {
+		final JTextArea textArea = new JTextArea(rowCount, columnCount);
+		textArea.setEditable(isEditable);
+		textArea.setMargin(new Insets(rowCount, rowCount, rowCount, rowCount));
+		return textArea;
 	}
 
 
@@ -201,9 +300,7 @@ public class Swings {
 	 * @param message the message {@link String} to show
 	 */
 	public static void showMessage(final JPanel panel, final String message) {
-		final JPanel p = new JPanel();
-		p.add(new JLabel(message));
-		JOptionPane.showMessageDialog(panel, p);
+		JOptionPane.showMessageDialog(panel, message);
 	}
 
 	//////////////////////////////////////////////
@@ -229,7 +326,7 @@ public class Swings {
 	public static void showTimeProgressBar(final String title, final int time, final int step) {
 		final JFrame frame = createFrame(title, PROGRESS_BAR_MIN_SIZE, PROGRESS_BAR_PREFERRED_SIZE);
 		frame.setAlwaysOnTop(true);
-		final JProgressBar progressBar = createProgressBar(0, time);
+		final JProgressBar progressBar = createProgressBar(time);
 		frame.add(progressBar);
 		show(frame);
 		final Chronometer chrono = new Chronometer();

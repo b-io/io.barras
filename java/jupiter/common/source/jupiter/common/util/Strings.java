@@ -3854,6 +3854,18 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link String}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link String},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof String;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link String}.
 	 * <p>
 	 * @param c the {@link Class} to test
@@ -3861,7 +3873,7 @@ public class Strings {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link String},
 	 *         {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return String.class.isAssignableFrom(c);
 	}
 
@@ -4149,13 +4161,13 @@ public class Strings {
 				throw new IllegalClassException(c);
 			}
 			return Arrays.toString((Object[]) object);
-		} else if (Collections.is(c)) {
+		} else if (Collections.is(object)) {
 			Collections.toString((Collection<?>) object);
-		} else if (Dates.is(c)) {
+		} else if (Dates.is(object)) {
 			return Dates.toString((Date) object);
-		} else if (Maps.is(c)) {
+		} else if (Maps.is(object)) {
 			Maps.toString((Map<?, ?>) object);
-		} else if (Numbers.is(c)) {
+		} else if (Numbers.is(object)) {
 			return Numbers.toString((Number) object);
 		}
 		return String.valueOf(object);
@@ -4273,7 +4285,7 @@ public class Strings {
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String valueToString(final Object value) {
-		if (value == null || Booleans.is(value.getClass()) || Numbers.is(value.getClass())) {
+		if (value == null || Booleans.is(value) || Numbers.is(value)) {
 			return toString(value);
 		}
 		return doubleQuote(escape(value));

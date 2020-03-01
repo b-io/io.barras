@@ -44,6 +44,18 @@ public class Sets
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link Object} is an instance of {@link Set}.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Set},
+	 *         {@code false} otherwise
+	 */
+	public static boolean is(final Object object) {
+		return object instanceof Set;
+	}
+
+	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Set}.
 	 * <p>
 	 * @param c the {@link Class} to test
@@ -51,7 +63,7 @@ public class Sets
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Set},
 	 *         {@code false} otherwise
 	 */
-	public static boolean is(final Class<?> c) {
+	public static boolean isAssignableFrom(final Class<?> c) {
 		return Set.class.isAssignableFrom(c);
 	}
 }

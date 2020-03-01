@@ -149,7 +149,7 @@ public class JSON {
 		}
 		if (value != null) {
 			final Class<?> c = value.getClass();
-			if (Arrays.is(c)) {
+			if (Arrays.is(value)) {
 				final Object[] array = Arrays.toArray(value);
 				if (array.length == 0 || isLeaf(c.getComponentType())) {
 					builder.append(Strings.bracketize(Strings.joinWith(array, JSON_DELIMITER)));
@@ -157,7 +157,7 @@ public class JSON {
 					builder.append(Strings.bracketize(
 							Strings.joinWith(array, JSON_DELIMITER, JSON_WRAPPER)));
 				}
-			} else if (Collections.is(c)) {
+			} else if (Collections.is(value)) {
 				final Collection<?> collection = (Collection<?>) value;
 				if (collection.isEmpty() || isLeaf(Collections.get(collection, 0).getClass())) {
 					builder.append(Strings.bracketize(
@@ -166,7 +166,7 @@ public class JSON {
 					builder.append(Strings.bracketize(
 							Strings.joinWith(collection, JSON_DELIMITER, JSON_WRAPPER)));
 				}
-			} else if (Maps.is(c)) {
+			} else if (Maps.is(value)) {
 				builder.append(Maps.toString((Map<?, ?>) value));
 			} else if (isLeaf(c)) {
 				builder.append(stringifyLeaf(value));
