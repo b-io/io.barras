@@ -1092,7 +1092,7 @@ public class Floats {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} value or
 	 *         a {@link Float}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return float.class.isAssignableFrom(c) || Float.class.isAssignableFrom(c);
 	}
 
@@ -1104,8 +1104,20 @@ public class Floats {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} value,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
+	public static boolean isPrimitiveFrom(final Class<?> c) {
 		return float.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is an instance of {@code float} array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@code float} array,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Object object) {
+		return object instanceof float[];
 	}
 
 	/**
@@ -1116,7 +1128,7 @@ public class Floats {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} array,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitiveArray(final Class<?> c) {
+	public static boolean isPrimitiveArrayFrom(final Class<?> c) {
 		return float[].class.isAssignableFrom(c);
 	}
 
@@ -1253,7 +1265,7 @@ public class Floats {
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-				1; // (0f, -0f) or (NaN, !NaN)
+						1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////

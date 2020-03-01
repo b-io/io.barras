@@ -653,7 +653,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 		final ExtendedLinkedList<Pair<Integer, N>> nodes = new ExtendedLinkedList<Pair<Integer, N>>(
 				new Pair<Integer, N>(0, root));
 
-		// Convert this to a string representation
+		// Convert this to a representative string
 		int currentHeight = 0, nextHeight = 1, nodeCount = 1;
 		boolean hasLeaf = false;
 		while (!nodes.isEmpty()) {

@@ -93,20 +93,23 @@ public class Numbers {
 	 *         {@link String}
 	 */
 	public static Number toNumber(final Class<?> c, final String text) {
+		// Check the arguments
 		if (text == null) {
 			return null;
 		}
-		if (Bytes.isAssignableFrom(c)) {
+
+		// Convert the text to a number of the class
+		if (Bytes.isFrom(c)) {
 			return Byte.valueOf(text);
-		} else if (Shorts.isAssignableFrom(c)) {
+		} else if (Shorts.isFrom(c)) {
 			return Short.valueOf(text);
-		} else if (Integers.isAssignableFrom(c)) {
+		} else if (Integers.isFrom(c)) {
 			return Integer.valueOf(text);
-		} else if (Longs.isAssignableFrom(c)) {
+		} else if (Longs.isFrom(c)) {
 			return Long.valueOf(text);
-		} else if (Floats.isAssignableFrom(c)) {
+		} else if (Floats.isFrom(c)) {
 			return Float.valueOf(text);
-		} else if (Doubles.isAssignableFrom(c)) {
+		} else if (Doubles.isFrom(c)) {
 			return Double.valueOf(text);
 		} else if (BigDecimal.class.isAssignableFrom(c)) {
 			return new BigDecimal(text);
@@ -140,8 +143,8 @@ public class Numbers {
 	 * @return {@code true} if the specified {@link Class} is assignable to a primitive number or a
 	 *         {@link Number}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
-		return Number.class.isAssignableFrom(c) || isPrimitive(c);
+	public static boolean isFrom(final Class<?> c) {
+		return Number.class.isAssignableFrom(c) || isPrimitiveFrom(c);
 	}
 
 	/**
@@ -152,13 +155,13 @@ public class Numbers {
 	 * @return {@code true} if the specified {@link Class} is assignable to a primitive number,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
-		return Bytes.isPrimitive(c) ||
-				Shorts.isPrimitive(c) ||
-				Integers.isPrimitive(c) ||
-				Longs.isPrimitive(c) ||
-				Floats.isPrimitive(c) ||
-				Doubles.isPrimitive(c);
+	public static boolean isPrimitiveFrom(final Class<?> c) {
+		return Bytes.isPrimitiveFrom(c) ||
+				Shorts.isPrimitiveFrom(c) ||
+				Integers.isPrimitiveFrom(c) ||
+				Longs.isPrimitiveFrom(c) ||
+				Floats.isPrimitiveFrom(c) ||
+				Doubles.isPrimitiveFrom(c);
 	}
 
 	//////////////////////////////////////////////
@@ -367,9 +370,12 @@ public class Numbers {
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Number number) {
+		// Check the arguments
 		if (number == null) {
 			return NULL;
 		}
+
+		// Convert the number to a representative string
 		final String formattedNumber;
 		final String numberString = DOUBLE_DECIMAL_FORMAT.format(number);
 		int integerDigitCount = numberString.length(), fractionDigitCount = numberString.length();

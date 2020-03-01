@@ -77,9 +77,12 @@ public class JSON {
 	 * @return a JSON {@link String} of the fields of the specified content {@link Object}
 	 */
 	public static String stringify(final Object content) {
+		// Check the arguments
 		if (content == null) {
 			return NULL;
 		}
+
+		// Convert the content to a JSON string
 		final Field[] fields = content.getClass().getDeclaredFields();
 		final StringBuilder builder = Strings.createBuilder(fields.length *
 				(2 * INITIAL_CAPACITY + 6));

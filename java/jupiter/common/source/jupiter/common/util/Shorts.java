@@ -1090,7 +1090,7 @@ public class Shorts {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code short} value or
 	 *         a {@link Short}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return short.class.isAssignableFrom(c) || Short.class.isAssignableFrom(c);
 	}
 
@@ -1102,8 +1102,20 @@ public class Shorts {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code short} value,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
+	public static boolean isPrimitiveFrom(final Class<?> c) {
 		return short.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is an instance of {@code short} array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@code short} array,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Object object) {
+		return object instanceof short[];
 	}
 
 	/**
@@ -1114,7 +1126,7 @@ public class Shorts {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code short} array,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitiveArray(final Class<?> c) {
+	public static boolean isPrimitiveArrayFrom(final Class<?> c) {
 		return short[].class.isAssignableFrom(c);
 	}
 

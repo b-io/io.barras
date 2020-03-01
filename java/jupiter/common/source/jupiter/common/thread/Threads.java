@@ -107,7 +107,7 @@ public class Threads {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Thread},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return Thread.class.isAssignableFrom(c);
 	}
 }

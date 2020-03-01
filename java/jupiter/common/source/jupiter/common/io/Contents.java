@@ -60,7 +60,7 @@ public class Contents {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Content},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return Content.class.isAssignableFrom(c);
 	}
 

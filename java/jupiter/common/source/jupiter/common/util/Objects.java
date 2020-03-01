@@ -26,8 +26,6 @@ package jupiter.common.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import jupiter.common.exception.IllegalClassException;
-
 public class Objects {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,21 +78,47 @@ public class Objects {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static boolean isImmutable(final Class<?> c) {
-		return isVoid(c) ||
-				Booleans.isAssignableFrom(c) ||
-				Characters.isAssignableFrom(c) ||
-				Bytes.isAssignableFrom(c) ||
-				Shorts.isAssignableFrom(c) ||
-				Integers.isAssignableFrom(c) ||
-				Longs.isAssignableFrom(c) ||
-				Floats.isAssignableFrom(c) ||
-				Doubles.isAssignableFrom(c) ||
-				Strings.isAssignableFrom(c) ||
-				Class.class.isAssignableFrom(c);
+	public static boolean isImmutable(final Object object) {
+		return isClass(object) ||
+				isVoid(object) ||
+				Booleans.is(object) ||
+				Characters.is(object) ||
+				Bytes.is(object) ||
+				Shorts.is(object) ||
+				Integers.is(object) ||
+				Longs.is(object) ||
+				Floats.is(object) ||
+				Doubles.is(object) ||
+				Strings.is(object);
 	}
 
-	public static boolean isVoid(final Class<?> c) {
+	public static boolean isImmutableFrom(final Class<?> c) {
+		return isClassFrom(c) ||
+				isVoidFrom(c) ||
+				Booleans.isFrom(c) ||
+				Characters.isFrom(c) ||
+				Bytes.isFrom(c) ||
+				Shorts.isFrom(c) ||
+				Integers.isFrom(c) ||
+				Longs.isFrom(c) ||
+				Floats.isFrom(c) ||
+				Doubles.isFrom(c) ||
+				Strings.isFrom(c);
+	}
+
+	public static boolean isClass(final Object object) {
+		return object instanceof Class;
+	}
+
+	public static boolean isClassFrom(final Class<?> c) {
+		return Class.class.isAssignableFrom(c);
+	}
+
+	public static boolean isVoid(final Object object) {
+		return isVoidFrom(object.getClass());
+	}
+
+	public static boolean isVoidFrom(final Class<?> c) {
 		return void.class.isAssignableFrom(c);
 	}
 
@@ -172,37 +196,36 @@ public class Objects {
 	@SuppressWarnings("unchecked")
 	public static <T> T clone(final T object)
 			throws CloneNotSupportedException {
+		// Check the arguments
 		if (object == null) {
 			return null;
 		}
+
+		// Clone the object
 		try {
-			final Class<?> c = object.getClass();
-			if (c.isArray()) {
-				if (c.getComponentType().isPrimitive()) {
-					if (Booleans.isPrimitiveArray(c)) {
-						return (T) Booleans.clone((boolean[]) object);
-					} else if (Characters.isPrimitiveArray(c)) {
-						return (T) Characters.clone((char[]) object);
-					} else if (Bytes.isPrimitiveArray(c)) {
-						return (T) Bytes.clone((byte[]) object);
-					} else if (Shorts.isPrimitiveArray(c)) {
-						return (T) Shorts.clone((short[]) object);
-					} else if (Integers.isPrimitiveArray(c)) {
-						return (T) Integers.clone((int[]) object);
-					} else if (Longs.isPrimitiveArray(c)) {
-						return (T) Longs.clone((long[]) object);
-					} else if (Floats.isPrimitiveArray(c)) {
-						return (T) Floats.clone((float[]) object);
-					} else if (Doubles.isPrimitiveArray(c)) {
-						return (T) Doubles.clone((double[]) object);
-					}
-					throw new IllegalClassException(c);
+			if (Arrays.is(object)) {
+				if (Booleans.isPrimitiveArray(object)) {
+					return (T) Booleans.clone((boolean[]) object);
+				} else if (Characters.isPrimitiveArray(object)) {
+					return (T) Characters.clone((char[]) object);
+				} else if (Bytes.isPrimitiveArray(object)) {
+					return (T) Bytes.clone((byte[]) object);
+				} else if (Shorts.isPrimitiveArray(object)) {
+					return (T) Shorts.clone((short[]) object);
+				} else if (Integers.isPrimitiveArray(object)) {
+					return (T) Integers.clone((int[]) object);
+				} else if (Longs.isPrimitiveArray(object)) {
+					return (T) Longs.clone((long[]) object);
+				} else if (Floats.isPrimitiveArray(object)) {
+					return (T) Floats.clone((float[]) object);
+				} else if (Doubles.isPrimitiveArray(object)) {
+					return (T) Doubles.clone((double[]) object);
 				}
 				return (T) Arrays.clone((Object[]) object);
-			} else if (isImmutable(c)) {
+			} else if (isImmutable(object)) {
 				return object;
 			}
-			return (T) c.getMethod("clone").invoke(object);
+			return (T) object.getClass().getMethod("clone").invoke(object);
 		} catch (final IllegalAccessException ex) {
 			throw new CloneNotSupportedException(Strings.toString(ex));
 		} catch (final IllegalArgumentException ex) {
@@ -267,29 +290,24 @@ public class Objects {
 				if (object == null) {
 					return Bits.SEEDS[(depth + 1) % Bits.SEEDS.length];
 				}
-				final Class<?> c = object.getClass();
-				if (c.isArray()) {
+				if (Arrays.is(object)) {
 					final int hashCode;
-					if (c.getComponentType().isPrimitive()) {
-						if (Booleans.isPrimitiveArray(c)) {
-							hashCode = Booleans.hashCodeWith(depth + 1, (boolean[]) object);
-						} else if (Characters.isPrimitiveArray(c)) {
-							hashCode = Characters.hashCodeWith(depth + 1, (char[]) object);
-						} else if (Bytes.isPrimitiveArray(c)) {
-							hashCode = Bytes.hashCodeWith(depth + 1, (byte[]) object);
-						} else if (Shorts.isPrimitiveArray(c)) {
-							hashCode = Shorts.hashCodeWith(depth + 1, (short[]) object);
-						} else if (Integers.isPrimitiveArray(c)) {
-							hashCode = Integers.hashCodeWith(depth + 1, (int[]) object);
-						} else if (Longs.isPrimitiveArray(c)) {
-							hashCode = Longs.hashCodeWith(depth + 1, (long[]) object);
-						} else if (Floats.isPrimitiveArray(c)) {
-							hashCode = Floats.hashCodeWith(depth + 1, (float[]) object);
-						} else if (Doubles.isPrimitiveArray(c)) {
-							hashCode = Doubles.hashCodeWith(depth + 1, (double[]) object);
-						} else {
-							throw new IllegalClassException(c);
-						}
+					if (Booleans.isPrimitiveArray(object)) {
+						hashCode = Booleans.hashCodeWith(depth + 1, (boolean[]) object);
+					} else if (Characters.isPrimitiveArray(object)) {
+						hashCode = Characters.hashCodeWith(depth + 1, (char[]) object);
+					} else if (Bytes.isPrimitiveArray(object)) {
+						hashCode = Bytes.hashCodeWith(depth + 1, (byte[]) object);
+					} else if (Shorts.isPrimitiveArray(object)) {
+						hashCode = Shorts.hashCodeWith(depth + 1, (short[]) object);
+					} else if (Integers.isPrimitiveArray(object)) {
+						hashCode = Integers.hashCodeWith(depth + 1, (int[]) object);
+					} else if (Longs.isPrimitiveArray(object)) {
+						hashCode = Longs.hashCodeWith(depth + 1, (long[]) object);
+					} else if (Floats.isPrimitiveArray(object)) {
+						hashCode = Floats.hashCodeWith(depth + 1, (float[]) object);
+					} else if (Doubles.isPrimitiveArray(object)) {
+						hashCode = Doubles.hashCodeWith(depth + 1, (double[]) object);
 					} else {
 						hashCode = hashCodeWith(depth + 1, (Object[]) object);
 					}

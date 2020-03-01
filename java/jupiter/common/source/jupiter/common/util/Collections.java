@@ -127,37 +127,40 @@ public class Collections {
 	}
 
 	/**
-	 * Returns a primitive array converted from the specified {@link Collection} of the specified
-	 * element {@link Class}, or {@code null} if the specified {@link Collection} or element
-	 * {@link Class} is {@code null}.
+	 * Returns a primitive array of the specified element {@link Class} converted from the specified
+	 * {@link Collection}, or {@code null} if the specified element {@link Class} or
+	 * {@link Collection} is {@code null}.
 	 * <p>
 	 * @param c          the element {@link Class} of the {@link Collection} to convert (may be
 	 *                   {@code null})
 	 * @param collection the {@link Collection} to convert (may be {@code null})
 	 * <p>
-	 * @return a primitive array converted from the specified {@link Collection} of the specified
-	 *         element {@link Class}, or {@code null} if the specified {@link Collection} or element
-	 *         {@link Class} is {@code null}
+	 * @return a primitive array of the specified element {@link Class} converted from the specified
+	 *         {@link Collection}, or {@code null} if the specified element {@link Class} or
+	 *         {@link Collection} is {@code null}
 	 */
 	public static Object toPrimitiveArray(final Class<?> c, final Collection<?> collection) {
+		// Check the arguments
 		if (c == null || collection == null) {
 			return null;
 		}
-		if (Booleans.isAssignableFrom(c)) {
+
+		// Convert the collection to a primitive array of the element class
+		if (Booleans.isFrom(c)) {
 			return Booleans.collectionToPrimitiveArray(collection);
-		} else if (Characters.isAssignableFrom(c)) {
+		} else if (Characters.isFrom(c)) {
 			return Characters.collectionToPrimitiveArray(collection);
-		} else if (Bytes.isAssignableFrom(c)) {
+		} else if (Bytes.isFrom(c)) {
 			return Bytes.collectionToPrimitiveArray(collection);
-		} else if (Shorts.isAssignableFrom(c)) {
+		} else if (Shorts.isFrom(c)) {
 			return Shorts.collectionToPrimitiveArray(collection);
-		} else if (Integers.isAssignableFrom(c)) {
+		} else if (Integers.isFrom(c)) {
 			return Integers.collectionToPrimitiveArray(collection);
-		} else if (Longs.isAssignableFrom(c)) {
+		} else if (Longs.isFrom(c)) {
 			return Longs.collectionToPrimitiveArray(collection);
-		} else if (Floats.isAssignableFrom(c)) {
+		} else if (Floats.isFrom(c)) {
 			return Floats.collectionToPrimitiveArray(collection);
-		} else if (Doubles.isAssignableFrom(c)) {
+		} else if (Doubles.isFrom(c)) {
 			return Doubles.collectionToPrimitiveArray(collection);
 		}
 		throw new IllegalClassException(c);
@@ -291,7 +294,7 @@ public class Collections {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Collection},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return Collection.class.isAssignableFrom(c);
 	}
 

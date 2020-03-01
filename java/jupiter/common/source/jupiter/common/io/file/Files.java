@@ -1207,7 +1207,7 @@ public class Files {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link File},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return File.class.isAssignableFrom(c);
 	}
 

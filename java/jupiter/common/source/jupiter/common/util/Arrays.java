@@ -97,22 +97,21 @@ public class Arrays {
 		ArrayArguments.requireArray(primitiveArray);
 
 		// Convert the primitive array to an array
-		final Class<?> c = primitiveArray.getClass();
-		if (Booleans.isPrimitiveArray(c)) {
+		if (Booleans.isPrimitiveArray(primitiveArray)) {
 			return Booleans.toArray((boolean[]) primitiveArray);
-		} else if (Characters.isPrimitiveArray(c)) {
+		} else if (Characters.isPrimitiveArray(primitiveArray)) {
 			return Characters.toArray((char[]) primitiveArray);
-		} else if (Bytes.isPrimitiveArray(c)) {
+		} else if (Bytes.isPrimitiveArray(primitiveArray)) {
 			return Bytes.toArray((byte[]) primitiveArray);
-		} else if (Shorts.isPrimitiveArray(c)) {
+		} else if (Shorts.isPrimitiveArray(primitiveArray)) {
 			return Shorts.toArray((short[]) primitiveArray);
-		} else if (Integers.isPrimitiveArray(c)) {
+		} else if (Integers.isPrimitiveArray(primitiveArray)) {
 			return Integers.toArray((int[]) primitiveArray);
-		} else if (Longs.isPrimitiveArray(c)) {
+		} else if (Longs.isPrimitiveArray(primitiveArray)) {
 			return Longs.toArray((long[]) primitiveArray);
-		} else if (Floats.isPrimitiveArray(c)) {
+		} else if (Floats.isPrimitiveArray(primitiveArray)) {
 			return Floats.toArray((float[]) primitiveArray);
-		} else if (Doubles.isPrimitiveArray(c)) {
+		} else if (Doubles.isPrimitiveArray(primitiveArray)) {
 			return Doubles.toArray((double[]) primitiveArray);
 		}
 		return (Object[]) primitiveArray;
@@ -135,37 +134,38 @@ public class Arrays {
 	}
 
 	/**
-	 * Returns a primitive array converted from the specified array of the specified element
-	 * {@link Class}, or {@code null} if the specified array or element {@link Class} is
-	 * {@code null}.
+	 * Returns a primitive array of the specified element {@link Class} converted from the specified
+	 * array, or {@code null} if the specified element {@link Class} or array is {@code null}.
 	 * <p>
 	 * @param c     the element {@link Class} of the array to convert (may be {@code null})
 	 * @param array the array to convert (may be {@code null})
 	 * <p>
-	 * @return a primitive array converted from the specified array of the specified element
-	 *         {@link Class}, or {@code null} if the specified array or element {@link Class} is
+	 * @return a primitive array of the specified element {@link Class} converted from the specified
+	 *         array, or {@code null} if the specified element {@link Class} or array is
 	 *         {@code null}
 	 */
 	public static Object toPrimitiveArray(final Class<?> c, final Object[] array) {
+		// Check the arguments
 		if (c == null || array == null) {
 			return null;
 		}
+
 		// Convert the array to a primitive array
-		if (Booleans.isAssignableFrom(c)) {
+		if (Booleans.isFrom(c)) {
 			return Booleans.toPrimitiveArray(array);
-		} else if (Characters.isAssignableFrom(c)) {
+		} else if (Characters.isFrom(c)) {
 			return Characters.toPrimitiveArray(array);
-		} else if (Bytes.isAssignableFrom(c)) {
+		} else if (Bytes.isFrom(c)) {
 			return Bytes.toPrimitiveArray(array);
-		} else if (Shorts.isAssignableFrom(c)) {
+		} else if (Shorts.isFrom(c)) {
 			return Shorts.toPrimitiveArray(array);
-		} else if (Integers.isAssignableFrom(c)) {
+		} else if (Integers.isFrom(c)) {
 			return Integers.toPrimitiveArray(array);
-		} else if (Longs.isAssignableFrom(c)) {
+		} else if (Longs.isFrom(c)) {
 			return Longs.toPrimitiveArray(array);
-		} else if (Floats.isAssignableFrom(c)) {
+		} else if (Floats.isFrom(c)) {
 			return Floats.toPrimitiveArray(array);
-		} else if (Doubles.isAssignableFrom(c)) {
+		} else if (Doubles.isFrom(c)) {
 			return Doubles.toPrimitiveArray(array);
 		}
 		throw new IllegalClassException(c);
@@ -502,11 +502,14 @@ public class Arrays {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[] merge(final T[]... arrays) {
+		// Check the arguments
 		if (arrays == null) {
 			return null;
 		} else if (arrays.length == 1) {
 			return toArray(getComponentClass2D(arrays), arrays[0]);
 		}
+
+		// Merge the arrays
 		final Class<?> c = getComponentClass2D(arrays);
 		final T[] mergedArray = (T[]) create(c, countLength(arrays));
 		int offset = 0;
@@ -1049,7 +1052,7 @@ public class Arrays {
 	 *         otherwise
 	 */
 	public static boolean is(final Object object) {
-		return object instanceof Object[];
+		return isFrom(object.getClass());
 	}
 
 	/**
@@ -1060,7 +1063,7 @@ public class Arrays {
 	 * @return {@code true} if the specified {@link Class} is assignable to an array, {@code false}
 	 *         otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return c.isArray();
 	}
 
@@ -1387,9 +1390,12 @@ public class Arrays {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] clone(final T[] array)
 			throws CloneNotSupportedException {
+		// Check the arguments
 		if (array == null) {
 			return null;
 		}
+
+		// Clone the array
 		final T[] clone = (T[]) create(getComponentClass(array), array.length);
 		for (int i = 0; i < array.length; ++i) {
 			clone[i] = Objects.clone(array[i]);

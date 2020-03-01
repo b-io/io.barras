@@ -109,7 +109,6 @@ public class SQL {
 		Arguments.requireNotNull(value, "value");
 
 		// Set the parameter of the SQL statement at the index
-		final Class<?> c = value.getClass();
 		if (value instanceof Array) {
 			statement.setArray(index, (Array) value);
 		} else if (value instanceof BigDecimal) {
@@ -120,7 +119,7 @@ public class SQL {
 			statement.setBoolean(index, (Boolean) value);
 		} else if (Bytes.is(value)) {
 			statement.setByte(index, (Byte) value);
-		} else if (Bytes.isPrimitiveArray(c)) {
+		} else if (Bytes.isPrimitiveArray(value)) {
 			statement.setBytes(index, (byte[]) value);
 		} else if (value instanceof Clob) {
 			statement.setClob(index, (Clob) value);
@@ -150,7 +149,7 @@ public class SQL {
 		} else if (value instanceof URL) {
 			statement.setURL(index, (URL) value);
 		} else {
-			throw new IllegalClassException(c);
+			throw new IllegalClassException(value.getClass());
 		}
 	}
 
@@ -192,18 +191,21 @@ public class SQL {
 	 *         {@link String}
 	 */
 	public static Object convert(final Class<?> c, final String text) {
+		// Check the arguments
 		if (isNull(text)) {
 			return null;
 		}
-		if (Booleans.isAssignableFrom(c)) {
+
+		// Convert the text to an object of the SQL class
+		if (Booleans.isFrom(c)) {
 			return Integers.convert(text) == 1;
-		} else if (Bytes.isPrimitiveArray(c)) {
+		} else if (Bytes.isPrimitiveArrayFrom(c)) {
 			return text.getBytes();
 		} else if (Date.class.isAssignableFrom(c)) {
 			return Date.valueOf(text);
-		} else if (Numbers.isAssignableFrom(c)) {
+		} else if (Numbers.isFrom(c)) {
 			return Numbers.toNumber(c, text);
-		} else if (Strings.isAssignableFrom(c)) {
+		} else if (Strings.isFrom(c)) {
 			return text;
 		} else if (Time.class.isAssignableFrom(c)) {
 			return Time.valueOf(text);
@@ -302,10 +304,10 @@ public class SQL {
 				Arrays.isNotEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
 				" FROM ", Strings.bracketize(table),
 				Arrays.isNotEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						"");
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+						.concat("=?")) :
+				"");
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
@@ -378,10 +380,10 @@ public class SQL {
 		return Strings.join("UPDATE ", Strings.bracketize(table),
 				" SET ", Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
 				Arrays.isNotEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						"");
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+						.concat("=?")) :
+				"");
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
@@ -419,10 +421,10 @@ public class SQL {
 		// Create the SQL query for deleting the table with the conditional columns
 		return Strings.join("DELETE FROM ", Strings.bracketize(table),
 				Arrays.isNotEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						"");
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+						.concat("=?")) :
+				"");
 	}
 
 	public static PreparedStatement createDeleteStatement(final Connection connection,
@@ -508,7 +510,7 @@ public class SQL {
 		for (int i = 1; i <= n; ++i) {
 			columns[i - 1] = metaData.getColumnName(i);
 		}
-		// Store and return the result
+		// Store the result
 		final ExtendedList<SQLGenericRow> rows = new ExtendedList<SQLGenericRow>();
 		while (resultSet.next()) {
 			final Object[] values = new Object[n];
@@ -517,6 +519,7 @@ public class SQL {
 			}
 			rows.add(new SQLGenericRow(columns, values));
 		}
+		// Return the result
 		return rows;
 	}
 
@@ -580,7 +583,7 @@ public class SQL {
 		try {
 			final Constructor<T> constructor = c.getConstructor(ResultSet.class);
 			final ResultSet resultSet = statement.executeQuery();
-			// Store and return the result
+			// Store the result
 			while (resultSet.next()) {
 				rows.add(constructor.newInstance(resultSet));
 			}
@@ -598,6 +601,7 @@ public class SQL {
 		} catch (final SecurityException ex) {
 			IO.error(ex);
 		}
+		// Return the result
 		return rows;
 	}
 

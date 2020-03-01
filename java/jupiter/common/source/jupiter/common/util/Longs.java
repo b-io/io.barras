@@ -1053,7 +1053,7 @@ public class Longs {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} value or
 	 *         a {@link Long}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return long.class.isAssignableFrom(c) || Long.class.isAssignableFrom(c);
 	}
 
@@ -1065,8 +1065,20 @@ public class Longs {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} value,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
+	public static boolean isPrimitiveFrom(final Class<?> c) {
 		return long.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is an instance of {@code long} array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@code long} array,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Object object) {
+		return object instanceof long[];
 	}
 
 	/**
@@ -1077,7 +1089,7 @@ public class Longs {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} array,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitiveArray(final Class<?> c) {
+	public static boolean isPrimitiveArrayFrom(final Class<?> c) {
 		return long[].class.isAssignableFrom(c);
 	}
 

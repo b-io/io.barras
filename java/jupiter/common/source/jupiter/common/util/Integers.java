@@ -1197,7 +1197,7 @@ public class Integers {
 	 * @return {@code true} if the specified {@link Class} is assignable to an {@code int} value or
 	 *         an {@link Integer}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return int.class.isAssignableFrom(c) || Integer.class.isAssignableFrom(c);
 	}
 
@@ -1209,8 +1209,20 @@ public class Integers {
 	 * @return {@code true} if the specified {@link Class} is assignable to an {@code int} value,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
+	public static boolean isPrimitiveFrom(final Class<?> c) {
 		return int.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is an instance of {@code int} array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@code int} array,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Object object) {
+		return object instanceof int[];
 	}
 
 	/**
@@ -1221,7 +1233,7 @@ public class Integers {
 	 * @return {@code true} if the specified {@link Class} is assignable to an {@code int} array,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitiveArray(final Class<?> c) {
+	public static boolean isPrimitiveArrayFrom(final Class<?> c) {
 		return int[].class.isAssignableFrom(c);
 	}
 

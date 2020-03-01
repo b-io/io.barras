@@ -212,7 +212,7 @@ public class SafeDateFormat
 	 * Each attribute key of the {@link AttributedCharacterIterator} will be of type {@link Field},
 	 * with the corresponding attribute value being the same as the attribute key.
 	 * <p>
-	 * @param object the {@link Object} to format
+	 * @param content the content {@link Object} to format
 	 * <p>
 	 * @return an {@link AttributedCharacterIterator} describing the formatted value
 	 * <p>
@@ -223,8 +223,9 @@ public class SafeDateFormat
 	 * @since 1.4
 	 */
 	@Override
-	public synchronized AttributedCharacterIterator formatToCharacterIterator(final Object object) {
-		return super.formatToCharacterIterator(object);
+	public synchronized AttributedCharacterIterator formatToCharacterIterator(
+			final Object content) {
+		return super.formatToCharacterIterator(content);
 	}
 
 

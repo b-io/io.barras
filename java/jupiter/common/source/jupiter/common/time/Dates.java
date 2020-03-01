@@ -524,7 +524,7 @@ public class Dates {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Date},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return Date.class.isAssignableFrom(c);
 	}
 

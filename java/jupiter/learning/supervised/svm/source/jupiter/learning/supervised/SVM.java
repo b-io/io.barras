@@ -330,11 +330,13 @@ public class SVM {
 	 * @return the estimated class
 	 */
 	public Integer classify(final double[] example) {
+		// Check the arguments
 		if (model == null) {
 			IO.error("No model found");
 			return null;
 		}
 
+		// Classify the example
 		final svm_node[] nodes = new svm_node[featureCount];
 		for (int i = 0; i < featureCount; ++i) {
 			final svm_node node = new svm_node();
@@ -346,12 +348,13 @@ public class SVM {
 		final int[] labels = new int[classCount];
 		svm.svm_get_labels(model, labels);
 		final double[] probabilityEstimatesPerClass = new double[classCount];
-		final int prediction = Maths.roundToInt(
+		final int estimatedClass = Maths.roundToInt(
 				svm.svm_predict_probability(model, nodes, probabilityEstimatesPerClass));
 		for (int i = 0; i < classCount; ++i) {
 			probabilityEstimates.put(labels[i], probabilityEstimatesPerClass[i]);
 		}
-		return prediction;
+		// Return the estimated class
+		return estimatedClass;
 	}
 
 

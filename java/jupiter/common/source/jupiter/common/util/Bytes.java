@@ -1332,7 +1332,7 @@ public class Bytes {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code byte} value or
 	 *         a {@link Byte}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return byte.class.isAssignableFrom(c) || Byte.class.isAssignableFrom(c);
 	}
 
@@ -1344,8 +1344,20 @@ public class Bytes {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code byte} value,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
+	public static boolean isPrimitiveFrom(final Class<?> c) {
 		return byte.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is an instance of {@code byte} array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@code byte} array,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Object object) {
+		return object instanceof byte[];
 	}
 
 	/**
@@ -1356,7 +1368,7 @@ public class Bytes {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code byte} array,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitiveArray(final Class<?> c) {
+	public static boolean isPrimitiveArrayFrom(final Class<?> c) {
 		return byte[].class.isAssignableFrom(c);
 	}
 

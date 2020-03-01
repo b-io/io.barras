@@ -1122,7 +1122,7 @@ public class Characters {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code char} value or
 	 *         a {@link Character}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return char.class.isAssignableFrom(c) || Character.class.isAssignableFrom(c);
 	}
 
@@ -1134,8 +1134,20 @@ public class Characters {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code char} value,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
+	public static boolean isPrimitiveFrom(final Class<?> c) {
 		return char.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is an instance of {@code char} array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@code char} array,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Object object) {
+		return object instanceof char[];
 	}
 
 	/**
@@ -1146,7 +1158,7 @@ public class Characters {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code char} array,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitiveArray(final Class<?> c) {
+	public static boolean isPrimitiveArrayFrom(final Class<?> c) {
 		return char[].class.isAssignableFrom(c);
 	}
 

@@ -150,7 +150,7 @@ public class Maps
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Map},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return Map.class.isAssignableFrom(c);
 	}
 
@@ -169,9 +169,12 @@ public class Maps
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Map<?, ?> map) {
+		// Check the arguments
 		if (map == null) {
 			return NULL;
 		}
+
+		// Convert the map to a representative string
 		final Set<? extends Entry<?, ?>> entries = map.entrySet();
 		final StringBuilder builder = Strings.createBuilder(entries.size() *
 				(2 * INITIAL_CAPACITY + 6));

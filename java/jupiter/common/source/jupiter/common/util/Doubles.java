@@ -1081,7 +1081,7 @@ public class Doubles {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code double} value
 	 *         or a {@link Double}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return double.class.isAssignableFrom(c) || Double.class.isAssignableFrom(c);
 	}
 
@@ -1093,8 +1093,20 @@ public class Doubles {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code double} value,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
+	public static boolean isPrimitiveFrom(final Class<?> c) {
 		return double.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is an instance of {@code double} array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@code double} array,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Object object) {
+		return object instanceof double[];
 	}
 
 	/**
@@ -1105,7 +1117,7 @@ public class Doubles {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code double} array,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitiveArray(final Class<?> c) {
+	public static boolean isPrimitiveArrayFrom(final Class<?> c) {
 		return double[].class.isAssignableFrom(c);
 	}
 
@@ -1242,7 +1254,7 @@ public class Doubles {
 		final long bBits = Double.doubleToLongBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-				1; // (0., -0.) or (NaN, !NaN)
+						1; // (0., -0.) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////

@@ -914,7 +914,7 @@ public class Booleans {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code boolean} value
 	 *         or a {@link Boolean}, {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return boolean.class.isAssignableFrom(c) || Boolean.class.isAssignableFrom(c);
 	}
 
@@ -926,8 +926,20 @@ public class Booleans {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code boolean} value,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitive(final Class<?> c) {
+	public static boolean isPrimitiveFrom(final Class<?> c) {
 		return boolean.class.isAssignableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified {@link Object} is an instance of {@code boolean} array.
+	 * <p>
+	 * @param object the {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Object} is an instance of {@code boolean} array,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isPrimitiveArray(final Object object) {
+		return object instanceof boolean[];
 	}
 
 	/**
@@ -938,7 +950,7 @@ public class Booleans {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code boolean} array,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isPrimitiveArray(final Class<?> c) {
+	public static boolean isPrimitiveArrayFrom(final Class<?> c) {
 		return boolean[].class.isAssignableFrom(c);
 	}
 

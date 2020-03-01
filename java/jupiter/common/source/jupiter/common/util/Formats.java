@@ -66,9 +66,9 @@ public class Formats {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public StringBuffer format(final Object object, final StringBuffer toAppendTo,
+		public StringBuffer format(final Object content, final StringBuffer toAppendTo,
 				final FieldPosition position) {
-			toAppendTo.append(object);
+			toAppendTo.append(content);
 			return toAppendTo;
 		}
 

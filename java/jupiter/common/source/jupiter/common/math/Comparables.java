@@ -53,21 +53,21 @@ public class Comparables {
 
 	@SuppressWarnings("unchecked")
 	public static <T> Comparator<? super T> getComparator(final Class<T> c) {
-		if (Comparables.isAssignableFrom(c)) {
+		if (Comparables.isFrom(c)) {
 			return Comparables.<T>createCastComparator();
-		} else if (Characters.isPrimitiveArray(c)) {
+		} else if (Characters.isPrimitiveArrayFrom(c)) {
 			return (Comparator<? super T>) Characters.ARRAY_COMPARATOR;
-		} else if (Bytes.isPrimitiveArray(c)) {
+		} else if (Bytes.isPrimitiveArrayFrom(c)) {
 			return (Comparator<? super T>) Bytes.ARRAY_COMPARATOR;
-		} else if (Shorts.isPrimitiveArray(c)) {
+		} else if (Shorts.isPrimitiveArrayFrom(c)) {
 			return (Comparator<? super T>) Shorts.ARRAY_COMPARATOR;
-		} else if (Integers.isPrimitiveArray(c)) {
+		} else if (Integers.isPrimitiveArrayFrom(c)) {
 			return (Comparator<? super T>) Integers.ARRAY_COMPARATOR;
-		} else if (Longs.isPrimitiveArray(c)) {
+		} else if (Longs.isPrimitiveArrayFrom(c)) {
 			return (Comparator<? super T>) Longs.ARRAY_COMPARATOR;
-		} else if (Floats.isPrimitiveArray(c)) {
+		} else if (Floats.isPrimitiveArrayFrom(c)) {
 			return (Comparator<? super T>) Floats.ARRAY_COMPARATOR;
-		} else if (Doubles.isPrimitiveArray(c)) {
+		} else if (Doubles.isPrimitiveArrayFrom(c)) {
 			return (Comparator<? super T>) Doubles.ARRAY_COMPARATOR;
 		}
 		throw new IllegalArgumentException(
@@ -123,7 +123,7 @@ public class Comparables {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Comparable},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return Comparable.class.isAssignableFrom(c);
 	}
 

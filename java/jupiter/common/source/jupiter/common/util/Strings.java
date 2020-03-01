@@ -53,7 +53,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jupiter.common.exception.IllegalClassException;
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
@@ -980,8 +979,8 @@ public class Strings {
 		final StringBuilder builder = createBuilder(array.length * INITIAL_CAPACITY);
 
 		// Join the elements
-		for (final Object object : array) {
-			builder.append(toString(object));
+		for (final Object element : array) {
+			builder.append(toString(element));
 		}
 		return builder.toString();
 	}
@@ -1005,8 +1004,8 @@ public class Strings {
 		final StringBuilder builder = createBuilder(collection.size() * INITIAL_CAPACITY);
 
 		// Join the elements
-		for (final Object object : collection) {
-			builder.append(toString(object));
+		for (final Object element : collection) {
+			builder.append(toString(element));
 		}
 		return builder.toString();
 	}
@@ -3873,7 +3872,7 @@ public class Strings {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link String},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return String.class.isAssignableFrom(c);
 	}
 
@@ -4135,30 +4134,29 @@ public class Strings {
 	 *         {@code null}, {@code "null"} otherwise
 	 */
 	public static String toString(final Object object) {
+		// Check the arguments
 		if (object == null) {
 			return NULL;
 		}
-		final Class<?> c = object.getClass();
-		if (c.isArray()) {
-			if (c.getComponentType().isPrimitive()) {
-				if (Booleans.isPrimitiveArray(c)) {
-					return Booleans.toString((boolean[]) object);
-				} else if (Characters.isPrimitiveArray(c)) {
-					return Characters.toString((char[]) object);
-				} else if (Bytes.isPrimitiveArray(c)) {
-					return Bytes.toString((byte[]) object);
-				} else if (Shorts.isPrimitiveArray(c)) {
-					return Shorts.toString((short[]) object);
-				} else if (Integers.isPrimitiveArray(c)) {
-					return Integers.toString((int[]) object);
-				} else if (Longs.isPrimitiveArray(c)) {
-					return Longs.toString((long[]) object);
-				} else if (Floats.isPrimitiveArray(c)) {
-					return Floats.toString((float[]) object);
-				} else if (Doubles.isPrimitiveArray(c)) {
-					return Doubles.toString((double[]) object);
-				}
-				throw new IllegalClassException(c);
+
+		// Convert the object to a representative string
+		if (Arrays.is(object)) {
+			if (Booleans.isPrimitiveArray(object)) {
+				return Booleans.toString((boolean[]) object);
+			} else if (Characters.isPrimitiveArray(object)) {
+				return Characters.toString((char[]) object);
+			} else if (Bytes.isPrimitiveArray(object)) {
+				return Bytes.toString((byte[]) object);
+			} else if (Shorts.isPrimitiveArray(object)) {
+				return Shorts.toString((short[]) object);
+			} else if (Integers.isPrimitiveArray(object)) {
+				return Integers.toString((int[]) object);
+			} else if (Longs.isPrimitiveArray(object)) {
+				return Longs.toString((long[]) object);
+			} else if (Floats.isPrimitiveArray(object)) {
+				return Floats.toString((float[]) object);
+			} else if (Doubles.isPrimitiveArray(object)) {
+				return Doubles.toString((double[]) object);
 			}
 			return Arrays.toString((Object[]) object);
 		} else if (Collections.is(object)) {

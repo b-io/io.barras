@@ -223,7 +223,7 @@ public class Lists
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link List},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return List.class.isAssignableFrom(c);
 	}
 }

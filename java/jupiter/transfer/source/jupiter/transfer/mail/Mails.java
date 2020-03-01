@@ -137,7 +137,7 @@ public class Mails {
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link MimeMessage},
 	 *         {@code false} otherwise
 	 */
-	public static boolean isAssignableFrom(final Class<?> c) {
+	public static boolean isFrom(final Class<?> c) {
 		return MimeMessage.class.isAssignableFrom(c);
 	}
 
