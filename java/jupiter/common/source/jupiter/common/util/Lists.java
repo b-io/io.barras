@@ -50,7 +50,7 @@ public class Lists
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <E, T extends E> boolean addAll(final List<E> list, final T[] array) {
+	public static <T> boolean addAll(final List<? super T> list, final T[] array) {
 		return list.addAll(java.util.Arrays.asList(array));
 	}
 
@@ -89,41 +89,16 @@ public class Lists
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the first occurrence of the specified {@link Object} from the specified {@link List}
-	 * and returns the index of the removed element, or {@code -1} if it is not present.
-	 * <p>
-	 * @param <E>    the element subtype of the {@link List}
-	 * @param list   a {@link List} of element subtype {@code E}
-	 * @param object the {@link Object} to remove
-	 * <p>
-	 * @return the index of the removed element, or {@code -1} if it is not present
-	 */
-	public static <E> int removeFirst(final List<? extends E> list, final Object object) {
-		final Iterator<? extends E> iterator = list.iterator();
-		int index = 0;
-		while (iterator.hasNext()) {
-			if (Objects.equals(iterator.next(), object)) {
-				iterator.remove();
-				return index;
-			}
-			++index;
-		}
-		return -1;
-	}
-
-	/**
 	 * Removes the last occurrence of the specified {@link Object} from the specified {@link List}
 	 * and returns the index of the removed element, or {@code -1} if it is not present.
 	 * <p>
-	 * @param <L>    the {@link List} type
-	 * @param <E>    the element type of the {@link List}
-	 * @param list   a {@link List} of element type {@code E}
+	 * @param list   a {@link List}
 	 * @param object the {@link Object} to remove
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
-	public static <L extends List<E>, E> int removeLast(final L list, final Object object) {
-		final ListIterator<E> iterator = list.listIterator(list.size());
+	public static int removeLast(final List<?> list, final Object object) {
+		final ListIterator<?> iterator = list.listIterator(list.size());
 		int index = list.size() - 1;
 		while (iterator.hasPrevious()) {
 			if (Objects.equals(iterator.previous(), object)) {
@@ -133,31 +108,6 @@ public class Lists
 			--index;
 		}
 		return -1;
-	}
-
-	/**
-	 * Removes all the occurrences of the specified {@link Object} from the specified {@link List}
-	 * and returns the indexes of the removed elements.
-	 * <p>
-	 * @param <L>    the {@link List} type
-	 * @param <E>    the element type of the {@link List}
-	 * @param list   a {@link List} of element type {@code E}
-	 * @param object the {@link Object} to remove
-	 * <p>
-	 * @return the indexes of the removed elements
-	 */
-	public static <L extends List<E>, E> int[] removeAll(final L list, final Object object) {
-		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
-		final Iterator<E> iterator = list.iterator();
-		int index = 0;
-		while (iterator.hasNext()) {
-			if (Objects.equals(iterator.next(), object)) {
-				iterator.remove();
-				indexes.add(index);
-			}
-			++index;
-		}
-		return Integers.collectionToPrimitiveArray(indexes);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

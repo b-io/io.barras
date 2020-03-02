@@ -37,9 +37,9 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
-import jupiter.common.util.Collections;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Maps;
 
 import libsvm.svm;
 import libsvm.svm_model;
@@ -112,7 +112,7 @@ public class SVM {
 		problem = new svm_problem();
 		hyperParameters = new svm_parameter();
 		setDefaultParameters();
-		probabilityEstimates = new HashMap<Integer, Double>(Collections.DEFAULT_CAPACITY);
+		probabilityEstimates = new HashMap<Integer, Double>(Maps.DEFAULT_CAPACITY);
 	}
 
 

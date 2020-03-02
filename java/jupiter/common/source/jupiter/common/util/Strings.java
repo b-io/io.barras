@@ -347,28 +347,25 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
-	 * element type {@code E}.
+	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection} of
-	 *         element type {@code E}
+	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection}
 	 */
 	public static <E> ExtendedList<String> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
-	 * of element type {@code E}.
+	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
-	 *         of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<String> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -405,14 +402,12 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link String} from the specified {@link Collection} of element type
-	 * {@code E}.
+	 * Returns a {@link Set} of {@link String} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link String} from the specified {@link Collection} of element type
-	 *         {@code E}
+	 * @return a {@link Set} of {@link String} from the specified {@link Collection}
 	 */
 	public static <E> Set<String> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
@@ -1504,7 +1499,7 @@ public class Strings {
 	 * @return the specified {@link Collection} of {@link String} without the empty {@link String}
 	 */
 	public static <C extends Collection<String>> C removeEmpty(final C collection) {
-		Collections.<C, String>removeAll(collection, EMPTY);
+		Collections.removeAll(collection, EMPTY);
 		return collection;
 	}
 
@@ -2676,7 +2671,7 @@ public class Strings {
 	 */
 	public static int findFirstStringNotIn(final String text, final List<String> tokens,
 			final int fromIndex) {
-		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
+		if (isNotEmpty(text) && Lists.isNotEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex;
 			do {
@@ -2889,7 +2884,7 @@ public class Strings {
 	 */
 	public static int findLastStringNotIn(final String text, final List<String> tokens,
 			final int fromIndex) {
-		if (isNotEmpty(text) && Collections.isNotEmpty(tokens) &&
+		if (isNotEmpty(text) && Lists.isNotEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
 			int index = fromIndex;
 			do {

@@ -90,7 +90,7 @@ public class SystemFiles {
 		return FileUtils.listFiles(dir, createNameFilter(fileFilter), createNameFilter(dirFilter));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public static Collection<File> find(final File dir, final String[] fileFilters) {
 		return find(dir, fileFilters, EMPTY);

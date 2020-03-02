@@ -28,7 +28,6 @@ import java.util.LinkedList;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
-import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Lists;
 
@@ -100,7 +99,7 @@ public class ExtendedLinkedList<E>
 	 * @return the element {@link Class}
 	 */
 	public Class<E> getElementClass() {
-		return Collections.getElementClass(this);
+		return Lists.getElementClass(this);
 	}
 
 	/**
@@ -152,7 +151,7 @@ public class ExtendedLinkedList<E>
 	 */
 	@Override
 	public Object[] toArray() {
-		return Collections.toArray(this);
+		return Lists.toArray(this);
 	}
 
 	/**
@@ -165,7 +164,7 @@ public class ExtendedLinkedList<E>
 	 * @see LinkedList#toArray
 	 */
 	public Object toPrimitiveArray() {
-		return Collections.toPrimitiveArray(this);
+		return Lists.toPrimitiveArray(this);
 	}
 
 
@@ -242,14 +241,14 @@ public class ExtendedLinkedList<E>
 
 	/**
 	 * Removes all the occurrences of the specified {@link Object} from {@code this} and returns the
-	 * number of removed elements.
+	 * indexes of the removed elements.
 	 * <p>
 	 * @param object the {@link Object} to remove
 	 * <p>
-	 * @return the number of removed elements
+	 * @return the indexes of the removed elements
 	 */
-	public synchronized int removeAll(final Object object) {
-		return Collections.removeAll(this, object);
+	public synchronized int[] removeAll(final Object object) {
+		return Lists.removeAll(this, object);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,6 +292,6 @@ public class ExtendedLinkedList<E>
 	 */
 	@Override
 	public String toString() {
-		return Collections.toString(this);
+		return Lists.toString(this);
 	}
 }

@@ -341,62 +341,6 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code byte} array converted from the specified binary representative
-	 * {@link String}.
-	 * <p>
-	 * @param binaryString the binary representative {@link String} to convert
-	 * <p>
-	 * @return a {@code byte} array converted from the specified binary representative
-	 *         {@link String}
-	 */
-	public static byte[] parseBinaryString(final String binaryString) {
-		final byte[] array = new byte[binaryString.length() >> 3];
-		for (int i = 0; i < binaryString.length(); i += 8) {
-			array[i >> 3] = (byte) Integers.parseUnsignedInt(binaryString.substring(i, i + 8), 2);
-		}
-		return array;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a {@code byte} array converted from the specified octal representative
-	 * {@link String}.
-	 * <p>
-	 * @param octalString the octal representative {@link String} to convert
-	 * <p>
-	 * @return a {@code byte} array converted from the specified octal representative {@link String}
-	 */
-	public static byte[] parseOctalString(final String octalString) {
-		final byte[] array = new byte[octalString.length() >> 2];
-		for (int i = 0; i < octalString.length(); i += 4) {
-			array[i >> 2] = (byte) Integers.parseUnsignedInt(octalString.substring(i, i + 4), 8);
-		}
-		return array;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a {@code byte} array converted from the specified hexadecimal representative
-	 * {@link String}.
-	 * <p>
-	 * @param hexString the hexadecimal representative {@link String} to convert
-	 * <p>
-	 * @return a {@code byte} array converted from the specified hexadecimal representative
-	 *         {@link String}
-	 */
-	public static byte[] parseHexString(final String hexString) {
-		final byte[] array = new byte[hexString.length() >> 1];
-		for (int i = 0; i < hexString.length(); i += 2) {
-			array[i >> 1] = (byte) Integers.parseUnsignedInt(hexString.substring(i, i + 2), 16);
-		}
-		return array;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a {@code byte} value from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
@@ -542,12 +486,12 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code byte} array from the specified {@link Collection} of element type {@code E}.
+	 * Returns a {@code byte} array from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified {@link Collection} of element type {@code E}
+	 * @return a {@code byte} array from the specified {@link Collection}
 	 */
 	public static <E> byte[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -640,14 +584,12 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Byte} from the specified {@link Collection} of element type
-	 * {@code E}.
+	 * Returns an array of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return an array of {@link Byte} from the specified {@link Collection} of element type
-	 *         {@code E}
+	 * @return an array of {@link Byte} from the specified {@link Collection}
 	 */
 	public static <E> Byte[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -754,28 +696,24 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of
-	 * element type {@code E}.
+	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@link Collection} of
-	 *         element type {@code E}
+	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@link Collection}
 	 */
 	public static <E> ExtendedList<Byte> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
-	 * of element type {@code E}.
+	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
-	 *         of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Byte> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -836,14 +774,12 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection} of element type
-	 * {@code E}.
+	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection} of element type
-	 *         {@code E}
+	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection}
 	 */
 	public static <E> Set<Byte> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
@@ -1304,6 +1240,61 @@ public class Bytes {
 			}
 		}
 		return -1;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a {@code byte} array converted from the specified binary representative
+	 * {@link String}.
+	 * <p>
+	 * @param binaryString the binary representative {@link String} to parse
+	 * <p>
+	 * @return a {@code byte} array converted from the specified binary representative
+	 *         {@link String}
+	 */
+	public static byte[] parseBinaryString(final String binaryString) {
+		final byte[] array = new byte[binaryString.length() >> 3];
+		for (int i = 0; i < binaryString.length(); i += 8) {
+			array[i >> 3] = (byte) Integers.parseUnsignedInt(binaryString.substring(i, i + 8), 2);
+		}
+		return array;
+	}
+
+	/**
+	 * Returns a {@code byte} array converted from the specified octal representative
+	 * {@link String}.
+	 * <p>
+	 * @param octalString the octal representative {@link String} to parse
+	 * <p>
+	 * @return a {@code byte} array converted from the specified octal representative {@link String}
+	 */
+	public static byte[] parseOctalString(final String octalString) {
+		final byte[] array = new byte[octalString.length() >> 2];
+		for (int i = 0; i < octalString.length(); i += 4) {
+			array[i >> 2] = (byte) Integers.parseUnsignedInt(octalString.substring(i, i + 4), 8);
+		}
+		return array;
+	}
+
+	/**
+	 * Returns a {@code byte} array converted from the specified hexadecimal representative
+	 * {@link String}.
+	 * <p>
+	 * @param hexString the hexadecimal representative {@link String} to parse
+	 * <p>
+	 * @return a {@code byte} array converted from the specified hexadecimal representative
+	 *         {@link String}
+	 */
+	public static byte[] parseHexString(final String hexString) {
+		final byte[] array = new byte[hexString.length() >> 1];
+		for (int i = 0; i < hexString.length(); i += 2) {
+			array[i >> 1] = (byte) Integers.parseUnsignedInt(hexString.substring(i, i + 2), 16);
+		}
+		return array;
 	}
 
 

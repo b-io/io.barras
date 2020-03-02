@@ -264,13 +264,12 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code float} array from the specified {@link Collection} of element type
-	 * {@code E}.
+	 * Returns a {@code float} array from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return a {@code float} array from the specified {@link Collection} of element type {@code E}
+	 * @return a {@code float} array from the specified {@link Collection}
 	 */
 	public static <E> float[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -363,14 +362,12 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Float} from the specified {@link Collection} of element type
-	 * {@code E}.
+	 * Returns an array of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return an array of {@link Float} from the specified {@link Collection} of element type
-	 *         {@code E}
+	 * @return an array of {@link Float} from the specified {@link Collection}
 	 */
 	public static <E> Float[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -479,28 +476,24 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
-	 * element type {@code E}.
+	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection} of
-	 *         element type {@code E}
+	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection}
 	 */
 	public static <E> ExtendedList<Float> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
-	 * of element type {@code E}.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
-	 *         of element type {@code E}
 	 */
 	public static <E> ExtendedLinkedList<Float> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -561,14 +554,12 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified {@link Collection} of element type
-	 * {@code E}.
+	 * Returns a {@link Set} of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified {@link Collection} of element type
-	 *         {@code E}
+	 * @return a {@link Set} of {@link Float} from the specified {@link Collection}
 	 */
 	public static <E> Set<Float> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);

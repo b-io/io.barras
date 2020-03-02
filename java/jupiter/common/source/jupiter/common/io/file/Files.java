@@ -621,46 +621,6 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Parallelizes {@code this}.
-	 */
-	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
-
-		// Initialize
-		if (COPIER_QUEUE == null) {
-			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
-			PARALLELIZE = true;
-		} else {
-			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
-		}
-	}
-
-	/**
-	 * Unparallelizes {@code this}.
-	 */
-	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
-
-		// Shutdown
-		if (COPIER_QUEUE != null) {
-			PARALLELIZE = false;
-			COPIER_QUEUE.shutdown();
-		}
-	}
-
-	/**
-	 * Reparallelizes {@code this}.
-	 */
-	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
-
-		unparallelize();
-		parallelize();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Copies the specified source {@link File} to the specified target {@link File} (preserving the
 	 * file dates).
 	 * <p>
@@ -1180,6 +1140,49 @@ public class Files {
 			IO.error(ex);
 		}
 		return entryCount;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARALLELIZATION
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		if (COPIER_QUEUE == null) {
+			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
+			PARALLELIZE = true;
+		} else {
+			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (COPIER_QUEUE != null) {
+			PARALLELIZE = false;
+			COPIER_QUEUE.shutdown();
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
 	}
 
 

@@ -102,53 +102,6 @@ public class Calculator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Parallelizes {@code this}.
-	 */
-	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
-
-		// Initialize
-		// • The expression handler
-		ExpressionHandler.parallelize();
-		// • The work queue
-		if (PARALLELIZE) {
-			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
-						new Evaluator());
-			} else {
-				IO.debug("The work queue ", WORK_QUEUE, " has already started");
-			}
-		}
-	}
-
-	/**
-	 * Unparallelizes {@code this}.
-	 */
-	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
-
-		// Shutdown
-		// • The work queue
-		if (WORK_QUEUE != null) {
-			WORK_QUEUE.shutdown();
-		}
-		// • The expression handler
-		ExpressionHandler.unparallelize();
-	}
-
-	/**
-	 * Reparallelizes {@code this}.
-	 */
-	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
-
-		unparallelize();
-		parallelize();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Parses the specified expression {@link String} (assignment or simple evaluation) and
 	 * evaluates it to an {@link Entity}.
 	 * <p>
@@ -358,6 +311,56 @@ public class Calculator
 				return new Result<Entity>(new IllegalTypeException(type));
 		}
 		return new Result<Entity>(output);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARALLELIZATION
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		// • The expression handler
+		ExpressionHandler.parallelize();
+		// • The work queue
+		if (PARALLELIZE) {
+			if (WORK_QUEUE == null) {
+				WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
+						new Evaluator());
+			} else {
+				IO.debug("The work queue ", WORK_QUEUE, " has already started");
+			}
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		// • The work queue
+		if (WORK_QUEUE != null) {
+			WORK_QUEUE.shutdown();
+		}
+		// • The expression handler
+		ExpressionHandler.unparallelize();
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
 	}
 
 

@@ -822,7 +822,7 @@ public class Table<E>
 	}
 
 	/**
-	 * Merges with the specified {@link Table} of element type {@code E}.
+	 * Merges with the specified {@link Table}.
 	 * <p>
 	 * @param table the {@link Table} of element type {@code E} to merge with
 	 */
@@ -831,7 +831,7 @@ public class Table<E>
 	}
 
 	/**
-	 * Merges with the specified {@link Table} of element type {@code E}.
+	 * Merges with the specified {@link Table}.
 	 * <p>
 	 * @param table     the {@link Table} of element type {@code E} to merge with
 	 * @param mergeRows the flag specifying whether to merge the rows or the columns

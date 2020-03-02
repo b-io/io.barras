@@ -28,7 +28,7 @@ import java.util.List;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.util.Collections;
+import jupiter.common.util.Lists;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -226,6 +226,6 @@ public class IntervalList<T extends Comparable<T>>
 	 */
 	@Override
 	public String toString() {
-		return Collections.toString(intervals);
+		return Lists.toString(intervals);
 	}
 }

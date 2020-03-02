@@ -204,42 +204,6 @@ public class Integers {
 		return index;
 	}
 
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns an {@code int} value converted from the specified representative {@link String} of
-	 * the specified radix.
-	 * <p>
-	 * @param text  the representative {@link String} to convert
-	 * @param radix the radix of the representative {@link String} to convert
-	 * <p>
-	 * @return an {@code int} value converted from the specified representative {@link String} of
-	 *         the specified radix
-	 */
-	public static int parseUnsignedInt(final String text, final int radix)
-			throws NumberFormatException {
-		// Check the arguments
-		if (Strings.isNullOrEmpty(text) || text.charAt(0) == '-') {
-			throw new NumberFormatException(Strings.join("Cannot parse ", Strings.quote(text),
-					" to an unsigned int value"));
-		}
-
-		// Parse the text
-		final int length = text.length();
-		if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
-				radix == 10 && length <= 9) { // Integer.MAX_VALUE in base 10 is 10 digits
-			return Integer.parseInt(text, radix);
-		} else {
-			final long value = Long.parseLong(text, radix);
-			if ((value & 0xffffffff00000000L) == 0) {
-				return (int) value;
-			} else {
-				throw new NumberFormatException(Strings.join("Cannot parse ", Strings.quote(text),
-						" to an unsigned int value (range exceeded)"));
-			}
-		}
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -388,12 +352,12 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code int} array from the specified {@link Collection} of element type {@code E}.
+	 * Returns an {@code int} array from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return an {@code int} array from the specified {@link Collection} of element type {@code E}
+	 * @return an {@code int} array from the specified {@link Collection}
 	 */
 	public static <E> int[] collectionToPrimitiveArray(final Collection<E> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -486,14 +450,12 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Integer} from the specified {@link Collection} of element type
-	 * {@code E}.
+	 * Returns an array of {@link Integer} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return an array of {@link Integer} from the specified {@link Collection} of element type
-	 *         {@code E}
+	 * @return an array of {@link Integer} from the specified {@link Collection}
 	 */
 	public static <E> Integer[] collectionToArray(final Collection<E> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -602,14 +564,12 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
-	 * type {@code E}.
+	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@link Collection} of
-	 *         type {@code E}
+	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@link Collection}
 	 */
 	public static <E> ExtendedList<Integer> collectionToList(final Collection<E> collection) {
 		return PARSER.callCollectionToList(collection);
@@ -617,13 +577,13 @@ public class Integers {
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified
-	 * {@link Collection} of element type {@code E}.
+	 * {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified
-	 *         {@link Collection} of element type {@code E}
+	 *         {@link Collection}
 	 */
 	public static <E> ExtendedLinkedList<Integer> collectionToLinkedList(
 			final Collection<E> collection) {
@@ -684,14 +644,12 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection} of element
-	 * type {@code E}.
+	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of element type {@code E} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified {@link Collection} of element
-	 *         type {@code E}
+	 * @return a {@link Set} of {@link Integer} from the specified {@link Collection}
 	 */
 	public static <E> Set<Integer> collectionToSet(final Collection<E> collection) {
 		return PARSER.callCollectionToSet(collection);
@@ -1169,6 +1127,45 @@ public class Integers {
 			}
 		}
 		return -1;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns an {@code int} value converted from the specified representative {@link String} of
+	 * the specified radix.
+	 * <p>
+	 * @param text  the representative {@link String} to convert
+	 * @param radix the radix of the representative {@link String} to parse
+	 * <p>
+	 * @return an {@code int} value converted from the specified representative {@link String} of
+	 *         the specified radix
+	 */
+	public static int parseUnsignedInt(final String text, final int radix)
+			throws NumberFormatException {
+		// Check the arguments
+		if (Strings.isNullOrEmpty(text) || text.charAt(0) == '-') {
+			throw new NumberFormatException(Strings.join("Cannot parse ", Strings.quote(text),
+					" to an unsigned int value"));
+		}
+
+		// Parse the text
+		final int length = text.length();
+		if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
+				radix == 10 && length <= 9) { // Integer.MAX_VALUE in base 10 is 10 digits
+			return Integer.parseInt(text, radix);
+		} else {
+			final long value = Long.parseLong(text, radix);
+			if ((value & 0xffffffff00000000L) == 0) {
+				return (int) value;
+			} else {
+				throw new NumberFormatException(Strings.join("Cannot parse ", Strings.quote(text),
+						" to an unsigned int value (range exceeded)"));
+			}
+		}
 	}
 
 

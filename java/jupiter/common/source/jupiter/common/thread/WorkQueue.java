@@ -34,7 +34,7 @@ import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.IntegerArguments;
-import jupiter.common.util.Collections;
+import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
 public class WorkQueue<I, O>
@@ -116,7 +116,7 @@ public class WorkQueue<I, O>
 	/**
 	 * The {@link Map} containing the {@code O} results.
 	 */
-	protected final Map<Long, O> results = new HashMap<Long, O>(Collections.DEFAULT_CAPACITY);
+	protected final Map<Long, O> results = new HashMap<Long, O>(Maps.DEFAULT_CAPACITY);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

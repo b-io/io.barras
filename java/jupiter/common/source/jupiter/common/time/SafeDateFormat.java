@@ -308,7 +308,7 @@ public class SafeDateFormat
 	 * {@link TimeZone} value that has previously been set by a call to the method
 	 * {@link #setTimeZone(TimeZone) setTimeZone} may need to be restored for further operations.
 	 * <p>
-	 * @param text     a {@link String}, part of which should be parsed
+	 * @param text     the {@link String} to partially parse
 	 * @param position a {@link ParsePosition} object with index and error index information as
 	 *                 described above
 	 * <p>

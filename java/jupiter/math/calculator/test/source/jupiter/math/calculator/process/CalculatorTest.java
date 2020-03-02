@@ -33,7 +33,7 @@ import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
 import jupiter.common.thread.Result;
 import jupiter.common.time.Chronometer;
-import jupiter.common.util.Collections;
+import jupiter.common.util.Maps;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.Element;
 import jupiter.math.linear.entity.Entity;
@@ -67,7 +67,7 @@ public class CalculatorTest
 			for (int t = 0; t < testCount; ++t) {
 				// Initialize
 				final Map<String, Element> context = new HashMap<String, Element>(
-						Collections.DEFAULT_CAPACITY);
+						Maps.DEFAULT_CAPACITY);
 				final Matrix matrix = Matrix.random(matrixSize);
 				final String matrixString = Strings.toString(matrix);
 				final String e1 = Strings.join("(", matrixString, "*", "@(", matrixString, "))+",

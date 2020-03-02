@@ -1342,46 +1342,6 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Parallelizes {@code this}.
-	 */
-	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
-
-		// Initialize
-		if (MULTIPLICATION == null) {
-			MULTIPLICATION = new Multiplication();
-			PARALLELIZE = true;
-		} else {
-			IO.debug("The work queue ", MULTIPLICATION, " has already started");
-		}
-	}
-
-	/**
-	 * Unparallelizes {@code this}.
-	 */
-	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
-
-		// Shutdown
-		if (MULTIPLICATION != null) {
-			PARALLELIZE = false;
-			MULTIPLICATION.shutdown();
-		}
-	}
-
-	/**
-	 * Reparallelizes {@code this}.
-	 */
-	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
-
-		unparallelize();
-		parallelize();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Fills {@code this} with the specified constant.
 	 * <p>
 	 * @param constant the {@code double} constant to fill with
@@ -2544,6 +2504,49 @@ public class Matrix
 			IO.error(ex);
 		}
 		return null;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARALLELIZATION
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		if (MULTIPLICATION == null) {
+			MULTIPLICATION = new Multiplication();
+			PARALLELIZE = true;
+		} else {
+			IO.debug("The work queue ", MULTIPLICATION, " has already started");
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (MULTIPLICATION != null) {
+			PARALLELIZE = false;
+			MULTIPLICATION.shutdown();
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
 	}
 
 
