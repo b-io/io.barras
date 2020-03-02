@@ -75,7 +75,7 @@ public class Vector
 		isTransposed = transpose;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a constant {@link Vector} with the specified number of elements and constant.
@@ -120,6 +120,8 @@ public class Vector
 		super(Arguments.requireNotNull(values, "values").length, values, transpose);
 		isTransposed = transpose;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link Vector} with the specified values.

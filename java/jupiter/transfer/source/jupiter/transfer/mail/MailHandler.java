@@ -117,6 +117,8 @@ public class MailHandler
 	public MailHandler() {
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
 	 * outgoing mail server {@link Protocol}, host name, user name and password.
@@ -136,7 +138,7 @@ public class MailHandler
 		this.password = password;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link MailHandler} loaded from the specified {@link Properties} containing the

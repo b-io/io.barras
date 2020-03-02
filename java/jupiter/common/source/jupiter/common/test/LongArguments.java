@@ -34,6 +34,7 @@ public class LongArguments
 	 * Prevents the construction of {@link LongArguments}.
 	 */
 	protected LongArguments() {
+		super();
 	}
 
 

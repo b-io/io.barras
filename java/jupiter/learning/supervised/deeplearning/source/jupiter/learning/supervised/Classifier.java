@@ -158,6 +158,8 @@ public abstract class Classifier
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link Classifier} loaded from the files denoted by the specified paths
 	 * containing the training examples (feature vectors and classes).
@@ -481,11 +483,7 @@ public abstract class Classifier
 	 */
 	public void load(final String featureVectorsPath, final String classesPath)
 			throws IOException {
-		// Load the feature vectors
-		setFeatureVectors(Matrix.create(featureVectorsPath));
-
-		// Load the classes
-		setClasses(Matrix.create(classesPath));
+		load(featureVectorsPath, classesPath, false);
 	}
 
 	/**
@@ -505,10 +503,10 @@ public abstract class Classifier
 			final boolean transpose)
 			throws IOException {
 		// Load the feature vectors
-		setFeatureVectors(Matrix.create(featureVectorsPath));
+		setFeatureVectors(Matrix.create(featureVectorsPath, transpose));
 
 		// Load the classes
-		setClasses(Matrix.create(classesPath));
+		setClasses(Matrix.create(classesPath, transpose));
 	}
 
 

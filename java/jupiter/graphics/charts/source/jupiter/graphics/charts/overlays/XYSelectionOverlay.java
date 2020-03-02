@@ -79,6 +79,7 @@ public class XYSelectionOverlay
 	 * Constructs a {@link XYSelectionOverlay}.
 	 */
 	public XYSelectionOverlay() {
+		super();
 	}
 
 

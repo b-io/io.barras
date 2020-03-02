@@ -277,10 +277,18 @@ public class R
 		 */
 		protected WorkQueue<?, ?> workQueueToMonitor;
 
+		/**
+		 * Constructs a {@link RPrinter}.
+		 */
 		protected RPrinter() {
 			this(IO.getPrinter());
 		}
 
+		/**
+		 * Constructs a {@link RPrinter} with the specified printer {@link IOHandler}.
+		 * <p>
+		 * @param printer the printer {@link IOHandler}
+		 */
 		protected RPrinter(final IOHandler printer) {
 			super();
 			this.printer = printer;

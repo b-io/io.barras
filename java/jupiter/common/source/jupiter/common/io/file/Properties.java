@@ -61,8 +61,7 @@ public class Properties
 	 * Constructs a {@link Properties}.
 	 */
 	public Properties() {
-		super();
-		defaultValue = null;
+		this((java.util.Properties) null);
 	}
 
 	/**
@@ -75,6 +74,8 @@ public class Properties
 		defaultValue = null;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link Properties} loaded from the file denoted by the specified name.
 	 * <p>
@@ -84,8 +85,7 @@ public class Properties
 	 */
 	public Properties(final String fileName)
 			throws IOException {
-		defaultValue = null;
-		load(fileName);
+		this(fileName, null);
 	}
 
 	/**

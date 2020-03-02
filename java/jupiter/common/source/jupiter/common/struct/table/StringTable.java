@@ -69,6 +69,8 @@ public class StringTable
 		super(String.class, header, rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link StringTable} with the specified elements.
 	 * <p>
@@ -87,6 +89,8 @@ public class StringTable
 	public StringTable(final String[] header, final String[]... elements) {
 		super(String.class, header, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link StringTable} loaded from the file denoted by the specified path.

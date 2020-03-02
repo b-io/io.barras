@@ -192,6 +192,8 @@ public class Matrix
 	 * @param columnCount the number of columns
 	 */
 	public Matrix(final int rowCount, final int columnCount) {
+		super();
+
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
@@ -204,7 +206,7 @@ public class Matrix
 		elements = new double[m * n];
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a constant {@link Matrix} with the specified numbers of rows and columns and
@@ -215,6 +217,8 @@ public class Matrix
 	 * @param constant    the {@code double} constant
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double constant) {
+		super();
+
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
@@ -245,6 +249,8 @@ public class Matrix
 	 *                                  {@code rowCount}
 	 */
 	public Matrix(final int rowCount, final double[] values, final boolean transpose) {
+		super();
+
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 
@@ -270,6 +276,8 @@ public class Matrix
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link Matrix} with the specified values.
 	 * <p>
@@ -292,6 +300,8 @@ public class Matrix
 	 * @throws IllegalArgumentException if the {@code values} rows have not the same length
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double[][] values) {
+		super();
+
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
@@ -315,7 +325,29 @@ public class Matrix
 		}
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Matrix} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public Matrix(final String path, final boolean hasHeader)
+			throws IOException {
+		this(new DoubleTable(path, hasHeader));
+	}
+
+	/**
+	 * Constructs a {@link Matrix} with the specified {@link DoubleTable} containing the elements.
+	 * <p>
+	 * @param table the {@link DoubleTable} containing the elements
+	 */
+	public Matrix(final DoubleTable table) {
+		this(Arguments.requireNotNull(table, "table").getRowCount(), table.toPrimitiveArray());
+	}
 
 	/**
 	 * Constructs a {@link Matrix} with the specified number of rows and elements.
@@ -327,6 +359,8 @@ public class Matrix
 	 *                                  {@code rowCount}
 	 */
 	public Matrix(final int rowCount, final double[] elements) {
+		super();
+
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 
@@ -341,28 +375,6 @@ public class Matrix
 		}
 		// Set the elements
 		this.elements = elements;
-	}
-
-	/**
-	 * Constructs a {@link Matrix} with the specified {@link DoubleTable} containing the elements.
-	 * <p>
-	 * @param table the {@link DoubleTable} containing the elements
-	 */
-	public Matrix(final DoubleTable table) {
-		this(Arguments.requireNotNull(table, "table").getRowCount(), table.toPrimitiveArray());
-	}
-
-	/**
-	 * Constructs a {@link Matrix} loaded from the file denoted by the specified path.
-	 * <p>
-	 * @param path      the path to the file to load
-	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public Matrix(final String path, final boolean hasHeader)
-			throws IOException {
-		this(new DoubleTable(path, hasHeader));
 	}
 
 

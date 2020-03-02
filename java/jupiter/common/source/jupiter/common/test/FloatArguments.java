@@ -36,6 +36,7 @@ public class FloatArguments
 	 * Prevents the construction of {@link FloatArguments}.
 	 */
 	protected FloatArguments() {
+		super();
 	}
 
 

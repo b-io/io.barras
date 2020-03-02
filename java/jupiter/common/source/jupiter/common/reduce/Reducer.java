@@ -66,6 +66,7 @@ public abstract class Reducer<I, O>
 	 * @param c the output {@link Class} of type {@code O}
 	 */
 	protected Reducer(final Class<O> c) {
+		super();
 		this.c = c;
 	}
 

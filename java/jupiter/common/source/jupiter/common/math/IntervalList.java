@@ -69,7 +69,7 @@ public class IntervalList<T extends Comparable<T>>
 	 * Constructs an {@link IntervalList} of type {@code T}.
 	 */
 	public IntervalList() {
-		intervals = new ExtendedLinkedList<Interval<T>>();
+		this(new ExtendedLinkedList<Interval<T>>());
 	}
 
 	/**

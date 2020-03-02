@@ -98,6 +98,8 @@ public class DynamicSample
 	 * @param maxSampleSize the maximum sample size
 	 */
 	public DynamicSample(final int minSampleSize, final int maxSampleSize) {
+		super();
+
 		// Check the arguments
 		IntegerArguments.requireGreaterOrEqualTo(minSampleSize, MIN_SAMPLE_SIZE);
 		IntegerArguments.requireGreaterOrEqualTo(maxSampleSize, minSampleSize);

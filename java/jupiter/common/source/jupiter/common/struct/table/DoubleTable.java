@@ -69,6 +69,8 @@ public class DoubleTable
 		super(Double.class, header, rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link DoubleTable} with the specified {@code double} values.
 	 * <p>
@@ -106,6 +108,8 @@ public class DoubleTable
 	public DoubleTable(final String[] header, final Double[]... elements) {
 		super(Double.class, header, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link DoubleTable} loaded from the file denoted by the specified path.

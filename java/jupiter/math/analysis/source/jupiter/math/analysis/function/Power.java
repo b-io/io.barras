@@ -63,6 +63,7 @@ public class Power
 	 * @param exponent the exponent
 	 */
 	protected Power(final double exponent) {
+		super();
 		this.exponent = exponent;
 	}
 

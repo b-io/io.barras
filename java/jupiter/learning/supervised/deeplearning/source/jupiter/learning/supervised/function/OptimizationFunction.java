@@ -51,7 +51,6 @@ public abstract class OptimizationFunction
 	 * Constructs an {@link OptimizationFunction}.
 	 */
 	protected OptimizationFunction() {
-		super();
 	}
 
 

@@ -75,8 +75,7 @@ public class ConsoleHandler
 	 * Constructs a {@link ConsoleHandler} by default.
 	 */
 	public ConsoleHandler() {
-		super();
-		console = new SystemConsole();
+		this(new SystemConsole());
 	}
 
 	/**

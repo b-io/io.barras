@@ -63,6 +63,7 @@ public class WholeNumber
 	 * @param value the {@code long} value
 	 */
 	public WholeNumber(final long value) {
+		super();
 		this.value = value;
 	}
 

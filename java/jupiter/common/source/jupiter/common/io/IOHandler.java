@@ -54,6 +54,7 @@ public abstract class IOHandler
 	 * Constructs an {@link IOHandler}.
 	 */
 	protected IOHandler() {
+		super();
 	}
 
 

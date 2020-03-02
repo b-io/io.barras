@@ -34,6 +34,7 @@ public class IntegerArguments
 	 * Prevents the construction of {@link IntegerArguments}.
 	 */
 	protected IntegerArguments() {
+		super();
 	}
 
 

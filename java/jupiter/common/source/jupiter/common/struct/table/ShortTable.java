@@ -69,6 +69,8 @@ public class ShortTable
 		super(Short.class, header, rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link ShortTable} with the specified {@code short} values.
 	 * <p>
@@ -106,6 +108,8 @@ public class ShortTable
 	public ShortTable(final String[] header, final Short[]... elements) {
 		super(Short.class, header, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link ShortTable} loaded from the file denoted by the specified path.

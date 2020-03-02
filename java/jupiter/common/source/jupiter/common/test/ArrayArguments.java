@@ -39,6 +39,7 @@ public class ArrayArguments
 	 * Prevents the construction of {@link ArrayArguments}.
 	 */
 	protected ArrayArguments() {
+		super();
 	}
 
 

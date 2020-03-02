@@ -65,6 +65,7 @@ public class ComparableAvlTreeMap<K extends Comparable<K>, V>
 	 * Constructs a {@link ComparableAvlTreeMap} of types {@code K}, {@code V} and {@code N}.
 	 */
 	public ComparableAvlTreeMap() {
+		super();
 	}
 
 	/**

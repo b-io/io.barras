@@ -36,6 +36,7 @@ public class DoubleArguments
 	 * Prevents the construction of {@link DoubleArguments}.
 	 */
 	protected DoubleArguments() {
+		super();
 	}
 
 

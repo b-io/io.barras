@@ -38,6 +38,7 @@ public class CollectionArguments
 	 * Prevents the construction of {@link CollectionArguments}.
 	 */
 	protected CollectionArguments() {
+		super();
 	}
 
 

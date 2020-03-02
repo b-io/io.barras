@@ -42,6 +42,7 @@ public class Lists
 	 * Prevents the construction of {@link Lists}.
 	 */
 	protected Lists() {
+		super();
 	}
 
 

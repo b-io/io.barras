@@ -54,7 +54,6 @@ public abstract class ActivationFunction
 	 * Constructs an {@link ActivationFunction}.
 	 */
 	protected ActivationFunction() {
-		super();
 	}
 
 

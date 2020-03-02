@@ -66,8 +66,7 @@ public class SystemConsole
 	 * Constructs a {@link SystemConsole} by default.
 	 */
 	public SystemConsole() {
-		charset = Charset.defaultCharset();
-		scanner = new Scanner(getIn(), charset.name());
+		this(Charset.defaultCharset());
 	}
 
 	/**

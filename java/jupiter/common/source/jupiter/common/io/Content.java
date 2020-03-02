@@ -74,7 +74,7 @@ public class Content
 	 * @param content the content {@link Object}
 	 */
 	public Content(final Object content) {
-		this(content, DEFAULT_CHARSET, -1);
+		this(content, DEFAULT_CHARSET);
 	}
 
 	/**

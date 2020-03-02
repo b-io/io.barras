@@ -75,10 +75,7 @@ public class Interval<T extends Comparable<T>>
 	 * Constructs an {@link Interval} of type {@code T}.
 	 */
 	public Interval() {
-		lowerBound = null;
-		upperBound = null;
-		isLowerInclusive = true;
-		isUpperInclusive = false;
+		this(null, null);
 	}
 
 	/**
@@ -89,10 +86,7 @@ public class Interval<T extends Comparable<T>>
 	 * @param upperBound the {@code T} upper bound (exclusive)
 	 */
 	public Interval(final T lowerBound, final T upperBound) {
-		this.lowerBound = lowerBound;
-		this.upperBound = upperBound;
-		isLowerInclusive = true;
-		isUpperInclusive = false;
+		this(lowerBound, upperBound, true, false);
 	}
 
 	/**
@@ -111,6 +105,8 @@ public class Interval<T extends Comparable<T>>
 		this.isLowerInclusive = isLowerInclusive;
 		this.isUpperInclusive = isUpperInclusive;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs an {@link Interval} of type {@code T} with the specified lower and upper bounds

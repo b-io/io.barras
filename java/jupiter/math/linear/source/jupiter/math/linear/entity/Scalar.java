@@ -87,6 +87,7 @@ public class Scalar
 	 * @param value the {@code double} value
 	 */
 	public Scalar(final double value) {
+		super();
 		this.value = value;
 		isReadOnly = false;
 	}
@@ -111,6 +112,7 @@ public class Scalar
 	 * @param isReadOnly the flag specifying whether {@code this} is read-only
 	 */
 	public Scalar(final double value, final boolean isReadOnly) {
+		super();
 		this.value = value;
 		this.isReadOnly = isReadOnly;
 	}

@@ -44,6 +44,7 @@ public class Maps
 	 * Prevents the construction of {@link Maps}.
 	 */
 	protected Maps() {
+		super();
 	}
 
 

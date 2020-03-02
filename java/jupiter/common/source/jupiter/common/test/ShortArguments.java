@@ -34,6 +34,7 @@ public class ShortArguments
 	 * Prevents the construction of {@link ShortArguments}.
 	 */
 	protected ShortArguments() {
+		super();
 	}
 
 

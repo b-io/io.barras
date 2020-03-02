@@ -156,6 +156,8 @@ public class Table<E>
 		elements = createArray2D(rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link Table} of element type {@code E} with the specified elements.
 	 * <p>
@@ -199,6 +201,8 @@ public class Table<E>
 		this.header = header;
 		this.elements = elements;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link Table} of element type {@code E} loaded from the file denoted by the

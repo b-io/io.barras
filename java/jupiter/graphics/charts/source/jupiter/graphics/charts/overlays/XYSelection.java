@@ -108,7 +108,7 @@ public class XYSelection
 	 * @param formats the {@link XY} of {@link Format}
 	 */
 	public XYSelection(final XY<Format> formats) {
-		this(formats, DEFAULT_RADIUS, true);
+		this(formats, DEFAULT_RADIUS);
 	}
 
 	/**

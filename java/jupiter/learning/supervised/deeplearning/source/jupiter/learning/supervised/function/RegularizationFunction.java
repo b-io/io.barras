@@ -67,7 +67,6 @@ public abstract class RegularizationFunction
 	 * @param lambda the hyper-parameter {@code λ}
 	 */
 	protected RegularizationFunction(final double lambda) {
-		super();
 		this.lambda = lambda;
 	}
 

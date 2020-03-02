@@ -69,6 +69,8 @@ public class IntegerTable
 		super(Integer.class, header, rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs an {@link IntegerTable} with the specified {@code int} values.
 	 * <p>
@@ -106,6 +108,8 @@ public class IntegerTable
 	public IntegerTable(final String[] header, final Integer[]... elements) {
 		super(Integer.class, header, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs an {@link IntegerTable} loaded from the file denoted by the specified path.

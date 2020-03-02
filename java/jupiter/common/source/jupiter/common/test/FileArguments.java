@@ -36,6 +36,7 @@ public class FileArguments
 	 * Prevents the construction of {@link FileArguments}.
 	 */
 	protected FileArguments() {
+		super();
 	}
 
 

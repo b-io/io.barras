@@ -36,6 +36,7 @@ public class Sets
 	 * Prevents the construction of {@link Sets}.
 	 */
 	protected Sets() {
+		super();
 	}
 
 

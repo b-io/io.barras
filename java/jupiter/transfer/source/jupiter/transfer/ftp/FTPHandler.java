@@ -128,6 +128,8 @@ public class FTPHandler
 	public FTPHandler() {
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
 	 * password, path to the remote directory and path to the local directory.
@@ -191,7 +193,7 @@ public class FTPHandler
 		this.fileNames = fileNames;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link FTPHandler} loaded from the specified {@link Properties} containing the

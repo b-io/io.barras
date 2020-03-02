@@ -69,6 +69,8 @@ public class FloatTable
 		super(Float.class, header, rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link FloatTable} with the specified {@code float} values.
 	 * <p>
@@ -106,6 +108,8 @@ public class FloatTable
 	public FloatTable(final String[] header, final Float[]... elements) {
 		super(Float.class, header, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link FloatTable} loaded from the file denoted by the specified path.

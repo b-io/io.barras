@@ -173,7 +173,7 @@ public class IO
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel) {
-		this(stackIndex, severityLevel, Arrays.<IOHandler>asList(DEFAULT_CONSOLE_HANDLER));
+		this(stackIndex, severityLevel, DEFAULT_CONSOLE_HANDLER, DEFAULT_LOG_HANDLER);
 	}
 
 	/**
@@ -186,8 +186,7 @@ public class IO
 	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler) {
-		this(stackIndex, severityLevel,
-				Arrays.<IOHandler>asList(consoleHandler, DEFAULT_LOG_HANDLER));
+		this(stackIndex, severityLevel, consoleHandler, DEFAULT_LOG_HANDLER);
 	}
 
 	/**
@@ -200,8 +199,7 @@ public class IO
 	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
 			final LogHandler logHandler) {
-		this(stackIndex, severityLevel,
-				Arrays.<IOHandler>asList(DEFAULT_CONSOLE_HANDLER, logHandler));
+		this(stackIndex, severityLevel, DEFAULT_CONSOLE_HANDLER, logHandler);
 	}
 
 	/**

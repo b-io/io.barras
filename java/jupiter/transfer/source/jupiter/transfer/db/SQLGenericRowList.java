@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.lang.r;
+package jupiter.transfer.db;
 
-import jupiter.common.thread.WorkQueue;
-import jupiter.common.thread.Worker;
-import jupiter.lang.r.R.RPrinter;
+import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
-public class RWorker
-		extends Worker<String[], Integer> {
+public class SQLGenericRowList
+		extends ExtendedList<SQLGenericRow> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -45,9 +45,9 @@ public class RWorker
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link RPrinter}.
+	 * The header.
 	 */
-	protected final RPrinter printer;
+	public String[] header;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,46 +55,26 @@ public class RWorker
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RWorker} by default.
-	 */
-	public RWorker() {
-		this(R.DEFAULT_PRINTER);
-	}
-
-	/**
-	 * Constructs a {@link RWorker} with the specified {@link RPrinter}.
+	 * Constructs an empty {@link SQLGenericRowList} by default.
 	 * <p>
-	 * @param printer the {@link RPrinter}
+	 * @param header an array of {@link String}
 	 */
-	public RWorker(final RPrinter printer) {
+	public SQLGenericRowList(final String[] header) {
 		super();
-		this.printer = printer;
+		this.header = header;
 	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@link WorkQueue}.
+	 * Constructs a {@link SQLGenericRowList} with the specified initial capacity and header.
 	 * <p>
-	 * @param workQueue a {@link WorkQueue} of array of {@link String} and {@link Integer}
+	 * @param initialCapacity the initial capacity
+	 * @param header          an array of {@link String}
+	 * <p>
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
-	@Override
-	public void setWorkQueue(final WorkQueue<String[], Integer> workQueue) {
-		super.setWorkQueue(workQueue);
-		printer.setWorkQueueToMonitor(workQueue);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Integer call(final String[] script) {
-		return R.executeScript(printer, script);
+	public SQLGenericRowList(final int initialCapacity, final String[] header) {
+		super(initialCapacity);
+		this.header = header;
 	}
 
 
@@ -110,7 +90,13 @@ public class RWorker
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public RWorker clone() {
-		return new RWorker(printer);
+	public SQLGenericRowList clone() {
+		try {
+			final SQLGenericRowList clone = (SQLGenericRowList) super.clone();
+			clone.header = Objects.clone(header);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Strings.toString(ex), ex);
+		}
 	}
 }

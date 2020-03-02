@@ -70,6 +70,8 @@ public class CharacterTable
 		super(Character.class, header, rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link CharacterTable} with the specified {@code char} values.
 	 * <p>
@@ -107,6 +109,8 @@ public class CharacterTable
 	public CharacterTable(final String[] header, final Character[]... elements) {
 		super(Character.class, header, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link CharacterTable} loaded from the file denoted by the specified path.

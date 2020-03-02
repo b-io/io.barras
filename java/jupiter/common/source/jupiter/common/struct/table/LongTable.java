@@ -69,6 +69,8 @@ public class LongTable
 		super(Long.class, header, rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link LongTable} with the specified {@code long} values.
 	 * <p>
@@ -106,6 +108,8 @@ public class LongTable
 	public LongTable(final String[] header, final Long[]... elements) {
 		super(Long.class, header, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link LongTable} loaded from the file denoted by the specified path.

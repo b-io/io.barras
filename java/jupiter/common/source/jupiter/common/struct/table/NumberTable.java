@@ -79,6 +79,8 @@ public class NumberTable<E extends Number>
 		super(c, header, rowCount, columnCount);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link NumberTable} of element {@link Number} type {@code E} with the specified
 	 * elements.
@@ -101,6 +103,8 @@ public class NumberTable<E extends Number>
 	public NumberTable(final Class<E> c, final String[] header, final E[][] elements) {
 		super(c, header, elements);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link NumberTable} of element {@link Number} type {@code E} loaded from the

@@ -34,6 +34,7 @@ public class ByteArguments
 	 * Prevents the construction of {@link ByteArguments}.
 	 */
 	protected ByteArguments() {
+		super();
 	}
 
 

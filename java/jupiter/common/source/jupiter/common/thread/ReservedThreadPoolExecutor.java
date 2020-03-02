@@ -82,8 +82,7 @@ public class ReservedThreadPoolExecutor
 	 * @param poolSize the pool size
 	 */
 	public ReservedThreadPoolExecutor(final int poolSize) {
-		super(poolSize, poolSize, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
-		maxPoolSize = poolSize;
+		this(poolSize, poolSize, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 	}
 
 	/**
@@ -101,6 +100,8 @@ public class ReservedThreadPoolExecutor
 		super(poolSize, maxPoolSize, keepAliveTime, unit, workQueue);
 		this.maxPoolSize = maxPoolSize;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
