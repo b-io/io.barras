@@ -62,6 +62,8 @@ public class ExtendedLinkedList<E>
 		super();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs an {@link ExtendedLinkedList} of element type {@code E} with the specified
 	 * elements.
@@ -77,14 +79,14 @@ public class ExtendedLinkedList<E>
 
 	/**
 	 * Constructs an {@link ExtendedLinkedList} of element type {@code E} with the specified
-	 * {@link Collection} of element subtype {@code E}.
+	 * elements in a {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection} of element subtype {@code E}
+	 * @param elements a {@link Collection} of element subtype {@code E}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
-	public ExtendedLinkedList(final Collection<? extends E> collection) {
-		super(collection);
+	public ExtendedLinkedList(final Collection<? extends E> elements) {
+		super(elements);
 	}
 
 
@@ -102,15 +104,15 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
-	 * Returns the middle.
+	 * Returns the middle element.
 	 * <p>
-	 * @return the middle
+	 * @return the middle element
 	 */
 	public E getMiddle() {
 		// Check the arguments
 		CollectionArguments.requireNotEmpty(this);
 
-		// Get the middle
+		// Get the middle element
 		return get(Integers.middle(size()));
 	}
 

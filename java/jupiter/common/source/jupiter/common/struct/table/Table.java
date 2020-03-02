@@ -82,7 +82,7 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The class of the elements.
+	 * The {@link Class} of element type {@code E}.
 	 */
 	protected Class<E> c;
 	/**
@@ -295,12 +295,12 @@ public class Table<E>
 		}
 
 		// Get the column index
-		final int columnIndex = Arrays.<String>findFirstIndex(header, name);
-		if (columnIndex < 0) {
+		final int j = Arrays.<String>findFirstIndex(header, name);
+		if (j < 0) {
 			throw new IllegalArgumentException(
 					Strings.join("There is no column ", Strings.quote(name)));
 		}
-		return columnIndex;
+		return j;
 	}
 
 	/**
@@ -428,6 +428,8 @@ public class Table<E>
 	 * @param name the column name
 	 * <p>
 	 * @return the elements of the specified column
+	 * <p>
+	 * @throws IllegalOperationException if there is no header
 	 */
 	public E[] getColumn(final String name) {
 		return getColumn(name, 0, m);

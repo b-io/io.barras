@@ -50,6 +50,8 @@ import java.sql.Timestamp;
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.list.row.Row;
+import jupiter.common.struct.list.row.RowList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.time.Dates;
@@ -451,12 +453,12 @@ public class SQL {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedList<SQLGenericRow> execute(final Connection connection,
+	public static RowList execute(final Connection connection,
 			final String query) {
 		return executeWith(connection, query, Objects.EMPTY_ARRAY);
 	}
 
-	public static ExtendedList<SQLGenericRow> executeWith(final Connection connection,
+	public static RowList executeWith(final Connection connection,
 			final String query, final Object... parameters) {
 		// Check the arguments
 		Arguments.requireNotNull(connection, "connection");
@@ -483,15 +485,15 @@ public class SQL {
 				}
 			}
 		}
-		return new ExtendedList<SQLGenericRow>();
+		return new RowList();
 	}
 
-	public static ExtendedList<SQLGenericRow> execute(final PreparedStatement statement)
+	public static RowList execute(final PreparedStatement statement)
 			throws SQLException {
 		return executeWith(statement, Objects.EMPTY_ARRAY);
 	}
 
-	public static ExtendedList<SQLGenericRow> executeWith(final PreparedStatement statement,
+	public static RowList executeWith(final PreparedStatement statement,
 			final Object... parameters)
 			throws SQLException {
 		// Check the arguments
@@ -503,24 +505,24 @@ public class SQL {
 		}
 		// Execute the SQL query
 		final ResultSet resultSet = statement.executeQuery();
-		// Get the columns of the result
+		// Get the header of the result
 		final ResultSetMetaData metaData = resultSet.getMetaData();
 		final int n = metaData.getColumnCount();
-		final String[] columns = new String[n];
+		final String[] header = new String[n];
 		for (int i = 1; i <= n; ++i) {
-			columns[i - 1] = metaData.getColumnName(i);
+			header[i - 1] = metaData.getColumnName(i);
 		}
 		// Store the result
-		final ExtendedList<SQLGenericRow> rows = new ExtendedList<SQLGenericRow>();
+		final RowList rowList = new RowList(header);
 		while (resultSet.next()) {
 			final Object[] values = new Object[n];
 			for (int i = 0; i < n; ++i) {
-				values[i] = resultSet.getObject(columns[i]);
+				values[i] = resultSet.getObject(header[i]);
 			}
-			rows.add(new SQLGenericRow(columns, values));
+			rowList.add(new Row(header, values));
 		}
 		// Return the result
-		return rows;
+		return rowList;
 	}
 
 	//////////////////////////////////////////////
@@ -607,7 +609,7 @@ public class SQL {
 
 	//////////////////////////////////////////////
 
-	public static ExtendedList<SQLGenericRow> executeStoredProcedure(final Connection connection,
+	public static RowList executeStoredProcedure(final Connection connection,
 			final String name, final Object... parameters) {
 		// Check the arguments
 		Arguments.requireNotNull(parameters, "parameters");
@@ -619,7 +621,7 @@ public class SQL {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedList<SQLGenericRow> select(final Connection connection,
+	public static RowList select(final Connection connection,
 			final String query) {
 		return execute(connection, query);
 	}
@@ -634,7 +636,7 @@ public class SQL {
 	 * @return the rows of the specified table in an {@link ExtendedList} using the specified
 	 *         {@link Connection}
 	 */
-	public static ExtendedList<SQLGenericRow> selectWith(final Connection connection,
+	public static RowList selectWith(final Connection connection,
 			final String table) {
 		return selectWith(connection, table, null, null, null);
 	}
@@ -650,7 +652,7 @@ public class SQL {
 	 * @return the specified columns of the rows of the specified table in an {@link ExtendedList}
 	 *         using the specified {@link Connection}
 	 */
-	public static ExtendedList<SQLGenericRow> selectWith(final Connection connection,
+	public static RowList selectWith(final Connection connection,
 			final String table, final String[] columns) {
 		return selectWith(connection, table, columns, null, null);
 	}
@@ -670,7 +672,7 @@ public class SQL {
 	 *         conditional columns are equal to the conditional values in an {@link ExtendedList}
 	 *         using the specified {@link Connection}
 	 */
-	public static ExtendedList<SQLGenericRow> selectWith(final Connection connection,
+	public static RowList selectWith(final Connection connection,
 			final String table, final String[] columns, final String[] conditionalColumns,
 			final Object... conditionalValues) {
 		// Check the arguments
@@ -685,17 +687,17 @@ public class SQL {
 				conditionalValues);
 	}
 
-	public static ExtendedList<SQLGenericRow> selectWith(final Connection connection,
+	public static RowList selectWith(final Connection connection,
 			final String query, final Object... parameters) {
 		return executeWith(connection, query, parameters);
 	}
 
-	public static ExtendedList<SQLGenericRow> select(final PreparedStatement statement)
+	public static RowList select(final PreparedStatement statement)
 			throws SQLException {
 		return execute(statement);
 	}
 
-	public static ExtendedList<SQLGenericRow> selectWith(final PreparedStatement statement,
+	public static RowList selectWith(final PreparedStatement statement,
 			final Object... parameters)
 			throws SQLException {
 		return executeWith(statement, parameters);

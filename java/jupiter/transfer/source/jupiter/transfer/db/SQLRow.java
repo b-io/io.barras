@@ -59,7 +59,7 @@ public abstract class SQLRow {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Constructor} of {@code this}.
+	 * The {@link Constructor} of {@code this} (subtype of {@link SQLRow}).
 	 */
 	protected Constructor<? extends SQLRow> constructor;
 

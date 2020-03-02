@@ -24,21 +24,14 @@
 package jupiter.common.struct.list;
 
 import java.util.Collection;
-import java.util.LinkedList;
-
-import jupiter.common.model.ICloneable;
-import jupiter.common.test.CollectionArguments;
-import jupiter.common.util.Collections;
-import jupiter.common.util.Integers;
 
 /**
- * {@link SortedList} extends {@link LinkedList} of element type {@code E}.
+ * {@link SortedList} extends {@link ExtendedLinkedList} of element type {@code E}.
  * <p>
  * @param <E> the self element {@link Comparable} type of the {@link SortedList}
  */
 public class SortedList<E extends Comparable<E>>
-		extends LinkedList<E>
-		implements ICloneable<SortedList<E>> {
+		extends ExtendedLinkedList<E> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -61,80 +54,30 @@ public class SortedList<E extends Comparable<E>>
 		super();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Constructs a {@link SortedList} of element type {@code E} with the specified
-	 * {@link Collection} of element subtype {@code E}.
+	 * Constructs a {@link SortedList} of element type {@code E} with the specified elements.
 	 * <p>
-	 * @param collection a {@link Collection} of element subtype {@code E}
+	 * @param elements an {@code E} array
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
-	public SortedList(final Collection<? extends E> collection) {
-		super(collection);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the element {@link Class}.
-	 * <p>
-	 * @return the element {@link Class}
-	 */
-	public Class<E> getElementClass() {
-		return Collections.getElementClass(this);
-	}
-
-	public E getMiddle() {
-		// Check the arguments
-		CollectionArguments.requireNotEmpty(this);
-
-		// Get the middle
-		return get(Integers.middle(size()));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public synchronized E set(final int index, final E element) {
-		return super.set(index, element);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONVERTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns an array containing all of the elements in {@code this} in proper sequence (from
-	 * first to last element), or an empty array if {@code this} is empty.
-	 * <p>
-	 * @return an array containing all of the elements in {@code this} in proper sequence (from
-	 *         first to last element), or an empty array if {@code this} is empty
-	 *
-	 * @see LinkedList#toArray
-	 */
-	@Override
-	public Object[] toArray() {
-		return Collections.toArray(this);
+	@SuppressWarnings("unchecked")
+	public SortedList(final E... elements) {
+		super(elements);
 	}
 
 	/**
-	 * Returns a primitive array containing all of the elements in {@code this} in proper sequence
-	 * (from first to last element), or {@code null} if {@code this} is empty.
+	 * Constructs a {@link SortedList} of element type {@code E} with the specified elements in a
+	 * {@link Collection}.
 	 * <p>
-	 * @return a primitive array containing all of the elements in {@code this} in proper sequence
-	 *         (from first to last element), or {@code null} if {@code this} is empty
-	 *
-	 * @see LinkedList#toArray
+	 * @param elements a {@link Collection} of element subtype {@code E}
+	 * <p>
+	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
-	public Object toPrimitiveArray() {
-		return Collections.toPrimitiveArray(this);
+	public SortedList(final Collection<? extends E> elements) {
+		super(elements);
 	}
 
 
@@ -156,62 +99,6 @@ public class SortedList<E extends Comparable<E>>
 		return true;
 	}
 
-	@Override
-	public synchronized void add(final int index, final E element) {
-		super.add(index, element);
-	}
-
-	public synchronized <T extends E> boolean addAll(final T[] array) {
-		for (final E element : array) {
-			add(element);
-		}
-		return true;
-	}
-
-	@Override
-	public synchronized boolean addAll(final Collection<? extends E> collection) {
-		for (final E element : collection) {
-			add(element);
-		}
-		return true;
-	}
-
-	@Override
-	public synchronized boolean addAll(final int index, final Collection<? extends E> collection) {
-		return addAll(collection);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public synchronized E remove(final int index) {
-		return super.remove(index);
-	}
-
-	@Override
-	public synchronized boolean remove(final Object object) {
-		return super.remove(object);
-	}
-
-	@Override
-	public synchronized boolean removeAll(final Collection<?> collection) {
-		return super.removeAll(collection);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public synchronized boolean retainAll(final Collection<?> collection) {
-		return super.retainAll(collection);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public synchronized void clear() {
-		super.clear();
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
@@ -228,17 +115,5 @@ public class SortedList<E extends Comparable<E>>
 	@SuppressWarnings("unchecked")
 	public SortedList<E> clone() {
 		return (SortedList<E>) super.clone();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
-	 * @return a representative {@link String} of {@code this}
-	 */
-	@Override
-	public String toString() {
-		return Collections.toString(this);
 	}
 }

@@ -83,7 +83,8 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * Constructs a {@link ComparableTreeMap} of types {@code K}, {@code V} and {@code N} loaded
 	 * from the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
+	 *            {@code V} to load
 	 */
 	protected ComparableTreeMap(final Map<? extends K, ? extends V> map) {
 		super();
@@ -244,7 +245,8 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to put
+	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
+	 *            {@code V} to put
 	 * <p>
 	 * @throws ClassCastException   if the {@code map} type prevents it from being stored in
 	 *                              {@code this}

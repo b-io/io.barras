@@ -94,7 +94,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of type {@code K}
-	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
+	 *            {@code V} to load
 	 */
 	protected TreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
 		super();
@@ -121,8 +122,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * mappings .
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
-	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
-	 *                      mappings to load
+	 * @param map           the {@link Map} containing the key-value mappings of subtypes {@code K}
+	 *                      and {@code V} to load
 	 */
 	protected TreeMap(final Comparator<? super K> keyComparator,
 			final Map<? extends K, ? extends V> map) {
@@ -296,7 +297,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to put
+	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
+	 *            {@code V} to put
 	 * <p>
 	 * @throws ClassCastException   if the {@code map} type prevents it from being stored in
 	 *                              {@code this}

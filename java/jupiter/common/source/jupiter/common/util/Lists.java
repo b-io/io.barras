@@ -92,15 +92,14 @@ public class Lists
 	 * Removes the first occurrence of the specified {@link Object} from the specified {@link List}
 	 * and returns the index of the removed element, or {@code -1} if it is not present.
 	 * <p>
-	 * @param <L>    the {@link List} type
-	 * @param <E>    the element type of the {@link List}
-	 * @param list   a {@link List} of element type {@code E}
+	 * @param <E>    the element subtype of the {@link List}
+	 * @param list   a {@link List} of element subtype {@code E}
 	 * @param object the {@link Object} to remove
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
-	public static <L extends List<E>, E> int removeFirst(final L list, final Object object) {
-		final Iterator<E> iterator = list.iterator();
+	public static <E> int removeFirst(final List<? extends E> list, final Object object) {
+		final Iterator<? extends E> iterator = list.iterator();
 		int index = 0;
 		while (iterator.hasNext()) {
 			if (Objects.equals(iterator.next(), object)) {

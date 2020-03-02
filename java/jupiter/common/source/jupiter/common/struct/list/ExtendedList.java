@@ -75,6 +75,8 @@ public class ExtendedList<E>
 		super(initialCapacity);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Constructs an {@link ExtendedList} of element type {@code E} with the specified elements.
 	 * <p>
@@ -89,15 +91,15 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedList} of element type {@code E} with the specified
-	 * {@link Collection} of element subtype {@code E}.
+	 * Constructs an {@link ExtendedList} of element type {@code E} with the specified elements in a
+	 * {@link Collection}.
 	 * <p>
-	 * @param collection a {@link Collection} of element subtype {@code E}
+	 * @param elements a {@link Collection} of element subtype {@code E}
 	 * <p>
 	 * @throws NullPointerException if {@code collection} is {@code null}
 	 */
-	public ExtendedList(final Collection<? extends E> collection) {
-		super(collection);
+	public ExtendedList(final Collection<? extends E> elements) {
+		super(elements);
 	}
 
 
@@ -114,17 +116,45 @@ public class ExtendedList<E>
 		return Collections.getElementClass(this);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Returns the middle.
+	 * Returns the first element.
 	 * <p>
-	 * @return the middle
+	 * @return the first element
+	 */
+	public E getFirst() {
+		// Check the arguments
+		CollectionArguments.requireNotEmpty(this);
+
+		// Get the first element
+		return get(0);
+	}
+
+	/**
+	 * Returns the middle element.
+	 * <p>
+	 * @return the middle element
 	 */
 	public E getMiddle() {
 		// Check the arguments
 		CollectionArguments.requireNotEmpty(this);
 
-		// Get the middle
+		// Get the middle element
 		return get(Integers.middle(size()));
+	}
+
+	/**
+	 * Returns the last element.
+	 * <p>
+	 * @return the last element
+	 */
+	public E getLast() {
+		// Check the arguments
+		CollectionArguments.requireNotEmpty(this);
+
+		// Get the last element
+		return get(size() - 1);
 	}
 
 

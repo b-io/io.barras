@@ -81,7 +81,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * the specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of type {@code K}
-	 * @param map the {@link Map} containing the {@code K} and {@code V} key-value mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
+	 *            {@code V} to load
 	 */
 	protected BinaryTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
 		super(c, map);
@@ -105,8 +106,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * key-value mappings .
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
-	 * @param map           the {@link Map} containing the {@code K} and {@code V} key-value
-	 *                      mappings to load
+	 * @param map           the {@link Map} containing the key-value mappings of subtypes {@code K}
+	 *                      and {@code V} to load
 	 */
 	protected BinaryTreeMap(final Comparator<? super K> keyComparator,
 			final Map<? extends K, ? extends V> map) {

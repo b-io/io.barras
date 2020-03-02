@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.transfer.db;
+package jupiter.common.struct.list.row;
 
 import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
@@ -33,8 +33,8 @@ import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class SQLGenericRow
-		implements ICloneable<SQLGenericRow>, Serializable {
+public class Row
+		implements ICloneable<Row>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -65,12 +65,12 @@ public class SQLGenericRow
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SQLGenericRow} with the specified header and elements.
+	 * Constructs a {@link Row} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements an array of {@link Object}
 	 */
-	public SQLGenericRow(final String[] header, final Object[] elements) {
+	public Row(final String[] header, final Object[] elements) {
 		this.header = header;
 		this.elements = elements;
 	}
@@ -88,9 +88,9 @@ public class SQLGenericRow
 	 * @see jupiter.common.model.ICloneable
 	 */
 	@Override
-	public SQLGenericRow clone() {
+	public Row clone() {
 		try {
-			final SQLGenericRow clone = (SQLGenericRow) super.clone();
+			final Row clone = (Row) super.clone();
 			clone.header = Objects.clone(header);
 			clone.elements = Objects.clone(elements);
 			return clone;
