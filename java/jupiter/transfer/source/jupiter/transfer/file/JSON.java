@@ -58,7 +58,7 @@ public class JSON {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link JSON}.
+	 * Prevents the construction of {@link JSON}.
 	 */
 	protected JSON() {
 	}
