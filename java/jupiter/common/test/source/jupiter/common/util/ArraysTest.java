@@ -55,7 +55,7 @@ public class ArraysTest
 	public void testGetElementClass() {
 		IO.test(BULLET, " getElementClass");
 
-		assertEquals(Number.class, Arrays.getElementClass(null, Integer.class, Double.class));
+		assertEquals(Number.class, Arrays.getElementClass(null, 1, 1.));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

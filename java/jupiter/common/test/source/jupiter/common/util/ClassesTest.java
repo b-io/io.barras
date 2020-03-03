@@ -43,6 +43,7 @@ public class ClassesTest
 	public void testGetCommonAncestor() {
 		IO.test(BULLET, " getCommonAncestor");
 
-		assertEquals(Number.class, Classes.getCommonAncestor(Integer.class, Double.class));
+		assertEquals(Number.class, Classes.getCommonAncestor(Byte.class, Short.class, Integer.class,
+				Long.class, Float.class, Double.class));
 	}
 }
