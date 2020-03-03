@@ -69,15 +69,40 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> Class<?> getComponentClass(final T[] array) {
-		return array.getClass().getComponentType();
+		return Classes.get(array).getComponentType();
 	}
 
 	public static <T> Class<?> getComponentClass2D(final T[] array) {
-		return array.getClass().getComponentType().getComponentType();
+		return getComponentClass(array).getComponentType();
 	}
 
 	public static <T> Class<?> getComponentClass3D(final T[] array) {
-		return array.getClass().getComponentType().getComponentType().getComponentType();
+		return getComponentClass2D(array).getComponentType();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the element {@link Class} of the specified array, or {@code null} if it is empty or
+	 * contains only {@code null} elements.
+	 * <p>
+	 * @param array an array of {@link Object} (may be {@code null})
+	 * <p>
+	 * @return the element {@link Class} of the specified array, or {@code null} if it is empty or
+	 *         contains only {@code null} elements
+	 */
+	public static Class<?> getElementClass(final Object... array) {
+		// Check the arguments
+		if (isNullOrEmpty(array)) {
+			return null;
+		}
+
+		// Get the element class of the array (common ancestor of the classes)
+		Class<?> c = Classes.get(array[0]);
+		for (int i = 1; i < array.length; ++i) {
+			c = Classes.getCommonAncestor(c, Classes.get(array[i]));
+		}
+		return c;
 	}
 
 
@@ -279,7 +304,7 @@ public class Arrays {
 	@SuppressWarnings("unchecked")
 	public static <T> T[][] create(final Class<T> c, final int rowCount, final int columnCount) {
 		final T[] array = create(c, columnCount);
-		final T[][] array2D = (T[][]) Array.newInstance(array.getClass(), rowCount);
+		final T[][] array2D = (T[][]) Array.newInstance(Classes.get(array), rowCount);
 		if (columnCount > 0) {
 			array2D[0] = array;
 			for (int i = 1; i < rowCount; ++i) {
@@ -293,7 +318,7 @@ public class Arrays {
 	public static <T> T[][][] create(final Class<T> c, final int rowCount, final int columnCount,
 			final int depthCount) {
 		final T[][] array2D = create(c, columnCount, depthCount);
-		final T[][][] array3D = (T[][][]) Array.newInstance(array2D.getClass(), rowCount);
+		final T[][][] array3D = (T[][][]) Array.newInstance(Classes.get(array2D), rowCount);
 		if (depthCount > 0) {
 			array3D[0] = array2D;
 			for (int i = 1; i < depthCount; ++i) {
@@ -331,7 +356,7 @@ public class Arrays {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[] repeat(final T element, final int length) {
-		return fill((T[]) create(element.getClass(), length), element);
+		return fill((T[]) create(Classes.get(element), length), element);
 	}
 
 
@@ -449,7 +474,7 @@ public class Arrays {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[][] filterAll(final T[] array, final int[]... indexes) {
-		final T[][] filteredArrays = (T[][]) create(array.getClass(), indexes.length);
+		final T[][] filteredArrays = (T[][]) create(Classes.get(array), indexes.length);
 		for (int i = 0; i < indexes.length; ++i) {
 			filteredArrays[i] = filter(array, indexes[i]);
 		}
@@ -1053,7 +1078,7 @@ public class Arrays {
 	 *         otherwise
 	 */
 	public static boolean is(final Object object) {
-		return isFrom(object.getClass());
+		return isFrom(Classes.get(object));
 	}
 
 	/**

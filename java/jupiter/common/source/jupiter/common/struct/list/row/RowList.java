@@ -30,6 +30,7 @@ import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Strings;
 
 /**
@@ -148,19 +149,26 @@ public class RowList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element {@link Class} of the specified column.
+	 * Returns the element {@link Class} of the specified column, or {@code null} if it is empty or
+	 * contains only {@code null} elements.
 	 * <p>
 	 * @param j the column index
 	 * <p>
-	 * @return the element {@link Class} of the specified column
+	 * @return the element {@link Class} of the specified column, or {@code null} if it is empty or
+	 *         contains only {@code null} elements
 	 */
-	public Class<?> getElementClass(final int j) {
-		for (final Row row : this) {
-			if (row != null && row.elements[j] != null) {
-				return row.elements[j].getClass();
-			}
+	public Class<?> getColumnClass(final int j) {
+		// Check the arguments
+		if (isEmpty()) {
+			return null;
 		}
-		return null;
+
+		// Get the element class of the column (common ancestor of the classes)
+		Class<?> c = Classes.get(get(0).elements[j]);
+		for (int i = 1; i < size(); ++i) {
+			c = Classes.getCommonAncestor(c, Classes.get(get(i).elements[j]));
+		}
+		return c;
 	}
 
 	/**
@@ -452,7 +460,7 @@ public class RowList
 	 * @return an array of the element {@link Class} of the specified column of the specified length
 	 */
 	protected Object[] createArray(final int j, final int length) {
-		return Arrays.create(getElementClass(j), length);
+		return Arrays.create(getColumnClass(j), length);
 	}
 
 

@@ -58,6 +58,7 @@ import jupiter.common.time.Dates;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
@@ -151,7 +152,7 @@ public class SQL {
 		} else if (value instanceof URL) {
 			statement.setURL(index, (URL) value);
 		} else {
-			throw new IllegalClassException(value.getClass());
+			throw new IllegalClassException(Classes.get(value));
 		}
 	}
 

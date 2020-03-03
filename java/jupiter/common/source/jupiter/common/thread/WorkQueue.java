@@ -34,6 +34,7 @@ import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.IntegerArguments;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
@@ -143,7 +144,7 @@ public class WorkQueue<I, O>
 	protected WorkQueue(final Worker<I, O> model, final int minThreadCount,
 			final int maxThreadCount) {
 		this.model = model;
-		c = model.getClass();
+		c = Classes.get(model);
 		this.minThreadCount = minThreadCount;
 		this.maxThreadCount = maxThreadCount;
 	}

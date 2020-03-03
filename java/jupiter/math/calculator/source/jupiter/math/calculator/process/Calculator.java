@@ -41,6 +41,7 @@ import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Result;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.BinaryOperation;
 import jupiter.math.calculator.model.Element;
@@ -138,7 +139,7 @@ public class Calculator
 			} else if (entity instanceof Matrix) {
 				element = new MatrixElement(null, trimmedExpression, (Matrix) entity);
 			} else {
-				return new Result<Entity>(new IllegalClassException(entity.getClass()));
+				return new Result<Entity>(new IllegalClassException(Classes.get(entity)));
 			}
 
 			// Test whether the epression is an assignment
@@ -199,7 +200,7 @@ public class Calculator
 		} else if (tree instanceof UnaryOperation) {
 			return evaluateUnaryOperation((UnaryOperation) tree, context);
 		}
-		return new Result<Entity>(new IllegalClassException(tree.getClass()));
+		return new Result<Entity>(new IllegalClassException(Classes.get(tree)));
 	}
 
 	/**

@@ -59,7 +59,7 @@ public class Objects {
 	 * @return the name of the {@link Class} of the specified {@link Object}, {@code null} otherwise
 	 */
 	public static String getName(final Object object) {
-		return object != null ? getName(object.getClass()) : null;
+		return getName(Classes.get(object));
 	}
 
 	/**
@@ -79,8 +79,8 @@ public class Objects {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean isImmutable(final Object object) {
-		return isClass(object) ||
-				isVoid(object) ||
+		return isVoid(object) ||
+				Classes.is(object) ||
 				Booleans.is(object) ||
 				Characters.is(object) ||
 				Bytes.is(object) ||
@@ -93,8 +93,8 @@ public class Objects {
 	}
 
 	public static boolean isImmutableFrom(final Class<?> c) {
-		return isClassFrom(c) ||
-				isVoidFrom(c) ||
+		return isVoidFrom(c) ||
+				Classes.isFrom(c) ||
 				Booleans.isFrom(c) ||
 				Characters.isFrom(c) ||
 				Bytes.isFrom(c) ||
@@ -106,16 +106,8 @@ public class Objects {
 				Strings.isFrom(c);
 	}
 
-	public static boolean isClass(final Object object) {
-		return object instanceof Class;
-	}
-
-	public static boolean isClassFrom(final Class<?> c) {
-		return Class.class.isAssignableFrom(c);
-	}
-
 	public static boolean isVoid(final Object object) {
-		return isVoidFrom(object.getClass());
+		return isVoidFrom(Classes.get(object));
 	}
 
 	public static boolean isVoidFrom(final Class<?> c) {
@@ -225,7 +217,7 @@ public class Objects {
 			} else if (isImmutable(object)) {
 				return object;
 			}
-			return (T) object.getClass().getMethod("clone").invoke(object);
+			return (T) Classes.get(object).getMethod("clone").invoke(object);
 		} catch (final IllegalAccessException ex) {
 			throw new CloneNotSupportedException(Strings.toString(ex));
 		} catch (final IllegalArgumentException ex) {

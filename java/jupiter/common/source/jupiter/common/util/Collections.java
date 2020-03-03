@@ -66,25 +66,27 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element {@link Class} of the specified {@link Collection}.
+	 * Returns the element {@link Class} of the specified {@link Collection}, or {@code null} if it
+	 * is empty or contains only {@code null} elements.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection}
-	 * @param collection a {@link Collection} of {@code E} element type (may be {@code null})
+	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
-	 * @return the element {@link Class} of the specified {@link Collection}
+	 * @return the element {@link Class} of the specified {@link Collection}, or {@code null} if it
+	 *         is empty or contains only {@code null} elements
 	 */
-	@SuppressWarnings("unchecked")
-	public static <E> Class<E> getElementClass(final Collection<E> collection) {
-		if (isNotEmpty(collection)) {
-			final Iterator<E> iterator = collection.iterator();
-			while (iterator.hasNext()) {
-				final Object element = iterator.next();
-				if (element != null) {
-					return (Class<E>) element.getClass();
-				}
-			}
+	public static Class<?> getElementClass(final Collection<?> collection) {
+		// Check the arguments
+		if (Collections.isNullOrEmpty(collection)) {
+			return null;
 		}
-		return null;
+
+		// Get the element class of the collection (common ancestor of the classes)
+		final Iterator<?> iterator = collection.iterator();
+		Class<?> c = Classes.get(iterator.next());
+		while (iterator.hasNext()) {
+			c = Classes.getCommonAncestor(c, Classes.get(iterator.next()));
+		}
+		return c;
 	}
 
 

@@ -107,11 +107,13 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element {@link Class}.
+	 * Returns the element {@link Class}, or {@code null} if {@code this} is empty or contains only
+	 * {@code null} elements.
 	 * <p>
-	 * @return the element {@link Class}
+	 * @return the element {@link Class}, or {@code null} if {@code this} is empty or contains only
+	 *         {@code null} elements
 	 */
-	public Class<E> getElementClass() {
+	public Class<?> getElementClass() {
 		return Lists.getElementClass(this);
 	}
 

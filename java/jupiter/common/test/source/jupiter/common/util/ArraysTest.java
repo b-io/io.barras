@@ -50,6 +50,17 @@ public class ArraysTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of getElementClass method, of class Arrays.
+	 */
+	public void testGetElementClass() {
+		IO.test(BULLET, " getElementClass");
+
+		assertEquals(Number.class, Arrays.getElementClass(null, Integer.class, Double.class));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Test of filterAll method, of class Arrays.
 	 */
 	public void testFilterAll() {

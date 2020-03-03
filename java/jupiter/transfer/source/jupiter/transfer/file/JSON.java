@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
@@ -83,7 +84,7 @@ public class JSON {
 		}
 
 		// Convert the content to a JSON string
-		final Field[] fields = content.getClass().getDeclaredFields();
+		final Field[] fields = Classes.get(content).getDeclaredFields();
 		final StringBuilder builder = Strings.createBuilder(fields.length *
 				(2 * INITIAL_CAPACITY + 6));
 		int accessibleFieldCount = 0;
@@ -150,7 +151,7 @@ public class JSON {
 			builder.append(COLON);
 		}
 		if (value != null) {
-			final Class<?> c = value.getClass();
+			final Class<?> c = Classes.get(value);
 			if (Arrays.is(value)) {
 				final Object[] array = Arrays.toArray(value);
 				if (array.length == 0 || isLeaf(c.getComponentType())) {
@@ -161,7 +162,7 @@ public class JSON {
 				}
 			} else if (Collections.is(value)) {
 				final Collection<?> collection = (Collection<?>) value;
-				if (collection.isEmpty() || isLeaf(Collections.get(collection, 0).getClass())) {
+				if (collection.isEmpty() || isLeaf(Classes.get(Collections.get(collection, 0)))) {
 					builder.append(Strings.bracketize(
 							Strings.joinWith(collection, JSON_DELIMITER)));
 				} else {
