@@ -921,16 +921,19 @@ public class Bytes {
 	 * Returns the number of occurrences of the specified {@code byte} token in the specified
 	 * {@code byte} array.
 	 * <p>
-	 * @param array a {@code byte} array
+	 * @param array the {@code byte} array to count from (may be {@code null})
 	 * @param token the {@code byte} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code byte} token in the specified
 	 *         {@code byte} array
 	 */
 	public static int count(final byte[] array, final byte token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -939,16 +942,18 @@ public class Bytes {
 	 * Returns the number of occurrences of the specified {@code byte} tokens in the specified
 	 * {@code byte} array.
 	 * <p>
-	 * @param array  a {@code byte} array
-	 * @param tokens the {@code byte} tokens to count
+	 * @param array  the {@code byte} array to count from (may be {@code null})
+	 * @param tokens the {@code byte} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code byte} tokens in the specified
 	 *         {@code byte} array
 	 */
 	public static int count(final byte[] array, final byte[] tokens) {
 		int occurrenceCount = 0;
-		for (final byte token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final byte token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -979,12 +984,14 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code byte} array from the specified {@code byte} array and indexes.
+	 * Returns a {@code byte} array containing all the elements of the specified {@code byte} array
+	 * at the specified indexes.
 	 * <p>
-	 * @param array   a {@code byte} array
+	 * @param array   the {@code byte} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code byte} array from the specified {@code byte} array and indexes
+	 * @return a {@code byte} array containing all the elements of the specified {@code byte} array
+	 *         at the specified indexes
 	 */
 	public static byte[] filter(final byte[] array, final int... indexes) {
 		final byte[] filteredArray = new byte[indexes.length];
@@ -995,14 +1002,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns all the filtered {@code byte} arrays from the specified {@code byte} array and
-	 * indexes.
+	 * Returns a 2D {@code byte} array containing all the elements of the specified {@code byte}
+	 * array at all the specified indexes.
 	 * <p>
-	 * @param array   a {@code byte} array
+	 * @param array   the {@code byte} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code byte} arrays from the specified {@code byte} array and
-	 *         indexes
+	 * @return a 2D {@code byte} array containing all the elements of the specified {@code byte}
+	 *         array at all the specified indexes
 	 */
 	public static byte[][] filterAll(final byte[] array, final int[]... indexes) {
 		final byte[][] filteredArrays = new byte[indexes.length][];
@@ -1476,14 +1483,13 @@ public class Bytes {
 
 	/**
 	 * Compares the specified {@code byte} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code byte} value to compare for order
 	 * @param b the {@code byte} value to compare against for order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final byte a, final byte b) {
 		return a - b;
@@ -1493,14 +1499,13 @@ public class Bytes {
 
 	/**
 	 * Compares the specified {@code byte} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the {@code byte} array to compare for order
-	 * @param b the other {@code byte} array to compare against for order
+	 * @param a the {@code byte} array to compare for order (may be {@code null})
+	 * @param b the other {@code byte} array to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final byte[] a, final byte[] b) {
 		if (a == b) {

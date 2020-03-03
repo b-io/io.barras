@@ -700,16 +700,19 @@ public class Longs {
 	 * Returns the number of occurrences of the specified {@code long} token in the specified
 	 * {@code long} array.
 	 * <p>
-	 * @param array a {@code long} array
+	 * @param array the {@code long} array to count from (may be {@code null})
 	 * @param token the {@code long} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code long} token in the specified
 	 *         {@code long} array
 	 */
 	public static int count(final long[] array, final long token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -718,16 +721,18 @@ public class Longs {
 	 * Returns the number of occurrences of the specified {@code long} tokens in the specified
 	 * {@code long} array.
 	 * <p>
-	 * @param array  a {@code long} array
-	 * @param tokens the {@code long} tokens to count
+	 * @param array  the {@code long} array to count from (may be {@code null})
+	 * @param tokens the {@code long} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code long} tokens in the specified
 	 *         {@code long} array
 	 */
 	public static int count(final long[] array, final long[] tokens) {
 		int occurrenceCount = 0;
-		for (final long token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final long token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -758,12 +763,14 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code long} array from the specified {@code long} array and indexes.
+	 * Returns a {@code long} array containing all the elements of the specified {@code long} array
+	 * at the specified indexes.
 	 * <p>
-	 * @param array   a {@code long} array
+	 * @param array   the {@code long} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code long} array from the specified {@code long} array and indexes
+	 * @return a {@code long} array containing all the elements of the specified {@code long} array
+	 *         at the specified indexes
 	 */
 	public static long[] filter(final long[] array, final int... indexes) {
 		final long[] filteredArray = new long[indexes.length];
@@ -774,14 +781,14 @@ public class Longs {
 	}
 
 	/**
-	 * Returns all the filtered {@code long} arrays from the specified {@code long} array and
-	 * indexes.
+	 * Returns a 2D {@code long} array containing all the elements of the specified {@code long}
+	 * array at all the specified indexes.
 	 * <p>
-	 * @param array   a {@code long} array
+	 * @param array   the {@code long} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code long} arrays from the specified {@code long} array and
-	 *         indexes
+	 * @return a 2D {@code long} array containing all the elements of the specified {@code long}
+	 *         array at all the specified indexes
 	 */
 	public static long[][] filterAll(final long[] array, final int[]... indexes) {
 		final long[][] filteredArrays = new long[indexes.length][];
@@ -1198,14 +1205,13 @@ public class Longs {
 
 	/**
 	 * Compares the specified {@code long} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code long} value to compare for order
 	 * @param b the other {@code long} value to compare against for order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final long a, final long b) {
 		return a < b ? -1 : a == b ? 0 : 1;
@@ -1215,14 +1221,13 @@ public class Longs {
 
 	/**
 	 * Compares the specified {@code long} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the {@code long} array to compare for order
-	 * @param b the other {@code long} array to compare against for order
+	 * @param a the {@code long} array to compare for order (may be {@code null})
+	 * @param b the other {@code long} array to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final long[] a, final long[] b) {
 		if (a == b) {

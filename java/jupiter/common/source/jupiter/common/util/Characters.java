@@ -796,16 +796,19 @@ public class Characters {
 	 * Returns the number of occurrences of the specified {@code char} token in the specified
 	 * {@code char} array.
 	 * <p>
-	 * @param array a {@code char} array
+	 * @param array the {@code char} array to count from (may be {@code null})
 	 * @param token the {@code char} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code char} token in the specified
 	 *         {@code char} array
 	 */
 	public static int count(final char[] array, final char token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -814,16 +817,18 @@ public class Characters {
 	 * Returns the number of occurrences of the specified {@code char} tokens in the specified
 	 * {@code char} array.
 	 * <p>
-	 * @param array  a {@code char} array
-	 * @param tokens the {@code char} tokens to count
+	 * @param array  the {@code char} array to count from (may be {@code null})
+	 * @param tokens the {@code char} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code char} tokens in the specified
 	 *         {@code char} array
 	 */
 	public static int count(final char[] array, final char[] tokens) {
 		int occurrenceCount = 0;
-		for (final char token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final char token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -854,12 +859,14 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code char} array from the specified {@code char} array and indexes.
+	 * Returns a {@code char} array containing all the elements of the specified {@code char} array
+	 * at the specified indexes.
 	 * <p>
-	 * @param array   a {@code char} array
+	 * @param array   the {@code char} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code char} array from the specified {@code char} array and indexes
+	 * @return a {@code char} array containing all the elements of the specified {@code char} array
+	 *         at the specified indexes
 	 */
 	public static char[] filter(final char[] array, final int... indexes) {
 		final char[] filteredArray = new char[indexes.length];
@@ -870,14 +877,14 @@ public class Characters {
 	}
 
 	/**
-	 * Returns all the filtered {@code char} arrays from the specified {@code char} array and
-	 * indexes.
+	 * Returns a 2D {@code char} array containing all the elements of the specified {@code char}
+	 * array at all the specified indexes.
 	 * <p>
-	 * @param array   a {@code char} array
+	 * @param array   the {@code char} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code char} arrays from the specified {@code char} array and
-	 *         indexes
+	 * @return a 2D {@code char} array containing all the elements of the specified {@code char}
+	 *         array at all the specified indexes
 	 */
 	public static char[][] filterAll(final char[] array, final int[]... indexes) {
 		final char[][] filteredArrays = new char[indexes.length][];
@@ -1295,14 +1302,13 @@ public class Characters {
 
 	/**
 	 * Compares the specified {@code char} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code char} value to compare for order
 	 * @param b the other {@code char} value to compare against for order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final char a, final char b) {
 		return a < b ? -1 : a == b ? 0 : 1;
@@ -1312,14 +1318,13 @@ public class Characters {
 
 	/**
 	 * Compares the specified {@code char} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the {@code char} array to compare for order
-	 * @param b the other {@code char} array to compare against for order
+	 * @param a the {@code char} array to compare for order (may be {@code null})
+	 * @param b the other {@code char} array to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final char[] a, final char[] b) {
 		if (a == b) {

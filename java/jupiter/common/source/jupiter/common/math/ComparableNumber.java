@@ -64,7 +64,8 @@ public abstract class ComparableNumber
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against for order
+	 * @param other the other {@link ComparableNumber} to compare against for order (may be
+	 *              {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
@@ -81,7 +82,7 @@ public abstract class ComparableNumber
 	 * Tests whether {@code this} is less than {@code other} (with {@code null} considered as the
 	 * minimum value).
 	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
 	 *         (with {@code null} considered as the minimum value)
@@ -94,7 +95,7 @@ public abstract class ComparableNumber
 	 * Tests whether {@code this} is less or equal to {@code other} (with {@code null} considered as
 	 * the minimum value).
 	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise (with {@code null} considered as the minimum value)
@@ -109,7 +110,7 @@ public abstract class ComparableNumber
 	 * Tests whether {@code this} is greater than {@code other} (with {@code null} considered as the
 	 * minimum value).
 	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 *         (with {@code null} considered as the minimum value)
@@ -122,7 +123,7 @@ public abstract class ComparableNumber
 	 * Tests whether {@code this} is greater or equal to {@code other} (with {@code null} considered
 	 * as the minimum value).
 	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise (with {@code null} considered as the minimum value)
@@ -137,7 +138,7 @@ public abstract class ComparableNumber
 	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * (with {@code null} considered as the minimum value).
 	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 *         (with {@code null} considered as the minimum value)
@@ -150,7 +151,7 @@ public abstract class ComparableNumber
 	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
 	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against
+	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
 	 *         {@code null} considered as the minimum value)
@@ -169,7 +170,7 @@ public abstract class ComparableNumber
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param other the other {@link Number} to compare against for order
+	 * @param other the other {@link Number} to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
 	 *         or greater than {@code other} (with {@code null} considered as the minimum value)
@@ -184,7 +185,7 @@ public abstract class ComparableNumber
 	 * Tests whether {@code this} is less than {@code other} (with {@code null} considered as the
 	 * minimum value).
 	 * <p>
-	 * @param other the other {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
 	 *         (with {@code null} considered as the minimum value)
@@ -197,7 +198,7 @@ public abstract class ComparableNumber
 	 * Tests whether {@code this} is less or equal to {@code other} (with {@code null} considered as
 	 * the minimum value).
 	 * <p>
-	 * @param other the other {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise (with {@code null} considered as the minimum value)
@@ -212,7 +213,7 @@ public abstract class ComparableNumber
 	 * Tests whether {@code this} is greater than {@code other} (with {@code null} considered as the
 	 * minimum value).
 	 * <p>
-	 * @param other the other {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 *         (with {@code null} considered as the minimum value)
@@ -225,7 +226,7 @@ public abstract class ComparableNumber
 	 * Tests whether {@code this} is greater or equal to {@code other} (with {@code null} considered
 	 * as the minimum value).
 	 * <p>
-	 * @param other the other {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise (with {@code null} considered as the minimum value)
@@ -240,7 +241,7 @@ public abstract class ComparableNumber
 	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * (with {@code null} considered as the minimum value).
 	 * <p>
-	 * @param other the other {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 *         (with {@code null} considered as the minimum value)
@@ -253,7 +254,7 @@ public abstract class ComparableNumber
 	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
 	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param other the other {@link Number} to compare against
+	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
 	 *         {@code null} considered as the minimum value)

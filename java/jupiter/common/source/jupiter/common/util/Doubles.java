@@ -723,16 +723,19 @@ public class Doubles {
 	 * Returns the number of occurrences of the specified {@code double} token in the specified
 	 * {@code double} array.
 	 * <p>
-	 * @param array a {@code double} array
+	 * @param array the {@code double} array to count from (may be {@code null})
 	 * @param token the {@code double} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code double} token in the specified
 	 *         {@code double} array
 	 */
 	public static int count(final double[] array, final double token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -741,16 +744,18 @@ public class Doubles {
 	 * Returns the number of occurrences of the specified {@code double} tokens in the specified
 	 * {@code double} array.
 	 * <p>
-	 * @param array  a {@code double} array
-	 * @param tokens the {@code double} tokens to count
+	 * @param array  the {@code double} array to count from (may be {@code null})
+	 * @param tokens the {@code double} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code double} tokens in the specified
 	 *         {@code double} array
 	 */
 	public static int count(final double[] array, final double[] tokens) {
 		int occurrenceCount = 0;
-		for (final double token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final double token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -781,13 +786,14 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code double} array from the specified {@code double} array and
-	 * indexes.
+	 * Returns a {@code double} array containing all the elements of the specified {@code double}
+	 * array at the specified indexes.
 	 * <p>
-	 * @param array   a {@code double} array
+	 * @param array   the {@code double} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code double} array from the specified {@code double} array and indexes
+	 * @return a {@code double} array containing all the elements of the specified {@code double}
+	 *         array at the specified indexes
 	 */
 	public static double[] filter(final double[] array, final int... indexes) {
 		final double[] filteredArray = new double[indexes.length];
@@ -798,14 +804,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns all the filtered {@code double} arrays from the specified {@code double} array and
-	 * indexes.
+	 * Returns a 2D {@code double} array containing all the elements of the specified {@code double}
+	 * array at all the specified indexes.
 	 * <p>
-	 * @param array   a {@code double} array
+	 * @param array   the {@code double} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code double} arrays from the specified {@code double} array and
-	 *         indexes
+	 * @return a 2D {@code double} array containing all the elements of the specified {@code double}
+	 *         array at all the specified indexes
 	 */
 	public static double[][] filterAll(final double[] array, final int[]... indexes) {
 		final double[][] filteredArrays = new double[indexes.length][];
@@ -1225,14 +1231,13 @@ public class Doubles {
 
 	/**
 	 * Compares the specified {@code double} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code double} value to compare for order
 	 * @param b the other {@code double} value to compare against for order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final double a, final double b) {
 		if (a < b) {
@@ -1246,21 +1251,20 @@ public class Doubles {
 		final long bBits = Double.doubleToLongBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-						1; // (0., -0.) or (NaN, !NaN)
+				1; // (0., -0.) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
 
 	/**
 	 * Compares the specified {@code double} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the {@code double} array to compare for order
-	 * @param b the other {@code double} array to compare against for order
+	 * @param a the {@code double} array to compare for order (may be {@code null})
+	 * @param b the other {@code double} array to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final double[] a, final double[] b) {
 		if (a == b) {

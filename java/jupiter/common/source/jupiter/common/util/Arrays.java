@@ -334,7 +334,7 @@ public class Arrays {
 	 * Returns a representative {@link String} of the specified array if it is not {@code null},
 	 * {@code "null"} otherwise.
 	 * <p>
-	 * @param array an array of {@link Object} (may be {@code null})
+	 * @param array the array of {@link Object} to join (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified array if it is not {@code null},
 	 *         {@code "null"} otherwise
@@ -369,16 +369,19 @@ public class Arrays {
 	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to count from
-	 * @param array the {@code T} array to count from
-	 * @param token the {@code T} token to count
+	 * @param array the {@code T} array to count from (may be {@code null})
+	 * @param token the {@code T} token to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code T} token in the specified {@code T}
 	 *         array
 	 */
 	public static <T> int count(final T[] array, final T token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null && token != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -388,16 +391,18 @@ public class Arrays {
 	 * {@code T} array.
 	 * <p>
 	 * @param <T>    the component type of the array to count from
-	 * @param array  the {@code T} array to count from
-	 * @param tokens the {@code T} tokens to count
+	 * @param array  the {@code T} array to count from (may be {@code null})
+	 * @param tokens the {@code T} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code T} tokens in the specified
 	 *         {@code T} array
 	 */
 	public static <T> int count(final T[] array, final T[] tokens) {
 		int occurrenceCount = 0;
-		for (final T token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final T token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -408,16 +413,18 @@ public class Arrays {
 	 * Returns the sum of the lengths of the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the 2D array to count from
-	 * @param array2D the 2D {@code T} array to count from
+	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
 	 * <p>
 	 * @return the sum of the lengths of the specified 2D {@code T} array
 	 */
 	public static <T> int countLength(final T[][] array2D) {
-		int countLength = 0;
-		for (final T[] array : array2D) {
-			countLength += array.length;
+		int length = 0;
+		if (array2D != null) {
+			for (final T[] array : array2D) {
+				length += array.length;
+			}
 		}
-		return countLength;
+		return length;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1361,8 +1368,9 @@ public class Arrays {
 	 * (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} component type of the arrays to compare
-	 * @param a   the array of {@link Comparable} of {@code T} type to compare
-	 * @param b   the other array of {@link Comparable} of {@code T} type to compare against
+	 * @param a   the array of {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other array of {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
@@ -1377,8 +1385,8 @@ public class Arrays {
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the component type of the arrays to compare
-	 * @param a   the {@code T} array to compare
-	 * @param b   the other {@code T} array to compare against
+	 * @param a   the {@code T} array to compare (may be {@code null})
+	 * @param b   the other {@code T} array to compare against (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
@@ -1393,8 +1401,9 @@ public class Arrays {
 	 * (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T>        the component type of the arrays to compare for order
-	 * @param a          the {@code T} array to compare for order
-	 * @param b          the other {@code T} array to compare against for order
+	 * @param a          the {@code T} array to compare for order (may be {@code null})
+	 * @param b          the other {@code T} array to compare against for order (may be
+	 *                   {@code null})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal

@@ -180,8 +180,9 @@ public class Comparables {
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
-	 * @param a   the {@link Comparable} of {@code T} type to compare
-	 * @param b   the other {@link Comparable} of {@code T} type to compare against
+	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
@@ -196,8 +197,8 @@ public class Comparables {
 	 * {@code null} considered as the minimum value)}.
 	 * <p>
 	 * @param <T> the type of the objects to compare
-	 * @param a   the {@code T} object to compare
-	 * @param b   the other {@code T} object to compare against
+	 * @param a   the {@code T} object to compare (may be {@code null})
+	 * @param b   the other {@code T} object to compare against (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
@@ -212,8 +213,8 @@ public class Comparables {
 	 * otherwise (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T>        the type of the objects to compare for order
-	 * @param a          the {@code T} object to compare
-	 * @param b          the other {@code T} object to compare against
+	 * @param a          the {@code T} object to compare (may be {@code null})
+	 * @param b          the other {@code T} object to compare against (may be {@code null})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
@@ -230,8 +231,9 @@ public class Comparables {
 	 * value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
-	 * @param a   the {@link Comparable} of {@code T} type to compare
-	 * @param b   the other {@link Comparable} of {@code T} type to compare against
+	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise (with
 	 *         {@code null} considered as the minimum value)
@@ -245,8 +247,9 @@ public class Comparables {
 	 * minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
-	 * @param a   the {@link Comparable} of {@code T} type to compare
-	 * @param b   the other {@link Comparable} of {@code T} type to compare against
+	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
 	 *         (with {@code null} considered as the minimum value)
@@ -262,8 +265,9 @@ public class Comparables {
 	 * minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
-	 * @param a   the {@link Comparable} of {@code T} type to compare
-	 * @param b   the other {@link Comparable} of {@code T} type to compare against
+	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise (with
 	 *         {@code null} considered as the minimum value)
@@ -277,8 +281,9 @@ public class Comparables {
 	 * minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
-	 * @param a   the {@link Comparable} of {@code T} type to compare
-	 * @param b   the other {@link Comparable} of {@code T} type to compare against
+	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
 	 *         (with {@code null} considered as the minimum value)
@@ -294,8 +299,9 @@ public class Comparables {
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
-	 * @param a   the {@link Comparable} of {@code T} type to compare
-	 * @param b   the other {@link Comparable} of {@code T} type to compare against
+	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
 	 * <p>
 	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
 	 *         {@code null} considered as the minimum value)
@@ -309,8 +315,9 @@ public class Comparables {
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
-	 * @param a   the {@link Comparable} of {@code T} type to compare
-	 * @param b   the other {@link Comparable} of {@code T} type to compare against
+	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
 	 * <p>
 	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
 	 *         {@code null} considered as the minimum value)

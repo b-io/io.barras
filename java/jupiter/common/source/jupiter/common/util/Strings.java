@@ -717,33 +717,51 @@ public class Strings {
 	/**
 	 * Returns the number of lower case characters in the specified {@link String}.
 	 * <p>
-	 * @param text a {@link String}
+	 * @param text the {@link String} to count from (may be {@code null})
 	 * <p>
 	 * @return the number of lower case characters in the specified {@link String}
 	 */
 	public static int countLowerCase(final String text) {
+		// Check the arguments
+		if (text == null) {
+			return 0;
+		}
+
+		// Count the lower case characters in the text
 		return Characters.countLowerCase(text.toCharArray());
 	}
 
 	/**
 	 * Returns the number of upper case characters in the specified {@link String}.
 	 * <p>
-	 * @param text a {@link String}
+	 * @param text the {@link String} to count from (may be {@code null})
 	 * <p>
 	 * @return the number of upper case characters in the specified {@link String}
 	 */
 	public static int countUpperCase(final String text) {
+		// Check the arguments
+		if (text == null) {
+			return 0;
+		}
+
+		// Count the upper case characters in the text
 		return Characters.countUpperCase(text.toCharArray());
 	}
 
 	/**
 	 * Returns the number of title case characters in the specified {@link String}.
 	 * <p>
-	 * @param text a {@link String}
+	 * @param text the {@link String} to count from (may be {@code null})
 	 * <p>
 	 * @return the number of title case characters in the specified {@link String}
 	 */
 	public static int countTitleCase(final String text) {
+		// Check the arguments
+		if (text == null) {
+			return 0;
+		}
+
+		// Count the title case characters in the text
 		return Characters.countTitleCase(text.toCharArray());
 	}
 
@@ -753,13 +771,19 @@ public class Strings {
 	 * Returns the number of occurrences of the specified {@code char} token in the specified
 	 * {@link String}.
 	 * <p>
-	 * @param text  a {@link String}
+	 * @param text  the {@link String} to count from (may be {@code null})
 	 * @param token the {@code char} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code char} token in the specified
 	 *         {@link String}
 	 */
 	public static int count(final String text, final char token) {
+		// Check the arguments
+		if (text == null) {
+			return 0;
+		}
+
+		// Count the token in the text
 		return Characters.count(text.toCharArray(), token);
 	}
 
@@ -767,13 +791,19 @@ public class Strings {
 	 * Returns the number of occurrences of the specified {@code char} tokens in the specified
 	 * {@link String}.
 	 * <p>
-	 * @param text   a {@link String}
-	 * @param tokens the {@code char} tokens to count
+	 * @param text   the {@link String} to count from (may be {@code null})
+	 * @param tokens the {@code char} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code char} tokens in the specified
 	 *         {@link String}
 	 */
 	public static int count(final String text, final char[] tokens) {
+		// Check the arguments
+		if (text == null || tokens == null) {
+			return 0;
+		}
+
+		// Count the tokens in the text
 		return Characters.count(text.toCharArray(), tokens);
 	}
 
@@ -783,8 +813,8 @@ public class Strings {
 	 * Returns the number of occurrences of the specified token {@link String} in the specified
 	 * {@link String}.
 	 * <p>
-	 * @param text  a {@link String} (may be {@code null})
-	 * @param token the token {@link String} to count
+	 * @param text  the {@link String} to count from (may be {@code null})
+	 * @param token the token {@link String} to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified token {@link String} in the specified
 	 *         {@link String}
@@ -804,16 +834,18 @@ public class Strings {
 	 * Returns the number of occurrences of the specified array of token {@link String} in the
 	 * specified {@link String}.
 	 * <p>
-	 * @param text   a {@link String}
-	 * @param tokens the array of token {@link String} to count
+	 * @param text   the {@link String} to count from (may be {@code null})
+	 * @param tokens the array of token {@link String} to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified array of token {@link String} in the
 	 *         specified {@link String}
 	 */
 	public static int countString(final String text, final String[] tokens) {
 		int occurrenceCount = 0;
-		for (final String token : tokens) {
-			occurrenceCount += countString(text, token);
+		if (text != null && tokens != null) {
+			for (final String token : tokens) {
+				occurrenceCount += countString(text, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -4074,8 +4106,9 @@ public class Strings {
 	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
 	 * (with {@code null} considered as the minimum value).
 	 * <p>
-	 * @param a the {@link String} to compare for lexicographic order
-	 * @param b the other {@link String} to compare against for lexicographic order
+	 * @param a the {@link String} to compare for lexicographic order (may be {@code null})
+	 * @param b the other {@link String} to compare against for lexicographic order (may be
+	 *          {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
@@ -4089,8 +4122,9 @@ public class Strings {
 	 * Returns a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 * to or greater than {@code b} (with {@code null} considered as the minimum value).
 	 * <p>
-	 * @param a the {@link String} to compare for lexicographic order
-	 * @param b the other {@link String} to compare against for lexicographic order
+	 * @param a the {@link String} to compare for lexicographic order (may be {@code null})
+	 * @param b the other {@link String} to compare against for lexicographic order (may be
+	 *          {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)

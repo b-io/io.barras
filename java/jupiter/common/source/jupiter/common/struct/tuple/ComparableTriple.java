@@ -74,7 +74,7 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@link ComparablePair} of {@code T1}, {@code T2} and {@code T3}
-	 *              component types to compare against for order
+	 *              component types to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum

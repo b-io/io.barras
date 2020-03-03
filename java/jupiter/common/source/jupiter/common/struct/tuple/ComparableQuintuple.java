@@ -77,7 +77,8 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@link ComparablePair} of {@code T1}, {@code T2}, {@code T3},
-	 *              {@code T4} and {@code T5} component types to compare against for order
+	 *              {@code T4} and {@code T5} component types to compare against for order (may be
+	 *              {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum

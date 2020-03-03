@@ -24,6 +24,7 @@
 package jupiter.common.struct.list;
 
 import java.util.Collection;
+
 import jupiter.common.math.Comparables;
 
 /**

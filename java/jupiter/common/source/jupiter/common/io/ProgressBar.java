@@ -183,7 +183,7 @@ public class ProgressBar
 	 * @return the number of symbols to print
 	 */
 	protected int countSymbols(final double i, final double n) {
-		return Integers.convert(i / n * length);
+		return Integers.convert(length * i / n);
 	}
 
 	/**

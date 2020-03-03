@@ -173,7 +173,8 @@ public class WholeNumber
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against for order
+	 * @param other the other {@link ComparableNumber} to compare against for order (may be
+	 *              {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum

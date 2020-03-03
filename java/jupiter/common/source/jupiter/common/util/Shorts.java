@@ -733,16 +733,19 @@ public class Shorts {
 	 * Returns the number of occurrences of the specified {@code short} token in the specified
 	 * {@code short} array.
 	 * <p>
-	 * @param array a {@code short} array
+	 * @param array the {@code short} array to count from (may be {@code null})
 	 * @param token the {@code short} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code short} token in the specified
 	 *         {@code short} array
 	 */
 	public static int count(final short[] array, final short token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -751,16 +754,18 @@ public class Shorts {
 	 * Returns the number of occurrences of the specified {@code short} tokens in the specified
 	 * {@code short} array.
 	 * <p>
-	 * @param array  a {@code short} array
-	 * @param tokens the {@code short} tokens to count
+	 * @param array  the {@code short} array to count from (may be {@code null})
+	 * @param tokens the {@code short} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code short} tokens in the specified
 	 *         {@code short} array
 	 */
 	public static int count(final short[] array, final short[] tokens) {
 		int occurrenceCount = 0;
-		for (final short token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final short token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -791,12 +796,14 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code short} array from the specified {@code short} array and indexes.
+	 * Returns a {@code short} array containing all the elements of the specified {@code short}
+	 * array at the specified indexes.
 	 * <p>
-	 * @param array   a {@code short} array
+	 * @param array   the {@code short} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code short} array from the specified {@code short} array and indexes
+	 * @return a {@code short} array containing all the elements of the specified {@code short}
+	 *         array at the specified indexes
 	 */
 	public static short[] filter(final short[] array, final int... indexes) {
 		final short[] filteredArray = new short[indexes.length];
@@ -807,14 +814,14 @@ public class Shorts {
 	}
 
 	/**
-	 * Returns all the filtered {@code short} arrays from the specified {@code short} array and
-	 * indexes.
+	 * Returns a 2D {@code short} array containing all the elements of the specified {@code short}
+	 * array at all the specified indexes.
 	 * <p>
-	 * @param array   a {@code short} array
+	 * @param array   the {@code short} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code short} arrays from the specified {@code short} array and
-	 *         indexes
+	 * @return a 2D {@code short} array containing all the elements of the specified {@code short}
+	 *         array at all the specified indexes
 	 */
 	public static short[][] filterAll(final short[] array, final int[]... indexes) {
 		final short[][] filteredArrays = new short[indexes.length][];
@@ -1234,14 +1241,13 @@ public class Shorts {
 
 	/**
 	 * Compares the specified {@code short} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code short} value to compare for order
 	 * @param b the other {@code short} value to compare against for order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final short a, final short b) {
 		return a < b ? -1 : a == b ? 0 : 1;
@@ -1251,14 +1257,13 @@ public class Shorts {
 
 	/**
 	 * Compares the specified {@code short} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the {@code short} array to compare for order
-	 * @param b the other {@code short} array to compare against for order
+	 * @param a the {@code short} array to compare for order (may be {@code null})
+	 * @param b the other {@code short} array to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final short[] a, final short[] b) {
 		if (a == b) {

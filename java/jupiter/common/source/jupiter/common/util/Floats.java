@@ -735,16 +735,19 @@ public class Floats {
 	 * Returns the number of occurrences of the specified {@code float} token in the specified
 	 * {@code float} array.
 	 * <p>
-	 * @param array a {@code float} array
+	 * @param array the {@code float} array to count from (may be {@code null})
 	 * @param token the {@code float} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code float} token in the specified
 	 *         {@code float} array
 	 */
 	public static int count(final float[] array, final float token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -753,16 +756,18 @@ public class Floats {
 	 * Returns the number of occurrences of the specified {@code float} tokens in the specified
 	 * {@code float} array.
 	 * <p>
-	 * @param array  a {@code float} array
-	 * @param tokens the {@code float} tokens to count
+	 * @param array  the {@code float} array to count from (may be {@code null})
+	 * @param tokens the {@code float} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code float} tokens in the specified
 	 *         {@code float} array
 	 */
 	public static int count(final float[] array, final float[] tokens) {
 		int occurrenceCount = 0;
-		for (final float token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final float token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -793,12 +798,14 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code float} array from the specified {@code float} array and indexes.
+	 * Returns a {@code float} array containing all the elements of the specified {@code float}
+	 * array at the specified indexes.
 	 * <p>
-	 * @param array   a {@code float} array
+	 * @param array   the {@code float} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code float} array from the specified {@code float} array and indexes
+	 * @return a {@code float} array containing all the elements of the specified {@code float}
+	 *         array at the specified indexes
 	 */
 	public static float[] filter(final float[] array, final int... indexes) {
 		final float[] filteredArray = new float[indexes.length];
@@ -809,14 +816,14 @@ public class Floats {
 	}
 
 	/**
-	 * Returns all the filtered {@code float} arrays from the specified {@code float} array and
-	 * indexes.
+	 * Returns a 2D {@code float} array containing all the elements of the specified {@code float}
+	 * array at all the specified indexes.
 	 * <p>
-	 * @param array   a {@code float} array
+	 * @param array   the {@code float} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code float} arrays from the specified {@code float} array and
-	 *         indexes
+	 * @return a 2D {@code float} array containing all the elements of the specified {@code float}
+	 *         array at all the specified indexes
 	 */
 	public static float[][] filterAll(final float[] array, final int[]... indexes) {
 		final float[][] filteredArrays = new float[indexes.length][];
@@ -1236,14 +1243,13 @@ public class Floats {
 
 	/**
 	 * Compares the specified {@code float} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code float} value to compare for order
 	 * @param b the other {@code float} value to compare against for order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final float a, final float b) {
 		if (a < b) {
@@ -1257,21 +1263,20 @@ public class Floats {
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-						1; // (0f, -0f) or (NaN, !NaN)
+				1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
 
 	/**
 	 * Compares the specified {@code float} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the {@code float} array to compare for order
-	 * @param b the other {@code float} array to compare against for order
+	 * @param a the {@code float} array to compare for order (may be {@code null})
+	 * @param b the other {@code float} array to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final float[] a, final float[] b) {
 		if (a == b) {

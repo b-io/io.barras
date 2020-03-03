@@ -120,7 +120,8 @@ public class Index<T>
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param other the other {@link Index} of {@code T} type to compare against for order
+	 * @param other the other {@link Index} of {@code T} type to compare against for order (may be
+	 *              {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
@@ -135,8 +136,8 @@ public class Index<T>
 	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param a the {@link Index} to compare for order
-	 * @param b the other {@link Index} to compare against for order
+	 * @param a the {@link Index} to compare for order (may be {@code null})
+	 * @param b the other {@link Index} to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)

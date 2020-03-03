@@ -128,7 +128,7 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@link Entry} of {@code K} and {@code V} types to compare against for
-	 *              order
+	 *              order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum

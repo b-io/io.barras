@@ -582,16 +582,19 @@ public class Booleans {
 	 * Returns the number of occurrences of the specified {@code boolean} token in the specified
 	 * {@code boolean} array.
 	 * <p>
-	 * @param array a {@code boolean} array
+	 * @param array the {@code boolean} array to count from (may be {@code null})
 	 * @param token the {@code boolean} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code boolean} token in the specified
 	 *         {@code boolean} array
 	 */
 	public static int count(final boolean[] array, final boolean token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -600,16 +603,18 @@ public class Booleans {
 	 * Returns the number of occurrences of the specified {@code boolean} tokens in the specified
 	 * {@code boolean} array.
 	 * <p>
-	 * @param array  a {@code boolean} array
-	 * @param tokens the {@code boolean} tokens to count
+	 * @param array  the {@code boolean} array to count from (may be {@code null})
+	 * @param tokens the {@code boolean} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code boolean} tokens in the specified
 	 *         {@code boolean} array
 	 */
 	public static int count(final boolean[] array, final boolean[] tokens) {
 		int occurrenceCount = 0;
-		for (final boolean token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final boolean token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -643,7 +648,7 @@ public class Booleans {
 	 * Returns a {@code boolean} array containing all the elements of the specified {@code boolean}
 	 * array at the specified indexes.
 	 * <p>
-	 * @param array   a {@code boolean} array
+	 * @param array   the {@code boolean} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
 	 * @return a {@code boolean} array containing all the elements of the specified {@code boolean}
@@ -661,7 +666,7 @@ public class Booleans {
 	 * Returns a 2D {@code boolean} array containing all the elements of the specified
 	 * {@code boolean} array at all the specified indexes.
 	 * <p>
-	 * @param array   a {@code boolean} array
+	 * @param array   the {@code boolean} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
 	 * @return a 2D {@code boolean} array containing all the elements of the specified

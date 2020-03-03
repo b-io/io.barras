@@ -193,8 +193,8 @@ public class Numbers {
 	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param a the {@link Number} to compare for order
-	 * @param b the other {@link Number} to compare against for order
+	 * @param a the {@link Number} to compare for order (may be {@code null})
+	 * @param b the other {@link Number} to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
@@ -215,8 +215,8 @@ public class Numbers {
 	 * Tests whether {@code a} is less than {@code b} (with {@code null} considered as the minimum
 	 * value).
 	 * <p>
-	 * @param a the {@link Number} to compare
-	 * @param b the other {@link Number} to compare against
+	 * @param a the {@link Number} to compare (may be {@code null})
+	 * @param b the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise (with
 	 *         {@code null} considered as the minimum value)
@@ -229,8 +229,8 @@ public class Numbers {
 	 * Tests whether {@code a} is less or equal to {@code b} (with {@code null} considered as the
 	 * minimum value).
 	 * <p>
-	 * @param a the {@link Number} to compare
-	 * @param b the other {@link Number} to compare against
+	 * @param a the {@link Number} to compare (may be {@code null})
+	 * @param b the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
 	 *         (with {@code null} considered as the minimum value)
@@ -245,8 +245,8 @@ public class Numbers {
 	 * Tests whether {@code a} is greater than {@code b} (with {@code null} considered as the
 	 * minimum value).
 	 * <p>
-	 * @param a the {@link Number} to compare
-	 * @param b the other {@link Number} to compare against
+	 * @param a the {@link Number} to compare (may be {@code null})
+	 * @param b the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise (with
 	 *         {@code null} considered as the minimum value)
@@ -259,8 +259,8 @@ public class Numbers {
 	 * Tests whether {@code a} is greater or equal to {@code b} (with {@code null} considered as the
 	 * minimum value).
 	 * <p>
-	 * @param a the {@link Number} to compare
-	 * @param b the other {@link Number} to compare against
+	 * @param a the {@link Number} to compare (may be {@code null})
+	 * @param b the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
 	 *         (with {@code null} considered as the minimum value)
@@ -276,8 +276,8 @@ public class Numbers {
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the {@link Number} type
-	 * @param a   the {@link Number} to compare
-	 * @param b   the other {@link Number} to compare against
+	 * @param a   the {@link Number} to compare (may be {@code null})
+	 * @param b   the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
 	 *         {@code null} considered as the minimum value)
@@ -291,8 +291,8 @@ public class Numbers {
 	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the {@link Number} type
-	 * @param a   the {@link Number} to compare
-	 * @param b   the other {@link Number} to compare against
+	 * @param a   the {@link Number} to compare (may be {@code null})
+	 * @param b   the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
 	 *         {@code null} considered as the minimum value)

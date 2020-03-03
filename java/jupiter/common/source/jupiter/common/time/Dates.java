@@ -372,7 +372,7 @@ public class Dates {
 	/**
 	 * Returns the number of business days for the specified year.
 	 * <p>
-	 * @param year           the year to consider
+	 * @param year           an {@code int} value
 	 * @param publicHolidays the {@link List} of public holidays for the year
 	 * <p>
 	 * @return the number of business days for the specified year

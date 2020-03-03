@@ -790,16 +790,19 @@ public class Integers {
 	 * Returns the number of occurrences of the specified {@code int} token in the specified
 	 * {@code int} array.
 	 * <p>
-	 * @param array an {@code int} array
+	 * @param array the {@code int} array to count from (may be {@code null})
 	 * @param token the {@code int} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code int} token in the specified
 	 *         {@code int} array
 	 */
 	public static int count(final int[] array, final int token) {
-		int occurrenceCount = 0, index = -1;
-		while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-			++occurrenceCount;
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
 		}
 		return occurrenceCount;
 	}
@@ -808,16 +811,18 @@ public class Integers {
 	 * Returns the number of occurrences of the specified {@code int} tokens in the specified
 	 * {@code int} array.
 	 * <p>
-	 * @param array  an {@code int} array
-	 * @param tokens the {@code int} tokens to count
+	 * @param array  the {@code int} array to count from (may be {@code null})
+	 * @param tokens the {@code int} tokens to count (may be {@code null})
 	 * <p>
 	 * @return the number of occurrences of the specified {@code int} tokens in the specified
 	 *         {@code int} array
 	 */
 	public static int count(final int[] array, final int[] tokens) {
 		int occurrenceCount = 0;
-		for (final int token : tokens) {
-			occurrenceCount += count(array, token);
+		if (array != null && tokens != null) {
+			for (final int token : tokens) {
+				occurrenceCount += count(array, token);
+			}
 		}
 		return occurrenceCount;
 	}
@@ -848,12 +853,14 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code int} array from the specified {@code int} array and indexes.
+	 * Returns an {@code int} array containing all the elements of the specified {@code int} array
+	 * at the specified indexes.
 	 * <p>
-	 * @param array   an {@code int} array
+	 * @param array   the {@code int} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code int} array from the specified {@code int} array and indexes
+	 * @return an {@code int} array containing all the elements of the specified {@code int} array
+	 *         at the specified indexes
 	 */
 	public static int[] filter(final int[] array, final int... indexes) {
 		final int[] filteredArray = new int[indexes.length];
@@ -864,12 +871,14 @@ public class Integers {
 	}
 
 	/**
-	 * Returns all the filtered {@code int} arrays from the specified {@code int} array and indexes.
+	 * Returns a 2D {@code int} array containing all the elements of the specified {@code int} array
+	 * at all the specified indexes.
 	 * <p>
-	 * @param array   an {@code int} array
+	 * @param array   the {@code int} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code int} arrays from the specified {@code int} array and indexes
+	 * @return a 2D {@code int} array containing all the elements of the specified {@code int} array
+	 *         at all the specified indexes
 	 */
 	public static int[][] filterAll(final int[] array, final int[]... indexes) {
 		final int[][] filteredArrays = new int[indexes.length][];
@@ -1383,14 +1392,13 @@ public class Integers {
 
 	/**
 	 * Compares the specified {@code int} values for order. Returns a negative integer, {@code 0} or
-	 * a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code int} value to compare for order
 	 * @param b the other {@code int} value to compare against for order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final int a, final int b) {
 		return a < b ? -1 : a == b ? 0 : 1;
@@ -1400,14 +1408,13 @@ public class Integers {
 
 	/**
 	 * Compares the specified {@code int} arrays for order. Returns a negative integer, {@code 0} or
-	 * a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
-	 * @param a the {@code int} array to compare for order
-	 * @param b the other {@code int} array to compare against for order
+	 * @param a the {@code int} array to compare for order (may be {@code null})
+	 * @param b the other {@code int} array to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final int[] a, final int[] b) {
 		if (a == b) {
