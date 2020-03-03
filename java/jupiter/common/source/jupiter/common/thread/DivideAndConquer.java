@@ -61,14 +61,14 @@ public abstract class DivideAndConquer<I>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link DivideAndConquer} of type {@code I} by default.
+	 * Constructs a {@link DivideAndConquer} of {@code I} type by default.
 	 */
 	public DivideAndConquer() {
 		workQueue = new LockedWorkQueue<Pair<I, Interval<Integer>>, Integer>(new Conqueror());
 	}
 
 	/**
-	 * Constructs a {@link DivideAndConquer} of type {@code I} with the specified minimum and
+	 * Constructs a {@link DivideAndConquer} of {@code I} type with the specified minimum and
 	 * maximum numbers of {@link Worker}.
 	 * <p>
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
@@ -80,7 +80,7 @@ public abstract class DivideAndConquer<I>
 	}
 
 	/**
-	 * Constructs a {@link DivideAndConquer} of type {@code I} with the specified minimum and
+	 * Constructs a {@link DivideAndConquer} of {@code I} type with the specified minimum and
 	 * maximum numbers of {@link Worker} and fairness policy.
 	 * <p>
 	 * @param minThreadCount the minimum number of {@link Worker} to handle

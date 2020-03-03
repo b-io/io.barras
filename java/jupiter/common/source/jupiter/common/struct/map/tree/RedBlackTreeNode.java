@@ -55,7 +55,7 @@ public class RedBlackTreeNode<K, V>
 	 * <p>
 	 * @param key           the {@code K} key
 	 * @param value         the {@code V} value (may be {@code null})
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 */
 	public RedBlackTreeNode(final K key, final V value, final Comparator<? super K> keyComparator) {
 		super(key, value, keyComparator);
@@ -70,7 +70,7 @@ public class RedBlackTreeNode<K, V>
 	/**
 	 * Sets the left {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param leftNode a {@link RedBlackTreeNode} of types {@code K} and {@code V} (may be
+	 * @param leftNode a {@link RedBlackTreeNode} of {@code K} and {@code V} types (may be
 	 *                 {@code null})
 	 */
 	@Override
@@ -85,7 +85,7 @@ public class RedBlackTreeNode<K, V>
 	/**
 	 * Sets the right {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param rightNode a {@link RedBlackTreeNode} of types {@code K} and {@code V} (may be
+	 * @param rightNode a {@link RedBlackTreeNode} of {@code K} and {@code V} types (may be
 	 *                  {@code null})
 	 */
 	@Override

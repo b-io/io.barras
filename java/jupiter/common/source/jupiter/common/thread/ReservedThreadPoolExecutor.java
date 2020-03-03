@@ -240,7 +240,7 @@ public class ReservedThreadPoolExecutor
 	 * successful completion.
 	 * <p>
 	 * @param <T>  the type of the {@link Future} to return
-	 * @param task the {@link Callable} task of type {@code T} to submit
+	 * @param task the {@link Callable} task of {@code T} type to submit
 	 * <p>
 	 * @return a {@link Future} representing the pending completion of the specified
 	 *         {@link Callable} task if there is at least one thread that is not actively executing

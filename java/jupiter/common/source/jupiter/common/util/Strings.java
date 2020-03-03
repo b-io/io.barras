@@ -350,7 +350,7 @@ public class Strings {
 	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection}
 	 */
@@ -363,7 +363,7 @@ public class Strings {
 	 * {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
 	 */
@@ -405,7 +405,7 @@ public class Strings {
 	 * Returns a {@link Set} of {@link String} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@link Collection}
 	 */

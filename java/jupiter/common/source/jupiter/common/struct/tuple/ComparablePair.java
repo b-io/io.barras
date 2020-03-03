@@ -70,7 +70,7 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link ComparablePair} of component types {@code T1} and {@code T2} to
+	 * @param other the other {@link ComparablePair} of {@code T1} and {@code T2} component types to
 	 *              compare against for order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to

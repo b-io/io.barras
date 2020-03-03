@@ -267,7 +267,7 @@ public class Floats {
 	 * Returns a {@code float} array from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@code float} array from the specified {@link Collection}
 	 */
@@ -365,7 +365,7 @@ public class Floats {
 	 * Returns an array of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an array of {@link Float} from the specified {@link Collection}
 	 */
@@ -479,7 +479,7 @@ public class Floats {
 	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection}
 	 */
@@ -491,7 +491,7 @@ public class Floats {
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
 	 */
@@ -557,7 +557,7 @@ public class Floats {
 	 * Returns a {@link Set} of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@link Collection}
 	 */

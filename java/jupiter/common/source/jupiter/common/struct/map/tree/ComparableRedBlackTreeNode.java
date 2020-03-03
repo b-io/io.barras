@@ -67,7 +67,7 @@ public class ComparableRedBlackTreeNode<K extends Comparable<K>, V>
 	/**
 	 * Sets the left {@link ComparableRedBlackTreeNode}.
 	 * <p>
-	 * @param leftNode a {@link ComparableRedBlackTreeNode} of types {@code K} and {@code V} (may be
+	 * @param leftNode a {@link ComparableRedBlackTreeNode} of {@code K} and {@code V} types (may be
 	 *                 {@code null})
 	 */
 	@Override
@@ -82,7 +82,7 @@ public class ComparableRedBlackTreeNode<K extends Comparable<K>, V>
 	/**
 	 * Sets the right {@link ComparableRedBlackTreeNode}.
 	 * <p>
-	 * @param rightNode a {@link ComparableRedBlackTreeNode} of types {@code K} and {@code V} (may
+	 * @param rightNode a {@link ComparableRedBlackTreeNode} of {@code K} and {@code V} types (may
 	 *                  be {@code null})
 	 */
 	@Override

@@ -268,7 +268,7 @@ public class Longs {
 	 * Returns a {@code long} array from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@code long} array from the specified {@link Collection}
 	 */
@@ -366,7 +366,7 @@ public class Longs {
 	 * Returns an array of {@link Long} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an array of {@link Long} from the specified {@link Collection}
 	 */
@@ -478,7 +478,7 @@ public class Longs {
 	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} from the specified {@link Collection}
 	 */
@@ -490,7 +490,7 @@ public class Longs {
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}
 	 */
@@ -556,7 +556,7 @@ public class Longs {
 	 * Returns a {@link Set} of {@link Long} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Long} from the specified {@link Collection}
 	 */

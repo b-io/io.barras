@@ -56,7 +56,7 @@ public abstract class Mapper<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The output {@link Class} of type {@code O}.
+	 * The output {@link Class} of {@code O} type.
 	 */
 	protected final Class<O> c;
 
@@ -66,10 +66,10 @@ public abstract class Mapper<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Mapper} of types {@code I} and {@code O} with the specified output
+	 * Constructs a {@link Mapper} of {@code I} and {@code O} types with the specified output
 	 * {@link Class}.
 	 * <p>
-	 * @param c the output {@link Class} of type {@code O}
+	 * @param c the output {@link Class} of {@code O} type
 	 */
 	protected Mapper(final Class<O> c) {
 		super();
@@ -87,9 +87,9 @@ public abstract class Mapper<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the output {@link Class} of type {@code O}.
+	 * Returns the output {@link Class} of {@code O} type.
 	 * <p>
-	 * @return the output {@link Class} of type {@code O}
+	 * @return the output {@link Class} of {@code O} type
 	 */
 	public Class<O> getOutputClass() {
 		return c;

@@ -33,7 +33,7 @@ import jupiter.common.util.Integers;
 import jupiter.common.util.Lists;
 
 /**
- * {@link ExtendedList} extends {@link ArrayList} of element type {@code E}.
+ * {@link ExtendedList} extends {@link ArrayList} of {@code E} element type.
  * <p>
  * @param <E> the element type of the {@link ExtendedList}
  */
@@ -56,14 +56,14 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of element type {@code E} by default.
+	 * Constructs an empty {@link ExtendedList} of {@code E} element type by default.
 	 */
 	public ExtendedList() {
 		super(Lists.DEFAULT_CAPACITY);
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of element type {@code E} with the specified initial
+	 * Constructs an empty {@link ExtendedList} of {@code E} element type with the specified initial
 	 * capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
@@ -77,11 +77,11 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ExtendedList} of element type {@code E} with the specified elements.
+	 * Constructs an {@link ExtendedList} of {@code E} element type with the specified elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 * <p>
-	 * @throws NullPointerException if {@code collection} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	@SuppressWarnings("unchecked")
 	public ExtendedList(final E... elements) {
@@ -90,12 +90,12 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedList} of element type {@code E} with the specified elements in a
+	 * Constructs an {@link ExtendedList} of {@code E} element type with the specified elements in a
 	 * {@link Collection}.
 	 * <p>
-	 * @param elements a {@link Collection} of element subtype {@code E}
+	 * @param elements a {@link Collection} of {@code E} element subtype
 	 * <p>
-	 * @throws NullPointerException if {@code collection} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public ExtendedList(final Collection<? extends E> elements) {
 		super(elements);

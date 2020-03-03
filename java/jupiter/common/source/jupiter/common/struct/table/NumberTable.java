@@ -32,9 +32,9 @@ import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 
 /**
- * {@link NumberTable} is the {@link Table} of element {@link Number} type {@code E}.
+ * {@link NumberTable} is the {@link Table} of {@code E} element type (subtype of {@link Number}).
  * <p>
- * @param <E> the element {@link Number} type of the {@link Table}
+ * @param <E> the element type of the {@link Table} (subtype of {@link Number})
  */
 public class NumberTable<E extends Number>
 		extends Table<E> {
@@ -54,10 +54,10 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NumberTable} of element {@link Number} type {@code E} with the specified
-	 * numbers of rows and columns.
+	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) with
+	 * the specified numbers of rows and columns.
 	 * <p>
-	 * @param c           the {@link Class} of element {@link Number} type {@code E}
+	 * @param c           the {@link Class} of {@code E} element type (subtype of {@link Number})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
@@ -66,10 +66,10 @@ public class NumberTable<E extends Number>
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of element {@link Number} type {@code E} with the specified
-	 * header and numbers of rows and columns.
+	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) with
+	 * the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param c           the {@link Class} of element {@link Number} type {@code E}
+	 * @param c           the {@link Class} of {@code E} element type (subtype of {@link Number})
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -82,10 +82,10 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NumberTable} of element {@link Number} type {@code E} with the specified
-	 * elements.
+	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) with
+	 * the specified elements.
 	 * <p>
-	 * @param c        the {@link Class} of element {@link Number} type {@code E}
+	 * @param c        the {@link Class} of {@code E} element type (subtype of {@link Number})
 	 * @param elements a 2D {@code E} array
 	 */
 	public NumberTable(final Class<E> c, final E[][] elements) {
@@ -93,10 +93,10 @@ public class NumberTable<E extends Number>
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of element {@link Number} type {@code E} with the specified
-	 * header and elements.
+	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) with
+	 * the specified header and elements.
 	 * <p>
-	 * @param c        the {@link Class} of element {@link Number} type {@code E}
+	 * @param c        the {@link Class} of {@code E} element type (subtype of {@link Number})
 	 * @param header   an {@code E} array
 	 * @param elements a 2D {@code E} array
 	 */
@@ -107,10 +107,10 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NumberTable} of element {@link Number} type {@code E} loaded from the
-	 * file denoted by the specified path.
+	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) loaded
+	 * from the file denoted by the specified path.
 	 * <p>
-	 * @param parser    an {@link IParser} of element {@link Number} type {@code E}
+	 * @param parser    an {@link IParser} of {@code E} element type (subtype of {@link Number})
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>

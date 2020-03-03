@@ -80,7 +80,7 @@ public class WorkQueue<I, O>
 	protected volatile boolean isRunning = true;
 
 	/**
-	 * The model {@link Worker} of types {@code I} and {@code O}.
+	 * The model {@link Worker} of {@code I} and {@code O} types.
 	 */
 	protected final Worker<I, O> model;
 	/**
@@ -105,7 +105,7 @@ public class WorkQueue<I, O>
 	protected volatile int reservedWorkerCount = 0;
 
 	/**
-	 * The {@link ExtendedLinkedList} of {@link Task} of type {@code I}.
+	 * The {@link ExtendedLinkedList} of {@link Task} of {@code I} type.
 	 */
 	protected final ExtendedLinkedList<Task<I>> tasks = new ExtendedLinkedList<Task<I>>();
 	/**
@@ -126,7 +126,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Constructs a {@link WorkQueue} with the specified model {@link Worker}.
 	 * <p>
-	 * @param model the model {@link Worker} of types {@code I} and {@code O}
+	 * @param model the model {@link Worker} of {@code I} and {@code O} types
 	 */
 	protected WorkQueue(final Worker<I, O> model) {
 		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
@@ -136,7 +136,7 @@ public class WorkQueue<I, O>
 	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} and minimum and
 	 * maximum numbers of {@link Worker}.
 	 * <p>
-	 * @param model          the model {@link Worker} of types {@code I} and {@code O}
+	 * @param model          the model {@link Worker} of {@code I} and {@code O} types
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
@@ -247,7 +247,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Removes the specified {@link Worker}.
 	 * <p>
-	 * @param worker the {@link Worker} of types {@code I} and {@code O} to remove
+	 * @param worker the {@link Worker} of {@code I} and {@code O} types to remove
 	 */
 	public void removeWorker(final Worker<I, O> worker) {
 		workers.remove(worker);
@@ -354,7 +354,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Kills the specified {@link Worker}.
 	 * <p>
-	 * @param worker the {@link Worker} of types {@code I} and {@code O} to kill
+	 * @param worker the {@link Worker} of {@code I} and {@code O} types to kill
 	 */
 	@SuppressWarnings("deprecation")
 	public void killWorker(final Worker<I, O> worker) {
@@ -395,10 +395,10 @@ public class WorkQueue<I, O>
 	}
 
 	/**
-	 * Returns the next {@link Task} of type {@code I} if {@code this} is running, {@code null}
+	 * Returns the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
 	 * otherwise.
 	 * <p>
-	 * @return the next {@link Task} of type {@code I} if {@code this} is running, {@code null}
+	 * @return the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
 	 *         otherwise
 	 */
 	public Task<I> getNextTask() {

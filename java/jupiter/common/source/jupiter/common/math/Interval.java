@@ -36,7 +36,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link Interval} is the {@link ISet} of type {@code T}.
+ * {@link Interval} is the {@link ISet} of {@code T} type.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link Interval}
  */
@@ -72,14 +72,14 @@ public class Interval<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Interval} of type {@code T}.
+	 * Constructs an {@link Interval} of {@code T} type.
 	 */
 	public Interval() {
 		this(null, null);
 	}
 
 	/**
-	 * Constructs an {@link Interval} of type {@code T} with the specified {@code T} lower and upper
+	 * Constructs an {@link Interval} of {@code T} type with the specified {@code T} lower and upper
 	 * bounds.
 	 * <p>
 	 * @param lowerBound the {@code T} lower bound (inclusive)
@@ -90,7 +90,7 @@ public class Interval<T extends Comparable<T>>
 	}
 
 	/**
-	 * Constructs an {@link Interval} of type {@code T} with the specified {@code T} lower and upper
+	 * Constructs an {@link Interval} of {@code T} type with the specified {@code T} lower and upper
 	 * bounds.
 	 * <p>
 	 * @param lowerBound       the {@code T} lower bound
@@ -109,20 +109,20 @@ public class Interval<T extends Comparable<T>>
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Interval} of type {@code T} with the specified lower and upper bounds
+	 * Constructs an {@link Interval} of {@code T} type with the specified lower and upper bounds
 	 * {@link Pair}.
 	 * <p>
-	 * @param pair the lower and upper bounds {@link Pair} of type {@code T}
+	 * @param pair the lower and upper bounds {@link Pair} of {@code T} type
 	 */
 	public Interval(final Pair<T, T> pair) {
 		this(Arguments.requireNotNull(pair, "pair").getFirst(), pair.getSecond());
 	}
 
 	/**
-	 * Constructs an {@link Interval} of type {@code T} with the specified lower and upper bounds
+	 * Constructs an {@link Interval} of {@code T} type with the specified lower and upper bounds
 	 * {@link Pair}.
 	 * <p>
-	 * @param pair             the lower and upper bounds {@link Pair} of type {@code T}
+	 * @param pair             the lower and upper bounds {@link Pair} of {@code T} type
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
 	 */

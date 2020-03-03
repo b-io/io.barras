@@ -73,18 +73,18 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ComparableTreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * Constructs a {@link ComparableTreeMap} of {@code K}, {@code V} and {@code N} types.
 	 */
 	protected ComparableTreeMap() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link ComparableTreeMap} of types {@code K}, {@code V} and {@code N} loaded
+	 * Constructs a {@link ComparableTreeMap} of {@code K}, {@code V} and {@code N} types loaded
 	 * from the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
-	 *            {@code V} to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 */
 	protected ComparableTreeMap(final Map<? extends K, ? extends V> map) {
 		super();
@@ -181,9 +181,9 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the root {@link Entry} of types {@code K} and {@code V}.
+	 * Returns the root {@link Entry} of {@code K} and {@code V} types.
 	 * <p>
-	 * @return the root {@link Entry} of types {@code K} and {@code V}
+	 * @return the root {@link Entry} of {@code K} and {@code V} types
 	 */
 	public Entry<K, V> getRootEntry() {
 		return root;
@@ -214,7 +214,7 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable the key {@link Comparable} of supertype {@code K} to find
+	 * @param keyComparable the key {@link Comparable} of {@code K} supertype to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
@@ -245,8 +245,8 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
-	 *            {@code V} to put
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to put
 	 * <p>
 	 * @throws ClassCastException   if the {@code map} type prevents it from being stored in
 	 *                              {@code this}

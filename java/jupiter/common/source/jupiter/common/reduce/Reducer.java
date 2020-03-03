@@ -50,7 +50,7 @@ public abstract class Reducer<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The output {@link Class} of type {@code O}.
+	 * The output {@link Class} of {@code O} type.
 	 */
 	protected final Class<O> c;
 
@@ -60,10 +60,10 @@ public abstract class Reducer<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Reducer} of types {@code I} and {@code O} with the specified output
+	 * Constructs a {@link Reducer} of {@code I} and {@code O} types with the specified output
 	 * {@link Class}.
 	 * <p>
-	 * @param c the output {@link Class} of type {@code O}
+	 * @param c the output {@link Class} of {@code O} type
 	 */
 	protected Reducer(final Class<O> c) {
 		super();
@@ -76,9 +76,9 @@ public abstract class Reducer<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the output {@link Class} of type {@code O}.
+	 * Returns the output {@link Class} of {@code O} type.
 	 * <p>
-	 * @return the output {@link Class} of type {@code O}
+	 * @return the output {@link Class} of {@code O} type
 	 */
 	public Class<O> getOutputClass() {
 		return c;

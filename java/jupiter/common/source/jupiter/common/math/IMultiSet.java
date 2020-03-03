@@ -37,9 +37,9 @@ public interface IMultiSet<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the underlying {@link ISet} of type {@code T}.
+	 * Returns the underlying {@link ISet} of {@code T} type.
 	 * <p>
-	 * @return the underlying {@link ISet} of type {@code T}
+	 * @return the underlying {@link ISet} of {@code T} type
 	 */
 	public ISet<T> getUnderlyingSet();
 

@@ -43,7 +43,7 @@ public class AvlTreeNode<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link AvlTreeMap} of types {@code K} and {@code V}.
+	 * The {@link AvlTreeMap} of {@code K} and {@code V} types.
 	 */
 	protected final AvlTreeMap<K, V> tree;
 
@@ -67,7 +67,7 @@ public class AvlTreeNode<K, V>
 	 * <p>
 	 * @param key   the {@code K} key
 	 * @param value the {@code V} value (may be {@code null})
-	 * @param tree  the {@link AvlTreeMap} of types {@code K} and {@code V}
+	 * @param tree  the {@link AvlTreeMap} of {@code K} and {@code V} types
 	 */
 	public AvlTreeNode(final K key, final V value, final AvlTreeMap<K, V> tree) {
 		super(key, value, Arguments.requireNotNull(tree, "tree").getKeyComparator());
@@ -108,7 +108,7 @@ public class AvlTreeNode<K, V>
 	 * Sets the parent {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if
 	 * required.
 	 * <p>
-	 * @param parentNode an {@link AvlTreeNode} of types {@code K} and {@code V}
+	 * @param parentNode an {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	protected void setParent(final AvlTreeNode<K, V> parentNode) {
 		parent = parentNode;
@@ -120,7 +120,7 @@ public class AvlTreeNode<K, V>
 	/**
 	 * Sets the left {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if required.
 	 * <p>
-	 * @param leftNode an {@link AvlTreeNode} of types {@code K} and {@code V} (may be {@code null})
+	 * @param leftNode an {@link AvlTreeNode} of {@code K} and {@code V} types (may be {@code null})
 	 */
 	@Override
 	public void setLeft(final AvlTreeNode<K, V> leftNode) {
@@ -138,7 +138,7 @@ public class AvlTreeNode<K, V>
 	 * Sets the right {@link AvlTreeNode} and updates all the parent {@link AvlTreeNode} if
 	 * required.
 	 * <p>
-	 * @param rightNode an {@link AvlTreeNode} of types {@code K} and {@code V} (may be
+	 * @param rightNode an {@link AvlTreeNode} of {@code K} and {@code V} types (may be
 	 *                  {@code null})
 	 */
 	@Override

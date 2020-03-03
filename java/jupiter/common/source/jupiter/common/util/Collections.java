@@ -69,7 +69,7 @@ public class Collections {
 	 * Returns the element {@link Class} of the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection}
-	 * @param collection a {@link Collection} of element type {@code E} (may be {@code null})
+	 * @param collection a {@link Collection} of {@code E} element type (may be {@code null})
 	 * <p>
 	 * @return the element {@link Class} of the specified {@link Collection}
 	 */
@@ -203,7 +203,7 @@ public class Collections {
 	 * Returns the element at the specified index of the elements returned by the iterator.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection}
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection a {@link Collection} of {@code E} element type
 	 * @param index      the index of the element to return
 	 * <p>
 	 * @return the element at the specified index of the elements returned by the iterator
@@ -226,7 +226,7 @@ public class Collections {
 	 * {@link Collection} and returns the index of the removed element, or {@code -1} if it is not
 	 * present.
 	 * <p>
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection a {@link Collection} of {@code E} element type
 	 * @param object     the {@link Object} to remove
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
@@ -248,7 +248,7 @@ public class Collections {
 	 * Removes all the occurrences of the specified {@link Object} from the specified
 	 * {@link Collection} and returns the indexes of the removed elements.
 	 * <p>
-	 * @param collection a {@link Collection} of element type {@code E}
+	 * @param collection a {@link Collection} of {@code E} element type
 	 * @param object     the {@link Object} to remove
 	 * <p>
 	 * @return the indexes of the removed elements

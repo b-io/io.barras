@@ -26,7 +26,7 @@ package jupiter.math.analysis.struct;
 import jupiter.common.struct.tuple.Pair;
 
 /**
- * A {@link Pair} of component type {@code T}.
+ * A {@link Pair} of {@code T} component type.
  * <p>
  * @param <T> the component type of the {@link Pair}
  */

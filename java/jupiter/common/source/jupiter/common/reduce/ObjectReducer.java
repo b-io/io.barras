@@ -46,10 +46,10 @@ public abstract class ObjectReducer<O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ObjectReducer} of type {@code O} with the specified output
+	 * Constructs an {@link ObjectReducer} of {@code O} type with the specified output
 	 * {@link Class}.
 	 * <p>
-	 * @param c the output {@link Class} of type {@code O}
+	 * @param c the output {@link Class} of {@code O} type
 	 */
 	protected ObjectReducer(final Class<O> c) {
 		super(c);

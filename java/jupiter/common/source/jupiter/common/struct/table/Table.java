@@ -82,7 +82,7 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Class} of element type {@code E}.
+	 * The {@link Class} of {@code E} element type.
 	 */
 	protected Class<E> c;
 	/**
@@ -108,10 +108,10 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Table} of element type {@code E} with the specified numbers of rows and
+	 * Constructs a {@link Table} of {@code E} element type with the specified numbers of rows and
 	 * columns.
 	 * <p>
-	 * @param c           the {@link Class} of element type {@code E}
+	 * @param c           the {@link Class} of {@code E} element type
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
@@ -130,10 +130,10 @@ public class Table<E>
 	}
 
 	/**
-	 * Constructs a {@link Table} of element type {@code E} with the specified header and numbers of
+	 * Constructs a {@link Table} of {@code E} element type with the specified header and numbers of
 	 * rows and columns.
 	 * <p>
-	 * @param c           the {@link Class} of element type {@code E}
+	 * @param c           the {@link Class} of {@code E} element type
 	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -159,9 +159,9 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Table} of element type {@code E} with the specified elements.
+	 * Constructs a {@link Table} of {@code E} element type with the specified elements.
 	 * <p>
-	 * @param c        the {@link Class} of element type {@code E}
+	 * @param c        the {@link Class} of {@code E} element type
 	 * @param elements a 2D {@code E} array
 	 */
 	public Table(final Class<E> c, final E[][] elements) {
@@ -182,9 +182,9 @@ public class Table<E>
 	}
 
 	/**
-	 * Constructs a {@link Table} of element type {@code E} with the specified header and elements.
+	 * Constructs a {@link Table} of {@code E} element type with the specified header and elements.
 	 * <p>
-	 * @param c        the {@link Class} of element type {@code E}
+	 * @param c        the {@link Class} of {@code E} element type
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D {@code E} array
 	 */
@@ -205,10 +205,10 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Table} of element type {@code E} loaded from the file denoted by the
+	 * Constructs a {@link Table} of {@code E} element type loaded from the file denoted by the
 	 * specified path.
 	 * <p>
-	 * @param parser    an {@link IParser} of element type {@code E}
+	 * @param parser    an {@link IParser} of {@code E} element type
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -642,7 +642,7 @@ public class Table<E>
 	 * Sets the elements of the specified row.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@link Collection} of element type {@code E}
+	 * @param values a {@link Collection} of {@code E} element type
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
@@ -711,7 +711,7 @@ public class Table<E>
 	 * Sets the elements of the specified column.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@link Collection} of element type {@code E}
+	 * @param values a {@link Collection} of {@code E} element type
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
@@ -824,7 +824,7 @@ public class Table<E>
 	/**
 	 * Merges with the specified {@link Table}.
 	 * <p>
-	 * @param table the {@link Table} of element type {@code E} to merge with
+	 * @param table the {@link Table} of {@code E} element type to merge with
 	 */
 	public void merge(final Table<E> table) {
 		merge(table, true);
@@ -833,7 +833,7 @@ public class Table<E>
 	/**
 	 * Merges with the specified {@link Table}.
 	 * <p>
-	 * @param table     the {@link Table} of element type {@code E} to merge with
+	 * @param table     the {@link Table} of {@code E} element type to merge with
 	 * @param mergeRows the flag specifying whether to merge the rows or the columns
 	 */
 	public void merge(final Table<E> table, final boolean mergeRows) {
@@ -1036,7 +1036,7 @@ public class Table<E>
 	/**
 	 * Loads {@code this} from the file denoted by the specified path.
 	 * <p>
-	 * @param parser    the {@link IParser} of element type {@code E} of the file to load
+	 * @param parser    the {@link IParser} of {@code E} element type of the file to load
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -1057,7 +1057,7 @@ public class Table<E>
 	/**
 	 * Loads {@code this} from the specified {@link BufferedReader}.
 	 * <p>
-	 * @param parser    the {@link IParser} of element type {@code E} of the lines to load
+	 * @param parser    the {@link IParser} of {@code E} element type of the lines to load
 	 * @param reader    the {@link BufferedReader} of the lines to load
 	 * @param rowCount  the number of lines to load
 	 * @param hasHeader the flag specifying whether the first line is a header

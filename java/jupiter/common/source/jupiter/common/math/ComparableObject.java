@@ -29,7 +29,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
 
 /**
- * {@link ComparableObject} is the {@link IComparable} of type {@code T}.
+ * {@link ComparableObject} is the {@link IComparable} of {@code T} type.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link ComparableObject}
  */

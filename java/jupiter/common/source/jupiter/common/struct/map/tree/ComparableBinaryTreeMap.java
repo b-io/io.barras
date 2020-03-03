@@ -67,18 +67,18 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ComparableBinaryTreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * Constructs a {@link ComparableBinaryTreeMap} of {@code K}, {@code V} and {@code N} types.
 	 */
 	protected ComparableBinaryTreeMap() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link ComparableBinaryTreeMap} of types {@code K}, {@code V} and {@code N}
+	 * Constructs a {@link ComparableBinaryTreeMap} of {@code K}, {@code V} and {@code N} types
 	 * loaded from the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
-	 *            {@code V} to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 */
 	protected ComparableBinaryTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -131,7 +131,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * of the visited {@code N} nodes in the specified {@link List}.
 	 * <p>
 	 * @param tree the {@code N} tree to get the {@code K} keys from (may be {@code null})
-	 * @param keys the {@link List} of type {@code K} to store the {@code K} keys in
+	 * @param keys the {@link List} of {@code K} type to store the {@code K} keys in
 	 */
 	protected void getKeys(final N tree, final List<K> keys) {
 		if (tree != null) {
@@ -160,7 +160,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * visited nodes in the specified {@link List}.
 	 * <p>
 	 * @param tree   the {@code N} tree to get the values from (may be {@code null})
-	 * @param values the {@link List} of type {@code V} to store the values in
+	 * @param values the {@link List} of {@code V} type to store the values in
 	 */
 	protected void getValues(final N tree, final List<V> values) {
 		if (tree != null) {
@@ -277,7 +277,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable the key {@link Comparable} of supertype {@code K} to find
+	 * @param keyComparable the key {@link Comparable} of {@code K} supertype to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
@@ -532,7 +532,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 
 	/**
 	 * Performs the in-order traversal of {@code this} and returns a {@link Set} view of the
-	 * key-value {@link Entry} of types {@code K} and {@code V} of the visited nodes. The iterator
+	 * key-value {@link Entry} of {@code K} and {@code V} types of the visited nodes. The iterator
 	 * of the {@link Set} returns the entries in ascending key order. The {@link Set} is backed by
 	 * {@code this}, so changes to {@code this} are reflected in the {@link Set} and vice-versa. If
 	 * {@code this} is modified while an iteration over the {@link Set} is in progress (except
@@ -542,7 +542,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
 	 * does not support the {@code add} or {@code addAll} operations.
 	 * <p>
-	 * @return a {@link Set} view of the key-value {@link Entry} of types {@code K} and {@code V}
+	 * @return a {@link Set} view of the key-value {@link Entry} of {@code K} and {@code V} types
 	 */
 	@Override
 	public Set<Entry<K, V>> entrySet() {
@@ -551,13 +551,13 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 
 	/**
 	 * Performs the in-order traversal of the specified {@code N} tree and returns a {@link Set}
-	 * view of the key-value {@link Entry} of types {@code K} and {@code V} of the visited nodes
+	 * view of the key-value {@link Entry} of {@code K} and {@code V} types of the visited nodes
 	 * added to the specified {@link Set}.
 	 * <p>
 	 * @param tree a {@code N} tree (may be {@code null})
-	 * @param set  a {@link Set} of {@link Entry} of types {@code K} and {@code V}
+	 * @param set  a {@link Set} of {@link Entry} of {@code K} and {@code V} types
 	 * <p>
-	 * @return a {@link Set} view of the key-value {@link Entry} of types {@code K} and {@code V} of
+	 * @return a {@link Set} view of the key-value {@link Entry} of {@code K} and {@code V} types of
 	 *         the visited nodes added to the specified {@link Set}
 	 */
 	protected Set<Entry<K, V>> entrySet(final N tree, final Set<Entry<K, V>> set) {

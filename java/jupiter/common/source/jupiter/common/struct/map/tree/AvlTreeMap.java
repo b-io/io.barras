@@ -64,21 +64,21 @@ public class AvlTreeMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types.
 	 * <p>
-	 * @param c the key {@link Class} of type {@code K}
+	 * @param c the key {@link Class} of {@code K} type
 	 */
 	public AvlTreeMap(final Class<K> c) {
 		super(c);
 	}
 
 	/**
-	 * Constructs an {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} loaded from the
+	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param c   the key {@link Class} of type {@code K}
-	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
-	 *            {@code V} to load
+	 * @param c   the key {@link Class} of {@code K} type
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 */
 	public AvlTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
 		super(c, map);
@@ -87,23 +87,23 @@ public class AvlTreeMap<K, V>
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types with the
 	 * specified key {@link Comparator}.
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 */
 	public AvlTreeMap(final Comparator<? super K> keyComparator) {
 		super(keyComparator);
 	}
 
 	/**
-	 * Constructs an {@link AvlTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types with the
 	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
 	 * key-value mappings .
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
-	 * @param map           the {@link Map} containing the key-value mappings of subtypes {@code K}
-	 *                      and {@code V} to load
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
 	 */
 	public AvlTreeMap(final Comparator<? super K> keyComparator,
 			final Map<? extends K, ? extends V> map) {
@@ -136,11 +136,11 @@ public class AvlTreeMap<K, V>
 	}
 
 	/**
-	 * Returns the height of the specified {@link AvlTreeNode}, or zero if it is {@code null}.
+	 * Returns the height of the specified {@link AvlTreeNode}, or {@code 0} if it is {@code null}.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of types {@code K} and {@code V}
+	 * @param node an {@link AvlTreeNode} of {@code K} and {@code V} types
 	 * <p>
-	 * @return the height of the specified {@link AvlTreeNode}, or zero if it is {@code null}
+	 * @return the height of the specified {@link AvlTreeNode}, or {@code 0} if it is {@code null}
 	 */
 	protected int getHeight(final AvlTreeNode<K, V> node) {
 		return node != null ? node.height + 1 : 0;
@@ -178,7 +178,7 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of types {@code K} and {@code V} (may be {@code null})
+	 * @param node an {@link AvlTreeNode} of {@code K} and {@code V} types (may be {@code null})
 	 */
 	@Override
 	protected void setRoot(final AvlTreeNode<K, V> node) {
@@ -254,7 +254,7 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Removes the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of types {@code K} and {@code V}
+	 * @param node an {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void removeNode(final AvlTreeNode<K, V> node) {
@@ -302,7 +302,7 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Balances after inserting the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node the inserted {@link AvlTreeNode} of types {@code K} and {@code V}
+	 * @param node the inserted {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void balanceAfterInsertion(AvlTreeNode<K, V> node) {
@@ -312,7 +312,7 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Balances after deleting the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node the deleted {@link AvlTreeNode} of types {@code K} and {@code V}
+	 * @param node the deleted {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void balanceAfterDeletion(AvlTreeNode<K, V> node) {
@@ -322,7 +322,7 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Balances the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node the {@link AvlTreeNode} of types {@code K} and {@code V} to balance
+	 * @param node the {@link AvlTreeNode} of {@code K} and {@code V} types to balance
 	 */
 	protected void balance(AvlTreeNode<K, V> node) {
 		AvlTreeNode<K, V> parent = node;
@@ -367,9 +367,9 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Rotates the specified tree {@link AvlTreeNode} to the left. Corrects a RR imbalance.
 	 * <p>
-	 * @param tree the tree {@link AvlTreeNode} of types {@code K} and {@code V} to rotate
+	 * @param tree the tree {@link AvlTreeNode} of {@code K} and {@code V} types to rotate
 	 * <p>
-	 * @return the rotated tree {@link AvlTreeNode} of types {@code K} and {@code V}
+	 * @return the rotated tree {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected AvlTreeNode<K, V> rotateLeft(final AvlTreeNode<K, V> tree) {
@@ -384,9 +384,9 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Rotates the specified tree {@link AvlTreeNode} to the right. Corrects a LL imbalance.
 	 * <p>
-	 * @param tree the tree {@link AvlTreeNode} of types {@code K} and {@code V} to rotate
+	 * @param tree the tree {@link AvlTreeNode} of {@code K} and {@code V} types to rotate
 	 * <p>
-	 * @return the rotated tree {@link AvlTreeNode} of types {@code K} and {@code V}
+	 * @return the rotated tree {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected AvlTreeNode<K, V> rotateRight(final AvlTreeNode<K, V> tree) {

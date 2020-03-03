@@ -41,7 +41,7 @@ public class ComparableAvlTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link ComparableAvlTreeMap} of types {@code K} and {@code V}.
+	 * The {@link ComparableAvlTreeMap} of {@code K} and {@code V} types.
 	 */
 	protected final ComparableAvlTreeMap<K, V> tree;
 
@@ -65,7 +65,7 @@ public class ComparableAvlTreeNode<K extends Comparable<K>, V>
 	 * <p>
 	 * @param key   the {@code K} key
 	 * @param value the {@code V} value (may be {@code null})
-	 * @param tree  the {@link ComparableAvlTreeMap} of types {@code K} and {@code V}
+	 * @param tree  the {@link ComparableAvlTreeMap} of {@code K} and {@code V} types
 	 */
 	public ComparableAvlTreeNode(final K key, final V value,
 			final ComparableAvlTreeMap<K, V> tree) {
@@ -107,7 +107,7 @@ public class ComparableAvlTreeNode<K extends Comparable<K>, V>
 	 * Sets the parent {@link ComparableAvlTreeNode} and updates all the parent
 	 * {@link ComparableAvlTreeNode} if required.
 	 * <p>
-	 * @param parentNode a {@link ComparableAvlTreeNode} of types {@code K} and {@code V}
+	 * @param parentNode a {@link ComparableAvlTreeNode} of {@code K} and {@code V} types
 	 */
 	protected void setParent(final ComparableAvlTreeNode<K, V> parentNode) {
 		parent = parentNode;
@@ -120,7 +120,7 @@ public class ComparableAvlTreeNode<K extends Comparable<K>, V>
 	 * Sets the left {@link ComparableAvlTreeNode} and updates all the parent
 	 * {@link ComparableAvlTreeNode} if required.
 	 * <p>
-	 * @param leftNode a {@link ComparableAvlTreeNode} of types {@code K} and {@code V} (may be
+	 * @param leftNode a {@link ComparableAvlTreeNode} of {@code K} and {@code V} types (may be
 	 *                 {@code null})
 	 */
 	@Override
@@ -139,7 +139,7 @@ public class ComparableAvlTreeNode<K extends Comparable<K>, V>
 	 * Sets the right {@link ComparableAvlTreeNode} and updates all the parent
 	 * {@link ComparableAvlTreeNode} if required.
 	 * <p>
-	 * @param rightNode a {@link ComparableAvlTreeNode} of types {@code K} and {@code V} (may be
+	 * @param rightNode a {@link ComparableAvlTreeNode} of {@code K} and {@code V} types (may be
 	 *                  {@code null})
 	 */
 	@Override

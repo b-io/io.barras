@@ -33,7 +33,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link IntervalList} is the {@link ISet} of type {@code T} containing a {@link List} of
+ * {@link IntervalList} is the {@link ISet} of {@code T} type containing a {@link List} of
  * {@link Interval}.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link IntervalList}
@@ -56,7 +56,7 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link List} of {@link Interval} of type {@code T}.
+	 * The {@link List} of {@link Interval} of {@code T} type.
 	 */
 	protected List<Interval<T>> intervals;
 
@@ -66,17 +66,17 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IntervalList} of type {@code T}.
+	 * Constructs an {@link IntervalList} of {@code T} type.
 	 */
 	public IntervalList() {
 		this(new ExtendedLinkedList<Interval<T>>());
 	}
 
 	/**
-	 * Constructs an {@link IntervalList} of type {@code T} with the specified {@link List} of
+	 * Constructs an {@link IntervalList} of {@code T} type with the specified {@link List} of
 	 * {@link Interval}.
 	 * <p>
-	 * @param intervals a {@link List} of {@link Interval} of type {@code T}
+	 * @param intervals a {@link List} of {@link Interval} of {@code T} type
 	 */
 	public IntervalList(final List<Interval<T>> intervals) {
 		this.intervals = intervals;
@@ -88,9 +88,9 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link Interval} of type {@code T}.
+	 * Returns the {@link List} of {@link Interval} of {@code T} type.
 	 * <p>
-	 * @return the {@link List} of {@link Interval} of type {@code T}
+	 * @return the {@link List} of {@link Interval} of {@code T} type
 	 */
 	public List<Interval<T>> getIntervals() {
 		return intervals;
@@ -104,7 +104,7 @@ public class IntervalList<T extends Comparable<T>>
 	/**
 	 * Sets the {@link List} of {@link Interval}.
 	 * <p>
-	 * @param intervals a {@link List} of {@link Interval} of type {@code T}
+	 * @param intervals a {@link List} of {@link Interval} of {@code T} type
 	 */
 	public void setIntervals(final List<Interval<T>> intervals) {
 		this.intervals = intervals;

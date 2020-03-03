@@ -127,8 +127,8 @@ public class Lists
 	 * Sorts the specified {@link List} using the specified {@link Comparator}.
 	 * <p>
 	 * @param <E>        the element type of the {@link List} to sort
-	 * @param list       the {@link List} of element type {@code E} to sort
-	 * @param comparator the {@link Comparator} of supertype {@code E} to determine the order
+	 * @param list       the {@link List} of {@code E} element type to sort
+	 * @param comparator the {@link Comparator} of {@code E} supertype to determine the order
 	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
 	 *                   the elements should be used)
 	 * <p>

@@ -508,7 +508,7 @@ public class ComparableSort
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] < key <= a[b + k]}, pretending that {@code a[b - 1]} is minus
 	 *         infinity and {@code a[b + n]} is infinity; in other words, {@code key} belongs at
-	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code a}
+	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code array}
 	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 */
 	protected static int gallopLeft(final Comparable<Object> key, final Object[] array,

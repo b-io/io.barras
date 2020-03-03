@@ -90,7 +90,7 @@ public class Sort<T>
 	protected final T[] array;
 
 	/**
-	 * The {@link Comparator} of supertype {@code T} to determine the order.
+	 * The {@link Comparator} of {@code T} supertype to determine the order.
 	 */
 	protected final Comparator<? super T> comparator;
 
@@ -132,7 +132,7 @@ public class Sort<T>
 	 * Creates a {@link Sort} instance to maintain the state of an ongoing sort.
 	 * <p>
 	 * @param array      the {@code T} array to sort
-	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * @param work       a workspace array (slice) (may be {@code null})
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
@@ -190,7 +190,7 @@ public class Sort<T>
 	 * @param array      the {@code T} array to sort
 	 * @param fromIndex  the index of the first element to sort (inclusive)
 	 * @param toIndex    the index of the last element to sort (exclusive)
-	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
@@ -260,7 +260,7 @@ public class Sort<T>
 	 * @param hi         the index after the last element in the range to sort
 	 * @param start      the index of the first element in the range that is not already known to be
 	 *                   sorted ({@code lo <= start <= hi})
-	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 */
 	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
@@ -325,7 +325,7 @@ public class Sort<T>
 	 * @param lo         the index of the first element in the run
 	 * @param hi         the index after the last element that may be contained in the run. It is
 	 *                   required that {@code lo < hi}.
-	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
@@ -525,13 +525,13 @@ public class Sort<T>
 	 * @param length     the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the {@link Comparator} of supertype {@code T} to order the range and to
+	 * @param comparator the {@link Comparator} of {@code T} supertype to order the range and to
 	 *                   search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] < key <= a[b + k]}, pretending that {@code a[b - 1]} is minus
 	 *         infinity and {@code a[b + n]} is infinity; in other words, {@code key} belongs at
-	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code a}
+	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code array}
 	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 */
 	protected static <T> int gallopLeft(final T key, final T[] array, final int base,
@@ -615,7 +615,7 @@ public class Sort<T>
 	 * @param length     the length of the range (must be greater than 0)
 	 * @param hint       the index at which to begin the search, {@code 0 <= hint < n} (the closer
 	 *                   hint is to the result, the faster this method will run)
-	 * @param comparator the {@link Comparator} of supertype {@code T} to order the range and to
+	 * @param comparator the {@link Comparator} of {@code T} supertype to order the range and to
 	 *                   search
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that

@@ -50,7 +50,7 @@ public class Hasher<I>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Hasher} of type {@code I}.
+	 * Constructs a {@link Hasher} of {@code I} type.
 	 */
 	public Hasher() {
 		super(Integer.class);

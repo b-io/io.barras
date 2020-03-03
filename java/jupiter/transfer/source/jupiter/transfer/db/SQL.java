@@ -711,15 +711,15 @@ public class SQL {
 	}
 
 	/**
-	 * Returns the rows of the specified table in an {@link ExtendedList} of type {@code T} using
+	 * Returns the rows of the specified table in an {@link ExtendedList} of {@code T} type using
 	 * the specified {@link Connection}.
 	 * <p>
 	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c          the row {@link Class} of type {@code T}
+	 * @param c          the row {@link Class} of {@code T} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to update
 	 * <p>
-	 * @return the rows of the specified table in an {@link ExtendedList} of type {@code T} using
+	 * @return the rows of the specified table in an {@link ExtendedList} of {@code T} type using
 	 *         the specified {@link Connection}
 	 */
 	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
@@ -729,16 +729,16 @@ public class SQL {
 
 	/**
 	 * Returns the specified columns of the rows of the specified table in an {@link ExtendedList}
-	 * of type {@code T} using the specified {@link Connection}.
+	 * of {@code T} type using the specified {@link Connection}.
 	 * <p>
 	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c          the row {@link Class} of type {@code T}
+	 * @param c          the row {@link Class} of {@code T} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to update
 	 * @param columns    the columns of the rows to select (may be {@code null})
 	 * <p>
 	 * @return the specified columns of the rows of the specified table in an {@link ExtendedList}
-	 *         of type {@code T} using the specified {@link Connection}
+	 *         of {@code T} type using the specified {@link Connection}
 	 */
 	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
 			final Connection connection, final String table, final String[] columns) {
@@ -747,11 +747,12 @@ public class SQL {
 
 	/**
 	 * Returns the specified columns of the rows of the specified table where the specified
-	 * conditional columns are equal to the conditional values in an {@link ExtendedList} of type
-	 * {@code T} using the specified {@link Connection}.
+	 * conditional columns are equal to the conditional values in an {@link ExtendedList} of
+	 * {@code T} type using the specified {@link Connection}.
 	 * <p>
-	 * @param <T>                the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c                  the row {@link Class} of type {@code T}
+	 * @param <T>                the element type of the {@link ExtendedList} to return (subtype of
+	 *                           {@link SQLRow})
+	 * @param c                  the row {@link Class} of {@code T} type
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to update
 	 * @param columns            the columns of the rows to select (may be {@code null})
@@ -760,7 +761,7 @@ public class SQL {
 	 * <p>
 	 * @return the specified columns of the rows of the specified table where the specified
 	 *         conditional columns are equal to the conditional values in an {@link ExtendedList} of
-	 *         type {@code T} using the specified {@link Connection}
+	 *         {@code T} type using the specified {@link Connection}
 	 */
 	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
 			final Connection connection, final String table, final String[] columns,

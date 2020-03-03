@@ -55,21 +55,21 @@ public class RedBlackTreeMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types.
 	 * <p>
-	 * @param c the key {@link Class} of type {@code K}
+	 * @param c the key {@link Class} of {@code K} type
 	 */
 	public RedBlackTreeMap(final Class<K> c) {
 		super(c);
 	}
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N} loaded from
+	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
 	 * the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param c   the key {@link Class} of type {@code K}
-	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
-	 *            {@code V} to load
+	 * @param c   the key {@link Class} of {@code K} type
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 */
 	public RedBlackTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
 		super(c, map);
@@ -78,23 +78,23 @@ public class RedBlackTreeMap<K, V>
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types with the
 	 * specified key {@link Comparator}.
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 */
 	public RedBlackTreeMap(final Comparator<? super K> keyComparator) {
 		super(keyComparator);
 	}
 
 	/**
-	 * Constructs a {@link RedBlackTreeMap} of types {@code K}, {@code V} and {@code N} with the
+	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types with the
 	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
 	 * key-value mappings .
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
-	 * @param map           the {@link Map} containing the key-value mappings of subtypes {@code K}
-	 *                      and {@code V} to load
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
 	 */
 	public RedBlackTreeMap(final Comparator<? super K> keyComparator,
 			final Map<? extends K, ? extends V> map) {
@@ -160,7 +160,7 @@ public class RedBlackTreeMap<K, V>
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node a {@link RedBlackTreeNode} of types {@code K} and {@code V} (may be {@code null})
+	 * @param node a {@link RedBlackTreeNode} of {@code K} and {@code V} types (may be {@code null})
 	 */
 	@Override
 	protected void setRoot(final RedBlackTreeNode<K, V> node) {
@@ -238,7 +238,7 @@ public class RedBlackTreeMap<K, V>
 	/**
 	 * Removes the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the {@link RedBlackTreeNode} of types {@code K} and {@code V} to remove
+	 * @param node the {@link RedBlackTreeNode} of {@code K} and {@code V} types to remove
 	 */
 	@Override
 	protected void removeNode(final RedBlackTreeNode<K, V> node) {
@@ -294,7 +294,7 @@ public class RedBlackTreeMap<K, V>
 	/**
 	 * Balances after inserting the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the inserted {@link RedBlackTreeNode} of types {@code K} and {@code V}
+	 * @param node the inserted {@link RedBlackTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void balanceAfterInsertion(RedBlackTreeNode<K, V> node) {
@@ -381,7 +381,7 @@ public class RedBlackTreeMap<K, V>
 	/**
 	 * Balances after deleting the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the deleted {@link RedBlackTreeNode} of types {@code K} and {@code V}
+	 * @param node the deleted {@link RedBlackTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void balanceAfterDeletion(RedBlackTreeNode<K, V> node) {

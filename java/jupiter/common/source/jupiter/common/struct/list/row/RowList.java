@@ -110,7 +110,7 @@ public class RowList
 	 * @param header   an array of {@link String}
 	 * @param elements an array of {@link Row}
 	 * <p>
-	 * @throws NullPointerException if {@code collection} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	@SuppressWarnings("unchecked")
 	public RowList(final String[] header, final Row... elements) {
@@ -127,9 +127,9 @@ public class RowList
 	 * Constructs a {@link RowList} with the specified header and elements in a {@link Collection}.
 	 * <p>
 	 * @param header   an array of {@link String}
-	 * @param elements a {@link Collection} of subtype {@link Row}
+	 * @param elements a {@link Collection} of element subtype of {@link Row}
 	 * <p>
-	 * @throws NullPointerException if {@code collection} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public RowList(final String[] header,
 			final Collection<? extends Row> elements) {

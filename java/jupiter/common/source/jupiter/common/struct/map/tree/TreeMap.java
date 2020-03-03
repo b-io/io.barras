@@ -70,7 +70,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 */
 	protected int size = 0;
 	/**
-	 * The key {@link Comparator} of supertype {@code K} to use.
+	 * The key {@link Comparator} of {@code K} supertype to use.
 	 */
 	protected final Comparator<? super K> keyComparator;
 
@@ -80,9 +80,9 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types.
 	 * <p>
-	 * @param c the key {@link Class} of type {@code K}
+	 * @param c the key {@link Class} of {@code K} type
 	 */
 	protected TreeMap(final Class<K> c) {
 		super();
@@ -90,12 +90,12 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	}
 
 	/**
-	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N} loaded from the
+	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param c   the key {@link Class} of type {@code K}
-	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
-	 *            {@code V} to load
+	 * @param c   the key {@link Class} of {@code K} type
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 */
 	protected TreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
 		super();
@@ -106,10 +106,10 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N} with the specified
+	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types with the specified
 	 * key {@link Comparator}.
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 */
 	protected TreeMap(final Comparator<? super K> keyComparator) {
 		super();
@@ -117,13 +117,13 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	}
 
 	/**
-	 * Constructs a {@link TreeMap} of types {@code K}, {@code V} and {@code N} with the specified
+	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types with the specified
 	 * key {@link Comparator} loaded from the specified {@link Map} containing the key-value
 	 * mappings .
 	 * <p>
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
-	 * @param map           the {@link Map} containing the key-value mappings of subtypes {@code K}
-	 *                      and {@code V} to load
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
 	 */
 	protected TreeMap(final Comparator<? super K> keyComparator,
 			final Map<? extends K, ? extends V> map) {
@@ -222,9 +222,9 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the key {@link Comparator} of supertype {@code K}.
+	 * Returns the key {@link Comparator} of {@code K} supertype.
 	 * <p>
-	 * @return the key {@link Comparator} of supertype {@code K}
+	 * @return the key {@link Comparator} of {@code K} supertype
 	 */
 	public Comparator<? super K> getKeyComparator() {
 		return keyComparator;
@@ -233,9 +233,9 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the root {@link Entry} of types {@code K} and {@code V}.
+	 * Returns the root {@link Entry} of {@code K} and {@code V} types.
 	 * <p>
-	 * @return the root {@link Entry} of types {@code K} and {@code V}
+	 * @return the root {@link Entry} of {@code K} and {@code V} types
 	 */
 	public Entry<K, V> getRootEntry() {
 		return root;
@@ -266,7 +266,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable the key {@link Comparable} of supertype {@code K} to find
+	 * @param keyComparable the key {@link Comparable} of {@code K} supertype to find
 	 * <p>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
@@ -297,8 +297,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
-	 *            {@code V} to put
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to put
 	 * <p>
 	 * @throws ClassCastException   if the {@code map} type prevents it from being stored in
 	 *                              {@code this}

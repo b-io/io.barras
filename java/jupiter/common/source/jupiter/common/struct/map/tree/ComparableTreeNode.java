@@ -126,7 +126,7 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link Entry} of types {@code K} and {@code V} to compare against for
+	 * @param other the other {@link Entry} of {@code K} and {@code V} types to compare against for
 	 *              order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to

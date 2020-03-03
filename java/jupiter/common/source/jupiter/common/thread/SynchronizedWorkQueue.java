@@ -45,7 +45,7 @@ public class SynchronizedWorkQueue<I, O>
 	/**
 	 * Constructs a {@link SynchronizedWorkQueue} with the specified model {@link Worker}.
 	 * <p>
-	 * @param model the model {@link Worker} of types {@code I} and {@code O}
+	 * @param model the model {@link Worker} of {@code I} and {@code O} types
 	 */
 	public SynchronizedWorkQueue(final Worker<I, O> model) {
 		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
@@ -55,7 +55,7 @@ public class SynchronizedWorkQueue<I, O>
 	 * Constructs a {@link SynchronizedWorkQueue} with the specified model {@link Worker} and
 	 * minimum and maximum numbers of {@link Worker}.
 	 * <p>
-	 * @param model          the model {@link Worker} of types {@code I} and {@code O}
+	 * @param model          the model {@link Worker} of {@code I} and {@code O} types
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
@@ -120,7 +120,7 @@ public class SynchronizedWorkQueue<I, O>
 	/**
 	 * Removes the specified {@link Worker}.
 	 * <p>
-	 * @param worker the {@link Worker} of types {@code I} and {@code O} to remove
+	 * @param worker the {@link Worker} of {@code I} and {@code O} types to remove
 	 */
 	@Override
 	public void removeWorker(final Worker<I, O> worker) {
@@ -156,10 +156,10 @@ public class SynchronizedWorkQueue<I, O>
 	}
 
 	/**
-	 * Returns the next {@link Task} of type {@code I} if {@code this} is running, {@code null}
+	 * Returns the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
 	 * otherwise.
 	 * <p>
-	 * @return the next {@link Task} of type {@code I} if {@code this} is running, {@code null}
+	 * @return the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
 	 *         otherwise
 	 */
 	@Override

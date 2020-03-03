@@ -296,7 +296,7 @@ public class Shorts {
 	 * Returns a {@code short} array from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@code short} array from the specified {@link Collection}
 	 */
@@ -394,7 +394,7 @@ public class Shorts {
 	 * Returns an array of {@link Short} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an array of {@link Short} from the specified {@link Collection}
 	 */
@@ -508,7 +508,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@link Collection}
 	 */
@@ -520,7 +520,7 @@ public class Shorts {
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@link Collection}
 	 */
@@ -586,7 +586,7 @@ public class Shorts {
 	 * Returns a {@link Set} of {@link Short} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@link Collection}
 	 */

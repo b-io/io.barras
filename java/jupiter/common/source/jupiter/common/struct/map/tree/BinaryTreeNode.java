@@ -56,7 +56,7 @@ public abstract class BinaryTreeNode<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * <p>
 	 * @param key           the {@code K} key
 	 * @param value         the {@code V} value (may be {@code null})
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 */
 	protected BinaryTreeNode(final K key, final V value,
 			final Comparator<? super K> keyComparator) {

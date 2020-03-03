@@ -36,9 +36,9 @@ public interface ICloneable<T extends ICloneable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of {@code this} (type {@code T}).
+	 * Returns a clone of {@code this} ({@code T} type).
 	 * <p>
-	 * @return a clone of {@code this} (type {@code T})
+	 * @return a clone of {@code this} ({@code T} type)
 	 */
 	public T clone();
 }

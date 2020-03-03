@@ -54,18 +54,18 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ComparableRedBlackTreeMap} of types {@code K}, {@code V} and {@code N}.
+	 * Constructs a {@link ComparableRedBlackTreeMap} of {@code K}, {@code V} and {@code N} types.
 	 */
 	public ComparableRedBlackTreeMap() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link ComparableRedBlackTreeMap} of types {@code K}, {@code V} and {@code N}
+	 * Constructs a {@link ComparableRedBlackTreeMap} of {@code K}, {@code V} and {@code N} types
 	 * loaded from the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of subtypes {@code K} and
-	 *            {@code V} to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 */
 	public ComparableRedBlackTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -132,7 +132,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node a {@link ComparableRedBlackTreeNode} of types {@code K} and {@code V} (may be
+	 * @param node a {@link ComparableRedBlackTreeNode} of {@code K} and {@code V} types (may be
 	 *             {@code null})
 	 */
 	@Override
@@ -211,7 +211,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Removes the specified {@link ComparableRedBlackTreeNode}.
 	 * <p>
-	 * @param node the {@link ComparableRedBlackTreeNode} of types {@code K} and {@code V} to remove
+	 * @param node the {@link ComparableRedBlackTreeNode} of {@code K} and {@code V} types to remove
 	 */
 	@Override
 	protected void removeNode(final ComparableRedBlackTreeNode<K, V> node) {
@@ -267,7 +267,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after inserting the specified {@link ComparableRedBlackTreeNode}.
 	 * <p>
-	 * @param node the inserted {@link ComparableRedBlackTreeNode} of types {@code K} and {@code V}
+	 * @param node the inserted {@link ComparableRedBlackTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void balanceAfterInsertion(ComparableRedBlackTreeNode<K, V> node) {
@@ -354,7 +354,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Balances after deleting the specified {@link ComparableRedBlackTreeNode}.
 	 * <p>
-	 * @param node the deleted {@link ComparableRedBlackTreeNode} of types {@code K} and {@code V}
+	 * @param node the deleted {@link ComparableRedBlackTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void balanceAfterDeletion(ComparableRedBlackTreeNode<K, V> node) {

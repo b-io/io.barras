@@ -58,7 +58,7 @@ public class TreeNode<K, V>
 	protected V value;
 
 	/**
-	 * The key {@link Comparator} of supertype {@code K} to use.
+	 * The key {@link Comparator} of {@code K} supertype to use.
 	 */
 	protected final Comparator<? super K> keyComparator;
 
@@ -73,7 +73,7 @@ public class TreeNode<K, V>
 	 * <p>
 	 * @param key           the {@code K} key
 	 * @param value         the {@code V} value (may be {@code null})
-	 * @param keyComparator the key {@link Comparator} of supertype {@code K} to determine the order
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 */
 	public TreeNode(final K key, final V value, final Comparator<? super K> keyComparator) {
 		// Check the arguments
@@ -135,7 +135,7 @@ public class TreeNode<K, V>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
 	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
 	 * <p>
-	 * @param other the other {@link Entry} of types {@code K} and {@code V} to compare against for
+	 * @param other the other {@link Entry} of {@code K} and {@code V} types to compare against for
 	 *              order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to

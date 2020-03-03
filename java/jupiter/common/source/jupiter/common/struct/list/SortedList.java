@@ -26,7 +26,7 @@ package jupiter.common.struct.list;
 import java.util.Collection;
 
 /**
- * {@link SortedList} extends {@link ExtendedLinkedList} of element type {@code E}.
+ * {@link SortedList} extends {@link ExtendedLinkedList} of {@code E} element type.
  * <p>
  * @param <E> the self element {@link Comparable} type of the {@link SortedList}
  */
@@ -48,7 +48,7 @@ public class SortedList<E extends Comparable<E>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link SortedList} of element type {@code E}.
+	 * Constructs an empty {@link SortedList} of {@code E} element type.
 	 */
 	public SortedList() {
 		super();
@@ -57,11 +57,11 @@ public class SortedList<E extends Comparable<E>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SortedList} of element type {@code E} with the specified elements.
+	 * Constructs a {@link SortedList} of {@code E} element type with the specified elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 * <p>
-	 * @throws NullPointerException if {@code collection} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	@SuppressWarnings("unchecked")
 	public SortedList(final E... elements) {
@@ -69,12 +69,12 @@ public class SortedList<E extends Comparable<E>>
 	}
 
 	/**
-	 * Constructs a {@link SortedList} of element type {@code E} with the specified elements in a
+	 * Constructs a {@link SortedList} of {@code E} element type with the specified elements in a
 	 * {@link Collection}.
 	 * <p>
-	 * @param elements a {@link Collection} of element subtype {@code E}
+	 * @param elements a {@link Collection} of {@code E} element subtype
 	 * <p>
-	 * @throws NullPointerException if {@code collection} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public SortedList(final Collection<? extends E> elements) {
 		super(elements);

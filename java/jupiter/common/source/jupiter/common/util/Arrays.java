@@ -343,8 +343,8 @@ public class Arrays {
 	 * Returns the number of occurrences of the specified {@code T} token in the specified {@code T}
 	 * array.
 	 * <p>
-	 * @param <T>   the component type of the array
-	 * @param array a {@code T} array
+	 * @param <T>   the component type of the array to count from
+	 * @param array the {@code T} array to count from
 	 * @param token the {@code T} token to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code T} token in the specified {@code T}
@@ -362,8 +362,8 @@ public class Arrays {
 	 * Returns the number of occurrences of the specified {@code T} tokens in the specified
 	 * {@code T} array.
 	 * <p>
-	 * @param <T>    the component type of the array
-	 * @param array  a {@code T} array
+	 * @param <T>    the component type of the array to count from
+	 * @param array  the {@code T} array to count from
 	 * @param tokens the {@code T} tokens to count
 	 * <p>
 	 * @return the number of occurrences of the specified {@code T} tokens in the specified
@@ -380,16 +380,16 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the sum of the lengths of the specified {@code T} arrays.
+	 * Returns the sum of the lengths of the specified 2D {@code T} array.
 	 * <p>
-	 * @param <T>    the component type of the arrays
-	 * @param arrays a 2D {@code T} array
+	 * @param <T>     the component type of the 2D array to count from
+	 * @param array2D the 2D {@code T} array to count from
 	 * <p>
-	 * @return the sum of the lengths of the specified {@code T} arrays
+	 * @return the sum of the lengths of the specified 2D {@code T} array
 	 */
-	public static <T> int countLength(final T[][] arrays) {
+	public static <T> int countLength(final T[][] array2D) {
 		int countLength = 0;
-		for (final T[] array : arrays) {
+		for (final T[] array : array2D) {
 			countLength += array.length;
 		}
 		return countLength;
@@ -423,8 +423,8 @@ public class Arrays {
 	/**
 	 * Returns the filtered {@code T} array from the specified {@code T} array and indexes.
 	 * <p>
-	 * @param <T>     the component type of the array
-	 * @param array   a {@code T} array
+	 * @param <T>     the component type of the array to filter from
+	 * @param array   the {@code T} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
 	 * @return the filtered {@code T} array from the specified {@code T} array and indexes
@@ -441,8 +441,8 @@ public class Arrays {
 	/**
 	 * Returns all the filtered {@code T} arrays from the specified {@code T} array and indexes.
 	 * <p>
-	 * @param <T>     the component type of the array
-	 * @param array   a {@code T} array
+	 * @param <T>     the component type of the array to filter from
+	 * @param array   the {@code T} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
 	 * @return all the filtered {@code T} arrays from the specified {@code T} array and indexes
@@ -462,8 +462,8 @@ public class Arrays {
 	 * Returns a {@code T} array containing all the elements of the specified {@code T} arrays.
 	 * <p>
 	 * @param <T> the component type of the arrays to merge
-	 * @param a   a {@code T} array (may be {@code null})
-	 * @param b   a {@code T} array (may be {@code null})
+	 * @param a   the {@code T} array to merge (may be {@code null})
+	 * @param b   the other {@code T} array to merge with (may be {@code null})
 	 * <p>
 	 * @return a {@code T} array containing all the elements of the specified {@code T} arrays
 	 * <p>
@@ -493,12 +493,13 @@ public class Arrays {
 	 * Returns a {@code T} array containing all the elements of the specified {@code T} arrays.
 	 * <p>
 	 * @param <T>    the component type of the arrays to merge
-	 * @param arrays a 2D {@code T} array (may be {@code null})
+	 * @param arrays the {@code T} arrays to merge (may be {@code null})
 	 * <p>
 	 * @return a {@code T} array containing all the elements of the specified {@code T} arrays
 	 * <p>
-	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
-	 *                                  superclass or superinterface of, the type of {@code b}
+	 * @throws IllegalArgumentException if the type of any {@code arrays} is neither the same as,
+	 *                                  nor is a superclass or superinterface of, the type of any
+	 *                                  other {@code arrays}
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[] merge(final T[]... arrays) {
@@ -732,7 +733,7 @@ public class Arrays {
 	 * <p>
 	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array to sort
-	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
 	 *                   the elements should be used)
 	 * <p>
@@ -782,7 +783,7 @@ public class Arrays {
 	 * @param array      the {@code T} array to sort
 	 * @param fromIndex  the index of the first element to sort (inclusive)
 	 * @param toIndex    the index of the last element to sort (exclusive)
-	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
 	 *                   the elements should be used)
 	 * <p>
@@ -1192,7 +1193,7 @@ public class Arrays {
 	 * @param array      the {@code T} array to test
 	 * @param from       the lower bound {@code T} array to test against (inclusive)
 	 * @param to         the upper bound {@code T} array to test against (exclusive)
-	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
@@ -1312,8 +1313,8 @@ public class Arrays {
 	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param <T> the self {@link Comparable} component type of the arrays to compare
-	 * @param a   the array of {@link Comparable} of type {@code T} to compare
-	 * @param b   the other array of {@link Comparable} of type {@code T} to compare against
+	 * @param a   the array of {@link Comparable} of {@code T} type to compare
+	 * @param b   the other array of {@link Comparable} of {@code T} type to compare against
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
@@ -1348,7 +1349,7 @@ public class Arrays {
 	 * @param <T>        the component type of the arrays to compare for order
 	 * @param a          the {@code T} array to compare for order
 	 * @param b          the other {@code T} array to compare against for order
-	 * @param comparator the {@link Comparator} of supertype {@code T} to determine the order
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
 	 *         greater than {@code b}
@@ -1383,7 +1384,7 @@ public class Arrays {
 	 * <p>
 	 * @return a copy of the specified {@code T} array
 	 * <p>
-	 * @throws CloneNotSupportedException if the type {@code T} does not implement {@link Cloneable}
+	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
 	 *
 	 * @see jupiter.common.model.ICloneable
 	 */

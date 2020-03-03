@@ -189,7 +189,7 @@ public class Objects {
 	 * <p>
 	 * @return a copy of the specified {@code T} object
 	 * <p>
-	 * @throws CloneNotSupportedException if the type {@code T} does not implement {@link Cloneable}
+	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
 	 *
 	 * @see jupiter.common.model.ICloneable
 	 */

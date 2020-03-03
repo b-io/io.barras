@@ -489,7 +489,7 @@ public class Bytes {
 	 * Returns a {@code byte} array from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@code byte} array from the specified {@link Collection}
 	 */
@@ -587,7 +587,7 @@ public class Bytes {
 	 * Returns an array of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an array of {@link Byte} from the specified {@link Collection}
 	 */
@@ -699,7 +699,7 @@ public class Bytes {
 	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@link Collection}
 	 */
@@ -711,7 +711,7 @@ public class Bytes {
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
 	 */
@@ -777,7 +777,7 @@ public class Bytes {
 	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection}
 	 */

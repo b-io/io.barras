@@ -355,7 +355,7 @@ public class Integers {
 	 * Returns an {@code int} array from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@code int} array from the specified {@link Collection}
 	 */
@@ -453,7 +453,7 @@ public class Integers {
 	 * Returns an array of {@link Integer} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an array of {@link Integer} from the specified {@link Collection}
 	 */
@@ -567,7 +567,7 @@ public class Integers {
 	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@link Collection}
 	 */
@@ -580,7 +580,7 @@ public class Integers {
 	 * {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified
 	 *         {@link Collection}
@@ -647,7 +647,7 @@ public class Integers {
 	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of element type {@code E} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified {@link Collection}
 	 */

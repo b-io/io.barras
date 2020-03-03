@@ -32,7 +32,7 @@ import jupiter.common.util.Integers;
 import jupiter.common.util.Lists;
 
 /**
- * {@link ExtendedLinkedList} extends {@link LinkedList} of element type {@code E}.
+ * {@link ExtendedLinkedList} extends {@link LinkedList} of {@code E} element type.
  * <p>
  * @param <E> the element type of the {@link ExtendedLinkedList}
  */
@@ -55,7 +55,7 @@ public class ExtendedLinkedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedLinkedList} of element type {@code E}.
+	 * Constructs an empty {@link ExtendedLinkedList} of {@code E} element type.
 	 */
 	public ExtendedLinkedList() {
 		super();
@@ -64,12 +64,12 @@ public class ExtendedLinkedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ExtendedLinkedList} of element type {@code E} with the specified
+	 * Constructs an {@link ExtendedLinkedList} of {@code E} element type with the specified
 	 * elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 * <p>
-	 * @throws NullPointerException if {@code collection} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	@SuppressWarnings("unchecked")
 	public ExtendedLinkedList(final E... elements) {
@@ -77,12 +77,12 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedLinkedList} of element type {@code E} with the specified
+	 * Constructs an {@link ExtendedLinkedList} of {@code E} element type with the specified
 	 * elements in a {@link Collection}.
 	 * <p>
-	 * @param elements a {@link Collection} of element subtype {@code E}
+	 * @param elements a {@link Collection} of {@code E} element subtype
 	 * <p>
-	 * @throws NullPointerException if {@code collection} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public ExtendedLinkedList(final Collection<? extends E> elements) {
 		super(elements);
