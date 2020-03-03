@@ -69,16 +69,16 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@link ComparablePair} of {@code T1}, {@code T2} and {@code T3}
 	 *              component types to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code other}
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
+	 *         value)
 	 */
 	public int compareTo(final ComparableTriple<T1, T2, T3> other) {
 		if (this == other) {

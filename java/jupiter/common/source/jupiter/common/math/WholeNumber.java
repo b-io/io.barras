@@ -169,15 +169,15 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@link ComparableNumber} to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code other}
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
+	 *         value)
 	 */
 	@Override
 	public int compareTo(final ComparableNumber other) {

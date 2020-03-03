@@ -519,17 +519,17 @@ public class JConsole
 
 	protected AttributeSet setStyle(final String fontFamilyName, final int size,
 			final Color color) {
-		final MutableAttributeSet attr = new SimpleAttributeSet();
+		final MutableAttributeSet attributes = new SimpleAttributeSet();
 		if (color != null) {
-			StyleConstants.setForeground(attr, color);
+			StyleConstants.setForeground(attributes, color);
 		}
 		if (fontFamilyName != null) {
-			StyleConstants.setFontFamily(attr, fontFamilyName);
+			StyleConstants.setFontFamily(attributes, fontFamilyName);
 		}
 		if (size >= 0) {
-			StyleConstants.setFontSize(attr, size);
+			StyleConstants.setFontSize(attributes, size);
 		}
-		setStyle(attr);
+		setStyle(attributes);
 		return getStyle();
 	}
 

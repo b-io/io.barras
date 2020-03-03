@@ -446,13 +446,15 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code T} array from the specified {@code T} array and indexes.
+	 * Returns a {@code T} array containing all the elements of the specified {@code T} array at the
+	 * specified indexes.
 	 * <p>
 	 * @param <T>     the component type of the array to filter from
 	 * @param array   the {@code T} array to filter from
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code T} array from the specified {@code T} array and indexes
+	 * @return a {@code T} array containing all the elements of the specified {@code T} array at the
+	 *         specified indexes
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[] filter(final T[] array, final int... indexes) {
@@ -464,13 +466,15 @@ public class Arrays {
 	}
 
 	/**
-	 * Returns all the filtered {@code T} arrays from the specified {@code T} array and indexes.
+	 * Returns a 2D {@code T} array containing all the elements of the specified {@code T} array at
+	 * all the specified indexes.
 	 * <p>
 	 * @param <T>     the component type of the array to filter from
 	 * @param array   the {@code T} array to filter from
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code T} arrays from the specified {@code T} array and indexes
+	 * @return a 2D {@code T} array containing all the elements of the specified {@code T} array at
+	 *         all the specified indexes
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[][] filterAll(final T[] array, final int[]... indexes) {
@@ -626,7 +630,7 @@ public class Arrays {
 	 * @throws IllegalArgumentException (optional) if the natural ordering of the {@code array}
 	 *                                  elements is found to violate the {@link Comparable} contract
 	 */
-	public static void sort(final Object... array) {
+	public static void sort(final Object[] array) {
 		ComparableSort.sort(array, 0, array.length, null, 0, 0);
 	}
 
@@ -947,6 +951,24 @@ public class Arrays {
 			}
 		}
 		return transpose;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a {@code T} array containing all the distinct elements of the specified {@code T}
+	 * array.
+	 * <p>
+	 * @param <T>   the component type of the array to filter from
+	 * @param array the {@code T} array to filter from
+	 * <p>
+	 * @return a {@code T} array containing all the distinct elements of the specified {@code T}
+	 *         array
+	 */
+	public static <T> T[] unique(final T[] array) {
+		final HashSet<T> set = new HashSet<T>();
+		Sets.addAll(set, array);
+		return Sets.toArray(set);
 	}
 
 
@@ -1335,33 +1357,31 @@ public class Arrays {
 
 	/**
 	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
-	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
+	 * (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} component type of the arrays to compare
 	 * @param a   the array of {@link Comparable} of {@code T} type to compare
 	 * @param b   the other array of {@link Comparable} of {@code T} type to compare against
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<T>> int compare(final T[] a, final T[] b) {
+	public static <T extends Comparable<? super T>> int compare(final T[] a, final T[] b) {
 		return compare(a, b, Comparables.<T>createComparator());
 	}
 
 	/**
-	 * Compares the specified {@code T} arrays for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code T} arrays for order. Returns a negative integer, {@code 0} or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the component type of the arrays to compare
 	 * @param a   the {@code T} array to compare
 	 * @param b   the other {@code T} array to compare against
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static <T> int compareCast(final T[] a, final T[] b) {
 		return compare(a, b, Comparables.<T>createCastComparator());
@@ -1369,17 +1389,16 @@ public class Arrays {
 
 	/**
 	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
-	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
+	 * (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T>        the component type of the arrays to compare for order
 	 * @param a          the {@code T} array to compare for order
 	 * @param b          the other {@code T} array to compare against for order
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static <T> int compare(final T[] a, final T[] b,
 			final Comparator<? super T> comparator) {

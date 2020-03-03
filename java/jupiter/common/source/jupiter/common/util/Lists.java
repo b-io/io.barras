@@ -112,9 +112,14 @@ public class Lists
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
-	public static <E> void sort(final List<E> list) {
-		final E[] array = (E[]) list.toArray();
+	/**
+	 * Sorts the specified {@link List}.
+	 * <p>
+	 * @param <E>  the self {@link Comparable} element type of the {@link List} to sort
+	 * @param list the {@link List} of {@code E} element type to sort
+	 */
+	public static <E extends Comparable<? super E>> void sort(final List<E> list) {
+		final E[] array = Lists.toArray(list);
 		Arrays.sort(array);
 		final ListIterator<E> iterator = list.listIterator();
 		for (final E element : array) {
@@ -137,10 +142,9 @@ public class Lists
 	 * @throws IllegalArgumentException (optional) if {@code comparator} is found to violate the
 	 *                                  {@link Comparator} contract
 	 */
-	@SuppressWarnings("unchecked")
 	public static <E> void sort(final List<E> list, final Comparator<? super E> comparator) {
-		final E[] array = (E[]) list.toArray();
-		Arrays.<E>sort(array, comparator);
+		final E[] array = Lists.toArray(list);
+		Arrays.sort(array, comparator);
 		final ListIterator<E> iterator = list.listIterator();
 		for (final E element : array) {
 			iterator.next();

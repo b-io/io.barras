@@ -899,7 +899,7 @@ public class FTPHandler
 		remoteDirPath = properties.getProperty("remoteDir");
 		localDirPath = properties.getProperty("localDir");
 		fileNameFilter = properties.getProperty("fileNameFilter", STAR);
-		fileNames = (String[]) Strings.split(properties.getProperty("fileNames", STAR)).toArray();
+		fileNames = Strings.split(properties.getProperty("fileNames", STAR)).toArray();
 	}
 
 

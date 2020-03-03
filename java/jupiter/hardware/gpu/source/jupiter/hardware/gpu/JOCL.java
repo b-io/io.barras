@@ -56,10 +56,10 @@ import static org.jocl.CL.clReleaseProgram;
 import static org.jocl.CL.clSetKernelArg;
 import static org.jocl.CL.setExceptionsEnabled;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import jupiter.common.math.Maths;
-import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Strings;
@@ -97,7 +97,7 @@ public class JOCL
 	protected final cl_command_queue commandQueue;
 
 	protected final cl_program program;
-	protected final Map<String, cl_kernel> kernels = new ComparableRedBlackTreeMap<String, cl_kernel>();
+	protected final Map<String, cl_kernel> kernels = new HashMap<String, cl_kernel>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

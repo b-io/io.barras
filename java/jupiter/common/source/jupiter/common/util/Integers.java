@@ -662,12 +662,12 @@ public class Integers {
 
 	/**
 	 * Creates an {@code int} array of the specified length containing the sequence of numbers
-	 * starting with zero and spaced by one.
+	 * starting with {@code 0} and spaced by {@code 1}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
 	 * @return an {@code int} array of the specified length containing the sequence of numbers
-	 *         starting with zero and spaced by one
+	 *         starting with {@code 0} and spaced by {@code 1}
 	 */
 	public static int[] createSequence(final int length) {
 		return createSequence(length, 0, 1);
@@ -675,13 +675,13 @@ public class Integers {
 
 	/**
 	 * Creates an {@code int} array of the specified length containing the sequence of numbers
-	 * starting with {@code from} and spaced by one.
+	 * starting with {@code from} and spaced by {@code 1}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
 	 * @return an {@code int} array of the specified length containing the sequence of numbers
-	 *         starting with {@code from} and spaced by one
+	 *         starting with {@code from} and spaced by {@code 1}
 	 */
 	public static int[] createSequence(final int length, final int from) {
 		return createSequence(length, from, 1);
@@ -1382,14 +1382,15 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@code int} values for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code int} values for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@code int} value to compare for order
 	 * @param b the other {@code int} value to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final int a, final int b) {
 		return a < b ? -1 : a == b ? 0 : 1;
@@ -1398,16 +1399,15 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@code int} arrays for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code int} arrays for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@code int} array to compare for order
 	 * @param b the other {@code int} array to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final int[] a, final int[] b) {
 		if (a == b) {

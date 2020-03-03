@@ -614,12 +614,12 @@ public class Characters {
 
 	/**
 	 * Creates a {@code char} array of the specified length containing the sequence of {@code char}
-	 * values starting with zero and spaced by one.
+	 * values starting with {@code 0} and spaced by {@code 1}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
 	 * @return a {@code char} array of the specified length containing the sequence of {@code char}
-	 *         values starting with zero and spaced by one
+	 *         values starting with {@code 0} and spaced by {@code 1}
 	 */
 	public static char[] createSequence(final char length) {
 		return createSequence(length, Character.MIN_VALUE, '\u0001');
@@ -627,13 +627,13 @@ public class Characters {
 
 	/**
 	 * Creates a {@code char} array of the specified length containing the sequence of {@code char}
-	 * values starting with {@code from} and spaced by one.
+	 * values starting with {@code from} and spaced by {@code 1}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
 	 * @return a {@code char} array of the specified length containing the sequence of {@code char}
-	 *         values starting with {@code from} and spaced by one
+	 *         values starting with {@code from} and spaced by {@code 1}
 	 */
 	public static char[] createSequence(final char length, final char from) {
 		return createSequence(length, from, '\u0001');
@@ -1294,14 +1294,15 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@code char} values for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code char} values for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@code char} value to compare for order
 	 * @param b the other {@code char} value to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final char a, final char b) {
 		return a < b ? -1 : a == b ? 0 : 1;
@@ -1310,16 +1311,15 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@code char} arrays for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code char} arrays for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@code char} array to compare for order
 	 * @param b the other {@code char} array to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final char[] a, final char[] b) {
 		if (a == b) {

@@ -134,8 +134,7 @@ public class SystemFiles {
 	public static int unzip(final Properties properties) {
 		final File localDir = new File(properties.getProperty("localDir"));
 		final String filter = properties.getProperty("filter", STAR).replace(STAR, ".*");
-		final String[] fileNames = (String[]) Strings.split(properties.getProperty("fileNames"))
-				.toArray();
+		final String[] fileNames = Strings.split(properties.getProperty("fileNames")).toArray();
 
 		// Check the file names
 		if (fileNames.length == 0) {

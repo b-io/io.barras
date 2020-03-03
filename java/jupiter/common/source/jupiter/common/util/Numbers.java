@@ -189,19 +189,18 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@link Number} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@link Number} for order. Returns a negative integer, {@code 0} or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@link Number} to compare for order
 	 * @param b the other {@link Number} to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final Number a, final Number b) {
-		if (a == b) {
+		if (a == b || a == null || b == null) {
 			return 0;
 		}
 		if (a instanceof BigDecimal || b instanceof BigDecimal) {
@@ -213,28 +212,28 @@ public class Numbers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code a} is less than {@code b}.
+	 * Tests whether {@code a} is less than {@code b} (with {@code null} considered as the minimum
+	 * value).
 	 * <p>
 	 * @param a the {@link Number} to compare
 	 * @param b the other {@link Number} to compare against
 	 * <p>
-	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise (with
+	 *         {@code null} considered as the minimum value)
 	 */
 	public static boolean isLessThan(final Number a, final Number b) {
 		return compare(a, b) < 0;
 	}
 
 	/**
-	 * Tests whether {@code a} is less or equal to {@code b}.
+	 * Tests whether {@code a} is less or equal to {@code b} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param a the {@link Number} to compare
 	 * @param b the other {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 *         (with {@code null} considered as the minimum value)
 	 */
 	public static boolean isLessOrEqualTo(final Number a, final Number b) {
 		return compare(a, b) <= 0;
@@ -243,28 +242,28 @@ public class Numbers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code a} is greater than {@code b}.
+	 * Tests whether {@code a} is greater than {@code b} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param a the {@link Number} to compare
 	 * @param b the other {@link Number} to compare against
 	 * <p>
-	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise (with
+	 *         {@code null} considered as the minimum value)
 	 */
 	public static boolean isGreaterThan(final Number a, final Number b) {
 		return compare(a, b) > 0;
 	}
 
 	/**
-	 * Tests whether {@code a} is greater or equal to {@code b}.
+	 * Tests whether {@code a} is greater or equal to {@code b} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param a the {@link Number} to compare
 	 * @param b the other {@link Number} to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 *         (with {@code null} considered as the minimum value)
 	 */
 	public static boolean isGreaterOrEqualTo(final Number a, final Number b) {
 		return compare(a, b) >= 0;
@@ -273,32 +272,30 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the smaller of {@code a} and {@code b}. If they have the same value, the result is
-	 * {@code a}.
+	 * Returns the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the {@link Number} type
 	 * @param a   the {@link Number} to compare
 	 * @param b   the other {@link Number} to compare against
 	 * <p>
-	 * @return the smaller of {@code a} and {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 *         {@code null} considered as the minimum value)
 	 */
 	public static <T extends Number> T getMin(final T a, final T b) {
 		return compare(a, b) <= 0 ? a : b;
 	}
 
 	/**
-	 * Returns the larger of {@code a} and {@code b}. If they have the same value, the result is
-	 * {@code a}.
+	 * Returns the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the {@link Number} type
 	 * @param a   the {@link Number} to compare
 	 * @param b   the other {@link Number} to compare against
 	 * <p>
-	 * @return the larger of {@code a} and {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 *         {@code null} considered as the minimum value)
 	 */
 	public static <T extends Number> T getMax(final T a, final T b) {
 		return compare(a, b) >= 0 ? a : b;

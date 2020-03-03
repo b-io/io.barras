@@ -95,24 +95,27 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array containing all of the elements in the specified {@link Collection} in proper
-	 * sequence (from first to last element), or an empty array if the specified {@link Collection}
-	 * is {@code null} or empty.
+	 * Returns an {@code E} array containing all of the elements in the specified {@link Collection}
+	 * in proper sequence (from first to last element), or an empty array if the specified
+	 * {@link Collection} is {@code null} or empty.
 	 * <p>
-	 * @param collection the {@link Collection} to convert (may be {@code null})
+	 * @param <E>        the element type of the {@link Collection} to convert
+	 * @param collection the {@link Collection} of {@code E} element type to convert (may be
+	 *                   {@code null})
 	 * <p>
-	 * @return an array containing all of the elements in the specified {@link Collection} in proper
-	 *         sequence (from first to last element), or an empty array if the specified
+	 * @return an {@code E} array containing all of the elements in the specified {@link Collection}
+	 *         in proper sequence (from first to last element), or an empty array if the specified
 	 *         {@link Collection} is {@code null} or empty
 	 *
 	 * @see Collection#toArray
 	 */
-	public static Object[] toArray(final Collection<?> collection) {
+	@SuppressWarnings("unchecked")
+	public static <E> E[] toArray(final Collection<E> collection) {
 		final Class<?> c = getElementClass(collection);
 		if (c == null) {
-			return Objects.EMPTY_ARRAY;
+			return (E[]) Objects.EMPTY_ARRAY;
 		}
-		return collection.toArray(Arrays.create(c, collection.size()));
+		return (E[]) collection.toArray(Arrays.create(c, collection.size()));
 	}
 
 	/**

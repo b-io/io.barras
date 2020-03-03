@@ -469,7 +469,7 @@ public class Combinatorics {
 				}
 			}
 		}
-		return (int[][]) permutations.toArray();
+		return permutations.toArray();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -596,7 +596,7 @@ public class Combinatorics {
 				}
 			}
 		}
-		return (int[][]) combinations.toArray();
+		return combinations.toArray();
 	}
 
 

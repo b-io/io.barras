@@ -28,6 +28,7 @@ import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -35,7 +36,6 @@ import jupiter.common.exception.IllegalClassException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Result;
@@ -84,7 +84,7 @@ public class Calculator
 	/**
 	 * The context containing the values of the variables.
 	 */
-	protected final Map<String, Element> context = new ComparableRedBlackTreeMap<String, Element>();
+	protected final Map<String, Element> context = new HashMap<String, Element>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

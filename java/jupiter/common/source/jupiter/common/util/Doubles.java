@@ -560,12 +560,12 @@ public class Doubles {
 
 	/**
 	 * Creates a {@code double} array of the specified length containing the sequence of numbers
-	 * starting with zero and spaced by one.
+	 * starting with {@code 0} and spaced by {@code 1}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
 	 * @return a {@code double} array of the specified length containing the sequence of numbers
-	 *         starting with zero and spaced by one
+	 *         starting with {@code 0} and spaced by {@code 1}
 	 */
 	public static double[] createSequence(final int length) {
 		return createSequence(length, 0., 1.);
@@ -573,13 +573,13 @@ public class Doubles {
 
 	/**
 	 * Creates a {@code double} array of the specified length containing the sequence of numbers
-	 * starting with {@code from} and spaced by one.
+	 * starting with {@code from} and spaced by {@code 1}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
 	 * @return a {@code double} array of the specified length containing the sequence of numbers
-	 *         starting with {@code from} and spaced by one
+	 *         starting with {@code from} and spaced by {@code 1}
 	 */
 	public static double[] createSequence(final int length, final double from) {
 		return createSequence(length, from, 1.);
@@ -1224,14 +1224,15 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@code double} values for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code double} values for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@code double} value to compare for order
 	 * @param b the other {@code double} value to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final double a, final double b) {
 		if (a < b) {
@@ -1245,22 +1246,21 @@ public class Doubles {
 		final long bBits = Double.doubleToLongBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-				1; // (0., -0.) or (NaN, !NaN)
+						1; // (0., -0.) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@code double} arrays for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code double} arrays for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@code double} array to compare for order
 	 * @param b the other {@code double} array to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final double[] a, final double[] b) {
 		if (a == b) {

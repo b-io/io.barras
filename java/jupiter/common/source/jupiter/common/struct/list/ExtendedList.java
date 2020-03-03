@@ -184,16 +184,16 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array containing all of the elements in {@code this} in proper sequence (from
-	 * first to last element), or an empty array if {@code this} is empty.
+	 * Returns an {@code E} array containing all of the elements in {@code this} in proper sequence
+	 * (from first to last element), or an empty array if {@code this} is empty.
 	 * <p>
-	 * @return an array containing all of the elements in {@code this} in proper sequence (from
-	 *         first to last element), or an empty array if {@code this} is empty
+	 * @return an {@code E} array containing all of the elements in {@code this} in proper sequence
+	 *         (from first to last element), or an empty array if {@code this} is empty
 	 *
 	 * @see ArrayList#toArray
 	 */
 	@Override
-	public Object[] toArray() {
+	public E[] toArray() {
 		return Lists.toArray(this);
 	}
 

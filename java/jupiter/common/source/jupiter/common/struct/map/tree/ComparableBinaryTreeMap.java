@@ -26,12 +26,12 @@ package jupiter.common.struct.map.tree;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.NEW_LINE;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
 
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
@@ -546,7 +546,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 */
 	@Override
 	public Set<Entry<K, V>> entrySet() {
-		return entrySet(root, new TreeSet<Entry<K, V>>());
+		return entrySet(root, new HashSet<Entry<K, V>>());
 	}
 
 	/**

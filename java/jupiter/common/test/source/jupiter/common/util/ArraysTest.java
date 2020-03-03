@@ -61,6 +61,18 @@ public class ArraysTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of toArray method, of class Arrays.
+	 */
+	public void testToArray() {
+		IO.test(BULLET, " toArray");
+
+		assertEquals(Objects.hashCode(new String[] {}),
+				Objects.hashCode(Arrays.toArray(new String[] {})));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Test of filterAll method, of class Arrays.
 	 */
 	public void testFilterAll() {

@@ -75,7 +75,7 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Scalar} with zero.
+	 * Constructs a zero {@link Scalar}.
 	 */
 	public Scalar() {
 		this(0.);
@@ -95,8 +95,7 @@ public class Scalar
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Scalar} with zero and the flag specifying whether {@code this} is
-	 * read-only.
+	 * Constructs a zero {@link Scalar} and the flag specifying whether {@code this} is read-only.
 	 * <p>
 	 * @param isReadOnly the flag specifying whether {@code this} is read-only
 	 */

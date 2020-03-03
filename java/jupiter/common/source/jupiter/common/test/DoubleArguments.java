@@ -198,7 +198,7 @@ public class DoubleArguments
 		if (CHECK_ARGS && a != b) {
 			throw new IllegalArgumentException(
 					"The specified double arrays do not have the same length " +
-							isNotEqualTo(a, b));
+					isNotEqualTo(a, b));
 		}
 	}
 }

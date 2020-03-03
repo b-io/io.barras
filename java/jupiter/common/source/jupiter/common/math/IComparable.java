@@ -28,7 +28,7 @@ package jupiter.common.math;
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link IComparable}
  */
-public interface IComparable<T extends Comparable<T>>
+public interface IComparable<T extends Comparable<? super T>>
 		extends Comparable<T> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,103 +36,107 @@ public interface IComparable<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@code T} object to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code other}
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
+	 *         value)
 	 */
 	public int compareTo(final T other);
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code this} is less than {@code other}.
+	 * Tests whether {@code this} is less than {@code other} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
+	 *         (with {@code null} considered as the minimum value)
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 */
 	public boolean isLessThan(final T other);
 
 	/**
-	 * Tests whether {@code this} is less or equal to {@code other}.
+	 * Tests whether {@code this} is less or equal to {@code other} (with {@code null} considered as
+	 * the minimum value).
 	 * <p>
 	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
-	 *         otherwise
+	 *         otherwise (with {@code null} considered as the minimum value)
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 */
 	public boolean isLessOrEqualTo(final T other);
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code this} is greater than {@code other}.
+	 * Tests whether {@code this} is greater than {@code other} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
+	 *         (with {@code null} considered as the minimum value)
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 */
 	public boolean isGreaterThan(final T other);
 
 	/**
-	 * Tests whether {@code this} is greater or equal to {@code other}.
+	 * Tests whether {@code this} is greater or equal to {@code other} (with {@code null} considered
+	 * as the minimum value).
 	 * <p>
 	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
-	 *         otherwise
+	 *         otherwise (with {@code null} considered as the minimum value)
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 */
 	public boolean isGreaterOrEqualTo(final T other);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal.
+	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal
+	 * (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@code T} object to compare against
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
+	 *         (with {@code null} considered as the minimum value)
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 */
-	public Comparable<T> getMin(final T other);
+	public Comparable<? super T> getMin(final T other);
 
 	/**
-	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal.
+	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@code T} object to compare against
 	 * <p>
-	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
+	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
+	 *         {@code null} considered as the minimum value)
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 */
-	public Comparable<T> getMax(final T other);
+	public Comparable<? super T> getMax(final T other);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

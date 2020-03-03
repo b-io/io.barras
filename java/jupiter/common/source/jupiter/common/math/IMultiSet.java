@@ -29,7 +29,7 @@ package jupiter.common.math;
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link IMultiSet}
  */
-public interface IMultiSet<T extends Comparable<T>>
+public interface IMultiSet<T extends Comparable<? super T>>
 		extends ISet<T> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

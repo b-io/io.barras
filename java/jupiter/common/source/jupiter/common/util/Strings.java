@@ -4071,13 +4071,14 @@ public class Strings {
 
 	/**
 	 * Compares the specified {@link String} for lexicographic order. Returns a negative integer,
-	 * zero or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
+	 * (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@link String} to compare for lexicographic order
 	 * @param b the other {@link String} to compare against for lexicographic order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final String a, final String b) {
 		return a.compareTo(b);
@@ -4085,14 +4086,14 @@ public class Strings {
 
 	/**
 	 * Compares the specified {@link String} for lexicographic order, ignoring case differences.
-	 * Returns a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 * greater than {@code b}.
+	 * Returns a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 * to or greater than {@code b} (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@link String} to compare for lexicographic order
 	 * @param b the other {@link String} to compare against for lexicographic order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compareIgnoreCase(final String a, final String b) {
 		return a.compareToIgnoreCase(b);

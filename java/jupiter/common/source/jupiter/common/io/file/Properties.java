@@ -176,7 +176,7 @@ public class Properties
 		if (propertyList == null) {
 			return null;
 		}
-		return (String[]) Strings.split(propertyList).toArray();
+		return Strings.split(propertyList).toArray();
 	}
 
 	public static String[] getArray(final String fileName, final String key) {

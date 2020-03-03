@@ -28,7 +28,7 @@ package jupiter.common.math;
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link ISet}
  */
-public interface ISet<T extends Comparable<T>> {
+public interface ISet<T extends Comparable<? super T>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS

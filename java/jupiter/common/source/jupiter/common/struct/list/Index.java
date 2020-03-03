@@ -116,37 +116,34 @@ public class Index<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@link Index} of {@code T} type to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code other}
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
+	 *         value)
 	 */
 	public int compareTo(final Index<T> other) {
 		return compare(this, other);
 	}
 
 	/**
-	 * Compares the specified {@link Index} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@link Index} for order. Returns a negative integer, {@code 0} or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@link Index} to compare for order
 	 * @param b the other {@link Index} to compare against for order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	public static int compare(final Index<?> a, final Index<?> b) {
-		if (a == b) {
-			return 0;
-		}
-		return Integers.compare(a.getIndex(), b.getIndex());
+		return a == b ? 0 : a == null ? -1 : b == null ? 1 :
+				Integers.compare(a.getIndex(), b.getIndex());
 	}
 
 

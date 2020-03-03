@@ -79,7 +79,7 @@ public class Comparables {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T extends Comparable<T>> Comparator<T> createComparator() {
+	public static <T extends Comparable<? super T>> Comparator<T> createComparator() {
 		return new Comparator<T>() {
 			@Override
 			public int compare(final T a, final T b) {
@@ -175,43 +175,41 @@ public class Comparables {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@link Comparable} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@link Comparable} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<T>> int compare(final T a, final T b) {
-		return a == b ? 0 : a.compareTo(b);
+	public static <T extends Comparable<? super T>> int compare(final T a, final T b) {
+		return a == b ? 0 : a == null ? -1 : b == null ? 1 : a.compareTo(b);
 	}
 
 	/**
-	 * Compares the specified {@code T} objects for order. Returns a negative integer, zero or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * Compares the specified {@code T} objects for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value)}.
 	 * <p>
 	 * @param <T> the type of the objects to compare
 	 * @param a   the {@code T} object to compare
 	 * @param b   the other {@code T} object to compare against
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code a} is less than, equal to or
-	 *         greater than {@code b}
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> int compareCast(final T a, final T b) {
-		return a == b ? 0 : ((Comparable<T>) a).compareTo(b);
+		return a == b ? 0 : a == null ? -1 : b == null ? 1 : ((Comparable<? super T>) a).compareTo(b);
 	}
 
 	/**
 	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
-	 * otherwise.
+	 * otherwise (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T>        the type of the objects to compare for order
 	 * @param a          the {@code T} object to compare
@@ -219,107 +217,105 @@ public class Comparables {
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
-	 *         otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a}, {@code b} or {@code comparator} is {@code null}
+	 *         otherwise (with {@code null} considered as the minimum value)
 	 */
 	public static <T> int compare(final T a, final T b, final Comparator<? super T> comparator) {
-		return a == b ? 0 : comparator.compare(a, b);
+		return a == b ? 0 : a == null ? -1 : b == null ? 1 : comparator.compare(a, b);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code a} is less than {@code b}.
+	 * Tests whether {@code a} is less than {@code b} (with {@code null} considered as the minimum
+	 * value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against
 	 * <p>
-	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise (with
+	 *         {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<T>> boolean isLessThan(final T a, final T b) {
-		return a.compareTo(b) < 0;
+	public static <T extends Comparable<? super T>> boolean isLessThan(final T a, final T b) {
+		return a != null && b != null && a.compareTo(b) < 0;
 	}
 
 	/**
-	 * Tests whether {@code a} is less or equal to {@code b}.
+	 * Tests whether {@code a} is less or equal to {@code b} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 *         (with {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<T>> boolean isLessOrEqualTo(final T a, final T b) {
-		return a.compareTo(b) <= 0;
+	public static <T extends Comparable<? super T>> boolean isLessOrEqualTo(final T a, final T b) {
+		return a == b || a != null && b != null && a.compareTo(b) <= 0;
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code a} is greater than {@code b}.
+	 * Tests whether {@code a} is greater than {@code b} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against
 	 * <p>
-	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise (with
+	 *         {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<T>> boolean isGreaterThan(final T a, final T b) {
-		return a.compareTo(b) > 0;
+	public static <T extends Comparable<? super T>> boolean isGreaterThan(final T a, final T b) {
+		return a != null && b != null && a.compareTo(b) > 0;
 	}
 
 	/**
-	 * Tests whether {@code a} is greater or equal to {@code b}.
+	 * Tests whether {@code a} is greater or equal to {@code b} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 *         (with {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<T>> boolean isGreaterOrEqualTo(final T a, final T b) {
-		return a.compareTo(b) >= 0;
+	public static <T extends Comparable<? super T>> boolean isGreaterOrEqualTo(final T a, final T b) {
+		return a == b || a != null && b != null && a.compareTo(b) >= 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the smaller of {@code a} and {@code b}, or {@code a} if they are equal.
+	 * Returns the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against
 	 * <p>
-	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 *         {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<T>> T getMin(final T a, final T b) {
+	public static <T extends Comparable<? super T>> T getMin(final T a, final T b) {
 		return Comparables.<T>isLessOrEqualTo(a, b) ? a : b;
 	}
 
 	/**
-	 * Returns the larger of {@code a} and {@code b}, or {@code a} if they are equal.
+	 * Returns the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against
 	 * <p>
-	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
+	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 *         {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<T>> T getMax(final T a, final T b) {
+	public static <T extends Comparable<? super T>> T getMax(final T a, final T b) {
 		return Comparables.<T>isGreaterOrEqualTo(a, b) ? a : b;
 	}
 
@@ -340,7 +336,7 @@ public class Comparables {
 	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
 	 *         otherwise
 	 */
-	public static <T extends Comparable<T>> boolean equals(final T a, final T b) {
+	public static <T extends Comparable<? super T>> boolean equals(final T a, final T b) {
 		return a == b || a != null && b != null && a.compareTo(b) == 0;
 	}
 }

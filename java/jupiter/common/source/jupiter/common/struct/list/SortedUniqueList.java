@@ -24,13 +24,14 @@
 package jupiter.common.struct.list;
 
 import java.util.Collection;
+import jupiter.common.math.Comparables;
 
 /**
- * {@link SortedList} extends {@link ExtendedLinkedList} of {@code E} element type.
+ * {@link SortedUniqueList} extends {@link ExtendedLinkedList} of {@code E} element type.
  * <p>
- * @param <E> the self element {@link Comparable} type of the {@link SortedList}
+ * @param <E> the self element {@link Comparable} type of the {@link SortedUniqueList}
  */
-public class SortedList<E extends Comparable<E>>
+public class SortedUniqueList<E extends Comparable<E>>
 		extends ExtendedLinkedList<E> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,35 +49,35 @@ public class SortedList<E extends Comparable<E>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link SortedList} of {@code E} element type.
+	 * Constructs an empty {@link SortedUniqueList} of {@code E} element type.
 	 */
-	public SortedList() {
+	public SortedUniqueList() {
 		super();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SortedList} of {@code E} element type with the specified elements.
+	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the specified elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 * <p>
 	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	@SuppressWarnings("unchecked")
-	public SortedList(final E... elements) {
+	public SortedUniqueList(final E... elements) {
 		super(elements);
 	}
 
 	/**
-	 * Constructs a {@link SortedList} of {@code E} element type with the specified elements in a
-	 * {@link Collection}.
+	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the specified elements
+	 * in a {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
 	 * <p>
 	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
-	public SortedList(final Collection<? extends E> elements) {
+	public SortedUniqueList(final Collection<? extends E> elements) {
 		super(elements);
 	}
 
@@ -89,7 +90,10 @@ public class SortedList<E extends Comparable<E>>
 	public synchronized boolean add(final E element) {
 		int index = 0;
 		for (final E e : this) {
-			if (e.compareTo(element) > 0) {
+			final int comparison = Comparables.compare(e, element);
+			if (comparison == 0) {
+				return false;
+			} else if (comparison > 0) {
 				add(index, element);
 				return true;
 			}
@@ -113,7 +117,7 @@ public class SortedList<E extends Comparable<E>>
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public SortedList<E> clone() {
-		return (SortedList<E>) super.clone();
+	public SortedUniqueList<E> clone() {
+		return (SortedUniqueList<E>) super.clone();
 	}
 }

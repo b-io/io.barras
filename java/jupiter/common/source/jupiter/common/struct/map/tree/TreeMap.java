@@ -119,7 +119,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	/**
 	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types with the specified
 	 * key {@link Comparator} loaded from the specified {@link Map} containing the key-value
-	 * mappings .
+	 * mappings.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and

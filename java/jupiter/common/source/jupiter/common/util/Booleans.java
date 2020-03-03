@@ -640,14 +640,14 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the filtered {@code boolean} array from the specified {@code boolean} array and
-	 * indexes.
+	 * Returns a {@code boolean} array containing all the elements of the specified {@code boolean}
+	 * array at the specified indexes.
 	 * <p>
 	 * @param array   a {@code boolean} array
 	 * @param indexes the indexes to filter
 	 * <p>
-	 * @return the filtered {@code boolean} array from the specified {@code boolean} array and
-	 *         indexes
+	 * @return a {@code boolean} array containing all the elements of the specified {@code boolean}
+	 *         array at the specified indexes
 	 */
 	public static boolean[] filter(final boolean[] array, final int... indexes) {
 		final boolean[] filteredArray = new boolean[indexes.length];
@@ -658,14 +658,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns all the filtered {@code boolean} arrays from the specified {@code boolean} array and
-	 * indexes.
+	 * Returns a 2D {@code boolean} array containing all the elements of the specified
+	 * {@code boolean} array at all the specified indexes.
 	 * <p>
 	 * @param array   a {@code boolean} array
 	 * @param indexes the array of indexes to filter
 	 * <p>
-	 * @return all the filtered {@code boolean} arrays from the specified {@code boolean} array and
-	 *         indexes
+	 * @return a 2D {@code boolean} array containing all the elements of the specified
+	 *         {@code boolean} array at all the specified indexes
 	 */
 	public static boolean[][] filterAll(final boolean[] array, final int[]... indexes) {
 		final boolean[][] filteredArrays = new boolean[indexes.length][];

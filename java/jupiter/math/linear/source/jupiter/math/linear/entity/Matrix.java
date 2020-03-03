@@ -624,7 +624,8 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					submatrix.elements[i * columnCount + j] = elements[(rowStart + i) * n + columnIndexes[j]];
+					submatrix.elements[i * columnCount + j] = elements[(rowStart + i) * n +
+							columnIndexes[j]];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -899,7 +900,8 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					elements[(rowStart + i) * n + columnIndexes[j]] = submatrix.elements[i * columnCount + j];
+					elements[(rowStart + i) * n + columnIndexes[j]] = submatrix.elements[i *
+							columnCount + j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -924,7 +926,8 @@ public class Matrix
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					elements[rowIndexes[i] * n + columnIndexes[j]] = submatrix.elements[i * columnCount + j];
+					elements[rowIndexes[i] * n + columnIndexes[j]] = submatrix.elements[i *
+							columnCount + j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
@@ -1517,7 +1520,8 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] += broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] += broadcastedMatrix.elements[i *
+						broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1617,7 +1621,8 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] -= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] -= broadcastedMatrix.elements[i *
+						broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1811,7 +1816,8 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] *= broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
+				result.elements[i * result.n + j] *= broadcastedMatrix.elements[i *
+						broadcastedMatrix.n + j];
 			}
 		}
 		return result;
@@ -1932,7 +1938,8 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j] +
+				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i *
+						broadcastedMatrix.n + j] +
 						Maths.TOLERANCE;
 			}
 		}
@@ -2393,14 +2400,14 @@ public class Matrix
 			}
 			// Scan the file line by line
 			int i = 0;
-			String[] values = (String[]) Strings.split(line, delimiter).toArray();
+			String[] values = Strings.split(line, delimiter).toArray();
 			if (transpose) {
 				matrix.setColumn(i++, Doubles.toPrimitiveArray(values));
 			} else {
 				matrix.setRow(i++, Doubles.toPrimitiveArray(values));
 			}
 			while ((line = reader.readLine()) != null) {
-				values = (String[]) Strings.split(line, delimiter).toArray();
+				values = Strings.split(line, delimiter).toArray();
 				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
 					IO.warn("There is no element at line ", i, SPACE,
 							Arguments.expectedButFound(0, n));

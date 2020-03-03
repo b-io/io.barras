@@ -123,16 +123,16 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code other} for order. Returns a negative integer, zero or a
-	 * positive integer as {@code this} is less than, equal to or greater than {@code other}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param other the other {@link Entry} of {@code K} and {@code V} types to compare against for
 	 *              order
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code other}
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
+	 *         value)
 	 */
 	public int compareTo(final Entry<K, V> other) {
 		return key.compareTo(other.getKey());

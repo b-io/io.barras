@@ -99,7 +99,7 @@ public class AvlTreeMap<K, V>
 	/**
 	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types with the
 	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
-	 * key-value mappings .
+	 * key-value mappings.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and

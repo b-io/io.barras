@@ -36,10 +36,10 @@ import com.jogamp.opencl.CLKernel;
 import com.jogamp.opencl.CLProgram;
 
 import java.nio.DoubleBuffer;
+import java.util.HashMap;
 import java.util.Map;
 
 import jupiter.common.math.Maths;
-import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Strings;
@@ -66,7 +66,7 @@ public class JogAmpl
 	protected final CLCommandQueue commandQueue;
 
 	protected CLProgram program;
-	protected final Map<String, CLKernel> kernels = new ComparableRedBlackTreeMap<String, CLKernel>();
+	protected final Map<String, CLKernel> kernels = new HashMap<String, CLKernel>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

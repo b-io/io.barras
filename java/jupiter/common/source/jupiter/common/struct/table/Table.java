@@ -1126,7 +1126,7 @@ public class Table<E>
 			final StringReplacer replacer) {
 		final String l = Strings.replaceInside(line, new char[] {SINGLE_QUOTE, DOUBLE_QUOTE},
 				new char[] {delimiter}, String.valueOf(BAR));
-		final String[] values = (String[]) Strings.split(l, delimiter).toArray();
+		final String[] values = Strings.split(l, delimiter).toArray();
 		return replacer != null ? replacer.callToArray(values) : values;
 	}
 

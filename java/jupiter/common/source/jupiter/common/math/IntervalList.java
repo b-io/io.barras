@@ -38,7 +38,7 @@ import jupiter.common.util.Strings;
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link IntervalList}
  */
-public class IntervalList<T extends Comparable<T>>
+public class IntervalList<T extends Comparable<? super T>>
 		implements ICloneable<IntervalList<T>>, ISet<T>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
