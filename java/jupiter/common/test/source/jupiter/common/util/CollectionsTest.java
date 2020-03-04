@@ -35,8 +35,8 @@ public class CollectionsTest
 		extends Test {
 
 	protected static final Collection<String> EMPTY_COLLECTION = new ExtendedList<String>();
-	protected static final Collection<Number> NUMBER_COLLECTION = new ExtendedList<Number>(null,
-			new Integer(1), new Double(1.));
+	protected static final Collection<Number> NUMBER_COLLECTION = new ExtendedList<Number>(null, 1,
+			1.);
 	protected static final Collection<String> STRING_COLLECTION = new ExtendedList<String>(null,
 			"a", "b", "c", "d", "e", "f");
 
