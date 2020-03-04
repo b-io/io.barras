@@ -25,6 +25,7 @@ package jupiter.common.struct.map.tree;
 
 import java.util.Map;
 
+import jupiter.common.math.Comparables;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 
@@ -191,7 +192,7 @@ public class ComparableAvlTreeMap<K extends Comparable<K>, V>
 			int comparison;
 			ComparableAvlTreeNode<K, V> parent;
 			do {
-				comparison = key.compareTo(tree.key);
+				comparison = Comparables.compare(key, tree.key);
 				if (comparison < 0) {
 					parent = tree;
 					tree = tree.left;

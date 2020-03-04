@@ -124,8 +124,7 @@ public class Index<T>
 	 *              {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
-	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
-	 *         value)
+	 *         equal to or greater than {@code other}
 	 */
 	public int compareTo(final Index<T> other) {
 		return compare(this, other);
@@ -140,7 +139,7 @@ public class Index<T>
 	 * @param b the other {@link Index} to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final Index<?> a, final Index<?> b) {
 		return a == b ? 0 : a == null ? -1 : b == null ? 1 :
@@ -180,9 +179,8 @@ public class Index<T>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */

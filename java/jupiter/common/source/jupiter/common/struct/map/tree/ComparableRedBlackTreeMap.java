@@ -25,6 +25,7 @@ package jupiter.common.struct.map.tree;
 
 import java.util.Map;
 
+import jupiter.common.math.Comparables;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
@@ -175,7 +176,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 			int comparison;
 			ComparableRedBlackTreeNode<K, V> parent;
 			do {
-				comparison = key.compareTo(tree.key);
+				comparison = Comparables.compare(key, tree.key);
 				if (comparison < 0) {
 					parent = tree;
 					tree = tree.left;

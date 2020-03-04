@@ -43,8 +43,7 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * @param other the other {@code T} object to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
-	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
-	 *         value)
+	 *         equal to or greater than {@code other}
 	 */
 	public int compareTo(final T other);
 
@@ -57,7 +56,6 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 * <p>
 	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
 	 *                            {@code this}
@@ -71,7 +69,7 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
-	 *         otherwise (with {@code null} considered as the minimum value)
+	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
 	 *                            {@code this}
@@ -87,7 +85,6 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 * <p>
 	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
 	 *                            {@code this}
@@ -101,7 +98,7 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
-	 *         otherwise (with {@code null} considered as the minimum value)
+	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
 	 *                            {@code this}
@@ -117,7 +114,6 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
-	 *         (with {@code null} considered as the minimum value)
 	 * <p>
 	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
 	 *                            {@code this}
@@ -130,8 +126,7 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * <p>
 	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
-	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
-	 *         {@code null} considered as the minimum value)
+	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
 	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
 	 *                            {@code this}
@@ -150,9 +145,8 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */

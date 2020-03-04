@@ -26,6 +26,7 @@ package jupiter.common.struct.map.tree;
 import java.io.Serializable;
 import java.util.Map.Entry;
 
+import jupiter.common.math.Comparables;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
@@ -131,11 +132,10 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	 *              order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
-	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
-	 *         value)
+	 *         equal to or greater than {@code other}
 	 */
 	public int compareTo(final Entry<K, V> other) {
-		return key.compareTo(other.getKey());
+		return Comparables.compare(key, other.getKey());
 	}
 
 
@@ -150,9 +150,8 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */

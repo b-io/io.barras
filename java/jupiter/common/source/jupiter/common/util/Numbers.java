@@ -197,12 +197,21 @@ public class Numbers {
 	 * @param b the other {@link Number} to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final Number a, final Number b) {
-		if (a == b || a == null || b == null) {
+		// Check the arguments
+		if (a == b) {
 			return 0;
 		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the numbers for order
 		if (a instanceof BigDecimal || b instanceof BigDecimal) {
 			return toBigDecimal(a).compareTo(toBigDecimal(b));
 		}
@@ -218,8 +227,7 @@ public class Numbers {
 	 * @param a the {@link Number} to compare (may be {@code null})
 	 * @param b the other {@link Number} to compare against (may be {@code null})
 	 * <p>
-	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise (with
-	 *         {@code null} considered as the minimum value)
+	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
 	 */
 	public static boolean isLessThan(final Number a, final Number b) {
 		return compare(a, b) < 0;
@@ -233,7 +241,6 @@ public class Numbers {
 	 * @param b the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public static boolean isLessOrEqualTo(final Number a, final Number b) {
 		return compare(a, b) <= 0;
@@ -248,8 +255,7 @@ public class Numbers {
 	 * @param a the {@link Number} to compare (may be {@code null})
 	 * @param b the other {@link Number} to compare against (may be {@code null})
 	 * <p>
-	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise (with
-	 *         {@code null} considered as the minimum value)
+	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
 	 */
 	public static boolean isGreaterThan(final Number a, final Number b) {
 		return compare(a, b) > 0;
@@ -263,7 +269,6 @@ public class Numbers {
 	 * @param b the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public static boolean isGreaterOrEqualTo(final Number a, final Number b) {
 		return compare(a, b) >= 0;
@@ -279,8 +284,7 @@ public class Numbers {
 	 * @param a   the {@link Number} to compare (may be {@code null})
 	 * @param b   the other {@link Number} to compare against (may be {@code null})
 	 * <p>
-	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
-	 *         {@code null} considered as the minimum value)
+	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
 	 */
 	public static <T extends Number> T getMin(final T a, final T b) {
 		return compare(a, b) <= 0 ? a : b;
@@ -294,8 +298,7 @@ public class Numbers {
 	 * @param a   the {@link Number} to compare (may be {@code null})
 	 * @param b   the other {@link Number} to compare against (may be {@code null})
 	 * <p>
-	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
-	 *         {@code null} considered as the minimum value)
+	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
 	 */
 	public static <T extends Number> T getMax(final T a, final T b) {
 		return compare(a, b) >= 0 ? a : b;
@@ -313,8 +316,6 @@ public class Numbers {
 	 * @param b the other {@link Number} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static boolean equals(final Number a, final Number b) {
 		if (a == b) {
@@ -339,8 +340,6 @@ public class Numbers {
 	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},
 	 *         {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code a} or {@code b} is {@code null}
 	 */
 	public static boolean equals(final Number a, final Number b, final double tolerance) {
 		if (a == b) {

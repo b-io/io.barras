@@ -1427,11 +1427,13 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@code byte} array is between the specified lower and upper bound
-	 * {@code byte} arrays.
+	 * {@code byte} arrays (with {@code null} considered as the minimum value).
 	 * <p>
-	 * @param array the {@code byte} array to test
-	 * @param from  the lower bound {@code byte} array to test against (inclusive)
-	 * @param to    the upper bound {@code byte} array to test against (exclusive)
+	 * @param array the {@code byte} array to test (may be {@code null})
+	 * @param from  the lower bound {@code byte} array to test against (inclusive) (may be
+	 *              {@code null})
+	 * @param to    the upper bound {@code byte} array to test against (exclusive) (may be
+	 *              {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is between the specified lower and
 	 *         upper bound {@code byte} arrays, {@code false} otherwise
@@ -1499,7 +1501,8 @@ public class Bytes {
 
 	/**
 	 * Compares the specified {@code byte} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
 	 * @param a the {@code byte} array to compare for order (may be {@code null})
 	 * @param b the other {@code byte} array to compare against for order (may be {@code null})
@@ -1508,9 +1511,18 @@ public class Bytes {
 	 *         to or greater than {@code b}
 	 */
 	public static int compare(final byte[] a, final byte[] b) {
+		// Check the arguments
 		if (a == b) {
 			return 0;
 		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the arrays for order
 		final int limit = Math.min(a.length, b.length);
 		for (int i = 0; i < limit; ++i) {
 			final int comparison = compare(a[i], b[i]);

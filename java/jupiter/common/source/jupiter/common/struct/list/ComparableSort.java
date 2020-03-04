@@ -25,6 +25,7 @@ package jupiter.common.struct.list;
 
 import java.io.Serializable;
 
+import jupiter.common.math.Comparables;
 import jupiter.common.util.Arrays;
 
 /**
@@ -260,7 +261,7 @@ public class ComparableSort
 			// • pivot < all in [right, start).
 			while (left < right) {
 				final int mid = left + right >>> 1;
-				if (pivot.compareTo(array[mid]) < 0) {
+				if (Comparables.compare(pivot, array[mid]) < 0) {
 					right = mid;
 				} else {
 					left = mid + 1;
@@ -317,15 +318,15 @@ public class ComparableSort
 		}
 
 		// Find end of run and reverse range if descending
-		if (((Comparable) array[runHi++]).compareTo(array[lo]) < 0) {
+		if (Comparables.compareCast(array[runHi++], array[lo]) < 0) {
 			// Descending
-			while (runHi < hi && ((Comparable) array[runHi]).compareTo(array[runHi - 1]) < 0) {
+			while (runHi < hi && Comparables.compareCast(array[runHi], array[runHi - 1]) < 0) {
 				++runHi;
 			}
 			reverseRange(array, lo, runHi);
 		} else {
 			// Ascending
-			while (runHi < hi && ((Comparable) array[runHi]).compareTo(array[runHi - 1]) >= 0) {
+			while (runHi < hi && Comparables.compareCast(array[runHi], array[runHi - 1]) >= 0) {
 				++runHi;
 			}
 		}
@@ -516,12 +517,12 @@ public class ComparableSort
 		assert length > 0 && hint >= 0 && hint < length;
 
 		int lastOfs = 0, ofs = 1;
-		if (key.compareTo(array[base + hint]) > 0) {
+		if (Comparables.compare(key, array[base + hint]) > 0) {
 			/*
 			 * Gallop right until {@code a[base + hint + lastOfs] < key <= a[base + hint + ofs]}.
 			 */
 			final int maxOfs = length - hint;
-			while (ofs < maxOfs && key.compareTo(array[base + hint + ofs]) > 0) {
+			while (ofs < maxOfs && Comparables.compare(key, array[base + hint + ofs]) > 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
 				if (ofs <= 0) // int overflow
@@ -542,7 +543,7 @@ public class ComparableSort
 			 * Gallop left until {@code a[base + hint - ofs] < key <= a[base + hint - lastOfs]}.
 			 */
 			final int maxOfs = hint + 1;
-			while (ofs < maxOfs && key.compareTo(array[base + hint - ofs]) <= 0) {
+			while (ofs < maxOfs && Comparables.compare(key, array[base + hint - ofs]) <= 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
 				if (ofs <= 0) // int overflow
@@ -570,7 +571,7 @@ public class ComparableSort
 		while (lastOfs < ofs) {
 			final int m = lastOfs + (ofs - lastOfs >>> 1);
 
-			if (key.compareTo(array[base + m]) > 0) {
+			if (Comparables.compare(key, array[base + m]) > 0) {
 				lastOfs = m + 1; // a[base + m] < key
 			} else {
 				ofs = m; // key <= a[base + m]
@@ -600,12 +601,12 @@ public class ComparableSort
 		assert length > 0 && hint >= 0 && hint < length;
 
 		int ofs = 1, lastOfs = 0;
-		if (key.compareTo(array[base + hint]) < 0) {
+		if (Comparables.compare(key, array[base + hint]) < 0) {
 			/*
 			 * Gallop left until {@code a[b + hint - ofs] <= key < a[b + hint - lastOfs]}.
 			 */
 			final int maxOfs = hint + 1;
-			while (ofs < maxOfs && key.compareTo(array[base + hint - ofs]) < 0) {
+			while (ofs < maxOfs && Comparables.compare(key, array[base + hint - ofs]) < 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
 				if (ofs <= 0) // int overflow
@@ -627,7 +628,7 @@ public class ComparableSort
 			 * Gallop right until {@code a[b + hint + lastOfs] <= key < a[b + hint + ofs]}.
 			 */
 			final int maxOfs = length - hint;
-			while (ofs < maxOfs && key.compareTo(array[base + hint + ofs]) >= 0) {
+			while (ofs < maxOfs && Comparables.compare(key, array[base + hint + ofs]) >= 0) {
 				lastOfs = ofs;
 				ofs = (ofs << 1) + 1;
 				if (ofs <= 0) // int overflow
@@ -654,7 +655,7 @@ public class ComparableSort
 		while (lastOfs < ofs) {
 			final int m = lastOfs + (ofs - lastOfs >>> 1);
 
-			if (key.compareTo(array[base + m]) < 0) {
+			if (Comparables.compare(key, array[base + m]) < 0) {
 				ofs = m; // key < a[b + m]
 			} else {
 				lastOfs = m + 1; // a[b + m] <= key
@@ -715,7 +716,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert length1 > 1 && length2 > 0;
-				if (((Comparable) array[cursor2]).compareTo(tempArray[cursor1]) < 0) {
+				if (Comparables.compareCast(array[cursor2], tempArray[cursor1]) < 0) {
 					array[dest++] = array[cursor2++];
 					++count2;
 					count1 = 0;
@@ -844,7 +845,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert length1 > 0 && length2 > 1;
-				if (((Comparable) tempArray[cursor2]).compareTo(array[cursor1]) < 0) {
+				if (Comparables.compareCast(tempArray[cursor2], array[cursor1]) < 0) {
 					array[dest--] = array[cursor1--];
 					++count1;
 					count2 = 0;

@@ -91,7 +91,6 @@ public class Comparables {
 	public static <T> Comparator<T> createCastComparator() {
 		return new Comparator<T>() {
 			@Override
-			@SuppressWarnings("unchecked")
 			public int compare(final T a, final T b) {
 				return Comparables.compareCast(a, b);
 			}
@@ -131,17 +130,15 @@ public class Comparables {
 
 	/**
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
-	 * upper bounds.
+	 * upper bounds (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T>    the type of the object to test
-	 * @param object the {@code T} object to test
-	 * @param from   the {@code T} lower bound to test against (inclusive)
-	 * @param to     the {@code T} upper bound to test against (exclusive)
+	 * @param object the {@code T} object to test (may be {@code null})
+	 * @param from   the {@code T} lower bound to test against (inclusive) (may be {@code null})
+	 * @param to     the {@code T} upper bound to test against (exclusive) (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code object}, {@code from} or {@code to} is {@code null}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to) {
 		return isBetween(object, from, to, createCastComparator());
@@ -149,20 +146,18 @@ public class Comparables {
 
 	/**
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
-	 * upper bounds using the specified {@link Comparator}.
+	 * upper bounds using the specified {@link Comparator} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param <T>        the type of the object to test
-	 * @param object     the {@code T} object to test
-	 * @param from       the {@code T} lower bound to test against (inclusive)
-	 * @param to         the {@code T} upper bound to test against (exclusive)
+	 * @param object     the {@code T} object to test (may be {@code null})
+	 * @param from       the {@code T} lower bound to test against (inclusive) (may be {@code null})
+	 * @param to         the {@code T} upper bound to test against (exclusive) (may be {@code null})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
 	 *         otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code object}, {@code from}, {@code to} or
-	 *                              {@code comparator} is {@code null}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final Comparator<? super T> comparator) {
@@ -175,37 +170,33 @@ public class Comparables {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares the specified {@link Comparable} for order. Returns a negative integer, {@code 0} or
-	 * a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
+	 * Compares the specified {@link Comparable} with the specified {@link Object} for order.
+	 * Returns a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 * to or greater than {@code b} (with {@code null} considered as the minimum value).
 	 * <p>
-	 * @param <T> the self {@link Comparable} type of the objects to compare
-	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
-	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
-	 *            {@code null})
+	 * @param a the {@link Comparable} to compare (may be {@code null})
+	 * @param b the other {@link Object} to compare against (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
-	public static <T extends Comparable<? super T>> int compare(final T a, final T b) {
+	public static int compare(final Comparable a, final Object b) {
 		return a == b ? 0 : a == null ? -1 : b == null ? 1 : a.compareTo(b);
 	}
 
 	/**
-	 * Compares the specified {@code T} objects for order. Returns a negative integer, {@code 0} or
-	 * a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value)}.
+	 * Compares the specified {@link Object} for order. Returns a negative integer, {@code 0} or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param <T> the type of the objects to compare
-	 * @param a   the {@code T} object to compare (may be {@code null})
-	 * @param b   the other {@code T} object to compare against (may be {@code null})
+	 * @param a the {@link Object} to compare (may be {@code null})
+	 * @param b the other {@link Object} to compare against (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> int compareCast(final T a, final T b) {
-		return a == b ? 0 : a == null ? -1 : b == null ? 1 : ((Comparable<? super T>) a).compareTo(b);
+	public static int compareCast(final Object a, final Object b) {
+		return compare((Comparable) a, b);
 	}
 
 	/**
@@ -218,7 +209,7 @@ public class Comparables {
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
-	 *         otherwise (with {@code null} considered as the minimum value)
+	 *         otherwise
 	 */
 	public static <T> int compare(final T a, final T b, final Comparator<? super T> comparator) {
 		return a == b ? 0 : a == null ? -1 : b == null ? 1 : comparator.compare(a, b);
@@ -235,11 +226,10 @@ public class Comparables {
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
 	 * <p>
-	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise (with
-	 *         {@code null} considered as the minimum value)
+	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
 	 */
 	public static <T extends Comparable<? super T>> boolean isLessThan(final T a, final T b) {
-		return a != null && b != null && a.compareTo(b) < 0;
+		return b != null && (a == null || a.compareTo(b) < 0);
 	}
 
 	/**
@@ -252,10 +242,9 @@ public class Comparables {
 	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public static <T extends Comparable<? super T>> boolean isLessOrEqualTo(final T a, final T b) {
-		return a == b || a != null && b != null && a.compareTo(b) <= 0;
+		return a == null || b != null && a.compareTo(b) <= 0;
 	}
 
 	//////////////////////////////////////////////
@@ -269,11 +258,10 @@ public class Comparables {
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
 	 * <p>
-	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise (with
-	 *         {@code null} considered as the minimum value)
+	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
 	 */
 	public static <T extends Comparable<? super T>> boolean isGreaterThan(final T a, final T b) {
-		return a != null && b != null && a.compareTo(b) > 0;
+		return a != null && (b == null || a.compareTo(b) > 0);
 	}
 
 	/**
@@ -286,10 +274,10 @@ public class Comparables {
 	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 */
-	public static <T extends Comparable<? super T>> boolean isGreaterOrEqualTo(final T a, final T b) {
-		return a == b || a != null && b != null && a.compareTo(b) >= 0;
+	public static <T extends Comparable<? super T>> boolean isGreaterOrEqualTo(final T a,
+			final T b) {
+		return b == null || a != null && a.compareTo(b) >= 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,8 +291,7 @@ public class Comparables {
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
 	 * <p>
-	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
-	 *         {@code null} considered as the minimum value)
+	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
 	 */
 	public static <T extends Comparable<? super T>> T getMin(final T a, final T b) {
 		return Comparables.<T>isLessOrEqualTo(a, b) ? a : b;
@@ -319,8 +306,7 @@ public class Comparables {
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
 	 * <p>
-	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
-	 *         {@code null} considered as the minimum value)
+	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
 	 */
 	public static <T extends Comparable<? super T>> T getMax(final T a, final T b) {
 		return Comparables.<T>isGreaterOrEqualTo(a, b) ? a : b;

@@ -31,6 +31,7 @@ import java.io.IOException;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Systems;
+import jupiter.common.math.Comparables;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.thread.Threads;
 import jupiter.common.thread.WorkQueue;
@@ -93,7 +94,7 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean start() {
-		return start(SeverityLevel.DEBUG.compareTo(IO.getSeverityLevel()) >= 0);
+		return start(Comparables.compare(SeverityLevel.DEBUG, IO.getSeverityLevel()) >= 0);
 	}
 
 	public static boolean start(final boolean debug) {

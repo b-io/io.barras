@@ -251,9 +251,8 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */

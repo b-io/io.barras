@@ -380,13 +380,12 @@ public class Files {
 	}
 
 	/**
-	 * Returns the {@link Content} of the specified {@link File} using the specified
-	 * {@link Charset}.
+	 * Returns the {@link Content} of the specified {@link File} with the specified {@link Charset}.
 	 * <p>
 	 * @param file    the {@link File} to read
 	 * @param charset the {@link Charset} of the {@link File} to read
 	 * <p>
-	 * @return the {@link Content} of the specified {@link File} using the specified {@link Charset}
+	 * @return the {@link Content} of the specified {@link File} with the specified {@link Charset}
 	 */
 	public static Content read(final File file, final Charset charset) {
 		try {
@@ -481,13 +480,12 @@ public class Files {
 	}
 
 	/**
-	 * Returns the number of lines of the specified {@link File} using the specified
-	 * {@link Charset}.
+	 * Returns the number of lines of the specified {@link File} with the specified {@link Charset}.
 	 * <p>
 	 * @param file    the {@link File} to count the lines from
 	 * @param charset the {@link Charset} of the {@link File} to count the lines from
 	 * <p>
-	 * @return the number of lines of the specified {@link File} using the specified {@link Charset}
+	 * @return the number of lines of the specified {@link File} with the specified {@link Charset}
 	 */
 	public static int countLines(final File file, final Charset charset) {
 		return countLines(file, charset, false);
@@ -509,14 +507,14 @@ public class Files {
 
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * {@link File} using the specified {@link Charset}.
+	 * {@link File} with the specified {@link Charset}.
 	 * <p>
 	 * @param file           the {@link File} to count the lines from
 	 * @param charset        the {@link Charset} of the {@link File} to count the lines from
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         {@link File} using the specified {@link Charset}
+	 *         {@link File} with the specified {@link Charset}
 	 */
 	public static int countLines(final File file, final Charset charset,
 			final boolean skipEmptyLines) {
@@ -585,15 +583,16 @@ public class Files {
 	}
 
 	/**
-	 * Writes or appends the specified {@link String} to the specified {@link File}.
+	 * Writes or appends the specified {@link String} to the specified {@link File} with the
+	 * specified {@link Charset}.
 	 * <p>
 	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * @param append  the flag specifying whether to append
 	 * @param charset the {@link Charset} of the {@link File} to write to
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is written to the specified
-	 *         {@link File}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link String} is written to the specified {@link File}
+	 *         with the specified {@link Charset}, {@code false} otherwise
 	 */
 	public static boolean writeLine(final String content, final File file, final boolean append,
 			final Charset charset) {
@@ -726,8 +725,7 @@ public class Files {
 	 * @param fromLine the line index to start copying forward from
 	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
-	 *         {@link File} from the specified line index (without necessary preserving the file
-	 *         dates), {@code false} otherwise
+	 *         {@link File} from the specified line index, {@code false} otherwise
 	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
 	 */

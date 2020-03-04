@@ -34,6 +34,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import jupiter.common.math.Comparables;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
@@ -323,7 +324,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 		// Get the node
 		N node = root;
 		while (node != null) {
-			final int comparison = keyComparable.compareTo(node.key);
+			final int comparison = Comparables.compare(keyComparable, node.key);
 			if (comparison < 0) {
 				node = node.left;
 			} else if (comparison > 0) {

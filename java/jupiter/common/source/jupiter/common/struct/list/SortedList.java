@@ -25,6 +25,8 @@ package jupiter.common.struct.list;
 
 import java.util.Collection;
 
+import jupiter.common.math.Comparables;
+
 /**
  * {@link SortedList} extends {@link ExtendedLinkedList} of {@code E} element type.
  * <p>
@@ -89,7 +91,7 @@ public class SortedList<E extends Comparable<E>>
 	public synchronized boolean add(final E element) {
 		int index = 0;
 		for (final E e : this) {
-			if (e.compareTo(element) > 0) {
+			if (Comparables.compare(e, element) > 0) {
 				add(index, element);
 				return true;
 			}

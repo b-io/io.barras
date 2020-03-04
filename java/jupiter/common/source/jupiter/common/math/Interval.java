@@ -200,10 +200,10 @@ public class Interval<T extends Comparable<? super T>>
 	 * @return {@code true} if {@code this} contains the {@code T} object, {@code false} otherwise
 	 */
 	public boolean isInside(final T object) {
-		return (isLowerInclusive ? object.compareTo(lowerBound) >= 0 :
-				object.compareTo(lowerBound) > 0) &&
-				(isUpperInclusive ? object.compareTo(upperBound) <= 0 :
-						object.compareTo(upperBound) < 0);
+		return (isLowerInclusive ? Comparables.compare(object, lowerBound) >= 0 :
+						Comparables.compare(object, lowerBound) > 0) &&
+				(isUpperInclusive ? Comparables.compare(object, upperBound) <= 0 :
+						Comparables.compare(object, upperBound) < 0);
 	}
 
 	/**
@@ -213,8 +213,8 @@ public class Interval<T extends Comparable<? super T>>
 	 */
 	public boolean isValid() {
 		return !isEmpty() && (isLowerInclusive && isUpperInclusive ?
-				lowerBound.compareTo(upperBound) <= 0 :
-				lowerBound.compareTo(upperBound) < 0);
+				Comparables.compare(lowerBound, upperBound) <= 0 :
+				Comparables.compare(lowerBound, upperBound) < 0);
 	}
 
 
@@ -248,9 +248,8 @@ public class Interval<T extends Comparable<? super T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */

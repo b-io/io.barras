@@ -1225,12 +1225,14 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
-	 * {@code T} arrays.
+	 * {@code T} arrays (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T>   the component type of the arrays to test
-	 * @param array the {@code T} array to test
-	 * @param from  the lower bound {@code T} array to test against (inclusive)
-	 * @param to    the upper bound {@code T} array to test against (exclusive)
+	 * @param array the {@code T} array to test (may be {@code null})
+	 * @param from  the lower bound {@code T} array to test against (inclusive) (may be
+	 *              {@code null})
+	 * @param to    the upper bound {@code T} array to test against (exclusive) (may be
+	 *              {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays, {@code false} otherwise
@@ -1241,12 +1243,15 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
-	 * {@code T} arrays using the specified {@link Comparator}.
+	 * {@code T} arrays using the specified {@link Comparator} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
 	 * @param <T>        the component type of the arrays to test
-	 * @param array      the {@code T} array to test
-	 * @param from       the lower bound {@code T} array to test against (inclusive)
-	 * @param to         the upper bound {@code T} array to test against (exclusive)
+	 * @param array      the {@code T} array to test (may be {@code null})
+	 * @param from       the lower bound {@code T} array to test against (inclusive) (may be
+	 *                   {@code null})
+	 * @param to         the upper bound {@code T} array to test against (exclusive) (may be
+	 *                   {@code null})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
@@ -1373,7 +1378,7 @@ public class Arrays {
 	 *            {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static <T extends Comparable<? super T>> int compare(final T[] a, final T[] b) {
 		return compare(a, b, Comparables.<T>createComparator());
@@ -1389,16 +1394,16 @@ public class Arrays {
 	 * @param b   the other {@code T} array to compare against (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static <T> int compareCast(final T[] a, final T[] b) {
 		return compare(a, b, Comparables.<T>createCastComparator());
 	}
 
 	/**
-	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
-	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
-	 * (with {@code null} considered as the minimum value).
+	 * Compares the specified arrays for order using the specified {@link Comparator}. Returns a
+	 * negative integer, {@code 0} or a positive integer as {@code a} is less than, equal to or
+	 * greater than {@code b} (with {@code null} considered as the minimum value).
 	 * <p>
 	 * @param <T>        the component type of the arrays to compare for order
 	 * @param a          the {@code T} array to compare for order (may be {@code null})
@@ -1407,13 +1412,22 @@ public class Arrays {
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static <T> int compare(final T[] a, final T[] b,
 			final Comparator<? super T> comparator) {
+		// Check the arguments
 		if (a == b) {
 			return 0;
 		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the arrays for order using the comparator
 		final int limit = Math.min(a.length, b.length);
 		for (int i = 0; i < limit; ++i) {
 			final int comparison = comparator.compare(a[i], b[i]);

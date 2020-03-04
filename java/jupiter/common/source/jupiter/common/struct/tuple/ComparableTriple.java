@@ -23,6 +23,7 @@
  */
 package jupiter.common.struct.tuple;
 
+import jupiter.common.math.Comparables;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -77,22 +78,27 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	 *              component types to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
-	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
-	 *         value)
+	 *         equal to or greater than {@code other}
 	 */
 	public int compareTo(final ComparableTriple<T1, T2, T3> other) {
+		// Check the arguments
 		if (this == other) {
 			return 0;
 		}
-		int comparison = first.compareTo(other.first);
+		if (other == null) {
+			return 1;
+		}
+
+		// Compare the triples for order
+		int comparison = Comparables.compare(first, other.first);
 		if (comparison != 0) {
 			return comparison;
 		}
-		comparison = second.compareTo(other.second);
+		comparison = Comparables.compare(second, other.second);
 		if (comparison != 0) {
 			return comparison;
 		}
-		return third.compareTo(other.third);
+		return Comparables.compare(third, other.third);
 	}
 
 
@@ -129,9 +135,8 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */

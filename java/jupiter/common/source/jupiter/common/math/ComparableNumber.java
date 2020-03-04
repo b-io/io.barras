@@ -68,8 +68,7 @@ public abstract class ComparableNumber
 	 *              {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
-	 *         equal to or greater than {@code other} (with {@code null} considered as the minimum
-	 *         value)
+	 *         equal to or greater than {@code other}
 	 */
 	public int compareTo(final ComparableNumber other) {
 		return this == other ? 0 : other == null ? 1 :
@@ -85,7 +84,6 @@ public abstract class ComparableNumber
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public boolean isLessThan(final ComparableNumber other) {
 		return compareTo(other) < 0;
@@ -98,7 +96,7 @@ public abstract class ComparableNumber
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
-	 *         otherwise (with {@code null} considered as the minimum value)
+	 *         otherwise
 	 */
 	public boolean isLessOrEqualTo(final ComparableNumber other) {
 		return compareTo(other) <= 0;
@@ -113,7 +111,6 @@ public abstract class ComparableNumber
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public boolean isGreaterThan(final ComparableNumber other) {
 		return compareTo(other) > 0;
@@ -126,7 +123,7 @@ public abstract class ComparableNumber
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
-	 *         otherwise (with {@code null} considered as the minimum value)
+	 *         otherwise
 	 */
 	public boolean isGreaterOrEqualTo(final ComparableNumber other) {
 		return compareTo(other) >= 0;
@@ -141,7 +138,6 @@ public abstract class ComparableNumber
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public ComparableNumber getMin(final ComparableNumber other) {
 		return isLessOrEqualTo(other) ? this : other;
@@ -153,8 +149,7 @@ public abstract class ComparableNumber
 	 * <p>
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
 	 * <p>
-	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
-	 *         {@code null} considered as the minimum value)
+	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 */
 	public ComparableNumber getMax(final ComparableNumber other) {
 		return isGreaterOrEqualTo(other) ? this : other;
@@ -173,7 +168,7 @@ public abstract class ComparableNumber
 	 * @param other the other {@link Number} to compare against for order (may be {@code null})
 	 * <p>
 	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code other} (with {@code null} considered as the minimum value)
+	 *         or greater than {@code other}
 	 */
 	public int compareTo(final Number other) {
 		return Numbers.compare(this, other);
@@ -188,7 +183,6 @@ public abstract class ComparableNumber
 	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public boolean isLessThan(final Number other) {
 		return compareTo(other) < 0;
@@ -201,7 +195,7 @@ public abstract class ComparableNumber
 	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
-	 *         otherwise (with {@code null} considered as the minimum value)
+	 *         otherwise
 	 */
 	public boolean isLessOrEqualTo(final Number other) {
 		return compareTo(other) <= 0;
@@ -216,7 +210,6 @@ public abstract class ComparableNumber
 	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public boolean isGreaterThan(final Number other) {
 		return compareTo(other) > 0;
@@ -229,7 +222,7 @@ public abstract class ComparableNumber
 	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
-	 *         otherwise (with {@code null} considered as the minimum value)
+	 *         otherwise
 	 */
 	public boolean isGreaterOrEqualTo(final Number other) {
 		return compareTo(other) >= 0;
@@ -244,7 +237,6 @@ public abstract class ComparableNumber
 	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
-	 *         (with {@code null} considered as the minimum value)
 	 */
 	public Number getMin(final Number other) {
 		return isLessOrEqualTo(other) ? this : other;
@@ -256,8 +248,7 @@ public abstract class ComparableNumber
 	 * <p>
 	 * @param other the other {@link Number} to compare against (may be {@code null})
 	 * <p>
-	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
-	 *         {@code null} considered as the minimum value)
+	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 */
 	public Number getMax(final Number other) {
 		return isGreaterOrEqualTo(other) ? this : other;
@@ -293,9 +284,8 @@ public abstract class ComparableNumber
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the {@code other} type prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
+	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */
@@ -316,8 +306,6 @@ public abstract class ComparableNumber
 	 * @param other the other {@link Number} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
 	 *
 	 * @see #hashCode()
 	 */
@@ -334,8 +322,6 @@ public abstract class ComparableNumber
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
 	 *
 	 * @see #hashCode()
 	 */
@@ -350,8 +336,6 @@ public abstract class ComparableNumber
 	 *              {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
 	 *
 	 * @see #hashCode()
 	 */
@@ -368,8 +352,6 @@ public abstract class ComparableNumber
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
-	 * <p>
-	 * @throws NullPointerException if {@code other} is {@code null}
 	 *
 	 * @see #hashCode()
 	 */

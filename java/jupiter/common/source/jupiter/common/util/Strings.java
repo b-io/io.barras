@@ -3945,11 +3945,11 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} is between the specified lower and upper bound
-	 * {@link String}.
+	 * {@link String} (with {@code null} considered as the minimum value).
 	 * <p>
-	 * @param text the {@link String} to test
-	 * @param from the lower bound {@link String} to test against (inclusive)
-	 * @param to   the upper bound {@link String} to test against (exclusive)
+	 * @param text the {@link String} to test (may be {@code null})
+	 * @param from the lower bound {@link String} to test against (inclusive) (may be {@code null})
+	 * @param to   the upper bound {@link String} to test against (exclusive) (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
 	 *         bound {@link String}, {@code false} otherwise
@@ -4111,9 +4111,21 @@ public class Strings {
 	 *          {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compare(final String a, final String b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the strings for lexicographic order
 		return a.compareTo(b);
 	}
 
@@ -4127,9 +4139,21 @@ public class Strings {
 	 *          {@code null})
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b} (with {@code null} considered as the minimum value)
+	 *         to or greater than {@code b}
 	 */
 	public static int compareIgnoreCase(final String a, final String b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the strings for lexicographic order, ignoring case differences
 		return a.compareToIgnoreCase(b);
 	}
 

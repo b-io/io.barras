@@ -450,14 +450,14 @@ public class IO
 
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * {@link InputStream} using the specified {@link Charset}.
+	 * {@link InputStream} with the specified {@link Charset}.
 	 * <p>
 	 * @param input          the {@link InputStream} to count the lines from
 	 * @param charset        the {@link Charset} of the lines to count
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
 	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         {@link InputStream} using the specified {@link Charset}
+	 *         {@link InputStream} with the specified {@link Charset}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input}
 	 */
