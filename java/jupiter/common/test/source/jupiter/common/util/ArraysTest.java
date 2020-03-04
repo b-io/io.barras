@@ -89,7 +89,7 @@ public class ArraysTest
 		IO.test(BULLET, " filterAll");
 
 		assertEquals(Objects.hashCode(
-						new String[][] {new String[] {"a", "a", "c", "d", "d", "f"}}),
+				new String[][] {new String[] {"a", "a", "c", "d", "d", "f"}}),
 				Objects.hashCode(Arrays.<String>filterAll(ARRAY,
 						new int[][] {new int[] {0, 0, 2, 3, 3, 5}})));
 	}
@@ -148,6 +148,16 @@ public class ArraysTest
 				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 10)));
 		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY),
 				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 0)));
+	}
+
+	/**
+	 * Test of unique method, of class Arrays.
+	 */
+	public void testUnique() {
+		IO.test(BULLET, " unique");
+
+		assertEquals(Objects.hashCode(ARRAY),
+				Objects.hashCode(Arrays.<String>unique(FLAT_ARRAY_2D)));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

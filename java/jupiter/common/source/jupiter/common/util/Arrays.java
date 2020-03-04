@@ -28,6 +28,7 @@ import static jupiter.common.util.Strings.NULL;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import jupiter.common.exception.IllegalClassException;
@@ -1161,16 +1162,16 @@ public class Arrays {
 
 	/**
 	 * Returns a {@code T} array containing all the distinct elements of the specified {@code T}
-	 * array.
+	 * array in the same order.
 	 * <p>
 	 * @param <T>   the component type of the array to filter from
 	 * @param array the {@code T} array to filter from
 	 * <p>
 	 * @return a {@code T} array containing all the distinct elements of the specified {@code T}
-	 *         array
+	 *         array in the same order
 	 */
 	public static <T> T[] unique(final T[] array) {
-		final HashSet<T> set = new HashSet<T>();
+		final Set<T> set = new LinkedHashSet<T>();
 		Sets.addAll(set, array);
 		return Sets.toArray(set);
 	}
@@ -1546,8 +1547,8 @@ public class Arrays {
 			final Comparator<? super T> comparator, final boolean isLowerInclusive,
 			final boolean isUpperInclusive) {
 		return (isLowerInclusive ?
-						compare(array, from, comparator) >= 0 :
-						compare(array, from, comparator) > 0) &&
+				compare(array, from, comparator) >= 0 :
+				compare(array, from, comparator) > 0) &&
 				(isUpperInclusive ?
 						compare(array, to, comparator) <= 0 :
 						compare(array, to, comparator) < 0);
