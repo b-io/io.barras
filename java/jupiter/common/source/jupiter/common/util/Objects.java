@@ -130,26 +130,26 @@ public class Objects {
 	}
 
 	/**
-	 * Tests whether the specified {@link Object} is not {@code null} and its representative
-	 * {@link String} is not {@code null} and empty.
+	 * Tests whether the specified {@link Object} is non-{@code null} and its representative
+	 * {@link String} is non-{@code null} and empty.
 	 * <p>
 	 * @param object the {@link Object} to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@link Object} is not {@code null} and its
-	 *         representative {@link String} is not {@code null} and empty, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Object} is non-{@code null} and its
+	 *         representative {@link String} is non-{@code null} and empty, {@code false} otherwise
 	 */
 	public static boolean isEmpty(final Object object) {
 		return object != null && Strings.isEmpty(object.toString());
 	}
 
 	/**
-	 * Tests whether the specified {@link Object} is not {@code null} and its representative
-	 * {@link String} is not {@code null} and not empty.
+	 * Tests whether the specified {@link Object} is non-{@code null} and its representative
+	 * {@link String} is non-{@code null} and not empty.
 	 * <p>
 	 * @param object the {@link Object} to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@link Object} is not {@code null} and its
-	 *         representative {@link String} is not {@code null} and not empty, {@code false}
+	 * @return {@code true} if the specified {@link Object} is non-{@code null} and its
+	 *         representative {@link String} is non-{@code null} and not empty, {@code false}
 	 *         otherwise
 	 */
 	public static boolean isNotEmpty(final Object object) {

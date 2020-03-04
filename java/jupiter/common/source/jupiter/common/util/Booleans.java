@@ -966,11 +966,11 @@ public class Booleans {
 	}
 
 	/**
-	 * Tests whether the specified {@code boolean} array is not {@code null} and empty.
+	 * Tests whether the specified {@code boolean} array is non-{@code null} and empty.
 	 * <p>
 	 * @param array the {@code boolean} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code boolean} array is not {@code null} and empty,
+	 * @return {@code true} if the specified {@code boolean} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isEmpty(final boolean[] array) {
@@ -978,11 +978,11 @@ public class Booleans {
 	}
 
 	/**
-	 * Tests whether the specified {@code boolean} array is not {@code null} and not empty.
+	 * Tests whether the specified {@code boolean} array is non-{@code null} and not empty.
 	 * <p>
 	 * @param array the {@code boolean} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code boolean} array is not {@code null} and not
+	 * @return {@code true} if the specified {@code boolean} array is non-{@code null} and not
 	 *         empty, {@code false} otherwise
 	 */
 	public static boolean isNotEmpty(final boolean[] array) {

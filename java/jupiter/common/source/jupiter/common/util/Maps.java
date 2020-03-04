@@ -161,13 +161,13 @@ public class Maps
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Map} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Map}, or {@code "null"} if it
+	 * is {@code null}.
 	 * <p>
 	 * @param map a {@link Map} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Map} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Map}, or {@code "null"} if it
+	 *         is {@code null}
 	 */
 	public static String toString(final Map<?, ?> map) {
 		// Check the arguments
@@ -190,13 +190,13 @@ public class Maps
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Entry} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Entry}, or {@code "null"} if
+	 * it is {@code null}.
 	 * <p>
 	 * @param entry an {@link Entry} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Entry} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Entry}, or {@code "null"} if
+	 *         it is {@code null}
 	 */
 	public static String toString(final Entry<?, ?> entry) {
 		if (entry == null) {

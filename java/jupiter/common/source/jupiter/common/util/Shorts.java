@@ -1143,11 +1143,11 @@ public class Shorts {
 	}
 
 	/**
-	 * Tests whether the specified {@code short} array is not {@code null} and empty.
+	 * Tests whether the specified {@code short} array is non-{@code null} and empty.
 	 * <p>
 	 * @param array the {@code short} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code short} array is not {@code null} and empty,
+	 * @return {@code true} if the specified {@code short} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isEmpty(final short[] array) {
@@ -1155,11 +1155,11 @@ public class Shorts {
 	}
 
 	/**
-	 * Tests whether the specified {@code short} array is not {@code null} and not empty.
+	 * Tests whether the specified {@code short} array is non-{@code null} and not empty.
 	 * <p>
 	 * @param array the {@code short} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code short} array is not {@code null} and not empty,
+	 * @return {@code true} if the specified {@code short} array is non-{@code null} and not empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isNotEmpty(final short[] array) {

@@ -357,13 +357,13 @@ public class Numbers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Number} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Number}, or {@code "null"} if
+	 * it is {@code null}.
 	 * <p>
 	 * @param number a {@link Number} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Number} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Number}, or {@code "null"} if
+	 *         it is {@code null}
 	 */
 	public static String toString(final Number number) {
 		// Check the arguments

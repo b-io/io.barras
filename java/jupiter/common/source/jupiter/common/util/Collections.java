@@ -177,13 +177,13 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection}, or
+	 * {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection}, or
+	 *         {@code "null"} if it is {@code null}
 	 */
 	public static String join(final Collection<?> collection) {
 		return Strings.joinWith(collection, DELIMITER);
@@ -316,11 +316,11 @@ public class Collections {
 	}
 
 	/**
-	 * Tests whether the specified {@link Collection} is not {@code null} and empty.
+	 * Tests whether the specified {@link Collection} is non-{@code null} and empty.
 	 * <p>
 	 * @param collection the {@link Collection} to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@link Collection} is not {@code null} and empty,
+	 * @return {@code true} if the specified {@link Collection} is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isEmpty(final Collection<?> collection) {
@@ -328,11 +328,11 @@ public class Collections {
 	}
 
 	/**
-	 * Tests whether the specified {@link Collection} is not {@code null} and not empty.
+	 * Tests whether the specified {@link Collection} is non-{@code null} and not empty.
 	 * <p>
 	 * @param collection the {@link Collection} to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@link Collection} is not {@code null} and not empty,
+	 * @return {@code true} if the specified {@link Collection} is non-{@code null} and not empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isNotEmpty(final Collection<?> collection) {
@@ -345,13 +345,13 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection}, or
+	 * {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection}, or
+	 *         {@code "null"} if it is {@code null}
 	 */
 	public static String toString(final Collection<?> collection) {
 		if (collection == null) {
@@ -362,14 +362,13 @@ public class Collections {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
-	 * specified delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise.
+	 * specified delimiting {@link String}, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by the
-	 *         specified delimiting {@link String} if it is not {@code null}, {@code "null"}
-	 *         otherwise
+	 *         specified delimiting {@link String}, or {@code "null"} if it is {@code null}
 	 */
 	public static String toStringWith(final Collection<?> collection, final String delimiter) {
 		if (collection == null) {
@@ -380,13 +379,13 @@ public class Collections {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} wrapped by
-	 * {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
+	 * {@code wrapper}, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} wrapped by
-	 *         {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
+	 *         {@code wrapper}, or {@code "null"} if it is {@code null}
 	 */
 	public static String toStringWith(final Collection<?> collection,
 			final ObjectToStringMapper wrapper) {
@@ -398,16 +397,16 @@ public class Collections {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
-	 * specified delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * specified delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it
+	 * is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by the
-	 *         specified delimiting {@link String} and wrapped by {@code wrapper} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 *         specified delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"}
+	 *         if it is {@code null}
 	 */
 	public static String toStringWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {

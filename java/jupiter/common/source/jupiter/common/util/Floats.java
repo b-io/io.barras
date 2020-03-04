@@ -1145,11 +1145,11 @@ public class Floats {
 	}
 
 	/**
-	 * Tests whether the specified {@code float} array is not {@code null} and empty.
+	 * Tests whether the specified {@code float} array is non-{@code null} and empty.
 	 * <p>
 	 * @param array the {@code float} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code float} array is not {@code null} and empty,
+	 * @return {@code true} if the specified {@code float} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isEmpty(final float[] array) {
@@ -1157,11 +1157,11 @@ public class Floats {
 	}
 
 	/**
-	 * Tests whether the specified {@code float} array is not {@code null} and not empty.
+	 * Tests whether the specified {@code float} array is non-{@code null} and not empty.
 	 * <p>
 	 * @param array the {@code float} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code float} array is not {@code null} and not empty,
+	 * @return {@code true} if the specified {@code float} array is non-{@code null} and not empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isNotEmpty(final float[] array) {

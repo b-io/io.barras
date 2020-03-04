@@ -331,13 +331,13 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array, or {@code "null"} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param array the array of {@link Object} to join (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array, or {@code "null"} if it is
+	 *         {@code null}
 	 */
 	public static String join(final Object... array) {
 		return Strings.joinWith(array, DELIMITER);
@@ -1138,12 +1138,12 @@ public class Arrays {
 	}
 
 	/**
-	 * Tests whether the specified {@code T} array is not {@code null} and empty.
+	 * Tests whether the specified {@code T} array is non-{@code null} and empty.
 	 * <p>
 	 * @param <T>   the component type of the array to test
 	 * @param array the {@code T} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code T} array is not {@code null} and empty,
+	 * @return {@code true} if the specified {@code T} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
 	public static <T> boolean isEmpty(final T[] array) {
@@ -1151,12 +1151,12 @@ public class Arrays {
 	}
 
 	/**
-	 * Tests whether the specified {@code T} array is not {@code null} and not empty.
+	 * Tests whether the specified {@code T} array is non-{@code null} and not empty.
 	 * <p>
 	 * @param <T>   the component type of the array to test
 	 * @param array the {@code T} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code T} array is not {@code null} and not empty,
+	 * @return {@code true} if the specified {@code T} array is non-{@code null} and not empty,
 	 *         {@code false} otherwise
 	 */
 	public static <T> boolean isNotEmpty(final T[] array) {
@@ -1474,13 +1474,13 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array, or {@code "null"} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array, or {@code "null"} if it is
+	 *         {@code null}
 	 */
 	public static String toString(final Object... array) {
 		if (array == null) {
@@ -1491,13 +1491,13 @@ public class Arrays {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by the specified
-	 * delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise.
+	 * delimiting {@link String}, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by the specified
-	 *         delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise
+	 *         delimiting {@link String}, or {@code "null"} if it is {@code null}
 	 */
 	public static String toStringWith(final Object[] array, final String delimiter) {
 		if (array == null) {
@@ -1507,14 +1507,14 @@ public class Arrays {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array wrapped by {@code wrapper} if
-	 * it is not {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array wrapped by {@code wrapper}, or
+	 * {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param array   an array of {@link Object} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
 	 * <p>
-	 * @return a representative {@link String} of the specified array wrapped by {@code wrapper} if
-	 *         it is not {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array wrapped by {@code wrapper}, or
+	 *         {@code "null"} if it is {@code null}
 	 */
 	public static String toStringWith(final Object[] array, final ObjectToStringMapper wrapper) {
 		if (array == null) {
@@ -1525,16 +1525,16 @@ public class Arrays {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by the specified
-	 * delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by the specified
-	 *         delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 *         delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 *         {@code null}
 	 */
 	public static String toStringWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {

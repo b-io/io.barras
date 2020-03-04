@@ -599,13 +599,13 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Date} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Date}, or {@code "null"} if
+	 * it is {@code null}.
 	 * <p>
 	 * @param date a {@link Date} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Date} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Date}, or {@code "null"} if
+	 *         it is {@code null}
 	 */
 	public static String toString(final Date date) {
 		if (date == null) {

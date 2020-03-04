@@ -1178,11 +1178,11 @@ public class Characters {
 	}
 
 	/**
-	 * Tests whether the specified {@code char} array is not {@code null} and empty.
+	 * Tests whether the specified {@code char} array is non-{@code null} and empty.
 	 * <p>
 	 * @param array the {@code char} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code char} array is not {@code null} and empty,
+	 * @return {@code true} if the specified {@code char} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isEmpty(final char[] array) {
@@ -1190,11 +1190,11 @@ public class Characters {
 	}
 
 	/**
-	 * Tests whether the specified {@code char} array is not {@code null} and not empty.
+	 * Tests whether the specified {@code char} array is non-{@code null} and not empty.
 	 * <p>
 	 * @param array the {@code char} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code char} array is not {@code null} and not empty,
+	 * @return {@code true} if the specified {@code char} array is non-{@code null} and not empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isNotEmpty(final char[] array) {

@@ -963,13 +963,13 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified array of {@link String} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array of {@link String}, or
+	 * {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param array an array of {@link String} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array of {@link String} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array of {@link String}, or
+	 *         {@code "null"} if it is {@code null}
 	 */
 	public static String join(final String... array) {
 		// Check the arguments
@@ -988,13 +988,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified array if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified array, or {@code "null"} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified array if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified array, or {@code "null"} if it is
+	 *         {@code null}
 	 */
 	public static String join(final Object... array) {
 		// Check the arguments
@@ -1013,13 +1013,13 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Collection} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Collection}, or
+	 * {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Collection} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Collection}, or
+	 *         {@code "null"} if it is {@code null}
 	 */
 	public static String join(final Collection<?> collection) {
 		// Check the arguments
@@ -1041,12 +1041,12 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by
-	 * {@link Arrays#DELIMITER} if it is not {@code null}, {@code "null"} otherwise.
+	 * {@link Arrays#DELIMITER}, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by
-	 *         {@link Arrays#DELIMITER} if it is not {@code null}, {@code "null"} otherwise
+	 *         {@link Arrays#DELIMITER}, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Object[] array) {
 		return joinWith(array, toString(DELIMITER));
@@ -1054,13 +1054,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by the specified
-	 * {@code char} delimiter if it is not {@code null}, {@code "null"} otherwise.
+	 * {@code char} delimiter, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the {@code char} delimiter
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by the specified
-	 *         {@code char} delimiter if it is not {@code null}, {@code "null"} otherwise
+	 *         {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Object[] array, final char delimiter) {
 		return joinWith(array, toString(delimiter));
@@ -1068,13 +1068,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by the specified
-	 * delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise.
+	 * delimiting {@link String}, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by the specified
-	 *         delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise
+	 *         delimiting {@link String}, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Object[] array, final String delimiter) {
 		// Check the arguments
@@ -1100,15 +1100,15 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by
-	 * {@link Arrays#DELIMITER} and wrapped by {@code wrapper} if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * {@link Arrays#DELIMITER} and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param array   an array of {@link Object} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by
-	 *         {@link Arrays#DELIMITER} and wrapped by {@code wrapper} if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 *         {@link Arrays#DELIMITER} and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 *         {@code null}
 	 */
 	public static String joinWith(final Object[] array, final ObjectToStringMapper wrapper) {
 		return joinWith(array, toString(DELIMITER), wrapper);
@@ -1116,16 +1116,16 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by the specified
-	 * {@code char} delimiter and wrapped by {@code wrapper} if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * {@code char} delimiter and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the {@code char} delimiter
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by the specified
-	 *         {@code char} delimiter and wrapped by {@code wrapper} if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 *         {@code char} delimiter and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 *         {@code null}
 	 */
 	public static String joinWith(final Object[] array, final char delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -1134,16 +1134,16 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified array joined by the specified
-	 * delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by the specified
-	 *         delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
-	 *         {@code "null"} otherwise
+	 *         delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 *         {@code null}
 	 */
 	public static String joinWith(final Object[] array, final String delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -1173,13 +1173,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
-	 * specified {@code char} delimiter if it is not {@code null}, {@code "null"} otherwise.
+	 * specified {@code char} delimiter, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the {@code char} delimiter
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by the
-	 *         specified {@code char} delimiter if it is not {@code null}, {@code "null"} otherwise
+	 *         specified {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter) {
 		return joinWith(collection, toString(delimiter));
@@ -1187,14 +1187,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
-	 * specified delimiting {@link String} if it is not {@code null}, {@code "null"} otherwise.
+	 * specified delimiting {@link String}, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by the
-	 *         specified delimiting {@link String} if it is not {@code null}, {@code "null"}
-	 *         otherwise
+	 *         specified delimiting {@link String}, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter) {
 		// Check the arguments
@@ -1220,16 +1219,16 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
-	 * specified {@code char} delimiter and wrapped by {@code wrapper} if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * specified {@code char} delimiter and wrapped by {@code wrapper}, or {@code "null"} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the {@code char} delimiter
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by the
-	 *         specified {@code char} delimiter and wrapped by {@code wrapper} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 *         specified {@code char} delimiter and wrapped by {@code wrapper}, or {@code "null"} if
+	 *         it is {@code null}
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -1238,13 +1237,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} wrapped by
-	 * {@code wrapper} if it is not {@code null}, {@code "null"} otherwise.
+	 * {@code wrapper}, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} wrapped by
-	 *         {@code wrapper} if it is not {@code null}, {@code "null"} otherwise
+	 *         {@code wrapper}, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Collection<?> collection,
 			final ObjectToStringMapper wrapper) {
@@ -1253,16 +1252,16 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
-	 * specified delimiting {@link String} and wrapped by {@code wrapper} if it is not {@code null},
-	 * {@code "null"} otherwise.
+	 * specified delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it
+	 * is {@code null}.
 	 * <p>
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined by the
-	 *         specified delimiting {@link String} and wrapped by {@code wrapper} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 *         specified delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"}
+	 *         if it is {@code null}
 	 */
 	public static String joinWith(final Collection<?> collection, final String delimiter,
 			final ObjectToStringMapper wrapper) {
@@ -3918,11 +3917,11 @@ public class Strings {
 	}
 
 	/**
-	 * Tests whether the specified {@link String} is not {@code null} and empty.
+	 * Tests whether the specified {@link String} is non-{@code null} and empty.
 	 * <p>
 	 * @param text the {@link String} to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is not {@code null} and empty,
+	 * @return {@code true} if the specified {@link String} is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isEmpty(final String text) {
@@ -3930,11 +3929,11 @@ public class Strings {
 	}
 
 	/**
-	 * Tests whether the specified {@link String} is not {@code null} and not empty.
+	 * Tests whether the specified {@link String} is non-{@code null} and not empty.
 	 * <p>
 	 * @param text the {@link String} to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is not {@code null} and not empty,
+	 * @return {@code true} if the specified {@link String} is non-{@code null} and not empty,
 	 *         {@code false} otherwise
 	 */
 	public static boolean isNotEmpty(final String text) {
@@ -4179,13 +4178,13 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Object} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Object}, or {@code "null"} if
+	 * it is {@code null}.
 	 * <p>
 	 * @param object an {@link Object} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Object}, or {@code "null"} if
+	 *         it is {@code null}
 	 */
 	public static String toString(final Object object) {
 		// Check the arguments
@@ -4226,76 +4225,121 @@ public class Strings {
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Object} if it is not
-	 * {@code null} or {@code "null"}, {@code null} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Object}, or {@code "null"} if
+	 * it is {@code null}, truncated to the specified length.
+	 * <p>
+	 * @param object an {@link Object} (may be {@code null})
+	 * @param length the length of the representative {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or {@code "null"} if
+	 *         it is {@code null}, truncated to the specified length
+	 */
+	public static String toString(final Object object, final int length) {
+		return truncate(toString(object), length);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
+	 * it is {@code null} or {@code "null"}.
 	 * <p>
 	 * @param object an {@link Object}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object} if it is not
-	 *         {@code null} or {@code "null"}, {@code null} otherwise
+	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
+	 *         it is {@code null} or {@code "null"}
 	 */
 	public static String toStringWithNull(final Object object) {
 		final String string = toString(object);
 		return !NULL.equals(string) ? string : null;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns a representative {@link String} of the specified {@link Object} if it is not
-	 * {@code null}, {@code "null"} otherwise, truncated to the specified length.
+	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
+	 * it is {@code null} or {@code "null"}, truncated to the specified length.
 	 * <p>
-	 * @param object an {@link Object} (may be {@code null})
+	 * @param object an {@link Object}
 	 * @param length the length of the representative {@link String}
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object} if it is not
-	 *         {@code null}, {@code "null"} otherwise, truncated to the specified length
+	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
+	 *         it is {@code null} or {@code "null"}, truncated to the specified length
 	 */
-	public static String toString(final Object object, final int length) {
-		return truncate(toString(object), length);
+	public static String toStringWithNull(final Object object, final int length) {
+		return truncate(toStringWithNull(object), length);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Object} if it is not
-	 * {@code null}, {@code defaultString} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Object}, or
+	 * {@code defaultString} if it is {@code null}.
 	 * <p>
 	 * @param object        the {@link Object} (may be {@code null})
 	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object} if it is not
-	 *         {@code null}, {@code defaultString} otherwise
+	 * @return a representative {@link String} of the specified {@link Object}, or
+	 *         {@code defaultString} if it is {@code null}
 	 */
 	public static String toString(final Object object, final String defaultString) {
 		return object != null ? toString(object) : defaultString;
 	}
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Object} if it is not
-	 * {@code null} or {@code "null"}, {@code defaultString} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Object}, or
+	 * {@code defaultString} if it is {@code null}, truncated to the specified length.
+	 * <p>
+	 * @param object an {@link Object} (may be {@code null})
+	 * @param length the length of the representative {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or
+	 *         {@code defaultString} if it is {@code null}, truncated to the specified length
+	 */
+	public static String toString(final Object object, final String defaultString,
+			final int length) {
+		return truncate(toString(object, defaultString), length);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or
+	 * {@code defaultString} if it is {@code null} or {@code "null"}.
 	 * <p>
 	 * @param object        the {@link Object}
 	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object} if it is not
-	 *         {@code null} or {@code "null"}, {@code defaultString} otherwise
+	 * @return a representative {@link String} of the specified {@link Object}, or
+	 *         {@code defaultString} if it is {@code null} or {@code "null"}
 	 */
 	public static String toStringWithNull(final Object object, final String defaultString) {
 		final String string = toString(object);
 		return !NULL.equals(string) ? string : defaultString;
 	}
 
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or
+	 * {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the specified
+	 * length.
+	 * <p>
+	 * @param object        the {@link Object}
+	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
+	 * @param length        the length of the representative {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or
+	 *         {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the
+	 *         specified length
+	 */
+	public static String toStringWithNull(final Object object, final String defaultString,
+			final int length) {
+		return truncate(toStringWithNull(object, defaultString), length);
+	}
+
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified {@link Exception} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified {@link Exception}, or {@code "null"}
+	 * if it is {@code null}.
 	 * <p>
 	 * @param exception an {@link Exception} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified {@link Exception} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified {@link Exception}, or {@code "null"}
+	 *         if it is {@code null}
 	 */
 	public static String toString(final Exception exception) {
 		return toString(exception, 0);
@@ -4303,14 +4347,13 @@ public class Strings {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@link Exception} with the specified
-	 * number of {@link StackTraceElement} if it is not {@code null}, {@code "null"} otherwise.
+	 * number of {@link StackTraceElement}, or {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param exception              an {@link Exception} (may be {@code null})
 	 * @param stackTraceElementCount the number of {@link StackTraceElement} to add
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Exception} with the specified
-	 *         number of {@link StackTraceElement} if it is not {@code null}, {@code "null"}
-	 *         otherwise
+	 *         number of {@link StackTraceElement}, or {@code "null"} if it is {@code null}
 	 */
 	public static String toString(final Exception exception, final int stackTraceElementCount) {
 		if (exception == null) {
@@ -4328,13 +4371,13 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a representative {@link String} of the specified value {@link Object} if it is not
-	 * {@code null}, {@code "null"} otherwise.
+	 * Returns a representative {@link String} of the specified value {@link Object}, or
+	 * {@code "null"} if it is {@code null}.
 	 * <p>
 	 * @param value a value {@link Object} (may be {@code null})
 	 * <p>
-	 * @return a representative {@link String} of the specified value {@link Object} if it is not
-	 *         {@code null}, {@code "null"} otherwise
+	 * @return a representative {@link String} of the specified value {@link Object}, or
+	 *         {@code "null"} if it is {@code null}
 	 */
 	public static String valueToString(final Object value) {
 		if (value == null || Booleans.is(value) || Numbers.is(value)) {
