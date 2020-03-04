@@ -308,7 +308,7 @@ public class ComparableSort
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	protected static int countRunAndMakeAscending(final Object[] array, final int lo,
 			final int hi) {
 		assert lo < hi;
@@ -681,7 +681,7 @@ public class ComparableSort
 	 *                {@code aBase + aLength})
 	 * @param length2 length of second run to merge (must be greater than 0)
 	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	protected void mergeLo(final int base1, int length1, final int base2, int length2) {
 		assert length1 > 0 && length2 > 0 && base1 + length1 == base2;
 
@@ -806,7 +806,7 @@ outer:  while (true) {
 	 *                {@code aBase + aLength})
 	 * @param length2 length of second run to merge (must be greater than 0)
 	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	protected void mergeHi(final int base1, int length1, final int base2, int length2) {
 		assert length1 > 0 && length2 > 0 && base1 + length1 == base2;
 

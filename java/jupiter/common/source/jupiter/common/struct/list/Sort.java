@@ -137,6 +137,7 @@ public class Sort<T>
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 */
+	@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 	protected Sort(final T[] array, final Comparator<? super T> comparator, final T[] work,
 			final int workBase, final int workLength) {
 		this.array = array;
@@ -147,7 +148,6 @@ public class Sort<T>
 		final int tempLength = length < 2 * INITIAL_TEMP_STORAGE_LENGTH ? length >>> 1 :
 				INITIAL_TEMP_STORAGE_LENGTH;
 		if (work == null || workLength < tempLength || workBase + tempLength > work.length) {
-			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentClass(array), tempLength);
 			tempArray = newArray;
 			tempArrayBase = 0;
@@ -961,6 +961,7 @@ outer:  while (true) {
 	 * <p>
 	 * @return {@code tempArray}, whether or not it grew
 	 */
+	@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 	protected T[] ensureCapacity(final int minCapacity) {
 		if (tempArrayLength < minCapacity) {
 			// Compute the smallest power of 2 > minCapacity
@@ -979,7 +980,6 @@ outer:  while (true) {
 				newSize = Math.min(newSize, array.length >>> 1);
 			}
 
-			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentClass(array), newSize);
 			tempArray = newArray;
 			tempArrayLength = newSize;

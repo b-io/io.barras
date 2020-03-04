@@ -180,7 +180,7 @@ public class Comparables {
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public static int compare(final Comparable a, final Object b) {
 		return a == b ? 0 : a == null ? -1 : b == null ? 1 : a.compareTo(b);
 	}
