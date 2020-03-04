@@ -210,8 +210,7 @@ public class ReservedThreadPoolExecutor
 	 * <p>
 	 * @param <T>           the type of the {@link Future} to return
 	 * @param task          the {@link Runnable} task to submit
-	 * @param defaultResult the default {@code T} result to return upon successful completion (may
-	 *                      be {@code null})
+	 * @param defaultResult the default {@code T} result (may be {@code null})
 	 * <p>
 	 * @return a {@link Future} representing the pending completion of the specified
 	 *         {@link Runnable} task if there is at least one thread that is not actively executing

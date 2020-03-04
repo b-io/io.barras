@@ -23,12 +23,16 @@
  */
 package jupiter.common.util;
 
+import static java.lang.Short.MAX_VALUE;
+import static java.lang.Short.MIN_VALUE;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.map.parser.ShortParser;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
@@ -42,7 +46,7 @@ public class Shorts {
 	public static final short[] EMPTY_PRIMITIVE_ARRAY = new short[] {};
 	public static final Short[] EMPTY_ARRAY = new Short[] {};
 
-	protected static final ShortParser PARSER = new ShortParser();
+	protected static final ShortParser PARSER = IParsers.SHORT_PARSER;
 
 	public static volatile Random RANDOM = new Random();
 
@@ -86,7 +90,7 @@ public class Shorts {
 	 * @return a {@code short} value converted from the specified {@code int} value
 	 */
 	public static short convert(final int value) {
-		if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Short under/overflow");
 		}
 		return (short) value;
@@ -100,7 +104,7 @@ public class Shorts {
 	 * @return a {@code short} value converted from the specified {@code long} value
 	 */
 	public static short convert(final long value) {
-		if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Short under/overflow");
 		}
 		return (short) value;
@@ -114,7 +118,7 @@ public class Shorts {
 	 * @return a {@code short} value converted from the specified {@code float} value
 	 */
 	public static short convert(final float value) {
-		if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Short under/overflow");
 		}
 		return (short) value;
@@ -128,7 +132,7 @@ public class Shorts {
 	 * @return a {@code short} value converted from the specified {@code double} value
 	 */
 	public static short convert(final double value) {
-		if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Short under/overflow");
 		}
 		return (short) value;
@@ -691,7 +695,7 @@ public class Shorts {
 	 * @return a pseudorandom, uniformly distributed {@code short} value
 	 */
 	public static short random() {
-		return random(Short.MIN_VALUE, Short.MAX_VALUE);
+		return random(MIN_VALUE, MAX_VALUE);
 	}
 
 	/**
@@ -705,7 +709,7 @@ public class Shorts {
 	 *         bounds
 	 */
 	public static short random(final short lowerBound, final short upperBound) {
-		return convert(lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound));
+		return convert(lowerBound + RANDOM.nextInt(upperBound - lowerBound));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -730,6 +734,42 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of elements in the specified 2D {@code short} array.
+	 * <p>
+	 * @param array2D the 2D {@code short} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 2D {@code short} array
+	 */
+	public static int count(final short[][] array2D) {
+		int count = 0;
+		if (array2D != null) {
+			for (final short[] array : array2D) {
+				count += array.length;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of elements in the specified 3D {@code short} array.
+	 * <p>
+	 * @param array3D the 3D {@code short} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 3D {@code short} array
+	 */
+	public static int count(final short[][][] array3D) {
+		int count = 0;
+		if (array3D != null) {
+			for (final short[][] array2D : array3D) {
+				count += count(array2D);
+			}
+		}
+		return count;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code short} token in the specified
 	 * {@code short} array.
 	 * <p>
@@ -751,6 +791,48 @@ public class Shorts {
 	}
 
 	/**
+	 * Returns the number of occurrences of the specified {@code short} token in the specified 2D
+	 * {@code short} array.
+	 * <p>
+	 * @param array2D the 2D {@code short} array to count from (may be {@code null})
+	 * @param token   the {@code short} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code short} token in the specified 2D
+	 *         {@code short} array
+	 */
+	public static int count(final short[][] array2D, final short token) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final short[] array : array2D) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code short} token in the specified 3D
+	 * {@code short} array.
+	 * <p>
+	 * @param array3D the 3D {@code short} array to count from (may be {@code null})
+	 * @param token   the {@code short} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code short} token in the specified 3D
+	 *         {@code short} array
+	 */
+	public static int count(final short[][][] array3D, final short token) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final short[][] array2D : array3D) {
+				occurrenceCount += count(array2D, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code short} tokens in the specified
 	 * {@code short} array.
 	 * <p>
@@ -765,6 +847,46 @@ public class Shorts {
 		if (array != null && tokens != null) {
 			for (final short token : tokens) {
 				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code short} tokens in the specified 2D
+	 * {@code short} array.
+	 * <p>
+	 * @param array2D the 2D {@code short} array to count from (may be {@code null})
+	 * @param tokens  the {@code short} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code short} tokens in the specified 2D
+	 *         {@code short} array
+	 */
+	public static int count(final short[][] array2D, final short[] tokens) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final short[] array : array2D) {
+				occurrenceCount += count(array, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code short} tokens in the specified 3D
+	 * {@code short} array.
+	 * <p>
+	 * @param array3D the 3D {@code short} array to count from (may be {@code null})
+	 * @param tokens  the {@code short} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code short} tokens in the specified 3D
+	 *         {@code short} array
+	 */
+	public static int count(final short[][][] array3D, final short[] tokens) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final short[][] array2D : array3D) {
+				occurrenceCount += count(array2D, tokens);
 			}
 		}
 		return occurrenceCount;
@@ -872,28 +994,102 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the middle of the specified {@code short} value.
+	 * Returns the middle of the specified {@code short} value rounded down.
 	 * <p>
 	 * @param value a {@code short} value
 	 * <p>
-	 * @return the middle of the specified {@code short} value
+	 * @return the middle of the specified {@code short} value rounded down
 	 */
 	public static short middle(final short value) {
-		return middle((short) 0, value);
+		return convert(value / 2);
 	}
 
 	/**
-	 * Returns the middle of the specified lower and upper bounds rounded to the lower {@code short}
-	 * value.
+	 * Returns the middle of the specified {@code short} lower and upper bounds rounded down.
 	 * <p>
 	 * @param lowerBound a {@code short} value
 	 * @param upperBound another {@code short} value
 	 * <p>
-	 * @return the middle of the specified lower and upper bounds rounded to the lower {@code short}
-	 *         value
+	 * @return the middle of the specified {@code short} lower and upper bounds rounded down
 	 */
 	public static short middle(final short lowerBound, final short upperBound) {
 		return convert(lowerBound + (upperBound - lowerBound) / 2);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the middle of the specified {@code short} value rounded up.
+	 * <p>
+	 * @param value a {@code short} value
+	 * <p>
+	 * @return the middle of the specified {@code short} value rounded up
+	 */
+	public static short middleUp(final short value) {
+		return convert((value + 1) / 2);
+	}
+
+	/**
+	 * Returns the middle of the specified {@code short} lower and upper bounds rounded up.
+	 * <p>
+	 * @param lowerBound a {@code short} value
+	 * @param upperBound another {@code short} value
+	 * <p>
+	 * @return the middle of the specified {@code short} lower and upper bounds rounded up
+	 */
+	public static short middleUp(final short lowerBound, final short upperBound) {
+		return convert(lowerBound + (upperBound - lowerBound + 1) / 2);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void reverse(final short[] array) {
+		reverse(array, 0, array.length - 1);
+	}
+
+	public static void reverse(final short[] array, final int fromIndex) {
+		reverse(array, fromIndex, array.length - 1);
+	}
+
+	public static void reverse(final short[] array, final int fromIndex, final int toIndex) {
+		final int limit = Integers.middleUp(toIndex - fromIndex);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - i);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shuffles the specified {@code short} array.
+	 * <p>
+	 * @param array the {@code short} array to shuffle
+	 */
+	public static void shuffle(final short[] array) {
+		shuffle(array, 0, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code short} array from the specified index.
+	 * <p>
+	 * @param array     the {@code short} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 */
+	public static void shuffle(final short[] array, final int fromIndex) {
+		shuffle(array, fromIndex, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code short} array between the specified indexes.
+	 * <p>
+	 * @param array     the {@code short} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 * @param toIndex   the index to finish shuffling at (exclusive)
+	 */
+	public static void shuffle(final short[] array, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			swap(array, i, Integers.random(fromIndex, toIndex));
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -917,6 +1113,8 @@ public class Shorts {
 		return subarray;
 	}
 
+	//////////////////////////////////////////////
+
 	public static short[] take(final short[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
@@ -935,6 +1133,8 @@ public class Shorts {
 		}
 		return subarray;
 	}
+
+	//////////////////////////////////////////////
 
 	public static short[] take(final short[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
@@ -1166,7 +1366,7 @@ public class Shorts {
 		return array != null && array.length > 0;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code short} value is between the specified {@code short} lower
@@ -1180,8 +1380,46 @@ public class Shorts {
 	 *         {@code short} lower and upper bounds, {@code false} otherwise
 	 */
 	public static boolean isBetween(final short value, final short from, final short to) {
-		return value >= from && value < to;
+		return isBetween(value, from, to, true, false);
 	}
+
+	/**
+	 * Tests whether the specified {@code short} value is between the specified {@code short} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value            the {@code short} value to test
+	 * @param from             the {@code short} lower bound to test against (inclusive)
+	 * @param to               the {@code short} upper bound to test against
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code short} value is between the specified
+	 *         {@code short} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final short value, final short from, final short to,
+			final boolean isUpperInclusive) {
+		return isBetween(value, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code short} value is between the specified {@code short} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value            the {@code short} value to test
+	 * @param from             the {@code short} lower bound to test against
+	 * @param to               the {@code short} upper bound to test against
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code short} value is between the specified
+	 *         {@code short} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final short value, final short from, final short to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? value >= from : value > from) &&
+				(isUpperInclusive ? value <= to : value < to);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code short} array is between the specified lower and upper
@@ -1197,7 +1435,47 @@ public class Shorts {
 	 *         upper bound {@code short} arrays, {@code false} otherwise
 	 */
 	public static boolean isBetween(final short[] array, final short[] from, final short[] to) {
-		return compare(array, from) >= 0 && compare(array, to) < 0;
+		return isBetween(array, from, to, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code short} array is between the specified lower and upper
+	 * bound {@code short} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code short} array to test (may be {@code null})
+	 * @param from             the lower bound {@code short} array to test against (inclusive) (may
+	 *                         be {@code null})
+	 * @param to               the upper bound {@code short} array to test against (may be
+	 *                         {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code short} array is between the specified lower and
+	 *         upper bound {@code short} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final short[] array, final short[] from, final short[] to,
+			final boolean isUpperInclusive) {
+		return isBetween(array, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code short} array is between the specified lower and upper
+	 * bound {@code short} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code short} array to test (may be {@code null})
+	 * @param from             the lower bound {@code short} array to test against (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code short} array to test against (may be
+	 *                         {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code short} array is between the specified lower and
+	 *         upper bound {@code short} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final short[] array, final short[] from, final short[] to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? compare(array, from) >= 0 : compare(array, from) > 0) &&
+				(isUpperInclusive ? compare(array, to) <= 0 : compare(array, to) < 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -579,6 +579,42 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of elements in the specified 2D {@code boolean} array.
+	 * <p>
+	 * @param array2D the 2D {@code boolean} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 2D {@code boolean} array
+	 */
+	public static int count(final boolean[][] array2D) {
+		int count = 0;
+		if (array2D != null) {
+			for (final boolean[] array : array2D) {
+				count += array.length;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of elements in the specified 3D {@code boolean} array.
+	 * <p>
+	 * @param array3D the 3D {@code boolean} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 3D {@code boolean} array
+	 */
+	public static int count(final boolean[][][] array3D) {
+		int count = 0;
+		if (array3D != null) {
+			for (final boolean[][] array2D : array3D) {
+				count += count(array2D);
+			}
+		}
+		return count;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code boolean} token in the specified
 	 * {@code boolean} array.
 	 * <p>
@@ -600,6 +636,48 @@ public class Booleans {
 	}
 
 	/**
+	 * Returns the number of occurrences of the specified {@code boolean} token in the specified 2D
+	 * {@code boolean} array.
+	 * <p>
+	 * @param array2D the 2D {@code boolean} array to count from (may be {@code null})
+	 * @param token   the {@code boolean} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code boolean} token in the specified 2D
+	 *         {@code boolean} array
+	 */
+	public static int count(final boolean[][] array2D, final boolean token) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final boolean[] array : array2D) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code boolean} token in the specified 3D
+	 * {@code boolean} array.
+	 * <p>
+	 * @param array3D the 3D {@code boolean} array to count from (may be {@code null})
+	 * @param token   the {@code boolean} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code boolean} token in the specified 3D
+	 *         {@code boolean} array
+	 */
+	public static int count(final boolean[][][] array3D, final boolean token) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final boolean[][] array2D : array3D) {
+				occurrenceCount += count(array2D, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code boolean} tokens in the specified
 	 * {@code boolean} array.
 	 * <p>
@@ -614,6 +692,46 @@ public class Booleans {
 		if (array != null && tokens != null) {
 			for (final boolean token : tokens) {
 				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code boolean} tokens in the specified 2D
+	 * {@code boolean} array.
+	 * <p>
+	 * @param array2D the 2D {@code boolean} array to count from (may be {@code null})
+	 * @param tokens  the {@code boolean} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code boolean} tokens in the specified 2D
+	 *         {@code boolean} array
+	 */
+	public static int count(final boolean[][] array2D, final boolean[] tokens) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final boolean[] array : array2D) {
+				occurrenceCount += count(array, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code boolean} tokens in the specified 3D
+	 * {@code boolean} array.
+	 * <p>
+	 * @param array3D the 3D {@code boolean} array to count from (may be {@code null})
+	 * @param tokens  the {@code boolean} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code boolean} tokens in the specified 3D
+	 *         {@code boolean} array
+	 */
+	public static int count(final boolean[][][] array3D, final boolean[] tokens) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final boolean[][] array2D : array3D) {
+				occurrenceCount += count(array2D, tokens);
 			}
 		}
 		return occurrenceCount;
@@ -720,6 +838,57 @@ public class Booleans {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void reverse(final boolean[] array) {
+		reverse(array, 0, array.length - 1);
+	}
+
+	public static void reverse(final boolean[] array, final int fromIndex) {
+		reverse(array, fromIndex, array.length - 1);
+	}
+
+	public static void reverse(final boolean[] array, final int fromIndex, final int toIndex) {
+		final int limit = Integers.middleUp(toIndex - fromIndex);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - i);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shuffles the specified {@code boolean} array.
+	 * <p>
+	 * @param array the {@code boolean} array to shuffle
+	 */
+	public static void shuffle(final boolean[] array) {
+		shuffle(array, 0, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code boolean} array from the specified index.
+	 * <p>
+	 * @param array     the {@code boolean} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 */
+	public static void shuffle(final boolean[] array, final int fromIndex) {
+		shuffle(array, fromIndex, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code boolean} array between the specified indexes.
+	 * <p>
+	 * @param array     the {@code boolean} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 * @param toIndex   the index to finish shuffling at (exclusive)
+	 */
+	public static void shuffle(final boolean[] array, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			swap(array, i, Integers.random(fromIndex, toIndex));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void swap(final boolean[] array, final int i, final int j) {
 		final boolean element = array[i];
 		array[i] = array[j];
@@ -739,6 +908,8 @@ public class Booleans {
 		return subarray;
 	}
 
+	//////////////////////////////////////////////
+
 	public static boolean[] take(final boolean[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
@@ -757,6 +928,8 @@ public class Booleans {
 		}
 		return subarray;
 	}
+
+	//////////////////////////////////////////////
 
 	public static boolean[] take(final boolean[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);

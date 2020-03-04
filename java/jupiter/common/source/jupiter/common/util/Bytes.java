@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static java.lang.Byte.MAX_VALUE;
+import static java.lang.Byte.MIN_VALUE;
 import static jupiter.common.util.Characters.LOWER_CASE_DIGITS;
 import static jupiter.common.util.Characters.UPPER_CASE_DIGITS;
 
@@ -33,6 +35,7 @@ import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.ByteParser;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 
@@ -45,7 +48,7 @@ public class Bytes {
 	public static final byte[] EMPTY_PRIMITIVE_ARRAY = new byte[] {};
 	public static final Byte[] EMPTY_ARRAY = new Byte[] {};
 
-	protected static final ByteParser PARSER = new ByteParser();
+	protected static final ByteParser PARSER = IParsers.BYTE_PARSER;
 
 	public static volatile Random RANDOM = new Random();
 
@@ -89,7 +92,7 @@ public class Bytes {
 	 * @return a {@code byte} value converted from the specified {@code short} value
 	 */
 	public static byte convert(final short value) {
-		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Byte under/overflow");
 		}
 		return (byte) value;
@@ -103,7 +106,7 @@ public class Bytes {
 	 * @return a {@code byte} value converted from the specified {@code int} value
 	 */
 	public static byte convert(final int value) {
-		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Byte under/overflow");
 		}
 		return (byte) value;
@@ -117,7 +120,7 @@ public class Bytes {
 	 * @return a {@code byte} value converted from the specified {@code long} value
 	 */
 	public static byte convert(final long value) {
-		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Byte under/overflow");
 		}
 		return (byte) value;
@@ -131,7 +134,7 @@ public class Bytes {
 	 * @return a {@code byte} value converted from the specified {@code float} value
 	 */
 	public static byte convert(final float value) {
-		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Byte under/overflow");
 		}
 		return (byte) value;
@@ -145,7 +148,7 @@ public class Bytes {
 	 * @return a {@code byte} value converted from the specified {@code double} value
 	 */
 	public static byte convert(final double value) {
-		if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Byte under/overflow");
 		}
 		return (byte) value;
@@ -882,7 +885,7 @@ public class Bytes {
 	 * @return a pseudorandom, uniformly distributed {@code byte} value
 	 */
 	public static byte random() {
-		return random(Byte.MIN_VALUE, Byte.MAX_VALUE);
+		return random(MIN_VALUE, MAX_VALUE);
 	}
 
 	/**
@@ -895,7 +898,7 @@ public class Bytes {
 	 * @return a pseudorandom, uniformly distributed {@code byte} value between the specified bounds
 	 */
 	public static byte random(final byte lowerBound, final byte upperBound) {
-		return convert(lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound));
+		return convert(lowerBound + RANDOM.nextInt(upperBound - lowerBound));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -916,6 +919,42 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the number of elements in the specified 2D {@code byte} array.
+	 * <p>
+	 * @param array2D the 2D {@code byte} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 2D {@code byte} array
+	 */
+	public static int count(final byte[][] array2D) {
+		int count = 0;
+		if (array2D != null) {
+			for (final byte[] array : array2D) {
+				count += array.length;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of elements in the specified 3D {@code byte} array.
+	 * <p>
+	 * @param array3D the 3D {@code byte} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 3D {@code byte} array
+	 */
+	public static int count(final byte[][][] array3D) {
+		int count = 0;
+		if (array3D != null) {
+			for (final byte[][] array2D : array3D) {
+				count += count(array2D);
+			}
+		}
+		return count;
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the number of occurrences of the specified {@code byte} token in the specified
@@ -939,6 +978,48 @@ public class Bytes {
 	}
 
 	/**
+	 * Returns the number of occurrences of the specified {@code byte} token in the specified 2D
+	 * {@code byte} array.
+	 * <p>
+	 * @param array2D the 2D {@code byte} array to count from (may be {@code null})
+	 * @param token   the {@code byte} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code byte} token in the specified 2D
+	 *         {@code byte} array
+	 */
+	public static int count(final byte[][] array2D, final byte token) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final byte[] array : array2D) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code byte} token in the specified 3D
+	 * {@code byte} array.
+	 * <p>
+	 * @param array3D the 3D {@code byte} array to count from (may be {@code null})
+	 * @param token   the {@code byte} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code byte} token in the specified 3D
+	 *         {@code byte} array
+	 */
+	public static int count(final byte[][][] array3D, final byte token) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final byte[][] array2D : array3D) {
+				occurrenceCount += count(array2D, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code byte} tokens in the specified
 	 * {@code byte} array.
 	 * <p>
@@ -953,6 +1034,46 @@ public class Bytes {
 		if (array != null && tokens != null) {
 			for (final byte token : tokens) {
 				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code byte} tokens in the specified 2D
+	 * {@code byte} array.
+	 * <p>
+	 * @param array2D the 2D {@code byte} array to count from (may be {@code null})
+	 * @param tokens  the {@code byte} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code byte} tokens in the specified 2D
+	 *         {@code byte} array
+	 */
+	public static int count(final byte[][] array2D, final byte[] tokens) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final byte[] array : array2D) {
+				occurrenceCount += count(array, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code byte} tokens in the specified 3D
+	 * {@code byte} array.
+	 * <p>
+	 * @param array3D the 3D {@code byte} array to count from (may be {@code null})
+	 * @param tokens  the {@code byte} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code byte} tokens in the specified 3D
+	 *         {@code byte} array
+	 */
+	public static int count(final byte[][][] array3D, final byte[] tokens) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final byte[][] array2D : array3D) {
+				occurrenceCount += count(array2D, tokens);
 			}
 		}
 		return occurrenceCount;
@@ -1059,28 +1180,102 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the middle of the specified {@code byte} value.
+	 * Returns the middle of the specified {@code byte} value rounded down.
 	 * <p>
 	 * @param value a {@code byte} value
 	 * <p>
-	 * @return the middle of the specified {@code byte} value
+	 * @return the middle of the specified {@code byte} value rounded down
 	 */
 	public static byte middle(final byte value) {
-		return middle((byte) 0, value);
+		return convert(value / 2);
 	}
 
 	/**
-	 * Returns the middle of the specified lower and upper bounds rounded to the lower {@code byte}
-	 * value.
+	 * Returns the middle of the specified {@code byte} lower and upper bounds rounded down.
 	 * <p>
 	 * @param lowerBound a {@code byte} value
 	 * @param upperBound another {@code byte} value
 	 * <p>
-	 * @return the middle of the specified lower and upper bounds rounded to the lower {@code byte}
-	 *         value
+	 * @return the middle of the specified {@code byte} lower and upper bounds rounded down
 	 */
 	public static byte middle(final byte lowerBound, final byte upperBound) {
 		return convert(lowerBound + (upperBound - lowerBound) / 2);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the middle of the specified {@code byte} value rounded up.
+	 * <p>
+	 * @param value a {@code byte} value
+	 * <p>
+	 * @return the middle of the specified {@code byte} value rounded up
+	 */
+	public static byte middleUp(final byte value) {
+		return convert((value + 1) / 2);
+	}
+
+	/**
+	 * Returns the middle of the specified {@code byte} lower and upper bounds rounded up.
+	 * <p>
+	 * @param lowerBound a {@code byte} value
+	 * @param upperBound another {@code byte} value
+	 * <p>
+	 * @return the middle of the specified {@code byte} lower and upper bounds rounded up
+	 */
+	public static byte middleUp(final byte lowerBound, final byte upperBound) {
+		return convert(lowerBound + (upperBound - lowerBound + 1) / 2);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void reverse(final byte[] array) {
+		reverse(array, 0, array.length - 1);
+	}
+
+	public static void reverse(final byte[] array, final int fromIndex) {
+		reverse(array, fromIndex, array.length - 1);
+	}
+
+	public static void reverse(final byte[] array, final int fromIndex, final int toIndex) {
+		final int limit = Integers.middleUp(toIndex - fromIndex);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - i);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shuffles the specified {@code byte} array.
+	 * <p>
+	 * @param array the {@code byte} array to shuffle
+	 */
+	public static void shuffle(final byte[] array) {
+		shuffle(array, 0, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code byte} array from the specified index.
+	 * <p>
+	 * @param array     the {@code byte} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 */
+	public static void shuffle(final byte[] array, final int fromIndex) {
+		shuffle(array, fromIndex, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code byte} array between the specified indexes.
+	 * <p>
+	 * @param array     the {@code byte} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 * @param toIndex   the index to finish shuffling at (exclusive)
+	 */
+	public static void shuffle(final byte[] array, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			swap(array, i, Integers.random(fromIndex, toIndex));
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1104,6 +1299,8 @@ public class Bytes {
 		return subarray;
 	}
 
+	//////////////////////////////////////////////
+
 	public static byte[] take(final byte[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
@@ -1122,6 +1319,8 @@ public class Bytes {
 		}
 		return subarray;
 	}
+
+	//////////////////////////////////////////////
 
 	public static byte[] take(final byte[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
@@ -1408,7 +1607,7 @@ public class Bytes {
 		return array != null && array.length > 0;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code byte} value is between the specified {@code byte} lower
@@ -1422,8 +1621,46 @@ public class Bytes {
 	 *         {@code byte} lower and upper bounds, {@code false} otherwise
 	 */
 	public static boolean isBetween(final byte value, final byte from, final byte to) {
-		return value >= from && value < to;
+		return isBetween(value, from, to, true, false);
 	}
+
+	/**
+	 * Tests whether the specified {@code byte} value is between the specified {@code byte} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value            the {@code byte} value to test
+	 * @param from             the {@code byte} lower bound to test against (inclusive)
+	 * @param to               the {@code byte} upper bound to test against
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} value is between the specified
+	 *         {@code byte} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final byte value, final byte from, final byte to,
+			final boolean isUpperInclusive) {
+		return isBetween(value, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code byte} value is between the specified {@code byte} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value            the {@code byte} value to test
+	 * @param from             the {@code byte} lower bound to test against
+	 * @param to               the {@code byte} upper bound to test against
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} value is between the specified
+	 *         {@code byte} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final byte value, final byte from, final byte to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? value >= from : value > from) &&
+				(isUpperInclusive ? value <= to : value < to);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code byte} array is between the specified lower and upper bound
@@ -1439,7 +1676,47 @@ public class Bytes {
 	 *         upper bound {@code byte} arrays, {@code false} otherwise
 	 */
 	public static boolean isBetween(final byte[] array, final byte[] from, final byte[] to) {
-		return compare(array, from) >= 0 && compare(array, to) < 0;
+		return isBetween(array, from, to, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code byte} array is between the specified lower and upper bound
+	 * {@code byte} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code byte} array to test (may be {@code null})
+	 * @param from             the lower bound {@code byte} array to test against (inclusive) (may
+	 *                         be {@code null})
+	 * @param to               the upper bound {@code byte} array to test against (may be
+	 *                         {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} array is between the specified lower and
+	 *         upper bound {@code byte} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final byte[] array, final byte[] from, final byte[] to,
+			final boolean isUpperInclusive) {
+		return isBetween(array, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code byte} array is between the specified lower and upper bound
+	 * {@code byte} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code byte} array to test (may be {@code null})
+	 * @param from             the lower bound {@code byte} array to test against (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code byte} array to test against (may be
+	 *                         {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code byte} array is between the specified lower and
+	 *         upper bound {@code byte} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final byte[] array, final byte[] from, final byte[] to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? compare(array, from) >= 0 : compare(array, from) > 0) &&
+				(isUpperInclusive ? compare(array, to) <= 0 : compare(array, to) < 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

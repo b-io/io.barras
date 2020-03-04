@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static java.lang.Integer.MAX_VALUE;
+import static java.lang.Integer.MIN_VALUE;
 import static jupiter.common.util.Characters.LOWER_CASE_DIGITS;
 import static jupiter.common.util.Characters.UPPER_CASE_DIGITS;
 
@@ -32,6 +34,7 @@ import java.util.Random;
 import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.map.parser.IntegerParser;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
@@ -46,7 +49,7 @@ public class Integers {
 	public static final int[] EMPTY_PRIMITIVE_ARRAY = new int[] {};
 	public static final Integer[] EMPTY_ARRAY = new Integer[] {};
 
-	protected static final IntegerParser PARSER = new IntegerParser();
+	protected static final IntegerParser PARSER = IParsers.INTEGER_PARSER;
 
 	public static volatile Random RANDOM = new Random();
 
@@ -90,7 +93,7 @@ public class Integers {
 	 * @return an {@code int} value converted from the specified {@code long} value
 	 */
 	public static int convert(final long value) {
-		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Integer under/overflow");
 		}
 		return (int) value;
@@ -104,7 +107,7 @@ public class Integers {
 	 * @return an {@code int} value converted from the specified {@code float} value
 	 */
 	public static int convert(final float value) {
-		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Integer under/overflow");
 		}
 		return (int) value;
@@ -118,7 +121,7 @@ public class Integers {
 	 * @return an {@code int} value converted from the specified {@code double} value
 	 */
 	public static int convert(final double value) {
-		if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Integer under/overflow");
 		}
 		return (int) value;
@@ -787,6 +790,42 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of elements in the specified 2D {@code int} array.
+	 * <p>
+	 * @param array2D the 2D {@code int} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 2D {@code int} array
+	 */
+	public static int count(final int[][] array2D) {
+		int count = 0;
+		if (array2D != null) {
+			for (final int[] array : array2D) {
+				count += array.length;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of elements in the specified 3D {@code int} array.
+	 * <p>
+	 * @param array3D the 3D {@code int} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 3D {@code int} array
+	 */
+	public static int count(final int[][][] array3D) {
+		int count = 0;
+		if (array3D != null) {
+			for (final int[][] array2D : array3D) {
+				count += count(array2D);
+			}
+		}
+		return count;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code int} token in the specified
 	 * {@code int} array.
 	 * <p>
@@ -808,6 +847,48 @@ public class Integers {
 	}
 
 	/**
+	 * Returns the number of occurrences of the specified {@code int} token in the specified 2D
+	 * {@code int} array.
+	 * <p>
+	 * @param array2D the 2D {@code int} array to count from (may be {@code null})
+	 * @param token   the {@code int} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code int} token in the specified 2D
+	 *         {@code int} array
+	 */
+	public static int count(final int[][] array2D, final int token) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final int[] array : array2D) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code int} token in the specified 3D
+	 * {@code int} array.
+	 * <p>
+	 * @param array3D the 3D {@code int} array to count from (may be {@code null})
+	 * @param token   the {@code int} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code int} token in the specified 3D
+	 *         {@code int} array
+	 */
+	public static int count(final int[][][] array3D, final int token) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final int[][] array2D : array3D) {
+				occurrenceCount += count(array2D, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code int} tokens in the specified
 	 * {@code int} array.
 	 * <p>
@@ -822,6 +903,46 @@ public class Integers {
 		if (array != null && tokens != null) {
 			for (final int token : tokens) {
 				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code int} tokens in the specified 2D
+	 * {@code int} array.
+	 * <p>
+	 * @param array2D the 2D {@code int} array to count from (may be {@code null})
+	 * @param tokens  the {@code int} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code int} tokens in the specified 2D
+	 *         {@code int} array
+	 */
+	public static int count(final int[][] array2D, final int[] tokens) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final int[] array : array2D) {
+				occurrenceCount += count(array, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code int} tokens in the specified 3D
+	 * {@code int} array.
+	 * <p>
+	 * @param array3D the 3D {@code int} array to count from (may be {@code null})
+	 * @param tokens  the {@code int} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code int} tokens in the specified 3D
+	 *         {@code int} array
+	 */
+	public static int count(final int[][][] array3D, final int[] tokens) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final int[][] array2D : array3D) {
+				occurrenceCount += count(array2D, tokens);
 			}
 		}
 		return occurrenceCount;
@@ -927,28 +1048,51 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the middle of the specified {@code int} value.
+	 * Returns the middle of the specified {@code int} value rounded down.
 	 * <p>
 	 * @param value an {@code int} value
 	 * <p>
-	 * @return the middle of the specified {@code int} value
+	 * @return the middle of the specified {@code int} value rounded down
 	 */
 	public static int middle(final int value) {
-		return middle(0, value);
+		return value / 2;
 	}
 
 	/**
-	 * Returns the middle of the specified lower and upper bounds rounded to the lower {@code int}
-	 * value.
+	 * Returns the middle of the specified {@code int} lower and upper bounds rounded down.
 	 * <p>
 	 * @param lowerBound an {@code int} value
 	 * @param upperBound another {@code int} value
 	 * <p>
-	 * @return the middle of the specified lower and upper bounds rounded to the lower {@code int}
-	 *         value
+	 * @return the middle of the specified {@code int} lower and upper bounds rounded down
 	 */
 	public static int middle(final int lowerBound, final int upperBound) {
-		return lowerBound + Integers.convert((upperBound - lowerBound) / 2.);
+		return lowerBound + (upperBound - lowerBound) / 2;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the middle of the specified {@code int} value rounded up.
+	 * <p>
+	 * @param value an {@code int} value
+	 * <p>
+	 * @return the middle of the specified {@code int} value rounded up
+	 */
+	public static int middleUp(final int value) {
+		return (value + 1) / 2;
+	}
+
+	/**
+	 * Returns the middle of the specified {@code int} lower and upper bounds rounded up.
+	 * <p>
+	 * @param lowerBound an {@code int} value
+	 * @param upperBound another {@code int} value
+	 * <p>
+	 * @return the middle of the specified {@code int} lower and upper bounds rounded up
+	 */
+	public static int middleUp(final int lowerBound, final int upperBound) {
+		return lowerBound + (upperBound - lowerBound + 1) / 2;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -962,9 +1106,43 @@ public class Integers {
 	}
 
 	public static void reverse(final int[] array, final int fromIndex, final int toIndex) {
-		final int limit = Maths.ceilToInt((toIndex - fromIndex) / 2.);
+		final int limit = Integers.middleUp(toIndex - fromIndex);
 		for (int i = 0; i < limit; ++i) {
 			swap(array, fromIndex + i, toIndex - i);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shuffles the specified {@code int} array.
+	 * <p>
+	 * @param array the {@code int} array to shuffle
+	 */
+	public static void shuffle(final int[] array) {
+		shuffle(array, 0, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code int} array from the specified index.
+	 * <p>
+	 * @param array     the {@code int} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 */
+	public static void shuffle(final int[] array, final int fromIndex) {
+		shuffle(array, fromIndex, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code int} array between the specified indexes.
+	 * <p>
+	 * @param array     the {@code int} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 * @param toIndex   the index to finish shuffling at (exclusive)
+	 */
+	public static void shuffle(final int[] array, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			swap(array, i, Integers.random(fromIndex, toIndex));
 		}
 	}
 
@@ -1163,8 +1341,8 @@ public class Integers {
 
 		// Parse the text
 		final int length = text.length();
-		if (length <= 5 || // Integer.MAX_VALUE in Character.MAX_RADIX is 6 digits
-				radix == 10 && length <= 9) { // Integer.MAX_VALUE in base 10 is 10 digits
+		if (length <= 5 || // MAX_VALUE in Character.MAX_RADIX is 6 digits
+				radix == 10 && length <= 9) { // MAX_VALUE in base 10 is 10 digits
 			return Integer.parseInt(text, radix);
 		} else {
 			final long value = Long.parseLong(text, radix);
@@ -1281,7 +1459,7 @@ public class Integers {
 		return array != null && array.length > 0;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code int} value is between the specified {@code int} lower and
@@ -1334,6 +1512,8 @@ public class Integers {
 				(isUpperInclusive ? value <= to : value < to);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Tests whether the specified {@code int} array is between the specified lower and upper bound
 	 * {@code int} arrays (with {@code null} considered as the minimum value).
@@ -1348,7 +1528,47 @@ public class Integers {
 	 *         upper bound {@code int} arrays, {@code false} otherwise
 	 */
 	public static boolean isBetween(final int[] array, final int[] from, final int[] to) {
-		return compare(array, from) >= 0 && compare(array, to) < 0;
+		return isBetween(array, from, to, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code int} array is between the specified lower and upper bound
+	 * {@code int} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code int} array to test (may be {@code null})
+	 * @param from             the lower bound {@code int} array to test against (inclusive) (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code int} array to test against (may be
+	 *                         {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code int} array is between the specified lower and
+	 *         upper bound {@code int} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final int[] array, final int[] from, final int[] to,
+			final boolean isUpperInclusive) {
+		return isBetween(array, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code int} array is between the specified lower and upper bound
+	 * {@code int} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code int} array to test (may be {@code null})
+	 * @param from             the lower bound {@code int} array to test against (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code int} array to test against (may be
+	 *                         {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code int} array is between the specified lower and
+	 *         upper bound {@code int} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final int[] array, final int[] from, final int[] to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? compare(array, from) >= 0 : compare(array, from) > 0) &&
+				(isUpperInclusive ? compare(array, to) <= 0 : compare(array, to) < 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

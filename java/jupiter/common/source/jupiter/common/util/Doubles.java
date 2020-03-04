@@ -32,6 +32,7 @@ import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.DoubleParser;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
@@ -45,7 +46,7 @@ public class Doubles {
 	public static final double[] EMPTY_PRIMITIVE_ARRAY = new double[] {};
 	public static final Double[] EMPTY_ARRAY = new Double[] {};
 
-	protected static final DoubleParser PARSER = new DoubleParser();
+	protected static final DoubleParser PARSER = IParsers.DOUBLE_PARSER;
 
 	public static volatile Random RANDOM = new Random();
 
@@ -720,6 +721,42 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of elements in the specified 2D {@code double} array.
+	 * <p>
+	 * @param array2D the 2D {@code double} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 2D {@code double} array
+	 */
+	public static int count(final double[][] array2D) {
+		int count = 0;
+		if (array2D != null) {
+			for (final double[] array : array2D) {
+				count += array.length;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of elements in the specified 3D {@code double} array.
+	 * <p>
+	 * @param array3D the 3D {@code double} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 3D {@code double} array
+	 */
+	public static int count(final double[][][] array3D) {
+		int count = 0;
+		if (array3D != null) {
+			for (final double[][] array2D : array3D) {
+				count += count(array2D);
+			}
+		}
+		return count;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code double} token in the specified
 	 * {@code double} array.
 	 * <p>
@@ -741,6 +778,48 @@ public class Doubles {
 	}
 
 	/**
+	 * Returns the number of occurrences of the specified {@code double} token in the specified 2D
+	 * {@code double} array.
+	 * <p>
+	 * @param array2D the 2D {@code double} array to count from (may be {@code null})
+	 * @param token   the {@code double} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code double} token in the specified 2D
+	 *         {@code double} array
+	 */
+	public static int count(final double[][] array2D, final double token) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final double[] array : array2D) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code double} token in the specified 3D
+	 * {@code double} array.
+	 * <p>
+	 * @param array3D the 3D {@code double} array to count from (may be {@code null})
+	 * @param token   the {@code double} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code double} token in the specified 3D
+	 *         {@code double} array
+	 */
+	public static int count(final double[][][] array3D, final double token) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final double[][] array2D : array3D) {
+				occurrenceCount += count(array2D, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code double} tokens in the specified
 	 * {@code double} array.
 	 * <p>
@@ -755,6 +834,46 @@ public class Doubles {
 		if (array != null && tokens != null) {
 			for (final double token : tokens) {
 				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code double} tokens in the specified 2D
+	 * {@code double} array.
+	 * <p>
+	 * @param array2D the 2D {@code double} array to count from (may be {@code null})
+	 * @param tokens  the {@code double} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code double} tokens in the specified 2D
+	 *         {@code double} array
+	 */
+	public static int count(final double[][] array2D, final double[] tokens) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final double[] array : array2D) {
+				occurrenceCount += count(array, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code double} tokens in the specified 3D
+	 * {@code double} array.
+	 * <p>
+	 * @param array3D the 3D {@code double} array to count from (may be {@code null})
+	 * @param tokens  the {@code double} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code double} tokens in the specified 3D
+	 *         {@code double} array
+	 */
+	public static int count(final double[][][] array3D, final double[] tokens) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final double[][] array2D : array3D) {
+				occurrenceCount += count(array2D, tokens);
 			}
 		}
 		return occurrenceCount;
@@ -869,21 +988,70 @@ public class Doubles {
 	 * @return the middle of the specified {@code double} value
 	 */
 	public static double middle(final double value) {
-		return middle(0., value);
+		return value / 2.;
 	}
 
 	/**
-	 * Returns the middle of the specified lower and upper bounds rounded to the lower
-	 * {@code double} value.
+	 * Returns the middle of the specified {@code double} lower and upper bounds.
 	 * <p>
 	 * @param lowerBound a {@code double} value
 	 * @param upperBound another {@code double} value
 	 * <p>
-	 * @return the middle of the specified lower and upper bounds rounded to the lower
-	 *         {@code double} value
+	 * @return the middle of the specified {@code double} lower and upper bounds
 	 */
 	public static double middle(final double lowerBound, final double upperBound) {
 		return lowerBound + (upperBound - lowerBound) / 2.;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void reverse(final double[] array) {
+		reverse(array, 0, array.length - 1);
+	}
+
+	public static void reverse(final double[] array, final int fromIndex) {
+		reverse(array, fromIndex, array.length - 1);
+	}
+
+	public static void reverse(final double[] array, final int fromIndex, final int toIndex) {
+		final int limit = Integers.middleUp(toIndex - fromIndex);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - i);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shuffles the specified {@code double} array.
+	 * <p>
+	 * @param array the {@code double} array to shuffle
+	 */
+	public static void shuffle(final double[] array) {
+		shuffle(array, 0, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code double} array from the specified index.
+	 * <p>
+	 * @param array     the {@code double} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 */
+	public static void shuffle(final double[] array, final int fromIndex) {
+		shuffle(array, fromIndex, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code double} array between the specified indexes.
+	 * <p>
+	 * @param array     the {@code double} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 * @param toIndex   the index to finish shuffling at (exclusive)
+	 */
+	public static void shuffle(final double[] array, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			swap(array, i, Integers.random(fromIndex, toIndex));
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -907,6 +1075,8 @@ public class Doubles {
 		return subarray;
 	}
 
+	//////////////////////////////////////////////
+
 	public static double[] take(final double[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
@@ -925,6 +1095,8 @@ public class Doubles {
 		}
 		return subarray;
 	}
+
+	//////////////////////////////////////////////
 
 	public static double[] take(final double[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
@@ -1156,7 +1328,7 @@ public class Doubles {
 		return array != null && array.length > 0;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code double} value is between the specified {@code double}
@@ -1170,8 +1342,46 @@ public class Doubles {
 	 *         {@code double} lower and upper bounds, {@code false} otherwise
 	 */
 	public static boolean isBetween(final double value, final double from, final double to) {
-		return value >= from && value < to;
+		return isBetween(value, from, to, true, false);
 	}
+
+	/**
+	 * Tests whether the specified {@code double} value is between the specified {@code double}
+	 * lower and upper bounds.
+	 * <p>
+	 * @param value            the {@code double} value to test
+	 * @param from             the {@code double} lower bound to test against (inclusive)
+	 * @param to               the {@code double} upper bound to test against
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code double} value is between the specified
+	 *         {@code double} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final double value, final double from, final double to,
+			final boolean isUpperInclusive) {
+		return isBetween(value, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code double} value is between the specified {@code double}
+	 * lower and upper bounds.
+	 * <p>
+	 * @param value            the {@code double} value to test
+	 * @param from             the {@code double} lower bound to test against
+	 * @param to               the {@code double} upper bound to test against
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code double} value is between the specified
+	 *         {@code double} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final double value, final double from, final double to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? value >= from : value > from) &&
+				(isUpperInclusive ? value <= to : value < to);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code double} array is between the specified lower and upper
@@ -1187,7 +1397,47 @@ public class Doubles {
 	 *         upper bound {@code double} arrays, {@code false} otherwise
 	 */
 	public static boolean isBetween(final double[] array, final double[] from, final double[] to) {
-		return compare(array, from) >= 0 && compare(array, to) < 0;
+		return isBetween(array, from, to, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code double} array is between the specified lower and upper
+	 * bound {@code double} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code double} array to test (may be {@code null})
+	 * @param from             the lower bound {@code double} array to test against (inclusive) (may
+	 *                         be {@code null})
+	 * @param to               the upper bound {@code double} array to test against (may be
+	 *                         {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code double} array is between the specified lower and
+	 *         upper bound {@code double} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final double[] array, final double[] from, final double[] to,
+			final boolean isUpperInclusive) {
+		return isBetween(array, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code double} array is between the specified lower and upper
+	 * bound {@code double} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code double} array to test (may be {@code null})
+	 * @param from             the lower bound {@code double} array to test against (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code double} array to test against (may be
+	 *                         {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code double} array is between the specified lower and
+	 *         upper bound {@code double} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final double[] array, final double[] from, final double[] to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? compare(array, from) >= 0 : compare(array, from) > 0) &&
+				(isUpperInclusive ? compare(array, to) <= 0 : compare(array, to) < 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1253,7 +1503,7 @@ public class Doubles {
 		final long bBits = Double.doubleToLongBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-				1; // (0., -0.) or (NaN, !NaN)
+						1; // (0., -0.) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////

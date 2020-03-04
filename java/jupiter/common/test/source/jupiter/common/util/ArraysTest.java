@@ -73,16 +73,25 @@ public class ArraysTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of count method, of class Arrays.
+	 */
+	public void testCount() {
+		IO.test(BULLET, " count");
+
+		assertEquals(FLAT_ARRAY_2D.length, Arrays.count(ARRAY_2D));
+		assertEquals(FLAT_ARRAY_3D.length, Arrays.count(ARRAY_3D));
+	}
+
+	/**
 	 * Test of filterAll method, of class Arrays.
 	 */
 	public void testFilterAll() {
 		IO.test(BULLET, " filterAll");
 
-		assertEquals(
+		assertEquals(Objects.hashCode(
+						new String[][] {new String[] {"a", "a", "c", "d", "d", "f"}}),
 				Objects.hashCode(Arrays.<String>filterAll(ARRAY,
-						new int[][] {new int[] {0, 0, 1, 2, 2, 3, 4, 5}})),
-				Objects.hashCode(
-						new String[][] {new String[] {"a", "a", "b", "c", "c", "d", "e", "f"}}));
+						new int[][] {new int[] {0, 0, 2, 3, 3, 5}})));
 	}
 
 	/**
@@ -139,5 +148,27 @@ public class ArraysTest
 				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 10)));
 		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY),
 				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 0)));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Test of isBetween method, of class Arrays.
+	 */
+	public void testIsBetween() {
+		IO.test(BULLET, " isBetween");
+
+		assertTrue(Arrays.isBetween(ARRAY, ARRAY, ARRAY, true, true));
+
+		assertTrue(!Arrays.isBetween(ARRAY, ARRAY, ARRAY));
+		assertTrue(!Arrays.isBetween(ARRAY, ARRAY, ARRAY, false, true));
+		assertTrue(!Arrays.isBetween(ARRAY, ARRAY, ARRAY, false, false));
+
+		assertTrue(Arrays.isBetween(ARRAY, ARRAY, new String[] {"a", "b", "c", "d", "g"}));
+		assertTrue(Arrays.isBetween(ARRAY, new String[] {"a", "b", "c", "d", "e"}, ARRAY, false,
+				true));
+		assertTrue(Arrays.isBetween(ARRAY, new String[] {"a", "b", "c", "d", "e"},
+				new String[] {"a", "b", "c", "d", "g"}, false, false));
+
 	}
 }

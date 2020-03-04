@@ -30,6 +30,7 @@ public interface IParsers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static final BooleanParser BOOLEAN_PARSER = new BooleanParser();
+	public static final ByteParser BYTE_PARSER = new ByteParser();
 	public static final CharacterParser CHARACTER_PARSER = new CharacterParser();
 	public static final DoubleParser DOUBLE_PARSER = new DoubleParser();
 	public static final FloatParser FLOAT_PARSER = new FloatParser();

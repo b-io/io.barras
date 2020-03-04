@@ -126,7 +126,7 @@ public class Comparables {
 		return Comparable.class.isAssignableFrom(c);
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
@@ -141,8 +141,49 @@ public class Comparables {
 	 *         lower and upper bounds, {@code false} otherwise
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to) {
-		return isBetween(object, from, to, createCastComparator());
+		return isBetween(object, from, to, true, false);
 	}
+
+	/**
+	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
+	 * upper bounds (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T>              the type of the object to test
+	 * @param object           the {@code T} object to test (may be {@code null})
+	 * @param from             the {@code T} lower bound to test against (inclusive) (may be
+	 *                         {@code null})
+	 * @param to               the {@code T} upper bound to test against (may be {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
+	 *         lower and upper bounds, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final T object, final T from, final T to,
+			final boolean isUpperInclusive) {
+		return isBetween(object, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
+	 * upper bounds (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T>              the type of the object to test
+	 * @param object           the {@code T} object to test (may be {@code null})
+	 * @param from             the {@code T} lower bound to test against (may be {@code null})
+	 * @param to               the {@code T} upper bound to test against (may be {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
+	 *         lower and upper bounds, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final T object, final T from, final T to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return isBetween(object, from, to, createCastComparator(), isLowerInclusive,
+				isUpperInclusive);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
@@ -161,7 +202,57 @@ public class Comparables {
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final Comparator<? super T> comparator) {
-		return compare(object, from, comparator) >= 0 && compare(object, to, comparator) < 0;
+		return isBetween(object, from, to, comparator, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
+	 * upper bounds using the specified {@link Comparator} (with {@code null} considered as the
+	 * minimum value).
+	 * <p>
+	 * @param <T>              the type of the object to test
+	 * @param object           the {@code T} object to test (may be {@code null})
+	 * @param from             the {@code T} lower bound to test against (inclusive) (may be
+	 *                         {@code null})
+	 * @param to               the {@code T} upper bound to test against (may be {@code null})
+	 * @param comparator       the {@link Comparator} of {@code T} supertype to determine the order
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
+	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
+	 *         otherwise
+	 */
+	public static <T> boolean isBetween(final T object, final T from, final T to,
+			final Comparator<? super T> comparator, final boolean isUpperInclusive) {
+		return isBetween(object, from, to, comparator, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
+	 * upper bounds using the specified {@link Comparator} (with {@code null} considered as the
+	 * minimum value).
+	 * <p>
+	 * @param <T>              the type of the object to test
+	 * @param object           the {@code T} object to test (may be {@code null})
+	 * @param from             the {@code T} lower bound to test against (may be {@code null})
+	 * @param to               the {@code T} upper bound to test against (may be {@code null})
+	 * @param comparator       the {@link Comparator} of {@code T} supertype to determine the order
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
+	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
+	 *         otherwise
+	 */
+	public static <T> boolean isBetween(final T object, final T from, final T to,
+			final Comparator<? super T> comparator, final boolean isLowerInclusive,
+			final boolean isUpperInclusive) {
+		return (isLowerInclusive ?
+						compare(object, from, comparator) >= 0 :
+						compare(object, from, comparator) > 0) &&
+				(isUpperInclusive ?
+						compare(object, to, comparator) <= 0 :
+						compare(object, to, comparator) < 0);
 	}
 
 

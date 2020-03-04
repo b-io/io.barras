@@ -54,6 +54,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.map.parser.IParsers;
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
 import jupiter.common.map.wrapper.StringWrapper;
@@ -75,7 +76,7 @@ public class Strings {
 	public static final String EMPTY = "";
 	public static final String[] EMPTY_ARRAY = new String[] {};
 
-	protected static final StringParser PARSER = new StringParser();
+	protected static final StringParser PARSER = IParsers.STRING_PARSER;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -715,59 +716,6 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of lower case characters in the specified {@link String}.
-	 * <p>
-	 * @param text the {@link String} to count from (may be {@code null})
-	 * <p>
-	 * @return the number of lower case characters in the specified {@link String}
-	 */
-	public static int countLowerCase(final String text) {
-		// Check the arguments
-		if (text == null) {
-			return 0;
-		}
-
-		// Count the lower case characters in the text
-		return Characters.countLowerCase(text.toCharArray());
-	}
-
-	/**
-	 * Returns the number of upper case characters in the specified {@link String}.
-	 * <p>
-	 * @param text the {@link String} to count from (may be {@code null})
-	 * <p>
-	 * @return the number of upper case characters in the specified {@link String}
-	 */
-	public static int countUpperCase(final String text) {
-		// Check the arguments
-		if (text == null) {
-			return 0;
-		}
-
-		// Count the upper case characters in the text
-		return Characters.countUpperCase(text.toCharArray());
-	}
-
-	/**
-	 * Returns the number of title case characters in the specified {@link String}.
-	 * <p>
-	 * @param text the {@link String} to count from (may be {@code null})
-	 * <p>
-	 * @return the number of title case characters in the specified {@link String}
-	 */
-	public static int countTitleCase(final String text) {
-		// Check the arguments
-		if (text == null) {
-			return 0;
-		}
-
-		// Count the title case characters in the text
-		return Characters.countTitleCase(text.toCharArray());
-	}
-
-	//////////////////////////////////////////////
-
-	/**
 	 * Returns the number of occurrences of the specified {@code char} token in the specified
 	 * {@link String}.
 	 * <p>
@@ -901,6 +849,59 @@ public class Strings {
 			}
 		}
 		return lineCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of lower case characters in the specified {@link String}.
+	 * <p>
+	 * @param text the {@link String} to count from (may be {@code null})
+	 * <p>
+	 * @return the number of lower case characters in the specified {@link String}
+	 */
+	public static int countLowerCase(final String text) {
+		// Check the arguments
+		if (text == null) {
+			return 0;
+		}
+
+		// Count the lower case characters in the text
+		return Characters.countLowerCase(text.toCharArray());
+	}
+
+	/**
+	 * Returns the number of upper case characters in the specified {@link String}.
+	 * <p>
+	 * @param text the {@link String} to count from (may be {@code null})
+	 * <p>
+	 * @return the number of upper case characters in the specified {@link String}
+	 */
+	public static int countUpperCase(final String text) {
+		// Check the arguments
+		if (text == null) {
+			return 0;
+		}
+
+		// Count the upper case characters in the text
+		return Characters.countUpperCase(text.toCharArray());
+	}
+
+	/**
+	 * Returns the number of title case characters in the specified {@link String}.
+	 * <p>
+	 * @param text the {@link String} to count from (may be {@code null})
+	 * <p>
+	 * @return the number of title case characters in the specified {@link String}
+	 */
+	public static int countTitleCase(final String text) {
+		// Check the arguments
+		if (text == null) {
+			return 0;
+		}
+
+		// Count the title case characters in the text
+		return Characters.countTitleCase(text.toCharArray());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3943,23 +3944,6 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified {@link String} is between the specified lower and upper bound
-	 * {@link String} (with {@code null} considered as the minimum value).
-	 * <p>
-	 * @param text the {@link String} to test (may be {@code null})
-	 * @param from the lower bound {@link String} to test against (inclusive) (may be {@code null})
-	 * @param to   the upper bound {@link String} to test against (exclusive) (may be {@code null})
-	 * <p>
-	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
-	 *         bound {@link String}, {@code false} otherwise
-	 */
-	public static boolean isBetween(final String text, final String from, final String to) {
-		return compare(text, from) >= 0 && compare(text, to) < 0;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
 	 * Tests whether the specified {@link String} is numeric.
 	 * <p>
 	 * @param text the {@link String} to test (may be {@code null})
@@ -3987,6 +3971,63 @@ public class Strings {
 
 	public static boolean isTokenTo(final String text, final int toIndex, final String token) {
 		return isToken(text, toIndex - token.length(), token);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link String} is between the specified lower and upper bound
+	 * {@link String} (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param text the {@link String} to test (may be {@code null})
+	 * @param from the lower bound {@link String} to test against (inclusive) (may be {@code null})
+	 * @param to   the upper bound {@link String} to test against (exclusive) (may be {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
+	 *         bound {@link String}, {@code false} otherwise
+	 */
+	public static boolean isBetween(final String text, final String from, final String to) {
+		return isBetween(text, from, to, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@link String} is between the specified lower and upper bound
+	 * {@link String} (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param text             the {@link String} to test (may be {@code null})
+	 * @param from             the lower bound {@link String} to test against (inclusive) (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@link String} to test against (exclusive) (may be
+	 *                         {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
+	 *         bound {@link String}, {@code false} otherwise
+	 */
+	public static boolean isBetween(final String text, final String from, final String to,
+			final boolean isUpperInclusive) {
+		return isBetween(text, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@link String} is between the specified lower and upper bound
+	 * {@link String} (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param text             the {@link String} to test (may be {@code null})
+	 * @param from             the lower bound {@link String} to test against (inclusive) (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@link String} to test against (exclusive) (may be
+	 *                         {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
+	 *         bound {@link String}, {@code false} otherwise
+	 */
+	public static boolean isBetween(final String text, final String from, final String to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? compare(text, from) >= 0 : compare(text, from) > 0) &&
+				(isUpperInclusive ? compare(text, to) <= 0 : compare(text, to) < 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4273,7 +4314,7 @@ public class Strings {
 	 * {@code defaultString} if it is {@code null}.
 	 * <p>
 	 * @param object        the {@link Object} (may be {@code null})
-	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
+	 * @param defaultString the default {@link String} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or
 	 *         {@code defaultString} if it is {@code null}
@@ -4286,8 +4327,9 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified {@link Object}, or
 	 * {@code defaultString} if it is {@code null}, truncated to the specified length.
 	 * <p>
-	 * @param object an {@link Object} (may be {@code null})
-	 * @param length the length of the representative {@link String}
+	 * @param object        an {@link Object} (may be {@code null})
+	 * @param defaultString the default {@link String} (may be {@code null})
+	 * @param length        the length of the representative {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or
 	 *         {@code defaultString} if it is {@code null}, truncated to the specified length
@@ -4302,7 +4344,7 @@ public class Strings {
 	 * {@code defaultString} if it is {@code null} or {@code "null"}.
 	 * <p>
 	 * @param object        the {@link Object}
-	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
+	 * @param defaultString the default {@link String} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or
 	 *         {@code defaultString} if it is {@code null} or {@code "null"}
@@ -4318,7 +4360,7 @@ public class Strings {
 	 * length.
 	 * <p>
 	 * @param object        the {@link Object}
-	 * @param defaultString the {@link String} to return if {@code null} (may be {@code null})
+	 * @param defaultString the default {@link String} (may be {@code null})
 	 * @param length        the length of the representative {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or

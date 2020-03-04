@@ -365,6 +365,44 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of elements in the specified 2D {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 2D array to count from
+	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 2D {@code T} array
+	 */
+	public static <T> int count(final T[][] array2D) {
+		int count = 0;
+		if (array2D != null) {
+			for (final T[] array : array2D) {
+				count += array.length;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of elements in the specified 3D {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 3D array to count from
+	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 3D {@code T} array
+	 */
+	public static <T> int count(final T[][][] array3D) {
+		int count = 0;
+		if (array3D != null) {
+			for (final T[][] array2D : array3D) {
+				count += count(array2D);
+			}
+		}
+		return count;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code T} token in the specified {@code T}
 	 * array.
 	 * <p>
@@ -387,6 +425,50 @@ public class Arrays {
 	}
 
 	/**
+	 * Returns the number of occurrences of the specified {@code T} token in the specified 2D
+	 * {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 2D array to count from
+	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
+	 * @param token   the {@code T} token to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code T} token in the specified 2D
+	 *         {@code T} array
+	 */
+	public static <T> int count(final T[][] array2D, final T token) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final T[] array : array2D) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code T} token in the specified 3D
+	 * {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 3D array to count from
+	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
+	 * @param token   the {@code T} token to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code T} token in the specified 3D
+	 *         {@code T} array
+	 */
+	public static <T> int count(final T[][][] array3D, final T token) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final T[][] array2D : array3D) {
+				occurrenceCount += count(array2D, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code T} tokens in the specified
 	 * {@code T} array.
 	 * <p>
@@ -407,24 +489,122 @@ public class Arrays {
 		return occurrenceCount;
 	}
 
+	/**
+	 * Returns the number of occurrences of the specified {@code T} tokens in the specified 2D
+	 * {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 2D array to count from
+	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
+	 * @param tokens  the {@code T} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code T} tokens in the specified 2D
+	 *         {@code T} array
+	 */
+	public static <T> int count(final T[][] array2D, final T[] tokens) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final T[] array : array2D) {
+				occurrenceCount += count(array, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code T} tokens in the specified 3D
+	 * {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 3D array to count from
+	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
+	 * @param tokens  the {@code T} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code T} tokens in the specified 3D
+	 *         {@code T} array
+	 */
+	public static <T> int count(final T[][][] array3D, final T[] tokens) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final T[][] array2D : array3D) {
+				occurrenceCount += count(array2D, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the sum of the lengths of the specified 2D {@code T} array.
+	 * Returns the number of {@code null} elements in the specified {@code T} array.
+	 * <p>
+	 * @param <T>   the component type of the array to count from
+	 * @param array the {@code T} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of {@code null} elements in the specified {@code T} array
+	 */
+	public static <T> int countNull(final T[] array) {
+		return count(array, null);
+	}
+
+	/**
+	 * Returns the number of {@code null} elements in the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the 2D array to count from
 	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
 	 * <p>
-	 * @return the sum of the lengths of the specified 2D {@code T} array
+	 * @return the number of {@code null} elements in the specified 2D {@code T} array
 	 */
-	public static <T> int countLength(final T[][] array2D) {
-		int length = 0;
-		if (array2D != null) {
-			for (final T[] array : array2D) {
-				length += array.length;
-			}
-		}
-		return length;
+	public static <T> int countNull(final T[][] array2D) {
+		return count(array2D, null);
+	}
+
+	/**
+	 * Returns the number of {@code null} elements in the specified 3D {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 3D array to count from
+	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of {@code null} elements in the specified 3D {@code T} array.
+	 */
+	public static <T> int countNull(final T[][][] array3D) {
+		return count(array3D, null);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of non-{@code null} elements in the specified {@code T} array.
+	 * <p>
+	 * @param <T>   the component type of the array to count from
+	 * @param array the {@code T} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of non-{@code null} elements in the specified {@code T} array
+	 */
+	public static <T> int countNonNull(final T[] array) {
+		return array == null ? 0 : array.length - countNull(array);
+	}
+
+	/**
+	 * Returns the number of non-{@code null} elements in the specified 2D {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 2D array to count from
+	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of non-{@code null} elements in the specified 2D {@code T} array
+	 */
+	public static <T> int countNonNull(final T[][] array2D) {
+		return array2D == null ? 0 : count(array2D) - countNull(array2D);
+	}
+
+	/**
+	 * Returns the number of non-{@code null} elements in the specified 3D {@code T} array.
+	 * <p>
+	 * @param <T>     the component type of the 3D array to count from
+	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of non-{@code null} elements in the specified 3D {@code T} array.
+	 */
+	public static <T> int countNonNull(final T[][][] array3D) {
+		return array3D == null ? 0 : count(array3D) - countNull(array3D);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -548,7 +728,7 @@ public class Arrays {
 
 		// Merge the arrays
 		final Class<?> c = getComponentClass2D(arrays);
-		final T[] mergedArray = (T[]) create(c, countLength(arrays));
+		final T[] mergedArray = (T[]) create(c, count(arrays));
 		int offset = 0;
 		for (final T[] array : arrays) {
 			try {
@@ -836,6 +1016,23 @@ public class Arrays {
 			sort(array, fromIndex, toIndex);
 		} else {
 			Sort.<T>sort(array, fromIndex, toIndex, comparator, null, 0, 0);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> void reverse(final T[] array) {
+		reverse(array, 0, array.length - 1);
+	}
+
+	public static <T> void reverse(final T[] array, final int fromIndex) {
+		reverse(array, fromIndex, array.length - 1);
+	}
+
+	public static <T> void reverse(final T[] array, final int fromIndex, final int toIndex) {
+		final int limit = Integers.middleUp(toIndex - fromIndex);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - i);
 		}
 	}
 
@@ -1163,7 +1360,21 @@ public class Arrays {
 		return array != null && array.length > 0;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
+	 * <p>
+	 * @param <T>   the component type of the array to test against
+	 * @param index the index to test
+	 * @param array the {@code T} array to test against
+	 * <p>
+	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
+	 *         array, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final int index, final T[] array) {
+		return isBetween(index, array.length);
+	}
 
 	/**
 	 * Tests whether the specified index is in the bounds of the specified array length.
@@ -1176,6 +1387,22 @@ public class Arrays {
 	 */
 	public static boolean isBetween(final int index, final int length) {
 		return Integers.isBetween(index, 0, length);
+	}
+
+	/**
+	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
+	 * <p>
+	 * @param <T>              the component type of the array to test against
+	 * @param index            the index to test
+	 * @param array            the {@code T} array to test against
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
+	 *         array, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final int index, final T[] array,
+			final boolean isUpperInclusive) {
+		return isBetween(index, array.length, isUpperInclusive);
 	}
 
 	/**
@@ -1193,35 +1420,7 @@ public class Arrays {
 		return Integers.isBetween(index, 0, length, isUpperInclusive);
 	}
 
-	/**
-	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
-	 * <p>
-	 * @param <T>   the component type of the array to test against
-	 * @param index the index to test
-	 * @param array the {@code T} array to test against
-	 * <p>
-	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
-	 *         array, {@code false} otherwise
-	 */
-	public static <T> boolean isBetween(final int index, final T[] array) {
-		return Integers.isBetween(index, 0, array.length);
-	}
-
-	/**
-	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
-	 * <p>
-	 * @param <T>              the component type of the array to test against
-	 * @param index            the index to test
-	 * @param array            the {@code T} array to test against
-	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
-	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
-	 *         array, {@code false} otherwise
-	 */
-	public static <T> boolean isBetween(final int index, final T[] array,
-			final boolean isUpperInclusive) {
-		return Integers.isBetween(index, 0, array.length, isUpperInclusive);
-	}
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
@@ -1238,8 +1437,49 @@ public class Arrays {
 	 *         upper bound {@code T} arrays, {@code false} otherwise
 	 */
 	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to) {
-		return isBetween(array, from, to, Comparables.createCastComparator());
+		return isBetween(array, from, to, true, false);
 	}
+
+	/**
+	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
+	 * {@code T} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T>              the component type of the arrays to test
+	 * @param array            the {@code T} array to test (may be {@code null})
+	 * @param from             the lower bound {@code T} array to test against (inclusive) (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code T} array to test against (may be {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code T} array is between the specified lower and
+	 *         upper bound {@code T} arrays, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
+			final boolean isUpperInclusive) {
+		return isBetween(array, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
+	 * {@code T} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T>              the component type of the arrays to test
+	 * @param array            the {@code T} array to test (may be {@code null})
+	 * @param from             the lower bound {@code T} array to test against (may be {@code null})
+	 * @param to               the upper bound {@code T} array to test against (may be {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code T} array is between the specified lower and
+	 *         upper bound {@code T} arrays, {@code false} otherwise
+	 */
+	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return isBetween(array, from, to, Comparables.createCastComparator(), isLowerInclusive,
+				isUpperInclusive);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
@@ -1260,7 +1500,57 @@ public class Arrays {
 	 */
 	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
 			final Comparator<? super T> comparator) {
-		return compare(array, from, comparator) >= 0 && compare(array, to, comparator) < 0;
+		return isBetween(array, from, to, comparator, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
+	 * {@code T} arrays using the specified {@link Comparator} (with {@code null} considered as the
+	 * minimum value).
+	 * <p>
+	 * @param <T>              the component type of the arrays to test
+	 * @param array            the {@code T} array to test (may be {@code null})
+	 * @param from             the lower bound {@code T} array to test against (inclusive) (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code T} array to test against (may be {@code null})
+	 * @param comparator       the {@link Comparator} of {@code T} supertype to determine the order
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code T} array is between the specified lower and
+	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
+	 *         otherwise
+	 */
+	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
+			final Comparator<? super T> comparator, final boolean isUpperInclusive) {
+		return isBetween(array, from, to, comparator, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
+	 * {@code T} arrays using the specified {@link Comparator} (with {@code null} considered as the
+	 * minimum value).
+	 * <p>
+	 * @param <T>              the component type of the arrays to test
+	 * @param array            the {@code T} array to test (may be {@code null})
+	 * @param from             the lower bound {@code T} array to test against (may be {@code null})
+	 * @param to               the upper bound {@code T} array to test against (may be {@code null})
+	 * @param comparator       the {@link Comparator} of {@code T} supertype to determine the order
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code T} array is between the specified lower and
+	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
+	 *         otherwise
+	 */
+	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
+			final Comparator<? super T> comparator, final boolean isLowerInclusive,
+			final boolean isUpperInclusive) {
+		return (isLowerInclusive ?
+						compare(array, from, comparator) >= 0 :
+						compare(array, from, comparator) > 0) &&
+				(isUpperInclusive ?
+						compare(array, to, comparator) <= 0 :
+						compare(array, to, comparator) < 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

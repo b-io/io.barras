@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static java.lang.Character.MAX_VALUE;
+import static java.lang.Character.MIN_VALUE;
 import static jupiter.common.util.Strings.UNICODE;
 
 import java.util.Collection;
@@ -622,7 +624,7 @@ public class Characters {
 	 *         values starting with {@code 0} and spaced by {@code 1}
 	 */
 	public static char[] createSequence(final char length) {
-		return createSequence(length, Character.MIN_VALUE, '\u0001');
+		return createSequence(length, MIN_VALUE, '\u0001');
 	}
 
 	/**
@@ -704,7 +706,7 @@ public class Characters {
 	 * @return a pseudorandom, uniformly distributed {@code char} value
 	 */
 	public static char random() {
-		return (char) (Character.MIN_VALUE + RANDOM.nextInt(Character.MAX_VALUE + 1));
+		return (char) (MIN_VALUE + RANDOM.nextInt(MAX_VALUE + 1));
 	}
 
 	/**
@@ -738,6 +740,167 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the number of elements in the specified 2D {@code char} array.
+	 * <p>
+	 * @param array2D the 2D {@code char} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 2D {@code char} array
+	 */
+	public static int count(final char[][] array2D) {
+		int count = 0;
+		if (array2D != null) {
+			for (final char[] array : array2D) {
+				count += array.length;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of elements in the specified 3D {@code char} array.
+	 * <p>
+	 * @param array3D the 3D {@code char} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 3D {@code char} array
+	 */
+	public static int count(final char[][][] array3D) {
+		int count = 0;
+		if (array3D != null) {
+			for (final char[][] array2D : array3D) {
+				count += count(array2D);
+			}
+		}
+		return count;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of occurrences of the specified {@code char} token in the specified
+	 * {@code char} array.
+	 * <p>
+	 * @param array the {@code char} array to count from (may be {@code null})
+	 * @param token the {@code char} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} token in the specified
+	 *         {@code char} array
+	 */
+	public static int count(final char[] array, final char token) {
+		int occurrenceCount = 0;
+		if (array != null) {
+			int index = -1;
+			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
+				++occurrenceCount;
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code char} token in the specified 2D
+	 * {@code char} array.
+	 * <p>
+	 * @param array2D the 2D {@code char} array to count from (may be {@code null})
+	 * @param token   the {@code char} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} token in the specified 2D
+	 *         {@code char} array
+	 */
+	public static int count(final char[][] array2D, final char token) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final char[] array : array2D) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code char} token in the specified 3D
+	 * {@code char} array.
+	 * <p>
+	 * @param array3D the 3D {@code char} array to count from (may be {@code null})
+	 * @param token   the {@code char} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} token in the specified 3D
+	 *         {@code char} array
+	 */
+	public static int count(final char[][][] array3D, final char token) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final char[][] array2D : array3D) {
+				occurrenceCount += count(array2D, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of occurrences of the specified {@code char} tokens in the specified
+	 * {@code char} array.
+	 * <p>
+	 * @param array  the {@code char} array to count from (may be {@code null})
+	 * @param tokens the {@code char} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} tokens in the specified
+	 *         {@code char} array
+	 */
+	public static int count(final char[] array, final char[] tokens) {
+		int occurrenceCount = 0;
+		if (array != null && tokens != null) {
+			for (final char token : tokens) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code char} tokens in the specified 2D
+	 * {@code char} array.
+	 * <p>
+	 * @param array2D the 2D {@code char} array to count from (may be {@code null})
+	 * @param tokens  the {@code char} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} tokens in the specified 2D
+	 *         {@code char} array
+	 */
+	public static int count(final char[][] array2D, final char[] tokens) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final char[] array : array2D) {
+				occurrenceCount += count(array, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code char} tokens in the specified 3D
+	 * {@code char} array.
+	 * <p>
+	 * @param array3D the 3D {@code char} array to count from (may be {@code null})
+	 * @param tokens  the {@code char} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code char} tokens in the specified 3D
+	 *         {@code char} array
+	 */
+	public static int count(final char[][][] array3D, final char[] tokens) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final char[][] array2D : array3D) {
+				occurrenceCount += count(array2D, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the number of lower case {@code char} tokens in the specified {@code char} array.
@@ -785,49 +948,6 @@ public class Characters {
 		for (final char token : array) {
 			if (Character.isTitleCase(token)) {
 				++occurrenceCount;
-			}
-		}
-		return occurrenceCount;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the number of occurrences of the specified {@code char} token in the specified
-	 * {@code char} array.
-	 * <p>
-	 * @param array the {@code char} array to count from (may be {@code null})
-	 * @param token the {@code char} token to count
-	 * <p>
-	 * @return the number of occurrences of the specified {@code char} token in the specified
-	 *         {@code char} array
-	 */
-	public static int count(final char[] array, final char token) {
-		int occurrenceCount = 0;
-		if (array != null) {
-			int index = -1;
-			while ((index = findFirstIndex(array, token, index + 1)) >= 0) {
-				++occurrenceCount;
-			}
-		}
-		return occurrenceCount;
-	}
-
-	/**
-	 * Returns the number of occurrences of the specified {@code char} tokens in the specified
-	 * {@code char} array.
-	 * <p>
-	 * @param array  the {@code char} array to count from (may be {@code null})
-	 * @param tokens the {@code char} tokens to count (may be {@code null})
-	 * <p>
-	 * @return the number of occurrences of the specified {@code char} tokens in the specified
-	 *         {@code char} array
-	 */
-	public static int count(final char[] array, final char[] tokens) {
-		int occurrenceCount = 0;
-		if (array != null && tokens != null) {
-			for (final char token : tokens) {
-				occurrenceCount += count(array, token);
 			}
 		}
 		return occurrenceCount;
@@ -933,6 +1053,57 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static void reverse(final char[] array) {
+		reverse(array, 0, array.length - 1);
+	}
+
+	public static void reverse(final char[] array, final int fromIndex) {
+		reverse(array, fromIndex, array.length - 1);
+	}
+
+	public static void reverse(final char[] array, final int fromIndex, final int toIndex) {
+		final int limit = Integers.middleUp(toIndex - fromIndex);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - i);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shuffles the specified {@code char} array.
+	 * <p>
+	 * @param array the {@code char} array to shuffle
+	 */
+	public static void shuffle(final char[] array) {
+		shuffle(array, 0, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code char} array from the specified index.
+	 * <p>
+	 * @param array     the {@code char} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 */
+	public static void shuffle(final char[] array, final int fromIndex) {
+		shuffle(array, fromIndex, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code char} array between the specified indexes.
+	 * <p>
+	 * @param array     the {@code char} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 * @param toIndex   the index to finish shuffling at (exclusive)
+	 */
+	public static void shuffle(final char[] array, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			swap(array, i, Integers.random(fromIndex, toIndex));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void swap(final char[] array, final int i, final int j) {
 		final char element = array[i];
 		array[i] = array[j];
@@ -952,6 +1123,8 @@ public class Characters {
 		return subarray;
 	}
 
+	//////////////////////////////////////////////
+
 	public static char[] take(final char[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
@@ -970,6 +1143,8 @@ public class Characters {
 		}
 		return subarray;
 	}
+
+	//////////////////////////////////////////////
 
 	public static char[] take(final char[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
@@ -1204,40 +1379,6 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified {@code char} value is between the specified {@code char} lower
-	 * and upper bounds.
-	 * <p>
-	 * @param value the {@code char} value to test
-	 * @param from  the {@code char} lower bound to test against (inclusive)
-	 * @param to    the {@code char} upper bound to test against (exclusive)
-	 * <p>
-	 * @return {@code true} if the specified {@code char} value is between the specified
-	 *         {@code char} lower and upper bounds, {@code false} otherwise
-	 */
-	public static boolean isBetween(final char value, final char from, final char to) {
-		return value >= from && value < to;
-	}
-
-	/**
-	 * Tests whether the specified {@code char} array is between the specified lower and upper bound
-	 * {@code char} arrays (with {@code null} considered as the minimum value).
-	 * <p>
-	 * @param array the {@code char} array to test (may be {@code null})
-	 * @param from  the lower bound {@code char} array to test against (inclusive) (may be
-	 *              {@code null})
-	 * @param to    the upper bound {@code char} array to test against (exclusive) (may be
-	 *              {@code null})
-	 * <p>
-	 * @return {@code true} if the specified {@code char} array is between the specified lower and
-	 *         upper bound {@code char} arrays, {@code false} otherwise
-	 */
-	public static boolean isBetween(final char[] array, final char[] from, final char[] to) {
-		return compare(array, from) >= 0 && compare(array, to) < 0;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Tests whether the specified {@code char} token is a parenthesis.
 	 * <p>
 	 * @param token the {@code char} token to test
@@ -1259,6 +1400,118 @@ public class Characters {
 	 */
 	public static boolean isBracket(final char token) {
 		return token == LEFT_BRACKET || token == RIGHT_BRACKET;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code char} value is between the specified {@code char} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value the {@code char} value to test
+	 * @param from  the {@code char} lower bound to test against (inclusive)
+	 * @param to    the {@code char} upper bound to test against (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified {@code char} value is between the specified
+	 *         {@code char} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final char value, final char from, final char to) {
+		return isBetween(value, from, to, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code char} value is between the specified {@code char} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value            the {@code char} value to test
+	 * @param from             the {@code char} lower bound to test against (inclusive)
+	 * @param to               the {@code char} upper bound to test against
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code char} value is between the specified
+	 *         {@code char} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final char value, final char from, final char to,
+			final boolean isUpperInclusive) {
+		return isBetween(value, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code char} value is between the specified {@code char} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value            the {@code char} value to test
+	 * @param from             the {@code char} lower bound to test against
+	 * @param to               the {@code char} upper bound to test against
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code char} value is between the specified
+	 *         {@code char} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final char value, final char from, final char to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? value >= from : value > from) &&
+				(isUpperInclusive ? value <= to : value < to);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@code char} array is between the specified lower and upper bound
+	 * {@code char} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array the {@code char} array to test (may be {@code null})
+	 * @param from  the lower bound {@code char} array to test against (inclusive) (may be
+	 *              {@code null})
+	 * @param to    the upper bound {@code char} array to test against (exclusive) (may be
+	 *              {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@code char} array is between the specified lower and
+	 *         upper bound {@code char} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final char[] array, final char[] from, final char[] to) {
+		return isBetween(array, from, to, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code char} array is between the specified lower and upper bound
+	 * {@code char} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code char} array to test (may be {@code null})
+	 * @param from             the lower bound {@code char} array to test against (inclusive) (may
+	 *                         be {@code null})
+	 * @param to               the upper bound {@code char} array to test against (may be
+	 *                         {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code char} array is between the specified lower and
+	 *         upper bound {@code char} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final char[] array, final char[] from, final char[] to,
+			final boolean isUpperInclusive) {
+		return isBetween(array, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code char} array is between the specified lower and upper bound
+	 * {@code char} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code char} array to test (may be {@code null})
+	 * @param from             the lower bound {@code char} array to test against (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code char} array to test against (may be
+	 *                         {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code char} array is between the specified lower and
+	 *         upper bound {@code char} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final char[] array, final char[] from, final char[] to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? compare(array, from) >= 0 : compare(array, from) > 0) &&
+				(isUpperInclusive ? compare(array, to) <= 0 : compare(array, to) < 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

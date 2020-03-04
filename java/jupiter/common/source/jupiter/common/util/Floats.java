@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static java.lang.Float.MAX_VALUE;
+import static java.lang.Float.MIN_VALUE;
 import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 
 import java.util.Collection;
@@ -83,7 +85,7 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static float getDecimalPart(final float value) {
-		return value - convert(Math.floor(value));
+		return value - Maths.floorToShort(value);
 	}
 
 
@@ -99,7 +101,7 @@ public class Floats {
 	 * @return a {@code float} value converted from the specified {@code double} value
 	 */
 	public static float convert(final double value) {
-		if (value < Float.MIN_VALUE || value > Float.MAX_VALUE) {
+		if (value < MIN_VALUE || value > MAX_VALUE) {
 			throw new ArithmeticException("Float under/overflow");
 		}
 		return (float) value;
@@ -732,6 +734,42 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the number of elements in the specified 2D {@code float} array.
+	 * <p>
+	 * @param array2D the 2D {@code float} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 2D {@code float} array
+	 */
+	public static int count(final float[][] array2D) {
+		int count = 0;
+		if (array2D != null) {
+			for (final float[] array : array2D) {
+				count += array.length;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of elements in the specified 3D {@code float} array.
+	 * <p>
+	 * @param array3D the 3D {@code float} array to count from (may be {@code null})
+	 * <p>
+	 * @return the number of elements in the specified 3D {@code float} array
+	 */
+	public static int count(final float[][][] array3D) {
+		int count = 0;
+		if (array3D != null) {
+			for (final float[][] array2D : array3D) {
+				count += count(array2D);
+			}
+		}
+		return count;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code float} token in the specified
 	 * {@code float} array.
 	 * <p>
@@ -753,6 +791,48 @@ public class Floats {
 	}
 
 	/**
+	 * Returns the number of occurrences of the specified {@code float} token in the specified 2D
+	 * {@code float} array.
+	 * <p>
+	 * @param array2D the 2D {@code float} array to count from (may be {@code null})
+	 * @param token   the {@code float} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code float} token in the specified 2D
+	 *         {@code float} array
+	 */
+	public static int count(final float[][] array2D, final float token) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final float[] array : array2D) {
+				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code float} token in the specified 3D
+	 * {@code float} array.
+	 * <p>
+	 * @param array3D the 3D {@code float} array to count from (may be {@code null})
+	 * @param token   the {@code float} token to count
+	 * <p>
+	 * @return the number of occurrences of the specified {@code float} token in the specified 3D
+	 *         {@code float} array
+	 */
+	public static int count(final float[][][] array3D, final float token) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final float[][] array2D : array3D) {
+				occurrenceCount += count(array2D, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the number of occurrences of the specified {@code float} tokens in the specified
 	 * {@code float} array.
 	 * <p>
@@ -767,6 +847,46 @@ public class Floats {
 		if (array != null && tokens != null) {
 			for (final float token : tokens) {
 				occurrenceCount += count(array, token);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code float} tokens in the specified 2D
+	 * {@code float} array.
+	 * <p>
+	 * @param array2D the 2D {@code float} array to count from (may be {@code null})
+	 * @param tokens  the {@code float} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code float} tokens in the specified 2D
+	 *         {@code float} array
+	 */
+	public static int count(final float[][] array2D, final float[] tokens) {
+		int occurrenceCount = 0;
+		if (array2D != null) {
+			for (final float[] array : array2D) {
+				occurrenceCount += count(array, tokens);
+			}
+		}
+		return occurrenceCount;
+	}
+
+	/**
+	 * Returns the number of occurrences of the specified {@code float} tokens in the specified 3D
+	 * {@code float} array.
+	 * <p>
+	 * @param array3D the 3D {@code float} array to count from (may be {@code null})
+	 * @param tokens  the {@code float} tokens to count (may be {@code null})
+	 * <p>
+	 * @return the number of occurrences of the specified {@code float} tokens in the specified 3D
+	 *         {@code float} array
+	 */
+	public static int count(final float[][][] array3D, final float[] tokens) {
+		int occurrenceCount = 0;
+		if (array3D != null) {
+			for (final float[][] array2D : array3D) {
+				occurrenceCount += count(array2D, tokens);
 			}
 		}
 		return occurrenceCount;
@@ -836,33 +956,6 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the middle of the specified {@code float} value.
-	 * <p>
-	 * @param value a {@code float} value
-	 * <p>
-	 * @return the middle of the specified {@code float} value
-	 */
-	public static float middle(final float value) {
-		return middle(0f, value);
-	}
-
-	/**
-	 * Returns the middle of the specified lower and upper bounds rounded to the lower {@code float}
-	 * value.
-	 * <p>
-	 * @param lowerBound a {@code float} value
-	 * @param upperBound another {@code float} value
-	 * <p>
-	 * @return the middle of the specified lower and upper bounds rounded to the lower {@code float}
-	 *         value
-	 */
-	public static float middle(final float lowerBound, final float upperBound) {
-		return lowerBound + (upperBound - lowerBound) / 2f;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a {@code float} array containing the specified {@code float} value and all the
 	 * elements of the specified {@code float} array.
 	 * <p>
@@ -900,6 +993,82 @@ public class Floats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the middle of the specified {@code float} value.
+	 * <p>
+	 * @param value a {@code float} value
+	 * <p>
+	 * @return the middle of the specified {@code float} value
+	 */
+	public static float middle(final float value) {
+		return value / 2f;
+	}
+
+	/**
+	 * Returns the middle of the specified {@code float} lower and upper bounds.
+	 * <p>
+	 * @param lowerBound a {@code float} value
+	 * @param upperBound another {@code float} value
+	 * <p>
+	 * @return the middle of the specified {@code float} lower and upper bounds
+	 */
+	public static float middle(final float lowerBound, final float upperBound) {
+		return lowerBound + (upperBound - lowerBound) / 2f;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void reverse(final float[] array) {
+		reverse(array, 0, array.length - 1);
+	}
+
+	public static void reverse(final float[] array, final int fromIndex) {
+		reverse(array, fromIndex, array.length - 1);
+	}
+
+	public static void reverse(final float[] array, final int fromIndex, final int toIndex) {
+		final int limit = Integers.middleUp(toIndex - fromIndex);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - i);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shuffles the specified {@code float} array.
+	 * <p>
+	 * @param array the {@code float} array to shuffle
+	 */
+	public static void shuffle(final float[] array) {
+		shuffle(array, 0, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code float} array from the specified index.
+	 * <p>
+	 * @param array     the {@code float} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 */
+	public static void shuffle(final float[] array, final int fromIndex) {
+		shuffle(array, fromIndex, array.length);
+	}
+
+	/**
+	 * Shuffles the specified {@code float} array between the specified indexes.
+	 * <p>
+	 * @param array     the {@code float} array to shuffle
+	 * @param fromIndex the index to start shuffling from (inclusive)
+	 * @param toIndex   the index to finish shuffling at (exclusive)
+	 */
+	public static void shuffle(final float[] array, final int fromIndex, final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			swap(array, i, Integers.random(fromIndex, toIndex));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void swap(final float[] array, final int i, final int j) {
 		final float element = array[i];
 		array[i] = array[j];
@@ -919,6 +1088,8 @@ public class Floats {
 		return subarray;
 	}
 
+	//////////////////////////////////////////////
+
 	public static float[] take(final float[]... array2D) {
 		return take(array2D, 0, array2D.length, 0, array2D[0].length);
 	}
@@ -937,6 +1108,8 @@ public class Floats {
 		}
 		return subarray;
 	}
+
+	//////////////////////////////////////////////
 
 	public static float[] take(final float[][]... array3D) {
 		return take(array3D, 0, array3D.length, 0, array3D[0].length, 0, array3D[0][0].length);
@@ -1168,7 +1341,7 @@ public class Floats {
 		return array != null && array.length > 0;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code float} value is between the specified {@code float} lower
@@ -1182,8 +1355,46 @@ public class Floats {
 	 *         {@code float} lower and upper bounds, {@code false} otherwise
 	 */
 	public static boolean isBetween(final float value, final float from, final float to) {
-		return value >= from && value < to;
+		return isBetween(value, from, to, true, false);
 	}
+
+	/**
+	 * Tests whether the specified {@code float} value is between the specified {@code float} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value            the {@code float} value to test
+	 * @param from             the {@code float} lower bound to test against (inclusive)
+	 * @param to               the {@code float} upper bound to test against
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code float} value is between the specified
+	 *         {@code float} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final float value, final float from, final float to,
+			final boolean isUpperInclusive) {
+		return isBetween(value, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code float} value is between the specified {@code float} lower
+	 * and upper bounds.
+	 * <p>
+	 * @param value            the {@code float} value to test
+	 * @param from             the {@code float} lower bound to test against
+	 * @param to               the {@code float} upper bound to test against
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code float} value is between the specified
+	 *         {@code float} lower and upper bounds, {@code false} otherwise
+	 */
+	public static boolean isBetween(final float value, final float from, final float to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? value >= from : value > from) &&
+				(isUpperInclusive ? value <= to : value < to);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@code float} array is between the specified lower and upper
@@ -1199,7 +1410,47 @@ public class Floats {
 	 *         upper bound {@code float} arrays, {@code false} otherwise
 	 */
 	public static boolean isBetween(final float[] array, final float[] from, final float[] to) {
-		return compare(array, from) >= 0 && compare(array, to) < 0;
+		return isBetween(array, from, to, true, false);
+	}
+
+	/**
+	 * Tests whether the specified {@code float} array is between the specified lower and upper
+	 * bound {@code float} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code float} array to test (may be {@code null})
+	 * @param from             the lower bound {@code float} array to test against (inclusive) (may
+	 *                         be {@code null})
+	 * @param to               the upper bound {@code float} array to test against (may be
+	 *                         {@code null})
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code float} array is between the specified lower and
+	 *         upper bound {@code float} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final float[] array, final float[] from, final float[] to,
+			final boolean isUpperInclusive) {
+		return isBetween(array, from, to, true, isUpperInclusive);
+	}
+
+	/**
+	 * Tests whether the specified {@code float} array is between the specified lower and upper
+	 * bound {@code float} arrays (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param array            the {@code float} array to test (may be {@code null})
+	 * @param from             the lower bound {@code float} array to test against (may be
+	 *                         {@code null})
+	 * @param to               the upper bound {@code float} array to test against (may be
+	 *                         {@code null})
+	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
+	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
+	 * <p>
+	 * @return {@code true} if the specified {@code float} array is between the specified lower and
+	 *         upper bound {@code float} arrays, {@code false} otherwise
+	 */
+	public static boolean isBetween(final float[] array, final float[] from, final float[] to,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		return (isLowerInclusive ? compare(array, from) >= 0 : compare(array, from) > 0) &&
+				(isUpperInclusive ? compare(array, to) <= 0 : compare(array, to) < 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1265,7 +1516,7 @@ public class Floats {
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-				1; // (0f, -0f) or (NaN, !NaN)
+						1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
