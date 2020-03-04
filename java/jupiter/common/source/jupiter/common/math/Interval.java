@@ -115,7 +115,7 @@ public class Interval<T extends Comparable<? super T>>
 	 * @param pair the lower and upper bounds {@link Pair} of {@code T} type
 	 */
 	public Interval(final Pair<T, T> pair) {
-		this(Arguments.requireNotNull(pair, "pair").getFirst(), pair.getSecond());
+		this(Arguments.requireNonNull(pair, "pair").getFirst(), pair.getSecond());
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class Interval<T extends Comparable<? super T>>
 	 */
 	public Interval(final Pair<T, T> pair, final boolean isLowerInclusive,
 			final boolean isUpperInclusive) {
-		this(Arguments.requireNotNull(pair, "pair").getFirst(), pair.getSecond(),
+		this(Arguments.requireNonNull(pair, "pair").getFirst(), pair.getSecond(),
 				isLowerInclusive, isUpperInclusive);
 	}
 

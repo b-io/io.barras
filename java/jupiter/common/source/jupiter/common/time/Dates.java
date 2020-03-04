@@ -452,7 +452,7 @@ public class Dates {
 	public static Date parse(final String text, final Date defaultDate)
 			throws ParseException {
 		try {
-			if (Strings.isNotEmpty(text)) {
+			if (Strings.isNonEmpty(text)) {
 				return DATE_FORMATTER.parse(text);
 			}
 		} catch (final ParseException ignored) {
@@ -491,7 +491,7 @@ public class Dates {
 	public static Date parseWithTime(final String text, final Date defaultDateTime)
 			throws ParseException {
 		try {
-			if (Strings.isNotEmpty(text)) {
+			if (Strings.isNonEmpty(text)) {
 				return DATE_TIME_FORMATTER.parse(text);
 			}
 		} catch (final ParseException ignored) {

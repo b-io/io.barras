@@ -144,16 +144,16 @@ public class Objects {
 
 	/**
 	 * Tests whether the specified {@link Object} is non-{@code null} and its representative
-	 * {@link String} is non-{@code null} and not empty.
+	 * {@link String} is non-{@code null} and non-empty.
 	 * <p>
 	 * @param object the {@link Object} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Object} is non-{@code null} and its
-	 *         representative {@link String} is non-{@code null} and not empty, {@code false}
+	 *         representative {@link String} is non-{@code null} and non-empty, {@code false}
 	 *         otherwise
 	 */
-	public static boolean isNotEmpty(final Object object) {
-		return object != null && Strings.isNotEmpty(object.toString());
+	public static boolean isNonEmpty(final Object object) {
+		return object != null && Strings.isNonEmpty(object.toString());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

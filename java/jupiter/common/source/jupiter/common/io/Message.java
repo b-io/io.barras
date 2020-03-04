@@ -311,6 +311,6 @@ public class Message
 	 */
 	@Override
 	public String toString() {
-		return (Strings.isNotEmpty(prefix) ? prefix + SPACE : EMPTY) + content;
+		return (Strings.isNonEmpty(prefix) ? prefix + SPACE : EMPTY) + content;
 	}
 }

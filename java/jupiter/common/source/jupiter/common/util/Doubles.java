@@ -1317,14 +1317,14 @@ public class Doubles {
 	}
 
 	/**
-	 * Tests whether the specified {@code double} array is non-{@code null} and not empty.
+	 * Tests whether the specified {@code double} array is non-{@code null} and non-empty.
 	 * <p>
 	 * @param array the {@code double} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code double} array is non-{@code null} and not empty,
+	 * @return {@code true} if the specified {@code double} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final double[] array) {
+	public static boolean isNonEmpty(final double[] array) {
 		return array != null && array.length > 0;
 	}
 

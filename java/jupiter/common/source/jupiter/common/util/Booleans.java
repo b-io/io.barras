@@ -1151,14 +1151,14 @@ public class Booleans {
 	}
 
 	/**
-	 * Tests whether the specified {@code boolean} array is non-{@code null} and not empty.
+	 * Tests whether the specified {@code boolean} array is non-{@code null} and non-empty.
 	 * <p>
 	 * @param array the {@code boolean} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code boolean} array is non-{@code null} and not
-	 *         empty, {@code false} otherwise
+	 * @return {@code true} if the specified {@code boolean} array is non-{@code null} and
+	 *         non-empty, {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final boolean[] array) {
+	public static boolean isNonEmpty(final boolean[] array) {
 		return array != null && array.length > 0;
 	}
 

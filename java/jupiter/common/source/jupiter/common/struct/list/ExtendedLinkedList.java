@@ -111,7 +111,7 @@ public class ExtendedLinkedList<E>
 	 */
 	public E getMiddle() {
 		// Check the arguments
-		CollectionArguments.requireNotEmpty(this);
+		CollectionArguments.requireNonEmpty(this);
 
 		// Get the middle element
 		return get(Integers.middle(size()));

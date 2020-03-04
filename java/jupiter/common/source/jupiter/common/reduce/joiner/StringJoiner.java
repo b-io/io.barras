@@ -67,7 +67,7 @@ public class StringJoiner
 		super(String.class);
 
 		// Check the arguments
-		Arguments.requireNotNull(delimiter, "delimiter");
+		Arguments.requireNonNull(delimiter, "delimiter");
 
 		// Set the attributes
 		this.delimiter = delimiter;

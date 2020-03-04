@@ -91,15 +91,15 @@ public class Contents {
 	}
 
 	/**
-	 * Tests whether the specified {@link Content} is non-{@code null}, not {@code "null"} and not
-	 * empty.
+	 * Tests whether the specified {@link Content} is non-{@code null}, not {@code "null"} and
+	 * non-empty.
 	 * <p>
 	 * @param content the {@link Content} to test (may be {@code null})
 	 * <p>
 	 * @return {@code true} if the specified {@link Content} is non-{@code null}, not {@code "null"}
-	 *         and not empty, {@code false} otherwise
+	 *         and non-empty, {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final Content content) {
-		return content != null && content.isNotEmpty();
+	public static boolean isNonEmpty(final Content content) {
+		return content != null && content.isNonEmpty();
 	}
 }

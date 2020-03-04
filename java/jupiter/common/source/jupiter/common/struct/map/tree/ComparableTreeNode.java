@@ -70,7 +70,7 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	 */
 	public ComparableTreeNode(final K key, final V value) {
 		// Check the arguments
-		Arguments.requireNotNull(key, "key");
+		Arguments.requireNonNull(key, "key");
 
 		// Set the attributes
 		this.key = key;

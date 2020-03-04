@@ -77,7 +77,7 @@ public class TreeNode<K, V>
 	 */
 	public TreeNode(final K key, final V value, final Comparator<? super K> keyComparator) {
 		// Check the arguments
-		Arguments.requireNotNull(key, "key");
+		Arguments.requireNonNull(key, "key");
 
 		// Set the attributes
 		this.key = key;

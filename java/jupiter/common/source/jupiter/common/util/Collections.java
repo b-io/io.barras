@@ -328,14 +328,14 @@ public class Collections {
 	}
 
 	/**
-	 * Tests whether the specified {@link Collection} is non-{@code null} and not empty.
+	 * Tests whether the specified {@link Collection} is non-{@code null} and non-empty.
 	 * <p>
 	 * @param collection the {@link Collection} to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@link Collection} is non-{@code null} and not empty,
+	 * @return {@code true} if the specified {@link Collection} is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final Collection<?> collection) {
+	public static boolean isNonEmpty(final Collection<?> collection) {
 		return collection != null && !collection.isEmpty();
 	}
 

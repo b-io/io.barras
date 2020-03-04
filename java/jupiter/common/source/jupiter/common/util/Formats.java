@@ -212,7 +212,7 @@ public class Formats {
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
 	 */
 	public static DecimalFormat getDecimalFormat(final String pattern, final Locale locale) {
-		final DecimalFormat format = Strings.isNotEmpty(pattern) ? new DecimalFormat(pattern) :
+		final DecimalFormat format = Strings.isNonEmpty(pattern) ? new DecimalFormat(pattern) :
 				new DecimalFormat();
 		format.setDecimalFormatSymbols(new DecimalFormatSymbols(locale));
 		format.setGroupingUsed(false); // whether to use grouping separators

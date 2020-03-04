@@ -85,7 +85,7 @@ public class ExtendedList<E>
 	 */
 	@SuppressWarnings("unchecked")
 	public ExtendedList(final E... elements) {
-		super(Arguments.requireNotNull(elements, "elements").length);
+		super(Arguments.requireNonNull(elements, "elements").length);
 		addAll(elements);
 	}
 
@@ -126,7 +126,7 @@ public class ExtendedList<E>
 	 */
 	public E getFirst() {
 		// Check the arguments
-		CollectionArguments.requireNotEmpty(this);
+		CollectionArguments.requireNonEmpty(this);
 
 		// Get the first element
 		return get(0);
@@ -139,7 +139,7 @@ public class ExtendedList<E>
 	 */
 	public E getMiddle() {
 		// Check the arguments
-		CollectionArguments.requireNotEmpty(this);
+		CollectionArguments.requireNonEmpty(this);
 
 		// Get the middle element
 		return get(Integers.middle(size()));
@@ -152,7 +152,7 @@ public class ExtendedList<E>
 	 */
 	public E getLast() {
 		// Check the arguments
-		CollectionArguments.requireNotEmpty(this);
+		CollectionArguments.requireNonEmpty(this);
 
 		// Get the last element
 		return get(size() - 1);

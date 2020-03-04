@@ -45,7 +45,7 @@ public class MatrixArguments {
 
 	public static void requireDimensions(final Matrix matrix, final int expectedRowDimension,
 			final int expectedColumnDimension) {
-		Arguments.requireNotNull(matrix, "matrix");
+		Arguments.requireNonNull(matrix, "matrix");
 		requireRowDimension(matrix.getRowDimension(), expectedRowDimension);
 		requireColumnDimension(matrix.getColumnDimension(), expectedColumnDimension);
 	}
@@ -70,7 +70,7 @@ public class MatrixArguments {
 
 	public static void requireInnerDimension(final Matrix matrix,
 			final int expectedInnerDimension) {
-		requireInnerDimension(Arguments.requireNotNull(matrix, "matrix").getRowDimension(),
+		requireInnerDimension(Arguments.requireNonNull(matrix, "matrix").getRowDimension(),
 				expectedInnerDimension);
 	}
 

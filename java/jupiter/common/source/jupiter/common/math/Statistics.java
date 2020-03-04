@@ -49,7 +49,7 @@ public class Statistics {
 
 	public static double mean(final double... values) {
 		// Check the arguments
-		DoubleArguments.requireNotEmpty(values);
+		DoubleArguments.requireNonEmpty(values);
 
 		// Get the mean
 		return Maths.sumWithoutNaN(values) / values.length;
@@ -57,7 +57,7 @@ public class Statistics {
 
 	public static double getMean(final Number[] numbers) {
 		// Check the arguments
-		ArrayArguments.requireNotEmpty(numbers, "numbers");
+		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
 		// Get the mean
 		return Maths.sumWithoutNaN(numbers) / numbers.length;
@@ -65,7 +65,7 @@ public class Statistics {
 
 	public static <E extends Number> double getMean(final Collection<E> numbers) {
 		// Check the arguments
-		CollectionArguments.requireNotEmpty(numbers, "numbers");
+		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
 		// Get the mean
 		return Maths.sumWithoutNaN(numbers) / numbers.size();
@@ -87,7 +87,7 @@ public class Statistics {
 
 	public static double varianceWith(final double[] values, final double mean) {
 		// Check the arguments
-		DoubleArguments.requireNotEmpty(values);
+		DoubleArguments.requireNonEmpty(values);
 
 		// Get the variance
 		return Maths.sumOfSquaresWithoutNaN(values, mean) / values.length;
@@ -95,7 +95,7 @@ public class Statistics {
 
 	public static double getVarianceWith(final Number[] numbers, final double mean) {
 		// Check the arguments
-		ArrayArguments.requireNotEmpty(numbers, "numbers");
+		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
 		// Get the variance
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.length;
@@ -104,7 +104,7 @@ public class Statistics {
 	public static <E extends Number> double getVarianceWith(final Collection<E> numbers,
 			final double mean) {
 		// Check the arguments
-		CollectionArguments.requireNotEmpty(numbers, "numbers");
+		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
 		// Get the variance
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.size();

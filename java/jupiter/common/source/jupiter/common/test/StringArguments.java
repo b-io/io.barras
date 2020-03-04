@@ -42,8 +42,8 @@ public class StringArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String requireNotEmpty(final String text) {
-		if (CHECK_ARGS && requireNotNull(text).isEmpty()) {
+	public static String requireNonEmpty(final String text) {
+		if (CHECK_ARGS && requireNonNull(text).isEmpty()) {
 			throw new IllegalArgumentException("The specified text is empty");
 		}
 		return text;

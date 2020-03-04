@@ -46,19 +46,19 @@ public class CollectionArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <C extends Collection<?>> C requireNotEmpty(final C collection) {
-		return requireNotEmpty(collection, "collection");
+	public static <C extends Collection<?>> C requireNonEmpty(final C collection) {
+		return requireNonEmpty(collection, "collection");
 	}
 
-	public static <C extends Collection<?>> C requireNotEmpty(final C collection,
+	public static <C extends Collection<?>> C requireNonEmpty(final C collection,
 			final String name) {
 		if (CHECK_ARGS) {
-			requireNotEmpty(requireNotNull(collection, name).size(), name);
+			requireNonEmpty(requireNonNull(collection, name).size(), name);
 		}
 		return collection;
 	}
 
-	public static void requireNotEmpty(final int length, final String name) {
+	public static void requireNonEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
 			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
 					" is empty"));
@@ -69,7 +69,7 @@ public class CollectionArguments
 
 	public static <C extends Collection<?>> C requireMinSize(final C collection,
 			final int minExpectedSize) {
-		if (CHECK_ARGS && requireNotNull(collection).size() < minExpectedSize) {
+		if (CHECK_ARGS && requireNonNull(collection).size() < minExpectedSize) {
 			throw new IllegalArgumentException("The specified collection has a size " +
 					collection.size() + " inferior to " + minExpectedSize);
 		}
@@ -78,7 +78,7 @@ public class CollectionArguments
 
 	public static <C extends Collection<?>> C requireMaxSize(final C collection,
 			final int maxExpectedSize) {
-		if (CHECK_ARGS && requireNotNull(collection).size() > maxExpectedSize) {
+		if (CHECK_ARGS && requireNonNull(collection).size() > maxExpectedSize) {
 			throw new IllegalArgumentException("The specified collection has a size " +
 					collection.size() + " superior to " + maxExpectedSize);
 		}
@@ -86,7 +86,7 @@ public class CollectionArguments
 	}
 
 	public static <C extends Collection<?>> void requireSameSize(final C a, final C b) {
-		if (CHECK_ARGS && requireNotNull(a).size() != requireNotNull(b).size()) {
+		if (CHECK_ARGS && requireNonNull(a).size() != requireNonNull(b).size()) {
 			throw new IllegalArgumentException(
 					"The specified collections do not have the same size " +
 							isNotEqualTo(a.size(), b.size()));

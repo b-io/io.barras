@@ -166,7 +166,7 @@ public class Messages {
 	}
 
 	protected static String createLabel(final String text) {
-		return Strings.isNotEmpty(text) ? Strings.bracketize(text) : EMPTY;
+		return Strings.isNonEmpty(text) ? Strings.bracketize(text) : EMPTY;
 	}
 
 

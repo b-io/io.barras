@@ -132,14 +132,14 @@ public class FloatArguments
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static float[] requireNotEmpty(final float... array) {
+	public static float[] requireNonEmpty(final float... array) {
 		if (CHECK_ARGS) {
-			requireNotEmpty(requireNotNull(array).length);
+			requireNonEmpty(requireNonNull(array).length);
 		}
 		return array;
 	}
 
-	public static void requireNotEmpty(final int length) {
+	public static void requireNonEmpty(final int length) {
 		if (CHECK_ARGS && length == 0) {
 			throw new IllegalArgumentException("The specified float array is empty");
 		}
@@ -147,7 +147,7 @@ public class FloatArguments
 
 	public static float[] requireLength(final float[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
-			requireLength(requireNotNull(array).length, expectedLength);
+			requireLength(requireNonNull(array).length, expectedLength);
 		}
 		return array;
 	}
@@ -161,7 +161,7 @@ public class FloatArguments
 
 	public static float[] requireMinLength(final float[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
-			requireMinLength(requireNotNull(array).length, minExpectedLength);
+			requireMinLength(requireNonNull(array).length, minExpectedLength);
 		}
 		return array;
 	}
@@ -175,7 +175,7 @@ public class FloatArguments
 
 	public static float[] requireMaxLength(final float[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
-			requireMaxLength(requireNotNull(array).length, maxExpectedLength);
+			requireMaxLength(requireNonNull(array).length, maxExpectedLength);
 		}
 		return array;
 	}
@@ -189,7 +189,7 @@ public class FloatArguments
 
 	public static void requireSameLength(final float[] a, final float[] b) {
 		if (CHECK_ARGS) {
-			requireSameLength(requireNotNull(a).length, requireNotNull(b).length);
+			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
 		}
 	}
 

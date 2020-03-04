@@ -70,7 +70,7 @@ public class AvlTreeNode<K, V>
 	 * @param tree  the {@link AvlTreeMap} of {@code K} and {@code V} types
 	 */
 	public AvlTreeNode(final K key, final V value, final AvlTreeMap<K, V> tree) {
-		super(key, value, Arguments.requireNotNull(tree, "tree").getKeyComparator());
+		super(key, value, Arguments.requireNonNull(tree, "tree").getKeyComparator());
 		this.tree = tree;
 		height = 0;
 		balance = 0;

@@ -152,7 +152,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	@Override
 	public V get(final Object key) {
 		// Check the arguments
-		Arguments.requireNotNull(key, "key");
+		Arguments.requireNonNull(key, "key");
 
 		// Get the value
 		final N node = getNode(key);
@@ -174,7 +174,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 */
 	public V getOrDefault(final Object key, final V defaultValue) {
 		// Check the arguments
-		Arguments.requireNotNull(key, "key");
+		Arguments.requireNonNull(key, "key");
 
 		// Get the value associated to the key or the default value if it is not present
 		return Maps.getOrDefault(this, key, defaultValue);
@@ -192,7 +192,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 */
 	public ExtendedList<V> getAll(final Object[] keys) {
 		// Check the arguments
-		Arguments.requireNotNull(keys, "keys");
+		Arguments.requireNonNull(keys, "keys");
 
 		// Get the values associated to the keys
 		return Maps.getAll(this, keys);
@@ -213,7 +213,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 */
 	public ExtendedList<V> getAll(final Object[] keys, final V defaultValue) {
 		// Check the arguments
-		Arguments.requireNotNull(keys, "keys");
+		Arguments.requireNonNull(keys, "keys");
 
 		// Get the values associated to the keys or the default value for those that are not present
 		return Maps.getAll(this, keys, defaultValue);
@@ -256,7 +256,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	@SuppressWarnings("unchecked")
 	protected N getNode(final Object key) {
 		// Check the arguments
-		Arguments.requireNotNull(key, "key");
+		Arguments.requireNonNull(key, "key");
 
 		// Get the node
 		return findNode((Comparable<? super K>) key);

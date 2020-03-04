@@ -232,7 +232,7 @@ public class LogHandler
 	@Override
 	public void print(final Object content, final boolean isError) {
 		// Check the arguments
-		Arguments.requireNotNull(content, "content");
+		Arguments.requireNonNull(content, "content");
 
 		// Print the content
 		appendToLogLine(content, isError);
@@ -248,7 +248,7 @@ public class LogHandler
 	@Override
 	public void println(final Object content, final boolean isError) {
 		// Check the arguments
-		Arguments.requireNotNull(content, "content");
+		Arguments.requireNonNull(content, "content");
 
 		// Print the content and terminate the line
 		if (isError) {

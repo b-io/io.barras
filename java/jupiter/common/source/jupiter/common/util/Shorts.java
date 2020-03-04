@@ -1355,14 +1355,14 @@ public class Shorts {
 	}
 
 	/**
-	 * Tests whether the specified {@code short} array is non-{@code null} and not empty.
+	 * Tests whether the specified {@code short} array is non-{@code null} and non-empty.
 	 * <p>
 	 * @param array the {@code short} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code short} array is non-{@code null} and not empty,
+	 * @return {@code true} if the specified {@code short} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final short[] array) {
+	public static boolean isNonEmpty(final short[] array) {
 		return array != null && array.length > 0;
 	}
 

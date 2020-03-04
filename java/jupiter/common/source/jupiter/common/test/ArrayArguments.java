@@ -52,7 +52,7 @@ public class ArrayArguments
 	}
 
 	public static void requireArray(final Object object, final String name) {
-		if (CHECK_ARGS && !Arrays.is(requireNotNull(object, name))) {
+		if (CHECK_ARGS && !Arrays.is(requireNonNull(object, name))) {
 			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
 					" is not an array"));
 		}
@@ -60,18 +60,18 @@ public class ArrayArguments
 
 	//////////////////////////////////////////////
 
-	public static <T> T[] requireNotEmpty(final T[] array) {
-		return requireNotEmpty(array, "array");
+	public static <T> T[] requireNonEmpty(final T[] array) {
+		return requireNonEmpty(array, "array");
 	}
 
-	public static <T> T[] requireNotEmpty(final T[] array, final String name) {
+	public static <T> T[] requireNonEmpty(final T[] array, final String name) {
 		if (CHECK_ARGS) {
-			requireNotEmpty(requireNotNull(array, name).length, name);
+			requireNonEmpty(requireNonNull(array, name).length, name);
 		}
 		return array;
 	}
 
-	public static void requireNotEmpty(final int length, final String name) {
+	public static void requireNonEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
 			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
 					" is empty"));
@@ -82,7 +82,7 @@ public class ArrayArguments
 
 	public static <T> T[] requireLength(final T[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
-			requireLength(requireNotNull(array).length, expectedLength);
+			requireLength(requireNonNull(array).length, expectedLength);
 		}
 		return array;
 	}
@@ -96,7 +96,7 @@ public class ArrayArguments
 
 	public static <T> T[] requireMinLength(final T[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
-			requireMinLength(requireNotNull(array).length, minExpectedLength);
+			requireMinLength(requireNonNull(array).length, minExpectedLength);
 		}
 		return array;
 	}
@@ -110,7 +110,7 @@ public class ArrayArguments
 
 	public static <T> T[] requireMaxLength(final T[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
-			requireMaxLength(requireNotNull(array).length, maxExpectedLength);
+			requireMaxLength(requireNonNull(array).length, maxExpectedLength);
 		}
 		return array;
 	}
@@ -124,7 +124,7 @@ public class ArrayArguments
 
 	public static <T> void requireSameLength(final T[] a, final T[] b) {
 		if (CHECK_ARGS) {
-			requireSameLength(requireNotNull(a).length, requireNotNull(b).length);
+			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
 		}
 	}
 

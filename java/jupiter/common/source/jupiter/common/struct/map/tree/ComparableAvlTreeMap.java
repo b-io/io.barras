@@ -181,7 +181,7 @@ public class ComparableAvlTreeMap<K extends Comparable<K>, V>
 	@Override
 	public synchronized V put(final K key, final V value) {
 		// Check the arguments
-		Arguments.requireNotNull(key, "key");
+		Arguments.requireNonNull(key, "key");
 
 		// Put the key-value mapping
 		ComparableAvlTreeNode<K, V> tree = root;

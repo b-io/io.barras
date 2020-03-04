@@ -1365,14 +1365,14 @@ public class Characters {
 	}
 
 	/**
-	 * Tests whether the specified {@code char} array is non-{@code null} and not empty.
+	 * Tests whether the specified {@code char} array is non-{@code null} and non-empty.
 	 * <p>
 	 * @param array the {@code char} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code char} array is non-{@code null} and not empty,
+	 * @return {@code true} if the specified {@code char} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final char[] array) {
+	public static boolean isNonEmpty(final char[] array) {
 		return array != null && array.length > 0;
 	}
 

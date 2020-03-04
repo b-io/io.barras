@@ -1321,14 +1321,14 @@ public class Longs {
 	}
 
 	/**
-	 * Tests whether the specified {@code long} array is non-{@code null} and not empty.
+	 * Tests whether the specified {@code long} array is non-{@code null} and non-empty.
 	 * <p>
 	 * @param array the {@code long} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code long} array is non-{@code null} and not empty,
+	 * @return {@code true} if the specified {@code long} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final long[] array) {
+	public static boolean isNonEmpty(final long[] array) {
 		return array != null && array.length > 0;
 	}
 

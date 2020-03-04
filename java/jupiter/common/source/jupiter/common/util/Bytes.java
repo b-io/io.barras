@@ -1596,14 +1596,14 @@ public class Bytes {
 	}
 
 	/**
-	 * Tests whether the specified {@code byte} array is non-{@code null} and not empty.
+	 * Tests whether the specified {@code byte} array is non-{@code null} and non-empty.
 	 * <p>
 	 * @param array the {@code byte} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code byte} array is non-{@code null} and not empty,
+	 * @return {@code true} if the specified {@code byte} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final byte[] array) {
+	public static boolean isNonEmpty(final byte[] array) {
 		return array != null && array.length > 0;
 	}
 

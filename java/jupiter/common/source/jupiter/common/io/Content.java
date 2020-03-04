@@ -167,12 +167,12 @@ public class Content
 	}
 
 	/**
-	 * Tests whether {@code this} is not {@code "null"} and not empty.
+	 * Tests whether {@code this} is not {@code "null"} and non-empty.
 	 * <p>
-	 * @return {@code true} if {@code this} is not {@code "null"} and not empty, {@code false}
+	 * @return {@code true} if {@code this} is not {@code "null"} and non-empty, {@code false}
 	 *         otherwise
 	 */
-	public boolean isNotEmpty() {
+	public boolean isNonEmpty() {
 		return !content.equals(NULL) && !content.isEmpty();
 	}
 

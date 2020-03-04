@@ -1448,14 +1448,14 @@ public class Integers {
 	}
 
 	/**
-	 * Tests whether the specified {@code int} array is non-{@code null} and not empty.
+	 * Tests whether the specified {@code int} array is non-{@code null} and non-empty.
 	 * <p>
 	 * @param array the {@code int} array to test (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@code int} array is non-{@code null} and not empty,
+	 * @return {@code true} if the specified {@code int} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
-	public static boolean isNotEmpty(final int[] array) {
+	public static boolean isNonEmpty(final int[] array) {
 		return array != null && array.length > 0;
 	}
 

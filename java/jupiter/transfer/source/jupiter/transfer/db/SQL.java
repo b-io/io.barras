@@ -108,8 +108,8 @@ public class SQL {
 			final Object value)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(statement, "statement");
-		Arguments.requireNotNull(value, "value");
+		Arguments.requireNonNull(statement, "statement");
+		Arguments.requireNonNull(value, "value");
 
 		// Set the parameter of the SQL statement at the index
 		if (value instanceof Array) {
@@ -169,7 +169,7 @@ public class SQL {
 	public static void setParameters(final PreparedStatement statement, final Object... values)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(values, "values");
+		Arguments.requireNonNull(values, "values");
 
 		// Set the parameters of the SQL statement
 		int index = 1;
@@ -260,7 +260,7 @@ public class SQL {
 	public static String createStoredProcedureQuery(final String storedProcedure,
 			final int parameterCount) {
 		// Check the arguments
-		Arguments.requireNotNull(storedProcedure, "stored procedure");
+		Arguments.requireNonNull(storedProcedure, "stored procedure");
 
 		// Create the SQL query for executing the stored procedure
 		return Strings.join(LEFT_BRACE, "call ", storedProcedure,
@@ -271,9 +271,9 @@ public class SQL {
 			final String storedProcedure, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(connection, "connection");
-		Arguments.requireNotNull(storedProcedure, "stored procedure");
-		Arguments.requireNotNull(parameters, "parameters");
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(storedProcedure, "stored procedure");
+		Arguments.requireNonNull(parameters, "parameters");
 
 		// Create the SQL statement for executing the stored procedure
 		final CallableStatement statement = connection.prepareCall(
@@ -297,16 +297,16 @@ public class SQL {
 	public static String createSelectQuery(final String table, final String[] columns,
 			final String[] conditionalColumns) {
 		// Check the arguments
-		Arguments.requireNotNull(table, "table");
+		Arguments.requireNonNull(table, "table");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
 			IO.warn("No conditional columns for selecting the table ", Strings.quote(table));
 		}
 
 		// Create the SQL query for selecting the table with the columns and conditional columns
 		return Strings.join("SELECT ",
-				Arrays.isNotEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
+				Arrays.isNonEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
 				" FROM ", Strings.bracketize(table),
-				Arrays.isNotEmpty(conditionalColumns) ?
+				Arrays.isNonEmpty(conditionalColumns) ?
 				Strings.join(" WHERE ",
 						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
 								.concat("=?")) :
@@ -329,7 +329,7 @@ public class SQL {
 			final String table, final String[] columns, final String[] conditionalColumns)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNonNull(connection, "connection");
 
 		// Create the SQL query for selecting the table with the columns and conditional columns
 		final PreparedStatement statement = connection.prepareStatement(
@@ -342,8 +342,8 @@ public class SQL {
 
 	public static String createInsertQuery(final String table, final String[] columns) {
 		// Check the arguments
-		Arguments.requireNotNull(table, "table");
-		ArrayArguments.requireNotEmpty(columns, "columns");
+		Arguments.requireNonNull(table, "table");
+		ArrayArguments.requireNonEmpty(columns, "columns");
 
 		// Create the SQL query for inserting into the table with the columns
 		return Strings.join("INSERT INTO ", Strings.bracketize(table),
@@ -355,7 +355,7 @@ public class SQL {
 			final String table, final String[] columns)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNonNull(connection, "connection");
 
 		// Create the SQL query for inserting into the table with the columns
 		final PreparedStatement statement = connection.prepareStatement(
@@ -373,8 +373,8 @@ public class SQL {
 	public static String createUpdateQuery(final String table, final String[] columns,
 			final String[] conditionalColumns) {
 		// Check the arguments
-		Arguments.requireNotNull(table, "table");
-		ArrayArguments.requireNotEmpty(columns, "columns");
+		Arguments.requireNonNull(table, "table");
+		ArrayArguments.requireNonEmpty(columns, "columns");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
 			IO.warn("No conditional columns for updating the table ", Strings.quote(table));
 		}
@@ -382,7 +382,7 @@ public class SQL {
 		// Create the SQL query for updating the table with the columns and conditional columns
 		return Strings.join("UPDATE ", Strings.bracketize(table),
 				" SET ", Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
-				Arrays.isNotEmpty(conditionalColumns) ?
+				Arrays.isNonEmpty(conditionalColumns) ?
 				Strings.join(" WHERE ",
 						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
 								.concat("=?")) :
@@ -399,7 +399,7 @@ public class SQL {
 			final String table, final String[] columns, final String[] conditionalColumns)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNonNull(connection, "connection");
 
 		// Create the SQL query for updating the table with the columns and conditional columns
 		final PreparedStatement statement = connection.prepareStatement(
@@ -416,14 +416,14 @@ public class SQL {
 
 	public static String createDeleteQuery(final String table, final String[] conditionalColumns) {
 		// Check the arguments
-		Arguments.requireNotNull(table, "table");
+		Arguments.requireNonNull(table, "table");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
 			IO.warn("No conditional columns for deleting the table ", Strings.quote(table));
 		}
 
 		// Create the SQL query for deleting the table with the conditional columns
 		return Strings.join("DELETE FROM ", Strings.bracketize(table),
-				Arrays.isNotEmpty(conditionalColumns) ?
+				Arrays.isNonEmpty(conditionalColumns) ?
 				Strings.join(" WHERE ",
 						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
 								.concat("=?")) :
@@ -440,7 +440,7 @@ public class SQL {
 			final String table, final String[] conditionalColumns)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(connection, "connection");
+		Arguments.requireNonNull(connection, "connection");
 
 		// Create the SQL query for deleting the table with the conditional columns
 		final PreparedStatement statement = connection.prepareStatement(
@@ -462,15 +462,15 @@ public class SQL {
 	public static RowList executeWith(final Connection connection,
 			final String query, final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNotNull(connection, "connection");
-		Arguments.requireNotNull(query, "query");
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(query, "query");
 
 		// Create the SQL statement for executing the SQL query
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(query);
 			// Set the parameters of the SQL statement
-			if (Arrays.isNotEmpty(parameters)) {
+			if (Arrays.isNonEmpty(parameters)) {
 				setParameters(statement, parameters);
 			}
 			// Execute the SQL query and return the result
@@ -498,10 +498,10 @@ public class SQL {
 			final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(statement, "statement");
+		Arguments.requireNonNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
-		if (Arrays.isNotEmpty(parameters)) {
+		if (Arrays.isNonEmpty(parameters)) {
 			setParameters(statement, parameters);
 		}
 		// Execute the SQL query
@@ -536,16 +536,16 @@ public class SQL {
 	public static <T extends SQLRow> ExtendedList<T> executeWith(final Class<T> c,
 			final Connection connection, final String query, final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNotNull(c, "class");
-		Arguments.requireNotNull(connection, "connection");
-		Arguments.requireNotNull(query, "query");
+		Arguments.requireNonNull(c, "class");
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(query, "query");
 
 		// Create the SQL statement for executing the SQL query
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(query);
 			// Set the parameters of the SQL statement
-			if (Arrays.isNotEmpty(parameters)) {
+			if (Arrays.isNonEmpty(parameters)) {
 				setParameters(statement, parameters);
 			}
 			// Execute the SQL query and return the result
@@ -574,11 +574,11 @@ public class SQL {
 			final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(c, "class");
-		Arguments.requireNotNull(statement, "statement");
+		Arguments.requireNonNull(c, "class");
+		Arguments.requireNonNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
-		if (Arrays.isNotEmpty(parameters)) {
+		if (Arrays.isNonEmpty(parameters)) {
 			setParameters(statement, parameters);
 		}
 		// Execute the SQL query
@@ -613,7 +613,7 @@ public class SQL {
 	public static RowList executeStoredProcedure(final Connection connection,
 			final String name, final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNotNull(parameters, "parameters");
+		Arguments.requireNonNull(parameters, "parameters");
 
 		// Execute the stored procedure
 		return executeWith(connection, createStoredProcedureQuery(name, parameters.length),
@@ -677,10 +677,10 @@ public class SQL {
 			final String table, final String[] columns, final String[] conditionalColumns,
 			final Object... conditionalValues) {
 		// Check the arguments
-		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
+		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNotEmpty(conditionalColumns, "conditional columns"),
-					ArrayArguments.requireNotEmpty(conditionalValues, "conditional values"));
+					ArrayArguments.requireNonEmpty(conditionalColumns, "conditional columns"),
+					ArrayArguments.requireNonEmpty(conditionalValues, "conditional values"));
 		}
 
 		// Execute the SQL query and return the result
@@ -768,10 +768,10 @@ public class SQL {
 			final Connection connection, final String table, final String[] columns,
 			final String[] conditionalColumns, final Object... conditionalValues) {
 		// Check the arguments
-		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
+		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNotEmpty(conditionalColumns, "conditional columns"),
-					ArrayArguments.requireNotEmpty(conditionalValues, "conditional values"));
+					ArrayArguments.requireNonEmpty(conditionalColumns, "conditional columns"),
+					ArrayArguments.requireNonEmpty(conditionalValues, "conditional values"));
 		}
 
 		// Execute the SQL query and return the result
@@ -829,8 +829,8 @@ public class SQL {
 	public static long[] insertWith(final Connection connection,
 			final String table, final String[] columns, final Object... values) {
 		// Check the arguments
-		ArrayArguments.requireSameLength(ArrayArguments.requireNotEmpty(columns, "columns"),
-				ArrayArguments.requireNotEmpty(values, "values"));
+		ArrayArguments.requireSameLength(ArrayArguments.requireNonEmpty(columns, "columns"),
+				ArrayArguments.requireNonEmpty(values, "values"));
 
 		// Execute the SQL query and return any auto-generated key
 		return insertWith(connection, createInsertQuery(table, columns), values);
@@ -853,8 +853,8 @@ public class SQL {
 	public static long[] insertWith(final Connection connection, final String query,
 			final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNotNull(connection, "connection");
-		Arguments.requireNotNull(query, "query");
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(query, "query");
 
 		// Create the SQL statement for executing the SQL query
 		PreparedStatement statement = null;
@@ -918,10 +918,10 @@ public class SQL {
 	public static long[] insertWith(final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(statement, "statement");
+		Arguments.requireNonNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
-		if (Arrays.isNotEmpty(parameters)) {
+		if (Arrays.isNonEmpty(parameters)) {
 			setParameters(statement, parameters);
 		}
 		// Execute the SQL query
@@ -992,10 +992,10 @@ public class SQL {
 			final String table, final String[] columns, final Object[] values,
 			final String[] conditionalColumns, final Object... conditionalValues) {
 		// Check the arguments
-		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
+		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNotEmpty(conditionalColumns, "conditional columns"),
-					ArrayArguments.requireNotEmpty(conditionalValues, "conditional values"));
+					ArrayArguments.requireNonEmpty(conditionalColumns, "conditional columns"),
+					ArrayArguments.requireNonEmpty(conditionalValues, "conditional values"));
 		}
 
 		// Execute the SQL query and return the row count
@@ -1022,8 +1022,8 @@ public class SQL {
 	public static int updateWith(final Connection connection, final String query,
 			final Object... parameters) {
 		// Check the arguments
-		Arguments.requireNotNull(connection, "connection");
-		Arguments.requireNotNull(query, "query");
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(query, "query");
 
 		// Create the SQL statement for executing the SQL query
 		PreparedStatement statement = null;
@@ -1089,10 +1089,10 @@ public class SQL {
 	public static int updateWith(final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNotNull(statement, "statement");
+		Arguments.requireNonNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
-		if (Arrays.isNotEmpty(parameters)) {
+		if (Arrays.isNonEmpty(parameters)) {
 			setParameters(statement, parameters);
 		}
 		// Execute the SQL query and return the row count
@@ -1147,10 +1147,10 @@ public class SQL {
 	public static int deleteWith(final Connection connection, final String table,
 			final String[] conditionalColumns, final Object... conditionalValues) {
 		// Check the arguments
-		if (Arrays.isNotEmpty(conditionalColumns) || Arrays.isNotEmpty(conditionalValues)) {
+		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNotEmpty(conditionalColumns, "conditional columns"),
-					ArrayArguments.requireNotEmpty(conditionalValues, "conditional values"));
+					ArrayArguments.requireNonEmpty(conditionalColumns, "conditional columns"),
+					ArrayArguments.requireNonEmpty(conditionalValues, "conditional values"));
 		}
 
 		// Execute the SQL query and return the row count

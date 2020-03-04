@@ -79,7 +79,7 @@ public class RowList
 		super();
 
 		// Check the arguments
-		ArrayArguments.requireNotNull(header);
+		ArrayArguments.requireNonNull(header);
 
 		// Set the header
 		this.header = header;
@@ -97,7 +97,7 @@ public class RowList
 		super(initialCapacity);
 
 		// Check the arguments
-		ArrayArguments.requireNotNull(header);
+		ArrayArguments.requireNonNull(header);
 
 		// Set the header
 		this.header = header;
@@ -118,7 +118,7 @@ public class RowList
 		super(elements);
 
 		// Check the arguments
-		ArrayArguments.requireNotNull(header);
+		ArrayArguments.requireNonNull(header);
 
 		// Set the header
 		this.header = header;
@@ -137,7 +137,7 @@ public class RowList
 		super(elements);
 
 		// Check the arguments
-		ArrayArguments.requireNotNull(header);
+		ArrayArguments.requireNonNull(header);
 
 		// Set the header
 		this.header = header;

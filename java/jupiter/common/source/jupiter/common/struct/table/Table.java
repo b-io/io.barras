@@ -117,7 +117,7 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final int rowCount, final int columnCount) {
 		// Check the arguments
-		Arguments.requireNotNull(c, "class");
+		Arguments.requireNonNull(c, "class");
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
 
@@ -141,7 +141,7 @@ public class Table<E>
 	public Table(final Class<E> c, final String[] header, final int rowCount,
 			final int columnCount) {
 		// Check the arguments
-		Arguments.requireNotNull(c, "class");
+		Arguments.requireNonNull(c, "class");
 		if (header != null) {
 			ArrayArguments.requireLength(header.length, columnCount);
 		}
@@ -166,8 +166,8 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final E[][] elements) {
 		// Check the arguments
-		Arguments.requireNotNull(c, "class");
-		ArrayArguments.requireNotEmpty(elements, "2D array of elements");
+		Arguments.requireNonNull(c, "class");
+		ArrayArguments.requireNonEmpty(elements, "2D array of elements");
 
 		// Set the attributes
 		this.c = c;
@@ -190,9 +190,9 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final String[] header, final E[][] elements) {
 		// Check the arguments
-		Arguments.requireNotNull(c, "class");
-		ArrayArguments.requireSameLength(ArrayArguments.requireNotEmpty(header, "header"),
-				ArrayArguments.requireNotEmpty(elements, "elements"));
+		Arguments.requireNonNull(c, "class");
+		ArrayArguments.requireSameLength(ArrayArguments.requireNonEmpty(header, "header"),
+				ArrayArguments.requireNonEmpty(elements, "elements"));
 
 		// Set the attributes
 		this.c = c;
@@ -217,7 +217,7 @@ public class Table<E>
 	public Table(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		// Check the arguments
-		Arguments.requireNotNull(parser, "parser");
+		Arguments.requireNonNull(parser, "parser");
 
 		// Set the attributes
 		c = parser.getOutputClass();
@@ -626,7 +626,7 @@ public class Table<E>
 		// • i
 		ArrayArguments.requireIndex(i, m);
 		// • values
-		ArrayArguments.requireNotEmpty(values, "values");
+		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
 		ArrayArguments.requireIndex(fromColumn, n);
@@ -693,7 +693,7 @@ public class Table<E>
 		// • j
 		ArrayArguments.requireIndex(j, n);
 		// • values
-		ArrayArguments.requireNotEmpty(values, "values");
+		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
 		ArrayArguments.requireIndex(fromRow, m);

@@ -289,7 +289,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	@Override
 	protected N findNode(final Comparable<? super K> keyComparable) {
 		// Check the arguments
-		Arguments.requireNotNull(keyComparable, "key comparable");
+		Arguments.requireNonNull(keyComparable, "key comparable");
 
 		// Get the node
 		N node = root;
@@ -337,7 +337,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	@Override
 	public synchronized V remove(final Object key) {
 		// Check the arguments
-		Arguments.requireNotNull(key, "key");
+		Arguments.requireNonNull(key, "key");
 
 		// Remove the key-value mapping
 		final N node = getNode(key);
@@ -505,7 +505,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	@Override
 	public boolean containsKey(final Object key) {
 		// Check the arguments
-		Arguments.requireNotNull(key, "key");
+		Arguments.requireNonNull(key, "key");
 
 		// Test the presence of the key
 		return getNode(key) != null;
