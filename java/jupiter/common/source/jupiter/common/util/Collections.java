@@ -93,27 +93,24 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code E} array containing all of the elements in the specified {@link Collection}
-	 * in proper sequence (from first to last element), or an empty array if the specified
-	 * {@link Collection} is {@code null} or empty.
+	 * Returns an {@code E} array containing all the elements of the specified {@link Collection} in
+	 * the same order, or an empty array if the specified {@link Collection} is {@code null} or
+	 * empty.
 	 * <p>
 	 * @param <E>        the element type of the {@link Collection} to convert
 	 * @param collection the {@link Collection} of {@code E} element type to convert (may be
 	 *                   {@code null})
 	 * <p>
-	 * @return an {@code E} array containing all of the elements in the specified {@link Collection}
-	 *         in proper sequence (from first to last element), or an empty array if the specified
-	 *         {@link Collection} is {@code null} or empty
+	 * @return an {@code E} array containing all the elements of the specified {@link Collection} in
+	 *         the same order, or an empty array if the specified {@link Collection} is {@code null}
+	 *         or empty
 	 *
 	 * @see Collection#toArray(Object[])
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <E> E[] toArray(final Collection<E> collection) {
-		final Class<?> c = getElementClass(collection);
-		if (c == null) {
-			return (E[]) Objects.EMPTY_ARRAY;
-		}
-		return (E[]) collection.toArray(Arrays.create(c, collection.size()));
+		return (E[]) collection.toArray(Arrays.create(getElementClass(collection),
+				collection.size()));
 	}
 
 	/**
@@ -131,20 +128,20 @@ public class Collections {
 
 	/**
 	 * Returns a primitive array of the specified element {@link Class} converted from the specified
-	 * {@link Collection}, or {@code null} if the specified element {@link Class} or
-	 * {@link Collection} is {@code null}.
+	 * {@link Collection}, or {@code null} if any of them is {@code null} or {@code c} is equal to
+	 * {@code Object.class}.
 	 * <p>
 	 * @param c          the element {@link Class} of the {@link Collection} to convert (may be
 	 *                   {@code null})
 	 * @param collection the {@link Collection} to convert (may be {@code null})
 	 * <p>
 	 * @return a primitive array of the specified element {@link Class} converted from the specified
-	 *         {@link Collection}, or {@code null} if the specified element {@link Class} or
-	 *         {@link Collection} is {@code null}
+	 *         {@link Collection}, or {@code null} if any of them is {@code null} or {@code c} is
+	 *         equal to {@code Object.class}
 	 */
 	public static Object toPrimitiveArray(final Class<?> c, final Collection<?> collection) {
 		// Check the arguments
-		if (c == null || collection == null) {
+		if (c == null || c == Object.class || collection == null) {
 			return null;
 		}
 

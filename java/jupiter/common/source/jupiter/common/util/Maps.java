@@ -65,7 +65,7 @@ public class Maps
 	 *         keys in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared with the {@code map} keys
-	 * @throws NullPointerException if any {@code keys} are {@code null}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public static <K, V> ExtendedList<V> getAll(final Map<K, V> map, final Object[] keys) {
 		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
@@ -91,7 +91,7 @@ public class Maps
 	 *         {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared with the {@code map} keys
-	 * @throws NullPointerException if any {@code keys} are {@code null}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public static <K, V> ExtendedList<V> getAll(final Map<K, V> map, final Object[] keys,
 			final V defaultValue) {

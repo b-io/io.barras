@@ -24,6 +24,7 @@
 package jupiter.common.reduce;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.Arguments;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
@@ -68,6 +69,11 @@ public abstract class Reducer<I, O>
 	 */
 	protected Reducer(final Class<O> c) {
 		super();
+
+		// Check the arguments
+		Arguments.requireNonNull(c, "class");
+
+		// Set the attributes
 		this.c = c;
 	}
 

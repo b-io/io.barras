@@ -147,7 +147,7 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * @return all the {@code V} values associated to the specified keys in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared with the current keys
-	 * @throws NullPointerException if any {@code keys} are {@code null}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public ExtendedList<V> getAll(final Object[] keys) {
 		// Check the arguments
@@ -168,7 +168,7 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 *         {@code V} value for those that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared with the current keys
-	 * @throws NullPointerException if any {@code keys} are {@code null}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public ExtendedList<V> getAll(final Object[] keys, final V defaultValue) {
 		// Check the arguments

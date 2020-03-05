@@ -43,11 +43,13 @@ public class Classes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Class} of the specified {@link Object}.
+	 * Returns the {@link Class} of the specified {@link Object}, or {@code null} if it is
+	 * {@code null}.
 	 * <p>
 	 * @param object an {@link Object} (may be {@code null})
 	 * <p>
-	 * @return the {@link Class} of the specified {@link Object}.
+	 * @return the {@link Class} of the specified {@link Object}, or {@code null} if it is
+	 *         {@code null}
 	 */
 	public static Class<?> get(final Object object) {
 		return object != null ? object.getClass() : null;

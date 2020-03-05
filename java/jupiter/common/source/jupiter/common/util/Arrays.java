@@ -160,18 +160,19 @@ public class Arrays {
 
 	/**
 	 * Returns a primitive array of the specified element {@link Class} converted from the specified
-	 * array, or {@code null} if the specified element {@link Class} or array is {@code null}.
+	 * array, or {@code null} if any of them is {@code null} or {@code c} is equal to
+	 * {@code Object.class}.
 	 * <p>
 	 * @param c     the element {@link Class} of the array to convert (may be {@code null})
 	 * @param array the array to convert (may be {@code null})
 	 * <p>
 	 * @return a primitive array of the specified element {@link Class} converted from the specified
-	 *         array, or {@code null} if the specified element {@link Class} or array is
-	 *         {@code null}
+	 *         array, or {@code null} if any of them is {@code null} or {@code c} is equal to
+	 *         {@code Object.class}
 	 */
 	public static Object toPrimitiveArray(final Class<?> c, final Object[] array) {
 		// Check the arguments
-		if (c == null || array == null) {
+		if (c == null || c == Object.class || array == null) {
 			return null;
 		}
 
@@ -560,7 +561,7 @@ public class Arrays {
 	 * @param <T>     the component type of the 3D array to count from
 	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
 	 * <p>
-	 * @return the number of {@code null} elements in the specified 3D {@code T} array.
+	 * @return the number of {@code null} elements in the specified 3D {@code T} array
 	 */
 	public static <T> int countNull(final T[][][] array3D) {
 		return count(array3D, null);
@@ -598,7 +599,7 @@ public class Arrays {
 	 * @param <T>     the component type of the 3D array to count from
 	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
 	 * <p>
-	 * @return the number of non-{@code null} elements in the specified 3D {@code T} array.
+	 * @return the number of non-{@code null} elements in the specified 3D {@code T} array
 	 */
 	public static <T> int countNonNull(final T[][][] array3D) {
 		return array3D == null ? 0 : count(array3D) - countNull(array3D);

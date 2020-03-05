@@ -94,11 +94,9 @@ public class ExtendedLinkedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element {@link Class}, or {@code null} if {@code this} is empty or contains only
-	 * {@code null} elements.
+	 * Returns the element {@link Class}.
 	 * <p>
-	 * @return the element {@link Class}, or {@code null} if {@code this} is empty or contains only
-	 *         {@code null} elements
+	 * @return the element {@link Class}
 	 */
 	public Class<?> getElementClass() {
 		return Lists.getElementClass(this);
@@ -143,11 +141,11 @@ public class ExtendedLinkedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code E} array containing all of the elements in {@code this} in proper sequence
-	 * (from first to last element), or an empty array if {@code this} is empty.
+	 * Returns an {@code E} array containing all the elements of {@code this} in the same order, or
+	 * an empty array if {@code this} is empty.
 	 * <p>
-	 * @return an {@code E} array containing all of the elements in {@code this} in proper sequence
-	 *         (from first to last element), or an empty array if {@code this} is empty
+	 * @return an {@code E} array containing all the elements of {@code this} in the same order, or
+	 *         an empty array if {@code this} is empty
 	 *
 	 * @see LinkedList#toArray(Object[])
 	 */
@@ -157,11 +155,11 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
-	 * Returns a primitive array containing all of the elements in {@code this} in proper sequence
-	 * (from first to last element), or {@code null} if {@code this} is empty.
+	 * Returns a primitive array containing all the elements of {@code this} in the same order, or
+	 * {@code null} if {@code this} is empty.
 	 * <p>
-	 * @return a primitive array containing all of the elements in {@code this} in proper sequence
-	 *         (from first to last element), or {@code null} if {@code this} is empty
+	 * @return a primitive array containing all the elements of {@code this} in the same order, or
+	 *         {@code null} if {@code this} is empty
 	 *
 	 * @see LinkedList#toArray(Object[])
 	 */
