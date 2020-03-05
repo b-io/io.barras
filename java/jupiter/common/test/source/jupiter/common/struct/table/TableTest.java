@@ -40,6 +40,21 @@ public class TableTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Test of shift method, of class Table.
+	 */
+	public void testShift() {
+		IO.test(BULLET, " shift");
+
+		final Table<Object> table = new Table<Object>();
+		final Table<Object> shiftedTable = table.clone();
+		shiftedTable.shift(-1, -2);
+		assertEquals(table, shiftedTable);
+		shiftedTable.resize(1, 2);
+		shiftedTable.shift(-1, -2);
+		assertEquals(table, shiftedTable);
+	}
+
+	/**
 	 * Test of transpose method, of class Table.
 	 */
 	public void testTranspose() {

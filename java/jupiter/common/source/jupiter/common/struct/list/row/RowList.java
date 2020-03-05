@@ -150,26 +150,24 @@ public class RowList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element {@link Class} of the specified column, or {@code null} if it is empty or
-	 * contains only {@code null} elements.
+	 * Returns the element {@link Class} of the specified column.
 	 * <p>
 	 * @param j the column index
 	 * <p>
-	 * @return the element {@link Class} of the specified column, or {@code null} if it is empty or
-	 *         contains only {@code null} elements
+	 * @return the element {@link Class} of the specified column
 	 */
 	public Class<?> getColumnClass(final int j) {
 		// Check the arguments
 		if (isEmpty()) {
-			return null;
+			return Object.class;
 		}
 
-		// Get the element class of the column (common ancestor of the classes)
+		// Get the element class of the column (common ancestor of the element classes)
 		Class<?> c = Classes.get(get(0).elements[j]);
 		for (int i = 1; i < size(); ++i) {
 			c = Classes.getCommonAncestor(c, Classes.get(get(i).elements[j]));
 		}
-		return c;
+		return c != null ? c : Object.class;
 	}
 
 	/**
@@ -329,12 +327,14 @@ public class RowList
 		// • from
 		ArrayArguments.requireIndex(fromColumn, header.length);
 		// • length
-		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, header.length - fromColumn);
+		IntegerArguments.requireNonNegative(length);
+
+		// Initialize
+		final int l = Math.min(length, header.length - fromColumn);
 
 		// Get the corresponding row
-		final Object[] row = new Object[length];
-		System.arraycopy(get(i).elements, fromColumn, row, 0, length);
+		final Object[] row = new Object[l];
+		System.arraycopy(get(i).elements, fromColumn, row, 0, l);
 		return row;
 	}
 
@@ -435,12 +435,14 @@ public class RowList
 		// • from
 		ArrayArguments.requireIndex(fromRow, size());
 		// • length
-		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, size() - fromRow);
+		IntegerArguments.requireNonNegative(length);
+
+		// Initialize
+		final int l = Math.min(length, size() - fromRow);
 
 		// Get the corresponding column
-		final Object[] column = createArray(j, length);
-		for (int i = 0; i < column.length; ++i) {
+		final Object[] column = createArray(j, l);
+		for (int i = 0; i < l; ++i) {
 			column[i] = get(fromRow + i).elements[j];
 		}
 		return column;

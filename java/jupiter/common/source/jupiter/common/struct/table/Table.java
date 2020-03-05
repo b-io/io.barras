@@ -49,6 +49,7 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -108,6 +109,22 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Constructs an empty {@link Table} by default.
+	 */
+	public Table() {
+		this((Class<E>) Object.class);
+	}
+
+	/**
+	 * Constructs an empty {@link Table} of {@code E} element type.
+	 * <p>
+	 * @param c the {@link Class} of {@code E} element type
+	 */
+	public Table(final Class<E> c) {
+		this(c, 0, 0);
+	}
+
+	/**
 	 * Constructs a {@link Table} of {@code E} element type with the specified numbers of rows and
 	 * columns.
 	 * <p>
@@ -116,17 +133,7 @@ public class Table<E>
 	 * @param columnCount the number of columns
 	 */
 	public Table(final Class<E> c, final int rowCount, final int columnCount) {
-		// Check the arguments
-		Arguments.requireNonNull(c, "class");
-		IntegerArguments.requirePositive(rowCount);
-		IntegerArguments.requirePositive(columnCount);
-
-		// Set the attributes
-		this.c = c;
-		m = rowCount;
-		n = columnCount;
-		createHeader(columnCount);
-		elements = createArray2D(rowCount, columnCount);
+		this(c, createHeader(columnCount), rowCount, columnCount);
 	}
 
 	/**
@@ -145,8 +152,8 @@ public class Table<E>
 		if (header != null) {
 			ArrayArguments.requireLength(header.length, columnCount);
 		}
-		IntegerArguments.requirePositive(rowCount);
-		IntegerArguments.requirePositive(columnCount);
+		IntegerArguments.requireNonNegative(rowCount);
+		IntegerArguments.requireNonNegative(columnCount);
 
 		// Set the attributes
 		this.c = c;
@@ -177,7 +184,7 @@ public class Table<E>
 		} else {
 			n = 0;
 		}
-		createHeader(n);
+		header = createHeader(n);
 		this.elements = elements;
 	}
 
@@ -238,6 +245,26 @@ public class Table<E>
 	 */
 	public Class<E> getElementClass() {
 		return c;
+	}
+
+	/**
+	 * Returns the element {@link Class} of the specified column.
+	 * <p>
+	 * @param j the column index
+	 * <p>
+	 * @return the element {@link Class} of the specified column
+	 */
+	public Class<?> getColumnClass(final int j) {
+		// Check the arguments
+		// • j
+		ArrayArguments.requireIndex(j, n);
+
+		// Get the corresponding column class
+		Class<?> columnClass = c;
+		for (int i = 0; i < m; ++i) {
+			columnClass = Classes.getCommonAncestor(columnClass, Classes.get(elements[i][j]));
+		}
+		return columnClass;
 	}
 
 	/**
@@ -411,12 +438,14 @@ public class Table<E>
 		// • from
 		ArrayArguments.requireIndex(fromColumn, n);
 		// • length
-		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, n - fromColumn);
+		IntegerArguments.requireNonNegative(length);
+
+		// Initialize
+		final int l = Math.min(length, n - fromColumn);
 
 		// Get the corresponding row
-		final E[] row = createArray(length);
-		System.arraycopy(elements[i], fromColumn, row, 0, length);
+		final E[] row = createArray(l);
+		System.arraycopy(elements[i], fromColumn, row, 0, l);
 		return row;
 	}
 
@@ -517,12 +546,14 @@ public class Table<E>
 		// • from
 		ArrayArguments.requireIndex(fromRow, m);
 		// • length
-		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, m - fromRow);
+		IntegerArguments.requireNonNegative(length);
+
+		// Initialize
+		final int l = Math.min(length, m - fromRow);
 
 		// Get the corresponding column
-		final E[] column = createArray(length);
-		for (int i = 0; i < column.length; ++i) {
+		final E[] column = createArray(j, l);
+		for (int i = 0; i < l; ++i) {
 			column[i] = elements[fromRow + i][j];
 		}
 		return column;
@@ -631,11 +662,13 @@ public class Table<E>
 		// • from
 		ArrayArguments.requireIndex(fromColumn, n);
 		// • length
-		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, n - fromColumn);
+		IntegerArguments.requireNonNegative(length);
+
+		// Initialize
+		final int l = Math.min(length, n - fromColumn);
 
 		// Set the corresponding row
-		System.arraycopy(values, 0, elements[i], fromColumn, length);
+		System.arraycopy(values, 0, elements[i], fromColumn, l);
 	}
 
 	/**
@@ -698,11 +731,13 @@ public class Table<E>
 		// • from
 		ArrayArguments.requireIndex(fromRow, m);
 		// • length
-		IntegerArguments.requirePositive(length);
-		IntegerArguments.requireLessOrEqualTo(length, m - fromRow);
+		IntegerArguments.requireNonNegative(length);
+
+		// Initialize
+		final int l = Math.min(length, m - fromRow);
 
 		// Set the corresponding column
-		for (int i = 0; i < length; ++i) {
+		for (int i = 0; i < l; ++i) {
 			elements[i][j] = values[fromRow + i];
 		}
 	}
@@ -782,6 +817,21 @@ public class Table<E>
 	}
 
 	/**
+	 * Creates an array of the element {@link Class} of the specified column of the specified
+	 * length.
+	 * <p>
+	 * @param j      the column index
+	 * @param length the length of the array to create
+	 * <p>
+	 * @return an array of the element {@link Class} of the specified column of the specified length
+	 */
+	protected E[] createArray(final int j, final int length) {
+		return (E[]) Arrays.create(getColumnClass(j), length);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Creates a 2D {@code E} array of the specified row and column lengths.
 	 * <p>
 	 * @param rowCount    the number of rows of the array to create
@@ -799,12 +849,15 @@ public class Table<E>
 	 * Creates a header of the specified length.
 	 * <p>
 	 * @param length the length of the header
+	 * <p>
+	 * @return a header of the specified length
 	 */
-	protected void createHeader(final int length) {
-		header = new String[length];
+	protected static String[] createHeader(final int length) {
+		final String[] header = new String[length];
 		for (int i = 1; i <= length; ++i) {
 			header[i - 1] = Strings.toString(i);
 		}
+		return header;
 	}
 
 
@@ -919,8 +972,8 @@ public class Table<E>
 	 */
 	public void resize(final int rowCount, final int columnCount) {
 		// Check the arguments
-		IntegerArguments.requirePositive(rowCount);
-		IntegerArguments.requirePositive(columnCount);
+		IntegerArguments.requireNonNegative(rowCount);
+		IntegerArguments.requireNonNegative(columnCount);
 
 		// Test whether the row or column length is different
 		if (m != rowCount || n != columnCount) {
@@ -974,13 +1027,8 @@ public class Table<E>
 		// Test whether the row or column offset is non-zero
 		if (rowOffset != 0 || columnOffset != 0) {
 			// Initialize
-			final int rowCount = rowOffset + m;
-			final int columnCount = columnOffset + n;
-
-			// Verify the feasibility
-			if (rowCount <= 0 || columnCount <= 0) {
-				throw new IllegalOperationException("The table cannot be empty");
-			}
+			final int rowCount = Math.max(0, rowOffset + m);
+			final int columnCount = Math.max(0, columnOffset + n);
 
 			// Shift the header
 			if (n != columnCount) {
@@ -1022,7 +1070,7 @@ public class Table<E>
 	 * Transposes {@code this}.
 	 */
 	public void transpose() {
-		createHeader(m);
+		header = createHeader(m);
 		elements = Arrays.<E>transpose(c, elements);
 		n = m;
 		m = elements.length;
@@ -1170,6 +1218,29 @@ public class Table<E>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is empty.
+	 * <p>
+	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
+	 */
+	public boolean isEmpty() {
+		return m == 0 || n == 0;
+	}
+
+	/**
+	 * Tests whether {@code this} is non-empty.
+	 * <p>
+	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
+	 */
+	public boolean isNonEmpty() {
+		return m > 0 && n > 0;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ITERABLE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1219,11 +1290,6 @@ public class Table<E>
 
 		public void remove() {
 			if (cursor > 0) {
-				// Verify the feasibility
-				if (m == 1) {
-					throw new IllegalOperationException("The table cannot be empty");
-				}
-
 				// Remove the element pointed by the cursor
 				final E[][] resizedTable = createArray2D(m - 1, n);
 				final int rowIndex = cursor - 1;

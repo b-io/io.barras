@@ -56,12 +56,14 @@ public class Classes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the common ancestor {@link Class} of the specified classes.
+	 * Returns the common ancestor {@link Class} of the specified classes, or {@code null} if both
+	 * of them are {@code null}.
 	 * <p>
 	 * @param c1 a {@link Class} (may be {@code null})
 	 * @param c2 a {@link Class} (may be {@code null})
 	 * <p>
-	 * @return the common ancestor {@link Class} of the specified classes
+	 * @return the common ancestor {@link Class} of the specified classes, or {@code null} if both
+	 *         of them are {@code null}
 	 */
 	public static Class<?> getCommonAncestor(final Class<?> c1, final Class<?> c2) {
 		// Check the arguments
@@ -82,19 +84,21 @@ public class Classes {
 		Class<?> ancestor = c1;
 		do {
 			ancestor = ancestor.getSuperclass();
-			if (ancestor == null || Object.class == ancestor) {
-				return null;
+			if (ancestor == null || ancestor == Object.class) {
+				return Object.class;
 			}
 		} while (!ancestor.isAssignableFrom(c2));
 		return ancestor;
 	}
 
 	/**
-	 * Returns the common ancestor {@link Class} of the specified classes.
+	 * Returns the common ancestor {@link Class} of the specified classes, or {@code null} if all of
+	 * them are {@code null}.
 	 * <p>
 	 * @param classes an array of {@link Class} (may be {@code null})
 	 * <p>
-	 * @return the common ancestor {@link Class} of the specified classes
+	 * @return the common ancestor {@link Class} of the specified classes, or {@code null} if all of
+	 *         them are {@code null}
 	 */
 	public static Class<?> getCommonAncestor(final Class<?>... classes) {
 		// Check the arguments

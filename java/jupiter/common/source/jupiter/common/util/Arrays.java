@@ -85,26 +85,24 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the element {@link Class} of the specified array, or {@code null} if it is empty or
-	 * contains only {@code null} elements.
+	 * Returns the element {@link Class} of the specified array.
 	 * <p>
 	 * @param array an array of {@link Object} (may be {@code null})
 	 * <p>
-	 * @return the element {@link Class} of the specified array, or {@code null} if it is empty or
-	 *         contains only {@code null} elements
+	 * @return the element {@link Class} of the specified array
 	 */
 	public static Class<?> getElementClass(final Object... array) {
 		// Check the arguments
 		if (isNullOrEmpty(array)) {
-			return null;
+			return Object.class;
 		}
 
-		// Get the element class of the array (common ancestor of the classes)
+		// Get the element class of the array (common ancestor of the element classes)
 		Class<?> c = Classes.get(array[0]);
 		for (int i = 1; i < array.length; ++i) {
 			c = Classes.getCommonAncestor(c, Classes.get(array[i]));
 		}
-		return c;
+		return c != null ? c : Object.class;
 	}
 
 
