@@ -315,7 +315,7 @@ public class Strings {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<String> asList(final T... array) {
 		return toList(array);
 	}
@@ -340,7 +340,7 @@ public class Strings {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<String> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -395,7 +395,7 @@ public class Strings {
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<String> asSet(final T... array) {
 		return toSet(array);
 	}

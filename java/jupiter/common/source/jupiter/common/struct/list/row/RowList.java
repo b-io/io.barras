@@ -28,17 +28,21 @@ import java.util.Collection;
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.table.ITable;
+import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Classes;
+import jupiter.common.util.Lists;
 import jupiter.common.util.Strings;
 
 /**
  * {@link RowList} extends {@link ExtendedList} of {@link Row}.
  */
 public class RowList
-		extends ExtendedList<Row> {
+		extends ExtendedList<Row>
+		implements ITable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -77,13 +81,7 @@ public class RowList
 	 * @param header an array of {@link String}
 	 */
 	public RowList(final String[] header) {
-		super();
-
-		// Check the arguments
-		ArrayArguments.requireNonNull(header);
-
-		// Set the header
-		this.header = header;
+		this(header, Lists.DEFAULT_CAPACITY);
 	}
 
 	/**
@@ -107,6 +105,17 @@ public class RowList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Constructs a {@link RowList} with the specified elements.
+	 * <p>
+	 * @param elements an array of {@link Row}
+	 * <p>
+	 * @throws NullPointerException if {@code elements} is {@code null}
+	 */
+	public RowList(final Row... elements) {
+		this(createHeader(Arguments.requireNonNull(elements, "elements").length), elements);
+	}
+
+	/**
 	 * Constructs a {@link RowList} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
@@ -114,7 +123,6 @@ public class RowList
 	 * <p>
 	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
-	@SuppressWarnings("unchecked")
 	public RowList(final String[] header, final Row... elements) {
 		super(elements);
 
@@ -123,6 +131,19 @@ public class RowList
 
 		// Set the header
 		this.header = header;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link RowList} with the specified elements in a {@link Collection}.
+	 * <p>
+	 * @param elements a {@link Collection} of element subtype of {@link Row}
+	 * <p>
+	 * @throws NullPointerException if {@code elements} is {@code null}
+	 */
+	public RowList(final Collection<? extends Row> elements) {
+		this(createHeader(Arguments.requireNonNull(elements, "elements").size()), elements);
 	}
 
 	/**
@@ -161,8 +182,9 @@ public class RowList
 		if (isEmpty()) {
 			return Object.class;
 		}
+		ArrayArguments.requireIndex(j, header.length);
 
-		// Get the element class of the column (common ancestor of the element classes)
+		// Get the corresponding column class (common ancestor of the column element classes)
 		Class<?> c = Classes.get(get(0).elements[j]);
 		for (int i = 1; i < size(); ++i) {
 			c = Classes.getCommonAncestor(c, Classes.get(get(i).elements[j]));
@@ -464,6 +486,37 @@ public class RowList
 	 */
 	protected Object[] createArray(final int j, final int length) {
 		return Arrays.create(getColumnClass(j), length);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a header of the specified length.
+	 * <p>
+	 * @param length the length of the header
+	 * <p>
+	 * @return a header of the specified length
+	 */
+	protected static String[] createHeader(final int length) {
+		final String[] header = new String[length];
+		for (int i = 1; i <= length; ++i) {
+			header[i - 1] = Strings.toString(i);
+		}
+		return header;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is non-empty.
+	 * <p>
+	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
+	 */
+	public boolean isNonEmpty() {
+		return !isEmpty();
 	}
 
 

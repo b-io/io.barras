@@ -159,7 +159,7 @@ public class Index<T>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public Index<T> clone() {
 		try {
 			final Index<T> clone = (Index<T>) super.clone();
@@ -205,7 +205,6 @@ public class Index<T>
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, index, token);
 	}

@@ -185,7 +185,7 @@ public class Shorts {
 	 * <p>
 	 * @return a {@code short} array from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> short[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -210,7 +210,7 @@ public class Shorts {
 	 * <p>
 	 * @return a {@code short} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> short[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -235,7 +235,7 @@ public class Shorts {
 	 * <p>
 	 * @return a {@code short} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> short[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -262,7 +262,7 @@ public class Shorts {
 	 * <p>
 	 * @return a 2D {@code short} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> short[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
@@ -289,7 +289,7 @@ public class Shorts {
 	 * <p>
 	 * @return a 3D {@code short} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> short[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
@@ -476,7 +476,7 @@ public class Shorts {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Short> asList(final T... array) {
 		return toList(array);
 	}
@@ -501,7 +501,7 @@ public class Shorts {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Short> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -579,7 +579,7 @@ public class Shorts {
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<Short> asSet(final T... array) {
 		return toSet(array);
 	}
@@ -1611,7 +1611,6 @@ public class Shorts {
 	 * <p>
 	 * @return the hash code value for the specified {@code short} array at the specified depth
 	 */
-	@SuppressWarnings("unchecked")
 	public static int hashCodeWith(final int depth, final short... array) {
 		if (array == null) {
 			return 0;

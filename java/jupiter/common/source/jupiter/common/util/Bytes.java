@@ -377,7 +377,7 @@ public class Bytes {
 	 * <p>
 	 * @return a {@code byte} array from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -402,7 +402,7 @@ public class Bytes {
 	 * <p>
 	 * @return a {@code byte} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -427,7 +427,7 @@ public class Bytes {
 	 * <p>
 	 * @return a {@code byte} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -454,7 +454,7 @@ public class Bytes {
 	 * <p>
 	 * @return a 2D {@code byte} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
@@ -481,7 +481,7 @@ public class Bytes {
 	 * <p>
 	 * @return a 3D {@code byte} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
@@ -666,7 +666,7 @@ public class Bytes {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Byte> asList(final T... array) {
 		return toList(array);
 	}
@@ -691,7 +691,7 @@ public class Bytes {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Byte> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -769,7 +769,7 @@ public class Bytes {
 	 * <p>
 	 * @return a {@link Set} of {@link Byte} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<Byte> asSet(final T... array) {
 		return toSet(array);
 	}
@@ -1852,7 +1852,6 @@ public class Bytes {
 	 * <p>
 	 * @return the hash code value for the specified {@code byte} array at the specified depth
 	 */
-	@SuppressWarnings("unchecked")
 	public static int hashCodeWith(final int depth, final byte... array) {
 		if (array == null) {
 			return 0;

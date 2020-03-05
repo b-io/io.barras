@@ -647,7 +647,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * <p>
 	 * @return a representative {@link String} of the specified {@code N} node
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public String toString(final int toHeight, final int nodeLength, final boolean center) {
 		// Initialize
 		final int leafCount = Maths.pow2(toHeight - 1);

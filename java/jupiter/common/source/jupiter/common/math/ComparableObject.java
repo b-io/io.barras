@@ -187,7 +187,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public ComparableObject<T> clone() {
 		try {
 			return (ComparableObject<T>) super.clone();
@@ -211,7 +211,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * @see #hashCode()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;

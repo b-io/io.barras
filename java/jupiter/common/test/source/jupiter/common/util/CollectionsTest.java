@@ -54,7 +54,7 @@ public class CollectionsTest
 	public void testGetElementClass() {
 		IO.test(BULLET, " getElementClass");
 
-		assertEquals(null, Collections.getElementClass(EMPTY_COLLECTION));
+		assertEquals(Object.class, Collections.getElementClass(EMPTY_COLLECTION));
 		assertEquals(Number.class, Collections.getElementClass(NUMBER_COLLECTION));
 		assertEquals(String.class, Collections.getElementClass(STRING_COLLECTION));
 	}

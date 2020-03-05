@@ -173,7 +173,7 @@ public class Result<O>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public Result<O> clone() {
 		try {
 			final Result<O> clone = (Result<O>) super.clone();

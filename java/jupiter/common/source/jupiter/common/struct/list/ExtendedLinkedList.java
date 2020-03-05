@@ -71,7 +71,7 @@ public class ExtendedLinkedList<E>
 	 * <p>
 	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public ExtendedLinkedList(final E... elements) {
 		addAll(elements);
 	}
@@ -280,7 +280,7 @@ public class ExtendedLinkedList<E>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public ExtendedLinkedList<E> clone() {
 		return (ExtendedLinkedList<E>) super.clone();
 	}

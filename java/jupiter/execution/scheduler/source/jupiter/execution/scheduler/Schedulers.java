@@ -63,7 +63,7 @@ public class Schedulers {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static Scheduler createScheduler(final String group, final String cronExpression,
 			final String timeZone, final Class<? extends Job>... jobClasses)
 			throws SchedulerException {

@@ -202,7 +202,7 @@ public class Quadruple<T1, T2, T3, T4>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public Quadruple<T1, T2, T3, T4> clone() {
 		try {
 			final Quadruple<T1, T2, T3, T4> clone = (Quadruple<T1, T2, T3, T4>) super.clone();

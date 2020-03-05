@@ -227,7 +227,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public Quintuple<T1, T2, T3, T4, T5> clone() {
 		try {
 			final Quintuple<T1, T2, T3, T4, T5> clone = (Quintuple<T1, T2, T3, T4, T5>) super.clone();

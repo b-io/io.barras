@@ -138,7 +138,6 @@ public class IOStreamWriter
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, printer, isError);
 	}

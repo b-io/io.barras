@@ -154,7 +154,7 @@ public class Floats {
 	 * <p>
 	 * @return a {@code float} array from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -179,7 +179,7 @@ public class Floats {
 	 * <p>
 	 * @return a {@code float} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -204,7 +204,7 @@ public class Floats {
 	 * <p>
 	 * @return a {@code float} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -231,7 +231,7 @@ public class Floats {
 	 * <p>
 	 * @return a 2D {@code float} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
@@ -258,7 +258,7 @@ public class Floats {
 	 * <p>
 	 * @return a 3D {@code float} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
@@ -445,7 +445,7 @@ public class Floats {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Float> asList(final T... array) {
 		return toList(array);
 	}
@@ -470,7 +470,7 @@ public class Floats {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Float> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -548,7 +548,7 @@ public class Floats {
 	 * <p>
 	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<Float> asSet(final T... array) {
 		return toSet(array);
 	}
@@ -1625,7 +1625,6 @@ public class Floats {
 	 * <p>
 	 * @return the hash code value for the specified {@code float} array at the specified depth
 	 */
-	@SuppressWarnings("unchecked")
 	public static int hashCodeWith(final int depth, final float... array) {
 		if (array == null) {
 			return 0;

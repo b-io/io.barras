@@ -83,7 +83,7 @@ public class ExtendedList<E>
 	 * <p>
 	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public ExtendedList(final E... elements) {
 		super(Arguments.requireNonNull(elements, "elements").length);
 		addAll(elements);
@@ -321,7 +321,7 @@ public class ExtendedList<E>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public ExtendedList<E> clone() {
 		return (ExtendedList<E>) super.clone();
 	}

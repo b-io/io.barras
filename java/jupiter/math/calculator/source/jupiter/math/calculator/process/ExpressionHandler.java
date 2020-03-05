@@ -73,14 +73,14 @@ public class ExpressionHandler
 	/**
 	 * The {@link List} of binary operators.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final List<List<Character>> BINARY_FUNCTIONS = Arrays.<List<Character>>asList(
 			Arrays.<Character>asList('+', '-'), Arrays.<Character>asList('*', '/'),
 			Arrays.<Character>asList('^'), Arrays.<Character>asList('~'));
 	/**
 	 * The {@link List} of unary operators.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final List<List<Character>> UNARY_FUNCTIONS = Arrays.<List<Character>>asList(
 			Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
 

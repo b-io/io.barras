@@ -159,7 +159,7 @@ public class Matrix
 	 */
 	protected Dimensions size;
 	/**
-	 * The elements in a {@code double} array.
+	 * The elements.
 	 */
 	protected double[] elements;
 
@@ -354,7 +354,7 @@ public class Matrix
 	 * Constructs a {@link Matrix} with the specified number of rows and elements.
 	 * <p>
 	 * @param rowCount the number of rows
-	 * @param elements the elements in a {@code double} array
+	 * @param elements a {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if the {@code elements} length is not a multiple of
 	 *                                  {@code rowCount}
@@ -2710,7 +2710,6 @@ public class Matrix
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		int hashCode = Longs.hashCode(serialVersionUID);
 		for (int i = 0; i < m; ++i) {

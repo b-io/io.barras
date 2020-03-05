@@ -71,7 +71,7 @@ public class ChartPanels {
 	 * @return the closest {@link ChartEntity} to the specified mouse event in the specified chart
 	 *         panel
 	 */
-	@SuppressWarnings({"deprecation", "unchecked"})
+	@SuppressWarnings({"conversion", "deprecation", "unchecked"})
 	public static ChartEntity getEntity(final ChartPanel chartPanel,
 			final ChartMouseEvent mouseEvent) {
 		ChartEntity entity = mouseEvent.getEntity();

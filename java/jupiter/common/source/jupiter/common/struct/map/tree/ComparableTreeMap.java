@@ -201,7 +201,7 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	protected N getNode(final Object key) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");

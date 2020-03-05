@@ -84,7 +84,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	 * @return the height
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public int getHeight() {
 		// Initialize
 		final ExtendedLinkedList<Pair<Integer, ComparableRedBlackTreeNode<K, V>>> nodes = new ExtendedLinkedList<Pair<Integer, ComparableRedBlackTreeNode<K, V>>>(

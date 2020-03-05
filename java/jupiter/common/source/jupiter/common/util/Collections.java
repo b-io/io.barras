@@ -74,7 +74,7 @@ public class Collections {
 	 */
 	public static Class<?> getElementClass(final Collection<?> collection) {
 		// Check the arguments
-		if (Collections.isNullOrEmpty(collection)) {
+		if (isNullOrEmpty(collection)) {
 			return Object.class;
 		}
 
@@ -107,7 +107,7 @@ public class Collections {
 	 *
 	 * @see Collection#toArray(Object[])
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <E> E[] toArray(final Collection<E> collection) {
 		final Class<?> c = getElementClass(collection);
 		if (c == null) {

@@ -59,7 +59,7 @@ import jupiter.common.util.Strings;
  * @param <E> the element type of the {@link Table}
  */
 public class Table<E>
-		implements ICloneable<Table<E>>, Iterable<E[]>, Serializable {
+		implements ICloneable<Table<E>>, Iterable<E[]>, ITable, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -111,6 +111,7 @@ public class Table<E>
 	/**
 	 * Constructs an empty {@link Table} by default.
 	 */
+	@SuppressWarnings({"cast", "unchecked"})
 	public Table() {
 		this((Class<E>) Object.class);
 	}
@@ -256,10 +257,9 @@ public class Table<E>
 	 */
 	public Class<?> getColumnClass(final int j) {
 		// Check the arguments
-		// • j
 		ArrayArguments.requireIndex(j, n);
 
-		// Get the corresponding column class
+		// Get the corresponding column class (common ancestor of the column element classes)
 		Class<?> columnClass = c;
 		for (int i = 0; i < m; ++i) {
 			columnClass = Classes.getCommonAncestor(columnClass, Classes.get(elements[i][j]));
@@ -825,6 +825,7 @@ public class Table<E>
 	 * <p>
 	 * @return an array of the element {@link Class} of the specified column of the specified length
 	 */
+	@SuppressWarnings({"cast", "unchecked"})
 	protected E[] createArray(final int j, final int length) {
 		return (E[]) Arrays.create(getColumnClass(j), length);
 	}
@@ -1324,7 +1325,7 @@ public class Table<E>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public Table<E> clone() {
 		try {
 			final Table<E> clone = (Table<E>) super.clone();
@@ -1352,7 +1353,6 @@ public class Table<E>
 	 * @see #hashCode()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;

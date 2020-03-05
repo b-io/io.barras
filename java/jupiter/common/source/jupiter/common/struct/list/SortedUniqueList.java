@@ -66,7 +66,7 @@ public class SortedUniqueList<E extends Comparable<E>>
 	 * <p>
 	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public SortedUniqueList(final E... elements) {
 		super(elements);
 	}
@@ -118,7 +118,6 @@ public class SortedUniqueList<E extends Comparable<E>>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public SortedUniqueList<E> clone() {
 		return (SortedUniqueList<E>) super.clone();
 	}

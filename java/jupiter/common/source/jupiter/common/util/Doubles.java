@@ -138,7 +138,7 @@ public class Doubles {
 	 * <p>
 	 * @return a {@code double} array from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -163,7 +163,7 @@ public class Doubles {
 	 * <p>
 	 * @return a {@code double} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -188,7 +188,7 @@ public class Doubles {
 	 * <p>
 	 * @return a {@code double} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -215,7 +215,7 @@ public class Doubles {
 	 * <p>
 	 * @return a 2D {@code double} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
@@ -242,7 +242,7 @@ public class Doubles {
 	 * <p>
 	 * @return a 3D {@code double} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
@@ -431,7 +431,7 @@ public class Doubles {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Double} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Double> asList(final T... array) {
 		return toList(array);
 	}
@@ -456,7 +456,7 @@ public class Doubles {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Double> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -535,7 +535,7 @@ public class Doubles {
 	 * <p>
 	 * @return a {@link Set} of {@link Double} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<Double> asSet(final T... array) {
 		return toSet(array);
 	}
@@ -1612,7 +1612,6 @@ public class Doubles {
 	 * <p>
 	 * @return the hash code value for the specified {@code double} array at the specified depth
 	 */
-	@SuppressWarnings("unchecked")
 	public static int hashCodeWith(final int depth, final double... array) {
 		if (array == null) {
 			return 0;

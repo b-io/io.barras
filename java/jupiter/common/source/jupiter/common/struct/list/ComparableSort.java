@@ -437,7 +437,7 @@ public class ComparableSort
 	 * <p>
 	 * @param i the stack index of the first of the two runs to merge
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	protected void mergeAt(final int i) {
 		assert stackSize >= 2;
 		assert i >= 0;
@@ -936,6 +936,7 @@ outer:  while (true) {
 	 * <p>
 	 * @return {@code tempArray}, whether or not it grew
 	 */
+	@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 	protected Object[] ensureCapacity(final int minCapacity) {
 		if (tempArrayLength < minCapacity) {
 			// Compute the smallest power of 2 > minCapacity
@@ -954,7 +955,6 @@ outer:  while (true) {
 				newSize = Math.min(newSize, array.length >>> 1);
 			}
 
-			@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 			final Object[] newArray = new Object[newSize];
 			tempArray = newArray;
 			tempArrayLength = newSize;

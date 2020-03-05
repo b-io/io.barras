@@ -178,7 +178,7 @@ public class Triple<T1, T2, T3>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public Triple<T1, T2, T3> clone() {
 		try {
 			final Triple<T1, T2, T3> clone = (Triple<T1, T2, T3>) super.clone();

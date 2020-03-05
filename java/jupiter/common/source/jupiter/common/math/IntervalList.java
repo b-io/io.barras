@@ -167,7 +167,7 @@ public class IntervalList<T extends Comparable<? super T>>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public IntervalList<T> clone() {
 		try {
 			return (IntervalList<T>) super.clone();
@@ -211,7 +211,6 @@ public class IntervalList<T extends Comparable<? super T>>
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, intervals);
 	}

@@ -156,7 +156,6 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second);
 	}

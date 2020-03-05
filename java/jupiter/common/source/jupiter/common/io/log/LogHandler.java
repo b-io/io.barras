@@ -421,7 +421,6 @@ public class LogHandler
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, logDir, outputLog, outputLineBuilder, errorLog);
 	}

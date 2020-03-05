@@ -109,7 +109,7 @@ public class Booleans {
 	 * <p>
 	 * @return a {@code boolean} array from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -134,7 +134,7 @@ public class Booleans {
 	 * <p>
 	 * @return a {@code boolean} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -159,7 +159,7 @@ public class Booleans {
 	 * <p>
 	 * @return a {@code boolean} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -186,7 +186,7 @@ public class Booleans {
 	 * <p>
 	 * @return a 2D {@code boolean} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
@@ -213,7 +213,7 @@ public class Booleans {
 	 * <p>
 	 * @return a 3D {@code boolean} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
@@ -402,7 +402,7 @@ public class Booleans {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Boolean> asList(final T... array) {
 		return toList(array);
 	}
@@ -427,7 +427,7 @@ public class Booleans {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Boolean> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -507,7 +507,7 @@ public class Booleans {
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<Boolean> asSet(final T... array) {
 		return toSet(array);
 	}
@@ -1241,7 +1241,6 @@ public class Booleans {
 	 * <p>
 	 * @return the hash code value for the specified {@code boolean} array at the specified depth
 	 */
-	@SuppressWarnings("unchecked")
 	public static int hashCodeWith(final int depth, final boolean... array) {
 		if (array == null) {
 			return 0;

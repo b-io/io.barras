@@ -133,7 +133,7 @@ public class Task<I>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public Task<I> clone() {
 		try {
 			final Task<I> clone = (Task<I>) super.clone();

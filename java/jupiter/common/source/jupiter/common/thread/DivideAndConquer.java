@@ -282,7 +282,7 @@ public abstract class DivideAndConquer<I>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public DivideAndConquer<I> clone() {
 		try {
 			return (DivideAndConquer<I>) super.clone();

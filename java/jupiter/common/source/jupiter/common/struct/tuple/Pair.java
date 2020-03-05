@@ -153,7 +153,7 @@ public class Pair<T1, T2>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public Pair<T1, T2> clone() {
 		try {
 			final Pair<T1, T2> clone = (Pair<T1, T2>) super.clone();

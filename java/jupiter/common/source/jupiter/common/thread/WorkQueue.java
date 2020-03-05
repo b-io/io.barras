@@ -523,7 +523,6 @@ public class WorkQueue<I, O>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public WorkQueue<I, O> clone() {
 		return new WorkQueue<I, O>(model, minThreadCount, maxThreadCount);
 	}

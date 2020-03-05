@@ -198,12 +198,11 @@ public class Arrays {
 
 	//////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(final T[] array) {
 		return toArray(getComponentClass(array), array);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] toArray(final Class<?> c, final T[] array) {
 		final T[] output = (T[]) create(c, array.length);
 		System.arraycopy(array, 0, output, 0, array.length);
@@ -212,12 +211,11 @@ public class Arrays {
 
 	//////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
 	public static <T> T[][] toArray2D(final T[][] array2D) {
 		return toArray2D(getComponentClass2D(array2D), array2D);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][] toArray2D(final Class<?> c, final T[][] array2D) {
 		final int rowCount = array2D.length;
 		final int columnCount = array2D[0].length;
@@ -230,12 +228,11 @@ public class Arrays {
 
 	//////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
 	public static <T> T[][][] toArray3D(final T[][][] array3D) {
 		return toArray3D(getComponentClass3D(array3D), array3D);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][][] toArray3D(final Class<?> c, final T[][][] array3D) {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
@@ -258,7 +255,7 @@ public class Arrays {
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<T> asList(final T... array) {
 		return toList(array);
 	}
@@ -271,7 +268,7 @@ public class Arrays {
 		return linkedList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<T> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -286,7 +283,7 @@ public class Arrays {
 		return set;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<T> asSet(final T... array) {
 		return toSet(array);
 	}
@@ -296,12 +293,12 @@ public class Arrays {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] create(final Class<T> c, final int length) {
 		return (T[]) Array.newInstance(c, length);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][] create(final Class<T> c, final int rowCount, final int columnCount) {
 		final T[] array = create(c, columnCount);
 		final T[][] array2D = (T[][]) Array.newInstance(Classes.get(array), rowCount);
@@ -314,7 +311,7 @@ public class Arrays {
 		return array2D;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][][] create(final Class<T> c, final int rowCount, final int columnCount,
 			final int depthCount) {
 		final T[][] array2D = create(c, columnCount, depthCount);
@@ -354,7 +351,7 @@ public class Arrays {
 	 * <p>
 	 * @return a {@code T} array of the specified length with the specified {@code T} element
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] repeat(final T element, final int length) {
 		return fill((T[]) create(Classes.get(element), length), element);
 	}
@@ -643,7 +640,7 @@ public class Arrays {
 	 * @return a {@code T} array containing all the elements of the specified {@code T} array at the
 	 *         specified indexes
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] filter(final T[] array, final int... indexes) {
 		final T[] filteredArray = (T[]) create(getComponentClass(array), indexes.length);
 		for (int i = 0; i < indexes.length; ++i) {
@@ -663,7 +660,7 @@ public class Arrays {
 	 * @return a 2D {@code T} array containing all the elements of the specified {@code T} array at
 	 *         all the specified indexes
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][] filterAll(final T[] array, final int[]... indexes) {
 		final T[][] filteredArrays = (T[][]) create(Classes.get(array), indexes.length);
 		for (int i = 0; i < indexes.length; ++i) {
@@ -686,7 +683,7 @@ public class Arrays {
 	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
 	 *                                  superclass or superinterface of, the type of {@code b}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] merge(final T[] a, final T[] b) {
 		if (a == null) {
 			return b != null ? toArray(b) : null;
@@ -717,7 +714,7 @@ public class Arrays {
 	 *                                  nor is a superclass or superinterface of, the type of any
 	 *                                  other {@code arrays}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked", "varargs"})
 	public static <T> T[] merge(final T[]... arrays) {
 		// Check the arguments
 		if (arrays == null) {
@@ -1054,7 +1051,7 @@ public class Arrays {
 		return take(array, fromIndex, array.length);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] take(final T[] array, final int fromIndex, final int length) {
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final T[] subarray = (T[]) create(getComponentClass(array), maxLength);
@@ -1081,7 +1078,7 @@ public class Arrays {
 		return take(array2D, fromRow, rowCount, fromColumn, array2D[0].length);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] take(final T[][] array2D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
@@ -1125,7 +1122,7 @@ public class Arrays {
 				array3D[0][0].length);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount, final int fromDepth,
 			final int depthCount) {
@@ -1745,7 +1742,7 @@ public class Arrays {
 	 *
 	 * @see ICloneable
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] clone(final T[] array)
 			throws CloneNotSupportedException {
 		// Check the arguments

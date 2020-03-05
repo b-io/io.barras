@@ -356,7 +356,6 @@ public class LockedWorkQueue<I, O>
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public LockedWorkQueue<I, O> clone() {
 		return new LockedWorkQueue<I, O>(model, minThreadCount, maxThreadCount, isFair);
 	}

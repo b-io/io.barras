@@ -617,7 +617,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * <p>
 	 * @return a representative {@link String} of the specified {@code N} node
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public String toString(final int toHeight, final int nodeLength, final boolean center) {
 		// Initialize
 		final int leafCount = Maths.pow2(toHeight - 1);

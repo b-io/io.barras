@@ -164,7 +164,6 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third);
 	}

@@ -190,7 +190,7 @@ public class Characters {
 	 * <p>
 	 * @return a {@code char} array from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -215,7 +215,7 @@ public class Characters {
 	 * <p>
 	 * @return a {@code char} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -240,7 +240,7 @@ public class Characters {
 	 * <p>
 	 * @return a {@code char} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -267,7 +267,7 @@ public class Characters {
 	 * <p>
 	 * @return a 2D {@code char} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
@@ -294,7 +294,7 @@ public class Characters {
 	 * <p>
 	 * @return a 3D {@code char} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
@@ -483,7 +483,7 @@ public class Characters {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Character> asList(final T... array) {
 		return toList(array);
 	}
@@ -510,7 +510,7 @@ public class Characters {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Character> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -590,7 +590,7 @@ public class Characters {
 	 * <p>
 	 * @return a {@link Set} of {@link Character} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<Character> asSet(final T... array) {
 		return toSet(array);
 	}
@@ -1647,7 +1647,6 @@ public class Characters {
 	 * <p>
 	 * @return the hash code value for the specified {@code char} array at the specified depth
 	 */
-	@SuppressWarnings("unchecked")
 	public static int hashCodeWith(final int depth, final char... array) {
 		if (array == null) {
 			return 0;

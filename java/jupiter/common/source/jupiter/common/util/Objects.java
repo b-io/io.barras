@@ -187,7 +187,7 @@ public class Objects {
 	 *
 	 * @see ICloneable
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T clone(final T object)
 			throws CloneNotSupportedException {
 		// Check the arguments
@@ -250,29 +250,25 @@ public class Objects {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the hash code value for the specified {@code T} array.
+	 * Returns the hash code value for the specified array.
 	 * <p>
-	 * @param <T>   the component type of the array to hash
-	 * @param array the {@code T} array to hash (may be {@code null})
+	 * @param array the array of {@link Object} to hash (may be {@code null})
 	 * <p>
-	 * @return the hash code value for the specified {@code T} array
+	 * @return the hash code value for the specified array
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> int hashCode(final T... array) {
+	public static int hashCode(final Object... array) {
 		return hashCodeWith(0, array);
 	}
 
 	/**
-	 * Returns the hash code value for the specified {@code T} array at the specified depth.
+	 * Returns the hash code value for the specified array at the specified depth.
 	 * <p>
-	 * @param <T>   the component type of the array to hash
 	 * @param depth the depth to hash at
-	 * @param array the {@code T} array to hash (may be {@code null})
+	 * @param array the array of {@link Object} to hash (may be {@code null})
 	 * <p>
-	 * @return the hash code value for the specified {@code T} array at the specified depth
+	 * @return the hash code value for the specified array at the specified depth
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> int hashCodeWith(final int depth, final T... array) {
+	public static int hashCodeWith(final int depth, final Object... array) {
 		if (array == null) {
 			return 0;
 		}
@@ -280,7 +276,7 @@ public class Objects {
 			case 0:
 				return Bits.SEEDS[depth % Bits.SEEDS.length];
 			case 1:
-				final T object = array[0];
+				final Object object = array[0];
 				if (object == null) {
 					return Bits.SEEDS[(depth + 1) % Bits.SEEDS.length];
 				}

@@ -137,7 +137,7 @@ public class Sort<T>
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 */
-	@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
+	@SuppressWarnings({"cast", "unchecked", "UnnecessaryLocalVariable"})
 	protected Sort(final T[] array, final Comparator<? super T> comparator, final T[] work,
 			final int workBase, final int workLength) {
 		this.array = array;
@@ -961,7 +961,7 @@ outer:  while (true) {
 	 * <p>
 	 * @return {@code tempArray}, whether or not it grew
 	 */
-	@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
+	@SuppressWarnings({"cast", "unchecked", "UnnecessaryLocalVariable"})
 	protected T[] ensureCapacity(final int minCapacity) {
 		if (tempArrayLength < minCapacity) {
 			// Compute the smallest power of 2 > minCapacity

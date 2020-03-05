@@ -243,7 +243,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@code int} array from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[] asPrimitiveArray(final T... array) {
 		return toPrimitiveArray(array);
 	}
@@ -268,7 +268,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@code int} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[] asPrimitiveArray(final T[]... array2D) {
 		return toPrimitiveArray(array2D);
 	}
@@ -293,7 +293,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@code int} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[] asPrimitiveArray(final T[][]... array3D) {
 		return toPrimitiveArray(array3D);
 	}
@@ -320,7 +320,7 @@ public class Integers {
 	 * <p>
 	 * @return a 2D {@code int} array from the specified 2D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
 	}
@@ -347,7 +347,7 @@ public class Integers {
 	 * <p>
 	 * @return a 3D {@code int} array from the specified 3D {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[][][] asPrimitiveArray3D(final T[][]... array3D) {
 		return toPrimitiveArray3D(array3D);
 	}
@@ -534,7 +534,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Integer> asList(final T... array) {
 		return toList(array);
 	}
@@ -559,7 +559,7 @@ public class Integers {
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Integer> asLinkedList(final T... array) {
 		return toLinkedList(array);
 	}
@@ -639,7 +639,7 @@ public class Integers {
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified {@code T} array
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> Set<Integer> asSet(final T... array) {
 		return toSet(array);
 	}
@@ -1704,7 +1704,6 @@ public class Integers {
 	 * <p>
 	 * @return the hash code value for the specified {@code int} array at the specified depth
 	 */
-	@SuppressWarnings("unchecked")
 	public static int hashCodeWith(final int depth, final int... array) {
 		if (array == null) {
 			return 0;
