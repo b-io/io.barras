@@ -157,7 +157,7 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * <p>
 	 * @return the hash code of {@code this}
 	 *
-	 * @see #equals(Object)
+	 * @see #equals(Comparable)
 	 * @see System#identityHashCode(Object)
 	 */
 	public int hashCode();
