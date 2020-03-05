@@ -160,7 +160,7 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	 * <p>
 	 * @return the hash code of {@code this}
 	 *
-	 * @see Object#equals(Object)
+	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override

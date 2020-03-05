@@ -26,6 +26,8 @@ package jupiter.common.thread;
 import static jupiter.common.io.IO.IO;
 
 import java.io.Serializable;
+import java.lang.ref.PhantomReference;
+import java.lang.ref.WeakReference;
 import java.util.concurrent.Callable;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -210,8 +212,8 @@ public abstract class Worker<I, O>
 	 * <b>Note:</b> This method is called by the garbage collector on an {@link Object} when the
 	 * garbage collection determines that there are no more references to the {@link Object}.
 	 *
-	 * @see java.lang.ref.PhantomReference
-	 * @see java.lang.ref.WeakReference
+	 * @see PhantomReference
+	 * @see WeakReference
 	 */
 	@Override
 	@SuppressWarnings("deprecation")

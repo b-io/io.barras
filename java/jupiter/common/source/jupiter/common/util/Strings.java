@@ -677,6 +677,8 @@ public class Strings {
 	 * <p>
 	 * @return the {@link String} constructed by uncapitalizing all the whitespace-separated words
 	 *         of the specified {@link String}
+	 *
+	 * @see #capitalize(String)
 	 */
 	public static String uncapitalize(final String text) {
 		return uncapitalize(text, SPACE);
@@ -691,6 +693,8 @@ public class Strings {
 	 * <p>
 	 * @return the {@link String} constructed by uncapitalizing all the words of the specified
 	 *         {@link String} separated by the specified {@code char} delimiters
+	 *
+	 * @see #capitalize(String, char[])
 	 */
 	public static String uncapitalize(final String text, final char... delimiters) {
 		// Check the arguments

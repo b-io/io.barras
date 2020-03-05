@@ -28,6 +28,8 @@ import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Formats.NEW_LINE;
 
 import java.io.Serializable;
+import java.lang.ref.PhantomReference;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import jupiter.common.math.Maths;
@@ -354,8 +356,8 @@ public abstract class OpenCL
 	 * <b>Note:</b> This method is called by the garbage collector on an {@link Object} when the
 	 * garbage collection determines that there are no more references to the {@link Object}.
 	 *
-	 * @see java.lang.ref.PhantomReference
-	 * @see java.lang.ref.WeakReference
+	 * @see PhantomReference
+	 * @see WeakReference
 	 */
 	@Override
 	@SuppressWarnings("deprecation")

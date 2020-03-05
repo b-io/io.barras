@@ -250,7 +250,7 @@ public class Quadruple<T1, T2, T3, T4>
 	 * <p>
 	 * @return the hash code of {@code this}
 	 *
-	 * @see Object#equals(Object)
+	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override

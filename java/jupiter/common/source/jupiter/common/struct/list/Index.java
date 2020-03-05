@@ -201,7 +201,7 @@ public class Index<T>
 	 * <p>
 	 * @return the hash code of {@code this}
 	 *
-	 * @see Object#equals(Object)
+	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
 	@Override
