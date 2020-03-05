@@ -43,6 +43,7 @@ import java.util.Map;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.io.file.Files;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Result;
@@ -304,7 +305,7 @@ public class SpeedChecker {
 		 * <p>
 		 * @return a copy of {@code this}
 		 *
-		 * @see jupiter.common.model.ICloneable
+		 * @see ICloneable
 		 */
 		@Override
 		public Checker clone() {

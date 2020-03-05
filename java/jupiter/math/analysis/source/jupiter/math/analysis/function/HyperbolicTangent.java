@@ -23,6 +23,8 @@
  */
 package jupiter.math.analysis.function;
 
+import jupiter.common.model.ICloneable;
+
 /**
  * {@link HyperbolicTangent} is the hyperbolic tangent {@link Function} with return values
  * monotonically increasing from -1 to 1.
@@ -79,7 +81,7 @@ public class HyperbolicTangent
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public HyperbolicTangent clone() {

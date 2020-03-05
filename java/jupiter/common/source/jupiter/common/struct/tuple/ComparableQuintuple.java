@@ -24,6 +24,7 @@
 package jupiter.common.struct.tuple;
 
 import jupiter.common.math.Comparables;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -123,7 +124,7 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ComparableQuintuple<T1, T2, T3, T4, T5> clone() {
@@ -176,7 +177,7 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

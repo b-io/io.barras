@@ -35,6 +35,7 @@ import java.util.Set;
 
 import jupiter.common.math.Comparables;
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Pair;
@@ -590,7 +591,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ComparableBinaryTreeMap<K, V, N> clone();

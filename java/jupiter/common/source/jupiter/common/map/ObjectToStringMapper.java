@@ -23,6 +23,8 @@
  */
 package jupiter.common.map;
 
+import jupiter.common.model.ICloneable;
+
 /**
  * {@link ObjectToStringMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link String}.
@@ -61,7 +63,7 @@ public abstract class ObjectToStringMapper
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ObjectToStringMapper clone();

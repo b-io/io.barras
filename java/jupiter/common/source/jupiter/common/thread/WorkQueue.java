@@ -520,7 +520,7 @@ public class WorkQueue<I, O>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -571,7 +571,7 @@ public class WorkQueue<I, O>
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	public int hashCode() {

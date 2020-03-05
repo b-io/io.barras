@@ -107,7 +107,7 @@ public class Collections {
 	 *         in proper sequence (from first to last element), or an empty array if the specified
 	 *         {@link Collection} is {@code null} or empty
 	 *
-	 * @see Collection#toArray
+	 * @see Collection#toArray(Object[])
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E[] toArray(final Collection<E> collection) {

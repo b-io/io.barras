@@ -23,6 +23,7 @@
  */
 package jupiter.lang.r;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.lang.r.R.RPrinter;
@@ -107,7 +108,7 @@ public class RWorker
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public RWorker clone() {

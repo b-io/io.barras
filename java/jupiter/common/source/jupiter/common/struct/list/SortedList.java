@@ -26,6 +26,7 @@ package jupiter.common.struct.list;
 import java.util.Collection;
 
 import jupiter.common.math.Comparables;
+import jupiter.common.model.ICloneable;
 
 /**
  * {@link SortedList} extends {@link ExtendedLinkedList} of {@code E} element type.
@@ -111,7 +112,7 @@ public class SortedList<E extends Comparable<E>>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

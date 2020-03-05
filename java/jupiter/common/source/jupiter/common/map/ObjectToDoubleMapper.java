@@ -25,6 +25,8 @@ package jupiter.common.map;
 
 import java.util.Collection;
 
+import jupiter.common.model.ICloneable;
+
 /**
  * {@link ObjectToDoubleMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link Double}.
@@ -138,7 +140,7 @@ public abstract class ObjectToDoubleMapper
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ObjectToDoubleMapper clone();

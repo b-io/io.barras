@@ -174,7 +174,7 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	public int hashCode() {

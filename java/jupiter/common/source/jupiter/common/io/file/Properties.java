@@ -27,6 +27,7 @@ import static jupiter.common.io.IO.IO;
 
 import java.io.IOException;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.thread.Threads;
 import jupiter.common.util.Strings;
 
@@ -271,7 +272,7 @@ public class Properties
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Properties clone() {

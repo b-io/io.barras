@@ -25,6 +25,8 @@ package jupiter.common.map;
 
 import java.util.Collection;
 
+import jupiter.common.model.ICloneable;
+
 /**
  * {@link ObjectToByteMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link Byte}.
@@ -138,7 +140,7 @@ public abstract class ObjectToByteMapper
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ObjectToByteMapper clone();

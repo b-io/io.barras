@@ -32,6 +32,7 @@ import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Systems;
 import jupiter.common.math.Comparables;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.thread.Threads;
 import jupiter.common.thread.WorkQueue;
@@ -327,7 +328,7 @@ public class R {
 		 * <p>
 		 * @return a copy of {@code this}
 		 *
-		 * @see jupiter.common.model.ICloneable
+		 * @see ICloneable
 		 */
 		@Override
 		public RPrinter clone() {

@@ -28,6 +28,7 @@ import static jupiter.math.analysis.function.Functions.EXP;
 import static jupiter.math.analysis.function.Functions.LOG;
 import static jupiter.math.analysis.function.Functions.MAX;
 
+import jupiter.common.model.ICloneable;
 import jupiter.learning.supervised.Classifier;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
@@ -119,7 +120,7 @@ public class ActivationSoftmax
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ActivationSoftmax clone() {

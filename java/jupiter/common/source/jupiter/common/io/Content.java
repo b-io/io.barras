@@ -186,7 +186,7 @@ public class Content
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Content clone() {
@@ -231,7 +231,7 @@ public class Content
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

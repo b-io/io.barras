@@ -23,6 +23,7 @@
  */
 package jupiter.common.reduce;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
@@ -126,7 +127,7 @@ public abstract class Reducer<I, O>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract Reducer<I, O> clone();

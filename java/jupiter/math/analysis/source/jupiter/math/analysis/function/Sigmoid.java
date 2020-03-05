@@ -23,6 +23,8 @@
  */
 package jupiter.math.analysis.function;
 
+import jupiter.common.model.ICloneable;
+
 /**
  * {@link Sigmoid} is the logistic {@link Function} with return values monotonically increasing from
  * 0 to 1.
@@ -99,7 +101,7 @@ public class Sigmoid
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Sigmoid clone() {

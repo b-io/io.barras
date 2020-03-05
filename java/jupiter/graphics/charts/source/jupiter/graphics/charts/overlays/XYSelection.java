@@ -302,7 +302,7 @@ public class XYSelection
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public XYSelection clone() {
@@ -355,7 +355,7 @@ public class XYSelection
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	public int hashCode() {

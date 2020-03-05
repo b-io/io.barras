@@ -25,6 +25,7 @@ package jupiter.learning.supervised.function;
 
 import static jupiter.math.analysis.function.Functions.SQUARE;
 
+import jupiter.common.model.ICloneable;
 import jupiter.math.linear.entity.Matrix;
 
 /**
@@ -110,7 +111,7 @@ public class RegularizationL2
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public RegularizationL2 clone() {

@@ -23,6 +23,7 @@
  */
 package jupiter.common.reduce.encoder;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.reduce.Reducer;
 import jupiter.common.util.Objects;
 
@@ -76,7 +77,7 @@ public class Hasher<I>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Hasher<I> clone() {

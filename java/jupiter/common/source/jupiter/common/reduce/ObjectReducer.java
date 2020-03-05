@@ -23,6 +23,8 @@
  */
 package jupiter.common.reduce;
 
+import jupiter.common.model.ICloneable;
+
 /**
  * {@link ObjectReducer} is the {@link Reducer} reducing an input array to an {@code O} output.
  * <p>
@@ -73,7 +75,7 @@ public abstract class ObjectReducer<O>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ObjectReducer<O> clone();

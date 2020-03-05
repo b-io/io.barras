@@ -227,7 +227,7 @@ public class Interval<T extends Comparable<? super T>>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -274,7 +274,7 @@ public class Interval<T extends Comparable<? super T>>
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

@@ -53,6 +53,7 @@ import java.util.zip.ZipOutputStream;
 import jupiter.common.exception.CopyFileException;
 import jupiter.common.io.Content;
 import jupiter.common.io.Resources;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
@@ -1263,7 +1264,7 @@ public class Files {
 		 * <p>
 		 * @return a copy of {@code this}
 		 *
-		 * @see jupiter.common.model.ICloneable
+		 * @see ICloneable
 		 */
 		@Override
 		public Copier clone() {

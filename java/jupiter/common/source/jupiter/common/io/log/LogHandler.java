@@ -32,6 +32,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.file.Files;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -375,7 +376,7 @@ public class LogHandler
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public LogHandler clone() {
@@ -417,7 +418,7 @@ public class LogHandler
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

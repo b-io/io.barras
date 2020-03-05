@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
@@ -133,7 +134,7 @@ public abstract class ChartGraphic
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ChartGraphic clone() {

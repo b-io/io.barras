@@ -23,6 +23,7 @@
  */
 package jupiter.graphics.charts;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -172,7 +173,7 @@ public class ScatterPlotGraphic
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ScatterPlotGraphic clone() {

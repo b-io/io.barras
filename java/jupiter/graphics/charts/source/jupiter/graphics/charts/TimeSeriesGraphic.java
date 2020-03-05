@@ -28,6 +28,7 @@ import static jupiter.common.io.IO.IO;
 import java.text.ParseException;
 import java.util.Date;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.table.StringTable;
 import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
@@ -179,7 +180,7 @@ public class TimeSeriesGraphic
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public TimeSeriesGraphic clone() {

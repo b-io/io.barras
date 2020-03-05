@@ -24,6 +24,7 @@
 package jupiter.transfer.file;
 
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.model.ICloneable;
 
 /**
  * {@link JSONGenerator} is the {@link ObjectToStringMapper} generating a JSON {@link String} from
@@ -73,7 +74,7 @@ public class JSONGenerator
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public JSONGenerator clone() {

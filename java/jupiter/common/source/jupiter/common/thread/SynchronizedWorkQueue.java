@@ -24,6 +24,7 @@
 package jupiter.common.thread;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.model.ICloneable;
 
 public class SynchronizedWorkQueue<I, O>
 		extends WorkQueue<I, O> {
@@ -256,7 +257,7 @@ public class SynchronizedWorkQueue<I, O>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public SynchronizedWorkQueue<I, O> clone() {

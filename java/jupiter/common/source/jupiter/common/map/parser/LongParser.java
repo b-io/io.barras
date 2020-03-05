@@ -26,6 +26,7 @@ package jupiter.common.map.parser;
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.map.ObjectToLongMapper;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -134,7 +135,7 @@ public class LongParser
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public LongParser clone() {

@@ -46,6 +46,7 @@ import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.Table;
@@ -2629,7 +2630,7 @@ public class Matrix
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Matrix clone() {
@@ -2706,7 +2707,7 @@ public class Matrix
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -2865,7 +2866,7 @@ public class Matrix
 		 * <p>
 		 * @return a copy of {@code this}
 		 *
-		 * @see jupiter.common.model.ICloneable
+		 * @see ICloneable
 		 */
 		@Override
 		public Multiplication clone() {

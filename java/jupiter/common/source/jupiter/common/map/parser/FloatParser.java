@@ -26,6 +26,7 @@ package jupiter.common.map.parser;
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.map.ObjectToFloatMapper;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -135,7 +136,7 @@ public class FloatParser
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public FloatParser clone() {

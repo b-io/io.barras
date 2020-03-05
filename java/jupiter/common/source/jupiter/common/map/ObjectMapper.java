@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Arrays;
@@ -115,7 +116,7 @@ public abstract class ObjectMapper<O>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ObjectMapper<O> clone();

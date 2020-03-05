@@ -26,6 +26,7 @@ package jupiter.learning.supervised.function;
 import static jupiter.math.analysis.function.Functions.SQUARE;
 import static jupiter.math.analysis.function.Functions.TANH;
 
+import jupiter.common.model.ICloneable;
 import jupiter.math.analysis.function.HyperbolicTangent;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
@@ -99,7 +100,7 @@ public class ActivationHyperbolicTangent
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ActivationHyperbolicTangent clone() {

@@ -26,6 +26,7 @@ package jupiter.learning.supervised.function;
 import static jupiter.math.analysis.function.Functions.LOG;
 import static jupiter.math.analysis.function.Functions.SIGMOID;
 
+import jupiter.common.model.ICloneable;
 import jupiter.learning.supervised.Classifier;
 import jupiter.math.analysis.function.Sigmoid;
 import jupiter.math.linear.entity.Entity;
@@ -121,7 +122,7 @@ public class ActivationSigmoid
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ActivationSigmoid clone() {

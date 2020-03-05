@@ -26,6 +26,8 @@ package jupiter.media.audio;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.SourceDataLine;
 
+import jupiter.common.model.ICloneable;
+
 public class AudioSourceInterface
 		extends AudioInterface {
 
@@ -93,7 +95,7 @@ public class AudioSourceInterface
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public AudioSourceInterface clone() {

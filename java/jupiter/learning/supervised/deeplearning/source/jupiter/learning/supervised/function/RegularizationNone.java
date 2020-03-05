@@ -23,6 +23,7 @@
  */
 package jupiter.learning.supervised.function;
 
+import jupiter.common.model.ICloneable;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 
@@ -95,7 +96,7 @@ public class RegularizationNone
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public RegularizationNone clone() {

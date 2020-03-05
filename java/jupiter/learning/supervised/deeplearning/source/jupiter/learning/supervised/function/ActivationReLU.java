@@ -25,6 +25,7 @@ package jupiter.learning.supervised.function;
 
 import static jupiter.math.analysis.function.Functions.FILTER;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 import jupiter.math.analysis.function.Filter;
 import jupiter.math.analysis.function.Max;
@@ -124,7 +125,7 @@ public class ActivationReLU
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ActivationReLU clone() {

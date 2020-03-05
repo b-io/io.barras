@@ -24,6 +24,7 @@
 package jupiter.common.map.parser;
 
 import jupiter.common.map.ObjectToCharacterMapper;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
 
 /**
@@ -132,7 +133,7 @@ public class CharacterParser
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public CharacterParser clone() {

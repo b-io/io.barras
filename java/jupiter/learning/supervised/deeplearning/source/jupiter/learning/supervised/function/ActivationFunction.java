@@ -91,7 +91,7 @@ public abstract class ActivationFunction
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ActivationFunction clone() {

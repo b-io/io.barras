@@ -25,6 +25,7 @@ package jupiter.common.io;
 
 import java.util.List;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
@@ -147,7 +148,7 @@ public class IOPrinter
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public IOPrinter clone() {
@@ -186,7 +187,7 @@ public class IOPrinter
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	public int hashCode() {

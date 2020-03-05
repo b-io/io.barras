@@ -23,6 +23,7 @@
  */
 package jupiter.learning.supervised.function;
 
+import jupiter.common.model.ICloneable;
 import jupiter.learning.supervised.Classifier;
 import jupiter.math.linear.entity.Entity;
 
@@ -78,7 +79,7 @@ public abstract class OutputActivationFunction
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public OutputActivationFunction clone() {

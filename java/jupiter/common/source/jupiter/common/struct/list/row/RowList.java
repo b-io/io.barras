@@ -26,6 +26,7 @@ package jupiter.common.struct.list.row;
 import java.util.Collection;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
@@ -473,7 +474,7 @@ public class RowList
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public RowList clone() {

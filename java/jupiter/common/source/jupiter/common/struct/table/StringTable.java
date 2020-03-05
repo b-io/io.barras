@@ -26,6 +26,7 @@ package jupiter.common.struct.table;
 import java.io.IOException;
 
 import jupiter.common.map.parser.IParsers;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.ArrayArguments;
 
 /**
@@ -164,7 +165,7 @@ public class StringTable
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public StringTable clone() {

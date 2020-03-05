@@ -33,6 +33,7 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IOHandler;
 import jupiter.common.io.Message;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -228,7 +229,7 @@ public class ConsoleHandler
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ConsoleHandler clone() {
@@ -267,7 +268,7 @@ public class ConsoleHandler
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

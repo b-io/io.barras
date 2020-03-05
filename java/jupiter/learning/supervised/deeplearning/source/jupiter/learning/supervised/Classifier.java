@@ -519,7 +519,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Classifier clone() {

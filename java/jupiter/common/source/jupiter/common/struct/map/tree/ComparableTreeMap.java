@@ -278,7 +278,7 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ComparableTreeMap<K, V, N> clone();

@@ -24,6 +24,7 @@
 package jupiter.common.struct.tuple;
 
 import jupiter.common.math.Comparables;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -105,7 +106,7 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ComparablePair<T1, T2> clone() {
@@ -152,7 +153,7 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

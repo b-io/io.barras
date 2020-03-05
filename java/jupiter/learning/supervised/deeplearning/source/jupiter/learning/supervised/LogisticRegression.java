@@ -29,6 +29,7 @@ import static jupiter.math.analysis.function.Functions.SIGMOID;
 import java.io.IOException;
 
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -271,7 +272,7 @@ public class LogisticRegression
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public LogisticRegression clone() {

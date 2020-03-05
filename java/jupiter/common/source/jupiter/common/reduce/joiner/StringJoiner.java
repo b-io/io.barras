@@ -23,6 +23,7 @@
  */
 package jupiter.common.reduce.joiner;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.reduce.ObjectReducer;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Strings;
@@ -93,7 +94,7 @@ public class StringJoiner
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public StringJoiner clone() {

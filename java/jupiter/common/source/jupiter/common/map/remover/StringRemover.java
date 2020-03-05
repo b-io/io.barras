@@ -24,6 +24,7 @@
 package jupiter.common.map.remover;
 
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
 
 /**
@@ -101,7 +102,7 @@ public class StringRemover
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public StringRemover clone() {

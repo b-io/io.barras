@@ -34,7 +34,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Locale.Category;
 import java.util.TimeZone;
+
+import jupiter.common.model.ICloneable;
 
 public class SafeDateFormat
 		extends SimpleDateFormat {
@@ -71,7 +74,7 @@ public class SafeDateFormat
 	 * This is equivalent to calling the constructor {@link #SafeDateFormat(String, Locale)
 	 * SafeDateFormat(pattern, Locale.getDefault(Category.FORMAT))}.
 	 *
-	 * @see Locale#getDefault
+	 * @see Locale#getDefault(Category)
 	 * <p>
 	 * @param pattern the pattern {@link String} describing the date-time format
 	 * <p>
@@ -125,7 +128,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @since 1.2
 	 *
-	 * @see #set2DigitYearStart
+	 * @see #set2DigitYearStart(Date)
 	 */
 	@Override
 	public synchronized Date get2DigitYearStart() {
@@ -137,7 +140,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @return the {@link DateFormatSymbols} of {@code this}
 	 *
-	 * @see #setDateFormatSymbols
+	 * @see #setDateFormatSymbols(DateFormatSymbols)
 	 */
 	@Override
 	public synchronized DateFormatSymbols getDateFormatSymbols() {
@@ -158,7 +161,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @since 1.2
 	 *
-	 * @see #get2DigitYearStart
+	 * @see #get2DigitYearStart()
 	 */
 	@Override
 	public synchronized void set2DigitYearStart(final Date startDate) {
@@ -172,7 +175,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @throws NullPointerException if {@code formatSymbols} is {@code null}
 	 *
-	 * @see #getDateFormatSymbols
+	 * @see #getDateFormatSymbols()
 	 */
 	@Override
 	public synchronized void setDateFormatSymbols(final DateFormatSymbols formatSymbols) {
@@ -330,7 +333,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @return a clone of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public SafeDateFormat clone() {
@@ -362,7 +365,7 @@ public class SafeDateFormat
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	public int hashCode() {

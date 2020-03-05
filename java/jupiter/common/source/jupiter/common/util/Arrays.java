@@ -34,6 +34,7 @@ import java.util.Set;
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.math.Comparables;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ComparableSort;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
@@ -1744,7 +1745,7 @@ public class Arrays {
 	 * <p>
 	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[] clone(final T[] array)

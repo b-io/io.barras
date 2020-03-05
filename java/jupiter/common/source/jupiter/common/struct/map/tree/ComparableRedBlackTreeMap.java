@@ -26,6 +26,7 @@ package jupiter.common.struct.map.tree;
 import java.util.Map;
 
 import jupiter.common.math.Comparables;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
@@ -438,7 +439,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ComparableRedBlackTreeMap<K, V> clone() {

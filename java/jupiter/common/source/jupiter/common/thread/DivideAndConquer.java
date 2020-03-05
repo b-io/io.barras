@@ -279,7 +279,7 @@ public abstract class DivideAndConquer<I>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -323,7 +323,7 @@ public abstract class DivideAndConquer<I>
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	public int hashCode() {
@@ -372,7 +372,7 @@ public abstract class DivideAndConquer<I>
 		 * <p>
 		 * @return a copy of {@code this}
 		 *
-		 * @see jupiter.common.model.ICloneable
+		 * @see ICloneable
 		 */
 		@Override
 		public Conqueror clone() {

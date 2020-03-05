@@ -25,6 +25,7 @@ package jupiter.common.io;
 
 import java.io.InputStream;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Objects;
 
@@ -94,7 +95,7 @@ public class IOStreamWriter
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public IOStreamWriter clone() {
@@ -134,7 +135,7 @@ public class IOStreamWriter
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

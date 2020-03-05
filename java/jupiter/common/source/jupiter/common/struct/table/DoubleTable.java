@@ -26,6 +26,7 @@ package jupiter.common.struct.table;
 import java.io.IOException;
 
 import jupiter.common.map.parser.IParsers;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Doubles;
 
 /**
@@ -147,7 +148,7 @@ public class DoubleTable
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public DoubleTable clone() {

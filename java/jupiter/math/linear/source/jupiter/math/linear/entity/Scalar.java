@@ -27,6 +27,7 @@ import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
@@ -786,7 +787,7 @@ public class Scalar
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Scalar clone() {
@@ -844,7 +845,7 @@ public class Scalar
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

@@ -23,6 +23,7 @@
  */
 package jupiter.math.analysis.struct;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
 
 /**
@@ -100,7 +101,7 @@ public class XY<T>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public XY<T> clone() {

@@ -149,7 +149,7 @@ public class ExtendedLinkedList<E>
 	 * @return an {@code E} array containing all of the elements in {@code this} in proper sequence
 	 *         (from first to last element), or an empty array if {@code this} is empty
 	 *
-	 * @see LinkedList#toArray
+	 * @see LinkedList#toArray(Object[])
 	 */
 	@Override
 	public E[] toArray() {
@@ -163,7 +163,7 @@ public class ExtendedLinkedList<E>
 	 * @return a primitive array containing all of the elements in {@code this} in proper sequence
 	 *         (from first to last element), or {@code null} if {@code this} is empty
 	 *
-	 * @see LinkedList#toArray
+	 * @see LinkedList#toArray(Object[])
 	 */
 	public Object toPrimitiveArray() {
 		return Lists.toPrimitiveArray(this);
@@ -277,7 +277,7 @@ public class ExtendedLinkedList<E>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

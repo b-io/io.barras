@@ -23,6 +23,8 @@
  */
 package jupiter.math.analysis.function;
 
+import jupiter.common.model.ICloneable;
+
 public class Cotangent
 		extends Function {
 
@@ -75,7 +77,7 @@ public class Cotangent
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Cotangent clone() {

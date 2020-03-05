@@ -23,6 +23,8 @@
  */
 package jupiter.math.analysis.function;
 
+import jupiter.common.model.ICloneable;
+
 public class Round
 		extends Function {
 
@@ -75,7 +77,7 @@ public class Round
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Round clone() {

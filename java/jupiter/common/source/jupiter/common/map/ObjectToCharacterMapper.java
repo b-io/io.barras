@@ -25,6 +25,8 @@ package jupiter.common.map;
 
 import java.util.Collection;
 
+import jupiter.common.model.ICloneable;
+
 /**
  * {@link ObjectToCharacterMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link Character}.
@@ -138,7 +140,7 @@ public abstract class ObjectToCharacterMapper
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ObjectToCharacterMapper clone();

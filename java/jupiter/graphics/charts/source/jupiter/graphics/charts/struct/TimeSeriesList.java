@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
@@ -140,7 +141,7 @@ public class TimeSeriesList
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public TimeSeriesList clone() {

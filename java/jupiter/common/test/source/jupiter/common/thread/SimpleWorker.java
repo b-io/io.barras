@@ -23,6 +23,8 @@
  */
 package jupiter.common.thread;
 
+import jupiter.common.model.ICloneable;
+
 public class SimpleWorker
 		extends Worker<Integer, Integer> {
 
@@ -76,7 +78,7 @@ public class SimpleWorker
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public SimpleWorker clone() {

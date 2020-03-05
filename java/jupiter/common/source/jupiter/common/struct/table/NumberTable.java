@@ -28,6 +28,7 @@ import java.io.IOException;
 import jupiter.common.map.parser.IParser;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 
@@ -162,7 +163,7 @@ public class NumberTable<E extends Number>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public NumberTable<E> clone() {
@@ -236,7 +237,7 @@ public class NumberTable<E extends Number>
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	public int hashCode() {

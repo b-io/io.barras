@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Strings;
@@ -432,7 +433,7 @@ public class JogAmpl
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public JogAmpl clone() {

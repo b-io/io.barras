@@ -200,7 +200,7 @@ public abstract class Worker<I, O>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract Worker<I, O> clone();

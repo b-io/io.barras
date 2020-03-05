@@ -28,6 +28,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.model.ICloneable;
 
 public class LockedWorkQueue<I, O>
 		extends WorkQueue<I, O> {
@@ -352,7 +353,7 @@ public class LockedWorkQueue<I, O>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

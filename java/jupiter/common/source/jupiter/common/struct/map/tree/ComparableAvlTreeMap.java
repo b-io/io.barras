@@ -26,6 +26,7 @@ package jupiter.common.struct.map.tree;
 import java.util.Map;
 
 import jupiter.common.math.Comparables;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 
@@ -398,7 +399,7 @@ public class ComparableAvlTreeMap<K extends Comparable<K>, V>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ComparableAvlTreeMap<K, V> clone() {

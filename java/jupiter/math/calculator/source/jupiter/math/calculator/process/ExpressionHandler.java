@@ -37,6 +37,7 @@ import java.util.Map;
 import jupiter.common.exception.ParseException;
 import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
@@ -561,7 +562,7 @@ public class ExpressionHandler
 		 * <p>
 		 * @return a copy of {@code this}
 		 *
-		 * @see jupiter.common.model.ICloneable
+		 * @see ICloneable
 		 */
 		@Override
 		public Parser clone() {

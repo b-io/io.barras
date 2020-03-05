@@ -24,6 +24,7 @@
 package jupiter.math.analysis.function;
 
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 
 public class Logarithm
 		extends Function {
@@ -77,7 +78,7 @@ public class Logarithm
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Logarithm clone() {

@@ -25,6 +25,8 @@ package jupiter.common.map;
 
 import java.util.Collection;
 
+import jupiter.common.model.ICloneable;
+
 /**
  * {@link ObjectToIntegerMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
  * output {@link Integer}.
@@ -138,7 +140,7 @@ public abstract class ObjectToIntegerMapper
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract ObjectToIntegerMapper clone();

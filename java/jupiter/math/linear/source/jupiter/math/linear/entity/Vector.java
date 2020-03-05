@@ -24,6 +24,7 @@
 package jupiter.math.linear.entity;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Doubles;
 import jupiter.math.analysis.function.Function;
@@ -366,7 +367,7 @@ public class Vector
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public Vector clone() {

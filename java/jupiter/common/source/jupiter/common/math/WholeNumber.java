@@ -23,6 +23,7 @@
  */
 package jupiter.common.math;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Numbers;
@@ -197,7 +198,7 @@ public class WholeNumber
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public WholeNumber clone() {
@@ -229,7 +230,7 @@ public class WholeNumber
 	 * @return the hash code of {@code this}
 	 *
 	 * @see Object#equals(Object)
-	 * @see System#identityHashCode
+	 * @see System#identityHashCode(Object)
 	 */
 	@Override
 	public int hashCode() {

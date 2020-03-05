@@ -35,6 +35,7 @@ import java.util.Map;
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.thread.LockedWorkQueue;
@@ -394,7 +395,7 @@ public class Calculator
 		 * <p>
 		 * @return a copy of {@code this}
 		 *
-		 * @see jupiter.common.model.ICloneable
+		 * @see ICloneable
 		 */
 		@Override
 		public Evaluator clone() {

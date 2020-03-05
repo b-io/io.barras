@@ -28,6 +28,7 @@ import static jupiter.common.io.IO.IO;
 import java.io.IOException;
 
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -514,7 +515,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public NeuralNetwork clone() {

@@ -26,6 +26,8 @@ package jupiter.common.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import jupiter.common.model.ICloneable;
+
 public class Objects {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,7 +185,7 @@ public class Objects {
 	 * <p>
 	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T clone(final T object)

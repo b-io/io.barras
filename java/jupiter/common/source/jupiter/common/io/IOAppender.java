@@ -25,6 +25,7 @@ package jupiter.common.io;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.model.ICloneable;
 
 public abstract class IOAppender
 		extends IOHandler {
@@ -198,7 +199,7 @@ public abstract class IOAppender
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract IOAppender clone();

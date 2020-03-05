@@ -26,6 +26,7 @@ package jupiter.common.map;
 import java.util.HashSet;
 import java.util.Set;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
@@ -198,7 +199,7 @@ public abstract class Mapper<I, O>
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract Mapper<I, O> clone();

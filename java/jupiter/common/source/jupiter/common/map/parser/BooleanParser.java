@@ -24,6 +24,7 @@
 package jupiter.common.map.parser;
 
 import jupiter.common.map.ObjectToBooleanMapper;
+import jupiter.common.model.ICloneable;
 
 /**
  * {@link BooleanParser} is the {@link ObjectToBooleanMapper} parsing an input {@link Object} to an
@@ -119,7 +120,7 @@ public class BooleanParser
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public BooleanParser clone() {

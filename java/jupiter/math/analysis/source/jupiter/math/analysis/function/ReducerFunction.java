@@ -23,6 +23,8 @@
  */
 package jupiter.math.analysis.function;
 
+import jupiter.common.model.ICloneable;
+
 public abstract class ReducerFunction
 		extends Function
 		implements IReducer {
@@ -110,7 +112,7 @@ public abstract class ReducerFunction
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public ReducerFunction clone() {

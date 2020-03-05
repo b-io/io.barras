@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.thread.Worker;
 
 public abstract class IOHandler
@@ -159,7 +160,7 @@ public abstract class IOHandler
 	 * <p>
 	 * @return a copy of {@code this}
 	 *
-	 * @see jupiter.common.model.ICloneable
+	 * @see ICloneable
 	 */
 	@Override
 	public abstract IOHandler clone();
