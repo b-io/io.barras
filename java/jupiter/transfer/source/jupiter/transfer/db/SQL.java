@@ -1017,32 +1017,6 @@ public class SQL {
 		return result.isEmpty() ? Longs.EMPTY_PRIMITIVE_ARRAY : (long[]) result.toPrimitiveArray();
 	}
 
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns any auto-generated keys created by executing the specified {@code INSERT} stored
-	 * procedure with the specified parameters using the specified {@link Connection}, or
-	 * {@code null} if there is a problem.
-	 * <p>
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param name       the name of the {@code INSERT} stored procedure to execute
-	 * @param parameters the array of parameters of the {@code INSERT} query to execute (may be
-	 *                   {@code null})
-	 * <p>
-	 * @return any auto-generated keys created by executing the specified {@code INSERT} stored
-	 *         procedure with the specified parameters using the specified {@link Connection}, or
-	 *         {@code null} if there is a problem
-	 */
-	public static long[] insertWithStoredProcedure(final Connection connection,
-			final String name, final Object... parameters) {
-		// Check the arguments
-		Arguments.requireNonNull(parameters, "parameters");
-
-		// Execute the SQL stored procedure and return any auto-generated keys
-		return insertWith(connection, createStoredProcedureQuery(name, parameters.length),
-				parameters);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -1356,32 +1330,6 @@ public class SQL {
 	public static int deleteWith(final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
 		return updateWith(statement, parameters);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the number of rows deleted by executing the specified {@code DELETE} stored procedure
-	 * with the specified parameters using the specified {@link Connection}, {@code 0} if nothing is
-	 * returned, or {@code -1} if there is a problem.
-	 * <p>
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param name       the name of the {@code DELETE} stored procedure to execute
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
-	 * @return the number of rows deleted by executing the specified {@code DELETE} stored procedure
-	 *         with the specified parameters using the specified {@link Connection}, {@code 0} if
-	 *         nothing is returned, or {@code -1} if there is a problem
-	 */
-	public static int deleteWithStoredProcedure(final Connection connection,
-			final String name, final Object... parameters) {
-		// Check the arguments
-		Arguments.requireNonNull(parameters, "parameters");
-
-		// Execute the SQL stored procedure and return the number of deleted rows
-		return updateWith(connection, createStoredProcedureQuery(name, parameters.length),
-				parameters);
 	}
 
 
