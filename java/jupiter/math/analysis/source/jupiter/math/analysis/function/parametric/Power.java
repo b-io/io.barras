@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.parametric;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.DoubleArguments;
 
-public class Max
-		extends ReducerFunction {
+public class Power
+		extends ParametricFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,19 +44,19 @@ public class Max
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Max}.
+	 * Constructs a {@link Power} by default.
 	 */
-	protected Max() {
-		this(Double.NEGATIVE_INFINITY);
+	protected Power() {
+		this(2.);
 	}
 
 	/**
-	 * Constructs a {@link Max} with the specified initial {@code double} value.
+	 * Constructs a {@link Power} with the specified exponent.
 	 * <p>
-	 * @param initialValue the initial {@code double} value
+	 * @param exponent the {@code double} exponent
 	 */
-	public Max(final double initialValue) {
-		super(initialValue);
+	protected Power(final double exponent) {
+		super(exponent);
 	}
 
 
@@ -64,16 +65,36 @@ public class Max
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the maximum function to the specified {@code double} values and returns the resulting
-	 * {@code double} value.
+	 * Applies the power function to the specified {@code double} value with the specified
+	 * parameters and returns the resulting {@code double} value.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b a {@code double} value
+	 * @param x          a {@code double} value
+	 * @param parameters the {@code double} parameters
 	 * <p>
-	 * @return {@code max(a, b)}
+	 * @return {@code f(x, parameters)}
+	 *
+	 * @see #apply(double, double)
 	 */
-	public double apply(final double a, final double b) {
-		return Math.max(a, b);
+	@Override
+	public double apply(final double x, final double... parameters) {
+		// Check the arguments
+		DoubleArguments.requireLength(parameters, 1);
+
+		// Apply the sigmoid function to the value with the parameters
+		return apply(x, parameters[0]);
+	}
+
+	/**
+	 * Applies the power function to the specified {@code double} value with the specified exponent
+	 * and returns the resulting {@code double} value.
+	 * <p>
+	 * @param x        a {@code double} value
+	 * @param exponent the {@code double} exponent
+	 * <p>
+	 * @return {@code x^exponent}
+	 */
+	public double apply(final double x, final double exponent) {
+		return Math.pow(x, exponent);
 	}
 
 
@@ -89,7 +110,7 @@ public class Max
 	 * @see ICloneable
 	 */
 	@Override
-	public Max clone() {
-		return (Max) super.clone();
+	public Power clone() {
+		return (Power) super.clone();
 	}
 }

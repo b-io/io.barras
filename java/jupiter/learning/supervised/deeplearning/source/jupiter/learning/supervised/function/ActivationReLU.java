@@ -23,12 +23,12 @@
  */
 package jupiter.learning.supervised.function;
 
-import static jupiter.math.analysis.function.Functions.FILTER;
+import static jupiter.math.analysis.function.parametric.ParametricFunctions.FILTER;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
-import jupiter.math.analysis.function.Filter;
-import jupiter.math.analysis.function.Max;
+import jupiter.math.analysis.function.parametric.Filter;
+import jupiter.math.analysis.function.reducing.Max;
 import jupiter.math.linear.entity.Entity;
 
 /**

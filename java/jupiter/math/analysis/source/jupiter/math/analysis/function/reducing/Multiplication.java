@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.reducing;
 
 import jupiter.common.model.ICloneable;
 
-public class Min
-		extends ReducerFunction {
+public class Multiplication
+		extends ReducingFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,18 +43,18 @@ public class Min
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Min}.
+	 * Constructs a {@link Multiplication} by default.
 	 */
-	protected Min() {
-		this(Double.POSITIVE_INFINITY);
+	protected Multiplication() {
+		this(1.);
 	}
 
 	/**
-	 * Constructs a {@link Min} with the specified initial {@code double} value.
+	 * Constructs a {@link Multiplication} with the specified initial {@code double} value.
 	 * <p>
 	 * @param initialValue the initial {@code double} value
 	 */
-	public Min(final double initialValue) {
+	public Multiplication(final double initialValue) {
 		super(initialValue);
 	}
 
@@ -64,16 +64,16 @@ public class Min
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the minimum function to the specified {@code double} values and returns the resulting
-	 * {@code double} value.
+	 * Applies the multiplication function to the specified {@code double} values and returns the
+	 * resulting {@code double} value.
 	 * <p>
 	 * @param a a {@code double} value
 	 * @param b a {@code double} value
 	 * <p>
-	 * @return {@code min(a, b)}
+	 * @return {@code a * b}
 	 */
 	public double apply(final double a, final double b) {
-		return Math.min(a, b);
+		return a * b;
 	}
 
 
@@ -89,7 +89,7 @@ public class Min
 	 * @see ICloneable
 	 */
 	@Override
-	public Min clone() {
-		return (Min) super.clone();
+	public Multiplication clone() {
+		return (Multiplication) super.clone();
 	}
 }

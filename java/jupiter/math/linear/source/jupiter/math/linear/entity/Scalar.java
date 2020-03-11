@@ -33,7 +33,7 @@ import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
-import jupiter.math.analysis.function.ReducerFunction;
+import jupiter.math.analysis.function.reducing.ReducingFunction;
 
 public class Scalar
 		extends Entity {
@@ -310,26 +310,26 @@ public class Scalar
 	}
 
 	/**
-	 * Applies the specified {@link ReducerFunction} to the columns of {@code this}.
+	 * Applies the specified {@link ReducingFunction} to the columns of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducerFunction} to apply column-wise
+	 * @param f the {@link ReducingFunction} to apply column-wise
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Entity applyByColumn(final ReducerFunction f) {
+	public Entity applyByColumn(final ReducingFunction f) {
 		return apply(f);
 	}
 
 	/**
-	 * Applies the specified {@link ReducerFunction} to the rows of {@code this}.
+	 * Applies the specified {@link ReducingFunction} to the rows of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducerFunction} to apply row-wise
+	 * @param f the {@link ReducingFunction} to apply row-wise
 	 * <p>
 	 * @return {@code f(this')}
 	 */
 	@Override
-	public Entity applyByRow(final ReducerFunction f) {
+	public Entity applyByRow(final ReducingFunction f) {
 		return apply(f);
 	}
 

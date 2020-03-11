@@ -21,22 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.parametric;
 
-public interface IReducer {
+public interface IParametricFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the function to the specified {@code double} values and returns the resulting
-	 * {@code double} value.
+	 * Applies the parametric function to the specified {@code double} value with the specified
+	 * parameters and returns the resulting {@code double} value.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b a {@code double} value
+	 * @param x          a {@code double} value
+	 * @param parameters the {@code double} parameters
 	 * <p>
-	 * @return {@code f(a, b)}
+	 * @return {@code f(x, parameters)}
 	 */
-	public double apply(final double a, final double b);
+	public double apply(final double x, final double... parameters);
 }

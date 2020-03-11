@@ -78,9 +78,9 @@ public class SplineInterpolator
 	 * Constructs a {@link SplineInterpolator} with the specified {@code X}- and
 	 * {@code Y}-components of the control points and tangents.
 	 * <p>
-	 * @param X the {@code X}-component of the control points, strictly increasing
-	 * @param Y the {@code Y}-component of the control points
-	 * @param M the tangents
+	 * @param X the {@code double} {@code X}-component of the control points, strictly increasing
+	 * @param Y the {@code double} {@code Y}-component of the control points
+	 * @param M the {@code double} tangents
 	 */
 	protected SplineInterpolator(final double[] X, final double[] Y, final double[] M) {
 		this.X = X;

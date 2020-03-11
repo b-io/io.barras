@@ -72,8 +72,8 @@ public class SortedUniqueList<E extends Comparable<E>>
 	}
 
 	/**
-	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the specified elements
-	 * in a {@link Collection}.
+	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the specified
+	 * {@link Collection} containing the elements.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
 	 * <p>

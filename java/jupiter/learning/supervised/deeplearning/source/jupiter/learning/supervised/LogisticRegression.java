@@ -24,7 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.math.analysis.function.Functions.SIGMOID;
+import static jupiter.math.analysis.function.parametric.ParametricFunctions.SIGMOID;
 
 import java.io.IOException;
 

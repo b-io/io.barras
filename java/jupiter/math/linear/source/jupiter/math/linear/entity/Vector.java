@@ -105,7 +105,7 @@ public class Vector
 	/**
 	 * Constructs a {@link Vector} with the specified values.
 	 * <p>
-	 * @param values the values of the elements in a {@code double} array
+	 * @param values the {@code double} values of the elements
 	 */
 	public Vector(final double... values) {
 		this(values, false);
@@ -114,7 +114,7 @@ public class Vector
 	/**
 	 * Constructs a {@link Vector} with the specified values.
 	 * <p>
-	 * @param values    the values of the elements in a {@code double} array
+	 * @param values    the {@code double} values of the elements
 	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final double[] values, final boolean transpose) {

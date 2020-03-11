@@ -136,7 +136,7 @@ public class RowList
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RowList} with the specified elements in a {@link Collection}.
+	 * Constructs a {@link RowList} with the specified {@link Collection} containing the elements.
 	 * <p>
 	 * @param elements a {@link Collection} of element subtype of {@link Row}
 	 * <p>
@@ -147,7 +147,8 @@ public class RowList
 	}
 
 	/**
-	 * Constructs a {@link RowList} with the specified header and elements in a {@link Collection}.
+	 * Constructs a {@link RowList} with the specified header and {@link Collection} containing the
+	 * elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a {@link Collection} of element subtype of {@link Row}

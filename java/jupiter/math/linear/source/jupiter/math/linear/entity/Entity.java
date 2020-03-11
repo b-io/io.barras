@@ -30,7 +30,7 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.Function;
-import jupiter.math.analysis.function.ReducerFunction;
+import jupiter.math.analysis.function.reducing.ReducingFunction;
 
 public abstract class Entity
 		implements ICloneable<Entity>, Serializable {
@@ -176,22 +176,22 @@ public abstract class Entity
 	public abstract Entity apply(final Function f);
 
 	/**
-	 * Applies the specified {@link ReducerFunction} to the columns of {@code this}.
+	 * Applies the specified {@link ReducingFunction} to the columns of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducerFunction} to apply column-wise
+	 * @param f the {@link ReducingFunction} to apply column-wise
 	 * <p>
 	 * @return {@code f(this)}
 	 */
-	public abstract Entity applyByColumn(final ReducerFunction f);
+	public abstract Entity applyByColumn(final ReducingFunction f);
 
 	/**
-	 * Applies the specified {@link ReducerFunction} to the rows of {@code this}.
+	 * Applies the specified {@link ReducingFunction} to the rows of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducerFunction} to apply row-wise
+	 * @param f the {@link ReducingFunction} to apply row-wise
 	 * <p>
 	 * @return {@code f(this')}
 	 */
-	public abstract Entity applyByRow(final ReducerFunction f);
+	public abstract Entity applyByRow(final ReducingFunction f);
 
 	/**
 	 * Returns the negation of {@code this}.

@@ -21,39 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.reducing;
 
-/**
- * {@link Functions} is a collection of analytical functions.
- */
-public class Functions {
+public interface IReducingFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static final Absolute ABS = new Absolute();
-	public static final Exponential EXP = new Exponential();
-	public static final Factorial FACTORIAL = new Factorial();
-	public static final Logarithm LOG = new Logarithm();
-	public static final Inverse INVERSE = new Inverse();
-	public static final Root ROOT = new Root();
-	public static final Round ROUND = new Round();
-
-	public static final Cosinus COS = new Cosinus();
-	public static final Sinus SIN = new Sinus();
-	public static final Tangent TAN = new Tangent();
-	public static final Cotangent COT = new Cotangent();
-	public static final HyperbolicTangent TANH = new HyperbolicTangent();
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link Functions}.
+	 * Applies the reducing function to the specified {@code double} values and returns the
+	 * resulting {@code double} value.
+	 * <p>
+	 * @param a a {@code double} value
+	 * @param b a {@code double} value
+	 * <p>
+	 * @return {@code f(a, b)}
 	 */
-	protected Functions() {
-	}
+	public double apply(final double a, final double b);
 }

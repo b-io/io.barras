@@ -21,16 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.reducing;
 
 import jupiter.common.model.ICloneable;
 
-/**
- * {@link Sigmoid} is the logistic {@link Function} with return values monotonically increasing from
- * 0 to 1.
- */
-public class Sigmoid
-		extends Function {
+public class Addition
+		extends ReducingFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,34 +39,23 @@ public class Sigmoid
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The coefficient.
-	 */
-	protected double coefficient;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Sigmoid}.
+	 * Constructs an {@link Addition} by default.
 	 */
-	protected Sigmoid() {
-		this(1.);
+	protected Addition() {
+		this(0.);
 	}
 
 	/**
-	 * Constructs a {@link Sigmoid} with the specified coefficient.
+	 * Constructs an {@link Addition} with the specified initial {@code double} value.
 	 * <p>
-	 * @param coefficient the coefficient
+	 * @param initialValue the initial {@code double} value
 	 */
-	protected Sigmoid(final double coefficient) {
-		super();
-		this.coefficient = coefficient;
+	public Addition(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -79,16 +64,16 @@ public class Sigmoid
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the sigmoid function to the specified {@code double} value and returns the resulting
-	 * {@code double} value.
+	 * Applies the addition function to the specified {@code double} values and returns the
+	 * resulting {@code double} value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param a a {@code double} value
+	 * @param b a {@code double} value
 	 * <p>
-	 * @return {@code 1. / (1. + exp(-coefficient * x))}
+	 * @return {@code a + b}
 	 */
-	@Override
-	public double apply(final double x) {
-		return 1. / (1. + Math.exp(-coefficient * x));
+	public double apply(final double a, final double b) {
+		return a + b;
 	}
 
 
@@ -104,7 +89,7 @@ public class Sigmoid
 	 * @see ICloneable
 	 */
 	@Override
-	public Sigmoid clone() {
-		return (Sigmoid) super.clone();
+	public Addition clone() {
+		return (Addition) super.clone();
 	}
 }

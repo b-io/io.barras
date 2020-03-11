@@ -21,12 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.parametric;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.DoubleArguments;
+import jupiter.math.analysis.function.Function;
 
-public class Addition
-		extends ReducerFunction {
+/**
+ * {@link Sigmoid} is the logistic {@link Function} with return values monotonically increasing from
+ * 0 to 1.
+ */
+public class Sigmoid
+		extends ParametricFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,19 +49,19 @@ public class Addition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Addition}.
+	 * Constructs a {@link Sigmoid} by default.
 	 */
-	protected Addition() {
-		this(0.);
+	protected Sigmoid() {
+		this(1.);
 	}
 
 	/**
-	 * Constructs an {@link Addition} with the specified initial {@code double} value.
+	 * Constructs a {@link Sigmoid} with the specified coefficient.
 	 * <p>
-	 * @param initialValue the initial {@code double} value
+	 * @param coefficient the {@code double} coefficient
 	 */
-	public Addition(final double initialValue) {
-		super(initialValue);
+	protected Sigmoid(final double coefficient) {
+		super(coefficient);
 	}
 
 
@@ -64,16 +70,36 @@ public class Addition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the addition function to the specified {@code double} values and returns the
-	 * resulting {@code double} value.
+	 * Applies the sigmoid function to the specified {@code double} value with the specified
+	 * parameters and returns the resulting {@code double} value.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b a {@code double} value
+	 * @param x          a {@code double} value
+	 * @param parameters the {@code double} parameters
 	 * <p>
-	 * @return {@code a + b}
+	 * @return {@code f(x, parameters)}
+	 *
+	 * @see #apply(double, double)
 	 */
-	public double apply(final double a, final double b) {
-		return a + b;
+	@Override
+	public double apply(final double x, final double... parameters) {
+		// Check the arguments
+		DoubleArguments.requireLength(parameters, 1);
+
+		// Apply the sigmoid function to the value with the parameters
+		return apply(x, parameters[0]);
+	}
+
+	/**
+	 * Applies the sigmoid function to the specified {@code double} value with the specified
+	 * coefficient and returns the resulting {@code double} value.
+	 * <p>
+	 * @param x           a {@code double} value
+	 * @param coefficient the {@code double} coefficient
+	 * <p>
+	 * @return {@code 1. / (1. + exp(-coefficient * x))}
+	 */
+	public double apply(final double x, final double coefficient) {
+		return 1. / (1. + Math.exp(-coefficient * x));
 	}
 
 
@@ -89,7 +115,7 @@ public class Addition
 	 * @see ICloneable
 	 */
 	@Override
-	public Addition clone() {
-		return (Addition) super.clone();
+	public Sigmoid clone() {
+		return (Sigmoid) super.clone();
 	}
 }

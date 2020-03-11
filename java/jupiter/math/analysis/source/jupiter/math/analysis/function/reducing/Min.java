@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.reducing;
 
 import jupiter.common.model.ICloneable;
 
-public class Power
-		extends Function {
+public class Min
+		extends ReducingFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -39,34 +39,23 @@ public class Power
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The exponent.
-	 */
-	protected final double exponent;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Power}.
+	 * Constructs a {@link Min} by default.
 	 */
-	protected Power() {
-		this(2.);
+	protected Min() {
+		this(Double.POSITIVE_INFINITY);
 	}
 
 	/**
-	 * Constructs a {@link Power} with the specified exponent.
+	 * Constructs a {@link Min} with the specified initial {@code double} value.
 	 * <p>
-	 * @param exponent the exponent
+	 * @param initialValue the initial {@code double} value
 	 */
-	protected Power(final double exponent) {
-		super();
-		this.exponent = exponent;
+	public Min(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -75,16 +64,16 @@ public class Power
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the square function to the specified {@code double} value and returns the resulting
+	 * Applies the minimum function to the specified {@code double} values and returns the resulting
 	 * {@code double} value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param a a {@code double} value
+	 * @param b a {@code double} value
 	 * <p>
-	 * @return {@code x^exponent}
+	 * @return {@code min(a, b)}
 	 */
-	@Override
-	public double apply(final double x) {
-		return Math.pow(x, exponent);
+	public double apply(final double a, final double b) {
+		return Math.min(a, b);
 	}
 
 
@@ -100,7 +89,7 @@ public class Power
 	 * @see ICloneable
 	 */
 	@Override
-	public Power clone() {
-		return (Power) super.clone();
+	public Min clone() {
+		return (Min) super.clone();
 	}
 }

@@ -63,7 +63,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.hardware.gpu.OpenCL;
 import jupiter.math.analysis.function.Function;
-import jupiter.math.analysis.function.ReducerFunction;
+import jupiter.math.analysis.function.reducing.ReducingFunction;
 import jupiter.math.linear.decomposition.CholeskyDecomposition;
 import jupiter.math.linear.decomposition.EigenvalueDecomposition;
 import jupiter.math.linear.decomposition.LUDecomposition;
@@ -159,7 +159,7 @@ public class Matrix
 	 */
 	protected Dimensions size;
 	/**
-	 * The elements.
+	 * The {@code double} elements.
 	 */
 	protected double[] elements;
 
@@ -243,7 +243,7 @@ public class Matrix
 	 * Constructs a {@link Matrix} with the specified values.
 	 * <p>
 	 * @param rowCount  the number of rows
-	 * @param values    the values of the elements in a {@code double} array
+	 * @param values    the {@code double} values of the elements
 	 * @param transpose the flag specifying whether to transpose
 	 * <p>
 	 * @throws IllegalArgumentException if the {@code values} length is not a multiple of
@@ -354,7 +354,7 @@ public class Matrix
 	 * Constructs a {@link Matrix} with the specified number of rows and elements.
 	 * <p>
 	 * @param rowCount the number of rows
-	 * @param elements a {@code double} array
+	 * @param elements the {@code double} elements
 	 * <p>
 	 * @throws IllegalArgumentException if the {@code elements} length is not a multiple of
 	 *                                  {@code rowCount}
@@ -422,9 +422,9 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the elements in a {@code double} array.
+	 * Returns the {@code double} elements.
 	 * <p>
-	 * @return the elements in a {@code double} array
+	 * @return the {@code double} elements
 	 */
 	public double[] getElements() {
 		return elements;
@@ -449,11 +449,11 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the elements of the specified row in a {@code double} array.
+	 * Returns the {@code double} values of the elements of the specified row.
 	 * <p>
 	 * @param i the row index
 	 * <p>
-	 * @return the elements of the specified row in a {@code double} array
+	 * @return the {@code double} values of the elements of the specified row
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
@@ -478,15 +478,15 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the elements of the specified row truncated from the specified column index to the
-	 * specified length in a {@code double} array.
+	 * Returns the {@code double} values of the elements of the specified row truncated from the
+	 * specified column index to the specified length.
 	 * <p>
 	 * @param i          the row index
 	 * @param fromColumn the initial column index (inclusive)
 	 * @param length     the number of row elements to get
 	 * <p>
-	 * @return the elements of the specified row truncated from the specified column index to the
-	 *         specified length in a {@code double} array
+	 * @return the {@code double} values of the elements of the specified row truncated from the
+	 *         specified column index to the specified length
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
@@ -499,11 +499,11 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the elements of the specified column in a {@code double} array.
+	 * Returns the {@code double} values of the elements of the specified column.
 	 * <p>
 	 * @param j the column index
 	 * <p>
-	 * @return the elements of the specified column in a {@code double} array
+	 * @return the {@code double} values of the elements of the specified column
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
@@ -528,15 +528,15 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the elements of the specified column truncated from the specified row index to the
-	 * specified length in a {@code double} array.
+	 * Returns the {@code double} values of the elements of the specified column truncated from the
+	 * specified row index to the specified length.
 	 * <p>
 	 * @param j       the column index
 	 * @param fromRow the initial row index (inclusive)
 	 * @param length  the number of column elements to get
 	 * <p>
-	 * @return the elements of the specified column truncated from the specified row index to the
-	 *         specified length in a {@code double} array
+	 * @return the {@code double} values of the elements of the specified column truncated from the
+	 *         specified row index to the specified length
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
@@ -1370,14 +1370,14 @@ public class Matrix
 	}
 
 	/**
-	 * Applies the specified {@link ReducerFunction} to the columns of {@code this}.
+	 * Applies the specified {@link ReducingFunction} to the columns of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducerFunction} to apply column-wise
+	 * @param f the {@link ReducingFunction} to apply column-wise
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Entity applyByColumn(final ReducerFunction f) {
+	public Entity applyByColumn(final ReducingFunction f) {
 		if (n == 1) {
 			double result = f.getInitialValue();
 			for (int i = 0; i < m; ++i) {
@@ -1400,14 +1400,14 @@ public class Matrix
 	}
 
 	/**
-	 * Applies the specified {@link ReducerFunction} to the rows of {@code this}.
+	 * Applies the specified {@link ReducingFunction} to the rows of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducerFunction} to apply row-wise
+	 * @param f the {@link ReducingFunction} to apply row-wise
 	 * <p>
 	 * @return {@code f(this')}
 	 */
 	@Override
-	public Entity applyByRow(final ReducerFunction f) {
+	public Entity applyByRow(final ReducingFunction f) {
 		if (m == 1) {
 			double result = f.getInitialValue();
 			for (int i = 0; i < m; ++i) {

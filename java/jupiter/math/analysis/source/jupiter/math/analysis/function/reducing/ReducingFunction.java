@@ -21,13 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.reducing;
 
 import jupiter.common.model.ICloneable;
+import jupiter.math.analysis.function.Function;
 
-public abstract class ReducerFunction
+/**
+ * {@link ReducingFunction} is an analytical array-reducing {@link Function}.
+ */
+public abstract class ReducingFunction
 		extends Function
-		implements IReducer {
+		implements IReducingFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -54,18 +58,18 @@ public abstract class ReducerFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ReducerFunction}.
+	 * Constructs a {@link ReducingFunction} by default.
 	 */
-	protected ReducerFunction() {
+	protected ReducingFunction() {
 		this(0.);
 	}
 
 	/**
-	 * Constructs a {@link ReducerFunction} with the specified initial {@code double} value.
+	 * Constructs a {@link ReducingFunction} with the specified initial {@code double} value.
 	 * <p>
 	 * @param initialValue the initial {@code double} value
 	 */
-	public ReducerFunction(final double initialValue) {
+	public ReducingFunction(final double initialValue) {
 		super();
 		this.initialValue = initialValue;
 	}
@@ -90,8 +94,8 @@ public abstract class ReducerFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the function to the initial {@code double} value and the specified {@code double}
-	 * value and returns the resulting {@code double} value.
+	 * Applies the reducing function to the specified {@code double} value with the initial
+	 * {@code double} value and returns the resulting {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
@@ -115,7 +119,7 @@ public abstract class ReducerFunction
 	 * @see ICloneable
 	 */
 	@Override
-	public ReducerFunction clone() {
-		return (ReducerFunction) super.clone();
+	public ReducingFunction clone() {
+		return (ReducingFunction) super.clone();
 	}
 }

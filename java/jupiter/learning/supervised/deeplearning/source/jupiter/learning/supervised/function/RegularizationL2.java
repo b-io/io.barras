@@ -23,7 +23,7 @@
  */
 package jupiter.learning.supervised.function;
 
-import static jupiter.math.analysis.function.Functions.SQUARE;
+import static jupiter.math.analysis.function.parametric.ParametricFunctions.SQUARE;
 
 import jupiter.common.model.ICloneable;
 import jupiter.math.linear.entity.Matrix;

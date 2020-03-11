@@ -78,7 +78,7 @@ public class ExtendedLinkedList<E>
 
 	/**
 	 * Constructs an {@link ExtendedLinkedList} of {@code E} element type with the specified
-	 * elements in a {@link Collection}.
+	 * {@link Collection} containing the elements.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
 	 * <p>

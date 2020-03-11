@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.reducing;
 
 import jupiter.common.model.ICloneable;
 
-public class Filter
-		extends Function {
+public class Max
+		extends ReducingFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -39,37 +39,23 @@ public class Filter
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected final double limit;
-	protected final double a, b;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Filter}.
+	 * Constructs a {@link Max} by default.
 	 */
-	protected Filter() {
-		this(0., 0., 1.);
+	protected Max() {
+		this(Double.NEGATIVE_INFINITY);
 	}
 
 	/**
-	 * Constructs a {@link Filter} with the specified limit and possible resulting {@code double}
-	 * values.
+	 * Constructs a {@link Max} with the specified initial {@code double} value.
 	 * <p>
-	 * @param limit the limit
-	 * @param a     the resulting {@code double} value if {@code x <= limit}
-	 * @param b     the resulting {@code double} value if {@code x > limit}
+	 * @param initialValue the initial {@code double} value
 	 */
-	public Filter(final double limit, final double a, final double b) {
-		super();
-		this.limit = limit;
-		this.a = a;
-		this.b = b;
+	public Max(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -78,16 +64,16 @@ public class Filter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the filter function to the specified {@code double} value and returns the resulting
-	 * value.
+	 * Applies the maximum function to the specified {@code double} values and returns the resulting
+	 * {@code double} value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param a a {@code double} value
+	 * @param b a {@code double} value
 	 * <p>
-	 * @return {@code a} if {@code x <= limit}, {@code b} otherwise
+	 * @return {@code max(a, b)}
 	 */
-	@Override
-	public double apply(final double x) {
-		return x <= limit ? a : b;
+	public double apply(final double a, final double b) {
+		return Math.max(a, b);
 	}
 
 
@@ -103,7 +89,7 @@ public class Filter
 	 * @see ICloneable
 	 */
 	@Override
-	public Filter clone() {
-		return (Filter) super.clone();
+	public Max clone() {
+		return (Max) super.clone();
 	}
 }

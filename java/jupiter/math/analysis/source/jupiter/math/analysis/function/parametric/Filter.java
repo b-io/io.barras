@@ -21,22 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.learning.supervised.function;
-
-import static jupiter.math.analysis.function.Functions.TANH;
-import static jupiter.math.analysis.function.parametric.ParametricFunctions.SQUARE;
+package jupiter.math.analysis.function.parametric;
 
 import jupiter.common.model.ICloneable;
-import jupiter.math.analysis.function.HyperbolicTangent;
-import jupiter.math.linear.entity.Entity;
-import jupiter.math.linear.entity.Scalar;
+import jupiter.common.test.DoubleArguments;
 
-/**
- * {@link ActivationHyperbolicTangent} is the hyperbolic tangent {@link ActivationFunction} with
- * return values monotonically increasing from -1 to 1.
- */
-public class ActivationHyperbolicTangent
-		extends ActivationFunction {
+public class Filter
+		extends ParametricFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -53,10 +44,22 @@ public class ActivationHyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ActivationHyperbolicTangent}.
+	 * Constructs a {@link Filter} by default.
 	 */
-	protected ActivationHyperbolicTangent() {
-		super();
+	protected Filter() {
+		this(0., 0., 1.);
+	}
+
+	/**
+	 * Constructs a {@link Filter} with the specified threshold and possible resulting
+	 * {@code double} values.
+	 * <p>
+	 * @param threshold the {@code double} threshold
+	 * @param a         the resulting {@code double} value if {@code x <= threshold}
+	 * @param b         the resulting {@code double} value if {@code x > threshold}
+	 */
+	public Filter(final double threshold, final double a, final double b) {
+		super(threshold, a, b);
 	}
 
 
@@ -65,29 +68,39 @@ public class ActivationHyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the {@link HyperbolicTangent} to the specified {@link Entity} and returns the
-	 * resulting {@link Entity}.
+	 * Applies the filter function to the specified {@code double} value with the specified
+	 * parameters and returns the resulting {@code double} value.
 	 * <p>
-	 * @param E an {@link Entity}
+	 * @param x          a {@code double} value
+	 * @param parameters the {@code double} parameters
 	 * <p>
-	 * @return {@code tanh(E)}
+	 * @return {@code f(x, parameters)}
+	 *
+	 * @see #apply(double, double, double, double)
 	 */
 	@Override
-	public Entity apply(final Entity E) {
-		return E.apply(TANH);
+	public double apply(final double x, final double... parameters) {
+		// Check the arguments
+		DoubleArguments.requireLength(parameters, 3);
+
+		// Apply the filter function to the value with the parameters
+		return apply(x, parameters[0], parameters[1], parameters[2]);
 	}
 
 	/**
-	 * Applies the derivative of the {@link HyperbolicTangent} to the specified {@link Entity} and
-	 * returns the resulting {@link Entity}.
+	 * Applies the filter function to the specified {@code double} value with the specified
+	 * threshold and possible resulting {@code double} values and returns the resulting
+	 * {@code double} value.
 	 * <p>
-	 * @param E an array of {@link Entity}
+	 * @param x         a {@code double} value
+	 * @param threshold the threshold
+	 * @param a         the resulting {@code double} value if {@code x <= threshold}
+	 * @param b         the resulting {@code double} value if {@code x > threshold}
 	 * <p>
-	 * @return {@code 1. - E .* E}
+	 * @return {@code a} if {@code x <= threshold}, {@code b} otherwise
 	 */
-	@Override
-	public Entity derive(final Entity E) {
-		return Scalar.ONE.minus(E.apply(SQUARE));
+	public double apply(final double x, final double threshold, final double a, final double b) {
+		return x <= threshold ? a : b;
 	}
 
 
@@ -103,7 +116,7 @@ public class ActivationHyperbolicTangent
 	 * @see ICloneable
 	 */
 	@Override
-	public ActivationHyperbolicTangent clone() {
-		return (ActivationHyperbolicTangent) super.clone();
+	public Filter clone() {
+		return (Filter) super.clone();
 	}
 }

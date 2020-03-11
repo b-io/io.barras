@@ -21,21 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.parametric;
 
-import jupiter.common.model.ICloneable;
-
-public class Multiplication
-		extends ReducerFunction {
+/**
+ * {@link ParametricFunctions} is a collection of analytical parametric functions.
+ */
+public class ParametricFunctions {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1L;
+	public static final Filter FILTER = new Filter();
+	public static final Sigmoid SIGMOID = new Sigmoid();
+	public static final Power SQUARE = new Power();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,53 +42,8 @@ public class Multiplication
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Multiplication}.
+	 * Prevents the construction of {@link ParametricFunctions}.
 	 */
-	protected Multiplication() {
-		this(1.);
-	}
-
-	/**
-	 * Constructs a {@link Multiplication} with the specified initial {@code double} value.
-	 * <p>
-	 * @param initialValue the initial {@code double} value
-	 */
-	public Multiplication(final double initialValue) {
-		super(initialValue);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Applies the multiplication function to the specified {@code double} values and returns the
-	 * resulting {@code double} value.
-	 * <p>
-	 * @param a a {@code double} value
-	 * @param b a {@code double} value
-	 * <p>
-	 * @return {@code a * b}
-	 */
-	public double apply(final double a, final double b) {
-		return a * b;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a copy of {@code this}.
-	 * <p>
-	 * @return a copy of {@code this}
-	 *
-	 * @see ICloneable
-	 */
-	@Override
-	public Multiplication clone() {
-		return (Multiplication) super.clone();
+	protected ParametricFunctions() {
 	}
 }
