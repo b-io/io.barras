@@ -29,9 +29,8 @@ import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 import static jupiter.common.util.Characters.SPACE;
 import static jupiter.math.analysis.function.Functions.ROUND;
 
-import java.util.HashMap;
-
 import jupiter.common.math.Maths;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.struct.table.StringTable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
@@ -94,7 +93,7 @@ public class SVM {
 	/**
 	 * The probability estimates (per class).
 	 */
-	protected final HashMap<Integer, Double> probabilityEstimates;
+	protected final ExtendedHashMap<Integer, Double> probabilityEstimates;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +111,7 @@ public class SVM {
 		problem = new svm_problem();
 		hyperParameters = new svm_parameter();
 		setDefaultParameters();
-		probabilityEstimates = new HashMap<Integer, Double>(Maps.DEFAULT_CAPACITY);
+		probabilityEstimates = new ExtendedHashMap<Integer, Double>(Maps.DEFAULT_CAPACITY);
 	}
 
 
@@ -143,7 +142,7 @@ public class SVM {
 	 * <p>
 	 * @return the probability estimates
 	 */
-	public HashMap<Integer, Double> getProbabilityEstimates() {
+	public ExtendedHashMap<Integer, Double> getProbabilityEstimates() {
 		return probabilityEstimates;
 	}
 

@@ -44,7 +44,8 @@ public class SynchronizedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SynchronizedWorkQueue} with the specified model {@link Worker}.
+	 * Constructs a {@link SynchronizedWorkQueue} with the specified model {@link Worker} by
+	 * default.
 	 * <p>
 	 * @param model the model {@link Worker} of {@code I} and {@code O} types
 	 */

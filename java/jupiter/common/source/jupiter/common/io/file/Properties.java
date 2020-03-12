@@ -59,7 +59,7 @@ public class Properties
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Properties}.
+	 * Constructs a {@link Properties} by default.
 	 */
 	public Properties() {
 		this((java.util.Properties) null);

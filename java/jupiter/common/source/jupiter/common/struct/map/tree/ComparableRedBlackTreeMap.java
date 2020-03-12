@@ -32,8 +32,8 @@ import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 
 /**
- * {@link ComparableRedBlackTreeMap} is a light sorted {@link Map} implementation based on a
- * red-black tree.
+ * {@link ComparableRedBlackTreeMap} is a light sorted synchronized {@link Map} implementation of
+ * {@code K} and {@code V} types based on a red-black tree.
  * <p>
  * @param <K> the self {@link Comparable} key type of the {@link ComparableRedBlackTreeMap}
  * @param <V> the value type of the {@link ComparableRedBlackTreeMap}
@@ -56,7 +56,8 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ComparableRedBlackTreeMap} of {@code K}, {@code V} and {@code N} types.
+	 * Constructs an empty {@link ComparableRedBlackTreeMap} of {@code K}, {@code V} and {@code N}
+	 * types.
 	 */
 	public ComparableRedBlackTreeMap() {
 		super();
@@ -160,7 +161,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<K>, V>
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override

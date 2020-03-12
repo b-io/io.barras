@@ -46,7 +46,12 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static final float[] EMPTY_PRIMITIVE_ARRAY = new float[] {};
+	public static final float[][] EMPTY_PRIMITIVE_ARRAY_2D = new float[][] {};
+	public static final float[][][] EMPTY_PRIMITIVE_ARRAY_3D = new float[][][] {};
+
 	public static final Float[] EMPTY_ARRAY = new Float[] {};
+	public static final Float[][] EMPTY_ARRAY_2D = new Float[][] {};
+	public static final Float[][][] EMPTY_ARRAY_3D = new Float[][][] {};
 
 	protected static final FloatParser PARSER = IParsers.FLOAT_PARSER;
 
@@ -135,6 +140,86 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
+	 * Returns a {@code float} array from the specified {@code float} array.
+	 * <p>
+	 * @param array the {@code float} array to convert
+	 * <p>
+	 * @return a {@code float} array from the specified {@code float} array
+	 */
+	public static float[] toPrimitiveArray(final float... array) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY;
+		}
+
+		// Copy the array to an array
+		final float[] output = new float[array.length];
+		System.arraycopy(array, 0, output, 0, array.length);
+		return output;
+	}
+
+	/**
+	 * Returns a {@code float} array from the specified 2D {@code float} array.
+	 * <p>
+	 * @param array2D the 2D {@code float} array to convert
+	 * <p>
+	 * @return a {@code float} array from the specified 2D {@code float} array
+	 */
+	public static float[] toPrimitiveArray(final float[]... array2D) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY;
+		}
+
+		// Copy the 2D array to an array
+		final int rowCount = array2D.length;
+		final int columnCount = array2D[0].length;
+		final float[] output = new float[rowCount * columnCount];
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array2D[i], 0, output, i * columnCount, columnCount);
+		}
+		return output;
+	}
+
+	/**
+	 * Returns a {@code float} array from the specified 3D {@code float} array.
+	 * <p>
+	 * @param array3D the 3D {@code float} array to convert
+	 * <p>
+	 * @return a {@code float} array from the specified 3D {@code float} array
+	 */
+	public static float[] toPrimitiveArray(final float[][]... array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY;
+		}
+
+		// Copy the 3D array to an array
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final float[] output = new float[rowCount * columnCount * depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output, (i * columnCount + j) * depthCount,
+						depthCount);
+			}
+		}
+		return output;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns a {@code float} array from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
@@ -211,6 +296,67 @@ public class Floats {
 
 	//////////////////////////////////////////////
 
+	public static float[][] toPrimitiveArray2D(final float[] array, final int rowCount) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0 || rowCount == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_2D;
+		}
+
+		// Copy the array to a 2D array
+		final int columnCount = array.length / rowCount;
+		final float[][] output2D = new float[rowCount][columnCount];
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array, i * columnCount, output2D[i], 0, columnCount);
+		}
+		return output2D;
+	}
+
+	public static float[][] toPrimitiveArray2D(final float[][] array2D) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_2D;
+		}
+
+		// Copy the 2D array to a 2D array
+		final int rowCount = array2D.length;
+		final int columnCount = array2D[0].length;
+		final float[][] output2D = new float[rowCount][columnCount];
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array2D[i], 0, output2D[i], 0, columnCount);
+		}
+		return output2D;
+	}
+
+	public static float[][] toPrimitiveArray2D(final float[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_2D;
+		}
+
+		// Copy the 3D array to a 2D array
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final float[][] output2D = new float[rowCount][columnCount * depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output2D[i], j * depthCount, depthCount);
+			}
+		}
+		return output2D;
+	}
+
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
 	 * <p>
@@ -234,6 +380,74 @@ public class Floats {
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public static float[][][] toPrimitiveArray3D(final float[] array, final int rowCount,
+			final int columnCount) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0 || rowCount == 0 || columnCount == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_3D;
+		}
+
+		// Copy the array to a 3D array
+		final int depthCount = array.length / (rowCount * columnCount);
+		final float[][][] output3D = new float[rowCount][columnCount][depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array, (i * columnCount + j) * depthCount, output3D[i][j], 0,
+						depthCount);
+			}
+		}
+		return output3D;
+	}
+
+	public static float[][][] toPrimitiveArray3D(final float[][] array2D,
+			final int columnCount) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0 || columnCount == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_3D;
+		}
+
+		// Copy the 2D array to a 3D array
+		final int rowCount = array2D.length;
+		final int depthCount = array2D[0].length / columnCount;
+		final float[][][] output3D = new float[rowCount][columnCount][depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array2D[i], j * depthCount, output3D[i][j], 0, depthCount);
+			}
+		}
+		return output3D;
+	}
+
+	public static float[][][] toPrimitiveArray3D(final float[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_3D;
+		}
+
+		// Copy the 3D array to a 3D array
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final float[][][] output3D = new float[rowCount][columnCount][depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output3D[i][j], 0, depthCount);
+			}
+		}
+		return output3D;
 	}
 
 	//////////////////////////////////////////////
@@ -1561,19 +1775,69 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified {@code float} array, or {@code null} if {@code array} is
-	 * {@code null}.
+	 * Returns a clone of the specified {@code float} array, or {@code null} if it is {@code null}.
 	 * <p>
 	 * @param array the {@code float} array to clone (may be {@code null})
 	 * <p>
-	 * @return a clone of the specified {@code float} array, or {@code null} if {@code array} is
-	 *         {@code null}
+	 * @return a clone of the specified {@code float} array, or {@code null} if it is {@code null}
 	 */
 	public static float[] clone(final float... array) {
+		// Check the arguments
 		if (array == null) {
 			return null;
 		}
+
+		// Clone the array
 		return array.clone();
+	}
+
+	/**
+	 * Creates a copy of the specified 2D {@code float} array, or {@code null} if it is
+	 * {@code null}.
+	 * <p>
+	 * @param array2D the 2D {@code float} array to clone (may be {@code null})
+	 * <p>
+	 * @return a copy of the specified 2D {@code float} array, or {@code null} if it is {@code null}
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	public static float[][] clone(final float[]... array2D) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+
+		// Clone the 2D array
+		final float[][] clone = new float[array2D.length]
+				[array2D.length > 0 ? array2D[0].length : 0];
+		for (int i = 0; i < array2D.length; ++i) {
+			clone[i] = clone(array2D[i]);
+		}
+		return clone;
+	}
+
+	/**
+	 * Creates a copy of the specified 3D {@code float} array, or {@code null} if it is
+	 * {@code null}.
+	 * <p>
+	 * @param array3D the 3D {@code float} array to clone (may be {@code null})
+	 * <p>
+	 * @return a copy of the specified 3D {@code float} array, or {@code null} if it is {@code null}
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	public static float[][][] clone(final float[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+
+		// Clone the 3D array
+		final float[][][] clone = new float[array3D.length]
+				[array3D.length > 0 ? array3D[0].length : 0]
+				[array3D[0].length > 0 ? array3D[0][0].length : 0];
+		for (int i = 0; i < array3D.length; ++i) {
+			clone[i] = clone(array3D[i]);
+		}
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -71,6 +71,59 @@ public class ArraysTest
 
 		assertEquals(Objects.hashCode(new String[] {}),
 				Objects.hashCode(Arrays.toArray(new String[] {})));
+		assertEquals(Objects.hashCode(new String[] {}),
+				Objects.hashCode(Arrays.toArray(new String[][] {})));
+		assertEquals(Objects.hashCode(new String[] {}),
+				Objects.hashCode(Arrays.toArray(new String[][][] {})));
+
+		assertEquals(Objects.hashCode(new String[] {"a", "b", "c"}),
+				Objects.hashCode(Arrays.toArray(new String[] {"a", "b", "c"})));
+		assertEquals(Objects.hashCode(new String[] {"a", "b", "c"}),
+				Objects.hashCode(Arrays.toArray(new String[][] {{"a"}, {"b"}, {"c"}})));
+		assertEquals(Objects.hashCode(new String[] {"a", "b", "c"}),
+				Objects.hashCode(Arrays.toArray(new String[][][] {{{"a"}}, {{"b"}}, {{"c"}}})));
+	}
+
+	/**
+	 * Test of toArray2D method, of class Arrays.
+	 */
+	public void testToArray2D() {
+		IO.test(BULLET, " toArray2D");
+
+		assertEquals(Objects.hashCode(new String[][] {}),
+				Objects.hashCode(Arrays.toArray2D(new String[] {}, 0)));
+		assertEquals(Objects.hashCode(new String[][] {}),
+				Objects.hashCode(Arrays.toArray2D(new String[][] {})));
+		assertEquals(Objects.hashCode(new String[][] {}),
+				Objects.hashCode(Arrays.toArray2D(new String[][][] {})));
+
+		assertEquals(Objects.hashCode(new String[][] {{"a"}, {"b"}, {"c"}}),
+				Objects.hashCode(Arrays.toArray2D(new String[] {"a", "b", "c"}, 3)));
+		assertEquals(Objects.hashCode(new String[][] {{"a"}, {"b"}, {"c"}}),
+				Objects.hashCode(Arrays.toArray2D(new String[][] {{"a"}, {"b"}, {"c"}})));
+		assertEquals(Objects.hashCode(new String[][] {{"a"}, {"b"}, {"c"}}),
+				Objects.hashCode(Arrays.toArray2D(new String[][][] {{{"a"}}, {{"b"}}, {{"c"}}})));
+	}
+
+	/**
+	 * Test of toArray3D method, of class Arrays.
+	 */
+	public void testToArray3D() {
+		IO.test(BULLET, " toArray3D");
+
+		assertEquals(Objects.hashCode(new String[][][] {}),
+				Objects.hashCode(Arrays.toArray3D(new String[] {}, 0, 0)));
+		assertEquals(Objects.hashCode(new String[][][] {}),
+				Objects.hashCode(Arrays.toArray3D(new String[][] {}, 0)));
+		assertEquals(Objects.hashCode(new String[][][] {}),
+				Objects.hashCode(Arrays.toArray3D(new String[][][] {})));
+
+		assertEquals(Objects.hashCode(new String[][][] {{{"a"}}, {{"b"}}, {{"c"}}}),
+				Objects.hashCode(Arrays.toArray3D(new String[] {"a", "b", "c"}, 3, 1)));
+		assertEquals(Objects.hashCode(new String[][][] {{{"a"}}, {{"b"}}, {{"c"}}}),
+				Objects.hashCode(Arrays.toArray3D(new String[][] {{"a"}, {"b"}, {"c"}}, 1)));
+		assertEquals(Objects.hashCode(new String[][][] {{{"a"}}, {{"b"}}, {{"c"}}}),
+				Objects.hashCode(Arrays.toArray3D(new String[][][] {{{"a"}}, {{"b"}}, {{"c"}}})));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

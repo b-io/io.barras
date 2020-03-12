@@ -32,7 +32,8 @@ import jupiter.common.util.Integers;
 import jupiter.common.util.Lists;
 
 /**
- * {@link ExtendedLinkedList} extends {@link LinkedList} of {@code E} element type.
+ * {@link ExtendedLinkedList} extends {@link LinkedList} of {@code E} element type and is
+ * synchronized.
  * <p>
  * @param <E> the element type of the {@link ExtendedLinkedList}
  */

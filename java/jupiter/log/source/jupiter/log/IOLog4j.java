@@ -71,7 +71,7 @@ public class IOLog4j
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IOLog4j}.
+	 * Constructs an {@link IOLog4j} by default.
 	 */
 	public IOLog4j() {
 		super();

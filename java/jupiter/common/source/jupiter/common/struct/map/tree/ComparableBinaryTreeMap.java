@@ -44,8 +44,8 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link ComparableBinaryTreeMap} is a light sorted {@link Map} implementation based on a binary
- * tree.
+ * {@link ComparableBinaryTreeMap} is a light sorted synchronized {@link Map} implementation of
+ * {@code K} and {@code V} types based on a binary tree.
  * <p>
  * @param <K> the self {@link Comparable} key type of the {@link ComparableBinaryTreeMap}
  * @param <V> the value type of the {@link ComparableBinaryTreeMap}
@@ -69,7 +69,8 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ComparableBinaryTreeMap} of {@code K}, {@code V} and {@code N} types.
+	 * Constructs an empty {@link ComparableBinaryTreeMap} of {@code K}, {@code V} and {@code N}
+	 * types.
 	 */
 	protected ComparableBinaryTreeMap() {
 		super();
@@ -284,7 +285,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
 	@Override
@@ -332,7 +333,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
@@ -500,7 +501,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * @return {@code true} if a mapping for the specified key {@link Object} exists, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override

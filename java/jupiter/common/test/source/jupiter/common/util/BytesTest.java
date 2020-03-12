@@ -103,4 +103,19 @@ public class BytesTest
 		final String text = "Hello world!";
 		assertEquals(text, new String(Bytes.parseHexString(Bytes.toHexString(text.getBytes()))));
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Test of clone method, of class Bytes.
+	 */
+	public void testClone() {
+		IO.test(BULLET, " clone");
+
+		final String text = "Hello world!";
+		final byte[] array = text.getBytes();
+		final byte[] clone = array.clone();
+		Bytes.shuffle(array);
+		assertEquals("48656C6C6F20776F726C6421", Bytes.toHexString(clone));
+	}
 }

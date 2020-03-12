@@ -52,7 +52,6 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +78,7 @@ import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.Index;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -113,7 +113,7 @@ public class JConsole
 	protected static final StyleContext STYLE_CONTEXT = new StyleContext();
 	protected static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
 
-	protected static final Map<ConsoleHandler.Color, Style> STYLES = new HashMap<ConsoleHandler.Color, Style>();
+	protected static final Map<ConsoleHandler.Color, Style> STYLES = new ExtendedHashMap<ConsoleHandler.Color, Style>();
 
 	static {
 		for (final SeverityLevel severityLevel : SeverityLevel.class.getEnumConstants()) {

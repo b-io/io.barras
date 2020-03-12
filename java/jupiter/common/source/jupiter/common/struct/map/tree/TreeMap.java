@@ -36,8 +36,8 @@ import jupiter.common.test.Arguments;
 import jupiter.common.util.Maps;
 
 /**
- * {@link TreeMap} is a light sorted {@link Map} implementation based on a tree with a
- * {@link Comparator} to determine the order of the entries.
+ * {@link TreeMap} is a light sorted synchronized {@link Map} implementation of {@code K} and
+ * {@code V} types based on a tree with a {@link Comparator} to determine the order of the entries.
  * <p>
  * @param <K> the key type of the {@link TreeMap}
  * @param <V> the value type of the {@link TreeMap}
@@ -80,7 +80,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types.
+	 * Constructs an empty {@link TreeMap} of {@code K}, {@code V} and {@code N} types.
 	 * <p>
 	 * @param c the key {@link Class} of {@code K} type
 	 */
@@ -146,7 +146,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @return the value associated to the specified key {@link Object}, or {@code null} if it is
 	 *         not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
@@ -169,7 +169,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @return the {@code V} value associated to the specified key, or the specified default
 	 *         {@code V} value if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	public V getOrDefault(final Object key, final V defaultValue) {
@@ -177,17 +177,19 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		Arguments.requireNonNull(key, "key");
 
 		// Get the value associated to the key or the default value if it is not present
-		return Maps.getOrDefault(this, key, defaultValue);
+		return Maps.<V>getOrDefault(this, key, defaultValue);
 	}
 
 	/**
-	 * Returns all the {@code V} values associated to the specified keys in an {@link ExtendedList}.
+	 * Returns all the {@code V} values associated to the specified keys or {@code null} for those
+	 * that are not present in an {@link ExtendedList}.
 	 * <p>
 	 * @param keys the array of key {@link Object} of the {@code V} values to get
 	 * <p>
-	 * @return all the {@code V} values associated to the specified keys in an {@link ExtendedList}
+	 * @return all the {@code V} values associated to the specified keys or {@code null} for those
+	 *         that are not present in an {@link ExtendedList}
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be compared with the current keys
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public ExtendedList<V> getAll(final Object[] keys) {
@@ -195,7 +197,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		Arguments.requireNonNull(keys, "keys");
 
 		// Get the values associated to the keys
-		return Maps.getAll(this, keys);
+		return Maps.<V>getAll(this, keys);
 	}
 
 	/**
@@ -208,7 +210,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @return all the {@code V} values associated to the specified keys or the specified default
 	 *         {@code V} value for those that are not present in an {@link ExtendedList}
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be compared with the current keys
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public ExtendedList<V> getAll(final Object[] keys, final V defaultValue) {
@@ -216,7 +218,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		Arguments.requireNonNull(keys, "keys");
 
 		// Get the values associated to the keys or the default value for those that are not present
-		return Maps.getAll(this, keys, defaultValue);
+		return Maps.<V>getAll(this, keys, defaultValue);
 	}
 
 	//////////////////////////////////////////////
@@ -250,7 +252,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @return the {@code N} node of the specified key {@link Object}, or {@code null} if it is not
 	 *         present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -271,7 +273,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
 	protected abstract N findNode(final Comparable<? super K> keyComparable);
@@ -306,8 +308,26 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 *                              {@code null} key
 	 */
 	@Override
-	public void putAll(final Map<? extends K, ? extends V> map) {
+	public synchronized void putAll(final Map<? extends K, ? extends V> map) {
 		super.putAll(map);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns all the {@code V} values associated to the specified keys or {@code null} for those
+	 * that are not present in an {@link ExtendedList}.
+	 * <p>
+	 * @param keys the array of key {@link Object} of the {@code V} values to remove
+	 * <p>
+	 * @return all the {@code V} values associated to the specified keys or {@code null} for those
+	 *         that are not present in an {@link ExtendedList}
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public synchronized ExtendedList<V> removeAll(final Object... keys) {
+		return Maps.<V>removeAll(this, keys);
 	}
 
 

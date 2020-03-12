@@ -76,7 +76,7 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a zero {@link Scalar}.
+	 * Constructs a zero {@link Scalar} by default.
 	 */
 	public Scalar() {
 		this(0.);

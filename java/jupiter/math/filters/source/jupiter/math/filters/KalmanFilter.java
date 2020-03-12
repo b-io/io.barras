@@ -92,7 +92,7 @@ public class KalmanFilter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link KalmanFilter}.
+	 * Constructs a {@link KalmanFilter} by default.
 	 */
 	public KalmanFilter() {
 		x = new Scalar(0.);

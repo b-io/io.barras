@@ -78,7 +78,7 @@ public class GraphicalConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link GraphicalConsole}.
+	 * Constructs a {@link GraphicalConsole} by default.
 	 */
 	public GraphicalConsole() {
 		// Create the frame

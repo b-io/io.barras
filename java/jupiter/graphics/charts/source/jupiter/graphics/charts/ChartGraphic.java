@@ -24,11 +24,11 @@
 package jupiter.graphics.charts;
 
 import java.awt.EventQueue;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
@@ -59,7 +59,7 @@ public abstract class ChartGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected XY<String> labels;
-	protected Map<Integer, SeriesStyle> styles = new HashMap<Integer, SeriesStyle>(10);
+	protected Map<Integer, SeriesStyle> styles = new ExtendedHashMap<Integer, SeriesStyle>(10);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

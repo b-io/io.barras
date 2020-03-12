@@ -56,7 +56,7 @@ public class CapturePane
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link CapturePane}.
+	 * Constructs a {@link CapturePane} by default.
 	 */
 	public CapturePane() {
 		super(new BorderLayout());

@@ -29,7 +29,8 @@ import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
 
 /**
- * {@link SortedList} extends {@link ExtendedLinkedList} of {@code E} element type.
+ * {@link SortedList} extends {@link ExtendedLinkedList} of {@code E} element type and is
+ * synchronized.
  * <p>
  * @param <E> the self element {@link Comparable} type of the {@link SortedList}
  */

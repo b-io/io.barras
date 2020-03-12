@@ -74,7 +74,10 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static final String EMPTY = "";
+
 	public static final String[] EMPTY_ARRAY = new String[] {};
+	public static final String[][] EMPTY_ARRAY_2D = new String[][] {};
+	public static final String[][][] EMPTY_ARRAY_3D = new String[][][] {};
 
 	protected static final StringParser PARSER = IParsers.STRING_PARSER;
 
@@ -1048,7 +1051,7 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified array joined by
 	 * {@link Arrays#DELIMITER}, or {@code "null"} if it is {@code null}.
 	 * <p>
-	 * @param array an array of {@link Object} (may be {@code null})
+	 * @param array the array of {@link Object} to join (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by
 	 *         {@link Arrays#DELIMITER}, or {@code "null"} if it is {@code null}
@@ -1061,7 +1064,7 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified array joined by the specified
 	 * {@code char} delimiter, or {@code "null"} if it is {@code null}.
 	 * <p>
-	 * @param array     an array of {@link Object} (may be {@code null})
+	 * @param array     the array of {@link Object} to join (may be {@code null})
 	 * @param delimiter the {@code char} delimiter
 	 * <p>
 	 * @return a representative {@link String} of the specified array joined by the specified

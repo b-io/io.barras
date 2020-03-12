@@ -66,7 +66,7 @@ public class TimeSeriesList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TimeSeriesList}.
+	 * Constructs an empty {@link TimeSeriesList}.
 	 */
 	public TimeSeriesList() {
 		this(new ExtendedList<TimeSeries>());

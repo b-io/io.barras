@@ -66,7 +66,7 @@ public class IntervalList<T extends Comparable<? super T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IntervalList} of {@code T} type.
+	 * Constructs an empty {@link IntervalList} of {@code T} type.
 	 */
 	public IntervalList() {
 		this(new ExtendedLinkedList<Interval<T>>());

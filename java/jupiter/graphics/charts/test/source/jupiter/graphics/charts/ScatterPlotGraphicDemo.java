@@ -33,6 +33,7 @@ import java.util.TreeMap;
 
 import jupiter.common.io.ProgressBar;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.struct.map.tree.AvlTreeMap;
 import jupiter.common.struct.map.tree.ComparableAvlTreeMap;
 import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
@@ -73,6 +74,7 @@ public class ScatterPlotGraphicDemo {
 		maps.add(new ComparableAvlTreeMap<Long, Long>());
 		maps.add(new RedBlackTreeMap<Long, Long>(Long.class));
 		maps.add(new ComparableRedBlackTreeMap<Long, Long>());
+		maps.add(new ExtendedHashMap<Long, Long>());
 		maps.add(new TreeMap<Long, Long>());
 		maps.add(new HashMap<Long, Long>());
 

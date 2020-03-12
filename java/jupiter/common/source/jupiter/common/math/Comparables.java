@@ -139,6 +139,8 @@ public class Comparables {
 	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to) {
 		return isBetween(object, from, to, true, false);
@@ -157,6 +159,8 @@ public class Comparables {
 	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final boolean isUpperInclusive) {
@@ -176,6 +180,8 @@ public class Comparables {
 	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final boolean isLowerInclusive, final boolean isUpperInclusive) {
@@ -199,6 +205,8 @@ public class Comparables {
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
 	 *         otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final Comparator<? super T> comparator) {
@@ -221,6 +229,8 @@ public class Comparables {
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
 	 *         otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final Comparator<? super T> comparator, final boolean isUpperInclusive) {
@@ -243,13 +253,15 @@ public class Comparables {
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
 	 *         otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final Comparator<? super T> comparator, final boolean isLowerInclusive,
 			final boolean isUpperInclusive) {
 		return (isLowerInclusive ?
-						compare(object, from, comparator) >= 0 :
-						compare(object, from, comparator) > 0) &&
+				compare(object, from, comparator) >= 0 :
+				compare(object, from, comparator) > 0) &&
 				(isUpperInclusive ?
 						compare(object, to, comparator) <= 0 :
 						compare(object, to, comparator) < 0);
@@ -270,6 +282,8 @@ public class Comparables {
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public static int compare(final Comparable a, final Object b) {
@@ -286,6 +300,8 @@ public class Comparables {
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static int compareCast(final Object a, final Object b) {
 		return compare((Comparable) a, b);
@@ -302,6 +318,8 @@ public class Comparables {
 	 * <p>
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 *         otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T> int compare(final T a, final T b, final Comparator<? super T> comparator) {
 		return a == b ? 0 : a == null ? -1 : b == null ? 1 : comparator.compare(a, b);
@@ -319,6 +337,8 @@ public class Comparables {
 	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean isLessThan(final T a, final T b) {
 		return b != null && (a == null || a.compareTo(b) < 0);
@@ -334,6 +354,8 @@ public class Comparables {
 	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean isLessOrEqualTo(final T a, final T b) {
 		return a == null || b != null && a.compareTo(b) <= 0;
@@ -351,6 +373,8 @@ public class Comparables {
 	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean isGreaterThan(final T a, final T b) {
 		return a != null && (b == null || a.compareTo(b) > 0);
@@ -366,6 +390,8 @@ public class Comparables {
 	 *            {@code null})
 	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean isGreaterOrEqualTo(final T a,
 			final T b) {
@@ -384,6 +410,8 @@ public class Comparables {
 	 *            {@code null})
 	 * <p>
 	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> T getMin(final T a, final T b) {
 		return Comparables.<T>isLessOrEqualTo(a, b) ? a : b;
@@ -399,6 +427,8 @@ public class Comparables {
 	 *            {@code null})
 	 * <p>
 	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> T getMax(final T a, final T b) {
 		return Comparables.<T>isGreaterOrEqualTo(a, b) ? a : b;
@@ -420,6 +450,8 @@ public class Comparables {
 	 * <p>
 	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
 	 *         otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean equals(final T a, final T b) {
 		return a == b || a != null && b != null && a.compareTo(b) == 0;

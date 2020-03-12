@@ -26,9 +26,9 @@ package jupiter.math.calculator.process;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.BULLET;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
 import jupiter.common.thread.Result;
@@ -66,7 +66,7 @@ public class CalculatorTest
 		try {
 			for (int t = 0; t < testCount; ++t) {
 				// Initialize
-				final Map<String, Element> context = new HashMap<String, Element>(
+				final Map<String, Element> context = new ExtendedHashMap<String, Element>(
 						Maps.DEFAULT_CAPACITY);
 				final Matrix matrix = Matrix.random(matrixSize);
 				final String matrixString = Strings.toString(matrix);

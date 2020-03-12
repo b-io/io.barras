@@ -40,7 +40,12 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static final boolean[] EMPTY_PRIMITIVE_ARRAY = new boolean[] {};
+	public static final boolean[][] EMPTY_PRIMITIVE_ARRAY_2D = new boolean[][] {};
+	public static final boolean[][][] EMPTY_PRIMITIVE_ARRAY_3D = new boolean[][][] {};
+
 	public static final Boolean[] EMPTY_ARRAY = new Boolean[] {};
+	public static final Boolean[][] EMPTY_ARRAY_2D = new Boolean[][] {};
+	public static final Boolean[][][] EMPTY_ARRAY_3D = new Boolean[][][] {};
 
 	protected static final BooleanParser PARSER = IParsers.BOOLEAN_PARSER;
 
@@ -85,6 +90,86 @@ public class Booleans {
 	 */
 	public static <T> boolean toPrimitive(final T object) {
 		return PARSER.callToPrimitive(object);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a {@code boolean} array from the specified {@code boolean} array.
+	 * <p>
+	 * @param array the {@code boolean} array to convert
+	 * <p>
+	 * @return a {@code boolean} array from the specified {@code boolean} array
+	 */
+	public static boolean[] toPrimitiveArray(final boolean... array) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY;
+		}
+
+		// Copy the array to an array
+		final boolean[] output = new boolean[array.length];
+		System.arraycopy(array, 0, output, 0, array.length);
+		return output;
+	}
+
+	/**
+	 * Returns a {@code boolean} array from the specified 2D {@code boolean} array.
+	 * <p>
+	 * @param array2D the 2D {@code boolean} array to convert
+	 * <p>
+	 * @return a {@code boolean} array from the specified 2D {@code boolean} array
+	 */
+	public static boolean[] toPrimitiveArray(final boolean[]... array2D) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY;
+		}
+
+		// Copy the 2D array to an array
+		final int rowCount = array2D.length;
+		final int columnCount = array2D[0].length;
+		final boolean[] output = new boolean[rowCount * columnCount];
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array2D[i], 0, output, i * columnCount, columnCount);
+		}
+		return output;
+	}
+
+	/**
+	 * Returns a {@code boolean} array from the specified 3D {@code boolean} array.
+	 * <p>
+	 * @param array3D the 3D {@code boolean} array to convert
+	 * <p>
+	 * @return a {@code boolean} array from the specified 3D {@code boolean} array
+	 */
+	public static boolean[] toPrimitiveArray(final boolean[][]... array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY;
+		}
+
+		// Copy the 3D array to an array
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final boolean[] output = new boolean[rowCount * columnCount * depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output, (i * columnCount + j) * depthCount,
+						depthCount);
+			}
+		}
+		return output;
 	}
 
 	//////////////////////////////////////////////
@@ -166,6 +251,67 @@ public class Booleans {
 
 	//////////////////////////////////////////////
 
+	public static boolean[][] toPrimitiveArray2D(final boolean[] array, final int rowCount) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0 || rowCount == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_2D;
+		}
+
+		// Copy the array to a 2D array
+		final int columnCount = array.length / rowCount;
+		final boolean[][] output2D = new boolean[rowCount][columnCount];
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array, i * columnCount, output2D[i], 0, columnCount);
+		}
+		return output2D;
+	}
+
+	public static boolean[][] toPrimitiveArray2D(final boolean[][] array2D) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_2D;
+		}
+
+		// Copy the 2D array to a 2D array
+		final int rowCount = array2D.length;
+		final int columnCount = array2D[0].length;
+		final boolean[][] output2D = new boolean[rowCount][columnCount];
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array2D[i], 0, output2D[i], 0, columnCount);
+		}
+		return output2D;
+	}
+
+	public static boolean[][] toPrimitiveArray2D(final boolean[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_2D;
+		}
+
+		// Copy the 3D array to a 2D array
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final boolean[][] output2D = new boolean[rowCount][columnCount * depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output2D[i], j * depthCount, depthCount);
+			}
+		}
+		return output2D;
+	}
+
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns a 2D {@code boolean} array from the specified 2D {@code T} array.
 	 * <p>
@@ -189,6 +335,74 @@ public class Booleans {
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[][] asPrimitiveArray2D(final T[]... array2D) {
 		return toPrimitiveArray2D(array2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public static boolean[][][] toPrimitiveArray3D(final boolean[] array, final int rowCount,
+			final int columnCount) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0 || rowCount == 0 || columnCount == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_3D;
+		}
+
+		// Copy the array to a 3D array
+		final int depthCount = array.length / (rowCount * columnCount);
+		final boolean[][][] output3D = new boolean[rowCount][columnCount][depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array, (i * columnCount + j) * depthCount, output3D[i][j], 0,
+						depthCount);
+			}
+		}
+		return output3D;
+	}
+
+	public static boolean[][][] toPrimitiveArray3D(final boolean[][] array2D,
+			final int columnCount) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0 || columnCount == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_3D;
+		}
+
+		// Copy the 2D array to a 3D array
+		final int rowCount = array2D.length;
+		final int depthCount = array2D[0].length / columnCount;
+		final boolean[][][] output3D = new boolean[rowCount][columnCount][depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array2D[i], j * depthCount, output3D[i][j], 0, depthCount);
+			}
+		}
+		return output3D;
+	}
+
+	public static boolean[][][] toPrimitiveArray3D(final boolean[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return EMPTY_PRIMITIVE_ARRAY_3D;
+		}
+
+		// Copy the 3D array to a 3D array
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final boolean[][][] output3D = new boolean[rowCount][columnCount][depthCount];
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output3D[i][j], 0, depthCount);
+			}
+		}
+		return output3D;
 	}
 
 	//////////////////////////////////////////////
@@ -1205,19 +1419,72 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a clone of the specified {@code boolean} array, or {@code null} if {@code array} is
+	 * Returns a clone of the specified {@code boolean} array, or {@code null} if it is
 	 * {@code null}.
 	 * <p>
 	 * @param array the {@code boolean} array to clone (may be {@code null})
 	 * <p>
-	 * @return a clone of the specified {@code boolean} array, or {@code null} if {@code array} is
-	 *         {@code null}
+	 * @return a clone of the specified {@code boolean} array, or {@code null} if it is {@code null}
 	 */
 	public static boolean[] clone(final boolean... array) {
+		// Check the arguments
 		if (array == null) {
 			return null;
 		}
+
+		// Clone the array
 		return array.clone();
+	}
+
+	/**
+	 * Creates a copy of the specified 2D {@code boolean} array, or {@code null} if it is
+	 * {@code null}.
+	 * <p>
+	 * @param array2D the 2D {@code boolean} array to clone (may be {@code null})
+	 * <p>
+	 * @return a copy of the specified 2D {@code boolean} array, or {@code null} if it is
+	 *         {@code null}
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	public static boolean[][] clone(final boolean[]... array2D) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+
+		// Clone the 2D array
+		final boolean[][] clone = new boolean[array2D.length]
+				[array2D.length > 0 ? array2D[0].length : 0];
+		for (int i = 0; i < array2D.length; ++i) {
+			clone[i] = clone(array2D[i]);
+		}
+		return clone;
+	}
+
+	/**
+	 * Creates a copy of the specified 3D {@code boolean} array, or {@code null} if it is
+	 * {@code null}.
+	 * <p>
+	 * @param array3D the 3D {@code boolean} array to clone (may be {@code null})
+	 * <p>
+	 * @return a copy of the specified 3D {@code boolean} array, or {@code null} if it is
+	 *         {@code null}
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	public static boolean[][][] clone(final boolean[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+
+		// Clone the 3D array
+		final boolean[][][] clone = new boolean[array3D.length]
+				[array3D.length > 0 ? array3D[0].length : 0]
+				[array3D[0].length > 0 ? array3D[0][0].length : 0];
+		for (int i = 0; i < array3D.length; ++i) {
+			clone[i] = clone(array3D[i]);
+		}
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

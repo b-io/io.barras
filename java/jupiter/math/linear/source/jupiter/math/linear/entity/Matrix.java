@@ -159,7 +159,7 @@ public class Matrix
 	 */
 	protected Dimensions size;
 	/**
-	 * The {@code double} elements.
+	 * The elements.
 	 */
 	protected double[] elements;
 
@@ -311,7 +311,7 @@ public class Matrix
 		m = rowCount;
 		n = columnCount;
 		size = new Dimensions(m, n);
-		// Check the row and column lengths of the array
+		// Check the row and column lengths of the 2D array
 		if (values.length < m) {
 			throw new IllegalArgumentException(
 					"The row length of the specified 2D array is less than " + m);
@@ -354,7 +354,7 @@ public class Matrix
 	 * Constructs a {@link Matrix} with the specified number of rows and elements.
 	 * <p>
 	 * @param rowCount the number of rows
-	 * @param elements the {@code double} elements
+	 * @param elements a {@code double} array
 	 * <p>
 	 * @throws IllegalArgumentException if the {@code elements} length is not a multiple of
 	 *                                  {@code rowCount}
@@ -946,7 +946,7 @@ public class Matrix
 	 */
 	@Override
 	public double[] toPrimitiveArray() {
-		return Doubles.take(elements);
+		return Doubles.toPrimitiveArray(elements);
 	}
 
 	/**
@@ -955,11 +955,7 @@ public class Matrix
 	 * @return a 2D {@code double} array
 	 */
 	public double[][] toPrimitiveArray2D() {
-		final double[][] values = new double[m][n];
-		for (int i = 0; i < m; ++i) {
-			System.arraycopy(elements, i * n, values[i], 0, n);
-		}
-		return values;
+		return Doubles.toPrimitiveArray2D(elements, m);
 	}
 
 	/**

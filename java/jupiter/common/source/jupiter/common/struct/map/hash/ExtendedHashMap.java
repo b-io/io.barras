@@ -21,29 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.map.tree;
+package jupiter.common.struct.map.hash;
 
-import java.io.Serializable;
-import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Lists;
 import jupiter.common.util.Maps;
 
 /**
- * {@link ComparableTreeMap} is a light sorted synchronized {@link Map} implementation of {@code K}
- * and {@code V} types based on a tree.
+ * {@link ExtendedHashMap} extends {@link HashMap} of {@code K} and {@code V} types and is
+ * synchronized.
  * <p>
- * @param <K> the self {@link Comparable} key type of the {@link ComparableTreeMap}
- * @param <V> the value type of the {@link ComparableTreeMap}
- * @param <N> the {@link ComparableTreeNode} type of the {@link ComparableTreeMap}
+ * @param <K> the key type of the {@link ExtendedHashMap}
+ * @param <V> the value type of the {@link ExtendedHashMap}
  */
-public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends ComparableTreeNode<K, V>>
-		extends AbstractMap<K, V>
-		implements ICloneable<ComparableTreeMap<K, V, N>>, Serializable {
+public class ExtendedHashMap<K, V>
+		extends HashMap<K, V>
+		implements ICloneable<ExtendedHashMap<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -56,40 +54,39 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The root.
-	 */
-	protected N root = null;
-	/**
-	 * The number of nodes (key-value mappings).
-	 */
-	protected int size = 0;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ComparableTreeMap} of {@code K}, {@code V} and {@code N} types.
+	 * Constructs an empty {@link ExtendedHashMap} of {@code K} and {@code V} types by default.
 	 */
-	protected ComparableTreeMap() {
-		super();
+	public ExtendedHashMap() {
+		super(Lists.DEFAULT_CAPACITY);
 	}
 
 	/**
-	 * Constructs a {@link ComparableTreeMap} of {@code K}, {@code V} and {@code N} types loaded
-	 * from the specified {@link Map} containing the key-value mappings.
+	 * Constructs an empty {@link ExtendedHashMap} of {@code K} and {@code V} types with the
+	 * specified initial capacity.
+	 * <p>
+	 * @param initialCapacity the initial capacity
+	 * <p>
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
+	 */
+	public ExtendedHashMap(final int initialCapacity) {
+		super(initialCapacity);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
+	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to load
 	 */
-	protected ComparableTreeMap(final Map<? extends K, ? extends V> map) {
-		super();
-		putAll(map);
+	public ExtendedHashMap(final Map<? extends K, ? extends V> map) {
+		super(map);
 	}
 
 
@@ -98,47 +95,15 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code V} value associated to the specified key {@link Object}, or {@code null}
-	 * if it is not present.
+	 * Returns the key {@link Class}.
 	 * <p>
-	 * @param key the key {@link Object} of the {@code V} value to get
-	 * <p>
-	 * @return the value associated to the specified key {@link Object}, or {@code null} if it is
-	 *         not present
-	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
-	 * @throws NullPointerException if {@code key} is {@code null}
+	 * @return the key {@link Class}
 	 */
-	@Override
-	public V get(final Object key) {
-		// Check the arguments
-		Arguments.requireNonNull(key, "key");
-
-		// Get the value
-		final N node = getNode(key);
-		return node != null ? node.value : null;
+	public Class<?> getKeyClass() {
+		return Lists.getElementClass(keySet());
 	}
 
-	/**
-	 * Returns the {@code V} value associated to the specified key, or the specified default
-	 * {@code V} value if it is not present.
-	 * <p>
-	 * @param key          the key {@link Object} of the {@code V} value to get
-	 * @param defaultValue the default {@code V} value (may be {@code null})
-	 * <p>
-	 * @return the {@code V} value associated to the specified key, or the specified default
-	 *         {@code V} value if it is not present
-	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
-	 * @throws NullPointerException if {@code key} is {@code null}
-	 */
-	public V getOrDefault(final Object key, final V defaultValue) {
-		// Check the arguments
-		Arguments.requireNonNull(key, "key");
-
-		// Get the value associated to the key or the default value if it is not present
-		return Maps.<V>getOrDefault(this, key, defaultValue);
-	}
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns all the {@code V} values associated to the specified keys or {@code null} for those
@@ -181,87 +146,27 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 		return Maps.<V>getAll(this, keys, defaultValue);
 	}
 
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the root {@link Entry} of {@code K} and {@code V} types.
-	 * <p>
-	 * @return the root {@link Entry} of {@code K} and {@code V} types
-	 */
-	public Entry<K, V> getRootEntry() {
-		return root;
-	}
-
-	/**
-	 * Returns the {@code N} node of the specified key {@link Object}, or {@code null} if it is not
-	 * present.
-	 * <p>
-	 * @param key the key {@link Object} of the {@code N} node to get
-	 * <p>
-	 * @return the {@code N} node of the specified key {@link Object}, or {@code null} if it is not
-	 *         present
-	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
-	 * @throws NullPointerException if {@code key} is {@code null}
-	 */
-	@SuppressWarnings({"cast", "unchecked"})
-	protected N getNode(final Object key) {
-		// Check the arguments
-		Arguments.requireNonNull(key, "key");
-
-		// Get the node
-		return findNode((Comparable<? super K>) key);
-	}
-
-	/**
-	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
-	 * {@code null} if it is not present.
-	 * <p>
-	 * @param keyComparable the key {@link Comparable} of {@code K} supertype to find
-	 * <p>
-	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
-	 *         {@code null} if it is not present
-	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
-	 * @throws NullPointerException if {@code keyComparable} is {@code null}
-	 */
-	protected abstract N findNode(final Comparable<? super K> keyComparable);
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the size.
-	 * <p>
-	 * @return the size
-	 */
-	@Override
-	public int size() {
-		return size;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
-	 * with identical keys.
-	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
-	 *            subtypes to put
-	 * <p>
-	 * @throws ClassCastException   if the {@code map} type prevents it from being stored in
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a
-	 *                              {@code null} key
-	 */
+	@Override
+	public synchronized V put(final K key, final V value) {
+		return super.put(key, value);
+	}
+
 	@Override
 	public synchronized void putAll(final Map<? extends K, ? extends V> map) {
 		super.putAll(map);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public synchronized V remove(Object key) {
+		return super.remove(key);
+	}
 
 	/**
 	 * Returns all the {@code V} values associated to the specified keys or {@code null} for those
@@ -279,15 +184,12 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 		return Maps.<V>removeAll(this, keys);
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PRINTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Prints {@code this}.
-	 */
-	public abstract void print();
+	@Override
+	public synchronized void clear() {
+		super.clear();
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -302,5 +204,20 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ComparableTreeMap<K, V, N> clone();
+	@SuppressWarnings({"cast", "unchecked"})
+	public ExtendedHashMap<K, V> clone() {
+		return (ExtendedHashMap<K, V>) super.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
+	@Override
+	public String toString() {
+		return Maps.toString(this);
+	}
 }

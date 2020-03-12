@@ -74,12 +74,12 @@ public class Arrays {
 		return Classes.get(array).getComponentType();
 	}
 
-	public static <T> Class<?> getComponentClass2D(final T[] array) {
-		return getComponentClass(array).getComponentType();
+	public static <T> Class<?> getComponentClass(final T[][] array) {
+		return Classes.get(array).getComponentType().getComponentType();
 	}
 
-	public static <T> Class<?> getComponentClass3D(final T[] array) {
-		return getComponentClass2D(array).getComponentType();
+	public static <T> Class<?> getComponentClass(final T[][][] array) {
+		return Classes.get(array).getComponentType().getComponentType().getComponentType();
 	}
 
 	//////////////////////////////////////////////
@@ -119,7 +119,9 @@ public class Arrays {
 	 */
 	public static Object[] toArray(final Object primitiveArray) {
 		// Check the arguments
-		ArrayArguments.requireArray(primitiveArray);
+		if (primitiveArray == null) {
+			return null;
+		}
 
 		// Convert the primitive array to an array
 		if (Booleans.isPrimitiveArray(primitiveArray)) {
@@ -200,49 +202,259 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	public static <T> T[] toArray(final T[] array) {
+		if (array == null) {
+			return null;
+		}
 		return toArray(getComponentClass(array), array);
 	}
 
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] toArray(final Class<?> c, final T[] array) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0) {
+			return (T[]) create(c, 0);
+		}
+
+		// Copy the array to an array
 		final T[] output = (T[]) create(c, array.length);
 		System.arraycopy(array, 0, output, 0, array.length);
 		return output;
 	}
 
+	public static <T> T[] toArray(final T[][] array2D) {
+		if (array2D == null) {
+			return null;
+		}
+		return toArray(getComponentClass(array2D), array2D);
+	}
+
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[] toArray(final Class<?> c, final T[][] array2D) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0) {
+			return (T[]) create(c, 0);
+		}
+
+		// Copy the 2D array to an array
+		final int rowCount = array2D.length;
+		final int columnCount = array2D[0].length;
+		final T[] output = (T[]) create(c, rowCount * columnCount);
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array2D[i], 0, output, i * columnCount, columnCount);
+		}
+		return output;
+	}
+
+	public static <T> T[] toArray(final T[][][] array3D) {
+		if (array3D == null) {
+			return null;
+		}
+		return toArray(getComponentClass(array3D), array3D);
+	}
+
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[] toArray(final Class<?> c, final T[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return (T[]) create(c, 0);
+		}
+
+		// Copy the 3D array to an array
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final T[] output = (T[]) create(c, rowCount * columnCount * depthCount);
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output, (i * columnCount + j) * depthCount,
+						depthCount);
+			}
+		}
+		return output;
+	}
+
 	//////////////////////////////////////////////
 
+	public static <T> T[][] toArray2D(final T[] array, final int rowCount) {
+		if (array == null) {
+			return null;
+		}
+		return toArray2D(getComponentClass(array), array, rowCount);
+	}
+
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[][] toArray2D(final Class<?> c, final T[] array, final int rowCount) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0 || rowCount == 0) {
+			return (T[][]) create(c, 0, 0);
+		}
+
+		// Copy the array to a 2D array
+		final int columnCount = array.length / rowCount;
+		final T[][] output2D = (T[][]) create(c, rowCount, columnCount);
+		for (int i = 0; i < rowCount; ++i) {
+			System.arraycopy(array, i * columnCount, output2D[i], 0, columnCount);
+		}
+		return output2D;
+	}
+
 	public static <T> T[][] toArray2D(final T[][] array2D) {
-		return toArray2D(getComponentClass2D(array2D), array2D);
+		if (array2D == null) {
+			return null;
+		}
+		return toArray2D(getComponentClass(array2D), array2D);
 	}
 
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][] toArray2D(final Class<?> c, final T[][] array2D) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0) {
+			return (T[][]) create(c, 0, 0);
+		}
+
+		// Copy the 2D array to a 2D array
 		final int rowCount = array2D.length;
 		final int columnCount = array2D[0].length;
 		final T[][] output2D = (T[][]) create(c, rowCount, columnCount);
 		for (int i = 0; i < rowCount; ++i) {
-			System.arraycopy(array2D[i], 0, output2D, i * columnCount, columnCount);
+			System.arraycopy(array2D[i], 0, output2D[i], 0, columnCount);
+		}
+		return output2D;
+	}
+
+	public static <T> T[][] toArray2D(final T[][][] array3D) {
+		if (array3D == null) {
+			return null;
+		}
+		return toArray2D(getComponentClass(array3D), array3D);
+	}
+
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[][] toArray2D(final Class<?> c, final T[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return (T[][]) create(c, 0, 0);
+		}
+
+		// Copy the 3D array to a 2D array
+		final int rowCount = array3D.length;
+		final int columnCount = array3D[0].length;
+		final int depthCount = array3D[0][0].length;
+		final T[][] output2D = (T[][]) create(c, rowCount, columnCount * depthCount);
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output2D[i], j * depthCount, depthCount);
+			}
 		}
 		return output2D;
 	}
 
 	//////////////////////////////////////////////
 
+	public static <T> T[][][] toArray3D(final T[] array, final int rowCount,
+			final int columnCount) {
+		if (array == null) {
+			return null;
+		}
+		return toArray3D(getComponentClass(array), array, rowCount, columnCount);
+	}
+
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[][][] toArray3D(final Class<?> c, final T[] array, final int rowCount,
+			final int columnCount) {
+		// Check the arguments
+		if (array == null) {
+			return null;
+		}
+		if (array.length == 0 || rowCount == 0 || columnCount == 0) {
+			return (T[][][]) create(c, 0, 0, 0);
+		}
+
+		// Copy the array to a 3D array
+		final int depthCount = array.length / (rowCount * columnCount);
+		final T[][][] output3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array, (i * columnCount + j) * depthCount, output3D[i][j], 0,
+						depthCount);
+			}
+		}
+		return output3D;
+	}
+
+	public static <T> T[][][] toArray3D(final T[][] array2D, final int columnCount) {
+		if (array2D == null) {
+			return null;
+		}
+		return toArray3D(getComponentClass(array2D), array2D, columnCount);
+	}
+
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[][][] toArray3D(final Class<?> c, final T[][] array2D,
+			final int columnCount) {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+		if (array2D.length == 0 || array2D[0].length == 0 || columnCount == 0) {
+			return (T[][][]) create(c, 0, 0, 0);
+		}
+
+		// Copy the 2D array to a 3D array
+		final int rowCount = array2D.length;
+		final int depthCount = array2D[0].length / columnCount;
+		final T[][][] output3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
+		for (int i = 0; i < rowCount; ++i) {
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array2D[i], j * depthCount, output3D[i][j], 0, depthCount);
+			}
+		}
+		return output3D;
+	}
+
 	public static <T> T[][][] toArray3D(final T[][][] array3D) {
-		return toArray3D(getComponentClass3D(array3D), array3D);
+		if (array3D == null) {
+			return null;
+		}
+		return toArray3D(getComponentClass(array3D), array3D);
 	}
 
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][][] toArray3D(final Class<?> c, final T[][][] array3D) {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+		if (array3D.length == 0 || array3D[0].length == 0 || array3D[0][0].length == 0) {
+			return (T[][][]) create(c, 0, 0, 0);
+		}
+
+		// Copy the 3D array to a 3D array
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
 		final int depthCount = array3D[0][0].length;
 		final T[][][] output3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
 		for (int i = 0; i < rowCount; ++i) {
-			for (int j = 0; j < rowCount; ++j) {
-				System.arraycopy(array3D[i][j], 0, output3D, (i * columnCount + j) * depthCount,
-						depthCount);
+			for (int j = 0; j < columnCount; ++j) {
+				System.arraycopy(array3D[i][j], 0, output3D[i][j], 0, depthCount);
 			}
 		}
 		return output3D;
@@ -303,11 +515,8 @@ public class Arrays {
 	public static <T> T[][] create(final Class<T> c, final int rowCount, final int columnCount) {
 		final T[] array = create(c, columnCount);
 		final T[][] array2D = (T[][]) Array.newInstance(Classes.get(array), rowCount);
-		if (columnCount > 0) {
-			array2D[0] = array;
-			for (int i = 1; i < rowCount; ++i) {
-				array2D[i] = create(c, columnCount);
-			}
+		for (int i = 0; i < rowCount; ++i) {
+			array2D[i] = create(c, columnCount);
 		}
 		return array2D;
 	}
@@ -317,11 +526,8 @@ public class Arrays {
 			final int depthCount) {
 		final T[][] array2D = create(c, columnCount, depthCount);
 		final T[][][] array3D = (T[][][]) Array.newInstance(Classes.get(array2D), rowCount);
-		if (depthCount > 0) {
-			array3D[0] = array2D;
-			for (int i = 1; i < depthCount; ++i) {
-				array3D[i] = create(c, rowCount, columnCount);
-			}
+		for (int i = 0; i < rowCount; ++i) {
+			array3D[i] = create(c, columnCount, depthCount);
 		}
 		return array3D;
 	}
@@ -721,18 +927,18 @@ public class Arrays {
 		if (arrays == null) {
 			return null;
 		} else if (arrays.length == 1) {
-			return toArray(getComponentClass2D(arrays), arrays[0]);
+			return toArray(getComponentClass(arrays), arrays[0]);
 		}
 
 		// Merge the arrays
-		final Class<?> c = getComponentClass2D(arrays);
+		final Class<?> c = getComponentClass(arrays);
 		final T[] mergedArray = (T[]) create(c, count(arrays));
 		int offset = 0;
 		for (final T[] array : arrays) {
 			try {
 				System.arraycopy(array, 0, mergedArray, offset, array.length);
 			} catch (final ArrayStoreException ex) {
-				ArrayArguments.requireAssignableFrom(c, getComponentClass2D(array));
+				ArrayArguments.requireAssignableFrom(c, getComponentClass(array));
 				throw ex;
 			}
 			offset += array.length;
@@ -1084,7 +1290,7 @@ public class Arrays {
 			final int fromColumn, final int columnCount) {
 		final int maxRowCount = Math.min(rowCount, array2D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array2D[0].length - fromColumn);
-		final T[] subarray = (T[]) create(getComponentClass2D(array2D),
+		final T[] subarray = (T[]) create(getComponentClass(array2D),
 				maxRowCount * maxColumnCount);
 		for (int i = 0; i < maxRowCount; ++i) {
 			System.arraycopy(array2D[fromRow + i], fromColumn, subarray, i * maxColumnCount,
@@ -1130,7 +1336,7 @@ public class Arrays {
 		final int maxRowCount = Math.min(rowCount, array3D.length - fromRow);
 		final int maxColumnCount = Math.min(columnCount, array3D[0].length - fromColumn);
 		final int maxDepthCount = Math.min(depthCount, array3D[0][0].length - fromDepth);
-		final T[] subarray = (T[]) create(getComponentClass3D(array3D),
+		final T[] subarray = (T[]) create(getComponentClass(array3D),
 				maxRowCount * maxColumnCount * maxDepthCount);
 		for (int i = 0; i < maxRowCount; ++i) {
 			for (int j = 0; j < maxColumnCount; ++j) {
@@ -1732,12 +1938,12 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of the specified {@code T} array.
+	 * Creates a copy of the specified {@code T} array, or {@code null} if it is {@code null}.
 	 * <p>
 	 * @param <T>   the component type of the array to clone
 	 * @param array the {@code T} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified {@code T} array
+	 * @return a copy of the specified {@code T} array, or {@code null} if it is {@code null}
 	 * <p>
 	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
 	 *
@@ -1755,6 +1961,65 @@ public class Arrays {
 		final T[] clone = (T[]) create(getComponentClass(array), array.length);
 		for (int i = 0; i < array.length; ++i) {
 			clone[i] = Objects.clone(array[i]);
+		}
+		return clone;
+	}
+
+	/**
+	 * Creates a copy of the specified 2D {@code T} array, or {@code null} if it is {@code null}.
+	 * <p>
+	 * @param <T>     the component type of the 2D array to clone
+	 * @param array2D the 2D {@code T} array to clone (may be {@code null})
+	 * <p>
+	 * @return a copy of the specified 2D {@code T} array, or {@code null} if it is {@code null}
+	 * <p>
+	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
+	 *
+	 * @see ICloneable
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[][] clone(final T[][] array2D)
+			throws CloneNotSupportedException {
+		// Check the arguments
+		if (array2D == null) {
+			return null;
+		}
+
+		// Clone the 2D array
+		final T[][] clone = (T[][]) create(getComponentClass(array2D), array2D.length,
+				array2D.length > 0 ? array2D[0].length : 0);
+		for (int i = 0; i < array2D.length; ++i) {
+			clone[i] = clone(array2D[i]);
+		}
+		return clone;
+	}
+
+	/**
+	 * Creates a copy of the specified 3D {@code T} array, or {@code null} if it is {@code null}.
+	 * <p>
+	 * @param <T>     the component type of the 3D array to clone
+	 * @param array3D the 3D {@code T} array to clone (may be {@code null})
+	 * <p>
+	 * @return a copy of the specified 3D {@code T} array, or {@code null} if it is {@code null}
+	 * <p>
+	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
+	 *
+	 * @see ICloneable
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[][][] clone(final T[][][] array3D)
+			throws CloneNotSupportedException {
+		// Check the arguments
+		if (array3D == null) {
+			return null;
+		}
+
+		// Clone the 3D array
+		final T[][][] clone = (T[][][]) create(getComponentClass(array3D), array3D.length,
+				array3D.length > 0 ? array3D[0].length : 0,
+				array3D[0].length > 0 ? array3D[0][0].length : 0);
+		for (int i = 0; i < array3D.length; ++i) {
+			clone[i] = clone(array3D[i]);
 		}
 		return clone;
 	}

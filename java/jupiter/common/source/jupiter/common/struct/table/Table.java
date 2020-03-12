@@ -559,21 +559,6 @@ public class Table<E>
 		return column;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns all the elements in a 2D {@code E} array.
-	 * <p>
-	 * @return all the elements in a 2D {@code E} array
-	 */
-	public E[][] getAll() {
-		final E[][] values = createArray2D(m, n);
-		for (int i = 0; i < m; ++i) {
-			System.arraycopy(elements[i], 0, values[i], 0, n);
-		}
-		return values;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// SETTERS
@@ -793,11 +778,16 @@ public class Table<E>
 	 * @return an {@code E} array
 	 */
 	public E[] toArray() {
-		final E[] array = createArray(m * n);
-		for (int i = 0; i < m; ++i) {
-			System.arraycopy(elements[i], 0, array, i * n, n);
-		}
-		return array;
+		return Arrays.<E>toArray(c, elements);
+	}
+
+	/**
+	 * Converts {@code this} to a 2D {@code E} array.
+	 * <p>
+	 * @return a 2D {@code E} array
+	 */
+	public E[][] toArray2D() {
+		return Arrays.<E>toArray2D(c, elements);
 	}
 
 

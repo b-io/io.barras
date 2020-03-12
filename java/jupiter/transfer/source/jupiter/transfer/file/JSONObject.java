@@ -21,29 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.list;
+package jupiter.transfer.file;
 
-import java.util.Collection;
+import java.io.Serializable;
+import java.util.Map;
 
-import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 
 /**
- * {@link SortedUniqueList} extends {@link ExtendedLinkedList} of {@code E} element type and is
- * synchronized.
- * <p>
- * @param <E> the self element {@link Comparable} type of the {@link SortedUniqueList}
+ * {@link JSONObject} is an {@link ExtendedHashMap} containing the JSON key-value mappings.
  */
-public class SortedUniqueList<E extends Comparable<E>>
-		extends ExtendedLinkedList<E> {
+public class JSONObject
+		extends ExtendedHashMap<String, Object>
+		implements Serializable {
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
+	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * The generated serial version ID.
-	 */
 	private static final long serialVersionUID = 1L;
 
 
@@ -52,36 +49,20 @@ public class SortedUniqueList<E extends Comparable<E>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link SortedUniqueList} of {@code E} element type.
+	 * Constructs an empty {@link JSONObject} by default.
 	 */
-	public SortedUniqueList() {
+	public JSONObject() {
 		super();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
-	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the specified elements.
+	 * Constructs a {@link JSONObject} loaded from the specified {@link Map} containing the JSON
+	 * key-value mappings.
 	 * <p>
-	 * @param elements an {@code E} array
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
+	 * @param map the {@link Map} containing the JSON key-value mappings to load
 	 */
-	@SuppressWarnings({"unchecked", "varargs"})
-	public SortedUniqueList(final E... elements) {
-		super(elements);
-	}
-
-	/**
-	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the specified
-	 * {@link Collection} containing the elements.
-	 * <p>
-	 * @param elements a {@link Collection} of {@code E} element subtype
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
-	 */
-	public SortedUniqueList(final Collection<? extends E> elements) {
-		super(elements);
+	public JSONObject(final Map<String, Object> map) {
+		super(map);
 	}
 
 
@@ -89,21 +70,39 @@ public class SortedUniqueList<E extends Comparable<E>>
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public synchronized boolean add(final E element) {
-		int index = 0;
-		for (final E e : this) {
-			final int comparison = Comparables.compare(e, element);
-			if (comparison == 0) {
-				return false;
-			} else if (comparison > 0) {
-				add(index, element);
-				return true;
-			}
-			++index;
-		}
-		super.add(element);
-		return true;
+	/**
+	 * Returns a JSON {@link String} of {@code this}.
+	 * <p>
+	 * @return a JSON {@link String} of {@code this}
+	 */
+	public String stringify() {
+		return JSON.stringify(this);
+	}
+
+	/**
+	 * Returns a JSON {@link String} of the specified JSON key-value mappings.
+	 * <p>
+	 * @param keys the array of key {@link String} of the key-value mappings to represent as a JSON
+	 *             {@link String} (may be {@code null})
+	 * <p>
+	 * @return a JSON {@link String} of the specified key-value mapping
+	 */
+	public String stringify(final String... keys) {
+		return JSON.stringify(getAll(keys));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a JSON entry {@link String} of the specified key-value mapping.
+	 * <p>
+	 * @param key the key {@link String} of the key-value mapping to represent as a JSON entry
+	 *            {@link String} (may be {@code null})
+	 * <p>
+	 * @return a JSON entry {@link String} of the specified key-value mapping
+	 */
+	public String stringifyNode(final String key) {
+		return JSON.stringifyNode(key, get(key));
 	}
 
 
@@ -119,7 +118,7 @@ public class SortedUniqueList<E extends Comparable<E>>
 	 * @see ICloneable
 	 */
 	@Override
-	public SortedUniqueList<E> clone() {
-		return (SortedUniqueList<E>) super.clone();
+	public JSONObject clone() {
+		return new JSONObject(this);
 	}
 }

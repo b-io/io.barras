@@ -72,7 +72,7 @@ public class Interval<T extends Comparable<? super T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Interval} of {@code T} type.
+	 * Constructs an {@link Interval} of {@code T} type by default.
 	 */
 	public Interval() {
 		this(null, null);

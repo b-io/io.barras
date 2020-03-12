@@ -28,7 +28,7 @@ package jupiter.common.model;
  * <p>
  * @param <T> the self {@link ICloneable} type of the {@link ICloneable}
  */
-public interface ICloneable<T extends ICloneable<T>>
+public interface ICloneable<T extends ICloneable<? super T>>
 		extends Cloneable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -36,7 +36,6 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +44,7 @@ import jupiter.common.io.file.FileHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Result;
 import jupiter.common.thread.Threads;
@@ -79,7 +79,7 @@ public class SpeedChecker {
 	/**
 	 * The file handlers of the data files storing the downloading speeds.
 	 */
-	protected static final Map<String, FileHandler> DATA_FILES = new HashMap<String, FileHandler>(
+	protected static final Map<String, FileHandler> DATA_FILES = new ExtendedHashMap<String, FileHandler>(
 			URLS.size());
 
 	/**

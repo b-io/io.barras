@@ -31,8 +31,9 @@ import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 
 /**
- * {@link AvlTreeMap} is a light sorted {@link Map} implementation based on an AVL tree with a
- * {@link Comparator} to determine the order of the entries.
+ * {@link AvlTreeMap} is a light sorted synchronized {@link Map} implementation of {@code K} and
+ * {@code V} types based on an AVL tree with a {@link Comparator} to determine the order of the
+ * entries.
  * <p>
  * @param <K> the key type of the {@link AvlTreeMap}
  * @param <V> the value type of the {@link AvlTreeMap}
@@ -65,7 +66,7 @@ public class AvlTreeMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types.
+	 * Constructs an empty {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types.
 	 * <p>
 	 * @param c the key {@link Class} of {@code K} type
 	 */
@@ -203,7 +204,7 @@ public class AvlTreeMap<K, V>
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the current keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override

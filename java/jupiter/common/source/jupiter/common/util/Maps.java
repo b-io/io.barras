@@ -49,25 +49,24 @@ public class Maps
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
-	 * keys in an {@link ExtendedList}.
+	 * keys or {@code null} for those that are not present in an {@link ExtendedList}.
 	 * <p>
-	 * @param <K>  the key type of the {@link Map}
-	 * @param <V>  the value type of the {@link Map}
-	 * @param map  a {@link Map}
+	 * @param <V>  the type of the {@link ExtendedList} to return
+	 * @param map  a {@link Map} of {@code V} value subtype
 	 * @param keys the array of key {@link Object} of the {@code V} values to get
 	 * <p>
 	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
-	 *         keys in an {@link ExtendedList}
+	 *         keys or {@code null} for those that are not present in an {@link ExtendedList}
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be compared with the {@code map} keys
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public static <K, V> ExtendedList<V> getAll(final Map<K, V> map, final Object[] keys) {
+	public static <V> ExtendedList<V> getAll(final Map<?, V> map, final Object[] keys) {
 		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
 		for (final Object key : keys) {
 			values.add(map.get(key));
@@ -80,9 +79,8 @@ public class Maps
 	 * keys or the specified default {@code V} value for those that are not present in an
 	 * {@link ExtendedList}.
 	 * <p>
-	 * @param <K>          the key type of the {@link Map}
-	 * @param <V>          the value type of the {@link Map}
-	 * @param map          a {@link Map}
+	 * @param <V>          the type of the {@link ExtendedList} to return
+	 * @param map          a {@link Map} of {@code V} value subtype
 	 * @param keys         the array of key {@link Object} of the {@code V} values to get
 	 * @param defaultValue the default {@code V} value (may be {@code null})
 	 * <p>
@@ -90,10 +88,10 @@ public class Maps
 	 *         keys or the specified default {@code V} value for those that are not present in an
 	 *         {@link ExtendedList}
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be compared with the {@code map} keys
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public static <K, V> ExtendedList<V> getAll(final Map<K, V> map, final Object[] keys,
+	public static <V> ExtendedList<V> getAll(final Map<?, V> map, final Object[] keys,
 			final V defaultValue) {
 		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
 		for (final Object key : keys) {
@@ -108,22 +106,49 @@ public class Maps
 	 * Returns the {@code V} value of the specified {@link Map} associated to the specified key, or
 	 * the specified default {@code V} value if it is not present.
 	 * <p>
-	 * @param <K>          the key type of the {@link Map}
-	 * @param <V>          the value type of the {@link Map}
-	 * @param map          a {@link Map}
+	 * @param <V>          the type of the value to return
+	 * @param map          a {@link Map} of {@code V} value subtype
 	 * @param key          the key {@link Object} of the {@code V} value to get
 	 * @param defaultValue the default {@code V} value (may be {@code null})
 	 * <p>
 	 * @return the {@code V} value of the specified {@link Map} associated to the specified key, or
 	 *         the specified default {@code V} value if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared with the {@code map} keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	public static <K, V> V getOrDefault(final Map<K, V> map, final Object key,
+	public static <V> V getOrDefault(final Map<?, ? extends V> map, final Object key,
 			final V defaultValue) {
 		final V value;
 		return (value = map.get(key)) != null || map.containsKey(key) ? value : defaultValue;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
+	 * keys or {@code null} for those that are not present in an {@link ExtendedList}.
+	 * <p>
+	 * @param <V>  the type of the {@link ExtendedList} to return
+	 * @param map  a {@link Map} of {@code V} value subtype
+	 * @param keys the array of key {@link Object} of the {@code V} values to remove
+	 * <p>
+	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
+	 *         keys or {@code null} for those that are not present in an {@link ExtendedList}
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public static <V> ExtendedList<V> removeAll(final Map<?, ? extends V> map,
+			final Object... keys) {
+		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
+		for (final Object key : keys) {
+			values.add(map.remove(key));
+		}
+		return values;
 	}
 
 

@@ -38,7 +38,7 @@ import jupiter.common.util.Lists;
 import jupiter.common.util.Strings;
 
 /**
- * {@link RowList} extends {@link ExtendedList} of {@link Row}.
+ * {@link RowList} extends {@link ExtendedList} of {@link Row} and is synchronized.
  */
 public class RowList
 		extends ExtendedList<Row>
