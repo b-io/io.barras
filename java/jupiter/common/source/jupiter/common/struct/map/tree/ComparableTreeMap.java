@@ -41,7 +41,7 @@ import jupiter.common.util.Maps;
  * @param <V> the value type of the {@link ComparableTreeMap}
  * @param <N> the {@link ComparableTreeNode} type of the {@link ComparableTreeMap}
  */
-public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends ComparableTreeNode<K, V>>
+public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N extends ComparableTreeNode<K, V>>
 		extends AbstractMap<K, V>
 		implements ICloneable<ComparableTreeMap<K, V, N>>, Serializable {
 
@@ -222,7 +222,7 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code keyComparable} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
 	protected abstract N findNode(final Comparable<? super K> keyComparable);
@@ -251,8 +251,7 @@ public abstract class ComparableTreeMap<K extends Comparable<K>, V, N extends Co
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to put
 	 * <p>
-	 * @throws ClassCastException   if the {@code map} type prevents it from being stored in
-	 *                              {@code this}
+	 * @throws ClassCastException   if any {@code map} keys cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a
 	 *                              {@code null} key
 	 */

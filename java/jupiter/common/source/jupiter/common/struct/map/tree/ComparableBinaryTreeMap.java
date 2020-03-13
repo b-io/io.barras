@@ -51,7 +51,7 @@ import jupiter.common.util.Strings;
  * @param <V> the value type of the {@link ComparableBinaryTreeMap}
  * @param <N> the {@link ComparableBinaryTreeNode} type of the {@link ComparableBinaryTreeMap}
  */
-public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N extends ComparableBinaryTreeNode<K, V, N>>
+public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V, N extends ComparableBinaryTreeNode<K, V, N>>
 		extends ComparableTreeMap<K, V, N> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -285,7 +285,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<K>, V, N exte
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code keyComparable} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
 	@Override

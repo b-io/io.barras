@@ -151,7 +151,7 @@ public class ComparableSort
 		 * Allocate runs-to-be-merged stack (which cannot be expanded). The stack length
 		 * requirements are described in listsort.txt. The C version always uses the same stack
 		 * length (85), but this was measured to be too expensive when sorting "mid-sized" arrays
-		 * (e.g., 100 elements) in Java. Therefore, we use smaller (but sufficiently large) stack
+		 * (e.g. 100 elements) in Java. Therefore, we use smaller (but sufficiently large) stack
 		 * lengths for smaller arrays. The "magic numbers" in the computation below must be changed
 		 * if {@code MIN_MERGE} is decreased. See the {@code MIN_MERGE} declaration above for more
 		 * information. The maximum value of 49 allows for an array up to length {@code
@@ -181,6 +181,9 @@ public class ComparableSort
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable
 	 */
 	public static void sort(final Object[] array, int fromIndex, final int toIndex,
 			final Object[] work, final int workBase, final int workLength) {
@@ -243,6 +246,9 @@ public class ComparableSort
 	 * @param hi    the index after the last element in the range to sort
 	 * @param start the index of the first element in the range that is not already known to sort
 	 *              ({@code lo <= start <= hi})
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable
 	 */
 	@SuppressWarnings({"fallthrough", "rawtypes", "unchecked"})
 	protected static void binarySort(final Object[] array, final int lo, final int hi, int start) {
@@ -307,6 +313,9 @@ public class ComparableSort
 	 *              required that {@code lo < hi}.
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable
 	 */
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	protected static int countRunAndMakeAscending(final Object[] array, final int lo,
@@ -511,6 +520,9 @@ public class ComparableSort
 	 *         infinity and {@code a[b + n]} is infinity; in other words, {@code key} belongs at
 	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code array}
 	 *         should precede {@code key} and the last {@code n - k} should follow it
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable
 	 */
 	protected static int gallopLeft(final Comparable<Object> key, final Object[] array,
 			final int base, final int length, final int hint) {
@@ -595,6 +607,9 @@ public class ComparableSort
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable
 	 */
 	protected static int gallopRight(final Comparable<Object> key, final Object[] array,
 			final int base, final int length, final int hint) {

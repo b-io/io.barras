@@ -267,9 +267,6 @@ public class Message
 	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */

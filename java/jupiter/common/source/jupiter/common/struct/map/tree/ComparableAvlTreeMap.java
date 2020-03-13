@@ -37,7 +37,7 @@ import jupiter.common.test.Arguments;
  * @param <K> the self {@link Comparable} key type of the {@link ComparableAvlTreeMap}
  * @param <V> the value type of the {@link ComparableAvlTreeMap}
  */
-public class ComparableAvlTreeMap<K extends Comparable<K>, V>
+public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 		extends ComparableBinaryTreeMap<K, V, ComparableAvlTreeNode<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

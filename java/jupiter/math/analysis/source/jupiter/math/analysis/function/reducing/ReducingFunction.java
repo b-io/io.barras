@@ -94,7 +94,7 @@ public abstract class ReducingFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the reducing function to the specified {@code double} value with the initial
+	 * Applies the array-reducing function to the specified {@code double} value with the initial
 	 * {@code double} value and returns the resulting {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value

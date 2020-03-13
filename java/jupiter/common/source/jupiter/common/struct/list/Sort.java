@@ -162,7 +162,7 @@ public class Sort<T>
 		 * Allocate runs-to-be-merged stack (which cannot be expanded). The stack length
 		 * requirements are described in listsort.txt. The C version always uses the same stack
 		 * length (85), but this was measured to be too expensive when sorting "mid-sized" arrays
-		 * (e.g., 100 elements) in Java. Therefore, we use smaller (but sufficiently large) stack
+		 * (e.g. 100 elements) in Java. Therefore, we use smaller (but sufficiently large) stack
 		 * lengths for smaller arrays. The "magic numbers" in the computation below must be changed
 		 * if {@code MIN_MERGE} is decreased. See the {@code MIN_MERGE} declaration above for more
 		 * information. The maximum value of 49 allows for an array up to length {@code
@@ -194,6 +194,9 @@ public class Sort<T>
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable using {@code comparator}
 	 */
 	public static <T> void sort(final T[] array, int fromIndex, final int toIndex,
 			final Comparator<? super T> comparator, final T[] work, final int workBase,
@@ -261,6 +264,9 @@ public class Sort<T>
 	 * @param start      the index of the first element in the range that is not already known to be
 	 *                   sorted ({@code lo <= start <= hi})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable using {@code comparator}
 	 */
 	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
@@ -328,6 +334,9 @@ public class Sort<T>
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable using {@code comparator}
 	 */
 	protected static <T> int countRunAndMakeAscending(final T[] array, final int lo, final int hi,
 			final Comparator<? super T> comparator) {
@@ -533,6 +542,9 @@ public class Sort<T>
 	 *         infinity and {@code a[b + n]} is infinity; in other words, {@code key} belongs at
 	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code array}
 	 *         should precede {@code key} and the last {@code n - k} should follow it
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable using {@code comparator}
 	 */
 	protected static <T> int gallopLeft(final T key, final T[] array, final int base,
 			final int length, final int hint, final Comparator<? super T> comparator) {
@@ -620,6 +632,9 @@ public class Sort<T>
 	 * <p>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
+	 * <p>
+	 * @throws ClassCastException if {@code array} contains elements that are not mutually
+	 *                            comparable using {@code comparator}
 	 */
 	protected static <T> int gallopRight(final T key, final T[] array, final int base,
 			final int length, final int hint, final Comparator<? super T> comparator) {

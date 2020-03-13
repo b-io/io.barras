@@ -207,6 +207,7 @@ public class Comparables {
 	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
+	 *                            using {@code comparator}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final Comparator<? super T> comparator) {
@@ -231,6 +232,7 @@ public class Comparables {
 	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
+	 *                            using {@code comparator}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final Comparator<? super T> comparator, final boolean isUpperInclusive) {
@@ -255,6 +257,7 @@ public class Comparables {
 	 *         otherwise
 	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
+	 *                            using {@code comparator}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
 			final Comparator<? super T> comparator, final boolean isLowerInclusive,
@@ -319,7 +322,8 @@ public class Comparables {
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
+	 * @throws ClassCastException if {@code a} cannot be compared to {@code b} using
+	 *                            {@code comparator}
 	 */
 	public static <T> int compare(final T a, final T b, final Comparator<? super T> comparator) {
 		return a == b ? 0 : a == null ? -1 : b == null ? 1 : comparator.compare(a, b);

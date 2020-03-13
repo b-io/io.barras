@@ -151,11 +151,34 @@ public class ExtendedHashMap<K, V>
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Associates the specified {@code V} value to the specified {@code K} key and returns the
+	 * previous associated {@code V} value, or {@code null} if it is not present.
+	 * <p>
+	 * @param key   the {@code K} key of the key-value mapping to put
+	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
+	 * <p>
+	 * @return the previous associated {@code V} value, or {@code null} if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws NullPointerException if {@code key} is {@code null}
+	 */
 	@Override
 	public synchronized V put(final K key, final V value) {
 		return super.put(key, value);
 	}
 
+	/**
+	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
+	 * with identical keys.
+	 * <p>
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to put
+	 * <p>
+	 * @throws ClassCastException   if any {@code map} keys cannot be compared to {@code this} keys
+	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a
+	 *                              {@code null} key
+	 */
 	@Override
 	public synchronized void putAll(final Map<? extends K, ? extends V> map) {
 		super.putAll(map);
@@ -163,6 +186,17 @@ public class ExtendedHashMap<K, V>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the key-value mapping of the specified key {@link Object} and returns the previous
+	 * associated {@code V} value, or {@code null} if it is not present.
+	 * <p>
+	 * @param key the key {@link Object} of the key-value mapping to remove
+	 * <p>
+	 * @return the previous associated {@code V} value, or {@code null} if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws NullPointerException if {@code key} is {@code null}
+	 */
 	@Override
 	public synchronized V remove(Object key) {
 		return super.remove(key);
@@ -186,6 +220,9 @@ public class ExtendedHashMap<K, V>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes all the key-value mappings.
+	 */
 	@Override
 	public synchronized void clear() {
 		super.clear();

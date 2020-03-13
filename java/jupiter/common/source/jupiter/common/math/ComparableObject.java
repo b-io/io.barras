@@ -71,8 +71,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other}
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public abstract int compareTo(final T other);
 
@@ -86,8 +85,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public boolean isLessThan(final T other) {
 		return compareTo(other) < 0;
@@ -102,8 +100,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public boolean isLessOrEqualTo(final T other) {
 		return compareTo(other) <= 0;
@@ -119,8 +116,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public boolean isGreaterThan(final T other) {
 		return compareTo(other) > 0;
@@ -135,8 +131,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public boolean isGreaterOrEqualTo(final T other) {
 		return compareTo(other) >= 0;
@@ -152,8 +147,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public Comparable<? super T> getMin(final T other) {
 		return isLessOrEqualTo(other) ? this : other;
@@ -167,8 +161,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * <p>
 	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public Comparable<? super T> getMax(final T other) {
 		return isGreaterOrEqualTo(other) ? this : other;
@@ -205,8 +198,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 *
 	 * @see #hashCode()
 	 */
@@ -216,7 +208,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 		if (this == other) {
 			return true;
 		}
-		if (other == null) {
+		if (other == null || !(other instanceof Comparable)) {
 			return false;
 		}
 		return equals((T) other);
@@ -229,8 +221,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 *
 	 * @see #hashCode()
 	 */

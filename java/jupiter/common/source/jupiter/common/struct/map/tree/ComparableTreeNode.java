@@ -31,7 +31,7 @@ import jupiter.common.test.Arguments;
 import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
-public class ComparableTreeNode<K extends Comparable<K>, V>
+public class ComparableTreeNode<K extends Comparable<? super K>, V>
 		implements Comparable<Entry<K, V>>, Entry<K, V>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,9 +149,6 @@ public class ComparableTreeNode<K extends Comparable<K>, V>
 	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-	 * <p>
-	 * @throws ClassCastException if the {@code other} type prevents it from being compared to
-	 *                            {@code this}
 	 *
 	 * @see #hashCode()
 	 */

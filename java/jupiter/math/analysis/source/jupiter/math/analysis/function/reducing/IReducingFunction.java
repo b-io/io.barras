@@ -30,7 +30,7 @@ public interface IReducingFunction {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the reducing function to the specified {@code double} values and returns the
+	 * Applies the array-reducing function to the specified {@code double} values and returns the
 	 * resulting {@code double} value.
 	 * <p>
 	 * @param a a {@code double} value

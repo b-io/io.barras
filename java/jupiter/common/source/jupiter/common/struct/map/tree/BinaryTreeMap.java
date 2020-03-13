@@ -315,7 +315,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
 	 *         {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code keyComparable} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
 	@Override

@@ -23,7 +23,7 @@
  */
 package jupiter.common.struct.map.tree;
 
-public class ComparableRedBlackTreeNode<K extends Comparable<K>, V>
+public class ComparableRedBlackTreeNode<K extends Comparable<? super K>, V>
 		extends ComparableBinaryTreeNode<K, V, ComparableRedBlackTreeNode<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -34,7 +34,7 @@ import jupiter.common.model.ICloneable;
  * <p>
  * @param <E> the self element {@link Comparable} type of the {@link SortedUniqueList}
  */
-public class SortedUniqueList<E extends Comparable<E>>
+public class SortedUniqueList<E extends Comparable<? super E>>
 		extends ExtendedLinkedList<E> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
