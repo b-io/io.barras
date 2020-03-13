@@ -88,7 +88,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values the {@code V} array containing the values of the key-value mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using the
+	 *                              default {@code keyComparator}
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	protected BinaryTreeMap(final Class<K> c, final K[] keys, final V[] values) {
@@ -103,7 +104,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared
+	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared using the
+	 *                              default {@code keyComparator}
 	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	protected BinaryTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
@@ -359,6 +361,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 *         {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code keyComparable} cannot be compared to {@code this} keys
+	 *                              using {@code keyComparator}
 	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
 	@Override
@@ -406,7 +409,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
@@ -574,7 +578,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @return {@code true} if a mapping for the specified key {@link Object} exists, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override

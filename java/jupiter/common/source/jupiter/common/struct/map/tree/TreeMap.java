@@ -97,7 +97,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values the {@code V} array containing the values of the key-value mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using the
+	 *                              default {@code keyComparator}
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	protected TreeMap(final Class<K> c, final K[] keys, final V[] values) {
@@ -118,7 +119,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared
+	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared using the
+	 *                              default {@code keyComparator}
 	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	protected TreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
@@ -197,7 +199,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @return the value associated to the specified key {@link Object}, or {@code null} if it is
 	 *         not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
@@ -220,7 +223,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @return the {@code V} value associated to the specified key, or the specified default
 	 *         {@code V} value if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	public V getOrDefault(final Object key, final V defaultValue) {
@@ -241,6 +245,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 *         that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
+	 *                              using {@code keyComparator}
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public ExtendedList<V> getAll(final Object[] keys) {
@@ -262,6 +267,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 *         {@code V} value for those that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
+	 *                              using {@code keyComparator}
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public ExtendedList<V> getAll(final Object[] keys, final V defaultValue) {
@@ -303,7 +309,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @return the {@code N} node of the specified key {@link Object}, or {@code null} if it is not
 	 *         present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -325,6 +332,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 *         {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code keyComparable} cannot be compared to {@code this} keys
+	 *                              using {@code keyComparator}
 	 * @throws NullPointerException if {@code keyComparable} is {@code null}
 	 */
 	protected abstract N findNode(final Comparable<? super K> keyComparable);
@@ -354,6 +362,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @param values the {@code V} array containing the values of the key-value mappings to put
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
+	 *                              using {@code keyComparator}
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public synchronized void putAll(final K[] keys, final V[] values) {
@@ -368,6 +377,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 *            mappings to put
 	 * <p>
 	 * @throws ClassCastException   if any {@code map} keys cannot be compared to {@code this} keys
+	 *                              using {@code keyComparator}
 	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	@Override
@@ -387,6 +397,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 *         that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
+	 *                              using {@code keyComparator}
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public synchronized ExtendedList<V> removeAll(final Object... keys) {

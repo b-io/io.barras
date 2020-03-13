@@ -74,7 +74,8 @@ public class RedBlackTreeMap<K, V>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values the {@code V} array containing the values of the key-value mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using the
+	 *                              default {@code keyComparator}
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	protected RedBlackTreeMap(final Class<K> c, final K[] keys, final V[] values) {
@@ -89,7 +90,8 @@ public class RedBlackTreeMap<K, V>
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared
+	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared using the
+	 *                              default {@code keyComparator}
 	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	public RedBlackTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
@@ -230,7 +232,8 @@ public class RedBlackTreeMap<K, V>
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
