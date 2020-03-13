@@ -36,6 +36,7 @@ import com.jogamp.opencl.CLKernel;
 import com.jogamp.opencl.CLProgram;
 
 import java.nio.DoubleBuffer;
+import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.math.Maths;
@@ -239,8 +240,9 @@ public class JogAmpl
 	@Override
 	public void release() {
 		isActive = false;
-		for (final CLKernel kernel : kernels.values()) {
-			kernel.release();
+		final Collection<CLKernel> ks = kernels.values();
+		for (final CLKernel k : ks) {
+			k.release();
 		}
 		kernels.clear();
 		program.release();

@@ -485,12 +485,11 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@code long} array from the specified {@link Collection}
 	 */
-	public static <E> long[] collectionToPrimitiveArray(final Collection<E> collection) {
+	public static long[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -583,12 +582,11 @@ public class Longs {
 	/**
 	 * Returns an array of {@link Long} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an array of {@link Long} from the specified {@link Collection}
 	 */
-	public static <E> Long[] collectionToArray(final Collection<E> collection) {
+	public static Long[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -695,25 +693,23 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedList<Long> collectionToList(final Collection<E> collection) {
+	public static ExtendedList<Long> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedLinkedList<Long> collectionToLinkedList(
-			final Collection<E> collection) {
+	public static ExtendedLinkedList<Long> collectionToLinkedList(
+			final Collection<?> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -773,12 +769,11 @@ public class Longs {
 	/**
 	 * Returns a {@link Set} of {@link Long} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Long} from the specified {@link Collection}
 	 */
-	public static <E> Set<Long> collectionToSet(final Collection<E> collection) {
+	public static Set<Long> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

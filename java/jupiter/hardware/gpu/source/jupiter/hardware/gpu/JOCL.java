@@ -56,6 +56,7 @@ import static org.jocl.CL.clReleaseProgram;
 import static org.jocl.CL.clSetKernelArg;
 import static org.jocl.CL.setExceptionsEnabled;
 
+import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.math.Maths;
@@ -354,8 +355,9 @@ public class JOCL
 	@Override
 	public void release() {
 		isActive = false;
-		for (final cl_kernel kernel : kernels.values()) {
-			clReleaseKernel(kernel);
+		final Collection<cl_kernel> ks = kernels.values();
+		for (final cl_kernel k : ks) {
+			clReleaseKernel(k);
 		}
 		kernels.clear();
 		clReleaseProgram(program);

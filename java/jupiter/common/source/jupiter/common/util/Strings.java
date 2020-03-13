@@ -183,9 +183,10 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	public static String toCase(final String text) {
-		final StringBuilder builder = createBuilder(text.length() + countUpperCase(text) +
-				countTitleCase(text));
-		for (final char token : text.toCharArray()) {
+		final char[] tokens = text.toCharArray();
+		final StringBuilder builder = createBuilder(tokens.length +
+				Characters.countUpperCase(tokens) + Characters.countTitleCase(tokens));
+		for (final char token : tokens) {
 			if (Character.isUpperCase(token) || Character.isTitleCase(token)) {
 				builder.append(SPACE).append(Character.toLowerCase(token));
 			} else {
@@ -196,9 +197,11 @@ public class Strings {
 	}
 
 	public static String toCamelCase(final String text) {
-		final StringBuilder builder = createBuilder(text.length() - count(text, SPACE));
+		final char[] tokens = text.toCharArray();
+		final StringBuilder builder = createBuilder(
+				tokens.length - Characters.count(tokens, SPACE));
 		boolean isSpace = false;
-		for (final char token : text.toCharArray()) {
+		for (final char token : tokens) {
 			if (token == SPACE) {
 				isSpace = true;
 			} else if (isSpace) {
@@ -353,12 +356,11 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedList<String> collectionToList(final Collection<E> collection) {
+	public static ExtendedList<String> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
@@ -366,13 +368,12 @@ public class Strings {
 	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified
 	 * {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedLinkedList<String> collectionToLinkedList(
-			final Collection<E> collection) {
+	public static ExtendedLinkedList<String> collectionToLinkedList(
+			final Collection<?> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -408,12 +409,11 @@ public class Strings {
 	/**
 	 * Returns a {@link Set} of {@link String} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link String} from the specified {@link Collection}
 	 */
-	public static <E> Set<String> collectionToSet(final Collection<E> collection) {
+	public static Set<String> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

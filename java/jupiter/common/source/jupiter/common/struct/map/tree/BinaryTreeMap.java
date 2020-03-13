@@ -80,6 +80,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 		super(c);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
 	 * the specified key and value arrays containing the key-value mappings.
@@ -123,6 +125,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	protected BinaryTreeMap(final Comparator<? super K> keyComparator) {
 		super(keyComparator);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types with the

@@ -571,12 +571,11 @@ public class Integers {
 	/**
 	 * Returns an {@code int} array from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@code int} array from the specified {@link Collection}
 	 */
-	public static <E> int[] collectionToPrimitiveArray(final Collection<E> collection) {
+	public static int[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -669,12 +668,11 @@ public class Integers {
 	/**
 	 * Returns an array of {@link Integer} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an array of {@link Integer} from the specified {@link Collection}
 	 */
-	public static <E> Integer[] collectionToArray(final Collection<E> collection) {
+	public static Integer[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -783,12 +781,11 @@ public class Integers {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedList<Integer> collectionToList(final Collection<E> collection) {
+	public static ExtendedList<Integer> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
@@ -796,14 +793,13 @@ public class Integers {
 	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified
 	 * {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified
 	 *         {@link Collection}
 	 */
-	public static <E> ExtendedLinkedList<Integer> collectionToLinkedList(
-			final Collection<E> collection) {
+	public static ExtendedLinkedList<Integer> collectionToLinkedList(
+			final Collection<?> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -863,12 +859,11 @@ public class Integers {
 	/**
 	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Integer} from the specified {@link Collection}
 	 */
-	public static <E> Set<Integer> collectionToSet(final Collection<E> collection) {
+	public static Set<Integer> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

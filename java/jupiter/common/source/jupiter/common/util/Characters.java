@@ -518,12 +518,11 @@ public class Characters {
 	/**
 	 * Returns a {@code char} array from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@code char} array from the specified {@link Collection}
 	 */
-	public static <E> char[] collectionToPrimitiveArray(final Collection<E> collection) {
+	public static char[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -616,12 +615,11 @@ public class Characters {
 	/**
 	 * Returns an array of {@link Character} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an array of {@link Character} from the specified {@link Collection}
 	 */
-	public static <E> Character[] collectionToArray(final Collection<E> collection) {
+	public static Character[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -734,12 +732,11 @@ public class Characters {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Character} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedList<Character> collectionToList(final Collection<E> collection) {
+	public static ExtendedList<Character> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
@@ -747,14 +744,13 @@ public class Characters {
 	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified
 	 * {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified
 	 *         {@link Collection}
 	 */
-	public static <E> ExtendedLinkedList<Character> collectionToLinkedList(
-			final Collection<E> collection) {
+	public static ExtendedLinkedList<Character> collectionToLinkedList(
+			final Collection<?> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -814,12 +810,11 @@ public class Characters {
 	/**
 	 * Returns a {@link Set} of {@link Character} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Character} from the specified {@link Collection}
 	 */
-	public static <E> Set<Character> collectionToSet(final Collection<E> collection) {
+	public static Set<Character> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

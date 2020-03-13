@@ -116,7 +116,8 @@ public class JConsole
 	protected static final Map<ConsoleHandler.Color, Style> STYLES = new ExtendedHashMap<ConsoleHandler.Color, Style>();
 
 	static {
-		for (final SeverityLevel severityLevel : SeverityLevel.class.getEnumConstants()) {
+		final SeverityLevel[] severityLevels = SeverityLevel.class.getEnumConstants();
+		for (final SeverityLevel severityLevel : severityLevels) {
 			final ConsoleHandler.Color color = ConsoleHandler.getColor(severityLevel);
 			final Style style = STYLE_CONTEXT.addStyle(color.toString(), DEFAULT_STYLE);
 			final Color c = color.toAWT();
@@ -789,20 +790,20 @@ public class JConsole
 			final String styledText = text + Strings.toString(content);
 			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
 			final Iterator<Index<String>> delimiterIterator = delimiters.iterator();
-			final List<String> texts = Strings.splitString(styledText, COLORS);
-			final Iterator<String> textIterator = texts.iterator();
+			final List<String> textParts = Strings.splitString(styledText, COLORS);
+			final Iterator<String> textIterator = textParts.iterator();
 
-			// Append
+			// Append the text
 			text = EMPTY;
 			while (textIterator.hasNext()) {
-				String t = textIterator.next();
+				String textPart = textIterator.next();
 				// Store the text if required (if the text contains a part of the next delimiter)
-				if (!textIterator.hasNext() && t.indexOf(ESCAPE) >= 0) {
-					text = t;
-					t = EMPTY;
+				if (!textIterator.hasNext() && textPart.indexOf(ESCAPE) >= 0) {
+					text = textPart;
+					textPart = EMPTY;
 				}
-				// Insert the text
-				insertString(document, getTextLength(), t, textColor);
+				// Insert the text part
+				insertString(document, getTextLength(), textPart, textColor);
 				// Update the color
 				if (delimiterIterator.hasNext()) {
 					textColor = ConsoleHandler.Color.parse(delimiterIterator.next().getToken());

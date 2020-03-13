@@ -102,7 +102,7 @@ public class RowList
 		this.header = header;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link RowList} with the specified elements.
@@ -136,7 +136,7 @@ public class RowList
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link RowList} with the specified {@link Collection} containing the elements.
+	 * Constructs a {@link RowList} with the elements of the specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of element subtype of {@link Row}
 	 * <p>
@@ -147,16 +147,15 @@ public class RowList
 	}
 
 	/**
-	 * Constructs a {@link RowList} with the specified header and {@link Collection} containing the
-	 * elements.
+	 * Constructs a {@link RowList} with the specified header and elements of the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a {@link Collection} of element subtype of {@link Row}
 	 * <p>
 	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
-	public RowList(final String[] header,
-			final Collection<? extends Row> elements) {
+	public RowList(final String[] header, final Collection<? extends Row> elements) {
 		super(elements);
 
 		// Check the arguments

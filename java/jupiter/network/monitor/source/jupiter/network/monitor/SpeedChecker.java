@@ -36,6 +36,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -169,8 +170,9 @@ public class SpeedChecker {
 			WORK_QUEUE.shutdown();
 		}
 		// • The file handlers of the data files storing the downloading speeds
-		for (final FileHandler fileHandler : DATA_FILES.values()) {
-			fileHandler.closeWriter();
+		final Collection<FileHandler> dataFiles = DATA_FILES.values();
+		for (final FileHandler dataFile : dataFiles) {
+			dataFile.closeWriter();
 		}
 		DATA_FILES.clear();
 	}

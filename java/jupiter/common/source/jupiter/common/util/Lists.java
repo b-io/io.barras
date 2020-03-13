@@ -50,8 +50,17 @@ public class Lists
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> boolean addAll(final List<? super T> list, final T[] array) {
-		return list.addAll(java.util.Arrays.asList(array));
+	/**
+	 * Adds all the specified elements to the specified {@link List}.
+	 * <p>
+	 * @param <T>      the type of the elements to add
+	 * @param list     a {@link List} of {@code T} supertype
+	 * @param elements the {@code T} elements to add
+	 * <p>
+	 * @return {@code true} if the specified {@link List} changed as a result of the call
+	 */
+	public static <T> boolean addAll(final List<? super T> list, final T[] elements) {
+		return list.addAll(java.util.Arrays.asList(elements));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

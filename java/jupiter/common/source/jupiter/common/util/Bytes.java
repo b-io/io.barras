@@ -705,12 +705,11 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@code byte} array from the specified {@link Collection}
 	 */
-	public static <E> byte[] collectionToPrimitiveArray(final Collection<E> collection) {
+	public static byte[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -803,12 +802,11 @@ public class Bytes {
 	/**
 	 * Returns an array of {@link Byte} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an array of {@link Byte} from the specified {@link Collection}
 	 */
-	public static <E> Byte[] collectionToArray(final Collection<E> collection) {
+	public static Byte[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -915,25 +913,23 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedList<Byte> collectionToList(final Collection<E> collection) {
+	public static ExtendedList<Byte> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedLinkedList<Byte> collectionToLinkedList(
-			final Collection<E> collection) {
+	public static ExtendedLinkedList<Byte> collectionToLinkedList(
+			final Collection<?> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -993,12 +989,11 @@ public class Bytes {
 	/**
 	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection}
 	 */
-	public static <E> Set<Byte> collectionToSet(final Collection<E> collection) {
+	public static Set<Byte> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

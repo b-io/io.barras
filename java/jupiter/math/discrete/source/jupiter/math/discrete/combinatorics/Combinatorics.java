@@ -421,15 +421,17 @@ public class Combinatorics {
 					Integers.createSequence(n));
 			final int divisor = getKPermutationDivisor(n, k);
 			for (final int[] combination : combinations) {
-				for (final int[] permutation : createPermutations(combination)) {
-					permutations[getKPermutationIndex(permutation, sequence, divisor)] = permutation;
+				final int[][] subpermutations = createPermutations(combination);
+				for (final int[] subpermutation : subpermutations) {
+					permutations[getKPermutationIndex(subpermutation, sequence, divisor)] = subpermutation;
 				}
 			}
 		} else {
 			int p = 0;
 			for (final int[] combination : combinations) {
-				for (final int[] permutation : createPermutations(combination)) {
-					permutations[p++] = permutation;
+				final int[][] subpermutations = createPermutations(combination);
+				for (final int[] subpermutation : subpermutations) {
+					permutations[p++] = subpermutation;
 				}
 			}
 		}

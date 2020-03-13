@@ -513,12 +513,11 @@ public class Shorts {
 	/**
 	 * Returns a {@code short} array from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@code short} array from the specified {@link Collection}
 	 */
-	public static <E> short[] collectionToPrimitiveArray(final Collection<E> collection) {
+	public static short[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -611,12 +610,11 @@ public class Shorts {
 	/**
 	 * Returns an array of {@link Short} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an array of {@link Short} from the specified {@link Collection}
 	 */
-	public static <E> Short[] collectionToArray(final Collection<E> collection) {
+	public static Short[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -725,25 +723,23 @@ public class Shorts {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Short} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Short} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedList<Short> collectionToList(final Collection<E> collection) {
+	public static ExtendedList<Short> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Short} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Short} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedLinkedList<Short> collectionToLinkedList(
-			final Collection<E> collection) {
+	public static ExtendedLinkedList<Short> collectionToLinkedList(
+			final Collection<?> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -803,12 +799,11 @@ public class Shorts {
 	/**
 	 * Returns a {@link Set} of {@link Short} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Short} from the specified {@link Collection}
 	 */
-	public static <E> Set<Short> collectionToSet(final Collection<E> collection) {
+	public static Set<Short> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

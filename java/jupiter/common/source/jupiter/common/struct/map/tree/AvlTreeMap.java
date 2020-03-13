@@ -75,6 +75,8 @@ public class AvlTreeMap<K, V>
 		super(c);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded from the
 	 * specified key and value arrays containing the key-value mappings.
@@ -118,6 +120,8 @@ public class AvlTreeMap<K, V>
 	public AvlTreeMap(final Comparator<? super K> keyComparator) {
 		super(keyComparator);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types with the

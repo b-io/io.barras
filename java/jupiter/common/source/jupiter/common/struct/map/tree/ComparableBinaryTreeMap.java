@@ -76,6 +76,8 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 		super();
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link ComparableBinaryTreeMap} of {@code K}, {@code V} and {@code N} types
 	 * loaded from the specified key and value arrays containing the key-value mappings.

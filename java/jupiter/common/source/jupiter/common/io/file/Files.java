@@ -44,6 +44,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
@@ -910,87 +911,90 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 * directory or subdirectories.
+	 * Returns all the {@link File} contained in the specified directory or subdirectories in an
+	 * {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param dir the directory {@link File} of the {@link File} to list
 	 * <p>
-	 * @return the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 *         directory or subdirectories
+	 * @return all the {@link File} contained in the specified directory or subdirectories in an
+	 *         {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir) {
-		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
-		for (final File file : dir.listFiles()) {
-			files.add(file);
+		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
+		final File[] files = dir.listFiles();
+		for (final File file : files) {
+			allFiles.add(file);
 			if (file.isDirectory()) {
-				files.addAll(listAll(file));
+				allFiles.addAll(listAll(file));
 			}
 		}
-		return files;
+		return allFiles;
 	}
 
 	/**
-	 * Returns the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 * directory or subdirectories and matching the specified name filter {@link String}.
+	 * Returns all the {@link File} contained in the specified directory or subdirectories and
+	 * matching the specified name filter {@link String} in an {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param dir        the directory {@link File} of the {@link File} to list
 	 * @param nameFilter the name filter {@link String} of the {@link File} to list
 	 * <p>
-	 * @return the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 *         directory or subdirectories and matching the specified name filter {@link String}
+	 * @return all the {@link File} contained in the specified directory or subdirectories and
+	 *         matching the specified name filter {@link String} in an {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final String nameFilter) {
 		return listAll(dir, Pattern.compile(nameFilter));
 	}
 
 	/**
-	 * Returns the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 * directory or subdirectories and matching the specified name {@link Pattern}.
+	 * Returns all the {@link File} contained in the specified directory or subdirectories and
+	 * matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param dir         the directory {@link File} of the {@link File} to list
 	 * @param namePattern the name {@link Pattern} of the {@link File} to list
 	 * <p>
-	 * @return the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 *         directory or subdirectories and matching the specified name {@link Pattern}
+	 * @return all the {@link File} contained in the specified directory or subdirectories and
+	 *         matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern) {
-		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
-		for (final File file : dir.listFiles()) {
+		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
+		final File[] files = dir.listFiles();
+		for (final File file : files) {
 			if (namePattern.matcher(file.getName()).matches()) {
-				files.add(file);
+				allFiles.add(file);
 			}
 			if (file.isDirectory()) {
-				files.addAll(listAll(file, namePattern));
+				allFiles.addAll(listAll(file, namePattern));
 			}
 		}
-		return files;
+		return allFiles;
 	}
 
 	/**
-	 * Returns the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 * directory or subdirectories and matching the specified name {@link Pattern} until the
-	 * specified depth.
+	 * Returns all the {@link File} contained in the specified directory or subdirectories and
+	 * matching the specified name {@link Pattern} until the specified depth in an
+	 * {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param dir         the directory {@link File} of the {@link File} to list
 	 * @param namePattern the name {@link Pattern} of the {@link File} to list
 	 * @param depth       the number of subdirectories under the specified directory to search in
 	 * <p>
-	 * @return the {@link ExtendedLinkedList} of all the {@link File} contained in the specified
-	 *         directory or subdirectories and matching the specified name {@link Pattern} until the
-	 *         specified depth
+	 * @return all the {@link File} contained in the specified directory or subdirectories and
+	 *         matching the specified name {@link Pattern} until the specified depth in an
+	 *         {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern,
 			final int depth) {
-		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
-		for (final File file : dir.listFiles()) {
+		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
+		final File[] files = dir.listFiles();
+		for (final File file : files) {
 			if (namePattern.matcher(file.getName()).matches()) {
-				files.add(file);
+				allFiles.add(file);
 			}
 			if (depth > 0 && file.isDirectory()) {
-				files.addAll(listAll(file, namePattern, depth - 1));
+				allFiles.addAll(listAll(file, namePattern, depth - 1));
 			}
 		}
-		return files;
+		return allFiles;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1045,7 +1049,8 @@ public class Files {
 			ZipOutputStream output = null;
 			try {
 				output = new ZipOutputStream(createOutputStream(targetFile));
-				for (final File source : listAll(sourceDir)) {
+				final List<File> sources = listAll(sourceDir);
+				for (final File source : sources) {
 					// Zip the file
 					final ZipEntry entry = new ZipEntry(getRelativePath(sourceDir, source));
 					entry.setTime(source.lastModified());

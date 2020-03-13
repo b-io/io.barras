@@ -81,6 +81,8 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 		super();
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link ComparableTreeMap} of {@code K}, {@code V} and {@code N} types loaded
 	 * from the specified key and value arrays containing the key-value mappings.
@@ -269,7 +271,7 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Puts all the key-value mappings of the specified key and value arrays to {@code this}
+	 * Puts all the key-value mappings of the specified key and value arrays into {@code this}
 	 * replacing any entries with identical keys.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
@@ -283,7 +285,7 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	}
 
 	/**
-	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
+	 * Puts all the key-value mappings of the specified map into {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value

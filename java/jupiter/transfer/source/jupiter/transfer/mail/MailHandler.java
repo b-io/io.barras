@@ -421,10 +421,11 @@ public class MailHandler
 				try {
 					folder = store.getFolder(remoteDirPath);
 					folder.open(Folder.READ_ONLY);
-					for (final Message message : folder.getMessages()) {
-						if (message.match(mailFilter)) {
-							IO.debug("Download the mail ", Strings.quote(message.getSubject()));
-							messages.add(new MimeMessage((MimeMessage) message));
+					final Message[] ms = folder.getMessages();
+					for (final Message m : ms) {
+						if (m.match(mailFilter)) {
+							IO.debug("Download the mail ", Strings.quote(m.getSubject()));
+							messages.add(new MimeMessage((MimeMessage) m));
 						}
 					}
 				} finally {

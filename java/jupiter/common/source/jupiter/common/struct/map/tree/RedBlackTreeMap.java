@@ -66,6 +66,8 @@ public class RedBlackTreeMap<K, V>
 		super(c);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
 	 * the specified key and value arrays containing the key-value mappings.
@@ -109,6 +111,8 @@ public class RedBlackTreeMap<K, V>
 	public RedBlackTreeMap(final Comparator<? super K> keyComparator) {
 		super(keyComparator);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types with the

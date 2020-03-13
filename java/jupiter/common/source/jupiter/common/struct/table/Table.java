@@ -125,6 +125,8 @@ public class Table<E>
 		this(c, 0, 0);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link Table} of {@code E} element type with the specified numbers of rows and
 	 * columns.

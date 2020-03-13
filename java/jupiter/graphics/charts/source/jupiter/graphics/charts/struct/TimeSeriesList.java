@@ -83,6 +83,8 @@ public class TimeSeriesList
 		this(new ExtendedList<TimeSeries>(initialCapacity));
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link TimeSeriesList} with the specified {@link List} of {@link TimeSeries}.
 	 * <p>

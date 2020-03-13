@@ -189,9 +189,18 @@ public class Collections {
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> boolean addAll(final Collection<? super T> collection, final T[] array) {
+	/**
+	 * Adds all the specified elements to the specified {@link Collection}.
+	 * <p>
+	 * @param <T>        the type of the elements to add
+	 * @param collection a {@link Collection} of {@code T} supertype
+	 * @param elements   the {@code T} elements to add
+	 * <p>
+	 * @return {@code true} if the specified {@link Collection} changed as a result of the call
+	 */
+	public static <T> boolean addAll(final Collection<? super T> collection, final T[] elements) {
 		boolean status = true;
-		for (final T element : array) {
+		for (final T element : elements) {
 			status &= collection.add(element);
 		}
 		return status;

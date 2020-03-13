@@ -466,12 +466,11 @@ public class Doubles {
 	/**
 	 * Returns a {@code double} array from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@code double} array from the specified {@link Collection}
 	 */
-	public static <E> double[] collectionToPrimitiveArray(final Collection<E> collection) {
+	public static double[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -564,12 +563,11 @@ public class Doubles {
 	/**
 	 * Returns an array of {@link Double} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an array of {@link Double} from the specified {@link Collection}
 	 */
-	public static <E> Double[] collectionToArray(final Collection<E> collection) {
+	public static Double[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -680,12 +678,11 @@ public class Doubles {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Double} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedList<Double> collectionToList(final Collection<E> collection) {
+	public static ExtendedList<Double> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
@@ -693,13 +690,12 @@ public class Doubles {
 	 * Returns an {@link ExtendedLinkedList} of {@link Double} from the specified
 	 * {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedLinkedList<Double> collectionToLinkedList(
-			final Collection<E> collection) {
+	public static ExtendedLinkedList<Double> collectionToLinkedList(
+			final Collection<?> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -759,12 +755,11 @@ public class Doubles {
 	/**
 	 * Returns a {@link Set} of {@link Double} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Double} from the specified {@link Collection}
 	 */
-	public static <E> Set<Double> collectionToSet(final Collection<E> collection) {
+	public static Set<Double> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

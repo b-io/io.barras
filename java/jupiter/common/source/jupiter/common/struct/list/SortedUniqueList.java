@@ -58,7 +58,7 @@ public class SortedUniqueList<E extends Comparable<? super E>>
 		super();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the specified elements.
@@ -73,8 +73,8 @@ public class SortedUniqueList<E extends Comparable<? super E>>
 	}
 
 	/**
-	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the specified
-	 * {@link Collection} containing the elements.
+	 * Constructs a {@link SortedUniqueList} of {@code E} element type with the elements of the
+	 * specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
 	 * <p>
@@ -89,6 +89,13 @@ public class SortedUniqueList<E extends Comparable<? super E>>
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Adds the specified element to {@code this}.
+	 * <p>
+	 * @param element the {@code E} element to add
+	 * <p>
+	 * @return {@code true} (as specified by {@link Collection#add})
+	 */
 	@Override
 	public synchronized boolean add(final E element) {
 		int index = 0;

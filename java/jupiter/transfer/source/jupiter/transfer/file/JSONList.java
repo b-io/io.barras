@@ -24,16 +24,17 @@
 package jupiter.transfer.file;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.list.ExtendedList;
 
 /**
- * {@link JSONObject} is an {@link ExtendedHashMap} containing the JSON key-value mappings.
+ * {@link JSONList} is an {@link ExtendedList} of {@link JSONObject}.
  */
-public class JSONObject
-		extends ExtendedHashMap<String, Object>
+public class JSONList
+		extends ExtendedList<JSONObject>
 		implements Serializable {
 
 
@@ -52,55 +53,84 @@ public class JSONObject
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link JSONObject} of {@code K} and {@code V} types by default.
+	 * Constructs an empty {@link JSONList} by default.
 	 */
-	public JSONObject() {
+	public JSONList() {
 		super();
 	}
 
 	/**
-	 * Constructs an empty {@link JSONObject} of {@code K} and {@code V} types with the specified
-	 * initial capacity.
+	 * Constructs an empty {@link JSONList} with the specified initial capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
 	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
-	public JSONObject(final int initialCapacity) {
+	public JSONList(final int initialCapacity) {
 		super(initialCapacity);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link JSONObject} of {@code K} and {@code V} types loaded from the specified
-	 * key and value arrays containing the key-value mappings.
+	 * Constructs a {@link JSONList} with the specified elements.
 	 * <p>
-	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
-	 * @param values the {@code V} array containing the values of the key-value mappings to load
+	 * @param elements an array of {@link JSONObject}
 	 * <p>
-	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
-	public JSONObject(final String[] keys, final Object[] values) {
-		super(keys, values);
+	public JSONList(final JSONObject... elements) {
+		super(elements);
 	}
 
 	/**
-	 * Constructs a {@link JSONObject} of {@code K} and {@code V} types loaded from the specified
-	 * {@link Map} containing the key-value mappings.
+	 * Constructs a {@link JSONList} with the elements of the specified {@link Collection}.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
-	 *            subtypes to load
+	 * @param elements a {@link Collection} of element subtype of {@link JSONObject}
 	 * <p>
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
-	public JSONObject(final Map<String, ? extends Object> map) {
-		super(map);
+	public JSONList(final Collection<? extends JSONObject> elements) {
+		super(elements);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Appends the {@link JSONObject} loaded from the specified key and value arrays containing the
+	 * key-value mappings to the end of {@code this}.
+	 * <p>
+	 * @param keys   the array of {@link String} containing the keys of the key-value mappings of
+	 *               the {@link JSONObject} to append
+	 * @param values the array of {@link Object} containing the values of the key-value mappings of
+	 *               the {@link JSONObject} to append
+	 * <p>
+	 * @return {@code true} (as specified by {@link Collection#add}
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public synchronized boolean add(final String[] keys, final Object[] values) {
+		return add(new JSONObject(keys, values));
+	}
+
+	/**
+	 * Appends the {@link JSONObject} loaded from the specified {@link Map} containing the key-value
+	 * mappings to the end of {@code this}.
+	 * <p>
+	 * @param map the {@link Map} containing the key-value mappings of the {@link JSONObject} to
+	 *            append
+	 * <p>
+	 * @return {@code true} (as specified by {@link Collection#add})
+	 * <p>
+	 * @throws NullPointerException if {@code map} is {@code null}
+	 */
+	public synchronized boolean add(final Map<String, ? extends Object> map) {
+		return add(new JSONObject(map));
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -110,32 +140,6 @@ public class JSONObject
 	 */
 	public String stringify() {
 		return JSON.stringify(this);
-	}
-
-	/**
-	 * Returns a JSON {@link String} of the specified JSON key-value mappings.
-	 * <p>
-	 * @param keys the array of key {@link String} of the key-value mappings to represent as a JSON
-	 *             {@link String} (may be {@code null})
-	 * <p>
-	 * @return a JSON {@link String} of the specified key-value mapping
-	 */
-	public String stringify(final String... keys) {
-		return JSON.stringify(getAll(keys));
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a JSON entry {@link String} of the specified key-value mapping.
-	 * <p>
-	 * @param key the key {@link String} of the key-value mapping to represent as a JSON entry
-	 *            {@link String} (may be {@code null})
-	 * <p>
-	 * @return a JSON entry {@link String} of the specified key-value mapping
-	 */
-	public String stringifyNode(final String key) {
-		return JSON.stringifyNode(key, get(key));
 	}
 
 
@@ -151,7 +155,7 @@ public class JSONObject
 	 * @see ICloneable
 	 */
 	@Override
-	public JSONObject clone() {
-		return (JSONObject) super.clone();
+	public JSONList clone() {
+		return (JSONList) super.clone();
 	}
 }

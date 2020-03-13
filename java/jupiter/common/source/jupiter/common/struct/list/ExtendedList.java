@@ -74,7 +74,7 @@ public class ExtendedList<E>
 		super(initialCapacity);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs an {@link ExtendedList} of {@code E} element type with the specified elements.
@@ -90,8 +90,8 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedList} of {@code E} element type with the specified elements in a
-	 * {@link Collection}.
+	 * Constructs an {@link ExtendedList} of {@code E} element type with the elements of the
+	 * specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
 	 * <p>
@@ -213,28 +213,68 @@ public class ExtendedList<E>
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Appends the specified element to the end of {@code this}.
+	 * <p>
+	 * @param element the {@code E} element to append
+	 * <p>
+	 * @return {@code true} (as specified by {@link Collection#add})
+	 */
 	@Override
 	public synchronized boolean add(final E element) {
 		return super.add(element);
 	}
 
+	/**
+	 * Inserts the specified element at the specified index into {@code this}. Shifts the element
+	 * currently at that position (if any) and any subsequent elements to the right (adds one to
+	 * their indices).
+	 * <p>
+	 * @param index   the index to insert at
+	 * @param element the {@code E} element to insert
+	 */
 	@Override
 	public synchronized void add(final int index, final E element) {
 		super.add(index, element);
 	}
 
-	public synchronized <T extends E> boolean addAll(final T[] array) {
-		return Lists.addAll(this, array);
+	/**
+	 * Appends all the specified elements to the end of {@code this}.
+	 * <p>
+	 * @param <T>      the type of the elements to append ({@code E} subtype)
+	 * @param elements the {@code T} elements to append
+	 * <p>
+	 * @return {@code true} if {@code this} changed as a result of the call
+	 */
+	public synchronized <T extends E> boolean addAll(final T[] elements) {
+		return Lists.addAll(this, elements);
 	}
 
+	/**
+	 * Appends all the elements of the specified {@link Collection} to the end of {@code this}.
+	 * <p>
+	 * @param elements the {@link Collection} of {@code E} subtype containing the elements to append
+	 * <p>
+	 * @return {@code true} if {@code this} changed as a result of the call
+	 */
 	@Override
-	public synchronized boolean addAll(final Collection<? extends E> collection) {
-		return super.addAll(collection);
+	public synchronized boolean addAll(final Collection<? extends E> elements) {
+		return super.addAll(elements);
 	}
 
+	/**
+	 * Inserts all the elements of the specified {@link Collection} into {@code this}, starting from
+	 * the specified index. Shifts the element currently at that position (if any) and any
+	 * subsequent elements to the right (increases their indices).
+	 * <p>
+	 * @param index    the index to insert at
+	 * @param elements the {@link Collection} of {@code E} subtype containing the elements to insert
+	 * <p>
+	 * @return {@code true} if {@code this} changed as a result of the call
+	 */
 	@Override
-	public synchronized boolean addAll(final int index, final Collection<? extends E> collection) {
-		return super.addAll(index, collection);
+	public synchronized boolean addAll(final int index, final Collection<? extends E> elements) {
+		return super.addAll(index, elements);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

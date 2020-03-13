@@ -188,7 +188,7 @@ public class ExtendedHashMap<K, V>
 	}
 
 	/**
-	 * Puts all the key-value mappings of the specified key and value arrays to {@code this}
+	 * Puts all the key-value mappings of the specified key and value arrays into {@code this}
 	 * replacing any entries with identical keys.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
@@ -201,7 +201,7 @@ public class ExtendedHashMap<K, V>
 	}
 
 	/**
-	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
+	 * Puts all the key-value mappings of the specified map into {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}

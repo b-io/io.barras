@@ -437,12 +437,11 @@ public class Booleans {
 	/**
 	 * Returns a {@code boolean} array from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@code boolean} array from the specified {@link Collection}
 	 */
-	public static <E> boolean[] collectionToPrimitiveArray(final Collection<E> collection) {
+	public static boolean[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
 	}
 
@@ -535,12 +534,11 @@ public class Booleans {
 	/**
 	 * Returns an array of {@link Boolean} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an array of {@link Boolean} from the specified {@link Collection}
 	 */
-	public static <E> Boolean[] collectionToArray(final Collection<E> collection) {
+	public static Boolean[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
 	}
 
@@ -651,12 +649,11 @@ public class Booleans {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection}
 	 */
-	public static <E> ExtendedList<Boolean> collectionToList(final Collection<E> collection) {
+	public static ExtendedList<Boolean> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
@@ -664,14 +661,13 @@ public class Booleans {
 	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified
 	 * {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified
 	 *         {@link Collection}
 	 */
-	public static <E> ExtendedLinkedList<Boolean> collectionToLinkedList(
-			final Collection<E> collection) {
+	public static ExtendedLinkedList<Boolean> collectionToLinkedList(
+			final Collection<?> collection) {
 		return PARSER.callCollectionToLinkedList(collection);
 	}
 
@@ -731,12 +727,11 @@ public class Booleans {
 	/**
 	 * Returns a {@link Set} of {@link Boolean} from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert
+	 * @param collection the {@link Collection} to convert
 	 * <p>
 	 * @return a {@link Set} of {@link Boolean} from the specified {@link Collection}
 	 */
-	public static <E> Set<Boolean> collectionToSet(final Collection<E> collection) {
+	public static Set<Boolean> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

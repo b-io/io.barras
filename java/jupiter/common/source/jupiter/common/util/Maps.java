@@ -129,7 +129,7 @@ public class Maps
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Puts all the key-value mappings of the specified key and value arrays to the specified
+	 * Puts all the key-value mappings of the specified key and value arrays into the specified
 	 * {@link Map} replacing any entries with identical keys.
 	 * <p>
 	 * @param <K>    the key type of the key-value mappings to put

@@ -112,8 +112,10 @@ public class MemoryTest
 	public static void test() {
 		if (OpenCL.IS_ACTIVE) {
 			initialize();
-			for (final MemoryMode memoryMode : MemoryMode.values()) {
-				for (final AccessMode accessMode : AccessMode.values()) {
+			final MemoryMode[] memoryModes = MemoryMode.values();
+			final AccessMode[] accessModes = AccessMode.values();
+			for (final MemoryMode memoryMode : memoryModes) {
+				for (final AccessMode accessMode : accessModes) {
 					runTest(memoryMode, accessMode);
 				}
 			}
