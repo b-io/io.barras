@@ -1015,8 +1015,8 @@ public class Arrays {
 	 * <p>
 	 * @param array the array to sort
 	 * <p>
-	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
-	 *                                  comparable (e.g. a {@link String} and an {@link Integer})
+	 * @throws ClassCastException       if any {@code array} elements cannot be mutually compared
+	 *                                  (e.g. a {@link String} and an {@link Integer})
 	 * @throws IllegalArgumentException (optional) if the natural ordering of the {@code array}
 	 *                                  elements is found to violate the {@link Comparable} contract
 	 */
@@ -1056,8 +1056,8 @@ public class Arrays {
 	 * @param array     the array to sort
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * <p>
-	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
-	 *                                  comparable (e.g. a {@link String} and an {@link Integer})
+	 * @throws ClassCastException       if any {@code array} elements cannot be mutually compared
+	 *                                  (e.g. a {@link String} and an {@link Integer})
 	 * @throws IllegalArgumentException if {@code fromIndex} is out of bounds or (optional) if the
 	 *                                  natural ordering of the {@code array} elements is found to
 	 *                                  violate the {@link Comparable} contract
@@ -1104,8 +1104,8 @@ public class Arrays {
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * @param toIndex   the index of the last element to sort (exclusive)
 	 * <p>
-	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
-	 *                                  comparable (e.g. a {@link String} and an {@link Integer})
+	 * @throws ClassCastException       if any {@code array} elements cannot be mutually compared
+	 *                                  (e.g. a {@link String} and an {@link Integer})
 	 * @throws IllegalArgumentException if {@code fromIndex} or {@code toIndex} is out of bounds or
 	 *                                  (optional) if the natural ordering of the {@code array}
 	 *                                  elements is found to violate the {@link Comparable} contract
@@ -1154,8 +1154,8 @@ public class Arrays {
 	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
 	 *                   the elements should be used)
 	 * <p>
-	 * @throws ClassCastException       if {@code array} contains elements that are not mutually
-	 *                                  comparable using {@code comparator}
+	 * @throws ClassCastException       if any {@code array} elements cannot be mutually compared
+	 *                                  using {@code comparator}
 	 * @throws IllegalArgumentException (optional) if {@code comparator} is found to violate the
 	 *                                  {@link Comparator} contract
 	 */
@@ -1205,8 +1205,8 @@ public class Arrays {
 	 *                   the elements should be used)
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or {@code toIndex > a.length}
-	 * @throws ClassCastException             if {@code array} contains elements that are not
-	 *                                        mutually comparable using {@code comparator}
+	 * @throws ClassCastException             if any {@code array} elements cannot be mutually
+	 *                                        compared using {@code comparator}
 	 * @throws IllegalArgumentException       if {@code fromIndex > toIndex} or (optional) if
 	 *                                        {@code comparator} is found to violate the
 	 *                                        {@link Comparator} contract
@@ -1637,8 +1637,8 @@ public class Arrays {
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not comparable to the
-	 *                            elements of {@code from} or {@code to}
+	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
+	 *                            of {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to) {
 		return isBetween(array, from, to, true, false);
@@ -1658,8 +1658,8 @@ public class Arrays {
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not comparable to the
-	 *                            elements of {@code from} or {@code to}
+	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
+	 *                            of {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
 			final boolean isUpperInclusive) {
@@ -1680,8 +1680,8 @@ public class Arrays {
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not comparable to the
-	 *                            elements of {@code from} or {@code to}
+	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
+	 *                            of {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
 			final boolean isLowerInclusive, final boolean isUpperInclusive) {
@@ -1708,8 +1708,8 @@ public class Arrays {
 	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not comparable to the
-	 *                            elements of {@code from} or {@code to} using {@code comparator}
+	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
+	 *                            of {@code from} or {@code to} using {@code comparator}
 	 */
 	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
 			final Comparator<? super T> comparator) {
@@ -1733,8 +1733,8 @@ public class Arrays {
 	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not comparable to the
-	 *                            elements of {@code from} or {@code to} using {@code comparator}
+	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
+	 *                            of {@code from} or {@code to} using {@code comparator}
 	 */
 	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
 			final Comparator<? super T> comparator, final boolean isUpperInclusive) {
@@ -1758,8 +1758,8 @@ public class Arrays {
 	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not comparable to the
-	 *                            elements of {@code from} or {@code to} using {@code comparator}
+	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
+	 *                            of {@code from} or {@code to} using {@code comparator}
 	 */
 	public static <T> boolean isBetween(final T[] array, final T[] from, final T[] to,
 			final Comparator<? super T> comparator, final boolean isLowerInclusive,
@@ -1889,7 +1889,7 @@ public class Arrays {
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 * <p>
-	 * @throws ClassCastException if {@code a} contains elements that are not comparable to the
+	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
 	 *                            elements of {@code b}
 	 */
 	public static <T extends Comparable<? super T>> int compare(final T[] a, final T[] b) {
@@ -1908,7 +1908,7 @@ public class Arrays {
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 * <p>
-	 * @throws ClassCastException if {@code a} contains elements that are not comparable to the
+	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
 	 *                            elements of {@code b}
 	 */
 	public static <T> int compareCast(final T[] a, final T[] b) {
@@ -1929,7 +1929,7 @@ public class Arrays {
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 * <p>
-	 * @throws ClassCastException if {@code a} contains elements that are not comparable to the
+	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
 	 *                            elements of {@code b} using {@code comparator}
 	 */
 	public static <T> int compare(final T[] a, final T[] b,

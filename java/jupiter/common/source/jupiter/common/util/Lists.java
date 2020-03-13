@@ -137,8 +137,8 @@ public class Lists
 	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
 	 *                   the elements should be used)
 	 * <p>
-	 * @throws ClassCastException       if {@code list} contains elements that are not mutually
-	 *                                  comparable using {@code comparator}
+	 * @throws ClassCastException       if any {@code list} elements cannot be mutually compared
+	 *                                  using {@code comparator}
 	 * @throws IllegalArgumentException (optional) if {@code comparator} is found to violate the
 	 *                                  {@link Comparator} contract
 	 */

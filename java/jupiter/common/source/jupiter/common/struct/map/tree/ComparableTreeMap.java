@@ -31,6 +31,7 @@ import java.util.Map.Entry;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
+import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Maps;
 
 /**
@@ -82,10 +83,33 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 
 	/**
 	 * Constructs a {@link ComparableTreeMap} of {@code K}, {@code V} and {@code N} types loaded
+	 * from the specified key and value arrays containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@code V} array containing the values of the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected ComparableTreeMap(final K[] keys, final V[] values) {
+		super();
+
+		// Check the arguments
+		ArrayArguments.requireSameLength(keys, values);
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	/**
+	 * Constructs a {@link ComparableTreeMap} of {@code K}, {@code V} and {@code N} types loaded
 	 * from the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
-	 *            subtypes to load
+	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
+	 *            mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared
+	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	protected ComparableTreeMap(final Map<? extends K, ? extends V> map) {
 		super();
@@ -245,15 +269,28 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Puts all the key-value mappings of the specified key and value arrays to {@code this}
+	 * replacing any entries with identical keys.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
+	 * @param values the {@code V} array containing the values of the key-value mappings to put
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public synchronized void putAll(final K[] keys, final V[] values) {
+		Maps.putAll(this, keys, values);
+	}
+
+	/**
 	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
-	 *            subtypes to put
+	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
+	 *            mappings to put
 	 * <p>
 	 * @throws ClassCastException   if any {@code map} keys cannot be compared to {@code this} keys
-	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a
-	 *                              {@code null} key
+	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	@Override
 	public synchronized void putAll(final Map<? extends K, ? extends V> map) {

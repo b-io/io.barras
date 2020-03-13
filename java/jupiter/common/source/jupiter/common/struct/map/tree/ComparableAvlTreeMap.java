@@ -73,10 +73,27 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 
 	/**
 	 * Constructs a {@link ComparableAvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded
+	 * from the specified key and value arrays containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@code V} array containing the values of the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected ComparableAvlTreeMap(final K[] keys, final V[] values) {
+		super(keys, values);
+	}
+
+	/**
+	 * Constructs a {@link ComparableAvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded
 	 * from the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
-	 *            subtypes to load
+	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
+	 *            mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared
+	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	public ComparableAvlTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);

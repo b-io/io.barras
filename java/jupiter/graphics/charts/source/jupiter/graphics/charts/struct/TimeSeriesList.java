@@ -66,10 +66,21 @@ public class TimeSeriesList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link TimeSeriesList}.
+	 * Constructs an empty {@link TimeSeriesList} by default.
 	 */
 	public TimeSeriesList() {
 		this(new ExtendedList<TimeSeries>());
+	}
+
+	/**
+	 * Constructs an empty {@link TimeSeriesList} with the specified initial capacity.
+	 * <p>
+	 * @param initialCapacity the initial capacity
+	 * <p>
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
+	 */
+	public TimeSeriesList(final int initialCapacity) {
+		this(new ExtendedList<TimeSeries>(initialCapacity));
 	}
 
 	/**

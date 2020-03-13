@@ -129,6 +129,26 @@ public class Maps
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Puts all the key-value mappings of the specified key and value arrays to the specified
+	 * {@link Map} replacing any entries with identical keys.
+	 * <p>
+	 * @param <K>    the key type of the key-value mappings to put
+	 * @param <V>    the value type of the key-value mappings to put
+	 * @param map    a {@link Map} of {@code K} and {@code V} supertypes
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
+	 * @param values the {@code V} array containing the values of the key-value mappings to put
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public static <K, V> void putAll(final Map<? super K, ? super V> map, final K[] keys,
+			final V[] values) {
+		for (int i = 0; i < keys.length; ++i) {
+			map.put(keys[i], values[i]);
+		}
+	}
+
+	/**
 	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
 	 * keys or {@code null} for those that are not present in an {@link ExtendedList}.
 	 * <p>

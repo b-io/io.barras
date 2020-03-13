@@ -182,8 +182,7 @@ public class ComparableSort
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
 	public static void sort(final Object[] array, int fromIndex, final int toIndex,
 			final Object[] work, final int workBase, final int workLength) {
@@ -247,8 +246,7 @@ public class ComparableSort
 	 * @param start the index of the first element in the range that is not already known to sort
 	 *              ({@code lo <= start <= hi})
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
 	@SuppressWarnings({"fallthrough", "rawtypes", "unchecked"})
 	protected static void binarySort(final Object[] array, final int lo, final int hi, int start) {
@@ -314,8 +312,7 @@ public class ComparableSort
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	protected static int countRunAndMakeAscending(final Object[] array, final int lo,
@@ -521,8 +518,7 @@ public class ComparableSort
 	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code array}
 	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
 	protected static int gallopLeft(final Comparable<Object> key, final Object[] array,
 			final int base, final int length, final int hint) {
@@ -608,8 +604,7 @@ public class ComparableSort
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
 	protected static int gallopRight(final Comparable<Object> key, final Object[] array,
 			final int base, final int length, final int hint) {

@@ -195,8 +195,8 @@ public class Sort<T>
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable using {@code comparator}
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared using
+	 *                            {@code comparator}
 	 */
 	public static <T> void sort(final T[] array, int fromIndex, final int toIndex,
 			final Comparator<? super T> comparator, final T[] work, final int workBase,
@@ -265,8 +265,8 @@ public class Sort<T>
 	 *                   sorted ({@code lo <= start <= hi})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable using {@code comparator}
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared using
+	 *                            {@code comparator}
 	 */
 	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
@@ -335,8 +335,8 @@ public class Sort<T>
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable using {@code comparator}
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared using
+	 *                            {@code comparator}
 	 */
 	protected static <T> int countRunAndMakeAscending(final T[] array, final int lo, final int hi,
 			final Comparator<? super T> comparator) {
@@ -543,8 +543,8 @@ public class Sort<T>
 	 *         index {@code b + k}; or in other words, the first {@code k} elements of {@code array}
 	 *         should precede {@code key} and the last {@code n - k} should follow it
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable using {@code comparator}
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared using
+	 *                            {@code comparator}
 	 */
 	protected static <T> int gallopLeft(final T key, final T[] array, final int base,
 			final int length, final int hint, final Comparator<? super T> comparator) {
@@ -633,8 +633,8 @@ public class Sort<T>
 	 * @return the integer {@code k}, {@code 0 <= k <= n} such that
 	 *         {@code a[b + k - 1] <= key < a[b + k]}
 	 * <p>
-	 * @throws ClassCastException if {@code array} contains elements that are not mutually
-	 *                            comparable using {@code comparator}
+	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared using
+	 *                            {@code comparator}
 	 */
 	protected static <T> int gallopRight(final T key, final T[] array, final int base,
 			final int length, final int hint, final Comparator<? super T> comparator) {

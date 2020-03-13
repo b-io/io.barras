@@ -33,6 +33,7 @@ import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
+import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Maps;
 
 /**
@@ -80,13 +81,33 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link TreeMap} of {@code K}, {@code V} and {@code N} types.
+	 * Constructs an empty {@link TreeMap} of {@code K}, {@code V} and {@code N} types by default.
 	 * <p>
 	 * @param c the key {@link Class} of {@code K} type
 	 */
 	protected TreeMap(final Class<K> c) {
-		super();
-		keyComparator = Comparables.getComparator(c);
+		this(Comparables.getComparator(c));
+	}
+
+	/**
+	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types loaded from the
+	 * specified key and value arrays containing the key-value mappings.
+	 * <p>
+	 * @param c      the key {@link Class} of {@code K} type
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@code V} array containing the values of the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected TreeMap(final Class<K> c, final K[] keys, final V[] values) {
+		this(c);
+
+		// Check the arguments
+		ArrayArguments.requireSameLength(keys, values);
+
+		// Put all the key-value mappings
+		putAll(keys, values);
 	}
 
 	/**
@@ -94,20 +115,22 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of {@code K} type
-	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
-	 *            subtypes to load
+	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
+	 *            mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared
+	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	protected TreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
-		super();
-		keyComparator = Comparables.getComparator(c);
+		this(c);
 		putAll(map);
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types with the specified
-	 * key {@link Comparator}.
+	 * Constructs an empty {@link TreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator}.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 */
@@ -118,17 +141,45 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 
 	/**
 	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types with the specified
+	 * key {@link Comparator} loaded from the specified key and value arrays containing the
+	 * key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param keys          the {@code K} array containing the keys of the key-value mappings to
+	 *                      load
+	 * @param values        the {@code V} array containing the values of the key-value mappings to
+	 *                      load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected TreeMap(final Comparator<? super K> keyComparator, final K[] keys, final V[] values) {
+		this(keyComparator);
+
+		// Check the arguments
+		ArrayArguments.requireSameLength(keys, values);
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	/**
+	 * Constructs a {@link TreeMap} of {@code K}, {@code V} and {@code N} types with the specified
 	 * key {@link Comparator} loaded from the specified {@link Map} containing the key-value
 	 * mappings.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
-	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
-	 *                      {@code V} subtypes to load
+	 * @param map           the {@link Map} of {@code K} and {@code V} subtypes containing the
+	 *                      key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	protected TreeMap(final Comparator<? super K> keyComparator,
 			final Map<? extends K, ? extends V> map) {
-		super();
-		this.keyComparator = keyComparator;
+		this(keyComparator);
 		putAll(map);
 	}
 
@@ -296,15 +347,28 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Puts all the key-value mappings of the specified key and value arrays to {@code this}
+	 * replacing any entries with identical keys.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
+	 * @param values the {@code V} array containing the values of the key-value mappings to put
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public synchronized void putAll(final K[] keys, final V[] values) {
+		Maps.putAll(this, keys, values);
+	}
+
+	/**
 	 * Puts all the key-value mappings of the specified map to {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
-	 *            subtypes to put
+	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
+	 *            mappings to put
 	 * <p>
 	 * @throws ClassCastException   if any {@code map} keys cannot be compared to {@code this} keys
-	 * @throws NullPointerException if {@code map} is {@code null} or {@code map} contains a
-	 *                              {@code null} key
+	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	@Override
 	public synchronized void putAll(final Map<? extends K, ? extends V> map) {
