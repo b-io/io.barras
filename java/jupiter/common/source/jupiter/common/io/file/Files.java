@@ -881,12 +881,12 @@ public class Files {
 				// Test whether it is a directory
 				if (file.isDirectory()) {
 					// • Directory
-					final File[] files = file.listFiles();
+					final File[] fs = file.listFiles();
 					// Test whether the directory contains files
-					if (files.length > 0) {
+					if (fs.length > 0) {
 						// If force, delete the files of the directory recursively
 						if (force) {
-							for (final File f : files) {
+							for (final File f : fs) {
 								delete(f, true);
 							}
 						} else {

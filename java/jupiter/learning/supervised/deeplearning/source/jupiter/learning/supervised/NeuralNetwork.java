@@ -30,6 +30,7 @@ import java.io.IOException;
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunction;
@@ -200,11 +201,7 @@ public class NeuralNetwork
 		}
 
 		// Set the weights
-		try {
-			W = Objects.clone(weights);
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		W = Arrays.clone(weights);
 	}
 
 	/**
@@ -219,11 +216,7 @@ public class NeuralNetwork
 		}
 
 		// Set the bias
-		try {
-			b = Objects.clone(bias);
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		b = Arrays.clone(bias);
 	}
 
 	//////////////////////////////////////////////
@@ -519,16 +512,12 @@ public class NeuralNetwork
 	 */
 	@Override
 	public NeuralNetwork clone() {
-		try {
-			final NeuralNetwork clone = (NeuralNetwork) super.clone();
-			clone.W = Objects.clone(W);
-			clone.b = Objects.clone(b);
-			clone.A = Objects.clone(A);
-			clone.activationFunction = Objects.clone(activationFunction);
-			clone.regularizationFunction = Objects.clone(regularizationFunction);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final NeuralNetwork clone = (NeuralNetwork) super.clone();
+		clone.W = Arrays.clone(W);
+		clone.b = Arrays.clone(b);
+		clone.A = Arrays.clone(A);
+		clone.activationFunction = Objects.clone(activationFunction);
+		clone.regularizationFunction = Objects.clone(regularizationFunction);
+		return clone;
 	}
 }

@@ -140,12 +140,8 @@ public class LineChartGraphic
 	 */
 	@Override
 	public LineChartGraphic clone() {
-		try {
-			final LineChartGraphic clone = (LineChartGraphic) super.clone();
-			clone.dataset = Objects.clone(dataset);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final LineChartGraphic clone = (LineChartGraphic) super.clone();
+		clone.dataset = Objects.clone(dataset);
+		return clone;
 	}
 }

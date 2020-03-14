@@ -184,12 +184,8 @@ public class TimeSeriesGraphic
 	 */
 	@Override
 	public TimeSeriesGraphic clone() {
-		try {
-			final TimeSeriesGraphic clone = (TimeSeriesGraphic) super.clone();
-			clone.dataset = Objects.clone(dataset);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final TimeSeriesGraphic clone = (TimeSeriesGraphic) super.clone();
+		clone.dataset = Objects.clone(dataset);
+		return clone;
 	}
 }

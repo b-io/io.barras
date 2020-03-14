@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.io.IO.IO;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -181,15 +183,13 @@ public class Objects {
 	 * @param <T>    the type of the object to clone
 	 * @param object the {@code T} object to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified {@code T} object
-	 * <p>
-	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
+	 * @return a copy of the specified {@code T} object, or {@code null} if it is {@code null} or
+	 *         not cloneable
 	 *
 	 * @see ICloneable
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
-	public static <T> T clone(final T object)
-			throws CloneNotSupportedException {
+	public static <T> T clone(final T object) {
 		// Check the arguments
 		if (object == null) {
 			return null;
@@ -220,17 +220,10 @@ public class Objects {
 				return object;
 			}
 			return (T) Classes.get(object).getMethod("clone").invoke(object);
-		} catch (final IllegalAccessException ex) {
-			throw new CloneNotSupportedException(Strings.toString(ex));
-		} catch (final IllegalArgumentException ex) {
-			throw new CloneNotSupportedException(Strings.toString(ex));
-		} catch (final InvocationTargetException ex) {
-			throw new CloneNotSupportedException(Strings.toString(ex));
-		} catch (final NoSuchMethodException ex) {
-			throw new CloneNotSupportedException(Strings.toString(ex));
-		} catch (final SecurityException ex) {
-			throw new CloneNotSupportedException(Strings.toString(ex));
+		} catch (final Exception ex) {
+			IO.warn(ex);
 		}
+		return null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

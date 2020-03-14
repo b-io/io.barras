@@ -83,7 +83,7 @@ public class ChartPanels {
 
 		// Find the closest chart entity
 		// • Get all the chart entities
-		final Collection<ChartEntity> entities = chartPanel.getChartRenderingInfo()
+		final Collection<ChartEntity> es = chartPanel.getChartRenderingInfo()
 				.getEntityCollection()
 				.getEntities();
 		// • Get the mouse position
@@ -96,7 +96,7 @@ public class ChartPanels {
 		final Point2D position = new Point2D.Double(xPosition, yPosition);
 		// • Select the closest chart entity to the mouse position
 		double minDistance = Integer.MAX_VALUE;
-		for (final ChartEntity e : entities) {
+		for (final ChartEntity e : es) {
 			if (e instanceof CategoryItemEntity ||
 					e instanceof org.jfree.chart.entity.ContourEntity ||
 					e instanceof PieSectionEntity || e instanceof XYItemEntity) {

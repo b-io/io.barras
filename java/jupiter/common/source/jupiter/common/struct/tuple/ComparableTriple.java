@@ -116,15 +116,11 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 	 */
 	@Override
 	public ComparableTriple<T1, T2, T3> clone() {
-		try {
-			final ComparableTriple<T1, T2, T3> clone = (ComparableTriple<T1, T2, T3>) super.clone();
-			clone.first = Objects.clone(first);
-			clone.second = Objects.clone(second);
-			clone.third = Objects.clone(third);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final ComparableTriple<T1, T2, T3> clone = (ComparableTriple<T1, T2, T3>) super.clone();
+		clone.first = Objects.clone(first);
+		clone.second = Objects.clone(second);
+		clone.third = Objects.clone(third);
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -138,13 +138,9 @@ public abstract class ChartGraphic
 	 */
 	@Override
 	public ChartGraphic clone() {
-		try {
-			final ChartGraphic clone = (ChartGraphic) super.clone();
-			clone.labels = Objects.clone(labels);
-			clone.styles = Objects.clone(styles);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final ChartGraphic clone = (ChartGraphic) super.clone();
+		clone.labels = Objects.clone(labels);
+		clone.styles = Objects.clone(styles);
+		return clone;
 	}
 }

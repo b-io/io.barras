@@ -49,6 +49,7 @@ import jupiter.common.io.Resources;
 import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -918,7 +919,7 @@ public class FTPHandler
 	public FTPHandler clone() {
 		try {
 			final FTPHandler clone = (FTPHandler) super.clone();
-			clone.fileNames = Objects.clone(fileNames);
+			clone.fileNames = Arrays.clone(fileNames);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Strings.toString(ex), ex);

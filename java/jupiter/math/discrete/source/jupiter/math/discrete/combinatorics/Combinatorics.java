@@ -78,23 +78,24 @@ public class Combinatorics {
 	 * Returns the factoradic representation of the specified permutation without repetition of the
 	 * specified sequence.
 	 * <p>
-	 * @param permutation an {@code int} array containing the permutation indices of the sequence
-	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
+	 * @param permutationIndices an {@code int} array containing the permutation indices of the
+	 *                           sequence
+	 * @param sequence           an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
 	 * @return the factoradic representation of the specified permutation without repetition of the
 	 *         specified sequence
 	 */
-	public static ExtendedLinkedList<Integer> getPermutationFactoradic(final int[] permutation,
-			final ExtendedLinkedList<Integer> sequence) {
+	public static ExtendedLinkedList<Integer> getPermutationFactoradic(
+			final int[] permutationIndices, final ExtendedLinkedList<Integer> sequence) {
 		// Initialize
 		final int n = sequence.size();
-		final int k = permutation.length;
+		final int k = permutationIndices.length;
 		final ExtendedLinkedList<Integer> s = sequence.clone();
 		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
 
 		// Get the factoradic of the permutation
-		for (final int p : permutation) {
-			factoradicValue.add(s.removeFirst(p));
+		for (final int permutationIndex : permutationIndices) {
+			factoradicValue.add(s.removeFirst(permutationIndex));
 		}
 		for (int i = 0; i < n - k; ++i) {
 			factoradicValue.add(0);
@@ -107,53 +108,54 @@ public class Combinatorics {
 	/**
 	 * Returns the index of the specified permutation without repetition of the specified sequence.
 	 * <p>
-	 * @param permutation an {@code int} array containing the permutation indices of the sequence
-	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
+	 * @param permutationIndices an {@code int} array containing the permutation indices of the
+	 *                           sequence
+	 * @param sequence           an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
 	 * @return the index of the specified permutation without repetition of the specified sequence
 	 */
-	public static int getPermutationIndex(final int[] permutation,
+	public static int getPermutationIndex(final int[] permutationIndices,
 			final ExtendedLinkedList<Integer> sequence) {
-		return toDecimal(getPermutationFactoradic(permutation, sequence));
+		return toDecimal(getPermutationFactoradic(permutationIndices, sequence));
 	}
 
 	/**
 	 * Returns the index of the specified {@code k}-permutation without repetition of the specified
 	 * sequence.
 	 * <p>
-	 * @param permutation an {@code int} array containing the {@code k}-permutation indices of the
-	 *                    sequence
-	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
+	 * @param permutationIndices an {@code int} array containing the {@code k}-permutation indices
+	 *                           of the sequence
+	 * @param sequence           an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
 	 * @return the index of the specified {@code k}-permutation without repetition of the specified
 	 *         sequence
 	 */
-	public static int getKPermutationIndex(final int[] permutation,
+	public static int getKPermutationIndex(final int[] permutationIndices,
 			final ExtendedLinkedList<Integer> sequence) {
 		// Initialize
 		final int n = sequence.size();
-		final int k = permutation.length;
+		final int k = permutationIndices.length;
 		final int divisor = getKPermutationDivisor(n, k);
 
 		// Get the index of the k-permutation
-		return getKPermutationIndex(permutation, sequence, divisor);
+		return getKPermutationIndex(permutationIndices, sequence, divisor);
 	}
 
 	/**
 	 * Returns the index of the specified {@code k}-permutation without repetition of the specified
 	 * sequence with the specified divisor.
 	 * <p>
-	 * @param permutation an {@code int} array containing the {@code k}-permutation indices of the
-	 *                    sequence
-	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
-	 * @param divisor     an {@code int} value
+	 * @param permutationIndices an {@code int} array containing the {@code k}-permutation indices
+	 *                           of the sequence
+	 * @param sequence           an {@link ExtendedLinkedList} of {@link Integer}
+	 * @param divisor            an {@code int} value
 	 * <p>
 	 * @return the index of the specified {@code k}-permutation without repetition of the specified
 	 *         sequence with the specified divisor
 	 */
-	public static int getKPermutationIndex(final int[] permutation,
+	public static int getKPermutationIndex(final int[] permutationIndices,
 			final ExtendedLinkedList<Integer> sequence, final int divisor) {
-		return getPermutationIndex(permutation, sequence) / divisor;
+		return getPermutationIndex(permutationIndices, sequence) / divisor;
 	}
 
 	/**
@@ -247,21 +249,21 @@ public class Combinatorics {
 	 */
 	public static int[][] createAllPermutations(final int n, final boolean sort) {
 		// Initialize
-		int permutationCount = 0;
+		int allPermutationCount = 0;
 		for (int k = 0; k <= n; ++k) {
-			permutationCount += P(n, k);
+			allPermutationCount += P(n, k);
 		}
-		final int[][] permutations = new int[permutationCount][];
+		final int[][] allPermutations = new int[allPermutationCount][];
 
 		// Generate all the permutations
 		int p = 0;
 		for (int k = 0; k <= n; ++k) {
-			final int[][] subpermutations = createKPermutations(n, k, sort);
-			for (final int[] subpermutation : subpermutations) {
-				permutations[p++] = subpermutation;
+			final int[][] permutations = createKPermutations(n, k, sort);
+			for (final int[] permutation : permutations) {
+				allPermutations[p++] = permutation;
 			}
 		}
-		return permutations;
+		return allPermutations;
 	}
 
 	//////////////////////////////////////////////
@@ -501,31 +503,31 @@ public class Combinatorics {
 	 */
 	public static int[][] createAllCombinations(final int n, final boolean sort) {
 		// Initialize
-		final int combinationCount = Maths.pow2(n);
-		final int[][] combinations = new int[combinationCount][];
+		final int allCombinationCount = Maths.pow2(n);
+		final int[][] allCombinations = new int[allCombinationCount][];
 
 		// Generate all the combinations
 		if (sort) {
 			int c = 0;
 			for (int k = 0; k <= n; ++k) {
-				final int[][] subcombinations = createKCombinations(n, k);
-				for (final int[] subcombination : subcombinations) {
-					combinations[c++] = subcombination;
+				final int[][] combinations = createKCombinations(n, k);
+				for (final int[] combination : combinations) {
+					allCombinations[c++] = combination;
 				}
 			}
 		} else {
-			for (int c = 0; c < combinationCount; ++c) {
-				combinations[c] = new int[Integer.bitCount(c)];
+			for (int c = 0; c < allCombinationCount; ++c) {
+				allCombinations[c] = new int[Integer.bitCount(c)];
 				int index = 0;
 				for (int i = 0; i < n; ++i) {
 					// Use the binary representation of c as a mask to select the elements
 					if ((c & Maths.pow2(i)) != 0) {
-						combinations[c][index++] = i;
+						allCombinations[c][index++] = i;
 					}
 				}
 			}
 		}
-		return combinations;
+		return allCombinations;
 	}
 
 	//////////////////////////////////////////////

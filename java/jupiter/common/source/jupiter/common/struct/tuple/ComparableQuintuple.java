@@ -128,17 +128,13 @@ public class ComparableQuintuple<T1 extends Comparable<T1>, T2 extends Comparabl
 	 */
 	@Override
 	public ComparableQuintuple<T1, T2, T3, T4, T5> clone() {
-		try {
-			final ComparableQuintuple<T1, T2, T3, T4, T5> clone = (ComparableQuintuple<T1, T2, T3, T4, T5>) super.clone();
-			clone.first = Objects.clone(first);
-			clone.second = Objects.clone(second);
-			clone.third = Objects.clone(third);
-			clone.fourth = Objects.clone(fourth);
-			clone.fifth = Objects.clone(fifth);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final ComparableQuintuple<T1, T2, T3, T4, T5> clone = (ComparableQuintuple<T1, T2, T3, T4, T5>) super.clone();
+		clone.first = Objects.clone(first);
+		clone.second = Objects.clone(second);
+		clone.third = Objects.clone(third);
+		clone.fourth = Objects.clone(fourth);
+		clone.fifth = Objects.clone(fifth);
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

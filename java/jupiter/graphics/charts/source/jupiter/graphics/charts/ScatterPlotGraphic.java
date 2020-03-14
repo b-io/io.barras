@@ -177,12 +177,8 @@ public class ScatterPlotGraphic
 	 */
 	@Override
 	public ScatterPlotGraphic clone() {
-		try {
-			final ScatterPlotGraphic clone = (ScatterPlotGraphic) super.clone();
-			clone.collection = Objects.clone(collection);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final ScatterPlotGraphic clone = (ScatterPlotGraphic) super.clone();
+		clone.collection = Objects.clone(collection);
+		return clone;
 	}
 }

@@ -2633,14 +2633,10 @@ public class Matrix
 	 */
 	@Override
 	public Matrix clone() {
-		try {
-			final Matrix clone = (Matrix) super.clone();
-			clone.size = Objects.clone(size);
-			clone.elements = Objects.clone(elements);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final Matrix clone = (Matrix) super.clone();
+		clone.size = Objects.clone(size);
+		clone.elements = Doubles.clone(elements);
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1322,8 +1322,8 @@ public class Table<E>
 		try {
 			final Table<E> clone = (Table<E>) super.clone();
 			clone.c = Objects.clone(c);
-			clone.header = Objects.clone(header);
-			clone.elements = Objects.clone(elements);
+			clone.header = Arrays.clone(header);
+			clone.elements = Arrays.clone(elements);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Strings.toString(ex), ex);

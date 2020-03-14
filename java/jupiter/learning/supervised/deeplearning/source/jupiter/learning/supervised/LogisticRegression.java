@@ -276,14 +276,10 @@ public class LogisticRegression
 	 */
 	@Override
 	public LogisticRegression clone() {
-		try {
-			final LogisticRegression clone = (LogisticRegression) super.clone();
-			clone.W = Objects.clone(W);
-			clone.b = Objects.clone(b);
-			clone.A = Objects.clone(A);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final LogisticRegression clone = (LogisticRegression) super.clone();
+		clone.W = Objects.clone(W);
+		clone.b = Objects.clone(b);
+		clone.A = Objects.clone(A);
+		return clone;
 	}
 }

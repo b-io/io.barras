@@ -110,14 +110,10 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	 */
 	@Override
 	public ComparablePair<T1, T2> clone() {
-		try {
-			final ComparablePair<T1, T2> clone = (ComparablePair<T1, T2>) super.clone();
-			clone.first = Objects.clone(first);
-			clone.second = Objects.clone(second);
-			return clone;
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		final ComparablePair<T1, T2> clone = (ComparablePair<T1, T2>) super.clone();
+		clone.first = Objects.clone(first);
+		clone.second = Objects.clone(second);
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

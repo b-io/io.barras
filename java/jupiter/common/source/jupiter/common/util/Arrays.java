@@ -1962,20 +1962,18 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of the specified {@code T} array, or {@code null} if it is {@code null}.
+	 * Creates a copy of the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to clone
 	 * @param array the {@code T} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified {@code T} array, or {@code null} if it is {@code null}
-	 * <p>
-	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
+	 * @return a copy of the specified {@code T} array, or {@code null} if it is {@code null} or not
+	 *         cloneable
 	 *
 	 * @see ICloneable
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
-	public static <T> T[] clone(final T[] array)
-			throws CloneNotSupportedException {
+	public static <T> T[] clone(final T[] array) {
 		// Check the arguments
 		if (array == null) {
 			return null;
@@ -1990,20 +1988,18 @@ public class Arrays {
 	}
 
 	/**
-	 * Creates a copy of the specified 2D {@code T} array, or {@code null} if it is {@code null}.
+	 * Creates a copy of the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the 2D array to clone
 	 * @param array2D the 2D {@code T} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 2D {@code T} array, or {@code null} if it is {@code null}
-	 * <p>
-	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
+	 * @return a copy of the specified 2D {@code T} array, or {@code null} if it is {@code null} or
+	 *         not cloneable
 	 *
 	 * @see ICloneable
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
-	public static <T> T[][] clone(final T[][] array2D)
-			throws CloneNotSupportedException {
+	public static <T> T[][] clone(final T[][] array2D) {
 		// Check the arguments
 		if (array2D == null) {
 			return null;
@@ -2019,20 +2015,18 @@ public class Arrays {
 	}
 
 	/**
-	 * Creates a copy of the specified 3D {@code T} array, or {@code null} if it is {@code null}.
+	 * Creates a copy of the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the 3D array to clone
 	 * @param array3D the 3D {@code T} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 3D {@code T} array, or {@code null} if it is {@code null}
-	 * <p>
-	 * @throws CloneNotSupportedException if the {@code T} type does not implement {@link Cloneable}
+	 * @return a copy of the specified 3D {@code T} array, or {@code null} if it is {@code null} or
+	 *         not cloneable
 	 *
 	 * @see ICloneable
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
-	public static <T> T[][][] clone(final T[][][] array3D)
-			throws CloneNotSupportedException {
+	public static <T> T[][][] clone(final T[][][] array3D) {
 		// Check the arguments
 		if (array3D == null) {
 			return null;
