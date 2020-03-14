@@ -1128,36 +1128,36 @@ public class Floats {
 
 	/**
 	 * Returns a {@code float} array containing all the elements of the specified {@code float}
-	 * array at the specified indexes.
+	 * array at the specified indices.
 	 * <p>
 	 * @param array   the {@code float} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return a {@code float} array containing all the elements of the specified {@code float}
-	 *         array at the specified indexes
+	 *         array at the specified indices
 	 */
-	public static float[] filter(final float[] array, final int... indexes) {
-		final float[] filteredArray = new float[indexes.length];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static float[] filter(final float[] array, final int... indices) {
+		final float[] filteredArray = new float[indices.length];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code float} array containing all the elements of the specified {@code float}
-	 * array at all the specified indexes.
+	 * array at all the specified indices.
 	 * <p>
 	 * @param array   the {@code float} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code float} array containing all the elements of the specified {@code float}
-	 *         array at all the specified indexes
+	 *         array at all the specified indices
 	 */
-	public static float[][] filterAll(final float[] array, final int[]... indexes) {
-		final float[][] filteredArrays = new float[indexes.length][];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static float[][] filterAll(final float[] array, final int[]... indices) {
+		final float[][] filteredArrays = new float[indices.length][];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -1169,7 +1169,7 @@ public class Floats {
 	 * elements of the specified {@code float} array.
 	 * <p>
 	 * @param a a {@code float} value
-	 * @param b a {@code float} array (may be {@code null})
+	 * @param b another {@code float} array (may be {@code null})
 	 * <p>
 	 * @return a {@code float} array containing the specified {@code float} value and all the
 	 *         elements of the specified {@code float} array
@@ -1183,7 +1183,7 @@ public class Floats {
 	 * arrays.
 	 * <p>
 	 * @param a a {@code float} array (may be {@code null})
-	 * @param b a {@code float} array (may be {@code null})
+	 * @param b another {@code float} array (may be {@code null})
 	 * <p>
 	 * @return a {@code float} array containing all the elements of the specified {@code float}
 	 *         arrays
@@ -1264,7 +1264,7 @@ public class Floats {
 	}
 
 	/**
-	 * Shuffles the specified {@code float} array between the specified indexes.
+	 * Shuffles the specified {@code float} array between the specified indices.
 	 * <p>
 	 * @param array     the {@code float} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)

@@ -355,12 +355,12 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified row and column indexes.
+	 * Returns the element at the specified row and column indices.
 	 * <p>
 	 * @param i    the row index
 	 * @param name the column name
 	 * <p>
-	 * @return the element at the specified row and column indexes
+	 * @return the element at the specified row and column indices
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
@@ -371,12 +371,12 @@ public class Table<E>
 	}
 
 	/**
-	 * Returns the element at the specified row and column indexes.
+	 * Returns the element at the specified row and column indices.
 	 * <p>
 	 * @param i the row index
 	 * @param j the column index
 	 * <p>
-	 * @return the element at the specified row and column indexes
+	 * @return the element at the specified row and column indices
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
@@ -582,7 +582,7 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the element at the specified row and column indexes.
+	 * Sets the element at the specified row and column indices.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -662,11 +662,11 @@ public class Table<E>
 	 * Sets the elements of the specified row.
 	 * <p>
 	 * @param i      the row index
-	 * @param values a {@link Collection} of {@code E} element type
+	 * @param values a {@link Collection} of {@code E} element subtype
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
-	public void setRow(final int i, final Collection<E> values) {
+	public void setRow(final int i, final Collection<? extends E> values) {
 		setRow(i, values.toArray(createArray(n)));
 	}
 
@@ -733,11 +733,11 @@ public class Table<E>
 	 * Sets the elements of the specified column.
 	 * <p>
 	 * @param j      the column index
-	 * @param values a {@link Collection} of {@code E} element type
+	 * @param values a {@link Collection} of {@code E} element subtype
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
-	public void setColumn(final int j, final Collection<E> values) {
+	public void setColumn(final int j, final Collection<? extends E> values) {
 		setColumn(j, values.toArray(createArray(m)));
 	}
 

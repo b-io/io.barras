@@ -99,7 +99,7 @@ public abstract class DivideAndConquer<I>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Divides the execution between the specified indexes into execution slices and conquers them.
+	 * Divides the execution between the specified indices into execution slices and conquers them.
 	 * Returns the exit code for each of them.
 	 * <p>
 	 * @param input     the {@code I} input to process
@@ -114,7 +114,7 @@ public abstract class DivideAndConquer<I>
 	}
 
 	/**
-	 * Divides the execution between the specified indexes into execution slices and conquers them.
+	 * Divides the execution between the specified indices into execution slices and conquers them.
 	 * Returns the exit code for each of them.
 	 * <p>
 	 * @param input        the {@code I} input to process
@@ -149,7 +149,7 @@ public abstract class DivideAndConquer<I>
 	//////////////////////////////////////////////
 
 	/**
-	 * Divides the execution between the specified indexes into the specified number of execution
+	 * Divides the execution between the specified indices into the specified number of execution
 	 * slices and returns the identifier of each of them.
 	 * <p>
 	 * @param input      the {@code I} input to process
@@ -193,7 +193,7 @@ public abstract class DivideAndConquer<I>
 	}
 
 	/**
-	 * Conquers the execution slice between the specified indexes with the specified {@code I} input
+	 * Conquers the execution slice between the specified indices with the specified {@code I} input
 	 * and returns the exit code.
 	 * <p>
 	 * @param input     the {@code I} input to process

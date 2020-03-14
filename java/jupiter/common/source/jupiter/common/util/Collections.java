@@ -32,6 +32,7 @@ import java.util.NoSuchElementException;
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.test.Arguments;
 
 public class Collections {
 
@@ -97,8 +98,8 @@ public class Collections {
 	 * the same order, or an empty array if the specified {@link Collection} is {@code null} or
 	 * empty.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection} to convert
-	 * @param collection the {@link Collection} of {@code E} element type to convert (may be
+	 * @param <E>        the element type of the array to return
+	 * @param collection the {@link Collection} of {@code E} element subtype to convert (may be
 	 *                   {@code null})
 	 * <p>
 	 * @return an {@code E} array containing all the elements of the specified {@link Collection} in
@@ -108,7 +109,7 @@ public class Collections {
 	 * @see Collection#toArray(Object[])
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
-	public static <E> E[] toArray(final Collection<E> collection) {
+	public static <E> E[] toArray(final Collection<? extends E> collection) {
 		return (E[]) collection.toArray(Arrays.create(getElementClass(collection),
 				collection.size()));
 	}
@@ -199,6 +200,11 @@ public class Collections {
 	 * @return {@code true} if the specified {@link Collection} changed as a result of the call
 	 */
 	public static <T> boolean addAll(final Collection<? super T> collection, final T[] elements) {
+		// Check the arguments
+		Arguments.requireNonNull(collection, "collection");
+		Arguments.requireNonNull(elements, "elements");
+
+		// Add all the elements to the list
 		boolean status = true;
 		for (final T element : elements) {
 			status &= collection.add(element);
@@ -209,19 +215,25 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified index of the elements returned by the iterator.
+	 * Returns the element at the specified index of the elements returned by the iterator of the
+	 * specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link Collection}
-	 * @param collection a {@link Collection} of {@code E} element type
+	 * @param <E>        the type of the element to return
+	 * @param collection a {@link Collection} of {@code E} element subtype
 	 * @param index      the index of the element to return
 	 * <p>
-	 * @return the element at the specified index of the elements returned by the iterator
+	 * @return the element at the specified index of the elements returned by the iterator of the
+	 *         specified {@link Collection}
 	 * <p>
 	 * @throws NoSuchElementException if the iteration has no more elements
 	 */
-	public static <E> E get(final Collection<E> collection, final int index)
+	public static <E> E get(final Collection<? extends E> collection, final int index)
 			throws NoSuchElementException {
-		final Iterator<E> iterator = collection.iterator();
+		// Check the arguments
+		Arguments.requireNonNull(collection, "collection");
+
+		// Get the element at the index of the elements returned by the iterator of the collection
+		final Iterator<? extends E> iterator = collection.iterator();
 		for (int i = 0; i < index; ++i) {
 			iterator.next();
 		}
@@ -235,12 +247,16 @@ public class Collections {
 	 * {@link Collection} and returns the index of the removed element, or {@code -1} if it is not
 	 * present.
 	 * <p>
-	 * @param collection a {@link Collection} of {@code E} element type
-	 * @param object     the {@link Object} to remove
+	 * @param collection a {@link Collection}
+	 * @param object     the {@link Object} to remove (may be {@code null})
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
 	public static int removeFirst(final Collection<?> collection, final Object object) {
+		// Check the arguments
+		Arguments.requireNonNull(collection, "collection");
+
+		// Remove the first occurrence of the object from the collection and return its index
 		final Iterator<?> iterator = collection.iterator();
 		int index = 0;
 		while (iterator.hasNext()) {
@@ -255,25 +271,29 @@ public class Collections {
 
 	/**
 	 * Removes all the occurrences of the specified {@link Object} from the specified
-	 * {@link Collection} and returns the indexes of the removed elements.
+	 * {@link Collection} and returns the indices of the removed elements.
 	 * <p>
-	 * @param collection a {@link Collection} of {@code E} element type
-	 * @param object     the {@link Object} to remove
+	 * @param collection a {@link Collection}
+	 * @param object     the {@link Object} to remove (may be {@code null})
 	 * <p>
-	 * @return the indexes of the removed elements
+	 * @return the indices of the removed elements
 	 */
 	public static int[] removeAll(final Collection<?> collection, final Object object) {
-		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
+		// Check the arguments
+		Arguments.requireNonNull(collection, "collection");
+
+		// Remove all the occurrences of the object from the collection and return their indices
+		final ExtendedList<Integer> indices = new ExtendedList<Integer>();
 		final Iterator<?> iterator = collection.iterator();
 		int index = 0;
 		while (iterator.hasNext()) {
 			if (Objects.equals(iterator.next(), object)) {
 				iterator.remove();
-				indexes.add(index);
+				indices.add(index);
 			}
 			++index;
 		}
-		return Integers.collectionToPrimitiveArray(indexes);
+		return Integers.collectionToPrimitiveArray(indices);
 	}
 
 

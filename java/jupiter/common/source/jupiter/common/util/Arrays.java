@@ -838,40 +838,40 @@ public class Arrays {
 
 	/**
 	 * Returns a {@code T} array containing all the elements of the specified {@code T} array at the
-	 * specified indexes.
+	 * specified indices.
 	 * <p>
 	 * @param <T>     the component type of the array to filter from
 	 * @param array   the {@code T} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return a {@code T} array containing all the elements of the specified {@code T} array at the
-	 *         specified indexes
+	 *         specified indices
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
-	public static <T> T[] filter(final T[] array, final int... indexes) {
-		final T[] filteredArray = (T[]) create(getComponentClass(array), indexes.length);
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static <T> T[] filter(final T[] array, final int... indices) {
+		final T[] filteredArray = (T[]) create(getComponentClass(array), indices.length);
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code T} array containing all the elements of the specified {@code T} array at
-	 * all the specified indexes.
+	 * all the specified indices.
 	 * <p>
 	 * @param <T>     the component type of the array to filter from
 	 * @param array   the {@code T} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code T} array containing all the elements of the specified {@code T} array at
-	 *         all the specified indexes
+	 *         all the specified indices
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
-	public static <T> T[][] filterAll(final T[] array, final int[]... indexes) {
-		final T[][] filteredArrays = (T[][]) create(Classes.get(array), indexes.length);
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static <T> T[][] filterAll(final T[] array, final int[]... indices) {
+		final T[][] filteredArrays = (T[][]) create(Classes.get(array), indices.length);
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -970,7 +970,7 @@ public class Arrays {
 	}
 
 	/**
-	 * Shuffles the specified {@code T} array between the specified indexes.
+	 * Shuffles the specified {@code T} array between the specified indices.
 	 * <p>
 	 * @param <T>       the component type of the array to shuffle
 	 * @param array     the {@code T} array to shuffle

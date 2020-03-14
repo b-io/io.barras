@@ -245,9 +245,9 @@ public class Maths {
 		return sum;
 	}
 
-	public static <E extends Number> double sum(final Collection<E> numbers) {
+	public static double sum(final Collection<? extends Number> numbers) {
 		double sum = 0.;
-		for (final E number : numbers) {
+		for (final Number number : numbers) {
 			if (number != null) {
 				sum += number.doubleValue();
 			}
@@ -298,9 +298,9 @@ public class Maths {
 		return sum;
 	}
 
-	public static <E extends Number> double sumWithoutNaN(final Collection<E> numbers) {
+	public static double sumWithoutNaN(final Collection<? extends Number> numbers) {
 		double sum = 0.;
-		for (final E number : numbers) {
+		for (final Number number : numbers) {
 			if (number != null) {
 				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
@@ -331,10 +331,10 @@ public class Maths {
 		return sum;
 	}
 
-	public static <E extends Number> double sumOfSquares(final Collection<E> numbers,
+	public static double sumOfSquares(final Collection<? extends Number> numbers,
 			final double mean) {
 		double sum = 0.;
-		for (final E number : numbers) {
+		for (final Number number : numbers) {
 			if (number != null) {
 				sum += square(number.doubleValue() - mean);
 			}
@@ -367,10 +367,10 @@ public class Maths {
 		return sum;
 	}
 
-	public static <E extends Number> double sumOfSquaresWithoutNaN(final Collection<E> numbers,
+	public static double sumOfSquaresWithoutNaN(final Collection<? extends Number> numbers,
 			final double mean) {
 		double sum = 0.;
-		for (final E number : numbers) {
+		for (final Number number : numbers) {
 			if (number != null) {
 				final double elementValue = number.doubleValue();
 				if (!Double.isNaN(elementValue)) {
@@ -467,15 +467,15 @@ public class Maths {
 		return sum;
 	}
 
-	public static <E extends Number> double weightedSum(final List<E> numbers,
-			final List<E> weights) {
+	public static double weightedSum(final List<? extends Number> numbers,
+			final List<? extends Number> weights) {
 		// Check the arguments
 		CollectionArguments.requireSameSize(numbers, weights);
 
 		// Sum
 		double sum = 0.;
-		final Iterator<E> weightIterator = weights.iterator();
-		final Iterator<E> numberIterator = numbers.iterator();
+		final Iterator<? extends Number> weightIterator = weights.iterator();
+		final Iterator<? extends Number> numberIterator = numbers.iterator();
 		while (weightIterator.hasNext() && numberIterator.hasNext()) {
 			sum += weightIterator.next().doubleValue() * numberIterator.next().doubleValue();
 		}
@@ -485,7 +485,7 @@ public class Maths {
 	//////////////////////////////////////////////
 
 	/**
-	 * Increments the specified {@code byte} array between the specified indexes.
+	 * Increments the specified {@code byte} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code byte} array to increment
 	 * @param fromIndex the index to start incrementing from (inclusive)
@@ -498,7 +498,7 @@ public class Maths {
 	}
 
 	/**
-	 * Increments the specified {@code short} array between the specified indexes.
+	 * Increments the specified {@code short} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code short} array to increment
 	 * @param fromIndex the index to start incrementing from (inclusive)
@@ -511,7 +511,7 @@ public class Maths {
 	}
 
 	/**
-	 * Increments the specified {@code int} array between the specified indexes.
+	 * Increments the specified {@code int} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code int} array to increment
 	 * @param fromIndex the index to start incrementing from (inclusive)
@@ -524,7 +524,7 @@ public class Maths {
 	}
 
 	/**
-	 * Increments the specified {@code long} array between the specified indexes.
+	 * Increments the specified {@code long} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code long} array to increment
 	 * @param fromIndex the index to start incrementing from (inclusive)
@@ -537,7 +537,7 @@ public class Maths {
 	}
 
 	/**
-	 * Increments the specified {@code float} array between the specified indexes.
+	 * Increments the specified {@code float} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code float} array to increment
 	 * @param fromIndex the index to start incrementing from (inclusive)
@@ -550,7 +550,7 @@ public class Maths {
 	}
 
 	/**
-	 * Increments the specified {@code double} array between the specified indexes.
+	 * Increments the specified {@code double} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code double} array to increment
 	 * @param fromIndex the index to start incrementing from (inclusive)
@@ -565,7 +565,7 @@ public class Maths {
 	//////////////////////////////////////////////
 
 	/**
-	 * Decrements the specified {@code byte} array between the specified indexes.
+	 * Decrements the specified {@code byte} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code byte} array to decrement
 	 * @param fromIndex the index to start decrementing from (inclusive)
@@ -578,7 +578,7 @@ public class Maths {
 	}
 
 	/**
-	 * Decrements the specified {@code short} array between the specified indexes.
+	 * Decrements the specified {@code short} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code short} array to decrement
 	 * @param fromIndex the index to start decrementing from (inclusive)
@@ -591,7 +591,7 @@ public class Maths {
 	}
 
 	/**
-	 * Decrements the specified {@code int} array between the specified indexes.
+	 * Decrements the specified {@code int} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code int} array to decrement
 	 * @param fromIndex the index to start decrementing from (inclusive)
@@ -604,7 +604,7 @@ public class Maths {
 	}
 
 	/**
-	 * Decrements the specified {@code long} array between the specified indexes.
+	 * Decrements the specified {@code long} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code long} array to decrement
 	 * @param fromIndex the index to start decrementing from (inclusive)
@@ -617,7 +617,7 @@ public class Maths {
 	}
 
 	/**
-	 * Decrements the specified {@code float} array between the specified indexes.
+	 * Decrements the specified {@code float} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code float} array to decrement
 	 * @param fromIndex the index to start decrementing from (inclusive)
@@ -630,7 +630,7 @@ public class Maths {
 	}
 
 	/**
-	 * Decrements the specified {@code double} array between the specified indexes.
+	 * Decrements the specified {@code double} array between the specified indices.
 	 * <p>
 	 * @param values    the {@code double} array to decrement
 	 * @param fromIndex the index to start decrementing from (inclusive)
@@ -672,7 +672,7 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
-	 * between the specified indexes.
+	 * between the specified indices.
 	 * <p>
 	 * @param A         the {@code byte} array to add
 	 * @param B         the {@code byte} array to multiply
@@ -719,7 +719,7 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
-	 * between the specified indexes.
+	 * between the specified indices.
 	 * <p>
 	 * @param A         the {@code short} array to add
 	 * @param B         the {@code short} array to multiply
@@ -766,7 +766,7 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
-	 * between the specified indexes.
+	 * between the specified indices.
 	 * <p>
 	 * @param A         the {@code int} array to add
 	 * @param B         the {@code int} array to multiply
@@ -813,7 +813,7 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
-	 * between the specified indexes.
+	 * between the specified indices.
 	 * <p>
 	 * @param A         the {@code long} array to add
 	 * @param B         the {@code long} array to multiply
@@ -860,7 +860,7 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
-	 * between the specified indexes.
+	 * between the specified indices.
 	 * <p>
 	 * @param A         the {@code float} array to add
 	 * @param B         the {@code float} array to multiply
@@ -907,7 +907,7 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
-	 * between the specified indexes.
+	 * between the specified indices.
 	 * <p>
 	 * @param A         the {@code double} array to add
 	 * @param B         the {@code double} array to multiply
@@ -1353,13 +1353,13 @@ public class Maths {
 		return min;
 	}
 
-	public static <E extends Number> double minToDouble(final Collection<E> numbers) {
+	public static double minToDouble(final Collection<? extends Number> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
 		// Get the minimum value
 		double min = Double.MAX_VALUE;
-		for (final E number : numbers) {
+		for (final Number number : numbers) {
 			min = Math.min(number.doubleValue(), min);
 		}
 		return min;
@@ -1439,13 +1439,13 @@ public class Maths {
 		return max;
 	}
 
-	public static <E extends Number> double maxToDouble(final Collection<E> numbers) {
+	public static double maxToDouble(final Collection<? extends Number> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
 		// Get the maximum value
 		double max = Double.MIN_VALUE;
-		for (final E number : numbers) {
+		for (final Number number : numbers) {
 			max = Math.max(max, number.doubleValue());
 		}
 		return max;

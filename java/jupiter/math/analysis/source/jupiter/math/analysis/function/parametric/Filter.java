@@ -56,7 +56,7 @@ public class Filter
 	 * <p>
 	 * @param threshold the {@code double} threshold
 	 * @param a         the resulting {@code double} value if {@code x <= threshold}
-	 * @param b         the resulting {@code double} value if {@code x > threshold}
+	 * @param b         the other resulting {@code double} value if {@code x > threshold}
 	 */
 	public Filter(final double threshold, final double a, final double b) {
 		super(threshold, a, b);
@@ -95,7 +95,7 @@ public class Filter
 	 * @param x         a {@code double} value
 	 * @param threshold the threshold
 	 * @param a         the resulting {@code double} value if {@code x <= threshold}
-	 * @param b         the resulting {@code double} value if {@code x > threshold}
+	 * @param b         the other resulting {@code double} value if {@code x > threshold}
 	 * <p>
 	 * @return {@code a} if {@code x <= threshold}, {@code b} otherwise
 	 */

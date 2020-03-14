@@ -96,7 +96,7 @@ public class RowList
 		super(initialCapacity);
 
 		// Check the arguments
-		ArrayArguments.requireNonNull(header);
+		Arguments.requireNonNull(header);
 
 		// Set the header
 		this.header = header;
@@ -123,7 +123,7 @@ public class RowList
 		super(elements);
 
 		// Check the arguments
-		ArrayArguments.requireNonNull(header);
+		Arguments.requireNonNull(header);
 
 		// Set the header
 		this.header = header;
@@ -151,7 +151,7 @@ public class RowList
 		super(elements);
 
 		// Check the arguments
-		ArrayArguments.requireNonNull(header);
+		Arguments.requireNonNull(header);
 
 		// Set the header
 		this.header = header;
@@ -256,12 +256,12 @@ public class RowList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified row and column indexes.
+	 * Returns the element at the specified row and column indices.
 	 * <p>
 	 * @param i    the row index
 	 * @param name the column name
 	 * <p>
-	 * @return the element at the specified row and column indexes
+	 * @return the element at the specified row and column indices
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
@@ -272,12 +272,12 @@ public class RowList
 	}
 
 	/**
-	 * Returns the element at the specified row and column indexes.
+	 * Returns the element at the specified row and column indices.
 	 * <p>
 	 * @param i the row index
 	 * @param j the column index
 	 * <p>
-	 * @return the element at the specified row and column indexes
+	 * @return the element at the specified row and column indices
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */

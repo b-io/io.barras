@@ -436,12 +436,12 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified row and column indexes.
+	 * Returns the element at the specified row and column indices.
 	 * <p>
 	 * @param i the row index
 	 * @param j the column index
 	 * <p>
-	 * @return the element at the specified row and column indexes
+	 * @return the element at the specified row and column indices
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
@@ -563,7 +563,7 @@ public class Matrix
 	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
 			final int columnEnd) {
@@ -577,92 +577,92 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds: " + ex);
+					"The specified submatrix indices are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
 
 	/**
-	 * Returns the sub-{@link Matrix} {@code this(rowIndexes(:), columnStart:columnEnd)}.
+	 * Returns the sub-{@link Matrix} {@code this(rowIndices(:), columnStart:columnEnd)}.
 	 * <p>
-	 * @param rowIndexes  an array of row indexes
+	 * @param rowIndices  an array of row indices
 	 * @param columnStart the initial column index (inclusive)
 	 * @param columnEnd   the final column index (exclusive)
 	 * <p>
-	 * @return the sub-{@link Matrix} {@code this(rowIndexes(:), columnStart:columnEnd)}
+	 * @return the sub-{@link Matrix} {@code this(rowIndices(:), columnStart:columnEnd)}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
 	 */
-	public Matrix getSubmatrix(final int[] rowIndexes, final int columnStart, final int columnEnd) {
-		final int rowCount = rowIndexes.length;
+	public Matrix getSubmatrix(final int[] rowIndices, final int columnStart, final int columnEnd) {
+		final int rowCount = rowIndices.length;
 		final int columnCount = columnEnd - columnStart;
 		// Create the submatrix
 		final Matrix submatrix = new Matrix(rowCount, columnCount);
 		try {
 			for (int i = 0; i < rowCount; ++i) {
-				submatrix.setRow(i, getRow(rowIndexes[i]), columnStart);
+				submatrix.setRow(i, getRow(rowIndices[i]), columnStart);
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds: " + ex);
+					"The specified submatrix indices are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
 
 	/**
-	 * Returns the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndexes(:))}.
+	 * Returns the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndices(:))}.
 	 * <p>
 	 * @param rowStart      the initial row index (inclusive)
 	 * @param rowEnd        the final row index (exclusive)
-	 * @param columnIndexes an array of column indexes
+	 * @param columnIndices an array of column indices
 	 * <p>
-	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndexes(:))}
+	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndices(:))}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
 	 */
-	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndexes) {
+	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndices) {
 		final int rowCount = rowEnd - rowStart;
-		final int columnCount = columnIndexes.length;
+		final int columnCount = columnIndices.length;
 		// Create the submatrix
 		final Matrix submatrix = new Matrix(rowCount, columnCount);
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					submatrix.elements[i * columnCount + j] = elements[(rowStart + i) * n + columnIndexes[j]];
+					submatrix.elements[i * columnCount + j] = elements[(rowStart + i) * n + columnIndices[j]];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds: " + ex);
+					"The specified submatrix indices are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
 
 	/**
-	 * Returns the sub-{@link Matrix} {@code this(rowIndexes(:), columnIndexes(:))}.
+	 * Returns the sub-{@link Matrix} {@code this(rowIndices(:), columnIndices(:))}.
 	 * <p>
-	 * @param rowIndexes    an array of row indexes
-	 * @param columnIndexes an array of column indexes
+	 * @param rowIndices    an array of row indices
+	 * @param columnIndices an array of column indices
 	 * <p>
-	 * @return the sub-{@link Matrix} {@code this(rowIndexes(:), columnIndexes(:))}
+	 * @return the sub-{@link Matrix} {@code this(rowIndices(:), columnIndices(:))}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
 	 */
-	public Matrix getSubmatrix(final int[] rowIndexes, final int[] columnIndexes) {
-		final int rowCount = rowIndexes.length;
-		final int columnCount = columnIndexes.length;
+	public Matrix getSubmatrix(final int[] rowIndices, final int[] columnIndices) {
+		final int rowCount = rowIndices.length;
+		final int columnCount = columnIndices.length;
 		// Create the submatrix
 		final Matrix submatrix = new Matrix(rowCount, columnCount);
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					submatrix.elements[i * columnCount + j] = elements[rowIndexes[i] * n +
-							columnIndexes[j]];
+					submatrix.elements[i * columnCount + j] = elements[rowIndices[i] * n +
+							columnIndices[j]];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds: " + ex);
+					"The specified submatrix indices are out of bounds: " + ex);
 		}
 		return submatrix;
 	}
@@ -673,7 +673,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the element at the specified row and column indexes.
+	 * Sets the element at the specified row and column indices.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -686,7 +686,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets the element at the specified row and column indexes.
+	 * Sets the element at the specified row and column indices.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -846,7 +846,7 @@ public class Matrix
 	 * @param columnEnd   the final column index (exclusive)
 	 * @param submatrix   a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
 			final int columnEnd, final Matrix submatrix) {
@@ -858,82 +858,82 @@ public class Matrix
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds: " + ex);
+					"The specified submatrix indices are out of bounds: " + ex);
 		}
 	}
 
 	/**
-	 * Sets the sub-{@link Matrix} {@code this(rowIndexes(:), columnStart:columnEnd)}.
+	 * Sets the sub-{@link Matrix} {@code this(rowIndices(:), columnStart:columnEnd)}.
 	 * <p>
-	 * @param rowIndexes  an array of row indexes
+	 * @param rowIndices  an array of row indices
 	 * @param columnStart the initial column index (inclusive)
 	 * @param columnEnd   the final column index (exclusive)
 	 * @param submatrix   a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
 	 */
-	public void setSubmatrix(final int[] rowIndexes, final int columnStart, final int columnEnd,
+	public void setSubmatrix(final int[] rowIndices, final int columnStart, final int columnEnd,
 			final Matrix submatrix) {
-		final int rowCount = rowIndexes.length;
+		final int rowCount = rowIndices.length;
 		final int columnCount = columnEnd - columnStart;
 		try {
 			for (int i = 0; i < rowCount; ++i) {
-				setRow(rowIndexes[i], submatrix.getRow(i), columnStart, columnCount);
+				setRow(rowIndices[i], submatrix.getRow(i), columnStart, columnCount);
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds: " + ex);
+					"The specified submatrix indices are out of bounds: " + ex);
 		}
 	}
 
 	/**
-	 * Sets the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndexes(:))}.
+	 * Sets the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndices(:))}.
 	 * <p>
 	 * @param rowStart      the initial row index (inclusive)
 	 * @param rowEnd        the final row index (exclusive)
-	 * @param columnIndexes an array of column indexes
+	 * @param columnIndices an array of column indices
 	 * @param submatrix     a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
 	 */
-	public void setSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndexes,
+	public void setSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndices,
 			final Matrix submatrix) {
 		final int rowCount = rowEnd - rowStart;
-		final int columnCount = columnIndexes.length;
+		final int columnCount = columnIndices.length;
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					elements[(rowStart + i) * n + columnIndexes[j]] = submatrix.elements[i * columnCount + j];
+					elements[(rowStart + i) * n + columnIndices[j]] = submatrix.elements[i * columnCount + j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds: " + ex);
+					"The specified submatrix indices are out of bounds: " + ex);
 		}
 	}
 
 	/**
-	 * Sets the sub-{@link Matrix} {@code this(rowIndexes(:), columnIndexes(:))}.
+	 * Sets the sub-{@link Matrix} {@code this(rowIndices(:), columnIndices(:))}.
 	 * <p>
-	 * @param rowIndexes    an array of row indexes
-	 * @param columnIndexes an array of column indexes
+	 * @param rowIndices    an array of row indices
+	 * @param columnIndices an array of column indices
 	 * @param submatrix     a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indexes are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
 	 */
-	public void setSubmatrix(final int[] rowIndexes, final int[] columnIndexes,
+	public void setSubmatrix(final int[] rowIndices, final int[] columnIndices,
 			final Matrix submatrix) {
-		final int rowCount = rowIndexes.length;
-		final int columnCount = columnIndexes.length;
+		final int rowCount = rowIndices.length;
+		final int columnCount = columnIndices.length;
 		try {
 			for (int i = 0; i < rowCount; ++i) {
 				for (int j = 0; j < columnCount; ++j) {
-					elements[rowIndexes[i] * n + columnIndexes[j]] = submatrix.elements[i * columnCount + j];
+					elements[rowIndices[i] * n + columnIndices[j]] = submatrix.elements[i * columnCount + j];
 				}
 			}
 		} catch (final ArrayIndexOutOfBoundsException ex) {
 			throw new ArrayIndexOutOfBoundsException(
-					"The specified submatrix indexes are out of bounds: " + ex);
+					"The specified submatrix indices are out of bounds: " + ex);
 		}
 	}
 
@@ -1247,34 +1247,34 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the pivot rows at the specified row indexes.
+	 * Returns the pivot rows at the specified row indices.
 	 * <p>
-	 * @param rowIndexes an array of row indexes
+	 * @param rowIndices an array of row indices
 	 * <p>
-	 * @return the pivot rows at the specified row indexes
+	 * @return the pivot rows at the specified row indices
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndexes} are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndices} are out of bounds
 	 */
-	public Matrix pivot(final int[] rowIndexes) {
-		return getSubmatrix(rowIndexes, 0, n);
+	public Matrix pivot(final int[] rowIndices) {
+		return getSubmatrix(rowIndices, 0, n);
 	}
 
 	/**
-	 * Returns the unpivot rows at the specified row indexes.
+	 * Returns the unpivot rows at the specified row indices.
 	 * <p>
-	 * @param rowIndexes an array of row indexes
+	 * @param rowIndices an array of row indices
 	 * <p>
-	 * @return the unpivot rows at the specified row indexes
+	 * @return the unpivot rows at the specified row indices
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndexes} are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndices} are out of bounds
 	 */
-	public Matrix unpivot(final int[] rowIndexes) {
-		final int rowCount = rowIndexes.length;
-		final int[] unpivotIndexes = new int[rowCount];
+	public Matrix unpivot(final int[] rowIndices) {
+		final int rowCount = rowIndices.length;
+		final int[] unpivotIndices = new int[rowCount];
 		for (int i = 0; i < rowCount; ++i) {
-			unpivotIndexes[rowIndexes[i]] = i;
+			unpivotIndices[rowIndices[i]] = i;
 		}
-		return getSubmatrix(unpivotIndexes, 0, n);
+		return getSubmatrix(unpivotIndices, 0, n);
 	}
 
 	/**
@@ -2110,7 +2110,7 @@ public class Matrix
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets
-	 * between the specified indexes.
+	 * between the specified indices.
 	 * <p>
 	 * @param B         the {@code double} array to multiply
 	 * @param c         the constant {@code c} to multiply
@@ -2371,7 +2371,7 @@ public class Matrix
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			Character delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
-				final int occurrenceCount = Strings.getIndexes(line, d).size();
+				final int occurrenceCount = Strings.getIndices(line, d).size();
 				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = d;
@@ -2461,10 +2461,10 @@ public class Matrix
 	public static Matrix parse(final String expression) {
 		try {
 			final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
-			final List<Integer> indexes = Strings.getIndexes(expression, delimiters);
-			if (indexes.size() == 2) {
-				final int fromIndex = indexes.get(0);
-				final int toIndex = indexes.get(1);
+			final List<Integer> indices = Strings.getIndices(expression, delimiters);
+			if (indices.size() == 2) {
+				final int fromIndex = indices.get(0);
+				final int toIndex = indices.get(1);
 				if (fromIndex < toIndex && expression.charAt(fromIndex) == delimiters[0] &&
 						expression.charAt(toIndex) == delimiters[1]) {
 					// Get the rows
@@ -2490,10 +2490,10 @@ public class Matrix
 					return new Matrix(m, elements);
 				}
 			} else {
-				final int indexCount = indexes.size();
+				final int indexCount = indices.size();
 				if (indexCount > 2) {
 					throw new ParseException("There are too many square brackets " +
-							Arguments.expectedButFound(indexCount, 2), indexes.get(2));
+							Arguments.expectedButFound(indexCount, 2), indices.get(2));
 				}
 				throw new ParseException("There are not enough square brackets " +
 						Arguments.expectedButFound(indexCount, 2), 0);
@@ -2607,10 +2607,10 @@ public class Matrix
 	 */
 	public static boolean isParsableFrom(final String text) {
 		final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
-		final List<Integer> indexes = Strings.getIndexes(text.trim(), delimiters);
-		if (indexes.size() == 2) {
-			final int fromIndex = indexes.get(0);
-			final int toIndex = indexes.get(1);
+		final List<Integer> indices = Strings.getIndices(text.trim(), delimiters);
+		if (indices.size() == 2) {
+			final int fromIndex = indices.get(0);
+			final int toIndex = indices.get(1);
 			if (fromIndex < toIndex && text.charAt(fromIndex) == delimiters[0] &&
 					text.charAt(toIndex) == delimiters[1]) {
 				return true;
@@ -2830,7 +2830,7 @@ public class Matrix
 		/**
 		 * Processes the multiplication with the specified result {@link Matrix}, left-hand side
 		 * operand {@link Matrix} and right-hand side operand {@link Matrix} between the specified
-		 * indexes and returns the exit code.
+		 * indices and returns the exit code.
 		 * <p>
 		 * @param result    the result {@link Matrix}
 		 * @param left      the left-hand side operand {@link Matrix}

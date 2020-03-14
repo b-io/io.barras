@@ -464,11 +464,11 @@ public class SVM {
 	}
 
 	/**
-	 * Updates the value of the feature vector of the training example at the specified indexes.
+	 * Updates the value of the feature vector of the training example at the specified indices.
 	 * <p>
 	 * @param trainingExampleIndex the index of the training example
 	 * @param featureIndex         the index of the feature
-	 * @param value                the {@code double} value at the indexes
+	 * @param value                the {@code double} value at the indices
 	 */
 	protected void updateValue(final int trainingExampleIndex, final int featureIndex,
 			final double value) {

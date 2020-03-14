@@ -1184,36 +1184,36 @@ public class Integers {
 
 	/**
 	 * Returns an {@code int} array containing all the elements of the specified {@code int} array
-	 * at the specified indexes.
+	 * at the specified indices.
 	 * <p>
 	 * @param array   the {@code int} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return an {@code int} array containing all the elements of the specified {@code int} array
-	 *         at the specified indexes
+	 *         at the specified indices
 	 */
-	public static int[] filter(final int[] array, final int... indexes) {
-		final int[] filteredArray = new int[indexes.length];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static int[] filter(final int[] array, final int... indices) {
+		final int[] filteredArray = new int[indices.length];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code int} array containing all the elements of the specified {@code int} array
-	 * at all the specified indexes.
+	 * at all the specified indices.
 	 * <p>
 	 * @param array   the {@code int} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code int} array containing all the elements of the specified {@code int} array
-	 *         at all the specified indexes
+	 *         at all the specified indices
 	 */
-	public static int[][] filterAll(final int[] array, final int[]... indexes) {
-		final int[][] filteredArrays = new int[indexes.length][];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static int[][] filterAll(final int[] array, final int[]... indices) {
+		final int[][] filteredArrays = new int[indices.length][];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -1225,7 +1225,7 @@ public class Integers {
 	 * of the specified {@code int} array.
 	 * <p>
 	 * @param a an {@code int} value
-	 * @param b an {@code int} array (may be {@code null})
+	 * @param b another {@code int} array (may be {@code null})
 	 * <p>
 	 * @return an {@code int} array containing the specified {@code int} value and all the elements
 	 *         of the specified {@code int} array
@@ -1238,7 +1238,7 @@ public class Integers {
 	 * Returns an {@code int} array containing all the elements of the specified {@code int} arrays.
 	 * <p>
 	 * @param a an {@code int} array (may be {@code null})
-	 * @param b an {@code int} array (may be {@code null})
+	 * @param b another {@code int} array (may be {@code null})
 	 * <p>
 	 * @return an {@code int} array containing all the elements of the specified {@code int} arrays
 	 */
@@ -1343,7 +1343,7 @@ public class Integers {
 	}
 
 	/**
-	 * Shuffles the specified {@code int} array between the specified indexes.
+	 * Shuffles the specified {@code int} array between the specified indices.
 	 * <p>
 	 * @param array     the {@code int} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)

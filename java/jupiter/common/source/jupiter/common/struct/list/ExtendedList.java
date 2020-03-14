@@ -296,7 +296,7 @@ public class ExtendedList<E>
 	 * Removes the first occurrence of the specified {@link Object} from {@code this} and returns
 	 * the index of the removed element, or {@code -1} if it is not present.
 	 * <p>
-	 * @param object the {@link Object} to remove
+	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
@@ -308,7 +308,7 @@ public class ExtendedList<E>
 	 * Removes the last occurrence of the specified {@link Object} from {@code this} and returns the
 	 * index of the removed element, or {@code -1} if it is not present.
 	 * <p>
-	 * @param object the {@link Object} to remove
+	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
@@ -318,11 +318,11 @@ public class ExtendedList<E>
 
 	/**
 	 * Removes all the occurrences of the specified {@link Object} from {@code this} and returns the
-	 * indexes of the removed elements.
+	 * indices of the removed elements.
 	 * <p>
-	 * @param object the {@link Object} to remove
+	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
-	 * @return the indexes of the removed elements
+	 * @return the indices of the removed elements
 	 */
 	public synchronized int[] removeAll(final Object object) {
 		return Lists.removeAll(this, object);

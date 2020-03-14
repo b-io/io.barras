@@ -788,7 +788,7 @@ public class JConsole
 			// Initialize
 			final StyledDocument document = textPane.getStyledDocument();
 			final String styledText = text + Strings.toString(content);
-			final List<Index<String>> delimiters = Strings.getStringIndexes(styledText, COLORS);
+			final List<Index<String>> delimiters = Strings.getStringIndices(styledText, COLORS);
 			final Iterator<Index<String>> delimiterIterator = delimiters.iterator();
 			final List<String> textParts = Strings.splitString(styledText, COLORS);
 			final Iterator<String> textIterator = textParts.iterator();

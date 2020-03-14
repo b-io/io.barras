@@ -1115,36 +1115,36 @@ public class Doubles {
 
 	/**
 	 * Returns a {@code double} array containing all the elements of the specified {@code double}
-	 * array at the specified indexes.
+	 * array at the specified indices.
 	 * <p>
 	 * @param array   the {@code double} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return a {@code double} array containing all the elements of the specified {@code double}
-	 *         array at the specified indexes
+	 *         array at the specified indices
 	 */
-	public static double[] filter(final double[] array, final int... indexes) {
-		final double[] filteredArray = new double[indexes.length];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static double[] filter(final double[] array, final int... indices) {
+		final double[] filteredArray = new double[indices.length];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code double} array containing all the elements of the specified {@code double}
-	 * array at all the specified indexes.
+	 * array at all the specified indices.
 	 * <p>
 	 * @param array   the {@code double} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code double} array containing all the elements of the specified {@code double}
-	 *         array at all the specified indexes
+	 *         array at all the specified indices
 	 */
-	public static double[][] filterAll(final double[] array, final int[]... indexes) {
-		final double[][] filteredArrays = new double[indexes.length][];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static double[][] filterAll(final double[] array, final int[]... indices) {
+		final double[][] filteredArrays = new double[indices.length][];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -1156,7 +1156,7 @@ public class Doubles {
 	 * elements of the specified {@code double} array.
 	 * <p>
 	 * @param a a {@code double} value
-	 * @param b a {@code double} array (may be {@code null})
+	 * @param b another {@code double} array (may be {@code null})
 	 * <p>
 	 * @return a {@code double} array containing the specified {@code double} value and all the
 	 *         elements of the specified {@code double} array
@@ -1170,7 +1170,7 @@ public class Doubles {
 	 * arrays.
 	 * <p>
 	 * @param a a {@code double} array (may be {@code null})
-	 * @param b a {@code double} array (may be {@code null})
+	 * @param b another {@code double} array (may be {@code null})
 	 * <p>
 	 * @return a {@code double} array containing all the elements of the specified {@code double}
 	 *         arrays
@@ -1251,7 +1251,7 @@ public class Doubles {
 	}
 
 	/**
-	 * Shuffles the specified {@code double} array between the specified indexes.
+	 * Shuffles the specified {@code double} array between the specified indices.
 	 * <p>
 	 * @param array     the {@code double} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)

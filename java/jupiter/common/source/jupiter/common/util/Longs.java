@@ -1095,36 +1095,36 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} array containing all the elements of the specified {@code long} array
-	 * at the specified indexes.
+	 * at the specified indices.
 	 * <p>
 	 * @param array   the {@code long} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return a {@code long} array containing all the elements of the specified {@code long} array
-	 *         at the specified indexes
+	 *         at the specified indices
 	 */
-	public static long[] filter(final long[] array, final int... indexes) {
-		final long[] filteredArray = new long[indexes.length];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static long[] filter(final long[] array, final int... indices) {
+		final long[] filteredArray = new long[indices.length];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code long} array containing all the elements of the specified {@code long}
-	 * array at all the specified indexes.
+	 * array at all the specified indices.
 	 * <p>
 	 * @param array   the {@code long} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code long} array containing all the elements of the specified {@code long}
-	 *         array at all the specified indexes
+	 *         array at all the specified indices
 	 */
-	public static long[][] filterAll(final long[] array, final int[]... indexes) {
-		final long[][] filteredArrays = new long[indexes.length][];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static long[][] filterAll(final long[] array, final int[]... indices) {
+		final long[][] filteredArrays = new long[indices.length][];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -1136,7 +1136,7 @@ public class Longs {
 	 * of the specified {@code long} array.
 	 * <p>
 	 * @param a a {@code long} value
-	 * @param b a {@code long} array (may be {@code null})
+	 * @param b another {@code long} array (may be {@code null})
 	 * <p>
 	 * @return a {@code long} array containing the specified {@code long} value and all the elements
 	 *         of the specified {@code long} array
@@ -1150,7 +1150,7 @@ public class Longs {
 	 * arrays.
 	 * <p>
 	 * @param a a {@code long} array (may be {@code null})
-	 * @param b a {@code long} array (may be {@code null})
+	 * @param b another {@code long} array (may be {@code null})
 	 * <p>
 	 * @return a {@code long} array containing all the elements of the specified {@code long} arrays
 	 */
@@ -1255,7 +1255,7 @@ public class Longs {
 	}
 
 	/**
-	 * Shuffles the specified {@code long} array between the specified indexes.
+	 * Shuffles the specified {@code long} array between the specified indices.
 	 * <p>
 	 * @param array     the {@code long} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)

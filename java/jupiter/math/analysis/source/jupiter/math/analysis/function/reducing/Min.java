@@ -68,7 +68,7 @@ public class Min
 	 * {@code double} value.
 	 * <p>
 	 * @param a a {@code double} value
-	 * @param b a {@code double} value
+	 * @param b another {@code double} value
 	 * <p>
 	 * @return {@code min(a, b)}
 	 */

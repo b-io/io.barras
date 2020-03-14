@@ -78,7 +78,7 @@ public class Combinatorics {
 	 * Returns the factoradic representation of the specified permutation without repetition of the
 	 * specified sequence.
 	 * <p>
-	 * @param permutation an {@code int} array containing the permutation indexes of the sequence
+	 * @param permutation an {@code int} array containing the permutation indices of the sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
 	 * @return the factoradic representation of the specified permutation without repetition of the
@@ -107,7 +107,7 @@ public class Combinatorics {
 	/**
 	 * Returns the index of the specified permutation without repetition of the specified sequence.
 	 * <p>
-	 * @param permutation an {@code int} array containing the permutation indexes of the sequence
+	 * @param permutation an {@code int} array containing the permutation indices of the sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
 	 * @return the index of the specified permutation without repetition of the specified sequence
@@ -121,7 +121,7 @@ public class Combinatorics {
 	 * Returns the index of the specified {@code k}-permutation without repetition of the specified
 	 * sequence.
 	 * <p>
-	 * @param permutation an {@code int} array containing the {@code k}-permutation indexes of the
+	 * @param permutation an {@code int} array containing the {@code k}-permutation indices of the
 	 *                    sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * <p>
@@ -143,7 +143,7 @@ public class Combinatorics {
 	 * Returns the index of the specified {@code k}-permutation without repetition of the specified
 	 * sequence with the specified divisor.
 	 * <p>
-	 * @param permutation an {@code int} array containing the {@code k}-permutation indexes of the
+	 * @param permutation an {@code int} array containing the {@code k}-permutation indices of the
 	 *                    sequence
 	 * @param sequence    an {@link ExtendedLinkedList} of {@link Integer}
 	 * @param divisor     an {@code int} value

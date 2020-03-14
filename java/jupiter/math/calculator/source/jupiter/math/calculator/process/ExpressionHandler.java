@@ -288,28 +288,28 @@ public class ExpressionHandler
 	 */
 	protected static int getBinaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
-		final ExtendedList<Integer> indexes = getBinaryOperatorIndexes(expression,
+		final ExtendedList<Integer> indices = getBinaryOperatorIndices(expression,
 				delimitingIntervals);
-		IO.debug("Indexes: ", indexes);
-		if (!indexes.isEmpty()) {
-			return indexes.getMiddle();
+		IO.debug("Indices: ", indices);
+		if (!indices.isEmpty()) {
+			return indices.getMiddle();
 		}
 		return -1;
 	}
 
 	/**
-	 * Returns the indexes of all the binary operators in the specified expression {@link String}
+	 * Returns the indices of all the binary operators in the specified expression {@link String}
 	 * that are not in the specified delimiting intervals.
 	 * <p>
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the indexes of all the binary operators in the specified expression {@link String}
+	 * @return the indices of all the binary operators in the specified expression {@link String}
 	 *         that are not in the specified delimiting intervals
 	 */
-	protected static ExtendedList<Integer> getBinaryOperatorIndexes(final String expression,
+	protected static ExtendedList<Integer> getBinaryOperatorIndices(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
-		return getOperatorIndexes(expression, delimitingIntervals, expression.length() - 1,
+		return getOperatorIndices(expression, delimitingIntervals, expression.length() - 1,
 				BINARY_FUNCTIONS);
 	}
 
@@ -330,7 +330,7 @@ public class ExpressionHandler
 	}
 
 	/**
-	 * Returns the indexes of all the operators in the specified expression {@link String} that are
+	 * Returns the indices of all the operators in the specified expression {@link String} that are
 	 * not in the specified delimiting intervals.
 	 * <p>
 	 * @param expression          the expression {@link String} to parse
@@ -338,28 +338,28 @@ public class ExpressionHandler
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
-	 * @return the indexes of all the operators in the specified expression {@link String} that are
+	 * @return the indices of all the operators in the specified expression {@link String} that are
 	 *         not in the specified delimiting intervals
 	 */
-	protected static ExtendedList<Integer> getOperatorIndexes(final String expression,
+	protected static ExtendedList<Integer> getOperatorIndices(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<List<Character>> allOperators) {
 		// Initialize
-		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
+		final ExtendedList<Integer> indices = new ExtendedList<Integer>();
 		final int allOperatorCount = allOperators.size();
 		int binaryOperatorsIndex = 0;
 
-		// Get the operator indexes
+		// Get the operator indices
 		do {
 			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
 			int index = fromIndex + 1;
 			while ((index = getLastOperatorIndex(expression, delimitingIntervals, --index,
 					operators)) >= 0) {
-				indexes.add(index);
+				indices.add(index);
 			}
 			++binaryOperatorsIndex;
-		} while (binaryOperatorsIndex < allOperatorCount && indexes.isEmpty());
-		return indexes;
+		} while (binaryOperatorsIndex < allOperatorCount && indices.isEmpty());
+		return indices;
 	}
 
 	/**

@@ -1128,36 +1128,36 @@ public class Shorts {
 
 	/**
 	 * Returns a {@code short} array containing all the elements of the specified {@code short}
-	 * array at the specified indexes.
+	 * array at the specified indices.
 	 * <p>
 	 * @param array   the {@code short} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return a {@code short} array containing all the elements of the specified {@code short}
-	 *         array at the specified indexes
+	 *         array at the specified indices
 	 */
-	public static short[] filter(final short[] array, final int... indexes) {
-		final short[] filteredArray = new short[indexes.length];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static short[] filter(final short[] array, final int... indices) {
+		final short[] filteredArray = new short[indices.length];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code short} array containing all the elements of the specified {@code short}
-	 * array at all the specified indexes.
+	 * array at all the specified indices.
 	 * <p>
 	 * @param array   the {@code short} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code short} array containing all the elements of the specified {@code short}
-	 *         array at all the specified indexes
+	 *         array at all the specified indices
 	 */
-	public static short[][] filterAll(final short[] array, final int[]... indexes) {
-		final short[][] filteredArrays = new short[indexes.length][];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static short[][] filterAll(final short[] array, final int[]... indices) {
+		final short[][] filteredArrays = new short[indices.length][];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -1169,7 +1169,7 @@ public class Shorts {
 	 * elements of the specified {@code short} array.
 	 * <p>
 	 * @param a a {@code short} value
-	 * @param b a {@code short} array (may be {@code null})
+	 * @param b another {@code short} array (may be {@code null})
 	 * <p>
 	 * @return a {@code short} array containing the specified {@code short} value and all the
 	 *         elements of the specified {@code short} array
@@ -1183,7 +1183,7 @@ public class Shorts {
 	 * arrays.
 	 * <p>
 	 * @param a a {@code short} array (may be {@code null})
-	 * @param b a {@code short} array (may be {@code null})
+	 * @param b another {@code short} array (may be {@code null})
 	 * <p>
 	 * @return a {@code short} array containing all the elements of the specified {@code short}
 	 *         arrays
@@ -1289,7 +1289,7 @@ public class Shorts {
 	}
 
 	/**
-	 * Shuffles the specified {@code short} array between the specified indexes.
+	 * Shuffles the specified {@code short} array between the specified indices.
 	 * <p>
 	 * @param array     the {@code short} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)

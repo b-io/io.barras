@@ -104,7 +104,7 @@ public class ComparableSort
 
 	/**
 	 * A stack of pending runs yet to merge. Run {@code i} starts at address {@code base[i]} and
-	 * extends for {@code length[i]} elements. It is always true (so long as the indexes are in
+	 * extends for {@code length[i]} elements. It is always true (so long as the indices are in
 	 * bounds) that:
 	 * <p>
 	 * {@code runBase[i] + runLength[i] == runBase[i + 1]}
@@ -437,7 +437,7 @@ public class ComparableSort
 	}
 
 	/**
-	 * Merges the two runs at stack indexes {@code i} and {@code i + 1}. Run {@code i} must be the
+	 * Merges the two runs at stack indices {@code i} and {@code i + 1}. Run {@code i} must be the
 	 * penultimate or antepenultimate run on the stack. In other words, {@code i} must be equal to
 	 * {@code stackSize - 2} or {@code stackSize - 3}.
 	 * <p>
@@ -698,9 +698,9 @@ public class ComparableSort
 		// Copy first run into temporary array
 		final Object[] array = this.array; // for performance
 		final Object[] tempArray = ensureCapacity(length1);
-		int cursor1 = tempArrayBase; // indexes into temp array
-		int cursor2 = base2; // indexes into a
-		int dest = base1; // indexes into a
+		int cursor1 = tempArrayBase; // indices into temp array
+		int cursor2 = base2; // indices into a
+		int dest = base1; // indices into a
 		System.arraycopy(array, base1, tempArray, cursor1, length1);
 
 		// Move first element of second run and deal with degenerate cases
@@ -826,9 +826,9 @@ outer:  while (true) {
 		final int tempArrayBase = this.tempArrayBase;
 		System.arraycopy(array, base2, tempArray, tempArrayBase, length2);
 
-		int cursor1 = base1 + length1 - 1; // indexes into a
-		int cursor2 = tempArrayBase + length2 - 1; // indexes into temp array
-		int dest = base2 + length2 - 1; // indexes into a
+		int cursor1 = base1 + length1 - 1; // indices into a
+		int cursor2 = tempArrayBase + length2 - 1; // indices into temp array
+		int dest = base2 + length2 - 1; // indices into a
 
 		// Move last element of first run and deal with degenerate cases
 		array[dest--] = array[cursor1--];

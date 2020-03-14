@@ -1189,36 +1189,36 @@ public class Characters {
 
 	/**
 	 * Returns a {@code char} array containing all the elements of the specified {@code char} array
-	 * at the specified indexes.
+	 * at the specified indices.
 	 * <p>
 	 * @param array   the {@code char} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return a {@code char} array containing all the elements of the specified {@code char} array
-	 *         at the specified indexes
+	 *         at the specified indices
 	 */
-	public static char[] filter(final char[] array, final int... indexes) {
-		final char[] filteredArray = new char[indexes.length];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static char[] filter(final char[] array, final int... indices) {
+		final char[] filteredArray = new char[indices.length];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code char} array containing all the elements of the specified {@code char}
-	 * array at all the specified indexes.
+	 * array at all the specified indices.
 	 * <p>
 	 * @param array   the {@code char} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code char} array containing all the elements of the specified {@code char}
-	 *         array at all the specified indexes
+	 *         array at all the specified indices
 	 */
-	public static char[][] filterAll(final char[] array, final int[]... indexes) {
-		final char[][] filteredArrays = new char[indexes.length][];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static char[][] filterAll(final char[] array, final int[]... indices) {
+		final char[][] filteredArrays = new char[indices.length][];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -1230,7 +1230,7 @@ public class Characters {
 	 * of the specified {@code char} array.
 	 * <p>
 	 * @param a a {@code char} value
-	 * @param b a {@code char} array (may be {@code null})
+	 * @param b another {@code char} array (may be {@code null})
 	 * <p>
 	 * @return a {@code char} array containing the specified {@code char} value and all the elements
 	 *         of the specified {@code char} array
@@ -1244,7 +1244,7 @@ public class Characters {
 	 * arrays.
 	 * <p>
 	 * @param a a {@code char} array (may be {@code null})
-	 * @param b a {@code char} array (may be {@code null})
+	 * @param b another {@code char} array (may be {@code null})
 	 * <p>
 	 * @return a {@code char} array containing all the elements of the specified {@code char} arrays
 	 */
@@ -1299,7 +1299,7 @@ public class Characters {
 	}
 
 	/**
-	 * Shuffles the specified {@code char} array between the specified indexes.
+	 * Shuffles the specified {@code char} array between the specified indices.
 	 * <p>
 	 * @param array     the {@code char} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)

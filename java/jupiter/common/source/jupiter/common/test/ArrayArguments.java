@@ -164,7 +164,7 @@ public class ArrayArguments
 	 * or interface represented by {@code b}.
 	 * <p>
 	 * @param a a {@link Class}
-	 * @param b a {@link Class}
+	 * @param b another {@link Class}
 	 */
 	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
 		if (CHECK_ARGS && !a.isAssignableFrom(b)) {

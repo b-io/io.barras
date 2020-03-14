@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.test.Arguments;
 import jupiter.common.test.CollectionArguments;
 
 public class Lists
@@ -60,35 +61,62 @@ public class Lists
 	 * @return {@code true} if the specified {@link List} changed as a result of the call
 	 */
 	public static <T> boolean addAll(final List<? super T> list, final T[] elements) {
+		// Check the arguments
+		Arguments.requireNonNull(list, "list");
+		Arguments.requireNonNull(elements, "elements");
+
+		// Add all the elements to the list
 		return list.addAll(java.util.Arrays.asList(elements));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <E extends Number> ExtendedList<E> getMinElements(final List<E> a,
-			final List<E> b) {
+	/**
+	 * Return the minimum element for each index of the specified {@link List} in an
+	 * {@link ExtendedList}.
+	 * <p>
+	 * @param <E> the element type of the {@link ExtendedList} to return (subtype of {@link Number})
+	 * @param a   a {@link List} of {@code E} element type (subtype of {@link Number})
+	 * @param b   another {@link List} of {@code E} element type (subtype of {@link Number})
+	 * <p>
+	 * @return the minimum element for each index of the specified {@link List} in an
+	 *         {@link ExtendedList}
+	 */
+	public static <E extends Number> ExtendedList<E> getMinElements(final List<? extends E> a,
+			final List<? extends E> b) {
 		// Check the arguments
-		CollectionArguments.<List<E>>requireSameSize(a, b);
+		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
 
-		// Get the minimum element for each index
+		// Return the minimum element for each index of the lists
 		final ExtendedList<E> minElements = new ExtendedList<E>(a.size());
-		final Iterator<E> aIterator = a.iterator();
-		final Iterator<E> bIterator = b.iterator();
+		final Iterator<? extends E> aIterator = a.iterator();
+		final Iterator<? extends E> bIterator = b.iterator();
 		while (aIterator.hasNext() && bIterator.hasNext()) {
 			minElements.add(Numbers.<E>getMin(aIterator.next(), bIterator.next()));
 		}
 		return minElements;
 	}
 
-	public static <E extends Number> ExtendedList<E> getMaxElements(final List<E> a,
-			final List<E> b) {
+	/**
+	 * Return the maximum element for each index of the specified {@link List} in an
+	 * {@link ExtendedList}.
+	 * <p>
+	 * @param <E> the element type of the {@link ExtendedList} to return (subtype of {@link Number})
+	 * @param a   a {@link List} of {@code E} element type (subtype of {@link Number})
+	 * @param b   another {@link List} of {@code E} element type (subtype of {@link Number})
+	 * <p>
+	 * @return the maximum element for each index of the specified {@link List} in an
+	 *         {@link ExtendedList}
+	 */
+	public static <E extends Number> ExtendedList<E> getMaxElements(final List<? extends E> a,
+			final List<? extends E> b) {
 		// Check the arguments
-		CollectionArguments.<List<E>>requireSameSize(a, b);
+		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
 
-		// Get the maximum element for each index
+		// Return the maximum element for each index of the lists
 		final ExtendedList<E> maxElements = new ExtendedList<E>(a.size());
-		final Iterator<E> aIterator = a.iterator();
-		final Iterator<E> bIterator = b.iterator();
+		final Iterator<? extends E> aIterator = a.iterator();
+		final Iterator<? extends E> bIterator = b.iterator();
 		while (aIterator.hasNext() && bIterator.hasNext()) {
 			maxElements.add(Numbers.<E>getMax(aIterator.next(), bIterator.next()));
 		}
@@ -102,11 +130,15 @@ public class Lists
 	 * and returns the index of the removed element, or {@code -1} if it is not present.
 	 * <p>
 	 * @param list   a {@link List}
-	 * @param object the {@link Object} to remove
+	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
 	public static int removeLast(final List<?> list, final Object object) {
+		// Check the arguments
+		Arguments.requireNonNull(list, "list");
+
+		// Remove the last occurrence of the object from the list and return its index
 		final ListIterator<?> iterator = list.listIterator(list.size());
 		int index = list.size() - 1;
 		while (iterator.hasPrevious()) {
@@ -128,6 +160,10 @@ public class Lists
 	 * @param list the {@link List} of {@code E} element type to sort
 	 */
 	public static <E extends Comparable<? super E>> void sort(final List<E> list) {
+		// Check the arguments
+		Arguments.requireNonNull(list, "list");
+
+		// Sort the list
 		final E[] array = Lists.toArray(list);
 		Arrays.sort(array);
 		final ListIterator<E> iterator = list.listIterator();
@@ -152,6 +188,10 @@ public class Lists
 	 *                                  {@link Comparator} contract
 	 */
 	public static <E> void sort(final List<E> list, final Comparator<? super E> comparator) {
+		// Check the arguments
+		Arguments.requireNonNull(list, "list");
+
+		// Sort the list using the comparator
 		final E[] array = Lists.toArray(list);
 		Arrays.sort(array, comparator);
 		final ListIterator<E> iterator = list.listIterator();

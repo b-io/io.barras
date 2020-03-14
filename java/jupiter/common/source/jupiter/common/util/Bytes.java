@@ -1315,36 +1315,36 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} array containing all the elements of the specified {@code byte} array
-	 * at the specified indexes.
+	 * at the specified indices.
 	 * <p>
 	 * @param array   the {@code byte} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return a {@code byte} array containing all the elements of the specified {@code byte} array
-	 *         at the specified indexes
+	 *         at the specified indices
 	 */
-	public static byte[] filter(final byte[] array, final int... indexes) {
-		final byte[] filteredArray = new byte[indexes.length];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static byte[] filter(final byte[] array, final int... indices) {
+		final byte[] filteredArray = new byte[indices.length];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code byte} array containing all the elements of the specified {@code byte}
-	 * array at all the specified indexes.
+	 * array at all the specified indices.
 	 * <p>
 	 * @param array   the {@code byte} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code byte} array containing all the elements of the specified {@code byte}
-	 *         array at all the specified indexes
+	 *         array at all the specified indices
 	 */
-	public static byte[][] filterAll(final byte[] array, final int[]... indexes) {
-		final byte[][] filteredArrays = new byte[indexes.length][];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static byte[][] filterAll(final byte[] array, final int[]... indices) {
+		final byte[][] filteredArrays = new byte[indices.length][];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -1356,7 +1356,7 @@ public class Bytes {
 	 * of the specified {@code byte} array.
 	 * <p>
 	 * @param a a {@code byte} value
-	 * @param b a {@code byte} array (may be {@code null})
+	 * @param b another {@code byte} array (may be {@code null})
 	 * <p>
 	 * @return a {@code byte} array containing the specified {@code byte} value and all the elements
 	 *         of the specified {@code byte} array
@@ -1370,7 +1370,7 @@ public class Bytes {
 	 * arrays.
 	 * <p>
 	 * @param a a {@code byte} array (may be {@code null})
-	 * @param b a {@code byte} array (may be {@code null})
+	 * @param b another {@code byte} array (may be {@code null})
 	 * <p>
 	 * @return a {@code byte} array containing all the elements of the specified {@code byte} arrays
 	 */
@@ -1475,7 +1475,7 @@ public class Bytes {
 	}
 
 	/**
-	 * Shuffles the specified {@code byte} array between the specified indexes.
+	 * Shuffles the specified {@code byte} array between the specified indices.
 	 * <p>
 	 * @param array     the {@code byte} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)
@@ -1974,7 +1974,7 @@ public class Bytes {
 	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
 	 * <p>
 	 * @param a the {@code byte} value to compare for order
-	 * @param b the {@code byte} value to compare against for order
+	 * @param b the other {@code byte} value to compare against for order
 	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}

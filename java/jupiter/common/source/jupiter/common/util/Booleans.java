@@ -973,36 +973,36 @@ public class Booleans {
 
 	/**
 	 * Returns a {@code boolean} array containing all the elements of the specified {@code boolean}
-	 * array at the specified indexes.
+	 * array at the specified indices.
 	 * <p>
 	 * @param array   the {@code boolean} array to filter from
-	 * @param indexes the indexes to filter
+	 * @param indices the indices to filter
 	 * <p>
 	 * @return a {@code boolean} array containing all the elements of the specified {@code boolean}
-	 *         array at the specified indexes
+	 *         array at the specified indices
 	 */
-	public static boolean[] filter(final boolean[] array, final int... indexes) {
-		final boolean[] filteredArray = new boolean[indexes.length];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArray[i] = array[indexes[i]];
+	public static boolean[] filter(final boolean[] array, final int... indices) {
+		final boolean[] filteredArray = new boolean[indices.length];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArray[i] = array[indices[i]];
 		}
 		return filteredArray;
 	}
 
 	/**
 	 * Returns a 2D {@code boolean} array containing all the elements of the specified
-	 * {@code boolean} array at all the specified indexes.
+	 * {@code boolean} array at all the specified indices.
 	 * <p>
 	 * @param array   the {@code boolean} array to filter from
-	 * @param indexes the array of indexes to filter
+	 * @param indices the array of indices to filter
 	 * <p>
 	 * @return a 2D {@code boolean} array containing all the elements of the specified
-	 *         {@code boolean} array at all the specified indexes
+	 *         {@code boolean} array at all the specified indices
 	 */
-	public static boolean[][] filterAll(final boolean[] array, final int[]... indexes) {
-		final boolean[][] filteredArrays = new boolean[indexes.length][];
-		for (int i = 0; i < indexes.length; ++i) {
-			filteredArrays[i] = filter(array, indexes[i]);
+	public static boolean[][] filterAll(final boolean[] array, final int[]... indices) {
+		final boolean[][] filteredArrays = new boolean[indices.length][];
+		for (int i = 0; i < indices.length; ++i) {
+			filteredArrays[i] = filter(array, indices[i]);
 		}
 		return filteredArrays;
 	}
@@ -1014,7 +1014,7 @@ public class Booleans {
 	 * elements of the specified {@code boolean} array.
 	 * <p>
 	 * @param a a {@code boolean} value
-	 * @param b a {@code boolean} array (may be {@code null})
+	 * @param b another {@code boolean} array (may be {@code null})
 	 * <p>
 	 * @return a {@code boolean} array containing the specified {@code boolean} value and all the
 	 *         elements of the specified {@code boolean} array
@@ -1028,7 +1028,7 @@ public class Booleans {
 	 * arrays.
 	 * <p>
 	 * @param a a {@code boolean} array (may be {@code null})
-	 * @param b a {@code boolean} array (may be {@code null})
+	 * @param b another {@code boolean} array (may be {@code null})
 	 * <p>
 	 * @return a {@code boolean} array containing all the elements of the specified {@code boolean}
 	 *         arrays
@@ -1084,7 +1084,7 @@ public class Booleans {
 	}
 
 	/**
-	 * Shuffles the specified {@code boolean} array between the specified indexes.
+	 * Shuffles the specified {@code boolean} array between the specified indices.
 	 * <p>
 	 * @param array     the {@code boolean} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)

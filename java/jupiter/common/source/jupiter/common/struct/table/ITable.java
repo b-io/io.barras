@@ -87,12 +87,12 @@ public interface ITable {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified row and column indexes.
+	 * Returns the element at the specified row and column indices.
 	 * <p>
 	 * @param i    the row index
 	 * @param name the column name
 	 * <p>
-	 * @return the element at the specified row and column indexes
+	 * @return the element at the specified row and column indices
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
@@ -101,12 +101,12 @@ public interface ITable {
 	public Object get(final int i, final String name);
 
 	/**
-	 * Returns the element at the specified row and column indexes.
+	 * Returns the element at the specified row and column indices.
 	 * <p>
 	 * @param i the row index
 	 * @param j the column index
 	 * <p>
-	 * @return the element at the specified row and column indexes
+	 * @return the element at the specified row and column indices
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
