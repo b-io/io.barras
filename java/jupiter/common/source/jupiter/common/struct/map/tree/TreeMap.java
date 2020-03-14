@@ -121,9 +121,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared using the
-	 *                              default {@code keyComparator}
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
+	 *                            default {@code keyComparator}
 	 */
 	protected TreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
 		this(c);
@@ -179,9 +178,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @param map           the {@link Map} of {@code K} and {@code V} subtypes containing the
 	 *                      key-value mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared using
-	 *                              {@code keyComparator}
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
+	 *                            {@code keyComparator}
 	 */
 	protected TreeMap(final Comparator<? super K> keyComparator,
 			final Map<? extends K, ? extends V> map) {
@@ -380,9 +378,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to put
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be compared to {@code this} keys
-	 *                              using {@code keyComparator}
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws ClassCastException if any {@code map} keys cannot be compared to {@code this} keys
+	 *                            using {@code keyComparator}
 	 */
 	@Override
 	public synchronized void putAll(final Map<? extends K, ? extends V> map) {

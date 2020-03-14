@@ -64,8 +64,6 @@ public class SortedList<E extends Comparable<? super E>>
 	 * Constructs a {@link SortedList} of {@code E} element type with the specified elements.
 	 * <p>
 	 * @param elements an {@code E} array
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public SortedList(final E... elements) {
@@ -77,8 +75,6 @@ public class SortedList<E extends Comparable<? super E>>
 	 * {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public SortedList(final Collection<? extends E> elements) {
 		super(elements);

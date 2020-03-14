@@ -78,7 +78,6 @@ public class SafeDateFormat
 	 * @param pattern the pattern {@link String} describing the date-time format
 	 * <p>
 	 * @throws IllegalArgumentException if {@code pattern} is invalid
-	 * @throws NullPointerException     if {@code pattern} is {@code null}
 	 */
 	public SafeDateFormat(final String pattern) {
 		super(pattern);
@@ -94,7 +93,6 @@ public class SafeDateFormat
 	 * @param locale  the {@link Locale} whose {@link DateFormatSymbols} should be used
 	 * <p>
 	 * @throws IllegalArgumentException if {@code pattern} is invalid
-	 * @throws NullPointerException     if {@code pattern} or {@code locale} is {@code null}
 	 */
 	public SafeDateFormat(final String pattern, final Locale locale) {
 		super(pattern, locale);
@@ -108,7 +106,6 @@ public class SafeDateFormat
 	 * @param formatSymbols the {@link DateFormatSymbols} used for formatting
 	 * <p>
 	 * @throws IllegalArgumentException if {@code pattern} is invalid
-	 * @throws NullPointerException     if {@code pattern} or {@code formatSymbols} is {@code null}
 	 */
 	public SafeDateFormat(final String pattern, final DateFormatSymbols formatSymbols) {
 		super(pattern, formatSymbols);
@@ -171,8 +168,6 @@ public class SafeDateFormat
 	 * Sets the {@link DateFormatSymbols} of {@code this}.
 	 * <p>
 	 * @param formatSymbols a {@link DateFormatSymbols}
-	 * <p>
-	 * @throws NullPointerException if {@code formatSymbols} is {@code null}
 	 *
 	 * @see #getDateFormatSymbols()
 	 */
@@ -196,8 +191,6 @@ public class SafeDateFormat
 	 *                   output: the offsets of the alignment field
 	 * <p>
 	 * @return the formatted date-time {@link StringBuffer}
-	 * <p>
-	 * @throws NullPointerException if {@code date} is {@code null}
 	 */
 	@Override
 	public synchronized StringBuffer format(final Date date, final StringBuffer toAppendTo,
@@ -219,7 +212,6 @@ public class SafeDateFormat
 	 * <p>
 	 * @throws IllegalArgumentException if {@code this} cannot format {@code object} or if the
 	 *                                  format pattern {@link String} is invalid
-	 * @throws NullPointerException     if {@code object} is {@code null}
 	 * <p>
 	 * @since 1.4
 	 */
@@ -262,7 +254,6 @@ public class SafeDateFormat
 	 * @param pattern the pattern {@link String} describing the date-time format
 	 * <p>
 	 * @throws IllegalArgumentException if {@code pattern} is invalid
-	 * @throws NullPointerException     if {@code pattern} is {@code null}
 	 */
 	@Override
 	public synchronized void applyPattern(final String pattern) {
@@ -275,7 +266,6 @@ public class SafeDateFormat
 	 * @param pattern the pattern {@link String} describing the localized date-time format
 	 * <p>
 	 * @throws IllegalArgumentException if {@code pattern} is invalid
-	 * @throws NullPointerException     if {@code pattern} is {@code null}
 	 */
 	@Override
 	public synchronized void applyLocalizedPattern(final String pattern) {
@@ -314,8 +304,6 @@ public class SafeDateFormat
 	 *                 described above
 	 * <p>
 	 * @return a {@link Date} parsed from the {@link String}, or {@code null} in case of error
-	 * <p>
-	 * @throws NullPointerException if {@code text} or {@code position} is {@code null}
 	 */
 	@Override
 	public synchronized Date parse(final String text, final ParsePosition position) {

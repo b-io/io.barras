@@ -86,8 +86,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared
 	 */
 	public ComparableRedBlackTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);

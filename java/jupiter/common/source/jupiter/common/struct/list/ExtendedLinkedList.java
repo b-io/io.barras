@@ -69,8 +69,6 @@ public class ExtendedLinkedList<E>
 	 * elements.
 	 * <p>
 	 * @param elements an {@code E} array
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public ExtendedLinkedList(final E... elements) {
@@ -82,8 +80,6 @@ public class ExtendedLinkedList<E>
 	 * specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public ExtendedLinkedList(final Collection<? extends E> elements) {
 		super(elements);

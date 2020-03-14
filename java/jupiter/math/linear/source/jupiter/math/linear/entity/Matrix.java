@@ -254,6 +254,7 @@ public class Matrix
 
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
+		Arguments.requireNonNull(values, "values");
 
 		// Set the numbers of rows and columns
 		if (transpose) {
@@ -306,6 +307,7 @@ public class Matrix
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
 		IntegerArguments.requirePositive(columnCount);
+		Arguments.requireNonNull(values, "values");
 
 		// Set the numbers of rows and columns
 		m = rowCount;
@@ -364,6 +366,7 @@ public class Matrix
 
 		// Check the arguments
 		IntegerArguments.requirePositive(rowCount);
+		Arguments.requireNonNull(elements, "elements");
 
 		// Set the numbers of rows and columns
 		m = rowCount;

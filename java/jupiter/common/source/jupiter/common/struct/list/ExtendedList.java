@@ -80,8 +80,6 @@ public class ExtendedList<E>
 	 * Constructs an {@link ExtendedList} of {@code E} element type with the specified elements.
 	 * <p>
 	 * @param elements an {@code E} array
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public ExtendedList(final E... elements) {
@@ -94,8 +92,6 @@ public class ExtendedList<E>
 	 * specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public ExtendedList(final Collection<? extends E> elements) {
 		super(elements);

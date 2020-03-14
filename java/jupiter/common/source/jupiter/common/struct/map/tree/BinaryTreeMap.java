@@ -106,9 +106,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared using the
-	 *                              default {@code keyComparator}
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
+	 *                            default {@code keyComparator}
 	 */
 	protected BinaryTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
 		super(c, map);
@@ -157,9 +156,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @param map           the {@link Map} of {@code K} and {@code V} subtypes containing the
 	 *                      key-value mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared using
-	 *                              {@code keyComparator}
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
+	 *                            {@code keyComparator}
 	 */
 	protected BinaryTreeMap(final Comparator<? super K> keyComparator,
 			final Map<? extends K, ? extends V> map) {

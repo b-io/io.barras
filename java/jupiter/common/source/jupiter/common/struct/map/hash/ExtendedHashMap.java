@@ -104,8 +104,6 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to load
-	 * <p>
-	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	public ExtendedHashMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -206,8 +204,6 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to put
-	 * <p>
-	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	@Override
 	public synchronized void putAll(final Map<? extends K, ? extends V> map) {

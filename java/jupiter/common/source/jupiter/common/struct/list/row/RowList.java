@@ -108,8 +108,6 @@ public class RowList
 	 * Constructs a {@link RowList} with the specified elements.
 	 * <p>
 	 * @param elements an array of {@link Row}
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public RowList(final Row... elements) {
 		this(createHeader(Arguments.requireNonNull(elements, "elements").length), elements);
@@ -120,8 +118,6 @@ public class RowList
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements an array of {@link Row}
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public RowList(final String[] header, final Row... elements) {
 		super(elements);
@@ -139,8 +135,6 @@ public class RowList
 	 * Constructs a {@link RowList} with the elements of the specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of element subtype of {@link Row}
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public RowList(final Collection<? extends Row> elements) {
 		this(createHeader(Arguments.requireNonNull(elements, "elements").size()), elements);
@@ -152,8 +146,6 @@ public class RowList
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a {@link Collection} of element subtype of {@link Row}
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public RowList(final String[] header, final Collection<? extends Row> elements) {
 		super(elements);

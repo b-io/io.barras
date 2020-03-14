@@ -186,7 +186,6 @@ public class ReservedThreadPoolExecutor
 	 *         {@link Runnable} task if there is at least one thread that is not actively executing
 	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws NullPointerException       if {@code task} is {@code null}
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
@@ -216,7 +215,6 @@ public class ReservedThreadPoolExecutor
 	 *         {@link Runnable} task if there is at least one thread that is not actively executing
 	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws NullPointerException       if {@code task} is {@code null}
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
@@ -245,7 +243,6 @@ public class ReservedThreadPoolExecutor
 	 *         {@link Callable} task if there is at least one thread that is not actively executing
 	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws NullPointerException       if {@code task} is {@code null}
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override

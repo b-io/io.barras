@@ -110,8 +110,7 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to load
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be mutually compared
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared
 	 */
 	protected ComparableTreeMap(final Map<? extends K, ? extends V> map) {
 		super();
@@ -291,8 +290,7 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
 	 *            mappings to put
 	 * <p>
-	 * @throws ClassCastException   if any {@code map} keys cannot be compared to {@code this} keys
-	 * @throws NullPointerException if {@code map} is {@code null}
+	 * @throws ClassCastException if any {@code map} keys cannot be compared to {@code this} keys
 	 */
 	@Override
 	public synchronized void putAll(final Map<? extends K, ? extends V> map) {

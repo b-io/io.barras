@@ -91,8 +91,6 @@ public class JSONObject
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to load
-	 * <p>
-	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	public JSONObject(final Map<String, ? extends Object> map) {
 		super(map);

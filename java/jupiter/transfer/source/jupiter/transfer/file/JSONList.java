@@ -76,8 +76,6 @@ public class JSONList
 	 * Constructs a {@link JSONList} with the specified elements.
 	 * <p>
 	 * @param elements an array of {@link JSONObject}
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public JSONList(final JSONObject... elements) {
 		super(elements);
@@ -87,8 +85,6 @@ public class JSONList
 	 * Constructs a {@link JSONList} with the elements of the specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of element subtype of {@link JSONObject}
-	 * <p>
-	 * @throws NullPointerException if {@code elements} is {@code null}
 	 */
 	public JSONList(final Collection<? extends JSONObject> elements) {
 		super(elements);
@@ -124,8 +120,6 @@ public class JSONList
 	 *            append
 	 * <p>
 	 * @return {@code true} (as specified by {@link Collection#add})
-	 * <p>
-	 * @throws NullPointerException if {@code map} is {@code null}
 	 */
 	public synchronized boolean add(final Map<String, ? extends Object> map) {
 		return add(new JSONObject(map));
