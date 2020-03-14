@@ -26,7 +26,6 @@ package jupiter.common.struct.tuple;
 import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>
 		extends Pair<T1, T2>

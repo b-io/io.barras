@@ -223,7 +223,7 @@ public class ExtendedHashMap<K, V>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public synchronized V remove(Object key) {
+	public synchronized V remove(final Object key) {
 		return super.remove(key);
 	}
 

@@ -85,7 +85,7 @@ public class MapArguments
 	public static <M extends Map<?, ?>> void requireSameSize(final M a, final M b) {
 		if (CHECK_ARGS && requireNonNull(a).size() != requireNonNull(b).size()) {
 			throw new IllegalArgumentException("The specified maps do not have the same size " +
-							isNotEqualTo(a.size(), b.size()));
+					isNotEqualTo(a.size(), b.size()));
 		}
 	}
 }

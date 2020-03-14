@@ -32,7 +32,6 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.learning.supervised.function.OptimizationAdam;

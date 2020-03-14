@@ -804,7 +804,7 @@ public class JConsole
 				}
 				// Insert the text part
 				insertString(document, getTextLength(), textPart, textColor);
-				// Update the color
+				// Update the text color
 				if (delimiterIterator.hasNext()) {
 					textColor = ConsoleHandler.Color.parse(delimiterIterator.next().getToken());
 				}

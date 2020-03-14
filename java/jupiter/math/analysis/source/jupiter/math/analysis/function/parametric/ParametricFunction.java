@@ -91,6 +91,7 @@ public abstract class ParametricFunction
 	 * <p>
 	 * @return {@code f(x, parameters)}
 	 */
+	@Override
 	public double apply(final double x) {
 		return apply(x, parameters);
 	}

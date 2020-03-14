@@ -30,7 +30,6 @@ import java.util.Set;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.graphics.charts.struct.SeriesStyle;
 import jupiter.gui.swing.Swings;

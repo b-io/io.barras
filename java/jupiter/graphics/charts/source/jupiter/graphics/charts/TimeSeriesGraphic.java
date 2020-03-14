@@ -34,7 +34,6 @@ import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 import jupiter.graphics.charts.struct.TimeSeriesList;
 
 import org.jfree.chart.JFreeChart;

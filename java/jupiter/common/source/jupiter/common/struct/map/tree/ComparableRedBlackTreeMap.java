@@ -303,7 +303,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 				// Get the uncle
 				uncle = grandParent != null ? grandParent.right : null;
 				if (uncle != null && !uncle.isBlack) {
-					// Update the colors
+					// Update the node colors
 					parent.isBlack = true;
 					uncle.isBlack = true;
 					grandParent.isBlack = false;
@@ -326,7 +326,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 							break;
 						}
 					}
-					// Update the colors and rotate right
+					// Update the node colors and rotate right
 					parent.isBlack = true;
 					if (grandParent != null) {
 						grandParent.isBlack = false;
@@ -337,7 +337,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 				// Get the uncle
 				uncle = grandParent != null ? grandParent.left : null;
 				if (uncle != null && !uncle.isBlack) {
-					// Update the colors
+					// Update the node colors
 					parent.isBlack = true;
 					uncle.isBlack = true;
 					grandParent.isBlack = false;
@@ -360,7 +360,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 							break;
 						}
 					}
-					// Update the colors and rotate left
+					// Update the node colors and rotate left
 					parent.isBlack = true;
 					if (grandParent != null) {
 						grandParent.isBlack = false;

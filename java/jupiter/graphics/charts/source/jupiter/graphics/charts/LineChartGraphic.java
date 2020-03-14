@@ -25,7 +25,6 @@ package jupiter.graphics.charts;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.function.Function2D;
