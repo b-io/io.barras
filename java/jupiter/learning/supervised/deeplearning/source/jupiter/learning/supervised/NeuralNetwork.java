@@ -254,7 +254,7 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
 	 * @param learningRate                     the learning rate {@code α}
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
@@ -285,7 +285,7 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
 	 * @param learningRate      the learning rate {@code α}
 	 * @param tolerance         the tolerance level {@code ε}
@@ -306,7 +306,7 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
 	 * @param learningRate                     the learning rate {@code α}
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
@@ -340,8 +340,8 @@ public class NeuralNetwork
 			W = new Matrix[layerCount];
 			W[0] = Matrix.random(hiddenLayerSize, featureCount)
 					.subtract(0.5)
-					.multiply(Math.sqrt(2. / featureCount)); // (nh x n)
-			final double scalingFactor = Math.sqrt(2. / hiddenLayerSize);
+					.multiply(Maths.sqrt(2. / featureCount)); // (nh x n)
+			final double scalingFactor = Maths.sqrt(2. / hiddenLayerSize);
 			for (int l = 1; l < layerCount - 1; ++l) {
 				W[l] = Matrix.random(hiddenLayerSize, hiddenLayerSize)
 						.subtract(0.5)
@@ -503,9 +503,9 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

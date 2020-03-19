@@ -31,9 +31,7 @@ import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 
 /**
- * {@link AvlTreeMap} is a light sorted synchronized {@link Map} implementation of {@code K} and
- * {@code V} types based on an AVL tree with a {@link Comparator} to determine the order of the
- * entries.
+ * {@link AvlTreeMap} is the AVL {@link BinaryTreeMap} of {@code K} and {@code V} types.
  * <p>
  * @param <K> the key type of the {@link AvlTreeMap}
  * @param <V> the value type of the {@link AvlTreeMap}
@@ -98,8 +96,8 @@ public class AvlTreeMap<K, V>
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of {@code K} type
-	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
-	 *            mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
 	 *                            default {@code keyComparator}
@@ -148,8 +146,8 @@ public class AvlTreeMap<K, V>
 	 * key-value mappings.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
-	 * @param map           the {@link Map} of {@code K} and {@code V} subtypes containing the
-	 *                      key-value mappings to load
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
 	 *                            {@code keyComparator}
@@ -468,9 +466,9 @@ public class AvlTreeMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

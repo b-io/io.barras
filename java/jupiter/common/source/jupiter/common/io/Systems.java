@@ -84,7 +84,7 @@ public class Systems {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Executes the specified command on the system and returns its exit value.
+	 * Executes the specified command on the system.
 	 * <p>
 	 * @param command the command to execute
 	 * <p>
@@ -100,7 +100,7 @@ public class Systems {
 
 	/**
 	 * Executes the specified command on the system, prints the output with the specified printer
-	 * {@link IOHandler} and returns its exit value.
+	 * {@link IOHandler}.
 	 * <p>
 	 * @param printer the printer {@link IOHandler}
 	 * @param command the command to execute

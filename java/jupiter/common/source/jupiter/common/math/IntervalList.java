@@ -23,23 +23,18 @@
  */
 package jupiter.common.math;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.util.Lists;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 /**
- * {@link IntervalList} is the {@link ISet} of {@code T} type containing a {@link List} of
- * {@link Interval}.
+ * {@link IntervalList} is the {@link GenericIntervalList} of {@link Interval} of {@code T} type.
  * <p>
- * @param <T> the self {@link Comparable} type of the {@link IntervalList}
+ * @param <T> the self {@link Comparable} type of the {@link Interval}
  */
 public class IntervalList<T extends Comparable<? super T>>
-		implements ICloneable<IntervalList<T>>, ISet<T>, Serializable {
+		extends GenericIntervalList<Interval<T>, T> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -52,16 +47,6 @@ public class IntervalList<T extends Comparable<? super T>>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The {@link List} of {@link Interval} of {@code T} type.
-	 */
-	protected List<Interval<T>> intervals;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -69,91 +54,28 @@ public class IntervalList<T extends Comparable<? super T>>
 	 * Constructs an empty {@link IntervalList} of {@code T} type.
 	 */
 	public IntervalList() {
-		this(new ExtendedLinkedList<Interval<T>>());
+		super();
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IntervalList} of {@code T} type with the specified {@link List} of
-	 * {@link Interval}.
+	 * Constructs an {@link IntervalList} of {@code T} type with the specified elements.
 	 * <p>
-	 * @param intervals a {@link List} of {@link Interval} of {@code T} type
+	 * @param elements an array of {@link Interval} of {@code T} type
 	 */
-	public IntervalList(final List<Interval<T>> intervals) {
-		this.intervals = intervals;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the {@link List} of {@link Interval} of {@code T} type.
-	 * <p>
-	 * @return the {@link List} of {@link Interval} of {@code T} type
-	 */
-	public List<Interval<T>> getIntervals() {
-		return intervals;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Sets the {@link List} of {@link Interval}.
-	 * <p>
-	 * @param intervals a {@link List} of {@link Interval} of {@code T} type
-	 */
-	public void setIntervals(final List<Interval<T>> intervals) {
-		this.intervals = intervals;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GROUP
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code this} is empty.
-	 * <p>
-	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
-	 */
-	public boolean isEmpty() {
-		return intervals.isEmpty();
+	public IntervalList(final Interval<T>... elements) {
+		super(elements);
 	}
 
 	/**
-	 * Tests whether {@code this} contains the specified {@code T} object.
+	 * Constructs an {@link IntervalList} of {@code T} type with the elements of the specified
+	 * {@link Collection}.
 	 * <p>
-	 * @param object the {@code T} object to test for presence
-	 * <p>
-	 * @return {@code true} if {@code this} contains the {@code T} object, {@code false} otherwise
+	 * @param elements a {@link Collection} of {@link Interval} of {@code T} type
 	 */
-	public boolean isInside(final T object) {
-		for (final Interval<T> interval : intervals) {
-			if (interval.isInside(object)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Tests whether {@code this} is valid.
-	 * <p>
-	 * @return {@code true} if {@code this} is valid, {@code false} otherwise
-	 */
-	public boolean isValid() {
-		for (final Interval<T> interval : intervals) {
-			if (!interval.isValid()) {
-				return false;
-			}
-		}
-		return !isEmpty();
+	public IntervalList(final Collection<? extends Interval<T>> elements) {
+		super(elements);
 	}
 
 
@@ -162,67 +84,18 @@ public class IntervalList<T extends Comparable<? super T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings({"cast", "unchecked"})
 	public IntervalList<T> clone() {
-		try {
-			return (IntervalList<T>) super.clone();
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+		final IntervalList<T> clone = new IntervalList<T>();
+		for (final Interval<T> element : this) {
+			clone.add(Objects.clone(element));
 		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-	 *
-	 * @see #hashCode()
-	 */
-	@Override
-	public boolean equals(final Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (other == null || !(other instanceof IntervalList)) {
-			return false;
-		}
-		final IntervalList<?> otherIntervalList = (IntervalList<?>) other;
-		return Objects.equals(intervals, otherIntervalList.intervals);
-	}
-
-	/**
-	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
-	 *
-	 * @see #equals(Object)
-	 * @see System#identityHashCode(Object)
-	 */
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, intervals);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
-	 * @return a representative {@link String} of {@code this}
-	 */
-	@Override
-	public String toString() {
-		return Lists.toString(intervals);
+		return clone;
 	}
 }

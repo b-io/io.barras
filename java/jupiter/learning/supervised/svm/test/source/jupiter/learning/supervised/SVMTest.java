@@ -41,7 +41,7 @@ public class SVMTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of classify method, of class SVM.
+	 * Tests classify method, of class SVM.
 	 */
 	public void testClassify() {
 		IO.test(BULLET, " classify");

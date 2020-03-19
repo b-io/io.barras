@@ -21,13 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.univariate;
 
+import jupiter.common.math.Domain;
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
-public class Logarithm
-		extends Function {
+public class Root
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -44,10 +45,10 @@ public class Logarithm
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Logarithm}.
+	 * Constructs a {@link Root}.
 	 */
-	protected Logarithm() {
-		super();
+	protected Root() {
+		super(Domain.NON_NEGATIVE);
 	}
 
 
@@ -56,16 +57,16 @@ public class Logarithm
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the logarithm function to the specified {@code double} value and returns the
-	 * resulting {@code double} value.
+	 * Applies the root function to the specified value and returns the resulting {@code double}
+	 * value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code log(x)}
+	 * @return {@code sqrt(x)}
 	 */
 	@Override
 	public double apply(final double x) {
-		return Maths.safeLog(x);
+		return Maths.sqrt(constrain(x));
 	}
 
 
@@ -74,14 +75,14 @@ public class Logarithm
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Logarithm clone() {
-		return (Logarithm) super.clone();
+	public Root clone() {
+		return (Root) super.clone();
 	}
 }

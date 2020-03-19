@@ -40,7 +40,7 @@ public class LUDecompositionTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of class LUDecomposition.
+	 * Tests class LUDecomposition.
 	 */
 	public void testLUDecomposition() {
 		IO.test(BULLET, " LUDecomposition");

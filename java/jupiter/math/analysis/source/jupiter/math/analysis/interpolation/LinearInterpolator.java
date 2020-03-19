@@ -23,18 +23,15 @@
  */
 package jupiter.math.analysis.interpolation;
 
-import java.io.Serializable;
-
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Strings;
 import jupiter.math.analysis.struct.XY;
 
 /**
- * {@link LinearInterpolator} performs a linear interpolation from a specified set of control
- * points.
+ * {@link LinearInterpolator} is the linear {@link Interpolator} interpolating {@code y = f(x)}
+ * between two endpoints.
  */
 public class LinearInterpolator
-		implements ICloneable<LinearInterpolator>, Serializable {
+		extends Interpolator {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -47,13 +44,38 @@ public class LinearInterpolator
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The intercept of the linear interpolant.
+	 */
+	protected final double intercept;
+	/**
+	 * The slope of the linear interpolant.
+	 */
+	protected final double slope;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link LinearInterpolator}.
+	 * Constructs a {@link LinearInterpolator} with the linear interpolant of {@code y = f(x)}
+	 * between the specified endpoints.
+	 * <p>
+	 * @param fromPoint the leading endpoint {@link XY} of {@link Double} of the linear interpolant
+	 *                  (inclusive)
+	 * @param toPoint   the tailing endpoint {@link XY} of {@link Double} of the linear interpolant
+	 *                  (inclusive)
 	 */
-	protected LinearInterpolator() {
+	public LinearInterpolator(final XY<Double> fromPoint, final XY<Double> toPoint) {
+		super(fromPoint, toPoint);
+
+		// Compute the slope and intercept of the linear interpolant
+		slope = (toPoint.getY() - fromPoint.getY()) / (toPoint.getX() - fromPoint.getX());
+		intercept = fromPoint.getY() - slope * fromPoint.getX();
 	}
 
 
@@ -62,32 +84,15 @@ public class LinearInterpolator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the interpolated {@code double} value of Y = f(X) for the specified X. Clamps X to
-	 * the domain of the line determined by the specified points.
+	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x}. Evaluates
+	 * the linear interpolant at {@code x} between {@code fromPoint} and {@code toPoint}.
 	 * <p>
-	 * @param from the starting point {@link XY} of {@link Double} of the interpolating line
-	 * @param to   the end point {@link XY} of {@link Double} of the interpolating line
-	 * @param x    the X {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
-	 * @return the interpolated {@code double} value of Y = f(X) for the specified X
+	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
 	 */
-	public static double interpolate(final XY<Double> from, final XY<Double> to, final double x) {
-		// Handle the boundary cases
-		if (Double.isNaN(x)) {
-			return x;
-		}
-		if (x <= from.getX()) {
-			return from.getY();
-		}
-		if (x >= to.getX()) {
-			return to.getY();
-		}
-
-		// Compute the slope and intercept of the interpolating line
-		final double slope = (to.getY() - from.getY()) / (to.getX() - from.getX());
-		final double intercept = from.getY() - slope * from.getX();
-
-		// Apply the linear interpolation
+	@Override
+	protected double interpolate(final double x) {
 		return intercept + slope * x;
 	}
 
@@ -97,18 +102,14 @@ public class LinearInterpolator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
 	public LinearInterpolator clone() {
-		try {
-			return (LinearInterpolator) super.clone();
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+		return (LinearInterpolator) super.clone();
 	}
 }

@@ -161,18 +161,18 @@ public class XYSelection
 	}
 
 	/**
-	 * Returns the x coordinate.
+	 * Returns the x-coordinate.
 	 * <p>
-	 * @return the x coordinate
+	 * @return the x-coordinate
 	 */
 	public double getX() {
 		return coordinates.getX();
 	}
 
 	/**
-	 * Returns the y coordinate.
+	 * Returns the y-coordinate.
 	 * <p>
-	 * @return the y coordinate
+	 * @return the y-coordinate
 	 */
 	public double getY() {
 		return coordinates.getY();
@@ -298,9 +298,9 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

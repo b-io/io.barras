@@ -23,10 +23,10 @@
  */
 package jupiter.learning.supervised.function;
 
-import static jupiter.math.analysis.function.Functions.EXP;
-import static jupiter.math.analysis.function.Functions.LOG;
-import static jupiter.math.analysis.function.reducing.ReducingFunctions.ADD;
-import static jupiter.math.analysis.function.reducing.ReducingFunctions.MAX;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.EXP;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.LOG;
+import static jupiter.math.analysis.function.bivariate.BivariateFunctions.ADD;
+import static jupiter.math.analysis.function.bivariate.BivariateFunctions.MAX;
 
 import jupiter.common.model.ICloneable;
 import jupiter.learning.supervised.Classifier;
@@ -67,7 +67,7 @@ public class ActivationSoftmax
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the softmax to the specified {@link Entity} and returns the resulting {@link Entity}.
+	 * Applies the softmax to the specified {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
@@ -116,9 +116,9 @@ public class ActivationSoftmax
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

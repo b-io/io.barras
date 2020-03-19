@@ -45,9 +45,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link BinaryTreeMap} is a light sorted synchronized {@link Map} implementation of {@code K} and
- * {@code V} types based on a binary tree with a {@link Comparator} to determine the order of the
- * entries.
+ * {@link BinaryTreeMap} is the binary {@link TreeMap} of {@code K} and {@code V} types.
  * <p>
  * @param <K> the key type of the {@link BinaryTreeMap}
  * @param <V> the value type of the {@link BinaryTreeMap}
@@ -103,8 +101,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * the specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of {@code K} type
-	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
-	 *            mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
 	 *                            default {@code keyComparator}
@@ -153,8 +151,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * key-value mappings.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
-	 * @param map           the {@link Map} of {@code K} and {@code V} subtypes containing the
-	 *                      key-value mappings to load
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
 	 *                            {@code keyComparator}
@@ -189,7 +187,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @return the optimal height
 	 */
 	public int getOptimalHeight() {
-		return Maths.floorToInt(Math.log(size()) / Maths.LOG_2) + 1;
+		return Maths.floorToInt(Maths.log(size()) / Maths.LOG_2) + 1;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -621,7 +619,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * {@code this} is modified while an iteration over the {@link Set} is in progress (except
 	 * through the operations {@code remove} or {@code setValue} of the iterator), the results of
 	 * the iteration are undefined. The set supports element removal, which removes the
-	 * corresponding key-value mapping from {@code this}, via the {@link Iterator#remove},
+	 * corresponding key-value mapping, via the {@link Iterator#remove},
 	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
 	 * does not support the {@code add} or {@code addAll} operations.
 	 * <p>
@@ -668,9 +666,9 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
@@ -710,7 +708,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 		// Convert this to a representative string
 		int currentHeight = 0, nextHeight = 1, nodeCount = 1;
 		boolean hasLeaf = false;
-		while (!nodes.isEmpty()) {
+		while (nodes.isNonEmpty()) {
 			final Pair<Integer, N> element = nodes.remove();
 			final int height = element.getFirst();
 			final N node = element.getSecond();

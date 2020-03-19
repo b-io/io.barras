@@ -93,11 +93,11 @@ public abstract class ChartGraphic
 	 */
 	public XYItemRenderer createItemRenderer() {
 		final XYItemRenderer renderer = new XYLineAndShapeRenderer();
-		final Set<Map.Entry<Integer, SeriesStyle>> styleMaps = styles.entrySet();
-		for (final Map.Entry<Integer, SeriesStyle> styleMap : styleMaps) {
-			renderer.setSeriesPaint(styleMap.getKey(), styleMap.getValue().getColor());
-			renderer.setSeriesShape(styleMap.getKey(), styleMap.getValue().getShape());
-			renderer.setSeriesStroke(styleMap.getKey(), styleMap.getValue().getStroke());
+		final Set<Map.Entry<Integer, SeriesStyle>> styleEntries = styles.entrySet();
+		for (final Map.Entry<Integer, SeriesStyle> styleEntry : styleEntries) {
+			renderer.setSeriesPaint(styleEntry.getKey(), styleEntry.getValue().getColor());
+			renderer.setSeriesShape(styleEntry.getKey(), styleEntry.getValue().getShape());
+			renderer.setSeriesStroke(styleEntry.getKey(), styleEntry.getValue().getStroke());
 		}
 		return renderer;
 	}
@@ -129,9 +129,9 @@ public abstract class ChartGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

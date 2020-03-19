@@ -44,7 +44,7 @@ public class CombinatoricsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getPermutationIndex method, of class Combinatorics.
+	 * Tests getPermutationIndex method, of class Combinatorics.
 	 */
 	public void testGetPermutationIndex() {
 		IO.test(BULLET, " getPermutationIndex");
@@ -63,7 +63,7 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of getKPermutationIndex method, of class Combinatorics.
+	 * Tests getKPermutationIndex method, of class Combinatorics.
 	 */
 	public void testGetKPermutationIndex() {
 		IO.test(BULLET, " getKPermutationIndex");
@@ -88,7 +88,7 @@ public class CombinatoricsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of toFactoradic method, of class Combinatorics.
+	 * Tests toFactoradic method, of class Combinatorics.
 	 */
 	public void testToFactoradic() {
 		IO.test(BULLET, " toFactoradic");
@@ -109,7 +109,7 @@ public class CombinatoricsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of createAllPermutations method, of class Combinatorics.
+	 * Tests createAllPermutations method, of class Combinatorics.
 	 */
 	public void testCreateAllPermutations() {
 		IO.test(BULLET, " createAllPermutations");
@@ -131,7 +131,7 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of createPermutations method, of class Combinatorics.
+	 * Tests createPermutations method, of class Combinatorics.
 	 */
 	public void testCreatePermutations() {
 		IO.test(BULLET, " createPermutations");
@@ -153,7 +153,7 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of createKPermutations method, of class Combinatorics.
+	 * Tests createKPermutations method, of class Combinatorics.
 	 */
 	public void testCreateKPermutations() {
 		IO.test(BULLET, " createKPermutations");
@@ -185,7 +185,7 @@ public class CombinatoricsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Test of createAllCombinations method, of class Combinatorics.
+	 * Tests createAllCombinations method, of class Combinatorics.
 	 */
 	public void testCreateAllCombinations() {
 		IO.test(BULLET, " createAllCombinations");
@@ -207,7 +207,7 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of createKCombinations method, of class Combinatorics.
+	 * Tests createKCombinations method, of class Combinatorics.
 	 */
 	public void testCreateKCombinations() {
 		IO.test(BULLET, " createKCombinations");
@@ -240,7 +240,7 @@ public class CombinatoricsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of P method, of class Combinatorics.
+	 * Tests P method, of class Combinatorics.
 	 */
 	public void testP() {
 		IO.test(BULLET, " P");
@@ -276,7 +276,7 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of PFR method, of class Combinatorics.
+	 * Tests PFR method, of class Combinatorics.
 	 */
 	public void testPRF() {
 		IO.test(BULLET, " PFR");
@@ -300,7 +300,7 @@ public class CombinatoricsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Test of C method, of class Combinatorics.
+	 * Tests C method, of class Combinatorics.
 	 */
 	public void testC() {
 		IO.test(BULLET, " C");
@@ -334,7 +334,7 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of CR method, of class Combinatorics.
+	 * Tests CR method, of class Combinatorics.
 	 */
 	public void testCR() {
 		IO.test(BULLET, " CR");
@@ -344,7 +344,7 @@ public class CombinatoricsTest
 	}
 
 	/**
-	 * Test of CFR method, of class Combinatorics.
+	 * Tests CFR method, of class Combinatorics.
 	 */
 	public void testCFR() {
 		IO.test(BULLET, " CFR");

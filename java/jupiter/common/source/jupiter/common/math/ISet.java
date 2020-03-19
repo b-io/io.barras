@@ -24,7 +24,7 @@
 package jupiter.common.math;
 
 /**
- * {@link ISet} is the well-defined collection of distinct {@code T} objects (called elements).
+ * {@link ISet} is the well-defined collection of distinct {@code T} objects.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link ISet}
  */
@@ -44,9 +44,10 @@ public interface ISet<T extends Comparable<? super T>> {
 	/**
 	 * Tests whether {@code this} contains the specified {@code T} object.
 	 * <p>
-	 * @param object the {@code T} object to test for presence
+	 * @param object the {@code T} object to test for membership (may be {@code null})
 	 * <p>
-	 * @return {@code true} if {@code this} contains the {@code T} object, {@code false} otherwise
+	 * @return {@code true} if {@code this} contains the specified {@code T} object, {@code false}
+	 *         otherwise
 	 */
 	public boolean isInside(final T object);
 

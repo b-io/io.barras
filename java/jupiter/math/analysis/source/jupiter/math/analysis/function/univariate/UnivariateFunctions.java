@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.univariate;
 
 /**
- * {@link Functions} is a collection of analytical functions.
+ * {@link UnivariateFunctions} is a collection of {@link UnivariateFunction}.
  */
-public class Functions {
+public class UnivariateFunctions {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -40,10 +40,9 @@ public class Functions {
 	public static final Root ROOT = new Root();
 	public static final Round ROUND = new Round();
 
-	public static final Cosinus COS = new Cosinus();
-	public static final Sinus SIN = new Sinus();
+	public static final Cosine COS = new Cosine();
+	public static final Sine SIN = new Sine();
 	public static final Tangent TAN = new Tangent();
-	public static final Cotangent COT = new Cotangent();
 	public static final HyperbolicTangent TANH = new HyperbolicTangent();
 
 
@@ -52,8 +51,8 @@ public class Functions {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link Functions}.
+	 * Prevents the construction of {@link UnivariateFunctions}.
 	 */
-	protected Functions() {
+	protected UnivariateFunctions() {
 	}
 }

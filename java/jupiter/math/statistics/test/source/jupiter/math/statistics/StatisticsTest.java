@@ -36,7 +36,7 @@ public class StatisticsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getConditionalProbability method, of class Statistics.
+	 * Tests getConditionalProbability method, of class Statistics.
 	 */
 	public void testGetConditionalProbability() {
 		IO.test(BULLET, " getConditionalProbability");

@@ -183,7 +183,7 @@ public class SynchronizedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds the {@code O} result of the {@link Task} with the specified identifier.
+	 * Adds the specified {@code O} result of the {@link Task} with the specified identifier.
 	 * <p>
 	 * @param id     the identifier of the {@link Task}
 	 * @param result the {@code O} result of the {@link Task}
@@ -254,9 +254,9 @@ public class SynchronizedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

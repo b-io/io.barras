@@ -28,7 +28,7 @@ import jupiter.learning.supervised.Classifier;
 import jupiter.math.linear.entity.Entity;
 
 /**
- * {@link OutputActivationFunction} is an {@link ActivationFunction} for the output layer.
+ * {@link OutputActivationFunction} is the {@link ActivationFunction} for the output layer.
  */
 public abstract class OutputActivationFunction
 		extends ActivationFunction {
@@ -75,9 +75,9 @@ public abstract class OutputActivationFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

@@ -21,67 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.bivariate;
 
-import jupiter.common.math.Maths;
-import jupiter.common.model.ICloneable;
-
-public class Inverse
-		extends Function {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1L;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Constructs an {@link Inverse}.
-	 */
-	protected Inverse() {
-		super();
-	}
-
+public interface IBivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the inverse function to the specified {@code double} value and returns the resulting
+	 * Applies the bivariate function to the specified values and returns the resulting
 	 * {@code double} value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x1 a {@code double} value
+	 * @param x2 another {@code double} value
 	 * <p>
-	 * @return {@code 1. / x}
+	 * @return {@code f(x1, x2)}
 	 */
-	@Override
-	public double apply(final double x) {
-		return Maths.safeInverse(x);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a copy of {@code this}.
-	 * <p>
-	 * @return a copy of {@code this}
-	 *
-	 * @see ICloneable
-	 */
-	@Override
-	public Inverse clone() {
-		return (Inverse) super.clone();
-	}
+	public double apply(final double x1, final double x2);
 }

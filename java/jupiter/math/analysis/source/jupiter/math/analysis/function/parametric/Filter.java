@@ -68,13 +68,13 @@ public class Filter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the filter function to the specified {@code double} value with the specified
-	 * parameters and returns the resulting {@code double} value.
+	 * Applies the filter function to the specified value with the specified parameters and returns
+	 * the resulting {@code double} value.
 	 * <p>
 	 * @param x          a {@code double} value
 	 * @param parameters the {@code double} parameters
 	 * <p>
-	 * @return {@code f(x, parameters)}
+	 * @return {@code f(x, threshold, a, b)}
 	 *
 	 * @see #apply(double, double, double, double)
 	 */
@@ -88,9 +88,8 @@ public class Filter
 	}
 
 	/**
-	 * Applies the filter function to the specified {@code double} value with the specified
-	 * threshold and possible resulting {@code double} values and returns the resulting
-	 * {@code double} value.
+	 * Applies the filter function to the specified value with the specified threshold and possible
+	 * resulting {@code double} values.
 	 * <p>
 	 * @param x         a {@code double} value
 	 * @param threshold the threshold
@@ -99,7 +98,8 @@ public class Filter
 	 * <p>
 	 * @return {@code a} if {@code x <= threshold}, {@code b} otherwise
 	 */
-	public double apply(final double x, final double threshold, final double a, final double b) {
+	public static double apply(final double x, final double threshold, final double a,
+			final double b) {
 		return x <= threshold ? a : b;
 	}
 
@@ -109,9 +109,9 @@ public class Filter
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

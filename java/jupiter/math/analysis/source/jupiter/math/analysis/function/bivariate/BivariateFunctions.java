@@ -21,21 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.reducing;
+package jupiter.math.analysis.function.bivariate;
 
-import jupiter.common.model.ICloneable;
-
-public class Min
-		extends ReducingFunction {
+/**
+ * {@link BivariateFunctions} is a collection of {@link BivariateFunction}.
+ */
+public class BivariateFunctions {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1L;
+	public static final Addition ADD = new Addition();
+	public static final Multiplication MULTI = new Multiplication();
+
+	public static final Min MIN = new Min();
+	public static final Max MAX = new Max();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,53 +44,8 @@ public class Min
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Min} by default.
+	 * Prevents the construction of {@link BivariateFunctions}.
 	 */
-	protected Min() {
-		this(Double.POSITIVE_INFINITY);
-	}
-
-	/**
-	 * Constructs a {@link Min} with the specified initial {@code double} value.
-	 * <p>
-	 * @param initialValue the initial {@code double} value
-	 */
-	public Min(final double initialValue) {
-		super(initialValue);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Applies the minimum function to the specified {@code double} values and returns the resulting
-	 * {@code double} value.
-	 * <p>
-	 * @param a a {@code double} value
-	 * @param b another {@code double} value
-	 * <p>
-	 * @return {@code min(a, b)}
-	 */
-	public double apply(final double a, final double b) {
-		return Math.min(a, b);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a copy of {@code this}.
-	 * <p>
-	 * @return a copy of {@code this}
-	 *
-	 * @see ICloneable
-	 */
-	@Override
-	public Min clone() {
-		return (Min) super.clone();
+	protected BivariateFunctions() {
 	}
 }

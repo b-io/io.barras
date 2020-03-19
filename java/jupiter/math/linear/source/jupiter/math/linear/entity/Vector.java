@@ -27,7 +27,7 @@ import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Doubles;
-import jupiter.math.analysis.function.Function;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 public class Vector
 		extends Matrix {
@@ -320,14 +320,14 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified {@link Function} to {@code this}.
+	 * Applies the specified {@link UnivariateFunction} to {@code this}.
 	 * <p>
-	 * @param f the {@link Function} to apply
+	 * @param f the {@link UnivariateFunction} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Vector apply(final Function f) {
+	public Vector apply(final UnivariateFunction f) {
 		return new Vector(f.applyToPrimitiveArray(elements));
 	}
 
@@ -363,9 +363,9 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

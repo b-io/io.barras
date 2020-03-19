@@ -38,7 +38,7 @@ public class BytesTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of toBinary method, of class Bytes.
+	 * Tests toBinary method, of class Bytes.
 	 */
 	public void testToBinary() {
 		IO.test(BULLET, " toBinary");
@@ -50,7 +50,7 @@ public class BytesTest
 	}
 
 	/**
-	 * Test of toOctal method, of class Bytes.
+	 * Tests toOctal method, of class Bytes.
 	 */
 	public void testToOctal() {
 		IO.test(BULLET, " toOctal");
@@ -61,7 +61,7 @@ public class BytesTest
 	}
 
 	/**
-	 * Test of toHex method, of class Bytes.
+	 * Tests toHex method, of class Bytes.
 	 */
 	public void testToHex() {
 		IO.test(BULLET, " toHex");
@@ -73,7 +73,7 @@ public class BytesTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of parseBinaryString method, of class Bytes.
+	 * Tests parseBinaryString method, of class Bytes.
 	 */
 	public void testParseBinaryString() {
 		IO.test(BULLET, " parseBinaryString");
@@ -84,7 +84,7 @@ public class BytesTest
 	}
 
 	/**
-	 * Test of parseOctalString method, of class Bytes.
+	 * Tests parseOctalString method, of class Bytes.
 	 */
 	public void testParseOctalString() {
 		IO.test(BULLET, " parseOctalString");
@@ -95,7 +95,7 @@ public class BytesTest
 	}
 
 	/**
-	 * Test of parseHexString method, of class Bytes.
+	 * Tests parseHexString method, of class Bytes.
 	 */
 	public void testParseHexString() {
 		IO.test(BULLET, " parseHexString");
@@ -107,7 +107,7 @@ public class BytesTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of clone method, of class Bytes.
+	 * Tests clone method, of class Bytes.
 	 */
 	public void testClone() {
 		IO.test(BULLET, " clone");

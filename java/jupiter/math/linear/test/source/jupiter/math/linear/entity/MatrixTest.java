@@ -51,7 +51,7 @@ public class MatrixTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of multiply method, of class Matrix.
+	 * Tests multiply method, of class Matrix.
 	 */
 	public void testMultiply() {
 		IO.test(BULLET, " multiply");
@@ -193,7 +193,7 @@ public class MatrixTest
 	}
 
 	/**
-	 * Test of division method, of class Matrix.
+	 * Tests division method, of class Matrix.
 	 */
 	public void testDivision() {
 		IO.test(BULLET, " division");
@@ -206,7 +206,7 @@ public class MatrixTest
 	}
 
 	/**
-	 * Test of forward method, of class Matrix.
+	 * Tests forward method, of class Matrix.
 	 */
 	public void testForward() {
 		IO.test(BULLET, " forward");
@@ -224,7 +224,7 @@ public class MatrixTest
 		final DoubleTable hybridStats = new DoubleTable(header, rowCounts.length,
 				columnCounts.length);
 
-		// Test the matrix forward calculations
+		// Test the matrix forward computation
 		int rowIndex = 0;
 		for (final int m : rowCounts) {
 			int columnIndex = 0;

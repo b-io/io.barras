@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.bivariate;
 
 import jupiter.common.model.ICloneable;
 
-public class Cosinus
-		extends Function {
+public class Multiplication
+		extends BivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,10 +43,19 @@ public class Cosinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Cosinus}.
+	 * Constructs a {@link Multiplication} by default.
 	 */
-	protected Cosinus() {
-		super();
+	protected Multiplication() {
+		this(1.);
+	}
+
+	/**
+	 * Constructs a {@link Multiplication} with the specified initial value.
+	 * <p>
+	 * @param initialValue the initial {@code double} value
+	 */
+	public Multiplication(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -55,16 +64,16 @@ public class Cosinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the cosinus function to the specified {@code double} value and returns the resulting
+	 * Applies the multiplication function to the specified values and returns the resulting
 	 * {@code double} value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x1 a {@code double} value
+	 * @param x2 another {@code double} value
 	 * <p>
-	 * @return {@code cos(x)}
+	 * @return {@code x1 * x2}
 	 */
-	@Override
-	public double apply(final double x) {
-		return Math.cos(x);
+	public double apply(final double x1, final double x2) {
+		return x1 * x2;
 	}
 
 
@@ -73,14 +82,14 @@ public class Cosinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Cosinus clone() {
-		return (Cosinus) super.clone();
+	public Multiplication clone() {
+		return (Multiplication) super.clone();
 	}
 }

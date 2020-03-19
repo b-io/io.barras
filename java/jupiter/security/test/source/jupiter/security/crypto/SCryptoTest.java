@@ -41,7 +41,7 @@ public class SCryptoTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of {@link SCrypto#encrypt}.
+	 * Tests {@link SCrypto#encrypt}.
 	 */
 	public void testEncrypt() {
 		IO.test(BULLET, " encrypt");
@@ -61,7 +61,7 @@ public class SCryptoTest
 	}
 
 	/**
-	 * Test of {@link SCrypto#decrypt}.
+	 * Tests {@link SCrypto#decrypt}.
 	 */
 	public void testDecrypt() {
 		IO.test(BULLET, " decrypt");

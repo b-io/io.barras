@@ -50,7 +50,7 @@ public class ArraysTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getElementClass method, of class Arrays.
+	 * Tests getElementClass method, of class Arrays.
 	 */
 	public void testGetElementClass() {
 		IO.test(BULLET, " getElementClass");
@@ -64,7 +64,7 @@ public class ArraysTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of toArray method, of class Arrays.
+	 * Tests toArray method, of class Arrays.
 	 */
 	public void testToArray() {
 		IO.test(BULLET, " toArray");
@@ -85,7 +85,7 @@ public class ArraysTest
 	}
 
 	/**
-	 * Test of toArray2D method, of class Arrays.
+	 * Tests toArray2D method, of class Arrays.
 	 */
 	public void testToArray2D() {
 		IO.test(BULLET, " toArray2D");
@@ -106,7 +106,7 @@ public class ArraysTest
 	}
 
 	/**
-	 * Test of toArray3D method, of class Arrays.
+	 * Tests toArray3D method, of class Arrays.
 	 */
 	public void testToArray3D() {
 		IO.test(BULLET, " toArray3D");
@@ -129,7 +129,7 @@ public class ArraysTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of count method, of class Arrays.
+	 * Tests count method, of class Arrays.
 	 */
 	public void testCount() {
 		IO.test(BULLET, " count");
@@ -139,7 +139,7 @@ public class ArraysTest
 	}
 
 	/**
-	 * Test of filterAll method, of class Arrays.
+	 * Tests filterAll method, of class Arrays.
 	 */
 	public void testFilterAll() {
 		IO.test(BULLET, " filterAll");
@@ -151,7 +151,7 @@ public class ArraysTest
 	}
 
 	/**
-	 * Test of merge method, of class Arrays.
+	 * Tests merge method, of class Arrays.
 	 */
 	public void testMerge() {
 		IO.test(BULLET, " merge");
@@ -165,7 +165,7 @@ public class ArraysTest
 	}
 
 	/**
-	 * Test of take method, of class Arrays.
+	 * Tests take method, of class Arrays.
 	 */
 	public void testTake() {
 		IO.test(BULLET, " take");
@@ -207,7 +207,7 @@ public class ArraysTest
 	}
 
 	/**
-	 * Test of unique method, of class Arrays.
+	 * Tests unique method, of class Arrays.
 	 */
 	public void testUnique() {
 		IO.test(BULLET, " unique");
@@ -219,7 +219,7 @@ public class ArraysTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of isBetween method, of class Arrays.
+	 * Tests isBetween method, of class Arrays.
 	 */
 	public void testIsBetween() {
 		IO.test(BULLET, " isBetween");

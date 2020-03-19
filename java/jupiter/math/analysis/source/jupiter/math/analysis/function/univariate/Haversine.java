@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.univariate;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
-public class Root
-		extends Function {
+public class Haversine
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,9 +44,9 @@ public class Root
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Root}.
+	 * Constructs a {@link Haversine}.
 	 */
-	protected Root() {
+	protected Haversine() {
 		super();
 	}
 
@@ -55,16 +56,16 @@ public class Root
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the root function to the specified {@code double} value and returns the resulting
+	 * Applies the haversine function to the specified value and returns the resulting
 	 * {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code sqrt(x)}
+	 * @return {@code hav(x)}
 	 */
 	@Override
 	public double apply(final double x) {
-		return Math.sqrt(x);
+		return Maths.hav(x);
 	}
 
 
@@ -73,14 +74,14 @@ public class Root
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Root clone() {
-		return (Root) super.clone();
+	public Haversine clone() {
+		return (Haversine) super.clone();
 	}
 }

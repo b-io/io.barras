@@ -23,6 +23,8 @@
  */
 package jupiter.math.linear.decomposition;
 
+import jupiter.common.math.Maths;
+
 public class Norms {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,14 +52,14 @@ public class Norms {
 	 */
 	public static double getEuclideanNorm(final double a, final double b) {
 		double euclideanNorm;
-		final double absA = Math.abs(a);
-		final double absB = Math.abs(b);
+		final double absA = Maths.abs(a);
+		final double absB = Maths.abs(b);
 		if (absA > absB) {
 			euclideanNorm = b / a;
-			euclideanNorm = absA * Math.sqrt(1 + euclideanNorm * euclideanNorm);
+			euclideanNorm = absA * Maths.sqrt(1 + euclideanNorm * euclideanNorm);
 		} else if (absB > 0.) {
 			euclideanNorm = a / b;
-			euclideanNorm = absB * Math.sqrt(1 + euclideanNorm * euclideanNorm);
+			euclideanNorm = absB * Maths.sqrt(1 + euclideanNorm * euclideanNorm);
 		} else {
 			euclideanNorm = 0.;
 		}

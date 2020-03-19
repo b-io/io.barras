@@ -118,7 +118,7 @@ public class Longs {
 	/**
 	 * Returns a {@link Long} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object the {@link Object} to convert
+	 * @param object the {@link Object} to convert (may be {@code null})
 	 * <p>
 	 * @return a {@link Long} converted from the specified {@link Object}
 	 */
@@ -784,12 +784,12 @@ public class Longs {
 
 	/**
 	 * Creates a {@code long} array of the specified length containing the sequence of numbers
-	 * starting with {@code 0} and spaced by {@code 1}.
+	 * starting with {@code 0L} and spaced by {@code 1L}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
 	 * @return a {@code long} array of the specified length containing the sequence of numbers
-	 *         starting with {@code 0} and spaced by {@code 1}
+	 *         starting with {@code 0L} and spaced by {@code 1L}
 	 */
 	public static long[] createSequence(final int length) {
 		return createSequence(length, 0L, 1L);
@@ -797,13 +797,13 @@ public class Longs {
 
 	/**
 	 * Creates a {@code long} array of the specified length containing the sequence of numbers
-	 * starting with {@code from} and spaced by {@code 1}.
+	 * starting with {@code from} and spaced by {@code 1L}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
 	 * @return a {@code long} array of the specified length containing the sequence of numbers
-	 *         starting with {@code from} and spaced by {@code 1}
+	 *         starting with {@code from} and spaced by {@code 1L}
 	 */
 	public static long[] createSequence(final int length, final long from) {
 		return createSequence(length, from, 1L);
@@ -1767,11 +1767,11 @@ public class Longs {
 	}
 
 	/**
-	 * Creates a copy of the specified 2D {@code long} array, or {@code null} if it is {@code null}.
+	 * Clones the specified 2D {@code long} array.
 	 * <p>
 	 * @param array2D the 2D {@code long} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 2D {@code long} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 2D {@code long} array, or {@code null} if it is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static long[][] clone(final long[]... array2D) {
@@ -1789,11 +1789,11 @@ public class Longs {
 	}
 
 	/**
-	 * Creates a copy of the specified 3D {@code long} array, or {@code null} if it is {@code null}.
+	 * Clones the specified 3D {@code long} array.
 	 * <p>
 	 * @param array3D the 3D {@code long} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 3D {@code long} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 3D {@code long} array, or {@code null} if it is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static long[][][] clone(final long[][][] array3D) {

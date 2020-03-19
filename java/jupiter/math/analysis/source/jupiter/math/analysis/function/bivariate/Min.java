@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.bivariate;
 
 import jupiter.common.model.ICloneable;
 
-public class Absolute
-		extends Function {
+public class Min
+		extends BivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,10 +43,19 @@ public class Absolute
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Absolute}.
+	 * Constructs a {@link Min} by default.
 	 */
-	protected Absolute() {
-		super();
+	protected Min() {
+		this(Double.POSITIVE_INFINITY);
+	}
+
+	/**
+	 * Constructs a {@link Min} with the specified initial value.
+	 * <p>
+	 * @param initialValue the initial {@code double} value
+	 */
+	public Min(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -55,16 +64,16 @@ public class Absolute
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the absolute function to the specified {@code double} value and returns the resulting
-	 * {@code double} value.
+	 * Applies the minimum function to the specified values and returns the resulting {@code double}
+	 * value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x1 a {@code double} value
+	 * @param x2 another {@code double} value
 	 * <p>
-	 * @return {@code abs(x)}
+	 * @return {@code min(x1, x2)}
 	 */
-	@Override
-	public double apply(final double x) {
-		return Math.abs(x);
+	public double apply(final double x1, final double x2) {
+		return Math.min(x1, x2);
 	}
 
 
@@ -73,14 +82,14 @@ public class Absolute
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Absolute clone() {
-		return (Absolute) super.clone();
+	public Min clone() {
+		return (Min) super.clone();
 	}
 }

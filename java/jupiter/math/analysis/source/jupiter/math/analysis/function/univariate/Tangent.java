@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.univariate;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
-public class Exponential
-		extends Function {
+public class Tangent
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,9 +44,9 @@ public class Exponential
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Exponential}.
+	 * Constructs a {@link Tangent}.
 	 */
-	protected Exponential() {
+	protected Tangent() {
 		super();
 	}
 
@@ -55,16 +56,16 @@ public class Exponential
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the logarithm function to the specified {@code double} value and returns the
-	 * resulting {@code double} value.
+	 * Applies the tangent function to the specified value and returns the resulting {@code double}
+	 * value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code exp(x)}
+	 * @return {@code tan(x)}
 	 */
 	@Override
 	public double apply(final double x) {
-		return Math.exp(x);
+		return Maths.tan(x);
 	}
 
 
@@ -73,14 +74,14 @@ public class Exponential
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Exponential clone() {
-		return (Exponential) super.clone();
+	public Tangent clone() {
+		return (Tangent) super.clone();
 	}
 }

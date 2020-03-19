@@ -62,8 +62,8 @@ import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.hardware.gpu.OpenCL;
-import jupiter.math.analysis.function.Function;
-import jupiter.math.analysis.function.reducing.ReducingFunction;
+import jupiter.math.analysis.function.bivariate.BivariateFunction;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.linear.decomposition.CholeskyDecomposition;
 import jupiter.math.linear.decomposition.EigenvalueDecomposition;
 import jupiter.math.linear.decomposition.LUDecomposition;
@@ -73,7 +73,7 @@ import jupiter.math.linear.decomposition.SingularValueDecomposition;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
- * Extension of the Java Matrix class (JAMA).
+ * {@link Matrix} extends the Java Matrix class (JAMA).
  * <p>
  * This extension provides the possibilities to multiply Matrices with Scalars and to parse Matrices
  * from an input String.
@@ -1287,7 +1287,7 @@ public class Matrix
 		for (int j = 0; j < n; ++j) {
 			double sum = 0.;
 			for (int i = 0; i < m; ++i) {
-				sum += Math.abs(elements[i * n + j]);
+				sum += Maths.abs(elements[i * n + j]);
 			}
 			result = Math.max(result, sum);
 		}
@@ -1313,7 +1313,7 @@ public class Matrix
 		for (int i = 0; i < m; ++i) {
 			double sum = 0.;
 			for (int j = 0; j < n; ++j) {
-				sum += Math.abs(elements[i * n + j]);
+				sum += Maths.abs(elements[i * n + j]);
 			}
 			result = Math.max(result, sum);
 		}
@@ -1357,26 +1357,26 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified {@link Function} to {@code this}.
+	 * Applies the specified {@link UnivariateFunction} to {@code this}.
 	 * <p>
-	 * @param f the {@link Function} to apply
+	 * @param f the {@link UnivariateFunction} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Matrix apply(final Function f) {
+	public Matrix apply(final UnivariateFunction f) {
 		return new Matrix(m, f.applyToPrimitiveArray(elements));
 	}
 
 	/**
-	 * Applies the specified {@link ReducingFunction} to the columns of {@code this}.
+	 * Applies the specified {@link BivariateFunction} to the columns of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducingFunction} to apply column-wise
+	 * @param f the {@link BivariateFunction} to apply column-wise
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Entity applyByColumn(final ReducingFunction f) {
+	public Entity applyByColumn(final BivariateFunction f) {
 		if (n == 1) {
 			double result = f.getInitialValue();
 			for (int i = 0; i < m; ++i) {
@@ -1399,14 +1399,14 @@ public class Matrix
 	}
 
 	/**
-	 * Applies the specified {@link ReducingFunction} to the rows of {@code this}.
+	 * Applies the specified {@link BivariateFunction} to the rows of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducingFunction} to apply row-wise
+	 * @param f the {@link BivariateFunction} to apply row-wise
 	 * <p>
 	 * @return {@code f(this')}
 	 */
 	@Override
-	public Entity applyByRow(final ReducingFunction f) {
+	public Entity applyByRow(final BivariateFunction f) {
 		if (m == 1) {
 			double result = f.getInitialValue();
 			for (int i = 0; i < m; ++i) {
@@ -1576,7 +1576,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the subtraction of the specified scalar from {@code this}.
+	 * Returns the subtraction of the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -1594,7 +1594,7 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
+	 * Returns the subtraction of the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -1626,7 +1626,7 @@ public class Matrix
 	//////////////////////////////////////////////
 
 	/**
-	 * Subtracts the specified scalar from {@code this}.
+	 * Subtracts the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -1645,7 +1645,7 @@ public class Matrix
 	}
 
 	/**
-	 * Subtracts the specified {@link Matrix} from {@code this}.
+	 * Subtracts the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -1881,7 +1881,7 @@ public class Matrix
 		final Matrix result = clone();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] /= scalar + Maths.TOLERANCE;
+				result.elements[i * result.n + j] /= scalar + Maths.TINY_TOLERANCE;
 			}
 		}
 		return result;
@@ -1933,7 +1933,7 @@ public class Matrix
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				result.elements[i * result.n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j] +
-						Maths.TOLERANCE;
+						Maths.TINY_TOLERANCE;
 			}
 		}
 		return result;
@@ -1953,7 +1953,7 @@ public class Matrix
 		if (scalar != 1.) {
 			for (int i = 0; i < m; ++i) {
 				for (int j = 0; j < n; ++j) {
-					elements[i * n + j] /= scalar + Maths.TOLERANCE;
+					elements[i * n + j] /= scalar + Maths.TINY_TOLERANCE;
 				}
 			}
 		}
@@ -1984,7 +1984,7 @@ public class Matrix
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				elements[i * n + j] /= broadcastedMatrix.elements[i * broadcastedMatrix.n + j] +
-						Maths.TOLERANCE;
+						Maths.TINY_TOLERANCE;
 			}
 		}
 		return this;
@@ -2005,7 +2005,7 @@ public class Matrix
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = Math.pow(elements[i * n + j], scalar);
+				result.elements[i * result.n + j] = Maths.pow(elements[i * n + j], scalar);
 			}
 		}
 		return result;
@@ -2036,7 +2036,7 @@ public class Matrix
 		final Matrix result = new Matrix(m, n);
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result.elements[i * result.n + j] = Math.pow(elements[i * n + j],
+				result.elements[i * result.n + j] = Maths.pow(elements[i * n + j],
 						broadcastedMatrix.elements[i * broadcastedMatrix.n + j]);
 			}
 		}
@@ -2057,7 +2057,7 @@ public class Matrix
 		if (scalar != 1.) {
 			for (int i = 0; i < m; ++i) {
 				for (int j = 0; j < n; ++j) {
-					elements[i * n + j] = Math.pow(elements[i * n + j], scalar);
+					elements[i * n + j] = Maths.pow(elements[i * n + j], scalar);
 				}
 			}
 		}
@@ -2087,7 +2087,7 @@ public class Matrix
 		// Compute
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				elements[i * n + j] = Math.pow(elements[i * n + j],
+				elements[i * n + j] = Maths.pow(elements[i * n + j],
 						broadcastedMatrix.elements[i * broadcastedMatrix.n + j]);
 			}
 		}
@@ -2625,9 +2625,9 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
@@ -2775,22 +2775,22 @@ public class Matrix
 
 		/**
 		 * Divides the multiplication of the specified input {@link Triple} into execution slices
-		 * and conquers them. Returns the exit code for each of them.
+		 * and conquers them. Returns the exit code for all of them.
 		 * <p>
 		 * @param input the input {@link Triple} containing the result {@link Matrix}, the left-hand
 		 *              side operand {@link Matrix} and the right-hand side operand {@link Matrix}
 		 *              to process
 		 * <p>
 		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
-		 *         otherwise for each execution slice
+		 *         otherwise for all execution slice
 		 */
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
 			return divideAndConquer(input, 0, input.getFirst().m);
 		}
 
 		/**
-		 * Conquers the execution slice with the specified input {@link Triple} and {@link Interval}
-		 * and returns the exit code.
+		 * Conquers the execution slice with the specified input {@link Triple} and
+		 * {@link Interval}.
 		 * <p>
 		 * @param input    the input {@link Triple} containing the result {@link Matrix}, the
 		 *                 left-hand side operand {@link Matrix} and the right-hand side operand
@@ -2804,7 +2804,7 @@ public class Matrix
 		protected int conquer(final Triple<Matrix, Matrix, Matrix> input,
 				final Interval<Integer> interval) {
 			return process(input.getFirst(), input.getSecond(), input.getThird(),
-					interval.getLowerBound(), interval.getUpperBound());
+					interval.getLowerBound().getValue(), interval.getUpperBound().getValue());
 		}
 
 		/**
@@ -2826,7 +2826,7 @@ public class Matrix
 		/**
 		 * Processes the multiplication with the specified result {@link Matrix}, left-hand side
 		 * operand {@link Matrix} and right-hand side operand {@link Matrix} between the specified
-		 * indices and returns the exit code.
+		 * indices.
 		 * <p>
 		 * @param result    the result {@link Matrix}
 		 * @param left      the left-hand side operand {@link Matrix}
@@ -2850,9 +2850,9 @@ public class Matrix
 		}
 
 		/**
-		 * Creates a copy of {@code this}.
+		 * Clones {@code this}.
 		 * <p>
-		 * @return a copy of {@code this}
+		 * @return a clone of {@code this}
 		 *
 		 * @see ICloneable
 		 */

@@ -37,8 +37,8 @@ import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Maps;
 
 /**
- * {@link TreeMap} is a light sorted synchronized {@link Map} implementation of {@code K} and
- * {@code V} types based on a tree with a {@link Comparator} to determine the order of the entries.
+ * {@link TreeMap} is the light sorted synchronized {@link AbstractMap} of {@code K} and {@code V}
+ * types based on a tree with a {@link Comparator} to determine the order of the entries.
  * <p>
  * @param <K> the key type of the {@link TreeMap}
  * @param <V> the value type of the {@link TreeMap}
@@ -118,8 +118,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of {@code K} type
-	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
-	 *            mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
 	 *                            default {@code keyComparator}
@@ -175,8 +175,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * mappings.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
-	 * @param map           the {@link Map} of {@code K} and {@code V} subtypes containing the
-	 *                      key-value mappings to load
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
 	 *                            {@code keyComparator}
@@ -233,7 +233,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");
 
-		// Get the value associated to the key or the default value if it is not present
+		// Get the value associated to the key, or the default value if it is not present
 		return Maps.<V>getOrDefault(this, key, defaultValue);
 	}
 
@@ -375,8 +375,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * Puts all the key-value mappings of the specified map into {@code this} replacing any entries
 	 * with identical keys.
 	 * <p>
-	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
-	 *            mappings to put
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to put
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be compared to {@code this} keys
 	 *                            using {@code keyComparator}
@@ -421,9 +421,9 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

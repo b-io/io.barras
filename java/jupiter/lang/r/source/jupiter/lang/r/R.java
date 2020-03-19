@@ -95,7 +95,7 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean start() {
-		return start(Comparables.compare(SeverityLevel.DEBUG, IO.getSeverityLevel()) >= 0);
+		return start(Comparables.isGreaterOrEqualTo(SeverityLevel.DEBUG, IO.getSeverityLevel()));
 	}
 
 	public static boolean start(final boolean debug) {
@@ -138,7 +138,7 @@ public class R {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Executes the specified script on the R engine and returns its exit value.
+	 * Executes the specified script on the R engine.
 	 * <p>
 	 * @param script the script to execute
 	 * <p>
@@ -150,7 +150,7 @@ public class R {
 
 	/**
 	 * Executes the specified script on the R engine, prints the output with the specified printer
-	 * {@link IOHandler} and returns its exit value.
+	 * {@link IOHandler}.
 	 * <p>
 	 * @param printer the printer {@link IOHandler}
 	 * @param script  the script to execute
@@ -172,7 +172,7 @@ public class R {
 	//////////////////////////////////////////////
 
 	/**
-	 * Executes the specified command on the R engine and returns its exit value.
+	 * Executes the specified command on the R engine.
 	 * <p>
 	 * @param command the command to execute
 	 * <p>
@@ -184,7 +184,7 @@ public class R {
 
 	/**
 	 * Executes the specified command on the R engine, prints the output with the specified printer
-	 * {@link IOHandler} and returns its exit value.
+	 * {@link IOHandler}.
 	 * <p>
 	 * @param printer the printer {@link IOHandler}
 	 * @param command the command to execute
@@ -324,9 +324,9 @@ public class R {
 		}
 
 		/**
-		 * Creates a copy of {@code this}.
+		 * Clones {@code this}.
 		 * <p>
-		 * @return a copy of {@code this}
+		 * @return a clone of {@code this}
 		 *
 		 * @see ICloneable
 		 */

@@ -29,7 +29,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
 
 /**
- * {@link ComparableObject} is the {@link IComparable} of {@code T} type.
+ * {@link ComparableObject} is an {@link IComparable} of {@code T} type.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link ComparableObject}
  */
@@ -173,9 +173,9 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

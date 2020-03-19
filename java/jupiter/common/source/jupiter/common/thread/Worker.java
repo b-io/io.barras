@@ -37,7 +37,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link Worker} is a working {@link Thread} processing an {@code I} input and returning an
+ * {@link Worker} is the working {@link Thread} processing an {@code I} input and returning an
  * {@code O} output.
  * <p>
  * @param <I> the input type
@@ -144,7 +144,7 @@ public abstract class Worker<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Processes the {@code I} input and returns an {@code O} output.
+	 * Processes the {@code I} input.
 	 * <p>
 	 * @return an {@code O} output
 	 */
@@ -153,7 +153,7 @@ public abstract class Worker<I, O>
 	}
 
 	/**
-	 * Processes the specified {@code I} input and returns an {@code O} output.
+	 * Processes the specified {@code I} input.
 	 * <p>
 	 * @param input the {@code I} input to process
 	 * <p>
@@ -198,9 +198,9 @@ public abstract class Worker<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

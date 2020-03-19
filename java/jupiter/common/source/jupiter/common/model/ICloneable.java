@@ -24,7 +24,7 @@
 package jupiter.common.model;
 
 /**
- * {@link ICloneable} extends {@link Cloneable}.
+ * {@link ICloneable} is the typed {@link Cloneable}.
  * <p>
  * @param <T> the self {@link ICloneable} type of the {@link ICloneable}
  */

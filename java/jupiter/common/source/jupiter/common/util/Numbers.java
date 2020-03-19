@@ -35,6 +35,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 import jupiter.common.exception.IllegalClassException;
+import jupiter.common.math.Comparables;
 
 public class Numbers {
 
@@ -213,7 +214,7 @@ public class Numbers {
 
 		// Compare the numbers for order
 		if (a instanceof BigDecimal || b instanceof BigDecimal) {
-			return toBigDecimal(a).compareTo(toBigDecimal(b));
+			return Comparables.compare(toBigDecimal(a), toBigDecimal(b));
 		}
 		return Doubles.compare(a.doubleValue(), b.doubleValue());
 	}

@@ -41,7 +41,7 @@ public class ACryptoTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of {@link ACrypto#encrypt}.
+	 * Tests {@link ACrypto#encrypt}.
 	 */
 	public void testEncrypt() {
 		IO.test(BULLET, " encrypt");
@@ -61,7 +61,7 @@ public class ACryptoTest
 	}
 
 	/**
-	 * Test of {@link ACrypto#decrypt}.
+	 * Tests {@link ACrypto#decrypt}.
 	 */
 	public void testDecrypt() {
 		IO.test(BULLET, " decrypt");

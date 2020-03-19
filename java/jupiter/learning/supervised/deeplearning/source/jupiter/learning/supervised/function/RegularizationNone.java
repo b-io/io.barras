@@ -73,8 +73,7 @@ public class RegularizationNone
 	}
 
 	/**
-	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
-	 * and returns the resulting {@link Scalar}.
+	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}.
 	 * <p>
 	 * @param m the number of training examples
 	 * @param W the weight {@link Matrix}
@@ -92,9 +91,9 @@ public class RegularizationNone
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

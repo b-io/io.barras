@@ -47,7 +47,7 @@ public class ReservedThreadPoolExecutorTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of addTask method, of class ReservedThreadPoolExecutor.
+	 * Tests addTask method, of class ReservedThreadPoolExecutor.
 	 */
 	public void testSubmit() {
 		IO.test(BULLET, " submit");

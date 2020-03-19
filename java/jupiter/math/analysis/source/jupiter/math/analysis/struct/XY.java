@@ -27,9 +27,9 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
 
 /**
- * A {@link Pair} of {@code T} component type.
+ * A {@link Pair} containing the {@code T} xy-coordinates.
  * <p>
- * @param <T> the component type of the {@link Pair}
+ * @param <T> the type of the xy-coordinates
  */
 public class XY<T>
 		extends Pair<T, T> {
@@ -56,10 +56,10 @@ public class XY<T>
 	}
 
 	/**
-	 * Constructs a {@link XY} with the specified x and y {@code T} objects.
+	 * Constructs a {@link XY} with the specified {@code T} xy-coordinates.
 	 * <p>
-	 * @param x the x {@code T} object
-	 * @param y the y {@code T} object
+	 * @param x the x {@code T} x-coordinate
+	 * @param y the y {@code T} y-coordinate
 	 */
 	public XY(final T x, final T y) {
 		super(x, y);
@@ -70,10 +70,20 @@ public class XY<T>
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the {@code T} x-coordinate.
+	 * <p>
+	 * @return the {@code T} x-coordinate
+	 */
 	public T getX() {
 		return first;
 	}
 
+	/**
+	 * Returns the {@code T} y-coordinate.
+	 * <p>
+	 * @return the {@code T} y-coordinate
+	 */
 	public T getY() {
 		return second;
 	}
@@ -83,10 +93,20 @@ public class XY<T>
 	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Sets the {@code T} x-coordinate.
+	 * <p>
+	 * @param x a {@code T} object (on the abscissa)
+	 */
 	public void setX(final T x) {
 		super.setFirst(x);
 	}
 
+	/**
+	 * Sets the {@code T} y-coordinate.
+	 * <p>
+	 * @param y a {@code T} object (on the ordinate)
+	 */
 	public void setY(final T y) {
 		super.setSecond(y);
 	}
@@ -97,9 +117,9 @@ public class XY<T>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

@@ -27,10 +27,11 @@ import java.util.Collection;
 
 import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 
 /**
- * {@link SortedUniqueList} extends {@link ExtendedLinkedList} of {@code E} element type and is
- * synchronized.
+ * {@link SortedUniqueList} is the sorted unique {@link ExtendedLinkedList} of {@code E} element
+ * type.
  * <p>
  * @param <E> the self element {@link Comparable} type of the {@link SortedUniqueList}
  */
@@ -115,14 +116,18 @@ public class SortedUniqueList<E extends Comparable<? super E>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
 	public SortedUniqueList<E> clone() {
-		return (SortedUniqueList<E>) super.clone();
+		final SortedUniqueList<E> clone = new SortedUniqueList<E>();
+		for (final E element : this) {
+			clone.add(Objects.clone(element));
+		}
+		return clone;
 	}
 }

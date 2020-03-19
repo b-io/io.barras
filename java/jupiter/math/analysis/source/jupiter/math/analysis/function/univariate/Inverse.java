@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.reducing;
+package jupiter.math.analysis.function.univariate;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
-public class Max
-		extends ReducingFunction {
+public class Inverse
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,19 +44,10 @@ public class Max
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Max} by default.
+	 * Constructs an {@link Inverse}.
 	 */
-	protected Max() {
-		this(Double.NEGATIVE_INFINITY);
-	}
-
-	/**
-	 * Constructs a {@link Max} with the specified initial {@code double} value.
-	 * <p>
-	 * @param initialValue the initial {@code double} value
-	 */
-	public Max(final double initialValue) {
-		super(initialValue);
+	protected Inverse() {
+		super();
 	}
 
 
@@ -64,16 +56,16 @@ public class Max
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the maximum function to the specified {@code double} values and returns the resulting
-	 * {@code double} value.
+	 * Applies the inverse function to the specified value and returns the resulting {@code double}
+	 * value.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b another {@code double} value
+	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code max(a, b)}
+	 * @return {@code 1. / x}
 	 */
-	public double apply(final double a, final double b) {
-		return Math.max(a, b);
+	@Override
+	public double apply(final double x) {
+		return Maths.safeInverse(x);
 	}
 
 
@@ -82,14 +74,14 @@ public class Max
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Max clone() {
-		return (Max) super.clone();
+	public Inverse clone() {
+		return (Inverse) super.clone();
 	}
 }

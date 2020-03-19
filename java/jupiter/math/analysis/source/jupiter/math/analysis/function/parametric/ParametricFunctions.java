@@ -24,7 +24,7 @@
 package jupiter.math.analysis.function.parametric;
 
 /**
- * {@link ParametricFunctions} is a collection of analytical parametric functions.
+ * {@link ParametricFunctions} is a collection of {@link ParametricFunction}.
  */
 public class ParametricFunctions {
 

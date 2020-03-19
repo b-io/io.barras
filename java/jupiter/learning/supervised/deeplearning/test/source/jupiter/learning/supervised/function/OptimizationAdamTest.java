@@ -40,7 +40,7 @@ public class OptimizationAdamTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of optimize method, of class OptimizationAdam.
+	 * Tests optimize method, of class OptimizationAdam.
 	 */
 	public void testOptimize() {
 		IO.test(BULLET, " optimize");

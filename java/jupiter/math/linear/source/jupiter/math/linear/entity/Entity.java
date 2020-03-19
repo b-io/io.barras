@@ -29,8 +29,8 @@ import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Strings;
-import jupiter.math.analysis.function.Function;
-import jupiter.math.analysis.function.reducing.ReducingFunction;
+import jupiter.math.analysis.function.bivariate.BivariateFunction;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 public abstract class Entity
 		implements ICloneable<Entity>, Serializable {
@@ -167,31 +167,31 @@ public abstract class Entity
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified {@link Function} to {@code this}.
+	 * Applies the specified {@link UnivariateFunction} to {@code this}.
 	 * <p>
-	 * @param f the {@link Function} to apply
-	 * <p>
-	 * @return {@code f(this)}
-	 */
-	public abstract Entity apply(final Function f);
-
-	/**
-	 * Applies the specified {@link ReducingFunction} to the columns of {@code this}.
-	 * <p>
-	 * @param f the {@link ReducingFunction} to apply column-wise
+	 * @param f the {@link UnivariateFunction} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
-	public abstract Entity applyByColumn(final ReducingFunction f);
+	public abstract Entity apply(final UnivariateFunction f);
 
 	/**
-	 * Applies the specified {@link ReducingFunction} to the rows of {@code this}.
+	 * Applies the specified {@link BivariateFunction} to the columns of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducingFunction} to apply row-wise
+	 * @param f the {@link BivariateFunction} to apply column-wise
+	 * <p>
+	 * @return {@code f(this)}
+	 */
+	public abstract Entity applyByColumn(final BivariateFunction f);
+
+	/**
+	 * Applies the specified {@link BivariateFunction} to the rows of {@code this}.
+	 * <p>
+	 * @param f the {@link BivariateFunction} to apply row-wise
 	 * <p>
 	 * @return {@code f(this')}
 	 */
-	public abstract Entity applyByRow(final ReducingFunction f);
+	public abstract Entity applyByRow(final BivariateFunction f);
 
 	/**
 	 * Returns the negation of {@code this}.
@@ -294,7 +294,7 @@ public abstract class Entity
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
+	 * Returns the subtraction of the specified {@link Entity}.
 	 * <p>
 	 * @param entity an {@link Entity}
 	 * <p>
@@ -311,7 +311,7 @@ public abstract class Entity
 	}
 
 	/**
-	 * Returns the subtraction of the specified scalar from {@code this}.
+	 * Returns the subtraction of the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -320,7 +320,7 @@ public abstract class Entity
 	public abstract Entity minus(final double scalar);
 
 	/**
-	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
+	 * Returns the subtraction of the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -331,7 +331,7 @@ public abstract class Entity
 	//////////////////////////////////////////////
 
 	/**
-	 * Subtracts the specified {@link Entity} from {@code this}.
+	 * Subtracts the specified {@link Entity}.
 	 * <p>
 	 * @param entity an {@link Entity}
 	 * <p>
@@ -348,7 +348,7 @@ public abstract class Entity
 	}
 
 	/**
-	 * Subtracts the specified scalar from {@code this}.
+	 * Subtracts the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -357,7 +357,7 @@ public abstract class Entity
 	public abstract Entity subtract(final double scalar);
 
 	/**
-	 * Subtracts the specified {@link Matrix} from {@code this}.
+	 * Subtracts the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -630,9 +630,9 @@ public abstract class Entity
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

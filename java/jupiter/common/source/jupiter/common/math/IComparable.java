@@ -24,7 +24,7 @@
 package jupiter.common.math;
 
 /**
- * {@link IComparable} extends {@link Comparable} of {@code T} type.
+ * {@link IComparable} is the extended {@link Comparable} of {@code T} type.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link IComparable}
  */

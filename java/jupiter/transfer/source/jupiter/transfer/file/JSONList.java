@@ -29,14 +29,14 @@ import java.util.Map;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.util.Objects;
 
 /**
- * {@link JSONList} is an {@link ExtendedList} of {@link JSONObject}.
+ * {@link JSONList} is the {@link ExtendedList} of {@link JSONObject}.
  */
 public class JSONList
 		extends ExtendedList<JSONObject>
 		implements Serializable {
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -142,14 +142,18 @@ public class JSONList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
 	public JSONList clone() {
-		return (JSONList) super.clone();
+		final JSONList clone = new JSONList(size());
+		for (final JSONObject element : this) {
+			clone.add(Objects.clone(element));
+		}
+		return clone;
 	}
 }

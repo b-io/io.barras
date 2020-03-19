@@ -35,10 +35,11 @@ import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Classes;
 import jupiter.common.util.Lists;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link RowList} extends {@link ExtendedList} of {@link Row} and is synchronized.
+ * {@link RowList} is the {@link ExtendedList} of {@link Row}.
  */
 public class RowList
 		extends ExtendedList<Row>
@@ -499,32 +500,22 @@ public class RowList
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code this} is non-empty.
-	 * <p>
-	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
-	 */
-	public boolean isNonEmpty() {
-		return !isEmpty();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
 	public RowList clone() {
-		return (RowList) super.clone();
+		final RowList clone = new RowList(header, size());
+		for (final Row element : this) {
+			clone.add(Objects.clone(element));
+		}
+		return clone;
 	}
 }

@@ -769,7 +769,7 @@ public class Files {
 
 	/**
 	 * Reads the data from the specified source {@link File}, writes it to the specified
-	 * {@link OutputStream} and returns the number of copied {@code byte}.
+	 * {@link OutputStream}.
 	 * <p>
 	 * @param source the source {@link File} to read from
 	 * @param output the {@link OutputStream} to write to
@@ -786,7 +786,7 @@ public class Files {
 
 	/**
 	 * Reads the data from the specified source {@link File}, writes it to the specified
-	 * {@link OutputStream} with the specified buffer and returns the number of copied {@code byte}.
+	 * {@link OutputStream} with the specified buffer.
 	 * <p>
 	 * @param source the source {@link File} to read from
 	 * @param output the {@link OutputStream} to write to
@@ -812,7 +812,7 @@ public class Files {
 
 	/**
 	 * Reads the data from the specified {@link InputStream}, writes it to the specified target
-	 * {@link File} and returns the number of copied {@code byte}.
+	 * {@link File}.
 	 * <p>
 	 * @param input  the {@link InputStream} to read from
 	 * @param target the target {@link File} to write to
@@ -829,7 +829,7 @@ public class Files {
 
 	/**
 	 * Reads the data from the specified {@link InputStream}, writes it to the specified target
-	 * {@link File} with the specified buffer and returns the number of copied {@code byte}.
+	 * {@link File} with the specified buffer.
 	 * <p>
 	 * @param input  the {@link InputStream} to read from
 	 * @param target the target {@link File} to write to
@@ -1089,8 +1089,7 @@ public class Files {
 	}
 
 	/**
-	 * Unzips the specified ZIP {@link File} (preserving the file dates) to the specified directory
-	 * and returns the number of unzipped files.
+	 * Unzips the specified ZIP {@link File} (preserving the file dates) to the specified directory.
 	 * <p>
 	 * @param sourceFile the source ZIP {@link File}
 	 * @param targetDir  the target directory {@link File}
@@ -1265,9 +1264,9 @@ public class Files {
 		}
 
 		/**
-		 * Creates a copy of {@code this}.
+		 * Clones {@code this}.
 		 * <p>
-		 * @return a copy of {@code this}
+		 * @return a clone of {@code this}
 		 *
 		 * @see ICloneable
 		 */

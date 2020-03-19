@@ -24,8 +24,8 @@
 package jupiter.common.math;
 
 /**
- * {@link IMultiSet} is the collection of {@code T} objects (called elements) in which elements may
- * occur more than once.
+ * {@link IMultiSet} is an {@link ISet} of {@code T} type in which the objects may occur more than
+ * once.
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link IMultiSet}
  */

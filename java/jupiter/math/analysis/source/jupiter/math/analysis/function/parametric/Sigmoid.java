@@ -23,13 +23,13 @@
  */
 package jupiter.math.analysis.function.parametric;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
-import jupiter.math.analysis.function.Function;
 
 /**
- * {@link Sigmoid} is the logistic {@link Function} with return values monotonically increasing from
- * 0 to 1.
+ * {@link Sigmoid} is the logistic {@link ParametricFunction} with return values monotonically
+ * increasing from 0 to 1.
  */
 public class Sigmoid
 		extends ParametricFunction {
@@ -70,13 +70,13 @@ public class Sigmoid
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the sigmoid function to the specified {@code double} value with the specified
-	 * parameters and returns the resulting {@code double} value.
+	 * Applies the sigmoid function to the specified value with the specified parameters and returns
+	 * the resulting {@code double} value.
 	 * <p>
 	 * @param x          a {@code double} value
 	 * @param parameters the {@code double} parameters
 	 * <p>
-	 * @return {@code f(x, parameters)}
+	 * @return {@code f(x, coefficient)}
 	 *
 	 * @see #apply(double, double)
 	 */
@@ -90,16 +90,16 @@ public class Sigmoid
 	}
 
 	/**
-	 * Applies the sigmoid function to the specified {@code double} value with the specified
-	 * coefficient and returns the resulting {@code double} value.
+	 * Applies the sigmoid function to the specified value with the specified coefficient and
+	 * returns the resulting {@code double} value.
 	 * <p>
 	 * @param x           a {@code double} value
 	 * @param coefficient the {@code double} coefficient
 	 * <p>
 	 * @return {@code 1. / (1. + exp(-coefficient * x))}
 	 */
-	public double apply(final double x, final double coefficient) {
-		return 1. / (1. + Math.exp(-coefficient * x));
+	public static double apply(final double x, final double coefficient) {
+		return Maths.sigmoid(x, coefficient);
 	}
 
 
@@ -108,9 +108,9 @@ public class Sigmoid
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

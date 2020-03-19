@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.reducing;
+package jupiter.math.analysis.function.univariate;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
-public class Multiplication
-		extends ReducingFunction {
+public class Exponential
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,19 +44,10 @@ public class Multiplication
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Multiplication} by default.
+	 * Constructs an {@link Exponential}.
 	 */
-	protected Multiplication() {
-		this(1.);
-	}
-
-	/**
-	 * Constructs a {@link Multiplication} with the specified initial {@code double} value.
-	 * <p>
-	 * @param initialValue the initial {@code double} value
-	 */
-	public Multiplication(final double initialValue) {
-		super(initialValue);
+	protected Exponential() {
+		super();
 	}
 
 
@@ -64,16 +56,16 @@ public class Multiplication
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the multiplication function to the specified {@code double} values and returns the
-	 * resulting {@code double} value.
+	 * Applies the logarithm function to the specified value and returns the resulting
+	 * {@code double} value.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b another {@code double} value
+	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code a * b}
+	 * @return {@code exp(x)}
 	 */
-	public double apply(final double a, final double b) {
-		return a * b;
+	@Override
+	public double apply(final double x) {
+		return Maths.exp(x);
 	}
 
 
@@ -82,14 +74,14 @@ public class Multiplication
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Multiplication clone() {
-		return (Multiplication) super.clone();
+	public Exponential clone() {
+		return (Exponential) super.clone();
 	}
 }

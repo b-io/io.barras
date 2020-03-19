@@ -38,7 +38,7 @@ public class ObjectsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of hashCode method, of class Objects.
+	 * Tests hashCode method, of class Objects.
 	 */
 	public void testHashCode() {
 		IO.test(BULLET, " hashCode");

@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.reducing;
+package jupiter.math.analysis.function.univariate;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
-public class Addition
-		extends ReducingFunction {
+public class Cosine
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,19 +44,10 @@ public class Addition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Addition} by default.
+	 * Constructs a {@link Cosine}.
 	 */
-	protected Addition() {
-		this(0.);
-	}
-
-	/**
-	 * Constructs an {@link Addition} with the specified initial {@code double} value.
-	 * <p>
-	 * @param initialValue the initial {@code double} value
-	 */
-	public Addition(final double initialValue) {
-		super(initialValue);
+	protected Cosine() {
+		super();
 	}
 
 
@@ -64,16 +56,16 @@ public class Addition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the addition function to the specified {@code double} values and returns the
-	 * resulting {@code double} value.
+	 * Applies the cosine function to the specified value and returns the resulting {@code double}
+	 * value.
 	 * <p>
-	 * @param a a {@code double} value
-	 * @param b another {@code double} value
+	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code a + b}
+	 * @return {@code cos(x)}
 	 */
-	public double apply(final double a, final double b) {
-		return a + b;
+	@Override
+	public double apply(final double x) {
+		return Maths.cos(x);
 	}
 
 
@@ -82,14 +74,14 @@ public class Addition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Addition clone() {
-		return (Addition) super.clone();
+	public Cosine clone() {
+		return (Cosine) super.clone();
 	}
 }

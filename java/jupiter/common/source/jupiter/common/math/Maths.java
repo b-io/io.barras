@@ -23,6 +23,8 @@
  */
 package jupiter.common.math;
 
+import static jupiter.common.io.IO.IO;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -66,8 +68,8 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final double LOG_2 = Math.log(2.);
-	public static final double SQUARE_ROOT_OF_2 = Math.sqrt(2.);
+	public static final double LOG_2 = log(2.);
+	public static final double SQUARE_ROOT_OF_2 = sqrt(2.);
 
 	//////////////////////////////////////////////
 
@@ -75,7 +77,7 @@ public class Maths {
 	 * The Napier constant {@code e}, the base of the natural logarithm.
 	 */
 	public static final double E = 2850325. / 1048576. + 8.254840070411028747E-8;
-	public static final double SQUARE_ROOT_OF_E = Math.sqrt(E);
+	public static final double SQUARE_ROOT_OF_E = sqrt(E);
 
 	//////////////////////////////////////////////
 
@@ -83,8 +85,9 @@ public class Maths {
 	 * The Archimede constant {@code π}, the ratio of the circumference of a circle to its diameter.
 	 */
 	public static final double PI = 105414357. / 33554432. + 1.984187159361080883E-9;
-	public static final double SQUARE_ROOT_OF_PI = Math.sqrt(PI);
-	public static final double SQUARE_ROOT_OF_2_PI = Math.sqrt(2. * PI);
+	public static final double SQUARE_ROOT_OF_PI = sqrt(PI);
+	public static final double SQUARE_ROOT_OF_2_PI = sqrt(2. * PI);
+
 	public static final double DEGREE_TO_RADIAN = PI / 180.;
 	public static final double RADIAN_TO_DEGREE = 180. / PI;
 
@@ -109,6 +112,9 @@ public class Maths {
 	public static final double F_1_18 = 1. / 18.;
 	public static final double F_1_19 = 1. / 19.;
 	public static final double F_1_20 = 1. / 20.;
+	public static final double F_1_30 = 1. / 30.;
+	public static final double F_1_40 = 1. / 40.;
+	public static final double F_1_50 = 1. / 50.;
 	public static final double F_2_3 = 2. / 3.;
 	public static final double F_3_2 = 3. / 2.;
 	public static final double F_3_4 = 3. / 4.;
@@ -126,6 +132,17 @@ public class Maths {
 		6402373705728000L, 121645100408832000L, 2432902008176640000L
 	};
 
+	//////////////////////////////////////////////
+
+	/**
+	 * The mask to clear the non-sign part of an {@code int} value.
+	 */
+	private static final int MASK_NON_SIGN_INT = 0x7fffffff;
+	/**
+	 * The mask to clear the non-sign part of a {@code long} value.
+	 */
+	private static final long MASK_NON_SIGN_LONG = 0x7fffffffffffffffl;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -142,49 +159,57 @@ public class Maths {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static short floorToShort(final double number) {
-		return Shorts.convert(Math.floor(number));
+	public static short floorToShort(final double value) {
+		return Shorts.convert(floor(value));
 	}
 
-	public static int floorToInt(final double number) {
-		return Integers.convert(Math.floor(number));
+	public static int floorToInt(final double value) {
+		return Integers.convert(floor(value));
 	}
 
-	public static long floorToLong(final double number) {
-		return Longs.convert(Math.floor(number));
+	public static long floorToLong(final double value) {
+		return Longs.convert(floor(value));
 	}
 
-	//////////////////////////////////////////////
-
-	public static short ceilToShort(final double number) {
-		return Shorts.convert(Math.ceil(number));
-	}
-
-	public static int ceilToInt(final double number) {
-		return Integers.convert(Math.ceil(number));
-	}
-
-	public static long ceilToLong(final double number) {
-		return Longs.convert(Math.ceil(number));
+	public static double floor(final double value) {
+		return StrictMath.floor(value);
 	}
 
 	//////////////////////////////////////////////
 
-	public static short roundToShort(final double number) {
-		return Shorts.convert(Math.round(number));
+	public static short ceilToShort(final double value) {
+		return Shorts.convert(ceil(value));
 	}
 
-	public static int roundToInt(final double number) {
-		return Integers.convert(Math.round(number));
+	public static int ceilToInt(final double value) {
+		return Integers.convert(ceil(value));
 	}
 
-	public static long roundToLong(final double number) {
-		return Math.round(number);
+	public static long ceilToLong(final double value) {
+		return Longs.convert(ceil(value));
+	}
+
+	public static double ceil(final double value) {
+		return StrictMath.ceil(value);
+	}
+
+	//////////////////////////////////////////////
+
+	public static short roundToShort(final double value) {
+		return Shorts.convert(round(value));
+	}
+
+	public static int roundToInt(final double value) {
+		return Integers.convert(round(value));
+	}
+
+	public static long round(final double value) {
+		return Math.round(value);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// BASIC OPERATORS
+	// OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static byte sum(final byte... values) {
@@ -929,7 +954,7 @@ public class Maths {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double delta(final double a, final double b) {
-		return Math.abs(a - b);
+		return abs(a - b);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1031,62 +1056,6 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
-	/**
-	 * Returns the value of the specified base raised to the power of the specified exponent.
-	 * <p>
-	 * @param base     an {@code int} value
-	 * @param exponent an {@code int} value
-	 * <p>
-	 * @return the value of the specified base raised to the power of the specified exponent
-	 */
-	public static int pow(final int base, final int exponent) {
-		return Integers.convert(Math.pow(base, exponent));
-	}
-
-	/**
-	 * Returns the value of the specified base raised to the power of the specified exponent.
-	 * <p>
-	 * @param base     a {@code long} value
-	 * @param exponent a {@code long} value
-	 * <p>
-	 * @return the value of the specified base raised to the power of the specified exponent
-	 */
-	public static long pow(final long base, final long exponent) {
-		return Longs.convert(Math.pow(base, exponent));
-	}
-
-	/**
-	 * Returns the value of two raised to the power of the specified exponent.
-	 * <p>
-	 * @param exponent an {@code int} value
-	 * <p>
-	 * @return the value of two raised to the power of the specified exponent
-	 */
-	public static int pow2(final int exponent) {
-		return 1 << exponent;
-	}
-
-	/**
-	 * Returns the value of two raised to the power of the specified exponent.
-	 * <p>
-	 * @param exponent a {@code long} value
-	 * <p>
-	 * @return the value of two raised to the power of the specified exponent
-	 */
-	public static long pow2(final long exponent) {
-		return 1L << exponent;
-	}
-
-	public static double square(final double value) {
-		return value * value;
-	}
-
-	public static double cube(final double value) {
-		return value * value * value;
-	}
-
-	//////////////////////////////////////////////
-
 	public static boolean isFactorialInt(final double n) {
 		return n < INT_FACTORIALS.length;
 	}
@@ -1115,7 +1084,7 @@ public class Maths {
 		if (isFactorialLong(n)) {
 			return LONG_FACTORIALS[Integers.convert(n)];
 		}
-		return Math.floor(Math.exp(factorialLog(Integers.convert(n))) + 0.5);
+		return floor(exp(factorialLog(Integers.convert(n))) + 0.5);
 	}
 
 	/**
@@ -1127,11 +1096,11 @@ public class Maths {
 	 */
 	public static double factorialLog(final int n) {
 		if (n < LONG_FACTORIALS.length) {
-			return Math.log(LONG_FACTORIALS[Integers.convert(n)]);
+			return log(LONG_FACTORIALS[Integers.convert(n)]);
 		}
 		double factorialLog = 0.;
 		for (int i = 2; i <= n; ++i) {
-			factorialLog += Math.log(i);
+			factorialLog += log(i);
 		}
 		return factorialLog;
 	}
@@ -1145,22 +1114,15 @@ public class Maths {
 	 */
 	public static double factorialLimit(final int n) {
 		if (n < LONG_FACTORIALS.length) {
-			return Math.log(LONG_FACTORIALS[Integers.convert(n)]);
+			return log(LONG_FACTORIALS[Integers.convert(n)]);
 		}
-		return SQUARE_ROOT_OF_PI * Math.pow(n / E, n) *
-				Math.pow(((8 * n + 4) * n + 1) * n + 1 / 30., F_1_6);
+		return SQUARE_ROOT_OF_PI * pow(n / E, n) * pow(((8 * n + 4) * n + 1) * n + F_1_30, F_1_6);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double safeDivision(final double dividend, final double divisor) {
-		return dividend / (divisor + TOLERANCE);
-	}
-
-	//////////////////////////////////////////////
-
-	public static double safeInverse(final double value) {
-		return safeDivision(1., value);
+		return dividend / (divisor + TINY_TOLERANCE);
 	}
 
 
@@ -1168,8 +1130,198 @@ public class Maths {
 	// ANALYTIC FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double safeLog(final double value) {
-		return Math.log(value + TOLERANCE);
+	/**
+	 * Returns the absolute value of {@code x}.
+	 * <p>
+	 * @param x an {@code int} value
+	 * <p>
+	 * @return {@code abs(x)}
+	 */
+	public static int abs(final int x) {
+		final int i = x >>> 31;
+		return (x ^ (~i + 1)) + i;
+	}
+
+	/**
+	 * Returns the absolute value of {@code x}.
+	 * <p>
+	 * @param x a {@code long} value
+	 * <p>
+	 * @return {@code abs(x)}
+	 */
+	public static long abs(final long x) {
+		final long l = x >>> 63;
+		return (x ^ (~l + 1)) + l;
+	}
+
+	/**
+	 * Returns the absolute value of {@code x}.
+	 * <p>
+	 * @param x a {@code float} value
+	 * <p>
+	 * @return {@code abs(x)}
+	 */
+	public static float abs(final float x) {
+		return Float.intBitsToFloat(MASK_NON_SIGN_INT & Float.floatToRawIntBits(x));
+	}
+
+	/**
+	 * Returns the absolute value of {@code x}.
+	 * <p>
+	 * @param x a {@code double} value
+	 * <p>
+	 * @return {@code abs(x)}
+	 */
+	public static double abs(final double x) {
+		return Double.longBitsToDouble(MASK_NON_SIGN_LONG & Double.doubleToRawLongBits(x));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static double exp(final double x) {
+		return StrictMath.exp(x);
+	}
+
+	//////////////////////////////////////////////
+
+	public static double log(final double x) {
+		return StrictMath.log(x);
+	}
+
+	public static double safeLog(final double x) {
+		return log(x + TINY_TOLERANCE);
+	}
+
+	public static double log10(final double x) {
+		return StrictMath.log10(x);
+	}
+
+	public static double safeLog10(final double x) {
+		return log10(x + TINY_TOLERANCE);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static double safeInverse(final double x) {
+		return safeDivision(1., x);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the value of the specified base raised to the power of the specified exponent.
+	 * <p>
+	 * @param base     an {@code int} value
+	 * @param exponent an {@code int} value
+	 * <p>
+	 * @return the value of the specified base raised to the power of the specified exponent
+	 */
+	public static int pow(final int base, final int exponent) {
+		return Integers.convert(pow(base, exponent));
+	}
+
+	/**
+	 * Returns the value of the specified base raised to the power of the specified exponent.
+	 * <p>
+	 * @param base     a {@code long} value
+	 * @param exponent a {@code long} value
+	 * <p>
+	 * @return the value of the specified base raised to the power of the specified exponent
+	 */
+	public static long pow(final long base, final long exponent) {
+		return Longs.convert(pow(base, exponent));
+	}
+
+	/**
+	 * Returns the value of the specified base raised to the power of the specified exponent.
+	 * <p>
+	 * @param base     a {@code double} value
+	 * @param exponent a {@code double} value
+	 * <p>
+	 * @return the value of the specified base raised to the power of the specified exponent
+	 */
+	public static double pow(final double base, final double exponent) {
+		return StrictMath.pow(base, exponent);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns {@code 2} raised to the power of the specified exponent.
+	 * <p>
+	 * @param exponent an {@code int} value
+	 * <p>
+	 * @return {@code 2} raised to the power of the specified exponent
+	 */
+	public static int pow2(final int exponent) {
+		return 1 << exponent;
+	}
+
+	/**
+	 * Returns {@code 2L} raised to the power of the specified exponent.
+	 * <p>
+	 * @param exponent a {@code long} value
+	 * <p>
+	 * @return {@code 2L} raised to the power of the specified exponent
+	 */
+	public static long pow2(final long exponent) {
+		return 1L << exponent;
+	}
+
+	//////////////////////////////////////////////
+
+	public static double square(final double x) {
+		return x * x;
+	}
+
+	public static double cube(final double x) {
+		return x * x * x;
+	}
+
+	//////////////////////////////////////////////
+
+	public static double sqrt(final double x) {
+		return StrictMath.sqrt(x);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static double sigmoid(final double x) {
+		return sigmoid(x, 1.);
+	}
+
+	public static double sigmoid(final double x, final double coefficient) {
+		return 1. / (1. + exp(-coefficient * x));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the sign of {@code x}; {@code 0f} if {@code x} is equal to {@code 0f}, {@code 1f} if
+	 * {@code x} is greater than {@code 0f}, or {@code -1f} if {@code x} is less than {@code 0f}.
+	 * <p>
+	 * @param x a {@code float} value
+	 * <p>
+	 * @return the sign of {@code x}; {@code 0f} if {@code x} is equal to {@code 0f}, {@code 1f} if
+	 *         {@code x} is greater than {@code 0f}, or {@code -1f} if {@code x} is less than
+	 *         {@code 0f}
+	 */
+	public static float sign(final float x) {
+		return Math.signum(x);
+	}
+
+	/**
+	 * Returns the sign of {@code x}; {@code 0.} if {@code x} is equal to {@code 0.}, {@code 1.} if
+	 * {@code x} is greater than {@code 0.}, or {@code -1.} if {@code x} is less than {@code 0.}.
+	 * <p>
+	 * @param x a {@code double} value
+	 * <p>
+	 * @return the sign of {@code x}; {@code 0.} if {@code x} is equal to {@code 0.}, {@code 1.} if
+	 *         {@code x} is greater than {@code 0.}, or {@code -1.} if {@code x} is less than
+	 *         {@code 0.}
+	 */
+	public static double sign(final double x) {
+		return Math.signum(x);
 	}
 
 
@@ -1248,38 +1400,72 @@ public class Maths {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code number} rounded up to the nearest multiple of {@code unit}.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
+	 * {@code x > upperBound}, {@code NaN} otherwise.
 	 * <p>
-	 * @param number the {@code int} value to round up
-	 * @param unit   an {@code int} value
+	 * @param x          a {@code double} value
+	 * @param lowerBound the {@code double} lower bound of the domain (inclusive) (may be
+	 *                   {@code Double.NEGATIVE_INFINITY} if there is no lower bound)
+	 * @param upperBound the {@code double} upper bound of the domain (inclusive) (may be
+	 *                   {@code Double.POSITIVE_INFINITY} if there is no upper bound)
 	 * <p>
-	 * @return {@code number} rounded up to the nearest multiple of {@code unit}
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
+	 *         if {@code x > upperBound}, {@code NaN} otherwise
 	 */
-	public static int roundUp(final int number, final int unit) {
-		final int remainder = number % unit;
-		if (remainder == 0) {
-			return number;
+	public static double bound(final double x, final double lowerBound, final double upperBound) {
+		if (Double.isNaN(x)) {
+			IO.warn("The specified double number is NaN");
+			return Double.NaN;
 		}
-		return number + unit - remainder;
+		if (x < lowerBound) {
+			IO.warn("The specified double number ", x,
+					" is less than the lower bound of the domain ", lowerBound);
+			return lowerBound;
+		}
+		if (x > upperBound) {
+			IO.warn("The specified double number ", x,
+					" is greater than the upper bound of the domain ", upperBound);
+			return upperBound;
+		}
+		return x;
 	}
 
 	/**
-	 * Returns {@code number} rounded up to the nearest multiple of {@code unit}.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 * {@code upperBound}, {@code NaN} otherwise.
 	 * <p>
-	 * @param number the {@code long} value to round up
-	 * @param unit   a {@code long} value
+	 * @param x          a {@code double} value
+	 * @param lowerBound the {@code double} lower bound of the domain (inclusive) (may be
+	 *                   {@code Double.NEGATIVE_INFINITY} if there is no lower bound)
+	 * @param upperBound the {@code double} upper bound of the domain (inclusive) (may be
+	 *                   {@code Double.POSITIVE_INFINITY} if there is no upper bound)
 	 * <p>
-	 * @return {@code number} rounded up to the nearest multiple of {@code unit}
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 *         {@code upperBound}, {@code NaN} otherwise
 	 */
-	public static long roundUp(final long number, final long unit) {
-		final long remainder = number % unit;
-		if (remainder == 0) {
-			return number;
+	public static double constrain(final double x, final double lowerBound,
+			final double upperBound) {
+		// Check the arguments
+		if (Double.isNaN(x)) {
+			IO.warn("The specified double number is NaN");
+			return Double.NaN;
 		}
-		return number + unit - remainder;
+		if (x < lowerBound) {
+			IO.warn("The specified double number ", x,
+					" is less than the lower bound of the domain ", lowerBound);
+			return Double.NaN;
+		}
+		if (x > upperBound) {
+			IO.warn("The specified double number ", x,
+					" is greater than the upper bound of the domain ", upperBound);
+			return Double.NaN;
+		}
+		return x;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public static short minToShort(final short... values) {
 		// Check the arguments
@@ -1300,7 +1486,7 @@ public class Maths {
 		// Get the minimum value
 		int min = Integer.MAX_VALUE;
 		for (final int value : values) {
-			min = Math.min(value, min);
+			min = value < min ? value : min;
 		}
 		return min;
 	}
@@ -1312,7 +1498,7 @@ public class Maths {
 		// Get the minimum value
 		long min = Long.MAX_VALUE;
 		for (final long value : values) {
-			min = Math.min(value, min);
+			min = value < min ? value : min;
 		}
 		return min;
 	}
@@ -1329,7 +1515,7 @@ public class Maths {
 		return min;
 	}
 
-	public static double minToDouble(final double... values) {
+	public static double min(final double... values) {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
@@ -1341,7 +1527,7 @@ public class Maths {
 		return min;
 	}
 
-	public static double minToDouble(final Number[] numbers) {
+	public static double min(final Number[] numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
@@ -1353,7 +1539,7 @@ public class Maths {
 		return min;
 	}
 
-	public static double minToDouble(final Collection<? extends Number> numbers) {
+	public static double min(final Collection<? extends Number> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
@@ -1365,7 +1551,7 @@ public class Maths {
 		return min;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public static short maxToShort(final short... values) {
 		// Check the arguments
@@ -1386,7 +1572,7 @@ public class Maths {
 		// Get the maximum value
 		int max = Integer.MIN_VALUE;
 		for (final int value : values) {
-			max = Math.max(max, value);
+			max = value > max ? value : max;
 		}
 		return max;
 	}
@@ -1398,7 +1584,7 @@ public class Maths {
 		// Get the maximum value
 		long max = Long.MIN_VALUE;
 		for (final long value : values) {
-			max = Math.max(max, value);
+			max = value > max ? value : max;
 		}
 		return max;
 	}
@@ -1415,7 +1601,7 @@ public class Maths {
 		return max;
 	}
 
-	public static double maxToDouble(final double... values) {
+	public static double max(final double... values) {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
@@ -1427,7 +1613,7 @@ public class Maths {
 		return max;
 	}
 
-	public static double maxToDouble(final Number[] numbers) {
+	public static double max(final Number[] numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
@@ -1439,7 +1625,7 @@ public class Maths {
 		return max;
 	}
 
-	public static double maxToDouble(final Collection<? extends Number> numbers) {
+	public static double max(final Collection<? extends Number> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
@@ -1449,6 +1635,70 @@ public class Maths {
 			max = Math.max(max, number.doubleValue());
 		}
 		return max;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns {@code x} rounded up to the nearest multiple of {@code unit}.
+	 * <p>
+	 * @param value the {@code int} value to round up
+	 * @param unit  an {@code int} value
+	 * <p>
+	 * @return {@code x} rounded up to the nearest multiple of {@code unit}
+	 */
+	public static int roundUp(final int value, final int unit) {
+		final int remainder = value % unit;
+		if (remainder == 0) {
+			return value;
+		}
+		return value + unit - remainder;
+	}
+
+	/**
+	 * Returns {@code x} rounded up to the nearest multiple of {@code unit}.
+	 * <p>
+	 * @param value the {@code long} value to round up
+	 * @param unit  a {@code long} value
+	 * <p>
+	 * @return {@code x} rounded up to the nearest multiple of {@code unit}
+	 */
+	public static long roundUp(final long value, final long unit) {
+		final long remainder = value % unit;
+		if (remainder == 0) {
+			return value;
+		}
+		return value + unit - remainder;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the least significant bit of the specified {@code float} value.
+	 * <p>
+	 * @param value a {@code float} value
+	 * <p>
+	 * @return {@code ulp(x)}
+	 */
+	public static float ulp(final float value) {
+		if (Float.isInfinite(value)) {
+			return Float.POSITIVE_INFINITY;
+		}
+		return abs(value - Float.intBitsToFloat(Float.floatToIntBits(value) ^ 1));
+	}
+
+	/**
+	 * Returns the least significant bit of the specified {@code double} value.
+	 * <p>
+	 * @param value a {@code double} value
+	 * <p>
+	 * @return {@code ulp(x)}
+	 */
+	public static double ulp(final double value) {
+		if (Double.isInfinite(value)) {
+			return Double.POSITIVE_INFINITY;
+		}
+		return abs(value - Double.longBitsToDouble(Double.doubleToRawLongBits(value) ^ 1));
 	}
 
 
@@ -1501,138 +1751,369 @@ public class Maths {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the cosine of the specified angle (in degrees).
+	 * Returns the sine of the specified angle (in radians).
 	 * <p>
-	 * @param angle an angle (in degrees)
+	 * @param angle an angle (in radians)
 	 * <p>
-	 * @return the cosine of the specified angle (in degrees)
-	 */
-	public static double cos(final double angle) {
-		return StrictMath.cos(DEGREE_TO_RADIAN * angle);
-	}
-
-	/**
-	 * Returns the sine of the specified angle (in degrees).
-	 * <p>
-	 * @param angle an angle (in degrees)
-	 * <p>
-	 * @return the sine of the specified angle (in degrees)
+	 * @return the sine of the specified angle (in radians)
 	 */
 	public static double sin(final double angle) {
-		return StrictMath.sin(DEGREE_TO_RADIAN * angle);
+		return StrictMath.sin(angle);
 	}
 
 	/**
-	 * Returns the tangent of the specified angle (in degrees).
+	 * Returns the secant of the specified angle (in radians).
 	 * <p>
-	 * @param angle an angle (in degrees)
+	 * @param angle an angle (in radians)
 	 * <p>
-	 * @return the tangent of the specified angle (in degrees)
+	 * @return the secant of the specified angle (in radians)
+	 */
+	public static double sec(final double angle) {
+		return 1. / sin(angle);
+	}
+
+	/**
+	 * Returns the cosine of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the cosine of the specified angle (in radians)
+	 */
+	public static double cos(final double angle) {
+		return StrictMath.cos(angle);
+	}
+
+	/**
+	 * Returns the cosecant of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the cosecant of the specified angle (in radians)
+	 */
+	public static double cosec(final double angle) {
+		return 1. / cos(angle);
+	}
+
+	/**
+	 * Returns the tangent of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the tangent of the specified angle (in radians)
 	 */
 	public static double tan(final double angle) {
-		return StrictMath.tan(DEGREE_TO_RADIAN * angle);
+		return StrictMath.tan(angle);
 	}
 
 	/**
-	 * Returns the cotangent of the specified angle (in degrees).
+	 * Returns the cotangent of the specified angle (in radians).
 	 * <p>
-	 * @param angle an angle (in degrees)
+	 * @param angle an angle (in radians)
 	 * <p>
-	 * @return the cotangent of the specified angle (in degrees)
+	 * @return the cotangent of the specified angle (in radians)
 	 */
 	public static double cot(final double angle) {
 		return 1. / tan(angle);
 	}
 
 	/**
-	 * Returns the haversine of the specified angle (in degrees).
+	 * Returns the hypotenuse of the specified values.
 	 * <p>
-	 * @param angle an angle (in degrees)
+	 * @param x a {@code double} value
+	 * @param y another {@code double} value
 	 * <p>
-	 * @return the haversine of the specified angle (in degrees)
+	 * @return the hypotenuse of the specified values
 	 */
-	public static double hav(final double angle) {
-		return (1. - cos(angle)) / 2.;
+	public static double hypot(final double x, final double y) {
+		return StrictMath.hypot(x, y);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the arc-cosine (in degrees) of the specified cosine value.
-	 *
-	 * @param value a cosine value
-	 *
-	 * @return the arc-cosine (in degrees) of the specified cosine value
-	 */
-	public static double acos(final double value) {
-		return RADIAN_TO_DEGREE * StrictMath.acos(value);
-	}
-
-	/**
-	 * Returns the arc-sine (in degrees) of the specified sine value.
+	 * Returns the inverse (in radians) of the specified sine value.
 	 *
 	 * @param value a sine value
 	 *
-	 * @return the arc-sine (in degrees) of the specified sine value
+	 * @return the inverse (in radians) of the specified sine value
 	 */
 	public static double asin(final double value) {
-		return RADIAN_TO_DEGREE * StrictMath.asin(value);
+		return StrictMath.asin(value);
 	}
 
 	/**
-	 * Returns the arc-tangent (in degrees) of the specified tangent value.
+	 * Returns the inverse (in radians) of the specified secant value.
+	 *
+	 * @param value a secant value
+	 *
+	 * @return the inverse (in radians) of the specified secant value
+	 */
+	public static double asec(final double value) {
+		return asin(1. / value);
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified cosine value.
+	 *
+	 * @param value a cosine value
+	 *
+	 * @return the inverse (in radians) of the specified cosine value
+	 */
+	public static double acos(final double value) {
+		return StrictMath.acos(value);
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified cosecant value.
+	 *
+	 * @param value a cosecant value
+	 *
+	 * @return the inverse (in radians) of the specified cosecant value
+	 */
+	public static double acosec(final double value) {
+		return acos(1. / value);
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified tangent value.
 	 *
 	 * @param value a tangent value
 	 *
-	 * @return the arc-tangent (in degrees) of the specified tangent value
+	 * @return the inverse (in radians) of the specified tangent value
 	 */
 	public static double atan(final double value) {
-		return RADIAN_TO_DEGREE * StrictMath.atan(value);
+		return StrictMath.atan(value);
 	}
 
 	/**
-	 * Returns the arc-cotangent (in degrees) of the specified cotangent value.
+	 * Returns the inverse (in radians) of the specified cotangent value.
 	 *
 	 * @param value a cotangent value
 	 *
-	 * @return the arc-cotangent (in degrees) of the specified cotangent value
+	 * @return the inverse (in radians) of the specified cotangent value
 	 */
 	public static double acot(final double value) {
 		return atan(1. / value);
 	}
 
 	/**
-	 * Returns the arc-haversine (in degrees) of the specified haversine value.
-	 *
-	 * @param value a haversine value
-	 *
-	 * @return the arc-haversine (in degrees) of the specified haversine value
+	 * Returns the angle {@code theta} from the conversion of the specified rectangular coordinates
+	 * ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by computing an
+	 * arc tangent of {@code y / x} in the range of {@code -π} to {@code π}.
+	 * <p>
+	 * @param x the {@code double} x-coordinate
+	 * @param y the {@code double} y-coordinate
+	 * <p>
+	 * @return the angle {@code theta} from the conversion of the specified rectangular coordinates
+	 *         ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by
+	 *         computing an arc tangent of {@code y / x} in the range of {@code -π} to {@code π}
 	 */
-	public static double ahav(final double value) {
-		return acos(1. - 2. * value);
+	public static double atan2(final double x, final double y) {
+		return StrictMath.atan2(y, x);
+	}
+
+	/**
+	 * Returns the angle {@code theta} from the conversion of the specified rectangular coordinates
+	 * ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by computing an
+	 * arc tangent of {@code y / x} in the range of {@code 0.} to {@code 2. * π}.
+	 * <p>
+	 * @param x the {@code double} x-coordinate
+	 * @param y the {@code double} y-coordinate
+	 * <p>
+	 * @return the angle {@code theta} from the conversion of the specified rectangular coordinates
+	 *         ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by
+	 *         computing an arc tangent of {@code y / x} in the range of {@code 0.} to
+	 *         {@code 2. * π}
+	 */
+	public static double atan3(final double x, final double y) {
+		final double theta = atan2(x, y);
+		if (theta < 0.) {
+			return 2. * PI + theta;
+		}
+		return theta;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the hyperbolic sine of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the hyperbolic sine of the specified angle (in radians)
+	 */
+	public static double sinh(final double angle) {
+		return StrictMath.sinh(angle);
+	}
+
+	/**
+	 * Returns the hyperbolic secant of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the hyperbolic secant of the specified angle (in radians)
+	 */
+	public static double sech(final double angle) {
+		return 1. / sinh(angle);
+	}
+
+	/**
+	 * Returns the hyperbolic cosine of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the hyperbolic cosine of the specified angle (in radians)
+	 */
+	public static double cosh(final double angle) {
+		return StrictMath.cosh(angle);
+	}
+
+	/**
+	 * Returns the hyperbolic cosecant of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the hyperbolic cosecant of the specified angle (in radians)
+	 */
+	public static double cosech(final double angle) {
+		return 1. / cosh(angle);
+	}
+
+	/**
+	 * Returns the hyperbolic tangent of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the hyperbolic tangent of the specified angle (in radians)
+	 */
+	public static double tanh(final double angle) {
+		return StrictMath.tanh(angle);
+	}
+
+	/**
+	 * Returns the hyperbolic cotangent of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the hyperbolic cotangent of the specified angle (in radians)
+	 */
+	public static double coth(final double angle) {
+		return 1. / tanh(angle);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the inverse (in radians) of the specified hyperbolic sine value.
+	 *
+	 * @param value a hyperbolic sine value
+	 *
+	 * @return the inverse (in radians) of the specified hyperbolic sine value
+	 */
+	public static double asinh(final double value) {
+		return log(value + sqrt(square(value) + 1.));
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified hyperbolic secant value.
+	 *
+	 * @param value a hyperbolic secant value
+	 *
+	 * @return the inverse (in radians) of the specified hyperbolic secant value
+	 */
+	public static double asech(final double value) {
+		return asinh(1. / value);
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified hyperbolic cosine value.
+	 *
+	 * @param value a hyperbolic cosine value
+	 *
+	 * @return the inverse (in radians) of the specified hyperbolic cosine value
+	 */
+	public static double acosh(final double value) {
+		return log(value + sqrt(square(value) - 1.));
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified hyperbolic cosecant value.
+	 *
+	 * @param value a hyperbolic cosecant value
+	 *
+	 * @return the inverse (in radians) of the specified hyperbolic cosecant value
+	 */
+	public static double acosech(final double value) {
+		return acosh(1. / value);
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified hyperbolic tangent value.
+	 *
+	 * @param value a hyperbolic tangent value
+	 *
+	 * @return the inverse (in radians) of the specified hyperbolic tangent value
+	 */
+	public static double atanh(final double value) {
+		return log((1. + value) / (1. - value)) / 2.;
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified hyperbolic cotangent value.
+	 *
+	 * @param value a hyperbolic cotangent value
+	 *
+	 * @return the inverse (in radians) of the specified hyperbolic cotangent value
+	 */
+	public static double acoth(final double value) {
+		return atanh(1. / value);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the haversine of the specified angle (in radians).
+	 * <p>
+	 * @param angle an angle (in radians)
+	 * <p>
+	 * @return the haversine of the specified angle (in radians)
+	 */
+	public static double hav(final double angle) {
+		return (1. - cos(angle)) / 2.;
+	}
+
+	/**
+	 * Returns the inverse (in radians) of the specified haversine value.
+	 *
+	 * @param value a haversine value
+	 *
+	 * @return the inverse (in radians) of the specified haversine value
+	 */
+	public static double ahav(final double value) {
+		return acos(1. - 2. * value);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the great-circle distance or orthodromic distance (shortest distance) between the
-	 * points defined by their latitudes and longitudes (in degrees) around the sphere of the
+	 * points defined by their latitudes and longitudes (in radians) around the sphere of the
 	 * specified radius.
 	 * <p>
 	 * @param radius     the radius of the sphere
-	 * @param latitude1  the latitude of the first point (in degrees)
-	 * @param longitude1 the longitude of the first point (in degrees)
-	 * @param latitude2  the latitude of the second point (in degrees)
-	 * @param longitude2 the longitude of the second point (in degrees)
+	 * @param latitude1  the latitude of the first point (in radians)
+	 * @param longitude1 the longitude of the first point (in radians)
+	 * @param latitude2  the latitude of the second point (in radians)
+	 * @param longitude2 the longitude of the second point (in radians)
 	 * <p>
 	 * @return the great-circle distance or orthodromic distance (shortest distance) between the
-	 *         points defined by their latitudes and longitudes (in degrees) around the sphere of
+	 *         points defined by their latitudes and longitudes (in radians) around the sphere of
 	 *         the specified radius
 	 */
 	public static double getGreatCircleDistance(final double radius, final double latitude1,
 			final double longitude1, final double latitude2, final double longitude2) {
-		final double h = Maths.hav(latitude2 - latitude1) +
-				Maths.cos(latitude1) * Maths.cos(latitude2) * Maths.hav(longitude2 - longitude1);
-		return 2. * radius * Math.atan2(Math.sqrt(h), Math.sqrt(1. - h));
+		final double h = hav(latitude2 - latitude1) +
+				cos(latitude1) * cos(latitude2) * hav(longitude2 - longitude1);
+		return 2. * radius * atan2(sqrt(1. - h), sqrt(h));
 	}
 }

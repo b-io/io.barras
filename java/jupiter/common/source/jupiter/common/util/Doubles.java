@@ -88,7 +88,7 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double getDecimalPart(final double value) {
-		return value - Math.floor(value);
+		return value - Maths.floor(value);
 	}
 
 
@@ -99,7 +99,7 @@ public class Doubles {
 	/**
 	 * Returns a {@link Double} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object the {@link Object} to convert
+	 * @param object the {@link Object} to convert (may be {@code null})
 	 * <p>
 	 * @return a {@link Double} converted from the specified {@link Object}
 	 */
@@ -770,12 +770,12 @@ public class Doubles {
 
 	/**
 	 * Creates a {@code double} array of the specified length containing the sequence of numbers
-	 * starting with {@code 0} and spaced by {@code 1}.
+	 * starting with {@code 0.} and spaced by {@code 1.}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
 	 * @return a {@code double} array of the specified length containing the sequence of numbers
-	 *         starting with {@code 0} and spaced by {@code 1}
+	 *         starting with {@code 0.} and spaced by {@code 1.}
 	 */
 	public static double[] createSequence(final int length) {
 		return createSequence(length, 0., 1.);
@@ -783,13 +783,13 @@ public class Doubles {
 
 	/**
 	 * Creates a {@code double} array of the specified length containing the sequence of numbers
-	 * starting with {@code from} and spaced by {@code 1}.
+	 * starting with {@code from} and spaced by {@code 1.}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
 	 * @return a {@code double} array of the specified length containing the sequence of numbers
-	 *         starting with {@code from} and spaced by {@code 1}
+	 *         starting with {@code from} and spaced by {@code 1.}
 	 */
 	public static double[] createSequence(final int length, final double from) {
 		return createSequence(length, from, 1.);
@@ -1774,12 +1774,11 @@ public class Doubles {
 	}
 
 	/**
-	 * Creates a copy of the specified 2D {@code double} array, or {@code null} if it is
-	 * {@code null}.
+	 * Clones the specified 2D {@code double} array.
 	 * <p>
 	 * @param array2D the 2D {@code double} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 2D {@code double} array, or {@code null} if it is
+	 * @return a clone of the specified 2D {@code double} array, or {@code null} if it is
 	 *         {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -1799,12 +1798,11 @@ public class Doubles {
 	}
 
 	/**
-	 * Creates a copy of the specified 3D {@code double} array, or {@code null} if it is
-	 * {@code null}.
+	 * Clones the specified 3D {@code double} array.
 	 * <p>
 	 * @param array3D the 3D {@code double} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 3D {@code double} array, or {@code null} if it is
+	 * @return a clone of the specified 3D {@code double} array, or {@code null} if it is
 	 *         {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})

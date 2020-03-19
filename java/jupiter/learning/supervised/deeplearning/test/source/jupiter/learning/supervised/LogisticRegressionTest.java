@@ -42,7 +42,7 @@ public class LogisticRegressionTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of classify method, of class LogisticRegression.
+	 * Tests classify method, of class LogisticRegression.
 	 */
 	public void testClassify() {
 		IO.test(BULLET, " classify");

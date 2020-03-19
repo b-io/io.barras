@@ -136,7 +136,7 @@ public class JConsole
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final List<String> history = new ExtendedLinkedList<String>();
+	protected final ExtendedLinkedList<String> history = new ExtendedLinkedList<String>();
 	protected final ExtendedLinkedList<String> inputLines = new ExtendedLinkedList<String>();
 	protected volatile OutputStream outPipe;
 	protected volatile InputStream inPipe;
@@ -404,19 +404,19 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the cursor image to the specified predefined cursor.
-	 * <p>
-	 * @param type the type of a predefined cursor
-	 */
-	public void setCursor(final int type) {
-		setCursor(Cursor.getPredefinedCursor(type));
-	}
-
-	/**
 	 * Sets the cursor image to the specified predefined default cursor.
 	 */
 	public void setCursor() {
 		setCursor(Cursor.DEFAULT_CURSOR);
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined cursor.
+	 * <p>
+	 * @param type a type of a predefined cursor
+	 */
+	public void setCursor(final int type) {
+		setCursor(Cursor.getPredefinedCursor(type));
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void historyUp() {
-		if (!history.isEmpty()) {
+		if (history.isNonEmpty()) {
 			// Save the current line
 			if (historicalLineIndex == 0) {
 				currentLine = getCommand();
@@ -557,8 +557,8 @@ public class JConsole
 		setStyle(attributes, false);
 	}
 
-	protected void setStyle(final AttributeSet attributes, final boolean overwrite) {
-		textPane.setCharacterAttributes(attributes, overwrite);
+	protected void setStyle(final AttributeSet attributes, final boolean replace) {
+		textPane.setCharacterAttributes(attributes, replace);
 	}
 
 	@Override

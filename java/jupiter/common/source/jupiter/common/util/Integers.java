@@ -135,7 +135,7 @@ public class Integers {
 	/**
 	 * Returns an {@link Integer} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object the {@link Object} to convert
+	 * @param object the {@link Object} to convert (may be {@code null})
 	 * <p>
 	 * @return an {@link Integer} converted from the specified {@link Object}
 	 */
@@ -1894,11 +1894,11 @@ public class Integers {
 	}
 
 	/**
-	 * Creates a copy of the specified 2D {@code int} array, or {@code null} if it is {@code null}.
+	 * Clones the specified 2D {@code int} array.
 	 * <p>
 	 * @param array2D the 2D {@code int} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 2D {@code int} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 2D {@code int} array, or {@code null} if it is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static int[][] clone(final int[]... array2D) {
@@ -1916,11 +1916,11 @@ public class Integers {
 	}
 
 	/**
-	 * Creates a copy of the specified 3D {@code int} array, or {@code null} if it is {@code null}.
+	 * Clones the specified 3D {@code int} array.
 	 * <p>
 	 * @param array3D the 3D {@code int} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 3D {@code int} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 3D {@code int} array, or {@code null} if it is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static int[][][] clone(final int[][][] array3D) {

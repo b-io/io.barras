@@ -28,13 +28,13 @@ import jupiter.common.util.Doubles;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
-import jupiter.math.analysis.function.Function;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 /**
- * {@link ParametricFunction} is an analytical parametric {@link Function}.
+ * {@link ParametricFunction} is the parametric {@link UnivariateFunction}.
  */
 public abstract class ParametricFunction
-		extends Function
+		extends UnivariateFunction
 		implements IParametricFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,12 +84,14 @@ public abstract class ParametricFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the parametric function to the specified {@code double} value with the parameters and
-	 * returns the resulting {@code double} value.
+	 * Applies the parametric function to the specified value with the parameters and returns the
+	 * resulting {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
 	 * @return {@code f(x, parameters)}
+	 *
+	 * @see #apply(double, double[]}
 	 */
 	@Override
 	public double apply(final double x) {
@@ -262,9 +264,9 @@ public abstract class ParametricFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

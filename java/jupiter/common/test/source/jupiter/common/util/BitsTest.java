@@ -38,7 +38,7 @@ public class BitsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of rotateLeft method, of class Bits.
+	 * Tests rotateLeft method, of class Bits.
 	 */
 	public void testRotateLeft_long() {
 		IO.test(BULLET, " rotateLeft");
@@ -47,7 +47,7 @@ public class BitsTest
 	}
 
 	/**
-	 * Test of rotateLeft method, of class Bits.
+	 * Tests rotateLeft method, of class Bits.
 	 */
 	public void testRotateLeft_long_long() {
 		IO.test(BULLET, " rotateLeft");
@@ -56,7 +56,7 @@ public class BitsTest
 	}
 
 	/**
-	 * Test of rotateLeft method, of class Bits.
+	 * Tests rotateLeft method, of class Bits.
 	 */
 	public void testRotateLeft_int() {
 		IO.test(BULLET, " rotateLeft");
@@ -65,7 +65,7 @@ public class BitsTest
 	}
 
 	/**
-	 * Test of rotateLeft method, of class Bits.
+	 * Tests rotateLeft method, of class Bits.
 	 */
 	public void testRotateLeft_int_int() {
 		IO.test(BULLET, " rotateLeft");
@@ -74,7 +74,7 @@ public class BitsTest
 	}
 
 	/**
-	 * Test of rotateRight method, of class Bits.
+	 * Tests rotateRight method, of class Bits.
 	 */
 	public void testRotateRight_long() {
 		IO.test(BULLET, " rotateRight");
@@ -83,7 +83,7 @@ public class BitsTest
 	}
 
 	/**
-	 * Test of rotateRight method, of class Bits.
+	 * Tests rotateRight method, of class Bits.
 	 */
 	public void testRotateRight_long_long() {
 		IO.test(BULLET, " rotateRight");
@@ -92,7 +92,7 @@ public class BitsTest
 	}
 
 	/**
-	 * Test of rotateRight method, of class Bits.
+	 * Tests rotateRight method, of class Bits.
 	 */
 	public void testRotateRight_int() {
 		IO.test(BULLET, " rotateRight");
@@ -101,7 +101,7 @@ public class BitsTest
 	}
 
 	/**
-	 * Test of rotateRight method, of class Bits.
+	 * Tests rotateRight method, of class Bits.
 	 */
 	public void testRotateRight_int_int() {
 		IO.test(BULLET, " rotateRight");

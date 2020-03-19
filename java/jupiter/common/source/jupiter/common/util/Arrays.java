@@ -995,9 +995,9 @@ public class Arrays {
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <p>
-	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
-	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
+	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
+	 * offering the performance of a traditional merge sort when the input array is randomly
 	 * ordered. If the input array is nearly sorted, the implementation requires approximately
 	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
 	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
@@ -1035,9 +1035,9 @@ public class Arrays {
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <p>
-	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
-	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
+	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
+	 * offering the performance of a traditional merge sort when the input array is randomly
 	 * ordered. If the input array is nearly sorted, the implementation requires approximately
 	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
 	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
@@ -1082,9 +1082,9 @@ public class Arrays {
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <p>
-	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
-	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
+	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
+	 * offering the performance of a traditional merge sort when the input array is randomly
 	 * ordered. If the input array is nearly sorted, the implementation requires approximately
 	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
 	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
@@ -1130,9 +1130,9 @@ public class Arrays {
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <p>
-	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
-	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
+	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
+	 * offering the performance of a traditional merge sort when the input array is randomly
 	 * ordered. If the input array is nearly sorted, the implementation requires approximately
 	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
 	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
@@ -1178,9 +1178,9 @@ public class Arrays {
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <p>
-	 * Implementation note: This implementation is a stable, adaptive, iterative merge sort that
-	 * requires far fewer than {@code n log n} comparisons when the input array is partially sorted,
-	 * while offering the performance of a traditional merge sort when the input array is randomly
+	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
+	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
+	 * offering the performance of a traditional merge sort when the input array is randomly
 	 * ordered. If the input array is nearly sorted, the implementation requires approximately
 	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
 	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
@@ -1962,15 +1962,13 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of the specified {@code T} array.
+	 * Clones the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to clone
 	 * @param array the {@code T} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified {@code T} array, or {@code null} if it is {@code null} or not
-	 *         cloneable
-	 *
-	 * @see ICloneable
+	 * @return a clone of the specified {@code T} array, or {@code null} if it is {@code null} or
+	 *         not cloneable
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] clone(final T[] array) {
@@ -1988,15 +1986,13 @@ public class Arrays {
 	}
 
 	/**
-	 * Creates a copy of the specified 2D {@code T} array.
+	 * Clones the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the 2D array to clone
 	 * @param array2D the 2D {@code T} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 2D {@code T} array, or {@code null} if it is {@code null} or
+	 * @return a clone of the specified 2D {@code T} array, or {@code null} if it is {@code null} or
 	 *         not cloneable
-	 *
-	 * @see ICloneable
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][] clone(final T[][] array2D) {
@@ -2015,15 +2011,13 @@ public class Arrays {
 	}
 
 	/**
-	 * Creates a copy of the specified 3D {@code T} array.
+	 * Clones the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the 3D array to clone
 	 * @param array3D the 3D {@code T} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 3D {@code T} array, or {@code null} if it is {@code null} or
+	 * @return a clone of the specified 3D {@code T} array, or {@code null} if it is {@code null} or
 	 *         not cloneable
-	 *
-	 * @see ICloneable
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][][] clone(final T[][][] array3D) {

@@ -21,22 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.reducing;
+package jupiter.math.analysis.function.univariate;
 
-/**
- * {@link ReducingFunctions} is a collection of analytical array-reducing functions.
- */
-public class ReducingFunctions {
+import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
+
+public class Sine
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final Addition ADD = new Addition();
-	public static final Multiplication MULTI = new Multiplication();
-
-	public static final Max MAX = new Max();
-	public static final Min MIN = new Min();
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,8 +44,44 @@ public class ReducingFunctions {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link ReducingFunctions}.
+	 * Constructs a {@link Sine}.
 	 */
-	protected ReducingFunctions() {
+	protected Sine() {
+		super();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Applies the sine function to the specified value and returns the resulting {@code double}
+	 * value.
+	 * <p>
+	 * @param x a {@code double} value
+	 * <p>
+	 * @return {@code sin(x)}
+	 */
+	@Override
+	public double apply(final double x) {
+		return Maths.sin(x);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public Sine clone() {
+		return (Sine) super.clone();
 	}
 }

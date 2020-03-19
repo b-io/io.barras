@@ -30,7 +30,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
 
 /**
- * {@link JSONObject} is an {@link ExtendedHashMap} containing the JSON key-value mappings.
+ * {@link JSONObject} is the {@link ExtendedHashMap} containing the JSON key-value mappings.
  */
 public class JSONObject
 		extends ExtendedHashMap<String, Object>
@@ -52,15 +52,14 @@ public class JSONObject
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link JSONObject} of {@code K} and {@code V} types by default.
+	 * Constructs an empty {@link JSONObject} by default.
 	 */
 	public JSONObject() {
 		super();
 	}
 
 	/**
-	 * Constructs an empty {@link JSONObject} of {@code K} and {@code V} types with the specified
-	 * initial capacity.
+	 * Constructs an empty {@link JSONObject} with the specified initial capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
 	 * <p>
@@ -73,11 +72,13 @@ public class JSONObject
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link JSONObject} of {@code K} and {@code V} types loaded from the specified
-	 * key and value arrays containing the key-value mappings.
+	 * Constructs a {@link JSONObject} loaded from the specified key and value arrays containing the
+	 * key-value mappings.
 	 * <p>
-	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
-	 * @param values the {@code V} array containing the values of the key-value mappings to load
+	 * @param keys   the array of {@link String} containing the keys of the key-value mappings to
+	 *               load
+	 * @param values the array of {@link Object} containing the values of the key-value mappings to
+	 *               load
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
@@ -86,11 +87,10 @@ public class JSONObject
 	}
 
 	/**
-	 * Constructs a {@link JSONObject} of {@code K} and {@code V} types loaded from the specified
-	 * {@link Map} containing the key-value mappings.
+	 * Constructs a {@link JSONObject} loaded from the specified {@link Map} containing the
+	 * key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
-	 *            subtypes to load
+	 * @param map the {@link Map} containing the key-value mappings to load
 	 */
 	public JSONObject(final Map<String, ? extends Object> map) {
 		super(map);
@@ -142,9 +142,9 @@ public class JSONObject
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

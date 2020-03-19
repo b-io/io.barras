@@ -32,9 +32,7 @@ import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 
 /**
- * {@link RedBlackTreeMap} is a light sorted synchronized {@link Map} implementation of {@code K}
- * and {@code V} types based on a red-black tree with a {@link Comparator} to determine the order of
- * the entries.
+ * {@link RedBlackTreeMap} is the red-black {@link BinaryTreeMap} of {@code K} and {@code V} types.
  * <p>
  * @param <K> the key type of the {@link RedBlackTreeMap}
  * @param <V> the value type of the {@link RedBlackTreeMap}
@@ -89,8 +87,8 @@ public class RedBlackTreeMap<K, V>
 	 * the specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of {@code K} type
-	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
-	 *            mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
 	 *                            default {@code keyComparator}
@@ -139,8 +137,8 @@ public class RedBlackTreeMap<K, V>
 	 * key-value mappings.
 	 * <p>
 	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
-	 * @param map           the {@link Map} of {@code K} and {@code V} subtypes containing the
-	 *                      key-value mappings to load
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
 	 *                            {@code keyComparator}
@@ -170,7 +168,7 @@ public class RedBlackTreeMap<K, V>
 		// Compute the height
 		int currentHeight = 0, nextHeight = 1;
 		boolean hasLeaf = false;
-		while (!nodes.isEmpty()) {
+		while (nodes.isNonEmpty()) {
 			final Pair<Integer, RedBlackTreeNode<K, V>> element = nodes.remove();
 			final int height = element.getFirst();
 			final RedBlackTreeNode<K, V> node = element.getSecond();
@@ -510,9 +508,9 @@ public class RedBlackTreeMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

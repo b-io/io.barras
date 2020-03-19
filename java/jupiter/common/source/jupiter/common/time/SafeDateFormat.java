@@ -316,7 +316,8 @@ public class SafeDateFormat
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}. This also clones the {@link DateFormatSymbols}.
+	 * Clones {@code this}.
+	 * <b>Note:</b> This also clones the {@link DateFormatSymbols}.
 	 * <p>
 	 * @return a clone of {@code this}
 	 *

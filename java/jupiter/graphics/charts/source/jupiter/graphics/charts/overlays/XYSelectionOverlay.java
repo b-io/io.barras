@@ -44,7 +44,8 @@ import org.jfree.chart.panel.Overlay;
 import org.jfree.util.PublicCloneable;
 
 /**
- * An overlay for {@link ChartPanel} that draws a {@link List} of {@link XYSelection} on a plot.
+ * {@link XYSelectionOverlay} is the overlay for {@link ChartPanel} drawing a {@link List} of
+ * {@link XYSelection} on a plot.
  */
 public class XYSelectionOverlay
 		extends AbstractOverlay
@@ -68,7 +69,7 @@ public class XYSelectionOverlay
 	/**
 	 * The {@link List} of {@link XYSelection}.
 	 */
-	protected List<XYSelection> selections = new ExtendedLinkedList<XYSelection>();
+	protected ExtendedLinkedList<XYSelection> selections = new ExtendedLinkedList<XYSelection>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +125,7 @@ public class XYSelectionOverlay
 	 * {@link OverlayChangeEvent} to all registered listeners.
 	 */
 	public void clearSelectionList() {
-		if (!selections.isEmpty()) {
+		if (selections.isNonEmpty()) {
 			for (final XYSelection selection : selections) {
 				selections.remove(selection);
 				selection.removePropertyChangeListener(this);
@@ -176,9 +177,9 @@ public class XYSelectionOverlay
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

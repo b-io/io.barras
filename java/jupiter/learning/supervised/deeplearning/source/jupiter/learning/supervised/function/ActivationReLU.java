@@ -28,11 +28,11 @@ import static jupiter.math.analysis.function.parametric.ParametricFunctions.FILT
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 import jupiter.math.analysis.function.parametric.Filter;
-import jupiter.math.analysis.function.reducing.Max;
+import jupiter.math.analysis.function.bivariate.Max;
 import jupiter.math.linear.entity.Entity;
 
 /**
- * {@link ActivationReLU} is the rectified linear unit (ReLU) function.
+ * {@link ActivationReLU} is the rectified linear unit (ReLU) {@link ActivationFunction}.
  */
 public class ActivationReLU
 		extends ActivationFunction {
@@ -121,9 +121,9 @@ public class ActivationReLU
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

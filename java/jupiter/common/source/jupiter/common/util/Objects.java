@@ -57,7 +57,7 @@ public class Objects {
 	 * Returns the name of the {@link Class} of the specified {@link Object}, {@code null}
 	 * otherwise.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object an {@link Object} (may be {@code null})
 	 * <p>
 	 * @return the name of the {@link Class} of the specified {@link Object}, {@code null} otherwise
 	 */
@@ -68,7 +68,7 @@ public class Objects {
 	/**
 	 * Returns the name of the specified {@link Class}, {@code null} otherwise.
 	 * <p>
-	 * @param c a {@link Class}
+	 * @param c a {@link Class} (may be {@code null})
 	 * <p>
 	 * @return the name of the specified {@link Class}, {@code null} otherwise
 	 */
@@ -177,15 +177,13 @@ public class Objects {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of the specified {@code T} object.
+	 * Clones the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to clone
 	 * @param object the {@code T} object to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified {@code T} object, or {@code null} if it is {@code null} or
+	 * @return a clone of the specified {@code T} object, or {@code null} if it is {@code null} or
 	 *         not cloneable
-	 *
-	 * @see ICloneable
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T clone(final T object) {

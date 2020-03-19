@@ -197,7 +197,8 @@ public class Collections {
 	 * @param collection a {@link Collection} of {@code T} supertype
 	 * @param elements   the {@code T} elements to add
 	 * <p>
-	 * @return {@code true} if the specified {@link Collection} changed as a result of the call
+	 * @return {@code true} if the specified {@link Collection} has changed as a result of the call,
+	 *         {@code false} otherwise
 	 */
 	public static <T> boolean addAll(final Collection<? super T> collection, final T[] elements) {
 		// Check the arguments
@@ -205,11 +206,11 @@ public class Collections {
 		Arguments.requireNonNull(elements, "elements");
 
 		// Add all the elements to the list
-		boolean status = true;
+		boolean hasChanged = false;
 		for (final T element : elements) {
-			status &= collection.add(element);
+			hasChanged |= collection.add(element);
 		}
-		return status;
+		return hasChanged;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -271,7 +272,7 @@ public class Collections {
 
 	/**
 	 * Removes all the occurrences of the specified {@link Object} from the specified
-	 * {@link Collection} and returns the indices of the removed elements.
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection a {@link Collection}
 	 * @param object     the {@link Object} to remove (may be {@code null})

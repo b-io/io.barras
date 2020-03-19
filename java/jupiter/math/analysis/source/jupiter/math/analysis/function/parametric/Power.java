@@ -23,6 +23,7 @@
  */
 package jupiter.math.analysis.function.parametric;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 
@@ -65,13 +66,13 @@ public class Power
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the power function to the specified {@code double} value with the specified
-	 * parameters and returns the resulting {@code double} value.
+	 * Applies the power function to the specified value with the specified parameters and returns
+	 * the resulting {@code double} value.
 	 * <p>
 	 * @param x          a {@code double} value
 	 * @param parameters the {@code double} parameters
 	 * <p>
-	 * @return {@code f(x, parameters)}
+	 * @return {@code f(x, exponent)}
 	 *
 	 * @see #apply(double, double)
 	 */
@@ -85,16 +86,16 @@ public class Power
 	}
 
 	/**
-	 * Applies the power function to the specified {@code double} value with the specified exponent
-	 * and returns the resulting {@code double} value.
+	 * Applies the power function to the specified value with the specified exponent and returns the
+	 * resulting {@code double} value.
 	 * <p>
 	 * @param x        a {@code double} value
 	 * @param exponent the {@code double} exponent
 	 * <p>
 	 * @return {@code x^exponent}
 	 */
-	public double apply(final double x, final double exponent) {
-		return Math.pow(x, exponent);
+	public static double apply(final double x, final double exponent) {
+		return Maths.pow(x, exponent);
 	}
 
 
@@ -103,9 +104,9 @@ public class Power
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

@@ -26,11 +26,12 @@ package jupiter.math.linear.decomposition;
 import java.io.Serializable;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.math.Maths;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
- * Cholesky Decomposition.
+ * {@link CholeskyDecomposition} performs a Cholesky decomposition on a {@link Matrix}.
  * <p>
  * For a symmetric, positive definite matrix {@code A}, the Cholesky decomposition is a lower
  * triangular matrix {@code L} so that {@code A = L L'}.
@@ -109,7 +110,7 @@ public class CholeskyDecomposition
 			}
 			d = elements[j * dimension + j] - d;
 			isSymmetricPositiveDefinite &= d > 0.;
-			L[j][j] = Math.sqrt(Math.max(0., d));
+			L[j][j] = Maths.sqrt(Math.max(0., d));
 			for (int k = j + 1; k < dimension; ++k) {
 				L[j][k] = 0.;
 			}

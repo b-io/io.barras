@@ -38,7 +38,7 @@ public class LockedWorkQueueTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of addTask method, of class LockedWorkQueue.
+	 * Tests addTask method, of class LockedWorkQueue.
 	 */
 	public void testAddTask() {
 		IO.test(BULLET, " addTask");

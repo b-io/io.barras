@@ -23,7 +23,7 @@
  */
 package jupiter.math.discrete.combinatorics;
 
-import static jupiter.math.analysis.function.Functions.FACTORIAL;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.FACTORIAL;
 
 import java.util.Iterator;
 import java.util.List;
@@ -341,8 +341,6 @@ public class Combinatorics {
 					}
 				}
 			}
-
-			// Clone the permutation
 			permutations[p] = permutation.clone();
 		}
 		return permutations;
@@ -709,7 +707,7 @@ public class Combinatorics {
 	 *         {@code n}-element set, {@code k}-permutations with repetition
 	 */
 	public static double PR(final double n, final double k) {
-		return Math.pow(n, k);
+		return Maths.pow(n, k);
 	}
 
 	//////////////////////////////////////////////
@@ -810,7 +808,7 @@ public class Combinatorics {
 
 		// Create the k-permutations with the finite multiplicities
 		int result = 0;
-		while (!permutations.isEmpty()) {
+		while (permutations.isNonEmpty()) {
 			final int[] permutation = permutations.remove();
 			for (int i = 0; i < ms.length; ++i) {
 				if (Integers.count(permutation, i) < ms[i]) {
@@ -948,7 +946,7 @@ public class Combinatorics {
 
 		// Compute the number of k-combinations with the finite multiplicities
 		int result = 0;
-		while (!combinations.isEmpty()) {
+		while (combinations.isNonEmpty()) {
 			final int[] combination = combinations.remove();
 			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
 			for (int i = from; i < ms.length; ++i) {

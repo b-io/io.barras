@@ -237,14 +237,14 @@ public class ExpressionHandler
 		// • Nested expression
 		if (delimitingIntervals.isValid()) {
 			// Parse the nested expression
-			final List<Interval<Integer>> intervals = delimitingIntervals.getIntervals();
-			if (intervals.size() == 1) {
-				final Interval<Integer> interval = intervals.get(0);
-				if (Characters.isParenthesis(expression.charAt(interval.getLowerBound())) &&
-						Characters.isParenthesis(expression.charAt(interval.getUpperBound()))) {
+			if (delimitingIntervals.size() == 1) {
+				final Interval<Integer> interval = delimitingIntervals.get(0);
+				if (Characters.isParenthesis(expression.charAt(interval.getLowerBound().getValue())) &&
+						Characters.isParenthesis(expression.charAt(interval.getUpperBound().getValue()))) {
 					// Return the nested expression
-					final String nestedExpression = expression
-							.substring(interval.getLowerBound() + 1, interval.getUpperBound());
+					final String nestedExpression = expression.substring(
+							interval.getLowerBound().getValue() + 1,
+							interval.getUpperBound().getValue());
 					IO.debug("Nested expression: ", nestedExpression);
 					return parseExpression(parent, nestedExpression, context);
 				}
@@ -291,7 +291,7 @@ public class ExpressionHandler
 		final ExtendedList<Integer> indices = getBinaryOperatorIndices(expression,
 				delimitingIntervals);
 		IO.debug("Indices: ", indices);
-		if (!indices.isEmpty()) {
+		if (indices.isNonEmpty()) {
 			return indices.getMiddle();
 		}
 		return -1;
@@ -558,9 +558,9 @@ public class ExpressionHandler
 		}
 
 		/**
-		 * Creates a copy of {@code this}.
+		 * Clones {@code this}.
 		 * <p>
-		 * @return a copy of {@code this}
+		 * @return a clone of {@code this}
 		 *
 		 * @see ICloneable
 		 */

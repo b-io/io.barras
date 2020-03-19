@@ -44,7 +44,7 @@ public class WorkQueueTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of constants, of class WorkQueue.
+	 * Tests constants, of class WorkQueue.
 	 */
 	public void testConstants() {
 		IO.test(BULLET, " constants");

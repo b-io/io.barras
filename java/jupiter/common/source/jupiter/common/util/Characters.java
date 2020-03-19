@@ -138,7 +138,7 @@ public class Characters {
 	/**
 	 * Returns a {@link Character} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object the {@link Object} to convert
+	 * @param object the {@link Object} to convert (may be {@code null})
 	 * <p>
 	 * @return a {@link Character} converted from the specified {@link Object}
 	 */
@@ -1837,11 +1837,11 @@ public class Characters {
 	}
 
 	/**
-	 * Creates a copy of the specified 2D {@code char} array, or {@code null} if it is {@code null}.
+	 * Clones the specified 2D {@code char} array.
 	 * <p>
 	 * @param array2D the 2D {@code char} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 2D {@code char} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 2D {@code char} array, or {@code null} if it is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static char[][] clone(final char[]... array2D) {
@@ -1859,11 +1859,11 @@ public class Characters {
 	}
 
 	/**
-	 * Creates a copy of the specified 3D {@code char} array, or {@code null} if it is {@code null}.
+	 * Clones the specified 3D {@code char} array.
 	 * <p>
 	 * @param array3D the 3D {@code char} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 3D {@code char} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 3D {@code char} array, or {@code null} if it is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static char[][][] clone(final char[][][] array3D) {

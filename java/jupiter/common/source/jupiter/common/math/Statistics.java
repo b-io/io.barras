@@ -152,80 +152,82 @@ public class Statistics {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double standardDeviation(final double... values) {
-		return Math.sqrt(variance(values));
+		return Maths.sqrt(variance(values));
 	}
 
 	public static double getStandardDeviation(final Number[] numbers) {
-		return Math.sqrt(Statistics.getVariance(numbers));
+		return Maths.sqrt(Statistics.getVariance(numbers));
 	}
 
 	public static double getStandardDeviation(final Collection<? extends Number> numbers) {
-		return Math.sqrt(getVariance(numbers));
+		return Maths.sqrt(getVariance(numbers));
 	}
 
 	public static double standardDeviationWith(final double[] values, final double mean) {
-		return Math.sqrt(varianceWith(values, mean));
+		return Maths.sqrt(varianceWith(values, mean));
 	}
 
 	public static double getStandardDeviationWith(final Number[] numbers, final double mean) {
-		return Math.sqrt(Statistics.getVarianceWith(numbers, mean));
+		return Maths.sqrt(Statistics.getVarianceWith(numbers, mean));
 	}
 
 	public static double getStandardDeviationWith(final Collection<? extends Number> numbers,
 			final double mean) {
-		return Math.sqrt(getVarianceWith(numbers, mean));
+		return Maths.sqrt(getVarianceWith(numbers, mean));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double sampleStandardDeviation(final double... values) {
-		return Math.sqrt(sampleVariance(values));
+		return Maths.sqrt(sampleVariance(values));
 	}
 
 	public static double getSampleStandardDeviation(final Number[] numbers) {
-		return Math.sqrt(Statistics.getSampleVariance(numbers));
+		return Maths.sqrt(Statistics.getSampleVariance(numbers));
 	}
 
 	public static double getSampleStandardDeviation(final Collection<? extends Number> collection) {
-		return Math.sqrt(getSampleVariance(collection));
+		return Maths.sqrt(getSampleVariance(collection));
 	}
 
 	public static double sampleStandardDeviationWith(final double[] values, final double mean) {
-		return Math.sqrt(sampleVarianceWith(values, mean));
+		return Maths.sqrt(sampleVarianceWith(values, mean));
 	}
 
 	public static double getSampleStandardDeviationWith(final Number[] numbers, final double mean) {
-		return Math.sqrt(Statistics.getSampleVarianceWith(numbers, mean));
+		return Maths.sqrt(Statistics.getSampleVarianceWith(numbers, mean));
 	}
 
 	public static double getSampleStandardDeviationWith(final Collection<? extends Number> numbers,
 			final double mean) {
-		return Math.sqrt(getSampleVarianceWith(numbers, mean));
+		return Maths.sqrt(getSampleVarianceWith(numbers, mean));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double variation(final long sampleSize, final double standardDeviation) {
-		return Maths.DEFAULT_Z * standardDeviation / Math.sqrt(sampleSize);
+		return Maths.DEFAULT_Z * standardDeviation / Maths.sqrt(sampleSize);
 	}
 
 	public static double variation(final long sampleSize, final double standardDeviation,
 			final double confidence) {
-		return normalCDFInverse(confidence) * standardDeviation / Math.sqrt(sampleSize);
+		return normalCDFInverse(confidence) * standardDeviation / Maths.sqrt(sampleSize);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Interval<Double> confidenceInterval(final long sampleSize, final double mean,
+	public static Range confidenceInterval(final long sampleSize, final double mean,
 			final double standardDeviation) {
 		final double variation = variation(sampleSize, standardDeviation);
-		return new Interval<Double>(mean - variation, mean + variation, true, true);
+		return new Range(new LowerBound<Double>(mean - variation),
+				new UpperBound<Double>(mean + variation));
 	}
 
-	public static Interval<Double> confidenceInterval(final long sampleSize, final double mean,
+	public static Range confidenceInterval(final long sampleSize, final double mean,
 			final double standardDeviation, final double alpha) {
 		final double variation = variation(sampleSize, standardDeviation, alpha);
-		return new Interval<Double>(mean - variation, mean + variation, true, true);
+		return new Range(new LowerBound<Double>(mean - variation),
+				new UpperBound<Double>(mean + variation));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,7 +240,7 @@ public class Statistics {
 	 * @return phi(x) = standard Gaussian PDF
 	 */
 	public static double normalPDF(final double x) {
-		return Math.exp(-Maths.square(x) / 2.) / Maths.SQUARE_ROOT_OF_2_PI;
+		return Maths.exp(-Maths.square(x) / 2.) / Maths.SQUARE_ROOT_OF_2_PI;
 	}
 
 	/**

@@ -23,15 +23,16 @@
  */
 package jupiter.learning.supervised.function;
 
-import static jupiter.math.analysis.function.Functions.ROOT;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.ROOT;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * {@link OptimizationAdam} is the {@link OptimizationFunction} using a momentum exponentially
+ * {@link OptimizationAdam} is the Adam {@link OptimizationFunction} using a momentum exponentially
  * weighted average and RMSprop.
  */
 public class OptimizationAdam
@@ -226,8 +227,8 @@ public class OptimizationAdam
 		// Compute the RMSprop
 		S[layer].multiply(beta2).add(gradient.arrayTimes(gradient).multiply(1. - beta2));
 		// Update the weights and bias
-		return V[layer].division(1. - Math.pow(beta1, t)) // bias correction
-				.arrayDivide(S[layer].division(1. - Math.pow(beta2, t)) // bias correction
+		return V[layer].division(1. - Maths.pow(beta1, t)) // bias correction
+				.arrayDivide(S[layer].division(1. - Maths.pow(beta2, t)) // bias correction
 						.apply(ROOT)
 						.toMatrix());
 	}
@@ -237,9 +238,9 @@ public class OptimizationAdam
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

@@ -258,6 +258,8 @@ public class IO
 		return severityLevel;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the {@link IOPrinter} containing the {@link List} of {@link IOHandler} (the
 	 * {@link ConsoleHandler} and {@link LogHandler} by default).
@@ -282,6 +284,8 @@ public class IO
 	public void setSeverityLevel(final SeverityLevel severityLevel) {
 		this.severityLevel = severityLevel;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets the {@link IConsole} of the {@link ConsoleHandler}.
@@ -517,7 +521,7 @@ public class IO
 
 	/**
 	 * Reads the data from the specified {@link InputStream}, writes it to the specified
-	 * {@link OutputStream} and returns the number of copied {@code byte}.
+	 * {@link OutputStream}.
 	 * <p>
 	 * @param input  the {@link InputStream} to read from
 	 * @param output the {@link OutputStream} to write to
@@ -534,7 +538,7 @@ public class IO
 
 	/**
 	 * Reads the data from the specified {@link InputStream}, writes it to the specified
-	 * {@link OutputStream} with the specified buffer and returns the number of copied {@code byte}.
+	 * {@link OutputStream} with the specified buffer.
 	 * <p>
 	 * @param input  the {@link InputStream} to read from
 	 * @param output the {@link OutputStream} to write to
@@ -986,9 +990,9 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

@@ -106,7 +106,7 @@ public class ComparableTreeNode<K extends Comparable<? super K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the {@code V} value and returns the previous associated {@code V} value.
+	 * Sets the {@code V} value.
 	 * <p>
 	 * @param value a {@code V} value (may be {@code null})
 	 * <p>

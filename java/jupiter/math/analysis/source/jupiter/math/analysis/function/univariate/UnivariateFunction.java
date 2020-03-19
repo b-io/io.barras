@@ -21,18 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.univariate;
 
 import java.io.Serializable;
 
+import jupiter.common.math.Domain;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Strings;
 
-public abstract class Function
-		implements ICloneable<Function>, Serializable {
+/**
+ * {@link UnivariateFunction} is a univariate function defined in the {@link Domain}.
+ */
+public abstract class UnivariateFunction
+		implements ICloneable<UnivariateFunction>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -45,10 +49,47 @@ public abstract class Function
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The {@link Domain}.
+	 */
+	protected final Domain domain;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected Function() {
+	/**
+	 * Constructs a {@link UnivariateFunction} by default.
+	 */
+	protected UnivariateFunction() {
+		this(Domain.ALL);
+	}
+
+	/**
+	 * Constructs a {@link UnivariateFunction} with the specified {@link Domain}.
+	 * <p>
+	 * @param domain the {@link Domain}
+	 */
+	protected UnivariateFunction(final Domain domain) {
+		this.domain = domain;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Domain}.
+	 * <p>
+	 * @return the {@link Domain}
+	 */
+	public Domain getDomain() {
+		return domain;
 	}
 
 
@@ -57,8 +98,33 @@ public abstract class Function
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the function to the specified {@code double} value and returns the resulting
-	 * {@code double} value.
+	 * Returns {@code x} if {@code x} is inside {@code domain}, the closest bound if {@code x} is
+	 * not {@code NaN}, {@code NaN} otherwise.
+	 * <p>
+	 * @param x a {@code double} value
+	 * <p>
+	 * @return {@code x} if {@code x} is inside {@code domain}, the closest bound if {@code x} is
+	 *         not {@code NaN}, {@code NaN} otherwise
+	 */
+	public double bound(final double x) {
+		return domain.bound(x);
+	}
+
+	/**
+	 * Returns {@code x} if {@code x} is inside {@code domain}, {@code NaN} otherwise.
+	 * <p>
+	 * @param x a {@code double} value
+	 * <p>
+	 * @return {@code x} if {@code x} is inside {@code domain}, {@code NaN} otherwise
+	 */
+	public double constrain(final double x) {
+		return domain.constrain(x);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Applies the function to the specified value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
@@ -222,16 +288,16 @@ public abstract class Function
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Function clone() {
+	public UnivariateFunction clone() {
 		try {
-			return (Function) super.clone();
+			return (UnivariateFunction) super.clone();
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Strings.toString(ex), ex);
 		}

@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.bivariate;
 
 import jupiter.common.model.ICloneable;
 
-public class Cotangent
-		extends Function {
+public class Addition
+		extends BivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,10 +43,19 @@ public class Cotangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Cotangent}.
+	 * Constructs an {@link Addition} by default.
 	 */
-	protected Cotangent() {
-		super();
+	protected Addition() {
+		this(0.);
+	}
+
+	/**
+	 * Constructs an {@link Addition} with the specified initial value.
+	 * <p>
+	 * @param initialValue the initial {@code double} value
+	 */
+	public Addition(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -55,16 +64,16 @@ public class Cotangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the cotangent function to the specified {@code double} value and returns the
-	 * resulting {@code double} value.
+	 * Applies the addition function to the specified values and returns the resulting
+	 * {@code double} value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x1 a {@code double} value
+	 * @param x2 another {@code double} value
 	 * <p>
-	 * @return {@code cot(x)}
+	 * @return {@code x1 + x2}
 	 */
-	@Override
-	public double apply(final double x) {
-		return 1. / Math.tan(x);
+	public double apply(final double x1, final double x2) {
+		return x1 + x2;
 	}
 
 
@@ -73,14 +82,14 @@ public class Cotangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Cotangent clone() {
-		return (Cotangent) super.clone();
+	public Addition clone() {
+		return (Addition) super.clone();
 	}
 }

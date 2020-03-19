@@ -21,16 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.differentiation;
 
+import jupiter.common.math.Domain;
 import jupiter.common.model.ICloneable;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 /**
- * {@link HyperbolicTangent} is the hyperbolic tangent {@link Function} with return values
- * monotonically increasing from -1 to 1.
+ * {@link Differentiator} is the {@link UnivariateFunction} differentiating {@code y = f(x)} in the
+ * {@link Domain}.
  */
-public class HyperbolicTangent
-		extends Function {
+public abstract class Differentiator
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -47,10 +49,19 @@ public class HyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link HyperbolicTangent}.
+	 * Constructs a {@link Differentiator} by default.
 	 */
-	protected HyperbolicTangent() {
+	protected Differentiator() {
 		super();
+	}
+
+	/**
+	 * Constructs a {@link Differentiator} with the specified {@link Domain}.
+	 * <p>
+	 * @param domain the {@link Domain}
+	 */
+	protected Differentiator(final Domain domain) {
+		super(domain);
 	}
 
 
@@ -59,17 +70,29 @@ public class HyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the hyperbolic tangent function to the specified {@code double} value and returns the
-	 * resulting {@code double} value.
+	 * Applies the differentiation function to the specified value and returns the resulting
+	 * {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code tanh(x)}
+	 * @return {@code f(x)}
+	 *
+	 * @see #differentiate(double)
 	 */
 	@Override
 	public double apply(final double x) {
-		return Math.tanh(x);
+		return differentiate(bound(x));
 	}
+
+	/**
+	 * Returns the differentiated {@code double} value {@code y' = f'(x)} for {@code x}. Evaluates
+	 * the derivative at {@code x} defined in {@code domain}.
+	 * <p>
+	 * @param x a {@code double} value (on the abscissa)
+	 * <p>
+	 * @return {@code y = f(x)} for {@code x} defined in {@code domain}
+	 */
+	protected abstract double differentiate(final double x);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,14 +100,14 @@ public class HyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public HyperbolicTangent clone() {
-		return (HyperbolicTangent) super.clone();
+	public Differentiator clone() {
+		return (Differentiator) super.clone();
 	}
 }

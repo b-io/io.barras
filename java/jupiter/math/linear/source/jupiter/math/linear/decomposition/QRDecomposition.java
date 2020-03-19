@@ -30,7 +30,7 @@ import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
- * QR Decomposition.
+ * {@link QRDecomposition} performs a QR decomposition on a {@link Matrix}.
  * <p>
  * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the QR decomposition is a
  * {@code m x n} orthogonal matrix {@code Q} and a {@code n x n} upper triangular matrix {@code R}
@@ -172,7 +172,7 @@ public class QRDecomposition
 	}
 
 	/**
-	 * Return the upper triangular factor {@code R}.
+	 * Returns the upper triangular factor {@code R}.
 	 * <p>
 	 * @return the upper triangular factor {@code R}
 	 */

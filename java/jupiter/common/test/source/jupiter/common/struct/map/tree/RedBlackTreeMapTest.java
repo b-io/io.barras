@@ -41,7 +41,7 @@ public class RedBlackTreeMapTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getHeight method, of class RedBlackTreeMap.
+	 * Tests getHeight method, of class RedBlackTreeMap.
 	 */
 	public void testGetHeight() {
 		IO.test(BULLET, " getHeight");
@@ -64,7 +64,7 @@ public class RedBlackTreeMapTest
 	}
 
 	/**
-	 * Test of put method, of class RedBlackTreeMap.
+	 * Tests put method, of class RedBlackTreeMap.
 	 */
 	public void testPut() {
 		IO.test(BULLET, " put");
@@ -81,7 +81,7 @@ public class RedBlackTreeMapTest
 	}
 
 	/**
-	 * Test of remove method, of class RedBlackTreeMap.
+	 * Tests remove method, of class RedBlackTreeMap.
 	 */
 	public void testRemove() {
 		IO.test(BULLET, " remove");
@@ -97,7 +97,7 @@ public class RedBlackTreeMapTest
 	}
 
 	/**
-	 * Test of clone method, of class RedBlackTreeMap.
+	 * Tests clone method, of class RedBlackTreeMap.
 	 */
 	public void testClone() {
 		IO.test(BULLET, " clone");

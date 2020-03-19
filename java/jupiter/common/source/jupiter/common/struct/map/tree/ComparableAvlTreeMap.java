@@ -31,8 +31,8 @@ import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 
 /**
- * {@link ComparableAvlTreeMap} is a light sorted synchronized {@link Map} implementation of
- * {@code K} and {@code V} types based on an AVL tree.
+ * {@link ComparableAvlTreeMap} is the AVL {@link ComparableBinaryTreeMap} of {@code K} and
+ * {@code V} types.
  * <p>
  * @param <K> the self {@link Comparable} key type of the {@link ComparableAvlTreeMap}
  * @param <V> the value type of the {@link ComparableAvlTreeMap}
@@ -91,8 +91,8 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 	 * Constructs a {@link ComparableAvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded
 	 * from the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
-	 *            mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared
 	 */
@@ -414,9 +414,9 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

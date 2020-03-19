@@ -27,7 +27,7 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 import static jupiter.common.util.Characters.SPACE;
-import static jupiter.math.analysis.function.Functions.ROUND;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.ROUND;
 
 import jupiter.common.math.Maths;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
@@ -120,7 +120,7 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the feature vectors.
+	 * Returns the feature vectors.
 	 * <p>
 	 * @return the feature vectors
 	 */
@@ -129,7 +129,7 @@ public class SVM {
 	}
 
 	/**
-	 * Get the classes.
+	 * Returns the classes.
 	 * <p>
 	 * @return the classes
 	 */
@@ -303,7 +303,7 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the problem and hyper-parameters and returns it.
+	 * Trains the model with the problem and hyper-parameters.
 	 * <p>
 	 * @return the trained model
 	 */
@@ -322,7 +322,7 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Classifies the specified example and returns the estimated class.
+	 * Classifies the specified example.
 	 * <p>
 	 * @param example the example to classify
 	 * <p>

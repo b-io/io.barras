@@ -21,12 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.interpolation;
 
+import jupiter.common.math.Domain;
+import jupiter.common.math.Range;
 import jupiter.common.model.ICloneable;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
+import jupiter.math.analysis.struct.XY;
 
-public class Tangent
-		extends Function {
+/**
+ * {@link Interpolator} is the {@link UnivariateFunction} interpolating {@code y = f(x)} between two
+ * endpoints.
+ */
+public abstract class Interpolator
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -39,14 +47,36 @@ public class Tangent
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The leading endpoint {@link XY} of {@link Double} of the interpolant (inclusive).
+	 */
+	protected final XY<Double> fromPoint;
+	/**
+	 * The tailing endpoint {@link XY} of {@link Double} of the interpolant (inclusive).
+	 */
+	protected final XY<Double> toPoint;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Tangent}.
+	 * Constructs an {@link Interpolator} with the interpolant of {@code y = f(x)} between the
+	 * specified endpoints.
+	 * <p>
+	 * @param fromPoint the leading endpoint {@link XY} of {@link Double} of the interpolant
+	 *                  (inclusive)
+	 * @param toPoint   the tailing endpoint {@link XY} of {@link Double} of the interpolant
+	 *                  (inclusive)
 	 */
-	protected Tangent() {
-		super();
+	protected Interpolator(final XY<Double> fromPoint, final XY<Double> toPoint) {
+		super(new Domain(new Range(fromPoint.getX(), toPoint.getX())));
+		this.fromPoint = fromPoint;
+		this.toPoint = toPoint;
 	}
 
 
@@ -55,17 +85,29 @@ public class Tangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the tangent function to the specified {@code double} value and returns the resulting
+	 * Applies the interpolation function to the specified value and returns the resulting
 	 * {@code double} value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code tan(x)}
+	 * @return {@code f(x)}
+	 *
+	 * @see #interpolate(double)
 	 */
 	@Override
 	public double apply(final double x) {
-		return Math.tan(x);
+		return interpolate(bound(x));
 	}
+
+	/**
+	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x}. Evaluates
+	 * the interpolant at {@code x} between {@code fromPoint} and {@code toPoint}.
+	 * <p>
+	 * @param x a {@code double} value (on the abscissa)
+	 * <p>
+	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
+	 */
+	protected abstract double interpolate(final double x);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,14 +115,14 @@ public class Tangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Tangent clone() {
-		return (Tangent) super.clone();
+	public Interpolator clone() {
+		return (Interpolator) super.clone();
 	}
 }

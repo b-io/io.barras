@@ -142,11 +142,11 @@ public class TimeSeriesGraphic
 	 * Loads the time series from the specified {@link StringTable}.
 	 * <p>
 	 * @param coordinates  the {@link StringTable} of the time series to load
-	 * @param xColumnIndex the index of the column containing the x coordinates
-	 * @param yColumnIndex the index of the column containing the y coordinates
-	 * @param hasTime      the flag specifying whether to parse the x coordinates with time
+	 * @param xColumnIndex the index of the column containing the x-coordinates
+	 * @param yColumnIndex the index of the column containing the y-coordinates
+	 * @param hasTime      the flag specifying whether to parse the x-coordinates with time
 	 * <p>
-	 * @throws ParseException if there is a problem with parsing the x coordinates to {@link Date}
+	 * @throws ParseException if there is a problem with parsing the x-coordinates to {@link Date}
 	 */
 	public void load(final StringTable coordinates, final int xColumnIndex, final int yColumnIndex,
 			final boolean hasTime)
@@ -175,9 +175,9 @@ public class TimeSeriesGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

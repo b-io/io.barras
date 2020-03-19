@@ -25,10 +25,10 @@ package jupiter.math.analysis;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.BULLET;
-import static jupiter.math.analysis.function.Functions.SIN;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.SIN;
 
 import jupiter.common.test.Test;
-import jupiter.math.analysis.function.Function;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.interpolation.SplineInterpolator;
 
 public class SplineInterpolatorTest
@@ -41,17 +41,17 @@ public class SplineInterpolatorTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of interpolate method, of class SplineInterpolator.
+	 * Tests interpolate method, of class SplineInterpolator.
 	 */
 	public void testInterpolate() {
 		IO.test(BULLET, " interpolate");
 
-		final Function f = SIN;
+		final UnivariateFunction f = SIN;
 		final double[] x = new double[] {0., 1., 2., 3., 4., 5., 6., 7., 8., 9.};
 		final double[] y = f.applyToPrimitiveArray(x);
-		final SplineInterpolator instance = SplineInterpolator.createMonotoneCubicSpline(x, y);
+		final SplineInterpolator interpolator = SplineInterpolator.create(x, y);
 		for (int i = 0; i < x.length - 1; ++i) {
-			final double result = instance.interpolate(x[i] + 0.5);
+			final double result = interpolator.apply(x[i] + 0.5);
 			IO.test(result, " ~ ", f.apply(x[i] + 0.5), " ?");
 			assertEquals(f.apply(x[i] + 0.5), result, 0.05);
 		}

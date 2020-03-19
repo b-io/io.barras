@@ -24,7 +24,7 @@
 package jupiter.common.math;
 
 /**
- * {@link ITuple} is the finite ordered list of objects (called elements).
+ * {@link ITuple} is the finite ordered collection of objects.
  */
 public interface ITuple {
 

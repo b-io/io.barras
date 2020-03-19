@@ -58,6 +58,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.map.parser.StringParser;
 import jupiter.common.map.remover.StringRemover;
 import jupiter.common.map.wrapper.StringWrapper;
+import jupiter.common.math.Comparables;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Index;
@@ -145,7 +146,7 @@ public class Strings {
 	/**
 	 * Returns a {@link String} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object the {@link Object} to convert
+	 * @param object the {@link Object} to convert (may be {@code null})
 	 * <p>
 	 * @return a {@link String} converted from the specified {@link Object}
 	 */
@@ -4161,19 +4162,7 @@ public class Strings {
 	 *         to or greater than {@code b}
 	 */
 	public static int compare(final String a, final String b) {
-		// Check the arguments
-		if (a == b) {
-			return 0;
-		}
-		if (a == null) {
-			return -1;
-		}
-		if (b == null) {
-			return 1;
-		}
-
-		// Compare the strings for lexicographic order
-		return a.compareTo(b);
+		return Comparables.compare(a, b);
 	}
 
 	/**
@@ -4290,7 +4279,7 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
 	 * it is {@code null} or {@code "null"}.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object an {@link Object} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
 	 *         it is {@code null} or {@code "null"}
@@ -4304,7 +4293,7 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
 	 * it is {@code null} or {@code "null"}, truncated to the specified length.
 	 * <p>
-	 * @param object an {@link Object}
+	 * @param object an {@link Object} (may be {@code null})
 	 * @param length the length of the representative {@link String}
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
@@ -4350,7 +4339,7 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified {@link Object}, or
 	 * {@code defaultString} if it is {@code null} or {@code "null"}.
 	 * <p>
-	 * @param object        the {@link Object}
+	 * @param object        the {@link Object} (may be {@code null})
 	 * @param defaultString the default {@link String} (may be {@code null})
 	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or
@@ -4366,7 +4355,7 @@ public class Strings {
 	 * {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the specified
 	 * length.
 	 * <p>
-	 * @param object        the {@link Object}
+	 * @param object        the {@link Object} (may be {@code null})
 	 * @param defaultString the default {@link String} (may be {@code null})
 	 * @param length        the length of the representative {@link String}
 	 * <p>

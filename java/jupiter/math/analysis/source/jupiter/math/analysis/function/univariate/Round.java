@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.univariate;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
-public class Factorial
-		extends Function {
+public class Round
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -44,9 +44,9 @@ public class Factorial
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Factorial}.
+	 * Constructs a {@link Round}.
 	 */
-	protected Factorial() {
+	protected Round() {
 		super();
 	}
 
@@ -56,16 +56,16 @@ public class Factorial
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the factorial function to the specified {@code double} value and returns the
-	 * resulting {@code double} value.
+	 * Applies the round function to the specified value and returns the resulting {@code double}
+	 * value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code x!}
+	 * @return {@code round(x)}
 	 */
 	@Override
 	public double apply(final double x) {
-		return Maths.factorial(x);
+		return Maths.round(x);
 	}
 
 
@@ -74,14 +74,14 @@ public class Factorial
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Factorial clone() {
-		return (Factorial) super.clone();
+	public Round clone() {
+		return (Round) super.clone();
 	}
 }

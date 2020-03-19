@@ -53,7 +53,7 @@ public class NeuralNetworkTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of classify method, of class NeuralNetwork.
+	 * Tests classify method, of class NeuralNetwork.
 	 */
 	public void testClassify() {
 		IO.test(BULLET, " classify");
@@ -117,7 +117,7 @@ public class NeuralNetworkTest
 	}
 
 	/**
-	 * Test of classify method using files, of class NeuralNetwork.
+	 * Tests classify method using files, of class NeuralNetwork.
 	 */
 	public void testClassify_Files() {
 		IO.test(BULLET, " classify_Files");

@@ -28,11 +28,12 @@ import static jupiter.common.io.IO.IO;
 import java.io.Serializable;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.math.Maths;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
- * LU Decomposition.
+ * {@link LUDecomposition} performs a LU decomposition on a {@link Matrix}.
  * <p>
  * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the LU decomposition is a
  * {@code m x n} unit lower triangular matrix {@code L}, a {@code n x n} upper triangular matrix
@@ -134,7 +135,7 @@ public class LUDecomposition
 			// Find the pivot and exchange if required
 			int p = j;
 			for (int i = j + 1; i < m; ++i) {
-				if (Math.abs(column[i]) > Math.abs(column[p])) {
+				if (Maths.abs(column[i]) > Maths.abs(column[p])) {
 					p = i;
 				}
 			}

@@ -41,7 +41,7 @@ public class ChronometerTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getMilliseconds method, of class Chronometer.
+	 * Tests getMilliseconds method, of class Chronometer.
 	 */
 	public void testGetMilliseconds() {
 		IO.test(BULLET, " getMilliseconds");
@@ -64,7 +64,7 @@ public class ChronometerTest
 	}
 
 	/**
-	 * Test of getMicroseconds method, of class Chronometer.
+	 * Tests getMicroseconds method, of class Chronometer.
 	 */
 	public void testGetMicroseconds() {
 		IO.test(BULLET, " getMicroseconds");
@@ -82,12 +82,12 @@ public class ChronometerTest
 
 		// Verify the measured time
 		final long time = Longs.convert(chrono.getMicroseconds());
-		IO.test(time, " [µs] = ", Maths.roundToLong((double) time / unit), " [ms]");
+		IO.test(time, " [µs] = ", Maths.round((double) time / unit), " [ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getMicroseconds()), tolerance);
 	}
 
 	/**
-	 * Test of getNanoseconds method, of class Chronometer.
+	 * Tests getNanoseconds method, of class Chronometer.
 	 */
 	public void testGetNanoseconds() {
 		IO.test(BULLET, " getNanoseconds");
@@ -105,7 +105,7 @@ public class ChronometerTest
 
 		// Verify the measured time
 		final long time = Longs.convert(chrono.getNanoseconds());
-		IO.test(time, " [ns] = ", Maths.roundToLong((double) time / unit), " [ms]");
+		IO.test(time, " [ns] = ", Maths.round((double) time / unit), " [ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getNanoseconds()), tolerance);
 	}
 }

@@ -170,7 +170,7 @@ public class LogisticRegression
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
 	 * @param learningRate                     the learning rate {@code α}
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
@@ -267,9 +267,9 @@ public class LogisticRegression
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

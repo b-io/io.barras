@@ -40,7 +40,7 @@ public class ListsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of sort method, of class Lists.
+	 * Tests sort method, of class Lists.
 	 */
 	public void testSort() {
 		IO.test(BULLET, " sort");

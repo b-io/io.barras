@@ -69,7 +69,7 @@ public class MemoryTest
 		extends Test {
 
 	/**
-	 * The number of memcopy operations to perform for each size.
+	 * The number of memcopy operations to perform for all size.
 	 */
 	protected static final long MEMCOPY_ITERATIONS = 10L;
 

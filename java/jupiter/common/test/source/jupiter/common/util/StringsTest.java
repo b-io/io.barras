@@ -46,7 +46,7 @@ public class StringsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of toUnicode method, of class Strings.
+	 * Tests toUnicode method, of class Strings.
 	 */
 	public void testToUnicode() {
 		IO.test(BULLET, " toUnicode");
@@ -59,7 +59,7 @@ public class StringsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Test of toCase method, of class Strings.
+	 * Tests toCase method, of class Strings.
 	 */
 	public void testToCase() {
 		IO.test(BULLET, " toCase");
@@ -68,7 +68,7 @@ public class StringsTest
 	}
 
 	/**
-	 * Test of toCamelCase method, of class Strings.
+	 * Tests toCamelCase method, of class Strings.
 	 */
 	public void testToCamelCase() {
 		IO.test(BULLET, " toCamelCase");
@@ -79,7 +79,7 @@ public class StringsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of capitalizeFirst method, of class Strings.
+	 * Tests capitalizeFirst method, of class Strings.
 	 */
 	public void testCapitalizeFirst() {
 		IO.test(BULLET, " capitalizeFirst");
@@ -89,7 +89,7 @@ public class StringsTest
 	}
 
 	/**
-	 * Test of capitalizeStrictly method, of class Strings.
+	 * Tests capitalizeStrictly method, of class Strings.
 	 */
 	public void testCapitalizeFully() {
 		IO.test(BULLET, " capitalizeStrictly");
@@ -100,7 +100,7 @@ public class StringsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Test of replaceAll method, of class Strings.
+	 * Tests replaceAll method, of class Strings.
 	 */
 	public void testReplaceAll() {
 		IO.test(BULLET, " replaceAll");
@@ -112,7 +112,7 @@ public class StringsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Test of split method, of class Strings.
+	 * Tests split method, of class Strings.
 	 */
 	public void testSplit() {
 		IO.test(BULLET, " split");
@@ -126,7 +126,7 @@ public class StringsTest
 	}
 
 	/**
-	 * Test of splitString method, of class Strings.
+	 * Tests splitString method, of class Strings.
 	 */
 	public void testSplitString() {
 		IO.test(BULLET, " splitString");

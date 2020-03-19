@@ -32,8 +32,8 @@ import jupiter.common.util.Doubles;
 import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
-import jupiter.math.analysis.function.Function;
-import jupiter.math.analysis.function.reducing.ReducingFunction;
+import jupiter.math.analysis.function.bivariate.BivariateFunction;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 public class Scalar
 		extends Entity {
@@ -298,38 +298,38 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified {@link Function} to {@code this}.
+	 * Applies the specified {@link UnivariateFunction} to {@code this}.
 	 * <p>
-	 * @param f the {@link Function} to apply
+	 * @param f the {@link UnivariateFunction} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Scalar apply(final Function f) {
+	public Scalar apply(final UnivariateFunction f) {
 		return new Scalar(f.apply(value));
 	}
 
 	/**
-	 * Applies the specified {@link ReducingFunction} to the columns of {@code this}.
+	 * Applies the specified {@link BivariateFunction} to the columns of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducingFunction} to apply column-wise
+	 * @param f the {@link BivariateFunction} to apply column-wise
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Entity applyByColumn(final ReducingFunction f) {
+	public Entity applyByColumn(final BivariateFunction f) {
 		return apply(f);
 	}
 
 	/**
-	 * Applies the specified {@link ReducingFunction} to the rows of {@code this}.
+	 * Applies the specified {@link BivariateFunction} to the rows of {@code this}.
 	 * <p>
-	 * @param f the {@link ReducingFunction} to apply row-wise
+	 * @param f the {@link BivariateFunction} to apply row-wise
 	 * <p>
 	 * @return {@code f(this')}
 	 */
 	@Override
-	public Entity applyByRow(final ReducingFunction f) {
+	public Entity applyByRow(final BivariateFunction f) {
 		return apply(f);
 	}
 
@@ -432,7 +432,7 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the subtraction of the specified scalar from {@code this}.
+	 * Returns the subtraction of the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -444,7 +444,7 @@ public class Scalar
 	}
 
 	/**
-	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
+	 * Returns the subtraction of the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -464,7 +464,7 @@ public class Scalar
 	//////////////////////////////////////////////
 
 	/**
-	 * Subtracts the specified scalar from {@code this}.
+	 * Subtracts the specified scalar.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -482,7 +482,7 @@ public class Scalar
 	}
 
 	/**
-	 * Subtracts the specified {@link Matrix} from {@code this}.
+	 * Subtracts the specified {@link Matrix}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -676,7 +676,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar arrayPower(final double scalar) {
-		return new Scalar(Math.pow(value, scalar));
+		return new Scalar(Maths.pow(value, scalar));
 	}
 
 	/**
@@ -692,7 +692,7 @@ public class Scalar
 		final Matrix result = new Matrix(matrix.m, matrix.n);
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				result.elements[i * result.n + j] = Math.pow(value,
+				result.elements[i * result.n + j] = Maths.pow(value,
 						matrix.elements[i * matrix.n + j]);
 			}
 		}
@@ -711,7 +711,7 @@ public class Scalar
 	@Override
 	public Scalar arrayRaise(final double scalar) {
 		if (!isReadOnly) {
-			value = Math.pow(value, scalar);
+			value = Maths.pow(value, scalar);
 		} else {
 			throw new IllegalOperationException(
 					"Cannot change the value of a read-only " + getName());
@@ -730,7 +730,7 @@ public class Scalar
 	public Matrix arrayRaise(final Matrix matrix) {
 		for (int i = 0; i < matrix.m; ++i) {
 			for (int j = 0; j < matrix.n; ++j) {
-				matrix.elements[i * matrix.n + j] = Math.pow(value,
+				matrix.elements[i * matrix.n + j] = Maths.pow(value,
 						matrix.elements[i * matrix.n + j]);
 			}
 		}
@@ -783,9 +783,9 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

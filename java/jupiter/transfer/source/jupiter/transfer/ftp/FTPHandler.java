@@ -634,7 +634,7 @@ public class FTPHandler
 
 	/**
 	 * Uploads the files to the {@link Protocol#FTP}, {@link Protocol#FTPS} or {@link Protocol#SFTP}
-	 * with {@code this} parameters and returns the number of uploaded files.
+	 * with {@code this} parameters.
 	 * <p>
 	 * @return the number of uploaded files
 	 */
@@ -908,9 +908,9 @@ public class FTPHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

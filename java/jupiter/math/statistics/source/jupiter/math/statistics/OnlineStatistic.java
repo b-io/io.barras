@@ -25,6 +25,8 @@ package jupiter.math.statistics;
 
 import java.io.Serializable;
 
+import jupiter.common.math.Maths;
+
 public class OnlineStatistic
 		implements Serializable {
 
@@ -105,7 +107,7 @@ public class OnlineStatistic
 	 * @return the sample standard deviation
 	 */
 	public double getSampleStandardDeviation() {
-		return Math.sqrt(sampleVariance);
+		return Maths.sqrt(sampleVariance);
 	}
 
 	/**
@@ -114,7 +116,7 @@ public class OnlineStatistic
 	 * @return the confidence interval of the sample mean
 	 */
 	public double getSampleMeanConfidenceInterval() {
-		return getSampleStandardDeviation() / Math.sqrt(sampleSize);
+		return getSampleStandardDeviation() / Maths.sqrt(sampleSize);
 	}
 
 

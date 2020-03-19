@@ -147,7 +147,7 @@ public class AudioRecorder
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Captures the audio and returns the WAV {@link File} containing the recording.
+	 * Captures the audio.
 	 * <p>
 	 * @return the WAV {@link File} containing the recording
 	 */
@@ -222,7 +222,7 @@ public class AudioRecorder
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Records the audio and returns the WAV {@link File} containing the recording.
+	 * Records the audio.
 	 * <p>
 	 * @return the WAV {@link File} containing the recording
 	 */
@@ -266,7 +266,7 @@ public class AudioRecorder
 
 	/**
 	 * Records the audio with the specified {@link AudioTargetInterface} in the specified
-	 * {@link AudioFormat} and returns the WAV {@link File} containing the recording.
+	 * {@link AudioFormat}.
 	 * <p>
 	 * @param targetInterface the {@link AudioTargetInterface} to record with
 	 * @param format          the {@link AudioFormat} to record in
@@ -353,9 +353,9 @@ public class AudioRecorder
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

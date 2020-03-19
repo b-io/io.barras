@@ -21,17 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.reducing;
+package jupiter.math.analysis.function.bivariate;
 
 import jupiter.common.model.ICloneable;
-import jupiter.math.analysis.function.Function;
 
-/**
- * {@link ReducingFunction} is an analytical array-reducing {@link Function}.
- */
-public abstract class ReducingFunction
-		extends Function
-		implements IReducingFunction {
+public class Max
+		extends BivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -44,48 +39,23 @@ public abstract class ReducingFunction
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The initial {@code double} value.
-	 */
-	protected final double initialValue;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ReducingFunction} by default.
+	 * Constructs a {@link Max} by default.
 	 */
-	protected ReducingFunction() {
-		this(0.);
+	protected Max() {
+		this(Double.NEGATIVE_INFINITY);
 	}
 
 	/**
-	 * Constructs a {@link ReducingFunction} with the specified initial {@code double} value.
+	 * Constructs a {@link Max} with the specified initial value.
 	 * <p>
 	 * @param initialValue the initial {@code double} value
 	 */
-	public ReducingFunction(final double initialValue) {
-		super();
-		this.initialValue = initialValue;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the initial {@code double} value.
-	 * <p>
-	 * @return the initial {@code double} value
-	 */
-	public double getInitialValue() {
-		return initialValue;
+	public Max(final double initialValue) {
+		super(initialValue);
 	}
 
 
@@ -94,16 +64,16 @@ public abstract class ReducingFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the array-reducing function to the specified {@code double} value with the initial
-	 * {@code double} value and returns the resulting {@code double} value.
+	 * Applies the maximum function to the specified values and returns the resulting {@code double}
+	 * value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x1 a {@code double} value
+	 * @param x2 another {@code double} value
 	 * <p>
-	 * @return {@code f(initialValue, x)}
+	 * @return {@code max(x1, x2)}
 	 */
-	@Override
-	public double apply(final double x) {
-		return apply(initialValue, x);
+	public double apply(final double x1, final double x2) {
+		return Math.max(x1, x2);
 	}
 
 
@@ -112,14 +82,14 @@ public abstract class ReducingFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public ReducingFunction clone() {
-		return (ReducingFunction) super.clone();
+	public Max clone() {
+		return (Max) super.clone();
 	}
 }

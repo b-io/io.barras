@@ -115,7 +115,7 @@ public class Floats {
 	/**
 	 * Returns a {@link Float} converted from the specified {@link Object}.
 	 * <p>
-	 * @param object the {@link Object} to convert
+	 * @param object the {@link Object} to convert (may be {@code null})
 	 * <p>
 	 * @return a {@link Float} converted from the specified {@link Object}
 	 */
@@ -783,12 +783,12 @@ public class Floats {
 
 	/**
 	 * Creates a {@code float} array of the specified length containing the sequence of numbers
-	 * starting with {@code 0} and spaced by {@code 1}.
+	 * starting with {@code 0f} and spaced by {@code 1f}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * <p>
 	 * @return a {@code float} array of the specified length containing the sequence of numbers
-	 *         starting with {@code 0} and spaced by {@code 1}
+	 *         starting with {@code 0f} and spaced by {@code 1f}
 	 */
 	public static float[] createSequence(final int length) {
 		return createSequence(length, 0f, 1f);
@@ -796,13 +796,13 @@ public class Floats {
 
 	/**
 	 * Creates a {@code float} array of the specified length containing the sequence of numbers
-	 * starting with {@code from} and spaced by {@code 1}.
+	 * starting with {@code from} and spaced by {@code 1f}.
 	 * <p>
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * <p>
 	 * @return a {@code float} array of the specified length containing the sequence of numbers
-	 *         starting with {@code from} and spaced by {@code 1}
+	 *         starting with {@code from} and spaced by {@code 1f}
 	 */
 	public static float[] createSequence(final int length, final float from) {
 		return createSequence(length, from, 1f);
@@ -1787,12 +1787,11 @@ public class Floats {
 	}
 
 	/**
-	 * Creates a copy of the specified 2D {@code float} array, or {@code null} if it is
-	 * {@code null}.
+	 * Clones the specified 2D {@code float} array.
 	 * <p>
 	 * @param array2D the 2D {@code float} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 2D {@code float} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 2D {@code float} array, or {@code null} if it is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static float[][] clone(final float[]... array2D) {
@@ -1811,12 +1810,11 @@ public class Floats {
 	}
 
 	/**
-	 * Creates a copy of the specified 3D {@code float} array, or {@code null} if it is
-	 * {@code null}.
+	 * Clones the specified 3D {@code float} array.
 	 * <p>
 	 * @param array3D the 3D {@code float} array to clone (may be {@code null})
 	 * <p>
-	 * @return a copy of the specified 3D {@code float} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 3D {@code float} array, or {@code null} if it is {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static float[][][] clone(final float[][][] array3D) {

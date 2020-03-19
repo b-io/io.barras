@@ -29,7 +29,7 @@ import jupiter.common.math.Maths;
 import jupiter.math.linear.entity.Matrix;
 
 /**
- * Singular Value Decomposition.
+ * {@link SingularValueDecomposition} performs a singular value decomposition on a {@link Matrix}.
  * <p>
  * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the singular value
  * decomposition is a {@code m x n} orthogonal matrix {@code U}, a {@code n x n} diagonal matrix
@@ -98,8 +98,8 @@ public class SingularValueDecomposition
 		n = A.getColumnDimension();
 		/*
 		 * @todo apparently the failing cases are only a proper subset of m < n, so let us not throw
-		 * an exception. The fix may come later.
-		 * {@code if (m < n) { throw new UnsupportedOperationException("Work only for m >= n"); }}
+		 * an exception. The fix may come later. {@code if (m < n) { throw new
+		 * UnsupportedOperationException("Work only for m >= n"); }}
 		 */
 		final int nu = Math.min(m, n);
 		sigma = new double[Math.min(m + 1, n)];
@@ -147,7 +147,7 @@ public class SingularValueDecomposition
 					}
 				}
 				// Store the k-th row of A into e
-				// for the subsequent calculation of the row transformation
+				// for the subsequent computation of the row transformation
 				e[j] = elements[k * n + j];
 			}
 			if (requireU && k < nct) {
@@ -280,18 +280,16 @@ public class SingularValueDecomposition
 			// @todo test to avoid too many iterations
 			/*
 			 * This section of the program inspects for negligible elements in the s and e arrays.
-			 * On completion the variables kase and k are set as follows:
-			 * • kase = 1 if s(p) and e[k-1] are negligible and k < p,
-			 * • kase = 2 if s(k) is negligible and k < p,
-			 * • kase = 3 if e[k-1] is negligible, k < p and s(k), ..., s(p) are not negligible (qr
-			 *   step), or
+			 * On completion the variables kase and k are set as follows: • kase = 1 if s(p) and
+			 * e[k-1] are negligible and k < p, • kase = 2 if s(k) is negligible and k < p, • kase =
+			 * 3 if e[k-1] is negligible, k < p and s(k), ..., s(p) are not negligible (qr step), or
 			 * • kase = 4 if e(p-1) is negligible (convergence).
 			 */
 			for (k = p - 2; k >= -1; --k) {
 				if (k == -1) {
 					break;
 				}
-				if (Math.abs(e[k]) <= tiny + eps * (Math.abs(sigma[k]) + Math.abs(sigma[k + 1]))) {
+				if (Maths.abs(e[k]) <= tiny + eps * (Maths.abs(sigma[k]) + Maths.abs(sigma[k + 1]))) {
 					e[k] = 0.;
 					break;
 				}
@@ -304,9 +302,9 @@ public class SingularValueDecomposition
 					if (ks == k) {
 						break;
 					}
-					final double t = (ks != p ? Math.abs(e[ks]) : 0.) +
-							(ks != k + 1 ? Math.abs(e[ks - 1]) : 0.);
-					if (Math.abs(sigma[ks]) <= tiny + eps * t) {
+					final double t = (ks != p ? Maths.abs(e[ks]) : 0.) +
+							(ks != k + 1 ? Maths.abs(e[ks - 1]) : 0.);
+					if (Maths.abs(sigma[ks]) <= tiny + eps * t) {
 						sigma[ks] = 0.;
 						break;
 					}
@@ -373,9 +371,9 @@ public class SingularValueDecomposition
 				// Perform the single QR step
 				case 3: {
 					// Compute the shift
-					final double scale = Maths.maxToDouble(Math.abs(sigma[p - 1]),
-							Math.abs(sigma[p - 2]), Math.abs(e[p - 2]),
-							Math.abs(sigma[k]), Math.abs(e[k]));
+					final double scale = Maths.max(Maths.abs(sigma[p - 1]),
+							Maths.abs(sigma[p - 2]), Maths.abs(e[p - 2]),
+							Maths.abs(sigma[k]), Maths.abs(e[k]));
 					final double sp = sigma[p - 1] / scale;
 					final double spm1 = sigma[p - 2] / scale;
 					final double epm1 = e[p - 2] / scale;
@@ -385,7 +383,7 @@ public class SingularValueDecomposition
 					final double c = sp * epm1 * (sp * epm1);
 					double shift = 0.;
 					if (b != 0. | c != 0.) {
-						shift = Math.sqrt(b * b + c);
+						shift = Maths.sqrt(b * b + c);
 						if (b < 0.) {
 							shift = -shift;
 						}

@@ -30,10 +30,11 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Lists;
+import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedLinkedList} extends {@link LinkedList} of {@code E} element type and is
- * synchronized.
+ * {@link ExtendedLinkedList} is the extended synchronized {@link LinkedList} of {@code E} element
+ * type.
  * <p>
  * @param <E> the element type of the {@link ExtendedLinkedList}
  */
@@ -200,7 +201,8 @@ public class ExtendedLinkedList<E>
 	 * @param <T>      the type of the elements to append ({@code E} subtype)
 	 * @param elements the {@code T} elements to append
 	 * <p>
-	 * @return {@code true} if {@code this} changed as a result of the call
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
 	 */
 	public synchronized <T extends E> boolean addAll(final T[] elements) {
 		return Lists.addAll(this, elements);
@@ -209,9 +211,10 @@ public class ExtendedLinkedList<E>
 	/**
 	 * Appends all the elements of the specified {@link Collection} to the end of {@code this}.
 	 * <p>
-	 * @param elements the {@link Collection} of {@code E} subtype containing the elements to append
+	 * @param elements the {@link Collection} containing the {@code E} elements to append
 	 * <p>
-	 * @return {@code true} if {@code this} changed as a result of the call
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
 	 */
 	@Override
 	public synchronized boolean addAll(final Collection<? extends E> elements) {
@@ -224,9 +227,10 @@ public class ExtendedLinkedList<E>
 	 * subsequent elements to the right (increases their indices).
 	 * <p>
 	 * @param index    the index to insert at
-	 * @param elements the {@link Collection} of {@code E} subtype containing the elements to insert
+	 * @param elements the {@link Collection} containing the {@code E} elements to insert
 	 * <p>
-	 * @return {@code true} if {@code this} changed as a result of the call
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
 	 */
 	@Override
 	public synchronized boolean addAll(final int index, final Collection<? extends E> elements) {
@@ -253,8 +257,8 @@ public class ExtendedLinkedList<E>
 	//////////////////////////////////////////////
 
 	/**
-	 * Removes the first occurrence of the specified {@link Object} from {@code this} and returns
-	 * the index of the removed element, or {@code -1} if it is not present.
+	 * Removes the first occurrence of the specified {@link Object} and returns the index of the
+	 * removed element, or {@code -1} if it is not present.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -265,8 +269,8 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
-	 * Removes the last occurrence of the specified {@link Object} from {@code this} and returns the
-	 * index of the removed element, or {@code -1} if it is not present.
+	 * Removes the last occurrence of the specified {@link Object} and returns the index of the
+	 * removed element, or {@code -1} if it is not present.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -277,8 +281,8 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
-	 * Removes all the occurrences of the specified {@link Object} from {@code this} and returns the
-	 * indices of the removed elements.
+	 * Removes all the occurrences of the specified {@link Object} and returns the indices of the
+	 * removed elements.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -304,20 +308,37 @@ public class ExtendedLinkedList<E>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is non-empty.
+	 * <p>
+	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
+	 */
+	public boolean isNonEmpty() {
+		return !isEmpty();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings({"cast", "unchecked"})
 	public ExtendedLinkedList<E> clone() {
-		return (ExtendedLinkedList<E>) super.clone();
+		final ExtendedLinkedList<E> clone = new ExtendedLinkedList<E>();
+		for (final E element : this) {
+			clone.add(Objects.clone(element));
+		}
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

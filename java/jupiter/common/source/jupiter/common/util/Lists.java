@@ -52,34 +52,14 @@ public class Lists
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds all the specified elements to the specified {@link List}.
-	 * <p>
-	 * @param <T>      the type of the elements to add
-	 * @param list     a {@link List} of {@code T} supertype
-	 * @param elements the {@code T} elements to add
-	 * <p>
-	 * @return {@code true} if the specified {@link List} changed as a result of the call
-	 */
-	public static <T> boolean addAll(final List<? super T> list, final T[] elements) {
-		// Check the arguments
-		Arguments.requireNonNull(list, "list");
-		Arguments.requireNonNull(elements, "elements");
-
-		// Add all the elements to the list
-		return list.addAll(java.util.Arrays.asList(elements));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Return the minimum element for each index of the specified {@link List} in an
+	 * Returns the minimum element for all index of the specified {@link List} in an
 	 * {@link ExtendedList}.
 	 * <p>
 	 * @param <E> the element type of the {@link ExtendedList} to return (subtype of {@link Number})
 	 * @param a   a {@link List} of {@code E} element type (subtype of {@link Number})
 	 * @param b   another {@link List} of {@code E} element type (subtype of {@link Number})
 	 * <p>
-	 * @return the minimum element for each index of the specified {@link List} in an
+	 * @return the minimum element for all index of the specified {@link List} in an
 	 *         {@link ExtendedList}
 	 */
 	public static <E extends Number> ExtendedList<E> getMinElements(final List<? extends E> a,
@@ -87,7 +67,7 @@ public class Lists
 		// Check the arguments
 		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
 
-		// Return the minimum element for each index of the lists
+		// Return the minimum element for all index of the lists
 		final ExtendedList<E> minElements = new ExtendedList<E>(a.size());
 		final Iterator<? extends E> aIterator = a.iterator();
 		final Iterator<? extends E> bIterator = b.iterator();
@@ -98,14 +78,14 @@ public class Lists
 	}
 
 	/**
-	 * Return the maximum element for each index of the specified {@link List} in an
+	 * Returns the maximum element for all index of the specified {@link List} in an
 	 * {@link ExtendedList}.
 	 * <p>
 	 * @param <E> the element type of the {@link ExtendedList} to return (subtype of {@link Number})
 	 * @param a   a {@link List} of {@code E} element type (subtype of {@link Number})
 	 * @param b   another {@link List} of {@code E} element type (subtype of {@link Number})
 	 * <p>
-	 * @return the maximum element for each index of the specified {@link List} in an
+	 * @return the maximum element for all index of the specified {@link List} in an
 	 *         {@link ExtendedList}
 	 */
 	public static <E extends Number> ExtendedList<E> getMaxElements(final List<? extends E> a,
@@ -113,7 +93,7 @@ public class Lists
 		// Check the arguments
 		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
 
-		// Return the maximum element for each index of the lists
+		// Return the maximum element for all index of the lists
 		final ExtendedList<E> maxElements = new ExtendedList<E>(a.size());
 		final Iterator<? extends E> aIterator = a.iterator();
 		final Iterator<? extends E> bIterator = b.iterator();
@@ -126,8 +106,7 @@ public class Lists
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the last occurrence of the specified {@link Object} from the specified {@link List}
-	 * and returns the index of the removed element, or {@code -1} if it is not present.
+	 * Removes the last occurrence of the specified {@link Object} from the specified {@link List}.
 	 * <p>
 	 * @param list   a {@link List}
 	 * @param object the {@link Object} to remove (may be {@code null})

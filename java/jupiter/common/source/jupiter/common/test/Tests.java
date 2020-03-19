@@ -28,8 +28,8 @@ import static jupiter.common.io.IO.IO;
 import java.util.Collection;
 
 import jupiter.common.io.Messages;
-import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
+import jupiter.common.math.Range;
 import jupiter.common.math.Statistics;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Numbers;
@@ -68,39 +68,37 @@ public class Tests {
 	public static void printValues(final String label, final double... values) {
 		final double mean = Statistics.mean(values);
 		final double stddev = Statistics.sampleStandardDeviationWith(values, mean);
-		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.length,
-				mean, stddev);
+		final Range confidenceInterval = Statistics.confidenceInterval(values.length, mean, stddev);
 		printAverageValue(label, mean, confidenceInterval);
-		printMinMaxInterval(Maths.minToDouble(values), Maths.maxToDouble(values));
+		printMinMaxInterval(Maths.min(values), Maths.max(values));
 	}
 
 	public static void printValues(final String label, final Number[] values) {
 		final double mean = Statistics.getMean(values);
 		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
-		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.length,
-				mean, stddev);
+		final Range confidenceInterval = Statistics.confidenceInterval(values.length, mean, stddev);
 		printAverageValue(label, mean, confidenceInterval);
-		printMinMaxInterval(Maths.minToDouble(values), Maths.maxToDouble(values));
+		printMinMaxInterval(Maths.min(values), Maths.max(values));
 	}
 
 	public static void printValues(final String label, final Collection<Long> values) {
 		final double mean = Statistics.getMean(values);
 		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
-		final Interval<Double> confidenceInterval = Statistics.confidenceInterval(values.size(),
+		final Range confidenceInterval = Statistics.confidenceInterval(values.size(),
 				mean, stddev);
 		printAverageValue(label, mean, confidenceInterval);
-		printMinMaxInterval(Maths.minToDouble(values), Maths.maxToDouble(values));
+		printMinMaxInterval(Maths.min(values), Maths.max(values));
 	}
 
 	protected static void printAverageValue(final String label, final double mean,
-			final Interval<Double> confidenceInterval) {
+			final Range confidenceInterval) {
 		IO.test("Average ", label, ": ", Doubles.format(mean),
-				" ± ", Doubles.format(confidenceInterval.getUpperBound() - mean),
+				" ± ", Doubles.format(confidenceInterval.getUpperBound().getValue() - mean),
 				" (" + Doubles.formatPercent(Maths.DEFAULT_CONFIDENCE) + ")");
 	}
 
 	protected static void printMinMaxInterval(final double min, final double max) {
-		IO.test("Min/max interval: ", new Interval<Double>(min, max, true, true));
+		IO.test("Min/max interval: ", new Range(min, max));
 	}
 
 

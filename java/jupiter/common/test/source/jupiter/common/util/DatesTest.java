@@ -41,7 +41,7 @@ public class DatesTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of toString method, of class Dates.
+	 * Tests toString method, of class Dates.
 	 */
 	public void testToString() {
 		IO.test(BULLET, " toString");

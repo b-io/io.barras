@@ -112,10 +112,10 @@ public class DynamicChartPanel
 
 	/**
 	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart} and
-	 * {@link Format} of the x coordinate.
+	 * {@link Format} of the x-coordinate.
 	 * <p>
 	 * @param chart   the {@link JFreeChart}
-	 * @param xFormat the {@link Format} of the x coordinate
+	 * @param xFormat the {@link Format} of the x-coordinate
 	 */
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat) {
 		super(chart);
@@ -125,11 +125,11 @@ public class DynamicChartPanel
 
 	/**
 	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart}, {@link Format}
-	 * of the x coordinate and {@link Format} of the y coordinate.
+	 * of the x-coordinate and {@link Format} of the y-coordinate.
 	 * <p>
 	 * @param chart   the {@link JFreeChart}
-	 * @param xFormat the {@link Format} of the x coordinate
-	 * @param yFormat the {@link Format} of the y coordinate
+	 * @param xFormat the {@link Format} of the x-coordinate
+	 * @param yFormat the {@link Format} of the y-coordinate
 	 */
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat, final Format yFormat) {
 		super(chart);
@@ -257,7 +257,7 @@ public class DynamicChartPanel
 		final XYDataset dataset = plot.getDataset();
 		final int seriesCount = dataset.getSeriesCount();
 		if (seriesCount > 0) {
-			// Get the closest items
+			// Find the closest items
 			double minDistance = Double.POSITIVE_INFINITY;
 			int seriesIndex = 0, from = 0, to = 0;
 			for (int s = 0; s < seriesCount; ++s) {
@@ -282,7 +282,7 @@ public class DynamicChartPanel
 					dataset.getYValue(seriesIndex, from));
 			final XY<Double> toItem = new XY<Double>(dataset.getXValue(seriesIndex, to),
 					dataset.getYValue(seriesIndex, to));
-			y = LinearInterpolator.interpolate(fromItem, toItem, x);
+			y = new LinearInterpolator(fromItem, toItem).apply(x);
 		}
 		selection.setCoordinates(x, y);
 

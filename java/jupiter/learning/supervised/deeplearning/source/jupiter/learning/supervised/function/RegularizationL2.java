@@ -29,8 +29,8 @@ import jupiter.common.model.ICloneable;
 import jupiter.math.linear.entity.Matrix;
 
 /**
- * {@link RegularizationL2} is the {@link RegularizationFunction} adding a L2 penalty equal to the
- * sum of the squares of all the weights.
+ * {@link RegularizationL2} is the L2 {@link RegularizationFunction} adding a L2 penalty equal to
+ * the sum of the squares of all the weights.
  */
 public class RegularizationL2
 		extends RegularizationFunction {
@@ -88,8 +88,7 @@ public class RegularizationL2
 	}
 
 	/**
-	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}
-	 * and returns the resulting {@link Matrix}.
+	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}.
 	 * <p>
 	 * @param m the number of training examples
 	 * @param W the weight {@link Matrix}
@@ -107,9 +106,9 @@ public class RegularizationL2
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

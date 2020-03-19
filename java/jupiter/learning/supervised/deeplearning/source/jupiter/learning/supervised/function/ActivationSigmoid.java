@@ -23,7 +23,7 @@
  */
 package jupiter.learning.supervised.function;
 
-import static jupiter.math.analysis.function.Functions.LOG;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.LOG;
 import static jupiter.math.analysis.function.parametric.ParametricFunctions.SIGMOID;
 
 import jupiter.common.model.ICloneable;
@@ -118,9 +118,9 @@ public class ActivationSigmoid
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

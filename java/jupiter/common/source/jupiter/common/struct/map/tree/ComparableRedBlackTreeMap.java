@@ -32,8 +32,8 @@ import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 
 /**
- * {@link ComparableRedBlackTreeMap} is a light sorted synchronized {@link Map} implementation of
- * {@code K} and {@code V} types based on a red-black tree.
+ * {@link ComparableRedBlackTreeMap} is the red-black {@link ComparableBinaryTreeMap} of {@code K}
+ * and {@code V} types.
  * <p>
  * @param <K> the self {@link Comparable} key type of the {@link ComparableRedBlackTreeMap}
  * @param <V> the value type of the {@link ComparableRedBlackTreeMap}
@@ -83,8 +83,8 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 	 * Constructs a {@link ComparableRedBlackTreeMap} of {@code K}, {@code V} and {@code N} types
 	 * loaded from the specified {@link Map} containing the key-value mappings.
 	 * <p>
-	 * @param map the {@link Map} of {@code K} and {@code V} subtypes containing the key-value
-	 *            mappings to load
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
 	 * <p>
 	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared
 	 */
@@ -112,7 +112,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 		// Compute the height
 		int currentHeight = 0, nextHeight = 1;
 		boolean hasLeaf = false;
-		while (!nodes.isEmpty()) {
+		while (nodes.isNonEmpty()) {
 			final Pair<Integer, ComparableRedBlackTreeNode<K, V>> element = nodes.remove();
 			final int height = element.getFirst();
 			final ComparableRedBlackTreeNode<K, V> node = element.getSecond();
@@ -454,9 +454,9 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

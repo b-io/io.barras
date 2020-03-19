@@ -38,7 +38,7 @@ public class NumbersTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of toString method, of class Numbers.
+	 * Tests toString method, of class Numbers.
 	 */
 	public void testToString() {
 		IO.test(BULLET, " toString");

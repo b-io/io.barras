@@ -40,7 +40,7 @@ public class EigenvalueDecompositionTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of class EigenvalueDecomposition.
+	 * Tests class EigenvalueDecomposition.
 	 */
 	public void testEigenvalueDecomposition() {
 		IO.test(BULLET, " EigenvalueDecomposition");

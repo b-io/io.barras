@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function;
+package jupiter.math.analysis.function.univariate;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
-public class Sinus
-		extends Function {
+public class Absolute
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -43,9 +44,9 @@ public class Sinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Sinus}.
+	 * Constructs an {@link Absolute}.
 	 */
-	protected Sinus() {
+	protected Absolute() {
 		super();
 	}
 
@@ -55,16 +56,16 @@ public class Sinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the sinus function to the specified {@code double} value and returns the resulting
-	 * {@code double} value.
+	 * Applies the absolute function to the specified value and returns the resulting {@code double}
+	 * value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code sin(x)}
+	 * @return {@code abs(x)}
 	 */
 	@Override
 	public double apply(final double x) {
-		return Math.sin(x);
+		return Maths.abs(x);
 	}
 
 
@@ -73,14 +74,14 @@ public class Sinus
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	public Sinus clone() {
-		return (Sinus) super.clone();
+	public Absolute clone() {
+		return (Absolute) super.clone();
 	}
 }

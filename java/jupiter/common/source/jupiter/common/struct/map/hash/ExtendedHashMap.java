@@ -25,6 +25,8 @@ package jupiter.common.struct.map.hash;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
@@ -32,10 +34,11 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Maps;
+import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedHashMap} extends {@link HashMap} of {@code K} and {@code V} types and is
- * synchronized.
+ * {@link ExtendedHashMap} is the extended synchronized {@link HashMap} of {@code K} and {@code V}
+ * types.
  * <p>
  * @param <K> the key type of the {@link ExtendedHashMap}
  * @param <V> the value type of the {@link ExtendedHashMap}
@@ -258,16 +261,20 @@ public class ExtendedHashMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
 	@Override
-	@SuppressWarnings({"cast", "unchecked"})
 	public ExtendedHashMap<K, V> clone() {
-		return (ExtendedHashMap<K, V>) super.clone();
+		final ExtendedHashMap<K, V> clone = new ExtendedHashMap<K, V>(size());
+		final Set<Entry<K, V>> entries = entrySet();
+		for (final Entry<K, V> entry : entries) {
+			clone.put(Objects.clone(entry.getKey()), Objects.clone(entry.getValue()));
+		}
+		return clone;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

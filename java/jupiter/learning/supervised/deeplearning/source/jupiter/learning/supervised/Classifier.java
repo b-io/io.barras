@@ -24,7 +24,7 @@
 package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.math.analysis.function.Functions.ROUND;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.ROUND;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -294,7 +294,7 @@ public abstract class Classifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model and returns the number of iterations.
+	 * Trains the model.
 	 * <p>
 	 * @return the number of iterations
 	 */
@@ -303,7 +303,7 @@ public abstract class Classifier
 	}
 
 	/**
-	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
 	 * @param learningRate      the learning rate {@code α}
 	 * @param tolerance         the tolerance level
@@ -317,7 +317,7 @@ public abstract class Classifier
 	}
 
 	/**
-	 * Trains the model with the specified hyper-parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
 	 * @param learningRate                     the learning rate {@code α}
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
@@ -398,7 +398,7 @@ public abstract class Classifier
 	public abstract Entity estimate(final Entity X);
 
 	/**
-	 * Classifies the specified example and returns the estimated class.
+	 * Classifies the specified example.
 	 * <p>
 	 * @param example the example to classify
 	 * <p>
@@ -515,9 +515,9 @@ public abstract class Classifier
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

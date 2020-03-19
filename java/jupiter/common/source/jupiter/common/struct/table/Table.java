@@ -1247,7 +1247,7 @@ public class Table<E>
 	}
 
 	/**
-	 * An {@link Iterator} over the rows of {@code this}.
+	 * {@link TableIterator} is the {@link Iterator} over the rows of {@code this}.
 	 */
 	protected class TableIterator
 			implements Iterator<E[]> {
@@ -1310,9 +1310,9 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */

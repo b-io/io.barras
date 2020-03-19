@@ -128,9 +128,9 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the means that are computed for each row.
+	 * Returns the means that are computed for all row.
 	 * <p>
-	 * @return the means that are computed for each row
+	 * @return the means that are computed for all row
 	 */
 	public double[] getRowMeans() {
 		final double[] means = new double[m];
@@ -141,9 +141,9 @@ public class NumberTable<E extends Number>
 	}
 
 	/**
-	 * Returns the means that are computed for each column.
+	 * Returns the means that are computed for all column.
 	 * <p>
-	 * @return the means that are computed for each column
+	 * @return the means that are computed for all column
 	 */
 	public double[] getColumnMeans() {
 		final double[] means = new double[n];
@@ -159,9 +159,9 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a copy of {@code this}.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return a copy of {@code this}
+	 * @return a clone of {@code this}
 	 *
 	 * @see ICloneable
 	 */
