@@ -137,7 +137,7 @@ public class Sort<T>
 	 * @param workBase   the origin of the usable space in the work array
 	 * @param workLength the usable size of the work array
 	 */
-	@SuppressWarnings({"cast", "unchecked", "UnnecessaryLocalVariable"})
+	@SuppressWarnings({"cast", "unchecked"})
 	protected Sort(final T[] array, final Comparator<? super T> comparator, final T[] work,
 			final int workBase, final int workLength) {
 		this.array = array;
@@ -268,7 +268,6 @@ public class Sort<T>
 	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared using
 	 *                            {@code comparator}
 	 */
-	@SuppressWarnings("fallthrough")
 	protected static <T> void binarySort(final T[] array, final int lo, final int hi, int start,
 			final Comparator<? super T> comparator) {
 		assert lo <= start && start <= hi;
@@ -976,7 +975,7 @@ outer:  while (true) {
 	 * <p>
 	 * @return {@code tempArray}, whether or not it grew
 	 */
-	@SuppressWarnings({"cast", "unchecked", "UnnecessaryLocalVariable"})
+	@SuppressWarnings({"cast", "unchecked"})
 	protected T[] ensureCapacity(final int minCapacity) {
 		if (tempArrayLength < minCapacity) {
 			// Compute the smallest power of 2 > minCapacity

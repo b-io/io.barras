@@ -372,7 +372,6 @@ public class ExpressionHandler
 	 * @return the index of the last operator in the specified expression {@link String} that is not
 	 *         in the specified delimiting intervals
 	 */
-	@SuppressWarnings("empty-statement")
 	protected static int getLastOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<Character> operators) {

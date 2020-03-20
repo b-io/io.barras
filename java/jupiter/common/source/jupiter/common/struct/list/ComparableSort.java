@@ -248,7 +248,6 @@ public class ComparableSort
 	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
-	@SuppressWarnings({"fallthrough", "rawtypes", "unchecked"})
 	protected static void binarySort(final Object[] array, final int lo, final int hi, int start) {
 		assert lo <= start && start <= hi;
 		if (start == lo) {
@@ -314,7 +313,6 @@ public class ComparableSort
 	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
-	@SuppressWarnings({"rawtypes", "unchecked"})
 	protected static int countRunAndMakeAscending(final Object[] array, final int lo,
 			final int hi) {
 		assert lo < hi;
@@ -691,7 +689,7 @@ public class ComparableSort
 	 *                {@code aBase + aLength})
 	 * @param length2 length of second run to merge (must be greater than 0)
 	 */
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({"conversion", "rawtypes", "unchecked"})
 	protected void mergeLo(final int base1, int length1, final int base2, int length2) {
 		assert length1 > 0 && length2 > 0 && base1 + length1 == base2;
 
@@ -816,7 +814,7 @@ outer:  while (true) {
 	 *                {@code aBase + aLength})
 	 * @param length2 length of second run to merge (must be greater than 0)
 	 */
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({"conversion", "rawtypes", "unchecked"})
 	protected void mergeHi(final int base1, int length1, final int base2, int length2) {
 		assert length1 > 0 && length2 > 0 && base1 + length1 == base2;
 
@@ -946,7 +944,6 @@ outer:  while (true) {
 	 * <p>
 	 * @return {@code tempArray}, whether or not it grew
 	 */
-	@SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
 	protected Object[] ensureCapacity(final int minCapacity) {
 		if (tempArrayLength < minCapacity) {
 			// Compute the smallest power of 2 > minCapacity
