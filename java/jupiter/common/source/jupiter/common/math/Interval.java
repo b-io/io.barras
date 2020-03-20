@@ -81,8 +81,10 @@ public class Interval<T extends Comparable<? super T>>
 	 * Constructs an {@link Interval} of {@code T} type with the specified values of the
 	 * {@link LowerBound} and {@link UpperBound}.
 	 * <p>
-	 * @param lowerBoundValue the {@code T} value of the {@link LowerBound} (inclusive)
-	 * @param upperBoundValue the {@code T} value of the {@link UpperBound} (exclusive)
+	 * @param lowerBoundValue the {@code T} value of the {@link LowerBound} (inclusive) (may be
+	 *                        {@code null})
+	 * @param upperBoundValue the {@code T} value of the {@link UpperBound} (exclusive) (may be
+	 *                        {@code null})
 	 */
 	public Interval(final T lowerBoundValue, final T upperBoundValue) {
 		this(new LowerBound<T>(lowerBoundValue), new UpperBound<T>(upperBoundValue));

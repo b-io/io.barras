@@ -31,7 +31,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link LowerBound} is the inclusive or exclusive lower {@link Bound}.
+ * {@link LowerBound} is the inclusive or exclusive lower {@link Bound} (inclusive by default).
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link LowerBound}
  */

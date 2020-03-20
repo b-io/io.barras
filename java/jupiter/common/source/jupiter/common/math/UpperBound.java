@@ -31,7 +31,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link UpperBound} is the inclusive or exclusive upper {@link Bound}.
+ * {@link UpperBound} is the inclusive or exclusive upper {@link Bound} (exclusive by default).
  * <p>
  * @param <T> the self {@link Comparable} type of the {@link UpperBound}
  */

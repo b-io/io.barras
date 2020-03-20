@@ -96,7 +96,7 @@ public class Messages {
 	}
 
 	public static String getSimpleClassName(final StackTraceElement stackTraceElement) {
-		final String className = Objects.getName(stackTraceElement);
+		final String className = stackTraceElement.getClassName();
 		return className.substring(className.lastIndexOf('.') + 1);
 	}
 

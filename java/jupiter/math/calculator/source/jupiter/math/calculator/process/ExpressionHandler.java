@@ -39,7 +39,6 @@ import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Result;
@@ -220,9 +219,8 @@ public class ExpressionHandler
 			final Element.Type type = getType(unaryOperator);
 			IO.debug("Type: ", type);
 			// Parse the nested expression
-			final String nestedExpression = Strings
-					.removeEmpty(Strings.split(expression, unaryOperator))
-					.get(0);
+			final String nestedExpression = Strings.removeEmpty(
+					Strings.split(expression, unaryOperator)).get(0);
 			IO.debug("Nested expression: ", nestedExpression);
 			final Result<Element> nodeResult = parseExpression(parent, nestedExpression, context);
 			final Element node = nodeResult.getOutput();
@@ -288,7 +286,7 @@ public class ExpressionHandler
 	 */
 	protected static int getBinaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
-		final ExtendedList<Integer> indices = getBinaryOperatorIndices(expression,
+		final ExtendedLinkedList<Integer> indices = getBinaryOperatorIndices(expression,
 				delimitingIntervals);
 		IO.debug("Indices: ", indices);
 		if (indices.isNonEmpty()) {
@@ -307,7 +305,7 @@ public class ExpressionHandler
 	 * @return the indices of all the binary operators in the specified expression {@link String}
 	 *         that are not in the specified delimiting intervals
 	 */
-	protected static ExtendedList<Integer> getBinaryOperatorIndices(final String expression,
+	protected static ExtendedLinkedList<Integer> getBinaryOperatorIndices(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		return getOperatorIndices(expression, delimitingIntervals, expression.length() - 1,
 				BINARY_FUNCTIONS);
@@ -341,11 +339,11 @@ public class ExpressionHandler
 	 * @return the indices of all the operators in the specified expression {@link String} that are
 	 *         not in the specified delimiting intervals
 	 */
-	protected static ExtendedList<Integer> getOperatorIndices(final String expression,
+	protected static ExtendedLinkedList<Integer> getOperatorIndices(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<List<Character>> allOperators) {
 		// Initialize
-		final ExtendedList<Integer> indices = new ExtendedList<Integer>();
+		final ExtendedLinkedList<Integer> indices = new ExtendedLinkedList<Integer>();
 		final int allOperatorCount = allOperators.size();
 		int binaryOperatorsIndex = 0;
 
@@ -423,7 +421,7 @@ public class ExpressionHandler
 	 */
 	protected static IntervalList<Integer> getDelimitingIntervals(final String expression) {
 		// Initialize
-		final List<Interval<Integer>> delimitingIntervals = new ExtendedLinkedList<Interval<Integer>>();
+		final IntervalList<Integer> delimitingIntervals = new IntervalList<Integer>();
 
 		// Get the delimiting intervals
 		int parenthesisCount = 0, lowerBound, upperBound = -1;
@@ -442,7 +440,7 @@ public class ExpressionHandler
 				}
 			}
 		}
-		return new IntervalList<Integer>(delimitingIntervals);
+		return delimitingIntervals;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
