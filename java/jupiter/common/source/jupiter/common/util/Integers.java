@@ -1905,7 +1905,8 @@ public class Integers {
 		}
 
 		// Clone the 2D array
-		final int[][] clone = new int[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
+		final int[][] clone = new int[array2D.length]
+				[array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}

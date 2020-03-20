@@ -1139,7 +1139,7 @@ public class Maths {
 	 */
 	public static int abs(final int x) {
 		final int i = x >>> 31;
-		return (x ^ (~i + 1)) + i;
+		return (x ^ ~i + 1) + i;
 	}
 
 	/**
@@ -1151,7 +1151,7 @@ public class Maths {
 	 */
 	public static long abs(final long x) {
 		final long l = x >>> 63;
-		return (x ^ (~l + 1)) + l;
+		return (x ^ ~l + 1) + l;
 	}
 
 	/**
