@@ -32,7 +32,6 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
-import jupiter.common.util.Collections;
 import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
@@ -123,7 +122,7 @@ public class ExtendedHashMap<K, V>
 	 * @return the key {@link Class}
 	 */
 	public Class<?> getKeyClass() {
-		return Collections.getElementClass(keySet());
+		return Maps.getElementClass(keySet());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
