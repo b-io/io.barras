@@ -2809,8 +2809,7 @@ public class Matrix
 
 		/**
 		 * Processes the multiplication with the specified result {@link Matrix}, left-hand side
-		 * operand {@link Matrix} and right-hand side operand {@link Matrix} and returns the exit
-		 * code.
+		 * operand {@link Matrix} and right-hand side operand {@link Matrix}.
 		 * <p>
 		 * @param result the result {@link Matrix}
 		 * @param left   the left-hand side operand {@link Matrix}

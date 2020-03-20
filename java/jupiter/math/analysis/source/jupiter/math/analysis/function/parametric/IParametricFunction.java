@@ -30,8 +30,7 @@ public interface IParametricFunction {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the parametric function to the specified value with the specified parameters and
-	 * returns the resulting {@code double} value.
+	 * Applies the parametric function to the specified value with the specified parameters.
 	 * <p>
 	 * @param x          a {@code double} value
 	 * @param parameters the {@code double} parameters

@@ -251,8 +251,7 @@ public class AudioRecorder
 	//////////////////////////////////////////////
 
 	/**
-	 * Records the audio with the specified {@link AudioTargetInterface} and returns the WAV
-	 * {@link File} containing the recording.
+	 * Records the audio with the specified {@link AudioTargetInterface}.
 	 * <p>
 	 * @param targetInterface the {@link AudioTargetInterface} to record with
 	 * <p>

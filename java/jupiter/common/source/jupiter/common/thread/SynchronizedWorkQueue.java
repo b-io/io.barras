@@ -138,8 +138,7 @@ public class SynchronizedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Submits a {@link Task} with the specified {@code I} input for execution and returns its
-	 * identifier.
+	 * Submits a {@link Task} with the specified {@code I} input for execution.
 	 * <p>
 	 * @param input the {@code I} input of the {@link Task} to submit
 	 * <p>

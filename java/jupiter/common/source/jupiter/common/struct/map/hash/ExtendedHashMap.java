@@ -173,8 +173,7 @@ public class ExtendedHashMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified {@code V} value to the specified {@code K} key and returns the
-	 * previous associated {@code V} value, or {@code null} if it is not present.
+	 * Associates the specified {@code V} value to the specified {@code K} key.
 	 * <p>
 	 * @param key   the {@code K} key of the key-value mapping to put
 	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
@@ -216,8 +215,7 @@ public class ExtendedHashMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the key-value mapping of the specified key {@link Object} and returns the previous
-	 * associated {@code V} value, or {@code null} if it is not present.
+	 * Removes the key-value mapping of the specified key {@link Object}.
 	 * <p>
 	 * @param key the key {@link Object} of the key-value mapping to remove
 	 * <p>

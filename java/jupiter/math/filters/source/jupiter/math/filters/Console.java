@@ -47,8 +47,7 @@ public class Console {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Interacts with the user to get the measurements of the position to find and returns the
-	 * estimated position using the Kalman filter.
+	 * Interacts with the user to get the measurements of the position to find.
 	 */
 	protected static void interactions() {
 		boolean isRunning = true;

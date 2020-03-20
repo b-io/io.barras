@@ -385,8 +385,7 @@ public class FTPHandler
 
 	/**
 	 * Downloads the files from the {@link Protocol#FTP}, {@link Protocol#FTPS} or
-	 * {@link Protocol#SFTP} with {@code this} parameters and returns the number of downloaded
-	 * files.
+	 * {@link Protocol#SFTP} with {@code this} parameters.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -429,8 +428,7 @@ public class FTPHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Downloads the files from the {@link Protocol#FTP} with {@code this} parameters and returns
-	 * the number of downloaded files.
+	 * Downloads the files from the {@link Protocol#FTP} with {@code this} parameters.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -502,8 +500,7 @@ public class FTPHandler
 	}
 
 	/**
-	 * Downloads the files from the {@link Protocol#FTPS} with {@code this} parameters and returns
-	 * the number of downloaded files.
+	 * Downloads the files from the {@link Protocol#FTPS} with {@code this} parameters.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -577,8 +574,7 @@ public class FTPHandler
 	}
 
 	/**
-	 * Downloads the files from the {@link Protocol#SFTP} with {@code this} parameters and returns
-	 * the number of downloaded files.
+	 * Downloads the files from the {@link Protocol#SFTP} with {@code this} parameters.
 	 * <p>
 	 * @return the number of downloaded files
 	 */
@@ -676,8 +672,7 @@ public class FTPHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Uploads the files to the {@link Protocol#FTP} with {@code this} parameters and returns the
-	 * number of uploaded files.
+	 * Uploads the files to the {@link Protocol#FTP} with {@code this} parameters.
 	 * <p>
 	 * @return the number of uploaded files
 	 */
@@ -746,8 +741,7 @@ public class FTPHandler
 	}
 
 	/**
-	 * Uploads the files to the {@link Protocol#FTPS} with {@code this} parameters and returns the
-	 * number of uploaded files.
+	 * Uploads the files to the {@link Protocol#FTPS} with {@code this} parameters.
 	 * <p>
 	 * @return the number of uploaded files
 	 */
@@ -818,8 +812,7 @@ public class FTPHandler
 	}
 
 	/**
-	 * Uploads the files to the {@link Protocol#SFTP} with {@code this} parameters and returns the
-	 * number of uploaded files.
+	 * Uploads the files to the {@link Protocol#SFTP} with {@code this} parameters.
 	 * <p>
 	 * @return the number of uploaded files
 	 */

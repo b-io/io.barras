@@ -62,8 +62,7 @@ public abstract class ActivationFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the activation function to the specified {@link Entity} and returns the resulting
-	 * {@link Entity}.
+	 * Applies the activation function to the specified {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
@@ -72,8 +71,7 @@ public abstract class ActivationFunction
 	public abstract Entity apply(final Entity E);
 
 	/**
-	 * Applies the derivative of the activation function to the specified {@link Entity} and returns
-	 * the resulting {@link Entity}.
+	 * Applies the derivative of the activation function to the specified {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>

@@ -84,8 +84,7 @@ public abstract class ParametricFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the parametric function to the specified value with the parameters and returns the
-	 * resulting {@code double} value.
+	 * Applies the parametric function to the specified value with the parameters.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>

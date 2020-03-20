@@ -66,8 +66,7 @@ public class Power
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the power function to the specified value with the specified parameters and returns
-	 * the resulting {@code double} value.
+	 * Applies the power function to the specified value with the specified parameters.
 	 * <p>
 	 * @param x          a {@code double} value
 	 * @param parameters the {@code double} parameters
@@ -86,8 +85,7 @@ public class Power
 	}
 
 	/**
-	 * Applies the power function to the specified value with the specified exponent and returns the
-	 * resulting {@code double} value.
+	 * Applies the power function to the specified value with the specified exponent.
 	 * <p>
 	 * @param x        a {@code double} value
 	 * @param exponent the {@code double} exponent

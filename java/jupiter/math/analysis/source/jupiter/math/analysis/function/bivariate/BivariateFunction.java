@@ -201,8 +201,7 @@ public abstract class BivariateFunction
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the bivariate function to the initial value and the specified value and returns the
-	 * resulting {@code double} value.
+	 * Applies the bivariate function to the initial value and the specified value.
 	 * <p>
 	 * @param x2 a {@code double} value
 	 * <p>

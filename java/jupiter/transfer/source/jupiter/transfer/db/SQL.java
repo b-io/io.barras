@@ -1038,8 +1038,7 @@ public class SQL {
 
 	/**
 	 * Updates the rows of specified table by setting the specified columns to the specified values
-	 * using the specified {@link Connection} and returns the number of updated rows, {@code 0} if
-	 * nothing is returned, or {@code -1} if there is a problem.
+	 * using the specified {@link Connection}.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to update
@@ -1057,8 +1056,7 @@ public class SQL {
 	/**
 	 * Updates the rows of specified table by setting the specified columns to the specified values
 	 * where the specified conditional columns are equal to the conditional values using the
-	 * specified {@link Connection} and returns the number of updated rows, {@code 0} if nothing is
-	 * returned, or {@code -1} if there is a problem.
+	 * specified {@link Connection}.
 	 * <p>
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to update
@@ -1228,9 +1226,7 @@ public class SQL {
 	}
 
 	/**
-	 * Deletes the rows from the specified table using the specified {@link Connection} and returns
-	 * the number of deleted rows, {@code 0} if nothing is returned, or {@code -1} if there is a
-	 * problem.
+	 * Deletes the rows from the specified table using the specified {@link Connection}.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to delete
@@ -1244,8 +1240,7 @@ public class SQL {
 
 	/**
 	 * Deletes the rows from the specified table where the specified conditional columns are equal
-	 * to the conditional values using the specified {@link Connection} and returns the number of
-	 * deleted rows, {@code 0} if nothing is returned, or {@code -1} if there is a problem.
+	 * to the conditional values using the specified {@link Connection}.
 	 * <p>
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to delete

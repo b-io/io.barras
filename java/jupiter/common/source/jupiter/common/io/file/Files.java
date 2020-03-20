@@ -1017,8 +1017,7 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Zips the specified directory (preserving the file dates) and returns the number of zipped
-	 * files.
+	 * Zips the specified directory (preserving the file dates).
 	 * <p>
 	 * @param sourceDir the source directory {@link File}
 	 * <p>
@@ -1029,8 +1028,7 @@ public class Files {
 	}
 
 	/**
-	 * Zips the specified directory (preserving the file dates) and returns the number of zipped
-	 * files.
+	 * Zips the specified directory (preserving the file dates).
 	 * <p>
 	 * @param sourceDir  the source directory {@link File}
 	 * @param targetFile the target ZIP {@link File}
@@ -1077,8 +1075,7 @@ public class Files {
 	//////////////////////////////////////////////
 
 	/**
-	 * Unzips the specified ZIP {@link File} (preserving the file dates) and returns the number of
-	 * unzipped files.
+	 * Unzips the specified ZIP {@link File} (preserving the file dates).
 	 * <p>
 	 * @param sourceFile the source ZIP {@link File}
 	 * <p>

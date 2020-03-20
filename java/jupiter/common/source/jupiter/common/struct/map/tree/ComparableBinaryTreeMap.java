@@ -136,8 +136,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Performs the in-order traversal and returns the {@code K} keys of the visited {@code N} nodes
-	 * in an {@link ExtendedList}.
+	 * Performs the in-order traversal.
 	 * <p>
 	 * @return the {@code K} keys of the visited {@code N} nodes in an {@link ExtendedList}
 	 */
@@ -165,8 +164,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	//////////////////////////////////////////////
 
 	/**
-	 * Performs the in-order traversal and returns the values of the visited nodes in an
-	 * {@link ExtendedList}.
+	 * Performs the in-order traversal.
 	 * <p>
 	 * @return the values of the visited nodes in an {@link ExtendedList}
 	 */
@@ -177,8 +175,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified {@code N} tree and returns the values of the
-	 * visited nodes in the specified {@link List}.
+	 * Performs the in-order traversal of the specified {@code N} tree.
 	 * <p>
 	 * @param tree   the {@code N} tree to get the values from (may be {@code null})
 	 * @param values the {@link List} of {@code V} type to store the values in
@@ -344,8 +341,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the key-value mapping of the specified key {@link Object} and returns the previous
-	 * associated {@code V} value, or {@code null} if it is not present.
+	 * Removes the key-value mapping of the specified key {@link Object}.
 	 * <p>
 	 * @param key the key {@link Object} of the key-value mapping to remove
 	 * <p>
@@ -552,14 +548,13 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	}
 
 	/**
-	 * Performs the in-order traversal of {@code this} and returns a {@link Set} view of the
-	 * key-value {@link Entry} of {@code K} and {@code V} types of the visited nodes. The iterator
-	 * of the {@link Set} returns the entries in ascending key order. The {@link Set} is backed by
-	 * {@code this}, so changes to {@code this} are reflected in the {@link Set} and vice-versa. If
-	 * {@code this} is modified while an iteration over the {@link Set} is in progress (except
-	 * through the operations {@code remove} or {@code setValue} of the iterator), the results of
-	 * the iteration are undefined. The set supports element removal, which removes the
-	 * corresponding key-value mapping, via the {@link Iterator#remove},
+	 * Performs the in-order traversal of {@code this}. The iterator of the {@link Set} returns the
+	 * entries in ascending key order. The {@link Set} is backed by {@code this}, so changes to
+	 * {@code this} are reflected in the {@link Set} and vice-versa. If {@code this} is modified
+	 * while an iteration over the {@link Set} is in progress (except through the operations
+	 * {@code remove} or {@code setValue} of the iterator), the results of the iteration are
+	 * undefined. The set supports element removal, which removes the corresponding key-value
+	 * mapping, via the {@link Iterator#remove},
 	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
 	 * does not support the {@code add} or {@code addAll} operations.
 	 * <p>
@@ -571,9 +566,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified {@code N} tree and returns a {@link Set}
-	 * view of the key-value {@link Entry} of {@code K} and {@code V} types of the visited nodes
-	 * added to the specified {@link Set}.
+	 * Performs the in-order traversal of the specified {@code N} tree.
 	 * <p>
 	 * @param tree a {@code N} tree (may be {@code null})
 	 * @param set  a {@link Set} of {@link Entry} of {@code K} and {@code V} types

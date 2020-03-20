@@ -66,8 +66,7 @@ public class ActivationSigmoid
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the {@link Sigmoid} to the specified {@link Entity} and returns the resulting
-	 * {@link Entity}.
+	 * Applies the {@link Sigmoid} to the specified {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
@@ -79,8 +78,7 @@ public class ActivationSigmoid
 	}
 
 	/**
-	 * Applies the derivative of the {@link Sigmoid} to the specified {@link Entity} and returns the
-	 * resulting {@link Entity}.
+	 * Applies the derivative of the {@link Sigmoid} to the specified {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>

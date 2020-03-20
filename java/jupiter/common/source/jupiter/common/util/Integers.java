@@ -147,8 +147,7 @@ public class Integers {
 
 	/**
 	 * Converts the specified source {@code int} value to a representative unsigned {@code int}
-	 * value written to the specified target {@code char} buffer and returns the lowest index of the
-	 * specified target {@code char} buffer used.
+	 * value written to the specified target {@code char} buffer.
 	 * <p>
 	 * @param source the source {@code int} value to convert
 	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
@@ -165,8 +164,7 @@ public class Integers {
 
 	/**
 	 * Converts the specified source {@code int} value to a representative unsigned {@code int}
-	 * value written to the specified target {@code char} buffer and returns the lowest index of the
-	 * specified target {@code char} buffer used.
+	 * value written to the specified target {@code char} buffer.
 	 * <p>
 	 * @param source       the source {@code int} value to convert
 	 * @param shift        the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
@@ -185,8 +183,7 @@ public class Integers {
 
 	/**
 	 * Converts the specified source {@code int} value to a representative unsigned {@code int}
-	 * value written to the specified target {@code char} buffer and returns the lowest index of the
-	 * specified target {@code char} buffer used.
+	 * value written to the specified target {@code char} buffer.
 	 * <p>
 	 * @param source the source {@code int} value to convert
 	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)

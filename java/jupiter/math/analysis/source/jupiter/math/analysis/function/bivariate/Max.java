@@ -64,8 +64,7 @@ public class Max
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the maximum function to the specified values and returns the resulting {@code double}
-	 * value.
+	 * Applies the maximum function to the specified values.
 	 * <p>
 	 * @param x1 a {@code double} value
 	 * @param x2 another {@code double} value

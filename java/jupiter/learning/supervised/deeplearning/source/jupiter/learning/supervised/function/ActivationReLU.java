@@ -90,8 +90,7 @@ public class ActivationReLU
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the ReLU function to the specified {@link Entity} and returns the resulting
-	 * {@link Entity}.
+	 * Applies the ReLU function to the specified {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
@@ -103,8 +102,7 @@ public class ActivationReLU
 	}
 
 	/**
-	 * Applies the derivative of the ReLU function to the specified {@link Entity} and returns the
-	 * resulting {@link Entity}.
+	 * Applies the derivative of the ReLU function to the specified {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>

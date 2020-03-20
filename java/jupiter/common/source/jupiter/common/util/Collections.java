@@ -245,8 +245,7 @@ public class Collections {
 
 	/**
 	 * Removes the first occurrence of the specified {@link Object} from the specified
-	 * {@link Collection} and returns the index of the removed element, or {@code -1} if it is not
-	 * present.
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection a {@link Collection}
 	 * @param object     the {@link Object} to remove (may be {@code null})

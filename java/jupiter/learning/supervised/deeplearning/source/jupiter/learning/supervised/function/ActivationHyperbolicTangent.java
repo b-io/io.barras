@@ -65,8 +65,7 @@ public class ActivationHyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the {@link HyperbolicTangent} to the specified {@link Entity} and returns the
-	 * resulting {@link Entity}.
+	 * Applies the {@link HyperbolicTangent} to the specified {@link Entity}.
 	 * <p>
 	 * @param E an {@link Entity}
 	 * <p>
@@ -78,8 +77,7 @@ public class ActivationHyperbolicTangent
 	}
 
 	/**
-	 * Applies the derivative of the {@link HyperbolicTangent} to the specified {@link Entity} and
-	 * returns the resulting {@link Entity}.
+	 * Applies the derivative of the {@link HyperbolicTangent} to the specified {@link Entity}.
 	 * <p>
 	 * @param E an array of {@link Entity}
 	 * <p>

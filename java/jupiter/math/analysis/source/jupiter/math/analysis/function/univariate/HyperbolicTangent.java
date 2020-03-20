@@ -56,8 +56,7 @@ public class HyperbolicTangent
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the hyperbolic tangent function to the specified value and returns the resulting
-	 * {@code double} value.
+	 * Applies the hyperbolic tangent function to the specified value.
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>

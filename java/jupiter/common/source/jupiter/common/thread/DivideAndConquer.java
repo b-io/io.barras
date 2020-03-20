@@ -176,8 +176,7 @@ public abstract class DivideAndConquer<I>
 	//////////////////////////////////////////////
 
 	/**
-	 * Conquers the execution slices with the specified identifiers and returns the exit code for
-	 * each of them.
+	 * Conquers the execution slices with the specified identifiers.
 	 * <p>
 	 * @param ids the identifiers of the execution slices to conquer
 	 * <p>
@@ -208,8 +207,7 @@ public abstract class DivideAndConquer<I>
 	}
 
 	/**
-	 * Conquers the execution slice with the specified {@code I} input and {@link Interval} and
-	 * returns the exit code.
+	 * Conquers the execution slice with the specified {@code I} input and {@link Interval}.
 	 * <p>
 	 * @param input    the {@code I} input to process
 	 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer

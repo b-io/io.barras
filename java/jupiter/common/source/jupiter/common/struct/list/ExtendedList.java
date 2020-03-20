@@ -297,8 +297,7 @@ public class ExtendedList<E>
 	//////////////////////////////////////////////
 
 	/**
-	 * Removes the first occurrence of the specified {@link Object} and returns the index of the
-	 * removed element, or {@code -1} if it is not present.
+	 * Removes the first occurrence of the specified {@link Object}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -309,8 +308,7 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Removes the last occurrence of the specified {@link Object} and returns the index of the
-	 * removed element, or {@code -1} if it is not present.
+	 * Removes the last occurrence of the specified {@link Object}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -321,8 +319,7 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Removes all the occurrences of the specified {@link Object} and returns the indices of the
-	 * removed elements.
+	 * Removes all the occurrences of the specified {@link Object}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
