@@ -85,8 +85,7 @@ public class Range
 	 * Constructs a {@link Range} with the specified {@link Pair} of {@link LowerBound} and
 	 * {@link UpperBound}.
 	 * <p>
-	 * @param pair the {@link Pair} of {@link LowerBound} and {@link UpperBound} of {@code Double}
-	 *             type
+	 * @param pair the {@link Pair} of {@link LowerBound} and {@link UpperBound} of {@link Double}
 	 */
 	public Range(final Pair<LowerBound<Double>, UpperBound<Double>> pair) {
 		super(pair);

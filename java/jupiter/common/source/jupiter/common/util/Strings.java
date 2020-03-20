@@ -611,8 +611,8 @@ public class Strings {
 	 * @return the {@link String} constructed by capitalizing all the words of the specified
 	 *         {@link String} separated by the specified {@code char} delimiters
 	 *
-	 * @see #capitalizeStrictly(String, char[])
-	 * @see #uncapitalize(String, char[])
+	 * @see #capitalizeStrictly(String, char...)
+	 * @see #uncapitalize(String, char...)
 	 */
 	public static String capitalize(final String text, final char... delimiters) {
 		// Check the arguments
@@ -664,7 +664,7 @@ public class Strings {
 	 *         {@link String} separated by the specified {@code char} delimiters and converting the
 	 *         remaining characters to lowercase
 	 *
-	 * @see #uncapitalize(String, char[])
+	 * @see #uncapitalize(String, char...)
 	 */
 	public static String capitalizeStrictly(final String text, final char... delimiters) {
 		// Check the arguments
@@ -704,7 +704,7 @@ public class Strings {
 	 * @return the {@link String} constructed by uncapitalizing all the words of the specified
 	 *         {@link String} separated by the specified {@code char} delimiters
 	 *
-	 * @see #capitalize(String, char[])
+	 * @see #capitalize(String, char...)
 	 */
 	public static String uncapitalize(final String text, final char... delimiters) {
 		// Check the arguments

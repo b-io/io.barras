@@ -90,7 +90,7 @@ public abstract class ParametricFunction
 	 * <p>
 	 * @return {@code f(x, parameters)}
 	 *
-	 * @see #apply(double, double[]}
+	 * @see #apply(double, double...)
 	 */
 	@Override
 	public double apply(final double x) {
