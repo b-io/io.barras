@@ -165,8 +165,8 @@ public class SplineInterpolator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x}. Evaluates
-	 * the spline interpolant at {@code x} between {@code fromPoint} and {@code toPoint}.
+	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x} between
+	 * {@code fromPoint} and {@code toPoint}.
 	 * <p>
 	 * @param x a {@code double} value (on the abscissa)
 	 * <p>

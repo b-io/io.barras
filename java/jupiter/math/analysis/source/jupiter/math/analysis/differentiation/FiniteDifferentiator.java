@@ -182,12 +182,12 @@ public class FiniteDifferentiator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the differentiated {@code double} value {@code y' = f'(x)} for {@code x}. Evaluates
-	 * the derivative at {@code x} defined in {@code domain}.
+	 * Returns the differentiated {@code double} value {@code y' = f'(x)} for {@code x} defined in
+	 * {@code domain}.
 	 * <p>
 	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
-	 * @return {@code y = f(x)} for {@code x} defined in {@code domain}
+	 * @return {@code y' = f'(x)} for {@code x} defined in {@code domain}
 	 */
 	@Override
 	protected double differentiate(final double x) {

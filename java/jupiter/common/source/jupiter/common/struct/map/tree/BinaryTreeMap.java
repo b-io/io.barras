@@ -232,7 +232,8 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified {@code N} tree.
+	 * Performs the in-order traversal of the specified {@code N} tree and returns the values of the
+	 * visited nodes in the specified {@link List}.
 	 * <p>
 	 * @param tree   the {@code N} tree to get the values from (may be {@code null})
 	 * @param values the {@link List} of {@code V} type to store the values in

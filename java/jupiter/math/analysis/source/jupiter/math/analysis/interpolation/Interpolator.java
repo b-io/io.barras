@@ -89,7 +89,7 @@ public abstract class Interpolator
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code f(x)}
+	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
 	 *
 	 * @see #interpolate(double)
 	 */
@@ -99,8 +99,8 @@ public abstract class Interpolator
 	}
 
 	/**
-	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x}. Evaluates
-	 * the interpolant at {@code x} between {@code fromPoint} and {@code toPoint}.
+	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x} between
+	 * {@code fromPoint} and {@code toPoint}.
 	 * <p>
 	 * @param x a {@code double} value (on the abscissa)
 	 * <p>

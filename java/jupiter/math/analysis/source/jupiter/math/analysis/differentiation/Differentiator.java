@@ -74,7 +74,7 @@ public abstract class Differentiator
 	 * <p>
 	 * @param x a {@code double} value
 	 * <p>
-	 * @return {@code f(x)}
+	 * @return {@code y' = f'(x)} for {@code x} defined in {@code domain}
 	 *
 	 * @see #differentiate(double)
 	 */
@@ -84,12 +84,12 @@ public abstract class Differentiator
 	}
 
 	/**
-	 * Returns the differentiated {@code double} value {@code y' = f'(x)} for {@code x}. Evaluates
-	 * the derivative at {@code x} defined in {@code domain}.
+	 * Returns the differentiated {@code double} value {@code y' = f'(x)} for {@code x} defined in
+	 * {@code domain}.
 	 * <p>
 	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
-	 * @return {@code y = f(x)} for {@code x} defined in {@code domain}
+	 * @return {@code y' = f'(x)} for {@code x} defined in {@code domain}
 	 */
 	protected abstract double differentiate(final double x);
 
