@@ -27,8 +27,8 @@ import static jupiter.math.analysis.function.parametric.ParametricFunctions.FILT
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
-import jupiter.math.analysis.function.parametric.Filter;
 import jupiter.math.analysis.function.bivariate.Max;
+import jupiter.math.analysis.function.parametric.Filter;
 import jupiter.math.linear.entity.Entity;
 
 /**

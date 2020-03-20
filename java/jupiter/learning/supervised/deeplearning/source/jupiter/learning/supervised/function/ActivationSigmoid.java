@@ -23,8 +23,8 @@
  */
 package jupiter.learning.supervised.function;
 
-import static jupiter.math.analysis.function.univariate.UnivariateFunctions.LOG;
 import static jupiter.math.analysis.function.parametric.ParametricFunctions.SIGMOID;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.LOG;
 
 import jupiter.common.model.ICloneable;
 import jupiter.learning.supervised.Classifier;

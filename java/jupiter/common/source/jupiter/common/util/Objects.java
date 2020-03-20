@@ -27,8 +27,6 @@ import static jupiter.common.io.IO.IO;
 
 import java.lang.reflect.Method;
 
-import jupiter.common.model.ICloneable;
-
 public class Objects {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

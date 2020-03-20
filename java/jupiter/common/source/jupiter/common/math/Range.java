@@ -153,8 +153,8 @@ public class Range
 	 */
 	public double getLowerDistance(final Double value) {
 		return lowerBound.value != null && value != null ?
-				(Maths.delta(value, lowerBound.value) + (lowerBound.isInclusive ? 0. :
-				value < lowerBound.value ? Maths.TINY_TOLERANCE : -Maths.TINY_TOLERANCE)) :
+				Maths.delta(value, lowerBound.value) + (lowerBound.isInclusive ? 0. :
+						value < lowerBound.value ? Maths.TINY_TOLERANCE : -Maths.TINY_TOLERANCE) :
 				Double.POSITIVE_INFINITY;
 	}
 
@@ -167,8 +167,8 @@ public class Range
 	 */
 	public double getUpperDistance(final Double value) {
 		return upperBound.value != null && value != null ?
-				(Maths.delta(value, upperBound.value) + (upperBound.isInclusive ? 0. :
-				value < upperBound.value ? -Maths.TINY_TOLERANCE : Maths.TINY_TOLERANCE)) :
+				Maths.delta(value, upperBound.value) + (upperBound.isInclusive ? 0. :
+						value < upperBound.value ? -Maths.TINY_TOLERANCE : Maths.TINY_TOLERANCE) :
 				Double.POSITIVE_INFINITY;
 	}
 

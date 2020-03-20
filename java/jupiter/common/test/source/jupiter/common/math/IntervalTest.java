@@ -91,10 +91,10 @@ public class IntervalTest
 		final Interval<Double> n3 = N3.clone();
 		final Interval<Double> n4 = N4.clone();
 
-		Interval<Double> a1 = A1.clone();
-		Interval<Double> a2 = A2.clone();
-		Interval<Double> a3 = A3.clone();
-		Interval<Double> a4 = A4.clone();
+		final Interval<Double> a1 = A1.clone();
+		final Interval<Double> a2 = A2.clone();
+		final Interval<Double> a3 = A3.clone();
+		final Interval<Double> a4 = A4.clone();
 
 		final Interval<Double> b1 = B1.clone();
 		final Interval<Double> b2 = B2.clone();

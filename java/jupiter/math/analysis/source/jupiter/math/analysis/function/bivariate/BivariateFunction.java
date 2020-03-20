@@ -77,7 +77,7 @@ public abstract class BivariateFunction
 	 */
 	public BivariateFunction(final double initialValue) {
 		super();
-		this.secondDomain = domain;
+		secondDomain = domain;
 		this.initialValue = initialValue;
 	}
 

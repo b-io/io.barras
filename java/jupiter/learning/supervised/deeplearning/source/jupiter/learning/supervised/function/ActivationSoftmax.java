@@ -23,10 +23,10 @@
  */
 package jupiter.learning.supervised.function;
 
-import static jupiter.math.analysis.function.univariate.UnivariateFunctions.EXP;
-import static jupiter.math.analysis.function.univariate.UnivariateFunctions.LOG;
 import static jupiter.math.analysis.function.bivariate.BivariateFunctions.ADD;
 import static jupiter.math.analysis.function.bivariate.BivariateFunctions.MAX;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.EXP;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.LOG;
 
 import jupiter.common.model.ICloneable;
 import jupiter.learning.supervised.Classifier;

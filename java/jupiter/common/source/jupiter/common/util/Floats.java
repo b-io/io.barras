@@ -1791,7 +1791,8 @@ public class Floats {
 	 * <p>
 	 * @param array2D the 2D {@code float} array to clone (may be {@code null})
 	 * <p>
-	 * @return a clone of the specified 2D {@code float} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 2D {@code float} array, or {@code null} if it is
+	 *         {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static float[][] clone(final float[]... array2D) {
@@ -1814,7 +1815,8 @@ public class Floats {
 	 * <p>
 	 * @param array3D the 3D {@code float} array to clone (may be {@code null})
 	 * <p>
-	 * @return a clone of the specified 3D {@code float} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 3D {@code float} array, or {@code null} if it is
+	 *         {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static float[][][] clone(final float[][][] array3D) {

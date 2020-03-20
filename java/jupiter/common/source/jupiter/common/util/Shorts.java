@@ -1805,7 +1805,8 @@ public class Shorts {
 	 * <p>
 	 * @param array2D the 2D {@code short} array to clone (may be {@code null})
 	 * <p>
-	 * @return a clone of the specified 2D {@code short} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 2D {@code short} array, or {@code null} if it is
+	 *         {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static short[][] clone(final short[]... array2D) {
@@ -1828,7 +1829,8 @@ public class Shorts {
 	 * <p>
 	 * @param array3D the 3D {@code short} array to clone (may be {@code null})
 	 * <p>
-	 * @return a clone of the specified 3D {@code short} array, or {@code null} if it is {@code null}
+	 * @return a clone of the specified 3D {@code short} array, or {@code null} if it is
+	 *         {@code null}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static short[][][] clone(final short[][][] array3D) {

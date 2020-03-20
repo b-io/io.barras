@@ -143,7 +143,7 @@ public class Lists
 		Arguments.requireNonNull(list, "list");
 
 		// Sort the list
-		final E[] array = Lists.toArray(list);
+		final E[] array = toArray(list);
 		Arrays.sort(array);
 		final ListIterator<E> iterator = list.listIterator();
 		for (final E element : array) {
@@ -171,7 +171,7 @@ public class Lists
 		Arguments.requireNonNull(list, "list");
 
 		// Sort the list using the comparator
-		final E[] array = Lists.toArray(list);
+		final E[] array = toArray(list);
 		Arrays.sort(array, comparator);
 		final ListIterator<E> iterator = list.listIterator();
 		for (final E element : array) {

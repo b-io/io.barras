@@ -189,6 +189,7 @@ public class FiniteDifferentiator
 	 * <p>
 	 * @return {@code y = f(x)} for {@code x} defined in {@code domain}
 	 */
+	@Override
 	protected double differentiate(final double x) {
 		//TODO
 		return Double.NaN;

@@ -108,8 +108,8 @@ public class UpperBound<T extends Comparable<? super T>>
 		return Comparables.isLessThan(value, other.value) ? -1 :
 				Comparables.isGreaterThan(value, other.value) ? 1 :
 				isInclusive == other.isInclusive ? 0 :
-						other instanceof UpperBound ? (isInclusive ? 1 : -1) :
-								(isInclusive ? -1 : 1);
+				other instanceof UpperBound ? isInclusive ? 1 : -1 :
+				isInclusive ? -1 : 1;
 	}
 
 

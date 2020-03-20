@@ -23,8 +23,8 @@
  */
 package jupiter.learning.supervised.function;
 
-import static jupiter.math.analysis.function.univariate.UnivariateFunctions.TANH;
 import static jupiter.math.analysis.function.parametric.ParametricFunctions.SQUARE;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.TANH;
 
 import jupiter.common.model.ICloneable;
 import jupiter.math.analysis.function.univariate.HyperbolicTangent;

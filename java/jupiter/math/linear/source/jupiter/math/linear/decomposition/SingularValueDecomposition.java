@@ -98,8 +98,8 @@ public class SingularValueDecomposition
 		n = A.getColumnDimension();
 		/*
 		 * @todo apparently the failing cases are only a proper subset of m < n, so let us not throw
-		 * an exception. The fix may come later. {@code if (m < n) { throw new
-		 * UnsupportedOperationException("Work only for m >= n"); }}
+		 * an exception. The fix may come later.
+		 * {@code if (m < n) { throw new UnsupportedOperationException("Work only for m >= n"); }}
 		 */
 		final int nu = Math.min(m, n);
 		sigma = new double[Math.min(m + 1, n)];
@@ -273,23 +273,23 @@ public class SingularValueDecomposition
 		// Compute the singular values
 		final int pp = p - 1;
 		// int iter = 0;
-		final double eps = Maths.TOLERANCE;
-		final double tiny = Maths.TINY_TOLERANCE;
 		while (p > 0) {
 			int k, kase;
 			// @todo test to avoid too many iterations
 			/*
 			 * This section of the program inspects for negligible elements in the s and e arrays.
-			 * On completion the variables kase and k are set as follows: • kase = 1 if s(p) and
-			 * e[k-1] are negligible and k < p, • kase = 2 if s(k) is negligible and k < p, • kase =
-			 * 3 if e[k-1] is negligible, k < p and s(k), ..., s(p) are not negligible (qr step), or
+			 * On completion the variables kase and k are set as follows:
+			 * • kase = 1 if s(p) and e[k-1] are negligible and k < p,
+			 * • kase = 2 if s(k) is negligible and k < p,
+			 * • kase = 3 if e[k-1] is negligible, k < p and s(k), ..., s(p) are not negligible (qr step), or
 			 * • kase = 4 if e(p-1) is negligible (convergence).
 			 */
 			for (k = p - 2; k >= -1; --k) {
 				if (k == -1) {
 					break;
 				}
-				if (Maths.abs(e[k]) <= tiny + eps * (Maths.abs(sigma[k]) + Maths.abs(sigma[k + 1]))) {
+				if (Maths.abs(e[k]) <= Maths.TOLERANCE *
+						(Maths.abs(sigma[k]) + Maths.abs(sigma[k + 1])) + Maths.TINY_TOLERANCE) {
 					e[k] = 0.;
 					break;
 				}
@@ -304,7 +304,7 @@ public class SingularValueDecomposition
 					}
 					final double t = (ks != p ? Maths.abs(e[ks]) : 0.) +
 							(ks != k + 1 ? Maths.abs(e[ks - 1]) : 0.);
-					if (Maths.abs(sigma[ks]) <= tiny + eps * t) {
+					if (Maths.abs(sigma[ks]) <= Maths.TOLERANCE * t + Maths.TINY_TOLERANCE) {
 						sigma[ks] = 0.;
 						break;
 					}
