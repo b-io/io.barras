@@ -23,6 +23,8 @@
  */
 package jupiter.common.math;
 
+import static jupiter.common.io.IO.IO;
+
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
@@ -192,6 +194,31 @@ public class Interval<T extends Comparable<? super T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns {@code value} if {@code value} is inside {@code this}, {@code null} otherwise.
+	 * <p>
+	 * @param value the {@code T} value to constrain (may be {@code null})
+	 * <p>
+	 * @return {@code value} if {@code value} is inside {@code this}, {@code null} otherwise
+	 */
+	public T constrain(final T value) {
+		if (value == null) {
+			IO.warn("The specified value is null");
+			return null;
+		}
+		if (isEmpty()) {
+			IO.warn("The interval is empty");
+			return null;
+		}
+		if (!isInside(value)) {
+			IO.warn("The specified value ", value, " is not inside the interval ", this);
+			return null;
+		}
+		return value;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Merges the specified {@link Interval} with {@code this}.
 	 * <p>
 	 * @param other the other {@link Interval} of {@code T} type to merge with
@@ -237,7 +264,7 @@ public class Interval<T extends Comparable<? super T>>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GROUP
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

@@ -149,11 +149,11 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an Unicode {@link String} converted from the specified {@code char} token.
+	 * Returns a Unicode {@link String} converted from the specified {@code char} token.
 	 * <p>
 	 * @param token the {@code char} token to convert
 	 * <p>
-	 * @return an Unicode {@link String} converted from the specified {@code char} token
+	 * @return a Unicode {@link String} converted from the specified {@code char} token
 	 */
 	public static String toUnicode(final char token) {
 		return UNICODE.concat(Strings.leftPad(Integer.toString(token, 16), 4, ZERO));

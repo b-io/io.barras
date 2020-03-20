@@ -124,7 +124,7 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 	/**
 	 * Returns {@code value} if {@code value} is inside {@code this}, {@code null} otherwise.
 	 * <p>
-	 * @param value the {@code T} value to constrain
+	 * @param value the {@code T} value to constrain (may be {@code null})
 	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, {@code null} otherwise
 	 */
@@ -193,7 +193,7 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GROUP
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

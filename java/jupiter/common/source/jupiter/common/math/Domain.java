@@ -34,7 +34,8 @@ import jupiter.common.util.Objects;
  * {@link Domain} is the {@link GenericIntervalList} of {@link Range} and {@link Double}.
  */
 public class Domain
-		extends GenericIntervalList<Range, Double> {
+		extends GenericIntervalList<Range, Double>
+		implements IRange {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -146,7 +147,7 @@ public class Domain
 		return range;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the distance to the specified value.
@@ -170,70 +171,25 @@ public class Domain
 	 * {@link Bound} if {@code value} is non-{@code null} and not {@code NaN}, {@code NaN}
 	 * otherwise.
 	 * <p>
-	 * @param value a {@link Double} (may be {@code null})
+	 * @param value the {@link Double} to bound (may be {@code null})
 	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, the value of the closest
 	 *         {@link Bound} if {@code value} is non-{@code null} and not {@code NaN}, {@code NaN}
 	 *         otherwise
 	 */
 	public double bound(final Double value) {
-		// Check the arguments
-		if (value == null) {
-			IO.warn("The specified double number is null");
-			return Double.NaN;
-		}
-		if (Double.isNaN(value)) {
-			IO.warn("The specified double number is NaN");
-			return Double.NaN;
-		}
-		if (isEmpty()) {
-			IO.warn("The domain is empty");
-			return Double.NaN;
-		}
-
-		// Bound the value
-		if (isInside(value)) {
-			return value;
-		}
-		final Bound<Double> bound = getClosestBound(value);
-		if (bound != null) {
-			return bound.isInclusive ? bound.value :
-					bound instanceof LowerBound ?
-							bound.value + Maths.TINY_TOLERANCE :
-							bound.value - Maths.TINY_TOLERANCE;
-		}
-		return Double.NaN;
+		return Ranges.bound(this, value);
 	}
 
 	/**
 	 * Returns {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise.
 	 * <p>
-	 * @param value a {@link Double} (may be {@code null})
+	 * @param value the {@link Double} to constrain (may be {@code null})
 	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise
 	 */
-	@Override
 	public Double constrain(final Double value) {
-		// Check the arguments
-		if (value == null) {
-			IO.warn("The specified double number is null");
-			return Double.NaN;
-		}
-		if (Double.isNaN(value)) {
-			IO.warn("The specified double number is NaN");
-			return Double.NaN;
-		}
-		if (isEmpty()) {
-			IO.warn("The domain is empty");
-			return Double.NaN;
-		}
-
-		// Constrain the value
-		if (!isInside(value)) {
-			IO.warn("The specified double number ", value, " is not inside the domain ", this);
-			return Double.NaN;
-		}
-		return value;
+		return Ranges.constrain(this, value);
 	}
 
 

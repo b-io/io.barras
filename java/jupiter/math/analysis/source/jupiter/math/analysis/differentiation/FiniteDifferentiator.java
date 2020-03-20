@@ -80,10 +80,12 @@ public class FiniteDifferentiator
 
 	/**
 	 * Constructs a {@link FiniteDifferentiator} with the specified number of points and step size.
-	 * <p>
-	 * <b>Note:</b> Wrong settings for the finite differences differentiator can lead to highly
-	 * unstable and inaccurate results, especially for high derivation orders. Using a very small
-	 * step sizes is often a <em>bad</em> idea.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>Wrong settings for the finite differences differentiator can lead to highly unstable and
+	 * inaccurate results, especially for high derivation orders. Using a very small step sizes is
+	 * often a <em>bad</em> idea.</dd>
+	 * </dl>
 	 * <p>
 	 * @param f          the {@link UnivariateFunction} to differentiate
 	 * @param pointCount the number of points to use
@@ -107,10 +109,12 @@ public class FiniteDifferentiator
 	 * boundaries. This means the sample will not be centered anymore in these cases. At an extreme
 	 * case, computing the derivatives exactly at the lower bound will lead the sample to be
 	 * entirely on the right side of the derivation point.
-	 * <p>
-	 * <b>Note:</b> Wrong settings for the finite differences differentiator can lead to highly
-	 * unstable and inaccurate results, especially for high derivation orders. Using a very small
-	 * step sizes is often a <em>bad</em> idea.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>Wrong settings for the finite differences differentiator can lead to highly unstable and
+	 * inaccurate results, especially for high derivation orders. Using a very small step sizes is
+	 * often a <em>bad</em> idea.</dd>
+	 * </dl>
 	 * <p>
 	 * @param f          the {@link UnivariateFunction} to differentiate
 	 * @param pointCount the number of points to use

@@ -57,8 +57,11 @@ public class SafeDateFormat
 
 	/**
 	 * Constructs a {@link SafeDateFormat} by default.
-	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
-	 * factory methods of {@link DateFormat}.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This constructor may not support all {@link Locale}. For full coverage, use the factory
+	 * methods of {@link DateFormat}.</dd>
+	 * </dl>
 	 */
 	public SafeDateFormat() {
 		super();
@@ -67,8 +70,11 @@ public class SafeDateFormat
 	/**
 	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and the default
 	 * {@link DateFormatSymbols} for the default {@link Locale}.
-	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
-	 * factory methods of {@link DateFormat}.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This constructor may not support all {@link Locale}. For full coverage, use the factory
+	 * methods of {@link DateFormat}.</dd>
+	 * </dl>
 	 * <p>
 	 * This is equivalent to calling the constructor {@link #SafeDateFormat(String, Locale)
 	 * SafeDateFormat(pattern, Locale.getDefault())}.
@@ -86,8 +92,11 @@ public class SafeDateFormat
 	/**
 	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and the default
 	 * {@link DateFormatSymbols} for the specified {@link Locale}.
-	 * <b>Note:</b> This constructor may not support all {@link Locale}. For full coverage, use the
-	 * factory methods of {@link DateFormat}.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This constructor may not support all {@link Locale}. For full coverage, use the factory
+	 * methods of {@link DateFormat}.</dd>
+	 * </dl>
 	 * <p>
 	 * @param pattern the pattern {@link String} describing the date-time format
 	 * @param locale  the {@link Locale} whose {@link DateFormatSymbols} should be used
@@ -317,7 +326,10 @@ public class SafeDateFormat
 
 	/**
 	 * Clones {@code this}.
-	 * <b>Note:</b> This also clones the {@link DateFormatSymbols}.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This also clones the {@link DateFormatSymbols}.</dd>
+	 * </dl>
 	 * <p>
 	 * @return a clone of {@code this}
 	 *

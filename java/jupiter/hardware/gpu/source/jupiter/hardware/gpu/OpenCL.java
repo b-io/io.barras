@@ -353,8 +353,11 @@ public abstract class OpenCL
 
 	/**
 	 * Disposes of system resources and performs a cleanup.
-	 * <b>Note:</b> This method is called by the garbage collector on an {@link Object} when the
-	 * garbage collection determines that there are no more references to the {@link Object}.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This method is called by the garbage collector on an {@link Object} when the garbage
+	 * collection determines that there are no more references to the {@link Object}.</dd>
+	 * </dl>
 	 *
 	 * @see PhantomReference
 	 * @see WeakReference

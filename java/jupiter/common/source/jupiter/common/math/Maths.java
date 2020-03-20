@@ -1901,8 +1901,8 @@ public class Maths {
 	 * ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by computing an
 	 * arc tangent of {@code y / x} in the range of {@code -π} to {@code π}.
 	 * <p>
-	 * @param x the {@code double} x-coordinate
-	 * @param y the {@code double} y-coordinate
+	 * @param x a {@code double} x-coordinate
+	 * @param y a {@code double} y-coordinate
 	 * <p>
 	 * @return the angle {@code theta} from the conversion of the specified rectangular coordinates
 	 *         ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by
@@ -1917,8 +1917,8 @@ public class Maths {
 	 * ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by computing an
 	 * arc tangent of {@code y / x} in the range of {@code 0.} to {@code 2. * π}.
 	 * <p>
-	 * @param x the {@code double} x-coordinate
-	 * @param y the {@code double} y-coordinate
+	 * @param x a {@code double} x-coordinate
+	 * @param y a {@code double} y-coordinate
 	 * <p>
 	 * @return the angle {@code theta} from the conversion of the specified rectangular coordinates
 	 *         ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by

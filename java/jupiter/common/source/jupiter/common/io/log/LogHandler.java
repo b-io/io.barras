@@ -224,8 +224,11 @@ public class LogHandler
 	/**
 	 * Appends the specified content {@link Object} to the output line buffer (or to the error line
 	 * buffer if {@code isError}).
-	 * <b>Note:</b> The output line buffer (or the error line buffer if {@code isError}) is written
-	 * to the log when either {@code println} or {@code flush} is called.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The output line buffer (or the error line buffer if {@code isError}) is written to the
+	 * log when either {@code println} or {@code flush} is called.</dd>
+	 * </dl>
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log

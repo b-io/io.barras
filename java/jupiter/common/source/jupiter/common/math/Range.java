@@ -23,6 +23,8 @@
  */
 package jupiter.common.math;
 
+import static jupiter.common.io.IO.IO;
+
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
 
@@ -30,7 +32,8 @@ import jupiter.common.struct.tuple.Pair;
  * {@link Range} is the {@link Interval} of {@link Double}.
  */
 public class Range
-		extends Interval<Double> {
+		extends Interval<Double>
+		implements IRange {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -116,7 +119,7 @@ public class Range
 		return bound;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the distance to the specified value.
@@ -172,6 +175,37 @@ public class Range
 				Maths.delta(value, upperBound.value) + (upperBound.isInclusive ? 0. :
 						value < upperBound.value ? -Maths.TINY_TOLERANCE : Maths.TINY_TOLERANCE) :
 				Double.POSITIVE_INFINITY;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns {@code value} if {@code value} is inside {@code this}, the value of the closest
+	 * {@link Bound} if {@code value} is non-{@code null} and not {@code NaN}, {@code NaN}
+	 * otherwise.
+	 * <p>
+	 * @param value the {@link Double} to bound (may be {@code null})
+	 * <p>
+	 * @return {@code value} if {@code value} is inside {@code this}, the value of the closest
+	 *         {@link Bound} if {@code value} is non-{@code null} and not {@code NaN}, {@code NaN}
+	 *         otherwise
+	 */
+	public double bound(final Double value) {
+		return Ranges.bound(this, value);
+	}
+
+	/**
+	 * Returns {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise.
+	 * <p>
+	 * @param value the {@link Double} to constrain (may be {@code null})
+	 * <p>
+	 * @return {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise
+	 */
+	public Double constrain(final Double value) {
+		return Ranges.constrain(this, value);
 	}
 
 

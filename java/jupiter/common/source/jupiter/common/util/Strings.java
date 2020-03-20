@@ -157,11 +157,11 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an Unicode {@link String} converted from the specified {@link String}.
+	 * Returns a Unicode {@link String} converted from the specified {@link String}.
 	 * <p>
 	 * @param text the {@link String} to convert
 	 * <p>
-	 * @return an Unicode {@link String} converted from the specified {@link String}
+	 * @return a Unicode {@link String} converted from the specified {@link String}
 	 */
 	public static String toUnicode(final String text) {
 		final StringBuilder builder = createBuilder(6 * text.length());
@@ -578,8 +578,11 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by capitalizing all the whitespace-separated words of
 	 * the specified {@link String}.
-	 * <b>Note:</b> To also convert the remaining characters to lowercase, use
-	 * {@link #capitalizeStrictly(String)}.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>To also convert the remaining characters to lowercase, use
+	 * {@link #capitalizeStrictly(String)}.</dd>
+	 * </dl>
 	 * <p>
 	 * @param text the @link String} to capitalize (may be {@code null})
 	 * <p>
@@ -596,8 +599,11 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by capitalizing all the words of the specified
 	 * {@link String} separated by the specified {@code char} delimiters.
-	 * <b>Note:</b> To also convert the remaining characters to lowercase, use
-	 * {@link #capitalizeStrictly(String, char[])}.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>To also convert the remaining characters to lowercase, use
+	 * {@link #capitalizeStrictly(String, char[])}.</dd>
+	 * </dl>
 	 * <p>
 	 * @param text       the @link String} to capitalize (may be {@code null})
 	 * @param delimiters the {@code char} delimiters (may be {@code null})

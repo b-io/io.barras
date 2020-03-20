@@ -177,8 +177,10 @@ public class ReservedThreadPoolExecutor
 	/**
 	 * Submits the specified {@link Runnable} task for execution if there is at least one thread
 	 * that is not actively executing tasks.
-	 * <b>Note:</b> The {@link Future#get} method will return {@code null} upon successful
-	 * completion.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The {@link Future#get} method will return {@code null} upon successful completion.</dd>
+	 * </dl>
 	 * <p>
 	 * @param task the {@link Runnable} task to submit
 	 * <p>
@@ -204,8 +206,11 @@ public class ReservedThreadPoolExecutor
 	/**
 	 * Submits the specified {@link Runnable} task for execution if there is at least one thread
 	 * that is not actively executing tasks.
-	 * <b>Note:</b> The {@link Future#get} method will return the specified default {@code T} result
-	 * upon successful completion.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The {@link Future#get} method will return the specified default {@code T} result upon
+	 * successful completion.</dd>
+	 * </dl>
 	 * <p>
 	 * @param <T>           the type of the {@link Future} to return
 	 * @param task          the {@link Runnable} task to submit
@@ -233,8 +238,10 @@ public class ReservedThreadPoolExecutor
 	/**
 	 * Submits the specified {@link Callable} task for execution if there is at least one thread
 	 * that is not actively executing tasks.
-	 * <b>Note:</b> The {@link Future#get} method will return {@code null} upon successful
-	 * completion.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The {@link Future#get} method will return {@code null} upon successful completion.</dd>
+	 * </dl>
 	 * <p>
 	 * @param <T>  the type of the {@link Future} to return
 	 * @param task the {@link Callable} task of {@code T} type to submit

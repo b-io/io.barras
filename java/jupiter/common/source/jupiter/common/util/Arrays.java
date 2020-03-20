@@ -993,13 +993,14 @@ public class Arrays {
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
-	 * <p>
-	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
-	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately
-	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
-	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This implementation is a stable, adaptive, iterative merge sort that requires far less
+	 * than {@code n log n} comparisons when the input array is partially sorted, while offering the
+	 * performance of a traditional merge sort when the input array is randomly ordered. If the
+	 * input array is nearly sorted, the implementation requires approximately {@code n}
+	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
+	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -1010,7 +1011,8 @@ public class Arrays {
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
-	 * Algorithms, pp 467-474, January 1993.
+	 * Algorithms, pp 467-474, January 1993.</dd>
+	 * </dl>
 	 * <p>
 	 * @param array the array to sort
 	 * <p>
@@ -1033,13 +1035,14 @@ public class Arrays {
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
-	 * <p>
-	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
-	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately
-	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
-	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This implementation is a stable, adaptive, iterative merge sort that requires far less
+	 * than {@code n log n} comparisons when the input array is partially sorted, while offering the
+	 * performance of a traditional merge sort when the input array is randomly ordered. If the
+	 * input array is nearly sorted, the implementation requires approximately {@code n}
+	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
+	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -1050,7 +1053,8 @@ public class Arrays {
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
-	 * Algorithms, pp 467-474, January 1993.
+	 * Algorithms, pp 467-474, January 1993.</dd>
+	 * </dl>
 	 * <p>
 	 * @param array     the array to sort
 	 * @param fromIndex the index of the first element to sort (inclusive)
@@ -1080,13 +1084,14 @@ public class Arrays {
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
-	 * <p>
-	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
-	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately
-	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
-	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This implementation is a stable, adaptive, iterative merge sort that requires far less
+	 * than {@code n log n} comparisons when the input array is partially sorted, while offering the
+	 * performance of a traditional merge sort when the input array is randomly ordered. If the
+	 * input array is nearly sorted, the implementation requires approximately {@code n}
+	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
+	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -1097,7 +1102,8 @@ public class Arrays {
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
-	 * Algorithms, pp 467-474, January 1993.
+	 * Algorithms, pp 467-474, January 1993.</dd>
+	 * </dl>
 	 * <p>
 	 * @param array     the array to sort
 	 * @param fromIndex the index of the first element to sort (inclusive)
@@ -1128,13 +1134,14 @@ public class Arrays {
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
-	 * <p>
-	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
-	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately
-	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
-	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This implementation is a stable, adaptive, iterative merge sort that requires far less
+	 * than {@code n log n} comparisons when the input array is partially sorted, while offering the
+	 * performance of a traditional merge sort when the input array is randomly ordered. If the
+	 * input array is nearly sorted, the implementation requires approximately {@code n}
+	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
+	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -1145,7 +1152,8 @@ public class Arrays {
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
-	 * Algorithms, pp 467-474, January 1993.
+	 * Algorithms, pp 467-474, January 1993.</dd>
+	 * </dl>
 	 * <p>
 	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array to sort
@@ -1176,13 +1184,14 @@ public class Arrays {
 	 * <p>
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
-	 * <p>
-	 * <b>Note:</b> This implementation is a stable, adaptive, iterative merge sort that requires
-	 * far less than {@code n log n} comparisons when the input array is partially sorted, while
-	 * offering the performance of a traditional merge sort when the input array is randomly
-	 * ordered. If the input array is nearly sorted, the implementation requires approximately
-	 * {@code n} comparisons. Temporary storage requirements vary from a small constant for nearly
-	 * sorted input arrays to {@code n / 2} object references for randomly ordered input arrays.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This implementation is a stable, adaptive, iterative merge sort that requires far less
+	 * than {@code n log n} comparisons when the input array is partially sorted, while offering the
+	 * performance of a traditional merge sort when the input array is randomly ordered. If the
+	 * input array is nearly sorted, the implementation requires approximately {@code n}
+	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
+	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
 	 * <p>
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
@@ -1193,7 +1202,8 @@ public class Arrays {
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
-	 * Algorithms, pp 467-474, January 1993.
+	 * Algorithms, pp 467-474, January 1993.</dd>
+	 * </dl>
 	 * <p>
 	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array to sort
