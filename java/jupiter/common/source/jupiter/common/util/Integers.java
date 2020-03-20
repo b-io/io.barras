@@ -1897,7 +1897,6 @@ public class Integers {
 	 * <p>
 	 * @return a clone of the specified 2D {@code int} array, or {@code null} if it is {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static int[][] clone(final int[]... array2D) {
 		// Check the arguments
 		if (array2D == null) {
@@ -1920,7 +1919,6 @@ public class Integers {
 	 * <p>
 	 * @return a clone of the specified 3D {@code int} array, or {@code null} if it is {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static int[][][] clone(final int[][][] array3D) {
 		// Check the arguments
 		if (array3D == null) {

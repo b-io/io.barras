@@ -1773,7 +1773,6 @@ public class Longs {
 	 * <p>
 	 * @return a clone of the specified 2D {@code long} array, or {@code null} if it is {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static long[][] clone(final long[]... array2D) {
 		// Check the arguments
 		if (array2D == null) {
@@ -1796,7 +1795,6 @@ public class Longs {
 	 * <p>
 	 * @return a clone of the specified 3D {@code long} array, or {@code null} if it is {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static long[][][] clone(final long[][][] array3D) {
 		// Check the arguments
 		if (array3D == null) {

@@ -46,8 +46,11 @@ import jupiter.common.test.Test;
 public class IntervalListTest
 		extends Test {
 
+	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final IntervalList<Double> A = new IntervalList<Double>(N1, A1, N2, A2, A3);
+	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final IntervalList<Double> B = new IntervalList<Double>(B1, N2, B2, N3, B3);
+	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final IntervalList<Double> C = new IntervalList<Double>(C1, C2, N3, C3, N1);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

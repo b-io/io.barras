@@ -73,6 +73,7 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 	 * <p>
 	 * @param elements an {@code E} array
 	 */
+	@SuppressWarnings({"unchecked", "varargs"})
 	public GenericIntervalList(final E... elements) {
 		super(elements);
 	}

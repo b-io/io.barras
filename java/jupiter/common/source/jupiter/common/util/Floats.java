@@ -1794,7 +1794,6 @@ public class Floats {
 	 * @return a clone of the specified 2D {@code float} array, or {@code null} if it is
 	 *         {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static float[][] clone(final float[]... array2D) {
 		// Check the arguments
 		if (array2D == null) {
@@ -1818,7 +1817,6 @@ public class Floats {
 	 * @return a clone of the specified 3D {@code float} array, or {@code null} if it is
 	 *         {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static float[][][] clone(final float[][][] array3D) {
 		// Check the arguments
 		if (array3D == null) {

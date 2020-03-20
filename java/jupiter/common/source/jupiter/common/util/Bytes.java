@@ -2045,7 +2045,6 @@ public class Bytes {
 	 * <p>
 	 * @return a clone of the specified 2D {@code byte} array, or {@code null} if it is {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static byte[][] clone(final byte[]... array2D) {
 		// Check the arguments
 		if (array2D == null) {
@@ -2068,7 +2067,6 @@ public class Bytes {
 	 * <p>
 	 * @return a clone of the specified 3D {@code byte} array, or {@code null} if it is {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static byte[][][] clone(final byte[][][] array3D) {
 		// Check the arguments
 		if (array3D == null) {

@@ -1808,7 +1808,6 @@ public class Shorts {
 	 * @return a clone of the specified 2D {@code short} array, or {@code null} if it is
 	 *         {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static short[][] clone(final short[]... array2D) {
 		// Check the arguments
 		if (array2D == null) {
@@ -1832,7 +1831,6 @@ public class Shorts {
 	 * @return a clone of the specified 3D {@code short} array, or {@code null} if it is
 	 *         {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static short[][][] clone(final short[][][] array3D) {
 		// Check the arguments
 		if (array3D == null) {

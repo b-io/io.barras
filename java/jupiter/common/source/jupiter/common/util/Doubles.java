@@ -1781,7 +1781,6 @@ public class Doubles {
 	 * @return a clone of the specified 2D {@code double} array, or {@code null} if it is
 	 *         {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static double[][] clone(final double[]... array2D) {
 		// Check the arguments
 		if (array2D == null) {
@@ -1805,7 +1804,6 @@ public class Doubles {
 	 * @return a clone of the specified 3D {@code double} array, or {@code null} if it is
 	 *         {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static double[][][] clone(final double[][][] array3D) {
 		// Check the arguments
 		if (array3D == null) {

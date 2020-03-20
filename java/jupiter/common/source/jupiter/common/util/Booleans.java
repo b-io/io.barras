@@ -1439,7 +1439,6 @@ public class Booleans {
 	 * @return a clone of the specified 2D {@code boolean} array, or {@code null} if it is
 	 *         {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static boolean[][] clone(final boolean[]... array2D) {
 		// Check the arguments
 		if (array2D == null) {
@@ -1463,7 +1462,6 @@ public class Booleans {
 	 * @return a clone of the specified 3D {@code boolean} array, or {@code null} if it is
 	 *         {@code null}
 	 */
-	@SuppressWarnings({"cast", "unchecked"})
 	public static boolean[][][] clone(final boolean[][][] array3D) {
 		// Check the arguments
 		if (array3D == null) {
