@@ -94,6 +94,24 @@
 				<checksumPolicy>warn</checksumPolicy>
 			</snapshots>
 		</repository>
+
+		<!-- MVN Repository -->
+		<repository>
+			<id>mvnrepository</id>
+			<name>MVN Repository</name>
+			<url>https://mvnrepository.com</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>

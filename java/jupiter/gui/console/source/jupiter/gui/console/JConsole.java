@@ -113,7 +113,7 @@ public class JConsole
 	protected static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
 
 	/**
-	 * The {@link Style} associated to {@link ConsoleHandler.Color}.
+	 * The {@link Style} associated to {@link jupiter.common.io.console.ConsoleHandler.Color}.
 	 */
 	protected static final ExtendedHashMap<ConsoleHandler.Color, Style> STYLES = new ExtendedHashMap<ConsoleHandler.Color, Style>();
 
