@@ -139,7 +139,7 @@ public class Formats {
 	public static volatile SafeDateFormat DATE_TIME_FORMAT = new SafeDateFormat(
 			DEFAULT_DATE_TIME_PATTERN);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * The number length used for representing numbers as {@link String}.
