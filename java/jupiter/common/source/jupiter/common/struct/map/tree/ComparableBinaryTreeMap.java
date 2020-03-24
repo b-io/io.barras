@@ -175,7 +175,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified {@code N} tree and returns the values of the
+	 * Performs the in-order traversal of the specified {@code N} tree and adds the values of the
 	 * visited nodes in the specified {@link List}.
 	 * <p>
 	 * @param tree   the {@code N} tree to get the values from (may be {@code null})

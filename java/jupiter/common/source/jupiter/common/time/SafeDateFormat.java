@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Locale.Category;
 import java.util.TimeZone;
 
 import jupiter.common.model.ICloneable;
@@ -77,9 +78,9 @@ public class SafeDateFormat
 	 * </dl>
 	 * <p>
 	 * This is equivalent to calling the constructor {@link #SafeDateFormat(String, Locale)
-	 * SafeDateFormat(pattern, Locale.getDefault())}.
+	 * SafeDateFormat(pattern, Locale.getDefault(Category.FORMAT))}.
 	 *
-	 * @see Locale#getDefault()
+	 * @see Locale#getDefault(Category)
 	 * <p>
 	 * @param pattern the pattern {@link String} describing the date-time format
 	 * <p>
