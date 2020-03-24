@@ -23,31 +23,23 @@
  */
 package jupiter.graphics.charts;
 
-import jupiter.common.model.ICloneable;
-import jupiter.common.util.Strings;
-import jupiter.gui.swing.Swings;
+import jupiter.math.analysis.differentiation.FiniteDifferentiator;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
+import jupiter.math.analysis.function.univariate.UnivariateFunctions;
 
-import org.jfree.chart.ui.ApplicationFrame;
-
-public abstract class Graphic
-		extends ApplicationFrame
-		implements ICloneable<Graphic> {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1L;
-
+/**
+ * {@link CombinedSeriesGraphicDemo} demonstrates {@link CombinedSeriesGraphic}.
+ */
+public class CombinedSeriesGraphicDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final String title;
+	/**
+	 * The {@link CombinedSeriesGraphic}.
+	 */
+	protected final CombinedSeriesGraphic graph;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,46 +47,48 @@ public abstract class Graphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Graphic} with the specified title.
-	 * <p>
-	 * @param title the title
+	 * Constructs a {@link CombinedSeriesGraphicDemo}.
 	 */
-	protected Graphic(final String title) {
-		super(title);
-		this.title = title;
-		setDefaultParameters();
+	public CombinedSeriesGraphicDemo() {
+		graph = new CombinedSeriesGraphic("Combined Series Graphic Demo", "X", "Y1", "y2");
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
+	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the parameters by default.
+	 * Demonstrates {@link CombinedSeriesGraphic}.
+	 * <p>
+	 * @param args ignored
 	 */
-	public void setDefaultParameters() {
-		Swings.setDefaultParameters(this);
+	public static void main(final String[] args) {
+		final CombinedSeriesGraphicDemo demo = new CombinedSeriesGraphicDemo();
+		demo.loadSeries();
+		demo.display();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
-	 *
-	 * @see ICloneable
-	 */
-	@Override
-	public Graphic clone() {
-		try {
-			return (Graphic) super.clone();
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
-		}
+	public void display() {
+		graph.display();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected void loadSeries() {
+		final int sampleSize = 100;
+		final double step = 1.;
+		final UnivariateFunction sin = UnivariateFunctions.SIN;
+		graph.addSeries(0, Charts.createSeries("SIN", sin, 0., 10., sampleSize));
+		final UnivariateFunction cos = new FiniteDifferentiator(sin, sampleSize, step);
+		graph.addSeries(1, Charts.createSeries("COS", cos, 0., 10., sampleSize));
 	}
 }

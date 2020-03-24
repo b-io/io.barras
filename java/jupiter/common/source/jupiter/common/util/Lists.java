@@ -52,14 +52,14 @@ public class Lists
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the minimum element for all index of the specified {@link List} in an
+	 * Returns the minimum element for each index of the specified {@link List} in an
 	 * {@link ExtendedList}.
 	 * <p>
 	 * @param <E> the element type of the {@link ExtendedList} to return (subtype of {@link Number})
 	 * @param a   a {@link List} of {@code E} element type (subtype of {@link Number})
 	 * @param b   another {@link List} of {@code E} element type (subtype of {@link Number})
 	 * <p>
-	 * @return the minimum element for all index of the specified {@link List} in an
+	 * @return the minimum element for each index of the specified {@link List} in an
 	 *         {@link ExtendedList}
 	 */
 	public static <E extends Number> ExtendedList<E> getMinElements(final List<? extends E> a,
@@ -67,7 +67,7 @@ public class Lists
 		// Check the arguments
 		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
 
-		// Return the minimum element for all index of the lists
+		// Return the minimum element for each index of the lists
 		final ExtendedList<E> minElements = new ExtendedList<E>(a.size());
 		final Iterator<? extends E> aIterator = a.iterator();
 		final Iterator<? extends E> bIterator = b.iterator();
@@ -78,14 +78,14 @@ public class Lists
 	}
 
 	/**
-	 * Returns the maximum element for all index of the specified {@link List} in an
+	 * Returns the maximum element for each index of the specified {@link List} in an
 	 * {@link ExtendedList}.
 	 * <p>
 	 * @param <E> the element type of the {@link ExtendedList} to return (subtype of {@link Number})
 	 * @param a   a {@link List} of {@code E} element type (subtype of {@link Number})
 	 * @param b   another {@link List} of {@code E} element type (subtype of {@link Number})
 	 * <p>
-	 * @return the maximum element for all index of the specified {@link List} in an
+	 * @return the maximum element for each index of the specified {@link List} in an
 	 *         {@link ExtendedList}
 	 */
 	public static <E extends Number> ExtendedList<E> getMaxElements(final List<? extends E> a,
@@ -93,7 +93,7 @@ public class Lists
 		// Check the arguments
 		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
 
-		// Return the maximum element for all index of the lists
+		// Return the maximum element for each index of the lists
 		final ExtendedList<E> maxElements = new ExtendedList<E>(a.size());
 		final Iterator<? extends E> aIterator = a.iterator();
 		final Iterator<? extends E> bIterator = b.iterator();

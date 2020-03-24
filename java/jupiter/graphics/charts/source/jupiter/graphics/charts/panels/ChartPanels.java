@@ -42,7 +42,7 @@ import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.entity.XYItemEntity;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleEdge;
 
 public class ChartPanels {
 
@@ -62,16 +62,16 @@ public class ChartPanels {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the closest {@link ChartEntity} to the specified mouse event in the specified chart
-	 * panel.
+	 * Returns the closest {@link ChartEntity} to the specified mouse event in the specified
+	 * {@link ChartPanel}.
 	 * <p>
 	 * @param chartPanel a {@link ChartPanel}
 	 * @param mouseEvent a {@link ChartMouseEvent}
 	 * <p>
-	 * @return the closest {@link ChartEntity} to the specified mouse event in the specified chart
-	 *         panel
+	 * @return the closest {@link ChartEntity} to the specified mouse event in the specified
+	 *         {@link ChartPanel}
 	 */
-	@SuppressWarnings({"conversion", "deprecation", "unchecked"})
+	@SuppressWarnings({"conversion", "unchecked"})
 	public static ChartEntity getEntity(final ChartPanel chartPanel,
 			final ChartMouseEvent mouseEvent) {
 		ChartEntity entity = mouseEvent.getEntity();
@@ -97,9 +97,8 @@ public class ChartPanels {
 		// • Select the closest chart entity to the mouse position
 		double minDistance = Integer.MAX_VALUE;
 		for (final ChartEntity e : es) {
-			if (e instanceof CategoryItemEntity ||
-					e instanceof org.jfree.chart.entity.ContourEntity ||
-					e instanceof PieSectionEntity || e instanceof XYItemEntity) {
+			if (e instanceof CategoryItemEntity || e instanceof PieSectionEntity ||
+					e instanceof XYItemEntity) {
 				final Rectangle r = e.getArea().getBounds();
 				final Point2D center = new Point2D.Double(r.getCenterX(), r.getCenterY());
 				final double distance = position.distance(center);
@@ -113,12 +112,12 @@ public class ChartPanels {
 	}
 
 	/**
-	 * Returns the {@link XYPlot} at the specified position in the specified chart panel.
+	 * Returns the {@link XYPlot} at the specified position in the specified {@link ChartPanel}.
 	 * <p>
 	 * @param chartPanel a {@link ChartPanel}
 	 * @param position   a {@link Point}
 	 * <p>
-	 * @return the {@link XYPlot} at the specified position in the specified chart panel
+	 * @return the {@link XYPlot} at the specified position in the specified {@link ChartPanel}
 	 */
 	public static XYPlot getPlot(final ChartPanel chartPanel, final Point position) {
 		XYPlot plot = (XYPlot) chartPanel.getChart().getPlot();
@@ -132,14 +131,14 @@ public class ChartPanels {
 	}
 
 	/**
-	 * Returns the screen area {@link Rectangle2D} at the specified position in the specified chart
-	 * panel.
+	 * Returns the screen area {@link Rectangle2D} at the specified position in the specified
+	 * {@link ChartPanel}.
 	 * <p>
 	 * @param chartPanel a {@link ChartPanel}
 	 * @param position   a {@link Point}
 	 * <p>
-	 * @return the screen area {@link Rectangle2D} at the specified position in the specified chart
-	 *         panel
+	 * @return the screen area {@link Rectangle2D} at the specified position in the specified
+	 *         {@link ChartPanel}
 	 */
 	public static Rectangle2D getScreenArea(final ChartPanel chartPanel, final Point position) {
 		return chartPanel.getScreenDataArea(position.x, position.y);
@@ -169,17 +168,17 @@ public class ChartPanels {
 	public static double java2DToDomainValue(final ChartPanel chartPanel, final Point position) {
 		final XYPlot plot = getPlot(chartPanel, position);
 		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
-		final ValueAxis domainAxis = plot.getDomainAxis();
-		final RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
-		return domainAxis.java2DToValue(position.x, screenArea, domainAxisEdge);
+		final ValueAxis xAxis = plot.getDomainAxis();
+		final RectangleEdge xAxisEdge = plot.getDomainAxisEdge();
+		return xAxis.java2DToValue(position.x, screenArea, xAxisEdge);
 	}
 
 	public static double java2DToRangeValue(final ChartPanel chartPanel, final Point position) {
 		final XYPlot plot = getPlot(chartPanel, position);
 		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
-		final ValueAxis rangeAxis = plot.getRangeAxis();
-		final RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
-		return rangeAxis.java2DToValue(position.y, screenArea, rangeAxisEdge);
+		final ValueAxis yAxis = plot.getRangeAxis();
+		final RectangleEdge yAxisEdge = plot.getRangeAxisEdge();
+		return yAxis.java2DToValue(position.y, screenArea, yAxisEdge);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,17 +187,17 @@ public class ChartPanels {
 			final XY<Double> coordinates) {
 		final XYPlot plot = getPlot(chartPanel, position);
 		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
-		final ValueAxis domainAxis = plot.getDomainAxis();
-		final RectangleEdge domainAxisEdge = plot.getDomainAxisEdge();
-		return domainAxis.valueToJava2D(coordinates.getX(), screenArea, domainAxisEdge);
+		final ValueAxis xAxis = plot.getDomainAxis();
+		final RectangleEdge xAxisEdge = plot.getDomainAxisEdge();
+		return xAxis.valueToJava2D(coordinates.getX(), screenArea, xAxisEdge);
 	}
 
 	public static double rangeValueToJava2D(final ChartPanel chartPanel, final Point position,
 			final XY<Double> coordinates) {
 		final XYPlot plot = getPlot(chartPanel, position);
 		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
-		final ValueAxis rangeAxis = plot.getRangeAxis();
-		final RectangleEdge rangeAxisEdge = plot.getRangeAxisEdge();
-		return rangeAxis.valueToJava2D(coordinates.getY(), screenArea, rangeAxisEdge);
+		final ValueAxis yAxis = plot.getRangeAxis();
+		final RectangleEdge yAxisEdge = plot.getRangeAxisEdge();
+		return yAxis.valueToJava2D(coordinates.getY(), screenArea, yAxisEdge);
 	}
 }

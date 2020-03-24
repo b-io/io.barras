@@ -61,7 +61,7 @@ public class EigenvalueDecompositionTest
 
 			// Decompose
 			final EigenvalueDecomposition decomposition = new EigenvalueDecomposition(
-					matrix.plus(matrix.transpose()).times(0.5));
+					matrix.plus(matrix.transpose()).divide(2.));
 
 			// Verify the decomposition
 			final double[] eigenvalues = decomposition.getRealEigenvalues();

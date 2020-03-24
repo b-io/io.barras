@@ -208,9 +208,9 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * of the visited {@code N} nodes in the specified {@link List}.
 	 * <p>
 	 * @param tree the {@code N} tree to get the {@code K} keys from (may be {@code null})
-	 * @param keys the {@link List} of {@code K} type to store the {@code K} keys in
+	 * @param keys the {@link List} of {@code K} supertype to store the {@code K} keys in
 	 */
-	protected void getKeys(final N tree, final List<K> keys) {
+	protected void getKeys(final N tree, final List<? super K> keys) {
 		if (tree != null) {
 			getKeys(tree.left, keys);
 			keys.add(tree.key);
@@ -236,9 +236,9 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * visited nodes in the specified {@link List}.
 	 * <p>
 	 * @param tree   the {@code N} tree to get the values from (may be {@code null})
-	 * @param values the {@link List} of {@code V} type to store the values in
+	 * @param values the {@link List} of {@code V} supertype to store the values in
 	 */
-	protected void getValues(final N tree, final List<V> values) {
+	protected void getValues(final N tree, final List<? super V> values) {
 		if (tree != null) {
 			getValues(tree.left, values);
 			values.add(tree.value);
@@ -642,16 +642,6 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 			entrySet(tree.right, set);
 		}
 		return set;
-	}
-
-	/**
-	 * Returns the number of key-value mappings.
-	 * <p>
-	 * @return the number of key-value mappings
-	 */
-	@Override
-	public int size() {
-		return size;
 	}
 
 

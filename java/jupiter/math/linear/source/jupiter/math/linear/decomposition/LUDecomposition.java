@@ -244,9 +244,9 @@ public class LUDecomposition
 	}
 
 	/**
-	 * Returns the pivot permutation vector {@code pivot} as a one-dimensional {@code double} array.
+	 * Returns the pivot permutation vector {@code pivot} as a {@code double} array.
 	 * <p>
-	 * @return the pivot permutation vector {@code pivot} as a one-dimensional {@code double} array
+	 * @return the pivot permutation vector {@code pivot} as a {@code double} array
 	 */
 	public double[] getDoublePivot() {
 		final double[] p = new double[m];

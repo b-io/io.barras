@@ -49,7 +49,7 @@ public class IOPrinter
 	/**
 	 * The {@link List} of {@link IOHandler}.
 	 */
-	protected final List<IOHandler> handlers;
+	protected final List<? extends IOHandler> handlers;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ public class IOPrinter
 	 * <p>
 	 * @param handlers the {@link List} of {@link IOHandler}
 	 */
-	public IOPrinter(final List<IOHandler> handlers) {
+	public IOPrinter(final List<? extends IOHandler> handlers) {
 		super();
 		this.handlers = handlers;
 	}

@@ -1113,7 +1113,7 @@ public class Table<E>
 		// Parse the file
 		String line;
 		if ((line = reader.readLine()) != null) {
-			// Find the delimiter (take the first one in the list in case of different delimiters)
+			// Find the delimiter (take the first one in the array in case of different delimiters)
 			Character delimiter = null;
 			StringReplacer replacer = null;
 			for (final char d : COLUMN_DELIMITERS) {

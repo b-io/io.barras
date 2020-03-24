@@ -23,14 +23,15 @@
  */
 package jupiter.graphics.charts.struct;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
+import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -56,9 +57,9 @@ public class TimeSeriesList
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link List} of {@link TimeSeries}.
+	 * The {@link ExtendedList} of {@link TimeSeries}.
 	 */
-	protected List<TimeSeries> list;
+	protected ExtendedList<TimeSeries> timeSeriesList;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +70,8 @@ public class TimeSeriesList
 	 * Constructs an empty {@link TimeSeriesList} by default.
 	 */
 	public TimeSeriesList() {
-		this(new ExtendedList<TimeSeries>());
+		super();
+		this.timeSeriesList = new ExtendedList<TimeSeries>();
 	}
 
 	/**
@@ -80,68 +82,157 @@ public class TimeSeriesList
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
 	public TimeSeriesList(final int initialCapacity) {
-		this(new ExtendedList<TimeSeries>(initialCapacity));
+		super();
+		this.timeSeriesList = new ExtendedList<TimeSeries>(initialCapacity);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link TimeSeriesList} with the specified {@link List} of {@link TimeSeries}.
+	 * Constructs a {@link TimeSeriesList} with the specified elements.
 	 * <p>
-	 * @param list the {@link List} of {@link TimeSeries}
+	 * @param elements an array of {@link TimeSeries}
 	 */
-	public TimeSeriesList(final List<TimeSeries> list) {
+	public TimeSeriesList(final TimeSeries... elements) {
 		super();
-		this.list = list;
+		this.timeSeriesList = new ExtendedList<TimeSeries>(elements);
+	}
+
+	/**
+	 * Constructs a {@link TimeSeriesList} with the elements of the specified {@link Collection}.
+	 * <p>
+	 * @param elements a {@link Collection} of {@link TimeSeries}
+	 */
+	public TimeSeriesList(final Collection<? extends TimeSeries> elements) {
+		super();
+		this.timeSeriesList = new ExtendedList<TimeSeries>(elements);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// TIME SERIES COLLECTION
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Appends the specified {@link TimeSeries} to the end of {@code this}.
+	 * <p>
+	 * @param timeSeries the {@link TimeSeries} to append
+	 */
 	@Override
 	public void addSeries(final TimeSeries timeSeries) {
 		super.addSeries(timeSeries);
-		list.add(timeSeries);
+		timeSeriesList.add(timeSeries);
 	}
 
+	/**
+	 * Appends a {@link TimeSeries} constructed with the specified name to the end of {@code this}.
+	 * <p>
+	 * @param name the name of the {@link TimeSeries} to append
+	 * <p>
+	 * @return the index of the {@link TimeSeries} appended to the end of {@code this}
+	 */
+	public int addSeries(final String name) {
+		addSeries(new TimeSeries(Arguments.requireNonNull(name, "name")));
+		return timeSeriesList.size() - 1;
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// TIME SERIES LIST
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public int addSeries(final String title) {
-		addSeries(new TimeSeries(Arguments.requireNonNull(title, "title")));
-		return list.size() - 1;
+	/**
+	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries}.
+	 * <p>
+	 * @param index       the index of the {@link TimeSeries} to append to
+	 * @param yCoordinate the {@code double} range coordinate of the point to append
+	 */
+	public void addPoint(final int index, final double yCoordinate) {
+		addPoint(index, new Date(), yCoordinate);
 	}
 
-	public void addValue(final int index, final Number value) {
-		list.get(index)
-				.addOrUpdate(new Millisecond(), Arguments.requireNonNull(value, "value"));
+	/**
+	 * Appends a point with the specified domain and range coordinates to the specified
+	 * {@link TimeSeries}.
+	 * <p>
+	 * @param index       the index of the {@link TimeSeries} to append to
+	 * @param xCoordinate the {@code double} domain coordinate of the point to append
+	 * @param yCoordinate the {@code double} range coordinate of the point to append
+	 */
+	public void addPoint(final int index, final Date xCoordinate, final double yCoordinate) {
+		timeSeriesList.get(index)
+				.addOrUpdate(new Millisecond(Arguments.requireNonNull(xCoordinate, "x-coordinate")),
+						yCoordinate);
 	}
 
-	public void addValue(final int index, final Date time, final Number value) {
-		list.get(index)
-				.addOrUpdate(new Millisecond(time), Arguments.requireNonNull(value, "value"));
-	}
-
-	public void addValues(final Number[] values) {
+	/**
+	 * Appends a point for each specified range coordinate to the respective {@link TimeSeries}.
+	 * <p>
+	 * @param yCoordinates the {@code double} range coordinate of each point to append
+	 */
+	public void addPointToAll(final double[] yCoordinates) {
 		// Check the arguments
-		ArrayArguments.requireMinLength(values, list.size());
+		DoubleArguments.requireMinLength(yCoordinates, timeSeriesList.size());
 
-		// Add or update the values
-		final Millisecond time = new Millisecond();
-		final Iterator<TimeSeries> timeSeriesIterator = list.iterator();
+		// Add or update the points
+		final Iterator<TimeSeries> timeSeriesIterator = timeSeriesList.iterator();
 		int i = 0;
 		while (timeSeriesIterator.hasNext()) {
-			timeSeriesIterator.next()
-					.addOrUpdate(time, Arguments.requireNonNull(values[i++], "value"));
+			timeSeriesIterator.next().addOrUpdate(new Millisecond(), yCoordinates[i++]);
 		}
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries}.
+	 * <p>
+	 * @param index       the index of the {@link TimeSeries} to append to
+	 * @param yCoordinate the range coordinate {@link Number} of the point to append
+	 */
+	public void addPoint(final int index, final Number yCoordinate) {
+		addPoint(index, new Date(), yCoordinate);
+	}
+
+	/**
+	 * Appends a point with the specified domain and range coordinates to the specified
+	 * {@link TimeSeries}.
+	 * <p>
+	 * @param index       the index of the {@link TimeSeries} to append to
+	 * @param xCoordinate the domain coordinate {@link Number} of the point to append
+	 * @param yCoordinate the range coordinate {@link Number} of the point to append
+	 */
+	public void addPoint(final int index, final Date xCoordinate, final Number yCoordinate) {
+		timeSeriesList.get(index)
+				.addOrUpdate(new Millisecond(Arguments.requireNonNull(xCoordinate, "x-coordinate")),
+						Arguments.requireNonNull(yCoordinate, "y-coordinate"));
+	}
+
+	/**
+	 * Appends a point for each specified range coordinate to the respective {@link TimeSeries}.
+	 * <p>
+	 * @param yCoordinates the range coordinate {@link Number} of each point to append
+	 */
+	public void addPointToAll(final Number[] yCoordinates) {
+		// Check the arguments
+		ArrayArguments.requireMinLength(yCoordinates, timeSeriesList.size());
+
+		// Add or update the points
+		final Iterator<TimeSeries> timeSeriesIterator = timeSeriesList.iterator();
+		int i = 0;
+		while (timeSeriesIterator.hasNext()) {
+			timeSeriesIterator.next()
+					.addOrUpdate(new Millisecond(),
+							Arguments.requireNonNull(yCoordinates[i++], "y-coordinate"));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the number of {@link TimeSeries}.
+	 *
+	 * @return the number of {@link TimeSeries}
+	 */
 	public int size() {
-		return list.size();
+		return timeSeriesList.size();
 	}
 
 
@@ -160,7 +251,7 @@ public class TimeSeriesList
 	public TimeSeriesList clone() {
 		try {
 			final TimeSeriesList clone = (TimeSeriesList) super.clone();
-			clone.list = Objects.clone(list);
+			clone.timeSeriesList = Objects.clone(timeSeriesList);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Strings.toString(ex), ex);

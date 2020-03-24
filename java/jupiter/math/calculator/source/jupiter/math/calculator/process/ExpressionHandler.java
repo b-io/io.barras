@@ -39,6 +39,7 @@ import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Result;
@@ -70,17 +71,17 @@ public class ExpressionHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link List} of binary operators.
+	 * The {@link ExtendedList} of binary operators.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	protected static final List<List<Character>> BINARY_FUNCTIONS = Arrays.<List<Character>>asList(
+	protected static final ExtendedList<ExtendedList<Character>> BINARY_FUNCTIONS = Arrays.<ExtendedList<Character>>asList(
 			Arrays.<Character>asList('+', '-'), Arrays.<Character>asList('*', '/'),
 			Arrays.<Character>asList('^'), Arrays.<Character>asList('~'));
 	/**
-	 * The {@link List} of unary operators.
+	 * The {@link ExtendedList} of unary operators.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	protected static final List<List<Character>> UNARY_FUNCTIONS = Arrays.<List<Character>>asList(
+	protected static final ExtendedList<ExtendedList<Character>> UNARY_FUNCTIONS = Arrays.<ExtendedList<Character>>asList(
 			Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,13 +110,15 @@ public class ExpressionHandler
 
 	/**
 	 * Returns the root {@link Element} of the tree whose nodes and leaves correspond respectively
-	 * to the operations and numbers of the specified expression {@link String}.
+	 * to the operations and numbers of the specified expression {@link String} with the specified
+	 * context {@link Map}.
 	 * <p>
 	 * @param expression the expression {@link String} to parse
 	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
 	 * @return the root {@link Element} of the tree whose nodes and leaves correspond respectively
-	 *         to the operations and numbers of the specified expression {@link String}
+	 *         to the operations and numbers of the specified expression {@link String} with the
+	 *         specified context {@link Map}
 	 */
 	public static Result<Element> parseExpression(final String expression,
 			final Map<String, Element> context) {
@@ -125,7 +128,7 @@ public class ExpressionHandler
 	/**
 	 * Returns a node or a leaf {@link Element} with the specified parent {@link Element}
 	 * corresponding respectively to an operation or a number parsed from the specified expression
-	 * {@link String}.
+	 * {@link String} with the specified context {@link Map}.
 	 * <p>
 	 * @param parent     the parent {@link Element} of the expression {@link String} to parse
 	 * @param expression the expression {@link String} to parse
@@ -133,7 +136,7 @@ public class ExpressionHandler
 	 * <p>
 	 * @return a node or leaf {@link Element} with the specified parent {@link Element}
 	 *         corresponding respectively to an operation or a number parsed from the specified
-	 *         expression {@link String}
+	 *         expression {@link String} with the specified context {@link Map}
 	 */
 	public static Result<Element> parseExpression(final Element parent, final String expression,
 			final Map<String, Element> context) {
@@ -341,7 +344,7 @@ public class ExpressionHandler
 	 */
 	protected static ExtendedLinkedList<Integer> getOperatorIndices(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
-			final List<List<Character>> allOperators) {
+			final List<? extends List<Character>> allOperators) {
 		// Initialize
 		final ExtendedLinkedList<Integer> indices = new ExtendedLinkedList<Integer>();
 		final int allOperatorCount = allOperators.size();
@@ -395,7 +398,7 @@ public class ExpressionHandler
 	 */
 	protected static int getLastOperatorIndexFromList(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
-			final List<List<Character>> allOperators) {
+			final List<? extends List<Character>> allOperators) {
 		// Initialize
 		final int allOperatorCount = allOperators.size();
 

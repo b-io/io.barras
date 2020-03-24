@@ -3295,8 +3295,7 @@ public class Strings {
 		if (isNonEmpty(text) && Arrays.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
 			for (final String token : tokens) {
-				final ExtendedLinkedList<Integer> tokenIndices = getStringIndices(text, token,
-						fromIndex);
+				final List<Integer> tokenIndices = getStringIndices(text, token, fromIndex);
 				for (final int tokenIndex : tokenIndices) {
 					indices.add(new Index<String>(tokenIndex, token));
 				}
@@ -3325,8 +3324,7 @@ public class Strings {
 		if (isNonEmpty(text) && Arrays.isNonEmpty(tokens) &&
 				Arrays.isBetween(toIndex, text.length(), true)) {
 			for (final String token : tokens) {
-				final ExtendedLinkedList<Integer> tokenIndices = getStringIndicesTo(text, token,
-						toIndex);
+				final List<Integer> tokenIndices = getStringIndicesTo(text, token, toIndex);
 				for (final int tokenIndex : tokenIndices) {
 					indices.add(new Index<String>(tokenIndex, token));
 				}
@@ -3372,8 +3370,7 @@ public class Strings {
 		if (isNonEmpty(text) && Collections.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
 			for (final String token : tokens) {
-				final ExtendedLinkedList<Integer> tokenIndices = getStringIndices(text, token,
-						fromIndex);
+				final List<Integer> tokenIndices = getStringIndices(text, token, fromIndex);
 				for (final int tokenIndex : tokenIndices) {
 					indices.add(new Index<String>(tokenIndex, token));
 				}
@@ -3402,8 +3399,7 @@ public class Strings {
 		if (isNonEmpty(text) && Collections.isNonEmpty(tokens) &&
 				Arrays.isBetween(toIndex, text.length(), true)) {
 			for (final String token : tokens) {
-				final ExtendedLinkedList<Integer> tokenIndices = getStringIndicesTo(text, token,
-						toIndex);
+				final List<Integer> tokenIndices = getStringIndicesTo(text, token, toIndex);
 				for (final int tokenIndex : tokenIndices) {
 					indices.add(new Index<String>(tokenIndex, token));
 				}
@@ -3752,8 +3748,7 @@ public class Strings {
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
-		final ExtendedLinkedList<Integer> delimiterIndices = getStringIndicesTo(text, delimiter,
-				toIndex);
+		final List<Integer> delimiterIndices = getStringIndicesTo(text, delimiter, toIndex);
 
 		// Split the text around the delimiter
 		int index = 0;
@@ -3812,8 +3807,7 @@ public class Strings {
 
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
-		final SortedList<Index<String>> delimiterIndices = getStringIndicesTo(text, delimiters,
-				toIndex);
+		final List<Index<String>> delimiterIndices = getStringIndicesTo(text, delimiters, toIndex);
 
 		// Split the text around the delimiters
 		sortStringIndices(delimiterIndices);
@@ -3869,8 +3863,7 @@ public class Strings {
 			final List<String> delimiters, final int toIndex) {
 		// Initialize
 		final ExtendedLinkedList<String> tokens = new ExtendedLinkedList<String>();
-		final SortedList<Index<String>> delimiterIndices = getStringIndicesTo(text, delimiters,
-				toIndex);
+		final List<Index<String>> delimiterIndices = getStringIndicesTo(text, delimiters, toIndex);
 
 		// Split the text around the delimiters
 		sortStringIndices(delimiterIndices);

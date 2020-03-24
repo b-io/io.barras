@@ -41,11 +41,11 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.event.OverlayChangeEvent;
 import org.jfree.chart.panel.AbstractOverlay;
 import org.jfree.chart.panel.Overlay;
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.util.PublicCloneable;
 
 /**
- * {@link XYSelectionOverlay} is the overlay for {@link ChartPanel} drawing a {@link List} of
- * {@link XYSelection} on a plot.
+ * {@link XYSelectionOverlay} is the overlay for {@link ChartPanel} painting an
+ * {@link ExtendedLinkedList} of {@link XYSelection} on a plot.
  */
 public class XYSelectionOverlay
 		extends AbstractOverlay
@@ -67,7 +67,7 @@ public class XYSelectionOverlay
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link List} of {@link XYSelection}.
+	 * The {@link ExtendedLinkedList} of {@link XYSelection}.
 	 */
 	protected ExtendedLinkedList<XYSelection> selections = new ExtendedLinkedList<XYSelection>();
 
@@ -89,7 +89,7 @@ public class XYSelectionOverlay
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds the specified {@link XYSelection} and sends an {@link OverlayChangeEvent} to all
+	 * Appends the specified {@link XYSelection} and sends an {@link OverlayChangeEvent} to all the
 	 * registered listeners.
 	 * <p>
 	 * @param selection the {@link XYSelection} to add
@@ -104,8 +104,10 @@ public class XYSelectionOverlay
 		fireOverlayChanged();
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Removes the specified {@link XYSelection} and sends an {@link OverlayChangeEvent} to all
+	 * Removes the specified {@link XYSelection} and sends an {@link OverlayChangeEvent} to all the
 	 * registered listeners.
 	 * <p>
 	 * @param selection the {@link XYSelection} to remove
@@ -121,10 +123,10 @@ public class XYSelectionOverlay
 	}
 
 	/**
-	 * Clears the {@link List} of {@link XYSelection} from the overlay and sends an
-	 * {@link OverlayChangeEvent} to all registered listeners.
+	 * Removes all the {@link XYSelection} and sends an {@link OverlayChangeEvent} to all the
+	 * registered listeners.
 	 */
-	public void clearSelectionList() {
+	public void removeAllSelection() {
 		if (selections.isNonEmpty()) {
 			for (final XYSelection selection : selections) {
 				selections.remove(selection);
@@ -149,9 +151,9 @@ public class XYSelectionOverlay
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Paints the {@link List} of {@link XYSelection} in the layer.
+	 * Paints the {@link List} of {@link XYSelection} in the specified {@link Graphics2D}.
 	 * <p>
-	 * @param g          the {@link Graphics2D} to paint
+	 * @param g          the {@link Graphics2D} to paint with
 	 * @param chartPanel the {@link ChartPanel} containing the overlay to paint
 	 */
 	@Override
@@ -166,7 +168,7 @@ public class XYSelectionOverlay
 		final Shape savedClip = g.getClip();
 		g.clip(screenArea);
 		for (final XYSelection selection : selections) {
-			selection.draw(g, chartPanel);
+			selection.paint(g, chartPanel);
 		}
 		g.setClip(savedClip);
 	}

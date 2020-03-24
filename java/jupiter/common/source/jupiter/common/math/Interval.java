@@ -85,7 +85,7 @@ public class Interval<T extends Comparable<? super T>>
 	 * <p>
 	 * @param lowerBoundValue the {@code T} value of the {@link LowerBound} (inclusive) (may be
 	 *                        {@code null})
-	 * @param upperBoundValue the {@code T} value of the {@link UpperBound} (exclusive) (may be
+	 * @param upperBoundValue the {@code T} value of the {@link UpperBound} (inclusive) (may be
 	 *                        {@code null})
 	 */
 	public Interval(final T lowerBoundValue, final T upperBoundValue) {

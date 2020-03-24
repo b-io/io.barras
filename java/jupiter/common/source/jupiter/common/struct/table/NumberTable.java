@@ -55,10 +55,10 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) with
-	 * the specified numbers of rows and columns.
+	 * Constructs a {@link NumberTable} of {@code E} element type with the specified numbers of rows
+	 * and columns.
 	 * <p>
-	 * @param c           the {@link Class} of {@code E} element type (subtype of {@link Number})
+	 * @param c           the {@link Class} of {@code E} element type
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
@@ -67,10 +67,10 @@ public class NumberTable<E extends Number>
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) with
-	 * the specified header and numbers of rows and columns.
+	 * Constructs a {@link NumberTable} of {@code E} element type with the specified header and
+	 * numbers of rows and columns.
 	 * <p>
-	 * @param c           the {@link Class} of {@code E} element type (subtype of {@link Number})
+	 * @param c           the {@link Class} of {@code E} element type
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -83,10 +83,9 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) with
-	 * the specified elements.
+	 * Constructs a {@link NumberTable} of {@code E} element type with the specified elements.
 	 * <p>
-	 * @param c        the {@link Class} of {@code E} element type (subtype of {@link Number})
+	 * @param c        the {@link Class} of {@code E} element type
 	 * @param elements a 2D {@code E} array
 	 */
 	public NumberTable(final Class<E> c, final E[][] elements) {
@@ -94,10 +93,10 @@ public class NumberTable<E extends Number>
 	}
 
 	/**
-	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) with
-	 * the specified header and elements.
+	 * Constructs a {@link NumberTable} of {@code E} element type with the specified header and
+	 * elements.
 	 * <p>
-	 * @param c        the {@link Class} of {@code E} element type (subtype of {@link Number})
+	 * @param c        the {@link Class} of {@code E} element type
 	 * @param header   an {@code E} array
 	 * @param elements a 2D {@code E} array
 	 */
@@ -108,10 +107,10 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NumberTable} of {@code E} element type (subtype of {@link Number}) loaded
-	 * from the file denoted by the specified path.
+	 * Constructs a {@link NumberTable} of {@code E} element type loaded from the file denoted by
+	 * the specified path.
 	 * <p>
-	 * @param parser    an {@link IParser} of {@code E} element type (subtype of {@link Number})
+	 * @param parser    an {@link IParser} of {@code E} element type
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
@@ -128,9 +127,9 @@ public class NumberTable<E extends Number>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the means that are computed for all row.
+	 * Returns the means computed for each row.
 	 * <p>
-	 * @return the means that are computed for all row
+	 * @return the means computed for each row
 	 */
 	public double[] getRowMeans() {
 		final double[] means = new double[m];
@@ -141,9 +140,9 @@ public class NumberTable<E extends Number>
 	}
 
 	/**
-	 * Returns the means that are computed for all column.
+	 * Returns the means computed for each column.
 	 * <p>
-	 * @return the means that are computed for all column
+	 * @return the means computed for each column
 	 */
 	public double[] getColumnMeans() {
 		final double[] means = new double[n];

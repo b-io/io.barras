@@ -72,11 +72,6 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The buffer size.
-	 */
-	public static final int BUFFER_SIZE = 8192;
-
-	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
 	public static volatile boolean PARALLELIZE = false;
@@ -221,8 +216,7 @@ public class Files {
 	public static void createDirs(final File file)
 			throws IOException {
 		if (!exists(file) && !file.mkdirs()) {
-			throw new IOException(Strings.join("Cannot create the directories ",
-					Strings.quote(getPath(file))));
+			throw new IOException("Cannot create the directories " + Strings.quote(getPath(file)));
 		}
 	}
 
@@ -691,7 +685,7 @@ public class Files {
 				while (position < size) {
 					final long remain = size - position;
 					byteCount = outputChannel.transferFrom(inputChannel, position,
-							remain > BUFFER_SIZE ? BUFFER_SIZE : remain);
+							remain > IO.BUFFER_SIZE ? IO.BUFFER_SIZE : remain);
 					// Exit if there are no more bytes to transfer
 					// (e.g. if the file is truncated after caching the size)
 					if (byteCount == 0L) {
@@ -781,7 +775,7 @@ public class Files {
 	 */
 	public static long copy(final File source, final OutputStream output)
 			throws IOException {
-		return copy(source, output, new byte[BUFFER_SIZE]);
+		return copy(source, output, new byte[IO.BUFFER_SIZE]);
 	}
 
 	/**
@@ -824,7 +818,7 @@ public class Files {
 	 */
 	public static long copy(final InputStream input, final File target)
 			throws IOException {
-		return copy(input, target, new byte[BUFFER_SIZE]);
+		return copy(input, target, new byte[IO.BUFFER_SIZE]);
 	}
 
 	/**

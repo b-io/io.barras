@@ -199,7 +199,7 @@ public class SingularValueDecomposition
 			}
 		}
 
-		// Set up the final bidiagonal matrix or order p
+		// Set up the final bidiagonal matrix of order p
 		int p = Math.min(m + 1, n);
 		if (nct < n) {
 			sigma[nct] = elements[nct * n + nct];
@@ -500,9 +500,9 @@ public class SingularValueDecomposition
 	}
 
 	/**
-	 * Returns the one-dimensional array of singular values {@code sigma}.
+	 * Returns the array of singular values {@code sigma}.
 	 * <p>
-	 * @return the one-dimensional array of singular values {@code sigma}
+	 * @return the array of singular values {@code sigma}
 	 */
 	public double[] getSingularValues() {
 		return sigma;

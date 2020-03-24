@@ -28,8 +28,8 @@ import static jupiter.common.util.Characters.BULLET;
 
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.test.Test;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
@@ -104,7 +104,7 @@ public class JSONTest
 		IO.test(result);
 		assertEquals("[0,1,2,3,4]", result);
 		// • Map
-		final Map<String, Integer> map = new TreeMap<String, Integer>();
+		final Map<String, Integer> map = new ExtendedHashMap<String, Integer>();
 		for (int i = 0; i < 5; ++i) {
 			map.put(Strings.toString(i), i);
 		}

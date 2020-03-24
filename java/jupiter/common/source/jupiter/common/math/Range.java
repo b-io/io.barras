@@ -23,8 +23,6 @@
  */
 package jupiter.common.math;
 
-import static jupiter.common.io.IO.IO;
-
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
 
@@ -64,7 +62,7 @@ public class Range
 	 * <p>
 	 * @param lowerBoundValue the {@link Double} of the {@link LowerBound} (inclusive) (may be
 	 *                        {@code null})
-	 * @param upperBoundValue the {@link Double} of the {@link UpperBound} (exclusive) (may be
+	 * @param upperBoundValue the {@link Double} of the {@link UpperBound} (inclusive) (may be
 	 *                        {@code null})
 	 */
 	public Range(final Double lowerBoundValue, final Double upperBoundValue) {

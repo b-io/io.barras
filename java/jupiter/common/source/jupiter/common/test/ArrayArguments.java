@@ -53,8 +53,8 @@ public class ArrayArguments
 
 	public static void requireArray(final Object object, final String name) {
 		if (CHECK_ARGS && !Arrays.is(requireNonNull(object, name))) {
-			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
-					" is not an array"));
+			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
+					" is not an array");
 		}
 	}
 
@@ -73,8 +73,8 @@ public class ArrayArguments
 
 	public static void requireNonEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
-					" is empty"));
+			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
+					" is empty");
 		}
 	}
 
@@ -103,8 +103,8 @@ public class ArrayArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException(Strings.join("The specified array has a length ",
-					foundLength, " inferior to ", minExpectedLength));
+			throw new IllegalArgumentException("The specified array has a length " + foundLength +
+					" inferior to " + minExpectedLength);
 		}
 	}
 
@@ -117,8 +117,8 @@ public class ArrayArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException(Strings.join("The specified array has a length ",
-					foundLength, " superior to ", maxExpectedLength));
+			throw new IllegalArgumentException("The specified array has a length " + foundLength +
+					" superior to " + maxExpectedLength);
 		}
 	}
 
@@ -168,8 +168,8 @@ public class ArrayArguments
 	 */
 	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
 		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
-			throw new IllegalArgumentException(Strings.join("Cannot store ", Objects.getName(b),
-					" in an array of ", Objects.getName(a)));
+			throw new IllegalArgumentException("Cannot store " + Objects.getName(b) +
+					" in an array of " + Objects.getName(a));
 		}
 	}
 }

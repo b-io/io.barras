@@ -37,7 +37,6 @@ import com.jogamp.opencl.CLProgram;
 
 import java.nio.DoubleBuffer;
 import java.util.Collection;
-import java.util.Map;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
@@ -68,7 +67,10 @@ public class JogAmpl
 	protected final CLCommandQueue commandQueue;
 
 	protected CLProgram program;
-	protected final Map<String, CLKernel> kernels = new ExtendedHashMap<String, CLKernel>();
+	/**
+	 * The {@link CLKernel} associated to names.
+	 */
+	protected final ExtendedHashMap<String, CLKernel> kernels = new ExtendedHashMap<String, CLKernel>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

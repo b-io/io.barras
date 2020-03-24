@@ -70,6 +70,11 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * The number of nodes (key-value mappings).
 	 */
 	protected int size = 0;
+
+	/**
+	 * The key {@link Class} of {@code K} type.
+	 */
+	protected final Class<K> c;
 	/**
 	 * The key {@link Comparator} of {@code K} supertype to use.
 	 */
@@ -86,7 +91,9 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 * @param c the key {@link Class} of {@code K} type
 	 */
 	protected TreeMap(final Class<K> c) {
-		this(Comparables.getComparator(c));
+		super();
+		this.c = c;
+		this.keyComparator = Comparables.getComparator(c);
 	}
 
 	//////////////////////////////////////////////
@@ -139,6 +146,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	 */
 	protected TreeMap(final Comparator<? super K> keyComparator) {
 		super();
+		this.c = null;
 		this.keyComparator = keyComparator;
 	}
 
@@ -190,6 +198,17 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the key {@link Class}.
+	 * <p>
+	 * @return the key {@link Class}
+	 */
+	public Class<?> getKeyClass() {
+		return c != null ? c : Maps.getElementClass(keySet());
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -342,9 +361,9 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the size.
+	 * Returns the number of key-value mappings.
 	 * <p>
-	 * @return the size
+	 * @return the number of key-value mappings
 	 */
 	@Override
 	public int size() {
@@ -372,8 +391,8 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	}
 
 	/**
-	 * Puts all the key-value mappings of the specified map into {@code this} replacing any entries
-	 * with identical keys.
+	 * Puts all the key-value mappings of the specified {@link Map} into {@code this} replacing any
+	 * entries with identical keys.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to put

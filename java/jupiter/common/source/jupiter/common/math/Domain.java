@@ -23,8 +23,6 @@
  */
 package jupiter.common.math;
 
-import static jupiter.common.io.IO.IO;
-
 import java.util.Collection;
 
 import jupiter.common.model.ICloneable;

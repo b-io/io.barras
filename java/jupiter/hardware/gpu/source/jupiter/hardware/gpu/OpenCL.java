@@ -148,9 +148,9 @@ public abstract class OpenCL
 	 */
 	protected final String sourceCode;
 	/**
-	 * The {@link List} of kernel names.
+	 * The {@link ExtendedLinkedList} of kernel names.
 	 */
-	protected List<String> kernelNames = new ExtendedLinkedList<String>();
+	protected ExtendedLinkedList<String> kernelNames = new ExtendedLinkedList<String>();
 
 	/**
 	 * The device local work group size.
@@ -209,11 +209,11 @@ public abstract class OpenCL
 	}
 
 	/**
-	 * Returns the {@link List} of kernel names.
+	 * Returns the {@link ExtendedLinkedList} of kernel names.
 	 * <p>
-	 * @return the {@link List} of kernel names
+	 * @return the {@link ExtendedLinkedList} of kernel names
 	 */
-	public List<String> getKernelNames() {
+	public ExtendedLinkedList<String> getKernelNames() {
 		return kernelNames;
 	}
 

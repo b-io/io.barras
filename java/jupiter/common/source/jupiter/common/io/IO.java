@@ -105,12 +105,12 @@ public class IO
 	/**
 	 * The buffer size used for copying.
 	 */
-	protected static volatile int BUFFER_SIZE = 4096; // [byte]
+	public static volatile int BUFFER_SIZE = 4096; // [byte]
 
 	/**
 	 * The stack index offset.
 	 */
-	protected static final int STACK_INDEX_OFFSET = 1;
+	public static volatile int STACK_INDEX_OFFSET = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +135,7 @@ public class IO
 	 * The {@link List} of {@link IOHandler} (containing the {@link ConsoleHandler} and
 	 * {@link LogHandler} by default).
 	 */
-	protected List<IOHandler> handlers;
+	protected List<? extends IOHandler> handlers;
 	/**
 	 * The {@link ConsoleHandler}.
 	 */
@@ -225,7 +225,7 @@ public class IO
 	 * @param handlers      the {@link List} of {@link IOHandler}
 	 */
 	public IO(final int stackIndex, final SeverityLevel severityLevel,
-			final List<IOHandler> handlers) {
+			final List<? extends IOHandler> handlers) {
 		// Set the stack index and severity level
 		this.stackIndex = stackIndex;
 		this.severityLevel = severityLevel;

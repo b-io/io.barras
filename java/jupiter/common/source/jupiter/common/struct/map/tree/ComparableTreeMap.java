@@ -123,6 +123,17 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the key {@link Class}.
+	 * <p>
+	 * @return the key {@link Class}
+	 */
+	public Class<?> getKeyClass() {
+		return Maps.getElementClass(keySet());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the {@code V} value associated to the specified key {@link Object}, or {@code null}
 	 * if it is not present.
 	 * <p>
@@ -255,9 +266,9 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the size.
+	 * Returns the number of key-value mappings.
 	 * <p>
-	 * @return the size
+	 * @return the number of key-value mappings
 	 */
 	@Override
 	public int size() {
@@ -284,8 +295,8 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	}
 
 	/**
-	 * Puts all the key-value mappings of the specified map into {@code this} replacing any entries
-	 * with identical keys.
+	 * Puts all the key-value mappings of the specified {@link Map} into {@code this} replacing any
+	 * entries with identical keys.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to put

@@ -102,7 +102,7 @@ public class IntervalTest
 		final Interval<Double> b4 = B4.clone();
 
 		// Verify the method
-		// - N
+		// • N
 		assertTrue(n1.merge(A1));
 		assertEquals(A1, n1);
 		assertTrue(n2.merge(A2));
@@ -111,7 +111,7 @@ public class IntervalTest
 		assertEquals(A3, n3);
 		assertTrue(n4.merge(A4));
 		assertEquals(A4, n4);
-		// - A
+		// • A
 		assertTrue(!a1.merge(N1));
 		assertTrue(!a2.merge(N2));
 		assertTrue(!a3.merge(N3));
@@ -128,7 +128,7 @@ public class IntervalTest
 		assertEquals(A3, a3);
 		assertTrue(a3.merge(A2));
 		assertEquals(A4, a3);
-		// - B + A = C
+		// • B + A = C
 		assertTrue(!b1.merge(A1));
 		assertEquals(B1, b1);
 		assertTrue(b2.merge(A2));

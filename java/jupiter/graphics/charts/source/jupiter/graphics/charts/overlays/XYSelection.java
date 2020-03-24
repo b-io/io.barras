@@ -35,13 +35,14 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.ChartPanels;
+import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.math.analysis.struct.XY;
 
 import org.jfree.chart.ChartPanel;
-import org.jfree.util.PublicCloneable;
+import org.jfree.chart.util.PublicCloneable;
 
 /**
- * A selection to show on a plot.
+ * {@link XYSelection} is the closest point to the mouse position in a {@link DynamicChartPanel}.
  */
 public class XYSelection
 		implements ICloneable<XYSelection>, PublicCloneable, Serializable {
@@ -73,11 +74,11 @@ public class XYSelection
 	protected Point mousePosition;
 
 	/**
-	 * The xy-coordinates.
+	 * The {@link XY}-coordinates.
 	 */
 	protected XY<Double> coordinates = new XY<Double>();
 	/**
-	 * The formats of the xy-coordinates.
+	 * The {@link Format} of the domain and range labels.
 	 */
 	protected XY<Format> formats;
 
@@ -103,18 +104,20 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link XYSelection} with the specified formats of the xy-coordinates.
+	 * Constructs a {@link XYSelection} with the specified {@link Format} of the domain and range
+	 * labels.
 	 * <p>
-	 * @param formats the {@link XY} of {@link Format}
+	 * @param formats the {@link Format} of the domain and range labels
 	 */
 	public XYSelection(final XY<Format> formats) {
 		this(formats, DEFAULT_RADIUS);
 	}
 
 	/**
-	 * Constructs a {@link XYSelection} with the specified formats of the xy-coordinates and radius.
+	 * Constructs a {@link XYSelection} with the specified {@link Format} of the domain and range
+	 * labels and radius.
 	 * <p>
-	 * @param formats the {@link XY} of {@link Format}
+	 * @param formats the {@link Format} of the domain and range labels
 	 * @param radius  the radius
 	 */
 	public XYSelection(final XY<Format> formats, final int radius) {
@@ -122,10 +125,10 @@ public class XYSelection
 	}
 
 	/**
-	 * Constructs a {@link XYSelection} with the specified formats of the xy-coordinates, radius and
-	 * flag specifying whether {@code this} is visible.
+	 * Constructs a {@link XYSelection} with the specified {@link Format} of the domain and range
+	 * labels, radius and flag specifying whether {@code this} is visible.
 	 * <p>
-	 * @param formats   the {@link XY} of {@link Format}
+	 * @param formats   the {@link Format} of the domain and range labels
 	 * @param radius    the radius
 	 * @param isVisible the flag specifying whether {@code this} is visible
 	 */
@@ -152,27 +155,27 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the xy-coordinates.
+	 * Returns the {@link XY}-coordinates.
 	 * <p>
-	 * @return the xy-coordinates
+	 * @return the {@link XY}-coordinates
 	 */
 	public XY<Double> getCoordinates() {
 		return coordinates;
 	}
 
 	/**
-	 * Returns the x-coordinate.
+	 * Returns the domain coordinate.
 	 * <p>
-	 * @return the x-coordinate
+	 * @return the domain coordinate
 	 */
 	public double getX() {
 		return coordinates.getX();
 	}
 
 	/**
-	 * Returns the y-coordinate.
+	 * Returns the range coordinate.
 	 * <p>
-	 * @return the y-coordinate
+	 * @return the range coordinate
 	 */
 	public double getY() {
 		return coordinates.getY();
@@ -206,15 +209,16 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the xy-coordinates and sends a property change event to all registered listeners.
+	 * Sets the {@link XY}-coordinates and sends a property change event to all the registered
+	 * listeners.
 	 * <p>
-	 * @param x a {@code double} value
-	 * @param y a {@code double} value
+	 * @param xCoordinate a {@code double} value
+	 * @param yCoordinate a {@code double} value
 	 */
-	public void setCoordinates(final double x, final double y) {
+	public void setCoordinates(final double xCoordinate, final double yCoordinate) {
 		final XY<Double> oldValue = coordinates.clone();
-		coordinates.setX(x);
-		coordinates.setY(y);
+		coordinates.setX(xCoordinate);
+		coordinates.setY(yCoordinate);
 		propertyChangeSupport.firePropertyChange("coordinates", oldValue, coordinates);
 	}
 
@@ -222,7 +226,7 @@ public class XYSelection
 
 	/**
 	 * Sets the flag specifying whether {@code this} is visible and sends a property change event to
-	 * all registered listeners.
+	 * all the registered listeners.
 	 * <p>
 	 * @param isVisible a {@code boolean} value
 	 */
@@ -248,6 +252,8 @@ public class XYSelection
 		propertyChangeSupport.addPropertyChangeListener(propertyChangeListener);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Removes the specified property change listener.
 	 * <p>
@@ -261,7 +267,14 @@ public class XYSelection
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void draw(final Graphics2D g, final ChartPanel chartPanel) {
+	/**
+	 * Paints {@code this} with the specified {@link Graphics2D} in the specified
+	 * {@link ChartPanel}.
+	 * <p>
+	 * @param g          the {@link Graphics2D} to paint with
+	 * @param chartPanel the {@link ChartPanel} containing the overlay to paint
+	 */
+	public void paint(final Graphics2D g, final ChartPanel chartPanel) {
 		if (mousePosition != null &&
 				!Double.isNaN(coordinates.getX()) && !Double.isNaN(coordinates.getY()) &&
 				isVisible) {
@@ -279,11 +292,11 @@ public class XYSelection
 	}
 
 	/**
-	 * Formats the specified xy-coordinates.
+	 * Formats the specified {@link XY}-coordinates.
 	 * <p>
-	 * @param coordinates a {@link XY} of {@link Double}
+	 * @param coordinates the {@link XY}-coordinates of {@link Double} to format
 	 * <p>
-	 * @return the formatted xy-coordinates in an array of {@link String}
+	 * @return the formatted {@link XY}-coordinates in an array of {@link String}
 	 */
 	protected String[] formatCoordinates(final XY<Double> coordinates) {
 		final String[] formattedCoordinates = new String[2];
@@ -341,7 +354,7 @@ public class XYSelection
 		return Objects.equals(mousePosition, otherXYSelection.mousePosition) &&
 				Objects.equals(coordinates, otherXYSelection.coordinates) &&
 				Objects.equals(formats, otherXYSelection.formats) &&
-				radius == otherXYSelection.radius &&
+				Objects.equals(radius, otherXYSelection.radius) &&
 				Objects.equals(isVisible, otherXYSelection.isVisible) &&
 				Objects.equals(propertyChangeSupport, otherXYSelection.propertyChangeSupport);
 	}

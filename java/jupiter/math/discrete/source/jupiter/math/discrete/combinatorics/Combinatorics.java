@@ -52,11 +52,11 @@ public class Combinatorics {
 	/**
 	 * The left direction.
 	 */
-	protected final static boolean LEFT = false;
+	protected static final boolean LEFT = false;
 	/**
 	 * The right direction.
 	 */
-	protected final static boolean RIGHT = true;
+	protected static final boolean RIGHT = true;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

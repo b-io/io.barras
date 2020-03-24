@@ -42,7 +42,10 @@ import jupiter.common.test.Tests;
 import jupiter.common.time.Chronometer;
 import jupiter.common.util.Objects;
 
-public class ScatterPlotGraphicDemo {
+/**
+ * {@link SeriesGraphicDemo} demonstrates {@link SeriesGraphic}.
+ */
+public class SeriesGraphicDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -55,7 +58,7 @@ public class ScatterPlotGraphicDemo {
 	protected static final int TEST_COUNT = 100;
 	protected static final int ELEMENT_COUNT = 100000;
 
-	protected final static ProgressBar PROGRESS_BAR = new ProgressBar();
+	protected static final ProgressBar PROGRESS_BAR = new ProgressBar();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +66,7 @@ public class ScatterPlotGraphicDemo {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Demonstrates {@link ScatterPlotGraphic}.
+	 * Demonstrates {@link SeriesGraphic}.
 	 * <p>
 	 * @param args ignored
 	 */
@@ -81,19 +84,19 @@ public class ScatterPlotGraphicDemo {
 		// • Insertion tests
 		if (TEST_INSERTION) {
 			IO.test(BULLET, " Insertion tests");
-			final ScatterPlotGraphic graphic = new ScatterPlotGraphic("Insertion", "Step", "Time");
+			final SeriesGraphic graph = new SeriesGraphic("Insertion", "Step", "Y");
 
 			int m = 0;
 			for (final Map<Long, Long> map : maps) {
 				// Initialize
 				final double[] times = new double[TEST_COUNT];
-				graphic.addSeries(Objects.getName(map));
+				graph.addSeries(0, Objects.getName(map));
 
 				// Test insertion
 				IO.test("Test insertion for ", Objects.getName(map));
 				for (int i = 0; i < TEST_COUNT; ++i) {
 					times[i] = testInsertion(map, ELEMENT_COUNT);
-					graphic.addPoint(m, i, times[i]);
+					graph.addPoint(0, m, i, times[i]);
 					map.clear();
 					PROGRESS_BAR.print(i, TEST_COUNT - 1);
 				}
@@ -102,26 +105,26 @@ public class ScatterPlotGraphicDemo {
 				Tests.printTimes(times);
 				++m;
 			}
-			graphic.display();
+			graph.display();
 		}
 
 		// • Search tests
 		if (TEST_SEARCH) {
 			IO.test(BULLET, " Search tests");
-			final ScatterPlotGraphic graphic = new ScatterPlotGraphic("Search", "Step", "Time");
+			final SeriesGraphic graph = new SeriesGraphic("Search", "Step", "Y");
 
 			int m = 0;
 			for (final Map<Long, Long> map : maps) {
 				// Initialize
 				final double[] times = new double[TEST_COUNT];
-				graphic.addSeries(Objects.getName(map));
+				graph.addSeries(0, Objects.getName(map));
 				testInsertion(map, ELEMENT_COUNT);
 
 				// Test search
 				IO.test("Test search for ", Objects.getName(map));
 				for (int i = 0; i < TEST_COUNT; ++i) {
 					times[i] = testSearch(map, ELEMENT_COUNT);
-					graphic.addPoint(m, i, times[i]);
+					graph.addPoint(0, m, i, times[i]);
 					PROGRESS_BAR.print(i, TEST_COUNT - 1);
 				}
 
@@ -129,26 +132,26 @@ public class ScatterPlotGraphicDemo {
 				Tests.printTimes(times);
 				++m;
 			}
-			graphic.display();
+			graph.display();
 		}
 
 		// • Deletion tests
 		if (TEST_DELETION) {
 			IO.test(BULLET, " Deletion tests");
-			final ScatterPlotGraphic graphic = new ScatterPlotGraphic("Deletion", "Step", "Time");
+			final SeriesGraphic graph = new SeriesGraphic("Deletion", "Step", "Y");
 
 			int m = 0;
 			for (final Map<Long, Long> map : maps) {
 				// Initialize
 				final double[] times = new double[TEST_COUNT];
-				graphic.addSeries(Objects.getName(map));
+				graph.addSeries(0, Objects.getName(map));
 				testInsertion(map, ELEMENT_COUNT);
 
 				// Test deletion
 				IO.test(BULLET, " Test deletion for ", Objects.getName(map));
 				for (int i = 0; i < TEST_COUNT; ++i) {
 					times[i] = testDeletion(map, ELEMENT_COUNT);
-					graphic.addPoint(m, i, times[i]);
+					graph.addPoint(0, m, i, times[i]);
 					PROGRESS_BAR.print(i, TEST_COUNT - 1);
 				}
 
@@ -156,7 +159,7 @@ public class ScatterPlotGraphicDemo {
 				Tests.printTimes(times);
 				++m;
 			}
-			graphic.display();
+			graph.display();
 		}
 	}
 

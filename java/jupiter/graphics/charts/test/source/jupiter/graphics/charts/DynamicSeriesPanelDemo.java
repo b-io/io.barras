@@ -23,30 +23,25 @@
  */
 package jupiter.graphics.charts;
 
-import static jupiter.common.io.IO.IO;
-
-import java.awt.Color;
-import java.io.IOException;
-import java.text.ParseException;
-
-import jupiter.common.struct.table.StringTable;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
-import jupiter.gui.swing.Swings;
+import jupiter.math.analysis.differentiation.FiniteDifferentiator;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
+import jupiter.math.analysis.function.univariate.UnivariateFunctions;
 
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.XYPlot;
-
-public class DynamicChartPanelDemo {
+/**
+ * {@link DynamicSeriesPanelDemo} demonstrates {@link DynamicChartPanel} with a
+ * {@link SeriesGraphic}.
+ */
+public class DynamicSeriesPanelDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link TimeSeriesGraphic}.
+	 * The {@link SeriesGraphic}.
 	 */
-	protected final TimeSeriesGraphic graph;
+	protected final SeriesGraphic graph;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,10 +49,10 @@ public class DynamicChartPanelDemo {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link DynamicChartPanelDemo}.
+	 * Constructs a {@link DynamicSeriesPanelDemo}.
 	 */
-	public DynamicChartPanelDemo() {
-		graph = new TimeSeriesGraphic("DynamicChartPanel Demo", "Time", "Value");
+	public DynamicSeriesPanelDemo() {
+		graph = new SeriesGraphic("Dynamic Series Graphic Demo", "X", "Y");
 	}
 
 
@@ -66,13 +61,13 @@ public class DynamicChartPanelDemo {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Demonstrates {@link DynamicChartPanel}.
+	 * Demonstrates {@link DynamicChartPanel} with a {@link SeriesGraphic}.
 	 * <p>
 	 * @param args ignored
 	 */
 	public static void main(final String[] args) {
-		final DynamicChartPanelDemo demo = new DynamicChartPanelDemo();
-		demo.loadSeries("test/resources/coordinates.csv");
+		final DynamicSeriesPanelDemo demo = new DynamicSeriesPanelDemo();
+		demo.loadSeries();
 		demo.display();
 	}
 
@@ -82,29 +77,26 @@ public class DynamicChartPanelDemo {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void display() {
-		// Create the chart
-		final JFreeChart chart = graph.createChart();
-		final XYPlot plot = chart.getXYPlot();
-		plot.getRenderer().setSeriesPaint(0, Color.BLUE);
-		plot.getRenderer().setSeriesPaint(1, Color.RED);
-
-		// Create the dynamic chart panel
-		final ChartPanel chartPanel = new DynamicChartPanel(chart, Charts.DEFAULT_DATE_FORMAT);
-		graph.setContentPane(chartPanel);
-
-		// Show the chart
-		Swings.show(graph);
+		graph.display();
 	}
 
-	protected void loadSeries(final String path) {
-		try {
-			final StringTable coordinates = new StringTable(path, true);
-			graph.load(coordinates, 0, 1, true);
-			graph.load(coordinates, 0, 2, true);
-		} catch (final IOException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
-			IO.error(ex);
-		}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected void loadSeries() {
+		final int sampleSize = 100;
+		final double step = 1.;
+
+		final UnivariateFunction sin = UnivariateFunctions.SIN;
+		graph.addSeries(0, Charts.createSeries("y = SIN", sin, 0., 10., sampleSize));
+
+		final UnivariateFunction derivative = new FiniteDifferentiator(sin, sampleSize, step);
+		graph.addSeries(0, Charts.createSeries("y' = COS", derivative, 0., 10., sampleSize));
+
+		final UnivariateFunction derivative2 = new FiniteDifferentiator(derivative, sampleSize,
+				step);
+		graph.addSeries(0, Charts.createSeries("y'' = -SIN", derivative2, 0., 10., sampleSize));
 	}
 }

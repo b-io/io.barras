@@ -69,9 +69,9 @@ public class MemoryTest
 		extends Test {
 
 	/**
-	 * The number of memcopy operations to perform for all size.
+	 * The number of memcopy operations to perform for each test.
 	 */
-	protected static final long MEMCOPY_ITERATIONS = 10L;
+	protected static final int MEMCOPY_ITERATION_COUNT = 10;
 
 	/**
 	 * The index of the OpenCL platform to use.
@@ -214,7 +214,7 @@ public class MemoryTest
 			}
 
 			// Copy the data from the host memory to the device memory a few times
-			for (int i = 0; i < MEMCOPY_ITERATIONS; ++i) {
+			for (int i = 0; i < MEMCOPY_ITERATION_COUNT; ++i) {
 				clEnqueueWriteBuffer(commandQueue, deviceBuffer, CL_FALSE, 0, memorySize,
 						Pointer.to(hostBuffer), 0, null, null);
 			}
@@ -233,7 +233,7 @@ public class MemoryTest
 			}
 
 			// Copy the data from the host memory to the device memory a few times
-			for (int i = 0; i < MEMCOPY_ITERATIONS; ++i) {
+			for (int i = 0; i < MEMCOPY_ITERATION_COUNT; ++i) {
 				mappedDeviceBuffer.put(hostBuffer);
 				hostBuffer.position(0);
 				mappedDeviceBuffer.position(0);
@@ -246,7 +246,7 @@ public class MemoryTest
 		// Compute the bandwidth
 		chrono.stop();
 		final double duration = chrono.getSeconds();
-		final double bandwidth = memorySize * MEMCOPY_ITERATIONS / (duration * Maths.pow2(20)); // [MB/s]
+		final double bandwidth = memorySize * MEMCOPY_ITERATION_COUNT / (duration * Maths.pow2(20)); // [MB/s]
 
 		// Release the memory
 		if (deviceBuffer != null) {

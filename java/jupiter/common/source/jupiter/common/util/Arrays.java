@@ -1128,7 +1128,7 @@ public class Arrays {
 
 	/**
 	 * Sorts the specified array according to the order induced by the specified {@link Comparator}.
-	 * All elements in the array must be <i>mutually comparable</i> by the specified
+	 * All the elements in the array must be <i>mutually comparable</i> by the specified
 	 * {@link Comparator} (that is, {@code c.compare(e1, e2)} must not throw a
 	 * {@link ClassCastException} for any elements {@code e1} and {@code e2} in the array).
 	 * <p>

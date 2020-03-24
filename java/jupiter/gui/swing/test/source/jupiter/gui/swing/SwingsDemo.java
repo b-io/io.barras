@@ -23,6 +23,9 @@
  */
 package jupiter.gui.swing;
 
+/**
+ * {@link SwingsDemo} demonstrates {@link Swings}.
+ */
 public class SwingsDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

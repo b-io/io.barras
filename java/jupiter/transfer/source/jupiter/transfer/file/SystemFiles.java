@@ -92,13 +92,13 @@ public class SystemFiles {
 
 	//////////////////////////////////////////////
 
-	public static Collection<File> find(final File dir, final String[] fileFilters) {
+	public static ExtendedLinkedList<File> find(final File dir, final String[] fileFilters) {
 		return find(dir, fileFilters, EMPTY);
 	}
 
-	public static Collection<File> find(final File dir, final String[] fileFilters,
+	public static ExtendedLinkedList<File> find(final File dir, final String[] fileFilters,
 			final String dirFilter) {
-		final Collection<File> files = new ExtendedLinkedList<File>();
+		final ExtendedLinkedList<File> files = new ExtendedLinkedList<File>();
 		for (final String fileFilter : fileFilters) {
 			files.addAll(find(dir, fileFilter, dirFilter));
 		}
@@ -107,9 +107,9 @@ public class SystemFiles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Collection<File> filterByExtensions(final Collection<File> files,
+	public static ExtendedLinkedList<File> filterByExtensions(final Collection<File> files,
 			final Set<String> extensions) {
-		final Collection<File> filteredFiles = new ExtendedLinkedList<File>();
+		final ExtendedLinkedList<File> filteredFiles = new ExtendedLinkedList<File>();
 		for (final File file : files) {
 			if (extensions.contains(Files.getExtension(file.getName()).toLowerCase())) {
 				filteredFiles.add(file);
@@ -118,9 +118,9 @@ public class SystemFiles {
 		return filteredFiles;
 	}
 
-	public static Collection<File> filterByKeyword(final Collection<File> files,
+	public static ExtendedLinkedList<File> filterByKeyword(final Collection<File> files,
 			final String keyword) {
-		final Collection<File> filteredFiles = new ExtendedLinkedList<File>();
+		final ExtendedLinkedList<File> filteredFiles = new ExtendedLinkedList<File>();
 		for (final File file : files) {
 			if (file.getName().contains(keyword)) {
 				filteredFiles.add(file);

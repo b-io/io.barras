@@ -174,7 +174,7 @@ public class DynamicSample
 	/**
 	 * Resamples.
 	 * <p>
-	 * @return {@code true} if the size of the sample is greater than {@code maxSampleSize} or the
+	 * @return {@code true} if the sample size is greater than {@code maxSampleSize} or the
 	 *         precision is decreasing, {@code false} otherwise
 	 */
 	public boolean resample() {
@@ -207,10 +207,10 @@ public class DynamicSample
 	}
 
 	/**
-	 * Tests whether the size of the sample is greater than {@code maxSampleSize} or the precision
-	 * is decreasing.
+	 * Tests whether the sample size is greater than {@code maxSampleSize} or the precision is
+	 * decreasing.
 	 * <p>
-	 * @return {@code true} if the size of the sample is greater than {@code maxSampleSize} or the
+	 * @return {@code true} if the sample size is greater than {@code maxSampleSize} or the
 	 *         precision is decreasing, {@code false} otherwise
 	 */
 	public boolean isResampling() {

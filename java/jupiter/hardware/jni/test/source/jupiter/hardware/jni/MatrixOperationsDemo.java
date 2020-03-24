@@ -29,6 +29,9 @@ import static jupiter.hardware.jni.MatrixOperations.test;
 
 import jupiter.common.util.Doubles;
 
+/**
+ * {@link MatrixOperationsDemo} demonstrates {@link MatrixOperations}.
+ */
 public class MatrixOperationsDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

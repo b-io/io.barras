@@ -91,7 +91,7 @@ public class SVM {
 	protected svm_model model;
 
 	/**
-	 * The probability estimates (per class).
+	 * The probability estimates associated to classes.
 	 */
 	protected final ExtendedHashMap<Integer, Double> probabilityEstimates;
 

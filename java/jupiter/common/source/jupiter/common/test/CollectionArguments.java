@@ -60,8 +60,8 @@ public class CollectionArguments
 
 	public static void requireNonEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
-					" is empty"));
+			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
+					" is empty");
 		}
 	}
 

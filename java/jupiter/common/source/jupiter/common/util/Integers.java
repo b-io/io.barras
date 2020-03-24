@@ -1541,8 +1541,8 @@ public class Integers {
 			throws NumberFormatException {
 		// Check the arguments
 		if (Strings.isNullOrEmpty(text) || text.charAt(0) == '-') {
-			throw new NumberFormatException(Strings.join("Cannot parse ", Strings.quote(text),
-					" to an unsigned int value"));
+			throw new NumberFormatException("Cannot parse " + Strings.quote(text) +
+					" to an unsigned int value");
 		}
 
 		// Parse the text
@@ -1555,8 +1555,8 @@ public class Integers {
 			if ((value & 0xffffffff00000000L) == 0) {
 				return (int) value;
 			} else {
-				throw new NumberFormatException(Strings.join("Cannot parse ", Strings.quote(text),
-						" to an unsigned int value (range exceeded)"));
+				throw new NumberFormatException("Cannot parse " + Strings.quote(text) +
+						" to an unsigned int value (range exceeded)");
 			}
 		}
 	}

@@ -26,7 +26,6 @@ package jupiter.common.thread;
 import static jupiter.common.io.IO.IO;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.Stack;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -35,7 +34,6 @@ import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Classes;
-import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
 public class WorkQueue<I, O>
@@ -115,9 +113,9 @@ public class WorkQueue<I, O>
 	protected volatile long currentTaskId = 0L;
 
 	/**
-	 * The {@link Map} containing the {@code O} results.
+	 * The {@code O} results associated to identifiers.
 	 */
-	protected final Map<Long, O> results = new ExtendedHashMap<Long, O>(Maps.DEFAULT_CAPACITY);
+	protected final ExtendedHashMap<Long, O> results = new ExtendedHashMap<Long, O>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

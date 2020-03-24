@@ -368,49 +368,50 @@ public class MailHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link List} of {@link MimeMessage} downloaded from the mail server in the remote
-	 * directory denoted by the specified path.
+	 * Returns the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
+	 * in the remote directory denoted by the specified path.
 	 * <p>
 	 * @param remoteDirPath the path to the remote directory
 	 * <p>
-	 * @return the {@link List} of {@link MimeMessage} downloaded from the mail server in the remote
-	 *         directory denoted by the specified path
+	 * @return the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
+	 *         in the remote directory denoted by the specified path
 	 */
-	public List<MimeMessage> download(final String remoteDirPath) {
+	public ExtendedLinkedList<MimeMessage> download(final String remoteDirPath) {
 		return download(remoteDirPath, STAR);
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the {@link List} of {@link MimeMessage} downloaded from the mail server in the remote
-	 * directory denoted by the specified path filtered by the specified mail filter {@link String}.
+	 * Returns the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
+	 * in the remote directory denoted by the specified path filtered by the specified mail filter
+	 * {@link String}.
 	 * <p>
 	 * @param remoteDirPath the path to the remote directory
 	 * @param mailFilter    the mail filter {@link String}
 	 * <p>
-	 * @return the {@link List} of {@link MimeMessage} downloaded from the mail server in the remote
-	 *         directory denoted by the specified path filtered by the specified mail filter
-	 *         {@link String}
+	 * @return the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
+	 *         in the remote directory denoted by the specified path filtered by the specified mail
+	 *         filter {@link String}
 	 */
-	public List<MimeMessage> download(final String remoteDirPath, final String mailFilter) {
+	public ExtendedLinkedList<MimeMessage> download(final String remoteDirPath,
+			final String mailFilter) {
 		return download(remoteDirPath, createSearchTerm(mailFilter));
 	}
 
 	/**
-	 * Returns the {@link List} of {@link MimeMessage} downloaded from the mail server in the remote
-	 * directory denoted by the specified path filtered by the specified mail filter
+	 * Returns the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
+	 * in the remote directory denoted by the specified path filtered by the specified mail filter
 	 * {@link SearchTerm}.
 	 * <p>
 	 * @param remoteDirPath the path to the remote directory
 	 * @param mailFilter    the mail filter {@link SearchTerm}
 	 * <p>
-	 * @return the {@link List} of {@link MimeMessage} downloaded from the mail server in the remote
-	 *         directory denoted by the specified path filtered by the specified mail filter
-	 *         {@link SearchTerm}
+	 * @return the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
+	 *         in the remote directory denoted by the specified path filtered by the specified mail
+	 *         filter {@link SearchTerm}
 	 */
-	public List<MimeMessage> download(final String remoteDirPath, final SearchTerm mailFilter) {
-		final List<MimeMessage> messages = new ExtendedLinkedList<MimeMessage>();
+	public ExtendedLinkedList<MimeMessage> download(final String remoteDirPath,
+			final SearchTerm mailFilter) {
+		final ExtendedLinkedList<MimeMessage> messages = new ExtendedLinkedList<MimeMessage>();
 		try {
 			IO.debug("Connect to the mail server ",
 					Strings.quote(hostName + ":" + inProtocol.getPort()),

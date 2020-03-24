@@ -23,31 +23,28 @@
  */
 package jupiter.graphics.charts;
 
-import jupiter.common.model.ICloneable;
-import jupiter.common.util.Strings;
-import jupiter.gui.swing.Swings;
+import static jupiter.common.io.IO.IO;
 
-import org.jfree.chart.ui.ApplicationFrame;
+import java.io.IOException;
+import java.text.ParseException;
 
-public abstract class Graphic
-		extends ApplicationFrame
-		implements ICloneable<Graphic> {
+import jupiter.common.struct.table.StringTable;
+import jupiter.graphics.charts.panels.DynamicChartPanel;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1L;
-
+/**
+ * {@link DynamicTimeSeriesGraphicDemo} demonstrates {@link DynamicChartPanel} with a
+ * {@link TimeSeriesGraphic}.
+ */
+public class DynamicTimeSeriesGraphicDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final String title;
+	/**
+	 * The {@link TimeSeriesGraphic}.
+	 */
+	protected final TimeSeriesGraphic graph;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,46 +52,51 @@ public abstract class Graphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Graphic} with the specified title.
-	 * <p>
-	 * @param title the title
+	 * Constructs a {@link DynamicTimeSeriesGraphicDemo}.
 	 */
-	protected Graphic(final String title) {
-		super(title);
-		this.title = title;
-		setDefaultParameters();
+	public DynamicTimeSeriesGraphicDemo() {
+		graph = new TimeSeriesGraphic("Dynamic Time Series Graphic Demo", "Time", "Y1", "Y2");
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
+	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the parameters by default.
+	 * Demonstrates {@link DynamicChartPanel} with a {@link TimeSeriesGraphic}.
+	 * <p>
+	 * @param args ignored
 	 */
-	public void setDefaultParameters() {
-		Swings.setDefaultParameters(this);
+	public static void main(final String[] args) {
+		final DynamicTimeSeriesGraphicDemo demo = new DynamicTimeSeriesGraphicDemo();
+		demo.loadSeries("test/resources/coordinates.csv");
+		demo.display();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
-	 *
-	 * @see ICloneable
-	 */
-	@Override
-	public Graphic clone() {
+	public void display() {
+		graph.display();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected void loadSeries(final String path) {
 		try {
-			return (Graphic) super.clone();
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			final StringTable coordinates = new StringTable(path, true);
+			graph.load(0, coordinates, 0, 1, true);
+			graph.load(1, coordinates, 0, 2, true);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} catch (final ParseException ex) {
+			IO.error(ex);
 		}
 	}
 }

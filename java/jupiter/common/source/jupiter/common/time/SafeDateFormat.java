@@ -299,7 +299,7 @@ public class SafeDateFormat
 	 * {@code null} is returned.
 	 * <p>
 	 * This parsing operation uses the {@link DateFormat#calendar calendar} to produce a
-	 * {@link Date}. All of {@code calendar}'s date-time fields are
+	 * {@link Date}. All the date-time fields of {@code calendar} are
 	 * {@linkplain Calendar#clear() cleared} before parsing, and the {@code calendar}'s default
 	 * values of the date-time fields are used for any missing date-time information. For example,
 	 * the year value of the parsed {@link Date} is 1970 with {@link GregorianCalendar} if no year

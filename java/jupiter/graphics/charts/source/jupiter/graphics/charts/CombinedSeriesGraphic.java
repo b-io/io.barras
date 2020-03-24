@@ -24,15 +24,16 @@
 package jupiter.graphics.charts;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Objects;
 
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.function.Function2D;
-import org.jfree.data.general.DatasetUtilities;
-import org.jfree.data.xy.XYDataset;
+import org.jfree.chart.axis.NumberAxis;
 
-public class LineChartGraphic
-		extends ChartGraphic {
+/**
+ * {@link CombinedSeriesGraphic} is the combined {@link SeriesGraphic}.
+ */
+public class CombinedSeriesGraphic
+		extends SeriesGraphic {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -45,57 +46,29 @@ public class LineChartGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The {@link XYDataset}.
-	 */
-	protected XYDataset dataset;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link LineChartGraphic} with the specified title, x-axis label and y-axis
-	 * label.
+	 * Constructs a {@link CombinedSeriesGraphic} with the specified title and domain label.
 	 * <p>
 	 * @param title  the title
-	 * @param xLabel the label of the x-axis
-	 * @param yLabel the label of the y-axis
+	 * @param xLabel the domain label
 	 */
-	public LineChartGraphic(final String title, final String xLabel, final String yLabel) {
-		super(title, xLabel, yLabel);
+	public CombinedSeriesGraphic(final String title, final String xLabel) {
+		super(title, xLabel);
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
-	 * Returns the dataset.
+	 * Constructs a {@link CombinedSeriesGraphic} with the specified title, domain label and range
+	 * labels.
 	 * <p>
-	 * @return the dataset
+	 * @param title   the title
+	 * @param xLabel  the domain label
+	 * @param yLabels the range labels
 	 */
-	public XYDataset getDataset() {
-		return dataset;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Sets the dataset.
-	 * <p>
-	 * @param dataset a {@link XYDataset}
-	 */
-	public void setDataset(final XYDataset dataset) {
-		this.dataset = dataset;
+	public CombinedSeriesGraphic(final String title, final String xLabel, final String... yLabels) {
+		super(title, xLabel, yLabels);
 	}
 
 
@@ -103,26 +76,28 @@ public class LineChartGraphic
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a combined chart.
+	 * <p>
+	 * @return a combined chart
+	 */
 	@Override
 	public JFreeChart createChart() {
-		return Charts.createLineChart(title, labels.getX(), labels.getY(), dataset);
+		return Charts.createCombinedChart(title, new NumberAxis(), axisDatasets);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link XYDataset} from the specified {@link Function2D}.
+	 * Creates a {@link ChartPanel} for the specified chart.
 	 * <p>
-	 * @param f           a {@link Function2D} {@code f: R -{@literal >} R}
-	 * @param lowerBound  the lowerbound of the domain
-	 * @param upperBound  the upperbound of the domain
-	 * @param sampleCount the number of samples
-	 * @param seriesKey   the identifier of the {@link XYDataset} to create
+	 * @param chart the {@link JFreeChart} to create for
+	 * <p>
+	 * @return a {@link ChartPanel} for the specified chart
 	 */
-	public void createDataset(final Function2D f, final double lowerBound, final double upperBound,
-			final int sampleCount, final Comparable<?> seriesKey) {
-		dataset = DatasetUtilities.sampleFunction2D(f, lowerBound, upperBound, sampleCount,
-				seriesKey);
+	@Override
+	public ChartPanel createChartPanel(final JFreeChart chart) {
+		return new ChartPanel(chart);
 	}
 
 
@@ -138,9 +113,7 @@ public class LineChartGraphic
 	 * @see ICloneable
 	 */
 	@Override
-	public LineChartGraphic clone() {
-		final LineChartGraphic clone = (LineChartGraphic) super.clone();
-		clone.dataset = Objects.clone(dataset);
-		return clone;
+	public CombinedSeriesGraphic clone() {
+		return (CombinedSeriesGraphic) super.clone();
 	}
 }

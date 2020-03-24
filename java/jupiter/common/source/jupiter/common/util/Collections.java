@@ -27,6 +27,7 @@ import static jupiter.common.util.Strings.NULL;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import jupiter.common.exception.IllegalClassException;
@@ -216,14 +217,14 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified index of the elements returned by the iterator of the
+	 * Returns the element at the specified index in the elements returned by the iterator of the
 	 * specified {@link Collection}.
 	 * <p>
 	 * @param <E>        the type of the element to return
 	 * @param collection a {@link Collection} of {@code E} element subtype
 	 * @param index      the index of the element to return
 	 * <p>
-	 * @return the element at the specified index of the elements returned by the iterator of the
+	 * @return the element at the specified index in the elements returned by the iterator of the
 	 *         specified {@link Collection}
 	 * <p>
 	 * @throws NoSuchElementException if the iteration has no more elements
@@ -283,7 +284,7 @@ public class Collections {
 		Arguments.requireNonNull(collection, "collection");
 
 		// Remove all the occurrences of the object from the collection and return their indices
-		final ExtendedList<Integer> indices = new ExtendedList<Integer>();
+		final List<Integer> indices = new ExtendedList<Integer>();
 		final Iterator<?> iterator = collection.iterator();
 		int index = 0;
 		while (iterator.hasNext()) {

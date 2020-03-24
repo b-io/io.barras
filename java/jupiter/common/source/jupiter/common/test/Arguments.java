@@ -106,8 +106,8 @@ public class Arguments {
 
 	public static <T> T requireNonNull(final T object, final String name) {
 		if (CHECK_ARGS && object == null) {
-			throw new NullPointerException(Strings.join("The specified argument ",
-					Strings.quote(name), " is null"));
+			throw new NullPointerException("The specified argument " + Strings.quote(name) +
+					" is null");
 		}
 		return object;
 	}
@@ -116,8 +116,8 @@ public class Arguments {
 
 	public static <T> void require(final T found, final T expected) {
 		if (CHECK_ARGS && !requireNonNull(found).equals(expected)) {
-			throw new IllegalArgumentException(Strings.join("The specified object is wrong ",
-					expectedButFound(found, expected)));
+			throw new IllegalArgumentException("The specified object is wrong " +
+					expectedButFound(found, expected));
 		}
 	}
 
@@ -125,8 +125,8 @@ public class Arguments {
 
 	public static <T> void requireEquals(final T a, final T b) {
 		if (CHECK_ARGS && !requireNonNull(a).equals(requireNonNull(b))) {
-			throw new IllegalArgumentException(
-					Strings.join("The specified objects are not equal ", isNotEqualTo(a, b)));
+			throw new IllegalArgumentException("The specified objects are not equal " +
+					isNotEqualTo(a, b));
 		}
 	}
 }

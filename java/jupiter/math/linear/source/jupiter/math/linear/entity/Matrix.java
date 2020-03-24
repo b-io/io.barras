@@ -79,12 +79,12 @@ import jupiter.math.linear.test.MatrixArguments;
  * {@link Vector} or a {@link Scalar} and to parse a {@link Matrix} from an input {@link String}.
  * <p>
  * The Java Matrix Class provides the fundamental operations of numerical linear algebra. Various
- * constructors create a {@link Matrix} from two dimensional {@code double} arrays. Various "gets"
- * and "sets" provide access to elements and sub-{@link Matrix}. Several methods implement basic
- * matrix arithmetic, including matrix addition and multiplication, matrix norms and
- * element-by-element array operations. Methods for reading and printing matrices are also included.
- * All the operations in this version of the Java Matrix Class involve real matrices. Complex
- * matrices may be handled in a future version.
+ * constructors create a {@link Matrix} from 2D {@code double} arrays. Various "gets" and "sets"
+ * provide access to elements and sub-{@link Matrix}. Several methods implement basic matrix
+ * arithmetic, including matrix addition and multiplication, matrix norms and element-by-element
+ * array operations. Methods for reading and printing matrices are also included. All the operations
+ * in this version of the Java Matrix Class involve real matrices. Complex matrices may be handled
+ * in a future version.
  * <p>
  * Five fundamental matrix decompositions, which consist of pairs or triples of matrices,
  * permutation vectors, and the like, produce results in five decomposition classes. These
@@ -133,7 +133,7 @@ public class Matrix
 	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
-	public static volatile boolean PARALLELIZE = false;
+	protected static volatile boolean PARALLELIZE = false;
 	/**
 	 * The {@link Multiplication} used for computing the multiplication.
 	 */
@@ -2780,7 +2780,7 @@ public class Matrix
 		 *              to process
 		 * <p>
 		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
-		 *         otherwise for all execution slice
+		 *         otherwise for each execution slice
 		 */
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
 			return divideAndConquer(input, 0, input.getFirst().m);

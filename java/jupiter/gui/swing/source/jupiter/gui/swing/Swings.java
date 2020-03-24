@@ -281,8 +281,8 @@ public class Swings {
 	}
 
 	/**
-	 * Closes the specified {@link Window} and releases all of the native screen resources used by
-	 * it, its subcomponents and all of its owned children.
+	 * Closes the specified {@link Window} and releases all the native screen resources used by it,
+	 * its subcomponents and all its owned children.
 	 * <p>
 	 * @param window the {@link Window} to close
 	 */

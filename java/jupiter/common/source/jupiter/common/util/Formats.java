@@ -31,6 +31,8 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import jupiter.common.time.SafeDateFormat;
+
 public class Formats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,6 +126,17 @@ public class Formats {
 	 * The default maximum number of fraction digits.
 	 */
 	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_PATTERN.length() - 2;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The {@link SafeDateFormat}.
+	 */
+	public static volatile SafeDateFormat DATE_FORMAT = new SafeDateFormat(DEFAULT_DATE_PATTERN);
+	/**
+	 * The {@link SafeDateFormat}.
+	 */
+	public static volatile SafeDateFormat DATE_TIME_FORMAT = new SafeDateFormat(DEFAULT_DATE_TIME_PATTERN);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

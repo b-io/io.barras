@@ -38,7 +38,6 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
@@ -62,26 +61,27 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static volatile int RUNS_COUNT = 1000;
-	protected static volatile int TIME_INTERVAL = 30000; // [ms]
-	protected static volatile int TIME_OUT = 10000; // [ms]
-	protected static volatile String TEMP_DIR = "C:/Temp";
-	/**
-	 * The delimiting {@link String}.
-	 */
-	protected static volatile String DELIMITER = ",";
+	public static volatile int RUNS_COUNT = 1000;
+	public static volatile int TIME_INTERVAL = 30000; // [ms]
+	public static volatile int TIME_OUT = 10000; // [ms]
+	public static volatile String TEMP_DIR = "C:/Temp";
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link List} of URLs to download.
+	 * The {@link ExtendedList} of URLs to download.
 	 */
-	protected static final List<String> URLS = Strings.asList(
+	protected static final ExtendedList<String> URLS = Strings.asList(
 			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test");
 
 	/**
-	 * The file handlers of the data files storing the downloading speeds.
+	 * The {@link FileHandler} of the data files storing the downloading speeds associated to URL
+	 * names.
 	 */
-	protected static final Map<String, FileHandler> DATA_FILES = new ExtendedHashMap<String, FileHandler>(
+	protected static final ExtendedHashMap<String, FileHandler> DATA_FILES = new ExtendedHashMap<String, FileHandler>(
 			URLS.size());
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.

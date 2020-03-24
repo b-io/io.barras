@@ -455,14 +455,14 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link RowList} created by executing the specified {@code SELECT} query using the
-	 * specified {@link Connection}, or {@code null} if there is a problem.
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} query using
+	 * the specified {@link Connection}, or {@code null} if there is a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code SELECT} query to execute
 	 * <p>
-	 * @return a {@link RowList} created by executing the specified {@code SELECT} query using the
-	 *         specified {@link Connection}, or {@code null} if there is a problem
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} query using
+	 *         the specified {@link Connection}, or {@code null} if there is a problem
 	 */
 	public static RowList select(final Connection connection, final String query) {
 		return selectWith(connection, query, Objects.EMPTY_ARRAY);
@@ -529,18 +529,18 @@ public class SQL {
 	}
 
 	/**
-	 * Returns a {@link RowList} created by executing the specified {@code SELECT} query with the
-	 * specified parameters using the specified {@link Connection}, or {@code null} if there is a
-	 * problem.
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} query with
+	 * the specified parameters using the specified {@link Connection}, or {@code null} if there is
+	 * a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code SELECT} query to execute
 	 * @param parameters the array of parameters of the {@code SELECT} query to execute (may be
 	 *                   {@code null})
 	 * <p>
-	 * @return a {@link RowList} created by executing the specified {@code SELECT} query with the
-	 *         specified parameters using the specified {@link Connection}, or {@code null} if there
-	 *         is a problem
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} query with
+	 *         the specified parameters using the specified {@link Connection}, or {@code null} if
+	 *         there is a problem
 	 */
 	public static RowList selectWith(final Connection connection,
 			final String query, final Object... parameters) {
@@ -571,14 +571,16 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link RowList} created by executing the specified SQL Data Manipulation Language
-	 * (DML) {@code SELECT} {@link PreparedStatement}, or {@code null} if there is a problem.
+	 * Returns a {@link RowList} constructed by executing the specified SQL Data Manipulation
+	 * Language (DML) {@code SELECT} {@link PreparedStatement}, or {@code null} if there is a
+	 * problem.
 	 * <p>
 	 * @param statement the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                  {@link PreparedStatement} to execute
 	 * <p>
-	 * @return a {@link RowList} created by executing the specified SQL Data Manipulation Language
-	 *         (DML) {@code SELECT} {@link PreparedStatement}, or {@code null} if there is a problem
+	 * @return a {@link RowList} constructed by executing the specified SQL Data Manipulation
+	 *         Language (DML) {@code SELECT} {@link PreparedStatement}, or {@code null} if there is
+	 *         a problem
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
@@ -589,18 +591,18 @@ public class SQL {
 	}
 
 	/**
-	 * Returns a {@link RowList} created by executing the specified SQL Data Manipulation Language
-	 * (DML) {@code SELECT} {@link PreparedStatement} with the specified parameters, or {@code null}
-	 * if there is a problem.
+	 * Returns a {@link RowList} constructed by executing the specified SQL Data Manipulation
+	 * Language (DML) {@code SELECT} {@link PreparedStatement} with the specified parameters, or
+	 * {@code null} if there is a problem.
 	 * <p>
 	 * @param statement  the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                   {@link PreparedStatement} to execute
 	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
 	 *                   {@code SELECT} {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
-	 * @return a {@link RowList} created by executing the specified SQL Data Manipulation Language
-	 *         (DML) {@code SELECT} {@link PreparedStatement} with the specified parameters, or
-	 *         {@code null} if there is a problem
+	 * @return a {@link RowList} constructed by executing the specified SQL Data Manipulation
+	 *         Language (DML) {@code SELECT} {@link PreparedStatement} with the specified
+	 *         parameters, or {@code null} if there is a problem
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
@@ -640,20 +642,21 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of the specified row {@link Class} created by executing the
-	 * specified {@code SELECT} query using the specified {@link Connection}, or {@code null} if
+	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 * the specified {@code SELECT} query using the specified {@link Connection}, or {@code null} if
 	 * there is a problem.
 	 * <p>
-	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c          the row {@link Class} of {@code T} type
+	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
+	 *                   {@link SQLRow})
+	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code SELECT} query to execute
 	 * <p>
-	 * @return an {@link ExtendedList} of the specified row {@link Class} created by executing the
-	 *         specified {@code SELECT} query using the specified {@link Connection}, or
+	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 *         the specified {@code SELECT} query using the specified {@link Connection}, or
 	 *         {@code null} if there is a problem
 	 */
-	public static <T extends SQLRow> ExtendedList<T> select(final Class<T> c,
+	public static <E extends SQLRow> ExtendedList<E> select(final Class<E> c,
 			final Connection connection, final String query) {
 		return selectWith(c, connection, query, Objects.EMPTY_ARRAY);
 	}
@@ -662,15 +665,16 @@ public class SQL {
 	 * Returns the rows of the specified table in an {@link ExtendedList} of the specified row
 	 * {@link Class} type using the specified {@link Connection}.
 	 * <p>
-	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c          the row {@link Class} of {@code T} type
+	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
+	 *                   {@link SQLRow})
+	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to update
 	 * <p>
 	 * @return the rows of the specified table in an {@link ExtendedList} of the specified row
 	 *         {@link Class} type using the specified {@link Connection}
 	 */
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
 			final Connection connection, final String table) {
 		return selectWith(c, connection, table, null, null, null);
 	}
@@ -679,8 +683,9 @@ public class SQL {
 	 * Returns the specified columns of the rows of the specified table in an {@link ExtendedList}
 	 * of the specified row {@link Class} type using the specified {@link Connection}.
 	 * <p>
-	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c          the row {@link Class} of {@code T} type
+	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
+	 *                   {@link SQLRow})
+	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to update
 	 * @param columns    the columns of the rows to select (may be {@code null})
@@ -688,7 +693,7 @@ public class SQL {
 	 * @return the specified columns of the rows of the specified table in an {@link ExtendedList}
 	 *         of the specified row {@link Class} type using the specified {@link Connection}
 	 */
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
 			final Connection connection, final String table, final String[] columns) {
 		return selectWith(c, connection, table, columns, null, null);
 	}
@@ -698,9 +703,9 @@ public class SQL {
 	 * conditional columns are equal to the conditional values in an {@link ExtendedList} of the
 	 * specified row {@link Class} type using the specified {@link Connection}.
 	 * <p>
-	 * @param <T>                the element type of the {@link ExtendedList} to return (subtype of
+	 * @param <E>                the element type of the {@link ExtendedList} to return (subtype of
 	 *                           {@link SQLRow})
-	 * @param c                  the row {@link Class} of {@code T} type
+	 * @param c                  the row {@link Class} of {@code E} type
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to update
 	 * @param columns            the columns of the rows to select (may be {@code null})
@@ -711,7 +716,7 @@ public class SQL {
 	 *         conditional columns are equal to the conditional values in an {@link ExtendedList} of
 	 *         the specified row {@link Class} type using the specified {@link Connection}
 	 */
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
 			final Connection connection, final String table, final String[] columns,
 			final String[] conditionalColumns, final Object... conditionalValues) {
 		// Check the arguments
@@ -727,22 +732,23 @@ public class SQL {
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of the specified row {@link Class} created by executing the
-	 * specified {@code SELECT} with the specified parameters query using the specified
+	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 * the specified {@code SELECT} with the specified parameters query using the specified
 	 * {@link Connection}, or {@code null} if there is a problem.
 	 * <p>
-	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c          the row {@link Class} of {@code T} type
+	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
+	 *                   {@link SQLRow})
+	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code SELECT} query to execute
 	 * @param parameters the array of parameters of the {@code SELECT} query to execute (may be
 	 *                   {@code null})
 	 * <p>
-	 * @return an {@link ExtendedList} of the specified row {@link Class} created by executing the
-	 *         specified {@code SELECT} with the specified parameters query using the specified
+	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 *         the specified {@code SELECT} with the specified parameters query using the specified
 	 *         {@link Connection}, or {@code null} if there is a problem
 	 */
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
 			final Connection connection, final String query, final Object... parameters) {
 		// Check the arguments
 		Arguments.requireNonNull(c, "class");
@@ -766,55 +772,57 @@ public class SQL {
 				}
 			}
 		}
-		return new ExtendedList<T>();
+		return new ExtendedList<E>();
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of the specified row {@link Class} created by executing the
-	 * specified SQL Data Manipulation Language (DML) {@code SELECT} {@link PreparedStatement}, or
-	 * {@code null} if there is a problem.
+	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 * the specified SQL Data Manipulation Language (DML) {@code SELECT} {@link PreparedStatement},
+	 * or {@code null} if there is a problem.
 	 * <p>
-	 * @param <T>       the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c         the row {@link Class} of {@code T} type
+	 * @param <E>       the element type of the {@link ExtendedList} to return (subtype of
+	 *                  {@link SQLRow})
+	 * @param c         the row {@link Class} of {@code E} type
 	 * @param statement the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                  {@link PreparedStatement} to execute
 	 * <p>
-	 * @return an {@link ExtendedList} of the specified row {@link Class} created by executing the
-	 *         specified SQL Data Manipulation Language (DML) {@code SELECT}
+	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 *         the specified SQL Data Manipulation Language (DML) {@code SELECT}
 	 *         {@link PreparedStatement}, or {@code null} if there is a problem
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
-	public static <T extends SQLRow> ExtendedList<T> select(final Class<T> c,
+	public static <E extends SQLRow> ExtendedList<E> select(final Class<E> c,
 			final PreparedStatement statement)
 			throws SQLException {
 		return selectWith(c, statement, Objects.EMPTY_ARRAY);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of the specified row {@link Class} created by executing the
-	 * specified SQL Data Manipulation Language (DML) {@code SELECT} {@link PreparedStatement} with
-	 * the specified parameters, or {@code null} if there is a problem.
+	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 * the specified SQL Data Manipulation Language (DML) {@code SELECT} {@link PreparedStatement}
+	 * with the specified parameters, or {@code null} if there is a problem.
 	 * <p>
-	 * @param <T>        the {@link SQLRow} type of the {@link ExtendedList} to return
-	 * @param c          the row {@link Class} of {@code T} type
+	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
+	 *                   {@link SQLRow})
+	 * @param c          the row {@link Class} of {@code E} type
 	 * @param statement  the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                   {@link PreparedStatement} to execute
 	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
 	 *                   {@code SELECT} {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
-	 * @return an {@link ExtendedList} of the specified row {@link Class} created by executing the
-	 *         specified SQL Data Manipulation Language (DML) {@code SELECT}
+	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 *         the specified SQL Data Manipulation Language (DML) {@code SELECT}
 	 *         {@link PreparedStatement} with the specified parameters, or {@code null} if there is
 	 *         a problem
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
-	public static <T extends SQLRow> ExtendedList<T> selectWith(final Class<T> c,
+	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
 			final PreparedStatement statement, final Object... parameters)
 			throws SQLException {
 		// Check the arguments
@@ -826,9 +834,9 @@ public class SQL {
 			setParameters(statement, parameters);
 		}
 		// Execute the SQL query
-		final ExtendedList<T> rows = new ExtendedList<T>();
+		final ExtendedList<E> rows = new ExtendedList<E>();
 		try {
-			final Constructor<T> constructor = c.getConstructor(ResultSet.class);
+			final Constructor<E> constructor = c.getConstructor(ResultSet.class);
 			final ResultSet resultSet = statement.executeQuery();
 			// Store the result
 			while (resultSet.next()) {
@@ -855,18 +863,18 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link RowList} created by executing the specified {@code SELECT} stored procedure
-	 * with the specified parameters using the specified {@link Connection}, or {@code null} if
-	 * there is a problem.
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} stored
+	 * procedure with the specified parameters using the specified {@link Connection}, or
+	 * {@code null} if there is a problem.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param name       the name of the {@code SELECT} stored procedure to execute
 	 * @param parameters the array of parameters of the {@code SELECT} query to execute (may be
 	 *                   {@code null})
 	 * <p>
-	 * @return a {@link RowList} created by executing the specified {@code SELECT} stored procedure
-	 *         with the specified parameters using the specified {@link Connection}, or {@code null}
-	 *         if there is a problem
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} stored
+	 *         procedure with the specified parameters using the specified {@link Connection}, or
+	 *         {@code null} if there is a problem
 	 */
 	public static RowList selectWithStoredProcedure(final Connection connection,
 			final String name, final Object... parameters) {

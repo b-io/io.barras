@@ -26,9 +26,12 @@ package jupiter.math.analysis.differentiation;
 import jupiter.common.math.Domain;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Range;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
+import jupiter.common.util.Doubles;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
+import jupiter.math.analysis.interpolation.SplineInterpolator;
 
 /**
  * {@link FiniteDifferentiator} is the {@link Differentiator} using finite differences.
@@ -56,20 +59,20 @@ public class FiniteDifferentiator
 	protected final UnivariateFunction f;
 
 	/**
-	 * The number of points to use.
+	 * The sample size.
 	 */
-	protected final int pointCount;
+	protected final int sampleSize;
 	/**
-	 * The step size.
+	 * The interval between the sampling points.
 	 */
-	protected final double stepSize;
+	protected final double step;
 	/**
 	 * The half sample span.
 	 */
 	protected final double halfSampleSpan;
 
 	/**
-	 * The safe {@link Range}.
+	 * The safe {@link Range} of the domain.
 	 */
 	protected final Range safeRange;
 
@@ -79,29 +82,30 @@ public class FiniteDifferentiator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FiniteDifferentiator} with the specified number of points and step size.
+	 * Constructs a {@link FiniteDifferentiator} with the specified sample size and interval between
+	 * the sampling points.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>Wrong settings for the finite differences differentiator can lead to highly unstable and
-	 * inaccurate results, especially for high derivation orders. Using a very small step sizes is
+	 * inaccurate results, especially for high derivation orders. Using a very small step size is
 	 * often a <em>bad</em> idea.</dd>
 	 * </dl>
 	 * <p>
 	 * @param f          the {@link UnivariateFunction} to differentiate
-	 * @param pointCount the number of points to use
-	 * @param stepSize   the step size (the gap between each point)
+	 * @param sampleSize the sample size
+	 * @param step       the interval between the sampling points
 	 * <p>
-	 * @throws IllegalArgumentException if {@code pointCount} is less or equal to {@code 1} or
-	 *                                  {@code stepsize} is negative
+	 * @throws IllegalArgumentException if {@code sampleSize} is less or equal to {@code 1} or
+	 *                                  {@code step} is negative
 	 */
-	public FiniteDifferentiator(final UnivariateFunction f, final int pointCount,
-			final double stepSize) {
-		this(f, pointCount, stepSize,
+	public FiniteDifferentiator(final UnivariateFunction f, final int sampleSize,
+			final double step) {
+		this(f, sampleSize, step,
 				new Range(f.getDomain().getLowerBound(), f.getDomain().getUpperBound()));
 	}
 
 	/**
-	 * Constructs a {@link FiniteDifferentiator} with the specified number of points, step size and
+	 * Constructs a {@link FiniteDifferentiator} with the specified sample size, step size and
 	 * {@link Domain}.
 	 * <p>
 	 * When the independent variable is bounded ({@code lowerBound < t < upperBound}), the sampling
@@ -112,35 +116,35 @@ public class FiniteDifferentiator
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>Wrong settings for the finite differences differentiator can lead to highly unstable and
-	 * inaccurate results, especially for high derivation orders. Using a very small step sizes is
+	 * inaccurate results, especially for high derivation orders. Using a very small step size is
 	 * often a <em>bad</em> idea.</dd>
 	 * </dl>
 	 * <p>
 	 * @param f          the {@link UnivariateFunction} to differentiate
-	 * @param pointCount the number of points to use
-	 * @param stepSize   the step size (the gap between each point)
-	 * @param range      the {@link Range}
+	 * @param sampleSize the sample size
+	 * @param step       the interval between the sampling points
+	 * @param range      the {@link Range} of the domain
 	 * <p>
-	 * @throws IllegalArgumentException if {@code pointCount} is less or equal to {@code 1},
-	 *                                  {@code stepsize} is negative or
-	 *                                  {@code stepSize * (pointCount - 1)} is greater or equal to
+	 * @throws IllegalArgumentException if {@code sampleSize} is less or equal to
+	 *                                  {@code 1}, {@code step} is negative or
+	 *                                  {@code step * (sampleSize - 1)} is greater or equal to
 	 *                                  {@code domain.getUpperBound() - domain.getLowerBound()}
 	 */
-	public FiniteDifferentiator(final UnivariateFunction f, final int pointCount,
-			final double stepSize, final Range range) {
+	public FiniteDifferentiator(final UnivariateFunction f, final int sampleSize,
+			final double step, final Range range) {
 		super(f.getDomain());
 
 		// Check the arguments
-		IntegerArguments.requireGreaterThan(pointCount, 1);
-		DoubleArguments.requireNonNegative(stepSize);
-		DoubleArguments.requireLessThan(stepSize * (pointCount - 1),
+		IntegerArguments.requireGreaterThan(sampleSize, 1);
+		DoubleArguments.requireNonNegative(step);
+		DoubleArguments.requireLessThan(step * (sampleSize - 1),
 				domain.getUpperBound().getValue() - domain.getLowerBound().getValue());
 
 		// Set the attributes
-		this.pointCount = pointCount;
-		this.stepSize = stepSize;
+		this.sampleSize = sampleSize;
+		this.step = step;
 		this.f = f;
-		halfSampleSpan = 0.5 * stepSize * (pointCount - 1);
+		halfSampleSpan = step * (sampleSize - 1) / 2.;
 		final double safety = Maths.ulp(halfSampleSpan);
 		safeRange = new Range(range.getLowerBound().getValue() + halfSampleSpan + safety,
 				range.getUpperBound().getValue() - halfSampleSpan - safety);
@@ -163,21 +167,21 @@ public class FiniteDifferentiator
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number of points to use.
+	 * Returns the sample size.
 	 *
-	 * @return the number of points to use
+	 * @return the sample size
 	 */
-	public int getPointCount() {
-		return pointCount;
+	public int getSampleSize() {
+		return sampleSize;
 	}
 
 	/**
-	 * Returns the step size.
+	 * Returns the interval between the sampling points.
 	 *
-	 * @return the step size
+	 * @return the interval between the sampling points
 	 */
-	public double getStepSize() {
-		return stepSize;
+	public double getStep() {
+		return step;
 	}
 
 
@@ -188,6 +192,11 @@ public class FiniteDifferentiator
 	/**
 	 * Returns the differentiated {@code double} value {@code y' = f'(x)} for {@code x} defined in
 	 * {@code domain}.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The derivative approximation is computed using the Crank–Nicolson method and interpolated
+	 * by a {@link SplineInterpolator}.</dd>
+	 * </dl>
 	 * <p>
 	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
@@ -195,7 +204,40 @@ public class FiniteDifferentiator
 	 */
 	@Override
 	protected double differentiate(final double x) {
-		//TODO
-		return Double.NaN;
+		// Bound the value x and center the differentiation range (if it is possible)
+		final double t0 = safeRange.bound(x) - halfSampleSpan;
+
+		// Sample the function f around the value x
+		final double[] X = Doubles.createSequence(sampleSize, t0, step);
+		final double[] Y = f.applyToPrimitiveArray(X);
+
+		// Compute the derivative approximation y' using the Crank–Nicolson method
+		final double[] derivative = new double[sampleSize];
+		for (int i = 0; i < sampleSize - 1; ++i) {
+			derivative[i] = (Y[i + 1] - Y[i]) / step;
+		}
+
+		// Interpolate the derivative approximation y'
+		final SplineInterpolator interpolator = SplineInterpolator.create(X, derivative);
+
+		// Evaluate the value y' = f'(x)
+		return interpolator.apply(safeRange.bound(x - step / 2.));
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public FiniteDifferentiator clone() {
+		return (FiniteDifferentiator) super.clone();
 	}
 }

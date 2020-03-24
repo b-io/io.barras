@@ -26,6 +26,9 @@ package jupiter.math.calculator.process;
 import jupiter.gui.console.GraphicalConsole;
 import jupiter.math.calculator.Console;
 
+/**
+ * {@link CalculatorDemo} demonstrates {@link Calculator}.
+ */
 public class CalculatorDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

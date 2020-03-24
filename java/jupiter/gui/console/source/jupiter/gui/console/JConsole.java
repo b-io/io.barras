@@ -54,7 +54,6 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
@@ -113,7 +112,10 @@ public class JConsole
 	protected static final StyleContext STYLE_CONTEXT = new StyleContext();
 	protected static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
 
-	protected static final Map<ConsoleHandler.Color, Style> STYLES = new ExtendedHashMap<ConsoleHandler.Color, Style>();
+	/**
+	 * The {@link Style} associated to {@link ConsoleHandler.Color}.
+	 */
+	protected static final ExtendedHashMap<ConsoleHandler.Color, Style> STYLES = new ExtendedHashMap<ConsoleHandler.Color, Style>();
 
 	static {
 		final SeverityLevel[] severityLevels = SeverityLevel.class.getEnumConstants();

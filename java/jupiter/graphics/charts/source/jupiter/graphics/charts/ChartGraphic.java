@@ -24,23 +24,33 @@
 package jupiter.graphics.charts;
 
 import java.awt.EventQueue;
-import java.util.Map;
-import java.util.Set;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
+import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.graphics.charts.struct.SeriesStyle;
 import jupiter.gui.swing.Swings;
-import jupiter.math.analysis.struct.XY;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.general.Series;
+import org.jfree.data.xy.XYDataset;
 
-public abstract class ChartGraphic
+/**
+ * {@link ChartGraphic} is a 2D chart graphic.
+ * <p>
+ * @param <D> the dataset type of the {@link ChartGraphic} (subtype of {@link XYDataset})
+ * @param <S> the series type of the {@link ChartGraphic} (subtype of {@link Series})
+ */
+public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 		extends Graphic {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,8 +67,20 @@ public abstract class ChartGraphic
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected XY<String> labels;
-	protected Map<Integer, SeriesStyle> styles = new ExtendedHashMap<Integer, SeriesStyle>(10);
+	/**
+	 * The domain label.
+	 */
+	protected String xLabel;
+
+	/**
+	 * The {@link ExtendedLinkedList} of {@link XYRangeAxisDataset} of {@code D} type.
+	 */
+	protected ExtendedLinkedList<XYRangeAxisDataset<D>> axisDatasets = new ExtendedLinkedList<XYRangeAxisDataset<D>>();
+
+	/**
+	 * The {@link SeriesStyle} associated to {@link XYRangeAxisDataset} and {@code S} series.
+	 */
+	protected ExtendedHashMap<Pair<Integer, Integer>, SeriesStyle> styles = new ExtendedHashMap<Pair<Integer, Integer>, SeriesStyle>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,15 +88,77 @@ public abstract class ChartGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ChartGraphic} with the specified title, x-axis label and y-axis label.
+	 * Constructs a {@link ChartGraphic} of {@code D} and {@code S} types with the specified title
+	 * and domain label.
 	 * <p>
 	 * @param title  the title
-	 * @param xLabel the label of the x-axis
-	 * @param yLabel the label of the y-axis
+	 * @param xLabel the domain label
 	 */
-	protected ChartGraphic(final String title, final String xLabel, final String yLabel) {
+	protected ChartGraphic(final String title, final String xLabel) {
+		this(title, xLabel, Strings.EMPTY_ARRAY);
+	}
+
+	/**
+	 * Constructs a {@link ChartGraphic} of {@code D} and {@code S} types with the specified title,
+	 * domain label and range labels.
+	 * <p>
+	 * @param title   the title
+	 * @param xLabel  the domain label
+	 * @param yLabels the range labels
+	 */
+	protected ChartGraphic(final String title, final String xLabel, final String... yLabels) {
 		super(title);
-		labels = new XY<String>(xLabel, yLabel);
+		this.xLabel = xLabel;
+		for (final String yLabel : yLabels) {
+			addAxisDataset(yLabel);
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code D} dataset of the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to get
+	 * <p>
+	 * @return the {@code D} dataset of the specified {@link XYRangeAxisDataset}
+	 */
+	public D getDataset(final int axisDatasetIndex) {
+		return axisDatasets.get(axisDatasetIndex).getDataset();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code S} series at the specified index in the {@code D} dataset of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset of the {@code S} series to get
+	 * @param seriesIndex      the index of the {@code S} series to get
+	 * <p>
+	 * @return the {@code S} series at the specified index in the {@code D} dataset of the specified
+	 *         {@link XYRangeAxisDataset}
+	 */
+	public abstract S getSeries(final int axisDatasetIndex, final int seriesIndex);
+
+	/**
+	 * Returns the size of the {@code S} series at the specified index in the {@code D} dataset of
+	 * the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset of the {@code S} series to get the size from
+	 * @param seriesIndex      the index of the {@code S} series to get the size from
+	 * <p>
+	 * @return the size of the {@code S} series at the specified index in the {@code D} dataset of
+	 *         the specified {@link XYRangeAxisDataset}
+	 */
+	public int getSeriesSize(final int axisDatasetIndex, final int seriesIndex) {
+		return getSeries(axisDatasetIndex, seriesIndex).getItemCount();
 	}
 
 
@@ -82,22 +166,62 @@ public abstract class ChartGraphic
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Creates a chart.
+	 * <p>
+	 * @return a chart
+	 */
 	public abstract JFreeChart createChart();
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link ChartPanel} for the specified chart.
+	 * <p>
+	 * @param chart the {@link JFreeChart} to create for
+	 * <p>
+	 * @return a {@link ChartPanel} for the specified chart
+	 */
+	public ChartPanel createChartPanel(final JFreeChart chart) {
+		return new DynamicChartPanel(chart);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link XYItemRenderer}.
+	 * Creates a {@link XYItemRenderer} for each {@link XYRangeAxisDataset}.
 	 * <p>
-	 * @return a {@link XYItemRenderer}
+	 * @return a {@link XYItemRenderer} for each {@link XYRangeAxisDataset}
 	 */
-	public XYItemRenderer createItemRenderer() {
+	public XYItemRenderer[] createAllRenderers() {
+		final XYItemRenderer[] renderers = new XYItemRenderer[axisDatasets.size()];
+		for (int i = 0; i < axisDatasets.size(); ++i) {
+			renderers[i] = createRenderer(i);
+		}
+		return renderers;
+	}
+
+	/**
+	 * Creates a {@link XYItemRenderer} for the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} to create for
+	 * <p>
+	 * @return a {@link XYItemRenderer} for the specified {@link XYRangeAxisDataset}
+	 */
+	public XYItemRenderer createRenderer(final int axisDatasetIndex) {
 		final XYItemRenderer renderer = new XYLineAndShapeRenderer();
-		final Set<Map.Entry<Integer, SeriesStyle>> styleEntries = styles.entrySet();
-		for (final Map.Entry<Integer, SeriesStyle> styleEntry : styleEntries) {
-			renderer.setSeriesPaint(styleEntry.getKey(), styleEntry.getValue().getColor());
-			renderer.setSeriesShape(styleEntry.getKey(), styleEntry.getValue().getShape());
-			renderer.setSeriesStroke(styleEntry.getKey(), styleEntry.getValue().getStroke());
+		final XYDataset dataset = getDataset(axisDatasetIndex);
+		final int seriesCount = dataset.getSeriesCount();
+		for (int s = 0; s < seriesCount; ++s) {
+			final SeriesStyle style = styles.get(new Pair<Integer, Integer>(axisDatasetIndex, s));
+			if (style != null) {
+				renderer.setSeriesPaint(s, style.getColor());
+				renderer.setSeriesShape(s, style.getShape());
+				renderer.setSeriesStroke(s, style.getStroke());
+			} else {
+				renderer.setSeriesPaint(s, Charts.COLORS.get(s % Charts.COLORS.size()));
+				renderer.setSeriesStroke(s, Charts.STROKE);
+			}
 		}
 		return renderer;
 	}
@@ -108,6 +232,139 @@ public abstract class ChartGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Appends a {@link XYRangeAxisDataset} constructed with the specified range label.
+	 * <p>
+	 * @param yLabel the range label of the {@link XYRangeAxisDataset} to append
+	 */
+	public abstract void addAxisDataset(final String yLabel);
+
+	/**
+	 * Appends a {@link XYRangeAxisDataset} constructed with the specified range label and {@code D}
+	 * dataset.
+	 * <p>
+	 * @param yLabel  the range label of the {@link XYRangeAxisDataset} to append
+	 * @param dataset the {@code D} dataset of the {@link XYRangeAxisDataset} to append
+	 */
+	public void addAxisDataset(final String yLabel, final D dataset) {
+		addAxisDataset(new XYRangeAxisDataset<D>(yLabel, dataset));
+	}
+
+	/**
+	 * Appends the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDataset the {@link XYRangeAxisDataset} to append
+	 */
+	public void addAxisDataset(final XYRangeAxisDataset<D> axisDataset) {
+		axisDatasets.add(axisDataset);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Removes the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} to remove
+	 */
+	public void removeAxisDataset(final int axisDatasetIndex) {
+		axisDatasets.remove(axisDatasetIndex);
+	}
+
+	/**
+	 * Removes the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDataset the {@link XYRangeAxisDataset} to remove
+	 */
+	public void removeAxisDataset(final XYRangeAxisDataset<D> axisDataset) {
+		axisDatasets.remove(axisDataset);
+	}
+
+	/**
+	 * Removes all the {@link XYRangeAxisDataset}.
+	 */
+	public void removeAllAxisDataset() {
+		axisDatasets.clear();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Appends the specified {@code S} series to the {@code D} dataset of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to append to
+	 * @param series           the {@code S} series to append
+	 * <p>
+	 * @return the index of the {@code S} series appended to the {@code D} dataset of the specified
+	 *         {@link XYRangeAxisDataset}
+	 */
+	public abstract int addSeries(final int axisDatasetIndex, final S series);
+
+	/**
+	 * Appends a {@code S} series constructed with the specified name to the {@code D} dataset of
+	 * the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to append to
+	 * @param name             the name of the {@code S} series to append
+	 * <p>
+	 * @return the index of the {@code S} series appended to the {@code D} dataset of the specified
+	 *         {@link XYRangeAxisDataset}
+	 */
+	public abstract int addSeries(final int axisDatasetIndex, final String name);
+
+	/**
+	 * Appends a {@code S} series constructed with the specified name and {@link SeriesStyle} to the
+	 * {@code D} dataset of the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to append to
+	 * @param name             the name of the {@code S} series to append
+	 * @param style            the {@link SeriesStyle} of the {@code S} series to append
+	 * <p>
+	 * @return the index of the {@code S} series appended to the {@code D} dataset of the specified
+	 *         {@link XYRangeAxisDataset}
+	 */
+	public int addSeries(final int axisDatasetIndex, final String name, final SeriesStyle style) {
+		final int seriesIndex = addSeries(axisDatasetIndex, name);
+		styles.put(new Pair<Integer, Integer>(axisDatasetIndex, seriesIndex), style);
+		return seriesIndex;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Removes the {@code S} series at the specified index from the {@code D} dataset of the
+	 * specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to remove from
+	 * @param seriesIndex      the index of the {@code S} series to remove
+	 */
+	public abstract void removeSeries(final int axisDatasetIndex, final int seriesIndex);
+
+	/**
+	 * Removes the specified {@code S} series from the {@code D} dataset of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to remove from
+	 * @param series           the {@code S} series to remove
+	 */
+	public abstract void removeSeries(final int axisDatasetIndex, final S series);
+
+	/**
+	 * Removes all the {@code S} series from the {@code D} dataset of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to remove from
+	 */
+	public abstract void removeAllSeries(final int axisDatasetIndex);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Displays {@code this}.
 	 */
 	public void display() {
@@ -115,7 +372,11 @@ public abstract class ChartGraphic
 			public void run() {
 				// Create the chart panel
 				final JFreeChart chart = createChart();
-				final ChartPanel chartPanel = new DynamicChartPanel(chart);
+				final XYPlot plot = (XYPlot) chart.getPlot();
+				for (int i = 0; i < axisDatasets.size(); ++i) {
+					plot.setRenderer(i, createRenderer(i));
+				}
+				final ChartPanel chartPanel = createChartPanel(chart);
 				setContentPane(chartPanel);
 				// Show the chart graphic
 				Swings.show(ChartGraphic.this);
@@ -136,9 +397,11 @@ public abstract class ChartGraphic
 	 * @see ICloneable
 	 */
 	@Override
-	public ChartGraphic clone() {
-		final ChartGraphic clone = (ChartGraphic) super.clone();
-		clone.labels = Objects.clone(labels);
+	@SuppressWarnings({"cast", "unchecked"})
+	public ChartGraphic<D, S> clone() {
+		final ChartGraphic<D, S> clone = (ChartGraphic<D, S>) super.clone();
+		clone.xLabel = Objects.clone(xLabel);
+		clone.axisDatasets = Objects.clone(axisDatasets);
 		clone.styles = Objects.clone(styles);
 		return clone;
 	}

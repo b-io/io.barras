@@ -59,8 +59,8 @@ public class MapArguments
 
 	public static void requireNonEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException(Strings.join("The specified ", Strings.quote(name),
-					" is empty"));
+			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
+					" is empty");
 		}
 	}
 
@@ -82,7 +82,7 @@ public class MapArguments
 		return map;
 	}
 
-	public static <M extends Map<?, ?>> void requireSameSize(final M a, final M b) {
+	public static void requireSameSize(final Map<?, ?> a, final Map<?, ?> b) {
 		if (CHECK_ARGS && requireNonNull(a).size() != requireNonNull(b).size()) {
 			throw new IllegalArgumentException("The specified maps do not have the same size " +
 					isNotEqualTo(a.size(), b.size()));

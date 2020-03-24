@@ -21,7 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.math;
+package jupiter.graphics.charts.datasets;
+
+import static jupiter.common.util.Strings.NULL;
 
 import java.io.Serializable;
 
@@ -29,13 +31,18 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.data.xy.XYDataset;
+
 /**
- * {@link Bound} is the inclusive or exclusive {@code T} value (inclusive by default).
+ * {@link XYRangeAxisDataset} is the {@code D} dataset (subtype of {@link XYDataset}) associated to
+ * a range {@link ValueAxis}.
  * <p>
- * @param <T> the self {@link Comparable} type of the {@link Bound}
+ * @param <D> the type of the dataset (subtype of {@link XYDataset})
  */
-public abstract class Bound<T extends Comparable<? super T>>
-		implements Comparable<Bound<T>>, ICloneable<Bound<T>>, Serializable {
+public class XYRangeAxisDataset<D extends XYDataset>
+		implements ICloneable<XYRangeAxisDataset<D>>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -52,13 +59,14 @@ public abstract class Bound<T extends Comparable<? super T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@code T} value.
+	 * The range {@link ValueAxis}.
 	 */
-	protected T value;
+	public final ValueAxis yAxis;
+
 	/**
-	 * The flag specifying whether {@code this} is inclusive.
+	 * The {@code D} dataset.
 	 */
-	protected boolean isInclusive;
+	public final D dataset;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,14 +74,26 @@ public abstract class Bound<T extends Comparable<? super T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Bound} of {@code T} type with the specified {@code T} value.
+	 * Constructs a {@link XYRangeAxisDataset} of {@code D} type with the specified range label and
+	 * {@code D} dataset.
 	 * <p>
-	 * @param value       the {@code T} value
-	 * @param isInclusive the flag specifying whether {@code this} is inclusive
+	 * @param yLabel  the range label
+	 * @param dataset the {@code D} dataset
 	 */
-	protected Bound(final T value, final boolean isInclusive) {
-		this.value = value;
-		this.isInclusive = isInclusive;
+	public XYRangeAxisDataset(final String yLabel, final D dataset) {
+		this(new NumberAxis(yLabel), dataset);
+	}
+
+	/**
+	 * Constructs a {@link XYRangeAxisDataset} of {@code D} type with the specified range
+	 * {@link ValueAxis} and {@code D} dataset.
+	 * <p>
+	 * @param yAxis   the range {@link ValueAxis}
+	 * @param dataset the {@code D} dataset
+	 */
+	public XYRangeAxisDataset(final ValueAxis yAxis, final D dataset) {
+		this.yAxis = yAxis;
+		this.dataset = dataset;
 	}
 
 
@@ -82,64 +102,33 @@ public abstract class Bound<T extends Comparable<? super T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@code T} value.
+	 * Returns the range {@link ValueAxis}.
 	 * <p>
-	 * @return the {@code T} value
+	 * @return the range {@link ValueAxis}
 	 */
-	public T getValue() {
-		return value;
+	public ValueAxis getRangeAxis() {
+		return yAxis;
 	}
 
 	/**
-	 * Returns the flag specifying whether {@code this} is inclusive.
+	 * Returns the {@code D} dataset.
 	 * <p>
-	 * @return the flag specifying whether {@code this} is inclusive
+	 * @return the {@code D} dataset
 	 */
-	public boolean isInclusive() {
-		return isInclusive;
+	public D getDataset() {
+		return dataset;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
-	 * Sets the {@code T} value.
+	 * Returns the range label.
 	 * <p>
-	 * @param value a {@code T} value
+	 * @return the range label
 	 */
-	public void setValue(final T value) {
-		this.value = value;
+	public String getLabel() {
+		return yAxis.getLabel();
 	}
-
-	/**
-	 * Sets the flag specifying whether {@code this} is inclusive.
-	 * <p>
-	 * @param isInclusive a {@code boolean} value
-	 */
-	public void setInclusive(final boolean isInclusive) {
-		this.isInclusive = isInclusive;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
-	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param other the other {@link Bound} of {@code T} type to compare against for order (may be
-	 *              {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
-	 *         equal to or greater than {@code other}
-	 */
-	@Override
-	public abstract int compareTo(final Bound<T> other);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,11 +144,9 @@ public abstract class Bound<T extends Comparable<? super T>>
 	 */
 	@Override
 	@SuppressWarnings({"cast", "unchecked"})
-	public Bound<T> clone() {
+	public XYRangeAxisDataset<D> clone() {
 		try {
-			final Bound<T> clone = (Bound<T>) super.clone();
-			clone.value = Objects.clone(value);
-			return clone;
+			return (XYRangeAxisDataset<D>) super.clone();
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Strings.toString(ex), ex);
 		}
@@ -177,16 +164,17 @@ public abstract class Bound<T extends Comparable<? super T>>
 	 * @see #hashCode()
 	 */
 	@Override
+	@SuppressWarnings({"cast", "unchecked"})
 	public boolean equals(final Object other) {
-		if (this == other) {
+		if (other == this) {
 			return true;
 		}
-		if (other == null || !(other instanceof Bound)) {
+		if (other == null || !(other instanceof XYRangeAxisDataset)) {
 			return false;
 		}
-		final Bound<?> otherBound = (Bound<?>) other;
-		return Objects.equals(value, otherBound.value) &&
-				Objects.equals(isInclusive, otherBound.isInclusive);
+		final XYRangeAxisDataset<D> otherXYRangeAxisDataset = (XYRangeAxisDataset<D>) other;
+		return Objects.equals(yAxis, otherXYRangeAxisDataset.yAxis) &&
+				Objects.equals(dataset, otherXYRangeAxisDataset.dataset);
 	}
 
 	/**
@@ -199,7 +187,7 @@ public abstract class Bound<T extends Comparable<? super T>>
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, value, isInclusive);
+		return Objects.hashCode(serialVersionUID, yAxis, dataset);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,6 +199,6 @@ public abstract class Bound<T extends Comparable<? super T>>
 	 */
 	@Override
 	public String toString() {
-		return Strings.toString(value);
+		return yAxis != null ? Strings.toString(yAxis.getLabel()) : NULL;
 	}
 }

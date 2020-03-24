@@ -129,7 +129,7 @@ public class Vector
 	 * <p>
 	 * @param values the values of the elements in a 2D {@code double} array
 	 * <p>
-	 * @throws IllegalArgumentException if {@code elements} is not one-dimensional
+	 * @throws IllegalArgumentException if {@code values} is not one-dimensional
 	 */
 	public Vector(final double[]... values) {
 		super(values);

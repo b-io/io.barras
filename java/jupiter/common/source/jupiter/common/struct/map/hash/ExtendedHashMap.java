@@ -128,6 +128,27 @@ public class ExtendedHashMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the {@code V} value associated to the specified key, or the specified default
+	 * {@code V} value if it is not present.
+	 * <p>
+	 * @param key          the key {@link Object} of the {@code V} value to get
+	 * @param defaultValue the default {@code V} value (may be {@code null})
+	 * <p>
+	 * @return the {@code V} value associated to the specified key, or the specified default
+	 *         {@code V} value if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
+	 * @throws NullPointerException if {@code key} is {@code null}
+	 */
+	public V getOrDefault(final Object key, final V defaultValue) {
+		// Check the arguments
+		Arguments.requireNonNull(key, "key");
+
+		// Get the value associated to the key, or the default value if it is not present
+		return Maps.<V>getOrDefault(this, key, defaultValue);
+	}
+
+	/**
 	 * Returns all the {@code V} values associated to the specified keys or {@code null} for those
 	 * that are not present in an {@link ExtendedList}.
 	 * <p>
@@ -200,8 +221,8 @@ public class ExtendedHashMap<K, V>
 	}
 
 	/**
-	 * Puts all the key-value mappings of the specified map into {@code this} replacing any entries
-	 * with identical keys.
+	 * Puts all the key-value mappings of the specified {@link Map} into {@code this} replacing any
+	 * entries with identical keys.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to put

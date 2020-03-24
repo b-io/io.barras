@@ -57,7 +57,6 @@ import static org.jocl.CL.clSetKernelArg;
 import static org.jocl.CL.setExceptionsEnabled;
 
 import java.util.Collection;
-import java.util.Map;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
@@ -99,7 +98,10 @@ public class JOCL
 	protected final cl_command_queue commandQueue;
 
 	protected final cl_program program;
-	protected final Map<String, cl_kernel> kernels = new ExtendedHashMap<String, cl_kernel>();
+	/**
+	 * The {@link cl_kernel} associated to names.
+	 */
+	protected final ExtendedHashMap<String, cl_kernel> kernels = new ExtendedHashMap<String, cl_kernel>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

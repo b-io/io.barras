@@ -61,10 +61,10 @@ public class DynamicChartPanel
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static volatile boolean DRAW_X_CROSSHAIR = true;
-	protected static volatile boolean DRAW_Y_CROSSHAIR = true;
+	public static volatile boolean DRAW_X_CROSSHAIR = true;
+	public static volatile boolean DRAW_Y_CROSSHAIR = true;
 
-	protected static volatile boolean DRAW_SELECTION = !DRAW_X_CROSSHAIR && !DRAW_Y_CROSSHAIR;
+	public static volatile boolean DRAW_SELECTION = !DRAW_X_CROSSHAIR && !DRAW_Y_CROSSHAIR;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ public class DynamicChartPanel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Format} of the xy-coordinates.
+	 * The {@link Format} of the domain and range labels.
 	 */
 	protected final XY<Format> formats;
 
@@ -81,7 +81,7 @@ public class DynamicChartPanel
 	 */
 	protected Point mousePosition = new Point();
 	/**
-	 * The xy-coordinates of the mouse position.
+	 * The {@link XY}-coordinates of the mouse position.
 	 */
 	protected XY<Double> mouseCoordinates = new XY<Double>();
 
@@ -100,9 +100,9 @@ public class DynamicChartPanel
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart}.
+	 * Constructs a {@link DynamicChartPanel} with the specified chart.
 	 * <p>
-	 * @param chart the {@link JFreeChart}
+	 * @param chart the chart
 	 */
 	public DynamicChartPanel(final JFreeChart chart) {
 		super(chart);
@@ -111,11 +111,11 @@ public class DynamicChartPanel
 	}
 
 	/**
-	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart} and
-	 * {@link Format} of the x-coordinate.
+	 * Constructs a {@link DynamicChartPanel} with the specified chart and {@link Format} of the
+	 * domain label.
 	 * <p>
-	 * @param chart   the {@link JFreeChart}
-	 * @param xFormat the {@link Format} of the x-coordinate
+	 * @param chart   the chart
+	 * @param xFormat the {@link Format} of the domain label
 	 */
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat) {
 		super(chart);
@@ -124,12 +124,12 @@ public class DynamicChartPanel
 	}
 
 	/**
-	 * Constructs a {@link DynamicChartPanel} with the specified {@link JFreeChart}, {@link Format}
-	 * of the x-coordinate and {@link Format} of the y-coordinate.
+	 * Constructs a {@link DynamicChartPanel} with the specified chart and {@link Format} of the
+	 * domain and range labels.
 	 * <p>
-	 * @param chart   the {@link JFreeChart}
-	 * @param xFormat the {@link Format} of the x-coordinate
-	 * @param yFormat the {@link Format} of the y-coordinate
+	 * @param chart   the chart
+	 * @param xFormat the {@link Format} of the domain label
+	 * @param yFormat the {@link Format} of the range label
 	 */
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat, final Format yFormat) {
 		super(chart);
@@ -249,53 +249,58 @@ public class DynamicChartPanel
 		// Set the (bounded) mouse coordinates
 		mouseCoordinates.setX(java2DToDomainValue(mousePosition));
 		mouseCoordinates.setY(java2DToRangeValue(mousePosition));
-
-		// Interpolate between the closest items
 		final double x = mouseCoordinates.getX();
 		double y = mouseCoordinates.getY();
+
+		// Find the closest points
 		final XYPlot plot = getPlot(mousePosition);
-		final XYDataset dataset = plot.getDataset();
-		final int seriesCount = dataset.getSeriesCount();
-		if (seriesCount > 0) {
-			// Find the closest items
-			double minDistance = Double.POSITIVE_INFINITY;
-			int seriesIndex = 0, from = 0, to = 0;
+		double minDistance = Double.POSITIVE_INFINITY;
+		int datasetIndex = -1, seriesIndex = -1, from = 0, to = 0;
+		final int datasetCount = plot.getDatasetCount();
+		for (int d = 0; d < datasetCount; ++d) {
+			final XYDataset dataset = plot.getDataset(d);
+			final int seriesCount = dataset.getSeriesCount();
 			for (int s = 0; s < seriesCount; ++s) {
 				final int itemCount = dataset.getItemCount(s);
 				if (itemCount > 0) {
-					int index = 0;
-					while (index < itemCount - 1 && dataset.getXValue(s, index) < x) {
-						++index;
+					int itemIndex = 0;
+					while (itemIndex < itemCount - 1 && dataset.getXValue(s, itemIndex) < x) {
+						++itemIndex;
 					}
-					final double distance = Maths.delta(dataset.getYValue(s, index), y);
+					final double distance = Maths.delta(dataset.getYValue(s, itemIndex), y);
 					if (distance < minDistance) {
 						minDistance = distance;
+						datasetIndex = d;
 						seriesIndex = s;
-						from = index > 0 ? index - 1 : index;
-						to = index;
+						from = itemIndex > 0 ? itemIndex - 1 : itemIndex;
+						to = itemIndex;
 					}
 				}
 			}
+		}
 
-			// Interpolate between the items
+		// Interpolate between the closest points
+		if (datasetIndex >= 0 && seriesIndex >= 0) {
+			final XYDataset dataset = plot.getDataset(datasetIndex);
 			final XY<Double> fromItem = new XY<Double>(dataset.getXValue(seriesIndex, from),
 					dataset.getYValue(seriesIndex, from));
 			final XY<Double> toItem = new XY<Double>(dataset.getXValue(seriesIndex, to),
 					dataset.getYValue(seriesIndex, to));
 			y = new LinearInterpolator(fromItem, toItem).apply(x);
 		}
+
 		selection.setCoordinates(x, y);
 
-		// Draw the crosshairs
-		drawCrosshairs();
+		// Update the coordinates of the crosshairs
+		updateCrosshairs();
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Draws the vertical and horizontal crosshairs.
+	 * Updates the coordinates of the vertical and horizontal crosshairs.
 	 */
-	protected void drawCrosshairs() {
+	protected void updateCrosshairs() {
 		if (!Double.isNaN(selection.getX()) && !Double.isNaN(selection.getY())) {
 			// Update the vertical and horizontal crosshairs
 			// • Vertical crosshair

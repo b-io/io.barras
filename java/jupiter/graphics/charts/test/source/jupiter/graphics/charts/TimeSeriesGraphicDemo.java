@@ -27,8 +27,9 @@ import jupiter.common.time.Chronometer;
 import jupiter.common.util.Doubles;
 import jupiter.graphics.charts.struct.TimeSeriesList;
 
-import org.jfree.ui.RefineryUtilities;
-
+/**
+ * {@link TimeSeriesGraphicDemo} demonstrates {@link TimeSeriesGraphic}.
+ */
 public class TimeSeriesGraphicDemo {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,11 +42,10 @@ public class TimeSeriesGraphicDemo {
 	 * @param args ignored
 	 */
 	public static void main(final String[] args) {
-		final TimeSeriesGraphic graphic = new TimeSeriesGraphic("TimeSeriesGraphic Demo", "Time",
-				"Value", createTimeSeriesList(100));
-		graphic.pack();
-		RefineryUtilities.centerFrameOnScreen(graphic);
-		graphic.display();
+		final TimeSeriesGraphic graph = new TimeSeriesGraphic("TimeSeriesGraphic Demo", "Time");
+		graph.addAxisDataset("Y1", createTimeSeriesList(1000));
+		graph.addAxisDataset("Y2", createTimeSeriesList(1000));
+		graph.display();
 	}
 
 
@@ -63,7 +63,7 @@ public class TimeSeriesGraphicDemo {
 	protected static TimeSeriesList createTimeSeriesList(final int count) {
 		// Initialize
 		final TimeSeriesList dataset = new TimeSeriesList();
-		final Double[] values = new Double[2];
+		final Double[] yCoordinates = new Double[2];
 		final Chronometer chrono = new Chronometer();
 
 		// Create the time series list
@@ -73,9 +73,9 @@ public class TimeSeriesGraphicDemo {
 		for (int i = 0; i < count; ++i) {
 			chrono.stop();
 			chrono.start();
-			values[0] = chrono.getMilliseconds();
-			values[1] = Doubles.random();
-			dataset.addValues(values);
+			yCoordinates[0] = chrono.getMilliseconds();
+			yCoordinates[1] = Doubles.random();
+			dataset.addPointToAll(yCoordinates);
 		}
 		return dataset;
 	}
