@@ -101,7 +101,7 @@ public class SeriesGraphic
 	 *         specified {@link XYRangeAxisDataset}
 	 */
 	@Override
-	public XYSeries getSeries(int axisDatasetIndex, int seriesIndex) {
+	public XYSeries getSeries(final int axisDatasetIndex, final int seriesIndex) {
 		return getDataset(axisDatasetIndex).getSeries(seriesIndex);
 	}
 

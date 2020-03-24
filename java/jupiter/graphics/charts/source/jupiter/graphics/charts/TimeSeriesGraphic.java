@@ -24,7 +24,6 @@
 package jupiter.graphics.charts;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.DATE_TIME_FORMAT;
 
 import java.text.ParseException;
 import java.util.Date;

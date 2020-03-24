@@ -71,7 +71,7 @@ public class TimeSeriesList
 	 */
 	public TimeSeriesList() {
 		super();
-		this.timeSeriesList = new ExtendedList<TimeSeries>();
+		timeSeriesList = new ExtendedList<TimeSeries>();
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class TimeSeriesList
 	 */
 	public TimeSeriesList(final int initialCapacity) {
 		super();
-		this.timeSeriesList = new ExtendedList<TimeSeries>(initialCapacity);
+		timeSeriesList = new ExtendedList<TimeSeries>(initialCapacity);
 	}
 
 	//////////////////////////////////////////////
@@ -95,7 +95,7 @@ public class TimeSeriesList
 	 */
 	public TimeSeriesList(final TimeSeries... elements) {
 		super();
-		this.timeSeriesList = new ExtendedList<TimeSeries>(elements);
+		timeSeriesList = new ExtendedList<TimeSeries>(elements);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class TimeSeriesList
 	 */
 	public TimeSeriesList(final Collection<? extends TimeSeries> elements) {
 		super();
-		this.timeSeriesList = new ExtendedList<TimeSeries>(elements);
+		timeSeriesList = new ExtendedList<TimeSeries>(elements);
 	}
 
 

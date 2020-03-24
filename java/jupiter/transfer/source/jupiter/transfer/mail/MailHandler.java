@@ -27,7 +27,6 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Strings.STAR;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;

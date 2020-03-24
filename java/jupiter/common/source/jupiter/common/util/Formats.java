@@ -136,7 +136,8 @@ public class Formats {
 	/**
 	 * The {@link SafeDateFormat}.
 	 */
-	public static volatile SafeDateFormat DATE_TIME_FORMAT = new SafeDateFormat(DEFAULT_DATE_TIME_PATTERN);
+	public static volatile SafeDateFormat DATE_TIME_FORMAT = new SafeDateFormat(
+			DEFAULT_DATE_TIME_PATTERN);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

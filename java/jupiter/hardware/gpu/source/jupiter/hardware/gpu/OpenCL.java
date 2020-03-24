@@ -30,7 +30,6 @@ import static jupiter.common.util.Formats.NEW_LINE;
 import java.io.Serializable;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;

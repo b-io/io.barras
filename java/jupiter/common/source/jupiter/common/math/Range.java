@@ -201,6 +201,7 @@ public class Range
 	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise
 	 */
+	@Override
 	public Double constrain(final Double value) {
 		return Ranges.constrain(this, value);
 	}
