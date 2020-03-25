@@ -79,74 +79,32 @@ public class Resources {
 		return false;
 	}
 
-	//////////////////////////////////////////////
-
-	/**
-	 * Closes the specified {@link AutoCloseable}.
-	 * <p>
-	 * @param closeable an {@link AutoCloseable} (may be {@code null})
-	 * <p>
-	 * @return {@code true} if the resource is closed, {@code false} otherwise
-	 * <p>
-	 * @since 1.7
-	 */
-	public static boolean autoClose(final AutoCloseable closeable) {
-		return autoClose(closeable, null);
-	}
-
-	/**
-	 * Closes the specified {@link AutoCloseable}, or prints a warning message {@link String} if it
-	 * is {@code null}.
-	 * <p>
-	 * @param closeable an {@link AutoCloseable} (may be {@code null})
-	 * @param message   a warning message {@link String} (may be {@code null})
-	 * <p>
-	 * @return {@code true} if the resource is closed, {@code false} otherwise
-	 * <p>
-	 * @since 1.7
-	 */
-	public static boolean autoClose(final AutoCloseable closeable, final String message) {
-		if (closeable != null) {
-			try {
-				closeable.close();
-				return true;
-			} catch (final Exception ex) {
-				IO.error(ex);
-			}
-		} else if (message != null) {
-			IO.warn(message);
-		}
-		return false;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the specified {@link Class} is an instance of {@link Closeable} or
-	 * {@link AutoCloseable}.
+	 * Tests whether the specified {@link Object} is an instance of {@link Closeable}.
 	 * <p>
 	 * @param object the {@link Object} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Object} is an instance of {@link Closeable} or
-	 *         {@link AutoCloseable}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Object} is an instance of {@link Closeable},
+	 *         {@code false} otherwise
 	 */
 	public static boolean is(final Object object) {
-		return object instanceof Closeable || object instanceof AutoCloseable;
+		return object instanceof Closeable;
 	}
 
 	/**
-	 * Tests whether the specified {@link Class} is assignable to a {@link Closeable} or an
-	 * {@link AutoCloseable}.
+	 * Tests whether the specified {@link Class} is assignable to a {@link Closeable}.
 	 * <p>
 	 * @param c the {@link Class} to test
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Closeable} or
-	 *         an {@link AutoCloseable}, {@code false} otherwise
+	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Closeable},
+	 *         {@code false} otherwise
 	 */
 	public static boolean isFrom(final Class<?> c) {
-		return Closeable.class.isAssignableFrom(c) || AutoCloseable.class.isAssignableFrom(c);
+		return Closeable.class.isAssignableFrom(c);
 	}
 }
