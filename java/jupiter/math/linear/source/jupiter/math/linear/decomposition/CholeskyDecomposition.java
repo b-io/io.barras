@@ -23,6 +23,8 @@
  */
 package jupiter.math.linear.decomposition;
 
+import static jupiter.common.io.IO.IO;
+
 import java.io.Serializable;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -82,10 +84,14 @@ public class CholeskyDecomposition
 	 * {@link Matrix}. Sets {@code isSymmetricPositiveDefinite} and the decomposition {@code L}.
 	 * <p>
 	 * @param A the symmetric and positive definite {@link Matrix} to decompose
+	 * <p>
+	 * @throws IllegalOperationException if {@code A} is not square
 	 */
 	public CholeskyDecomposition(final Matrix A) {
 		// Verify the feasibility
-		A.requireSquare();
+		if (!A.isSquare()) {
+			throw new IllegalOperationException("The matrix is not square");
+		}
 
 		// Initialize
 		final double[] elements = A.getElements();
@@ -118,7 +124,7 @@ public class CholeskyDecomposition
 
 		// Verify the feasibility
 		if (!isSymmetricPositiveDefinite) {
-			throw new IllegalOperationException("The matrix is not symmetric positive definite");
+			IO.warn("The matrix is not symmetric positive definite");
 		}
 	}
 
@@ -157,8 +163,8 @@ public class CholeskyDecomposition
 	 * <p>
 	 * @return {@code X} so that {@code L L' X = B}
 	 * <p>
-	 * @throws IllegalArgumentException  if the inner dimensions do not agree
-	 * @throws IllegalOperationException if {@code A} is not symmetric positive definite
+	 * @throws IllegalArgumentException if the inner dimensions of {@code A} and {@code B} do not
+	 *                                  agree
 	 */
 	public Matrix solve(final Matrix B) {
 		// Check the arguments

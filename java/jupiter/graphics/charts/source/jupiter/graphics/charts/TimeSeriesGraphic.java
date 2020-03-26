@@ -205,7 +205,7 @@ public class TimeSeriesGraphic
 	public int addSeries(final int axisDatasetIndex, final String name, final SeriesStyle style,
 			final Date[] xCoordinates, final double[] yCoordinates) {
 		// Check the arguments
-		ArrayArguments.requireSameLength(xCoordinates.length, yCoordinates.length);
+		ArrayArguments.requireSameLength(xCoordinates, yCoordinates.length);
 
 		// Create the time series with the name and style
 		final int timeSeriesIndex = addSeries(axisDatasetIndex, name, style);

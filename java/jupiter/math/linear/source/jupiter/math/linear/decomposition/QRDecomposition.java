@@ -23,6 +23,8 @@
  */
 package jupiter.math.linear.decomposition;
 
+import static jupiter.common.io.IO.IO;
+
 import java.io.Serializable;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -129,7 +131,7 @@ public class QRDecomposition
 
 		// Verify the feasibility
 		if (!isFullRank()) {
-			throw new IllegalOperationException("The matrix is rank deficient");
+			IO.warn("The matrix is rank deficient");
 		}
 	}
 
@@ -232,8 +234,7 @@ public class QRDecomposition
 	 * <p>
 	 * @return {@code X} that minimizes the two norm of {@code Q R X - B}
 	 * <p>
-	 * @throws IllegalArgumentException  if the matrix row dimensions do not agree
-	 * @throws IllegalOperationException if {@code A} is rank deficient
+	 * @throws IllegalArgumentException if the matrix row dimensions do not agree
 	 */
 	public Matrix solve(final Matrix B) {
 		// Check the arguments

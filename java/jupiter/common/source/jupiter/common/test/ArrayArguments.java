@@ -122,6 +122,14 @@ public class ArrayArguments
 		}
 	}
 
+	//////////////////////////////////////////////
+
+	public static <T> void requireSameLength(final T[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
 	public static <T> void requireSameLength(final T[] a, final T[] b) {
 		if (CHECK_ARGS) {
 			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);

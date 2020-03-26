@@ -143,6 +143,8 @@ public class IntegerArguments
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static int[] requireLength(final int[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
 			requireLength(requireNonNull(array).length, expectedLength);
@@ -182,6 +184,14 @@ public class IntegerArguments
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
 			throw new IllegalArgumentException("The specified int array has a length " +
 					foundLength + " superior to " + maxExpectedLength);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireSameLength(final int[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
 		}
 	}
 

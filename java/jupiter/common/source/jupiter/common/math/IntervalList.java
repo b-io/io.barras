@@ -64,7 +64,6 @@ public class IntervalList<T extends Comparable<? super T>>
 	 * <p>
 	 * @param elements an array of {@link Interval} of {@code T} type
 	 */
-	@SuppressWarnings({"unchecked", "varargs"})
 	public IntervalList(final Interval<T>... elements) {
 		super(elements);
 	}

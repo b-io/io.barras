@@ -225,6 +225,8 @@ public abstract class Entity
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this + entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code entity} cannot be added to {@code this}
 	 */
 	public Entity plus(final Entity entity) {
 		if (entity instanceof Scalar) {
@@ -262,6 +264,8 @@ public abstract class Entity
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this += entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code entity} cannot be added to {@code this}
 	 */
 	public Entity add(final Entity entity) {
 		if (entity instanceof Scalar) {
@@ -294,11 +298,13 @@ public abstract class Entity
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the subtraction of the specified {@link Entity}.
+	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
 	 * <p>
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this - entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code entity} cannot be subtracted from {@code this}
 	 */
 	public Entity minus(final Entity entity) {
 		if (entity instanceof Scalar) {
@@ -311,7 +317,7 @@ public abstract class Entity
 	}
 
 	/**
-	 * Returns the subtraction of the specified scalar.
+	 * Returns the subtraction of the specified scalar from {@code this}.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -320,7 +326,7 @@ public abstract class Entity
 	public abstract Entity minus(final double scalar);
 
 	/**
-	 * Returns the subtraction of the specified {@link Matrix}.
+	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -331,11 +337,13 @@ public abstract class Entity
 	//////////////////////////////////////////////
 
 	/**
-	 * Subtracts the specified {@link Entity}.
+	 * Subtracts the specified {@link Entity} from {@code this}.
 	 * <p>
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this -= entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code entity} cannot be subtracted from {@code this}
 	 */
 	public Entity subtract(final Entity entity) {
 		if (entity instanceof Scalar) {
@@ -348,7 +356,7 @@ public abstract class Entity
 	}
 
 	/**
-	 * Subtracts the specified scalar.
+	 * Subtracts the specified scalar from {@code this}.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -357,7 +365,7 @@ public abstract class Entity
 	public abstract Entity subtract(final double scalar);
 
 	/**
-	 * Subtracts the specified {@link Matrix}.
+	 * Subtracts the specified {@link Matrix} from {@code this}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -373,6 +381,8 @@ public abstract class Entity
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this * entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be multiplied by {@code entity}
 	 */
 	public Entity times(final Entity entity) {
 		if (entity instanceof Scalar) {
@@ -400,7 +410,8 @@ public abstract class Entity
 	 * <p>
 	 * @return {@code this * matrix}
 	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
+	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
+	 *                                  do not agree
 	 */
 	public abstract Entity times(final Matrix matrix);
 
@@ -411,7 +422,8 @@ public abstract class Entity
 	 * <p>
 	 * @return {@code diag(this * matrix)}
 	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
+	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
+	 *                                  do not agree
 	 */
 	public abstract Entity diagonalTimes(final Matrix matrix);
 
@@ -453,6 +465,8 @@ public abstract class Entity
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this / entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be divided by {@code entity}
 	 */
 	public Entity division(final Entity entity) {
 		if (entity instanceof Scalar) {
@@ -535,6 +549,9 @@ public abstract class Entity
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this .^ entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be raised to the power of
+	 *                                   {@code entity} element-by-element
 	 */
 	public Entity arrayPower(final Entity entity) {
 		if (entity instanceof Scalar) {
@@ -574,6 +591,9 @@ public abstract class Entity
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return {@code this .^= entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be raised to the power of
+	 *                                   {@code entity} element-by-element
 	 */
 	public Entity arrayRaise(final Entity entity) {
 		if (entity instanceof Scalar) {

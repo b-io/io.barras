@@ -129,4 +129,18 @@ public class Arguments {
 					isNotEqualTo(a, b));
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void requireFalse(final boolean found, final String message) {
+		if (CHECK_ARGS && found) {
+			throw new IllegalArgumentException(message);
+		}
+	}
+
+	public static void requireTrue(final boolean found, final String message) {
+		if (CHECK_ARGS && !found) {
+			throw new IllegalArgumentException(message);
+		}
+	}
 }

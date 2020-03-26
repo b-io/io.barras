@@ -59,7 +59,7 @@ public class Tests {
 		printValues("time [ms]", times);
 	}
 
-	public static void printTimes(final Collection<Long> times) {
+	public static void printTimes(final Collection<? extends Number> times) {
 		printValues("time [ms]", times);
 	}
 
@@ -81,7 +81,7 @@ public class Tests {
 		printMinMaxInterval(Maths.min(values), Maths.max(values));
 	}
 
-	public static void printValues(final String label, final Collection<Long> values) {
+	public static void printValues(final String label, final Collection<? extends Number> values) {
 		final double mean = Statistics.getMean(values);
 		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
 		final Range confidenceInterval = Statistics.confidenceInterval(values.size(),

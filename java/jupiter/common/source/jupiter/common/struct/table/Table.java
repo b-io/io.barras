@@ -153,7 +153,7 @@ public class Table<E>
 		// Check the arguments
 		Arguments.requireNonNull(c, "class");
 		if (header != null) {
-			ArrayArguments.requireLength(header.length, columnCount);
+			ArrayArguments.requireLength(header, columnCount);
 		}
 		IntegerArguments.requireNonNegative(rowCount);
 		IntegerArguments.requireNonNegative(columnCount);
@@ -338,6 +338,8 @@ public class Table<E>
 	 * @param j the column index
 	 * <p>
 	 * @return the name of the specified column
+	 * <p>
+	 * @throws IllegalOperationException if there is no header
 	 */
 	public String getColumnName(final int j) {
 		// Verify the feasibility

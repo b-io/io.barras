@@ -92,7 +92,7 @@ public class Domain
 	 * <p>
 	 * @param elements a {@link Collection} of {@link Range}
 	 */
-	public Domain(final Collection<Range> elements) {
+	public Domain(final Collection<? extends Range> elements) {
 		super(elements);
 	}
 

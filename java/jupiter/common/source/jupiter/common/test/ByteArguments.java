@@ -143,6 +143,8 @@ public class ByteArguments
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static byte[] requireLength(final byte[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
 			requireLength(requireNonNull(array).length, expectedLength);
@@ -182,6 +184,14 @@ public class ByteArguments
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
 			throw new IllegalArgumentException("The specified byte array has a length " +
 					foundLength + " superior to " + maxExpectedLength);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireSameLength(final byte[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
 		}
 	}
 

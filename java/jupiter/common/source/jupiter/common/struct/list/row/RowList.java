@@ -135,7 +135,7 @@ public class RowList
 	/**
 	 * Constructs a {@link RowList} with the elements of the specified {@link Collection}.
 	 * <p>
-	 * @param elements a {@link Collection} of element subtype of {@link Row}
+	 * @param elements a {@link Collection} of {@link Row}
 	 */
 	public RowList(final Collection<? extends Row> elements) {
 		this(createHeader(Arguments.requireNonNull(elements, "elements").size()), elements);
@@ -146,7 +146,7 @@ public class RowList
 	 * {@link Collection}.
 	 * <p>
 	 * @param header   an array of {@link String}
-	 * @param elements a {@link Collection} of element subtype of {@link Row}
+	 * @param elements a {@link Collection} of {@link Row}
 	 */
 	public RowList(final String[] header, final Collection<? extends Row> elements) {
 		super(elements);

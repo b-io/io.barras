@@ -27,6 +27,7 @@ import java.io.Serializable;
 
 import jupiter.common.math.Domain;
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.SetArguments;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
@@ -69,12 +70,18 @@ public abstract class UnivariateFunction
 		this(Domain.ALL);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link UnivariateFunction} with the specified {@link Domain}.
 	 * <p>
 	 * @param domain the {@link Domain}
 	 */
 	protected UnivariateFunction(final Domain domain) {
+		// Check the arguments
+		SetArguments.requireValid(domain, "domain");
+
+		// Set the attributes
 		this.domain = domain;
 	}
 

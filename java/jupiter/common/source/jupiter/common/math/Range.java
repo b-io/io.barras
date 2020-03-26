@@ -147,6 +147,60 @@ public class Range
 	//////////////////////////////////////////////
 
 	/**
+	 * Returns the {@code double} value of the {@link LowerBound}.
+	 * <p>
+	 * @return the {@code double} value of the {@link LowerBound}
+	 */
+	public double getLowerBoundValue() {
+		return getLowerBoundValue(Maths.TINY_TOLERANCE);
+	}
+
+	/**
+	 * Returns the {@code double} value of the {@link LowerBound} using the specified minimal
+	 * interval.
+	 * <p>
+	 * @param step the {@code double} minimal interval
+	 * <p>
+	 * @return the {@code double} value of the {@link LowerBound} using the specified minimal
+	 *         interval
+	 */
+	public double getLowerBoundValue(final double step) {
+		return lowerBound.value != null ?
+				(lowerBound.isInclusive ?
+						lowerBound.value :
+						lowerBound.value + step) :
+				Double.NEGATIVE_INFINITY;
+	}
+
+	/**
+	 * Returns the {@code double} value of the {@link UpperBound}.
+	 * <p>
+	 * @return the {@code double} value of the {@link UpperBound}
+	 */
+	public double getUpperBoundValue() {
+		return getUpperBoundValue(Maths.TINY_TOLERANCE);
+	}
+
+	/**
+	 * Returns the {@code double} value of the {@link UpperBound} using the specified minimal
+	 * interval.
+	 * <p>
+	 * @param step the {@code double} minimal interval
+	 * <p>
+	 * @return the {@code double} value of the {@link UpperBound} using the specified minimal
+	 *         interval
+	 */
+	public double getUpperBoundValue(final double step) {
+		return upperBound.value != null ?
+				(upperBound.isInclusive ?
+						upperBound.value :
+						upperBound.value - step) :
+				Double.POSITIVE_INFINITY;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the distance between the {@link LowerBound} and the specified value.
 	 * <p>
 	 * @param value a {@link Double} (may be {@code null})
@@ -154,10 +208,7 @@ public class Range
 	 * @return the distance between the {@link LowerBound} and the specified value
 	 */
 	public double getLowerDistance(final Double value) {
-		return lowerBound.value != null && value != null ?
-				Maths.delta(value, lowerBound.value) + (lowerBound.isInclusive ? 0. :
-						value < lowerBound.value ? Maths.TINY_TOLERANCE : -Maths.TINY_TOLERANCE) :
-				Double.POSITIVE_INFINITY;
+		return value != null ? Maths.delta(value, getLowerBoundValue()) : Double.POSITIVE_INFINITY;
 	}
 
 	/**
@@ -168,10 +219,7 @@ public class Range
 	 * @return the distance between the {@link UpperBound} and the specified value
 	 */
 	public double getUpperDistance(final Double value) {
-		return upperBound.value != null && value != null ?
-				Maths.delta(value, upperBound.value) + (upperBound.isInclusive ? 0. :
-						value < upperBound.value ? -Maths.TINY_TOLERANCE : Maths.TINY_TOLERANCE) :
-				Double.POSITIVE_INFINITY;
+		return value != null ? Maths.delta(value, getUpperBoundValue()) : Double.POSITIVE_INFINITY;
 	}
 
 

@@ -30,6 +30,8 @@ import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.ArrayArguments;
+import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -114,10 +116,8 @@ public class SplineInterpolator
 	 */
 	public static SplineInterpolator create(final double[] X, final double[] Y) {
 		// Check the arguments
-		if (X == null || Y == null || X.length != Y.length || X.length < 2) {
-			throw new IllegalArgumentException(
-					"The arrays must be of equal length and there must be at least two control points");
-		}
+		DoubleArguments.requireSameLength(X, Y);
+		DoubleArguments.requireMinLength(X, 2);
 
 		// Initialize
 		final int n = X.length;

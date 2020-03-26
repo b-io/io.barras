@@ -23,6 +23,9 @@
  */
 package jupiter.graphics.charts;
 
+import static jupiter.common.io.IO.IO;
+
+import jupiter.common.math.Range;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.math.analysis.differentiation.FiniteDifferentiator;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
@@ -86,17 +89,24 @@ public class DynamicSeriesPanelDemo {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void loadSeries() {
-		final int sampleSize = 100;
-		final double step = 1.;
+		final double from = -10., to = 10.;
+		final int sampleSize = 11;
+		final double step = 0.1;
 
 		final UnivariateFunction sin = UnivariateFunctions.SIN;
-		graph.addSeries(0, Charts.createSeries("y = SIN", sin, 0., 10., sampleSize));
+		graph.addSeries(0, Charts.createSeries("y = SIN", sin, from, to, 100));
 
-		final UnivariateFunction derivative = new FiniteDifferentiator(sin, sampleSize, step);
-		graph.addSeries(0, Charts.createSeries("y' = COS", derivative, 0., 10., sampleSize));
+//		final UnivariateFunction derivative = new FiniteDifferentiator(sin, sampleSize, step);
+//		graph.addSeries(0, Charts.createSeries("y' = COS", derivative, 0., 10., sampleSize));
+//
+//		final UnivariateFunction derivative2 = new FiniteDifferentiator(derivative, sampleSize,
+//				step);
+//		graph.addSeries(0, Charts.createSeries("y'' = -SIN", derivative2, 0., 10., sampleSize));
 
-		final UnivariateFunction derivative2 = new FiniteDifferentiator(derivative, sampleSize,
-				step);
-		graph.addSeries(0, Charts.createSeries("y'' = -SIN", derivative2, 0., 10., sampleSize));
+		final FiniteDifferentiator fastDerivative2 = new FiniteDifferentiator(2, sin, sampleSize,
+				step, new Range(from / 2., to / 2.));
+		IO.result(fastDerivative2.getEnlargedRange());
+		graph.addSeries(0, Charts.createSeries("y'' = -SIN", fastDerivative2, from, to,
+				100));
 	}
 }

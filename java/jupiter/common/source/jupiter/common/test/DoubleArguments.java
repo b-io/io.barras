@@ -146,6 +146,8 @@ public class DoubleArguments
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static double[] requireLength(final double[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
 			requireLength(requireNonNull(array).length, expectedLength);
@@ -188,6 +190,14 @@ public class DoubleArguments
 		}
 	}
 
+	//////////////////////////////////////////////
+
+	public static void requireSameLength(final double[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
 	public static void requireSameLength(final double[] a, final double[] b) {
 		if (CHECK_ARGS) {
 			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
@@ -198,7 +208,7 @@ public class DoubleArguments
 		if (CHECK_ARGS && a != b) {
 			throw new IllegalArgumentException(
 					"The specified double arrays do not have the same length " +
-							isNotEqualTo(a, b));
+					isNotEqualTo(a, b));
 		}
 	}
 }

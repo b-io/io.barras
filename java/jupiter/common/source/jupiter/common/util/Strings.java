@@ -1593,7 +1593,7 @@ public class Strings {
 				Characters.isNullOrEmpty(replacements)) {
 			return text;
 		}
-		ArrayArguments.requireSameLength(indices.length, replacements.length);
+		IntegerArguments.requireSameLength(indices, replacements.length);
 
 		// Replace the characters at the indices in the text by the replacement characters
 		final StringBuilder builder = createBuilder(text.length()).append(text);

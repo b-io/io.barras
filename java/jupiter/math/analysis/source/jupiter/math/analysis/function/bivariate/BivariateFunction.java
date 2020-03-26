@@ -25,6 +25,7 @@ package jupiter.math.analysis.function.bivariate;
 
 import jupiter.common.math.Domain;
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.SetArguments;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 /**
@@ -129,6 +130,11 @@ public abstract class BivariateFunction
 	public BivariateFunction(final Domain firstDomain, final Domain secondDomain,
 			final double initialValue) {
 		super(firstDomain);
+
+		// Check the arguments
+		SetArguments.requireValid(secondDomain, "second domain");
+
+		// Set the attributes
 		this.secondDomain = secondDomain;
 		this.initialValue = initialValue;
 	}

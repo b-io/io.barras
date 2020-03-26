@@ -84,7 +84,7 @@ public class JSONList
 	/**
 	 * Constructs a {@link JSONList} with the elements of the specified {@link Collection}.
 	 * <p>
-	 * @param elements a {@link Collection} of element subtype of {@link JSONObject}
+	 * @param elements a {@link Collection} of {@link JSONObject}
 	 */
 	public JSONList(final Collection<? extends JSONObject> elements) {
 		super(elements);

@@ -98,10 +98,14 @@ public class LUDecomposition
 	 * {@code pivot}.
 	 * <p>
 	 * @param A the rectangular {@link Matrix} to decompose
+	 * <p>
+	 * @throws IllegalOperationException if {@code A} is not square
 	 */
 	public LUDecomposition(final Matrix A) {
 		// Verify the feasibility
-		A.requireSquare();
+		if (!A.isSquare()) {
+			throw new IllegalOperationException("The matrix is not square");
+		}
 
 		// Initialize
 		LU = A.toPrimitiveArray2D();
@@ -260,8 +264,6 @@ public class LUDecomposition
 	 * Returns the determinant of {@code A}.
 	 * <p>
 	 * @return the determinant of {@code A}
-	 * <p>
-	 * @throws IllegalOperationException if {@code A} is not square
 	 */
 	public double det() {
 		double d = pivotSign;
@@ -283,8 +285,7 @@ public class LUDecomposition
 	 * <p>
 	 * @return {@code X} so that {@code L U X = B(pivot, :)}
 	 * <p>
-	 * @throws IllegalArgumentException  if the matrix row dimensions do not agree
-	 * @throws IllegalOperationException if {@code A} is singular
+	 * @throws IllegalArgumentException if the matrix row dimensions do not agree
 	 */
 	public Matrix solve(final Matrix B) {
 		// Check the arguments

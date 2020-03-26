@@ -408,6 +408,164 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	/**
+	 * Adds the specified {@code byte} value to the specified {@code byte} array.
+	 * <p>
+	 * @param values a {@code byte} array
+	 * @param value  the {@code byte} value to add
+	 */
+	public static void sum(final byte[] values, final byte value) {
+		sum(values, value, 0, values.length);
+	}
+
+	/**
+	 * Adds the specified {@code byte} value to the specified {@code byte} array between the
+	 * specified indices.
+	 * <p>
+	 * @param values    a {@code byte} array
+	 * @param value     the {@code byte} value to add
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void sum(final byte[] values, final byte value, final int fromIndex,
+			final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Adds the specified {@code short} value to the specified {@code short} array.
+	 * <p>
+	 * @param values a {@code short} array
+	 * @param value  the {@code short} value to add
+	 */
+	public static void sum(final short[] values, final short value) {
+		sum(values, value, 0, values.length);
+	}
+
+	/**
+	 * Adds the specified {@code short} value to the specified {@code short} array between the
+	 * specified indices.
+	 * <p>
+	 * @param values    a {@code short} array
+	 * @param value     the {@code short} value to add
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void sum(final short[] values, final short value, final int fromIndex,
+			final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Adds the specified {@code int} value to the specified {@code int} array.
+	 * <p>
+	 * @param values an {@code int} array
+	 * @param value  the {@code int} value to add
+	 */
+	public static void sum(final int[] values, final int value) {
+		sum(values, value, 0, values.length);
+	}
+
+	/**
+	 * Adds the specified {@code int} value to the specified {@code int} array between the specified
+	 * indices.
+	 * <p>
+	 * @param values    an {@code int} array
+	 * @param value     the {@code int} value to add
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void sum(final int[] values, final int value, final int fromIndex,
+			final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Adds the specified {@code long} value to the specified {@code long} array.
+	 * <p>
+	 * @param values a {@code long} array
+	 * @param value  the {@code long} value to add
+	 */
+	public static void sum(final long[] values, final long value) {
+		sum(values, value, 0, values.length);
+	}
+
+	/**
+	 * Adds the specified {@code long} value to the specified {@code long} array between the
+	 * specified indices.
+	 * <p>
+	 * @param values    a {@code long} array
+	 * @param value     the {@code long} value to add
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void sum(final long[] values, final long value, final int fromIndex,
+			final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Adds the specified {@code float} value to the specified {@code float} array.
+	 * <p>
+	 * @param values a {@code float} array
+	 * @param value  the {@code float} value to add
+	 */
+	public static void sum(final float[] values, final float value) {
+		sum(values, value, 0, values.length);
+	}
+
+	/**
+	 * Adds the specified {@code float} value to the specified {@code float} array between the
+	 * specified indices.
+	 * <p>
+	 * @param values    a {@code float} array
+	 * @param value     the {@code float} value to add
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void sum(final float[] values, final float value, final int fromIndex,
+			final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			++values[i];
+		}
+	}
+
+	/**
+	 * Adds the specified {@code double} value to the specified {@code double} array.
+	 * <p>
+	 * @param values a {@code double} array
+	 * @param value  the {@code double} value to add
+	 */
+	public static void sum(final double[] values, final double value) {
+		sum(values, value, 0, values.length);
+	}
+
+	/**
+	 * Adds the specified {@code double} value to the specified {@code double} array between the
+	 * specified indices.
+	 * <p>
+	 * @param values    a {@code double} array
+	 * @param value     the {@code double} value to add
+	 * @param fromIndex the index to start incrementing from (inclusive)
+	 * @param toIndex   the index to finish incrementing at (exclusive)
+	 */
+	public static void sum(final double[] values, final double value, final int fromIndex,
+			final int toIndex) {
+		for (int i = fromIndex; i < toIndex; ++i) {
+			values[i] += value;
+		}
+	}
+
+	//////////////////////////////////////////////
+
 	public static byte weightedSum(final byte[] values, final byte[] weights) {
 		// Check the arguments
 		ByteArguments.requireSameLength(values, weights);
@@ -505,166 +663,6 @@ public class Maths {
 			sum += weightIterator.next().doubleValue() * numberIterator.next().doubleValue();
 		}
 		return sum;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Increments the specified {@code byte} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code byte} array to increment
-	 * @param fromIndex the index to start incrementing from (inclusive)
-	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 */
-	public static void increment(final byte[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
-		}
-	}
-
-	/**
-	 * Increments the specified {@code short} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code short} array to increment
-	 * @param fromIndex the index to start incrementing from (inclusive)
-	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 */
-	public static void increment(final short[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
-		}
-	}
-
-	/**
-	 * Increments the specified {@code int} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code int} array to increment
-	 * @param fromIndex the index to start incrementing from (inclusive)
-	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 */
-	public static void increment(final int[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
-		}
-	}
-
-	/**
-	 * Increments the specified {@code long} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code long} array to increment
-	 * @param fromIndex the index to start incrementing from (inclusive)
-	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 */
-	public static void increment(final long[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
-		}
-	}
-
-	/**
-	 * Increments the specified {@code float} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code float} array to increment
-	 * @param fromIndex the index to start incrementing from (inclusive)
-	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 */
-	public static void increment(final float[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
-		}
-	}
-
-	/**
-	 * Increments the specified {@code double} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code double} array to increment
-	 * @param fromIndex the index to start incrementing from (inclusive)
-	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 */
-	public static void increment(final double[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
-		}
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Decrements the specified {@code byte} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code byte} array to decrement
-	 * @param fromIndex the index to start decrementing from (inclusive)
-	 * @param toIndex   the index to finish decrementing at (exclusive)
-	 */
-	public static void decrement(final byte[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			--values[i];
-		}
-	}
-
-	/**
-	 * Decrements the specified {@code short} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code short} array to decrement
-	 * @param fromIndex the index to start decrementing from (inclusive)
-	 * @param toIndex   the index to finish decrementing at (exclusive)
-	 */
-	public static void decrement(final short[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			--values[i];
-		}
-	}
-
-	/**
-	 * Decrements the specified {@code int} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code int} array to decrement
-	 * @param fromIndex the index to start decrementing from (inclusive)
-	 * @param toIndex   the index to finish decrementing at (exclusive)
-	 */
-	public static void decrement(final int[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			--values[i];
-		}
-	}
-
-	/**
-	 * Decrements the specified {@code long} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code long} array to decrement
-	 * @param fromIndex the index to start decrementing from (inclusive)
-	 * @param toIndex   the index to finish decrementing at (exclusive)
-	 */
-	public static void decrement(final long[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			--values[i];
-		}
-	}
-
-	/**
-	 * Decrements the specified {@code float} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code float} array to decrement
-	 * @param fromIndex the index to start decrementing from (inclusive)
-	 * @param toIndex   the index to finish decrementing at (exclusive)
-	 */
-	public static void decrement(final float[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			--values[i];
-		}
-	}
-
-	/**
-	 * Decrements the specified {@code double} array between the specified indices.
-	 * <p>
-	 * @param values    the {@code double} array to decrement
-	 * @param fromIndex the index to start decrementing from (inclusive)
-	 * @param toIndex   the index to finish decrementing at (exclusive)
-	 */
-	public static void decrement(final double[] values, final int fromIndex, final int toIndex) {
-		for (int i = fromIndex; i < toIndex; ++i) {
-			--values[i];
-		}
 	}
 
 	//////////////////////////////////////////////
@@ -1688,7 +1686,7 @@ public class Maths {
 	}
 
 	/**
-	 * Returns the least significant bit of the specified {@code double} value.
+	 * Returns the least significant bit of the specified value.
 	 * <p>
 	 * @param value a {@code double} value
 	 * <p>

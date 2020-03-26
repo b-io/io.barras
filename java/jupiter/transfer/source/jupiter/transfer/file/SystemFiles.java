@@ -107,8 +107,8 @@ public class SystemFiles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ExtendedLinkedList<File> filterByExtensions(final Collection<File> files,
-			final Set<String> extensions) {
+	public static ExtendedLinkedList<File> filterByExtensions(
+			final Collection<? extends File> files, final Set<String> extensions) {
 		final ExtendedLinkedList<File> filteredFiles = new ExtendedLinkedList<File>();
 		for (final File file : files) {
 			if (extensions.contains(Files.getExtension(file.getName()).toLowerCase())) {
@@ -118,7 +118,7 @@ public class SystemFiles {
 		return filteredFiles;
 	}
 
-	public static ExtendedLinkedList<File> filterByKeyword(final Collection<File> files,
+	public static ExtendedLinkedList<File> filterByKeyword(final Collection<? extends File> files,
 			final String keyword) {
 		final ExtendedLinkedList<File> filteredFiles = new ExtendedLinkedList<File>();
 		for (final File file : files) {

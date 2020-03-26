@@ -30,6 +30,7 @@ import static jupiter.hardware.gpu.OpenCL.CL;
 import java.io.FileNotFoundException;
 
 import jupiter.common.math.Statistics;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
@@ -46,6 +47,21 @@ public class MatrixTest
 
 	public MatrixTest(final String name) {
 		super(name);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests setColumn method, of class Matrix.
+	 */
+	public void testSetColumn() {
+		IO.test(BULLET, " setColumn");
+
+		// Initialize
+		final Matrix matrix = Matrix.magic(5);
+
+		// Verify the method
+		matrix.setColumn(0, new ExtendedList<Double>(0., 1., 2., 3., 4.));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

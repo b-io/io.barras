@@ -61,10 +61,9 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether {@code this} is read-only.
+	 * The flag specifying whether {@code this} is immutable.
 	 */
-	protected final boolean isReadOnly;
-
+	protected final boolean isImmutable;
 	/**
 	 * The {@code double} value.
 	 */
@@ -90,31 +89,31 @@ public class Scalar
 	public Scalar(final double value) {
 		super();
 		this.value = value;
-		isReadOnly = false;
+		isImmutable = false;
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a zero {@link Scalar} and the flag specifying whether {@code this} is read-only.
+	 * Constructs a zero {@link Scalar} and the flag specifying whether {@code this} is immutable.
 	 * <p>
-	 * @param isReadOnly the flag specifying whether {@code this} is read-only
+	 * @param isImmutable the flag specifying whether {@code this} is immutable
 	 */
-	public Scalar(final boolean isReadOnly) {
-		this(0., isReadOnly);
+	public Scalar(final boolean isImmutable) {
+		this(0., isImmutable);
 	}
 
 	/**
 	 * Constructs a {@link Scalar} with the specified value and the flag specifying whether
-	 * {@code this} is read-only.
+	 * {@code this} is immutable.
 	 * <p>
-	 * @param value      the {@code double} value
-	 * @param isReadOnly the flag specifying whether {@code this} is read-only
+	 * @param value       the {@code double} value
+	 * @param isImmutable the flag specifying whether {@code this} is immutable
 	 */
-	public Scalar(final double value, final boolean isReadOnly) {
+	public Scalar(final double value, final boolean isImmutable) {
 		super();
 		this.value = value;
-		this.isReadOnly = isReadOnly;
+		this.isImmutable = isImmutable;
 	}
 
 
@@ -143,6 +142,15 @@ public class Scalar
 	}
 
 	/**
+	 * Returns the flag specifying whether {@code this} is immutable.
+	 * <p>
+	 * @return the flag specifying whether {@code this} is immutable
+	 */
+	public boolean isImmutable() {
+		return isImmutable;
+	}
+
+	/**
 	 * Returns the {@code double} value.
 	 * <p>
 	 * @return the {@code double} value
@@ -160,13 +168,15 @@ public class Scalar
 	 * Sets the {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	public void set(final double value) {
-		if (!isReadOnly) {
+		if (!isImmutable) {
 			this.value = value;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a read-only " + getName());
+					"Cannot change the value of a immutable " + getName());
 		}
 	}
 
@@ -281,14 +291,16 @@ public class Scalar
 	 * Fills {@code this} with the specified constant.
 	 * <p>
 	 * @param constant the {@code double} constant to fill with
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
 	public void fill(final double constant) {
-		if (!isReadOnly) {
+		if (!isImmutable) {
 			value = constant;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a read-only " + getName());
+					"Cannot change the value of a immutable " + getName());
 		}
 	}
 
@@ -400,14 +412,16 @@ public class Scalar
 	 * @param scalar a {@code double} value
 	 * <p>
 	 * @return {@code this += scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
 	public Scalar add(final double scalar) {
-		if (!isReadOnly) {
+		if (!isImmutable) {
 			value += scalar;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a read-only " + getName());
+					"Cannot change the value of a immutable " + getName());
 		}
 		return this;
 	}
@@ -432,7 +446,7 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the subtraction of the specified scalar.
+	 * Returns the subtraction of the specified scalar from {@code this}.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -444,7 +458,7 @@ public class Scalar
 	}
 
 	/**
-	 * Returns the subtraction of the specified {@link Matrix}.
+	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -464,25 +478,27 @@ public class Scalar
 	//////////////////////////////////////////////
 
 	/**
-	 * Subtracts the specified scalar.
+	 * Subtracts the specified scalar from {@code this}.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
 	 * @return {@code this -= scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
 	public Scalar subtract(final double scalar) {
-		if (!isReadOnly) {
+		if (!isImmutable) {
 			value -= scalar;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a read-only " + getName());
+					"Cannot change the value of a immutable " + getName());
 		}
 		return this;
 	}
 
 	/**
-	 * Subtracts the specified {@link Matrix}.
+	 * Subtracts the specified {@link Matrix} from {@code this}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -531,7 +547,8 @@ public class Scalar
 	 * <p>
 	 * @return {@code diag(this * matrix)}
 	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
+	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
+	 *                                  do not agree
 	 */
 	@Override
 	public Entity diagonalTimes(final Matrix matrix) {
@@ -559,14 +576,16 @@ public class Scalar
 	 * @param scalar a {@code double} value
 	 * <p>
 	 * @return {@code this *= scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
 	public Scalar multiply(final double scalar) {
-		if (!isReadOnly) {
+		if (!isImmutable) {
 			value *= scalar;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a read-only " + getName());
+					"Cannot change the value of a immutable " + getName());
 		}
 		return this;
 	}
@@ -635,14 +654,16 @@ public class Scalar
 	 * @param scalar a {@code double} value
 	 * <p>
 	 * @return {@code this /= scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
 	public Scalar divide(final double scalar) {
-		if (!isReadOnly) {
+		if (!isImmutable) {
 			value /= scalar;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a read-only " + getName());
+					"Cannot change the value of a immutable " + getName());
 		}
 		return this;
 	}
@@ -707,14 +728,16 @@ public class Scalar
 	 * @param scalar a {@code double} value
 	 * <p>
 	 * @return {@code this .^= scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
 	public Scalar arrayRaise(final double scalar) {
-		if (!isReadOnly) {
+		if (!isImmutable) {
 			value = Maths.pow(value, scalar);
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a read-only " + getName());
+					"Cannot change the value of a immutable " + getName());
 		}
 		return this;
 	}
@@ -748,6 +771,8 @@ public class Scalar
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be solved with {@code entity}
 	 */
 	@Override
 	public Scalar solve(final Entity entity) {

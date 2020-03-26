@@ -1515,6 +1515,19 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@code float} value is finite.
+	 * <p>
+	 * @param value the {@code float} value to test
+	 * <p>
+	 * @return {@code true} if the specified {@code float} value is finite, {@code false} otherwise
+	 */
+	public static boolean isFinite(final float value) {
+		return !Float.isNaN(value) && !Float.isInfinite(value);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Tests whether the specified {@code float} array is {@code null} or empty.
 	 * <p>
 	 * @param array the {@code float} array to test (may be {@code null})
@@ -1725,7 +1738,7 @@ public class Floats {
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-				1; // (0f, -0f) or (NaN, !NaN)
+						1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
@@ -1801,8 +1814,7 @@ public class Floats {
 		}
 
 		// Clone the 2D array
-		final float[][] clone = new float[array2D.length]
-				[array2D.length > 0 ? array2D[0].length : 0];
+		final float[][] clone = new float[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -1824,9 +1836,7 @@ public class Floats {
 		}
 
 		// Clone the 3D array
-		final float[][][] clone = new float[array3D.length]
-				[array3D.length > 0 ? array3D[0].length : 0]
-				[array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final float[][][] clone = new float[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}

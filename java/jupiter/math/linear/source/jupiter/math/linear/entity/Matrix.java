@@ -561,7 +561,7 @@ public class Matrix
 	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
 			final int columnEnd) {
@@ -589,7 +589,7 @@ public class Matrix
 	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowIndices(:), columnStart:columnEnd)}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int[] rowIndices, final int columnStart, final int columnEnd) {
 		final int rowCount = rowIndices.length;
@@ -616,7 +616,7 @@ public class Matrix
 	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndices(:))}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndices) {
 		final int rowCount = rowEnd - rowStart;
@@ -644,7 +644,7 @@ public class Matrix
 	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowIndices(:), columnIndices(:))}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int[] rowIndices, final int[] columnIndices) {
 		final int rowCount = rowIndices.length;
@@ -844,7 +844,7 @@ public class Matrix
 	 * @param columnEnd   the final column index (exclusive)
 	 * @param submatrix   a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
 			final int columnEnd, final Matrix submatrix) {
@@ -868,7 +868,7 @@ public class Matrix
 	 * @param columnEnd   the final column index (exclusive)
 	 * @param submatrix   a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public void setSubmatrix(final int[] rowIndices, final int columnStart, final int columnEnd,
 			final Matrix submatrix) {
@@ -892,7 +892,7 @@ public class Matrix
 	 * @param columnIndices an array of column indices
 	 * @param submatrix     a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndices,
 			final Matrix submatrix) {
@@ -917,7 +917,7 @@ public class Matrix
 	 * @param columnIndices an array of column indices
 	 * @param submatrix     a {@link Matrix}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if the submatrix indices are out of bounds
+	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public void setSubmatrix(final int[] rowIndices, final int[] columnIndices,
 			final Matrix submatrix) {
@@ -963,6 +963,8 @@ public class Matrix
 	 * Converts {@code this} to a {@link Scalar}.
 	 * <p>
 	 * @return a {@link Scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be converted to a {@link Scalar}
 	 */
 	@Override
 	public Scalar toScalar() {
@@ -977,6 +979,8 @@ public class Matrix
 	 * Converts {@code this} to a {@link Vector}.
 	 * <p>
 	 * @return a {@link Vector}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be converted to a {@link Vector}
 	 */
 	@Override
 	public Vector toVector() {
@@ -1574,7 +1578,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the subtraction of the specified scalar.
+	 * Returns the subtraction of the specified scalar from {@code this}.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -1592,7 +1596,7 @@ public class Matrix
 	}
 
 	/**
-	 * Returns the subtraction of the specified {@link Matrix}.
+	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -1624,7 +1628,7 @@ public class Matrix
 	//////////////////////////////////////////////
 
 	/**
-	 * Subtracts the specified scalar.
+	 * Subtracts the specified scalar from {@code this}.
 	 * <p>
 	 * @param scalar a {@code double} value
 	 * <p>
@@ -1643,7 +1647,7 @@ public class Matrix
 	}
 
 	/**
-	 * Subtracts the specified {@link Matrix}.
+	 * Subtracts the specified {@link Matrix} from {@code this}.
 	 * <p>
 	 * @param matrix a {@link Matrix}
 	 * <p>
@@ -1698,7 +1702,8 @@ public class Matrix
 	 * <p>
 	 * @return {@code this * matrix}
 	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
+	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
+	 *                                  do not agree
 	 */
 	@Override
 	public Entity times(final Matrix matrix) {
@@ -1743,7 +1748,8 @@ public class Matrix
 	 * <p>
 	 * @return {@code diag(this * matrix)}
 	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
+	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
+	 *                                  do not agree
 	 */
 	@Override
 	public Entity diagonalTimes(final Matrix matrix) {
@@ -2215,6 +2221,8 @@ public class Matrix
 	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be solved with {@code entity}
 	 */
 	@Override
 	public Matrix solve(final Entity entity) {
@@ -2561,39 +2569,7 @@ public class Matrix
 		return m == n;
 	}
 
-	/**
-	 * Requires {@code this} to have the row dimension equals to the column dimension.
-	 * <p>
-	 * @throws IllegalArgumentException if {@code this} is not square
-	 */
-	public void requireSquare() {
-		if (!isSquare()) {
-			throw new IllegalOperationException("The matrix is not square");
-		}
-	}
-
-	/**
-	 * Requires the specified {@link Matrix} to have the same dimensions as {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @throws IllegalArgumentException if the dimensions of the matrices do not agree
-	 */
-	public void requireDimensions(final Matrix matrix) {
-		MatrixArguments.requireDimensions(matrix, m, n);
-	}
-
-	/**
-	 * Requires the specified {@link Matrix} to have the row dimension equals to the column
-	 * dimension of {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of the matrices do not agree
-	 */
-	public void requireInnerDimension(final Matrix matrix) {
-		MatrixArguments.requireInnerDimension(matrix, n);
-	}
+	//////////////////////////////////////////////
 
 	/**
 	 * Tests whether the specified {@link String} is parsable to a {@link Matrix}.
@@ -2615,6 +2591,33 @@ public class Matrix
 			}
 		}
 		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Requires the specified {@link Matrix} to have the same dimensions as {@code this}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @throws IllegalArgumentException if the dimensions of {@code this} and {@code matrix} do not
+	 *                                  agree
+	 */
+	public void requireDimensions(final Matrix matrix) {
+		MatrixArguments.requireDimensions(matrix, m, n);
+	}
+
+	/**
+	 * Requires the specified {@link Matrix} to have the row dimension equals to the column
+	 * dimension of {@code this}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
+	 *                                  do not agree
+	 */
+	public void requireInnerDimension(final Matrix matrix) {
+		MatrixArguments.requireInnerDimension(matrix, n);
 	}
 
 

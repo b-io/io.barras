@@ -90,7 +90,7 @@ public class Systems {
 	 * <p>
 	 * @return the exit value of the specified command executed on the system
 	 * <p>
-	 * @throws InterruptedException if the command is interrupted
+	 * @throws InterruptedException if {@code command} is interrupted
 	 * @throws IOException          if there is a problem with querying the system
 	 */
 	public static int execute(final String... command)
@@ -107,7 +107,7 @@ public class Systems {
 	 * <p>
 	 * @return the exit value of the specified command executed on the system
 	 * <p>
-	 * @throws InterruptedException if the command is interrupted
+	 * @throws InterruptedException if {@code command} is interrupted
 	 * @throws IOException          if there is a problem with querying the system
 	 */
 	public static int execute(final IOHandler printer, final String... command)
