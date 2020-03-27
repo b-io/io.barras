@@ -25,6 +25,7 @@ package jupiter.common.math;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
+import jupiter.common.util.Doubles;
 
 /**
  * {@link Range} is the {@link Interval} of {@link Double}.
@@ -251,6 +252,21 @@ public class Range
 	 */
 	public Double constrain(final Double value) {
 		return Ranges.constrain(this, value);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is finite.
+	 * <p>
+	 * @return {@code true} if {@code this} is finite, {@code false} otherwise
+	 */
+	public boolean isFinite() {
+		return Doubles.isFinite(lowerBound.getValue()) &&
+				Doubles.isFinite(upperBound.getValue());
 	}
 
 

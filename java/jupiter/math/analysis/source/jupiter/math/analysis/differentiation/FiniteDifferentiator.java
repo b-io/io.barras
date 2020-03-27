@@ -38,7 +38,7 @@ import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.interpolation.SplineInterpolator;
 
 /**
- * {@link FiniteDifferentiator} is the {@link Differentiator} using finite differences.
+ * {@link FiniteDifferentiator} is the {@link Differentiator} using the Crank–Nicolson method.
  */
 public class FiniteDifferentiator
 		extends Differentiator {
@@ -99,9 +99,9 @@ public class FiniteDifferentiator
 	 * sample size and interval between the sampling points.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
-	 * <dd>Wrong settings for the finite differences differentiator can lead to highly unstable and
-	 * inaccurate results, especially for high derivation orders. Using a very small interval
-	 * between the sampling points is often a <em>bad</em> idea.</dd>
+	 * <dd>Wrong settings for the finite differentiator can lead to highly unstable and inaccurate
+	 * results, especially for high derivation orders. Using a very small interval between the
+	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
 	 * <p>
 	 * @param f          the {@link UnivariateFunction} to differentiate
@@ -128,9 +128,9 @@ public class FiniteDifferentiator
 	 * entirely on the right side of the derivation point.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
-	 * <dd>Wrong settings for the finite differences differentiator can lead to highly unstable and
-	 * inaccurate results, especially for high derivation orders. Using a very small interval
-	 * between the sampling points is often a <em>bad</em> idea.</dd>
+	 * <dd>Wrong settings for the finite differentiator can lead to highly unstable and inaccurate
+	 * results, especially for high derivation orders. Using a very small interval between the
+	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
 	 * <p>
 	 * @param f          the {@link UnivariateFunction} to differentiate
@@ -155,9 +155,9 @@ public class FiniteDifferentiator
 	 * {@link UnivariateFunction}, sample size and interval between the sampling points.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
-	 * <dd>Wrong settings for the finite differences differentiator can lead to highly unstable and
-	 * inaccurate results, especially for high derivation orders. Using a very small interval
-	 * between the sampling points is often a <em>bad</em> idea.</dd>
+	 * <dd>Wrong settings for the finite differentiator can lead to highly unstable and inaccurate
+	 * results, especially for high derivation orders. Using a very small interval between the
+	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
 	 * <p>
 	 * @param order      the derivation order
@@ -185,9 +185,9 @@ public class FiniteDifferentiator
 	 * entirely on the right side of the derivation point.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
-	 * <dd>Wrong settings for the finite differences differentiator can lead to highly unstable and
-	 * inaccurate results, especially for high derivation orders. Using a very small interval
-	 * between the sampling points is often a <em>bad</em> idea.</dd>
+	 * <dd>Wrong settings for the finite differentiator can lead to highly unstable and inaccurate
+	 * results, especially for high derivation orders. Using a very small interval between the
+	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
 	 * <p>
 	 * @param order      the derivation order
@@ -217,10 +217,9 @@ public class FiniteDifferentiator
 		this.sampleSize = sampleSize;
 		this.step = step;
 		this.range = range;
-		final double sampleSpan = (sampleSize - 1) * step;
-		halfSampleSpan = sampleSpan / 2.;
-		enlargedRange = new Range(range.getLowerBound().getValue() - order * sampleSpan,
-				range.getUpperBound().getValue());
+		halfSampleSpan = (sampleSize - 1) * step / 2.;
+		enlargedRange = new Range(range.getLowerBound().getValue() - order * halfSampleSpan,
+				range.getUpperBound().getValue() + order * halfSampleSpan);
 		if (!domain.isInside(enlargedRange)) {
 			enlargedRange = range;
 		}
@@ -319,7 +318,7 @@ public class FiniteDifferentiator
 		// Compute the derivative approximation y' using the Crank–Nicolson method
 		final double[] dX = new double[size];
 		System.arraycopy(X, 0, dX, 0, size);
-		Maths.sum(dX, 0.5);
+		Maths.sum(dX, step / 2.);
 		final double[] dY = new double[size];
 		for (int i = 0; i < size; ++i) {
 			dY[i] = (Y[i + 1] - Y[i]) / step;
@@ -347,6 +346,21 @@ public class FiniteDifferentiator
 		if (interpolator != null) {
 			return true;
 		}
+		if (!enlargedRange.isFinite()) {
+			IO.warn("The differentiation range is not finite");
+			return false;
+		}
+
+		// Set the domain coordinates of the first and last sampling points
+		final double t0 = enlargedRange.getLowerBoundValue(step);
+		final double tn = enlargedRange.getUpperBoundValue(step);
+		final int size = Integers.convert((tn - t0) / step);
+		if (size < 2) {
+			IO.warn("The differentiation range is too small");
+			return false;
+		}
+
+		// Differentiate for all the orders
 		if (order > 1) {
 			FiniteDifferentiator df = new FiniteDifferentiator(f, sampleSize, step, range);
 			df.differentiateAll();
@@ -358,21 +372,6 @@ public class FiniteDifferentiator
 			return true;
 		}
 
-		// Set the domain coordinates of the first and last sampling points
-		final double t0 = enlargedRange.getLowerBoundValue(step);
-		final double tn = enlargedRange.getUpperBoundValue(step);
-		final int size = Integers.convert((tn - t0) / step);
-
-		// Verify the feasibility
-		if (!Doubles.isFinite(t0) || !Doubles.isFinite(tn)) {
-			IO.warn("The differentiation range is not finite");
-			return false;
-		}
-		if (size < 2) {
-			IO.warn("The differentiation range is too small");
-			return false;
-		}
-
 		// Sample the function f
 		final double[] X = Doubles.createSequence(size + 1, t0, step);
 		final double[] Y = f.applyToPrimitiveArray(X);
@@ -380,7 +379,7 @@ public class FiniteDifferentiator
 		// Compute the derivative approximation y' using the Crank–Nicolson method
 		final double[] dX = new double[size];
 		System.arraycopy(X, 0, dX, 0, size);
-		Maths.sum(dX, 0.5);
+		Maths.sum(dX, step / 2.);
 		final double[] dY = new double[size];
 		for (int i = 0; i < size; ++i) {
 			dY[i] = (Y[i + 1] - Y[i]) / step;

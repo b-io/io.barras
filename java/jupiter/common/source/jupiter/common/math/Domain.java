@@ -26,6 +26,7 @@ package jupiter.common.math;
 import java.util.Collection;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Doubles;
 import jupiter.common.util.Objects;
 
 /**
@@ -188,6 +189,25 @@ public class Domain
 	 */
 	public Double constrain(final Double value) {
 		return Ranges.constrain(this, value);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is finite.
+	 * <p>
+	 * @return {@code true} if {@code this} is finite, {@code false} otherwise
+	 */
+	public boolean isFinite() {
+		for (final Range range : this) {
+			if (!range.isFinite()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 

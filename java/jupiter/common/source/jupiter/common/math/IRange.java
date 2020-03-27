@@ -73,4 +73,16 @@ public interface IRange
 	 *         otherwise
 	 */
 	public double bound(final Double value);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is finite.
+	 * <p>
+	 * @return {@code true} if {@code this} is finite, {@code false} otherwise
+	 */
+	public boolean isFinite();
 }
