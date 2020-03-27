@@ -234,7 +234,7 @@ public class FiniteIntegrator
 
 	/**
 	 * Returns the {@link UnivariateFunction} to integrate.
-	 *
+	 * <p>
 	 * @return the {@link UnivariateFunction} to integrate
 	 */
 	public UnivariateFunction getFunction() {
@@ -245,7 +245,7 @@ public class FiniteIntegrator
 
 	/**
 	 * Returns the sample size.
-	 *
+	 * <p>
 	 * @return the sample size
 	 */
 	public int getSampleSize() {
@@ -254,7 +254,7 @@ public class FiniteIntegrator
 
 	/**
 	 * Returns the interval between the sampling points.
-	 *
+	 * <p>
 	 * @return the interval between the sampling points
 	 */
 	public double getStep() {
@@ -265,7 +265,7 @@ public class FiniteIntegrator
 
 	/**
 	 * Returns the integration {@link Range}.
-	 *
+	 * <p>
 	 * @return the integration {@link Range}
 	 */
 	public Range getRange() {
@@ -274,11 +274,20 @@ public class FiniteIntegrator
 
 	/**
 	 * Returns the enlarged integration {@link Range}.
-	 *
+	 * <p>
 	 * @return the enlarged integration {@link Range}
 	 */
 	public Range getEnlargedRange() {
 		return enlargedRange;
+	}
+
+	/**
+	 * Returns the initial value (on the abscissa).
+	 * <p>
+	 * @return the initial value (on the abscissa)
+	 */
+	public double getInitialValue() {
+		return range.getLowerBound().getValue() - halfSampleSpan;
 	}
 
 
@@ -321,16 +330,63 @@ public class FiniteIntegrator
 		// Compute the finite integral approximation Y using the trapezoidal rule
 		final double[] DX = new double[size];
 		System.arraycopy(X, 0, DX, 0, size);
-		Maths.sum(DX, step / 2.);
+		Maths.sum(DX, step);
 		final double[] DY = new double[size];
 		for (int i = 0; i < size; ++i) {
-			DY[i] = step * (Y[i] + Y[i + 1]) / 4.;
+			DY[i] = step * (Y[i] + Y[i + 1]) / 2.;
 		}
 
 		// Interpolate the finite integral approximation Y
 		final SplineInterpolator i = SplineInterpolator.create(DX, DY);
 
 		// Evaluate the value Y = F(x) - F(x - step)
+		return i.apply(x);
+	}
+
+	/**
+	 * Returns the integrated {@code double} value {@code Y = F(x)} for {@code x} defined in
+	 * {@code range} with the initial value (on the ordinate).
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The finite integral approximation is computed using the trapezoidal rule and interpolated
+	 * by a {@link SplineInterpolator}.</dd>
+	 * </dl>
+	 * <p>
+	 * @param x  a {@code double} value (on the abscissa)
+	 * @param y0 the initial {@code double} value (on the ordinate) for each integration order
+	 * <p>
+	 * @return {@code Y = F(x)} for {@code x} defined in {@code range}
+	 */
+	public double integrate(final double x, final double... y0) {
+		if (order > 1) {
+			integrateAll(y0);
+		}
+		if (interpolator != null) {
+			// Evaluate the value Y = F(x)
+			return interpolator.apply(x);
+		}
+
+		// Bound the value x and center the integration range (if it is possible)
+		final double t0 = enlargedRange.bound(x - halfSampleSpan);
+		final int size = sampleSize - 1;
+
+		// Sample the function f around the value x
+		final double[] X = Doubles.createSequence(sampleSize, t0, step);
+		final double[] Y = f.applyToPrimitiveArray(X);
+
+		// Compute the finite integral approximation Y using the trapezoidal rule
+		final double[] DX = new double[size];
+		System.arraycopy(X, 0, DX, 0, size);
+		Maths.sum(DX, step);
+		final double[] DY = new double[size];
+		for (int i = 0; i < size; ++i) {
+			DY[i] = (i == 0 ? y0[0] : DY[i - 1]) + step * (Y[i] + Y[i + 1]) / 2.;
+		}
+
+		// Interpolate the finite integral approximation Y
+		final SplineInterpolator i = SplineInterpolator.create(DX, DY);
+
+		// Evaluate the value Y = F(x)
 		return i.apply(x);
 	}
 
@@ -363,7 +419,7 @@ public class FiniteIntegrator
 			return false;
 		}
 
-		// Integrate for all the orders
+		// Integrate for all the integration orders
 		if (order > 1) {
 			FiniteIntegrator df = new FiniteIntegrator(f, sampleSize, step, range);
 			df.integrateAll();
@@ -382,10 +438,68 @@ public class FiniteIntegrator
 		// Compute the finite integral approximation Y using the trapezoidal rule
 		final double[] DX = new double[size];
 		System.arraycopy(X, 0, DX, 0, size);
-		Maths.sum(DX, step / 2.);
+		Maths.sum(DX, step);
 		final double[] DY = new double[size];
 		for (int i = 0; i < size; ++i) {
-			DY[i] = step * (Y[i] + Y[i + 1]) / 4.;
+			DY[i] = step * (Y[i] + Y[i + 1]) / 2.;
+		}
+
+		// Interpolate the finite integral approximation Y
+		interpolator = SplineInterpolator.create(DX, DY);
+		return true;
+	}
+
+	/**
+	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code range} and then use
+	 * {@link #integrate} to retrieve {@code Y = F(x)} with the initial value (on the ordinate).
+	 * <p>
+	 * @param y0 the initial {@code double} value value (on the ordinate) for each integration order
+	 * <p>
+	 * @return {@code true} if the integration is done, {@code false} otherwise
+	 *
+	 * @see #integrate(double)
+	 */
+	public boolean integrateAll(final double... y0) {
+		if (interpolator != null) {
+			return true;
+		}
+		if (!enlargedRange.isFinite()) {
+			IO.warn("The integration range is not finite");
+			return false;
+		}
+
+		// Set the domain coordinates of the first and last sampling points
+		final double t0 = enlargedRange.getLowerBoundValue(step);
+		final double tn = enlargedRange.getUpperBoundValue(step);
+		final int size = Integers.convert((tn - t0) / step);
+		if (size < 2) {
+			IO.warn("The integration range is too small");
+			return false;
+		}
+
+		// Integrate for all the integration orders
+		if (order > 1) {
+			FiniteIntegrator df = new FiniteIntegrator(f, sampleSize, step, range);
+			df.integrateAll(y0[0]);
+			for (int o = 1; o < order; ++o) {
+				df = new FiniteIntegrator(df, sampleSize, step, range);
+				df.integrateAll(y0[o]);
+			}
+			interpolator = df.interpolator;
+			return true;
+		}
+
+		// Sample the function f
+		final double[] X = Doubles.createSequence(size + 1, t0, step);
+		final double[] Y = f.applyToPrimitiveArray(X);
+
+		// Compute the finite integral approximation Y using the trapezoidal rule
+		final double[] DX = new double[size];
+		System.arraycopy(X, 0, DX, 0, size);
+		Maths.sum(DX, step);
+		final double[] DY = new double[size];
+		for (int i = 0; i < size; ++i) {
+			DY[i] = (i == 0 ? y0[0] : DY[i - 1]) + step * (Y[i] + Y[i + 1]) / 2.;
 		}
 
 		// Interpolate the finite integral approximation Y

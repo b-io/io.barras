@@ -233,7 +233,7 @@ public class FiniteDifferentiator
 
 	/**
 	 * Returns the {@link UnivariateFunction} to differentiate.
-	 *
+	 * <p>
 	 * @return the {@link UnivariateFunction} to differentiate
 	 */
 	public UnivariateFunction getFunction() {
@@ -244,7 +244,7 @@ public class FiniteDifferentiator
 
 	/**
 	 * Returns the sample size.
-	 *
+	 * <p>
 	 * @return the sample size
 	 */
 	public int getSampleSize() {
@@ -253,7 +253,7 @@ public class FiniteDifferentiator
 
 	/**
 	 * Returns the interval between the sampling points.
-	 *
+	 * <p>
 	 * @return the interval between the sampling points
 	 */
 	public double getStep() {
@@ -264,7 +264,7 @@ public class FiniteDifferentiator
 
 	/**
 	 * Returns the differentiation {@link Range}.
-	 *
+	 * <p>
 	 * @return the differentiation {@link Range}
 	 */
 	public Range getRange() {
@@ -273,7 +273,7 @@ public class FiniteDifferentiator
 
 	/**
 	 * Returns the enlarged differentiation {@link Range}.
-	 *
+	 * <p>
 	 * @return the enlarged differentiation {@link Range}
 	 */
 	public Range getEnlargedRange() {

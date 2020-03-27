@@ -1830,9 +1830,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified sine value.
-	 *
+	 * <p>
 	 * @param value a sine value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified sine value
 	 */
 	public static double asin(final double value) {
@@ -1841,9 +1841,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified secant value.
-	 *
+	 * <p>
 	 * @param value a secant value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified secant value
 	 */
 	public static double asec(final double value) {
@@ -1852,9 +1852,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified cosine value.
-	 *
+	 * <p>
 	 * @param value a cosine value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified cosine value
 	 */
 	public static double acos(final double value) {
@@ -1863,9 +1863,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified cosecant value.
-	 *
+	 * <p>
 	 * @param value a cosecant value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified cosecant value
 	 */
 	public static double acosec(final double value) {
@@ -1874,9 +1874,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified tangent value.
-	 *
+	 * <p>
 	 * @param value a tangent value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified tangent value
 	 */
 	public static double atan(final double value) {
@@ -1885,9 +1885,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified cotangent value.
-	 *
+	 * <p>
 	 * @param value a cotangent value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified cotangent value
 	 */
 	public static double acot(final double value) {
@@ -2003,9 +2003,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic sine value.
-	 *
+	 * <p>
 	 * @param value a hyperbolic sine value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic sine value
 	 */
 	public static double asinh(final double value) {
@@ -2014,9 +2014,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic secant value.
-	 *
+	 * <p>
 	 * @param value a hyperbolic secant value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic secant value
 	 */
 	public static double asech(final double value) {
@@ -2025,9 +2025,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic cosine value.
-	 *
+	 * <p>
 	 * @param value a hyperbolic cosine value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic cosine value
 	 */
 	public static double acosh(final double value) {
@@ -2036,9 +2036,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic cosecant value.
-	 *
+	 * <p>
 	 * @param value a hyperbolic cosecant value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic cosecant value
 	 */
 	public static double acosech(final double value) {
@@ -2047,9 +2047,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic tangent value.
-	 *
+	 * <p>
 	 * @param value a hyperbolic tangent value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic tangent value
 	 */
 	public static double atanh(final double value) {
@@ -2058,9 +2058,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic cotangent value.
-	 *
+	 * <p>
 	 * @param value a hyperbolic cotangent value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic cotangent value
 	 */
 	public static double acoth(final double value) {
@@ -2082,9 +2082,9 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified haversine value.
-	 *
+	 * <p>
 	 * @param value a haversine value
-	 *
+	 * <p>
 	 * @return the inverse (in radians) of the specified haversine value
 	 */
 	public static double ahav(final double value) {

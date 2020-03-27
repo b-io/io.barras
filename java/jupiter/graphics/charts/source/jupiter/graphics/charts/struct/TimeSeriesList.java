@@ -228,7 +228,7 @@ public class TimeSeriesList
 
 	/**
 	 * Returns the number of {@link TimeSeries}.
-	 *
+	 * <p>
 	 * @return the number of {@link TimeSeries}
 	 */
 	public int size() {
