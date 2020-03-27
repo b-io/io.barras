@@ -38,7 +38,8 @@ import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.interpolation.SplineInterpolator;
 
 /**
- * {@link FiniteDifferentiator} is the {@link Differentiator} using the Crank–Nicolson method.
+ * {@link FiniteDifferentiator} is the finite {@link Differentiator} computing {@code y' = f'(x)}
+ * for {@code x} defined in {@code range} using the Crank–Nicolson method.
  */
 public class FiniteDifferentiator
 		extends Differentiator {

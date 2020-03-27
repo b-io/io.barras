@@ -167,8 +167,8 @@ public abstract class ComparableNumber
 	 * <p>
 	 * @param other the other {@link Number} to compare against for order (may be {@code null})
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code other}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other}
 	 */
 	public int compareTo(final Number other) {
 		return Numbers.compare(this, other);

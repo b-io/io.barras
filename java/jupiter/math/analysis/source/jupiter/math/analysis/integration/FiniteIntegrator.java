@@ -38,7 +38,9 @@ import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.interpolation.SplineInterpolator;
 
 /**
- * {@link FiniteIntegrator} is the {@link Integrator} using the trapezoidal rule.
+ * {@link FiniteIntegrator} is the finite {@link Integrator} computing
+ * {@code Y = F(x) - F(x - step)} for {@code x} and {@code x - step} defined in {@code range} using
+ * the trapezoidal rule.
  */
 public class FiniteIntegrator
 		extends Integrator {
@@ -124,8 +126,8 @@ public class FiniteIntegrator
 	 * When the independent variable is bounded ({@code lowerBound < t < upperBound}), the sampling
 	 * points used for integration will be adapted to ensure the constraint holds even near the
 	 * boundaries. This means the sample will not be centered anymore in these cases. At an extreme
-	 * case, computing the integrals exactly at the lower bound will lead the sample to be entirely
-	 * on the right side of the integration point.
+	 * case, computing the finite integrals exactly at the lower bound will lead the sample to be
+	 * entirely on the right side of the integration point.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>Wrong settings for the finite integrator can lead to highly unstable and inaccurate
@@ -181,8 +183,8 @@ public class FiniteIntegrator
 	 * When the independent variable is bounded ({@code lowerBound < t < upperBound}), the sampling
 	 * points used for integration will be adapted to ensure the constraint holds even near the
 	 * boundaries. This means the sample will not be centered anymore in these cases. At an extreme
-	 * case, computing the integrals exactly at the lower bound will lead the sample to be entirely
-	 * on the right side of the integration point.
+	 * case, computing the finite integrals exactly at the lower bound will lead the sample to be
+	 * entirely on the right side of the integration point.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>Wrong settings for the finite integrator can lead to highly unstable and inaccurate
@@ -285,17 +287,18 @@ public class FiniteIntegrator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the integrated {@code double} value {@code Y = F(x)} for {@code x} defined in
-	 * {@code range}.
+	 * Returns the integrated {@code double} value {@code Y = F(x) - F(x - step)} for {@code x} and
+	 * {@code x - step} defined in {@code range}.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
-	 * <dd>The integral approximation is computed using the trapezoidal rule and interpolated by a
-	 * {@link SplineInterpolator}.</dd>
+	 * <dd>The finite integral approximation is computed using the trapezoidal rule and interpolated
+	 * by a {@link SplineInterpolator}.</dd>
 	 * </dl>
 	 * <p>
 	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
-	 * @return {@code Y = F(x)} for {@code x} defined in {@code range}
+	 * @return {@code Y = F(x) - F(x - step)} for {@code x} and {@code x - step} defined in
+	 *         {@code range}
 	 */
 	@Override
 	protected double integrate(final double x) {
@@ -303,7 +306,7 @@ public class FiniteIntegrator
 			integrateAll();
 		}
 		if (interpolator != null) {
-			// Evaluate the value Y = F(x)
+			// Evaluate the value Y = F(x) - F(x - step)
 			return interpolator.apply(x);
 		}
 
@@ -315,27 +318,27 @@ public class FiniteIntegrator
 		final double[] X = Doubles.createSequence(sampleSize, t0, step);
 		final double[] Y = f.applyToPrimitiveArray(X);
 
-		// Compute the integral approximation Y using the trapezoidal rule
-		final double[] XX = new double[size];
-		System.arraycopy(X, 0, XX, 0, size);
-		Maths.sum(XX, step / 2.);
-		final double[] YY = new double[size];
+		// Compute the finite integral approximation Y using the trapezoidal rule
+		final double[] DX = new double[size];
+		System.arraycopy(X, 0, DX, 0, size);
+		Maths.sum(DX, step / 2.);
+		final double[] DY = new double[size];
 		for (int i = 0; i < size; ++i) {
-			YY[i] = step * (Y[i] + Y[i + 1]) / 2.;
+			DY[i] = step * (Y[i] + Y[i + 1]) / 4.;
 		}
 
-		// Interpolate the integral approximation Y
-		final SplineInterpolator i = SplineInterpolator.create(XX, YY);
+		// Interpolate the finite integral approximation Y
+		final SplineInterpolator i = SplineInterpolator.create(DX, DY);
 
-		// Evaluate the value Y = F(x)
+		// Evaluate the value Y = F(x) - F(x - step)
 		return i.apply(x);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code range} and then use
-	 * {@link #integrate} to retrieve {@code Y = F(x)}.
+	 * Integrates {@code y = f(x)} for all {@code x} and {@code x - step} defined in {@code range}
+	 * and then use {@link #integrate} to retrieve {@code Y = F(x) - F(x - step)}.
 	 * <p>
 	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 *
@@ -376,17 +379,17 @@ public class FiniteIntegrator
 		final double[] X = Doubles.createSequence(size + 1, t0, step);
 		final double[] Y = f.applyToPrimitiveArray(X);
 
-		// Compute the integral approximation Y using the trapezoidal rule
-		final double[] XX = new double[size];
-		System.arraycopy(X, 0, XX, 0, size);
-		Maths.sum(XX, step / 2.);
-		final double[] YY = new double[size];
+		// Compute the finite integral approximation Y using the trapezoidal rule
+		final double[] DX = new double[size];
+		System.arraycopy(X, 0, DX, 0, size);
+		Maths.sum(DX, step / 2.);
+		final double[] DY = new double[size];
 		for (int i = 0; i < size; ++i) {
-			YY[i] = step * (Y[i] + Y[i + 1]) / 2.;
+			DY[i] = step * (Y[i] + Y[i + 1]) / 4.;
 		}
 
-		// Interpolate the integral approximation Y
-		interpolator = SplineInterpolator.create(XX, YY);
+		// Interpolate the finite integral approximation Y
+		interpolator = SplineInterpolator.create(DX, DY);
 		return true;
 	}
 
