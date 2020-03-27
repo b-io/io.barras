@@ -26,7 +26,7 @@ package jupiter.common.math;
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 
 /**
  * {@link ComparableObject} is an {@link IComparable} of {@code T} type.
@@ -185,7 +185,7 @@ public abstract class ComparableObject<T extends Comparable<? super T>>
 		try {
 			return (ComparableObject<T>) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

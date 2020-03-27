@@ -187,7 +187,7 @@ public class ConsoleHandler
 
 		// Print the content and terminate the line
 		final PrintStream printStream = isError ? console.getErr() : console.getOut();
-		String text = Strings.toString(content);
+		String text = Objects.toString(content);
 		if (USE_COLORS && isError && Color.parse(text) == null) {
 			text = Color.RED.getStyledText(text);
 		}
@@ -203,7 +203,7 @@ public class ConsoleHandler
 	@Override
 	public void println(final Message message) {
 		if (USE_COLORS) {
-			println(getColor(message.getLevel()).getStyledText(Strings.toString(message)),
+			println(getColor(message.getLevel()).getStyledText(Objects.toString(message)),
 					message.getLevel().isError());
 		} else {
 			println(message, message.getLevel().isError());
@@ -292,6 +292,7 @@ public class ConsoleHandler
 		 * The color prefix.
 		 */
 		public static final String PREFIX = ESCAPE + "[";
+
 		/**
 		 * The color saturation.
 		 */

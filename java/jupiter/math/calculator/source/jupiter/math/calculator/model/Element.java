@@ -25,7 +25,7 @@ package jupiter.math.calculator.model;
 
 import java.io.Serializable;
 
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 import jupiter.math.linear.entity.Entity;
 
 public abstract class Element
@@ -165,7 +165,7 @@ public abstract class Element
 	 */
 	@Override
 	public String toString() {
-		return Strings.toString(entity);
+		return Objects.toString(entity);
 	}
 
 

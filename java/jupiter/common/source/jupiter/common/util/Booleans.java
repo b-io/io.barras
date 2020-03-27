@@ -49,6 +49,8 @@ public class Booleans {
 
 	protected static final BooleanParser PARSER = IParsers.BOOLEAN_PARSER;
 
+	//////////////////////////////////////////////
+
 	public static volatile Random RANDOM = new Random();
 
 

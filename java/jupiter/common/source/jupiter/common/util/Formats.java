@@ -169,7 +169,7 @@ public class Formats {
 	/**
 	 * The {@link DecimalFormat} of {@code double} values.
 	 */
-	public static final DecimalFormat DOUBLE_DECIMAL_FORMAT = getDoubleDecimalFormat();
+	public static volatile DecimalFormat DOUBLE_DECIMAL_FORMAT = getDoubleDecimalFormat();
 	/**
 	 * The {@link DecimalFormat}.
 	 */

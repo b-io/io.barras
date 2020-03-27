@@ -161,7 +161,7 @@ public abstract class Bound<T extends Comparable<? super T>>
 			clone.value = Objects.clone(value);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 
@@ -211,6 +211,6 @@ public abstract class Bound<T extends Comparable<? super T>>
 	 */
 	@Override
 	public String toString() {
-		return Strings.toString(value);
+		return Objects.toString(value);
 	}
 }

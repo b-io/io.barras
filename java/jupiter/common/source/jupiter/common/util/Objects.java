@@ -24,8 +24,16 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.COLON;
+import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
+
+import jupiter.common.time.Dates;
 
 public class Objects {
 
@@ -303,5 +311,199 @@ public class Objects {
 				}
 				return hashCode;
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or {@code "null"} if
+	 * it is {@code null}.
+	 * <p>
+	 * @param object an {@link Object} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or {@code "null"} if
+	 *         it is {@code null}
+	 */
+	public static String toString(final Object object) {
+		// Check the arguments
+		if (object == null) {
+			return NULL;
+		}
+
+		// Convert the object to a representative string
+		if (Arrays.is(object)) {
+			if (Booleans.isPrimitiveArray(object)) {
+				return Booleans.toString((boolean[]) object);
+			} else if (Characters.isPrimitiveArray(object)) {
+				return Characters.toString((char[]) object);
+			} else if (Bytes.isPrimitiveArray(object)) {
+				return Bytes.toString((byte[]) object);
+			} else if (Shorts.isPrimitiveArray(object)) {
+				return Shorts.toString((short[]) object);
+			} else if (Integers.isPrimitiveArray(object)) {
+				return Integers.toString((int[]) object);
+			} else if (Longs.isPrimitiveArray(object)) {
+				return Longs.toString((long[]) object);
+			} else if (Floats.isPrimitiveArray(object)) {
+				return Floats.toString((float[]) object);
+			} else if (Doubles.isPrimitiveArray(object)) {
+				return Doubles.toString((double[]) object);
+			}
+			return Arrays.toString((Object[]) object);
+		} else if (Collections.is(object)) {
+			Collections.toString((Collection<?>) object);
+		} else if (Dates.is(object)) {
+			return Dates.toString((Date) object);
+		} else if (Maps.is(object)) {
+			Maps.toString((Map<?, ?>) object);
+		} else if (Numbers.is(object)) {
+			return Numbers.toString((Number) object);
+		}
+		return String.valueOf(object);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or {@code "null"} if
+	 * it is {@code null}, truncated to the specified length.
+	 * <p>
+	 * @param object an {@link Object} (may be {@code null})
+	 * @param length the length of the representative {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or {@code "null"} if
+	 *         it is {@code null}, truncated to the specified length
+	 */
+	public static String toString(final Object object, final int length) {
+		return Strings.truncate(toString(object), length);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
+	 * it is {@code null} or {@code "null"}.
+	 * <p>
+	 * @param object an {@link Object} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
+	 *         it is {@code null} or {@code "null"}
+	 */
+	public static String toStringWithNull(final Object object) {
+		final String string = toString(object);
+		return !NULL.equals(string) ? string : null;
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
+	 * it is {@code null} or {@code "null"}, truncated to the specified length.
+	 * <p>
+	 * @param object an {@link Object} (may be {@code null})
+	 * @param length the length of the representative {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
+	 *         it is {@code null} or {@code "null"}, truncated to the specified length
+	 */
+	public static String toStringWithNull(final Object object, final int length) {
+		return Strings.truncate(toStringWithNull(object), length);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or
+	 * {@code defaultString} if it is {@code null}.
+	 * <p>
+	 * @param object        the {@link Object} (may be {@code null})
+	 * @param defaultString the default {@link String} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or
+	 *         {@code defaultString} if it is {@code null}
+	 */
+	public static String toString(final Object object, final String defaultString) {
+		return object != null ? toString(object) : defaultString;
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or
+	 * {@code defaultString} if it is {@code null}, truncated to the specified length.
+	 * <p>
+	 * @param object        an {@link Object} (may be {@code null})
+	 * @param defaultString the default {@link String} (may be {@code null})
+	 * @param length        the length of the representative {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or
+	 *         {@code defaultString} if it is {@code null}, truncated to the specified length
+	 */
+	public static String toString(final Object object, final String defaultString,
+			final int length) {
+		return Strings.truncate(toString(object, defaultString), length);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or
+	 * {@code defaultString} if it is {@code null} or {@code "null"}.
+	 * <p>
+	 * @param object        the {@link Object} (may be {@code null})
+	 * @param defaultString the default {@link String} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or
+	 *         {@code defaultString} if it is {@code null} or {@code "null"}
+	 */
+	public static String toStringWithNull(final Object object, final String defaultString) {
+		final String string = toString(object);
+		return !NULL.equals(string) ? string : defaultString;
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Object}, or
+	 * {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the specified
+	 * length.
+	 * <p>
+	 * @param object        the {@link Object} (may be {@code null})
+	 * @param defaultString the default {@link String} (may be {@code null})
+	 * @param length        the length of the representative {@link String}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Object}, or
+	 *         {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the
+	 *         specified length
+	 */
+	public static String toStringWithNull(final Object object, final String defaultString,
+			final int length) {
+		return Strings.truncate(toStringWithNull(object, defaultString), length);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Exception}, or {@code "null"}
+	 * if it is {@code null}.
+	 * <p>
+	 * @param exception an {@link Exception} (may be {@code null})
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Exception}, or {@code "null"}
+	 *         if it is {@code null}
+	 */
+	public static String toString(final Exception exception) {
+		return toString(exception, 0);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Exception} with the specified
+	 * number of {@link StackTraceElement}, or {@code "null"} if it is {@code null}.
+	 * <p>
+	 * @param exception              an {@link Exception} (may be {@code null})
+	 * @param stackTraceElementCount the number of {@link StackTraceElement} to add
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Exception} with the specified
+	 *         number of {@link StackTraceElement}, or {@code "null"} if it is {@code null}
+	 */
+	public static String toString(final Exception exception, final int stackTraceElementCount) {
+		if (exception == null) {
+			return NULL;
+		}
+		if (stackTraceElementCount > 0) {
+			final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
+					exception.getStackTrace(), 0, stackTraceElementCount);
+			return Strings.join(exception.getLocalizedMessage(), COLON, NEW_LINE,
+					Strings.joinWith(stackTraces, NEW_LINE));
+		}
+		return exception.getLocalizedMessage();
 	}
 }

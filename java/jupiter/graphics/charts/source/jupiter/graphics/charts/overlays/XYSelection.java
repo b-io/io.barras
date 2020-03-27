@@ -33,7 +33,6 @@ import java.text.Format;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 import jupiter.graphics.charts.panels.ChartPanels;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.math.analysis.struct.XY;
@@ -327,7 +326,7 @@ public class XYSelection
 			clone.propertyChangeSupport = Objects.clone(propertyChangeSupport);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

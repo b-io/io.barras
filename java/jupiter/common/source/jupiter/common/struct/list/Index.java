@@ -166,7 +166,7 @@ public class Index<T>
 			clone.token = Objects.clone(token);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

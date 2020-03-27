@@ -35,7 +35,6 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.event.OverlayChangeEvent;
@@ -192,7 +191,7 @@ public class XYSelectionOverlay
 			clone.selections = Objects.clone(selections);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

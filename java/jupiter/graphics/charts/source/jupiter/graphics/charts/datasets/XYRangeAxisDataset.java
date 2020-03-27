@@ -29,7 +29,6 @@ import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -148,7 +147,7 @@ public class XYRangeAxisDataset<D extends XYDataset>
 		try {
 			return (XYRangeAxisDataset<D>) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 
@@ -199,6 +198,6 @@ public class XYRangeAxisDataset<D extends XYDataset>
 	 */
 	@Override
 	public String toString() {
-		return yAxis != null ? Strings.toString(yAxis.getLabel()) : NULL;
+		return yAxis != null ? Objects.toString(yAxis.getLabel()) : NULL;
 	}
 }

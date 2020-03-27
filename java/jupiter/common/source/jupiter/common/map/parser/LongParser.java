@@ -75,7 +75,7 @@ public class LongParser
 		if (input instanceof Number) {
 			return ((Number) input).longValue();
 		}
-		final String value = Strings.toStringWithNull(input);
+		final String value = Objects.toStringWithNull(input);
 		if (value == null) {
 			return null;
 		}

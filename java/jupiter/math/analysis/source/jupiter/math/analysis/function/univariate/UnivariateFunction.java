@@ -31,7 +31,7 @@ import jupiter.common.test.SetArguments;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 
 /**
  * {@link UnivariateFunction} is a univariate function defined in the {@link Domain}.
@@ -306,7 +306,7 @@ public abstract class UnivariateFunction
 		try {
 			return (UnivariateFunction) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 }

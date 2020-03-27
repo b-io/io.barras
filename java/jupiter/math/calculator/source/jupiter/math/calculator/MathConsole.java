@@ -21,31 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.calculator.process;
+package jupiter.math.calculator;
 
-import jupiter.gui.console.GraphicalConsole;
-import jupiter.math.calculator.MathConsole;
+import static jupiter.common.io.IO.IO;
 
-/**
- * {@link CalculatorDemo} demonstrates {@link Calculator}.
- */
-public class CalculatorDemo {
+import jupiter.common.util.Strings;
+import jupiter.math.calculator.process.Calculator;
+
+public class MathConsole {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Demonstrates {@link Calculator}.
+	 * Starts the {@link MathConsole}.
 	 * <p>
-	 * @param args ignored
+	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		// Create a graphical console and show it
-		final GraphicalConsole graphicalConsole = new GraphicalConsole();
-		// Process the inputs
-		MathConsole.main(args);
-		// Close the graphical console
-		graphicalConsole.exit();
+		IO.clear();
+		Calculator.parallelize();
+		try {
+			interactions();
+		} finally {
+			Calculator.unparallelize();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Interacts with the user.
+	 */
+	protected static void interactions() {
+		final Calculator calc = new Calculator();
+		boolean isRunning = true;
+		do {
+			// Process the input expression
+			final String inputExpression = IO.input().trim();
+			if (Strings.toLowerCase(inputExpression).contains("exit")) {
+				IO.info("Good bye!");
+				isRunning = false;
+			} else {
+				IO.result(calc.process(inputExpression));
+			}
+		} while (isRunning);
 	}
 }

@@ -35,7 +35,6 @@ import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.log.LogHandler;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class AIO
 		implements ICloneable<AIO>, Serializable {
@@ -132,7 +131,7 @@ public class AIO
 	 * @param message the message {@link Object} to show
 	 */
 	public void show(final Context context, final Object message) {
-		Toast.makeText(context, Strings.toString(message), Toast.LENGTH_LONG).show();
+		Toast.makeText(context, Objects.toString(message), Toast.LENGTH_LONG).show();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -260,7 +259,7 @@ public class AIO
 			clone.io = Objects.clone(io);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 }

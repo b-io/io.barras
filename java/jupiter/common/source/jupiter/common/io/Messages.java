@@ -29,6 +29,7 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.IO.Type;
 import jupiter.common.time.Dates;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Messages {
@@ -139,7 +140,7 @@ public class Messages {
 	protected static String createOutputPrefix(final SeverityLevel level, final String className,
 			final String methodName, final int lineNumber) {
 		return createOutputPrefix(level, className, methodName) +
-				createLabel(Strings.toString(lineNumber));
+				createLabel(Objects.toString(lineNumber));
 	}
 
 	//////////////////////////////////////////////
@@ -161,7 +162,7 @@ public class Messages {
 	}
 
 	protected static String createLabel(final SeverityLevel level) {
-		return createLabel(Strings.toString(level).substring(0, 4));
+		return createLabel(Objects.toString(level).substring(0, 4));
 	}
 
 	protected static String createLabel(final String text) {

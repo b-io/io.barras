@@ -25,7 +25,7 @@ package jupiter.common.map.parser;
 
 import jupiter.common.map.ObjectToCharacterMapper;
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 
 /**
  * {@link CharacterParser} is the {@link ObjectToCharacterMapper} parsing an input {@link Object} to
@@ -73,7 +73,7 @@ public class CharacterParser
 		if (input instanceof CharSequence) {
 			inputCharSequence = (CharSequence) input;
 		} else {
-			inputCharSequence = Strings.toStringWithNull(input);
+			inputCharSequence = Objects.toStringWithNull(input);
 			if (inputCharSequence == null) {
 				return null;
 			}

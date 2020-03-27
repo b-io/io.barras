@@ -24,7 +24,6 @@
 package jupiter.common.util;
 
 import static jupiter.common.util.Arrays.DELIMITER;
-import static jupiter.common.util.Characters.COLON;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
 import static jupiter.common.util.Characters.HYPHEN;
 import static jupiter.common.util.Characters.LEFT_BRACE;
@@ -39,16 +38,13 @@ import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 import static jupiter.common.util.Formats.DEFAULT_LOCALE;
-import static jupiter.common.util.Formats.NEW_LINE;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,7 +62,6 @@ import jupiter.common.struct.list.SortedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
-import jupiter.common.time.Dates;
 
 public class Strings {
 
@@ -529,7 +524,7 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String repeat(final char token, final int length) {
-		return repeat(toString(token), length);
+		return repeat(Objects.toString(token), length);
 	}
 
 	public static String repeat(final String text, final int length) {
@@ -930,7 +925,9 @@ public class Strings {
 	 *         without traces of offending characters that can prevent parsing)
 	 */
 	public static String escape(final Object content) {
-		return toString(content).replaceAll("\\\\", "\\\\\\\\")
+		return Objects.toString(content)
+				.replaceAll("\\\\", "\\\\\\\\")
+				.replaceAll("\'", "\\\\\'")
 				.replaceAll("\"", "\\\\\"")
 				.replaceAll("\b", "\\\\b")
 				.replaceAll("\f", "\\\\f")
@@ -949,12 +946,14 @@ public class Strings {
 	 *         with traces of offending characters that can prevent parsing)
 	 */
 	public static String unescape(final Object content) {
-		return toString(content).replaceAll("\\\\t", "\t")
+		return Objects.toString(content)
+				.replaceAll("\\\\t", "\t")
 				.replaceAll("\\\\r", "\r")
 				.replaceAll("\\\\n", "\n")
 				.replaceAll("\\\\f", "\f")
 				.replaceAll("\\\\b", "\b")
 				.replaceAll("\\\\\"", "\"")
+				.replaceAll("\\\\\'", "\'")
 				.replaceAll("\\\\\\\\", "\\\\");
 	}
 
@@ -972,7 +971,7 @@ public class Strings {
 	 *         parsing a regular expression)
 	 */
 	public static String escapeRegex(final Object content) {
-		return Pattern.quote(toString(content));
+		return Pattern.quote(Objects.toString(content));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1022,7 +1021,7 @@ public class Strings {
 
 		// Join the elements
 		for (final Object element : array) {
-			builder.append(toString(element));
+			builder.append(Objects.toString(element));
 		}
 		return builder.toString();
 	}
@@ -1047,7 +1046,7 @@ public class Strings {
 
 		// Join the elements
 		for (final Object element : collection) {
-			builder.append(toString(element));
+			builder.append(Objects.toString(element));
 		}
 		return builder.toString();
 	}
@@ -1064,7 +1063,7 @@ public class Strings {
 	 *         {@link Arrays#DELIMITER}, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Object[] array) {
-		return joinWith(array, toString(DELIMITER));
+		return joinWith(array, Objects.toString(DELIMITER));
 	}
 
 	/**
@@ -1078,7 +1077,7 @@ public class Strings {
 	 *         {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Object[] array, final char delimiter) {
-		return joinWith(array, toString(delimiter));
+		return joinWith(array, Objects.toString(delimiter));
 	}
 
 	/**
@@ -1105,9 +1104,9 @@ public class Strings {
 		// Join the elements
 		int i = 0;
 		if (array.length > 0) {
-			builder.append(toString(array[i++]));
+			builder.append(Objects.toString(array[i++]));
 			while (i < array.length) {
-				builder.append(delimiter).append(toString(array[i++]));
+				builder.append(delimiter).append(Objects.toString(array[i++]));
 			}
 		}
 		return builder.toString();
@@ -1126,7 +1125,7 @@ public class Strings {
 	 *         {@code null}
 	 */
 	public static String joinWith(final Object[] array, final ObjectToStringMapper wrapper) {
-		return joinWith(array, toString(DELIMITER), wrapper);
+		return joinWith(array, Objects.toString(DELIMITER), wrapper);
 	}
 
 	/**
@@ -1144,7 +1143,7 @@ public class Strings {
 	 */
 	public static String joinWith(final Object[] array, final char delimiter,
 			final ObjectToStringMapper wrapper) {
-		return joinWith(array, toString(delimiter), wrapper);
+		return joinWith(array, Objects.toString(delimiter), wrapper);
 	}
 
 	/**
@@ -1197,7 +1196,7 @@ public class Strings {
 	 *         specified {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter) {
-		return joinWith(collection, toString(delimiter));
+		return joinWith(collection, Objects.toString(delimiter));
 	}
 
 	/**
@@ -1226,7 +1225,7 @@ public class Strings {
 		if (iterator.hasNext()) {
 			builder.append(iterator.next());
 			while (iterator.hasNext()) {
-				builder.append(delimiter).append(toString(iterator.next()));
+				builder.append(delimiter).append(Objects.toString(iterator.next()));
 			}
 		}
 		return builder.toString();
@@ -1247,7 +1246,7 @@ public class Strings {
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter,
 			final ObjectToStringMapper wrapper) {
-		return joinWith(collection, toString(delimiter), wrapper);
+		return joinWith(collection, Objects.toString(delimiter), wrapper);
 	}
 
 	/**
@@ -1262,7 +1261,7 @@ public class Strings {
 	 */
 	public static String joinWith(final Collection<?> collection,
 			final ObjectToStringMapper wrapper) {
-		return joinWith(collection, toString(DELIMITER), wrapper);
+		return joinWith(collection, Objects.toString(DELIMITER), wrapper);
 	}
 
 	/**
@@ -1917,7 +1916,7 @@ public class Strings {
 		}
 
 		// Wrap the content
-		final String string = toString(content);
+		final String string = Objects.toString(content);
 		if (isNullOrEmpty(wrapper)) {
 			return string;
 		}
@@ -1942,7 +1941,7 @@ public class Strings {
 		}
 
 		// Wrap the content
-		String string = toString(content);
+		String string = Objects.toString(content);
 		if (isNonEmpty(left)) {
 			string = left.concat(string);
 		}
@@ -4208,218 +4207,6 @@ public class Strings {
 	 *         equal to each other, {@code false} otherwise
 	 */
 	public static boolean equals(final Object a, final Object b) {
-		return toString(a).equals(toString(b));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Object}, or {@code "null"} if
-	 * it is {@code null}.
-	 * <p>
-	 * @param object an {@link Object} (may be {@code null})
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object}, or {@code "null"} if
-	 *         it is {@code null}
-	 */
-	public static String toString(final Object object) {
-		// Check the arguments
-		if (object == null) {
-			return NULL;
-		}
-
-		// Convert the object to a representative string
-		if (Arrays.is(object)) {
-			if (Booleans.isPrimitiveArray(object)) {
-				return Booleans.toString((boolean[]) object);
-			} else if (Characters.isPrimitiveArray(object)) {
-				return Characters.toString((char[]) object);
-			} else if (Bytes.isPrimitiveArray(object)) {
-				return Bytes.toString((byte[]) object);
-			} else if (Shorts.isPrimitiveArray(object)) {
-				return Shorts.toString((short[]) object);
-			} else if (Integers.isPrimitiveArray(object)) {
-				return Integers.toString((int[]) object);
-			} else if (Longs.isPrimitiveArray(object)) {
-				return Longs.toString((long[]) object);
-			} else if (Floats.isPrimitiveArray(object)) {
-				return Floats.toString((float[]) object);
-			} else if (Doubles.isPrimitiveArray(object)) {
-				return Doubles.toString((double[]) object);
-			}
-			return Arrays.toString((Object[]) object);
-		} else if (Collections.is(object)) {
-			Collections.toString((Collection<?>) object);
-		} else if (Dates.is(object)) {
-			return Dates.toString((Date) object);
-		} else if (Maps.is(object)) {
-			Maps.toString((Map<?, ?>) object);
-		} else if (Numbers.is(object)) {
-			return Numbers.toString((Number) object);
-		}
-		return String.valueOf(object);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Object}, or {@code "null"} if
-	 * it is {@code null}, truncated to the specified length.
-	 * <p>
-	 * @param object an {@link Object} (may be {@code null})
-	 * @param length the length of the representative {@link String}
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object}, or {@code "null"} if
-	 *         it is {@code null}, truncated to the specified length
-	 */
-	public static String toString(final Object object, final int length) {
-		return truncate(toString(object), length);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
-	 * it is {@code null} or {@code "null"}.
-	 * <p>
-	 * @param object an {@link Object} (may be {@code null})
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
-	 *         it is {@code null} or {@code "null"}
-	 */
-	public static String toStringWithNull(final Object object) {
-		final String string = toString(object);
-		return !NULL.equals(string) ? string : null;
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
-	 * it is {@code null} or {@code "null"}, truncated to the specified length.
-	 * <p>
-	 * @param object an {@link Object} (may be {@code null})
-	 * @param length the length of the representative {@link String}
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
-	 *         it is {@code null} or {@code "null"}, truncated to the specified length
-	 */
-	public static String toStringWithNull(final Object object, final int length) {
-		return truncate(toStringWithNull(object), length);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Object}, or
-	 * {@code defaultString} if it is {@code null}.
-	 * <p>
-	 * @param object        the {@link Object} (may be {@code null})
-	 * @param defaultString the default {@link String} (may be {@code null})
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object}, or
-	 *         {@code defaultString} if it is {@code null}
-	 */
-	public static String toString(final Object object, final String defaultString) {
-		return object != null ? toString(object) : defaultString;
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Object}, or
-	 * {@code defaultString} if it is {@code null}, truncated to the specified length.
-	 * <p>
-	 * @param object        an {@link Object} (may be {@code null})
-	 * @param defaultString the default {@link String} (may be {@code null})
-	 * @param length        the length of the representative {@link String}
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object}, or
-	 *         {@code defaultString} if it is {@code null}, truncated to the specified length
-	 */
-	public static String toString(final Object object, final String defaultString,
-			final int length) {
-		return truncate(toString(object, defaultString), length);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Object}, or
-	 * {@code defaultString} if it is {@code null} or {@code "null"}.
-	 * <p>
-	 * @param object        the {@link Object} (may be {@code null})
-	 * @param defaultString the default {@link String} (may be {@code null})
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object}, or
-	 *         {@code defaultString} if it is {@code null} or {@code "null"}
-	 */
-	public static String toStringWithNull(final Object object, final String defaultString) {
-		final String string = toString(object);
-		return !NULL.equals(string) ? string : defaultString;
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Object}, or
-	 * {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the specified
-	 * length.
-	 * <p>
-	 * @param object        the {@link Object} (may be {@code null})
-	 * @param defaultString the default {@link String} (may be {@code null})
-	 * @param length        the length of the representative {@link String}
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Object}, or
-	 *         {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the
-	 *         specified length
-	 */
-	public static String toStringWithNull(final Object object, final String defaultString,
-			final int length) {
-		return truncate(toStringWithNull(object, defaultString), length);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Exception}, or {@code "null"}
-	 * if it is {@code null}.
-	 * <p>
-	 * @param exception an {@link Exception} (may be {@code null})
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Exception}, or {@code "null"}
-	 *         if it is {@code null}
-	 */
-	public static String toString(final Exception exception) {
-		return toString(exception, 0);
-	}
-
-	/**
-	 * Returns a representative {@link String} of the specified {@link Exception} with the specified
-	 * number of {@link StackTraceElement}, or {@code "null"} if it is {@code null}.
-	 * <p>
-	 * @param exception              an {@link Exception} (may be {@code null})
-	 * @param stackTraceElementCount the number of {@link StackTraceElement} to add
-	 * <p>
-	 * @return a representative {@link String} of the specified {@link Exception} with the specified
-	 *         number of {@link StackTraceElement}, or {@code "null"} if it is {@code null}
-	 */
-	public static String toString(final Exception exception, final int stackTraceElementCount) {
-		if (exception == null) {
-			return NULL;
-		}
-		if (stackTraceElementCount > 0) {
-			final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
-					exception.getStackTrace(), 0, stackTraceElementCount);
-			return join(exception.getLocalizedMessage(), COLON, NEW_LINE,
-					joinWith(stackTraces, NEW_LINE));
-		}
-		return exception.getLocalizedMessage();
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of the specified value {@link Object}, or
-	 * {@code "null"} if it is {@code null}.
-	 * <p>
-	 * @param value a value {@link Object} (may be {@code null})
-	 * <p>
-	 * @return a representative {@link String} of the specified value {@link Object}, or
-	 *         {@code "null"} if it is {@code null}
-	 */
-	public static String valueToString(final Object value) {
-		if (value == null || Booleans.is(value) || Numbers.is(value)) {
-			return toString(value);
-		}
-		return doubleQuote(escape(value));
+		return Objects.toString(a).equals(Objects.toString(b));
 	}
 }

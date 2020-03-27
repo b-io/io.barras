@@ -37,6 +37,7 @@ import jupiter.common.test.ArrayArguments;
 import jupiter.common.thread.Threads;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 import org.rosuda.REngine.Rserve.RConnection;
@@ -51,6 +52,9 @@ public class R {
 	public static final String R_PATH = "R";
 	public static final String R_SCRIPT_PATH = "RScript";
 	public static final String[] ARGS = new String[] {};
+
+	//////////////////////////////////////////////
+
 	public static volatile String REPO = "https://cloud.r-project.org";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,7 +134,7 @@ public class R {
 		try {
 			new RConnection().shutdown();
 		} catch (final RserveException ex) {
-			IO.warn("Fail to stop Rserve", ex);
+			IO.warn(ex, "Fail to stop Rserve");
 		}
 		return false;
 	}
@@ -162,9 +166,9 @@ public class R {
 			return Systems.execute(printer,
 					Arrays.<String>merge(new String[] {R_SCRIPT_PATH}, script, ARGS));
 		} catch (final InterruptedException ex) {
-			IO.error("Fail to execute the script ", Strings.quote(script[0]), ex);
+			IO.error(ex);
 		} catch (final IOException ex) {
-			IO.error("Fail to execute the script ", Strings.quote(script[0]), ex);
+			IO.error(ex);
 		}
 		return IO.EXIT_FAILURE;
 	}
@@ -199,22 +203,12 @@ public class R {
 
 		// Execute the command and print the output with the printer
 		try {
-			// Test whether the OS is Windows or Unix
-			if (Systems.isWindows()) {
-				// • Execute the command on Windows
-				return Systems.execute(printer,
-						Arrays.<String>merge(new String[] {R_PATH, "-e"}, command));
-			} else if (Systems.isUnix()) {
-				// • Execute the command on Unix
-				return Systems.execute(printer,
-						Arrays.<String>merge(
-								new String[] {"/bin/sh", "-c", "echo", command[0], "|", R_PATH},
-								Arrays.<String>take(command, 1, command.length)));
-			}
+			return Systems.execute(printer,
+					Arrays.<String>merge(new String[] {R_PATH, "--slave", "-e"}, command));
 		} catch (final InterruptedException ex) {
-			IO.error("Fail to execute the command ", Strings.quote(command[0]), ex);
+			IO.error(ex);
 		} catch (final IOException ex) {
-			IO.error("Fail to execute the command ", Strings.quote(command[0]), ex);
+			IO.error(ex);
 		}
 		return IO.EXIT_FAILURE;
 	}
@@ -237,7 +231,7 @@ public class R {
 			connection.close();
 			return true;
 		} catch (final RserveException ex) {
-			IO.warn("Rserve is not running", ex);
+			IO.warn(ex, "Rserve is not running");
 		}
 		return false;
 	}
@@ -293,7 +287,7 @@ public class R {
 
 		@Override
 		public void print(final Object content, final boolean isError) {
-			final String text = Strings.toString(content);
+			final String text = Objects.toString(content);
 			printer.print(PREFIX.concat(text), isError);
 			if (isError) {
 				check(text);
@@ -302,7 +296,7 @@ public class R {
 
 		@Override
 		public void println(final Object content, final boolean isError) {
-			final String text = Strings.toString(content);
+			final String text = Objects.toString(content);
 			printer.println(PREFIX.concat(text), isError);
 			if (isError) {
 				check(text);

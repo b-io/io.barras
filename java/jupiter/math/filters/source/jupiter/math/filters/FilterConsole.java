@@ -21,63 +21,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.transfer.file;
+package jupiter.math.filters;
 
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.model.ICloneable;
+import static jupiter.common.io.IO.IO;
 
-/**
- * {@link JSONGenerator} is the {@link ObjectToStringMapper} generating a JSON {@link String} from
- * the fields of the input {@link Object}.
- */
-public class JSONGenerator
-		extends ObjectToStringMapper {
+import jupiter.common.util.Strings;
+import jupiter.math.linear.entity.Scalar;
+
+public class FilterConsole {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
+	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1L;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Constructs a {@link JSONGenerator}.
-	 */
-	public JSONGenerator() {
-		super();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public String call(final Object input) {
-		return JSON.stringify(input);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Clones {@code this}.
+	 * Starts the {@link FilterConsole}.
 	 * <p>
-	 * @return a clone of {@code this}
-	 *
-	 * @see ICloneable
+	 * @param args the array of command line arguments
 	 */
-	@Override
-	public JSONGenerator clone() {
-		return new JSONGenerator();
+	public static void main(final String[] args) {
+		IO.clear();
+		interactions();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Interacts with the user to get the measurements of the position to predict using the Kalman
+	 * filter.
+	 */
+	protected static void interactions() {
+		final KalmanFilter filter = new KalmanFilter();
+		filter.x = new Scalar(1.); // the initial guess
+		boolean isRunning = true;
+		do {
+			// Predict the position (a priori)
+			filter.predict();
+			// Process the input expression
+			final String inputExpression = IO.input().trim();
+			if (Strings.toLowerCase(inputExpression).contains("exit")) {
+				IO.info("Good bye!");
+				isRunning = false;
+			} else {
+				// Correct the position (a posteriori)
+				final Scalar y = new Scalar(Double.parseDouble(inputExpression));
+				filter.correct(y);
+			}
+		} while (isRunning);
 	}
 }

@@ -24,13 +24,13 @@
 package jupiter.graphics.charts;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.COS;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.SIN;
 
 import jupiter.common.math.Maths;
 import jupiter.common.math.Range;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.math.analysis.differentiation.FiniteDifferentiator;
-import jupiter.math.analysis.function.univariate.UnivariateFunction;
-import jupiter.math.analysis.function.univariate.UnivariateFunctions;
 import jupiter.math.analysis.integration.FiniteIntegrator;
 
 /**
@@ -95,33 +95,38 @@ public class DynamicSeriesPanelDemo {
 		final double from = -10., to = 10.;
 		final int sampleSize = 11;
 		final double step = 0.1;
-		final UnivariateFunction sin = UnivariateFunctions.SIN;
-		graph.addSeries(0, Charts.createSeries("y = sin(x)", sin, from, to, 100));
-		final UnivariateFunction cos = UnivariateFunctions.COS;
-		graph.addSeries(0, Charts.createSeries("y = cos(x)", cos, from, to, 100));
+		final int chartSampleSize = 10 * (sampleSize - 1) + 1;
+
+		// • Show sine and cosine series
+		graph.addSeries(0, Charts.createSeries("y = sin(x)", SIN, from, to, chartSampleSize));
+		graph.addSeries(0, Charts.createSeries("y = cos(x)", COS, from, to, chartSampleSize));
 
 		// • Finite differentiation
 		// 1. Differentiate twice
-		final FiniteDifferentiator derivative = new FiniteDifferentiator(sin, sampleSize, step);
+		final FiniteDifferentiator derivative = new FiniteDifferentiator(SIN, sampleSize, step);
 		IO.result(derivative.getEnlargedRange());
-		graph.addSeries(0, Charts.createSeries("(1) y' = cos(x)", derivative, from, to, 100));
+		graph.addSeries(0, Charts.createSeries("(1) y' = cos(x)", derivative, from, to,
+				chartSampleSize));
 		final FiniteDifferentiator derivative2 = new FiniteDifferentiator(derivative, sampleSize,
 				step);
 		IO.result(derivative2.getEnlargedRange());
-		graph.addSeries(0, Charts.createSeries("(1) y'' = -sin(x)", derivative2, from, to, 100));
+		graph.addSeries(0, Charts.createSeries("(1) y'' = -sin(x)", derivative2, from, to,
+				chartSampleSize));
 		// 2. Differentiate twice directly
-		final FiniteDifferentiator fastDerivative2 = new FiniteDifferentiator(2, sin, sampleSize,
+		final FiniteDifferentiator fastDerivative2 = new FiniteDifferentiator(2, SIN, sampleSize,
 				step, new Range(from / 2., to / 2.));
 		IO.result(fastDerivative2.getEnlargedRange());
-		graph.addSeries(0, Charts.createSeries("(2) y'' = -sin(x)", fastDerivative2, from, to, 100));
+		graph.addSeries(0, Charts.createSeries("(2) y'' = -sin(x)", fastDerivative2, from, to,
+				chartSampleSize));
 
 		// • Finite integration
 		// 3. Integrate twice directly (note that the antiderivative requires initial values)
-		final FiniteIntegrator fastIntegrator = new FiniteIntegrator(2, sin, sampleSize,
+		final FiniteIntegrator fastIntegrator = new FiniteIntegrator(2, SIN, sampleSize,
 				step, new Range(from / 2., to / 2.));
 		IO.result(fastIntegrator.getEnlargedRange());
 		fastIntegrator.integrateAll(-Maths.cos(fastIntegrator.getInitialValue()),
 				-Maths.sin(fastIntegrator.getInitialValue()));
-		graph.addSeries(0, Charts.createSeries("(3) Y = -sin(x)", fastIntegrator, from, to, 100));
+		graph.addSeries(0, Charts.createSeries("(3) Y = -sin(x)", fastIntegrator, from, to,
+				chartSampleSize));
 	}
 }

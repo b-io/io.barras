@@ -21,52 +21,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.calculator;
+package jupiter.common.io.string;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.string.Stringifiers.JSON;
 
-import jupiter.common.util.Strings;
-import jupiter.math.calculator.process.Calculator;
+import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.model.ICloneable;
 
-public class Console {
+/**
+ * {@link JSONGenerator} is the {@link ObjectToStringMapper} generating a JSON {@link String} from
+ * the fields of the input {@link Object}.
+ */
+public class JSONGenerator
+		extends ObjectToStringMapper {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
+	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts the console.
-	 * <p>
-	 * @param args the array of command line arguments
+	 * The generated serial version ID.
 	 */
-	public static void main(final String[] args) {
-		IO.clear();
-		Calculator.parallelize();
-		try {
-			interactions();
-		} finally {
-			Calculator.unparallelize();
-		}
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link JSONGenerator}.
+	 */
+	public JSONGenerator() {
+		super();
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CALLABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public String call(final Object input) {
+		return JSON.stringify(input);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Interacts with the user.
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
 	 */
-	protected static void interactions() {
-		boolean isRunning = true;
-		final Calculator calc = new Calculator();
-
-		do {
-			// Process the input expression
-			final String inputExpression = IO.input().trim();
-			if (Strings.toLowerCase(inputExpression).contains("exit")) {
-				IO.info("Good bye!");
-				isRunning = false;
-			} else {
-				IO.result(calc.process(inputExpression));
-			}
-		} while (isRunning);
+	@Override
+	public JSONGenerator clone() {
+		return new JSONGenerator();
 	}
 }

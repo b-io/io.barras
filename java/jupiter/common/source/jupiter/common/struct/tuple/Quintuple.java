@@ -238,7 +238,7 @@ public class Quintuple<T1, T2, T3, T4, T5>
 			clone.fifth = Objects.clone(fifth);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

@@ -25,7 +25,7 @@ package jupiter.common.map.parser;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 
 /**
  * {@link StringParser} is the {@link ObjectToStringMapper} parsing an input {@link Object} to an
@@ -69,7 +69,7 @@ public class StringParser
 		if (input instanceof String) {
 			return (String) input;
 		}
-		return Strings.toString(input);
+		return Objects.toString(input);
 	}
 
 

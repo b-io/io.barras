@@ -493,7 +493,7 @@ public class RowList
 	protected static String[] createHeader(final int length) {
 		final String[] header = new String[length];
 		for (int i = 1; i <= length; ++i) {
-			header[i - 1] = Strings.toString(i);
+			header[i - 1] = Objects.toString(i);
 		}
 		return header;
 	}

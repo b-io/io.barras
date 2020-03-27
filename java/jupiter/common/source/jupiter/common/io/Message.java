@@ -135,7 +135,7 @@ public class Message
 		this.type = type;
 		this.level = level;
 		prefix = Messages.getPrefix(type, level, stackIndex);
-		this.content = Strings.toString(content);
+		this.content = Objects.toString(content);
 		exception = null;
 	}
 
@@ -184,7 +184,7 @@ public class Message
 		type = Type.OUTPUT;
 		this.level = level;
 		prefix = Messages.getPrefix(type, level, stackIndex);
-		content = Strings.toString(exception);
+		content = Objects.toString(exception);
 		this.exception = exception;
 	}
 
@@ -255,7 +255,7 @@ public class Message
 		try {
 			return (Message) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

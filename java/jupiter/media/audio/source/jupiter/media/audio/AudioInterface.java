@@ -32,6 +32,7 @@ import javax.sound.sampled.Line;
 import javax.sound.sampled.Mixer;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public abstract class AudioInterface
@@ -142,7 +143,7 @@ public abstract class AudioInterface
 		try {
 			return (AudioInterface) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

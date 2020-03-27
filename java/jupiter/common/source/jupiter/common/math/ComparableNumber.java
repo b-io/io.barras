@@ -271,7 +271,7 @@ public abstract class ComparableNumber
 		try {
 			return (ComparableNumber) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 
@@ -378,6 +378,6 @@ public abstract class ComparableNumber
 	 */
 	@Override
 	public String toString() {
-		return Strings.toString(doubleValue());
+		return Objects.toString(doubleValue());
 	}
 }

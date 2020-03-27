@@ -265,8 +265,8 @@ public class Vector
 				}
 				return result;
 			}
-			throw new IllegalOperationException("Cannot broadcast " + getName() + " to " +
-					getDimensions() + " (wrong number of columns)");
+			throw new IllegalOperationException("Cannot broadcast " + getName() +
+					" to " + getDimensions() + " (wrong number of columns)");
 		}
 		if (m == rowCount) {
 			final Matrix result = new Matrix(rowCount, columnCount);
@@ -275,8 +275,8 @@ public class Vector
 			}
 			return result;
 		}
-		throw new IllegalOperationException("Cannot broadcast " + getName() + " to " +
-				getDimensions() + " (wrong number of rows)");
+		throw new IllegalOperationException("Cannot broadcast " + getName() +
+				" to " + getDimensions() + " (wrong number of rows)");
 	}
 
 

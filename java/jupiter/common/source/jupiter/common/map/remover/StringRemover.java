@@ -25,6 +25,7 @@ package jupiter.common.map.remover;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
@@ -89,7 +90,7 @@ public class StringRemover
 		if (input == null) {
 			return null;
 		}
-		return Strings.removeAll(Strings.toString(input), tokens);
+		return Strings.removeAll(Objects.toString(input), tokens);
 	}
 
 

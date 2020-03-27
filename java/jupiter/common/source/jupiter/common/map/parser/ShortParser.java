@@ -75,7 +75,7 @@ public class ShortParser
 		if (input instanceof Number) {
 			return ((Number) input).shortValue();
 		}
-		final String value = Strings.toStringWithNull(input);
+		final String value = Objects.toStringWithNull(input);
 		if (value == null) {
 			return null;
 		}

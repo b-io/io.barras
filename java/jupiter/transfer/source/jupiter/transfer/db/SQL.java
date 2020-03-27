@@ -218,7 +218,7 @@ public class SQL {
 			try {
 				return new URL(text);
 			} catch (final MalformedURLException ex) {
-				throw new IllegalStateException(Strings.toString(ex), ex);
+				throw new IllegalStateException(Objects.toString(ex), ex);
 			}
 		}
 		throw new IllegalClassException(c);
@@ -851,8 +851,8 @@ public class SQL {
 		} catch (final InvocationTargetException ex) {
 			IO.error(ex);
 		} catch (final NoSuchMethodException ex) {
-			IO.error("No constructor with ", Objects.getName(ResultSet.class), " in ",
-					Objects.getName(c), " found: ", ex);
+			IO.error(ex, "No constructor with ", Objects.getName(ResultSet.class),
+					" in ", Objects.getName(c), " found");
 		} catch (final SecurityException ex) {
 			IO.error(ex);
 		}

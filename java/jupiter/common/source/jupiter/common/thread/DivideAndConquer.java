@@ -285,7 +285,7 @@ public abstract class DivideAndConquer<I>
 		try {
 			return (DivideAndConquer<I>) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

@@ -26,7 +26,7 @@ package jupiter.learning.supervised.function;
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
@@ -112,7 +112,7 @@ public abstract class RegularizationFunction
 		try {
 			return (RegularizationFunction) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 }

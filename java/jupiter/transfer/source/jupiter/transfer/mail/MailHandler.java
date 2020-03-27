@@ -53,6 +53,7 @@ import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class MailHandler
@@ -334,9 +335,9 @@ public class MailHandler
 		properties.put("mail.store.protocol", protocol.value);
 		properties.put("mail." + protocol + ".host", hostName);
 		properties.put("mail." + protocol + ".port", protocol.getPort());
-		properties.put("mail." + protocol + ".auth", Strings.toString(password != null));
-		properties.put("mail." + protocol + ".timeout", Strings.toString(TIMEOUT));
-		properties.put("mail." + protocol + ".connectiontimeout", Strings.toString(TIMEOUT));
+		properties.put("mail." + protocol + ".auth", Objects.toString(password != null));
+		properties.put("mail." + protocol + ".timeout", Objects.toString(TIMEOUT));
+		properties.put("mail." + protocol + ".connectiontimeout", Objects.toString(TIMEOUT));
 		if (protocol.isSSL()) {
 			properties.put("mail." + protocol + ".socketFactory.class",
 					"javax.net.ssl.SSLSocketFactory");
@@ -539,9 +540,9 @@ public class MailHandler
 		outProtocol = Protocol.get(properties.getProperty("outProtocol"));
 		hostName = properties.getProperty("hostName");
 		inProtocol.setPort(Integers.convert(properties.getProperty("inPort",
-				Strings.toString(inProtocol.getPort()))));
+				Objects.toString(inProtocol.getPort()))));
 		outProtocol.setPort(Integers.convert(properties.getProperty("outPort",
-				Strings.toString(outProtocol.getPort()))));
+				Objects.toString(outProtocol.getPort()))));
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 	}
@@ -563,7 +564,7 @@ public class MailHandler
 		try {
 			return (MailHandler) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

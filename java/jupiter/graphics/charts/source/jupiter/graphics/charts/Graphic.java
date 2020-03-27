@@ -24,7 +24,7 @@
 package jupiter.graphics.charts;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 import jupiter.gui.swing.Swings;
 
 import org.jfree.chart.ui.ApplicationFrame;
@@ -94,7 +94,7 @@ public abstract class Graphic
 		try {
 			return (Graphic) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 }

@@ -57,6 +57,8 @@ public abstract class OpenCL
 	 */
 	public static volatile boolean IS_ACTIVE = false;
 
+	//////////////////////////////////////////////
+
 	/**
 	 * The kernel prefix {@link String}.
 	 */
@@ -119,6 +121,9 @@ public abstract class OpenCL
 			"	const int index = get_global_id(0);",
 			"	A[index] += c * B[index];",
 			"}");
+
+	//////////////////////////////////////////////
+
 	public static volatile OpenCL CL = null;
 
 	static {

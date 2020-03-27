@@ -31,7 +31,6 @@ import java.nio.charset.Charset;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class Content
 		implements ICloneable<Content>, Serializable {
@@ -106,7 +105,7 @@ public class Content
 	 * @param lineCount the number of lines of the content {@link Object}
 	 */
 	public Content(final Object content, final Charset charset, final int lineCount) {
-		this.content = Strings.toString(content);
+		this.content = Objects.toString(content);
 		this.charset = charset;
 		this.lineCount = lineCount;
 	}
@@ -193,7 +192,7 @@ public class Content
 		try {
 			return (Content) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

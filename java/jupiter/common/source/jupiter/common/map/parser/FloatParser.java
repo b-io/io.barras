@@ -75,7 +75,7 @@ public class FloatParser
 		if (input instanceof Number) {
 			return ((Number) input).floatValue();
 		}
-		final String value = Strings.toStringWithNull(input);
+		final String value = Objects.toStringWithNull(input);
 		if (value == null) {
 			return null;
 		}

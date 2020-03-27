@@ -36,7 +36,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.util.Bytes;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 import jupiter.security.crypto.Crypto.CipherMethod;
 import jupiter.security.crypto.Crypto.CipherMode;
 import jupiter.security.crypto.Crypto.CipherPadding;
@@ -327,7 +327,7 @@ public class SCrypto
 			}
 			return cipher;
 		} catch (final InvalidKeyException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		} catch (final NoSuchAlgorithmException ex) {
 			throw new IllegalTypeException(method, ex);
 		} catch (final NoSuchPaddingException ex) {
@@ -358,9 +358,9 @@ public class SCrypto
 			}
 			return cipher;
 		} catch (final InvalidAlgorithmParameterException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		} catch (final InvalidKeyException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		} catch (final NoSuchAlgorithmException ex) {
 			throw new IllegalTypeException(method, ex);
 		} catch (final NoSuchPaddingException ex) {

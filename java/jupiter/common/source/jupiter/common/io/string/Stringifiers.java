@@ -21,53 +21,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.filters;
+package jupiter.common.io.string;
 
-import static jupiter.common.io.IO.IO;
+import jupiter.common.util.Booleans;
+import jupiter.common.util.Numbers;
+import jupiter.common.util.Objects;
 
-import jupiter.common.util.Strings;
-import jupiter.math.linear.entity.Scalar;
-
-public class Console {
+public class Stringifiers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final JSON JSON = new JSON();
+
+	//////////////////////////////////////////////
+
+	public static volatile Stringifier STRINGIFIER = JSON;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts the console.
-	 * <p>
-	 * @param args the array of command line arguments
+	 * Prevents the construction of {@link Stringifiers}.
 	 */
-	public static void main(final String[] args) {
-		IO.clear();
-		interactions();
+	protected Stringifiers() {
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Interacts with the user to get the measurements of the position to predict using the Kalman
-	 * filter.
+	 * Tests whether the specified {@link Class} is a leaf.
+	 * <p>
+	 * @param c the {@link Class} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Class} is a leaf, {@code false} otherwise
 	 */
-	protected static void interactions() {
-		boolean isRunning = true;
-		final KalmanFilter filter = new KalmanFilter();
-		filter.x = new Scalar(1.); // the initial guess
-
-		do {
-			// Predict the position (a priori)
-			filter.predict();
-			// Process the input expression
-			final String inputExpression = IO.input().trim();
-			if (Strings.toLowerCase(inputExpression).contains("exit")) {
-				IO.info("Good bye!");
-				isRunning = false;
-			} else {
-				// Correct the position (a posteriori)
-				final Scalar y = new Scalar(Double.parseDouble(inputExpression));
-				filter.correct(y);
-			}
-		} while (isRunning);
+	public static boolean isLeaf(final Class<?> c) {
+		return c == null || c.isPrimitive() || Booleans.is(c) || Numbers.is(c) ||
+				Objects.hasToString(c);
 	}
 }

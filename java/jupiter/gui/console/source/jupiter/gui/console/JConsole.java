@@ -330,7 +330,7 @@ public class JConsole
 	}
 
 	public void println(final Object content) {
-		append(Strings.toString(content) + NEW_LINE);
+		append(Objects.toString(content) + NEW_LINE);
 	}
 
 	public void error(final Object content) {
@@ -606,7 +606,7 @@ public class JConsole
 
 	protected String replaceRange(final Object content, final int fromSelection,
 			final int toSelection) {
-		final String selection = Strings.toString(content);
+		final String selection = Objects.toString(content);
 		textPane.select(fromSelection, toSelection);
 		textPane.replaceSelection(selection);
 		//textPane.repaint();
@@ -789,7 +789,7 @@ public class JConsole
 		} else {
 			// Initialize
 			final StyledDocument document = textPane.getStyledDocument();
-			final String styledText = text + Strings.toString(content);
+			final String styledText = text + Objects.toString(content);
 			final List<Index<String>> delimiters = Strings.getStringIndices(styledText, COLORS);
 			final Iterator<Index<String>> delimiterIterator = delimiters.iterator();
 			final List<String> textParts = Strings.splitString(styledText, COLORS);
@@ -918,7 +918,7 @@ public class JConsole
 				try {
 					wait(750);
 				} catch (final InterruptedException ex) {
-					throw new InterruptedIOException(Strings.toString(ex));
+					throw new InterruptedIOException(Objects.toString(ex));
 				}
 			}
 

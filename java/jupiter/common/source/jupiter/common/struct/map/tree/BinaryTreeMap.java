@@ -706,7 +706,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 				nodeCount = Maths.pow2(currentHeight);
 				hasLeaf = false;
 			}
-			final String nodeString = Strings.toString(node, nodeLength);
+			final String nodeString = Objects.toString(node, nodeLength);
 			builder.append(center ? Strings.centerPad(nodeString, length / nodeCount) :
 					Strings.rightPad(nodeString, length / nodeCount));
 			if (nextHeight < toHeight) {

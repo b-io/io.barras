@@ -29,7 +29,6 @@ import java.awt.Stroke;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class SeriesStyle
 		implements ICloneable<SeriesStyle> {
@@ -123,7 +122,7 @@ public class SeriesStyle
 			clone.stroke = Objects.clone(stroke);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 }

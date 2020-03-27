@@ -453,7 +453,7 @@ public class Interval<T extends Comparable<? super T>>
 			clone.upperBound = Objects.clone(upperBound);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

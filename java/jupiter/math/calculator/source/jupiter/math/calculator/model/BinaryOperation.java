@@ -157,6 +157,6 @@ public class BinaryOperation
 	 */
 	@Override
 	public String toString() {
-		return Strings.toString(left) + SPACE + type + SPACE + right;
+		return Strings.join(left, SPACE, type, SPACE, right);
 	}
 }

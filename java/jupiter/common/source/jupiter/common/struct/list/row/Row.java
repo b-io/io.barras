@@ -30,6 +30,7 @@ import java.io.Serializable;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Maps;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Row
@@ -94,7 +95,7 @@ public class Row
 			clone.elements = Arrays.clone(elements);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

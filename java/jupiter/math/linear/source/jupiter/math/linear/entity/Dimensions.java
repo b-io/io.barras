@@ -27,6 +27,7 @@ import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.IntegerArguments;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Dimensions
@@ -81,7 +82,7 @@ public class Dimensions
 		try {
 			return (Dimensions) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

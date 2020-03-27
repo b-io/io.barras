@@ -630,7 +630,7 @@ public class IO
 	 */
 	public void print(final Object content, final int n, final boolean isError) {
 		if (n > 0) {
-			print(Strings.repeat(Strings.toString(content), n), isError);
+			print(Strings.repeat(Objects.toString(content), n), isError);
 		}
 	}
 
@@ -799,6 +799,8 @@ public class IO
 		return null;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#WARNING}.
@@ -839,15 +841,15 @@ public class IO
 	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
 	 * indicating the severity level {@link SeverityLevel#WARNING}.
 	 * <p>
-	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
+	 * @param content   the content array to print
 	 * <p>
 	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
-	public Message warn(final Object content, final Exception exception) {
+	public Message warn(final Exception exception, final Object... content) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.join(content, ": ", exception);
+			final String text = Strings.join(Strings.join(content), ": ", exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -896,15 +898,15 @@ public class IO
 	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
 	 * indicating the severity level {@link SeverityLevel#ERROR}.
 	 * <p>
-	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
+	 * @param content   the content array to print
 	 * <p>
 	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
-	public Message error(final Object content, final Exception exception) {
+	public Message error(final Exception exception, final Object... content) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.join(content, ": ", exception);
+			final String text = Strings.join(Strings.join(content), ": ", exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -955,15 +957,15 @@ public class IO
 	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
 	 * indicating the severity level {@link SeverityLevel#FAILURE}.
 	 * <p>
-	 * @param content   the content {@link Object} to print
 	 * @param exception the {@link Exception} to print
+	 * @param content   the content array to print
 	 * <p>
 	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
-	public Message fail(final Object content, final Exception exception) {
+	public Message fail(final Exception exception, final Object... content) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
-			final String text = Strings.join(content, ": ", exception);
+			final String text = Strings.join(Strings.join(content), ": ", exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, text,
 					stackIndex + STACK_INDEX_OFFSET);
 			println(message);
@@ -1006,7 +1008,7 @@ public class IO
 			clone.logHandler = Objects.clone(logHandler);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

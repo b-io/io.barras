@@ -23,7 +23,7 @@
  */
 package jupiter.common.util;
 
-import static jupiter.common.util.Characters.COLON;
+import static jupiter.common.io.string.Stringifiers.STRINGIFIER;
 import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 import static jupiter.common.util.Strings.NULL;
 
@@ -247,7 +247,7 @@ public class Maps
 		if (entry == null) {
 			return NULL;
 		}
-		return Strings.brace(toString(entry.getKey(), entry.getValue()));
+		return toString(entry.getKey(), entry.getValue());
 	}
 
 	/**
@@ -259,12 +259,6 @@ public class Maps
 	 * @return a representative {@link String} of the specified key-value mapping
 	 */
 	public static String toString(final Object key, final Object value) {
-		final StringBuilder builder = Strings.createBuilder(2 * INITIAL_CAPACITY + 3);
-		if (key != null) {
-			builder.append(Strings.doubleQuote(key));
-			builder.append(COLON);
-		}
-		builder.append(Strings.valueToString(value));
-		return builder.toString();
+		return STRINGIFIER.stringify(Objects.toString(key), value);
 	}
 }

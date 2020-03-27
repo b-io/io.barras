@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.transfer.file;
+package jupiter.common.io.string;
 
 import static jupiter.common.util.Characters.COLON;
 import static jupiter.common.util.Strings.INITIAL_CAPACITY;
@@ -32,13 +32,16 @@ import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Booleans;
 import jupiter.common.util.Classes;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Maps;
+import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class JSON {
+public class JSON
+		implements Stringifier {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -51,7 +54,7 @@ public class JSON {
 	/**
 	 * The {@link JSONGenerator}.
 	 */
-	public static final JSONGenerator JSON_WRAPPER = new JSONGenerator();
+	public final JSONGenerator JSON_WRAPPER = new JSONGenerator();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,14 +62,14 @@ public class JSON {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link JSON}.
+	 * Constructs a {@link JSON}.
 	 */
 	protected JSON() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -77,7 +80,7 @@ public class JSON {
 	 * <p>
 	 * @return a JSON {@link String} of the fields of the specified content {@link Object}
 	 */
-	public static String stringify(final Object content) {
+	public String stringify(final Object content) {
 		// Check the arguments
 		if (content == null) {
 			return NULL;
@@ -116,35 +119,35 @@ public class JSON {
 	 * <p>
 	 * @return a JSON {@link String} of the specified key-value mapping
 	 */
-	public static String stringify(final String key, final Object value) {
+	public String stringify(final String key, final Object value) {
 		return Strings.brace(stringifyNode(key, value));
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a JSON entry {@link String} of the specified value {@link Object}.
+	 * Returns a JSON entry {@link String} of the specified node value {@link Object}.
 	 * <p>
-	 * @param value the value {@link Object} to represent as a JSON entry {@link String} (may be
-	 *              {@code null})
+	 * @param value the node value {@link Object} to represent as a JSON entry {@link String} (may
+	 *              be {@code null})
 	 * <p>
-	 * @return a JSON entry {@link String} of the specified value {@link Object}
+	 * @return a JSON entry {@link String} of the specified node value {@link Object}
 	 */
-	public static String stringifyNode(final Object value) {
+	public String stringifyNode(final Object value) {
 		return stringifyNode(null, value);
 	}
 
 	/**
-	 * Returns a JSON entry {@link String} of the specified key-value mapping.
+	 * Returns a JSON entry {@link String} of the specified node key-value mapping.
 	 * <p>
-	 * @param key   the key {@link String} of the key-value mapping to represent as a JSON entry
-	 *              {@link String} (may be {@code null})
-	 * @param value the value {@link Object} of the key-value mapping to represent as a JSON entry
-	 *              {@link String} (may be {@code null})
+	 * @param key   the key {@link String} of the node key-value mapping to represent as a JSON
+	 *              entry {@link String} (may be {@code null})
+	 * @param value the value {@link Object} of the node key-value mapping to represent as a JSON
+	 *              entry {@link String} (may be {@code null})
 	 * <p>
-	 * @return a JSON entry {@link String} of the specified key-value mapping
+	 * @return a JSON entry {@link String} of the specified node key-value mapping
 	 */
-	public static String stringifyNode(final String key, final Object value) {
+	public String stringifyNode(final String key, final Object value) {
 		final StringBuilder builder = Strings.createBuilder(2 * INITIAL_CAPACITY + 5);
 		if (key != null) {
 			builder.append(Strings.doubleQuote(key));
@@ -154,7 +157,7 @@ public class JSON {
 			final Class<?> c = Classes.get(value);
 			if (Arrays.is(value)) {
 				final Object[] array = Arrays.toArray(value);
-				if (array.length == 0 || isLeaf(c.getComponentType())) {
+				if (array.length == 0 || Stringifiers.isLeaf(c.getComponentType())) {
 					builder.append(Strings.bracketize(Strings.joinWith(array, JSON_DELIMITER)));
 				} else {
 					builder.append(Strings.bracketize(
@@ -162,7 +165,8 @@ public class JSON {
 				}
 			} else if (Collections.is(value)) {
 				final Collection<?> collection = (Collection<?>) value;
-				if (collection.isEmpty() || isLeaf(Classes.get(Collections.get(collection, 0)))) {
+				if (collection.isEmpty() ||
+						Stringifiers.isLeaf(Classes.get(Collections.get(collection, 0)))) {
 					builder.append(Strings.bracketize(
 							Strings.joinWith(collection, JSON_DELIMITER)));
 				} else {
@@ -171,7 +175,7 @@ public class JSON {
 				}
 			} else if (Maps.is(value)) {
 				builder.append(Maps.toString((Map<?, ?>) value));
-			} else if (isLeaf(c)) {
+			} else if (Stringifiers.isLeaf(c)) {
 				builder.append(stringifyLeaf(value));
 			} else {
 				builder.append(stringify(value));
@@ -182,23 +186,18 @@ public class JSON {
 		return builder.toString();
 	}
 
-	public static String stringifyLeaf(final Object value) {
-		return Strings.valueToString(value);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
-	 * Tests whether the specified {@link Class} is a leaf.
+	 * Returns a JSON entry {@link String} of the specified leaf value {@link Object}.
 	 * <p>
-	 * @param c the {@link Class} to test
+	 * @param value the leaf value {@link Object} to represent as a JSON entry {@link String} (may
+	 *              be {@code null})
 	 * <p>
-	 * @return {@code true} if the specified {@link Class} is a leaf, {@code false} otherwise
+	 * @return a JSON entry {@link String} of the specified leaf value {@link Object}
 	 */
-	public static boolean isLeaf(final Class<?> c) {
-		return c.isPrimitive() || Objects.hasToString(c);
+	public String stringifyLeaf(final Object value) {
+		if (value == null || Booleans.is(value) || Numbers.is(value)) {
+			return Objects.toString(value);
+		}
+		return Strings.doubleQuote(Strings.escape(value));
 	}
 }

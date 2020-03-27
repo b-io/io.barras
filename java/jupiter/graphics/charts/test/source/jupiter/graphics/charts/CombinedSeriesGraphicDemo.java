@@ -23,9 +23,10 @@
  */
 package jupiter.graphics.charts;
 
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.SIN;
+
 import jupiter.math.analysis.differentiation.FiniteDifferentiator;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
-import jupiter.math.analysis.function.univariate.UnivariateFunctions;
 
 /**
  * {@link CombinedSeriesGraphicDemo} demonstrates {@link CombinedSeriesGraphic}.
@@ -86,7 +87,7 @@ public class CombinedSeriesGraphicDemo {
 	protected void loadSeries() {
 		final int sampleSize = 100;
 		final double step = 1.;
-		final UnivariateFunction sin = UnivariateFunctions.SIN;
+		final UnivariateFunction sin = SIN;
 		graph.addSeries(0, Charts.createSeries("SIN", sin, 0., 10., sampleSize));
 		final UnivariateFunction cos = new FiniteDifferentiator(sin, sampleSize, step);
 		graph.addSeries(1, Charts.createSeries("COS", cos, 0., 10., sampleSize));

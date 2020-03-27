@@ -34,6 +34,7 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 
 import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Audio {
@@ -121,7 +122,7 @@ public class Audio {
 						final Line line = mixer.getLine(sourceInfo);
 						if (line instanceof SourceDataLine) {
 							interfaces.add(new AudioSourceInterface(mixerInfo.getName(), mixer,
-									Strings.toString(sourceInfo), (SourceDataLine) line));
+									Objects.toString(sourceInfo), (SourceDataLine) line));
 						}
 					} catch (final LineUnavailableException ignored) {
 					}
@@ -164,7 +165,7 @@ public class Audio {
 						final Line line = mixer.getLine(targetInfo);
 						if (line instanceof TargetDataLine) {
 							interfaces.add(new AudioTargetInterface(mixerInfo.getName(), mixer,
-									Strings.toString(targetInfo), (TargetDataLine) line));
+									Objects.toString(targetInfo), (TargetDataLine) line));
 						}
 					} catch (final LineUnavailableException ignored) {
 					}

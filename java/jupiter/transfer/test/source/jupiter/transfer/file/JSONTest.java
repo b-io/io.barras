@@ -24,6 +24,7 @@
 package jupiter.transfer.file;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.string.Stringifiers.JSON;
 import static jupiter.common.util.Characters.BULLET;
 
 import java.util.List;
@@ -33,7 +34,7 @@ import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.test.Test;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 
 public class JSONTest
 		extends Test {
@@ -106,7 +107,7 @@ public class JSONTest
 		// • Map
 		final Map<String, Integer> map = new ComparableRedBlackTreeMap<String, Integer>();
 		for (int i = 0; i < 5; ++i) {
-			map.put(Strings.toString(i), i);
+			map.put(Objects.toString(i), i);
 		}
 		result = JSON.stringifyNode(map);
 		IO.test(result);

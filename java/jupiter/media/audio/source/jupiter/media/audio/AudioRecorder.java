@@ -45,6 +45,7 @@ import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.time.Dates;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.gui.swing.Swings;
 
@@ -168,9 +169,9 @@ public class AudioRecorder
 					// Show the recording progress
 					Swings.showTimeProgressBar("Recording...", recordingTime * 1000);
 				} catch (final HeadlessException ex) {
-					IO.error("The environment does not support display", ex);
+					IO.error(ex, "The environment does not support display");
 				} catch (final NumberFormatException ex) {
-					IO.error("Cannot parse the recording time", ex);
+					IO.error(ex, "Cannot parse the recording time");
 				} finally {
 					// Stop recording
 					stopRecording();
@@ -308,7 +309,7 @@ public class AudioRecorder
 			AudioSystem.write(input, Type.WAVE, targetFile);
 			IO.info("Finish recording to ", Strings.quote(Files.getPath(targetFile)));
 		} catch (final LineUnavailableException ex) {
-			IO.error("Cannot open the microphone due to resource restrictions", ex);
+			IO.error(ex, "Cannot open the microphone due to resource restrictions");
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -363,7 +364,7 @@ public class AudioRecorder
 		try {
 			return (AudioRecorder) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 }

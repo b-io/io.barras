@@ -33,6 +33,7 @@ import jupiter.common.test.Test;
 import jupiter.common.test.Tests;
 import jupiter.common.thread.Result;
 import jupiter.common.time.Chronometer;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.Element;
 import jupiter.math.linear.entity.Entity;
@@ -67,7 +68,7 @@ public class CalculatorTest
 				// Initialize
 				final Map<String, Element> context = new ExtendedHashMap<String, Element>();
 				final Matrix matrix = Matrix.random(matrixSize);
-				final String matrixString = Strings.toString(matrix);
+				final String matrixString = Objects.toString(matrix);
 				final String e1 = Strings.join("(", matrixString, "*", "@(", matrixString, "))+",
 						"(", matrixString, "*", "@(", matrixString, "))");
 				final String e2 = Strings.join("(", matrixString, "/", matrixString, ")+",

@@ -28,6 +28,7 @@ import java.io.Serializable;
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.bivariate.BivariateFunction;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
@@ -661,7 +662,7 @@ public abstract class Entity
 		try {
 			return (Entity) super.clone();
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

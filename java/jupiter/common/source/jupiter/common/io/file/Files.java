@@ -387,7 +387,7 @@ public class Files {
 		try {
 			return IO.read(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -421,7 +421,7 @@ public class Files {
 		try {
 			return IO.read(new ZipInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -455,7 +455,7 @@ public class Files {
 		try {
 			return IO.read(new GZIPInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -517,7 +517,7 @@ public class Files {
 		try {
 			return IO.countLines(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -601,7 +601,7 @@ public class Files {
 			writer.write(content + NEW_LINE);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error("Cannot find the file ", Strings.quote(file), ": ", ex);
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
@@ -1047,8 +1047,8 @@ public class Files {
 					final ZipEntry entry = new ZipEntry(getRelativePath(sourceDir, source));
 					entry.setTime(source.lastModified());
 					output.putNextEntry(entry);
-					IO.debug("Zip ", Strings.quote(entry.getName()), " to ",
-							Strings.quote(targetFile));
+					IO.debug("Zip ", Strings.quote(entry.getName()),
+							" to ", Strings.quote(targetFile));
 					if (source.isDirectory()) {
 						++entryCount;
 					} else {
@@ -1103,8 +1103,8 @@ public class Files {
 				while ((entry = input.getNextEntry()) != null) {
 					// Unzip the file
 					final File target = new File(targetDirPath + File.separator + entry.getName());
-					IO.debug("Unzip ", Strings.quote(entry.getName()), " to ",
-							Strings.quote(target));
+					IO.debug("Unzip ", Strings.quote(entry.getName()),
+							" to ", Strings.quote(target));
 					if (entry.isDirectory()) {
 						try {
 							createDirs(target);

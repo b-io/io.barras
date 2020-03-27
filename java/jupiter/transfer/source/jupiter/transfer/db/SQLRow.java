@@ -24,6 +24,7 @@
 package jupiter.transfer.db;
 
 import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.string.Stringifiers.STRINGIFIER;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -50,7 +51,6 @@ import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
-import jupiter.transfer.file.JSON;
 
 public abstract class SQLRow {
 
@@ -78,8 +78,8 @@ public abstract class SQLRow {
 		try {
 			constructor = getClass().getConstructor(ResultSet.class);
 		} catch (final NoSuchMethodException ex) {
-			IO.error("No constructor with ", Objects.getName(ResultSet.class), " in ",
-					Objects.getName(this), " found: ", ex);
+			IO.error(ex, "No constructor with ", Objects.getName(ResultSet.class),
+					" in ", Objects.getName(this), " found");
 		}
 		load(resultSet);
 	}
@@ -180,6 +180,6 @@ public abstract class SQLRow {
 	 */
 	@Override
 	public String toString() {
-		return JSON.stringify(this);
+		return STRINGIFIER.stringify(this);
 	}
 }

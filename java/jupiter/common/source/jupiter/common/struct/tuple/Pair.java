@@ -161,7 +161,7 @@ public class Pair<T1, T2>
 			clone.second = Objects.clone(second);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

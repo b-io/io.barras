@@ -21,82 +21,72 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.learning.supervised.function;
+package jupiter.gui.console;
 
-import java.io.Serializable;
+import static jupiter.common.io.IO.IO;
+import static jupiter.common.util.Characters.SPACE;
 
-import jupiter.common.model.ICloneable;
-import jupiter.common.util.Objects;
-import jupiter.math.linear.entity.Entity;
+import java.io.IOException;
 
-/**
- * {@link ActivationFunction} of a node defines the output of that node given an input or set of
- * inputs.
- */
-public abstract class ActivationFunction
-		implements ICloneable<ActivationFunction>, Serializable {
+import jupiter.common.io.Systems;
+import jupiter.common.util.Strings;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The generated serial version ID.
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class SystemConsole {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ActivationFunction}.
+	 * Constructs a {@link SystemConsole}.
 	 */
-	protected ActivationFunction() {
+	protected SystemConsole() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the activation function to the specified {@link Entity}.
+	 * Starts the {@link SystemConsole}.
 	 * <p>
-	 * @param E an {@link Entity}
-	 * <p>
-	 * @return the resulting {@link Entity}
+	 * @param args the array of command line arguments
 	 */
-	public abstract Entity apply(final Entity E);
-
-	/**
-	 * Applies the derivative of the activation function to the specified {@link Entity}.
-	 * <p>
-	 * @param E an {@link Entity}
-	 * <p>
-	 * @return the resulting {@link Entity}
-	 */
-	public abstract Entity derive(final Entity E);
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
-	 *
-	 * @see ICloneable
-	 */
-	@Override
-	public ActivationFunction clone() {
+	public static void main(final String[] args) {
+		int status = IO.EXIT_SUCCESS;
+		final GraphicalConsole console = new GraphicalConsole();
 		try {
-			return (ActivationFunction) super.clone();
-		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Objects.toString(ex), ex);
+			interactions();
+		} catch (final Exception ignored) {
+			status = IO.EXIT_FAILURE;
+		} finally {
+			console.exit(status);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Interacts with the user.
+	 */
+	protected static void interactions() {
+		boolean isRunning = true;
+		do {
+			// Process the input expression
+			final String inputExpression = IO.input().trim();
+			if (Strings.toLowerCase(inputExpression).contains("exit")) {
+				IO.info("Good bye!");
+				isRunning = false;
+			} else {
+				try {
+					Systems.execute(Strings.split(inputExpression, SPACE).toArray());
+				} catch (final InterruptedException ex) {
+					IO.error(ex);
+				} catch (final IOException ex) {
+					IO.error(ex);
+				}
+			}
+		} while (isRunning);
 	}
 }

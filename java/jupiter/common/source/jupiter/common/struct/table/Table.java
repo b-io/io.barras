@@ -850,7 +850,7 @@ public class Table<E>
 	protected static String[] createHeader(final int length) {
 		final String[] header = new String[length];
 		for (int i = 1; i <= length; ++i) {
-			header[i - 1] = Strings.toString(i);
+			header[i - 1] = Objects.toString(i);
 		}
 		return header;
 	}
@@ -1124,7 +1124,7 @@ public class Table<E>
 					if (n == 0) {
 						delimiter = d;
 						replacer = new StringReplacer(new char[] {BAR},
-								Strings.toString(delimiter));
+								Objects.toString(delimiter));
 						n = occurrenceCount;
 					} else {
 						IO.warn("The file contains different delimiters; ",
@@ -1328,7 +1328,7 @@ public class Table<E>
 			clone.elements = Arrays.clone(elements);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

@@ -51,6 +51,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 import org.apache.commons.net.PrintCommandListener;
@@ -450,8 +451,8 @@ public class FTPHandler
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.debug("Download the files ", Strings.quote(fileNameFilter), " in ",
-							Strings.quote(remoteDirPath));
+					IO.debug("Download the files ", Strings.quote(fileNameFilter),
+							" in ", Strings.quote(remoteDirPath));
 					final FTPFile[] files = ftp.listFiles(remoteDirPath);
 					for (final FTPFile file : files) {
 						final String fileName = file.getName();
@@ -460,17 +461,16 @@ public class FTPHandler
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 							final String localPath = localDirPath + File.separator + fileName;
 
-							IO.debug("Download the file ", Strings.quote(remotePath), " to ",
-									Strings.quote(localPath));
+							IO.debug("Download the file ", Strings.quote(remotePath),
+									" to ", Strings.quote(localPath));
 							OutputStream output = null;
 							try {
 								output = Files.createOutputStream(localPath);
 								if (ftp.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
-									IO.error("Cannot download the file ",
-											Strings.quote(remotePath), " to ",
-											Strings.quote(localPath));
+									IO.error("Cannot download the file ", Strings.quote(remotePath),
+											" to ", Strings.quote(localPath));
 								}
 							} finally {
 								Resources.close(output);
@@ -524,8 +524,8 @@ public class FTPHandler
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftps.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.debug("Download the files ", Strings.quote(fileNameFilter), " in ",
-							Strings.quote(remoteDirPath));
+					IO.debug("Download the files ", Strings.quote(fileNameFilter),
+							" in ", Strings.quote(remoteDirPath));
 					final FTPFile[] files = ftps.listFiles(remoteDirPath);
 					for (final FTPFile file : files) {
 						final String fileName = file.getName();
@@ -534,17 +534,16 @@ public class FTPHandler
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 							final String localPath = localDirPath + File.separator + fileName;
 
-							IO.debug("Download the file ", Strings.quote(remotePath), " to ",
-									Strings.quote(localPath));
+							IO.debug("Download the file ", Strings.quote(remotePath),
+									" to ", Strings.quote(localPath));
 							OutputStream output = null;
 							try {
 								output = Files.createOutputStream(localPath);
 								if (ftps.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
-									IO.error("Cannot download the file ",
-											Strings.quote(remotePath), " to ",
-											Strings.quote(localPath));
+									IO.error("Cannot download the file ", Strings.quote(remotePath),
+											" to ", Strings.quote(localPath));
 								}
 							} finally {
 								Resources.close(output);
@@ -592,8 +591,8 @@ public class FTPHandler
 			session.setPassword(password);
 			session.connect();
 
-			IO.debug("Download the files ", Strings.quote(fileNameFilter), " in ",
-					Strings.quote(remoteDirPath));
+			IO.debug("Download the files ", Strings.quote(fileNameFilter),
+					" in ", Strings.quote(remoteDirPath));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
@@ -607,8 +606,8 @@ public class FTPHandler
 					final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 					final String localPath = localDirPath + File.separator + fileName;
 
-					IO.debug("Download the file ", Strings.quote(remotePath), " to ",
-							Strings.quote(localPath));
+					IO.debug("Download the file ", Strings.quote(remotePath),
+							" to ", Strings.quote(localPath));
 					sftp.get(fileName, localPath);
 					++downloadedFileCount;
 				}
@@ -694,16 +693,16 @@ public class FTPHandler
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.debug("Upload the files ", Strings.quote(fileNameFilter), " in ",
-							Strings.quote(localDirPath));
+					IO.debug("Upload the files ", Strings.quote(fileNameFilter),
+							" in ", Strings.quote(localDirPath));
 					final List<File> files = Files.listAll(new File(localDirPath), fileNameFilter);
 					for (final File file : files) {
 						final String fileName = file.getName();
 						if (Strings.matches(fileName, fileNames)) {
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-							IO.debug("Upload the file ", Strings.quote(file), " to ",
-									Strings.quote(remotePath));
+							IO.debug("Upload the file ", Strings.quote(file),
+									" to ", Strings.quote(remotePath));
 							InputStream input = null;
 							try {
 								input = Files.createInputStream(file);
@@ -765,16 +764,16 @@ public class FTPHandler
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftps.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.debug("Upload the files ", Strings.quote(fileNameFilter), " in ",
-							Strings.quote(localDirPath));
+					IO.debug("Upload the files ", Strings.quote(fileNameFilter),
+							" in ", Strings.quote(localDirPath));
 					final List<File> files = Files.listAll(new File(localDirPath), fileNameFilter);
 					for (final File file : files) {
 						final String fileName = file.getName();
 						if (Strings.matches(fileName, fileNames)) {
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-							IO.debug("Upload the file ", Strings.quote(file), " to ",
-									Strings.quote(remotePath));
+							IO.debug("Upload the file ", Strings.quote(file),
+									" to ", Strings.quote(remotePath));
 							InputStream input = null;
 							try {
 								input = Files.createInputStream(file);
@@ -829,8 +828,8 @@ public class FTPHandler
 			session.setPassword(password);
 			session.connect();
 
-			IO.debug("Upload the files ", Strings.quote(fileNameFilter), " in ",
-					Strings.quote(localDirPath));
+			IO.debug("Upload the files ", Strings.quote(fileNameFilter),
+					" in ", Strings.quote(localDirPath));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
@@ -843,16 +842,16 @@ public class FTPHandler
 				if (Strings.matches(fileName, fileNames)) {
 					final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-					IO.debug("Upload the file ", Strings.quote(file), " to ",
-							Strings.quote(remotePath));
+					IO.debug("Upload the file ", Strings.quote(file),
+							" to ", Strings.quote(remotePath));
 					InputStream input = null;
 					try {
 						input = Files.createInputStream(file);
 						sftp.put(input, fileName);
 						++uploadedFileCount;
 					} catch (final FileNotFoundException ex) {
-						IO.error("Cannot upload the file ", Strings.quote(file), " to ",
-								Strings.quote(remotePath), ": ", ex);
+						IO.error(ex, "Cannot upload the file ", Strings.quote(file),
+								" to ", Strings.quote(remotePath));
 					} finally {
 						Resources.close(input);
 					}
@@ -886,7 +885,7 @@ public class FTPHandler
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
 		protocol.setPort(Integers.convert(properties.getProperty("port",
-				Strings.toString(protocol.getPort()))));
+				Objects.toString(protocol.getPort()))));
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 		remoteDirPath = properties.getProperty("remoteDir");
@@ -914,7 +913,7 @@ public class FTPHandler
 			clone.fileNames = Arrays.clone(fileNames);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 

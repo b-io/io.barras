@@ -109,7 +109,7 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts the speed checker.
+	 * Starts the {@link SpeedChecker}.
 	 * <p>
 	 * @param args the array of command line arguments
 	 */
@@ -145,7 +145,7 @@ public class SpeedChecker {
 				DATA_FILES.put(urlName, new FileHandler(
 						Strings.join(TEMP_DIR, "/downloading_speeds_of_", fileName, ".csv")));
 			} catch (final MalformedURLException ex) {
-				IO.error("The URL ", Strings.quote(urlName), " is malformed: ", ex);
+				IO.error(ex, "The URL ", Strings.quote(urlName), " is malformed");
 			}
 		}
 		// • The work queue
@@ -254,19 +254,19 @@ public class SpeedChecker {
 									DECIMAL_FORMAT.format(time), " [s] => ",
 									DECIMAL_FORMAT.format(speed), " [Mbits/s]"));
 				} catch (final IOException ex) {
-					return new Result<Double>(0.,
-							IO.error("Cannot transfer the file ", Strings.quote(urlName), " to ",
-									Strings.quote(Files.getCanonicalPath(targetFile)), ": ", ex));
+					return new Result<Double>(0., IO.error(ex,
+							"Cannot transfer the file ", Strings.quote(urlName),
+							" to ", Strings.quote(Files.getCanonicalPath(targetFile))));
 				} finally {
 					Resources.close(inputChannel);
 					Resources.close(outputChannel);
 				}
 			} catch (final IOException ex) {
-				IO.error("The URL ", Strings.quote(urlName), " is not reachable: ", ex);
+				IO.error(ex, "The URL ", Strings.quote(urlName), " is not reachable");
 				return new Result<Double>(0., IO.error(ex));
 			}
 		} catch (final MalformedURLException ex) {
-			IO.error("The URL ", Strings.quote(urlName), " is malformed: ", ex);
+			IO.error(ex, "The URL ", Strings.quote(urlName), " is malformed");
 			return new Result<Double>(0., IO.error(ex));
 		}
 	}

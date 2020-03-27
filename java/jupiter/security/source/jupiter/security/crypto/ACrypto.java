@@ -38,7 +38,7 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 import jupiter.common.exception.IllegalTypeException;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 import jupiter.security.crypto.Crypto.CipherMethod;
 import jupiter.security.crypto.Crypto.CipherMode;
 import jupiter.security.crypto.Crypto.CipherPadding;
@@ -265,7 +265,7 @@ public class ACrypto
 			return KeyFactory.getInstance(method.value)
 					.generatePrivate(new PKCS8EncodedKeySpec(privateKey));
 		} catch (final InvalidKeySpecException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		} catch (final NoSuchAlgorithmException ex) {
 			throw new IllegalTypeException(method, ex);
 		}
@@ -283,7 +283,7 @@ public class ACrypto
 			return KeyFactory.getInstance(method.value)
 					.generatePublic(new X509EncodedKeySpec(publicKey));
 		} catch (final InvalidKeySpecException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		} catch (final NoSuchAlgorithmException ex) {
 			throw new IllegalTypeException(method, ex);
 		}
@@ -306,7 +306,7 @@ public class ACrypto
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 			return cipher;
 		} catch (final InvalidKeyException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		} catch (final NoSuchAlgorithmException ex) {
 			throw new IllegalTypeException(method, ex);
 		} catch (final NoSuchPaddingException ex) {
@@ -328,7 +328,7 @@ public class ACrypto
 			cipher.init(Cipher.DECRYPT_MODE, privateKey);
 			return cipher;
 		} catch (final InvalidKeyException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		} catch (final NoSuchAlgorithmException ex) {
 			throw new IllegalTypeException(method, ex);
 		} catch (final NoSuchPaddingException ex) {

@@ -70,7 +70,7 @@ public class Charts {
 	/**
 	 * The {@link ExtendedList} of {@link Color}.
 	 */
-	public static final ExtendedList<Color> COLORS = new ExtendedList<Color>(
+	public static volatile ExtendedList<Color> COLORS = new ExtendedList<Color>(
 			Arrays.<Color>asList(Color.BLUE, Color.GREEN, Color.RED,
 					Color.CYAN, Color.YELLOW, Color.MAGENTA,
 					new Color(127, 0, 255), new Color(191, 255, 0), new Color(255, 127, 0),

@@ -33,7 +33,6 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.TimeSeries;
@@ -254,7 +253,7 @@ public class TimeSeriesList
 			clone.timeSeriesList = Objects.clone(timeSeriesList);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 }

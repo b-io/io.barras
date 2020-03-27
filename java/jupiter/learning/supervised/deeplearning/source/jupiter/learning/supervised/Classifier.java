@@ -35,7 +35,6 @@ import jupiter.common.test.Arguments;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.learning.supervised.function.OutputActivationFunction;
 import jupiter.math.linear.entity.Entity;
@@ -530,7 +529,7 @@ public abstract class Classifier
 			clone.YT = Objects.clone(YT);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
-			throw new IllegalStateException(Strings.toString(ex), ex);
+			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
 	}
 }

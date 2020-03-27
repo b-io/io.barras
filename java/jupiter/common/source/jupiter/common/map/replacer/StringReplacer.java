@@ -25,6 +25,7 @@ package jupiter.common.map.replacer;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
@@ -82,7 +83,7 @@ public class StringReplacer
 
 	@Override
 	public String call(final Object input) {
-		return Strings.replaceAll(Strings.toString(input), tokens, replacement);
+		return Strings.replaceAll(Objects.toString(input), tokens, replacement);
 	}
 
 

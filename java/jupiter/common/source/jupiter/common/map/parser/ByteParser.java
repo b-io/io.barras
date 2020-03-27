@@ -75,7 +75,7 @@ public class ByteParser
 		if (input instanceof Number) {
 			return ((Number) input).byteValue();
 		}
-		final String value = Strings.toStringWithNull(input);
+		final String value = Objects.toStringWithNull(input);
 		if (value == null) {
 			return null;
 		}
