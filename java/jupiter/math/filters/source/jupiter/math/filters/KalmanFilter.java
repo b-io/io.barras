@@ -129,12 +129,12 @@ public class KalmanFilter
 	}
 
 	/**
-	 * Corrects the estimation {@code x}, updates the Kalman gain {@code K} and the state variance
-	 * matrix {@code P} (a posteriori).
+	 * Updates the estimation {@code x}, the Kalman gain {@code K} and the state variance matrix
+	 * {@code P} (a posteriori).
 	 * <p>
 	 * @param y the measurement {@link Entity}
 	 */
-	public void correct(final Entity y) {
+	public void update(final Entity y) {
 		// Compute K = P H' inv(H P H' + R),
 		// where (H P H' + R) is the innovation covariance
 		K = P.times(H.transpose()).times(H.times(P).times(H.transpose()).plus(R).inverse());

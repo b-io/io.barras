@@ -25,10 +25,42 @@ package jupiter.math.calculator;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.util.Strings;
+import jupiter.gui.console.GraphicalConsole;
 import jupiter.math.calculator.process.Calculator;
 
-public class MathConsole {
+public class MathConsole
+		extends GraphicalConsole {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The {@link Calculator}.
+	 */
+	protected final Calculator calculator = new Calculator();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link MathConsole}.
+	 */
+	protected MathConsole() {
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// MAIN
@@ -40,32 +72,32 @@ public class MathConsole {
 	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		IO.clear();
+		int status = IO.EXIT_SUCCESS;
+		final MathConsole console = new MathConsole();
 		Calculator.parallelize();
 		try {
-			interactions();
+			console.run();
+		} catch (final Exception ignored) {
+			status = IO.EXIT_FAILURE;
 		} finally {
 			Calculator.unparallelize();
+			console.exit(status);
 		}
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Interacts with the user.
+	 * Executes the specified input expression {@link String}.
+	 * <p>
+	 * @param inputExpression the input expression {@link String} to execute
 	 */
-	protected static void interactions() {
-		final Calculator calc = new Calculator();
-		boolean isRunning = true;
-		do {
-			// Process the input expression
-			final String inputExpression = IO.input().trim();
-			if (Strings.toLowerCase(inputExpression).contains("exit")) {
-				IO.info("Good bye!");
-				isRunning = false;
-			} else {
-				IO.result(calc.process(inputExpression));
-			}
-		} while (isRunning);
+	@Override
+	protected void execute(final String inputExpression) {
+		// Compute the expression
+		IO.result(calculator.process(inputExpression));
 	}
 }

@@ -25,10 +25,43 @@ package jupiter.math.filters;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.util.Strings;
+import jupiter.gui.console.GraphicalConsole;
 import jupiter.math.linear.entity.Scalar;
 
-public class FilterConsole {
+public class FilterConsole
+		extends GraphicalConsole {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The {@link KalmanFilter}.
+	 */
+	protected final KalmanFilter filter = new KalmanFilter();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link FilterConsole}.
+	 */
+	protected FilterConsole() {
+		filter.x = new Scalar(1.); // the initial guess
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// MAIN
@@ -40,33 +73,31 @@ public class FilterConsole {
 	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		IO.clear();
-		interactions();
+		int status = IO.EXIT_SUCCESS;
+		final FilterConsole console = new FilterConsole();
+		try {
+			// Get the measurements to update and predict the state (using the Kalman filter)
+			console.run();
+		} catch (final Exception ignored) {
+			status = IO.EXIT_FAILURE;
+		} finally {
+			console.exit(status);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Interacts with the user to get the measurements of the position to predict using the Kalman
-	 * filter.
+	 * Executes the specified input expression {@link String}.
+	 * <p>
+	 * @param inputExpression the input expression {@link String} to execute
 	 */
-	protected static void interactions() {
-		final KalmanFilter filter = new KalmanFilter();
-		filter.x = new Scalar(1.); // the initial guess
-		boolean isRunning = true;
-		do {
-			// Predict the position (a priori)
-			filter.predict();
-			// Process the input expression
-			final String inputExpression = IO.input().trim();
-			if (Strings.toLowerCase(inputExpression).contains("exit")) {
-				IO.info("Good bye!");
-				isRunning = false;
-			} else {
-				// Correct the position (a posteriori)
-				final Scalar y = new Scalar(Double.parseDouble(inputExpression));
-				filter.correct(y);
-			}
-		} while (isRunning);
+	@Override
+	protected void execute(final String inputExpression) {
+		// Update the state (a posteriori)
+		filter.update(new Scalar(Double.parseDouble(inputExpression)));
+		// Predict the state (a priori)
+		filter.predict();
+		IO.result(filter.x);
 	}
 }

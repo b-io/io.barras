@@ -26,6 +26,7 @@ package jupiter.gui.console;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.VERSION;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -35,10 +36,15 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.IO.Type;
+import jupiter.common.io.Message;
 import jupiter.common.io.Resources;
+import jupiter.common.io.console.ConsoleHandler.Color;
+import jupiter.common.util.Strings;
 import jupiter.gui.swing.Swings;
 
-public class GraphicalConsole
+public abstract class GraphicalConsole
 		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +114,51 @@ public class GraphicalConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the prefix {@link String}.
+	 * <p>
+	 * @return the prefix {@link String}
+	 */
+	protected String getPrefix() {
+		return new Message(Type.OUTPUT, SeverityLevel.INFO, EMPTY).toString();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Executes the specified input expression {@link String}.
+	 * <p>
+	 * @param inputExpression the input expression {@link String} to execute
+	 */
+	protected abstract void execute(final String inputExpression);
+
+	/**
+	 * Interacts with the user.
+	 */
+	protected void run() {
+		boolean isRunning = true;
+		do {
+			// Process the input expression
+			IO.print(Color.BLUE.getStyledText(getPrefix()), false);
+			final String inputExpression = IO.input().trim();
+			if (Strings.toLowerCase(inputExpression).contains("clear")) {
+				clear();
+			} else if (Strings.toLowerCase(inputExpression).contains("exit")) {
+				IO.info("Good bye!");
+				isRunning = false;
+			} else {
+				// Execute the input expression
+				execute(inputExpression);
+			}
+		} while (isRunning);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -137,6 +187,17 @@ public class GraphicalConsole
 	public void println(final String message) {
 		console.println(message);
 	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Clears the {@link JConsole}.
+	 */
+	public void clear() {
+		console.clear();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Exits {@code this}.

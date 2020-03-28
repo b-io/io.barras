@@ -29,7 +29,6 @@
 			<groupId>io.barras.jupiter</groupId>
 			<artifactId>console</artifactId>
 			<version>${project.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.barras.jupiter</groupId>

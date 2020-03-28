@@ -112,7 +112,7 @@ public class Systems {
 	 */
 	public static int execute(final IOHandler printer, final String... command)
 			throws InterruptedException, IOException {
-		IO.info(Strings.joinWith(command, SPACE, SINGLE_QUOTER));
+		IO.debug(Strings.joinWith(command, SPACE, SINGLE_QUOTER));
 		Process process = null;
 		try {
 			process = Runtime.getRuntime().exec(command);

@@ -29,7 +29,6 @@ import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Strings.EMPTY;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -74,6 +73,7 @@ import javax.swing.text.StyledDocument;
 
 import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
+import jupiter.common.io.console.ConsoleHandler.Color;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.Index;
@@ -82,9 +82,9 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * A JFC/Swing based console for the BeanShell desktop.
+ * {@link JConsole} is the extended JFC/Swing based console for the BeanShell desktop.
  * <p>
- * @author Patrick Niemeyer, http://www.pat.net
+ * @author Florian Barras and Patrick Niemeyer (http://www.pat.net)
  */
 public class JConsole
 		extends JScrollPane
@@ -113,16 +113,16 @@ public class JConsole
 	protected static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
 
 	/**
-	 * The {@link Style} associated to {@link jupiter.common.io.console.ConsoleHandler.Color}.
+	 * The {@link Style} associated to {@link Color}.
 	 */
-	protected static final ExtendedHashMap<ConsoleHandler.Color, Style> STYLES = new ExtendedHashMap<ConsoleHandler.Color, Style>();
+	protected static final ExtendedHashMap<Color, Style> STYLES = new ExtendedHashMap<Color, Style>();
 
 	static {
 		final SeverityLevel[] severityLevels = SeverityLevel.class.getEnumConstants();
 		for (final SeverityLevel severityLevel : severityLevels) {
-			final ConsoleHandler.Color color = ConsoleHandler.getColor(severityLevel);
+			final Color color = ConsoleHandler.getColor(severityLevel);
 			final Style style = STYLE_CONTEXT.addStyle(color.toString(), DEFAULT_STYLE);
-			final Color c = color.toAWT();
+			final java.awt.Color c = color.toAWT();
 			if (c != null) {
 				StyleConstants.setForeground(style, c);
 			}
@@ -130,8 +130,11 @@ public class JConsole
 		}
 	}
 
-	protected static final List<String> COLORS = Strings.toList(
-			ConsoleHandler.Color.class.getEnumConstants());
+	protected static final List<String> COLORS = Strings.toList(Color.class.getEnumConstants());
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile Color COLOR = Color.GREEN;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +155,7 @@ public class JConsole
 	protected volatile boolean isKeyUp = true;
 
 	protected volatile String text = EMPTY;
-	protected volatile ConsoleHandler.Color textColor = ConsoleHandler.Color.RESET;
+	protected volatile Color textColor = COLOR;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -326,7 +329,6 @@ public class JConsole
 	 */
 	public void println() {
 		print(NEW_LINE);
-		textPane.repaint();
 	}
 
 	public void println(final Object content) {
@@ -334,7 +336,7 @@ public class JConsole
 	}
 
 	public void error(final Object content) {
-		print(content, Color.RED);
+		print(content, java.awt.Color.RED);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -342,7 +344,6 @@ public class JConsole
 	public void println(final Icon icon) {
 		print(icon);
 		println();
-		textPane.repaint();
 	}
 
 	public void print(final Icon icon) {
@@ -355,11 +356,11 @@ public class JConsole
 		print(s, font, null);
 	}
 
-	public void print(final Object s, final Color color) {
+	public void print(final Object s, final java.awt.Color color) {
 		print(s, null, color);
 	}
 
-	public void print(final Object content, final Font font, final Color color) {
+	public void print(final Object content, final Font font, final java.awt.Color color) {
 		final AttributeSet old = getStyle();
 		setStyle(font, color);
 		append(content);
@@ -367,12 +368,13 @@ public class JConsole
 	}
 
 	public void print(final Object s, final String fontFamilyName, final int size,
-			final Color color) {
+			final java.awt.Color color) {
 		print(s, fontFamilyName, size, color, false, false, false);
 	}
 
 	public void print(final Object content, final String fontFamilyName, final int size,
-			final Color color, final boolean bold, final boolean italic, final boolean underline) {
+			final java.awt.Color color, final boolean bold, final boolean italic,
+			final boolean underline) {
 		final AttributeSet old = getStyle();
 		setStyle(fontFamilyName, size, color, bold, italic, underline);
 		append(content);
@@ -388,16 +390,16 @@ public class JConsole
 		if (textPane.getCaretPosition() < commandStart) {
 			// Move the caret
 			textPane.setCaretPosition(getTextLength());
+			textPane.repaint();
 		}
-		textPane.repaint();
 	}
 
 	protected void forceCaretMoveToStart() {
 		if (textPane.getCaretPosition() < commandStart) {
 			// Move the caret
 			textPane.setCaretPosition(getTextLength());
+			textPane.repaint();
 		}
-		textPane.repaint();
 	}
 
 
@@ -495,10 +497,10 @@ public class JConsole
 		try {
 			outPipe.write(Strings.toUnicode(line).getBytes(DEFAULT_CHARSET.name()));
 			outPipe.flush();
+			textPane.repaint();
 		} catch (final IOException ex) {
 			throw new IllegalStateException("Cannot write in the console", ex);
 		}
-		//textPane.repaint();
 	}
 
 
@@ -512,7 +514,7 @@ public class JConsole
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected AttributeSet setStyle(final Font font, final Color color) {
+	protected AttributeSet setStyle(final Font font, final java.awt.Color color) {
 		if (font != null) {
 			return setStyle(font.getFamily(), font.getSize(), color, font.isBold(), font.isItalic(),
 					StyleConstants.isUnderline(getStyle()));
@@ -521,7 +523,7 @@ public class JConsole
 	}
 
 	protected AttributeSet setStyle(final String fontFamilyName, final int size,
-			final Color color) {
+			final java.awt.Color color) {
 		final MutableAttributeSet attributes = new SimpleAttributeSet();
 		if (color != null) {
 			StyleConstants.setForeground(attributes, color);
@@ -536,8 +538,9 @@ public class JConsole
 		return getStyle();
 	}
 
-	protected AttributeSet setStyle(final String fontFamilyName, final int size, final Color color,
-			final boolean bold, final boolean italic, final boolean underline) {
+	protected AttributeSet setStyle(final String fontFamilyName, final int size,
+			final java.awt.Color color, final boolean bold, final boolean italic,
+			final boolean underline) {
 		final MutableAttributeSet attr = new SimpleAttributeSet();
 		if (color != null) {
 			StyleConstants.setForeground(attr, color);
@@ -562,6 +565,8 @@ public class JConsole
 	protected void setStyle(final AttributeSet attributes, final boolean replace) {
 		textPane.setCharacterAttributes(attributes, replace);
 	}
+
+	//////////////////////////////////////////////
 
 	@Override
 	public void setFont(final Font font) {
@@ -591,7 +596,6 @@ public class JConsole
 		int read;
 		while ((read = inPipe.read(ba)) >= 0) {
 			print(new String(ba, 0, read, DEFAULT_CHARSET.name()));
-			//textPane.repaint();
 		}
 	}
 
@@ -609,7 +613,7 @@ public class JConsole
 		final String selection = Objects.toString(content);
 		textPane.select(fromSelection, toSelection);
 		textPane.replaceSelection(selection);
-		//textPane.repaint();
+		textPane.repaint();
 		return selection;
 	}
 
@@ -789,7 +793,7 @@ public class JConsole
 		} else {
 			// Initialize
 			final StyledDocument document = textPane.getStyledDocument();
-			final String styledText = text + Objects.toString(content);
+			final String styledText = text.concat(Objects.toString(content));
 			final List<Index<String>> delimiters = Strings.getStringIndices(styledText, COLORS);
 			final Iterator<Index<String>> delimiterIterator = delimiters.iterator();
 			final List<String> textParts = Strings.splitString(styledText, COLORS);
@@ -797,6 +801,9 @@ public class JConsole
 
 			// Append the text
 			text = EMPTY;
+			if (delimiters.isEmpty()) {
+				textColor = COLOR;
+			}
 			while (textIterator.hasNext()) {
 				String textPart = textIterator.next();
 				// Store the text if required (if the text contains a part of the next delimiter)
@@ -808,7 +815,7 @@ public class JConsole
 				insertString(document, getTextLength(), textPart, textColor);
 				// Update the text color
 				if (delimiterIterator.hasNext()) {
-					textColor = ConsoleHandler.Color.parse(delimiterIterator.next().getToken());
+					textColor = Color.parse(delimiterIterator.next().getToken());
 				}
 			}
 		}
@@ -829,6 +836,10 @@ public class JConsole
 		}
 	}
 
+	public void clear() {
+		textPane.setText(EMPTY);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// MOUSE LISTENER
@@ -846,8 +857,8 @@ public class JConsole
 	public void mouseReleased(final MouseEvent event) {
 		if (event.isPopupTrigger()) {
 			menu.show((Component) event.getSource(), event.getX(), event.getY());
+			textPane.repaint();
 		}
-		textPane.repaint();
 	}
 
 	public void mouseEntered(final MouseEvent event) {

@@ -27,6 +27,7 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.LEFT_BRACE;
 import static jupiter.common.util.Characters.RIGHT_BRACE;
 import static jupiter.common.util.Strings.BRACKETER;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -310,7 +311,7 @@ public class SQL {
 						Strings.join(" WHERE ",
 								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
 										.concat("=?")) :
-						"");
+						EMPTY);
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
@@ -386,7 +387,7 @@ public class SQL {
 						Strings.join(" WHERE ",
 								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
 										.concat("=?")) :
-						"");
+						EMPTY);
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
@@ -427,7 +428,7 @@ public class SQL {
 						Strings.join(" WHERE ",
 								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
 										.concat("=?")) :
-						"");
+						EMPTY);
 	}
 
 	public static PreparedStatement createDeleteStatement(final Connection connection,

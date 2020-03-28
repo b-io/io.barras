@@ -31,7 +31,18 @@ import java.io.IOException;
 import jupiter.common.io.Systems;
 import jupiter.common.util.Strings;
 
-public class SystemConsole {
+public class SystemConsole
+		extends GraphicalConsole {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -55,9 +66,9 @@ public class SystemConsole {
 	 */
 	public static void main(final String[] args) {
 		int status = IO.EXIT_SUCCESS;
-		final GraphicalConsole console = new GraphicalConsole();
+		final SystemConsole console = new SystemConsole();
 		try {
-			interactions();
+			console.run();
 		} catch (final Exception ignored) {
 			status = IO.EXIT_FAILURE;
 		} finally {
@@ -65,28 +76,25 @@ public class SystemConsole {
 		}
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Interacts with the user.
+	 * Executes the specified input expression {@link String}.
+	 * <p>
+	 * @param inputExpression the input expression {@link String} to execute
 	 */
-	protected static void interactions() {
-		boolean isRunning = true;
-		do {
-			// Process the input expression
-			final String inputExpression = IO.input().trim();
-			if (Strings.toLowerCase(inputExpression).contains("exit")) {
-				IO.info("Good bye!");
-				isRunning = false;
-			} else {
-				try {
-					Systems.execute(Strings.split(inputExpression, SPACE).toArray());
-				} catch (final InterruptedException ex) {
-					IO.error(ex);
-				} catch (final IOException ex) {
-					IO.error(ex);
-				}
-			}
-		} while (isRunning);
+	@Override
+	protected void execute(final String inputExpression) {
+		try {
+			// Execute the expression
+			Systems.execute(Strings.split(inputExpression, SPACE).toArray());
+		} catch (final InterruptedException ex) {
+			IO.error(ex);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
 	}
 }

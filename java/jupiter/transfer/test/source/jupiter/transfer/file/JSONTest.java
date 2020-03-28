@@ -26,6 +26,7 @@ package jupiter.transfer.file;
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.io.string.Stringifiers.JSON;
 import static jupiter.common.util.Characters.BULLET;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.util.List;
 import java.util.Map;
@@ -87,7 +88,7 @@ public class JSONTest
 		IO.test(result);
 		assertEquals("42", result);
 		// • String
-		result = JSON.stringifyNode("");
+		result = JSON.stringifyNode(EMPTY);
 		IO.test(result);
 		assertEquals("\"\"", result);
 		// • Primitive array

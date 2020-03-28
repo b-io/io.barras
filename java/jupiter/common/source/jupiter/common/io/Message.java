@@ -308,6 +308,6 @@ public class Message
 	 */
 	@Override
 	public String toString() {
-		return (Strings.isNonEmpty(prefix) ? prefix + SPACE : EMPTY) + content;
+		return (Strings.isNonEmpty(prefix) ? prefix + SPACE : EMPTY).concat(content);
 	}
 }
