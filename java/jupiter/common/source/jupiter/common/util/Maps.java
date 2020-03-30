@@ -284,6 +284,6 @@ public class Maps
 	 * @return a representative {@link String} of the specified key-value mapping
 	 */
 	public static String toString(final Object key, final Object value) {
-		return STRINGIFIER.stringify(Objects.toString(key), value);
+		return STRINGIFIER.stringifyNode(Objects.toString(key), value);
 	}
 }

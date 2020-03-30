@@ -166,7 +166,7 @@ public class JSON
 			} else if (Collections.is(value)) {
 				final Collection<?> collection = (Collection<?>) value;
 				if (collection.isEmpty() ||
-						Stringifiers.isLeaf(Classes.get(Collections.get(collection, 0)))) {
+						Stringifiers.isLeaf(Collections.getElementClass(collection))) {
 					builder.append(Strings.bracketize(
 							Strings.joinWith(collection, JSON_DELIMITER)));
 				} else {

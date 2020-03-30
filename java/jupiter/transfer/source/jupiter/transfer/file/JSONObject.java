@@ -125,7 +125,7 @@ public class JSONObject
 	 * @return a JSON {@link String} of {@code this}
 	 */
 	public String stringify() {
-		return JSON.stringify(this);
+		return JSON.stringifyNode(this);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class JSONObject
 	 * @return a JSON {@link String} of the specified key-value mapping
 	 */
 	public String stringify(final String... keys) {
-		return JSON.stringify(getAll(keys));
+		return JSON.stringifyNode(getAll(keys));
 	}
 
 	//////////////////////////////////////////////
@@ -169,5 +169,17 @@ public class JSONObject
 	@Override
 	public JSONObject clone() {
 		return (JSONObject) super.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
+	@Override
+	public String toString() {
+		return stringify();
 	}
 }
