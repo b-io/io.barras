@@ -24,12 +24,14 @@
 package jupiter.math.analysis.differentiation;
 
 import jupiter.common.math.Domain;
+import jupiter.common.math.DoubleInterval;
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.IntervalArguments;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 /**
- * {@link Differentiator} is the {@link UnivariateFunction} differentiating {@code y = f(x)} in the
- * {@link Domain}.
+ * {@link Differentiator} is the {@link UnivariateFunction} differentiating {@code y = f(x)} for
+ * {@code x} defined in the differentiation {@link DoubleInterval}.
  */
 public abstract class Differentiator
 		extends UnivariateFunction {
@@ -49,6 +51,11 @@ public abstract class Differentiator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The {@link UnivariateFunction} to differentiate.
+	 */
+	protected final UnivariateFunction f;
+
+	/**
 	 * The derivation order.
 	 */
 	protected final int order;
@@ -59,33 +66,81 @@ public abstract class Differentiator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Differentiator} by default.
+	 * Constructs a {@link Differentiator} with the specified {@link UnivariateFunction}.
+	 * <p>
+	 * @param f the {@link UnivariateFunction} to differentiate
 	 */
-	protected Differentiator() {
-		this(1);
+	public Differentiator(final UnivariateFunction f) {
+		this(f, 1);
 	}
 
 	/**
-	 * Constructs a {@link Differentiator} with the specified derivation order.
+	 * Constructs a {@link Differentiator} with the specified {@link UnivariateFunction} and
+	 * differentiation {@link DoubleInterval}.
 	 * <p>
-	 * @param order the derivation order
+	 * @param f        the {@link UnivariateFunction} to differentiate
+	 * @param interval the differentiation {@link DoubleInterval}
 	 */
-	protected Differentiator(final int order) {
-		super();
-		this.order = order;
+	public Differentiator(final UnivariateFunction f, final DoubleInterval interval) {
+		this(f, interval, 1);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Differentiator} with the specified derivation order and {@link Domain}.
+	 * Constructs a {@link Differentiator} with the specified {@link UnivariateFunction} and
+	 * derivation order.
 	 * <p>
-	 * @param order  the derivation order
-	 * @param domain the {@link Domain}
+	 * @param f     the {@link UnivariateFunction} to differentiate
+	 * @param order the derivation order
 	 */
-	protected Differentiator(final int order, final Domain domain) {
-		super(domain);
+	public Differentiator(final UnivariateFunction f, final int order) {
+		this(f, f.getDomain().getFirst(), order);
+	}
+
+	/**
+	 * Constructs a {@link Differentiator} with the specified {@link UnivariateFunction},
+	 * differentiation {@link DoubleInterval} and derivation order.
+	 * <p>
+	 * @param f        the {@link UnivariateFunction} to differentiate
+	 * @param interval the differentiation {@link DoubleInterval}
+	 * @param order    the derivation order
+	 */
+	public Differentiator(final UnivariateFunction f, final DoubleInterval interval,
+			final int order) {
+		super(new Domain(interval));
+
+		// Check the arguments
+		IntervalArguments.requireValid(interval, "differentiation interval");
+		IntervalArguments.requireInside(interval, "differentiation interval", f.getDomain(),
+				"domain");
+
+		// Set the attributes
+		this.f = f;
 		this.order = order;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link UnivariateFunction} to differentiate.
+	 * <p>
+	 * @return the {@link UnivariateFunction} to differentiate
+	 */
+	public UnivariateFunction getFunction() {
+		return f;
+	}
+
+	/**
+	 * Returns the derivation order.
+	 * <p>
+	 * @return the derivation order
+	 */
+	public int getDerivationOrder() {
+		return order;
 	}
 
 
@@ -96,15 +151,15 @@ public abstract class Differentiator
 	/**
 	 * Applies the differentiation function to the specified value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code y' = f'(x)} for {@code x} defined in {@code domain}
 	 *
 	 * @see #differentiate(double)
 	 */
 	@Override
-	public double apply(final double x) {
-		return differentiate(bound(x));
+	protected double a(final double x) {
+		return differentiate(x);
 	}
 
 	/**
@@ -117,6 +172,8 @@ public abstract class Differentiator
 	 */
 	protected abstract double differentiate(final double x);
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Differentiates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
 	 * {@link #differentiate} to retrieve {@code y' = f'(x)}.
@@ -125,7 +182,7 @@ public abstract class Differentiator
 	 *
 	 * @see #differentiate(double)
 	 */
-	protected abstract boolean differentiateAll();
+	public abstract boolean differentiateAll();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

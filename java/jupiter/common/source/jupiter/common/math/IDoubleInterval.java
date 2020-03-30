@@ -24,9 +24,10 @@
 package jupiter.common.math;
 
 /**
- * {@link IRange} is the {@link ISet} of {@link Double} lying between lower and upper {@link Bound}.
+ * {@link IDoubleInterval} is the {@link ISet} of {@link Double} lying between lower and upper
+ * {@link Bound}.
  */
-public interface IRange
+public interface IDoubleInterval
 		extends ISet<Double> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,8 +45,7 @@ public interface IRange
 	 */
 	public Bound<Double> getClosestBound(final Double value);
 
-
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the distance to the specified value.
@@ -55,6 +55,66 @@ public interface IRange
 	 * @return the distance to the specified value
 	 */
 	public double getDistance(final Double value);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the distance between the {@link LowerBound} and the specified value.
+	 * <p>
+	 * @param value a {@link Double} (may be {@code null})
+	 * <p>
+	 * @return the distance between the {@link LowerBound} and the specified value
+	 */
+	public double getLowerDistance(final Double value);
+
+	/**
+	 * Returns the distance between the {@link UpperBound} and the specified value.
+	 * <p>
+	 * @param value a {@link Double} (may be {@code null})
+	 * <p>
+	 * @return the distance between the {@link UpperBound} and the specified value
+	 */
+	public double getUpperDistance(final Double value);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code double} value of the {@link LowerBound}.
+	 * <p>
+	 * @return the {@code double} value of the {@link LowerBound}
+	 */
+	public double getLowerBoundValue();
+
+	/**
+	 * Returns the {@code double} value of the {@link LowerBound} using the specified minimal
+	 * interval.
+	 * <p>
+	 * @param step the {@code double} minimal interval
+	 * <p>
+	 * @return the {@code double} value of the {@link LowerBound} using the specified minimal
+	 *         interval
+	 */
+	public double getLowerBoundValue(final double step);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code double} value of the {@link UpperBound}.
+	 * <p>
+	 * @return the {@code double} value of the {@link UpperBound}
+	 */
+	public double getUpperBoundValue();
+
+	/**
+	 * Returns the {@code double} value of the {@link UpperBound} using the specified minimal
+	 * interval.
+	 * <p>
+	 * @param step the {@code double} minimal interval
+	 * <p>
+	 * @return the {@code double} value of the {@link UpperBound} using the specified minimal
+	 *         interval
+	 */
+	public double getUpperBoundValue(final double step);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

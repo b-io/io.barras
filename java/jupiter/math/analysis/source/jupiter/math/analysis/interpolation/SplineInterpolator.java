@@ -30,7 +30,6 @@ import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
-import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;

@@ -216,18 +216,16 @@ public class Statistics {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Range confidenceInterval(final long sampleSize, final double mean,
+	public static DoubleInterval confidenceInterval(final long sampleSize, final double mean,
 			final double standardDeviation) {
 		final double variation = variation(sampleSize, standardDeviation);
-		return new Range(new LowerBound<Double>(mean - variation),
-				new UpperBound<Double>(mean + variation));
+		return new DoubleInterval(mean - variation, mean + variation);
 	}
 
-	public static Range confidenceInterval(final long sampleSize, final double mean,
+	public static DoubleInterval confidenceInterval(final long sampleSize, final double mean,
 			final double standardDeviation, final double alpha) {
 		final double variation = variation(sampleSize, standardDeviation, alpha);
-		return new Range(new LowerBound<Double>(mean - variation),
-				new UpperBound<Double>(mean + variation));
+		return new DoubleInterval(mean - variation, mean + variation);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -329,8 +327,8 @@ public class Statistics {
 	 * <p>
 	 * @param alpha      a {@code double} value
 	 * @param tolerance  the tolerance level
-	 * @param lowerBound the lower bound of the search
-	 * @param upperBound the upper bound of the search
+	 * @param lowerBound the {@code double} lower bound of the bisection search
+	 * @param upperBound the {@code double} upper bound of the bisection search
 	 * <p>
 	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search within the specified
 	 *         tolerance level

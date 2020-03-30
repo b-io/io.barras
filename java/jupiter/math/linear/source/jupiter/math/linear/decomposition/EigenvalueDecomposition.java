@@ -200,8 +200,9 @@ public class EigenvalueDecomposition
 	/**
 	 * Performs the symmetric Householder reduction to the tridiagonal form.
 	 * <p>
-	 * See the Algol procedures tred2 by Bowdler, Martin, Reinsch and Wilkinson, Handbook for Auto.
-	 * Comp., Vol.ii-Linear Algebra, and the corresponding Fortran subroutine in EISPACK.
+	 * See the Algol procedures tred2 by Bowdler, Martin, Reinsch and Wilkinson, Handbook for
+	 * Automatic Computation, Vol.ii-Linear Algebra and the corresponding Fortran subroutine in
+	 * EISPACK.
 	 */
 	protected void tred2() {
 		// Initialize
@@ -306,8 +307,9 @@ public class EigenvalueDecomposition
 	/**
 	 * Performs the symmetric tridiagonal QL algorithm.
 	 * <p>
-	 * See the Algol procedures tql2, by Bowdler, Martin, Reinsch and Wilkinson, Handbook for Auto.
-	 * Comp., Vol.ii-Linear Algebra, and the corresponding Fortran subroutine in EISPACK.
+	 * See the Algol procedures tql2 by Bowdler, Martin, Reinsch and Wilkinson, Handbook for
+	 * Automatic Computation, Vol.ii-Linear Algebra and the corresponding Fortran subroutine in
+	 * EISPACK.
 	 */
 	protected void tql2() {
 		// Initialize
@@ -408,8 +410,8 @@ public class EigenvalueDecomposition
 	/**
 	 * Performs the non-symmetric reduction to the Hessenberg form.
 	 * <p>
-	 * See the Algol procedures orthes and ortran, by Martin and Wilkinson, Handbook for Auto.
-	 * Comp., Vol.ii-Linear Algebra, and the corresponding Fortran subroutines in EISPACK.
+	 * See the Algol procedures orthes and ortran by Martin and Wilkinson, Handbook for Automatic
+	 * Computation, Vol.ii-Linear Algebra and the corresponding Fortran subroutines in EISPACK.
 	 */
 	protected void orthes() {
 		// Initialize
@@ -515,8 +517,8 @@ public class EigenvalueDecomposition
 	/**
 	 * Performs the non-symmetric reduction from the Hessenberg form to the real Schur form.
 	 * <p>
-	 * See the Algol procedure hqr2, by Martin and Wilkinson, Handbook for Auto. Comp.,
-	 * Vol.ii-Linear Algebra, and the corresponding Fortran subroutine in EISPACK.
+	 * See the Algol procedure hqr2 by Martin and Wilkinson, Handbook for Automatic Computation,
+	 * Vol.ii-Linear Algebra and the corresponding Fortran subroutine in EISPACK.
 	 */
 	protected void hqr2() {
 		// Initialize

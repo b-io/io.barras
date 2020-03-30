@@ -59,13 +59,13 @@ public class Root
 	/**
 	 * Applies the root function to the specified value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code sqrt(x)}
 	 */
 	@Override
-	public double apply(final double x) {
-		return Maths.sqrt(constrain(x));
+	protected double a(final double x) {
+		return Maths.sqrt(x);
 	}
 
 

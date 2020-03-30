@@ -58,7 +58,24 @@ public class SetArguments
 		return set;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T extends Comparable<? super T>> T requireInside(final T object,
+			final ISet<? super T> set) {
+		return requireInside(object, "object", set, "set");
+	}
+
+	public static <T extends Comparable<? super T>> T requireInside(final T object,
+			final String objectName, final ISet<? super T> set, final String setName) {
+		if (CHECK_ARGS &&
+				!requireNonNull(set, setName).isInside(requireNonNull(object, objectName))) {
+			throw new IllegalArgumentException("The specified " + Strings.quote(objectName) +
+					" is not inside the " + Strings.quote(setName));
+		}
+		return object;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <S extends ISet<?>> S requireValid(final S set) {
 		return requireValid(set, "set");

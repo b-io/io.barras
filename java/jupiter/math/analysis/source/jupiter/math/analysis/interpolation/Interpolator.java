@@ -24,7 +24,7 @@
 package jupiter.math.analysis.interpolation;
 
 import jupiter.common.math.Domain;
-import jupiter.common.math.Range;
+import jupiter.common.math.DoubleInterval;
 import jupiter.common.model.ICloneable;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.struct.XY;
@@ -74,7 +74,7 @@ public abstract class Interpolator
 	 *                  (inclusive)
 	 */
 	protected Interpolator(final XY<Double> fromPoint, final XY<Double> toPoint) {
-		super(new Domain(new Range(fromPoint.getX(), toPoint.getX())));
+		super(new Domain(new DoubleInterval(fromPoint.getX(), toPoint.getX())));
 		this.fromPoint = fromPoint;
 		this.toPoint = toPoint;
 	}
@@ -87,15 +87,15 @@ public abstract class Interpolator
 	/**
 	 * Applies the interpolation function to the specified value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
 	 *
 	 * @see #interpolate(double)
 	 */
 	@Override
-	public double apply(final double x) {
-		return interpolate(bound(x));
+	protected double a(final double x) {
+		return interpolate(x);
 	}
 
 	/**

@@ -27,7 +27,7 @@ import java.io.Serializable;
 
 import jupiter.common.math.Domain;
 import jupiter.common.model.ICloneable;
-import jupiter.common.test.SetArguments;
+import jupiter.common.test.IntervalArguments;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
@@ -79,7 +79,7 @@ public abstract class UnivariateFunction
 	 */
 	protected UnivariateFunction(final Domain domain) {
 		// Check the arguments
-		SetArguments.requireValid(domain, "domain");
+		IntervalArguments.requireValid(domain, "domain");
 
 		// Set the attributes
 		this.domain = domain;
@@ -108,7 +108,7 @@ public abstract class UnivariateFunction
 	 * Returns {@code x} if {@code x} is inside {@code domain}, the closest bound if {@code x} is
 	 * not {@code NaN}, {@code NaN} otherwise.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code x} if {@code x} is inside {@code domain}, the closest bound if {@code x} is
 	 *         not {@code NaN}, {@code NaN} otherwise
@@ -120,7 +120,7 @@ public abstract class UnivariateFunction
 	/**
 	 * Returns {@code x} if {@code x} is inside {@code domain}, {@code NaN} otherwise.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code x} if {@code x} is inside {@code domain}, {@code NaN} otherwise
 	 */
@@ -133,12 +133,36 @@ public abstract class UnivariateFunction
 	/**
 	 * Applies the function to the specified value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code f(x)}
 	 */
-	public abstract double apply(final double x);
+	protected abstract double a(final double x);
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Applies the function to the specified value.
+	 * <p>
+	 * @param x a {@code double} value (on the abscissa)
+	 * <p>
+	 * @return {@code f(x)}
+	 *
+	 * @see #a(double)
+	 */
+	public double apply(final double x) {
+		return a(bound(x));
+	}
+
+	/**
+	 * Applies the function to the specified {@link Number}.
+	 * <p>
+	 * @param x a {@link Number} (on the abscissa)
+	 * <p>
+	 * @return {@code f(x)}
+	 *
+	 * @see #apply(double)
+	 */
 	public double apply(final Number x) {
 		return apply(x.doubleValue());
 	}

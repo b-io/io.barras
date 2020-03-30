@@ -28,11 +28,11 @@ import jupiter.common.struct.tuple.Pair;
 import jupiter.common.util.Doubles;
 
 /**
- * {@link Range} is the {@link Interval} of {@link Double}.
+ * {@link DoubleInterval} is the {@link Interval} of {@link Double}.
  */
-public class Range
+public class DoubleInterval
 		extends Interval<Double>
-		implements IRange {
+		implements IDoubleInterval {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -49,16 +49,16 @@ public class Range
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link Range} by default.
+	 * Constructs an empty {@link DoubleInterval} by default.
 	 */
-	public Range() {
+	public DoubleInterval() {
 		super();
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Range} with the specified values of the {@link LowerBound} and
+	 * Constructs a {@link DoubleInterval} with the specified values of the {@link LowerBound} and
 	 * {@link UpperBound}.
 	 * <p>
 	 * @param lowerBoundValue the {@link Double} of the {@link LowerBound} (inclusive) (may be
@@ -66,27 +66,28 @@ public class Range
 	 * @param upperBoundValue the {@link Double} of the {@link UpperBound} (inclusive) (may be
 	 *                        {@code null})
 	 */
-	public Range(final Double lowerBoundValue, final Double upperBoundValue) {
+	public DoubleInterval(final Double lowerBoundValue, final Double upperBoundValue) {
 		super(lowerBoundValue, upperBoundValue);
 	}
 
 	/**
-	 * Constructs a {@link Range} with the specified {@link LowerBound} and {@link UpperBound}.
+	 * Constructs a {@link DoubleInterval} with the specified {@link LowerBound} and
+	 * {@link UpperBound}.
 	 * <p>
 	 * @param lowerBound the {@link LowerBound} of {@link Double}
 	 * @param upperBound the {@link UpperBound} of {@link Double}
 	 */
-	public Range(final LowerBound<Double> lowerBound, final UpperBound<Double> upperBound) {
+	public DoubleInterval(final LowerBound<Double> lowerBound, final UpperBound<Double> upperBound) {
 		super(lowerBound, upperBound);
 	}
 
 	/**
-	 * Constructs a {@link Range} with the specified {@link Pair} of {@link LowerBound} and
+	 * Constructs a {@link DoubleInterval} with the specified {@link Pair} of {@link LowerBound} and
 	 * {@link UpperBound}.
 	 * <p>
 	 * @param pair the {@link Pair} of {@link LowerBound} and {@link UpperBound} of {@link Double}
 	 */
-	public Range(final Pair<LowerBound<Double>, UpperBound<Double>> pair) {
+	public DoubleInterval(final Pair<LowerBound<Double>, UpperBound<Double>> pair) {
 		super(pair);
 	}
 
@@ -117,7 +118,7 @@ public class Range
 		return bound;
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns the distance to the specified value.
@@ -148,6 +149,30 @@ public class Range
 	//////////////////////////////////////////////
 
 	/**
+	 * Returns the distance between the {@link LowerBound} and the specified value.
+	 * <p>
+	 * @param value a {@link Double} (may be {@code null})
+	 * <p>
+	 * @return the distance between the {@link LowerBound} and the specified value
+	 */
+	public double getLowerDistance(final Double value) {
+		return value != null ? Maths.delta(value, getLowerBoundValue()) : Double.POSITIVE_INFINITY;
+	}
+
+	/**
+	 * Returns the distance between the {@link UpperBound} and the specified value.
+	 * <p>
+	 * @param value a {@link Double} (may be {@code null})
+	 * <p>
+	 * @return the distance between the {@link UpperBound} and the specified value
+	 */
+	public double getUpperDistance(final Double value) {
+		return value != null ? Maths.delta(value, getUpperBoundValue()) : Double.POSITIVE_INFINITY;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns the {@code double} value of the {@link LowerBound}.
 	 * <p>
 	 * @return the {@code double} value of the {@link LowerBound}
@@ -172,6 +197,8 @@ public class Range
 						lowerBound.value + step) :
 				Double.NEGATIVE_INFINITY;
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@code double} value of the {@link UpperBound}.
@@ -199,30 +226,6 @@ public class Range
 				Double.POSITIVE_INFINITY;
 	}
 
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the distance between the {@link LowerBound} and the specified value.
-	 * <p>
-	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
-	 * @return the distance between the {@link LowerBound} and the specified value
-	 */
-	public double getLowerDistance(final Double value) {
-		return value != null ? Maths.delta(value, getLowerBoundValue()) : Double.POSITIVE_INFINITY;
-	}
-
-	/**
-	 * Returns the distance between the {@link UpperBound} and the specified value.
-	 * <p>
-	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
-	 * @return the distance between the {@link UpperBound} and the specified value
-	 */
-	public double getUpperDistance(final Double value) {
-		return value != null ? Maths.delta(value, getUpperBoundValue()) : Double.POSITIVE_INFINITY;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
@@ -240,7 +243,7 @@ public class Range
 	 *         otherwise
 	 */
 	public double bound(final Double value) {
-		return Ranges.bound(this, value);
+		return Intervals.bound(this, value);
 	}
 
 	/**
@@ -251,7 +254,7 @@ public class Range
 	 * @return {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise
 	 */
 	public Double constrain(final Double value) {
-		return Ranges.constrain(this, value);
+		return Intervals.constrain(this, value);
 	}
 
 
@@ -282,7 +285,7 @@ public class Range
 	 * @see ICloneable
 	 */
 	@Override
-	public Range clone() {
-		return (Range) super.clone();
+	public DoubleInterval clone() {
+		return (DoubleInterval) super.clone();
 	}
 }

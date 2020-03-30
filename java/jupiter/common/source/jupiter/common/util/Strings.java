@@ -503,8 +503,8 @@ public class Strings {
 	 * generated with {@code char} values between the specified bounds.
 	 * <p>
 	 * @param length     the length of the random {@link String} to generate
-	 * @param lowerBound the lower bound of the {@code char} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code char} value to generate (exclusive)
+	 * @param lowerBound the {@code char} lower bound of the value to generate (inclusive)
+	 * @param upperBound the {@code char} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
 	 *         generated with {@code char} values between the specified bounds

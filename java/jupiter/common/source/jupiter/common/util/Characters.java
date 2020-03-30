@@ -894,8 +894,8 @@ public class Characters {
 	 * distributed {@code char} values between the specified bounds.
 	 * <p>
 	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the upper bound of the random sequence to create (exclusive)
+	 * @param lowerBound the {@code char} lower bound of the random sequence to create (inclusive)
+	 * @param upperBound the {@code char} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code char} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code char} values between the specified bounds
@@ -924,8 +924,8 @@ public class Characters {
 	 * Returns a pseudorandom, uniformly distributed {@code char} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code char} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code char} value to generate (exclusive)
+	 * @param lowerBound the {@code char} lower bound of the value to generate (inclusive)
+	 * @param upperBound the {@code char} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code char} value between the specified bounds
 	 */
@@ -1852,8 +1852,7 @@ public class Characters {
 		}
 
 		// Clone the 2D array
-		final char[][] clone = new char[array2D.length]
-				[array2D.length > 0 ? array2D[0].length : 0];
+		final char[][] clone = new char[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -1874,9 +1873,7 @@ public class Characters {
 		}
 
 		// Clone the 3D array
-		final char[][][] clone = new char[array3D.length]
-				[array3D.length > 0 ? array3D[0].length : 0]
-				[array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final char[][][] clone = new char[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}

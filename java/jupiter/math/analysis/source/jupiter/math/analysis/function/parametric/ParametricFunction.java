@@ -86,17 +86,53 @@ public abstract class ParametricFunction
 	/**
 	 * Applies the parametric function to the specified value with the parameters.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
+	 * <p>
+	 * @return {@code f(x, parameters)}
+	 *
+	 * @see #a(double, double...)
+	 */
+	@Override
+	protected double a(final double x) {
+		return a(x, parameters);
+	}
+
+	/**
+	 * Applies the parametric function to the specified value with the parameters.
+	 * <p>
+	 * @param x          a {@code double} value (on the abscissa)
+	 * @param parameters the {@code double} parameters
+	 * <p>
+	 * @return {@code f(x, parameters)}
+	 */
+	protected abstract double a(final double x, final double... parameters);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Applies the parametric function to the specified value with the parameters.
+	 * <p>
+	 * @param x          a {@code double} value (on the abscissa)
+	 * @param parameters the {@code double} parameters
+	 * <p>
+	 * @return {@code f(x, parameters)}
+	 *
+	 * @see #a(double, double...)
+	 */
+	public double apply(final double x, final double... parameters) {
+		return a(bound(x), parameters);
+	}
+
+	/**
+	 * Applies the parametric function to the specified {@link Number} with the parameters.
+	 * <p>
+	 * @param x          a {@link Number} (on the abscissa)
+	 * @param parameters the {@code double} parameters
 	 * <p>
 	 * @return {@code f(x, parameters)}
 	 *
 	 * @see #apply(double, double...)
 	 */
-	@Override
-	public double apply(final double x) {
-		return apply(x, parameters);
-	}
-
 	public double apply(final Number x, final double... parameters) {
 		return apply(x.doubleValue(), parameters);
 	}

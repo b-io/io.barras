@@ -58,12 +58,12 @@ public class Tangent
 	/**
 	 * Applies the tangent function to the specified value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code tan(x)}
 	 */
 	@Override
-	public double apply(final double x) {
+	protected double a(final double x) {
 		return Maths.tan(x);
 	}
 

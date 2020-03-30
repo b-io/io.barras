@@ -76,7 +76,7 @@ public class Power
 	 * @see #apply(double, double)
 	 */
 	@Override
-	public double apply(final double x, final double... parameters) {
+	protected double a(final double x, final double... parameters) {
 		// Check the arguments
 		DoubleArguments.requireLength(parameters, 1);
 

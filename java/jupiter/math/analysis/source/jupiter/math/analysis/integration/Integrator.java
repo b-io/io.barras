@@ -24,15 +24,18 @@
 package jupiter.math.analysis.integration;
 
 import jupiter.common.math.Domain;
+import jupiter.common.math.DoubleInterval;
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.IntervalArguments;
+import jupiter.math.analysis.function.bivariate.BivariateFunction;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 /**
- * {@link Integrator} is the {@link UnivariateFunction} integrating {@code y = f(x)} in the
- * {@link Domain}.
+ * {@link Integrator} is the {@link BivariateFunction} integrating {@code y = f(x)} for {@code x}
+ * defined in the integration {@link DoubleInterval}.
  */
 public abstract class Integrator
-		extends UnivariateFunction {
+		extends BivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -49,6 +52,11 @@ public abstract class Integrator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The {@link UnivariateFunction} to integrate.
+	 */
+	protected final UnivariateFunction f;
+
+	/**
 	 * The integration order.
 	 */
 	protected final int order;
@@ -59,33 +67,81 @@ public abstract class Integrator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Integrator} by default.
+	 * Constructs a {@link Integrator} with the specified {@link UnivariateFunction}.
+	 * <p>
+	 * @param f the {@link UnivariateFunction} to integrate
 	 */
-	protected Integrator() {
-		this(1);
+	public Integrator(final UnivariateFunction f) {
+		this(f, 1);
 	}
 
 	/**
-	 * Constructs a {@link Integrator} with the specified integration order.
+	 * Constructs a {@link Integrator} with the specified {@link UnivariateFunction} and integration
+	 * {@link DoubleInterval}.
 	 * <p>
-	 * @param order the integration order
+	 * @param f        the {@link UnivariateFunction} to integrate
+	 * @param interval the integration {@link DoubleInterval}
 	 */
-	protected Integrator(final int order) {
-		super();
-		this.order = order;
+	public Integrator(final UnivariateFunction f, final DoubleInterval interval) {
+		this(f, interval, 1);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Integrator} with the specified integration order and {@link Domain}.
+	 * Constructs a {@link Integrator} with the specified {@link UnivariateFunction} and integration
+	 * order.
 	 * <p>
-	 * @param order  the integration order
-	 * @param domain the {@link Domain}
+	 * @param f     the {@link UnivariateFunction} to integrate
+	 * @param order the integration order
 	 */
-	protected Integrator(final int order, final Domain domain) {
-		super(domain);
+	public Integrator(final UnivariateFunction f, final int order) {
+		this(f, new DoubleInterval(f.getDomain().getLowerBound(), f.getDomain().getUpperBound()),
+				order);
+	}
+
+	/**
+	 * Constructs a {@link Integrator} with the specified {@link UnivariateFunction}, integration
+	 * {@link DoubleInterval} and integration order.
+	 * <p>
+	 * @param f        the {@link UnivariateFunction} to integrate
+	 * @param interval the integration {@link DoubleInterval}
+	 * @param order    the integration order
+	 */
+	public Integrator(final UnivariateFunction f, final DoubleInterval interval,
+			final int order) {
+		super(new Domain(interval), interval.getLowerBoundValue());
+
+		// Check the arguments
+		IntervalArguments.requireValid(interval, "integration interval");
+		IntervalArguments.requireInside(interval, "integration interval", f.getDomain(), "domain");
+
+		// Set the attributes
+		this.f = f;
 		this.order = order;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GETTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link UnivariateFunction} to integrate.
+	 * <p>
+	 * @return the {@link UnivariateFunction} to integrate
+	 */
+	public UnivariateFunction getFunction() {
+		return f;
+	}
+
+	/**
+	 * Returns the integration order.
+	 * <p>
+	 * @return the integration order
+	 */
+	public int getIntegrationOrder() {
+		return order;
 	}
 
 
@@ -96,15 +152,15 @@ public abstract class Integrator
 	/**
 	 * Applies the integration function to the specified value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code Y = F(x)} for {@code x} defined in {@code domain}
 	 *
 	 * @see #integrate(double)
 	 */
 	@Override
-	public double apply(final double x) {
-		return integrate(bound(x));
+	protected double a(final double x) {
+		return integrate(initialValue, boundSecond(x));
 	}
 
 	/**
@@ -117,49 +173,45 @@ public abstract class Integrator
 	 */
 	protected abstract double integrate(final double x);
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
-	 * {@link #integrate} to retrieve {@code Y = F(x)}.
+	 * Applies the integration function to the specified integration interval.
 	 * <p>
-	 * @return {@code true} if the integration is done, {@code false} otherwise
+	 * @param a the {@code double} lower bound (on the abscissa) of the integration interval
+	 * @param b the {@code double} upper bound (on the abscissa) of the integration interval
+	 * <p>
+	 * @return {@code Y = F(b) - F(a)} for {@code a} and {@code b} defined in {@code domain}
 	 *
-	 * @see #integrate(double)
+	 * @see #integrate(double, double)
 	 */
-	protected abstract boolean integrateAll();
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	@Override
-	public double[] applyToPrimitiveArray(final double... array) {
-		integrateAll();
-		return super.applyToPrimitiveArray(array);
+	protected double a(final double a, final double b) {
+		return integrate(a, b);
 	}
 
-	@Override
-	public double[] applyToPrimitiveArray(final Number... array) {
-		integrateAll();
-		return super.applyToPrimitiveArray(array);
-	}
+	/**
+	 * Returns the integrated {@code double} value {@code Y = F(b) - F(a)} for {@code a} and
+	 * {@code b} defined in {@code domain}.
+	 * <p>
+	 * @param a the {@code double} lower bound (on the abscissa) of the integration interval
+	 * @param b the {@code double} upper bound (on the abscissa) of the integration interval
+	 * <p>
+	 * @return {@code Y = F(b) - F(a)} for {@code a} and {@code b} defined in {@code domain}
+	 */
+	protected abstract double integrate(final double a, final double b);
 
 	//////////////////////////////////////////////
 
-	@Override
-	public int[] applyToIntPrimitiveArray(final double... array) {
-		integrateAll();
-		return super.applyToIntPrimitiveArray(array);
-	}
-
-	@Override
-	public long[] applyToLongPrimitiveArray(final double... array) {
-		integrateAll();
-		return super.applyToLongPrimitiveArray(array);
-	}
-
-	@Override
-	public float[] applyToFloatPrimitiveArray(final double... array) {
-		integrateAll();
-		return super.applyToFloatPrimitiveArray(array);
-	}
+	/**
+	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
+	 * {@link #integrate} to retrieve {@code Y = F(b) - F(a)}.
+	 * <p>
+	 * @return {@code true} if the integration is done, {@code false} otherwise
+	 *
+	 * @see #integrate(double, double)
+	 */
+	public abstract boolean integrateAll();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

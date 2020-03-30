@@ -852,8 +852,8 @@ public class Floats {
 	 * distributed {@code float} values between the specified bounds.
 	 * <p>
 	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the upper bound of the random sequence to create (exclusive)
+	 * @param lowerBound the {@code float} lower bound of the random sequence to create (inclusive)
+	 * @param upperBound the {@code float} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code float} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code float} values between the specified bounds
@@ -884,8 +884,8 @@ public class Floats {
 	 * Returns a pseudorandom, uniformly distributed {@code float} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code float} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code float} value to generate (exclusive)
+	 * @param lowerBound the {@code float} lower bound of the value to generate (inclusive)
+	 * @param upperBound the {@code float} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code float} value between the specified
 	 *         bounds

@@ -59,13 +59,13 @@ public class Factorial
 	/**
 	 * Applies the factorial function to the specified value.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code x!}
 	 */
 	@Override
-	public double apply(final double x) {
-		return Maths.factorial(constrain(x));
+	protected double a(final double x) {
+		return Maths.factorial(x);
 	}
 
 

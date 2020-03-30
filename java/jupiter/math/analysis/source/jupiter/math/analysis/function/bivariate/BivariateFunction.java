@@ -25,7 +25,7 @@ package jupiter.math.analysis.function.bivariate;
 
 import jupiter.common.math.Domain;
 import jupiter.common.model.ICloneable;
-import jupiter.common.test.SetArguments;
+import jupiter.common.test.IntervalArguments;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 /**
@@ -79,7 +79,7 @@ public abstract class BivariateFunction
 	public BivariateFunction(final double initialValue) {
 		super();
 		secondDomain = domain;
-		this.initialValue = initialValue;
+		this.initialValue = bound(initialValue);
 	}
 
 	//////////////////////////////////////////////
@@ -103,7 +103,7 @@ public abstract class BivariateFunction
 	public BivariateFunction(final Domain domain, final double initialValue) {
 		super(domain);
 		secondDomain = domain;
-		this.initialValue = initialValue;
+		this.initialValue = bound(initialValue);
 	}
 
 	//////////////////////////////////////////////
@@ -132,11 +132,11 @@ public abstract class BivariateFunction
 		super(firstDomain);
 
 		// Check the arguments
-		SetArguments.requireValid(secondDomain, "second domain");
+		IntervalArguments.requireValid(secondDomain, "second domain");
 
 		// Set the attributes
 		this.secondDomain = secondDomain;
-		this.initialValue = initialValue;
+		this.initialValue = bound(initialValue);
 	}
 
 
@@ -183,7 +183,7 @@ public abstract class BivariateFunction
 	 * {@code x2 < secondLowerBound}, {@code secondUpperBound} if {@code x2 > secondUpperBound},
 	 * {@code NaN} otherwise.
 	 * <p>
-	 * @param x2 a {@code double} value
+	 * @param x2 a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code x2} if {@code x2} is inside {@code secondDomain}, {@code secondLowerBound} if
 	 *         {@code x2 < secondLowerBound}, {@code secondUpperBound} if
@@ -196,7 +196,7 @@ public abstract class BivariateFunction
 	/**
 	 * Returns {@code x2} if {@code x2} is inside {@code secondDomain}, {@code NaN} otherwise.
 	 * <p>
-	 * @param x2 a {@code double} value
+	 * @param x2 a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code x2} if {@code x2} is inside {@code secondDomain}, {@code NaN} otherwise
 	 */
@@ -209,13 +209,55 @@ public abstract class BivariateFunction
 	/**
 	 * Applies the bivariate function to the initial value and the specified value.
 	 * <p>
-	 * @param x2 a {@code double} value
+	 * @param x2 a {@code double} value (on the abscissa)
 	 * <p>
 	 * @return {@code f(initialValue, x2)}
+	 *
+	 * @see #a(double, double)
 	 */
 	@Override
-	public double apply(final double x2) {
-		return apply(initialValue, constrainSecond(x2));
+	protected double a(final double x2) {
+		return a(initialValue, boundSecond(x2));
+	}
+
+	/**
+	 * Applies the bivariate function to the specified values.
+	 * <p>
+	 * @param x1 a {@code double} value (on the abscissa)
+	 * @param x2 another {@code double} value (on the abscissa)
+	 * <p>
+	 * @return {@code f(x1, x2)}
+	 */
+	protected abstract double a(final double x1, final double x2);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Applies the bivariate function to the specified values.
+	 * <p>
+	 * @param x1 a {@code double} value (on the abscissa)
+	 * @param x2 another {@code double} value (on the abscissa)
+	 * <p>
+	 * @return {@code f(x1, x2)}
+	 *
+	 * @see #a(double, double)
+	 */
+	public double apply(final double x1, final double x2) {
+		return a(bound(x1), boundSecond(x2));
+	}
+
+	/**
+	 * Applies the bivariate function to the specified {@link Number}.
+	 * <p>
+	 * @param x1 a {@link Number} (on the abscissa)
+	 * @param x2 another {@link Number} (on the abscissa)
+	 * <p>
+	 * @return {@code f(x1, x2)}
+	 *
+	 * @see #apply(double, double)
+	 */
+	public double apply(final Number x1, final Number x2) {
+		return apply(x1.doubleValue(), x2.doubleValue());
 	}
 
 

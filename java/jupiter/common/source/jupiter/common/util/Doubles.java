@@ -839,8 +839,8 @@ public class Doubles {
 	 * distributed {@code double} values between the specified bounds.
 	 * <p>
 	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the upper bound of the random sequence to create (exclusive)
+	 * @param lowerBound the {@code double} lower bound of the random sequence to create (inclusive)
+	 * @param upperBound the {@code double} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code double} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code double} values between the specified bounds
@@ -871,8 +871,8 @@ public class Doubles {
 	 * Returns a pseudorandom, uniformly distributed {@code double} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the lower bound of the {@code double} value to generate (inclusive)
-	 * @param upperBound the upper bound of the {@code double} value to generate (exclusive)
+	 * @param lowerBound the {@code double} lower bound of the value to generate (inclusive)
+	 * @param upperBound the {@code double} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code double} value between the specified
 	 *         bounds

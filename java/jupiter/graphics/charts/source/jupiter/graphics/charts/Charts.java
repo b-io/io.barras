@@ -285,8 +285,8 @@ public class Charts {
 	 * <p>
 	 * @param seriesKey  the identifier of the {@link XYDataset} to create
 	 * @param f          a {@link UnivariateFunction} {@code f: R -{@literal >} R}
-	 * @param lowerBound the lower bound of the domain
-	 * @param upperBound the upper bound of the domain
+	 * @param lowerBound the {@code double} lower bound of the domain
+	 * @param upperBound the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
 	 * <p>
 	 * @return a {@link XYDataset} constructed by sampling the specified {@link UnivariateFunction}
@@ -308,8 +308,8 @@ public class Charts {
 	 * <p>
 	 * @param seriesKey  the identifier of the {@link XYDataset} to create
 	 * @param f          a {@link Function2D} {@code f: R -{@literal >} R}
-	 * @param lowerBound the lower bound of the domain
-	 * @param upperBound the upper bound of the domain
+	 * @param lowerBound the {@code double} lower bound of the domain
+	 * @param upperBound the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
 	 * <p>
 	 * @return a {@link XYDataset} constructed by sampling the specified {@link Function2D}
@@ -326,8 +326,8 @@ public class Charts {
 	 * <p>
 	 * @param seriesKey  the identifier of the {@link XYSeries} to create
 	 * @param f          a {@link UnivariateFunction} {@code f: R -{@literal >} R}
-	 * @param lowerBound the lower bound of the domain
-	 * @param upperBound the upper bound of the domain
+	 * @param lowerBound the {@code double} lower bound of the domain
+	 * @param upperBound the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
 	 * <p>
 	 * @return a {@link XYSeries} constructed by sampling the specified {@link UnivariateFunction}
@@ -348,8 +348,8 @@ public class Charts {
 	 * <p>
 	 * @param seriesKey  the identifier of the {@link XYSeries} to create
 	 * @param f          a {@link Function2D} {@code f: R -{@literal >} R}
-	 * @param lowerBound the lower bound of the domain
-	 * @param upperBound the upper bound of the domain
+	 * @param lowerBound the {@code double} lower bound of the domain
+	 * @param upperBound the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
 	 * <p>
 	 * @return a {@link XYSeries} constructed by sampling the specified {@link Function2D}

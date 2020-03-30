@@ -37,6 +37,7 @@ import jupiter.common.test.FloatArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.test.LongArguments;
 import jupiter.common.test.ShortArguments;
+import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Shorts;
@@ -53,13 +54,18 @@ public class Maths {
 	 */
 	public static volatile float FLOAT_TOLERANCE = 1E-5f;
 	/**
+	 * The tiny tolerance level for {@code float} values.
+	 */
+	public static volatile float FLOAT_TINY_TOLERANCE = 1E-25f;
+
+	/**
 	 * The tolerance level (or termination criterion) {@code ε} for {@code double} values.
 	 */
 	public static volatile double TOLERANCE = 1E-10;
 	/**
 	 * The tiny tolerance level for {@code double} values.
 	 */
-	public static volatile double TINY_TOLERANCE = 1E-100;
+	public static volatile double TINY_TOLERANCE = 1E-50;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -282,6 +288,81 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static byte sumInterval(final int fromIndex, final int toIndex, final byte... values) {
+		byte sum = 0;
+		for (int i = fromIndex; i < toIndex; ++i) {
+			sum += values[i];
+		}
+		return sum;
+	}
+
+	public static short sumInterval(final int fromIndex, final int toIndex, final short... values) {
+		short sum = 0;
+		for (int i = fromIndex; i < toIndex; ++i) {
+			sum += values[i];
+		}
+		return sum;
+	}
+
+	public static int sumInterval(final int fromIndex, final int toIndex, final int... values) {
+		int sum = 0;
+		for (int i = fromIndex; i < toIndex; ++i) {
+			sum += values[i];
+		}
+		return sum;
+	}
+
+	public static long sumInterval(final int fromIndex, final int toIndex, final long... values) {
+		long sum = 0L;
+		for (int i = fromIndex; i < toIndex; ++i) {
+			sum += values[i];
+		}
+		return sum;
+	}
+
+	public static float sumInterval(final int fromIndex, final int toIndex, final float... values) {
+		float sum = 0f;
+		for (int i = fromIndex; i < toIndex; ++i) {
+			sum += values[i];
+		}
+		return sum;
+	}
+
+	public static double sumInterval(final int fromIndex, final int toIndex,
+			final double... values) {
+		double sum = 0.;
+		for (int i = fromIndex; i < toIndex; ++i) {
+			sum += values[i];
+		}
+		return sum;
+	}
+
+	public static double sumInterval(final int fromIndex, final int toIndex,
+			final Number[] numbers) {
+		double sum = 0.;
+		for (int i = fromIndex; i < toIndex; ++i) {
+			if (numbers[i] != null) {
+				sum += numbers[i].doubleValue();
+			}
+		}
+		return sum;
+	}
+
+	public static double sumInterval(final int fromIndex, final int toIndex,
+			final Collection<? extends Number> numbers) {
+		double sum = 0.;
+		int i = 0;
+		for (final Number number : numbers) {
+			if (i >= fromIndex && i < toIndex && number != null) {
+				sum += number.doubleValue();
+			}
+			++i;
+		}
+		return sum;
+	}
+
+	//////////////////////////////////////////////
+
 	public static int sumSeries(final int n) {
 		return n * (n + 1) / 2;
 	}
@@ -299,6 +380,16 @@ public class Maths {
 	}
 
 	//////////////////////////////////////////////
+
+	public static float sumWithoutNaN(final float... values) {
+		float sum = 0f;
+		for (final float value : values) {
+			if (!Float.isNaN(value)) {
+				sum += value;
+			}
+		}
+		return sum;
+	}
 
 	public static double sumWithoutNaN(final double... values) {
 		double sum = 0.;
@@ -338,6 +429,14 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static float sumOfSquares(final float[] values, final float mean) {
+		float sum = 0f;
+		for (final float value : values) {
+			sum += square(value - mean);
+		}
+		return sum;
+	}
+
 	public static double sumOfSquares(final double[] values, final double mean) {
 		double sum = 0.;
 		for (final double value : values) {
@@ -368,6 +467,16 @@ public class Maths {
 	}
 
 	//////////////////////////////////////////////
+
+	public static float sumOfSquaresWithoutNaN(final float[] values, final float mean) {
+		float sum = 0f;
+		for (final float value : values) {
+			if (!Float.isNaN(value)) {
+				sum += square(value - mean);
+			}
+		}
+		return sum;
+	}
 
 	public static double sumOfSquaresWithoutNaN(final double[] values, final double mean) {
 		double sum = 0.;
@@ -430,7 +539,7 @@ public class Maths {
 	public static void sum(final byte[] values, final byte value, final int fromIndex,
 			final int toIndex) {
 		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
+			values[i] += value;
 		}
 	}
 
@@ -456,7 +565,7 @@ public class Maths {
 	public static void sum(final short[] values, final short value, final int fromIndex,
 			final int toIndex) {
 		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
+			values[i] += value;
 		}
 	}
 
@@ -482,7 +591,7 @@ public class Maths {
 	public static void sum(final int[] values, final int value, final int fromIndex,
 			final int toIndex) {
 		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
+			values[i] += value;
 		}
 	}
 
@@ -508,7 +617,7 @@ public class Maths {
 	public static void sum(final long[] values, final long value, final int fromIndex,
 			final int toIndex) {
 		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
+			values[i] += value;
 		}
 	}
 
@@ -534,7 +643,7 @@ public class Maths {
 	public static void sum(final float[] values, final float value, final int fromIndex,
 			final int toIndex) {
 		for (int i = fromIndex; i < toIndex; ++i) {
-			++values[i];
+			values[i] += value;
 		}
 	}
 
@@ -951,6 +1060,18 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static int delta(final int a, final int b) {
+		return abs(a - b);
+	}
+
+	public static long delta(final long a, final long b) {
+		return abs(a - b);
+	}
+
+	public static float delta(final float a, final float b) {
+		return abs(a - b);
+	}
+
 	public static double delta(final double a, final double b) {
 		return abs(a - b);
 	}
@@ -1032,6 +1153,21 @@ public class Maths {
 		}
 		long product = 1L;
 		for (long value = from; value <= to; ++value) {
+			product *= value;
+		}
+		return product;
+	}
+
+	public static float productSeries(final float n) {
+		return productSeries(1f, n);
+	}
+
+	public static float productSeries(final float from, final float to) {
+		if (from == 0f || to == 0f) {
+			return 0f;
+		}
+		float product = 1f;
+		for (float value = from; value <= to; ++value) {
 			product *= value;
 		}
 		return product;
@@ -1119,6 +1255,10 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static float safeDivision(final float dividend, final float divisor) {
+		return dividend / (divisor + FLOAT_TINY_TOLERANCE);
+	}
+
 	public static double safeDivision(final double dividend, final double divisor) {
 		return dividend / (divisor + TINY_TOLERANCE);
 	}
@@ -1200,6 +1340,10 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static float safeInverse(final float x) {
+		return safeDivision(1f, x);
+	}
+
 	public static double safeInverse(final double x) {
 		return safeDivision(1., x);
 	}
@@ -1228,6 +1372,18 @@ public class Maths {
 	 */
 	public static long pow(final long base, final long exponent) {
 		return Longs.convert(pow(base, exponent));
+	}
+
+	/**
+	 * Returns the value of the specified base raised to the power of the specified exponent.
+	 * <p>
+	 * @param base     a {@code float} value
+	 * @param exponent a {@code float} value
+	 * <p>
+	 * @return the value of the specified base raised to the power of the specified exponent
+	 */
+	public static float pow(final float base, final float exponent) {
+		return Floats.convert(StrictMath.pow(base, exponent));
 	}
 
 	/**
@@ -1327,8 +1483,24 @@ public class Maths {
 	// DISCRETE FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int countIncrements(final double min, final double max, final double increment) {
-		return min <= max ? 1 + floorToInt((max - min) / increment) : 0;
+	public static int countMinSteps(final double from, final double to, final double step) {
+		return from < to ? floorToInt((to - from) / step) : 0;
+	}
+
+	public static int countMaxSteps(final double from, final double to, final double step) {
+		return from < to ? ceilToInt((to - from) / step) : 0;
+	}
+
+	//////////////////////////////////////////////
+
+	public static double remainderMinSteps(final double from, final double to, final double step,
+			final int stepCount) {
+		return from < to ? to - (from + stepCount * step) : 0;
+	}
+
+	public static double remainderMaxSteps(final double from, final double to, final double step,
+			final int stepCount) {
+		return from < to ? from + stepCount * step - to : 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1400,6 +1572,127 @@ public class Maths {
 	/**
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
 	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
+	 * {@code x > upperBound}.
+	 * <p>
+	 * @param x          a {@code byte} value
+	 * @param lowerBound the {@code byte} lower bound of the domain (inclusive)
+	 * @param upperBound the {@code byte} upper bound of the domain (inclusive)
+	 * <p>
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
+	 *         if {@code x > upperBound}
+	 */
+	public static byte bound(final byte x, final byte lowerBound, final byte upperBound) {
+		if (x < lowerBound) {
+			return lowerBound;
+		}
+		if (x > upperBound) {
+			return upperBound;
+		}
+		return x;
+	}
+
+	/**
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
+	 * {@code x > upperBound}.
+	 * <p>
+	 * @param x          a {@code short} value
+	 * @param lowerBound the {@code short} lower bound of the domain (inclusive)
+	 * @param upperBound the {@code short} upper bound of the domain (inclusive)
+	 * <p>
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
+	 *         if {@code x > upperBound}
+	 */
+	public static short bound(final short x, final short lowerBound, final short upperBound) {
+		if (x < lowerBound) {
+			return lowerBound;
+		}
+		if (x > upperBound) {
+			return upperBound;
+		}
+		return x;
+	}
+
+	/**
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
+	 * {@code x > upperBound}.
+	 * <p>
+	 * @param x          a {@code int} value
+	 * @param lowerBound the {@code int} lower bound of the domain (inclusive)
+	 * @param upperBound the {@code int} upper bound of the domain (inclusive)
+	 * <p>
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
+	 *         if {@code x > upperBound}
+	 */
+	public static int bound(final int x, final int lowerBound, final int upperBound) {
+		if (x < lowerBound) {
+			return lowerBound;
+		}
+		if (x > upperBound) {
+			return upperBound;
+		}
+		return x;
+	}
+
+	/**
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
+	 * {@code x > upperBound}.
+	 * <p>
+	 * @param x          a {@code long} value
+	 * @param lowerBound the {@code long} lower bound of the domain (inclusive)
+	 * @param upperBound the {@code long} upper bound of the domain (inclusive)
+	 * <p>
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
+	 *         if {@code x > upperBound}
+	 */
+	public static long bound(final long x, final long lowerBound, final long upperBound) {
+		if (x < lowerBound) {
+			return lowerBound;
+		}
+		if (x > upperBound) {
+			return upperBound;
+		}
+		return x;
+	}
+
+	/**
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
+	 * {@code x > upperBound}, {@code NaN} otherwise.
+	 * <p>
+	 * @param x          a {@code float} value
+	 * @param lowerBound the {@code float} lower bound of the domain (inclusive) (may be
+	 *                   {@code Float.NEGATIVE_INFINITY} if there is no lower bound)
+	 * @param upperBound the {@code float} upper bound of the domain (inclusive) (may be
+	 *                   {@code Float.POSITIVE_INFINITY} if there is no upper bound)
+	 * <p>
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
+	 *         if {@code x > upperBound}, {@code NaN} otherwise
+	 */
+	public static float bound(final float x, final float lowerBound, final float upperBound) {
+		if (Float.isNaN(x)) {
+			IO.warn("The specified float number is NaN");
+			return Float.NaN;
+		}
+		if (x < lowerBound) {
+			return lowerBound;
+		}
+		if (x > upperBound) {
+			return upperBound;
+		}
+		return x;
+	}
+
+	/**
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
 	 * {@code x > upperBound}, {@code NaN} otherwise.
 	 * <p>
 	 * @param x          a {@code double} value
@@ -1418,14 +1711,44 @@ public class Maths {
 			return Double.NaN;
 		}
 		if (x < lowerBound) {
-			IO.warn("The specified double number ", x,
-					" is less than the lower bound of the domain ", lowerBound);
 			return lowerBound;
 		}
 		if (x > upperBound) {
-			IO.warn("The specified double number ", x,
-					" is greater than the upper bound of the domain ", upperBound);
 			return upperBound;
+		}
+		return x;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 * {@code upperBound}, {@code NaN} otherwise.
+	 * <p>
+	 * @param x          a {@code float} value
+	 * @param lowerBound the {@code float} lower bound of the domain (inclusive) (may be
+	 *                   {@code Float.NEGATIVE_INFINITY} if there is no lower bound)
+	 * @param upperBound the {@code float} upper bound of the domain (inclusive) (may be
+	 *                   {@code Float.POSITIVE_INFINITY} if there is no upper bound)
+	 * <p>
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
+	 *         {@code upperBound}, {@code NaN} otherwise
+	 */
+	public static float constrain(final float x, final float lowerBound, final float upperBound) {
+		// Check the arguments
+		if (Float.isNaN(x)) {
+			IO.warn("The specified float number is NaN");
+			return Float.NaN;
+		}
+		if (x < lowerBound) {
+			IO.warn("The specified float number ", x,
+					" is less than the lower bound of the domain ", lowerBound);
+			return Float.NaN;
+		}
+		if (x > upperBound) {
+			IO.warn("The specified float number ", x,
+					" is greater than the upper bound of the domain ", upperBound);
+			return Float.NaN;
 		}
 		return x;
 	}

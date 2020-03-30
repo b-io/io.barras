@@ -87,7 +87,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * in a future version.
  * <p>
  * Five fundamental matrix decompositions, which consist of pairs or triples of matrices,
- * permutation vectors, and the like, produce results in five decomposition classes. These
+ * permutation vectors and the like, produce results in five decomposition classes. These
  * decompositions are accessed by the Java Matrix Class to compute solutions of simultaneous linear
  * equations, determinants, inverses and other matrix functions. The five decompositions are:
  * <ul>

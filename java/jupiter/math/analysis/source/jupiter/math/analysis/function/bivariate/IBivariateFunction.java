@@ -32,7 +32,7 @@ public interface IBivariateFunction {
 	/**
 	 * Applies the bivariate function to the specified values.
 	 * <p>
-	 * @param x1 a {@code double} value
+	 * @param x1 a {@code double} value (on the abscissa)
 	 * @param x2 another {@code double} value
 	 * <p>
 	 * @return {@code f(x1, x2)}

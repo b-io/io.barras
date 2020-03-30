@@ -60,6 +60,22 @@ public class ArrayArguments
 
 	//////////////////////////////////////////////
 
+	/**
+	 * Checks if {@code a} is either the same as, or is a superclass or superinterface of, the class
+	 * or interface represented by {@code b}.
+	 * <p>
+	 * @param a a {@link Class}
+	 * @param b another {@link Class}
+	 */
+	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
+		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
+			throw new IllegalArgumentException("Cannot store " + Objects.getName(b) +
+					" in an array of " + Objects.getName(a));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static <T> T[] requireNonEmpty(final T[] array) {
 		return requireNonEmpty(array, "array");
 	}
@@ -162,22 +178,6 @@ public class ArrayArguments
 			throw new IllegalArgumentException(
 					Strings.join("The specified index is out of bounds ", betweenExpectedButFound(
 							foundIndex, 0, maxExpectedLength, isLowerInclusive, isUpperInclusive)));
-		}
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Checks if {@code a} is either the same as, or is a superclass or superinterface of, the class
-	 * or interface represented by {@code b}.
-	 * <p>
-	 * @param a a {@link Class}
-	 * @param b another {@link Class}
-	 */
-	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
-		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
-			throw new IllegalArgumentException("Cannot store " + Objects.getName(b) +
-					" in an array of " + Objects.getName(a));
 		}
 	}
 }

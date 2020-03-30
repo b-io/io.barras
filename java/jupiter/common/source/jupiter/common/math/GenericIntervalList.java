@@ -30,7 +30,6 @@ import java.util.ListIterator;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.SortedUniqueList;
-import jupiter.common.test.SetArguments;
 import jupiter.common.util.Objects;
 
 /**
@@ -100,7 +99,8 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 	 * @return the {@link LowerBound} of {@code T} type
 	 */
 	public LowerBound<T> getLowerBound() {
-		return isNonEmpty() ? getFirst().lowerBound : null;
+		final E lowerInterval = getLowerInterval();
+		return lowerInterval != null ? lowerInterval.lowerBound : null;
 	}
 
 	/**
@@ -109,13 +109,36 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 	 * @return the {@link UpperBound} of {@code T} type
 	 */
 	public UpperBound<T> getUpperBound() {
+		final E upperInterval = getUpperInterval();
+		return upperInterval != null ? upperInterval.upperBound : null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code E} lower interval.
+	 * <p>
+	 * @return the {@code E} lower interval
+	 */
+	public E getLowerInterval() {
+		return isNonEmpty() ? getFirst() : null;
+	}
+
+	/**
+	 * Returns the {@code E} upper interval.
+	 * <p>
+	 * @return the {@code E} upper interval
+	 */
+	public E getUpperInterval() {
+		E upperInterval = null;
 		UpperBound<T> upperBound = null;
 		for (final E interval : this) {
 			if (Comparables.isGreaterThan(interval.upperBound, upperBound)) {
 				upperBound = interval.upperBound;
+				upperInterval = interval;
 			}
 		}
-		return upperBound;
+		return upperInterval;
 	}
 
 

@@ -26,11 +26,11 @@ package jupiter.math.analysis.differentiation;
 import static jupiter.common.io.IO.IO;
 
 import jupiter.common.math.Maths;
-import jupiter.common.math.Range;
+import jupiter.common.math.DoubleInterval;
+import jupiter.common.math.Intervals;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
-import jupiter.common.test.SetArguments;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
@@ -39,7 +39,8 @@ import jupiter.math.analysis.interpolation.SplineInterpolator;
 
 /**
  * {@link FiniteDifferentiator} is the finite {@link Differentiator} computing {@code y' = f'(x)}
- * for {@code x} defined in {@code range} using the Crank–Nicolson method.
+ * for {@code x} defined in the differentiation {@link DoubleInterval} using the Crank–Nicolson
+ * method.
  */
 public class FiniteDifferentiator
 		extends Differentiator {
@@ -59,11 +60,6 @@ public class FiniteDifferentiator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link UnivariateFunction} to differentiate.
-	 */
-	protected final UnivariateFunction f;
-
-	/**
 	 * The sample size.
 	 */
 	protected final int sampleSize;
@@ -75,15 +71,6 @@ public class FiniteDifferentiator
 	 * The half sample span.
 	 */
 	protected final double halfSampleSpan;
-
-	/**
-	 * The differentiation {@link Range}.
-	 */
-	protected final Range range;
-	/**
-	 * The enlarged differentiation {@link Range}.
-	 */
-	protected Range enlargedRange;
 
 	/**
 	 * The {@link SplineInterpolator}.
@@ -114,13 +101,12 @@ public class FiniteDifferentiator
 	 */
 	public FiniteDifferentiator(final UnivariateFunction f, final int sampleSize,
 			final double step) {
-		this(f, sampleSize, step,
-				new Range(f.getDomain().getLowerBound(), f.getDomain().getUpperBound()));
+		this(f, 1, sampleSize, step);
 	}
 
 	/**
 	 * Constructs a {@link FiniteDifferentiator} with the specified {@link UnivariateFunction},
-	 * sample size, interval between the sampling points and differentiation {@link Range}.
+	 * differentiation {@link DoubleInterval}, sample size and interval between the sampling points.
 	 * <p>
 	 * When the independent variable is bounded ({@code lowerBound < t < upperBound}), the sampling
 	 * points used for differentiation will be adapted to ensure the constraint holds even near the
@@ -135,25 +121,24 @@ public class FiniteDifferentiator
 	 * </dl>
 	 * <p>
 	 * @param f          the {@link UnivariateFunction} to differentiate
+	 * @param interval   the differentiation {@link DoubleInterval}
 	 * @param sampleSize the sample size
 	 * @param step       the interval between the sampling points
-	 * @param range      the differentiation {@link Range}
 	 * <p>
 	 * @throws IllegalArgumentException if {@code sampleSize} is less than {@code 2}, {@code step}
 	 *                                  is negative or {@code (sampleSize - 1) * step} is greater or
-	 *                                  equal to
-	 *                                  {@code range.getUpperBound() - range.getLowerBound()}
+	 *                                  equal to {@code upperBound - lowerBound}
 	 */
-	public FiniteDifferentiator(final UnivariateFunction f, final int sampleSize,
-			final double step, final Range range) {
-		this(1, f, sampleSize, step, range);
+	public FiniteDifferentiator(final UnivariateFunction f, final DoubleInterval interval,
+			final int sampleSize, final double step) {
+		this(f, interval, 1, sampleSize, step);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FiniteDifferentiator} with the specified derivation order,
-	 * {@link UnivariateFunction}, sample size and interval between the sampling points.
+	 * Constructs a {@link FiniteDifferentiator} with the specified {@link UnivariateFunction},
+	 * derivation order, sample size and interval between the sampling points.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>Wrong settings for the finite differentiator can lead to highly unstable and inaccurate
@@ -161,23 +146,23 @@ public class FiniteDifferentiator
 	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
 	 * <p>
-	 * @param order      the derivation order
 	 * @param f          the {@link UnivariateFunction} to differentiate
+	 * @param order      the derivation order
 	 * @param sampleSize the sample size
 	 * @param step       the interval between the sampling points
 	 * <p>
 	 * @throws IllegalArgumentException if {@code sampleSize} is less than {@code 2} or {@code step}
 	 *                                  is negative
 	 */
-	public FiniteDifferentiator(final int order, final UnivariateFunction f, final int sampleSize,
+	public FiniteDifferentiator(final UnivariateFunction f, final int order, final int sampleSize,
 			final double step) {
-		this(order, f, sampleSize, step,
-				new Range(f.getDomain().getLowerBound(), f.getDomain().getUpperBound()));
+		this(f, f.getDomain().getFirst(), order, sampleSize, step);
 	}
 
 	/**
-	 * Constructs a {@link FiniteDifferentiator} with the specified derivation order, sample size,
-	 * interval between the sampling points and differentiation {@link Range}.
+	 * Constructs a {@link FiniteDifferentiator} with the specified {@link UnivariateFunction},
+	 * differentiation {@link DoubleInterval}, derivation order, sample size and interval between
+	 * the sampling points.
 	 * <p>
 	 * When the independent variable is bounded ({@code lowerBound < t < upperBound}), the sampling
 	 * points used for differentiation will be adapted to ensure the constraint holds even near the
@@ -191,56 +176,37 @@ public class FiniteDifferentiator
 	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
 	 * <p>
-	 * @param order      the derivation order
 	 * @param f          the {@link UnivariateFunction} to differentiate
+	 * @param interval   the differentiation {@link DoubleInterval}
+	 * @param order      the derivation order
 	 * @param sampleSize the sample size
 	 * @param step       the interval between the sampling points
-	 * @param range      the differentiation {@link Range}
 	 * <p>
 	 * @throws IllegalArgumentException if {@code sampleSize} is less than {@code 2}, {@code step}
 	 *                                  is negative or {@code (sampleSize - 1) * step} is greater or
-	 *                                  equal to
-	 *                                  {@code range.getUpperBound() - range.getLowerBound()}
+	 *                                  equal to {@code upperBound - lowerBound}
 	 */
-	public FiniteDifferentiator(final int order, final UnivariateFunction f, final int sampleSize,
-			final double step, final Range range) {
-		super(order, f.getDomain());
+	public FiniteDifferentiator(final UnivariateFunction f, final DoubleInterval interval,
+			final int order, final int sampleSize, final double step) {
+		super(f, Intervals.createEnlargedInterval(interval, f.getDomain(), order, sampleSize, step),
+				order);
 
 		// Check the arguments
 		IntegerArguments.requireGreaterOrEqualTo(sampleSize, 2);
 		DoubleArguments.requireNonNegative(step);
-		SetArguments.requireValid(range, "differentiation range");
 		DoubleArguments.requireLessOrEqualTo((sampleSize - 1) * step,
-				range.getUpperBound().getValue() - range.getLowerBound().getValue());
+				interval.getUpperBoundValue() - interval.getLowerBoundValue());
 
 		// Set the attributes
-		this.f = f;
 		this.sampleSize = sampleSize;
 		this.step = step;
-		this.range = range;
 		halfSampleSpan = (sampleSize - 1) * step / 2.;
-		enlargedRange = new Range(range.getLowerBound().getValue() - order * halfSampleSpan,
-				range.getUpperBound().getValue() + order * halfSampleSpan);
-		if (!domain.isInside(enlargedRange)) {
-			enlargedRange = range;
-		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the {@link UnivariateFunction} to differentiate.
-	 * <p>
-	 * @return the {@link UnivariateFunction} to differentiate
-	 */
-	public UnivariateFunction getFunction() {
-		return f;
-	}
-
-	//////////////////////////////////////////////
 
 	/**
 	 * Returns the sample size.
@@ -260,26 +226,6 @@ public class FiniteDifferentiator
 		return step;
 	}
 
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the differentiation {@link Range}.
-	 * <p>
-	 * @return the differentiation {@link Range}
-	 */
-	public Range getRange() {
-		return range;
-	}
-
-	/**
-	 * Returns the enlarged differentiation {@link Range}.
-	 * <p>
-	 * @return the enlarged differentiation {@link Range}
-	 */
-	public Range getEnlargedRange() {
-		return enlargedRange;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
@@ -287,7 +233,7 @@ public class FiniteDifferentiator
 
 	/**
 	 * Returns the differentiated {@code double} value {@code y' = f'(x)} for {@code x} defined in
-	 * {@code range}.
+	 * {@code domain}.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>The derivative approximation is computed using the Crank–Nicolson method and interpolated
@@ -296,10 +242,11 @@ public class FiniteDifferentiator
 	 * <p>
 	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
-	 * @return {@code y' = f'(x)} for {@code x} defined in {@code range}
+	 * @return {@code y' = f'(x)} for {@code x} defined in {@code domain}
 	 */
 	@Override
 	protected double differentiate(final double x) {
+		// Check the arguments
 		if (order > 1) {
 			differentiateAll();
 		}
@@ -308,8 +255,8 @@ public class FiniteDifferentiator
 			return interpolator.apply(x);
 		}
 
-		// Bound the value x and center the differentiation range (if it is possible)
-		final double t0 = enlargedRange.bound(x - halfSampleSpan);
+		// Bound the value x and center the differentiation interval (if it is possible)
+		final double t0 = domain.bound(x - halfSampleSpan);
 		final int size = sampleSize - 1;
 
 		// Sample the function f around the value x
@@ -335,7 +282,7 @@ public class FiniteDifferentiator
 	//////////////////////////////////////////////
 
 	/**
-	 * Differentiates {@code y = f(x)} for all {@code x} defined in {@code range} and then use
+	 * Differentiates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
 	 * {@link #differentiate} to retrieve {@code y' = f'(x)}.
 	 * <p>
 	 * @return {@code true} if the differentiation is done, {@code false} otherwise
@@ -343,30 +290,32 @@ public class FiniteDifferentiator
 	 * @see #differentiate(double)
 	 */
 	@Override
-	protected boolean differentiateAll() {
+	public boolean differentiateAll() {
+		// Check the arguments
 		if (interpolator != null) {
 			return true;
 		}
-		if (!enlargedRange.isFinite()) {
-			IO.warn("The differentiation range is not finite");
+		if (!domain.isFinite()) {
+			IO.warn("The differentiation interval is not finite");
 			return false;
 		}
 
 		// Set the domain coordinates of the first and last sampling points
-		final double t0 = enlargedRange.getLowerBoundValue(step);
-		final double tn = enlargedRange.getUpperBoundValue(step);
+		final double t0 = domain.getLowerBoundValue(step);
+		final double tn = domain.getUpperBoundValue(step);
 		final int size = Integers.convert((tn - t0) / step);
 		if (size < 2) {
-			IO.warn("The differentiation range is too small");
+			IO.warn("The differentiation interval is too small");
 			return false;
 		}
 
 		// Differentiate for all the orders
 		if (order > 1) {
-			FiniteDifferentiator df = new FiniteDifferentiator(f, sampleSize, step, range);
+			FiniteDifferentiator df = new FiniteDifferentiator(f, domain.getFirst(), sampleSize,
+					step);
 			df.differentiateAll();
 			for (int o = 1; o < order; ++o) {
-				df = new FiniteDifferentiator(df, sampleSize, step, range);
+				df = new FiniteDifferentiator(df, domain.getFirst(), sampleSize, step);
 				df.differentiateAll();
 			}
 			interpolator = df.interpolator;
@@ -406,7 +355,6 @@ public class FiniteDifferentiator
 	@Override
 	public FiniteDifferentiator clone() {
 		final FiniteDifferentiator clone = (FiniteDifferentiator) super.clone();
-		clone.enlargedRange = Objects.clone(enlargedRange);
 		clone.interpolator = Objects.clone(interpolator);
 		return clone;
 	}

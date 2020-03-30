@@ -66,12 +66,13 @@ public class Addition
 	/**
 	 * Applies the addition function to the specified values.
 	 * <p>
-	 * @param x1 a {@code double} value
+	 * @param x1 a {@code double} value (on the abscissa)
 	 * @param x2 another {@code double} value
 	 * <p>
 	 * @return {@code x1 + x2}
 	 */
-	public double apply(final double x1, final double x2) {
+	@Override
+	protected double a(final double x1, final double x2) {
 		return x1 + x2;
 	}
 
