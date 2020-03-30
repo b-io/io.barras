@@ -30,6 +30,7 @@ import static jupiter.common.util.Strings.EMPTY;
 
 import java.util.List;
 import java.util.Map;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 
 import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.test.Test;
@@ -121,14 +122,19 @@ public class JSONTest
 		// - Fields
 		result = JSON.stringifyNode(new Node());
 		IO.test(result);
-		assertEquals("{\"key\":\"value\",\"array\":[a,b,c],\"list\":[a,b,c]}", result);
+		assertEquals("{\"key\":\"value\"," +
+				"\"array\":[null,true,\"a\",0,\"a\"]," +
+				"\"list\":[null,true,\"a\",0,\"a\"]," +
+				"\"map\":{\"key\":\"value\"}}", result);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class Node {
 		public String key = "value";
-		public String[] array = new String[] {"a", "b", "c"};
-		public List<String> list = Arrays.toList(array);
+		public Object[] array = new Object[] {null, true, 'a', 0, "a"};
+		public List<Object> list = Arrays.toList(array);
+		public Map<String, Object> map = new ExtendedHashMap<String, Object>(new String[] {"key"},
+				new Object[] {"value"});
 	}
 }

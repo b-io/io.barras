@@ -87,36 +87,36 @@ public class Objects {
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static boolean isEnum(final Object object) {
+		return isEnumFrom(Classes.get(object));
+	}
+
+	public static boolean isEnumFrom(final Class<?> c) {
+		return c.isEnum();
+	}
+
 	public static boolean isImmutable(final Object object) {
-		return isVoid(object) ||
-				Classes.is(object) ||
+		return isEnum(object) ||
 				Booleans.is(object) ||
 				Characters.is(object) ||
-				Bytes.is(object) ||
-				Shorts.is(object) ||
-				Integers.is(object) ||
-				Longs.is(object) ||
-				Floats.is(object) ||
-				Doubles.is(object) ||
+				Classes.is(object) ||
+				Numbers.is(object) ||
 				Strings.is(object);
 	}
 
 	public static boolean isImmutableFrom(final Class<?> c) {
-		return isVoidFrom(c) ||
-				Classes.isFrom(c) ||
+		return isEnumFrom(c) ||
+				isPrimitiveFrom(c) ||
+				isVoidFrom(c) ||
 				Booleans.isFrom(c) ||
 				Characters.isFrom(c) ||
-				Bytes.isFrom(c) ||
-				Shorts.isFrom(c) ||
-				Integers.isFrom(c) ||
-				Longs.isFrom(c) ||
-				Floats.isFrom(c) ||
-				Doubles.isFrom(c) ||
+				Classes.isFrom(c) ||
+				Numbers.isFrom(c) ||
 				Strings.isFrom(c);
 	}
 
-	public static boolean isVoid(final Object object) {
-		return isVoidFrom(Classes.get(object));
+	public static boolean isPrimitiveFrom(final Class<?> c) {
+		return c.isPrimitive();
 	}
 
 	public static boolean isVoidFrom(final Class<?> c) {
@@ -351,11 +351,11 @@ public class Objects {
 			}
 			return Arrays.toString((Object[]) object);
 		} else if (Collections.is(object)) {
-			Collections.toString((Collection<?>) object);
+			return Collections.toString((Collection<?>) object);
 		} else if (Dates.is(object)) {
 			return Dates.toString((Date) object);
 		} else if (Maps.is(object)) {
-			Maps.toString((Map<?, ?>) object);
+			return Maps.toString((Map<?, ?>) object);
 		} else if (Numbers.is(object)) {
 			return Numbers.toString((Number) object);
 		}

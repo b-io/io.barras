@@ -157,25 +157,25 @@ public class JSON
 			final Class<?> c = Classes.get(value);
 			if (Arrays.is(value)) {
 				final Object[] array = Arrays.toArray(value);
-				if (array.length == 0 || Stringifiers.isLeaf(c.getComponentType())) {
-					builder.append(Strings.bracketize(Strings.joinWith(array, JSON_DELIMITER)));
-				} else {
+				if (Stringifiers.isLeaf(array)) {
 					builder.append(Strings.bracketize(
 							Strings.joinWith(array, JSON_DELIMITER, JSON_WRAPPER)));
+				} else {
+					builder.append(Strings.bracketize(
+							Strings.joinWith(array, JSON_DELIMITER)));
 				}
 			} else if (Collections.is(value)) {
 				final Collection<?> collection = (Collection<?>) value;
-				if (collection.isEmpty() ||
-						Stringifiers.isLeaf(Collections.getElementClass(collection))) {
-					builder.append(Strings.bracketize(
-							Strings.joinWith(collection, JSON_DELIMITER)));
-				} else {
+				if (Stringifiers.isLeaf(collection)) {
 					builder.append(Strings.bracketize(
 							Strings.joinWith(collection, JSON_DELIMITER, JSON_WRAPPER)));
+				} else {
+					builder.append(Strings.bracketize(
+							Strings.joinWith(collection, JSON_DELIMITER)));
 				}
 			} else if (Maps.is(value)) {
 				builder.append(Maps.toString((Map<?, ?>) value));
-			} else if (Stringifiers.isLeaf(c)) {
+			} else if (Stringifiers.isLeaf(c) || Objects.hasToString(c)) {
 				builder.append(stringifyLeaf(value));
 			} else {
 				builder.append(stringify(value));
