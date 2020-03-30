@@ -1816,7 +1816,8 @@ public class Floats {
 		}
 
 		// Clone the 2D array
-		final float[][] clone = new float[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
+		final float[][] clone = new float[array2D.length]
+				[array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -1838,7 +1839,9 @@ public class Floats {
 		}
 
 		// Clone the 3D array
-		final float[][][] clone = new float[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final float[][][] clone = new float[array3D.length]
+				[array3D.length > 0 ? array3D[0].length : 0]
+				[array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}
@@ -1927,6 +1930,20 @@ public class Floats {
 	 */
 	public static String toString(final float... array) {
 		return Arrays.toString(toArray(array));
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@code float} array joined by the
+	 * specified {@code char} delimiter.
+	 * <p>
+	 * @param array     a {@code float} array
+	 * @param delimiter the {@code char} delimiter
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code float} array joined by the
+	 *         specified {@code char} delimiter
+	 */
+	public static String toStringWith(final float[] array, final char delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
 	}
 
 	/**

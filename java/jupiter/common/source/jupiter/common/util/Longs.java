@@ -1871,6 +1871,20 @@ public class Longs {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@code long} array joined by the
+	 * specified {@code char} delimiter.
+	 * <p>
+	 * @param array     a {@code long} array
+	 * @param delimiter the {@code char} delimiter
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code long} array joined by the
+	 *         specified {@code char} delimiter
+	 */
+	public static String toStringWith(final long[] array, final char delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@code long} array joined by the
 	 * specified delimiting {@link String}.
 	 * <p>
 	 * @param array     a {@code long} array

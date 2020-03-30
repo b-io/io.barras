@@ -1803,7 +1803,8 @@ public class Doubles {
 		}
 
 		// Clone the 2D array
-		final double[][] clone = new double[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
+		final double[][] clone = new double[array2D.length]
+				[array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -1825,7 +1826,9 @@ public class Doubles {
 		}
 
 		// Clone the 3D array
-		final double[][][] clone = new double[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final double[][][] clone = new double[array3D.length]
+				[array3D.length > 0 ? array3D[0].length : 0]
+				[array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}
@@ -1915,6 +1918,20 @@ public class Doubles {
 	 */
 	public static String toString(final double... array) {
 		return Arrays.toString(toArray(array));
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@code double} array joined by the
+	 * specified {@code char} delimiter.
+	 * <p>
+	 * @param array     a {@code double} array
+	 * @param delimiter the {@code char} delimiter
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code double} array joined by the
+	 *         specified {@code char} delimiter
+	 */
+	public static String toStringWith(final double[] array, final char delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
 	}
 
 	/**

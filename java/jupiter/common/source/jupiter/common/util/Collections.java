@@ -379,10 +379,24 @@ public class Collections {
 	 *         {@code "null"} if it is {@code null}
 	 */
 	public static String toString(final Collection<?> collection) {
+		return toStringWith(collection, DELIMITER);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Collection} joined by the
+	 * specified {@code char} delimiter, or {@code "null"} if it is {@code null}.
+	 * <p>
+	 * @param collection a {@link Collection} (may be {@code null})
+	 * @param delimiter  the {@code char} delimiter
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Collection} joined by the
+	 *         specified {@code char} delimiter, or {@code "null"} if it is {@code null}
+	 */
+	public static String toStringWith(final Collection<?> collection, final char delimiter) {
 		if (collection == null) {
 			return NULL;
 		}
-		return Strings.bracketize(Strings.joinWith(collection, DELIMITER));
+		return Strings.bracketize(Strings.joinWith(collection, delimiter));
 	}
 
 	/**
