@@ -27,6 +27,7 @@ import static jupiter.common.io.string.Stringifiers.STRINGIFIER;
 import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 import static jupiter.common.util.Strings.NULL;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -149,15 +150,39 @@ public class Maps
 	}
 
 	/**
-	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
-	 * keys or {@code null} for those that are not present in an {@link ExtendedList}.
+	 * Puts all the key-value mappings of the specified key array and value {@link Collection} into
+	 * the specified {@link Map} replacing any entries with identical keys.
+	 * <p>
+	 * @param <K>    the key type of the key-value mappings to put
+	 * @param <V>    the value type of the key-value mappings to put
+	 * @param map    a {@link Map} of {@code K} and {@code V} supertypes
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to put
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public static <K, V> void putAll(final Map<? super K, ? super V> map, final K[] keys,
+			final Collection<? extends V> values) {
+		int i = 0;
+		for (final V value : values) {
+			map.put(keys[i++], value);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes all the key-value mappings associated to the specified keys from the specified
+	 * {@link Map}.
 	 * <p>
 	 * @param <V>  the type of the {@link ExtendedList} to return
 	 * @param map  a {@link Map} of {@code V} value subtype
 	 * @param keys the array of key {@link Object} of the {@code V} values to remove
 	 * <p>
-	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
-	 *         keys or {@code null} for those that are not present in an {@link ExtendedList}
+	 * @return the {@code V} values of the key-value mappings removed from the specified {@link Map}
+	 *         or {@code null} for the keys that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
@@ -231,7 +256,7 @@ public class Maps
 			}
 			builder.append(toString(entry));
 		}
-		return Strings.bracketize(builder.toString());
+		return Strings.brace(builder.toString());
 	}
 
 	/**
