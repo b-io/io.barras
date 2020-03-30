@@ -23,8 +23,9 @@
  */
 package jupiter.common.io.string;
 
-import jupiter.common.util.Booleans;
-import jupiter.common.util.Numbers;
+import java.util.Collection;
+
+import jupiter.common.util.Classes;
 import jupiter.common.util.Objects;
 
 public class Stringifiers {
@@ -63,7 +64,38 @@ public class Stringifiers {
 	 * @return {@code true} if the specified {@link Class} is a leaf, {@code false} otherwise
 	 */
 	public static boolean isLeaf(final Class<?> c) {
-		return c == null || c.isPrimitive() || Booleans.is(c) || Numbers.is(c) ||
-				Objects.hasToString(c);
+		return c == null || Objects.isImmutableFrom(c);
+	}
+
+	/**
+	 * Tests whether the specified array is a leaf.
+	 * <p>
+	 * @param objects the array of {@link Object} to test
+	 * <p>
+	 * @return {@code true} if the specified array is a leaf, {@code false} otherwise
+	 */
+	public static boolean isLeaf(final Object... objects) {
+		for (final Object object : objects) {
+			if (!isLeaf(Classes.get(object))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Tests whether the specified {@link Collection} is a leaf.
+	 * <p>
+	 * @param collection the {@link Collection} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Collection} is a leaf, {@code false} otherwise
+	 */
+	public static boolean isLeaf(final Collection<?> collection) {
+		for (final Object element : collection) {
+			if (!isLeaf(Classes.get(element))) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

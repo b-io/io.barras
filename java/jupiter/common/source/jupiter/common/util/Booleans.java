@@ -1538,6 +1538,20 @@ public class Booleans {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@code boolean} array joined by the
+	 * specified {@code char} delimiter.
+	 * <p>
+	 * @param array     a {@code boolean} array
+	 * @param delimiter the {@code char} delimiter
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code boolean} array joined by the
+	 *         specified {@code char} delimiter
+	 */
+	public static String toStringWith(final boolean[] array, final char delimiter) {
+		return Arrays.toStringWith(toArray(array), delimiter);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@code boolean} array joined by the
 	 * specified delimiting {@link String}.
 	 * <p>
 	 * @param array     a {@code boolean} array

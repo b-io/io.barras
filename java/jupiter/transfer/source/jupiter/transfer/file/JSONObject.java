@@ -26,6 +26,7 @@ package jupiter.transfer.file;
 import static jupiter.common.io.string.Stringifiers.JSON;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.model.ICloneable;
@@ -89,12 +90,27 @@ public class JSONObject
 	}
 
 	/**
+	 * Constructs a {@link JSONObject} loaded from the specified key array and value
+	 * {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param keys   the array of {@link String} containing the keys of the key-value mappings to
+	 *               load
+	 * @param values the {@link Collection} of {@link Object} containing the values of the key-value
+	 *               mappings to load
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public JSONObject(final String[] keys, final Collection<?> values) {
+		super(keys, values);
+	}
+
+	/**
 	 * Constructs a {@link JSONObject} loaded from the specified {@link Map} containing the
 	 * key-value mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings to load
 	 */
-	public JSONObject(final Map<String, ? extends Object> map) {
+	public JSONObject(final Map<String, ?> map) {
 		super(map);
 	}
 
@@ -109,7 +125,7 @@ public class JSONObject
 	 * @return a JSON {@link String} of {@code this}
 	 */
 	public String stringify() {
-		return JSON.stringify(this);
+		return JSON.stringifyNode(this);
 	}
 
 	/**
@@ -121,7 +137,7 @@ public class JSONObject
 	 * @return a JSON {@link String} of the specified key-value mapping
 	 */
 	public String stringify(final String... keys) {
-		return JSON.stringify(getAll(keys));
+		return JSON.stringifyNode(getAll(keys));
 	}
 
 	//////////////////////////////////////////////
@@ -153,5 +169,17 @@ public class JSONObject
 	@Override
 	public JSONObject clone() {
 		return (JSONObject) super.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
+	@Override
+	public String toString() {
+		return stringify();
 	}
 }

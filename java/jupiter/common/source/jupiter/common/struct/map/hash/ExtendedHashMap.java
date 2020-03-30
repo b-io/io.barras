@@ -23,6 +23,7 @@
  */
 package jupiter.common.struct.map.hash;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -102,6 +103,26 @@ public class ExtendedHashMap<K, V>
 
 	/**
 	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
+	 * specified key array and value {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public ExtendedHashMap(final K[] keys, final Collection<? extends V> values) {
+		super(keys.length);
+
+		// Check the arguments
+		ArrayArguments.requireSameLength(keys, Arguments.requireNonNull(values, "values").size());
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	/**
+	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
@@ -137,7 +158,6 @@ public class ExtendedHashMap<K, V>
 	 * @return the {@code V} value associated to the specified key, or the specified default
 	 *         {@code V} value if it is not present
 	 * <p>
-	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	public V getOrDefault(final Object key, final V defaultValue) {
@@ -217,7 +237,21 @@ public class ExtendedHashMap<K, V>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public synchronized void putAll(final K[] keys, final V[] values) {
-		Maps.putAll(this, keys, values);
+		Maps.<K, V>putAll(this, keys, values);
+	}
+
+	/**
+	 * Puts all the key-value mappings of the specified key array and value {@link Collection} into
+	 * {@code this} replacing any entries with identical keys.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to put
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public synchronized void putAll(final K[] keys, final Collection<? extends V> values) {
+		Maps.<K, V>putAll(this, keys, values);
 	}
 
 	/**
@@ -249,13 +283,12 @@ public class ExtendedHashMap<K, V>
 	}
 
 	/**
-	 * Returns all the {@code V} values associated to the specified keys or {@code null} for those
-	 * that are not present in an {@link ExtendedList}.
+	 * Removes all the key-value mappings associated to the specified keys from {@code this}.
 	 * <p>
-	 * @param keys the array of key {@link Object} of the {@code V} values to remove
+	 * @param keys the array of key {@link Object} of the key-value mappings to remove
 	 * <p>
-	 * @return all the {@code V} values associated to the specified keys or {@code null} for those
-	 *         that are not present in an {@link ExtendedList}
+	 * @return the {@code V} values of the key-value mappings removed from {@code this} or
+	 *         {@code null} for the keys that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */

@@ -123,7 +123,7 @@ public class JSONList
 	 * <p>
 	 * @return {@code true} (as specified by {@link Collection#add})
 	 */
-	public synchronized boolean add(final Map<String, ? extends Object> map) {
+	public synchronized boolean add(final Map<String, ?> map) {
 		return add(new JSONObject(map));
 	}
 
@@ -135,7 +135,7 @@ public class JSONList
 	 * @return a JSON {@link String} of {@code this}
 	 */
 	public String stringify() {
-		return JSON.stringify(this);
+		return JSON.stringifyNode(this);
 	}
 
 
@@ -157,5 +157,17 @@ public class JSONList
 			clone.add(Objects.clone(element));
 		}
 		return clone;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
+	@Override
+	public String toString() {
+		return stringify();
 	}
 }

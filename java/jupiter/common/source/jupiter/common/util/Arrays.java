@@ -2057,10 +2057,24 @@ public class Arrays {
 	 *         {@code null}
 	 */
 	public static String toString(final Object... array) {
+		return toStringWith(array, DELIMITER);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified array joined by the specified
+	 * {@code char} delimiter, or {@code "null"} if it is {@code null}.
+	 * <p>
+	 * @param array     an array of {@link Object} (may be {@code null})
+	 * @param delimiter the {@code char} delimiter
+	 * <p>
+	 * @return a representative {@link String} of the specified array joined by the specified
+	 *         {@code char} delimiter, or {@code "null"} if it is {@code null}
+	 */
+	public static String toStringWith(final Object[] array, final char delimiter) {
 		if (array == null) {
 			return NULL;
 		}
-		return Strings.parenthesize(join(array));
+		return Strings.parenthesize(Strings.joinWith(array, delimiter));
 	}
 
 	/**
