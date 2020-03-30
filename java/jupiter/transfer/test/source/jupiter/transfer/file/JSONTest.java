@@ -112,7 +112,7 @@ public class JSONTest
 		}
 		result = JSON.stringifyNode(map);
 		IO.test(result);
-		assertEquals("[{\"0\":0},{\"1\":1},{\"2\":2},{\"3\":3},{\"4\":4}]", result);
+		assertEquals("{{\"0\":0},{\"1\":1},{\"2\":2},{\"3\":3},{\"4\":4}}", result);
 		// • Object
 		// - Null
 		result = JSON.stringifyNode(null);
