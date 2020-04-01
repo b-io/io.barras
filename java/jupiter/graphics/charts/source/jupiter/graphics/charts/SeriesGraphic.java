@@ -50,16 +50,6 @@ public class SeriesGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The number of {@link XYSeries}.
-	 */
-	protected int seriesCount;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -151,10 +141,9 @@ public class SeriesGraphic
 	 */
 	@Override
 	public int addSeries(final int axisDatasetIndex, final XYSeries series) {
-		final int seriesIndex = seriesCount;
-		getDataset(axisDatasetIndex).addSeries(series);
-		++seriesCount;
-		return seriesIndex;
+		final XYSeriesCollection collection = getDataset(axisDatasetIndex);
+		collection.addSeries(series);
+		return collection.getSeriesCount() - 1;
 	}
 
 	/**
@@ -216,7 +205,6 @@ public class SeriesGraphic
 	@Override
 	public void removeSeries(final int axisDatasetIndex, final int seriesIndex) {
 		getDataset(axisDatasetIndex).removeSeries(seriesIndex);
-		--seriesCount;
 	}
 
 	/**
@@ -230,7 +218,6 @@ public class SeriesGraphic
 	@Override
 	public void removeSeries(final int axisDatasetIndex, final XYSeries series) {
 		getDataset(axisDatasetIndex).removeSeries(series);
-		--seriesCount;
 	}
 
 	/**

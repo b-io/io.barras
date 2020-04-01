@@ -37,6 +37,7 @@ import jupiter.common.test.FloatArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.test.LongArguments;
 import jupiter.common.test.ShortArguments;
+import jupiter.common.util.Bytes;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
@@ -353,7 +354,7 @@ public class Maths {
 		double sum = 0.;
 		int i = 0;
 		for (final Number number : numbers) {
-			if (i >= fromIndex && i < toIndex && number != null) {
+			if (number != null && i >= fromIndex && i < toIndex) {
 				sum += number.doubleValue();
 			}
 			++i;
@@ -754,7 +755,9 @@ public class Maths {
 		// Sum
 		double sum = 0.;
 		for (int i = 0; i < numbers.length; ++i) {
-			sum += weights[i].doubleValue() * numbers[i].doubleValue();
+			if (numbers[i] != null && weights[i] != null) {
+				sum += weights[i].doubleValue() * numbers[i].doubleValue();
+			}
 		}
 		return sum;
 	}
@@ -766,10 +769,14 @@ public class Maths {
 
 		// Sum
 		double sum = 0.;
-		final Iterator<? extends Number> weightIterator = weights.iterator();
 		final Iterator<? extends Number> numberIterator = numbers.iterator();
-		while (weightIterator.hasNext() && numberIterator.hasNext()) {
-			sum += weightIterator.next().doubleValue() * numberIterator.next().doubleValue();
+		final Iterator<? extends Number> weightIterator = weights.iterator();
+		while (numberIterator.hasNext() && weightIterator.hasNext()) {
+			final Number number = numberIterator.next();
+			final Number weight = weightIterator.next();
+			if (number != null && weight != null) {
+				sum += weight.doubleValue() * number.doubleValue();
+			}
 		}
 		return sum;
 	}
@@ -1060,6 +1067,14 @@ public class Maths {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static byte delta(final byte a, final byte b) {
+		return Bytes.convert(abs(a - b));
+	}
+
+	public static short delta(final short a, final short b) {
+		return Shorts.convert(abs(a - b));
+	}
+
 	public static int delta(final int a, final int b) {
 		return abs(a - b);
 	}
@@ -1122,6 +1137,26 @@ public class Maths {
 		double product = 1.;
 		for (final double value : values) {
 			product *= value;
+		}
+		return product;
+	}
+
+	public static double product(final Number... numbers) {
+		double product = 1.;
+		for (final Number number : numbers) {
+			if (number != null) {
+				product *= number.doubleValue();
+			}
+		}
+		return product;
+	}
+
+	public static double product(final Collection<? extends Number> numbers) {
+		double product = 1.;
+		for (final Number number : numbers) {
+			if (number != null) {
+				product *= number.doubleValue();
+			}
 		}
 		return product;
 	}
@@ -1267,6 +1302,28 @@ public class Maths {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ANALYTIC FUNCTIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the absolute value of {@code x}.
+	 * <p>
+	 * @param x a {@code byte} value
+	 * <p>
+	 * @return {@code abs(x)}
+	 */
+	public static byte abs(final byte x) {
+		return Bytes.convert(abs(x));
+	}
+
+	/**
+	 * Returns the absolute value of {@code x}.
+	 * <p>
+	 * @param x a {@code short} value
+	 * <p>
+	 * @return {@code abs(x)}
+	 */
+	public static short abs(final short x) {
+		return Shorts.convert(abs(x));
+	}
 
 	/**
 	 * Returns the absolute value of {@code x}.
@@ -1493,14 +1550,20 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static double getStepsValue(final double from, final double step, final int stepCount) {
+		return from + stepCount * step;
+	}
+
+	//////////////////////////////////////////////
+
 	public static double remainderMinSteps(final double from, final double to, final double step,
 			final int stepCount) {
-		return from < to ? to - (from + stepCount * step) : 0;
+		return from < to ? to - getStepsValue(from, step, stepCount) : 0;
 	}
 
 	public static double remainderMaxSteps(final double from, final double to, final double step,
 			final int stepCount) {
-		return from < to ? from + stepCount * step - to : 0;
+		return from < to ? getStepsValue(from, step, stepCount) - to : 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1788,6 +1851,18 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static byte minToShort(final byte... values) {
+		// Check the arguments
+		ByteArguments.requireNonEmpty(values);
+
+		// Get the minimum value
+		byte min = Byte.MAX_VALUE;
+		for (final byte value : values) {
+			min = value < min ? value : min;
+		}
+		return min;
+	}
+
 	public static short minToShort(final short... values) {
 		// Check the arguments
 		ShortArguments.requireNonEmpty(values);
@@ -1855,7 +1930,9 @@ public class Maths {
 		// Get the minimum value
 		double min = Double.MAX_VALUE;
 		for (final Number number : numbers) {
-			min = Math.min(number.doubleValue(), min);
+			if (number != null) {
+				min = Math.min(number.doubleValue(), min);
+			}
 		}
 		return min;
 	}
@@ -1867,12 +1944,26 @@ public class Maths {
 		// Get the minimum value
 		double min = Double.MAX_VALUE;
 		for (final Number number : numbers) {
-			min = Math.min(number.doubleValue(), min);
+			if (number != null) {
+				min = Math.min(number.doubleValue(), min);
+			}
 		}
 		return min;
 	}
 
 	//////////////////////////////////////////////
+
+	public static byte maxToByte(final byte... values) {
+		// Check the arguments
+		ByteArguments.requireNonEmpty(values);
+
+		// Get the maximum value
+		byte max = Byte.MIN_VALUE;
+		for (final byte value : values) {
+			max = value > max ? value : max;
+		}
+		return max;
+	}
 
 	public static short maxToShort(final short... values) {
 		// Check the arguments
@@ -1941,7 +2032,9 @@ public class Maths {
 		// Get the maximum value
 		double max = Double.MIN_VALUE;
 		for (final Number number : numbers) {
-			max = Math.max(max, number.doubleValue());
+			if (number != null) {
+				max = Math.max(max, number.doubleValue());
+			}
 		}
 		return max;
 	}
@@ -1953,9 +2046,123 @@ public class Maths {
 		// Get the maximum value
 		double max = Double.MIN_VALUE;
 		for (final Number number : numbers) {
-			max = Math.max(max, number.doubleValue());
+			if (number != null) {
+				max = Math.max(max, number.doubleValue());
+			}
 		}
 		return max;
+	}
+
+	//////////////////////////////////////////////
+
+	public static int closest(final byte[] values, final byte value) {
+		int index = -1;
+		byte delta = Byte.MAX_VALUE;
+		for (int i = 0; i < values.length; ++i) {
+			final byte d = delta(values[i], value);
+			if (d < delta) {
+				index = i;
+				delta = d;
+			}
+		}
+		return index;
+	}
+
+	public static int closest(final short[] values, final short value) {
+		int index = -1;
+		short delta = Short.MAX_VALUE;
+		for (int i = 0; i < values.length; ++i) {
+			final short d = delta(values[i], value);
+			if (d < delta) {
+				index = i;
+				delta = d;
+			}
+		}
+		return index;
+	}
+
+	public static int closest(final int[] values, final int value) {
+		int index = -1;
+		int delta = Integer.MAX_VALUE;
+		for (int i = 0; i < values.length; ++i) {
+			final int d = delta(values[i], value);
+			if (d < delta) {
+				index = i;
+				delta = d;
+			}
+		}
+		return index;
+	}
+
+	public static int closest(final long[] values, final long value) {
+		int index = -1;
+		long delta = Long.MAX_VALUE;
+		for (int i = 0; i < values.length; ++i) {
+			final long d = delta(values[i], value);
+			if (d < delta) {
+				index = i;
+				delta = d;
+			}
+		}
+		return index;
+	}
+
+	public static int closest(final float[] values, final float value) {
+		int index = -1;
+		float delta = Float.MAX_VALUE;
+		for (int i = 0; i < values.length; ++i) {
+			final float d = delta(values[i], value);
+			if (d < delta) {
+				index = i;
+				delta = d;
+			}
+		}
+		return index;
+	}
+
+	public static int closest(final double[] values, final double value) {
+		int index = -1;
+		double delta = Double.MAX_VALUE;
+		for (int i = 0; i < values.length; ++i) {
+			final double d = delta(values[i], value);
+			if (d < delta) {
+				index = i;
+				delta = d;
+			}
+		}
+		return index;
+	}
+
+	public static int closest(final Number[] numbers, final double value) {
+		int index = -1;
+		double delta = Double.MAX_VALUE;
+		for (int i = 0; i < numbers.length; ++i) {
+			if (numbers[i] != null) {
+				final double d = delta(numbers[i].doubleValue(), value);
+				if (d < delta) {
+					index = i;
+					delta = d;
+				}
+			}
+		}
+		return index;
+	}
+
+	public static int closest(final Collection<? extends Number> numbers, final double value) {
+		int index = -1;
+		double delta = Double.MAX_VALUE;
+		int i = 0;
+		for (final Number number : numbers) {
+			if (number != null) {
+				final double d = delta(number.doubleValue(), value);
+				if (d < delta) {
+					index = i;
+					delta = d;
+				}
+			}
+			++i;
+		}
+		return index;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

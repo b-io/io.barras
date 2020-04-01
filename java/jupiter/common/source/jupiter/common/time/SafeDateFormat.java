@@ -306,7 +306,7 @@ public class SafeDateFormat
 	 * specified from the parsing operation. The {@link TimeZone} value may be overwritten,
 	 * depending on the specified pattern and the time zone value in {@code text}. Any
 	 * {@link TimeZone} value that has previously been set by a call to the method
-	 * {@link #setTimeZone(TimeZone) setTimeZone} may need to be restored for further operations.
+	 * {@link #setTimeZone(TimeZone)} may need to be restored for further operations.
 	 * <p>
 	 * @param text     the {@link String} to partially parse
 	 * @param position a {@link ParsePosition} object with index and error index information as

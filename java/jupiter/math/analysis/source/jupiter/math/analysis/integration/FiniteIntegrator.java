@@ -31,7 +31,6 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.interpolation.SplineInterpolator;
@@ -74,7 +73,8 @@ public class FiniteIntegrator
 	/**
 	 * The sampling points.
 	 */
-	protected double[] DX, DY;
+	protected double[] X = null, Y = null;
+	protected double[] DX = null, DY = null;
 	/**
 	 * The {@link SplineInterpolator}.
 	 */
@@ -245,14 +245,14 @@ public class FiniteIntegrator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected int boundIndex(final int index) {
-		return Maths.bound(index, 0, DX.length - 1);
+		return DX != null ? Maths.bound(index, 0, DX.length - 1) : index;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the integrated {@code double} value {@code Y = F(x) - F(x - step)} for {@code x} and
-	 * {@code x - step} defined in {@code domain}.
+	 * Returns the integrated {@code double} value {@code Y = F(x) + C} for {@code x} defined in
+	 * {@code domain}.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>The finite integral approximation is computed using the midpoint rule and interpolated by
@@ -261,75 +261,114 @@ public class FiniteIntegrator
 	 * <p>
 	 * @param x a {@code double} value (on the abscissa)
 	 * <p>
-	 * @return {@code Y = F(x) - F(x - step)} for {@code x} and {@code x - step} defined in
-	 *         {@code domain}
+	 * @return {@code Y = F(x) + C} for {@code x} defined in {@code domain}
 	 */
 	@Override
 	protected double integrate(final double x) {
 		// Check the arguments
-		if (order > 1) {
-			integrateAll();
-		}
-		if (interpolator != null) {
-			// Evaluate the value Y = F(x) - F(x - step)
-			return interpolator.apply(x);
-		}
-
-		// Bound the value x and center the integration interval (if it is possible)
-		final double t0 = domain.bound(x - halfSampleSpan);
-		final int size = sampleSize - 1;
-
-		// Sample the function f around the value x
-		final double[] X = Doubles.createSequence(sampleSize, t0, step);
-		final double[] Y = f.applyToPrimitiveArray(X);
-
-		// Compute the finite integral approximation Y using the midpoint rule
-		DX = new double[size];
-		System.arraycopy(X, 0, DX, 0, size);
-		Maths.sum(DX, step);
-		DY = new double[size];
-		for (int i = 0; i < size; ++i) {
-			DY[i] = step * (Y[i] + Y[i + 1]) / 2.;
-		}
-
-		// Interpolate the finite integral approximation Y
-		final SplineInterpolator i = SplineInterpolator.create(DX, DY);
+		integrateAllWith();
 
 		// Evaluate the value Y = F(x) - F(x - step)
-		return i.apply(x);
+		return interpolator.apply(x);
 	}
 
 	/**
-	 * Returns the integrated {@code double} value {@code Y = F(x)} for {@code x} defined in
-	 * {@code domain} with the initial value (on the ordinate).
-	 * <dl>
-	 * <dt><b>Note:</b></dt>
-	 * <dd>The finite integral approximation is computed using the midpoint rule and interpolated by
-	 * a {@link SplineInterpolator}.</dd>
-	 * </dl>
+	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
+	 * {@link #integrate(double)} to retrieve {@code Y = F(x)} with the constant value (on the
+	 * ordinate).
 	 * <p>
-	 * @param x  a {@code double} value (on the abscissa)
-	 * @param y0 the initial {@code double} value (on the ordinate) for each integration order
-	 * <p>
-	 * @return {@code Y = F(x)} for {@code x} defined in {@code domain}
+	 * @return {@code true} if the integration is done, {@code false} otherwise
+	 *
+	 * @see #integrate(double)
 	 */
-	public double integrate(final double x, final double... y0) {
+	public boolean integrateAllWith() {
 		// Check the arguments
-		if (order > 1) {
-			integrateAll(y0);
-		}
 		if (interpolator != null) {
-			// Evaluate the value Y = F(x)
-			return interpolator.apply(x);
+			return true;
+		}
+		if (!domain.isFinite()) {
+			IO.warn("The integration interval is not finite");
+			return false;
 		}
 
-		// Bound the value x and center the integration interval (if it is possible)
-		final double t0 = domain.bound(x - halfSampleSpan);
-		final int size = sampleSize - 1;
+		// Find the constant
+		integrateAllWith(0.);
+		// - Get the minimum value (on the ordinate)
+		final int minIndex = Maths.closest(Y, Maths.min(Y));
+		final boolean hasLocalMin = minIndex != 0 && minIndex != X.length - 1;
+		// - Get the maximum value (on the ordinate)
+		final int maxIndex = Maths.closest(Y, Maths.max(Y));
+		final boolean hasLocalMax = maxIndex != 0 && maxIndex != X.length - 1;
+		// - Update the constant
+		final double C;
+		if (!hasLocalMin && !hasLocalMax) {
+			C = -interpolator.apply((X[minIndex] + X[maxIndex]) / 2.);
+		} else if (hasLocalMin && hasLocalMax) {
+			C = -(interpolator.apply(X[minIndex]) + interpolator.apply(X[maxIndex])) / 2.;
+		} else if (hasLocalMin) {
+			C = -interpolator.apply(X[minIndex]);
+		} else {
+			C = -interpolator.apply(X[maxIndex]);
+		}
 
-		// Sample the function f around the value x
-		final double[] X = Doubles.createSequence(sampleSize, t0, step);
-		final double[] Y = f.applyToPrimitiveArray(X);
+		// Integrate for all the integration orders
+		reset();
+		return integrateAllWith(C);
+	}
+
+	/**
+	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
+	 * {@link #integrate(double)} to retrieve {@code Y = F(x) + C} with the constant value (on the
+	 * ordinate).
+	 * <p>
+	 * @param C the constant {@code double} value value (on the ordinate)
+	 * <p>
+	 * @return {@code true} if the integration is done, {@code false} otherwise
+	 *
+	 * @see #integrate(double)
+	 */
+	public boolean integrateAllWith(final double C) {
+		// Check the arguments
+		if (interpolator != null) {
+			return true;
+		}
+		if (!domain.isFinite()) {
+			IO.warn("The integration interval is not finite");
+			return false;
+		}
+
+		// Set the domain coordinates of the first and last sampling points
+		final double t0 = domain.getLowerBoundValue(step);
+		final double tn = domain.getUpperBoundValue(step);
+		final int size = Maths.countMinSteps(t0, tn, step);
+		if (size < 2) {
+			IO.warn("The integration interval is too small");
+			return false;
+		}
+
+		// Integrate for all the integration orders
+		if (order > 1) {
+			FiniteIntegrator df = new FiniteIntegrator(f, domain.getFirst(), sampleSize, step);
+			df.integrateAllWith();
+			for (int o = 1; o < order; ++o) {
+				df = new FiniteIntegrator(df, domain.getFirst(), sampleSize, step);
+				if (o < order - 1) {
+					df.integrateAllWith();
+				} else {
+					df.integrateAllWith(C);
+				}
+			}
+			X = df.X;
+			Y = df.Y;
+			DX = df.DX;
+			DY = df.DY;
+			interpolator = df.interpolator;
+			return true;
+		}
+
+		// Sample the function f
+		X = Doubles.createSequence(size + 1, t0, step);
+		Y = f.applyToPrimitiveArray(X);
 
 		// Compute the finite integral approximation Y using the midpoint rule
 		DX = new double[size];
@@ -337,14 +376,12 @@ public class FiniteIntegrator
 		Maths.sum(DX, step);
 		DY = new double[size];
 		for (int i = 0; i < size; ++i) {
-			DY[i] = (i == 0 ? y0[0] : DY[i - 1]) + step * (Y[i] + Y[i + 1]) / 2.;
+			DY[i] = (i == 0 ? C : DY[i - 1]) + step * (Y[i] + Y[i + 1]) / 2.;
 		}
 
 		// Interpolate the finite integral approximation Y
-		final SplineInterpolator i = SplineInterpolator.create(DX, DY);
-
-		// Evaluate the value Y = F(x)
-		return i.apply(x);
+		interpolator = SplineInterpolator.create(DX, DY);
+		return true;
 	}
 
 	//////////////////////////////////////////////
@@ -372,27 +409,27 @@ public class FiniteIntegrator
 		}
 
 		// Find the corresponding sampling interval
-		final int fromIndex = boundIndex(Maths.countMinSteps(initialValue, a, step));
-		final int toIndex = boundIndex(Maths.countMaxSteps(initialValue, b, step));
+		final int fromIndex = Maths.countMaxSteps(initialValue, a, step);
+		final int toIndex = Maths.countMinSteps(initialValue, b, step);
 
 		// Compute the corrections between the sampling interval and the interval
-		final double fromCorrection = Maths.remainderMinSteps(initialValue, a, step, fromIndex) *
-				(DY[fromIndex] + DY[boundIndex(fromIndex + 1)]) / 2.;
-		final double toCorrection = Maths.remainderMaxSteps(initialValue, b, step, toIndex) *
-				(DY[boundIndex(toIndex - 1)] + DY[toIndex]) / 2.;
+		final double fromCorrection = Maths.remainderMaxSteps(initialValue, a, step, fromIndex) *
+				DY[boundIndex(fromIndex - 1)];
+		final double toCorrection = Maths.remainderMinSteps(initialValue, b, step, toIndex) *
+				DY[boundIndex(toIndex)];
 
-		return Maths.sumInterval(fromIndex, toIndex + 1, DY) - fromCorrection - toCorrection;
+		return Maths.sumInterval(boundIndex(fromIndex - 1), boundIndex(toIndex - 1) + 1, DY) +
+				fromCorrection + toCorrection;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Integrates {@code y = f(x)} for all {@code x} and {@code x - step} defined in {@code domain}
-	 * and then use {@link #integrate} to retrieve {@code Y = F(x) - F(x - step)}.
+	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
+	 * {@link #integrate(double, double)} to retrieve {@code Y = F(b) - F(a)} for {@code a} and
+	 * {@code b} defined in {@code domain}.
 	 * <p>
 	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 *
-	 * @see #integrate(double)
+	 * @see #integrate(double, double)
 	 */
 	@Override
 	public boolean integrateAll() {
@@ -408,7 +445,7 @@ public class FiniteIntegrator
 		// Set the domain coordinates of the first and last sampling points
 		final double t0 = domain.getLowerBoundValue(step);
 		final double tn = domain.getUpperBoundValue(step);
-		final int size = Integers.convert((tn - t0) / step);
+		final int size = Maths.countMinSteps(t0, tn, step);
 		if (size < 2) {
 			IO.warn("The integration interval is too small");
 			return false;
@@ -422,6 +459,8 @@ public class FiniteIntegrator
 				df = new FiniteIntegrator(df, domain.getFirst(), sampleSize, step);
 				df.integrateAll();
 			}
+			X = df.X;
+			Y = df.Y;
 			DX = df.DX;
 			DY = df.DY;
 			interpolator = df.interpolator;
@@ -429,8 +468,8 @@ public class FiniteIntegrator
 		}
 
 		// Sample the function f
-		final double[] X = Doubles.createSequence(size + 1, t0, step);
-		final double[] Y = f.applyToPrimitiveArray(X);
+		X = Doubles.createSequence(size + 1, t0, step);
+		Y = f.applyToPrimitiveArray(X);
 
 		// Compute the finite integral approximation Y using the midpoint rule
 		DX = new double[size];
@@ -440,72 +479,17 @@ public class FiniteIntegrator
 		for (int i = 0; i < size; ++i) {
 			DY[i] = step * (Y[i] + Y[i + 1]) / 2.;
 		}
-
-		// Interpolate the finite integral approximation Y
-		interpolator = SplineInterpolator.create(DX, DY);
 		return true;
 	}
 
-	/**
-	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
-	 * {@link #integrate} to retrieve {@code Y = F(x)} with the initial value (on the ordinate).
-	 * <p>
-	 * @param y0 the initial {@code double} value value (on the ordinate) for each integration order
-	 * <p>
-	 * @return {@code true} if the integration is done, {@code false} otherwise
-	 *
-	 * @see #integrate(double)
-	 */
-	public boolean integrateAll(final double... y0) {
-		// Check the arguments
-		if (interpolator != null) {
-			return true;
-		}
-		if (!domain.isFinite()) {
-			IO.warn("The integration interval is not finite");
-			return false;
-		}
-		DoubleArguments.requireSameLength(y0, order);
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-		// Set the domain coordinates of the first and last sampling points
-		final double t0 = domain.getLowerBoundValue(step);
-		final double tn = domain.getUpperBoundValue(step);
-		final int size = Integers.convert((tn - t0) / step);
-		if (size < 2) {
-			IO.warn("The integration interval is too small");
-			return false;
-		}
-
-		// Integrate for all the integration orders
-		if (order > 1) {
-			FiniteIntegrator df = new FiniteIntegrator(f, domain.getFirst(), sampleSize, step);
-			df.integrateAll(y0[0]);
-			for (int o = 1; o < order; ++o) {
-				df = new FiniteIntegrator(df, domain.getFirst(), sampleSize, step);
-				df.integrateAll(y0[o]);
-			}
-			DX = df.DX;
-			DY = df.DY;
-			interpolator = df.interpolator;
-			return true;
-		}
-
-		// Sample the function f
-		final double[] X = Doubles.createSequence(size + 1, t0, step);
-		final double[] Y = f.applyToPrimitiveArray(X);
-
-		// Compute the finite integral approximation Y using the midpoint rule
-		DX = new double[size];
-		System.arraycopy(X, 0, DX, 0, size);
-		Maths.sum(DX, step);
-		DY = new double[size];
-		for (int i = 0; i < size; ++i) {
-			DY[i] = (i == 0 ? y0[0] : DY[i - 1]) + step * (Y[i] + Y[i + 1]) / 2.;
-		}
-
-		// Interpolate the finite integral approximation Y
-		interpolator = SplineInterpolator.create(DX, DY);
-		return true;
+	public void reset() {
+		X = null;
+		Y = null;
+		DX = null;
+		DY = null;
+		interpolator = null;
 	}
 
 

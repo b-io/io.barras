@@ -46,7 +46,7 @@ public class Min
 	 * Constructs a {@link Min} by default.
 	 */
 	protected Min() {
-		this(Double.POSITIVE_INFINITY);
+		this(Double.MAX_VALUE);
 	}
 
 	/**

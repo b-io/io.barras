@@ -29,7 +29,6 @@ import jupiter.common.math.ITuple;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class Pair<T1, T2>
 		implements ICloneable<Pair<T1, T2>>, ITuple, Serializable {

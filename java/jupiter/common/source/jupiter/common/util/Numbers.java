@@ -24,8 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.util.Formats.DECIMAL_FORMAT;
-import static jupiter.common.util.Formats.DOUBLE_DECIMAL_FORMAT;
-import static jupiter.common.util.Formats.MAX_FRACTION_DIGITS;
+import static jupiter.common.util.Formats.DEFAULT_SCIENTIFIC_THRESHOLD;
 import static jupiter.common.util.Formats.MAX_INTEGER_DIGITS;
 import static jupiter.common.util.Formats.SCIENTIFIC_DECIMAL_FORMAT;
 import static jupiter.common.util.Strings.EMPTY;
@@ -36,6 +35,7 @@ import java.util.Comparator;
 
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.math.Comparables;
+import jupiter.common.math.Maths;
 
 public class Numbers {
 
@@ -373,25 +373,18 @@ public class Numbers {
 		}
 
 		// Convert the number to a representative string
-		final String formattedNumber;
-		final String numberString = DOUBLE_DECIMAL_FORMAT.format(number);
-		int integerDigitCount = numberString.length(), fractionDigitCount = numberString.length();
+		final String numberString = DECIMAL_FORMAT.format(number);
+		int integerDigitCount = numberString.length();
 		if (numberString.contains("-")) {
 			--integerDigitCount;
-			--fractionDigitCount;
 		}
 		final int decimalPointIndex = numberString.indexOf('.');
 		if (decimalPointIndex >= 0) {
 			integerDigitCount -= numberString.length() - decimalPointIndex;
-			fractionDigitCount -= decimalPointIndex + 1;
-		} else {
-			fractionDigitCount = 0;
 		}
-		if (integerDigitCount > MAX_INTEGER_DIGITS || fractionDigitCount > MAX_FRACTION_DIGITS) {
-			formattedNumber = SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY);
-		} else {
-			formattedNumber = DECIMAL_FORMAT.format(number);
-		}
-		return formattedNumber;
+		return (integerDigitCount > MAX_INTEGER_DIGITS ||
+				Maths.abs(number.doubleValue()) < DEFAULT_SCIENTIFIC_THRESHOLD) ?
+				SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
+				numberString;
 	}
 }

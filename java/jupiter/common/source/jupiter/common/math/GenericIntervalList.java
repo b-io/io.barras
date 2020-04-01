@@ -134,8 +134,8 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 		UpperBound<T> upperBound = null;
 		for (final E interval : this) {
 			if (Comparables.isGreaterThan(interval.upperBound, upperBound)) {
-				upperBound = interval.upperBound;
 				upperInterval = interval;
+				upperBound = interval.upperBound;
 			}
 		}
 		return upperInterval;
@@ -144,6 +144,16 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public GenericIntervalList<E, T> addAll(
+			final GenericIntervalList<? extends E, ? extends T> intervalList) {
+		for (final E interval : intervalList) {
+			add(interval);
+		}
+		return this;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

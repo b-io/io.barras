@@ -46,7 +46,7 @@ public class Max
 	 * Constructs a {@link Max} by default.
 	 */
 	protected Max() {
-		this(Double.NEGATIVE_INFINITY);
+		this(Double.MIN_VALUE);
 	}
 
 	/**

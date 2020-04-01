@@ -53,7 +53,7 @@ public class ComparableSort
 	 * This constant should be a power of two. It was 64 in Tim Peter's C implementation, but 32 was
 	 * empirically determined to work better in this implementation. In the unlikely event that you
 	 * set this constant to be a number that is not a power of two, you will need to change the
-	 * computation of the static method {@link #minRunLength}.
+	 * computation of the static method {@link #minRunLength(int)}.
 	 * <p>
 	 * If you decrease this constant, you must change the {@code stackLength} computation in the
 	 * {@link ComparableSort} constructor, or you risk an {@link ArrayIndexOutOfBoundsException}.

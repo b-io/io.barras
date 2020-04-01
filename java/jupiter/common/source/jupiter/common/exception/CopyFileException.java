@@ -51,10 +51,10 @@ public class CopyFileException
 
 	/**
 	 * Constructs a {@link CopyFileException} with the specified message {@link String} (which is
-	 * saved for later retrieval by the method {@link #getMessage}).
+	 * saved for later retrieval by the method {@link #getMessage()}).
 	 * <p>
 	 * @param message the message {@link String} (which is saved for later retrieval by the method
-	 *                {@link #getMessage})
+	 *                {@link #getMessage()})
 	 */
 	public CopyFileException(final String message) {
 		super(message);
@@ -62,13 +62,13 @@ public class CopyFileException
 
 	/**
 	 * Constructs a {@link CopyFileException} with the specified message {@link String} (which is
-	 * saved for later retrieval by the method {@link #getMessage}) and cause {@link Throwable}
-	 * (which is saved for later retrieval by the method {@link #getCause}).
+	 * saved for later retrieval by the method {@link #getMessage()}) and cause {@link Throwable}
+	 * (which is saved for later retrieval by the method {@link #getCause()}).
 	 * <p>
 	 * @param message the message {@link String} (which is saved for later retrieval by the method
-	 *                {@link #getMessage})
+	 *                {@link #getMessage()})
 	 * @param cause   the cause {@link Throwable} (which is saved for later retrieval by the method
-	 *                {@link #getCause})
+	 *                {@link #getCause()})
 	 */
 	public CopyFileException(final String message, final Throwable cause) {
 		super(message, cause);

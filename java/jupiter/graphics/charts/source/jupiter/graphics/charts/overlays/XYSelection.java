@@ -68,6 +68,11 @@ public class XYSelection
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The index of the range axis.
+	 */
+	protected final int rangeAxisIndex;
+
+	/**
 	 * The mouse position.
 	 */
 	protected Point mousePosition;
@@ -131,7 +136,48 @@ public class XYSelection
 	 * @param radius    the radius
 	 * @param isVisible the flag specifying whether {@code this} is visible
 	 */
-	public XYSelection(final XY<Format> formats, final int radius, final boolean isVisible) {
+	public XYSelection(final XY<Format> formats, final int radius,
+			final boolean isVisible) {
+		this(0, formats, radius, isVisible);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link XYSelection} with the specified index of the range axis and
+	 * {@link Format} of the domain and range labels.
+	 * <p>
+	 * @param rangeAxisIndex the index of the range axis
+	 * @param formats        the {@link Format} of the domain and range labels
+	 */
+	public XYSelection(final int rangeAxisIndex, final XY<Format> formats) {
+		this(rangeAxisIndex, formats, DEFAULT_RADIUS);
+	}
+
+	/**
+	 * Constructs a {@link XYSelection} with the specified index of the range axis, {@link Format}
+	 * of the domain and range labels and radius.
+	 * <p>
+	 * @param rangeAxisIndex the index of the range axis
+	 * @param formats        the {@link Format} of the domain and range labels
+	 * @param radius         the radius
+	 */
+	public XYSelection(final int rangeAxisIndex, final XY<Format> formats, final int radius) {
+		this(rangeAxisIndex, formats, radius, true);
+	}
+
+	/**
+	 * Constructs a {@link XYSelection} with the specified index of the range axis, {@link Format}
+	 * of the domain and range labels, radius and flag specifying whether {@code this} is visible.
+	 * <p>
+	 * @param rangeAxisIndex the index of the range axis
+	 * @param formats        the {@link Format} of the domain and range labels
+	 * @param radius         the radius
+	 * @param isVisible      the flag specifying whether {@code this} is visible
+	 */
+	public XYSelection(final int rangeAxisIndex, final XY<Format> formats, final int radius,
+			final boolean isVisible) {
+		this.rangeAxisIndex = rangeAxisIndex;
 		this.formats = formats;
 		this.radius = radius;
 		this.isVisible = isVisible;
@@ -274,14 +320,12 @@ public class XYSelection
 	 * @param chartPanel the {@link ChartPanel} containing the overlay to paint
 	 */
 	public void paint(final Graphics2D g, final ChartPanel chartPanel) {
-		if (mousePosition != null &&
-				!Double.isNaN(coordinates.getX()) && !Double.isNaN(coordinates.getY()) &&
-				isVisible) {
+		if (mousePosition != null && isVisible) {
 			// Draw the selection
 			final double xSelection = ChartPanels.domainValueToJava2D(chartPanel, mousePosition,
 					coordinates);
-			final double ySelection = ChartPanels.rangeValueToJava2D(chartPanel, mousePosition,
-					coordinates);
+			final double ySelection = ChartPanels.rangeValueToJava2D(chartPanel, rangeAxisIndex,
+					mousePosition, coordinates);
 			final Ellipse2D selection = new Ellipse2D.Double(
 					xSelection - radius, ySelection - radius,
 					2 * radius, 2 * radius);
@@ -350,7 +394,8 @@ public class XYSelection
 			return false;
 		}
 		final XYSelection otherXYSelection = (XYSelection) other;
-		return Objects.equals(mousePosition, otherXYSelection.mousePosition) &&
+		return Objects.equals(rangeAxisIndex, otherXYSelection.rangeAxisIndex) &&
+				Objects.equals(mousePosition, otherXYSelection.mousePosition) &&
 				Objects.equals(coordinates, otherXYSelection.coordinates) &&
 				Objects.equals(formats, otherXYSelection.formats) &&
 				Objects.equals(radius, otherXYSelection.radius) &&
@@ -368,7 +413,7 @@ public class XYSelection
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, mousePosition, coordinates, formats, radius,
-				isVisible, propertyChangeSupport);
+		return Objects.hashCode(serialVersionUID, rangeAxisIndex, mousePosition, coordinates,
+				formats, radius, isVisible, propertyChangeSupport);
 	}
 }

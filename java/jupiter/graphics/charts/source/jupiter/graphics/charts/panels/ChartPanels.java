@@ -29,6 +29,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 
+import jupiter.common.math.Maths;
 import jupiter.common.util.Integers;
 import jupiter.gui.swing.Swings;
 import jupiter.math.analysis.struct.XY;
@@ -170,13 +171,15 @@ public class ChartPanels {
 		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
 		final ValueAxis xAxis = plot.getDomainAxis();
 		final RectangleEdge xAxisEdge = plot.getDomainAxisEdge();
-		return xAxis.java2DToValue(position.x, screenArea, xAxisEdge);
+		return Maths.bound(xAxis.java2DToValue(position.x, screenArea, xAxisEdge),
+				xAxis.getLowerBound(), xAxis.getUpperBound());
 	}
 
-	public static double java2DToRangeValue(final ChartPanel chartPanel, final Point position) {
+	public static double java2DToRangeValue(final ChartPanel chartPanel, final int rangeAxisIndex,
+			final Point position) {
 		final XYPlot plot = getPlot(chartPanel, position);
 		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
-		final ValueAxis yAxis = plot.getRangeAxis();
+		final ValueAxis yAxis = plot.getRangeAxis(rangeAxisIndex);
 		final RectangleEdge yAxisEdge = plot.getRangeAxisEdge();
 		return yAxis.java2DToValue(position.y, screenArea, yAxisEdge);
 	}
@@ -192,12 +195,12 @@ public class ChartPanels {
 		return xAxis.valueToJava2D(coordinates.getX(), screenArea, xAxisEdge);
 	}
 
-	public static double rangeValueToJava2D(final ChartPanel chartPanel, final Point position,
-			final XY<Double> coordinates) {
+	public static double rangeValueToJava2D(final ChartPanel chartPanel, final int rangeAxisIndex,
+			final Point position, final XY<Double> coordinates) {
 		final XYPlot plot = getPlot(chartPanel, position);
 		final Rectangle2D screenArea = getScreenArea(chartPanel, position);
-		final ValueAxis yAxis = plot.getRangeAxis();
-		final RectangleEdge yAxisEdge = plot.getRangeAxisEdge();
+		final ValueAxis yAxis = plot.getRangeAxis(rangeAxisIndex);
+		final RectangleEdge yAxisEdge = plot.getRangeAxisEdge(rangeAxisIndex);
 		return yAxis.valueToJava2D(coordinates.getY(), screenArea, yAxisEdge);
 	}
 }

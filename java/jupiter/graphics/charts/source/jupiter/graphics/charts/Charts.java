@@ -50,6 +50,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.ui.RectangleAnchor;
 import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.function.Function2D;
 import org.jfree.data.general.DatasetUtils;
@@ -261,10 +262,24 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static Crosshair createCrosshair(final boolean showLabel, final Format labelFormat) {
+		return createCrosshair(showLabel, labelFormat, RectangleAnchor.BOTTOM_LEFT);
+	}
+
+	public static Crosshair createCrosshair(final boolean showLabel, final Format labelFormat,
+			final int rangeAxisIndex) {
+		if (rangeAxisIndex == 0) {
+			return createCrosshair(showLabel, labelFormat, RectangleAnchor.BOTTOM_LEFT);
+		}
+		return createCrosshair(showLabel, labelFormat, RectangleAnchor.BOTTOM_RIGHT);
+	}
+
+	public static Crosshair createCrosshair(final boolean showLabel, final Format labelFormat,
+			final RectangleAnchor anchor) {
 		// Create the crosshair
 		final Crosshair crosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(1f,
 				BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[] {10f, 5f}, 0f));
 		// Set the label of the crosshair
+		crosshair.setLabelAnchor(anchor);
 		crosshair.setLabelBackgroundPaint(Color.BLACK);
 		crosshair.setLabelGenerator(new CrosshairLabelGenerator() {
 			public String generateLabel(final Crosshair crosshair) {
@@ -408,6 +423,7 @@ public class Charts {
 			// Set the dataset
 			final XYDataset dataset = axisDataset.getDataset();
 			plot.setDataset(i, dataset);
+			plot.mapDatasetToRangeAxis(i, i);
 			++i;
 		}
 	}

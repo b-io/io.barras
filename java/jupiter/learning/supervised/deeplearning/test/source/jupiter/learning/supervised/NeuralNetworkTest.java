@@ -25,7 +25,6 @@ package jupiter.learning.supervised;
 
 import static jupiter.common.io.IO.IO;
 import static jupiter.common.util.Characters.BULLET;
-import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 
 import java.io.IOException;
 import java.util.Random;
@@ -104,7 +103,7 @@ public class NeuralNetworkTest
 			final double cost = model.computeCost();
 			IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
 					Doubles.formatPercent(f1Score), " F1 score and ",
-					DECIMAL_FORMAT.format(cost), " cost in ",
+					cost, " cost in ",
 					iterationCount, " iterations in ",
 					chrono.getMilliseconds(), " [ms]");
 
@@ -226,7 +225,7 @@ public class NeuralNetworkTest
 		final double cost = model.computeCost();
 		IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
 				Doubles.formatPercent(f1Score), " F1 score and ",
-				DECIMAL_FORMAT.format(cost), " cost in ",
+				cost, " cost in ",
 				iterationCount, " iterations in ",
 				chrono.getMilliseconds(), " [ms]");
 

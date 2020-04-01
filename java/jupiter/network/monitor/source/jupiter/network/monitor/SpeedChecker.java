@@ -24,7 +24,6 @@
 package jupiter.network.monitor;
 
 import static jupiter.common.io.IO.IO;
-import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.File;
@@ -53,6 +52,7 @@ import jupiter.common.thread.Worker;
 import jupiter.common.time.Chronometer;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class SpeedChecker {
@@ -202,7 +202,7 @@ public class SpeedChecker {
 			int i = 0;
 			for (final long id : ids) {
 				final Result<Double> result = WORK_QUEUE.get(id);
-				final String output = DECIMAL_FORMAT.format(result.getOutput());
+				final String output = Objects.toString(result.getOutput());
 				IO.info(output, " [Mbits/s]");
 				DATA_FILES.get(URLS.get(i++))
 						.writeLine(Dates.createTimestamp() + Arrays.DELIMITER + output);
@@ -210,7 +210,7 @@ public class SpeedChecker {
 		} else {
 			for (final String urlName : URLS) {
 				final Result<Double> result = checkURL(urlName);
-				final String output = DECIMAL_FORMAT.format(result.getOutput());
+				final String output = Objects.toString(result.getOutput());
 				IO.info(output, " [Mbits/s]");
 				DATA_FILES.get(urlName)
 						.writeLine(Dates.createTimestamp() + Arrays.DELIMITER + output);
@@ -250,9 +250,8 @@ public class SpeedChecker {
 					final double time = chrono.getSeconds();
 					final double speed = length / time;
 					return new Result<Double>(speed,
-							IO.info("Downloaded ", DECIMAL_FORMAT.format(length), " [Mbits] in ",
-									DECIMAL_FORMAT.format(time), " [s] => ",
-									DECIMAL_FORMAT.format(speed), " [Mbits/s]"));
+							IO.info("Downloaded ", length, " [Mbits] in ", time, " [s] => ",
+									speed, " [Mbits/s]"));
 				} catch (final IOException ex) {
 					return new Result<Double>(0., IO.error(ex,
 							"Cannot transfer the file ", Strings.quote(urlName),

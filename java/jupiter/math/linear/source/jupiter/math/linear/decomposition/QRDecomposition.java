@@ -41,7 +41,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * The QR decomposition always exists, even if the matrix does not have full rank, so the
  * constructor never fails. The primary use of the QR decomposition is in the least squares solution
  * of non-square systems of simultaneous linear equations. This fails if the method
- * {@link #isFullRank} returns {@code false}.
+ * {@link #isFullRank()} returns {@code false}.
  * <p>
  * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3

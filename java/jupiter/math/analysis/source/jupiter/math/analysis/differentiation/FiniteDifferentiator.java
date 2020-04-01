@@ -283,7 +283,7 @@ public class FiniteDifferentiator
 
 	/**
 	 * Differentiates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
-	 * {@link #differentiate} to retrieve {@code y' = f'(x)}.
+	 * {@link #differentiate(double)} to retrieve {@code y' = f'(x)}.
 	 * <p>
 	 * @return {@code true} if the differentiation is done, {@code false} otherwise
 	 *

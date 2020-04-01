@@ -23,6 +23,7 @@
  */
 package jupiter.math.analysis.function.univariate;
 
+import jupiter.common.math.Domain;
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 
@@ -47,7 +48,7 @@ public class Inverse
 	 * Constructs an {@link Inverse}.
 	 */
 	protected Inverse() {
-		super();
+		super(Domain.NON_ZERO);
 	}
 
 

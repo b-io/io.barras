@@ -26,6 +26,7 @@ package jupiter.math.analysis.integration;
 import jupiter.common.math.Domain;
 import jupiter.common.math.DoubleInterval;
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.IntegerArguments;
 import jupiter.common.test.IntervalArguments;
 import jupiter.math.analysis.function.bivariate.BivariateFunction;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
@@ -115,6 +116,7 @@ public abstract class Integrator
 		// Check the arguments
 		IntervalArguments.requireValid(interval, "integration interval");
 		IntervalArguments.requireInside(interval, "integration interval", f.getDomain(), "domain");
+		IntegerArguments.requirePositive(order);
 
 		// Set the attributes
 		this.f = f;
@@ -160,7 +162,7 @@ public abstract class Integrator
 	 */
 	@Override
 	protected double a(final double x) {
-		return integrate(initialValue, boundSecond(x));
+		return integrate(x);
 	}
 
 	/**
@@ -205,7 +207,8 @@ public abstract class Integrator
 
 	/**
 	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
-	 * {@link #integrate} to retrieve {@code Y = F(b) - F(a)}.
+	 * {@link #integrate(double, double)} to retrieve {@code Y = F(b) - F(a)} for {@code a} and
+	 * {@code b} defined in {@code domain}.
 	 * <p>
 	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 *

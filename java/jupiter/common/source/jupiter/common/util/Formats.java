@@ -31,6 +31,7 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import jupiter.common.math.Maths;
 import jupiter.common.time.SafeDateFormat;
 
 public class Formats {
@@ -70,7 +71,7 @@ public class Formats {
 		@Override
 		public StringBuffer format(final Object content, final StringBuffer toAppendTo,
 				final FieldPosition position) {
-			toAppendTo.append(content);
+			toAppendTo.append(Objects.toString(content));
 			return toAppendTo;
 		}
 
@@ -126,6 +127,11 @@ public class Formats {
 	 * The default maximum number of fraction digits.
 	 */
 	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_PATTERN.length() - 2;
+	/**
+	 * The default scientific threshold.
+	 */
+	public static final double DEFAULT_SCIENTIFIC_THRESHOLD = Maths.pow(10.,
+			-DEFAULT_MAX_FRACTION_DIGITS);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -167,13 +173,13 @@ public class Formats {
 	public static volatile int MAX_FRACTION_DIGITS = DEFAULT_MAX_FRACTION_DIGITS;
 
 	/**
-	 * The {@link DecimalFormat} of {@code double} values.
-	 */
-	public static volatile DecimalFormat DOUBLE_DECIMAL_FORMAT = getDoubleDecimalFormat();
-	/**
 	 * The {@link DecimalFormat}.
 	 */
 	public static volatile DecimalFormat DECIMAL_FORMAT = getDecimalFormat(DEFAULT_PATTERN);
+	/**
+	 * The {@link DecimalFormat} of {@code double} values.
+	 */
+	public static volatile DecimalFormat DOUBLE_DECIMAL_FORMAT = getDoubleDecimalFormat();
 	/**
 	 * The scientific {@link DecimalFormat}.
 	 */

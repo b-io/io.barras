@@ -27,10 +27,10 @@ import static jupiter.common.io.IO.IO;
 import static jupiter.math.analysis.function.univariate.UnivariateFunctions.COS;
 import static jupiter.math.analysis.function.univariate.UnivariateFunctions.SIN;
 
-import jupiter.common.math.Maths;
 import jupiter.common.math.DoubleInterval;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.math.analysis.differentiation.FiniteDifferentiator;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.integration.FiniteIntegrator;
 
 /**
@@ -57,7 +57,7 @@ public class DynamicSeriesPanelDemo {
 	 * Constructs a {@link DynamicSeriesPanelDemo}.
 	 */
 	public DynamicSeriesPanelDemo() {
-		graph = new SeriesGraphic("Dynamic Series Graphic Demo", "X", "Y");
+		graph = new SeriesGraphic("Dynamic Series Graphic Demo", "X", "Trigonometry", "Custom");
 	}
 
 
@@ -92,44 +92,103 @@ public class DynamicSeriesPanelDemo {
 
 	protected void loadSeries() {
 		// Initialize
+		// • The interval
 		final double from = -10., to = 10.;
+		final double halfFrom = from / 2., halfTo = to / 2.;
+		final DoubleInterval halfInterval = new DoubleInterval(halfFrom, halfTo);
+		// • The sample
 		final int sampleSize = 11;
-		final double step = 0.1;
+		final double step = 0.01;
 		final int chartSampleSize = 10 * (sampleSize - 1) + 1;
+		// • The custom function with its derivative and antiderivative
+		final UnivariateFunction y = new UnivariateFunction() {
+			/**
+			 * The generated serial version ID.
+			 */
+			private static final long serialVersionUID = 1L;
 
-		// • Show sine and cosine series
-		graph.addSeries(0, Charts.createSeries("y = sin(x)", SIN, from, to, chartSampleSize));
-		graph.addSeries(0, Charts.createSeries("y = cos(x)", COS, from, to, chartSampleSize));
+			@Override
+			protected double a(double x) {
+				return x * x + 2. * x + 1.;
+			}
+		};
+		final UnivariateFunction dy = new UnivariateFunction() {
+			/**
+			 * The generated serial version ID.
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected double a(double x) {
+				return 2. * x + 2.;
+			}
+		};
+		final UnivariateFunction Y = new UnivariateFunction() {
+			/**
+			 * The generated serial version ID.
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected double a(double x) {
+				return x * x * x / 3. + x * x + x;
+			}
+		};
+
+		// Show the sine, cosine and custom series
+		graph.addSeries(0, Charts.createSeries("f(x) = sin(x)", SIN, from, to, chartSampleSize));
+		graph.addSeries(0, Charts.createSeries("f(x) = cos(x)", COS, from, to, chartSampleSize));
+		graph.addSeries(1, Charts.createSeries("y = 2x + 2", dy, from, to, chartSampleSize));
+		graph.addSeries(1, Charts.createSeries("y = x^2 + 2x + 1", y, halfFrom, halfTo,
+				chartSampleSize));
+		graph.addSeries(1, Charts.createSeries("Y = x^3 / 3 + x^2 + x", Y, halfFrom, halfTo,
+				chartSampleSize));
 
 		// • Finite differentiation
-		// 1. Differentiate twice
+		// 1. Differentiate twice successively
 		final FiniteDifferentiator derivative = new FiniteDifferentiator(SIN, sampleSize, step);
-		IO.result(derivative.getDomain());
-		graph.addSeries(0, Charts.createSeries("(1) y' = cos(x)", derivative, from, to,
+		IO.test(derivative.getDomain());
+		graph.addSeries(0, Charts.createSeries("(D1) f'(x) = cos(x)", derivative, from, to,
 				chartSampleSize));
 		final FiniteDifferentiator derivative2 = new FiniteDifferentiator(derivative, sampleSize,
 				step);
-		IO.result(derivative2.getDomain());
-		graph.addSeries(0, Charts.createSeries("(1) y'' = -sin(x)", derivative2, from, to,
+		IO.test(derivative2.getDomain());
+		graph.addSeries(0, Charts.createSeries("(D1) f''(x) = -sin(x)", derivative2, from, to,
 				chartSampleSize));
 		// 2. Differentiate twice directly
-		final FiniteDifferentiator fastDerivative2 = new FiniteDifferentiator(SIN,
-				new DoubleInterval(from / 2., to / 2.), 2, sampleSize, step);
-		IO.result(fastDerivative2.getDomain());
-		graph.addSeries(0, Charts.createSeries("(2) y'' = -sin(x)", fastDerivative2, from, to,
+		final FiniteDifferentiator directDerivative2 = new FiniteDifferentiator(SIN, halfInterval,
+				2, sampleSize, step);
+		IO.test(directDerivative2.getDomain());
+		graph.addSeries(0, Charts.createSeries("(D2) f''(x) = -sin(x)", directDerivative2, from, to,
+				chartSampleSize));
+		// 3. Differentiate the custom function
+		final FiniteDifferentiator df = new FiniteDifferentiator(y, halfInterval, sampleSize, step);
+		IO.test(df.getDomain());
+		graph.addSeries(1, Charts.createSeries("(D3) f'(x) = 2x + 2", df, from, to,
 				chartSampleSize));
 
 		// • Finite integration
-		// 3. Integrate twice directly (note that the antiderivative requires initial values)
-		final FiniteIntegrator fastIntegrator = new FiniteIntegrator(SIN,
-				new DoubleInterval(from / 2., to / 2.), 1, sampleSize, step);
-		IO.result(fastIntegrator.getDomain());
-		graph.addSeries(0, Charts.createSeries("(3) Y = -cos(x)", fastIntegrator, from, to,
+		// 1. Integrate twice successively
+		final FiniteIntegrator integrator = new FiniteIntegrator(SIN,
+				new DoubleInterval(from, to), sampleSize, step);
+		IO.test(integrator.getDomain());
+		graph.addSeries(0, Charts.createSeries("(I1) F(x) = -cos(x)", integrator, from, to,
 				chartSampleSize));
-
-		final FiniteIntegrator fastIntegrator2 = new FiniteIntegrator(SIN,
-				new DoubleInterval(from / 2., to / 2.), 2, sampleSize, step);
-		graph.addSeries(0, Charts.createSeries("(3) Y = -sin(x)", fastIntegrator2, from, to,
+		final FiniteIntegrator integrator2 = new FiniteIntegrator(integrator,
+				new DoubleInterval(from, to), sampleSize, step);
+		IO.test(integrator2.getDomain());
+		graph.addSeries(0, Charts.createSeries("(I1) F(x) = -sin(x)", integrator2, from, to,
+				chartSampleSize));
+		// 2. Integrate twice directly
+		final FiniteIntegrator directIntegrator2 = new FiniteIntegrator(SIN,
+				halfInterval, 2, sampleSize, step);
+		IO.test(directIntegrator2.getDomain());
+		graph.addSeries(0, Charts.createSeries("(I2) F(x) = -sin(x)", directIntegrator2, from, to,
+				chartSampleSize));
+		// 3. Integrate the custom function
+		final FiniteIntegrator F = new FiniteIntegrator(y, halfInterval, sampleSize, step);
+		IO.test(F.getDomain());
+		graph.addSeries(1, Charts.createSeries("(I3) F(x) = x^3 / 3 + x^2 + x + C", F, from, to,
 				chartSampleSize));
 	}
 }

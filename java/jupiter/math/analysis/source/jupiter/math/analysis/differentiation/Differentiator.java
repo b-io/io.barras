@@ -26,6 +26,7 @@ package jupiter.math.analysis.differentiation;
 import jupiter.common.math.Domain;
 import jupiter.common.math.DoubleInterval;
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.IntegerArguments;
 import jupiter.common.test.IntervalArguments;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
@@ -114,6 +115,7 @@ public abstract class Differentiator
 		IntervalArguments.requireValid(interval, "differentiation interval");
 		IntervalArguments.requireInside(interval, "differentiation interval", f.getDomain(),
 				"domain");
+		IntegerArguments.requirePositive(order);
 
 		// Set the attributes
 		this.f = f;
@@ -176,7 +178,7 @@ public abstract class Differentiator
 
 	/**
 	 * Differentiates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
-	 * {@link #differentiate} to retrieve {@code y' = f'(x)}.
+	 * {@link #differentiate(double)} to retrieve {@code y' = f'(x)}.
 	 * <p>
 	 * @return {@code true} if the differentiation is done, {@code false} otherwise
 	 *
