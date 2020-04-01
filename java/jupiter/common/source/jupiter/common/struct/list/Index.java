@@ -29,7 +29,6 @@ import java.util.Comparator;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 /**
  * {@link Index} is the index of the {@code T} token.

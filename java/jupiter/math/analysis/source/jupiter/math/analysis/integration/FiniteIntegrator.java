@@ -25,8 +25,8 @@ package jupiter.math.analysis.integration;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.math.Maths;
 import jupiter.common.math.DoubleInterval;
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
@@ -235,6 +235,7 @@ public class FiniteIntegrator
 	 * <p>
 	 * @return the initial value (on the abscissa)
 	 */
+	@Override
 	public double getInitialValue() {
 		return initialValue;
 	}

@@ -27,7 +27,6 @@ import static jupiter.common.io.IO.IO;
 
 import java.io.Serializable;
 
-import jupiter.common.exception.IllegalOperationException;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.test.MatrixArguments;
 

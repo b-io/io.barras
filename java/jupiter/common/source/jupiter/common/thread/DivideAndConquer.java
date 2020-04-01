@@ -31,7 +31,6 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public abstract class DivideAndConquer<I>
 		implements ICloneable<DivideAndConquer<I>>, Serializable {

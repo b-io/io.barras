@@ -27,7 +27,6 @@ import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 /**
  * {@link Bound} is the inclusive or exclusive {@code T} value (inclusive by default).

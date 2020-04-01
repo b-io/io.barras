@@ -30,8 +30,8 @@ import static jupiter.common.util.Strings.EMPTY;
 
 import java.util.List;
 import java.util.Map;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
 
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
 import jupiter.common.test.Test;
 import jupiter.common.util.Arrays;

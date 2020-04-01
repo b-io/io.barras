@@ -91,13 +91,13 @@ public class XYCrosshairOverlay
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public void addDomainCrosshair(Crosshair crosshair) {
+	public void addDomainCrosshair(final Crosshair crosshair) {
 		super.addDomainCrosshair(crosshair);
 		xCrosshairs.add(crosshair);
 	}
 
 	@Override
-	public void addRangeCrosshair(Crosshair crosshair) {
+	public void addRangeCrosshair(final Crosshair crosshair) {
 		super.addRangeCrosshair(crosshair);
 		yCrosshairs.add(crosshair);
 
@@ -141,8 +141,8 @@ public class XYCrosshairOverlay
 			if (!xCrosshair.isVisible()) {
 				continue;
 			}
-			double x = xCrosshair.getValue();
-			double xx = xAxis.valueToJava2D(x, screenArea, xAxisEdge);
+			final double x = xCrosshair.getValue();
+			final double xx = xAxis.valueToJava2D(x, screenArea, xAxisEdge);
 			if (plot.getOrientation() == PlotOrientation.VERTICAL) {
 				drawVerticalCrosshair(g2, screenArea, xx, xCrosshair);
 			} else {
@@ -151,18 +151,18 @@ public class XYCrosshairOverlay
 		}
 		// • The range crosshairs
 		for (int i = 0; i < yCrosshairs.size(); ++i) {
-			Crosshair yCrosshair = yCrosshairs.get(i);
+			final Crosshair yCrosshair = yCrosshairs.get(i);
 			if (!yCrosshair.isVisible()) {
 				continue;
 			}
-			int rangeAxisIndex = rangeAxisIndices.getOrDefault(i, 0);
+			final int rangeAxisIndex = rangeAxisIndices.getOrDefault(i, 0);
 			if (rangeAxisIndex >= plot.getRangeAxisCount()) {
 				continue;
 			}
 			final ValueAxis yAxis = plot.getRangeAxis(rangeAxisIndex);
 			final RectangleEdge yAxisEdge = plot.getRangeAxisEdge(rangeAxisIndex);
-			double y = yCrosshair.getValue();
-			double yy = yAxis.valueToJava2D(y, screenArea, yAxisEdge);
+			final double y = yCrosshair.getValue();
+			final double yy = yAxis.valueToJava2D(y, screenArea, yAxisEdge);
 			if (plot.getOrientation() == PlotOrientation.VERTICAL) {
 				drawHorizontalCrosshair(g2, screenArea, yy, yCrosshair);
 			} else {

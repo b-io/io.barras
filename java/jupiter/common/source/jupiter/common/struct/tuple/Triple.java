@@ -29,7 +29,6 @@ import jupiter.common.math.ITuple;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class Triple<T1, T2, T3>
 		implements ICloneable<Triple<T1, T2, T3>>, ITuple, Serializable {
