@@ -71,6 +71,10 @@ public class Files {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static volatile String SEPARATOR = "/"; // File.separator
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
@@ -155,7 +159,7 @@ public class Files {
 	 * @return the file name of the specified path
 	 */
 	public static String getName(final String path) {
-		return path.substring(path.lastIndexOf(File.separator) + 1);
+		return path.substring(path.lastIndexOf(SEPARATOR) + 1);
 	}
 
 	/**
@@ -651,18 +655,17 @@ public class Files {
 					final long[] ids = new long[files.length];
 					for (int i = 0; i < files.length; ++i) {
 						final File file = files[i];
-						ids[i] = COPIER_QUEUE.submit(new Triple<File, File, Boolean>(file, new File(
-								targetDirPath + File.separator + getRelativePath(source, file)),
-								force));
+						ids[i] = COPIER_QUEUE.submit(new Triple<File, File, Boolean>(file,
+								new File(targetDirPath.concat(SEPARATOR)
+										.concat(getRelativePath(source, file))), force));
 					}
 					for (final long id : ids) {
 						status &= COPIER_QUEUE.get(id);
 					}
 				} else {
 					for (final File file : files) {
-						status &= copy(file, new File(
-								targetDirPath + File.separator + getRelativePath(source, file)),
-								force);
+						status &= copy(file, new File(targetDirPath.concat(SEPARATOR)
+								.concat(getRelativePath(source, file))), force);
 					}
 				}
 				return status;
@@ -1102,7 +1105,8 @@ public class Files {
 				ZipEntry entry;
 				while ((entry = input.getNextEntry()) != null) {
 					// Unzip the file
-					final File target = new File(targetDirPath + File.separator + entry.getName());
+					final File target = new File(targetDirPath.concat(SEPARATOR)
+							.concat(entry.getName()));
 					IO.debug("Unzip ", Strings.quote(entry.getName()),
 							" to ", Strings.quote(target));
 					if (entry.isDirectory()) {

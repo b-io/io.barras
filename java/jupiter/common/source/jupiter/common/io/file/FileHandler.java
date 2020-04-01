@@ -80,6 +80,15 @@ public class FileHandler
 	 * <p>
 	 * @param path the path to the file to handle
 	 */
+	public FileHandler(final String... path) {
+		this(Strings.join(path));
+	}
+
+	/**
+	 * Constructs a {@link FileHandler} with the specified path.
+	 * <p>
+	 * @param path the path to the file to handle
+	 */
 	public FileHandler(final String path) {
 		this(path, DEFAULT_CHARSET);
 	}

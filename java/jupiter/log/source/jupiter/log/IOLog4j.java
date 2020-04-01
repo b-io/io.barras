@@ -135,7 +135,7 @@ public class IOLog4j
 	 */
 	public static void setConfigurationPath(final String fileName) {
 		try {
-			final File log4j = new File(Files.getPath() + File.separator + fileName);
+			final File log4j = new File(Files.getPath().concat(Files.SEPARATOR).concat(fileName));
 			System.setProperty("log4j.configuration", "file:///" + Files.getCanonicalPath(log4j));
 		} catch (final IOException ex) {
 			IO.IO.error(ex);

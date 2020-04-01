@@ -54,7 +54,8 @@ public class LogHandler
 	/**
 	 * The default {@link String} log directory.
 	 */
-	protected static final String DEFAULT_LOG_DIR = Files.getPath() + File.separator + "logs";
+	protected static final String DEFAULT_LOG_DIR = Files.getPath().concat(Files.SEPARATOR)
+			.concat("logs");
 
 	/**
 	 * The default {@link String} output log name.
@@ -145,7 +146,7 @@ public class LogHandler
 	 * @return the path to the specified log
 	 */
 	protected String getPath(final String logName) {
-		return Files.getPath(logDir) + File.separator + logName;
+		return Files.getPath(logDir).concat(Files.SEPARATOR).concat(logName);
 	}
 
 

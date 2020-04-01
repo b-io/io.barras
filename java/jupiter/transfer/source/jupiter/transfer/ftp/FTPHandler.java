@@ -78,7 +78,7 @@ public class FTPHandler
 	/**
 	 * The system-dependent default name-separator {@link String} of the remote file system.
 	 */
-	public static volatile String REMOTE_SEPARATOR = "/";
+	public static volatile String REMOTE_SEPARATOR = Files.SEPARATOR;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -458,8 +458,10 @@ public class FTPHandler
 						final String fileName = file.getName();
 						if (file.isFile() && fileName.matches(fileNameFilter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
-							final String localPath = localDirPath + File.separator + fileName;
+							final String remotePath = remoteDirPath.concat(REMOTE_SEPARATOR)
+									.concat(fileName);
+							final String localPath = localDirPath.concat(Files.SEPARATOR)
+									.concat(fileName);
 
 							IO.debug("Download the file ", Strings.quote(remotePath),
 									" to ", Strings.quote(localPath));
@@ -531,8 +533,10 @@ public class FTPHandler
 						final String fileName = file.getName();
 						if (file.isFile() && fileName.matches(fileNameFilter) &&
 								Strings.matches(fileName, fileNames)) {
-							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
-							final String localPath = localDirPath + File.separator + fileName;
+							final String remotePath = remoteDirPath.concat(REMOTE_SEPARATOR)
+									.concat(fileName);
+							final String localPath = localDirPath.concat(Files.SEPARATOR)
+									.concat(fileName);
 
 							IO.debug("Download the file ", Strings.quote(remotePath),
 									" to ", Strings.quote(localPath));
@@ -603,8 +607,10 @@ public class FTPHandler
 			for (final ChannelSftp.LsEntry entry : entries) {
 				final String fileName = entry.getFilename();
 				if (Strings.matches(fileName, fileNames)) {
-					final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
-					final String localPath = localDirPath + File.separator + fileName;
+					final String remotePath = remoteDirPath.concat(REMOTE_SEPARATOR)
+							.concat(fileName);
+					final String localPath = localDirPath.concat(Files.SEPARATOR)
+							.concat(fileName);
 
 					IO.debug("Download the file ", Strings.quote(remotePath),
 							" to ", Strings.quote(localPath));

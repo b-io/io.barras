@@ -61,10 +61,10 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile int RUNS_COUNT = 1000;
+	public static volatile int RUNS_COUNT = 2880;
 	public static volatile int TIME_INTERVAL = 30000; // [ms]
-	public static volatile int TIME_OUT = 10000; // [ms]
-	public static volatile String TEMP_DIR = "C:/Temp";
+	public static volatile int TIME_OUT = 15000; // [ms]
+	public static volatile String TEMP_DIR = "C:".concat(Files.SEPARATOR).concat("Temp");
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,7 +86,7 @@ public class SpeedChecker {
 	/**
 	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
 	 */
-	protected static volatile boolean PARALLELIZE = true;
+	protected static volatile boolean PARALLELIZE = false;
 	/**
 	 * The {@link WorkQueue} used for checking the downloading speeds.
 	 */
@@ -117,7 +117,7 @@ public class SpeedChecker {
 		start();
 		for (int i = 0; i < RUNS_COUNT; ++i) {
 			check();
-			Threads.sleep();
+			Threads.sleep(TIME_INTERVAL);
 		}
 		stop();
 	}
@@ -140,10 +140,10 @@ public class SpeedChecker {
 				// Get the URL
 				final URL url = new URL(urlName);
 				// Get the name of the file pointed by the URL
-				final String fileName = url.getFile().replace(File.separator, EMPTY);
+				final String fileName = url.getFile().replace(Files.SEPARATOR, EMPTY);
 				// Create the handler of the data file storing the downloading speeds
-				DATA_FILES.put(urlName, new FileHandler(
-						Strings.join(TEMP_DIR, "/downloading_speeds_of_", fileName, ".csv")));
+				DATA_FILES.put(urlName, new FileHandler(TEMP_DIR, Files.SEPARATOR,
+						"downloading_speeds_of_", fileName, ".csv"));
 			} catch (final MalformedURLException ex) {
 				IO.error(ex, "The URL ", Strings.quote(urlName), " is malformed");
 			}
@@ -204,16 +204,16 @@ public class SpeedChecker {
 				final Result<Double> result = WORK_QUEUE.get(id);
 				final String output = Objects.toString(result.getOutput());
 				IO.info(output, " [Mbits/s]");
-				DATA_FILES.get(URLS.get(i++))
-						.writeLine(Dates.createTimestamp() + Arrays.DELIMITER + output);
+				DATA_FILES.get(URLS.get(i++)).writeLine(Strings.join(Dates.getDateTime(),
+						Arrays.DELIMITER, output));
 			}
 		} else {
 			for (final String urlName : URLS) {
 				final Result<Double> result = checkURL(urlName);
 				final String output = Objects.toString(result.getOutput());
 				IO.info(output, " [Mbits/s]");
-				DATA_FILES.get(urlName)
-						.writeLine(Dates.createTimestamp() + Arrays.DELIMITER + output);
+				DATA_FILES.get(urlName).writeLine(Strings.join(Dates.getDateTime(),
+						Arrays.DELIMITER, output));
 			}
 		}
 	}
@@ -235,8 +235,8 @@ public class SpeedChecker {
 				IO.debug("The host ", Strings.quote(hostName), " is reachable");
 
 				// Download the file pointed by the URL
-				final String fileName = url.getFile().replace(File.separator, EMPTY);
-				final File targetFile = new File(TEMP_DIR + File.separator + fileName);
+				final String fileName = url.getFile().replace(Files.SEPARATOR, EMPTY);
+				final File targetFile = new File(TEMP_DIR.concat(Files.SEPARATOR).concat(fileName));
 				IO.debug("Download the file ", Strings.quote(fileName));
 				ReadableByteChannel inputChannel = null;
 				FileChannel outputChannel = null;
