@@ -108,7 +108,7 @@ public class DynamicSeriesPanelDemo {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected double a(double x) {
+			protected double a(final double x) {
 				return x * x + 2. * x + 1.;
 			}
 		};
@@ -119,7 +119,7 @@ public class DynamicSeriesPanelDemo {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected double a(double x) {
+			protected double a(final double x) {
 				return 2. * x + 2.;
 			}
 		};
@@ -130,7 +130,7 @@ public class DynamicSeriesPanelDemo {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected double a(double x) {
+			protected double a(final double x) {
 				return x * x * x / 3. + x * x + x;
 			}
 		};

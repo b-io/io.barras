@@ -382,9 +382,9 @@ public class Numbers {
 		if (decimalPointIndex >= 0) {
 			integerDigitCount -= numberString.length() - decimalPointIndex;
 		}
-		return (integerDigitCount > MAX_INTEGER_DIGITS ||
-				Maths.abs(number.doubleValue()) < DEFAULT_SCIENTIFIC_THRESHOLD) ?
-				SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
-				numberString;
+		return integerDigitCount > MAX_INTEGER_DIGITS ||
+				Maths.abs(number.doubleValue()) < DEFAULT_SCIENTIFIC_THRESHOLD ?
+						SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
+						numberString;
 	}
 }

@@ -28,8 +28,8 @@ import static jupiter.common.io.IO.IO;
 import java.util.Collection;
 
 import jupiter.common.io.Messages;
-import jupiter.common.math.Maths;
 import jupiter.common.math.DoubleInterval;
+import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Numbers;
@@ -68,7 +68,8 @@ public class Tests {
 	public static void printValues(final String label, final double... values) {
 		final double mean = Statistics.mean(values);
 		final double stddev = Statistics.sampleStandardDeviationWith(values, mean);
-		final DoubleInterval confidenceInterval = Statistics.confidenceInterval(values.length, mean, stddev);
+		final DoubleInterval confidenceInterval = Statistics.confidenceInterval(values.length, mean,
+				stddev);
 		printAverageValue(label, mean, confidenceInterval);
 		printMinMaxInterval(Maths.min(values), Maths.max(values));
 	}
@@ -76,7 +77,8 @@ public class Tests {
 	public static void printValues(final String label, final Number[] values) {
 		final double mean = Statistics.getMean(values);
 		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
-		final DoubleInterval confidenceInterval = Statistics.confidenceInterval(values.length, mean, stddev);
+		final DoubleInterval confidenceInterval = Statistics.confidenceInterval(values.length, mean,
+				stddev);
 		printAverageValue(label, mean, confidenceInterval);
 		printMinMaxInterval(Maths.min(values), Maths.max(values));
 	}

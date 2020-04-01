@@ -23,15 +23,11 @@
  */
 package jupiter.common.test;
 
-import static jupiter.common.test.Arguments.CHECK_ARGS;
-import static jupiter.common.test.Arguments.requireNonNull;
-
 import jupiter.common.math.Domain;
 import jupiter.common.math.DoubleInterval;
 import jupiter.common.math.GenericIntervalList;
 import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
-
 import jupiter.common.util.Strings;
 
 public class IntervalArguments

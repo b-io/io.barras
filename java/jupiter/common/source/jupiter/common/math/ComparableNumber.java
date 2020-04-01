@@ -27,7 +27,6 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public abstract class ComparableNumber
 		extends Number

@@ -24,7 +24,6 @@
 package jupiter.common.test;
 
 import jupiter.common.math.ISet;
-
 import jupiter.common.util.Strings;
 
 public class SetArguments

@@ -25,9 +25,9 @@ package jupiter.math.analysis.differentiation;
 
 import static jupiter.common.io.IO.IO;
 
-import jupiter.common.math.Maths;
 import jupiter.common.math.DoubleInterval;
 import jupiter.common.math.Intervals;
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;

@@ -29,7 +29,6 @@ import jupiter.common.math.ITuple;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class Quintuple<T1, T2, T3, T4, T5>
 		implements ICloneable<Quintuple<T1, T2, T3, T4, T5>>, ITuple, Serializable {

@@ -1782,7 +1782,8 @@ public class Longs {
 		}
 
 		// Clone the 2D array
-		final long[][] clone = new long[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
+		final long[][] clone = new long[array2D.length]
+				[array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -1803,7 +1804,9 @@ public class Longs {
 		}
 
 		// Clone the 3D array
-		final long[][][] clone = new long[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final long[][][] clone = new long[array3D.length]
+				[array3D.length > 0 ? array3D[0].length : 0]
+				[array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}

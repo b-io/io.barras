@@ -77,7 +77,8 @@ public class DoubleInterval
 	 * @param lowerBound the {@link LowerBound} of {@link Double}
 	 * @param upperBound the {@link UpperBound} of {@link Double}
 	 */
-	public DoubleInterval(final LowerBound<Double> lowerBound, final UpperBound<Double> upperBound) {
+	public DoubleInterval(final LowerBound<Double> lowerBound,
+			final UpperBound<Double> upperBound) {
 		super(lowerBound, upperBound);
 	}
 
@@ -192,9 +193,9 @@ public class DoubleInterval
 	 */
 	public double getLowerBoundValue(final double step) {
 		return lowerBound.value != null ?
-				(lowerBound.isInclusive ?
+				lowerBound.isInclusive ?
 						lowerBound.value :
-						lowerBound.value + step) :
+						lowerBound.value + step :
 				Double.NEGATIVE_INFINITY;
 	}
 
@@ -220,9 +221,9 @@ public class DoubleInterval
 	 */
 	public double getUpperBoundValue(final double step) {
 		return upperBound.value != null ?
-				(upperBound.isInclusive ?
+				upperBound.isInclusive ?
 						upperBound.value :
-						upperBound.value - step) :
+						upperBound.value - step :
 				Double.POSITIVE_INFINITY;
 	}
 
@@ -253,6 +254,7 @@ public class DoubleInterval
 	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise
 	 */
+	@Override
 	public Double constrain(final Double value) {
 		return Intervals.constrain(this, value);
 	}

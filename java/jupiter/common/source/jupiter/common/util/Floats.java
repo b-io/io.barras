@@ -1740,7 +1740,7 @@ public class Floats {
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-						1; // (0f, -0f) or (NaN, !NaN)
+				1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
