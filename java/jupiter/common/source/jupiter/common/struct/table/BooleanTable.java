@@ -27,13 +27,13 @@ import java.io.IOException;
 
 import jupiter.common.map.parser.IParsers;
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Floats;
+import jupiter.common.util.Booleans;
 
 /**
- * {@link FloatTable} is the {@link NumberTable} of {@link Float}.
+ * {@link BooleanTable} is the {@link Table} of {@link Boolean}.
  */
-public class FloatTable
-		extends NumberTable<Float> {
+public class BooleanTable
+		extends Table<Boolean> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -50,84 +50,84 @@ public class FloatTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified numbers of rows and columns.
+	 * Constructs a {@link BooleanTable} with the specified numbers of rows and columns.
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public FloatTable(final int rowCount, final int columnCount) {
-		super(Float.class, rowCount, columnCount);
+	public BooleanTable(final int rowCount, final int columnCount) {
+		super(Boolean.class, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified header and numbers of rows and columns.
+	 * Constructs a {@link BooleanTable} with the specified header and numbers of rows and columns.
 	 * <p>
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public FloatTable(final String[] header, final int rowCount, final int columnCount) {
-		super(Float.class, header, rowCount, columnCount);
+	public BooleanTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Boolean.class, header, rowCount, columnCount);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified {@code float} values.
+	 * Constructs a {@link BooleanTable} with the specified {@code boolean} values.
 	 * <p>
-	 * @param values a 2D {@code float} array
+	 * @param values a 2D {@code boolean} array
 	 */
-	public FloatTable(final float[]... values) {
-		this(Floats.toArray2D(values));
+	public BooleanTable(final boolean[]... values) {
+		this(Booleans.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified elements.
+	 * Constructs a {@link BooleanTable} with the specified elements.
 	 * <p>
-	 * @param elements a 2D array of {@link Float}
+	 * @param elements a 2D array of {@link Boolean}
 	 */
-	public FloatTable(final Float[]... elements) {
-		super(Float.class, elements);
+	public BooleanTable(final Boolean[]... elements) {
+		super(Boolean.class, elements);
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified header and values.
+	 * Constructs a {@link BooleanTable} with the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D {@code float} array
+	 * @param values a 2D {@code boolean} array
 	 */
-	public FloatTable(final String[] header, final float[]... values) {
-		this(header, Floats.toArray2D(values));
+	public BooleanTable(final String[] header, final boolean[]... values) {
+		this(header, Booleans.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified header and elements.
+	 * Constructs a {@link BooleanTable} with specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
-	 * @param elements a 2D array of {@link Float}
+	 * @param elements a 2D array of {@link Boolean}
 	 */
-	public FloatTable(final String[] header, final Float[]... elements) {
-		super(Float.class, header, elements);
+	public BooleanTable(final String[] header, final Boolean[]... elements) {
+		super(Boolean.class, header, elements);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FloatTable} loaded from the file denoted by the specified path.
+	 * Constructs a {@link BooleanTable} loaded from the file denoted by the specified path.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public FloatTable(final String path, final boolean hasHeader)
+	public BooleanTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(IParsers.FLOAT_PARSER, path, hasHeader);
+		super(IParsers.BOOLEAN_PARSER, path, hasHeader);
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified header loaded from the file denoted by the
-	 * specified path.
+	 * Constructs a {@link BooleanTable} with the specified header loaded from the file denoted by
+	 * the specified path.
 	 * <p>
 	 * @param header    an array of {@link String}
 	 * @param path      the path to the file to load
@@ -135,9 +135,9 @@ public class FloatTable
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public FloatTable(final String[] header, final String path, final boolean hasHeader)
+	public BooleanTable(final String[] header, final String path, final boolean hasHeader)
 			throws IOException {
-		super(header, IParsers.FLOAT_PARSER, path, hasHeader);
+		super(header, IParsers.BOOLEAN_PARSER, path, hasHeader);
 	}
 
 
@@ -145,12 +145,12 @@ public class FloatTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public float[] toPrimitiveArray() {
-		return Floats.toPrimitiveArray(elements);
+	public boolean[] toPrimitiveArray() {
+		return Booleans.toPrimitiveArray(elements);
 	}
 
-	public float[][] toPrimitiveArray2D() {
-		return Floats.toPrimitiveArray2D(elements);
+	public boolean[][] toPrimitiveArray2D() {
+		return Booleans.toPrimitiveArray2D(elements);
 	}
 
 
@@ -166,7 +166,7 @@ public class FloatTable
 	 * @see ICloneable
 	 */
 	@Override
-	public FloatTable clone() {
-		return (FloatTable) super.clone();
+	public BooleanTable clone() {
+		return (BooleanTable) super.clone();
 	}
 }

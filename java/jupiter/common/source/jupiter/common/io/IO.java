@@ -520,7 +520,7 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Reads the data from the specified {@link InputStream}, writes it to the specified
+	 * Reads the data from the specified {@link InputStream} and writes it to the specified
 	 * {@link OutputStream}.
 	 * <p>
 	 * @param input  the {@link InputStream} to read from
@@ -537,7 +537,7 @@ public class IO
 	}
 
 	/**
-	 * Reads the data from the specified {@link InputStream}, writes it to the specified
+	 * Reads the data from the specified {@link InputStream} and writes it to the specified
 	 * {@link OutputStream} with the specified buffer.
 	 * <p>
 	 * @param input  the {@link InputStream} to read from

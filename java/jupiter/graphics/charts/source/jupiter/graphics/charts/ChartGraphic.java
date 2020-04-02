@@ -78,7 +78,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	protected ExtendedLinkedList<XYRangeAxisDataset<D>> axisDatasets = new ExtendedLinkedList<XYRangeAxisDataset<D>>();
 
 	/**
-	 * The {@link SeriesStyle} associated to {@link XYRangeAxisDataset} and {@code S} series.
+	 * The {@link SeriesStyle} associated to their {@link XYRangeAxisDataset} and {@code S} series.
 	 */
 	protected ExtendedHashMap<Pair<Integer, Integer>, SeriesStyle> styles = new ExtendedHashMap<Pair<Integer, Integer>, SeriesStyle>();
 

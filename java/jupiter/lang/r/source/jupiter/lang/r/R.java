@@ -266,7 +266,7 @@ public class R {
 				")"));
 	}
 
-	public static int[] installPackages(final String[] names) {
+	public static int[] installPackages(final String... names) {
 		final int[] status = new int[names.length];
 		for (int i = 0; i < names.length; ++i) {
 			status[i] = installPackage(names[i]);

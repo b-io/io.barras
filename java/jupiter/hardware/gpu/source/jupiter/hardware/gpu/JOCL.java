@@ -99,7 +99,7 @@ public class JOCL
 
 	protected final cl_program program;
 	/**
-	 * The {@link cl_kernel} associated to names.
+	 * The {@link cl_kernel} associated to their names.
 	 */
 	protected final ExtendedHashMap<String, cl_kernel> kernels = new ExtendedHashMap<String, cl_kernel>();
 

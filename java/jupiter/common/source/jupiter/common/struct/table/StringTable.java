@@ -106,6 +106,21 @@ public class StringTable
 		super(IParsers.STRING_PARSER, path, hasHeader);
 	}
 
+	/**
+	 * Constructs a {@link StringTable} with the specified header loaded from the file denoted by
+	 * the specified path.
+	 * <p>
+	 * @param header    an array of {@link String}
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public StringTable(final String[] header, final String path, final boolean hasHeader)
+			throws IOException {
+		super(header, IParsers.STRING_PARSER, path, hasHeader);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// SETTERS

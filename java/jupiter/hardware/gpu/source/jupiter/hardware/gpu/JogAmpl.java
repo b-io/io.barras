@@ -68,7 +68,7 @@ public class JogAmpl
 
 	protected CLProgram program;
 	/**
-	 * The {@link CLKernel} associated to names.
+	 * The {@link CLKernel} associated to their names.
 	 */
 	protected final ExtendedHashMap<String, CLKernel> kernels = new ExtendedHashMap<String, CLKernel>();
 

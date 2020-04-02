@@ -83,7 +83,7 @@ public class Calculator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Element} associated to variable names.
+	 * The {@link Element} associated to their variable names.
 	 */
 	protected final ExtendedHashMap<String, Element> context = new ExtendedHashMap<String, Element>();
 

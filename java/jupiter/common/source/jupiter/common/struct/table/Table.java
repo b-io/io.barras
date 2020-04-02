@@ -236,6 +236,32 @@ public class Table<E>
 		load(parser, path, hasHeader);
 	}
 
+	/**
+	 * Constructs a {@link Table} of {@code E} element type with the specified header loaded from
+	 * the file denoted by the specified path.
+	 * <p>
+	 * @param header    an array of {@link String}
+	 * @param parser    an {@link IParser} of {@code E} element type
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public Table(final String[] header, final IParser<E> parser, final String path,
+			final boolean hasHeader)
+			throws IOException {
+		// Check the arguments
+		ArrayArguments.requireNonEmpty(header, "header");
+		Arguments.requireNonNull(parser, "parser");
+
+		// Set the attributes
+		c = parser.getOutputClass();
+
+		// Load the file
+		load(parser, path, hasHeader);
+		this.header = header;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GETTERS
@@ -573,7 +599,7 @@ public class Table<E>
 	 * <p>
 	 * @param header an array of {@link String}
 	 */
-	public void setHeader(final String[] header) {
+	public void setHeader(final String... header) {
 		// Check the arguments
 		ArrayArguments.requireLength(header, n);
 
@@ -1193,7 +1219,7 @@ public class Table<E>
 	public boolean save(final String path, final boolean saveHeader)
 			throws FileNotFoundException {
 		final FileHandler fileHandler = new FileHandler(path);
-		fileHandler.initWriter(false);
+		fileHandler.createWriter(false);
 		// Export the header
 		if (saveHeader &&
 				!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {

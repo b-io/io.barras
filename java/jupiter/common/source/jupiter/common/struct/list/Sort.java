@@ -210,9 +210,9 @@ public class Sort<T>
 		}
 		// If array is small, do a "mini-TimSort" with no merges
 		if (nRemaining < MIN_MERGE) {
-			final int initRunLength = countRunAndMakeAscending(array, fromIndex, toIndex,
+			final int initialRunLength = countRunAndMakeAscending(array, fromIndex, toIndex,
 					comparator);
-			binarySort(array, fromIndex, toIndex, fromIndex + initRunLength, comparator);
+			binarySort(array, fromIndex, toIndex, fromIndex + initialRunLength, comparator);
 			return;
 		}
 

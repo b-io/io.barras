@@ -375,7 +375,7 @@ public class FTPHandler
 	 * <p>
 	 * @param fileNames an array of {@link String}
 	 */
-	public void setFileNames(final String[] fileNames) {
+	public void setFileNames(final String... fileNames) {
 		this.fileNames = fileNames;
 	}
 

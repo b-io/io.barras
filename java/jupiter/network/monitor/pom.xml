@@ -25,5 +25,10 @@
 			<artifactId>common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>charts</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -113,7 +113,7 @@ public class JConsole
 	protected static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
 
 	/**
-	 * The {@link Style} associated to {@link Color}.
+	 * The {@link Style} associated to their {@link Color}.
 	 */
 	protected static final ExtendedHashMap<Color, Style> STYLES = new ExtendedHashMap<Color, Style>();
 

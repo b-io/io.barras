@@ -113,7 +113,7 @@ public class WorkQueue<I, O>
 	protected volatile long currentTaskId = 0L;
 
 	/**
-	 * The {@code O} results associated to identifiers.
+	 * The {@code O} results associated to their identifiers.
 	 */
 	protected final ExtendedHashMap<Long, O> results = new ExtendedHashMap<Long, O>();
 

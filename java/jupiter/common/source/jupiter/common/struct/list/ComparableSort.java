@@ -194,8 +194,8 @@ public class ComparableSort
 		}
 		// If array is small, do a "mini-TimSort" with no merges
 		if (nRemaining < MIN_MERGE) {
-			final int initRunLength = countRunAndMakeAscending(array, fromIndex, toIndex);
-			binarySort(array, fromIndex, toIndex, fromIndex + initRunLength);
+			final int initialRunLength = countRunAndMakeAscending(array, fromIndex, toIndex);
+			binarySort(array, fromIndex, toIndex, fromIndex + initialRunLength);
 			return;
 		}
 

@@ -27,13 +27,13 @@ import java.io.IOException;
 
 import jupiter.common.map.parser.IParsers;
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Floats;
+import jupiter.common.util.Bytes;
 
 /**
- * {@link FloatTable} is the {@link NumberTable} of {@link Float}.
+ * {@link ByteTable} is the {@link NumberTable} of {@link Byte}.
  */
-public class FloatTable
-		extends NumberTable<Float> {
+public class ByteTable
+		extends NumberTable<Byte> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -50,83 +50,83 @@ public class FloatTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified numbers of rows and columns.
+	 * Constructs a {@link ByteTable} with the specified numbers of rows and columns.
 	 * <p>
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public FloatTable(final int rowCount, final int columnCount) {
-		super(Float.class, rowCount, columnCount);
+	public ByteTable(final int rowCount, final int columnCount) {
+		super(Byte.class, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified header and numbers of rows and columns.
+	 * Constructs a {@link ByteTable} with the specified header and numbers of rows and columns.
 	 * <p>
 	 * @param header      an array of {@link String}
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
-	public FloatTable(final String[] header, final int rowCount, final int columnCount) {
-		super(Float.class, header, rowCount, columnCount);
+	public ByteTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Byte.class, header, rowCount, columnCount);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified {@code float} values.
+	 * Constructs a {@link ByteTable} with the specified {@code byte} values.
 	 * <p>
-	 * @param values a 2D {@code float} array
+	 * @param values a 2D {@code byte} array
 	 */
-	public FloatTable(final float[]... values) {
-		this(Floats.toArray2D(values));
+	public ByteTable(final byte[]... values) {
+		this(Bytes.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified elements.
+	 * Constructs a {@link ByteTable} with the specified elements.
 	 * <p>
-	 * @param elements a 2D array of {@link Float}
+	 * @param elements a 2D array of {@link Byte}
 	 */
-	public FloatTable(final Float[]... elements) {
-		super(Float.class, elements);
+	public ByteTable(final Byte[]... elements) {
+		super(Byte.class, elements);
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified header and values.
+	 * Constructs a {@link ByteTable} with the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D {@code float} array
+	 * @param values a 2D {@code byte} array
 	 */
-	public FloatTable(final String[] header, final float[]... values) {
-		this(header, Floats.toArray2D(values));
+	public ByteTable(final String[] header, final byte[]... values) {
+		this(header, Bytes.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified header and elements.
+	 * Constructs a {@link ByteTable} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
-	 * @param elements a 2D array of {@link Float}
+	 * @param elements a 2D array of {@link Byte}
 	 */
-	public FloatTable(final String[] header, final Float[]... elements) {
-		super(Float.class, header, elements);
+	public ByteTable(final String[] header, final Byte[]... elements) {
+		super(Byte.class, header, elements);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FloatTable} loaded from the file denoted by the specified path.
+	 * Constructs a {@link ByteTable} loaded from the file denoted by the specified path.
 	 * <p>
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public FloatTable(final String path, final boolean hasHeader)
+	public ByteTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(IParsers.FLOAT_PARSER, path, hasHeader);
+		super(IParsers.BYTE_PARSER, path, hasHeader);
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} with the specified header loaded from the file denoted by the
+	 * Constructs a {@link ByteTable} with the specified header loaded from the file denoted by the
 	 * specified path.
 	 * <p>
 	 * @param header    an array of {@link String}
@@ -135,9 +135,9 @@ public class FloatTable
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public FloatTable(final String[] header, final String path, final boolean hasHeader)
+	public ByteTable(final String[] header, final String path, final boolean hasHeader)
 			throws IOException {
-		super(header, IParsers.FLOAT_PARSER, path, hasHeader);
+		super(header, IParsers.BYTE_PARSER, path, hasHeader);
 	}
 
 
@@ -145,12 +145,12 @@ public class FloatTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public float[] toPrimitiveArray() {
-		return Floats.toPrimitiveArray(elements);
+	public byte[] toPrimitiveArray() {
+		return Bytes.toPrimitiveArray(elements);
 	}
 
-	public float[][] toPrimitiveArray2D() {
-		return Floats.toPrimitiveArray2D(elements);
+	public byte[][] toPrimitiveArray2D() {
+		return Bytes.toPrimitiveArray2D(elements);
 	}
 
 
@@ -166,7 +166,7 @@ public class FloatTable
 	 * @see ICloneable
 	 */
 	@Override
-	public FloatTable clone() {
-		return (FloatTable) super.clone();
+	public ByteTable clone() {
+		return (ByteTable) super.clone();
 	}
 }

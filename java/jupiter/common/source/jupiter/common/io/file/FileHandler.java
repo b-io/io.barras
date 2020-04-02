@@ -238,7 +238,7 @@ public class FileHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link BufferedReader}.
+	 * Creates a {@link BufferedReader}.
 	 * <p>
 	 * @return a {@link BufferedReader}
 	 * <p>
@@ -306,18 +306,40 @@ public class FileHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Initializes the writer.
+	 * Creates the {@link BufferedWriter}.
 	 * <p>
 	 * @param append the flag specifying whether to append
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code this}
 	 */
-	public void initWriter(final boolean append)
+	public void createWriter(final boolean append)
 			throws FileNotFoundException {
 		if (writer == null) {
 			writer = Files.createWriter(file, charset, append);
 		}
 	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Closes the {@link BufferedWriter}.
+	 */
+	public void closeWriter() {
+		closeWriter(Strings.join("The writer of ", Strings.quote(file),
+				" has not been created or has already been closed"));
+	}
+
+	/**
+	 * Closes the {@link BufferedWriter}.
+	 * <p>
+	 * @param message the warning message {@link String} to print if closed
+	 */
+	public void closeWriter(final String message) {
+		Resources.close(writer, message);
+		writer = null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Writes the specified {@link String}.
@@ -341,7 +363,7 @@ public class FileHandler
 	public boolean writeLine(final String text, final boolean append) {
 		try {
 			// Initialize
-			initWriter(append);
+			createWriter(append);
 
 			// Append the text
 			writer.write(text + NEW_LINE);
@@ -353,24 +375,6 @@ public class FileHandler
 			IO.error(ex);
 		}
 		return false;
-	}
-
-	/**
-	 * Closes the writer.
-	 */
-	public void closeWriter() {
-		closeWriter(
-				Strings.join("The writer of ", Strings.quote(file), " has already been closed"));
-	}
-
-	/**
-	 * Closes the writer.
-	 * <p>
-	 * @param message the warning message {@link String} to print if closed
-	 */
-	public void closeWriter(final String message) {
-		Resources.close(writer, message);
-		writer = null;
 	}
 
 

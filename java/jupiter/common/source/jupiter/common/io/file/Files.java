@@ -43,6 +43,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -72,9 +73,17 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The {@code char} name-separator.
+	 */
+	public static final char SEPARATOR_CHAR = '/';
+	/**
 	 * The name-separator {@link String}.
 	 */
-	public static final String SEPARATOR = "/";
+	public static final String SEPARATOR = "" + SEPARATOR_CHAR;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile String TEMP_DIR_PATH = "C:".concat(Files.SEPARATOR).concat("Temp");
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -162,7 +171,7 @@ public class Files {
 	 * @return the file name of the specified path
 	 */
 	public static String getName(final String path) {
-		return path.substring(path.lastIndexOf(SEPARATOR) + 1);
+		return path.substring(Strings.findLast(path, File.separatorChar, SEPARATOR_CHAR) + 1);
 	}
 
 	/**
@@ -768,7 +777,7 @@ public class Files {
 	//////////////////////////////////////////////
 
 	/**
-	 * Reads the data from the specified source {@link File}, writes it to the specified
+	 * Reads the data from the specified source {@link File} and writes it to the specified
 	 * {@link OutputStream}.
 	 * <p>
 	 * @param source the source {@link File} to read from
@@ -785,7 +794,7 @@ public class Files {
 	}
 
 	/**
-	 * Reads the data from the specified source {@link File}, writes it to the specified
+	 * Reads the data from the specified source {@link File} and writes it to the specified
 	 * {@link OutputStream} with the specified buffer.
 	 * <p>
 	 * @param source the source {@link File} to read from
@@ -808,10 +817,33 @@ public class Files {
 		}
 	}
 
+	/**
+	 * Reads the data from the specified source {@link File} and writes it to the specified
+	 * {@link FileChannel}.
+	 * <p>
+	 * @param source the source {@link File} to read from
+	 * @param output the {@link FileChannel} to write to
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code source} or writing to
+	 *                     {@code output}
+	 */
+	public static long copy(final File source, final FileChannel output)
+			throws IOException {
+		FileInputStream input = null;
+		try {
+			input = new FileInputStream(source);
+			return output.transferFrom(input.getChannel(), 0, Long.MAX_VALUE);
+		} finally {
+			Resources.close(input);
+		}
+	}
+
 	//////////////////////////////////////////////
 
 	/**
-	 * Reads the data from the specified {@link InputStream}, writes it to the specified target
+	 * Reads the data from the specified {@link InputStream} and writes it to the specified target
 	 * {@link File}.
 	 * <p>
 	 * @param input  the {@link InputStream} to read from
@@ -828,7 +860,7 @@ public class Files {
 	}
 
 	/**
-	 * Reads the data from the specified {@link InputStream}, writes it to the specified target
+	 * Reads the data from the specified {@link InputStream} and writes it to the specified target
 	 * {@link File} with the specified buffer.
 	 * <p>
 	 * @param input  the {@link InputStream} to read from
@@ -846,6 +878,29 @@ public class Files {
 		try {
 			output = createOutputStream(target);
 			return IO.copy(input, output, buffer);
+		} finally {
+			Resources.close(output);
+		}
+	}
+
+	/**
+	 * Reads the data from the specified {@link ReadableByteChannel} and writes it to the specified
+	 * target {@link File}.
+	 * <p>
+	 * @param input  the {@link ReadableByteChannel} to read from
+	 * @param target the target {@link File} to write to
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input} or writing to
+	 *                     {@code target}
+	 */
+	public static long copy(final ReadableByteChannel input, final File target)
+			throws IOException {
+		FileOutputStream output = null;
+		try {
+			output = new FileOutputStream(target);
+			return output.getChannel().transferFrom(input, 0, Long.MAX_VALUE);
 		} finally {
 			Resources.close(output);
 		}

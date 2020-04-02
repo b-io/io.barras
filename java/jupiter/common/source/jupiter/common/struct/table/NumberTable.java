@@ -121,6 +121,23 @@ public class NumberTable<E extends Number>
 		super(parser, path, hasHeader);
 	}
 
+	/**
+	 * Constructs a {@link NumberTable} of {@code E} element type with the specified header loaded
+	 * from the file denoted by the specified path.
+	 * <p>
+	 * @param header    an array of {@link String}
+	 * @param parser    an {@link IParser} of {@code E} element type
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public NumberTable(final String[] header, final IParser<E> parser, final String path,
+			final boolean hasHeader)
+			throws IOException {
+		super(header, parser, path, hasHeader);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FUNCTIONS

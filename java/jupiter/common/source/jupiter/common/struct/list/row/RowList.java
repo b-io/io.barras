@@ -81,7 +81,7 @@ public class RowList
 	 * <p>
 	 * @param header an array of {@link String}
 	 */
-	public RowList(final String[] header) {
+	public RowList(final String... header) {
 		this(header, Lists.DEFAULT_CAPACITY);
 	}
 
