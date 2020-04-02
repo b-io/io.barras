@@ -72,9 +72,9 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The system-dependent default name-separator {@link String} of the file system.
+	 * The name-separator {@link String}.
 	 */
-	public static volatile String SEPARATOR = "/"; // File.separator
+	public static volatile String SEPARATOR = "/";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
