@@ -74,7 +74,7 @@ public class Files {
 	/**
 	 * The name-separator {@link String}.
 	 */
-	public static volatile String SEPARATOR = "/";
+	public static final String SEPARATOR = "/";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
