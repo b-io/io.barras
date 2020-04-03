@@ -366,15 +366,22 @@ public class TimeSeriesGraphic
 		Arguments.requireNonNull(coordinates, "coordinates");
 
 		// Load the time series
-		final int timeSeriesIndex = addSeries(axisDatasetIndex,
-				coordinates.getColumnName(yColumnIndex));
 		final int m = coordinates.getRowCount();
 		if (m > 0) {
-			for (int i = 0; i < m; ++i) {
-				addPoint(axisDatasetIndex, timeSeriesIndex,
-						hasTime ? Dates.parseWithTime(coordinates.get(i, xColumnIndex)) :
-								Dates.parse(coordinates.get(i, xColumnIndex)),
-						Doubles.convert(coordinates.get(i, yColumnIndex)));
+			final int n = coordinates.getColumnCount();
+			if (xColumnIndex < n && yColumnIndex < n) {
+				final int timeSeriesIndex = addSeries(axisDatasetIndex,
+						coordinates.getColumnName(yColumnIndex));
+				for (int i = 0; i < m; ++i) {
+					addPoint(axisDatasetIndex, timeSeriesIndex,
+							hasTime ? Dates.parseWithTime(coordinates.get(i, xColumnIndex)) :
+									Dates.parse(coordinates.get(i, xColumnIndex)),
+							Doubles.convert(coordinates.get(i, yColumnIndex)));
+				}
+			} else if (xColumnIndex >= n) {
+				IO.error("The column of the domain coordinates is missing");
+			} else {
+				IO.error("The column of the range coordinates is missing");
 			}
 		} else {
 			IO.warn("No coordinates found");

@@ -23,8 +23,11 @@
  */
 package jupiter.math.linear.entity;
 
+import java.io.IOException;
+
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.model.ICloneable;
+import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Doubles;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
@@ -140,6 +143,36 @@ public class Vector
 		} else {
 			throw new IllegalArgumentException("The specified 2D array of dimensions " +
 					new Dimensions(values.length, values[0].length) +
+					" is not one-dimensional");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Vector} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public Vector(final String path, final boolean hasHeader)
+			throws IOException {
+		this(new DoubleTable(path, hasHeader));
+	}
+
+	/**
+	 * Constructs a {@link Vector} with the specified {@link DoubleTable} containing the elements.
+	 * <p>
+	 * @param table the {@link DoubleTable} containing the elements
+	 */
+	public Vector(final DoubleTable table) {
+		super(table);
+
+		// Check the arguments
+		if (m != 1 && n != 1) {
+			throw new IllegalArgumentException("The specified table of dimensions " + dimensions +
 					" is not one-dimensional");
 		}
 	}

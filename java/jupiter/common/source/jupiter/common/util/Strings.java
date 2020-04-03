@@ -98,8 +98,8 @@ public class Strings {
 	public static final StringWrapper SINGLE_QUOTER = new StringWrapper(SINGLE_QUOTE, SINGLE_QUOTE);
 	public static final StringWrapper DOUBLE_QUOTER = new StringWrapper(DOUBLE_QUOTE, DOUBLE_QUOTE);
 	public static final StringWrapper QUOTER = new StringWrapper(LEFT_QUOTE, RIGHT_QUOTE);
-	public static final StringRemover UNQUOTER = new StringRemover(
-			join(SINGLE_QUOTE, DOUBLE_QUOTE, LEFT_QUOTE, RIGHT_QUOTE));
+	public static final StringRemover UNQUOTER = new StringRemover(join(SINGLE_QUOTE, DOUBLE_QUOTE,
+			LEFT_QUOTE, RIGHT_QUOTE));
 
 	public static final StringWrapper PARENTHESER = new StringWrapper(LEFT_PARENTHESIS,
 			RIGHT_PARENTHESIS);

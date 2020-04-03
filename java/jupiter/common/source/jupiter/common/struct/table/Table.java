@@ -1143,14 +1143,11 @@ public class Table<E>
 		if ((line = reader.readLine()) != null) {
 			// Find the delimiter (take the first one in the array in case of different delimiters)
 			Character delimiter = null;
-			StringReplacer replacer = null;
 			for (final char d : COLUMN_DELIMITERS) {
 				final int occurrenceCount = Strings.count(line, d);
 				if (occurrenceCount > 0) {
 					if (n == 0) {
 						delimiter = d;
-						replacer = new StringReplacer(new char[] {BAR},
-								Objects.toString(delimiter));
 						n = occurrenceCount;
 					} else {
 						IO.warn("The file contains different delimiters; ",
@@ -1159,7 +1156,14 @@ public class Table<E>
 					}
 				}
 			}
+			if (delimiter == null) {
+				delimiter = COLUMN_DELIMITERS[0];
+			}
 			++n;
+			IO.debug("The file contains ", n, " columns separated by ", Strings.quote(delimiter));
+			// Create the replacer for the delimiter
+			final StringReplacer replacer = new StringReplacer(new char[] {BAR},
+					Objects.toString(delimiter));
 			// Reset the table
 			reset();
 			// Scan the file line by line

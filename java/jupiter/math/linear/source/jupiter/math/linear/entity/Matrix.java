@@ -155,7 +155,7 @@ public class Matrix
 	/**
 	 * The {@link Dimensions}.
 	 */
-	protected Dimensions size;
+	protected final Dimensions dimensions;
 	/**
 	 * The elements.
 	 */
@@ -200,7 +200,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		m = rowCount;
 		n = columnCount;
-		size = new Dimensions(m, n);
+		dimensions = new Dimensions(m, n);
 		// Set the elements
 		elements = new double[m * n];
 	}
@@ -225,7 +225,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		m = rowCount;
 		n = columnCount;
-		size = new Dimensions(m, n);
+		dimensions = new Dimensions(m, n);
 		// Set the elements
 		elements = new double[m * n];
 		for (int i = 0; i < m; ++i) {
@@ -262,7 +262,7 @@ public class Matrix
 			m = rowCount;
 			n = rowCount > 0 ? values.length / rowCount : 0;
 		}
-		size = new Dimensions(m, n);
+		dimensions = new Dimensions(m, n);
 		// Check the length of the array
 		if (m * n != values.length) {
 			throw new IllegalArgumentException("The length of the specified array " +
@@ -310,7 +310,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		m = rowCount;
 		n = columnCount;
-		size = new Dimensions(m, n);
+		dimensions = new Dimensions(m, n);
 		// Check the row and column lengths of the 2D array
 		if (values.length < m) {
 			throw new IllegalArgumentException(
@@ -369,7 +369,7 @@ public class Matrix
 		// Set the numbers of rows and columns
 		m = rowCount;
 		n = rowCount > 0 ? elements.length / rowCount : 0;
-		size = new Dimensions(m, n);
+		dimensions = new Dimensions(m, n);
 		// Check the length of the array
 		if (m * n != elements.length) {
 			throw new IllegalArgumentException("The length of the specified array " +
@@ -391,7 +391,7 @@ public class Matrix
 	 */
 	@Override
 	public String getName() {
-		return Objects.getName(this) + " of dimensions " + size;
+		return Objects.getName(this) + " of dimensions " + dimensions;
 	}
 
 	/**
@@ -419,7 +419,7 @@ public class Matrix
 	 */
 	@Override
 	public Dimensions getDimensions() {
-		return size;
+		return dimensions;
 	}
 
 	/**
@@ -2389,7 +2389,11 @@ public class Matrix
 					}
 				}
 			}
+			if (delimiter == null) {
+				delimiter = COLUMN_DELIMITERS[0];
+			}
 			++n;
+			IO.debug("The file contains ", n, " columns separated by ", Strings.quote(delimiter));
 			// Create the matrix
 			final Matrix matrix;
 			if (transpose) {
@@ -2480,8 +2484,7 @@ public class Matrix
 					// Count the numbers of rows and columns
 					final int m = rows.size();
 					final int n = Strings.removeEmpty(
-							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS))
-							.size();
+							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS)).size();
 					// Fill the matrix row by row
 					final double[] elements = new double[m * n];
 					final Iterator<String> rowIterator = rows.iterator();
@@ -2635,7 +2638,6 @@ public class Matrix
 	@Override
 	public Matrix clone() {
 		final Matrix clone = (Matrix) super.clone();
-		clone.size = Objects.clone(size);
 		clone.elements = Doubles.clone(elements);
 		return clone;
 	}
