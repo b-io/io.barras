@@ -213,6 +213,10 @@ public class Properties
 		return properties;
 	}
 
+	public static String[] getAll(final String fileName, final String... keys) {
+		return new Properties(fileName, null).getAllProperties(keys);
+	}
+
 	/**
 	 * Returns all the property {@link String} (or the default property {@link String} if it is not
 	 * present) associated to the specified key {@link String} or the corresponding specified
@@ -228,7 +232,7 @@ public class Properties
 	 *
 	 * @see #defaults
 	 */
-	public String[] getAllProperties(final String[] keys, final String[] defaultValues) {
+	public String[] getAllProperties(final String[] keys, final String... defaultValues) {
 		final String[] properties = new String[keys.length];
 		for (int i = 0; i < keys.length; ++i) {
 			properties[i] = getProperty(keys[i], defaultValues[i]);
@@ -236,12 +240,8 @@ public class Properties
 		return properties;
 	}
 
-	public static String[] getAll(final String fileName, final String... keys) {
-		return new Properties(fileName, null).getAllProperties(keys);
-	}
-
 	public static String[] getAll(final String fileName, final String[] keys,
-			final String[] defaultValues) {
+			final String... defaultValues) {
 		return new Properties(fileName, null).getAllProperties(keys, defaultValues);
 	}
 

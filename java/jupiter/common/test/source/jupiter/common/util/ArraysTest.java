@@ -56,6 +56,7 @@ public class ArraysTest
 		IO.test(BULLET, " getElementClass");
 
 		assertEquals(Object.class, Arrays.getElementClass());
+		assertEquals(Object.class, Arrays.getElementClass(Objects.EMPTY_ARRAY));
 		assertEquals(Number.class, Arrays.getElementClass(null, 1, 1.));
 		assertEquals(String.class, Arrays.getElementClass(ARRAY));
 		assertEquals(String[].class, Arrays.getElementClass(null, ARRAY));

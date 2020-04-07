@@ -73,7 +73,7 @@ public abstract class StatisticalModel
 	 * <p>
 	 * @return the likelihood of {@code this} given the specified evidences
 	 */
-	public double getLikelihood(final double[] evidences) {
+	public double getLikelihood(final double... evidences) {
 		double likelihood = 1.;
 		for (final double evidence : evidences) {
 			likelihood *= getLikelihood(evidence);

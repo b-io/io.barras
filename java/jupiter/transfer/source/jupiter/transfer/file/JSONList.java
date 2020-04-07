@@ -115,6 +115,23 @@ public class JSONList
 	}
 
 	/**
+	 * Appends the {@link JSONObject} loaded from the specified key array and value
+	 * {@link Collection} containing the key-value mappings to the end of {@code this}.
+	 * <p>
+	 * @param keys   the array of {@link String} containing the keys of the key-value mappings of
+	 *               the {@link JSONObject} to append
+	 * @param values the {@link Collection} containing the values of the key-value mappings of the
+	 *               {@link JSONObject} to append
+	 * <p>
+	 * @return {@code true} (as specified by {@link Collection#add}
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public synchronized boolean add(final String[] keys, final Collection<?> values) {
+		return add(new JSONObject(keys, values));
+	}
+
+	/**
 	 * Appends the {@link JSONObject} loaded from the specified {@link Map} containing the key-value
 	 * mappings to the end of {@code this}.
 	 * <p>

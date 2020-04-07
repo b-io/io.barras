@@ -183,7 +183,7 @@ public class FTPHandler
 	 */
 	public FTPHandler(final Protocol protocol, final String hostName, final String userName,
 			final String password, final String remoteDirPath, final String localDirPath,
-			final String fileNameFilter, final String[] fileNames) {
+			final String fileNameFilter, final String... fileNames) {
 		this.protocol = protocol;
 		this.hostName = hostName;
 		this.userName = userName;

@@ -70,7 +70,7 @@ public class Row
 	 * @param header   an array of {@link String}
 	 * @param elements an array of {@link Object}
 	 */
-	public Row(final String[] header, final Object[] elements) {
+	public Row(final String[] header, final Object... elements) {
 		this.header = header;
 		this.elements = elements;
 	}

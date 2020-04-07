@@ -1053,7 +1053,7 @@ public class Floats {
 	 * @return the number of occurrences of the specified {@code float} tokens in the specified
 	 *         {@code float} array
 	 */
-	public static int count(final float[] array, final float[] tokens) {
+	public static int count(final float[] array, final float... tokens) {
 		int occurrenceCount = 0;
 		if (array != null && tokens != null) {
 			for (final float token : tokens) {
@@ -1073,7 +1073,7 @@ public class Floats {
 	 * @return the number of occurrences of the specified {@code float} tokens in the specified 2D
 	 *         {@code float} array
 	 */
-	public static int count(final float[][] array2D, final float[] tokens) {
+	public static int count(final float[][] array2D, final float... tokens) {
 		int occurrenceCount = 0;
 		if (array2D != null) {
 			for (final float[] array : array2D) {
@@ -1093,7 +1093,7 @@ public class Floats {
 	 * @return the number of occurrences of the specified {@code float} tokens in the specified 3D
 	 *         {@code float} array
 	 */
-	public static int count(final float[][][] array3D, final float[] tokens) {
+	public static int count(final float[][][] array3D, final float... tokens) {
 		int occurrenceCount = 0;
 		if (array3D != null) {
 			for (final float[][] array2D : array3D) {
@@ -1229,7 +1229,7 @@ public class Floats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void reverse(final float[] array) {
+	public static void reverse(final float... array) {
 		reverse(array, 0, array.length - 1);
 	}
 
@@ -1251,7 +1251,7 @@ public class Floats {
 	 * <p>
 	 * @param array the {@code float} array to shuffle
 	 */
-	public static void shuffle(final float[] array) {
+	public static void shuffle(final float... array) {
 		shuffle(array, 0, array.length);
 	}
 
@@ -1358,7 +1358,7 @@ public class Floats {
 	 * <p>
 	 * @return the transpose of the specified {@code float} array
 	 */
-	public static float[] transpose(final int rowCount, final float[] array) {
+	public static float[] transpose(final int rowCount, final float... array) {
 		final int n = rowCount;
 		final int m = array.length / rowCount;
 		final float[] transpose = new float[m * n];
@@ -1702,7 +1702,7 @@ public class Floats {
 	 * @return {@code true} if the specified {@code float} array contains any of the specified
 	 *         {@code float} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final float[] array, final float[] tokens) {
+	public static boolean containsAny(final float[] array, final float... tokens) {
 		if (array != null) {
 			for (final float token : tokens) {
 				if (contains(array, token)) {

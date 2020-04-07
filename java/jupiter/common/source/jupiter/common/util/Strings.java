@@ -754,7 +754,7 @@ public class Strings {
 	 * @return the number of occurrences of the specified {@code char} tokens in the specified
 	 *         {@link String}
 	 */
-	public static int count(final String text, final char[] tokens) {
+	public static int count(final String text, final char... tokens) {
 		// Check the arguments
 		if (text == null || tokens == null) {
 			return 0;
@@ -797,7 +797,7 @@ public class Strings {
 	 * @return the number of occurrences of the specified array of token {@link String} in the
 	 *         specified {@link String}
 	 */
-	public static int countString(final String text, final String[] tokens) {
+	public static int countString(final String text, final String... tokens) {
 		int occurrenceCount = 0;
 		if (text != null && tokens != null) {
 			for (final String token : tokens) {
@@ -1445,7 +1445,7 @@ public class Strings {
 	 * @return the {@link String} constructed by removing the characters at the specified distinct
 	 *         sorted indices in the specified {@link String}
 	 */
-	public static String remove(final String text, final int[] indices) {
+	public static String remove(final String text, final int... indices) {
 		// Check the arguments
 		if (isNullOrEmpty(text) || Integers.isNullOrEmpty(indices)) {
 			return text;
@@ -1586,7 +1586,7 @@ public class Strings {
 	 *         in the specified {@link String} respectively by the specified {@code char} tokens
 	 */
 	public static String replace(final String text, final int[] indices,
-			final char[] replacements) {
+			final char... replacements) {
 		// Check the arguments
 		if (isNullOrEmpty(text) || Integers.isNullOrEmpty(indices) ||
 				Characters.isNullOrEmpty(replacements)) {
@@ -3049,7 +3049,7 @@ public class Strings {
 	 * <p>
 	 * @return the indices of the specified {@code char} tokens in the specified {@link String}
 	 */
-	public static ExtendedLinkedList<Integer> getIndices(final String text, final char[] tokens) {
+	public static ExtendedLinkedList<Integer> getIndices(final String text, final char... tokens) {
 		return getIndices(text, tokens, 0);
 	}
 
@@ -3270,7 +3270,7 @@ public class Strings {
 	 *         {@link String} in the specified {@link String}
 	 */
 	public static SortedList<Index<String>> getStringIndices(final String text,
-			final String[] tokens) {
+			final String... tokens) {
 		return getStringIndices(text, tokens, 0);
 	}
 
@@ -3420,7 +3420,7 @@ public class Strings {
 	 *         specified {@link String} around the specified delimiting indices
 	 */
 	public static ExtendedLinkedList<String> getTokens(final String text,
-			final int[] delimiterIndices) {
+			final int... delimiterIndices) {
 		// Check the arguments
 		Arguments.requireNonNull(text, "text");
 
@@ -3635,7 +3635,7 @@ public class Strings {
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified {@code char} delimiters
 	 */
-	public static ExtendedLinkedList<String> split(final String text, final char[] delimiters) {
+	public static ExtendedLinkedList<String> split(final String text, final char... delimiters) {
 		// Check the arguments
 		Arguments.requireNonNull(text, "text");
 
@@ -3776,7 +3776,7 @@ public class Strings {
 	 *         specified {@link String} around the specified delimiting {@link String}
 	 */
 	public static ExtendedLinkedList<String> splitString(final String text,
-			final String[] delimiters) {
+			final String... delimiters) {
 		// Check the arguments
 		Arguments.requireNonNull(text, "text");
 
@@ -4060,7 +4060,7 @@ public class Strings {
 	 * @return {@code true} if the specified {@link String} contains any of the specified
 	 *         {@code char} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final String text, final char[] tokens) {
+	public static boolean containsAny(final String text, final char... tokens) {
 		if (text != null) {
 			for (final char token : tokens) {
 				if (text.indexOf(token) >= 0) {
@@ -4096,7 +4096,7 @@ public class Strings {
 	 * @return {@code true} if the specified {@link String} contains any of the specified token
 	 *         {@link String}, {@code false} otherwise
 	 */
-	public static boolean containsAny(final String text, final String[] tokens) {
+	public static boolean containsAny(final String text, final String... tokens) {
 		if (text != null) {
 			for (final String token : tokens) {
 				if (text.contains(token)) {
@@ -4131,7 +4131,7 @@ public class Strings {
 	 * @return {@code true} if the specified {@link String} matches any {@code expressions},
 	 *         {@code false} otherwise
 	 */
-	public static boolean matches(final String text, final String[] expressions) {
+	public static boolean matches(final String text, final String... expressions) {
 		if (text != null) {
 			for (final String expression : expressions) {
 				if (expression != null && text.matches(expression)) {

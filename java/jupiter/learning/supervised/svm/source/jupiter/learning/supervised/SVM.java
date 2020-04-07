@@ -286,7 +286,7 @@ public class SVM {
 	 * <p>
 	 * @param weights a {@code double} array
 	 */
-	public void setWeights(final double[] weights) {
+	public void setWeights(final double... weights) {
 		// Check the arguments
 		DoubleArguments.requireMaxLength(weights, trainingExampleCount);
 
@@ -327,7 +327,7 @@ public class SVM {
 	 * <p>
 	 * @return the estimated class
 	 */
-	public Integer classify(final double[] example) {
+	public Integer classify(final double... example) {
 		// Check the arguments
 		if (model == null) {
 			IO.error("No model found");
@@ -367,7 +367,7 @@ public class SVM {
 	 * @param featureVectors the 2D {@code double} array of feature vectors of size (m x n) to load
 	 * @param classes        the {@code double} array of classes of size m to load
 	 */
-	public void load(final double[][] featureVectors, final int[] classes) {
+	public void load(final double[][] featureVectors, final int... classes) {
 		// Check the arguments
 		ArrayArguments.requireSameLength(
 				Arguments.requireNonNull(featureVectors, "feature vectors").length,
@@ -456,7 +456,7 @@ public class SVM {
 	 * @param featureVector        the feature vector of the training example
 	 */
 	protected void updateFeatureVector(final int trainingExampleIndex,
-			final double[] featureVector) {
+			final double... featureVector) {
 		for (int featureIndex = 0; featureIndex < featureCount; ++featureIndex) {
 			updateValue(trainingExampleIndex, featureIndex, featureVector[featureIndex]);
 		}

@@ -193,7 +193,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @param weights an array of {@link Matrix}
 	 */
-	public synchronized void setWeights(final Matrix[] weights) {
+	public synchronized void setWeights(final Matrix... weights) {
 		// Check the arguments
 		if (weights != null) {
 			Arguments.require(weights[0].getColumnDimension(), featureCount);
@@ -208,7 +208,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @param bias an array of {@link Vector}
 	 */
-	public synchronized void setBias(final Vector[] bias) {
+	public synchronized void setBias(final Vector... bias) {
 		// Check the arguments
 		if (bias != null) {
 			Arguments.require(bias[0].getColumnDimension(), 1);

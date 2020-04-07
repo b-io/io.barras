@@ -135,7 +135,7 @@ public class StringTable
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	@Override
-	public void setRow(final int i, final String[] values) {
+	public void setRow(final int i, final String... values) {
 		// Check the arguments
 		// • i
 		ArrayArguments.requireIndex(i, m);
@@ -157,7 +157,7 @@ public class StringTable
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	@Override
-	public void setColumn(final int j, final String[] values) {
+	public void setColumn(final int j, final String... values) {
 		// Check the arguments
 		// • j
 		ArrayArguments.requireIndex(j, n);

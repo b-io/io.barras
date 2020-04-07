@@ -79,7 +79,7 @@ public class RegularizationL2
 	 * @return {@code λ sum(sum(W .* W)) / (2. * m)}
 	 */
 	@Override
-	public double computeCost(final int m, final Matrix[] weights) {
+	public double computeCost(final int m, final Matrix... weights) {
 		double sum = 0.;
 		for (final Matrix W : weights) {
 			sum += W.apply(SQUARE).sum();

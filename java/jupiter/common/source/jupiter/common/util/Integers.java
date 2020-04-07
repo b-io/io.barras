@@ -197,7 +197,7 @@ public class Integers {
 	 * @return the lowest index of the specified target {@code char} buffer used
 	 */
 	public static int toUnsignedInt(final int source, final int shift, final char[] target,
-			final int offset, final int length, final char[] digits) {
+			final int offset, final int length, final char... digits) {
 		// Initialize
 		final int radix = Maths.pow2(shift);
 		final int mask = radix - 1;
@@ -1106,7 +1106,7 @@ public class Integers {
 	 * @return the number of occurrences of the specified {@code int} tokens in the specified
 	 *         {@code int} array
 	 */
-	public static int count(final int[] array, final int[] tokens) {
+	public static int count(final int[] array, final int... tokens) {
 		int occurrenceCount = 0;
 		if (array != null && tokens != null) {
 			for (final int token : tokens) {
@@ -1126,7 +1126,7 @@ public class Integers {
 	 * @return the number of occurrences of the specified {@code int} tokens in the specified 2D
 	 *         {@code int} array
 	 */
-	public static int count(final int[][] array2D, final int[] tokens) {
+	public static int count(final int[][] array2D, final int... tokens) {
 		int occurrenceCount = 0;
 		if (array2D != null) {
 			for (final int[] array : array2D) {
@@ -1146,7 +1146,7 @@ public class Integers {
 	 * @return the number of occurrences of the specified {@code int} tokens in the specified 3D
 	 *         {@code int} array
 	 */
-	public static int count(final int[][][] array3D, final int[] tokens) {
+	public static int count(final int[][][] array3D, final int... tokens) {
 		int occurrenceCount = 0;
 		if (array3D != null) {
 			for (final int[][] array2D : array3D) {
@@ -1305,7 +1305,7 @@ public class Integers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void reverse(final int[] array) {
+	public static void reverse(final int... array) {
 		reverse(array, 0, array.length - 1);
 	}
 
@@ -1327,7 +1327,7 @@ public class Integers {
 	 * <p>
 	 * @param array the {@code int} array to shuffle
 	 */
-	public static void shuffle(final int[] array) {
+	public static void shuffle(final int... array) {
 		shuffle(array, 0, array.length);
 	}
 
@@ -1434,7 +1434,7 @@ public class Integers {
 	 * <p>
 	 * @return the transpose of the specified {@code int} array
 	 */
-	public static int[] transpose(final int rowCount, final int[] array) {
+	public static int[] transpose(final int rowCount, final int... array) {
 		final int n = rowCount;
 		final int m = array.length / rowCount;
 		final int[] transpose = new int[m * n];
@@ -1804,7 +1804,7 @@ public class Integers {
 	 * @return {@code true} if the specified {@code int} array contains any of the specified
 	 *         {@code int} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final int[] array, final int[] tokens) {
+	public static boolean containsAny(final int[] array, final int... tokens) {
 		if (array != null) {
 			for (final int token : tokens) {
 				if (contains(array, token)) {

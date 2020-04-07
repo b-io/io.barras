@@ -83,7 +83,7 @@ public abstract class RegularizationFunction
 	 * <p>
 	 * @return the regularization cost
 	 */
-	public abstract double computeCost(final int m, final Matrix[] weights);
+	public abstract double computeCost(final int m, final Matrix... weights);
 
 	/**
 	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}.

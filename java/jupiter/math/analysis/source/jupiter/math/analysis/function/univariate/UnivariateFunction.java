@@ -191,7 +191,7 @@ public abstract class UnivariateFunction
 		return result;
 	}
 
-	public double[] applyToPrimitiveArray(final Number... array) {
+	public double[] applyToPrimitiveArray(final Number[] array) {
 		final double[] result = new double[array.length];
 		for (int i = 0; i < array.length; ++i) {
 			result[i] = apply(array[i]);

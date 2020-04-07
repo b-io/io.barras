@@ -224,7 +224,7 @@ public class Bytes {
 	 * @return the lowest index of the specified target {@code char} buffer used
 	 */
 	public static int toUnsignedInt(final byte source, final int shift, final char[] target,
-			final int offset, final int length, final char[] digits) {
+			final int offset, final int length, final char... digits) {
 		return Integers.toUnsignedInt(source & 0xFF, shift, target, offset, length, digits);
 	}
 
@@ -251,7 +251,7 @@ public class Bytes {
 	 * @return a binary representative {@link String} of the specified {@code byte} array using the
 	 *         specified digits
 	 */
-	public static String toBinaryString(final byte[] array, final char[] digits) {
+	public static String toBinaryString(final byte[] array, final char... digits) {
 		final char[] buffer = new char[array.length << 3];
 		for (int i = 0; i < array.length; ++i) {
 			final int offset = i << 3;
@@ -286,7 +286,7 @@ public class Bytes {
 	 * @return an octal representative {@link String} of the specified {@code byte} array using the
 	 *         specified digits
 	 */
-	public static String toOctalString(final byte[] array, final char[] digits) {
+	public static String toOctalString(final byte[] array, final char... digits) {
 		final char[] buffer = new char[array.length << 2];
 		for (int i = 0; i < array.length; ++i) {
 			final int offset = i << 2;
@@ -333,7 +333,7 @@ public class Bytes {
 	 * @return a hexadecimal representative {@link String} of the specified {@code byte} array using
 	 *         the specified digits
 	 */
-	public static String toHexString(final byte[] array, final char[] digits) {
+	public static String toHexString(final byte[] array, final char... digits) {
 		final char[] buffer = new char[array.length << 1];
 		for (int i = 0; i < array.length; ++i) {
 			final int offset = i << 1;
@@ -1237,7 +1237,7 @@ public class Bytes {
 	 * @return the number of occurrences of the specified {@code byte} tokens in the specified
 	 *         {@code byte} array
 	 */
-	public static int count(final byte[] array, final byte[] tokens) {
+	public static int count(final byte[] array, final byte... tokens) {
 		int occurrenceCount = 0;
 		if (array != null && tokens != null) {
 			for (final byte token : tokens) {
@@ -1257,7 +1257,7 @@ public class Bytes {
 	 * @return the number of occurrences of the specified {@code byte} tokens in the specified 2D
 	 *         {@code byte} array
 	 */
-	public static int count(final byte[][] array2D, final byte[] tokens) {
+	public static int count(final byte[][] array2D, final byte... tokens) {
 		int occurrenceCount = 0;
 		if (array2D != null) {
 			for (final byte[] array : array2D) {
@@ -1277,7 +1277,7 @@ public class Bytes {
 	 * @return the number of occurrences of the specified {@code byte} tokens in the specified 3D
 	 *         {@code byte} array
 	 */
-	public static int count(final byte[][][] array3D, final byte[] tokens) {
+	public static int count(final byte[][][] array3D, final byte... tokens) {
 		int occurrenceCount = 0;
 		if (array3D != null) {
 			for (final byte[][] array2D : array3D) {
@@ -1437,7 +1437,7 @@ public class Bytes {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void reverse(final byte[] array) {
+	public static void reverse(final byte... array) {
 		reverse(array, 0, array.length - 1);
 	}
 
@@ -1459,7 +1459,7 @@ public class Bytes {
 	 * <p>
 	 * @param array the {@code byte} array to shuffle
 	 */
-	public static void shuffle(final byte[] array) {
+	public static void shuffle(final byte... array) {
 		shuffle(array, 0, array.length);
 	}
 
@@ -1566,7 +1566,7 @@ public class Bytes {
 	 * <p>
 	 * @return the transpose of the specified {@code byte} array
 	 */
-	public static byte[] transpose(final int rowCount, final byte[] array) {
+	public static byte[] transpose(final int rowCount, final byte... array) {
 		final int n = rowCount;
 		final int m = array.length / rowCount;
 		final byte[] transpose = new byte[m * n];
@@ -1952,7 +1952,7 @@ public class Bytes {
 	 * @return {@code true} if the specified {@code byte} array contains any of the specified
 	 *         {@code byte} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final byte[] array, final byte[] tokens) {
+	public static boolean containsAny(final byte[] array, final byte... tokens) {
 		if (array != null) {
 			for (final byte token : tokens) {
 				if (contains(array, token)) {

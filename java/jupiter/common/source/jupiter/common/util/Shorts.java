@@ -1053,7 +1053,7 @@ public class Shorts {
 	 * @return the number of occurrences of the specified {@code short} tokens in the specified
 	 *         {@code short} array
 	 */
-	public static int count(final short[] array, final short[] tokens) {
+	public static int count(final short[] array, final short... tokens) {
 		int occurrenceCount = 0;
 		if (array != null && tokens != null) {
 			for (final short token : tokens) {
@@ -1073,7 +1073,7 @@ public class Shorts {
 	 * @return the number of occurrences of the specified {@code short} tokens in the specified 2D
 	 *         {@code short} array
 	 */
-	public static int count(final short[][] array2D, final short[] tokens) {
+	public static int count(final short[][] array2D, final short... tokens) {
 		int occurrenceCount = 0;
 		if (array2D != null) {
 			for (final short[] array : array2D) {
@@ -1093,7 +1093,7 @@ public class Shorts {
 	 * @return the number of occurrences of the specified {@code short} tokens in the specified 3D
 	 *         {@code short} array
 	 */
-	public static int count(final short[][][] array3D, final short[] tokens) {
+	public static int count(final short[][][] array3D, final short... tokens) {
 		int occurrenceCount = 0;
 		if (array3D != null) {
 			for (final short[][] array2D : array3D) {
@@ -1254,7 +1254,7 @@ public class Shorts {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void reverse(final short[] array) {
+	public static void reverse(final short... array) {
 		reverse(array, 0, array.length - 1);
 	}
 
@@ -1276,7 +1276,7 @@ public class Shorts {
 	 * <p>
 	 * @param array the {@code short} array to shuffle
 	 */
-	public static void shuffle(final short[] array) {
+	public static void shuffle(final short... array) {
 		shuffle(array, 0, array.length);
 	}
 
@@ -1383,7 +1383,7 @@ public class Shorts {
 	 * <p>
 	 * @return the transpose of the specified {@code short} array
 	 */
-	public static short[] transpose(final int rowCount, final short[] array) {
+	public static short[] transpose(final int rowCount, final short... array) {
 		final int n = rowCount;
 		final int m = array.length / rowCount;
 		final short[] transpose = new short[m * n];
@@ -1714,7 +1714,7 @@ public class Shorts {
 	 * @return {@code true} if the specified {@code short} array contains any of the specified
 	 *         {@code short} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final short[] array, final short[] tokens) {
+	public static boolean containsAny(final short[] array, final short... tokens) {
 		if (array != null) {
 			for (final short token : tokens) {
 				if (contains(array, token)) {

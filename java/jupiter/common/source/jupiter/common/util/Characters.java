@@ -1061,7 +1061,7 @@ public class Characters {
 	 * @return the number of occurrences of the specified {@code char} tokens in the specified
 	 *         {@code char} array
 	 */
-	public static int count(final char[] array, final char[] tokens) {
+	public static int count(final char[] array, final char... tokens) {
 		int occurrenceCount = 0;
 		if (array != null && tokens != null) {
 			for (final char token : tokens) {
@@ -1081,7 +1081,7 @@ public class Characters {
 	 * @return the number of occurrences of the specified {@code char} tokens in the specified 2D
 	 *         {@code char} array
 	 */
-	public static int count(final char[][] array2D, final char[] tokens) {
+	public static int count(final char[][] array2D, final char... tokens) {
 		int occurrenceCount = 0;
 		if (array2D != null) {
 			for (final char[] array : array2D) {
@@ -1101,7 +1101,7 @@ public class Characters {
 	 * @return the number of occurrences of the specified {@code char} tokens in the specified 3D
 	 *         {@code char} array
 	 */
-	public static int count(final char[][][] array3D, final char[] tokens) {
+	public static int count(final char[][][] array3D, final char... tokens) {
 		int occurrenceCount = 0;
 		if (array3D != null) {
 			for (final char[][] array2D : array3D) {
@@ -1120,7 +1120,7 @@ public class Characters {
 	 * <p>
 	 * @return the number of lower case {@code char} tokens in the specified {@code char} array
 	 */
-	public static int countLowerCase(final char[] array) {
+	public static int countLowerCase(final char... array) {
 		int occurrenceCount = 0;
 		for (final char token : array) {
 			if (Character.isLowerCase(token)) {
@@ -1137,7 +1137,7 @@ public class Characters {
 	 * <p>
 	 * @return the number of upper case {@code char} tokens in the specified {@code char} array
 	 */
-	public static int countUpperCase(final char[] array) {
+	public static int countUpperCase(final char... array) {
 		int occurrenceCount = 0;
 		for (final char token : array) {
 			if (Character.isUpperCase(token)) {
@@ -1154,7 +1154,7 @@ public class Characters {
 	 * <p>
 	 * @return the number of title case {@code char} tokens in the specified {@code char} array
 	 */
-	public static int countTitleCase(final char[] array) {
+	public static int countTitleCase(final char... array) {
 		int occurrenceCount = 0;
 		for (final char token : array) {
 			if (Character.isTitleCase(token)) {
@@ -1264,7 +1264,7 @@ public class Characters {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void reverse(final char[] array) {
+	public static void reverse(final char... array) {
 		reverse(array, 0, array.length - 1);
 	}
 
@@ -1286,7 +1286,7 @@ public class Characters {
 	 * <p>
 	 * @param array the {@code char} array to shuffle
 	 */
-	public static void shuffle(final char[] array) {
+	public static void shuffle(final char... array) {
 		shuffle(array, 0, array.length);
 	}
 
@@ -1393,7 +1393,7 @@ public class Characters {
 	 * <p>
 	 * @return the transpose of the specified {@code char} array
 	 */
-	public static char[] transpose(final int rowCount, final char[] array) {
+	public static char[] transpose(final int rowCount, final char... array) {
 		final int n = rowCount;
 		final int m = array.length / rowCount;
 		final char[] transpose = new char[m * n];
@@ -1750,7 +1750,7 @@ public class Characters {
 	 * @return {@code true} if the specified {@code char} array contains any of the specified
 	 *         {@code char} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final char[] array, final char[] tokens) {
+	public static boolean containsAny(final char[] array, final char... tokens) {
 		if (array != null) {
 			for (final char token : tokens) {
 				if (contains(array, token)) {

@@ -898,7 +898,7 @@ public class Booleans {
 	 * @return the number of occurrences of the specified {@code boolean} tokens in the specified
 	 *         {@code boolean} array
 	 */
-	public static int count(final boolean[] array, final boolean[] tokens) {
+	public static int count(final boolean[] array, final boolean... tokens) {
 		int occurrenceCount = 0;
 		if (array != null && tokens != null) {
 			for (final boolean token : tokens) {
@@ -918,7 +918,7 @@ public class Booleans {
 	 * @return the number of occurrences of the specified {@code boolean} tokens in the specified 2D
 	 *         {@code boolean} array
 	 */
-	public static int count(final boolean[][] array2D, final boolean[] tokens) {
+	public static int count(final boolean[][] array2D, final boolean... tokens) {
 		int occurrenceCount = 0;
 		if (array2D != null) {
 			for (final boolean[] array : array2D) {
@@ -938,7 +938,7 @@ public class Booleans {
 	 * @return the number of occurrences of the specified {@code boolean} tokens in the specified 3D
 	 *         {@code boolean} array
 	 */
-	public static int count(final boolean[][][] array3D, final boolean[] tokens) {
+	public static int count(final boolean[][][] array3D, final boolean... tokens) {
 		int occurrenceCount = 0;
 		if (array3D != null) {
 			for (final boolean[][] array2D : array3D) {
@@ -1049,7 +1049,7 @@ public class Booleans {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void reverse(final boolean[] array) {
+	public static void reverse(final boolean... array) {
 		reverse(array, 0, array.length - 1);
 	}
 
@@ -1071,7 +1071,7 @@ public class Booleans {
 	 * <p>
 	 * @param array the {@code boolean} array to shuffle
 	 */
-	public static void shuffle(final boolean[] array) {
+	public static void shuffle(final boolean... array) {
 		shuffle(array, 0, array.length);
 	}
 
@@ -1179,7 +1179,7 @@ public class Booleans {
 	 * <p>
 	 * @return the transpose of the specified {@code boolean} array
 	 */
-	public static boolean[] transpose(final int rowCount, final boolean[] array) {
+	public static boolean[] transpose(final int rowCount, final boolean... array) {
 		final int n = rowCount;
 		final int m = array.length / rowCount;
 		final boolean[] transpose = new boolean[m * n];
@@ -1399,7 +1399,7 @@ public class Booleans {
 	 * @return {@code true} if the specified {@code boolean} array contains any of the specified
 	 *         {@code boolean} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final boolean[] array, final boolean[] tokens) {
+	public static boolean containsAny(final boolean[] array, final boolean... tokens) {
 		if (array != null) {
 			for (final boolean token : tokens) {
 				if (contains(array, token)) {

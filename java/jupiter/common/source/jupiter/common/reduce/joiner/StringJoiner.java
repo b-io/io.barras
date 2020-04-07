@@ -80,7 +80,7 @@ public class StringJoiner
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public String call(final Object[] input) {
+	public String call(final Object... input) {
 		return Strings.joinWith(input, delimiter);
 	}
 

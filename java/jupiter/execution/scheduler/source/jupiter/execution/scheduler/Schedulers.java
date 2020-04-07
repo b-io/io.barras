@@ -101,7 +101,7 @@ public class Schedulers {
 	}
 
 	public static JobChainingJobListener createJobChain(final String group,
-			final JobDetail[] jobDetails) {
+			final JobDetail... jobDetails) {
 		final JobChainingJobListener jobChain = new JobChainingJobListener(
 				CHAIN_PREFIX.concat(group));
 		for (int i = 1; i < jobDetails.length; ++i) {

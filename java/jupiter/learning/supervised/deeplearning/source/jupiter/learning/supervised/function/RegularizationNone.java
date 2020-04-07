@@ -68,7 +68,7 @@ public class RegularizationNone
 	 * @return {@code 0.}
 	 */
 	@Override
-	public double computeCost(final int m, final Matrix[] weights) {
+	public double computeCost(final int m, final Matrix... weights) {
 		return 0.;
 	}
 

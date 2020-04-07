@@ -346,35 +346,35 @@ public class Combinatorics {
 		return permutations;
 	}
 
-	public static boolean[][] createPermutations(final boolean[] array) {
+	public static boolean[][] createPermutations(final boolean... array) {
 		return Booleans.filterAll(array, createPermutations(array.length));
 	}
 
-	public static char[][] createPermutations(final char[] array) {
+	public static char[][] createPermutations(final char... array) {
 		return Characters.filterAll(array, createPermutations(array.length));
 	}
 
-	public static byte[][] createPermutations(final byte[] array) {
+	public static byte[][] createPermutations(final byte... array) {
 		return Bytes.filterAll(array, createPermutations(array.length));
 	}
 
-	public static short[][] createPermutations(final short[] array) {
+	public static short[][] createPermutations(final short... array) {
 		return Shorts.filterAll(array, createPermutations(array.length));
 	}
 
-	public static int[][] createPermutations(final int[] array) {
+	public static int[][] createPermutations(final int... array) {
 		return Integers.filterAll(array, createPermutations(array.length));
 	}
 
-	public static long[][] createPermutations(final long[] array) {
+	public static long[][] createPermutations(final long... array) {
 		return Longs.filterAll(array, createPermutations(array.length));
 	}
 
-	public static float[][] createPermutations(final float[] array) {
+	public static float[][] createPermutations(final float... array) {
 		return Floats.filterAll(array, createPermutations(array.length));
 	}
 
-	public static double[][] createPermutations(final double[] array) {
+	public static double[][] createPermutations(final double... array) {
 		return Doubles.filterAll(array, createPermutations(array.length));
 	}
 

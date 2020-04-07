@@ -1040,7 +1040,7 @@ public class Doubles {
 	 * @return the number of occurrences of the specified {@code double} tokens in the specified
 	 *         {@code double} array
 	 */
-	public static int count(final double[] array, final double[] tokens) {
+	public static int count(final double[] array, final double... tokens) {
 		int occurrenceCount = 0;
 		if (array != null && tokens != null) {
 			for (final double token : tokens) {
@@ -1060,7 +1060,7 @@ public class Doubles {
 	 * @return the number of occurrences of the specified {@code double} tokens in the specified 2D
 	 *         {@code double} array
 	 */
-	public static int count(final double[][] array2D, final double[] tokens) {
+	public static int count(final double[][] array2D, final double... tokens) {
 		int occurrenceCount = 0;
 		if (array2D != null) {
 			for (final double[] array : array2D) {
@@ -1080,7 +1080,7 @@ public class Doubles {
 	 * @return the number of occurrences of the specified {@code double} tokens in the specified 3D
 	 *         {@code double} array
 	 */
-	public static int count(final double[][][] array3D, final double[] tokens) {
+	public static int count(final double[][][] array3D, final double... tokens) {
 		int occurrenceCount = 0;
 		if (array3D != null) {
 			for (final double[][] array2D : array3D) {
@@ -1216,7 +1216,7 @@ public class Doubles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void reverse(final double[] array) {
+	public static void reverse(final double... array) {
 		reverse(array, 0, array.length - 1);
 	}
 
@@ -1238,7 +1238,7 @@ public class Doubles {
 	 * <p>
 	 * @param array the {@code double} array to shuffle
 	 */
-	public static void shuffle(final double[] array) {
+	public static void shuffle(final double... array) {
 		shuffle(array, 0, array.length);
 	}
 
@@ -1345,7 +1345,7 @@ public class Doubles {
 	 * <p>
 	 * @return the transpose of the specified {@code double} array
 	 */
-	public static double[] transpose(final int rowCount, final double[] array) {
+	public static double[] transpose(final int rowCount, final double... array) {
 		final int n = rowCount;
 		final int m = array.length / rowCount;
 		final double[] transpose = new double[m * n];
@@ -1689,7 +1689,7 @@ public class Doubles {
 	 * @return {@code true} if the specified {@code double} array contains any of the specified
 	 *         {@code double} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final double[] array, final double[] tokens) {
+	public static boolean containsAny(final double[] array, final double... tokens) {
 		if (array != null) {
 			for (final double token : tokens) {
 				if (contains(array, token)) {

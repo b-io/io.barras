@@ -92,7 +92,7 @@ public class SystemFiles {
 
 	//////////////////////////////////////////////
 
-	public static ExtendedLinkedList<File> find(final File dir, final String[] fileFilters) {
+	public static ExtendedLinkedList<File> find(final File dir, final String... fileFilters) {
 		return find(dir, fileFilters, EMPTY);
 	}
 

@@ -90,7 +90,7 @@ public class OptimizationAdam
 	 * @param models     the array of model {@link Vector} for the arrays of momentum {@link Entity}
 	 *                   {@code V} and RMSprop {@link Entity} {@code S}
 	 */
-	public OptimizationAdam(final int layerCount, final Vector[] models) {
+	public OptimizationAdam(final int layerCount, final Vector... models) {
 		super();
 		setDefaultParameters();
 		V = new Vector[layerCount];
@@ -110,7 +110,7 @@ public class OptimizationAdam
 	 * @param models     the array of model {@link Matrix} for the arrays of momentum {@link Entity}
 	 *                   {@code V} and RMSprop {@link Entity} {@code S}
 	 */
-	public OptimizationAdam(final int layerCount, final Matrix[] models) {
+	public OptimizationAdam(final int layerCount, final Matrix... models) {
 		super();
 		setDefaultParameters();
 		V = new Matrix[layerCount];

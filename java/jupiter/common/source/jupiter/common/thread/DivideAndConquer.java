@@ -182,7 +182,7 @@ public abstract class DivideAndConquer<I>
 	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
 	 *         {@code IO.EXIT_FAILURE} otherwise for all of them
 	 */
-	protected int[] conquer(final long[] ids) {
+	protected int[] conquer(final long... ids) {
 		final int[] outputs = new int[ids.length];
 		for (int i = 0; i < ids.length; ++i) {
 			outputs[i] = workQueue.get(ids[i]);

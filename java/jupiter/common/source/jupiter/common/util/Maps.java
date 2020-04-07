@@ -188,7 +188,7 @@ public class Maps
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public static <V> ExtendedList<V> removeAll(final Map<?, ? extends V> map,
-			final Object... keys) {
+			final Object[] keys) {
 		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
 		for (final Object key : keys) {
 			values.add(map.remove(key));

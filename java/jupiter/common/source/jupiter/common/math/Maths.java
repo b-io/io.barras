@@ -676,7 +676,7 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
-	public static byte weightedSum(final byte[] values, final byte[] weights) {
+	public static byte weightedSum(final byte[] values, final byte... weights) {
 		// Check the arguments
 		ByteArguments.requireSameLength(values, weights);
 
@@ -688,7 +688,7 @@ public class Maths {
 		return sum;
 	}
 
-	public static short weightedSum(final short[] values, final short[] weights) {
+	public static short weightedSum(final short[] values, final short... weights) {
 		// Check the arguments
 		ShortArguments.requireSameLength(values, weights);
 
@@ -700,7 +700,7 @@ public class Maths {
 		return sum;
 	}
 
-	public static int weightedSum(final int[] values, final int[] weights) {
+	public static int weightedSum(final int[] values, final int... weights) {
 		// Check the arguments
 		IntegerArguments.requireSameLength(values, weights);
 
@@ -712,7 +712,7 @@ public class Maths {
 		return sum;
 	}
 
-	public static long weightedSum(final long[] values, final long[] weights) {
+	public static long weightedSum(final long[] values, final long... weights) {
 		// Check the arguments
 		LongArguments.requireSameLength(values, weights);
 
@@ -724,7 +724,7 @@ public class Maths {
 		return sum;
 	}
 
-	public static float weightedSum(final float[] values, final float[] weights) {
+	public static float weightedSum(final float[] values, final float... weights) {
 		// Check the arguments
 		FloatArguments.requireSameLength(values, weights);
 
@@ -736,7 +736,7 @@ public class Maths {
 		return sum;
 	}
 
-	public static double weightedSum(final double[] values, final double[] weights) {
+	public static double weightedSum(final double[] values, final double... weights) {
 		// Check the arguments
 		DoubleArguments.requireSameLength(values, weights);
 
@@ -748,7 +748,7 @@ public class Maths {
 		return sum;
 	}
 
-	public static double weightedSum(final Number[] numbers, final Number[] weights) {
+	public static double weightedSum(final Number[] numbers, final Number... weights) {
 		// Check the arguments
 		ArrayArguments.requireSameLength(numbers, weights);
 
@@ -1141,7 +1141,7 @@ public class Maths {
 		return product;
 	}
 
-	public static double product(final Number... numbers) {
+	public static double product(final Number[] numbers) {
 		double product = 1.;
 		for (final Number number : numbers) {
 			if (number != null) {

@@ -1020,7 +1020,7 @@ public class Longs {
 	 * @return the number of occurrences of the specified {@code long} tokens in the specified
 	 *         {@code long} array
 	 */
-	public static int count(final long[] array, final long[] tokens) {
+	public static int count(final long[] array, final long... tokens) {
 		int occurrenceCount = 0;
 		if (array != null && tokens != null) {
 			for (final long token : tokens) {
@@ -1040,7 +1040,7 @@ public class Longs {
 	 * @return the number of occurrences of the specified {@code long} tokens in the specified 2D
 	 *         {@code long} array
 	 */
-	public static int count(final long[][] array2D, final long[] tokens) {
+	public static int count(final long[][] array2D, final long... tokens) {
 		int occurrenceCount = 0;
 		if (array2D != null) {
 			for (final long[] array : array2D) {
@@ -1060,7 +1060,7 @@ public class Longs {
 	 * @return the number of occurrences of the specified {@code long} tokens in the specified 3D
 	 *         {@code long} array
 	 */
-	public static int count(final long[][][] array3D, final long[] tokens) {
+	public static int count(final long[][][] array3D, final long... tokens) {
 		int occurrenceCount = 0;
 		if (array3D != null) {
 			for (final long[][] array2D : array3D) {
@@ -1220,7 +1220,7 @@ public class Longs {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void reverse(final long[] array) {
+	public static void reverse(final long... array) {
 		reverse(array, 0, array.length - 1);
 	}
 
@@ -1242,7 +1242,7 @@ public class Longs {
 	 * <p>
 	 * @param array the {@code long} array to shuffle
 	 */
-	public static void shuffle(final long[] array) {
+	public static void shuffle(final long... array) {
 		shuffle(array, 0, array.length);
 	}
 
@@ -1349,7 +1349,7 @@ public class Longs {
 	 * <p>
 	 * @return the transpose of the specified {@code long} array
 	 */
-	public static long[] transpose(final int rowCount, final long[] array) {
+	public static long[] transpose(final int rowCount, final long... array) {
 		final int n = rowCount;
 		final int m = array.length / rowCount;
 		final long[] transpose = new long[m * n];
@@ -1680,7 +1680,7 @@ public class Longs {
 	 * @return {@code true} if the specified {@code long} array contains any of the specified
 	 *         {@code long} tokens, {@code false} otherwise
 	 */
-	public static boolean containsAny(final long[] array, final long[] tokens) {
+	public static boolean containsAny(final long[] array, final long... tokens) {
 		if (array != null) {
 			for (final long token : tokens) {
 				if (contains(array, token)) {

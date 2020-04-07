@@ -195,7 +195,7 @@ public abstract class Differentiator
 	}
 
 	@Override
-	public double[] applyToPrimitiveArray(final Number... array) {
+	public double[] applyToPrimitiveArray(final Number[] array) {
 		differentiateAll();
 		return super.applyToPrimitiveArray(array);
 	}

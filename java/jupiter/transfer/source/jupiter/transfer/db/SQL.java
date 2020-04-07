@@ -291,12 +291,12 @@ public class SQL {
 		return createSelectQuery(table, null, null);
 	}
 
-	public static String createSelectQuery(final String table, final String[] columns) {
+	public static String createSelectQuery(final String table, final String... columns) {
 		return createSelectQuery(table, columns, null);
 	}
 
 	public static String createSelectQuery(final String table, final String[] columns,
-			final String[] conditionalColumns) {
+			final String... conditionalColumns) {
 		// Check the arguments
 		Arguments.requireNonNull(table, "table");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
@@ -308,10 +308,10 @@ public class SQL {
 				Arrays.isNonEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
 				" FROM ", Strings.bracketize(table),
 				Arrays.isNonEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						EMPTY);
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+								.concat("=?")) :
+				EMPTY);
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
@@ -321,13 +321,13 @@ public class SQL {
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
-			final String table, final String[] columns)
+			final String table, final String... columns)
 			throws SQLException {
 		return createSelectStatement(connection, table, columns, null);
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
-			final String table, final String[] columns, final String[] conditionalColumns)
+			final String table, final String[] columns, final String... conditionalColumns)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
@@ -341,7 +341,7 @@ public class SQL {
 
 	//////////////////////////////////////////////
 
-	public static String createInsertQuery(final String table, final String[] columns) {
+	public static String createInsertQuery(final String table, final String... columns) {
 		// Check the arguments
 		Arguments.requireNonNull(table, "table");
 		ArrayArguments.requireNonEmpty(columns, "columns");
@@ -353,7 +353,7 @@ public class SQL {
 	}
 
 	public static PreparedStatement createInsertStatement(final Connection connection,
-			final String table, final String[] columns)
+			final String table, final String... columns)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
@@ -367,12 +367,12 @@ public class SQL {
 
 	//////////////////////////////////////////////
 
-	public static String createUpdateQuery(final String table, final String[] columns) {
+	public static String createUpdateQuery(final String table, final String... columns) {
 		return createUpdateQuery(table, columns, null);
 	}
 
 	public static String createUpdateQuery(final String table, final String[] columns,
-			final String[] conditionalColumns) {
+			final String... conditionalColumns) {
 		// Check the arguments
 		Arguments.requireNonNull(table, "table");
 		ArrayArguments.requireNonEmpty(columns, "columns");
@@ -384,20 +384,20 @@ public class SQL {
 		return Strings.join("UPDATE ", Strings.bracketize(table),
 				" SET ", Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
 				Arrays.isNonEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						EMPTY);
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+								.concat("=?")) :
+				EMPTY);
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
-			final String table, final String[] columns)
+			final String table, final String... columns)
 			throws SQLException {
 		return createUpdateStatement(connection, table, columns, null);
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
-			final String table, final String[] columns, final String[] conditionalColumns)
+			final String table, final String[] columns, final String... conditionalColumns)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
@@ -415,7 +415,7 @@ public class SQL {
 		return createDeleteQuery(table, null);
 	}
 
-	public static String createDeleteQuery(final String table, final String[] conditionalColumns) {
+	public static String createDeleteQuery(final String table, final String... conditionalColumns) {
 		// Check the arguments
 		Arguments.requireNonNull(table, "table");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
@@ -425,10 +425,10 @@ public class SQL {
 		// Create the SQL query for deleting the table with the conditional columns
 		return Strings.join("DELETE FROM ", Strings.bracketize(table),
 				Arrays.isNonEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						EMPTY);
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+								.concat("=?")) :
+				EMPTY);
 	}
 
 	public static PreparedStatement createDeleteStatement(final Connection connection,
@@ -438,7 +438,7 @@ public class SQL {
 	}
 
 	public static PreparedStatement createDeleteStatement(final Connection connection,
-			final String table, final String[] conditionalColumns)
+			final String table, final String... conditionalColumns)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
@@ -495,7 +495,7 @@ public class SQL {
 	 *         the specified {@link Connection}
 	 */
 	public static RowList selectWith(final Connection connection,
-			final String table, final String[] columns) {
+			final String table, final String... columns) {
 		return selectWith(connection, table, columns, null, null);
 	}
 
@@ -695,7 +695,7 @@ public class SQL {
 	 *         of the specified row {@link Class} type using the specified {@link Connection}
 	 */
 	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
-			final Connection connection, final String table, final String[] columns) {
+			final Connection connection, final String table, final String... columns) {
 		return selectWith(c, connection, table, columns, null, null);
 	}
 
@@ -1058,7 +1058,7 @@ public class SQL {
 	 *         is a problem
 	 */
 	public static int updateWith(final Connection connection,
-			final String table, final String[] columns, final Object[] values) {
+			final String table, final String[] columns, final Object... values) {
 		return updateWith(connection, table, columns, values, null, null);
 	}
 

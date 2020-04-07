@@ -95,8 +95,7 @@ public class JSONObject
 	 * <p>
 	 * @param keys   the array of {@link String} containing the keys of the key-value mappings to
 	 *               load
-	 * @param values the {@link Collection} of {@link Object} containing the values of the key-value
-	 *               mappings to load
+	 * @param values the {@link Collection} containing the values of the key-value mappings to load
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */

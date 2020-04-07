@@ -74,7 +74,7 @@ public class Stringifiers {
 	 * <p>
 	 * @return {@code true} if the specified array is a leaf, {@code false} otherwise
 	 */
-	public static boolean isLeaf(final Object... objects) {
+	public static boolean isLeaf(final Object[] objects) {
 		for (final Object object : objects) {
 			if (!isLeaf(Classes.get(object))) {
 				return false;

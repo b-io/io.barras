@@ -94,7 +94,7 @@ public class RWorker
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public Integer call(final String[] script) {
+	public Integer call(final String... script) {
 		return R.executeScript(printer, script);
 	}
 

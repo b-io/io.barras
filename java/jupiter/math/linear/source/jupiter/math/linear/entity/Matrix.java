@@ -706,7 +706,7 @@ public class Matrix
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
-	public void setRow(final int i, final double[] values) {
+	public void setRow(final int i, final double... values) {
 		setRow(i, values, 0, values.length);
 	}
 
@@ -760,7 +760,7 @@ public class Matrix
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
-	public void setColumn(final int j, final double[] values) {
+	public void setColumn(final int j, final double... values) {
 		setColumn(j, values, 0, values.length);
 	}
 
@@ -1257,7 +1257,7 @@ public class Matrix
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndices} are out of bounds
 	 */
-	public Matrix pivot(final int[] rowIndices) {
+	public Matrix pivot(final int... rowIndices) {
 		return getSubmatrix(rowIndices, 0, n);
 	}
 
@@ -1270,7 +1270,7 @@ public class Matrix
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndices} are out of bounds
 	 */
-	public Matrix unpivot(final int[] rowIndices) {
+	public Matrix unpivot(final int... rowIndices) {
 		final int rowCount = rowIndices.length;
 		final int[] unpivotIndices = new int[rowCount];
 		for (int i = 0; i < rowCount; ++i) {
