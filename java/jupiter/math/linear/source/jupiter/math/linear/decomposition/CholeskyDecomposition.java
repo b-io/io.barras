@@ -172,28 +172,26 @@ public class CholeskyDecomposition
 
 		// Initialize
 		final Matrix X = B.clone();
-		final int xColumnDimension = X.getColumnDimension();
-		final double[] xElements = X.getElements();
+		final int n = X.getColumnDimension();
+		final double[] elements = X.getElements();
 
 		// Solve L * Y = B
 		for (int k = 0; k < dimension; ++k) {
-			for (int j = 0; j < xColumnDimension; ++j) {
+			for (int j = 0; j < n; ++j) {
 				for (int i = 0; i < k; ++i) {
-					xElements[k * xColumnDimension + j] -= xElements[i * xColumnDimension + j] *
-							L[k][i];
+					elements[k * n + j] -= elements[i * n + j] * L[k][i];
 				}
-				xElements[k * xColumnDimension + j] /= L[k][k];
+				elements[k * n + j] /= L[k][k];
 			}
 		}
 
 		// Solve L' * X = Y and return X
 		for (int k = dimension - 1; k >= 0; --k) {
-			for (int j = 0; j < xColumnDimension; ++j) {
+			for (int j = 0; j < n; ++j) {
 				for (int i = k + 1; i < dimension; ++i) {
-					xElements[k * xColumnDimension + j] -= xElements[i * xColumnDimension + j] *
-							L[i][k];
+					elements[k * n + j] -= elements[i * n + j] * L[i][k];
 				}
-				xElements[k * xColumnDimension + j] /= L[k][k];
+				elements[k * n + j] /= L[k][k];
 			}
 		}
 		return X;

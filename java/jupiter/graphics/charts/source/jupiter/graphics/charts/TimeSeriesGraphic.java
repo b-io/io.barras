@@ -194,24 +194,24 @@ public class TimeSeriesGraphic
 	 *                         {@link TimeSeriesList} to append to
 	 * @param name             the name of the {@link TimeSeries} to append
 	 * @param style            the {@link SeriesStyle} of the {@link TimeSeries} to append
-	 * @param xCoordinates     the {@code double} domain coordinates of the points of the
+	 * @param X                the {@code double} domain coordinates of the points of the
 	 *                         {@link TimeSeries} to append
-	 * @param yCoordinates     the {@code double} range coordinates of the points of the
+	 * @param Y                the {@code double} range coordinates of the points of the
 	 *                         {@link TimeSeries} to append
 	 * <p>
 	 * @return the index of the {@link TimeSeries} appended to the {@link TimeSeriesList} of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
 	public int addSeries(final int axisDatasetIndex, final String name, final SeriesStyle style,
-			final Date[] xCoordinates, final double[] yCoordinates) {
+			final Date[] X, final double[] Y) {
 		// Check the arguments
-		ArrayArguments.requireSameLength(xCoordinates, yCoordinates.length);
+		ArrayArguments.requireSameLength(X, Y.length);
 
 		// Create the time series with the name and style
 		final int timeSeriesIndex = addSeries(axisDatasetIndex, name, style);
 		// Add the points
-		for (int i = 0; i < xCoordinates.length; ++i) {
-			addPoint(axisDatasetIndex, timeSeriesIndex, xCoordinates[i], yCoordinates[i]);
+		for (int i = 0; i < X.length; ++i) {
+			addPoint(axisDatasetIndex, timeSeriesIndex, X[i], Y[i]);
 		}
 		return timeSeriesIndex;
 	}
@@ -279,12 +279,12 @@ public class TimeSeriesGraphic
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
-	 * @param xCoordinate      the {@code double} domain coordinate of the point to append
-	 * @param yCoordinate      the {@code double} range coordinate of the point to append
+	 * @param x                the {@code double} domain coordinate of the point to append
+	 * @param y                the {@code double} range coordinate of the point to append
 	 */
-	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex,
-			final Date xCoordinate, final double yCoordinate) {
-		getDataset(axisDatasetIndex).addPoint(timeSeriesIndex, xCoordinate, yCoordinate);
+	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex, final Date x,
+			final double y) {
+		getDataset(axisDatasetIndex).addPoint(timeSeriesIndex, x, y);
 	}
 
 	/**
@@ -322,12 +322,12 @@ public class TimeSeriesGraphic
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
-	 * @param xCoordinate      the domain coordinate {@link Number} of the point to append
-	 * @param yCoordinate      the range coordinate {@link Number} of the point to append
+	 * @param x                the domain coordinate {@link Number} of the point to append
+	 * @param y                the range coordinate {@link Number} of the point to append
 	 */
-	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex,
-			final Date xCoordinate, final Number yCoordinate) {
-		getDataset(axisDatasetIndex).addPoint(timeSeriesIndex, xCoordinate, yCoordinate);
+	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex, final Date x,
+			final Number y) {
+		getDataset(axisDatasetIndex).addPoint(timeSeriesIndex, x, y);
 	}
 
 	/**

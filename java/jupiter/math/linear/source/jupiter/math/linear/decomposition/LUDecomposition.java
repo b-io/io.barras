@@ -293,28 +293,26 @@ public class LUDecomposition
 
 		// Initialize
 		final Matrix X = B.getSubmatrix(pivot, 0, B.getRowDimension());
-		final int xColumnDimension = X.getColumnDimension();
-		final double[] xElements = X.getElements();
+		final int n = X.getColumnDimension();
+		final double[] elements = X.getElements();
 
 		// Solve L * Y = B(pivot, :)
 		for (int k = 0; k < n; ++k) {
 			for (int i = k + 1; i < n; ++i) {
-				for (int j = 0; j < xColumnDimension; ++j) {
-					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] *
-							LU[i][k];
+				for (int j = 0; j < n; ++j) {
+					elements[i * n + j] -= elements[k * n + j] * LU[i][k];
 				}
 			}
 		}
 
 		// Solve U * X = Y and return X
 		for (int k = n - 1; k >= 0; --k) {
-			for (int j = 0; j < xColumnDimension; ++j) {
-				xElements[k * xColumnDimension + j] /= LU[k][k];
+			for (int j = 0; j < n; ++j) {
+				elements[k * n + j] /= LU[k][k];
 			}
 			for (int i = 0; i < k; ++i) {
-				for (int j = 0; j < xColumnDimension; ++j) {
-					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] *
-							LU[i][k];
+				for (int j = 0; j < n; ++j) {
+					elements[i * n + j] -= elements[k * n + j] * LU[i][k];
 				}
 			}
 		}

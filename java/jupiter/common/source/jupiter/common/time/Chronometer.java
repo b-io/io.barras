@@ -138,13 +138,13 @@ public class Chronometer
 
 	protected void compute() {
 		difference = end - begin;
-		for (int i = 0; i < 3; ++i) {
-			timeByUnit[i] = difference / Maths.pow(1E3, i);
-			time[i] = Maths.round(timeByUnit[i]) % 1000L;
+		for (int ti = 0; ti < 3; ++ti) {
+			timeByUnit[ti] = difference / Maths.pow(1E3, ti);
+			time[ti] = Maths.round(timeByUnit[ti]) % 1000L;
 		}
-		for (int i = 3; i < TIME_UNITS_COUNT; ++i) {
-			timeByUnit[i] = difference / (1E9 * Maths.pow(60., i - 3));
-			time[i] = Longs.convert(timeByUnit[i]) % 60L;
+		for (int ti = 3; ti < TIME_UNITS_COUNT; ++ti) {
+			timeByUnit[ti] = difference / (1E9 * Maths.pow(60., ti - 3));
+			time[ti] = Longs.convert(timeByUnit[ti]) % 60L;
 		}
 		representation = Strings.join(time[TimeUnit.HOUR.value], COLON, time[TimeUnit.MINUTE.value],
 				COLON, time[TimeUnit.SECOND.value], POINT, time[TimeUnit.MILLISECOND.value]);

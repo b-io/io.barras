@@ -257,13 +257,13 @@ public class XYSelection
 	 * Sets the {@link XY}-coordinates and sends a property change event to all the registered
 	 * listeners.
 	 * <p>
-	 * @param xCoordinate a {@code double} value
-	 * @param yCoordinate a {@code double} value
+	 * @param x a {@code double} value
+	 * @param y a {@code double} value
 	 */
-	public void setCoordinates(final double xCoordinate, final double yCoordinate) {
+	public void setCoordinates(final double x, final double y) {
 		final XY<Double> oldValue = coordinates.clone();
-		coordinates.setX(xCoordinate);
-		coordinates.setY(yCoordinate);
+		coordinates.setX(x);
+		coordinates.setY(y);
 		propertyChangeSupport.firePropertyChange("coordinates", oldValue, coordinates);
 	}
 

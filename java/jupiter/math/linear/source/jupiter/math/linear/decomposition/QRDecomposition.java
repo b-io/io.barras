@@ -241,32 +241,31 @@ public class QRDecomposition
 
 		// Initialize
 		final Matrix X = B.clone();
-		final int xColumnDimension = X.getColumnDimension();
-		final double[] xElements = X.getElements();
+		final int n = X.getColumnDimension();
+		final double[] elements = X.getElements();
 
 		// Compute Y = Q' * B
 		for (int k = 0; k < n; ++k) {
-			for (int j = 0; j < xColumnDimension; ++j) {
+			for (int j = 0; j < n; ++j) {
 				double s = 0.;
 				for (int i = k; i < m; ++i) {
-					s += QR[i][k] * xElements[i * xColumnDimension + j];
+					s += QR[i][k] * elements[i * n + j];
 				}
 				s = -s / QR[k][k];
 				for (int i = k; i < m; ++i) {
-					xElements[i * xColumnDimension + j] += s * QR[i][k];
+					elements[i * n + j] += s * QR[i][k];
 				}
 			}
 		}
 
 		// Solve R * X = Y and return X
 		for (int k = n - 1; k >= 0; --k) {
-			for (int j = 0; j < xColumnDimension; ++j) {
-				xElements[k * xColumnDimension + j] /= Rdiag[k];
+			for (int j = 0; j < n; ++j) {
+				elements[k * n + j] /= Rdiag[k];
 			}
 			for (int i = 0; i < k; ++i) {
-				for (int j = 0; j < xColumnDimension; ++j) {
-					xElements[i * xColumnDimension + j] -= xElements[k * xColumnDimension + j] *
-							QR[i][k];
+				for (int j = 0; j < n; ++j) {
+					elements[i * n + j] -= elements[k * n + j] * QR[i][k];
 				}
 			}
 		}

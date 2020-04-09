@@ -195,8 +195,8 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	 */
 	public XYItemRenderer[] createAllRenderers() {
 		final XYItemRenderer[] renderers = new XYItemRenderer[axisDatasets.size()];
-		for (int i = 0; i < axisDatasets.size(); ++i) {
-			renderers[i] = createRenderer(i);
+		for (int adi = 0; adi < axisDatasets.size(); ++adi) {
+			renderers[adi] = createRenderer(adi);
 		}
 		return renderers;
 	}

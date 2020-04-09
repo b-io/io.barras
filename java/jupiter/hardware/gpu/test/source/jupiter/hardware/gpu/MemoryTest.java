@@ -180,8 +180,8 @@ public class MemoryTest
 					0, memorySize, 0, null, null, null);
 
 			// Write data to the host memory
-			for (int i = 0; i < memorySize; ++i) {
-				hostBuffer.put(i, (byte) i);
+			for (int msi = 0; msi < memorySize; ++msi) {
+				hostBuffer.put(msi, (byte) msi);
 			}
 
 			// Unmap the host memory, writing the data back to the pinned host memory
@@ -191,8 +191,8 @@ public class MemoryTest
 			hostBuffer = ByteBuffer.allocateDirect(memorySize);
 
 			// Write data to the host memory
-			for (int i = 0; i < memorySize; ++i) {
-				hostBuffer.put(i, (byte) i);
+			for (int msi = 0; msi < memorySize; ++msi) {
+				hostBuffer.put(msi, (byte) msi);
 			}
 		}
 

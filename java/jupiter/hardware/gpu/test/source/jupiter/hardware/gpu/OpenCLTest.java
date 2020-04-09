@@ -106,9 +106,9 @@ public class OpenCLTest
 				double y = 0.;
 				final int rowOffset = ri / bColumnDimension;
 				final int columnOffset = ri % bColumnDimension;
-				for (int i = 0; i < aColumnDimension; ++i) {
-					y += A[rowOffset * aColumnDimension + i] *
-							B[i * bColumnDimension + columnOffset];
+				for (int k = 0; k < aColumnDimension; ++k) {
+					y += A[rowOffset * aColumnDimension + k] *
+							B[k * bColumnDimension + columnOffset];
 				}
 
 				if (!Doubles.equals(x, y)) {
@@ -158,9 +158,9 @@ public class OpenCLTest
 				double y = 0.;
 				final int rowOffset = ri / bColumnDimension;
 				final int columnOffset = ri % bColumnDimension;
-				for (int i = 0; i < aColumnDimension; ++i) {
-					y += A[rowOffset * aColumnDimension + i] *
-							B[i * bColumnDimension + columnOffset];
+				for (int k = 0; k < aColumnDimension; ++k) {
+					y += A[rowOffset * aColumnDimension + k] *
+							B[k * bColumnDimension + columnOffset];
 				}
 				y += C[ri % cColumnDimension];
 

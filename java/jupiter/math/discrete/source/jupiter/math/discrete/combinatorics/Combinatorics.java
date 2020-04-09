@@ -442,7 +442,7 @@ public class Combinatorics {
 
 	/**
 	 * Returns the distinct {@code k}-element tuples of a {@code n}-element multiset with the
-	 * specified multiplicities {@code ms} where {@code n = sum(ms)} in lexicographic order, i.e.
+	 * specified multiplicities {@code M} where {@code n = sum(M)} in lexicographic order, i.e.
 	 * {@code k}-permutations with finite repetition.
 	 * <p>
 	 * {@code {}}
@@ -450,14 +450,14 @@ public class Combinatorics {
 	 * {@code {00} {01} {02} {10} {11} {12} {20} {21} {22}}
 	 * {@code ...}
 	 * <p>
-	 * @param k  the number of elements in the multisubsets
-	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * @param k the number of elements in the multisubsets
+	 * @param M the multiplicities of the {@code n}-element multiset
 	 * <p>
 	 * @return the distinct {@code k}-element tuples of a {@code n}-element multiset with the
-	 *         specified multiplicities {@code ms} where {@code n = sum(ms)} in lexicographic order,
+	 *         specified multiplicities {@code M} where {@code n = sum(M)} in lexicographic order,
 	 *         i.e. {@code k}-permutations with finite repetition
 	 */
-	public static int[][] createKPermutations(final int k, final int[] ms) {
+	public static int[][] createKPermutations(final int k, final int[] M) {
 		// Initialize
 		final ExtendedLinkedList<int[]> permutations = new ExtendedLinkedList<int[]>(
 				Integers.EMPTY_PRIMITIVE_ARRAY);
@@ -465,9 +465,9 @@ public class Combinatorics {
 		// Create the k-permutations with the finite multiplicities
 		while (permutations.getFirst().length < k) {
 			final int[] permutation = permutations.remove();
-			for (int mi = 0; mi < ms.length; ++mi) {
-				if (Integers.count(permutation, mi) < ms[mi]) {
-					permutations.add(Integers.merge(permutation, mi));
+			for (int i = 0; i < M.length; ++i) {
+				if (Integers.count(permutation, i) < M[i]) {
+					permutations.add(Integers.merge(permutation, i));
 				}
 			}
 		}
@@ -566,7 +566,7 @@ public class Combinatorics {
 
 	/**
 	 * Returns the distinct {@code k}-element multisubsets of a {@code n}-element multiset with the
-	 * specified multiplicities {@code ms} where {@code n = sum(ms)} in lexicographic order, i.e.
+	 * specified multiplicities {@code M} where {@code n = sum(M)} in lexicographic order, i.e.
 	 * {@code k}-combinations with finite repetition.
 	 * <p>
 	 * {@code {}}
@@ -575,14 +575,14 @@ public class Combinatorics {
 	 * {@code {000} {001} {002} {011} {012} {022} {111} {112} {122} {222}}
 	 * {@code ...}
 	 * <p>
-	 * @param k  the number of elements in the multisubsets
-	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * @param k the number of elements in the multisubsets
+	 * @param M the multiplicities of the {@code n}-element multiset
 	 * <p>
 	 * @return the distinct {@code k}-element multisubsets of a {@code n}-element multiset with the
-	 *         specified multiplicities {@code ms} where {@code n = sum(ms)} in lexicographic order,
+	 *         specified multiplicities {@code M} where {@code n = sum(M)} in lexicographic order,
 	 *         i.e. {@code k}-combinations with finite repetition
 	 */
-	public static int[][] createKCombinations(final int k, final int[] ms) {
+	public static int[][] createKCombinations(final int k, final int[] M) {
 		// Initialize
 		final ExtendedLinkedList<int[]> combinations = new ExtendedLinkedList<int[]>(
 				Integers.EMPTY_PRIMITIVE_ARRAY);
@@ -591,10 +591,10 @@ public class Combinatorics {
 		while (combinations.getFirst().length < k) {
 			final int[] combination = combinations.remove();
 			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
-			for (int mi = from; mi < ms.length; ++mi) {
-				final int index = Integers.findFirstIndex(combination, mi);
-				if ((index < 0 ? 0 : combination.length - index) < ms[mi]) {
-					combinations.add(Integers.merge(combination, mi));
+			for (int i = from; i < M.length; ++i) {
+				final int index = Integers.findFirstIndex(combination, i);
+				if ((index < 0 ? 0 : combination.length - index) < M[i]) {
+					combinations.add(Integers.merge(combination, i));
 				}
 			}
 		}
@@ -713,90 +713,90 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number {@code PFR(ms)} of distinct {@code n}-element tuples of objects from a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition.
+	 * Returns the number {@code PFR(M)} of distinct {@code n}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code M} where
+	 * {@code n = sum(M)}, i.e. {@code n}-permutations with finite repetition.
 	 * <p>
-	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * @param M the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code PFR(ms)} of distinct {@code n}-element tuples of objects from a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
+	 * @return the number {@code PFR(M)} of distinct {@code n}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code M} where
+	 *         {@code n = sum(M)}, i.e. {@code n}-permutations with finite repetition
 	 */
-	public static int PFR(final int[] ms) {
-		final int n = Maths.sum(ms);
+	public static int PFR(final int[] M) {
+		final int n = Maths.sum(M);
 		if (n == 0) {
 			return 1;
 		}
-		int result = Maths.productSeries(ms[0] + 1, n);
-		for (final int m : ms) {
+		int result = Maths.productSeries(M[0] + 1, n);
+		for (final int m : M) {
 			result /= Maths.factorial(m);
 		}
 		return result;
 	}
 
 	/**
-	 * Returns the number {@code PFR(ms)} of distinct {@code n}-element tuples of objects from a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition.
+	 * Returns the number {@code PFR(M)} of distinct {@code n}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code M} where
+	 * {@code n = sum(M)}, i.e. {@code n}-permutations with finite repetition.
 	 * <p>
-	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * @param M the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code PFR(ms)} of distinct {@code n}-element tuples of objects from a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
+	 * @return the number {@code PFR(M)} of distinct {@code n}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code M} where
+	 *         {@code n = sum(M)}, i.e. {@code n}-permutations with finite repetition
 	 */
-	public static long PFR(final long[] ms) {
-		final long n = Maths.sum(ms);
+	public static long PFR(final long[] M) {
+		final long n = Maths.sum(M);
 		if (n == 0L) {
 			return 1L;
 		}
-		long result = Maths.productSeries(ms[0] + 1L, n);
-		for (final long m : ms) {
+		long result = Maths.productSeries(M[0] + 1L, n);
+		for (final long m : M) {
 			result /= Maths.factorial(m);
 		}
 		return result;
 	}
 
 	/**
-	 * Returns the number {@code PFR(ms)} of distinct {@code n}-element tuples of objects from a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition.
+	 * Returns the number {@code PFR(M)} of distinct {@code n}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code M} where
+	 * {@code n = sum(M)}, i.e. {@code n}-permutations with finite repetition.
 	 * <p>
-	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * @param M the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code PFR(ms)} of distinct {@code n}-element tuples of objects from a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code n}-permutations with finite repetition
+	 * @return the number {@code PFR(M)} of distinct {@code n}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code M} where
+	 *         {@code n = sum(M)}, i.e. {@code n}-permutations with finite repetition
 	 */
-	public static double PFR(final double[] ms) {
-		final double n = Maths.sum(ms);
+	public static double PFR(final double[] M) {
+		final double n = Maths.sum(M);
 		if (n == 0.) {
 			return 1.;
 		}
 		if (Maths.isFactorialLong(n)) {
-			return Maths.factorial(n) / Maths.product(FACTORIAL.applyToPrimitiveArray(ms));
+			return Maths.factorial(n) / Maths.product(FACTORIAL.applyToPrimitiveArray(M));
 		}
-		double result = Maths.productSeries(ms[0] + 1., n);
-		for (int mi = 1; mi < ms.length; ++mi) {
-			result /= Maths.factorial(ms[mi]);
+		double result = Maths.productSeries(M[0] + 1., n);
+		for (int i = 1; i < M.length; ++i) {
+			result /= Maths.factorial(M[i]);
 		}
 		return result;
 	}
 
 	/**
-	 * Returns the number {@code PFR(k, ms)} of distinct {@code k}-element tuples of objects from a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition.
+	 * Returns the number {@code PFR(k, M)} of distinct {@code k}-element tuples of objects from a
+	 * {@code n}-element multiset with the specified multiplicities {@code M} where
+	 * {@code n = sum(M)}, i.e. {@code k}-permutations with finite repetition.
 	 * <p>
-	 * @param k  the number of elements in the tuples
-	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * @param k the number of elements in the tuples
+	 * @param M the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code PFR(k, ms)} of distinct {@code k}-element tuples of objects from a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code k}-permutations with finite repetition
+	 * @return the number {@code PFR(k, M)} of distinct {@code k}-element tuples of objects from a
+	 *         {@code n}-element multiset with the specified multiplicities {@code M} where
+	 *         {@code n = sum(M)}, i.e. {@code k}-permutations with finite repetition
 	 */
-	public static int PFR(final int k, final int[] ms) {
+	public static int PFR(final int k, final int[] M) {
 		// Check the arguments
 		if (k == 0) {
 			return 1;
@@ -810,12 +810,12 @@ public class Combinatorics {
 		int result = 0;
 		while (permutations.isNonEmpty()) {
 			final int[] permutation = permutations.remove();
-			for (int mi = 0; mi < ms.length; ++mi) {
-				if (Integers.count(permutation, mi) < ms[mi]) {
+			for (int i = 0; i < M.length; ++i) {
+				if (Integers.count(permutation, i) < M[i]) {
 					if (permutation.length + 1 == k) {
 						++result;
 					} else {
-						permutations.add(Integers.merge(permutation, mi));
+						permutations.add(Integers.merge(permutation, i));
 					}
 				}
 			}
@@ -923,18 +923,18 @@ public class Combinatorics {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number {@code CFR(k, ms)} of distinct {@code k}-element multisubsets of a
-	 * {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 * {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition.
+	 * Returns the number {@code CFR(k, M)} of distinct {@code k}-element multisubsets of a
+	 * {@code n}-element multiset with the specified multiplicities {@code M} where
+	 * {@code n = sum(M)}, i.e. {@code k}-combinations with finite repetition.
 	 * <p>
-	 * @param k  the number of elements in the multisubsets
-	 * @param ms the multiplicities of the {@code n}-element multiset
+	 * @param k the number of elements in the multisubsets
+	 * @param M the multiplicities of the {@code n}-element multiset
 	 * <p>
-	 * @return the number {@code CFR(k, ms)} of distinct {@code k}-element multisubsets of a
-	 *         {@code n}-element multiset with the specified multiplicities {@code ms} where
-	 *         {@code n = sum(ms)}, i.e. {@code k}-combinations with finite repetition
+	 * @return the number {@code CFR(k, M)} of distinct {@code k}-element multisubsets of a
+	 *         {@code n}-element multiset with the specified multiplicities {@code M} where
+	 *         {@code n = sum(M)}, i.e. {@code k}-combinations with finite repetition
 	 */
-	public static int CFR(final int k, final int[] ms) {
+	public static int CFR(final int k, final int[] M) {
 		// Check the arguments
 		if (k == 0) {
 			return 0;
@@ -949,13 +949,13 @@ public class Combinatorics {
 		while (combinations.isNonEmpty()) {
 			final int[] combination = combinations.remove();
 			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
-			for (int mi = from; mi < ms.length; ++mi) {
-				final int index = Integers.findFirstIndex(combination, mi);
-				if ((index < 0 ? 0 : combination.length - index) < ms[mi]) {
+			for (int i = from; i < M.length; ++i) {
+				final int index = Integers.findFirstIndex(combination, i);
+				if ((index < 0 ? 0 : combination.length - index) < M[i]) {
 					if (combination.length + 1 == k) {
 						++result;
 					} else {
-						combinations.add(Integers.merge(combination, mi));
+						combinations.add(Integers.merge(combination, i));
 					}
 				}
 			}

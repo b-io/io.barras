@@ -322,30 +322,30 @@ public class EigenvalueDecomposition
 		final double eps = Maths.TOLERANCE;
 
 		// Iterate over the row and column index
-		for (int di = 0; di < dimension; ++di) {
+		for (int l = 0; l < dimension; ++l) {
 			// Find a small subdiagonal element
-			tst1 = Math.max(tst1, Maths.abs(d[di]) + Maths.abs(e[di]));
-			int m = di;
+			tst1 = Math.max(tst1, Maths.abs(d[l]) + Maths.abs(e[l]));
+			int m = l;
 			while (m < dimension && Maths.abs(e[m]) > eps * tst1) {
 				++m;
 			}
 			// If m == l, d[l] is an eigenvalue, iterate otherwise
-			if (m > di) {
+			if (m > l) {
 				//int iterationCount = 0;
 				do {
 					//++iterationCount; // @todo test to avoid too many iterations
 					// Apply the implicit shift
-					double g = d[di];
-					double p = (d[di + 1] - g) / (2. * e[di]);
+					double g = d[l];
+					double p = (d[l + 1] - g) / (2. * e[l]);
 					double r = Norms.getEuclideanNorm(p, 1.);
 					if (p < 0) {
 						r = -r;
 					}
-					d[di] = e[di] / (p + r);
-					d[di + 1] = e[di] * (p + r);
-					final double dl1 = d[di + 1];
-					double h = g - d[di];
-					for (int i = di + 2; i < dimension; ++i) {
+					d[l] = e[l] / (p + r);
+					d[l + 1] = e[l] * (p + r);
+					final double dl1 = d[l + 1];
+					double h = g - d[l];
+					for (int i = l + 2; i < dimension; ++i) {
 						d[i] -= h;
 					}
 					f += h;
@@ -354,10 +354,10 @@ public class EigenvalueDecomposition
 					double c = 1.;
 					double c2 = c;
 					double c3 = c;
-					final double el1 = e[di + 1];
+					final double el1 = e[l + 1];
 					double s = 0.;
 					double s2 = 0.;
-					for (int i = m - 1; i >= di; --i) {
+					for (int i = m - 1; i >= l; --i) {
 						c3 = c2;
 						c2 = c;
 						s2 = s;
@@ -376,13 +376,13 @@ public class EigenvalueDecomposition
 							V[k][i] = c * V[k][i] - s * h;
 						}
 					}
-					p = -s * s2 * c3 * el1 * e[di] / dl1;
-					e[di] = s * p;
-					d[di] = c * p;
-				} while (Maths.abs(e[di]) > eps * tst1); // test the convergence
+					p = -s * s2 * c3 * el1 * e[l] / dl1;
+					e[l] = s * p;
+					d[l] = c * p;
+				} while (Maths.abs(e[l]) > eps * tst1); // test the convergence
 			}
-			d[di] += f;
-			e[di] = 0.;
+			d[l] += f;
+			e[l] = 0.;
 		}
 
 		// Sort the eigenvalues and corresponding vectors
@@ -415,53 +415,53 @@ public class EigenvalueDecomposition
 	 */
 	protected void orthes() {
 		// Initialize
-		final int low = 0;
-		final int high = dimension - 1;
+		final int li = 0;
+		final int hi = dimension - 1;
 
 		// Iterate over the row and column index
-		for (int mi = low + 1; mi <= high - 1; ++mi) {
+		for (int m = li + 1; m <= hi - 1; ++m) {
 			// Scale the column
 			double scale = 0.;
-			for (int i = mi; i <= high; ++i) {
-				scale += Maths.abs(H[i][mi - 1]);
+			for (int i = m; i <= hi; ++i) {
+				scale += Maths.abs(H[i][m - 1]);
 			}
 			if (scale != 0.) {
 				// Apply the Householder transformation
 				double h = 0.;
-				for (int i = high; i >= mi; --i) {
-					ort[i] = H[i][mi - 1] / scale;
+				for (int i = hi; i >= m; --i) {
+					ort[i] = H[i][m - 1] / scale;
 					h += ort[i] * ort[i];
 				}
 				double g = Maths.sqrt(h);
-				if (ort[mi] > 0) {
+				if (ort[m] > 0) {
 					g = -g;
 				}
-				h -= ort[mi] * g;
-				ort[mi] -= g;
+				h -= ort[m] * g;
+				ort[m] -= g;
 				// Apply the Householder similarity transformation
 				// H := (I - u * u' / h) * H * (I - u * u' * / h)
-				for (int j = mi; j < dimension; ++j) {
+				for (int j = m; j < dimension; ++j) {
 					double f = 0.;
-					for (int i = high; i >= mi; --i) {
+					for (int i = hi; i >= m; --i) {
 						f += ort[i] * H[i][j];
 					}
 					f /= h;
-					for (int i = mi; i <= high; ++i) {
+					for (int i = m; i <= hi; ++i) {
 						H[i][j] -= f * ort[i];
 					}
 				}
-				for (int i = 0; i <= high; ++i) {
+				for (int i = 0; i <= hi; ++i) {
 					double f = 0.;
-					for (int j = high; j >= mi; --j) {
+					for (int j = hi; j >= m; --j) {
 						f += ort[j] * H[i][j];
 					}
 					f /= h;
-					for (int j = mi; j <= high; ++j) {
+					for (int j = m; j <= hi; ++j) {
 						H[i][j] -= f * ort[j];
 					}
 				}
-				ort[mi] = scale * ort[mi];
-				H[mi][mi - 1] = scale * g;
+				ort[m] = scale * ort[m];
+				H[m][m - 1] = scale * g;
 			}
 		}
 
@@ -471,19 +471,19 @@ public class EigenvalueDecomposition
 				V[i][j] = i == j ? 1. : 0.;
 			}
 		}
-		for (int m = high - 1; m >= low + 1; --m) {
+		for (int m = hi - 1; m >= li + 1; --m) {
 			if (H[m][m - 1] != 0.) {
-				for (int i = m + 1; i <= high; ++i) {
+				for (int i = m + 1; i <= hi; ++i) {
 					ort[i] = H[i][m - 1];
 				}
-				for (int j = m; j <= high; ++j) {
+				for (int j = m; j <= hi; ++j) {
 					double g = 0.;
-					for (int i = m; i <= high; ++i) {
+					for (int i = m; i <= hi; ++i) {
 						g += ort[i] * V[i][j];
 					}
 					// @note use a double division to avoid possible underflows
 					g = g / ort[m] / H[m][m - 1];
-					for (int i = m; i <= high; ++i) {
+					for (int i = m; i <= hi; ++i) {
 						V[i][j] += g * ort[i];
 					}
 				}
@@ -524,8 +524,8 @@ public class EigenvalueDecomposition
 		// Initialize
 		final int nn = dimension;
 		int n = nn - 1;
-		final int low = 0;
-		final int high = nn - 1;
+		final int li = 0;
+		final int hi = nn - 1;
 		final double eps = Maths.TOLERANCE; // the relative accuracy
 		double exshift = 0.;
 		double p = 0, q = 0, r = 0, s = 0, z = 0, t, w, x, y;
@@ -533,7 +533,7 @@ public class EigenvalueDecomposition
 		// Store the roots isolated by balance and compute the matrix norm
 		double norm = 0.;
 		for (int i = 0; i < nn; ++i) {
-			if (i < low | i > high) {
+			if (i < li | i > hi) {
 				d[i] = H[i][i];
 				e[i] = 0.;
 			}
@@ -544,10 +544,10 @@ public class EigenvalueDecomposition
 
 		// Iterate over the eigenvalue index
 		int iterationCount = 0;
-		while (n >= low) {
+		while (n >= li) {
 			// Find a single small sub-diagonal element
 			int l = n;
-			while (l > low) {
+			while (l > li) {
 				s = Maths.abs(H[l - 1][l - 1]) + Maths.abs(H[l][l]);
 				if (s == 0.) {
 					s = norm;
@@ -610,7 +610,7 @@ public class EigenvalueDecomposition
 						H[i][n] = q * H[i][n] - p * z;
 					}
 					// Accumulate the transformations
-					for (int i = low; i <= high; ++i) {
+					for (int i = li; i <= hi; ++i) {
 						z = V[i][n - 1];
 						V[i][n - 1] = q * z + p * V[i][n];
 						V[i][n] = q * V[i][n] - p * z;
@@ -637,7 +637,7 @@ public class EigenvalueDecomposition
 				// Apply Wilkinson's original ad hoc shift
 				if (iterationCount == 10) {
 					exshift += x;
-					for (int i = low; i <= n; ++i) {
+					for (int i = li; i <= n; ++i) {
 						H[i][i] -= x;
 					}
 					s = Maths.abs(H[n][n - 1]) + Maths.abs(H[n - 1][n - 2]);
@@ -654,7 +654,7 @@ public class EigenvalueDecomposition
 							s = -s;
 						}
 						s = x - w / ((y - x) / 2. + s);
-						for (int i = low; i <= n; ++i) {
+						for (int i = li; i <= n; ++i) {
 							H[i][i] -= s;
 						}
 						exshift += s;
@@ -744,7 +744,7 @@ public class EigenvalueDecomposition
 							H[i][k + 1] -= p * q;
 						}
 						// Accumulate the transformations
-						for (int i = low; i <= high; ++i) {
+						for (int i = li; i <= hi; ++i) {
 							p = x * V[i][k] + y * V[i][k + 1];
 							if (isNotLast) {
 								p += z * V[i][k + 2];
@@ -879,17 +879,17 @@ public class EigenvalueDecomposition
 
 		// Store the vectors of the isolated roots
 		for (int i = 0; i < nn; ++i) {
-			if (i < low | i > high) {
+			if (i < li | i > hi) {
 				System.arraycopy(H[i], i, V[i], i, nn - i);
 			}
 		}
 
 		// Apply the back transformation to get the eigenvectors of the original matrix
-		for (int j = nn - 1; j >= low; --j) {
-			for (int i = low; i <= high; ++i) {
+		for (int j = nn - 1; j >= li; --j) {
+			for (int i = li; i <= hi; ++i) {
 				z = 0.;
-				final int limit = Math.min(j, high);
-				for (int k = low; k <= limit; ++k) {
+				final int limit = Math.min(j, hi);
+				for (int k = li; k <= limit; ++k) {
 					z += V[i][k] * H[k][j];
 				}
 				V[i][j] = z;

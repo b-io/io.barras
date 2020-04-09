@@ -161,7 +161,7 @@ public class CombinatoricsTest
 		// Initialize
 		final int n = 4;
 		final int[] ks = new int[] {2, 3};
-		final int[] ms = new int[] {3, 2, 1};
+		final int[] M = new int[] {3, 2, 1};
 
 		for (final int k : ks) {
 			IO.test("- List the ", k, "-permutations of a ", n, "-element set:");
@@ -173,9 +173,9 @@ public class CombinatoricsTest
 
 		for (final int k : ks) {
 			IO.test("- List the ", k, "-permutations of a ", n,
-					"-element multiset with multiplicities ", Integers.toString(ms),
+					"-element multiset with multiplicities ", Integers.toString(M),
 					" in lexicographic order:");
-			final int[][] permutations = Combinatorics.createKPermutations(k, ms);
+			final int[][] permutations = Combinatorics.createKPermutations(k, M);
 			for (final int[] permutation : permutations) {
 				IO.test(Integers.toString(permutation));
 			}
@@ -215,7 +215,7 @@ public class CombinatoricsTest
 		// Initialize
 		final int n = 4;
 		final int[] ks = new int[] {2, 3};
-		final int[] ms = new int[] {3, 2, 1};
+		final int[] M = new int[] {3, 2, 1};
 
 		for (final int k : ks) {
 			IO.test("- List the ", k, "-combinations of a ", n,
@@ -228,9 +228,9 @@ public class CombinatoricsTest
 
 		for (final int k : ks) {
 			IO.test("- List the ", k, "-combinations of a ", n,
-					"-element multiset with multiplicities ", Integers.toString(ms),
+					"-element multiset with multiplicities ", Integers.toString(M),
 					" in lexicographic order:");
-			final int[][] combinations = Combinatorics.createKCombinations(k, ms);
+			final int[][] combinations = Combinatorics.createKCombinations(k, M);
 			for (final int[] combination : combinations) {
 				IO.test(Integers.toString(combination));
 			}
@@ -287,14 +287,14 @@ public class CombinatoricsTest
 		assertEquals(34650., Combinatorics.PFR(Doubles.asPrimitiveArray(1., 4., 4., 2.)));
 
 		final int[] ks = new int[] {0, 1, 4, 8, 11};
-		final int[] ms = new int[] {1, 4, 4, 2};
+		final int[] M = new int[] {1, 4, 4, 2};
 		IO.test("- Count the number of words of length ", ks,
 				" that can be formed with the letters of the word", Strings.quote("MISSISSIPI"));
-		assertEquals(1, Combinatorics.PFR(ks[0], ms));
-		assertEquals(4, Combinatorics.PFR(ks[1], ms));
-		assertEquals(176, Combinatorics.PFR(ks[2], ms));
-		assertEquals(10430, Combinatorics.PFR(ks[3], ms));
-		assertEquals(34650, Combinatorics.PFR(ks[4], ms));
+		assertEquals(1, Combinatorics.PFR(ks[0], M));
+		assertEquals(4, Combinatorics.PFR(ks[1], M));
+		assertEquals(176, Combinatorics.PFR(ks[2], M));
+		assertEquals(10430, Combinatorics.PFR(ks[3], M));
+		assertEquals(34650, Combinatorics.PFR(ks[4], M));
 	}
 
 	//////////////////////////////////////////////
@@ -350,17 +350,17 @@ public class CombinatoricsTest
 		IO.test(BULLET, " CFR");
 
 		int k = 3;
-		int[] ms = new int[] {2, 2};
-		IO.test("- Count the number of ways to choose ", k, " balls from ", ms[0], " white and ",
-				ms[1], " black balls");
-		IO.test(Combinatorics.createKCombinations(k, ms));
-		assertEquals(2, Combinatorics.CFR(k, ms));
+		int[] M = new int[] {2, 2};
+		IO.test("- Count the number of ways to choose ", k, " balls from ", M[0], " white and ",
+				M[1], " black balls");
+		IO.test(Combinatorics.createKCombinations(k, M));
+		assertEquals(2, Combinatorics.CFR(k, M));
 
 		k = 9;
-		ms = new int[] {6, 6};
-		IO.test("- Count the number of ways to choose ", k, " balls from ", ms[0], " white and ",
-				ms[1], " black balls");
-		IO.test(Combinatorics.createKCombinations(k, ms));
-		assertEquals(4, Combinatorics.CFR(k, ms));
+		M = new int[] {6, 6};
+		IO.test("- Count the number of ways to choose ", k, " balls from ", M[0], " white and ",
+				M[1], " black balls");
+		IO.test(Combinatorics.createKCombinations(k, M));
+		assertEquals(4, Combinatorics.CFR(k, M));
 	}
 }

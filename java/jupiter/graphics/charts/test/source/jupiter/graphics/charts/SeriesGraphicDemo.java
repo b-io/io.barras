@@ -94,11 +94,11 @@ public class SeriesGraphicDemo {
 
 				// Test insertion
 				IO.test("Test insertion for ", Objects.getName(map));
-				for (int i = 0; i < TEST_COUNT; ++i) {
-					times[i] = testInsertion(map, ELEMENT_COUNT);
-					graph.addPoint(0, m, i, times[i]);
+				for (int ti = 0; ti < TEST_COUNT; ++ti) {
+					times[ti] = testInsertion(map, ELEMENT_COUNT);
+					graph.addPoint(0, m, ti, times[ti]);
 					map.clear();
-					PROGRESS_BAR.print(i, TEST_COUNT - 1);
+					PROGRESS_BAR.print(ti, TEST_COUNT - 1);
 				}
 
 				// Report the statistics
@@ -122,10 +122,10 @@ public class SeriesGraphicDemo {
 
 				// Test search
 				IO.test("Test search for ", Objects.getName(map));
-				for (int i = 0; i < TEST_COUNT; ++i) {
-					times[i] = testSearch(map, ELEMENT_COUNT);
-					graph.addPoint(0, m, i, times[i]);
-					PROGRESS_BAR.print(i, TEST_COUNT - 1);
+				for (int ti = 0; ti < TEST_COUNT; ++ti) {
+					times[ti] = testSearch(map, ELEMENT_COUNT);
+					graph.addPoint(0, m, ti, times[ti]);
+					PROGRESS_BAR.print(ti, TEST_COUNT - 1);
 				}
 
 				// Report the statistics
@@ -148,11 +148,11 @@ public class SeriesGraphicDemo {
 				testInsertion(map, ELEMENT_COUNT);
 
 				// Test deletion
-				IO.test(BULLET, " Test deletion for ", Objects.getName(map));
-				for (int i = 0; i < TEST_COUNT; ++i) {
-					times[i] = testDeletion(map, ELEMENT_COUNT);
-					graph.addPoint(0, m, i, times[i]);
-					PROGRESS_BAR.print(i, TEST_COUNT - 1);
+				IO.test("Test deletion for ", Objects.getName(map));
+				for (int ti = 0; ti < TEST_COUNT; ++ti) {
+					times[ti] = testDeletion(map, ELEMENT_COUNT);
+					graph.addPoint(0, m, ti, times[ti]);
+					PROGRESS_BAR.print(ti, TEST_COUNT - 1);
 				}
 
 				// Report the statistics

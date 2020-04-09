@@ -72,9 +72,9 @@ public class Schedulers {
 		final JobDetail[] jobDetails = new JobDetail[jobClasses.length];
 		jobDetails[0] = createJobDetail(group, jobClasses[0]);
 		scheduler.scheduleJob(jobDetails[0], createTrigger(group, cronExpression, timeZone));
-		for (int jdi = 1; jdi < jobDetails.length; ++jdi) {
-			jobDetails[jdi] = createJobDetail(group, jobClasses[jdi]);
-			scheduler.addJob(jobDetails[jdi], true);
+		for (int jci = 1; jci < jobClasses.length; ++jci) {
+			jobDetails[jci] = createJobDetail(group, jobClasses[jci]);
+			scheduler.addJob(jobDetails[jci], true);
 		}
 		// Chain the jobs
 		if (jobDetails.length > 1) {

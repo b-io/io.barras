@@ -170,24 +170,24 @@ public class SeriesGraphic
 	 *                         {@link XYSeriesCollection} to append to
 	 * @param name             the name of the {@link XYSeries} to append
 	 * @param style            the {@link SeriesStyle} of the {@link XYSeries} to append
-	 * @param xCoordinates     the {@code double} domain coordinates of the points of the
+	 * @param X                the {@code double} domain coordinates of the points of the
 	 *                         {@link XYSeries} to append
-	 * @param yCoordinates     the {@code double} range coordinates of the points of the
+	 * @param Y                the {@code double} range coordinates of the points of the
 	 *                         {@link XYSeries} to append
 	 * <p>
 	 * @return the index of the {@link XYSeries} appended to the {@link XYSeriesCollection} of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
 	public int addSeries(final int axisDatasetIndex, final String name, final SeriesStyle style,
-			final double[] xCoordinates, final double[] yCoordinates) {
+			final double[] X, final double[] Y) {
 		// Check the arguments
-		DoubleArguments.requireSameLength(xCoordinates, yCoordinates);
+		DoubleArguments.requireSameLength(X, Y);
 
 		// Create the series with the name and style
 		final int seriesIndex = addSeries(axisDatasetIndex, name, style);
 		// Add the points
-		for (int i = 0; i < xCoordinates.length; ++i) {
-			addPoint(axisDatasetIndex, seriesIndex, xCoordinates[i], yCoordinates[i]);
+		for (int i = 0; i < X.length; ++i) {
+			addPoint(axisDatasetIndex, seriesIndex, X[i], Y[i]);
 		}
 		return seriesIndex;
 	}
@@ -243,12 +243,12 @@ public class SeriesGraphic
 	 *                         {@link XYSeriesCollection} containing the {@link XYSeries} to append
 	 *                         to
 	 * @param seriesIndex      the index of the {@link XYSeries} to append to
-	 * @param xCoordinate      the {@code double} domain coordinate of the point to append
-	 * @param yCoordinate      the {@code double} range coordinate of the point to append
+	 * @param x                the {@code double} domain coordinate of the point to append
+	 * @param y                the {@code double} range coordinate of the point to append
 	 */
-	public void addPoint(final int axisDatasetIndex, final int seriesIndex,
-			final double xCoordinate, final double yCoordinate) {
-		getDataset(axisDatasetIndex).getSeries(seriesIndex).add(xCoordinate, yCoordinate);
+	public void addPoint(final int axisDatasetIndex, final int seriesIndex, final double x,
+			final double y) {
+		getDataset(axisDatasetIndex).getSeries(seriesIndex).add(x, y);
 	}
 
 

@@ -537,7 +537,7 @@ public abstract class Entity
 	 */
 	public Entity power(final int exponent) {
 		Entity result = identity();
-		for (int i = 0; i < exponent; ++i) {
+		for (int e = 0; e < exponent; ++e) {
 			result = times(this);
 		}
 		return result;

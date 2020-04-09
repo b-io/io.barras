@@ -117,7 +117,7 @@ public class SpeedChecker {
 	 */
 	public static void main(final String[] args) {
 		start();
-		for (int i = 0; i < RUNS_COUNT; ++i) {
+		for (int ri = 0; ri < RUNS_COUNT; ++ri) {
 			SpeedChecker.downloadAll();
 			Threads.sleep(TIME_INTERVAL);
 		}

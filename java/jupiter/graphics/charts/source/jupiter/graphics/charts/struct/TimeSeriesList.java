@@ -151,14 +151,13 @@ public class TimeSeriesList
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link TimeSeries}.
 	 * <p>
-	 * @param index       the index of the {@link TimeSeries} to append to
-	 * @param xCoordinate the {@code double} domain coordinate of the point to append
-	 * @param yCoordinate the {@code double} range coordinate of the point to append
+	 * @param index the index of the {@link TimeSeries} to append to
+	 * @param x     the {@code double} domain coordinate of the point to append
+	 * @param y     the {@code double} range coordinate of the point to append
 	 */
-	public void addPoint(final int index, final Date xCoordinate, final double yCoordinate) {
+	public void addPoint(final int index, final Date x, final double y) {
 		timeSeriesList.get(index)
-				.addOrUpdate(new Millisecond(Arguments.requireNonNull(xCoordinate, "x-coordinate")),
-						yCoordinate);
+				.addOrUpdate(new Millisecond(Arguments.requireNonNull(x, "x-coordinate")), y);
 	}
 
 	/**
@@ -194,14 +193,14 @@ public class TimeSeriesList
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link TimeSeries}.
 	 * <p>
-	 * @param index       the index of the {@link TimeSeries} to append to
-	 * @param xCoordinate the domain coordinate {@link Number} of the point to append
-	 * @param yCoordinate the range coordinate {@link Number} of the point to append
+	 * @param index the index of the {@link TimeSeries} to append to
+	 * @param x     the domain coordinate {@link Number} of the point to append
+	 * @param y     the range coordinate {@link Number} of the point to append
 	 */
-	public void addPoint(final int index, final Date xCoordinate, final Number yCoordinate) {
+	public void addPoint(final int index, final Date x, final Number y) {
 		timeSeriesList.get(index)
-				.addOrUpdate(new Millisecond(Arguments.requireNonNull(xCoordinate, "x-coordinate")),
-						Arguments.requireNonNull(yCoordinate, "y-coordinate"));
+				.addOrUpdate(new Millisecond(Arguments.requireNonNull(x, "x-coordinate")),
+						Arguments.requireNonNull(y, "y-coordinate"));
 	}
 
 	/**

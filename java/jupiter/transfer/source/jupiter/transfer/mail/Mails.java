@@ -73,8 +73,8 @@ public class Mails {
 		final MimeMultipart multipart = (MimeMultipart) content;
 		final int count = multipart.getCount();
 		final BodyPart[] bodyParts = new BodyPart[count];
-		for (int i = 0; i < count; ++i) {
-			bodyParts[i] = multipart.getBodyPart(i);
+		for (int bpi = 0; bpi < count; ++bpi) {
+			bodyParts[bpi] = multipart.getBodyPart(bpi);
 		}
 		return bodyParts;
 	}
